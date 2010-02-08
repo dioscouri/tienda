@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Payment Plugin - Offline Payments</name>
+	<version>1.5.0</version>
+	<creationDate>November 2009</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2009 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables offline payments</description>
+	
+	<files>
+		<filename plugin="payment_offline">payment_offline.php</filename>
+		<folder>payment_offline</folder>	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_offline.ini</language>
+	</languages>
+
+	<params>
+		<param name="enable_check" type="radio" default="1" label="Offline Accept Checks" description="Offline Accept Checks Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="enable_moneyorder" type="radio" default="1" label="Offline Accept Money Orders" description="Offline Accept Money Orders Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="enable_wire" type="radio" default="1" label="Offline Accept Wire" description="Offline Accept Wire Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="enable_other" type="radio" default="1" label="Offline Accept Other" description="Offline Accept Other Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="articleid" type="text" size="10" default="" label="Offline Article Number" description="Offline Article Number Desc"/>
+	</params>
+			
+</install>

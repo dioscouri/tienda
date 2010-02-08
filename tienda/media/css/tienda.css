@@ -1,0 +1,271 @@
+/** Products **/
+div.catcrumbs { margin-bottom: 15px; }
+
+div#subcategories {
+	border-bottom: 1px solid #cccccc;
+}
+
+div#subcategories h3 {
+	padding: 0 10px;
+	font-weight: normal;
+}
+
+div.subcategory {
+	float: left;
+    text-align: center;
+    width: 100px;
+    height: 80px;
+    padding: 10px;
+}
+
+div.subcategory p {
+    margin: 0;
+    padding: 0;
+}
+
+p.subcatname {
+    text-align: center;
+}
+
+p.subcatthumb {
+    text-align: center;
+	vertical-align: middle;
+	height: 100px;
+    display: table-cell;
+    height: 48px;
+    width: 100px;
+}
+
+div.productheading {
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+span.producttitle {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+span.productmeta {
+    font-size: .9em;
+}
+
+div.productdesc {
+    margin-top: 10px;
+}
+
+div.productdesctitle {
+    font-size: 1.5em;
+    border-bottom: 1px solid #cccccc;
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+
+div.productgallery {
+    margin-top: 10px;
+}
+
+div.productgallerytitle {
+    font-size: 1.5em;
+    border-bottom: 1px solid #cccccc;
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+
+
+div.productimage {
+	text-align: center;
+	width: 100px;
+	font-size: .9em;
+	float: left;
+}
+div.currency{
+	font-weight: bold;
+	float:right;	
+}
+
+div.reset {
+	clear: both;
+}
+
+span.productname {
+    font-weight: bold;
+}
+
+table.product {
+    border-spacing: 10px;
+}
+
+td.productinfo {
+    width: 100%;
+}
+
+div.productbuy {
+    font-size: 1.3em;
+    vertical-align: middle;
+    text-align: center;
+    float: right;
+    padding: 10px;
+}
+
+div.productbuy p {
+    text-align: center;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+span.productnums {
+    font-size: .9em;
+    color: #444444;
+}
+
+
+.categoryheading {
+    font-size: 1.8em;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 10px;
+}
+
+div.catdesc {
+    font-size: .6em;
+    font-weight: normal;
+}
+
+div.catdesc p {
+    margin: 5px 0 0 0;
+}
+
+img.addcart {
+    cursor: pointer;
+}
+
+div.cartitems table {
+    width: 100%;
+    margin: 5px 0 10px 0;
+}
+
+/* -------------- */
+
+table.adminlist {
+	padding: 5px;
+	width: 100%;
+	margin: 5px 0px 10px 0px;
+	border-collapse: collapse;
+}
+
+table.adminlist th {
+	white-space: nowrap;
+	vertical-align: top;
+	padding: 5px;
+}
+
+table.adminlist thead th {
+	background-color: #e5e5e5;
+	text-align: center;
+}
+
+table.adminlist tbody th { 
+	font-weight: bold;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+table.adminlist td {
+	border-bottom: 1px solid #e5e5e5; 
+	padding: 5px;
+	vertical-align: middle;
+}
+
+/** filter lines **/
+table.adminlist thead tr.filterline th {
+	background: none;
+	border-bottom: 1px solid #e5e5e5;
+	vertical-align: bottom;
+}
+
+tr.filterline div.range {
+	width: 100%;
+	text-align: left;
+}
+
+tr.filterline div.range div.rangeline {
+	width: 100%;
+	white-space: nowrap;
+	padding-bottom: 2px;
+	text-align: right;
+}
+
+tr.filterline div.range div.rangeline span.label {
+	text-align: left;
+}
+
+tr.filterline div.range div.rangeline .input {
+	text-align: left;
+}
+
+/** common **/
+span.href {
+	cursor: pointer;
+	color: blue;
+	text-decoration: none;
+	padding-left: 10px;
+	font-weight: bold;
+}
+span.href:hover {
+	cursor:pointer;
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;	
+}
+
+/** notes **/
+.note 
+{
+	background-color: #FFFFDD;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-align: justify;
+	border: 1px solid #DDDDBB;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+.note_pink 
+{
+	background-color: #FDE8FD;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-align: justify;
+	border: 1px solid #FFCCCC;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+.note_green 
+{
+	background-color: #EBF6DF;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-align: justify;
+	border: 1px solid #289728;
+	border-spacing: 0px;
+	border-collapse: collapse;	
+}
+
+/** custom **/
+.label {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	font-weight: bold;
+}
+/**checkout **/
+div.address{
+	float:left;
+	padding: 10px;
+}

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ An ant build file for joomla install packages
+ 
+ @author     Dioscouri Design
+ @link     http://www.dioscouri.com
+ @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+-->
+<project name="tienda" default="build" basedir=".">
+    <description>Ant Build File for Joomla</description>
+
+    <!-- load variables from config file -->
+    <property name="cfg.configFile" location="antconfig.txt" />
+    <loadproperties srcfile="${cfg.configFile}" />
+
+    <!--config file values
+    cfg.name=paket
+    cfg.versionDir=v1_50
+    cfg.buildDir=packages
+    cfg.localhostRoot=../../www
+    cfg.xmlfile=files.txt
+    
+    ftp.server=
+    ftp.user=
+    ftp.password=
+    ftp.dir=     
+
+    rsync.server=
+    rsync.user=
+    rsync.dir=
+    -->
+
+    <!-- auto values but should be checked -->
+    <property name="cfg.comName" value="${cfg.name}" />
+    <property name="cfg.comDir" value="${basedir}/${cfg.comName}" />
+    <property name="cfg.buildVersionDir" value="${cfg.buildDir}" />
+    <property name="cfg.adminFilesDir" location="${cfg.comDir}/admin" />
+    <property name="cfg.siteFilesDir" location="${cfg.comDir}/site" />
+    <property name="cfg.extensionsDir" location="${basedir}/extensions" />
+    <property name="cfg.mediaFilesDir" location="${cfg.comDir}/media" />
+    <property name="cfg.adminLangDir" location="${cfg.comDir}/languages/admin" />
+    <property name="cfg.siteLangDir" location="${cfg.comDir}/languages/site" />
+    <property name="cfg.pluginChartsDir" location="${cfg.comDir}/${cfg.comName}_plugin_charts" />
+    <property name="cfg.pluginPaymentDir" location="${cfg.comDir}/${cfg.comName}_plugin_payment" />
+	<property name="cfg.pluginReportDir" location="${cfg.comDir}/${cfg.comName}_plugin_report" />
+    
+    <!-- some settings that are currently unused -->
+    <property name="cfg.addversion" value="true" />
+    <property name="cfg.versionprefix" value="v" />
+    <property name="cfg.adddate" value="true" />
+    <property name="cfg.datefmt" value="yyyy-MM-dd" />
+    <property name="cfg.dateloc" value="en,UK" />
+
+    <target name="build" depends="clean, init, build_component, info" />
+
+    <target name="init" description="creates nessecary directory to build with">
+        <mkdir dir="${cfg.buildVersionDir}" />
+        <mkdir dir="${cfg.buildVersionDir}/plugins" />
+        <mkdir dir="${cfg.buildVersionDir}/modules" />
+        <mkdir dir="${cfg.buildVersionDir}/components" />
+        <mkdir dir="${cfg.extensionsDir}" />
+    </target>
+
+    <target name="build_component" depends="update_extensions" description="packages the final component file">
+        <zip destfile="${cfg.buildVersionDir}/components/${cfg.comName}.zip" basedir="${cfg.comDir}" />
+    </target>
+
+    <target name="build_plugins" description="packages any plugins">
+        <!-- add all plugin directories here -->
+        <!-- EX: <zip destfile="${cfg.buildVersionDir}/plugins/aplugin.zip" basedir="${cfg.versionDir}/aplugin" /> -->
+        <!--         <zip destfile="${cfg.buildVersionDir}/plugins/billets_plugin_ambrasubs.zip" basedir="${cfg.versionDir}/billets_plugin_ambrasubs" /> -->
+    </target>
+
+    <target name="build_modules" description="packages any modules">
+        <!-- add all module directories here -->
+        <!-- EX: <zip destfile="${cfg.buildVersionDir}/modules/amodule.zip" basedir="${cfg.versionDir}/amodule" /> -->
+    </target>
+
+    <target name="update_extensions" depends="build_plugins, build_modules" description="copies fresh builds of plugins and extensions to the admin/extensions folder">
+        <copy todir="${cfg.extensionsDir}" overwrite="true">
+            <fileset dir="${cfg.buildVersionDir}/plugins" />
+        </copy>
+        <copy todir="${cfg.extensionsDir}" overwrite="true">
+            <fileset dir="${cfg.buildVersionDir}/modules" />
+        </copy>
+    </target>
+
+    <target name="info" description="prints information">
+        <echo message="Project:            ${cfg.name}" />
+        <tstamp>
+            <format property="buildtime" pattern="yyyy-MM-dd'T'HH:mm:ss" />
+        </tstamp>
+        <echo message="Buildtime:    ${buildtime}" />
+    </target>
+
+    <target name="clean" description="Destroys all generated files and dirs.">
+        <delete dir="${cfg.buildVersionDir}" />
+        <delete dir="packages" />
+        <delete dir="${cfg.extensionsDir}" />
+        <delete file="${cfg.xmlfile}" />
+    </target>
+
+    <target name="update_localhost" description="attemps to update files on localhost server with files from working directory">
+        <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
+            <available file="${tmpdir}" type="dir" />
+        </condition>
+        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.adminFilesDir}" />
+        </copy>
+        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset file="${cfg.comDir}/manifest.xml" />
+        </copy>
+        <copy todir="${destdir}/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.siteFilesDir}" />
+        </copy>
+        <copy todir="${destdir}/media/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.mediaFilesDir}" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.adminLangDir}" />
+        </copy>
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.siteLangDir}" />
+        </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
+        </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_offline" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+        	<fileset dir="${cfg.pluginPaymentDir}_offline/languages" />
+        </copy>
+ <!--
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
+        </copy>
+ -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_paypal" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_paypal/languages" />
+        </copy>
+        <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_user" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
+        </copy>
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart/languages" />
+        </copy>
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_search" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search/languages" />
+        </copy>
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_salestatistics" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics/languages" />
+        </copy>
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_recentorders" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders/languages" />
+        </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_bestsellers" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
+        </copy>
+    </target>
+
+    <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">
+        <exec executable="mktemp" outputproperty="rawtmpdir">
+            <arg line="-d -t XXXXXXXXXXXX" />
+        </exec>
+        <exec executable="cygpath" osfamily="windows" outputproperty="wintmpdir">
+            <arg line="-w ${rawtmpdir}" />
+        </exec>
+        <condition property="tmpdir" value="${wintmpdir}" else="${rawtmpdir}">
+            <os family="windows" />
+        </condition>
+        <antcall target="update_localhost"></antcall>
+        <exec executable="rsync" dir="${tmpdir}">
+            <arg line="-aOvz --chmod=g+w,Da+rX,Fa+r,F-X --exclude .svn . ${rsync.user}@${rsync.server}:${rsync.dir}/" />
+        </exec>
+        <delete dir="${tmpdir}" />
+    </target>
+
+    <target name="upload" description="attempts to upload build file to ftp server">
+        <fileset id="ftp.upload.fileset" dir="${cfg.buildVersionDir}/components">
+            <include name="*.zip" />
+        </fileset>
+
+        <echo>FTP target is ${ftp.server}</echo>
+        <ftp server="${ftp.server}" userid="${ftp.user}" password="${ftp.password}" action="put" remotedir="${ftp.dir}">
+            <fileset refid="ftp.upload.fileset" />
+        </ftp>
+    </target>
+
+    <target name="build_xml" description="builds an xml listing of all the files in the working copy">
+        <fileset id="site" dir="${cfg.siteFilesDir}" />
+        <echo message="${line.separator}&lt;files folder=&quot;site&quot;&gt;${line.separator}&lt;filename&gt;" file="${cfg.xmlfile}" append="false" />
+        <echo-fileset filesetref="site" />
+        <echo message="&lt;/filename&gt;${line.separator}&lt;/files&gt;${line.separator}" file="${cfg.xmlfile}" append="true" />
+
+        <fileset id="admin" dir="${cfg.adminFilesDir}" />
+        <echo message="${line.separator}&lt;files folder=&quot;admin&quot;&gt;${line.separator}&lt;filename&gt;" file="${cfg.xmlfile}" append="true" />
+        <echo-fileset filesetref="admin" />
+        <echo message="&lt;/filename&gt;${line.separator}&lt;/files&gt;${line.separator}" file="${cfg.xmlfile}" append="true" />
+
+        <replace file="${cfg.xmlfile}" token="${cfg.siteFilesDir}/" value="" />
+        <replace file="${cfg.xmlfile}" token="${cfg.adminFilesDir}/" value="" />
+    </target>
+
+    <macrodef name="echo-fileset" description="creates a printable directory listing">
+        <attribute name="filesetref" />
+        <sequential>
+            <pathconvert pathsep="&lt;/filename&gt;${line.separator}&lt;filename&gt;" property="@{filesetref}.echopath">
+                <path>
+                    <fileset refid="@{filesetref}" />
+                </path>
+            </pathconvert>
+            <echo message="${@{filesetref}.echopath}" file="${cfg.xmlfile}" append="true" />
+        </sequential>
+    </macrodef>
+</project>

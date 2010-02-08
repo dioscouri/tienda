@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Payment Plugin - Paypal (Standard) Payments</name>
+	<version>1.5.0</version>
+	<creationDate>January 2010</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2008 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Paypal payments</description>
+	
+	<files>
+		<filename plugin="payment_paypal">payment_paypal.php</filename>
+		<folder>payment_paypal</folder>  	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal.ini</language>
+	</languages>
+
+	<params>
+		<param name="merchant_email" type="text" size="50" default="" label="Paypal Email" description="Paypal Email Desc"/>
+		<param name="currency" type="text" size="10" default="USD" label="Paypal Currency" description="Paypal Currency Desc"/>
+		<param name="secure_post" type="radio" default="0" label="Paypal Secure Post" description="Paypal Secure Post Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param type="spacer" />
+        <param name="sandbox" type="radio" default="0" label="Paypal Use Sandbox" description="Paypal Use Sandbox Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="sandbox_merchant_email" type="text" size="50" default="" label="Paypal Sandbox Merchant Email" description="Paypal Sandbox Merchant Email Desc"/>
+        <param name="sandbox_customer_email" type="text" size="50" default="" label="Paypal Sandbox Customer Email" description="Paypal Sandbox Customer Email Desc"/>
+        <param type="spacer" />
+        <param name="auth_token" type="textarea" default="" label="Paypal Auth Token" description="Paypal Auth Token Desc" rows="5" cols="30" />
+		<param type="spacer" />
+		<param name="articleid" type="text" size="10" default="" label="Paypal Article Number" description="Paypal Article Number Desc"/>
+		<param name="display_article_title" type="radio" default="0" label="Paypal Display Article Title" description="Paypal Display Article Title Desc" >
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+	</params>
+			
+</install>

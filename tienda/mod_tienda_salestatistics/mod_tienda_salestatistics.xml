@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="tienda_dashboard_right" client="administrator" method="upgrade">
+    <name>Tienda - Sales Statistics</name>
+    <author>Dioscouri.com</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.1.0</version>
+    <creationDate>November 2009</creationDate>
+    <copyright>2009 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>THIS MODULE DISPLAYS SALES STATISTICS</description>
+    <files>
+        <filename module="mod_tienda_salestatistics">mod_tienda_salestatistics.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_tienda_salestatistics.ini</language>
+	</languages>
+
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+        <param name="hide_title" type="radio" default="1" label="Hide Module Title" description="Hide Module Title Desc">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+    </params>
+</install>

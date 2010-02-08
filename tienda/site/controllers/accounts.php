@@ -1,0 +1,108 @@
+<?php
+/**
+ * @version 1.5
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*/
+
+/** ensure this file is being included by a parent file */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+class TiendaControllerAccounts extends TiendaController 
+{
+    /**
+     * constructor
+     */
+    function __construct() 
+    {
+        if (empty(JFactory::getUser()->id))
+        {
+            $redirect = "index.php?option=com_tienda&view=carts";
+            $redirect = JRoute::_( $redirect, false );
+            JFactory::getApplication()->redirect( $redirect );
+            return;
+        }
+    	
+        parent::__construct();
+        $this->set('suffix', 'accounts');
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/TiendaController#_setModelState()
+     */
+    function _setModelState()
+    {
+        $state = parent::_setModelState();      
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $this->getNamespace();
+        
+        $state['filter_userid']     = JFactory::getUser()->id;
+        
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );   
+        }
+        return $state;
+    }
+        
+    /**
+     * @return void
+     */
+    function edit() 
+    {
+        $model  = $this->getModel( $this->get('suffix') );
+        $row = $model->getTable();
+        $row->load( array( 'user_id' => JFactory::getUser()->id ) );
+        
+        JRequest::setVar('id', $row->user_info_id );
+    	JRequest::setVar('view', 'accounts');
+    	JRequest::setVar('layout', 'form');
+        parent::display();
+    }
+    
+    /**
+     * Saves an item and redirects based on task
+     * @return void
+     */
+    function save()
+    {
+        $model  = $this->getModel( $this->get('suffix') );
+        $row = $model->getTable();
+        $row->load( array( 'user_id' => JFactory::getUser()->id ) );
+        $row->bind( $_POST );
+        $row->user_id = JFactory::getUser()->id;
+
+        if ( $row->save() )
+        {
+            $model->setId( $row->user_id );
+            $this->messagetype  = 'message';
+            $this->message      = JText::_( 'Saved' );
+
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+        }
+            else
+        {
+            $this->messagetype  = 'notice';
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+
+        $redirect = "index.php?option=com_tienda";
+        $task = JRequest::getVar('task');
+        switch ($task)
+        {
+            case "save":
+            default:
+                $redirect .= "&view=".$this->get('suffix');
+              break;
+        }
+
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
+}

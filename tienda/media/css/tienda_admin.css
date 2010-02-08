@@ -1,0 +1,92 @@
+/** toolbar icons **/
+.icon-48-tienda { 
+	background-image: url(../../../media/com_tienda/images/tienda.png); 
+	padding-left:125px !important;
+}
+.icon-32-savenew { 
+	background-image: url(../../../media/com_tienda/images/icon-32-savenew.png); 
+}
+.icon-32-saveprev { 
+    background-image: url(../../../media/com_tienda/images/icon-32-saveprev.png); 
+}
+.icon-32-savenext { 
+    background-image: url(../../../media/com_tienda/images/icon-32-savenext.png); 
+}
+.icon-32-prev { 
+    background-image: url(../../../media/com_tienda/images/icon-32-prev.png); 
+}
+.icon-32-next { 
+    background-image: url(../../../media/com_tienda/images/icon-32-next.png); 
+}
+.icon-32-revert { 
+	background-image: url(../../../administrator/templates/khepri/images/toolbar/icon-32-revert.png); 
+}
+.icon-32-refresh { 
+	background-image: url(../../../administrator/templates/khepri/images/toolbar/icon-32-refresh.png); 
+}
+
+/** filter lines **/
+tr.filterline div.range {
+	width: 100%;
+	text-align: left;
+}
+
+tr.filterline div.range div.rangeline {
+	width: 100%;
+	white-space: nowrap;
+	padding-bottom: 2px;
+	text-align: right;
+}
+
+tr.filterline div.range div.rangeline span.label {
+	text-align: left;
+}
+
+tr.filterline div.range div.rangeline .input {
+	text-align: left;
+}
+
+/** common **/
+span.href {
+	cursor: pointer;
+	color: #0000FF;
+	text-decoration: none;
+	/* font-weight: bold; */
+}
+span.href:hover {
+	cursor: pointer;
+	color: #0000FF;
+	/* font-weight: bold; */
+	text-decoration: underline;	
+}
+td img { vertical-align: middle; }
+
+/** notes **/
+.note, .note_pink, .note_green
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-align: justify;
+	border: 1px solid #DDDDBB;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+.note       { background-color: #FFFFDD; }
+.note_pink  { background-color: #FDE8FD; }
+.note_green { background-color: #EBF6DF; }
+
+/** custom **/
+.label {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+.addresslist
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+} 

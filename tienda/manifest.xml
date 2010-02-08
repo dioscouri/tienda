@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0" method="upgrade">
+    <name>Tienda</name>
+    <version>0.1.0</version>
+    <creationDate>June 2009</creationDate>
+    <author>Dioscouri.com</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2009 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description>An e-commerce application for Joomla</description>
+
+	<!-- Application/site -->    
+	<files folder="site">
+		<file>tienda.php</file>
+		<file>controller.php</file>
+		<file>index.html</file>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/site/en-GB.com_tienda.ini</language>
+	</languages>
+	
+	<!-- Application/administrator -->
+	<administration>
+		<menu img="../media/com_tienda/images/tienda_16.png">Tienda</menu>
+
+		<files folder="admin">
+			<file>tienda.php</file>
+			<file>controller.php</file>
+			<file>defines.php</file>
+			<file>index.html</file>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>install</folder>
+			<folder>library</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+
+		<languages>
+			<language tag="en-GB">languages/admin/en-GB.com_tienda.ini</language>
+		</languages>
+	</administration>
+	
+	<!-- Installation -->
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install/install.sql</file>
+		</sql>
+	</install>
+	
+	<installfile>install/install.php</installfile>
+	<!-- <uninstallfile>install/uninstall.php</uninstallfile> -->
+
+	<!--  Media -->
+	<media destination="com_tienda" folder="media">
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</media>
+		
+	<!-- Modules -->	
+	<modules>
+		<!-- <module module="mod_whatever" publish="true" client="site"/> -->
+		<module module="mod_tienda_cart" client="site"/>
+        <module module="mod_tienda_search" client="site"/>
+		<module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
+	</modules> 
+
+	<!-- Plugins -->
+	<plugins>
+		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user"/> -->
+	<!-- Plugins -->
+		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" />
+		<plugin plugin="tienda_plugin_payment_offline" group="tienda" />
+        <plugin plugin="tienda_plugin_payment_paypal" group="tienda" />
+        <plugin plugin="tienda_plugin_user" publish="true" group="user" />
+	</plugins>
+</install>

@@ -1,0 +1,76 @@
+<?php
+/**
+ * @version	1.5
+ * @package	Tienda
+ * @author 	Dioscouri Design
+ * @link 	http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*/
+
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
+JLoader::import( 'com_tienda.views._base', JPATH_SITE.DS.'components' );
+
+class TiendaViewCheckout extends TiendaViewBase
+{
+	/**
+	 * 
+	 * @param $tpl
+	 * @return unknown_type
+	 */
+	function display($tpl=null) 
+	{
+		$layout = $this->getLayout();
+		switch(strtolower($layout))
+		{
+			case "view":
+				$this->_form($tpl);
+			  	break;
+			case "form":
+				$this->_form($tpl);
+			  	break;
+			case "review":
+				$this->_default($tpl);
+			  	break;
+			case "default":
+			default:
+				$this->_default($tpl);
+			  	break;
+		}
+		parent::display($tpl);		
+	}
+	
+	/**
+	 * We could actually get rid of this override entirely 
+	 * and just call $items = TiendaHelperPlugins::getPlugins();
+	 * from within the tmpl file  
+	 * 
+	 */
+	function _default($tpl = null)
+	{
+        parent::_default($tpl);
+        
+        JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+			
+		$model = $this->getModel();
+		
+        // form
+		$form = array();
+		$controller = strtolower( $this->get( '_controller', JRequest::getVar('controller', JRequest::getVar('view') ) ) );
+		$view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
+		$task = strtolower( $this->get( '_task', 'edit' ) );
+		$form['action'] = $this->get( '_action', "index.php?option=com_tienda&view={$view}");
+		$form['validation'] = $this->get( '_validation', "index.php?option=com_tienda&controller={$controller}&task=validate&format=raw" );
+		$form['validate'] = "<input type='hidden' name='".JUtility::getToken()."' value='1' />";
+		$form['id'] = $model->getId();
+		$this->assign( 'form', $form );
+	}	   
+}
+
+
+
+?>
