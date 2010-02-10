@@ -245,7 +245,7 @@ class TiendaConfig extends Tienda
 			{
 				$title = $data[$i]->config_name;
 				$value = $data[$i]->value;
-				if (isset($title)) {
+				if (!empty($title)) {
 					$this->$title = $value;
 				}
 			}
