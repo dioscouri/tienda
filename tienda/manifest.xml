@@ -56,7 +56,7 @@
 	</install>
 	
 	<installfile>install/install.php</installfile>
-	<!-- <uninstallfile>install/uninstall.php</uninstallfile> -->
+	<uninstallfile>install/uninstall.php</uninstallfile>
 
 	<!--  Media -->
 	<media destination="com_tienda" folder="media">

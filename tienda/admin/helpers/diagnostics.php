@@ -21,9 +21,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 */
 	function checkInstallation() 
 	{
-		// TODO check all DB tables
-		// TODO if no articles associated for site::dashboard, create default articles for dashboard
-			// and update config
+		// TODO check all DB tables for integrity
+		// TODO confirm that a default currency has been selected?
 	}
 
 }

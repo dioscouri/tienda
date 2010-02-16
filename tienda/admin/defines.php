@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class Tienda extends JObject
 {
-    static $_version 		= '0.2.0';
+    static $_version 		= '0.2.1';
     static $_versiontype    = 'community';
     static $_copyrightyear 	= '2010';
     static $_name 			= 'tienda';
@@ -187,12 +187,11 @@ class TiendaConfig extends Tienda
 	var $currency_decimal					= '.';
 	var $currency_symbol_pre				= '$';
 	var $currency_symbol_post				= null;
-	var $default_payouttype					= 'PPSP';
-	var $default_payout_value				= '10%';
-	var $default_payoutid					= '0';
+	var $default_currencyid					= '1'; // USD
 	var $login_url_redirect					= 'index.php';
 	var $logout_url_redirect				= 'index.php';
 	var $login_redirect						= '1';
+	var $orderstates_csv                    = '2, 3, 5, 17';
 
 	/**
 	 * constructor

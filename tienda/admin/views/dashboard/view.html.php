@@ -19,8 +19,38 @@ class TiendaViewDashboard extends TiendaViewBase
 	 * @var string a CSV of order_state_ids that you want dashboard to report on
 	 * default: '2','3','5','17' = cash in hand
 	 */
-	var $_statesCSV = "'2','3','5','17'";
+	var $_statesCSV = null;
 	
+	/**
+	 * Set the CSV of states to be reported on
+	 * @param $csv
+	 * @return unknown_type
+	 */
+	function setStatesCSV( $csv='' )
+	{
+		if (empty($csv))
+		{
+			$csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+		}
+		
+		$array = explode(',', $csv);
+		$this->_statesCSV = "'".implode("','", $array)."'";
+	}
+	
+	/**
+	 * Get the CSV of states to be reported on
+	 * @return unknown_type
+	 */
+	function getStatesCSV()
+	{
+		if (empty($this->_statesCSV))
+		{
+			$this->setStatesCSV();
+		}
+		
+		return $this->_statesCSV;
+	}
+
     /**
      * 
      * 
@@ -35,6 +65,9 @@ class TiendaViewDashboard extends TiendaViewBase
         JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
         if (empty($this->hidestats))
         {
+        	// properly format the statesCSV
+        	$this->setStatesCSV();
+        	
 	        $model = $this->getModel();
 	        $state = $model->getState();
 	        $state->stats_interval = JRequest::getVar('stats_interval', 'last_thirty');
@@ -110,14 +143,14 @@ class TiendaViewDashboard extends TiendaViewBase
             $model->setState( 'filter_date_to', $nextdate );
             // set query for orderstate range
             $ordersQuery = $model->getQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setQuery($ordersQuery);
             $rows = $model->getList();
 
             $total = count( $rows );
             $model->setState('select', 'SUM(`order_total`)');
             $ordersQuery = $model->getResultQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
 
@@ -177,14 +210,14 @@ class TiendaViewDashboard extends TiendaViewBase
             $model->setState( 'filter_date_to', $end_ts );
             // set query for orderstate range
             $ordersQuery = $model->getQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setQuery($ordersQuery);
             $rows = $model->getList();
             
             $total = count( $rows );            
             $model->setState('select', 'SUM(`order_total`)');
             $ordersQuery = $model->getResultQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
 
@@ -249,14 +282,14 @@ class TiendaViewDashboard extends TiendaViewBase
             $model->setState( 'filter_date_to', $end_ts );
             // set query for orderstate range
             $ordersQuery = $model->getQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setQuery($ordersQuery);
             $rows = $model->getList();
             
             $total = count( $rows );
             $model->setState('select', 'SUM(`order_total`)');
             $ordersQuery = $model->getResultQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
 
@@ -320,14 +353,14 @@ class TiendaViewDashboard extends TiendaViewBase
             $model->setState( 'filter_date_to', $nextdate );
             // set query for orderstate range
             $ordersQuery = $model->getQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setQuery($ordersQuery);
             $rows = $model->getList();
             
             $total = count( $rows );
             $model->setState('select', 'SUM(`order_total`)');
             $ordersQuery = $model->getResultQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
 
@@ -391,14 +424,14 @@ class TiendaViewDashboard extends TiendaViewBase
             $model->setState( 'filter_date_to', $end_ts );
             // set query for orderstate range
             $ordersQuery = $model->getQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setQuery($ordersQuery);
             $rows = $model->getList();
             
             $total = count( $rows );
             $model->setState('select', 'SUM(`order_total`)');
             $ordersQuery = $model->getResultQuery();
-            $ordersQuery->where("tbl.order_state_id IN ($this->_statesCSV)");
+            $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
 

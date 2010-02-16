@@ -23,7 +23,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
      * @var string a CSV of order_state_ids that you want dashboard to report on
      * default: '2','3','5','17' = cash in hand
      */
-    var $_statesCSV = "'2','3','5','17'";
+    var $_statesCSV = null;
     
     /**
      * Constructor to set the object's params
@@ -34,7 +34,39 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
     function __construct( $params )
     {
         parent::__construct();
-        $this->_params = $params;   
+        $this->_params = $params;
+        // properly format the statesCSV
+        $this->setStatesCSV();
+    }
+    
+    /**
+     * Set the CSV of states to be reported on
+     * @param $csv
+     * @return unknown_type
+     */
+    function setStatesCSV( $csv='' )
+    {
+        if (empty($csv))
+        {
+            $csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+        }
+        
+        $array = explode(',', $csv);
+        $this->_statesCSV = "'".implode("','", $array)."'";
+    }
+    
+    /**
+     * Get the CSV of states to be reported on
+     * @return unknown_type
+     */
+    function getStatesCSV()
+    {
+        if (empty($this->_statesCSV))
+        {
+            $this->setStatesCSV();
+        }
+        
+        return $this->_statesCSV;
     }
     
 	/**
@@ -91,7 +123,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
 
         $database->setQuery( (string) $query );
@@ -112,7 +144,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= DATE_SUB('".$today."', INTERVAL 1 DAY)");
         $query->where("tbl.created_date < '$today'");
 
@@ -138,7 +170,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= DATE_SUB('".$today."', INTERVAL 6 DAY)");
 
         $database->setQuery( (string) $query );
@@ -162,7 +194,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
 
         $database->setQuery( (string) $query );
@@ -186,7 +218,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date < '$enddate'");
         $query->where("tbl.created_date >= DATE_SUB('".$enddate."', INTERVAL 1 MONTH)");
 
@@ -211,7 +243,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
 
         $database->setQuery( (string) $query );
@@ -235,7 +267,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date < '$enddate'");
         $query->where("tbl.created_date >= DATE_SUB('".$enddate."', INTERVAL 1 YEAR)");
 
@@ -266,7 +298,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query->select( 'AVG(order_total) AS average' );
         $query->select( "DATEDIFF('{$lastsale_date}','{$firstsale_date}') AS days_in_business" );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
 
         $database->setQuery( (string) $query );
         $return = $database->loadObject();
@@ -291,7 +323,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'tbl.created_date AS date' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->order("tbl.created_date ASC");
 
         $database->setQuery( (string) $query );
@@ -315,7 +347,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
         $query = new TiendaQuery();
         $query->select( 'tbl.created_date AS date' );
         $query->from('#__tienda_orders AS tbl');
-        $query->where("tbl.order_state_id IN ($this->_statesCSV)");
+        $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->order("tbl.created_date DESC");
 
         $database->setQuery( (string) $query );

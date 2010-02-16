@@ -28,6 +28,17 @@
 					
 					<table class="adminlist">
 					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'SELECT DEFAULT CURRENCY FOR DB VALUES' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::currency( $this->row->get('default_currencyid', '1'), 'default_currencyid' ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( "CONFIG DEFAULT CURRENCY" ); ?>
+                            </td>
+                        </tr>
 						<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Number of Decimal Places' ); ?>
@@ -35,6 +46,9 @@
 			                <td>
 			                	<input type="text" name="currency_num_decimals" value="<?php echo $this->row->get('currency_num_decimals', '2'); ?>" />
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -43,6 +57,9 @@
 			                <td>
 			                	<input type="text" name="currency_thousands" value="<?php echo $this->row->get('currency_thousands', ','); ?>" />
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -51,6 +68,9 @@
 			                <td>
 			                	<input type="text" name="currency_decimal" value="<?php echo $this->row->get('currency_decimal', '.'); ?>" />
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -59,6 +79,9 @@
 			                <td>
 			                	<input type="text" name="currency_symbol_pre" value="<?php echo $this->row->get('currency_symbol_pre', '$'); ?>" />
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -67,6 +90,9 @@
 			                <td>
 			                	<input type="text" name="currency_symbol_post" value="<?php echo $this->row->get('currency_symbol_post', ''); ?>" />
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 					</tbody>
 					</table>
@@ -86,7 +112,21 @@
 			                <td>
 								<?php echo JHTML::_('select.booleanlist', 'display_dashboard_statistics', 'class="inputbox"', $this->row->get('display_dashboard_statistics', '1') ); ?>
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'SELECT ORDER STATES TO REPORT ON' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="orderstates_csv" value="<?php echo $this->row->get('orderstates_csv', '2, 3, 5, 17'); ?>" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( "CONFIG ORDER STATES TO REPORT ON" ); ?>
+                            </td>
+                        </tr>
 					</tbody>
 					</table>
 					<?php
@@ -105,6 +145,9 @@
 			                <td>
 								<?php echo JHTML::_('select.booleanlist', 'show_linkback', 'class="inputbox"', $this->row->get('show_linkback', '1') ); ?>
 			                </td>
+                            <td>
+                                
+                            </td>
 						</tr>
 					</tbody>
 					</table>
@@ -124,6 +167,9 @@
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_dashboard_disabled', 'class="inputbox"', $this->row->get('page_tooltip_dashboard_disabled', '0') ); ?>
 							</td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -132,6 +178,9 @@
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_config_disabled', 'class="inputbox"', $this->row->get('page_tooltip_config_disabled', '0') ); ?>
 							</td>
+                            <td>
+                                
+                            </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
@@ -140,6 +189,9 @@
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_tools_disabled', 'class="inputbox"', $this->row->get('page_tooltip_tools_disabled', '0') ); ?>
 							</td>
+                            <td>
+                                
+                            </td>
 						</tr>
 					</tbody>
 					</table>
