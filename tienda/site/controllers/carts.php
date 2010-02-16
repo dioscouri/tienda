@@ -130,7 +130,8 @@ class TiendaControllerCarts extends TiendaController
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger( 'onAddToCart', array( $item ) );
 
-        TiendaHelperCarts::fixQuantities();
+        // TODO Do we want to do this?  Or use a back-order system?
+        // TiendaHelperCarts::fixQuantities();
         
         // update the cart module, if it is enabled
         $this->displayCart();
