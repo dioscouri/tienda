@@ -77,6 +77,7 @@ class TiendaViewBase extends JView
 		$views['manufacturers']		= 'Manufacturers';
 		$views['localization']		= 'Localization';
 		$views['reports']           = 'Reports';
+		$views['tools']             = 'Tools';
 		$views['config']			= 'Configuration';
 		return $views;
 	}
