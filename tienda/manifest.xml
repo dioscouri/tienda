@@ -77,10 +77,10 @@
 	<!-- Plugins -->
 	<plugins>
 		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user"/> -->
-	<!-- Plugins -->
 		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" />
 		<plugin plugin="tienda_plugin_payment_offline" group="tienda" />
         <plugin plugin="tienda_plugin_payment_paypal" group="tienda" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" />
+        <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" />
 	</plugins>
 </install>
