@@ -30,6 +30,11 @@ class TiendaModelProducts extends TiendaModelBase
         $filter_price_to	= $this->getState('filter_price_to');
         $filter_taxclass = $this->getState('filter_taxclass');
         $filter_ships = $this->getState('filter_ships');
+        $filter_date_from   = $this->getState('filter_date_from');
+        $filter_date_to     = $this->getState('filter_date_to');
+        $filter_datetype    = $this->getState('filter_datetype');
+        $filter_published   = $this->getState('filter_published');
+        $filter_published_date  = $this->getState('filter_published_date');
         
        	if ($filter) 
        	{
@@ -119,7 +124,38 @@ class TiendaModelProducts extends TiendaModelBase
         {
             $query->where('tbl.product_ships = '.(int) $filter_ships);
         }
-       	
+        if (strlen($filter_date_from))
+        {
+            switch ($filter_datetype)
+            {
+                case "modified":
+                    $query->where("tbl.modified_date >= '".$filter_date_from."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("tbl.created_date >= '".$filter_date_from."'");
+                  break;
+            }
+        }
+        if (strlen($filter_date_to))
+        {
+            switch ($filter_datetype)
+            {
+                case "modified":
+                    $query->where("tbl.modified_date <= '".$filter_date_to."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("tbl.created_date <= '".$filter_date_to."'");
+                  break;
+            }
+        }
+        if (strlen($filter_published))
+        {
+        	// TODO Add this after updating the products form to add publish/unpublish date fields
+        	//$query->where("(tbl.publish_date <= '".$filter_published_date."' AND (tbl.unpublish_date > '".$filter_published_date."' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
+        }
+        
     }
     
 	protected function _buildQueryJoins(&$query)

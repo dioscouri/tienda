@@ -35,6 +35,9 @@ class TiendaControllerProducts extends TiendaController
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
 
+		$date = JFactory::getDate();
+		$state['filter_published']  = 1;
+		$state['filter_published_date'] = $date->toMySQL();
 		$state['filter_enabled']  = 1;
         $state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
         $state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', '');

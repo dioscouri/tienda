@@ -7,7 +7,7 @@
  @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 -->
-<project name="tienda" default="build" basedir=".">
+<project name="tienda-community" default="build" basedir=".">
     <description>Ant Build File for Joomla</description>
 
     <!-- load variables from config file -->
