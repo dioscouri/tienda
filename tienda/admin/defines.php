@@ -22,7 +22,8 @@ class Tienda extends JObject
      */
     public static function getVersion()
     {
-        return self::$_version;
+        $version = self::$_version." ".JText::_( ucfirst(self::$_versiontype) );
+        return $version;
     }
 
     /**

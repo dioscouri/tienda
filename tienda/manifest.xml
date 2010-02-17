@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
     <name>Tienda</name>
-    <version>0.1.0</version>
+    <version>0.2.1 Community</version>
     <creationDate>June 2009</creationDate>
     <author>Dioscouri.com</author>
     <authorEmail>info@dioscouri.com</authorEmail>
@@ -76,11 +76,14 @@
 
 	<!-- Plugins -->
 	<plugins>
-		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user"/> -->
-		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" />
-		<plugin plugin="tienda_plugin_payment_offline" group="tienda" />
-        <plugin plugin="tienda_plugin_payment_paypal" group="tienda" />
-        <plugin plugin="tienda_plugin_user" publish="true" group="user" />
-        <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" />
+        <!-- Sample: -->
+        <!-- Instructions: plugin="package_folder_containing_plugin_files" element="plugin_filename" -->
+		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user" element="tienda" /> -->
+
+		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
+		<plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
+        <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
+        <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
+        <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
 	</plugins>
 </install>

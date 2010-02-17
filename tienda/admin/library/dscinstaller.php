@@ -364,6 +364,167 @@ if (!class_exists( 'dscInstaller' )) {
 				return false;
 			}
 		}
+		
+	    /**
+	     * Attempts to uninstall the specified extension
+	     * 
+	     * @param array $pkg the paket package information
+	     * @return Boolean True if successful, false otherwise
+	     */
+	    function uninstallExtension($package) 
+	    {
+	        //Get an installer instance, always get a new one
+	        $installer = new JInstaller();
+	
+	        //attemp to load the manifest file
+	        $file = $this->findManifest($package);
+	
+	        //check to see if the manifest was found
+	        if (isset($file)) {
+	            // Is it a valid joomla installation manifest file?
+	            $manifest = $installer->_isManifest($file);
+	
+	            if (!is_null($manifest)) {
+	
+	                // If the root method attribute is set to upgrade, allow file overwrite
+	                $root =& $manifest->document;
+	                if ($root->attributes('method') == 'upgrade') {
+	                    $installer->_overwrite = true;
+	                }
+	
+	                // Set the manifest object and path
+	                $installer->_manifest =& $manifest;
+	                $installer->setPath('manifest', $file);
+	
+	                // Set the installation source path to that of the manifest file
+	                $installer->setPath('source', dirname($file));
+	            }
+	        } else {
+	            $this->setError(JText::_( "Unable to locate manifest file" ));
+	            return false;
+	        }
+	
+	        //check if the extension is installed already and if so uninstall it
+	        //$manifestInformation = $this->paketItemToManifest($package);
+	        $manifestInformation = $package;
+	        $elementID = $this->checkIfInstalledAlready($manifestInformation);
+	
+	        if ($elementID != 0) 
+	        {
+	        	$clientid = 0;
+	        	if ($package['client'] == 'administrator') { $clientid = '1'; }
+	        	
+	            //uninstall the extension using the joomla uninstaller
+	            if ($installer->uninstall($manifestInformation["type"], $elementID, $clientid))
+	            {
+	            	$this->setError(JText::_( "ELEMENT UNINSTALLED" ));
+	            	return true;
+	            }
+	        }
+	        //$this->_addModifiedExtension($manifestInformation);
+	        //$this->_formatMessage("Uninstalled");
+	        $this->setError(JText::_( "ELEMENT NOT INSTALLED" ));
+	        return false;
+	    }
+	    
+	    /**
+	     * Attempts to find the manifest file stored on the server
+	     * @param array $pkg    
+	     * @return string       path of the xml file for the extension
+	     */
+	    function findManifest($package) 
+	    {
+	        switch ($package["type"]) 
+	        {
+	                // path to module directory
+	            case "module":
+	            	switch ($package['client'])
+	            	{
+	            		case "1":
+	            		case "administrator":
+	            			$moduleBaseDir = JPATH_ADMINISTRATOR.DS."modules";
+	            			break;
+	                    case "0":
+	                    case "site":
+	                    default:
+	                        $moduleBaseDir = JPATH_SITE.DS."modules";
+	                        break;
+	            			
+	            	}
+	
+	                // xml file for module
+	                $xmlfile = $moduleBaseDir . DS . $package['element'] .DS. $package['element'] .".xml";
+	
+	                if (file_exists($xmlfile))
+	                {
+	                    if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+	                        //return $data;
+	                        return $xmlfile;
+	                    }
+	                }
+	                break;
+	            case "plugin":
+	                // Get the plugin base path
+	                $baseDir = JPATH_SITE.DS.'plugins';
+	
+	                // Get the plugin xml file
+	                $xmlfile = $baseDir.DS.$package['group'].DS.$package['element'].".xml";
+	
+	                if (file_exists($xmlfile)) {
+	                    if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+	                        //return $data;
+	                        return $xmlfile;
+	                    }
+	                }
+	                break;
+	            case "template":
+	            	// TODO Finish this
+	                return null;
+	                break;
+	            case "language":
+	                return null;
+	                break;
+	            default: //TODO set error here
+	            return null;
+	        }
+	
+	    }
+	    
+	    /**
+	     * Searches the database to see if the given extension is installed already
+	     *
+	     * @param Array $manifestInformation an array contining the extension type and element name
+	     * @return Int 0 if the extension does not exisit, the extension id if it does exist
+	     */
+	    function checkIfInstalledAlready($manifestInformation) {
+	        //select the right query based on the manifest information
+	        switch ($manifestInformation["type"]) {
+	            case "component":
+	                $query = "SELECT `id` FROM #__components WHERE `option` = '".$manifestInformation["element"]."'";
+	                break;
+	            case "module":
+	                $query = "SELECT `id` FROM #__modules WHERE `module` = '".$manifestInformation["element"]."'";
+	                break;
+	            case "plugin":
+	                $query = "SELECT `id` FROM #__plugins WHERE `folder` = '".$manifestInformation["group"]."' AND `element` = '".$manifestInformation["element"]."'";
+	                break;
+	            default:
+	                $query = "";
+	        }
+	        //run the query if it was formed
+	        if ($query != "") {
+	            $this->_db->setQuery($query);
+	            $extension_id = intval($this->_db->loadResult());
+	
+	            //return 0 if the extension was not found
+	            if (intval($extension_id) < 1) {
+	                return 0;
+	            }
+	            return $extension_id;
+	        } else {
+	            return 0;
+	        }
+	    }
 	
 		/**
 		 * Adds a successfully installed extension to the installed list
@@ -423,42 +584,6 @@ if (!class_exists( 'dscInstaller' )) {
 			$manifestInformation["element"] = @$elementName;
 	
 			return $manifestInformation;
-		}
-	
-		/**
-		 * Searches the database to see if the given extension is installed already
-		 *
-		 * @param Array $manifestInformation an array contining the extension type and element name
-		 * @return Int 0 if the extension does not exisit, the extension id if it does exist
-		 */
-		function checkIfInstalledAlready($manifestInformation) {
-			//select the right query based on the manifest information
-			switch ($manifestInformation["type"]) {
-				case "component":
-					$query = "SELECT `id` FROM #__components WHERE `name` = '".$manifestInformation["element"]."'";
-					break;
-				case "module":
-					$query = "SELECT `id` FROM #__modules WHERE `module` = '".$manifestInformation["element"]."'";
-					break;
-				case "plugin":
-					$query = "SELECT `id` FROM #__plugins WHERE `folder` = '".$manifestInformation["group"]."' AND `element` = '".$manifestInformation["element"]."'";
-					break;
-				default:
-					$query = "";
-			}
-			//run the query if it was formed
-			if ($query != "") {
-				$this->_db->setQuery($query);
-				$extension_id = intval($this->_db->loadResult());
-	
-				//return 0 if the extension was not found
-				if (intval($extension_id) < 1) {
-					return 0;
-				}
-				return $extension_id;
-			} else {
-				return 0;
-			}
 		}
 	
 		/**
