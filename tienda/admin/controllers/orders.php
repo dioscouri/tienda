@@ -35,7 +35,7 @@ class TiendaControllerOrders extends TiendaController
 		
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $this->_order = JTable::getInstance('Orders', 'Table');
+        $this->_order = JTable::getInstance('Orders', 'TiendaTable');
 	}
 	
 	/**
@@ -410,7 +410,7 @@ class TiendaControllerOrders extends TiendaController
             if ($productItem = $productModel->getItem())
             {
             	// TODO Push this into the orders object->addItem() method?
-	            $orderItem = JTable::getInstance('OrderItems', 'Table');
+	            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
 	            $orderItem->product_id             = $productItem->product_id;
 	            $orderItem->orderitem_sku          = $productItem->product_sku;
 	            $orderItem->orderitem_name         = $productItem->product_name;
@@ -572,8 +572,8 @@ class TiendaControllerOrders extends TiendaController
         $this->_shippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $billingAddress = JTable::getInstance('Addresses', 'Table');
-        $shippingAddress = JTable::getInstance('Addresses', 'Table');
+        $billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+        $shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
         // set the order billing address
         $billingAddress->bind( $billingAddressArray );
@@ -815,7 +815,7 @@ class TiendaControllerOrders extends TiendaController
     	$order =& $this->_order;
     	
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('OrderInfo', 'Table');
+        $row = JTable::getInstance('OrderInfo', 'TiendaTable');
         $row->order_id = $order->order_id;
         $row->bind( $this->_billingAddressArray );  
         $row->bind( $this->_shippingAddressArray );                
@@ -838,7 +838,7 @@ class TiendaControllerOrders extends TiendaController
     	$order =& $this->_order;
     	
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('OrderHistory', 'Table');
+        $row = JTable::getInstance('OrderHistory', 'TiendaTable');
         $row->order_id = $order->order_id;
         $row->order_state_id = $order->order_state_id;
         // TODO Should the code for sending email to the customer be inserted to the table ->store() method?
@@ -954,7 +954,7 @@ class TiendaControllerOrders extends TiendaController
             $this->messagetype  = 'message';
             $this->message      = JText::_( 'Order Saved' );
             
-	        $history = JTable::getInstance('OrderHistory', 'Table');
+	        $history = JTable::getInstance('OrderHistory', 'TiendaTable');
 	        $history->order_id             = $row->order_id;
 	        $history->order_state_id       = $row->order_state_id;
 	        $history->customer_notified    = JRequest::getVar('new_orderstate_notify'); 

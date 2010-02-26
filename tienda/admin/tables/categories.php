@@ -13,14 +13,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._basenested', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableCategories extends TiendaTableNested 
+class TiendaTableCategories extends TiendaTableNested 
 {
 	/**
 	 * Constructs the object
 	 * @param $db
 	 * @return unknown_type
 	 */
-	function TableCategories ( &$db ) 
+	function TiendaTableCategories ( &$db ) 
 	{
 		$tbl_key 	= 'category_id';
 		$tbl_suffix = 'categories';
@@ -88,7 +88,7 @@ class TableCategories extends TiendaTableNested
 			{
 				$insertid = $database->insertid();					
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-				$table = JTable::getInstance('Categories', 'Table');
+				$table = JTable::getInstance('Categories', 'TiendaTable');
 				$table->load( $insertid );
 				$table->rebuildTree();
 				$result = $table;

@@ -97,7 +97,7 @@ class TiendaControllerZones extends TiendaController
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$zonerelation = JTable::getInstance( 'Zonerelations', 'Table' );
+		$zonerelation = JTable::getInstance( 'Zonerelations', 'TiendaTable' );
 		$zonerelation->zone_id = $zoneid;
 		$zonerelation->geozone_id = $geozoneid;
 
@@ -126,7 +126,7 @@ class TiendaControllerZones extends TiendaController
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$zonerelation = JTable::getInstance( 'Zonerelations', 'Table' );
+		$zonerelation = JTable::getInstance( 'Zonerelations', 'TiendaTable' );
 		$zonerelation->load( $zrid );
 
 		$html = ($zonerelation->delete()) ? TiendaHTML::zoneRelationsList($geozoneid) : $zonerelation->getError();

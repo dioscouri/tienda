@@ -140,7 +140,7 @@ class TiendaControllerProducts extends TiendaController
 			if ($isNew)
 			{
 				// set price
-				$price = JTable::getInstance( 'Productprices', 'Table' );
+				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				$price->product_id = $row->id;
 				$price->product_price = JRequest::getVar( 'product_price' );
 				if (!$price->save())
@@ -150,7 +150,7 @@ class TiendaControllerProducts extends TiendaController
 				}
 				
 				// set category
-				$category = JTable::getInstance( 'Productcategories', 'Table' );
+				$category = JTable::getInstance( 'Productcategories', 'TiendaTable' );
 				$category->product_id = $row->id;
 				$category->category_id = JRequest::getVar( 'category_id' );
 				if (!$category->save())
@@ -322,7 +322,7 @@ class TiendaControllerProducts extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('ProductCategories', 'Table');
+			$table = JTable::getInstance('ProductCategories', 'TiendaTable');
 			$keynames["product_id"] = $id;
 			$keynames["category_id"] = $cid;
 			$table->load( $keynames );
@@ -404,7 +404,7 @@ class TiendaControllerProducts extends TiendaController
         $model->setState('filter_vendorid', '0');
         $items = $model->getAll();
 
-        $row = JTable::getInstance('Products', 'Table');
+        $row = JTable::getInstance('Products', 'TiendaTable');
         $row->load($model->getId());
         
         JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
@@ -492,7 +492,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );	
 		}
 
-        $row = JTable::getInstance('Products', 'Table');
+        $row = JTable::getInstance('Products', 'TiendaTable');
         $row->load($model->getId());
         
       	$model->setState('filter_id', $model->getId());
@@ -617,7 +617,7 @@ class TiendaControllerProducts extends TiendaController
             $model->setState( $key, $value );   
         }
         
-        $row = JTable::getInstance('Products', 'Table');
+        $row = JTable::getInstance('Products', 'TiendaTable');
         $row->load($model->getId());
                 
         $view   = $this->getView( 'productattributes', 'html' );
@@ -731,7 +731,7 @@ class TiendaControllerProducts extends TiendaController
             $model->setState( $key, $value );   
         }
         
-        $row = JTable::getInstance('ProductAttributes', 'Table');
+        $row = JTable::getInstance('ProductAttributes', 'TiendaTable');
         $row->load($model->getId());
                 
         $view   = $this->getView( 'productattributeoptions', 'html' );
@@ -851,7 +851,7 @@ class TiendaControllerProducts extends TiendaController
             $model->setState( $key, $value );   
         }
         
-        $row = JTable::getInstance('Products', 'Table');
+        $row = JTable::getInstance('Products', 'TiendaTable');
         $row->load($model->getId());
                 
         $view   = $this->getView( 'productfiles', 'html' );

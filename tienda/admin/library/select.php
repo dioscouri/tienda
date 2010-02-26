@@ -121,7 +121,7 @@ class TiendaSelect extends JHTMLSelect
 		}
  	 	if ($allowNone) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-			$root = JTable::getInstance('Categories', 'Table')->getRoot();
+			$root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();
 			$list[] =  self::option( $root->category_id, "- ".JText::_( $title_none )." -", 'category_id', 'category_name' );
 		}
 

@@ -38,7 +38,7 @@ class TiendaControllerTaxclasses extends TiendaController
             $model->setState( $key, $value );   
         }
 
-        $row = JTable::getInstance('TaxClasses', 'Table');
+        $row = JTable::getInstance('TaxClasses', 'TiendaTable');
         $row->load($model->getId());
         $model->setState('filter_id', $model->getId());
         

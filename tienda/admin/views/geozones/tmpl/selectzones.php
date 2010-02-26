@@ -69,7 +69,7 @@
 					<?php echo JText::_($item->zone_name); ?>
 				</td>
 				<td style="text-align: center;">
-					<?php $table = JTable::getInstance('ZoneRelations', 'Table'); ?>
+					<?php $table = JTable::getInstance('ZoneRelations', 'TiendaTable'); ?>
 					<?php
                     $keynames = array();
                     $keynames['geozone_id'] = $row->geozone_id;

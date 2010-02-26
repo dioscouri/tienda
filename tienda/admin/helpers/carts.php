@@ -45,7 +45,7 @@ class TiendaHelperCarts extends TiendaHelperBase
         if (!empty($cart)) 
         {
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance( 'Carts', 'Table' );
+            $table = JTable::getInstance( 'Carts', 'TiendaTable' );
             foreach ($cart as $item) 
             {
             	$item->user_id = (empty($item->user_id)) ? JFactory::getUser()->id : $item->user_id;
@@ -91,7 +91,7 @@ class TiendaHelperCarts extends TiendaHelperBase
         // load the order to get the user_id
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $cart = JTable::getInstance( 'Carts', 'Table' );
+        $cart = JTable::getInstance( 'Carts', 'TiendaTable' );
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem(); 
@@ -117,7 +117,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $product = JTable::getInstance( 'ProductQuantities', 'Table' );
+        $product = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 
         $suffix = strtolower( TiendaHelperCarts::getSuffix() );
         $model = JModel::getInstance( $suffix, 'TiendaModel' );
@@ -151,7 +151,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	                $keynames['product_id'] = $cartitem->product_id;
 	                $keynames['product_attributes'] = $cartitem->product_attributes;
 	                
-                	$table = JTable::getInstance( 'Carts', 'Table' );
+                	$table = JTable::getInstance( 'Carts', 'TiendaTable' );
                 	$table->load($keynames);
                 	$table->product_qty = $cartitem->product_qty;
                     $table->product_id = $cartitem->product_id;

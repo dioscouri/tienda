@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableOrderHistory extends TiendaTable 
+class TiendaTableOrderHistory extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableOrderHistory( &$db ) 
+	function TiendaTableOrderHistory( &$db ) 
 	{
 		$tbl_key 	= 'order_history_id';
 		$tbl_suffix = 'orderhistory';

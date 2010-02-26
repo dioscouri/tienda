@@ -267,7 +267,7 @@ class TiendaControllerCategories extends TiendaController
         $keynames = array();
         foreach (@$cids as $cid)
         {
-            $table = JTable::getInstance('ProductCategories', 'Table');
+            $table = JTable::getInstance('ProductCategories', 'TiendaTable');
             $keynames["category_id"] = $id;
             $keynames["product_id"] = $cid;
             $table->load( $keynames );

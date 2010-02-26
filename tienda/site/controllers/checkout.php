@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TiendaControllerCheckout extends TiendaController
 {
 	var $_order                = null; // a TableOrders() object
-	var $initial_order_state   = '15'; // pre-payment/orphan
+	var $initial_order_state   = '15'; // pre-payment/orphan // TODO also set this in the constructor, and use a config setting
 	var $billing_input_prefix  = 'billing_input_';
 	var $shipping_input_prefix = 'shipping_input_';
 	var $defaultShippingMethod = null; // set in constructor
@@ -28,7 +28,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->set('suffix', 'checkout');
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $this->_order = JTable::getInstance('Orders', 'Table');
+        $this->_order = JTable::getInstance('Orders', 'TiendaTable');
         $this->defaultShippingMethod = '2'; // TODO Use a config setting for this
 	}
 
@@ -143,16 +143,6 @@ class TiendaControllerCheckout extends TiendaController
         // get the order object 
         $order = &$this->_order; // a TableOrders object (see constructor)
         
-//        // get the items and add them to the order
-//        $items = $this->getProductsInfo( $order->currency_id, $order->getBillingGeozone() );
-//        foreach ($items as $item)
-//        {
-//            $order->addItem( $item );
-//        }
-//        
-//        // get the order totals
-//        $order->calculateTotals();
-        
         $model = $this->getModel('carts');
         $view = $this->getView( 'checkout', 'html' );
         $view->set( '_controller', 'checkout' );
@@ -211,23 +201,10 @@ class TiendaControllerCheckout extends TiendaController
         // convert elements to array that can be binded             
         JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
         $submitted_values = TiendaHelperBase::elementsToArray( $elements );
-        
-//           $response['error'] = '1';
-//           $response['msg'] = '
-//                    <dl id="system-message">
-//                    <dt class="notice">notice</dt>
-//                    <dd class="notice message fade">
-//                        <ul style="padding: 10px;">'.
-//                        JText::_("Could not process form").Tienda::dump($elements).Tienda::dump($submitted_values)                        
-//                        .'</ul>
-//                    </dd>
-//                    </dl>
-//                    ';
-//            echo ( json_encode( $response ) );
-//            return;
             
 		if (empty($submitted_values['_checked']['payment_plugin']))
 		{
+			// TODO abstract this to some kind of helper, such as TiendaHelperBase::generateMessage( $string );
            $response['msg'] = '
                     <dl id="system-message">
                     <dt class="notice">notice</dt>
@@ -246,7 +223,6 @@ class TiendaControllerCheckout extends TiendaController
 	       	$results = array();
 			$dispatcher =& JDispatcher::getInstance();
 			$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
-	        //TODO: Not sure if there is a better way of handling an object stored in an array
 
 		    for ($i=0; $i<count($results); $i++) 
 	        {
@@ -408,7 +384,7 @@ class TiendaControllerCheckout extends TiendaController
 	            if ($productItem = $productModel->getItem())
 	            {
 	            	// TODO Push this into the orders object->addItem() method?
-		            $orderItem = JTable::getInstance('OrderItems', 'Table');
+		            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
 		            $orderItem->product_id             = $productItem->product_id;
 		            $orderItem->orderitem_sku          = $productItem->product_sku;
 		            $orderItem->orderitem_name         = $productItem->product_name;
@@ -440,7 +416,7 @@ class TiendaControllerCheckout extends TiendaController
         $billing_address_id     = $values['billing_address_id'];
         $shipping_address_id    = $values['shipping_address_id'];
         $shipping_method_id     = $values['shipping_method_id'];
-        //$same_as_billing      = @$values['_checked']['sameasbilling'];
+        //$same_as_billing      = @$values['_checked']['sameasbilling']; // this is for later
         $user_id                = JFactory::getUser()->id;
         $billing_input_prefix   = $this->billing_input_prefix;
         $shipping_input_prefix  = $this->shipping_input_prefix;
@@ -465,8 +441,8 @@ class TiendaControllerCheckout extends TiendaController
         $this->_shippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $billingAddress = JTable::getInstance('Addresses', 'Table');
-        $shippingAddress = JTable::getInstance('Addresses', 'Table');
+        $billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+        $shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
         // set the order billing address
         $billingAddress->bind( $billingAddressArray );
@@ -582,7 +558,7 @@ class TiendaControllerCheckout extends TiendaController
         $order->bind( $values );
         
         // set the currency
-        //TODO: Change this to default currency
+        //TODO: Change this to default currency, set in config
         $order->currency_id = '2';
         
         // set the shipping method
@@ -643,7 +619,7 @@ class TiendaControllerCheckout extends TiendaController
                 
         // Save an orderpayment with an Incomplete status
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'Table');
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->order_id = $order->order_id;
         $orderpayment->orderpayment_type = $values['payment_plugin']; // this is the payment plugin selected
         $orderpayment->transaction_status = JText::_( "Incomplete" ); // payment plugin updates this field onPostPayment
@@ -868,9 +844,9 @@ class TiendaControllerCheckout extends TiendaController
                     {
                     	unset($productattribute);
                         unset($orderitemattribute);
-                        $productattribute = JTable::getInstance('ProductAttributeOptions', 'Table');
+                        $productattribute = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
                         $productattribute->load( $attribute );
-                        $orderitemattribute = JTable::getInstance('OrderItemAttributes', 'Table');
+                        $orderitemattribute = JTable::getInstance('OrderItemAttributes', 'TiendaTable');
                         $orderitemattribute->orderitem_id = $item->orderitem_id;
                         $orderitemattribute->productattributeoption_id = $productattribute->productattributeoption_id;
                         $orderitemattribute->orderitemattribute_name = $productattribute->productattributeoption_name;
@@ -904,7 +880,7 @@ class TiendaControllerCheckout extends TiendaController
     	$order =& $this->_order;
     	
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('OrderInfo', 'Table');
+        $row = JTable::getInstance('OrderInfo', 'TiendaTable');
         $row->order_id = $order->order_id;
         $row->user_email = JFactory::getUser()->get('email');               
         $row->bind( $this->_billingAddressArray );  
@@ -929,7 +905,7 @@ class TiendaControllerCheckout extends TiendaController
     	$order =& $this->_order;
     	
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('OrderHistory', 'Table');
+        $row = JTable::getInstance('OrderHistory', 'TiendaTable');
         $row->order_id = $order->order_id;
         $row->order_state_id = $order->order_state_id;
         // TODO Should the code for sending email to the customer be inserted to the table ->store() method?

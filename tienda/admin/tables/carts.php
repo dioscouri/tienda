@@ -13,13 +13,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._basexref', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableCarts extends TiendaTableXref 
+class TiendaTableCarts extends TiendaTableXref 
 {
     /**
      * @param $db
      * @return unknown_type
      */
-    function TableCarts ( &$db ) 
+    function TiendaTableCarts ( &$db ) 
     {
         $keynames = array();
         $keynames['user_id']    = 'user_id';

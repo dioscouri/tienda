@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableGeozones extends TiendaTable 
+class TiendaTableGeozones extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableGeozones ( &$db ) 
+	function TiendaTableGeozones ( &$db ) 
 	{
 		
 		$tbl_key 	= 'geozone_id';

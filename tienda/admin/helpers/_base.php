@@ -67,7 +67,7 @@ class TiendaHelperBase extends JObject
 		{
             // TODO if currency is an integer, load the object for its id
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance('Currencies', 'Table');
+            $table = JTable::getInstance('Currencies', 'TiendaTable');
             $table->load( (int) $currency );
             if (!empty($table->currency_id))
             {
@@ -82,7 +82,7 @@ class TiendaHelperBase extends JObject
 		{
             // TODO if currency is a string (currency_code) load the object for its code
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance('Currencies', 'Table');
+            $table = JTable::getInstance('Currencies', 'TiendaTable');
             $keynames = array();
             $keynames['currency_code'] = (string) $currency;
             $table->load( $keynames );

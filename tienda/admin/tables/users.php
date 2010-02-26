@@ -13,10 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableUsers extends TiendaTable 
+class TiendaTableUsers extends TiendaTable 
 {
-
-	function TableUsers( &$db ) 
+	function TiendaTableUsers( &$db ) 
 	{
 		$tbl_key 	= 'id';
 		$tbl_suffix = 'users';

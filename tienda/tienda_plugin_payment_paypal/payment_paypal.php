@@ -337,7 +337,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         
         // load the orderpayment record and set some values
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'Table');
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         $orderpayment->transaction_details  = $data['transaction_details'];
         $orderpayment->transaction_id       = $data['txn_id'];
@@ -357,7 +357,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
         JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
-        $order = JTable::getInstance('Orders', 'Table');
+        $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors)) 
         {

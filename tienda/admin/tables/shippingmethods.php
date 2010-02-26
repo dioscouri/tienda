@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableShippingMethods extends TiendaTable 
+class TiendaTableShippingMethods extends TiendaTable 
 {
-    /**
-     * 
-     * 
-     * @param $db
-     * @return unknown_type
-     */
-    function TableShippingMethods ( &$db ) 
+    function TiendaTableShippingMethods ( &$db ) 
     {
         
         $tbl_key    = 'shipping_method_id';

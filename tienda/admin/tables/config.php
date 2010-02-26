@@ -13,10 +13,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableConfig extends TiendaTable 
+class TiendaTableConfig extends TiendaTable 
 {
 
-	function TableConfig( &$db ) 
+	function TiendaTableConfig( &$db ) 
 	{
 		$tbl_key 	= 'config_name';
 		$tbl_suffix = 'config';

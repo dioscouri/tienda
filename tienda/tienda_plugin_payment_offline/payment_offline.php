@@ -93,7 +93,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
                         ); 
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'Table');
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         $orderpayment->transaction_details = implode("\n", $formatted); 
         if ($orderpayment->save())

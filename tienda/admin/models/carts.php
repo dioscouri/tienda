@@ -75,7 +75,7 @@ class TiendaModelCarts extends TiendaModelBase
             foreach ($attibutes_array as $attrib_id)
             {
             	// load the attrib's object
-            	$table = JTable::getInstance('ProductAttributeOptions', 'Table');
+            	$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
             	$table->load( $attrib_id );
             	// update the price
             	$item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");

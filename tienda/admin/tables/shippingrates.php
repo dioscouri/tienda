@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableShippingRates extends TiendaTable
+class TiendaTableShippingRates extends TiendaTable
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableShippingRates ( &$db ) 
+	function TiendaTableShippingRates ( &$db ) 
 	{
         $tbl_key    = 'shipping_rate_id';
         $tbl_suffix = 'shippingrates';

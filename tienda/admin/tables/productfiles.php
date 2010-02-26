@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableProductFiles extends TiendaTable 
+class TiendaTableProductFiles extends TiendaTable 
 {
 	/**
 	 * 
@@ -21,7 +21,7 @@ class TableProductFiles extends TiendaTable
 	 * @param $db
 	 * @return unknown_type
 	 */
-	function TableProductFiles ( &$db ) 
+	function TiendaTableProductFiles ( &$db ) 
 	{
 		
 		$tbl_key 	= 'file_id';

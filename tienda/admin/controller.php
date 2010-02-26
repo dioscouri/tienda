@@ -594,7 +594,7 @@ class TiendaController extends JController
 			$database = &JFactory::getDBO();
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables'.DS );
 			unset($table);
-			$table = JTable::getInstance( 'config', 'Table' );
+			$table = JTable::getInstance( 'config', 'TiendaTable' );
 			$table->load( $config_title );
 			$table->config_name = $config_title;
 			$table->value = '1';

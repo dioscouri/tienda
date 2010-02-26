@@ -39,7 +39,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         	{
                 // update quantities
                 // TODO Update quantity based on vendor_id
-                $product = JTable::getInstance('ProductQuantities', 'Table');
+                $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
                 $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
                 if ($product->quantity <= '-1')
                 {

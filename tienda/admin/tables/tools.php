@@ -13,10 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableTools extends TiendaTable 
+class TiendaTableTools extends TiendaTable 
 {
-
-	function TableTools( &$db ) 
+	function TiendaTableTools( &$db ) 
 	{
 		$tbl_key 	= 'id';
 		$tbl_suffix = 'tools';

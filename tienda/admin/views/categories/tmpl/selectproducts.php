@@ -63,7 +63,7 @@
 					<?php echo $item->product_name; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php $table = JTable::getInstance('ProductCategories', 'Table'); ?>
+					<?php $table = JTable::getInstance('ProductCategories', 'TiendaTable'); ?>
 					<?php
                     $keynames = array();
                     $keynames['product_id'] = $item->product_id;

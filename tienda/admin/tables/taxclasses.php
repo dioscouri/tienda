@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableTaxclasses extends TiendaTable 
+class TiendaTableTaxclasses extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableTaxclasses ( &$db ) 
+	function TiendaTableTaxclasses ( &$db ) 
 	{
 		
 		$tbl_key 	= 'tax_class_id';

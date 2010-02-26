@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableOrderstates extends TiendaTable
+class TiendaTableOrderstates extends TiendaTable
 {
-	/**
-	 *
-	 *
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableOrderstates ( &$db )
+	function TiendaTableOrderstates ( &$db )
 	{
 
 		$tbl_key 	= 'order_state_id';

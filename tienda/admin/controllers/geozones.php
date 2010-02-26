@@ -136,7 +136,7 @@ class TiendaControllerGeozones extends TiendaController
         $keynames = array();
         foreach (@$cids as $cid)
         {
-            $table = JTable::getInstance('ZoneRelations', 'Table');
+            $table = JTable::getInstance('ZoneRelations', 'TiendaTable');
             $keynames["geozone_id"] = $id;
             $keynames["zone_id"] = $cid;
             $table->load( $keynames );

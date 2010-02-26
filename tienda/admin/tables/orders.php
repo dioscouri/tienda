@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableOrders extends TiendaTable
+class TiendaTableOrders extends TiendaTable
 {	
     /** @var array An array of TiendaOrderItems objects */
     protected $_items = array();
@@ -43,7 +43,7 @@ class TableOrders extends TiendaTable
 	 * @param $db
 	 * @return unknown_type
 	 */
-	function TableOrders ( &$db )
+	function TiendaTableOrders ( &$db )
 	{
 		$tbl_key 	= 'order_id';
 		$tbl_suffix = 'orders';
@@ -203,7 +203,7 @@ class TableOrders extends TiendaTable
      */
     function addItem( $item )
     {
-        $orderItem = JTable::getInstance('OrderItems', 'Table');
+        $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
         if (is_array($item))
         {
             $orderItem->bind( $item );
@@ -276,7 +276,7 @@ class TableOrders extends TiendaTable
         // if this product is from a vendor other than store owner, track it
         if (!empty($orderItem->vendor_id) && empty($this->_vendors[$orderItem->vendor_id]))
         {
-        	$orderVendor = JTable::getInstance('OrderVendors', 'Table');
+        	$orderVendor = JTable::getInstance('OrderVendors', 'TiendaTable');
         	$orderVendor->vendor_id = $orderItem->vendor_id;
             $this->_vendors[$orderItem->vendor_id] = $orderVendor;
         }

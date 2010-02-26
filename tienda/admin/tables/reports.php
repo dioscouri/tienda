@@ -13,10 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableReports extends TiendaTable 
+class TiendaTableReports extends TiendaTable 
 {
-
-	function TableReports( &$db ) 
+	function TiendaTableReports( &$db ) 
 	{
 		$tbl_key 	= 'id';
 		$tbl_suffix = 'reports';

@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableVendors extends TiendaTable
+class TiendaTableVendors extends TiendaTable
 {
-	/**
-	 *
-	 *
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableVendors ( &$db )
+	function TiendaTableVendors ( &$db )
 	{
 
 		$tbl_key 	= 'vendor_id';

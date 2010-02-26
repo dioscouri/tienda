@@ -156,7 +156,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             if (!in_array($item->product_attributes, $csvs))
             {
-                $row = JTable::getInstance('ProductQuantities', 'Table');
+                $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
                 if (!$row->delete($item->productquantity_id))
                 {
                     JError::raiseNotice('1', $row->getError());
@@ -172,7 +172,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
             if (!in_array($csv, $existingEntries))
             {
-		        $row = JTable::getInstance('ProductQuantities', 'Table');
+		        $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
 		        $row->product_id = $product_id;
 		        $row->vendor_id = $vendor_id;
                 $row->product_attributes = $csv;
@@ -264,7 +264,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$paths[$id] = '';
 			
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $row = JTable::getInstance('Products', 'Table');
+            $row = JTable::getInstance('Products', 'TiendaTable');
             $row->load( (int) $id );
 			if (empty($row->product_id))
 			{
@@ -335,7 +335,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $paths[$id] = '';
             
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $row = JTable::getInstance('Products', 'Table');
+            $row = JTable::getInstance('Products', 'TiendaTable');
             $row->load( (int) $id );
             if (empty($row->product_id))
             {
@@ -430,7 +430,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				// load the item, get the filename, create tmpl
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-				$row = JTable::getInstance('Products', 'Table');
+				$row = JTable::getInstance('Products', 'TiendaTable');
 				$row->load( (int) $id );
 				$id = $row->product_full_image;
 
@@ -566,7 +566,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 		JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'ProductCategories', 'Table' );
+		$table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
 		
 		$query = new TiendaQuery();
 		$query->select( "tbl.category_id" );

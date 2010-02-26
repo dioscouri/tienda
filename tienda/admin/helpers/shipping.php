@@ -110,7 +110,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 		
 		// determine the shipping method type
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
-		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'Table' );
+		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
 		if (empty($shippingmethod->shipping_method_id))
 		{
@@ -130,7 +130,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 				{
 					//$pid = $orderItems[$i]->product_id;
 					$pid = $item->product_id;
-		            $product = JTable::getInstance( 'Products', 'Table' );
+		            $product = JTable::getInstance( 'Products', 'TiendaTable' );
 		            $product->load( $pid );
 		            if (!empty($product->product_ships))
 		            {
@@ -190,16 +190,16 @@ class TiendaHelperShipping extends TiendaHelperBase
         $model->setState('filter_geozone', $geozone_id);
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
-        $product = JTable::getInstance( 'Products', 'Table' );
+        $product = JTable::getInstance( 'Products', 'TiendaTable' );
         $product->load( $product_id );
         if (empty($product->product_id))
         {
-            return JTable::getInstance('ShippingRates', 'Table');           
+            return JTable::getInstance('ShippingRates', 'TiendaTable');           
         }
         if (empty($product->product_ships))
         {
             // product doesn't require shipping, therefore cannot impact shipping costs
-            return JTable::getInstance('ShippingRates', 'Table');
+            return JTable::getInstance('ShippingRates', 'TiendaTable');
         }
         
         if ($use_weight)
@@ -209,7 +209,7 @@ class TiendaHelperShipping extends TiendaHelperBase
         $items = $model->getList();
         if (empty($items))
         {
-            return JTable::getInstance('ShippingRates', 'Table');           
+            return JTable::getInstance('ShippingRates', 'TiendaTable');           
         }
         
         return $items[0];

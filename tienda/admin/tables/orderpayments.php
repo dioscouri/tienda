@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableOrderPayments extends TiendaTable
+class TiendaTableOrderPayments extends TiendaTable
 {
-	/**
-	 *
-	 *
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableOrderPayments ( &$db )
+	function TiendaTableOrderPayments ( &$db )
 	{
 		$tbl_key 	= 'orderpayment_id';
 		$tbl_suffix = 'orderpayments';

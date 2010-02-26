@@ -68,7 +68,7 @@ class TiendaControllerShippingMethods extends TiendaController
             $model->setState( $key, $value );   
         }
 
-        $row = JTable::getInstance('ShippingMethods', 'Table');
+        $row = JTable::getInstance('ShippingMethods', 'TiendaTable');
         $row->load($model->getId());
         
         $model->setState('filter_shippingmethod', $model->getId());

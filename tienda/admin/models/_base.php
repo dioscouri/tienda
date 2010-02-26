@@ -16,6 +16,31 @@ JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components'
 
 class TiendaModelBase extends JModel
 {
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @access  public
+     * @param   string The table name. Optional.
+     * @param   string The class prefix. Optional.
+     * @param   array   Configuration array for model. Optional.
+     * @return  object  The table
+     * @since   1.5
+     */
+    function &getTable($name='', $prefix='TiendaTable', $options = array())
+    {
+        if (empty($name)) {
+            $name = $this->getName();
+        }
+
+        if($table = &$this->_createTable( $name, $prefix, $options ))  {
+            return $table;
+        }
+
+        JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
+        $null = null;
+        return $null;
+    }
+    
 	/**
 	 * Empties the state
 	 *

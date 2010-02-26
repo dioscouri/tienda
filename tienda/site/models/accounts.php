@@ -18,7 +18,7 @@ class TiendaModelAccounts extends TiendaModelBase
 	function getTable()
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'UserInfo', 'Table' );
+		$table = JTable::getInstance( 'UserInfo', 'TiendaTable' );
 		return $table;
 	}
 	

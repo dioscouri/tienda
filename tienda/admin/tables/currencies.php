@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableCurrencies extends TiendaTable
+class TiendaTableCurrencies extends TiendaTable
 {
-	/**
-	 *
-	 *
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableCurrencies ( &$db )
+	function TiendaTableCurrencies ( &$db )
 	{
 
 		$tbl_key 	= 'currency_id';

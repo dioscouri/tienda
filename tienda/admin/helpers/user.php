@@ -24,7 +24,7 @@ class TiendaHelperUser extends TiendaHelperBase
     function getBasicInfo( $userid )
     {
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('UserInfo', 'Table');
+        $row = JTable::getInstance('UserInfo', 'TiendaTable');
         $row->load( array( 'user_id' => $userid ) );
         return $row;
     }

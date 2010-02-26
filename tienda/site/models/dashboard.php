@@ -18,7 +18,7 @@ class TiendaModelDashboard extends TiendaModelBase
 	function getTable()
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'Config', 'Table' );
+		$table = JTable::getInstance( 'Config', 'TiendaTable' );
 		return $table;
 	}
 }

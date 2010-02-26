@@ -63,7 +63,7 @@ class TiendaModelProductQuantities extends TiendaModelBase
 	        	$product_attribute_names = array();
 	            foreach ($product_attributes as $pao_id)
 	            {
-	            	$pao = JTable::getInstance( 'ProductAttributeOptions', 'Table' );
+	            	$pao = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
 	            	$pao->load( $pao_id );
 	            	$product_attribute_names[] = JText::_( $pao->productattributeoption_name );
 	            }

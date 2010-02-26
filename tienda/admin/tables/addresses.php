@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableAddresses extends TiendaTable 
+class TiendaTableAddresses extends TiendaTable 
 {
 	/**
 	 * 
@@ -21,7 +21,7 @@ class TableAddresses extends TiendaTable
 	 * @param $db
 	 * @return unknown_type
 	 */
-	function TableAddresses ( &$db ) 
+	function TiendaTableAddresses ( &$db ) 
 	{
 		
 		$tbl_key 	= 'address_id';

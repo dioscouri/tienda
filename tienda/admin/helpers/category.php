@@ -49,7 +49,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 			{
 				// load the item, get the filename, create tmpl
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-				$row = JTable::getInstance('Categories', 'Table');
+				$row = JTable::getInstance('Categories', 'TiendaTable');
 				$row->load( (int) $id );
 				$id = $row->category_full_image;
 
@@ -79,7 +79,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 		}
 		
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$item = JTable::getInstance( 'Categories', 'Table' );
+		$item = JTable::getInstance( 'Categories', 'TiendaTable' );
 		$item->load( $id );
 		if (empty($item->category_id))
 		{

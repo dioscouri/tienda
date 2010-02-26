@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableCountries extends TiendaTable 
+class TiendaTableCountries extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableCountries ( &$db ) 
+	function TiendaTableCountries ( &$db ) 
 	{
 		
 		$tbl_key 	= 'country_id';

@@ -13,15 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TableZonerelations extends TiendaTable 
+class TiendaTableZonerelations extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TableZonerelations ( &$db ) 
+	function TiendaTableZonerelations ( &$db ) 
 	{
 		
 		$tbl_key 	= 'zonerelation_id';
