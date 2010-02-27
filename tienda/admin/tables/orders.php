@@ -328,7 +328,7 @@ class TiendaTableOrders extends TiendaTable
         }
 
         // This support multiple shipping geozones
-        // For each item in $this->getShippingGeoZone, calculate the shipping total
+        // For each item in $this->getShippingGeoZones, calculate the shipping total
         // and store the object for later user
         $shipping_totals = array();
         $geozones = $this->getShippingGeoZones();
@@ -352,8 +352,9 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $order_shipping;
         $this->order_shipping_tax   = $order_shipping_tax;
         
-        // TODO Do something fun here to allow this to be modified via plugins?
-
+        // Allow this to be modified via plugins
+        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onCalculateShippingTotals", array( $this ) );
     }
         
     /**
