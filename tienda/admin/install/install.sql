@@ -26,8 +26,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_countries` (
   PRIMARY KEY (`country_id`) ,
   INDEX `idx_country_name` (`country_name` ASC) )
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Country records';
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Dumping data for table `#__tienda_countries`
@@ -397,8 +396,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
     REFERENCES `#__tienda_products` (`product_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores the cart contents of a user';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -422,8 +420,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   INDEX `idx_category_name` (`category_name` ASC),
   KEY `parent_id` (`parent_id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Product categories are stored here';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -445,8 +442,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_currencies` (
   INDEX `idx_currency_name` (`currency_name` ASC) ,
   INDEX `idx_currency_code` (`currency_code` ASC) )
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Used to store currencies';
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_currencies` default data
@@ -469,8 +465,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderstates` (
   `order_state_description` TEXT NOT NULL ,
   PRIMARY KEY (`order_state_id`) )
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'All available order statuses';
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Dumping data for table `#__tienda_orderstates`
@@ -538,8 +533,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
-COMMENT = 'Used to store all orders';
+COLLATE = utf8_general_ci;
 
 
 
@@ -567,8 +561,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores all actions and changes that occur to an order';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -667,8 +660,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'All products are stored here.';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- --------------------------------------------------------
@@ -686,8 +678,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_orderitemattributes` (
   KEY `productattribute_id` (`productattributeoption_id`)
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARACTER SET = utf8 
-COMMENT = 'Stores all product attributes';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -735,8 +726,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores all items (products) which are part of an order';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -759,8 +749,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordervendors` (
   KEY `idx_orders_order_id` (`order_id`)
 )
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT='Used to store all vendors associated with orders';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -784,8 +773,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores each of the payment records for orders';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -830,8 +818,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores the Billing and Shiping Information for each order';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -855,22 +842,22 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Maps Products to Categories';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productdownloads`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productdownloads` (
-  `download_id` VARCHAR(32) NOT NULL DEFAULT '' ,
+CREATE TABLE IF NOT EXISTS `#__tienda_productdownloads` (
+  `productdownload_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` INT(11) NOT NULL DEFAULT '0' ,
+  `productfile_id` INT(11) NOT NULL DEFAULT '0' ,
   `user_id` INT(11) NOT NULL DEFAULT '0' ,
   `order_id` INT(11) NOT NULL DEFAULT '0' ,
-  `end_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
-  `download_max` INT(11) NOT NULL DEFAULT '0' ,
-  `file_name` VARCHAR(255) NOT NULL DEFAULT '' ,
-  PRIMARY KEY (`download_id`) ,
+  `productdownload_startdate` DATETIME NOT NULL COMMENT 'GMT Only' ,
+  `productdownload_enddate` DATETIME NOT NULL COMMENT 'GMT Only' ,
+  `productdownload_max` INT(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`productdownload_id`) ,
   INDEX `fk_Product_ProductDownload` (`product_id` ASC) ,
   CONSTRAINT `fk_Product_ProductDownload`
     FOREIGN KEY (`product_id` )
@@ -878,8 +865,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productdownloads` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Active downloads for selling downloadable goods';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -907,8 +893,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productfiles` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Downloadable files associated to products';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -935,8 +920,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productprices` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Holds price records for a product';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -1006,8 +990,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productvotes` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores all votes for a product';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -1052,8 +1035,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Stores configurable shipping rates';
+DEFAULT CHARACTER SET = utf8;
 
 
 
@@ -1076,8 +1058,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   INDEX `idx_user_info_user_id` (`user_id` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
-COMMENT = 'Stores additional user information';
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -1120,9 +1101,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_addresses` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
-COMMENT = 'Stores user addresses';
+DEFAULT CHARACTER SET = utf8;
 
 
 -- --------------------------------------------------------
@@ -1142,8 +1121,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_zones` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+DEFAULT CHARACTER SET = utf8;
 
 -- --------------------------------------------------------
 -- Dumping data for table `#__tienda_zones`
