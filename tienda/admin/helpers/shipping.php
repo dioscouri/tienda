@@ -17,15 +17,15 @@ jimport('joomla.filesystem.file');
 class TiendaHelperShipping extends TiendaHelperBase
 {
     /**
-     * Gets a geozone associated with a zone id
+     * Gets geozones associated with a zone id
      * 
      * @param $zone_id
      * @param $geozonetype
-     * @return int, 0 if not found
+     * @return array
      */
-    function getGeoZone( $zone_id, $geozonetype='2' )
+    function getGeoZones( $zone_id, $geozonetype='2' )
     {
-    	$return = '0';
+    	$return = array();
     	if (empty($zone_id))
     	{
     		return $return;
@@ -38,8 +38,9 @@ class TiendaHelperShipping extends TiendaHelperBase
         $items = $model->getList();
         if (!empty($items))
         {
-        	$return = $items[0]->geozone_id;
+        	$return = $items;
         }
+        
         return $return;
     }
 	

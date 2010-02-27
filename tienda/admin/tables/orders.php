@@ -27,12 +27,12 @@ class TiendaTableOrders extends TiendaTable
     /** @var object An TiendaAddresses() object for shipping */
     protected $_shipping_address = null;
     
-    /** @var int tax & shipping geozone_id values */
-    protected $_billing_geozone = null;
-    protected $_shipping_geozone = null;
+    /** @var array      tax & shipping geozone objects */
+    protected $_billing_geozones = array();
+    protected $_shipping_geozones = array();
     
-    /** @var object The shipping totals JObject */
-    protected $_shipping_total = null;
+    /** @var array      The shipping totals JObjects */
+    protected $_shipping_totals = array();
     
     /** @var boolean Has the recurring item been added to the order? 
      * This is used exclusively during orderTotal calculation
@@ -104,91 +104,6 @@ class TiendaTableOrders extends TiendaTable
         }
         return $return;
 	}
-	
-    /**
-     * Sets the order's billing or shipping address
-     * 
-     * @param $type     string      billing | shipping
-     * @param $address  object      TiendaAddresses() object
-     * @return object
-     */
-    function setAddress( $address, $type='both'  )
-    {
-        switch (strtolower($type))
-        {
-            case "billing":
-                $this->_billing_address = $address;
-                break;
-            case "shipping":
-                $this->_shipping_address = $address;
-                break;
-            case "both":
-            default:
-                $this->_shipping_address = $address;
-                $this->_billing_address = $address;
-                break;
-        }
-        $this->setGeozones();
-    }
-    
-    /**
-     * Gets the order billing address
-     * @return unknown_type
-     */
-    function getBillingAddress()
-    {
-    	// TODO If $this->_billing_address is null, attempt to populate it with the orderinfo fields, or using the billing_address_id (if present)  
-    	return $this->_billing_address;
-    }
-    
-    /**
-     * Gets the order shipping address
-     * @return unknown_type
-     */
-    function getShippingAddress()
-    {
-        // TODO If $this->_shipping_address is null, attempt to populate it with the orderinfo fields, or using the shipping_address_id (if present)
-        return $this->_shipping_address;
-    }
-
-    /**
-     * Based on the object's addresses,
-     * sets the shipping and billing geozones
-     * 
-     * @return unknown_type
-     */
-    function setGeozones()
-    {
-        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
-        if (!empty($this->_billing_address))
-        {
-           $this->_billing_geozone = TiendaHelperShipping::getGeoZone( $this->_billing_address->zone_id, '1' );	
-        }
-        if (!empty($this->_shipping_address))
-        {
-            $this->_shipping_geozone = TiendaHelperShipping::getGeoZone( $this->_shipping_address->zone_id, '2' );   
-        }
-    }
-    
-    /**
-     * Gets the order's tax geozone
-     * 
-     * @return unknown_type
-     */
-    function getBillingGeoZone()
-    {
-        return $this->_billing_geozone;
-    }
-    
-    /**
-     * Gets the order's shipping geozone
-     * 
-     * @return unknown_type
-     */
-    function getShippingGeoZone()
-    {
-    	return $this->_shipping_geozone;
-    }
     
     /**
      * Adds an item to the order object
@@ -208,7 +123,7 @@ class TiendaTableOrders extends TiendaTable
         {
             $orderItem->bind( $item );
         }
-        elseif (is_object($item) && is_a($item, 'TableOrderItems'))
+        elseif (is_object($item) && is_a($item, 'TiendaTableOrderItems'))
         {
             $orderItem = $item;
         }
@@ -284,28 +199,8 @@ class TiendaTableOrders extends TiendaTable
         if (!empty($this->_vendors[$orderItem->vendor_id]))
         {
         	// TODO update the order vendor's totals?
-        	// or just wait until the end, as done with the meta order's totals?
+        	// or just wait until the calculateTotals() method is executed?
         }
-    }
-    
-    /**
-     * Gets the order items
-     * 
-     * @return array of TableOrderItems objects
-     */
-    function getItems()
-    {
-    	return $this->_items;
-    }
-
-    /**
-     * Gets the order vendors
-     * 
-     * @return array of TableOrderVendors objects
-     */
-    function getVendors()
-    {
-        return $this->_vendors;
     }
     
     /**
@@ -316,78 +211,151 @@ class TiendaTableOrders extends TiendaTable
      */
     function calculateTotals()
     {
-    	$items = &$this->_items;
-        $subtotal = 0.00;
-        $tax = 0.00;
-        $shipping_total = 0.00;
-        $recurring_total = 0.00;
-		
-        // calculate product subtotal and taxes
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
-        if (isset($items) && count($items) >  0)
-        {
-            foreach ($items as $key=>$item)
-            {
-            	$addItemToOrder = true;
-                // calculate taxes here, based on $this->_billing_geozone
-                // and update the item's product_tax value
-                $product_tax_rate = 0;
-                $product_tax_rate = TiendaHelperProduct::getTaxRate($item->product_id, $this->getBillingGeoZone() );
-                $item->orderitem_tax = ($product_tax_rate/100) * $item->orderitem_final_price;
-                
-                if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
-                {
-	                // Only one recurring item allowed per order. 
-	                // If the item is recurring, 
-	                // check if there already is a recurring item accounted for in the order
-	                // if so, remove this one from the order but leave it in the cart and continue
-	                // if not, add its properties 
-	                $this->_recurringItemExists = true;
-	                
-		            $this->recurring_payments          = $item->recurring_payments;
-		            $this->recurring_period_interval   = $item->recurring_period_interval;
-		            $this->recurring_period_unit       = $item->recurring_period_unit;
-		            $this->recurring_trial             = $item->recurring_trial;
-		            $this->recurring_trial_period_interval = $item->recurring_trial_period_interval;
-		            $this->recurring_trial_period_unit = $item->recurring_trial_period_unit;
-		            $this->recurring_trial_price       = $item->recurring_trial_price;
-                    $this->recurring_amount            = $item->recurring_amount; // TODO Add tax?
-                }
-                    elseif (!empty($this->_recurringItemExists) && $item->orderitem_recurs)
-                {
-                    // Only one recurring item allowed per order. 
-                    // If the item is recurring, 
-                    // check if there already is a recurring item accounted for in the order
-                    // if so, remove this one from the order but leave it in the cart and continue
-                    unset($items[$key]);
-                    $addItemToOrder = false;
-                }
-                
-                if ($addItemToOrder)
-                {
-	                // track the running totals
-	                $subtotal += $item->orderitem_final_price;
-	                $tax += $item->orderitem_tax;
-                }
-            }
-        }
-
-        // calculate shipping total by passing entire items array to helper
-        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
-        $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $this->getShippingGeoZone(), $items );
-        $this->_shipping_total = $shipping_total;    
+    	$this->calculateProductTotals(); // aka subtotal
+    	$this->calculateTaxTotals();
+    	$this->calculateShippingTotals();
+    	$this->calculateVendorTotals();
         
         // sum totals
-        $total = $subtotal + $tax + $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling + $shipping_total->shipping_tax_total;
+        $total = 
+            $this->order_subtotal 
+            + $this->order_tax 
+            + $this->order_shipping 
+            + $this->order_shipping_tax
+            ;
         
         // set object properties
-        $this->order_subtotal   = $subtotal;
-        $this->order_shipping   = $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
-        $this->order_shipping_tax = $shipping_total->shipping_tax_total;
-        $this->order_tax        = $tax;
         $this->order_total      = $total;
+        
+        // We fire just a single plugin event here and pass the entire order object
+        // so the plugins can override whatever they need to
+        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onCalculateOrderTotals", array( $this ) );
+    }
+
+    /**
+     * Calculates the product total (aka subtotal) 
+     * using the array of items in the order object
+     * 
+     * @return unknown_type
+     */
+    function calculateProductTotals()
+    {
+        $subtotal = 0.00;
+        
+        // TODO Must decide what we want these methods to return; for now, null
+        $items = &$this->getItems();
+        if (!is_array($items))
+        {
+            $this->order_subtotal = $subtotal;
+            return;
+        }
+        
+        // calculate product subtotal
+        foreach ($items as $item)
+        {
+            // track the subtotal
+            $subtotal += $item->orderitem_final_price;
+        }
+
+        // set object properties
+        $this->order_subtotal   = $subtotal;
+        
+        // TODO Do something fun here to allow the subtotal to be modified via plugins?
+    }
+
+    /**
+     * Calculates the tax totals for the order
+     * using the array of items in the order object
+     * 
+     * @return unknown_type
+     */
+    function calculateTaxTotals()
+    {
+        $tax_total = 0.00;
+        
+        $items =& $this->getItems();
+        if (!is_array($items))
+        {
+            $this->order_tax = $tax_total;
+            return;
+        }
+        
+        $geozones = $this->getBillingGeoZones();
+        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        foreach ($items as $key=>$item)
+        {
+            $orderitem_tax = 0;
+            
+            // For each item in $this->getBillingGeoZone, calculate the tax total
+            // and update the item's tax value
+            foreach ($geozones as $geozone)
+            {
+                $geozone_id = $geozone->geozone_id;
+                $product_tax_rate = 0;
+                $product_tax_rate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone_id );
+                // track the total tax for this item
+                $orderitem_tax += ($product_tax_rate/100) * $item->orderitem_final_price;
+            }
+            $item->orderitem_tax = $orderitem_tax;
+            
+            // track the running total
+            $tax_total += $item->orderitem_tax;
+        }        
+        $this->order_tax = $tax_total;
+        
+        // TODO Do something fun here to allow the order tax to be modified via plugins?
+        
     }
     
+    /**
+     * Calculates the shipping totals for the order 
+     * using the array of items in the order object
+     * 
+     * @return unknown_type
+     */
+    function calculateShippingTotals()
+    {
+        $order_shipping     = 0.00;
+        $order_shipping_tax = 0.00;
+        
+        $items =& $this->getItems();
+        if (!is_array($items))
+        {
+            $this->order_shipping       = $order_shipping;
+            $this->order_shipping_tax   = $order_shipping_tax;
+            return;
+        }
+
+        // This support multiple shipping geozones
+        // For each item in $this->getShippingGeoZone, calculate the shipping total
+        // and store the object for later user
+        $shipping_totals = array();
+        $geozones = $this->getShippingGeoZones();
+        foreach ($geozones as $geozone)
+        {
+            $geozone_id = $geozone->geozone_id;
+            // calculate shipping total by passing entire items array to helper
+            JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+            $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $geozone_id, $items );
+
+            $order_shipping       += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
+            $order_shipping_tax   += $shipping_total->shipping_tax_total;
+            
+            $shipping_totals[] = $shipping_total; 
+        }
+        
+        // store the shipping_totals objects
+        $this->_shipping_totals = $shipping_totals;
+        
+        // set object properties
+        $this->order_shipping       = $order_shipping;
+        $this->order_shipping_tax   = $order_shipping_tax;
+        
+        // TODO Do something fun here to allow this to be modified via plugins?
+
+    }
+        
     /**
      * 
      * @return unknown_type
@@ -398,36 +366,103 @@ class TiendaTableOrders extends TiendaTable
     	{
     		return null;
     	}
-    	
-        $items = $this->_items;
+
+        $items =& $this->getItems();
+        if (!is_array($items))
+        {
+            return;
+        }
+
         $subtotal = 0.00;
         $tax = 0.00;
-
+        
         // calculate product subtotal and taxes
         // calculate shipping total
         JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
         JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
-        if (isset($items) && count($items) >  0)
+        foreach ($items as $item)
         {
-            foreach ($items as $item)
+            if (!empty($item->vendor_id))
             {
-            	if (!empty($item->vendor_id))
-            	{
-	                // orderitem calculations should have already been completed, so just sum the values for each vendor
-	                $this->_vendors[$item->vendor_id]->ordervendor_total       += $item->orderitem_final_price + $item->orderitem_tax;
-	                $this->_vendors[$item->vendor_id]->ordervendor_subtotal    += $item->orderitem_final_price;
-	                $this->_vendors[$item->vendor_id]->ordervendor_tax         += $item->orderitem_tax;
-	                // if the shipping method is NOT per-order, calculate the per-item shipping cost
-	                if (!empty($this->shipping_method_id) && $this->shipping_method_id != '2')
-	                {
-	                    $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $this->getShippingGeoZone(), $item->product_id );
-	                    $this->_vendors[$item->vendor_id]->ordervendor_shipping     += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
-	                    $this->_vendors[$item->vendor_id]->ordervendor_shipping_tax += $shipping_total->shipping_tax_total;
-	                }
-            	}
+                // orderitem calculations should have already been completed, so just sum the values for each vendor
+                $this->_vendors[$item->vendor_id]->ordervendor_total       += $item->orderitem_final_price + $item->orderitem_tax;
+                $this->_vendors[$item->vendor_id]->ordervendor_subtotal    += $item->orderitem_final_price;
+                $this->_vendors[$item->vendor_id]->ordervendor_tax         += $item->orderitem_tax;
+                // if the shipping method is NOT per-order, calculate the per-item shipping cost
+                if (!empty($this->shipping_method_id) && $this->shipping_method_id != '2')
+                {
+                    $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $this->getShippingGeoZone(), $item->product_id );
+                    $this->_vendors[$item->vendor_id]->ordervendor_shipping     += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
+                    $this->_vendors[$item->vendor_id]->ordervendor_shipping_tax += $shipping_total->shipping_tax_total;
+                }
             }
-            // at this point, each vendor's TableOrderVendor object is populated
-        }    	
+        }
+    
+        // at this point, each vendor's TableOrderVendor object is populated
+    }
+    
+    /**
+     * Gets the order items
+     * 
+     * @return array of TableOrderItems objects
+     */
+    function getItems()
+    {
+        // TODO once all references use this getter, we can do fun things with this method, such as fire a plugin event
+
+        $items =& $this->_items;
+        if (!is_array($items))
+        {
+            $items = array();
+        }
+        
+        // TODO if empty($items) && !empty($this->order_id), do we grab all the orderitems from the db?  
+
+        // ensure that the items array only has one recurring item in it
+        foreach ($items as $item)
+        {
+            if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
+            {
+                // Only one recurring item allowed per order. 
+                // If the item is recurring, 
+                // check if there already is a recurring item accounted for in the order
+                // if so, remove this one from the order but leave it in the cart and continue
+                // if not, add its properties 
+                $this->_recurringItemExists = true;
+                
+                $this->recurring_payments          = $item->recurring_payments;
+                $this->recurring_period_interval   = $item->recurring_period_interval;
+                $this->recurring_period_unit       = $item->recurring_period_unit;
+                $this->recurring_trial             = $item->recurring_trial;
+                $this->recurring_trial_period_interval = $item->recurring_trial_period_interval;
+                $this->recurring_trial_period_unit = $item->recurring_trial_period_unit;
+                $this->recurring_trial_price       = $item->recurring_trial_price;
+                $this->recurring_amount            = $item->recurring_amount; // TODO Add tax?
+                // TODO Set some kind of _recurring_item property, so it is easy to get the recurring item later?
+            }
+                elseif (!empty($this->_recurringItemExists) && $item->orderitem_recurs)
+            {
+                // Only one recurring item allowed per order. 
+                // If the item is recurring, 
+                // check if there already is a recurring item accounted for in the order
+                // if so, remove this one from the order but leave it in the cart and continue
+                unset($items[$key]);
+            }
+        }
+
+        $this->_items = $items;
+        return $this->_items;
+    }
+
+    /**
+     * Gets the order vendors
+     * 
+     * @return array of TableOrderVendors objects
+     */
+    function getVendors()
+    {
+        // TODO Attempt to set this if it is empty
+        return $this->_vendors;
     }
     
     /**
@@ -435,37 +470,156 @@ class TiendaTableOrders extends TiendaTable
      * 
      * @return object
      */
-    function getShippingTotal()
+    function getShippingTotal( $refresh=false )
     {
+        // TODO If not set, should calculate it
     	return $this->_shipping_total;
     }
-    
+
     /**
-     * Gets the order number
-     * @return unknown_type
-     */
-    function getOrderNumber()
-    {
-    	return $this->_order_number;
-    }
-    
-    /**
-     * Generates an order number based on the order's properties
+     * Gets one of the order's tax geozones
      * 
      * @return unknown_type
      */
-    function generateOrderNumber()
+    function getBillingGeoZone()
     {
-        $nullDate   = $this->_db->getNullDate();
-        if (empty($this->created_date) || $this->created_date == $nullDate)
+        $geozone_id = 0;
+        
+        $geozones = $this->getBillingGeoZones();
+        if (!empty($geozones))
         {
-            $date = JFactory::getDate();
-            $this->created_date = $date->toMysql();
+            $geozone_id = $geozones[0]->geozone_id;
         }
-        $order_date = JHTML::_('date', $this->created_date, '%Y%m%d');
-        $order_time = JHTML::_('date', $this->created_date, '%H%M%S');
-        $user_id = $this->user_id;
-        $this->_order_number = $order_date.'-'.$order_time.'-'.$user_id;
+        
+        return $geozone_id;
+    }
+    
+    /**
+     * Gets one the order's shipping geozones
+     * 
+     * @return unknown_type
+     */
+    function getShippingGeoZone()
+    {
+        $geozone_id = 0;
+        
+        $geozones = $this->getShippingGeoZones();
+        if (!empty($geozones))
+        {
+            $geozone_id = $geozones[0]->geozone_id;
+        }
+        
+        return $geozone_id;
+    }
+    
+    /**
+     * Gets the order's tax geozones
+     * 
+     * @return unknown_type
+     */
+    function getBillingGeoZones()
+    {
+        // TODO Set this if it isn't
+        return $this->_billing_geozones;
+    }
+    
+    /**
+     * Gets the order's shipping geozones
+     * 
+     * @return unknown_type
+     */
+    function getShippingGeoZones()
+    {
+        // TODO Set this if it isn't
+        return $this->_shipping_geozones;
+    }
+
+    /**
+     * Gets the order billing address
+     * @return unknown_type
+     */
+    function getBillingAddress()
+    {
+        // TODO If $this->_billing_address is null, attempt to populate it with the orderinfo fields, or using the billing_address_id (if present)  
+        return $this->_billing_address;
+    }
+    
+    /**
+     * Gets the order shipping address
+     * @return unknown_type
+     */
+    function getShippingAddress()
+    {
+        // TODO If $this->_shipping_address is null, attempt to populate it with the orderinfo fields, or using the shipping_address_id (if present)
+        return $this->_shipping_address;
+    }
+    
+    /**
+     * Generates a unique order number based on the order's properties
+     * 
+     * @return unknown_type
+     */
+    function getOrderNumber( $refresh=false )
+    {
+        if (empty($this->_order_number) || $refresh)
+        {
+            $nullDate   = $this->_db->getNullDate();
+            if (empty($this->created_date) || $this->created_date == $nullDate)
+            {
+                $date = JFactory::getDate();
+                $this->created_date = $date->toMysql();
+            }
+            $order_date = JHTML::_('date', $this->created_date, '%Y%m%d');
+            $order_time = JHTML::_('date', $this->created_date, '%H%M%S');
+            $user_id = $this->user_id;
+            $this->_order_number = $order_date.'-'.$order_time.'-'.$user_id;            
+        }
+
         return $this->_order_number;
+    }
+    
+    /**
+     * Sets the order's billing or shipping address
+     * 
+     * @param $type     string      billing | shipping
+     * @param $address  object      TiendaAddresses() object
+     * @return object
+     */
+    function setAddress( $address, $type='both'  )
+    {
+        switch (strtolower($type))
+        {
+            case "billing":
+                $this->_billing_address = $address;
+                break;
+            case "shipping":
+                $this->_shipping_address = $address;
+                break;
+            case "both":
+            default:
+                $this->_shipping_address = $address;
+                $this->_billing_address = $address;
+                break;
+        }
+        $this->setGeozones();
+    }
+
+    /**
+     * Based on the object's addresses,
+     * sets the shipping and billing geozones
+     * 
+     * @return unknown_type
+     */
+    function setGeozones()
+    {
+        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+        if (!empty($this->_billing_address))
+        { 
+            $this->_billing_geozones = TiendaHelperShipping::getGeoZones( $this->_billing_address->zone_id, '1' ); 
+        }
+        if (!empty($this->_shipping_address))
+        {
+            $this->_shipping_geozones = TiendaHelperShipping::getGeoZones( $this->_shipping_address->zone_id, '2' );   
+        }
     }
 }

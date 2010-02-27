@@ -104,7 +104,7 @@ class TiendaControllerCheckout extends TiendaController
 		        {
 		            $order->addItem( $item );
 		        }
-		        
+
 		        // get the order totals
 		        $order->calculateTotals();
 		        
@@ -761,7 +761,7 @@ class TiendaControllerCheckout extends TiendaController
         $order->order_state_id = $this->initial_order_state;
         $order->calculateTotals();
         $order->getShippingTotal();
-        $order->generateOrderNumber();
+        $order->getOrderNumber();
         
         $model  = JModel::getInstance('Orders', 'TiendaModel');
         //TODO: Do Something with Payment Infomation
