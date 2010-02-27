@@ -877,8 +877,8 @@ class TiendaControllerProducts extends TiendaController
         
         $row = $model->getTable();
         $row->product_id = JRequest::getVar( 'id' );
-        $row->file_name = JRequest::getVar( 'createproductfile_name' );
-        $row->file_enabled = JRequest::getVar( 'createproductfile_enabled' );
+        $row->productfile_name = JRequest::getVar( 'createproductfile_name' );
+        $row->productfile_enabled = JRequest::getVar( 'createproductfile_enabled' );
         $row->purchase_required = JRequest::getVar( 'createproductfile_purchaserequired' );
 
         $fieldname = 'createproductfile_file';
@@ -889,9 +889,9 @@ class TiendaControllerProducts extends TiendaController
         {
             if ($upload = $this->addfile( $fieldname, $path ))
             {
-            	if (empty($row->file_name)) { $row->file_name = $upload->proper_name; }
-                $row->file_extension = $upload->getExtension();
-                $row->file_path = $upload->full_path;
+            	if (empty($row->productfile_name)) { $row->productfile_name = $upload->proper_name; }
+                $row->productfile_extension = $upload->getExtension();
+                $row->productfile_path = $upload->full_path;
             }
                 else
             {
@@ -940,9 +940,9 @@ class TiendaControllerProducts extends TiendaController
         foreach (@$cids as $cid)
         {
             $row->load( $cid );
-            $row->file_name = $name[$cid];
+            $row->productfile_name = $name[$cid];
             $row->ordering = $ordering[$cid];
-            $row->file_enabled = $enabled[$cid];
+            $row->productfile_enabled = $enabled[$cid];
             $row->purchase_required = $purchaserequired[$cid];
 
             if (!$row->check() || !$row->store())

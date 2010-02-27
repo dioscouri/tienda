@@ -316,7 +316,7 @@
                                     [<a href="<?php echo "index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=".$file->file_id."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
-                                    <?php echo $file->file_name; ?>
+                                    <?php echo $file->productfile_name; ?>
                                     <br/>
                                 <?php endforeach; ?>
                             </div>

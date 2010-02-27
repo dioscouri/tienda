@@ -24,7 +24,7 @@ class TiendaTableProductFiles extends TiendaTable
 	function TiendaTableProductFiles ( &$db ) 
 	{
 		
-		$tbl_key 	= 'file_id';
+		$tbl_key 	= 'productfile_id';
 		$tbl_suffix = 'productfiles';
 		$this->set( '_suffix', $tbl_suffix );
 		$name 		= 'tienda';
@@ -44,9 +44,9 @@ class TiendaTableProductFiles extends TiendaTable
 			$this->setError( JText::_( "Product Association Required" ) );
 			return false;
 		}
-        if (empty($this->file_name))
+        if (empty($this->productfile_name))
         {
-            $this->setError( JText::_( "Attribute Name Required" ) );
+            $this->setError( JText::_( "File Name Required" ) );
             return false;
         }
 		return true;

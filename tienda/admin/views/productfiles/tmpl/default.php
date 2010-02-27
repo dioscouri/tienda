@@ -60,7 +60,7 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Display Name', "tbl.file_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'Display Name', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
@@ -69,7 +69,7 @@
                     <?php echo TiendaGrid::sort( 'Purchase Required', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.file_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
                 </th>
 				<th style="width: 100px;">
 				</th>
@@ -80,22 +80,22 @@
         <?php foreach (@$items as $item) : ?>
             <tr class='row<?php echo $k; ?>'>
 				<td style="text-align: center;">
-					<?php echo TiendaGrid::checkedout( $item, $i, 'file_id' ); ?>
+					<?php echo TiendaGrid::checkedout( $item, $i, 'productfile_id' ); ?>
 				</td>
 				<td style="text-align: left;">
-					<input type="text" name="name[<?php echo $item->file_id; ?>]" value="<?php echo $item->file_name; ?>" size="40" />
+					<input type="text" name="name[<?php echo $item->productfile_id; ?>]" value="<?php echo $item->productfile_name; ?>" size="40" />
 				</td>
                 <td style="text-align: center;">
-                    <input type="text" name="ordering[<?php echo $item->file_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
+                    <input type="text" name="ordering[<?php echo $item->productfile_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
                 </td>
 				<td style="text-align: center;">
-				    <?php echo JHTML::_('select.booleanlist', "purchaserequired[".$item->file_id."]", '', $item->purchase_required ); ?>
+				    <?php echo JHTML::_('select.booleanlist', "purchaserequired[".$item->productfile_id."]", '', $item->purchase_required ); ?>
 				</td>
                 <td style="text-align: center;">
-                    <?php echo JHTML::_('select.booleanlist', "enabled[".$item->file_id."]", '', $item->file_enabled ); ?>
+                    <?php echo JHTML::_('select.booleanlist', "enabled[".$item->productfile_id."]", '', $item->productfile_enabled ); ?>
                 </td>
 				<td style="text-align: center;">
-					[<a href="index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=<?php echo $item->file_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component"); ?>">
+					[<a href="index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=<?php echo $item->productfile_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component"); ?>">
 						<?php echo JText::_( "Delete File" ); ?>	
 					</a>
 					]
