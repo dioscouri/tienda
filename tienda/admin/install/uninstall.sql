@@ -28,6 +28,7 @@ drop table `#__tienda_ordervendors`;
 drop table `#__tienda_productattributeoptions`;
 drop table `#__tienda_productattributes`;
 drop table `#__tienda_productcategoryxref`;
+drop table `#__tienda_productdownloadlogs`;
 drop table `#__tienda_productdownloads`;
 drop table `#__tienda_productfiles`;
 drop table `#__tienda_productprices`;
