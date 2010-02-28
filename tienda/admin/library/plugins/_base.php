@@ -165,4 +165,55 @@ class TiendaPluginBase extends JPlugin
         return $html;
     }
     
+    /**
+     * Checks for a form token in the request
+     * Using a suffix enables multi-step forms
+     * 
+     * @param string $suffix
+     * @return boolean
+     */
+    function _checkToken( $suffix='', $method='post' )
+    {
+        $token  = JUtility::getToken();
+        $token .= ".".strtolower($suffix);
+        if (JRequest::getVar( $token, '', $method, 'alnum' ))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Generates an HTML form token and affixes a suffix to the token
+     * enabling the form to be identified as a step in a process 
+     *  
+     * @param string $suffix
+     * @return string HTML
+     */
+    function _getToken( $suffix='' )
+    {
+        $token  = JUtility::getToken();
+        $token .= ".".strtolower($suffix);
+        $html  = '<input type="hidden" name="'.$token.'" value="1" />';
+        $html .= '<input type="hidden" name="tokenSuffix" value="'.$suffix.'" />';
+        return $html;
+    }
+    
+    /**
+     * Gets the suffix affixed to the form's token
+     * which helps identify which step this is
+     * in a multi-step process 
+     *  
+     * @return string
+     */
+    function _getTokenSuffix( $method='post' )
+    {
+        $suffix = JRequest::getVar( 'tokenSuffix', '', $method );
+        if (!$this->_checkToken($suffix, $method))
+        {
+            // what to do if there isn't this suffix's token in the request?
+            // anything?
+        }
+        return $suffix;
+    }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Tool Plugin - XCart Migration</name>
+	<version>0.2.1</version>
+	<creationDate>February 2010</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This tool migrates data from XCart to Tienda</description>
+	
+	<files>
+		<filename plugin="tool_xcartmigration">tool_xcartmigration.php</filename>
+		<folder>tool_xcartmigration</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_tool_xcartmigration.ini</language>
+	</languages>
+
+	<params>
+	</params>
+			
+</install>

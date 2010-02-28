@@ -44,6 +44,7 @@
     <property name="cfg.pluginChartsDir" location="${cfg.comDir}/${cfg.comName}_plugin_charts" />
     <property name="cfg.pluginPaymentDir" location="${cfg.comDir}/${cfg.comName}_plugin_payment" />
 	<property name="cfg.pluginReportDir" location="${cfg.comDir}/${cfg.comName}_plugin_report" />
+    <property name="cfg.pluginToolDir" location="${cfg.comDir}/${cfg.comName}_plugin_tool" />
     
     <!-- some settings that are currently unused -->
     <property name="cfg.addversion" value="true" />
@@ -184,6 +185,12 @@
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
+        </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_xcartmigration" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
         </copy>
     </target>
 
