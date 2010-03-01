@@ -20,10 +20,9 @@ class modTiendaUserAddressHelper
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
-        // determine whether we're working with a session or db cart
-        //$userAddress = TiendaHelperUser::getPrimaryAddress(JRequest::getVar('id', 0));
+        // get the user's addresses using the address model
     	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
-    	$model->setState('filter_userid', JRequest::getVar('id', 0));
+    	$model->setState('filter_userid', JRequest::getVar('id', 0, 'request', 'int'));
     	$userAddresses = $model->getList();
     	return $userAddresses;
     }

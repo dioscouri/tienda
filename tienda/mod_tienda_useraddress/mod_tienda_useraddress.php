@@ -19,4 +19,14 @@ $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
+// Moved these here so that template overrides of the layout don't need to include them
+// Grab the address
+$addresses = modTiendaUserAddressHelper::getAddresses();
+$num = count($addresses);
+
+$display_null = $params->get( 'display_null', '1' );
+$null_text = $params->get( 'null_text', 'No Addresses Set' );
+
+$mainframe =& JFactory::getApplication();
+
 require( JModuleHelper::getLayoutPath( 'mod_tienda_useraddress' ) );
