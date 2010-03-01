@@ -84,8 +84,10 @@ class TiendaControllerCheckout extends TiendaController
 		        $order = &$this->_order; // a TableOrders object (see constructor)
 		        
 		        // set the currency
-		        //TODO: Change this to default currency
-		        $order->currency_id = '2';
+		        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
+		        $config = $configModel->getTable( 'config' );
+		        //$order->currency_id = '2';
+		        $order->currency_id = $config->load( array('config_name' => 'default_currencyid') );
 		        
 		        // set the shipping method
 		        $order->shipping_method_id = $shipping_method_id;
@@ -412,7 +414,11 @@ class TiendaControllerCheckout extends TiendaController
     	$order = $this->_order; // a TableOrders object (see constructor)
 		
     	// TODO This currency_id doesn't exist in form, right?
-        $currency_id            = $values['currency_id'];
+        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
+        $config = $configModel->getTable( 'config' );
+        //$order->currency_id = '2';
+        $currency_id			= $config->load( array('config_name' => 'default_currencyid') );
+       	//$currency_id            = $values['currency_id'];
         $billing_address_id     = $values['billing_address_id'];
         $shipping_address_id    = $values['shipping_address_id'];
         $shipping_method_id     = $values['shipping_method_id'];
@@ -558,8 +564,10 @@ class TiendaControllerCheckout extends TiendaController
         $order->bind( $values );
         
         // set the currency
-        //TODO: Change this to default currency, set in config
-        $order->currency_id = '2';
+        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
+        $config = $configModel->getTable( 'config' );
+        //$order->currency_id = '2';
+        $order->currency_id = $config->load( array('config_name' => 'default_currencyid') );
         
         // set the shipping method
         $order->shipping_method_id = $shipping_method_id;
