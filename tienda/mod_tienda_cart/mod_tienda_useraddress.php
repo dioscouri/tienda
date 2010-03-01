@@ -19,4 +19,4 @@ $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_cart' ) );
+require( JModuleHelper::getLayoutPath( 'mod_tienda_useraddress' ) );

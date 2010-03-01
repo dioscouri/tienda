@@ -11,20 +11,21 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-class modTiendaCartHelper
+class modTiendaUserAddressHelper
 {
-    function getCart()
+    function getAddresses()
     {
     	//require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php' );
-        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // determine whether we're working with a session or db cart
-        $suffix = TiendaHelperCarts::getSuffix();
-    	$model = JModel::getInstance( $suffix, 'TiendaModel' );
-    	$cart = $model->getList();
-    	return $cart;
+        //$userAddress = TiendaHelperUser::getPrimaryAddress(JRequest::getVar('id', 0));
+    	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+    	$model->setState('filter_userid', JRequest::getVar('id', 0));
+    	$userAddresses = $model->getList();
+    	return $userAddresses;
     }
 }
 ?>
