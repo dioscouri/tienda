@@ -84,10 +84,7 @@ class TiendaControllerCheckout extends TiendaController
 		        $order = &$this->_order; // a TableOrders object (see constructor)
 		        
 		        // set the currency
-		        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
-		        $config = $configModel->getTable( 'config' );
-		        //$order->currency_id = '2';
-		        $order->currency_id = $config->load( array('config_name' => 'default_currencyid') );
+		        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 		        
 		        // set the shipping method
 		        $order->shipping_method_id = $shipping_method_id;
@@ -413,12 +410,8 @@ class TiendaControllerCheckout extends TiendaController
     {
     	$order = $this->_order; // a TableOrders object (see constructor)
 		
-    	// TODO This currency_id doesn't exist in form, right?
-        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
-        $config = $configModel->getTable( 'config' );
-        //$order->currency_id = '2';
-        $currency_id			= $config->load( array('config_name' => 'default_currencyid') );
-       	//$currency_id            = $values['currency_id'];
+    	// Get the currency from the configuration
+        $currency_id			= TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
         $billing_address_id     = $values['billing_address_id'];
         $shipping_address_id    = $values['shipping_address_id'];
         $shipping_method_id     = $values['shipping_method_id'];
@@ -564,10 +557,7 @@ class TiendaControllerCheckout extends TiendaController
         $order->bind( $values );
         
         // set the currency
-        $configModel = JModel::getInstance( 'Config', 'TiendaModel' );
-        $config = $configModel->getTable( 'config' );
-        //$order->currency_id = '2';
-        $order->currency_id = $config->load( array('config_name' => 'default_currencyid') );
+        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
         
         // set the shipping method
         $order->shipping_method_id = $shipping_method_id;
