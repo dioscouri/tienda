@@ -170,4 +170,42 @@ class TiendaHelperCarts extends TiendaHelperBase
                 break;
         }
     }
+    
+	/**
+	 * Briefly, this method "converts" the items in the cart to a order Object
+	 * 
+	 * @return array of OrderItem
+	 */
+	function getProductsInfo()
+	{
+		$suffix = strtolower(TiendaHelperCarts::getSuffix());
+     	$model = JModel::getInstance($suffix, 'TiendaModel');
+		$productcart =  $model->getList();
+		
+		$productitems = array();
+		foreach ($productcart as $product)
+	    {
+	        	unset($productModel);
+	        	$productModel = JModel::getInstance('Products', 'TiendaModel');
+	            $productModel->setId($product->product_id);
+	            if ($productItem = $productModel->getItem())
+	            {
+	            	// TODO Push this into the orders object->addItem() method?
+		            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
+		            $orderItem->product_id             = $productItem->product_id;
+		            $orderItem->orderitem_sku          = $productItem->product_sku;
+		            $orderItem->orderitem_name         = $productItem->product_name;
+		            $orderItem->orderitem_quantity     = $product->product_qty;
+		            $orderItem->orderitem_price        = $productItem->price;
+		            $orderItem->orderitem_attributes   = $product->product_attributes;
+		            $orderItem->orderitem_attribute_names   = $product->attributes_names;
+		            $orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
+		            $orderItem->orderitem_final_price         = $product->product_price * $orderItem->orderitem_quantity;
+		            // TODO When do attributes for selected item get set during admin-side order creation?
+		            array_push($productitems, $orderItem);		                       	
+	            }
+	    }
+
+	    return $productitems;				
+	}
 }

@@ -19,9 +19,19 @@ $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
-// Grab the session cart
-$cart = modTiendaCartHelper::getCart();
-$num = count($cart);
+// Grab the cart
+JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+$items = TiendaHelperCarts::getProductsInfo();
+$num = count($items);
+
+// Convert the cart to a "fake" order, to show totals and others things
+JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+$orderTable = &JTable::getInstance('Orders', 'TiendaTable');
+foreach($items as $item){
+	$orderTable->addItem($item);
+}
+$orderTable->calculateTotals();
+$order_subtotal = TiendaHelperBase::currency($orderTable->order_total);
 
 $document = &JFactory::getDocument();
 
