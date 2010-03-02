@@ -11,19 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-// Grab the session cart
-$cart = modTiendaCartHelper::getCart();
-$num = count($cart);
-
 // Add CSS
-$document = &JFactory::getDocument();
 $document->addStyleSheet('modules/mod_tienda_cart/tmpl/tienda_cart.css');
-
-$display_null = $params->get( 'display_null', '1' );
-$null_text = $params->get( 'null_text', 'No Items in Your Cart' );
-
-$mainframe =& JFactory::getApplication();
-$ajax = $mainframe->getUserState( 'usercart.isAjax' );
 
 $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
 

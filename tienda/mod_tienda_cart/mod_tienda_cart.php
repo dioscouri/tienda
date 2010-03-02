@@ -19,4 +19,16 @@ $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
+// Grab the session cart
+$cart = modTiendaCartHelper::getCart();
+$num = count($cart);
+
+$document = &JFactory::getDocument();
+
+$display_null = $params->get( 'display_null', '1' );
+$null_text = $params->get( 'null_text', 'No Items in Your Cart' );
+
+$mainframe =& JFactory::getApplication();
+$ajax = $mainframe->getUserState( 'usercart.isAjax' );
+
 require( JModuleHelper::getLayoutPath( 'mod_tienda_cart' ) );
