@@ -22,7 +22,22 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkInstallation() 
 	{
 		// TODO check all DB tables for integrity
-		// TODO confirm that a default currency has been selected?
+		
+		// Check if a default currencies has been selected, and if the selected currency
+		// really exists
+		$default_currencyid = TiendaConfig::getInstance()->get('default_currencyid', '-1');
+		if($default_currencyid == '-1'){
+			$this->setError(JText::_("No Default Currency Selected"));
+			return false;
+		} else{
+			// Check if the currency exists
+			$table = &JTable::getInstance('Currencies', 'TiendaTable');
+			if(!$table->load($default_currencyid)){
+				$this->setError(JText::_("Currency does not exists"));
+				return false;	
+			}
+		}
+		return true;
 	}
 
 }
