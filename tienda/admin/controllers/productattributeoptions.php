@@ -21,6 +21,46 @@ class TiendaControllerProductAttributeOptions extends TiendaController
 		parent::__construct();
 		$this->set('suffix', 'productattributeoptions');
 	}
+	
+	/**
+	 * delete the object and updates the product quantities
+	 */
+	function delete(){
+		
+		$this->message = '';
+		$this->messagetype = '';
+		$error = false;
+		
+		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
+				
+		// Get the ProductQuantities model
+		$qmodel = JModel::getInstance('ProductQuantities', 'TiendaModel');
+		// Filter the quantities
+		$qmodel->setState('filter_attributes', implode(',', $cids));
+		$quantities = $qmodel->getList();
+		$qtable = $qmodel->getTable();
+		
+		// Delete the product quantities
+		foreach(@$quantities as $q){
+			if (!$qtable->delete($q->productquantity_id)){
+				$this->message .= $qtable->getError();
+				$this->messagetype = 'notice';
+				$error = true;
+			}
+		}
+		
+		if ($error)
+		{
+			$this->message = JText::_('Error') . " - " . $this->message;
+		}
+			else
+		{
+			$this->message = JText::_('Items Deleted');
+		}
+		
+		// delete the option itself
+		parent::delete();
+	}
 }
 
 ?>
