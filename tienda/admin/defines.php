@@ -193,6 +193,7 @@ class TiendaConfig extends Tienda
 	var $logout_url_redirect				= 'index.php';
 	var $login_redirect						= '1';
 	var $orderstates_csv                    = '2, 3, 5, 17';
+	var $display_shipping_tax               = '1';
 
 	/**
 	 * constructor

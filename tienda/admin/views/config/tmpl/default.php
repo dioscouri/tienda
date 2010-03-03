@@ -149,6 +149,17 @@
                                 
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Shipping Tax' ); ?>
+							</th>
+			                <td>
+								<?php echo JHTML::_('select.booleanlist', 'display_shipping_tax', 'class="inputbox"', $this->row->get('display_shipping_tax', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

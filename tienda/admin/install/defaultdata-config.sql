@@ -15,3 +15,4 @@ INSERT IGNORE INTO `#__tienda_config` (`config_id`, `config_name`, `value`) VALU
 (10, 'currency_symbol_post', ''),
 (11, 'login_url_redirect', ''),
 (12, 'logout_url_redirect','');
+(13, 'display_shipping_tax','1');
