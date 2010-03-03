@@ -28,6 +28,11 @@ if ($controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) ))
 	}
 }
 
+// before executing any tasks, check the integrity of the installation
+JLoader::import( 'com_tienda.helpers.diagnostics', JPATH_ADMINISTRATOR.DS.'components' );
+$diagnostic = new TiendaHelperDiagnostics();
+$diagnostic->checkInstallation();
+
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
