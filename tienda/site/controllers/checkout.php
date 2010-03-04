@@ -202,7 +202,7 @@ class TiendaControllerCheckout extends TiendaController
         JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
         $submitted_values = TiendaHelperBase::elementsToArray( $elements );
             
-		if (empty($submitted_values['_checked']['payment_plugin']))
+		if (empty($submitted_values['_checked']['shipping_method_id']) && empty($submitted_values['_checked']['payment_plugin']) )
 		{
 			// TODO abstract this to some kind of helper, such as TiendaHelperBase::generateMessage( $string );
            $response['msg'] = '
@@ -210,43 +210,70 @@ class TiendaControllerCheckout extends TiendaController
                     <dt class="notice">notice</dt>
                     <dd class="notice message fade">
                         <ul style="padding: 10px;">'.
-                        JText::_('Please select payment method')
+                        JText::_('Please select shipping method')
                         .'</ul>
                     </dd>
                     </dl>
                     ';
 			$response['error'] = '1';
+			
+			echo ( json_encode( $response ) );
+        
+        	return;
+		} else if (empty($submitted_values['_checked']['payment_plugin'])){
+			$response['error'] = '0';
+			echo ( json_encode( $response ) );
+        
+        	return;
 		}
-            else
-		{        
-			// Validate the results of the payment plugin	
-	       	$results = array();
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
-
-		    for ($i=0; $i<count($results); $i++) 
-	        {
-	            $result = $results[$i];
-	            if (!empty($result->error))
-	            {
-		            $response['msg'] = '
-		                    <dl id="system-message">
-		                    <dt class="notice">notice</dt>
-		                    <dd class="notice message fade">
-		                        <ul style="padding: 10px;">'.
-		                        $result->message
-		                        .'</ul>
-		                    </dd>
-		                    </dl>
-		                    ';
-		             $response['error'] = '1';
-	            } 
-                    else 
-	            {
-	                $response['error'] = '0';
-	            }
-	        }
-		}
+			
+			
+			if (empty($submitted_values['_checked']['payment_plugin']) )
+			{
+				// TODO abstract this to some kind of helper, such as TiendaHelperBase::generateMessage( $string );
+	           $response['msg'] = '
+	                    <dl id="system-message">
+	                    <dt class="notice">notice</dt>
+	                    <dd class="notice message fade">
+	                        <ul style="padding: 10px;">'.
+	                        JText::_('Please select payment method')
+	                        .'</ul>
+	                    </dd>
+	                    </dl>
+	                    ';
+				$response['error'] = '1';
+			}
+	            else
+			{        
+				// Validate the results of the payment plugin	
+		       	$results = array();
+				$dispatcher =& JDispatcher::getInstance();
+				$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
+	
+			    for ($i=0; $i<count($results); $i++) 
+		        {
+		            $result = $results[$i];
+		            if (!empty($result->error))
+		            {
+			            $response['msg'] = '
+			                    <dl id="system-message">
+			                    <dt class="notice">notice</dt>
+			                    <dd class="notice message fade">
+			                        <ul style="padding: 10px;">'.
+			                        $result->message
+			                        .'</ul>
+			                    </dd>
+			                    </dl>
+			                    ';
+			             $response['error'] = '1';
+		            } 
+	                    else 
+		            {
+		                $response['error'] = '0';
+		            }
+		        }
+			}
+		
 		
 		echo ( json_encode( $response ) );
         

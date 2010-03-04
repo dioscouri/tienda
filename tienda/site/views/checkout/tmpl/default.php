@@ -81,11 +81,12 @@
 
         <!-- SHIPPING METHODS -->
         <h3><?php echo JText::_("Shipping Method") ?></h3>
-        <div id=shippingmethods>
+        <div id="shippingmethods">
 	    	<?php 
 	    		$attribs = array( 'class' => 'inputbox', 'size' => '1', 'onchange' => 'tiendaGetCheckoutTotals();');
 		    	echo TiendaSelect::shippingmethod( $this->order->shipping_method_id, 'shipping_method_id', $attribs, 'shipping_method_id', true ); 
 		    ?>	
+		    <div id="validationmessage" style="padding-top: 10px;"></div>
         </div>      
 
         <!--    COMMENTS   -->        
