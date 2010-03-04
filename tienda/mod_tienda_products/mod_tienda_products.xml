@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="left" method="upgrade">
+    <name>Tienda - Products</name>
+    <author>Skullbock</author>
+    <authorEmail>realskullbock@gmail.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.3.0</version>
+    <creationDate>March 2010</creationDate>
+    <copyright>2010 Skullbock</copyright>
+    <license>GNU General Public License</license>
+    <description>Display a set of Products based on Parameters</description>
+    
+    <files>
+        <filename module="mod_tienda_products">mod_tienda_products.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.mod_tienda_products.ini</language>
+	</languages>
+	
+	<params>
+		<param name="price_from" type="text" default="" label="Price From" description="PRICE_FROM" />
+		<param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />
+		<param name="max_number" type="text" default="" label="Max Number" description="MAX_NUMBER" />
+		<param type="spacer" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param type="spacer" />
+		<param name="display_null" type="radio" default="1" label="Display No Products" description="Display No Products Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="null_text" type="text" size="50" default="No Products Set" label="No Products Set" description="No Products Text Desc"></param>
+    </params>
+</install>
