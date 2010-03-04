@@ -215,10 +215,31 @@ class TiendaModelOrders extends TiendaModelBase
 	{
 		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
 		$list = parent::getList();
+		
 		foreach(@$list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
 			$item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
+			
+			// retrieve the order's currency
+			// this loads the currency, using the FK is it is the same of the
+    		// currency used in the order, or the JParameter currency of the order otherwise
+    		$order_currency = new JParameter($item->order_currency);
+    		$order_currency = $order_currency->toArray();
+    		
+    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    		$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
+            $cmodel->setState('filter_id_from', $item->currency_id);
+            $cmodel->setState('filter_id_to', $item->currency_id);
+            $item->currency = $cmodel->getItem();
+            
+    		// if the order currency is not the same as it was during the order
+    		if($item->currency->currency_code != $order_currency['currency_code']){
+    			// overwrite it with the original one
+    			foreach(@$order_currency as $k => $v){
+    				$item->currency->$k = $v;
+    			}
+    		}
 		}
 		return $list;
 	}

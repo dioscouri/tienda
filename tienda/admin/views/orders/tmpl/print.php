@@ -128,7 +128,7 @@
                     <?php echo JText::_("Payment Amount"); ?>
                 </td>
                 <td>
-                    <?php echo TiendaHelperBase::currency( $row->order_total ); ?>
+                    <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?>
                 </td>
             </tr>
             <tr>
@@ -197,13 +197,13 @@
                     <?php endif; ?>
                     
                     <b><?php echo JText::_( "Price" ); ?>:</b>
-                    <?php echo TiendaHelperBase::currency( $item->orderitem_price ); ?>
+                    <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->orderitem_quantity; ?>
                 </td>
                 <td style="text-align: right;">
-                    <?php echo TiendaHelperBase::currency( $item->orderitem_final_price ); ?>
+                    <?php echo TiendaHelperBase::currency( $item->orderitem_final_price, $row->currency ); ?>
                 </td>
             </tr>
         <?php $i=$i+1; $k = (1 - $k); ?>
@@ -223,7 +223,7 @@
             <?php echo JText::_( "Subtotal" ); ?>
             </th>
             <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_subtotal); ?>
+            <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
             </th>
         </tr>
         <tr>
@@ -231,7 +231,7 @@
             <?php echo JText::_( "Tax" ); ?>
             </th>
             <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_tax); ?>
+            <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
             </th>
         </tr>
         <tr>
@@ -239,7 +239,7 @@
             <?php echo JText::_( "Shipping" ); ?>
             </th>
             <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_shipping); ?>
+            <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
             </th>
         </tr>
         <tr>
@@ -247,7 +247,7 @@
             <?php echo JText::_( "Total" ); ?>
             </th>
             <th style="font-size: 120%; text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_total); ?>
+            <?php echo TiendaHelperBase::currency($row->order_total, $row->currency); ?>
             </th>
         </tr>
         </tfoot>

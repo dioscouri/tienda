@@ -88,7 +88,7 @@
                     </a>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo TiendaHelperBase::currency( $item->order_total ); ?>
+                    <?php echo TiendaHelperBase::currency( $item->order_total, $item->currency ); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->order_state_name; ?>
