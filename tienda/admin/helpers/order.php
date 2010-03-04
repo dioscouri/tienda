@@ -142,4 +142,39 @@ class TiendaHelperOrder extends TiendaHelperBase
         $return["next"] = $next_id; 
         return $return;
     }
+    
+    /**
+	 * Returns a JParameter Formatted string representing the currency
+	 * 
+	 * @param $currency_id currency_id
+	 * @return $string JParameter formatted string 
+	 */
+    
+    function currencyToParameters($currency_id){
+    	
+    	if(!is_numeric($currency_id))
+    		return false;
+    	
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    	$model = &JModel::getInstance('Currencies', 'TiendaModel' );
+    	$table = $model->getTable(); 
+		
+    	// Load the currency
+    	if(!$table->load($currency_id))
+    		return false;
+    		    	
+    	// Convert this into a JParameter formatted string
+    	// a bit rough, but works smoothly and is extensible (works even if you add another parameter to the curremcy table
+    	$currency_parameters = $table;
+    	unset($table);
+    	unset($currency_parameters->currency_id);
+    	unset($currency_parameters->created_date);
+    	unset($currency_parameters->modified_date);
+    	unset($currency_parameters->currency_enabled);
+    	
+    	$param = new JParameter('');
+    	$param->bind($currency_parameters);
+    	
+    	return $param->toString();
+    }
 }

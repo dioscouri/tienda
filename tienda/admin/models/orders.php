@@ -268,6 +268,25 @@ class TiendaModelOrders extends TiendaModelBase
             $model->setState( 'order', 'tbl.created_date' );
             $model->setState( 'direction', 'ASC' );
             $item->orderpayments = $model->getList();
+            
+            // retrieve the order's currency
+			// this loads the currency, using the FK is it is the same of the
+    		// currency used in the order, or the JParameter currency of the order otherwise
+    		$order_currency = new JParameter($item->order_currency);
+    		$order_currency = $order_currency->toArray();
+    		
+    		$model = JModel::getInstance( 'Currencies', 'TiendaModel' );
+            $model->setState('filter_id_from', $item->currency_id);
+            $model->setState('filter_id_to', $item->currency_id);
+            $item->currency = $model->getItem();
+            
+    		// if the order currency is not the same as it was during the order
+    		if($item->currency->currency_code != $order_currency['currency_code']){
+    			// overwrite it with the original one
+    			foreach(@$order_currency as $k => $v){
+    				$item->currency->$k = $v;
+    			}
+    		}
 		}
         return $item;
 	}	

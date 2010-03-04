@@ -714,6 +714,10 @@ class TiendaControllerCheckout extends TiendaController
         $order->shipping_method_id = $values['shipping_method_id']; 
         $this->setAddresses( $values );
         
+        // Store the text verion of the currency for order integrity
+        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+        $order->order_currency = TiendaHelperOrder::currencyToParameters($order->currency_id);
+        
         //get the items and add them to the order
         JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
         $reviewitems = TiendaHelperCarts::getProductsInfo();
