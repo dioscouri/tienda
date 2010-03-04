@@ -179,8 +179,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 	function getProductsInfo()
 	{
 		$suffix = strtolower(TiendaHelperCarts::getSuffix());
+		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
      	$model = JModel::getInstance($suffix, 'TiendaModel');
-		$productcart =  $model->getList();
+		$productcart = $model->getList();
 		
 		$productitems = array();
 		foreach ($productcart as $product)

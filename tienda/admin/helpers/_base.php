@@ -11,6 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php' );
+
 class TiendaHelperBase extends JObject
 {   
 	/**
@@ -43,6 +45,7 @@ class TiendaHelperBase extends JObject
 	function currency($amount, $currency='', $options='')
 	{
         // default to whatever is in config
+            
             $config = TiendaConfig::getInstance();
             $options = (array) $options;
             

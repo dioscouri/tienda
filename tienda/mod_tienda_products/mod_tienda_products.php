@@ -20,16 +20,11 @@ $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $display_null = $params->get( 'display_null', '1' );
-$null_text = $params->get( 'null_text', 'No Addresses Set' );
+$null_text = $params->get( 'null_text', 'No Products Returned' );
 
-// Filter parameters
-$parameters['price_from'] = $params->get( 'price_from', '-1' );
-$parameters['price_to'] = $params->get( 'price_to', '-1' );
-$parameters['max_number'] = $params->get( 'max_number', '10' );
-
-// Moved these here so that template overrides of the layout don't need to include them
 // Grab the products
-$products = modTiendaProductsHelper::getProducts($parameters);
+$helper = new modTiendaProductsHelper( $params ); 
+$products = $helper->getProducts();
 $num = count($products);
 
 $mainframe =& JFactory::getApplication();
