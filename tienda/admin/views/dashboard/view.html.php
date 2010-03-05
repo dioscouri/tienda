@@ -504,7 +504,8 @@ class TiendaViewDashboard extends TiendaViewBase
 
         if (empty($results)) {
             // No Tienda Charts plugin enabled, use Google Charts.
-            $chart = TiendaHelperBase::renderGoogleChart($args['data'], $chart_title, $chart_type);
+            JLoader::import( 'com_tienda.library.charts', JPATH_ADMINISTRATOR.DS.'components' );
+            $chart = TiendaCharts::renderGoogleChart($args['data'], $chart_title, $chart_type);
         } else {
             $chart = $results[0];
         }
@@ -555,7 +556,8 @@ class TiendaViewDashboard extends TiendaViewBase
 
         if (empty($results)) {
             // No Tienda Charts plugin enabled, use Google Charts.
-            $chart = TiendaHelperBase::renderGoogleChart($args['data'], $chart_title, $chart_type);
+            JLoader::import( 'com_tienda.library.charts', JPATH_ADMINISTRATOR.DS.'components' );
+            $chart = TiendaCharts::renderGoogleChart($args['data'], $chart_title, $chart_type);
         } else {
             $chart = $results[0];
         }

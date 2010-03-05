@@ -15,6 +15,74 @@ require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.ph
 
 class TiendaHelperBase extends JObject
 {   
+	
+	/**
+	 * constructor
+	 * make it private where necessary
+	 */
+	function __construct()
+	{
+		parent::__construct();
+	}
+	
+	
+	/**
+	 * Returns a reference to the a Helper object, only creating it if it doesn't already exist
+	 *
+	 * @param type 		$type 	 The helper type to instantiate
+	 * @param string 	$prefix	 A prefix for the helper class name. Optional.
+	 * @return helper The Helper Object	 
+	*/
+	function &getInstance( $type = 'Base', $prefix = 'TiendaHelper' )
+	{
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+		
+		// The Base helper is in _base.php, but it's named TiendaHelperBase
+		if(strtolower($type) == 'Base'){
+			$helperClass = $prefix.ucfirst($type);
+			$type = '_Base';
+		}
+		
+		$helperClass = $prefix.ucfirst($type);
+
+		if (empty($instances[$helperClass]))
+		{
+
+			if (!class_exists( $helperClass ))
+			{
+				jimport('joomla.filesystem.path');
+				if($path = JPath::find(TiendaHelperBase::addIncludePath(), strtolower($type).'.php'))
+				{
+					require_once $path;
+	
+					if (!class_exists( $helperClass ))
+					{
+						JError::raiseWarning( 0, 'Helper class ' . $helperClass . ' not found in file.' );
+						return false;
+					}
+				}
+				else
+				{
+					JError::raiseWarning( 0, 'Helper ' . $type . ' not supported. File not found.' );
+					return false;
+				}
+			}
+
+			$instance = new $helperClass();
+			
+			$instances[$signature] = & $instance;
+		}
+
+		return $instances[$signature];
+	}
+	
+	
 	/**
 	 * Determines whether/not a user can view a record
 	 *
@@ -33,6 +101,42 @@ class TiendaHelperBase extends JObject
 			if ($user->gid == '25') { return true; }
 
 		return $result;
+	}
+	
+	/**
+	 * Add a directory where TiendaHelper should search for helper types. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @access	public
+	 * @param	string	A path to search.
+	 * @return	array	An array with directory elements
+	 * @since 1.5
+	 */
+	function addIncludePath( $path=null )
+	{
+		static $tiendaHelperPaths;
+
+		if (!isset($tiendaHelperPaths)) {
+			$tiendaHelperPaths = array( dirname( __FILE__ ) );
+		}
+
+		// just force path to array
+		settype($tiendaHelperPath, 'array');
+
+		if (!empty( $tiendaHelperPath ) && !in_array( $tiendaHelperPath, $tiendaHelperPaths ))
+		{
+			// loop through the path directories
+			foreach ($tiendaHelperPath as $dir)
+			{
+				// no surrounding spaces allowed!
+				$dir = trim($dir);
+
+				// add to the top of the search dirs
+				// so that custom paths are searched before core paths
+				array_unshift($tiendaHelperPaths, $dir);
+			}
+		}
+		return $tiendaHelperPaths;
 	}
 
 	/**
@@ -494,47 +598,4 @@ class TiendaHelperBase extends JObject
 	{
 	    JHTML::_('script', 'jquery-1.3.2.min.js', 'media/com_tienda/js/');
 	}
-	
-	/**
-	 * renderGoogleChart function.
-	 * 
-	 * @access public
-	 * @param mixed $data
-	 * @param string $title. (default: 'A Tienda Google Chart')
-	 * @param string $type. (default: 'Column')
-	 * @param int $width. (default: 900)
-	 * @param int $height. (default: 250)
-	 * @return void
-	 */
-	function renderGoogleChart($data, $title='A Tienda Google Chart', $type='Column', $width=800, $height=250)
-    {
-        $title  = JText::_( $title );
-        
-        // Chart types
-        switch ($type) {
-            case 'Bar':
-            case 'Bar2D':
-                $type = 'bhs';
-                break;
-            case 'Line':
-                $type = 'lc';
-                break;
-            default:
-                $type = 'bvs';
-                break;
-        }
-        
-        $datastr  = '';
-        $labelstr = '';
-        $max = 0;
-        foreach ($data as $obj) {
-            $max = ($obj->value > $max) ? $obj->value : $max;
-            $datastr  .= strlen($datastr)  ? ','.$obj->value : $obj->value; 
-            $labelstr .= '|'.$obj->label; 
-        }
-        
-        $url = 'http://chart.apis.google.com/chart?chs='.$width.'x'.$height.'&cht='.$type.'&chtt='.$title.'&chxt=x,y&chxl=0:'.$labelstr.'&chxr=1,0,'.$max.'&chd=t:'.$datastr.'&chds=0,'.$max.'&chxs=0,,9';
-        $chart = "<img src='$url' alt='$title' />";
-        return $chart;
-    }
 }
