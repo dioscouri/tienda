@@ -5,10 +5,6 @@
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 
-    <script type="text/javascript">
-           window.print();
-    </script>
-
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
     <table style="width: 100%;">
@@ -261,3 +257,11 @@
     <input type="hidden" name="task" id="task" value="" />
         
 </form>
+
+<script type="text/javascript">
+    window.onload = tiendaPrintPage();
+    function tiendaPrintPage()
+    {
+        window.print();
+    }
+</script>

@@ -8,12 +8,6 @@
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 
-<?php if (JRequest::getVar('task') == 'print') : ?>
-	<script type="text/javascript">
-	       window.print();
-	</script>
-<?php endif; ?>
-
 <div class='componentheading'>
 	<span><?php echo JText::_( "Order Detail" ); ?></span>
 </div>
@@ -152,3 +146,13 @@
             <span><?php echo @$row->customer_note; ?></span>
         </div>
     <?php endif; ?>
+
+<?php if (JRequest::getVar('task') == 'print') : ?>
+    <script type="text/javascript">
+        window.onload = tiendaPrintPage();
+        function tiendaPrintPage()
+        {
+            window.print();
+        }
+    </script>
+<?php endif; ?>
