@@ -109,7 +109,7 @@ class TiendaControllerProducts extends TiendaController
 		
 	    $row = $model->getTable();
 	    $row->load( $model->getId() );
-		$row->bind( $_POST );
+		$row->bind( JRequest::get('POST') );
 		$isNew = empty($row->product_id);
 		
 		$fieldname = 'product_full_image_new';

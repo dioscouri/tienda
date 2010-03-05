@@ -1,6 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
+<?php $row = @$this->row;
+JFilterOutput::objectHTMLSafe( $row );
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
 

@@ -4,6 +4,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'tienda_orders.js', 'media/com_tienda/js/');
 $form = @$this->form;
 $row = @$this->row;
+JFilterOutput::objectHTMLSafe( $row );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm">

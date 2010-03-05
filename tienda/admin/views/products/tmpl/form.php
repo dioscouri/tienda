@@ -1,7 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
+<?php $row = @$this->row;
+JFilterOutput::objectHTMLSafe( $row );
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
@@ -16,7 +18,7 @@
 						<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td>
-						<input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
+						<input type="text" name="product_name" id="product_name" value="<?php echo $row->product_name; ?>" size="48" maxlength="250" />
 					</td>
 				</tr>
                 <tr>

@@ -2,7 +2,9 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
+<?php $row = @$this->row; 
+JFilterOutput::objectHTMLSafe( $row );
+?>
 
 <div class='componentheading'>
     <span><?php echo JText::_( "Edit Basic Information" ); ?></span>
