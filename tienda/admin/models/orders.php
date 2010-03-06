@@ -234,9 +234,11 @@ class TiendaModelOrders extends TiendaModelBase
             $item->currency = $cmodel->getItem();
             
     		// if the order currency is not the same as it was during the order
-    		if($item->currency->currency_code != $order_currency['currency_code']){
+    		if (!empty($item->currency) && $item->currency->currency_code != $order_currency['currency_code'])
+    		{
     			// overwrite it with the original one
-    			foreach(@$order_currency as $k => $v){
+    			foreach(@$order_currency as $k => $v)
+    			{
     				$item->currency->$k = $v;
     			}
     		}
