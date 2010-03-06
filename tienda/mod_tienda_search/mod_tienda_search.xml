@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0" method="upgrade">
+<install type="module" version="1.5.0" method="upgrade" position="left">
     <name>Tienda - Product Search</name>
     <author>Dioscouri.com</author>
     <authorEmail>info@dioscouri.com</authorEmail>
