@@ -44,7 +44,6 @@
 	            <h4 id='onCheckoutShipping'><?php echo JText::_("Shipping Address") ?></h4>
 	            <?php
 	            $baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";
-	            $url = JRoute::_($baseurl . @$this->shipping_address->address_id);
                 if (!empty($this->addresses))
                 {
 	                $shipattribs = array('class' => 'inputbox',    'size' => '1','onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '')");
@@ -52,18 +51,18 @@
 	               	if(count($this->addresses) == 1){
 	               		echo "<input type=\"hidden\" id=\"shipping_address_id\" name=\"shipping_address_id\" value=\"" . @$this->shipping_address->address_id . "\" />";
 	               	}
-				}?>
-	            
-                <script type="text/javascript">tiendaDoTask('<?php echo $url ?>', 'shippingDefaultAddress', '');</script>
-                	            
-	            <p id="shippingDefaultAddress"></p>
+				}
+				?>
+				
+	            <p id="shippingDefaultAddress">
+	               <?php echo @$this->default_shipping_address; ?>
+	            </p>
 	            
             </td>
             <td style="width: 50px; text-align: left;">
                 <!--    BILLING ADDRESS   -->             
 	            <h4 id='onCheckoutBilling'><?php echo JText::_("Billing Address") ?></h4>
 	            <?php 
-	                $url = JRoute::_($baseurl . @$this->billing_address->address_id);
 	                if (!empty($this->addresses))
 	                {
 	                    $billattribs = array('class' => 'inputbox',    'size' => '1','onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', '')");
@@ -73,8 +72,9 @@
 	                			echo "<input type=\"hidden\" id=\"billing_address_id\" name=\"billing_address_id\" value=\"" . @$this->billing_address->address_id . "\" />";
 	               		}
 					}?>
-	            <script type="text/javascript">tiendaDoTask('<?php echo $url ?>', 'billingDefaultAddress', '');</script>
-	            <p id="billingDefaultAddress"></p>
+	            <p id="billingDefaultAddress">
+	               <?php echo @$this->default_billing_address; ?>
+	            </p>
             </td>
         </tr>
         </table>        
@@ -83,7 +83,7 @@
         <h3><?php echo JText::_("Shipping Method") ?></h3>
         <div id="shippingmethods">
 	    	<?php 
-	    		$attribs = array( 'class' => 'inputbox', 'size' => '1', 'onchange' => 'tiendaGetCheckoutTotals();');
+	    		$attribs = array( 'class' => 'inputbox', 'size' => '1', 'onclick' => 'tiendaGetCheckoutTotals();');
 		    	echo TiendaSelect::shippingmethod( $this->order->shipping_method_id, 'shipping_method_id', $attribs, 'shipping_method_id', true ); 
 		    ?>	
 		    <div id="validationmessage" style="padding-top: 10px;"></div>

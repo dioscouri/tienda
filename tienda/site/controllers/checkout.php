@@ -116,7 +116,11 @@ class TiendaControllerCheckout extends TiendaController
 		        $model->setState("filter_userid", JFactory::getUser()->id);
 		        $model->setState("filter_deleted", 0);
 		        $addresses = $model->getList();
-		        
+
+                // get the default shipping and billing addresses, if possible
+		        $default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
+		        $default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
+                
 		        // now display the entire checkout page
 		        $view = $this->getView( 'checkout', 'html' );
 		        $view->set( 'hidemenu', false);
@@ -125,6 +129,9 @@ class TiendaControllerCheckout extends TiendaController
                 $view->assign( 'billing_address', $billingAddress );
                 $view->assign( 'shipping_address', $shippingAddress );
 				$view->assign( 'orderSummary', $html );
+                $view->assign( 'default_billing_address', $default_billing_address );
+                $view->assign( 'default_shipping_address', $default_shipping_address );
+				
 				JRequest::setVar('layout', 'default');
 			}
 		}
@@ -185,7 +192,7 @@ class TiendaControllerCheckout extends TiendaController
            // if it fails check, return message
            $response['error'] = '1';
            $response['msg'] = '
-                    <dl id="system-message">
+                    --><dl id="system-message">
                     <dt class="notice">notice</dt>
                     <dd class="notice message fade">
                         <ul style="padding: 10px;">'.
@@ -466,6 +473,37 @@ class TiendaControllerCheckout extends TiendaController
 			$addressArray = $this->filterArrayUsingPrefix($form_input_array, $input_prefix, '', false );
 		}		
 		return $addressArray;	
+	}
+
+	/**
+	 * Gets an address formatted for display
+	 * 
+     * @param int $address_id 
+     * @return string html 
+	 */
+	function getAddressHtml( $address_id )
+	{
+	    $html = '';
+        $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+        $model->setId( $address_id );
+        if ($item = $model->getItem())
+        {
+            $view   = $this->getView( 'addresses', 'html' );
+            $view->set( '_controller', 'addresses' );
+            $view->set( '_view', 'addresses' );
+            $view->set( '_doTask', true);
+            $view->set( 'hidemenu', true);
+            $view->setModel( $model, true );
+            $view->setLayout( 'view_inner' );
+            $view->set('row', $item);
+            
+            ob_start();
+            $view->display();
+            $html = ob_get_contents(); 
+            ob_end_clean();
+        }
+        
+        return $html;
 	}
 	
 	/**
