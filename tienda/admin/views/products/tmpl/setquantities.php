@@ -40,7 +40,7 @@
             <tr class='row<?php echo $k; ?>'>
                 <td style="text-align: center;">
                     <?php echo $this->pagination->limitstart + $i + 1; ?>
-                </th>
+                </td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::checkedout( $item, $i, 'productquantity_id' ); ?>
                 </td>
