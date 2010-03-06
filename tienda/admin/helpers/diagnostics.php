@@ -54,6 +54,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the orders table 
+        if (!$this->checkOrdersOrderCurrency()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERCURRENCY FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -222,6 +228,36 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
 
+        return false;        
+    }
+    
+    function checkOrdersOrderCurrency()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrdersOrderCurrency', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orders';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "order_currency";
+            $newnames["order_currency"] = "order_currency";
+            $definitions["order_currency"] = "TEXT NOT NULL COMMENT 'Stores a JParameter formatted version of the current currency. Used to maintain the order integrity'";
+            
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance( 'Config', 'TiendaTable' );
+            $table->load( 'checkOrdersOrderCurrency' );
+            $table->config_name = 'checkOrdersOrderCurrency';
+            $table->value = '1';
+            $table->save();
+            return true;
+        }
         return false;        
     }
 
