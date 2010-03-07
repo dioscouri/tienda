@@ -598,4 +598,25 @@ class TiendaHelperBase extends JObject
 	{
 	    JHTML::_('script', 'jquery-1.3.2.min.js', 'media/com_tienda/js/');
 	}
+	
+	/**
+	 * Generate an html message for the checkout page
+	 * used for validation errors
+	 * 
+	 * @param string message
+	 * @return html message
+	 */
+	function generateMessage($msg){
+		$html = '<dl id="system-message">
+                    <dt class="notice">notice</dt>
+                    <dd class="notice message fade">
+                        <ul style="padding: 10px;">';
+		
+        $html .= $msg;
+        
+		$html .= "</ul>
+                    </dd>
+                    </dl>";
+		
+	}
 }

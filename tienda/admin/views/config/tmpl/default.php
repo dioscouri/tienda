@@ -160,6 +160,28 @@
                                 
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Initial Order State' ); ?>
+							</th>
+			                <td>
+								<?php echo TiendaSelect::orderstate($this->row->get('initial_order_state', '15'), 'initial_order_state'); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Default Shipping Method' ); ?>
+							</th>
+			                <td>
+								<?php echo TiendaSelect::shippingtype($this->row->get('defaultShippingMethod', '2'), 'defaultShippingMethod'); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

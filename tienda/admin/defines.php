@@ -195,6 +195,8 @@ class TiendaConfig extends Tienda
 	var $login_redirect						= '1';
 	var $orderstates_csv                    = '2, 3, 5, 17';
 	var $display_shipping_tax               = '1';
+	var $initial_order_state               = '15';
+	var $defaultShippingMethod               = '2';
 
 	/**
 	 * constructor

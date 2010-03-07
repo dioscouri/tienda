@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TiendaControllerCheckout extends TiendaController
 {
 	var $_order                = null; // a TableOrders() object
-	var $initial_order_state   = '15'; // pre-payment/orphan // TODO also set this in the constructor, and use a config setting
+	var $initial_order_state   = null; // pre-payment/orphan set in costructor
 	var $billing_input_prefix  = 'billing_input_';
 	var $shipping_input_prefix = 'shipping_input_';
 	var $defaultShippingMethod = null; // set in constructor
@@ -29,7 +29,8 @@ class TiendaControllerCheckout extends TiendaController
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $this->_order = JTable::getInstance('Orders', 'TiendaTable');
-        $this->defaultShippingMethod = '2'; // TODO Use a config setting for this
+        $this->defaultShippingMethod = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+        $this->initial_order_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
 	}
 
 	/**
@@ -72,9 +73,7 @@ class TiendaControllerCheckout extends TiendaController
 			// no addresses, redirect to address form			
 			if (empty($items))
 			{
-				// TODO make this a true redirect using JFactory::getApplication()->redirect();
-				JRequest::setVar( 'view', 'addresses');
-				JRequest::setVar('layout', 'form');
+				JFactory::getApplication()->redirect('index.php?option=com_tienda&view=addresses&layout=form');
 			}
                 else
 			{
@@ -180,6 +179,8 @@ class TiendaControllerCheckout extends TiendaController
         $response = array();
         $response['msg'] = '';
         $response['error'] = '';
+        
+        $helper = TiendaHelperBase::getInstance();
 		
         // get elements from post
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
@@ -191,37 +192,20 @@ class TiendaControllerCheckout extends TiendaController
            // do form validation
            // if it fails check, return message
            $response['error'] = '1';
-           $response['msg'] = '
-                    --><dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px;">'.
-                        JText::_("Could not process form").Tienda::dump($elements)                        
-                        .'</ul>
-                    </dd>
-                    </dl>
-                    ';
+           $response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters!"));                       
+
        		echo ( json_encode( $response ) );
        		return;
         }
         
         // convert elements to array that can be binded             
         JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
-        $submitted_values = TiendaHelperBase::elementsToArray( $elements );
+        $helper = TiendaHelperBase::getInstance();
+        $submitted_values = $helper->elementsToArray( $elements );
             
 		if (empty($submitted_values['_checked']['shipping_method_id']) && empty($submitted_values['_checked']['payment_plugin']) )
 		{
-			// TODO abstract this to some kind of helper, such as TiendaHelperBase::generateMessage( $string );
-           $response['msg'] = '
-                    <dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px;">'.
-                        JText::_('Please select shipping method')
-                        .'</ul>
-                    </dd>
-                    </dl>
-                    ';
+            $response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
 			$response['error'] = '1';
 			
 			echo ( json_encode( $response ) );
@@ -237,17 +221,7 @@ class TiendaControllerCheckout extends TiendaController
 			
 			if (empty($submitted_values['_checked']['payment_plugin']) )
 			{
-				// TODO abstract this to some kind of helper, such as TiendaHelperBase::generateMessage( $string );
-	           $response['msg'] = '
-	                    <dl id="system-message">
-	                    <dt class="notice">notice</dt>
-	                    <dd class="notice message fade">
-	                        <ul style="padding: 10px;">'.
-	                        JText::_('Please select payment method')
-	                        .'</ul>
-	                    </dd>
-	                    </dl>
-	                    ';
+	           	$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
 				$response['error'] = '1';
 			}
 	            else
@@ -262,16 +236,7 @@ class TiendaControllerCheckout extends TiendaController
 		            $result = $results[$i];
 		            if (!empty($result->error))
 		            {
-			            $response['msg'] = '
-			                    <dl id="system-message">
-			                    <dt class="notice">notice</dt>
-			                    <dd class="notice message fade">
-			                        <ul style="padding: 10px;">'.
-			                        $result->message
-			                        .'</ul>
-			                    </dd>
-			                    </dl>
-			                    ';
+			            $response['msg'] = $helper->generateMessage( $result->message );
 			             $response['error'] = '1';
 		            } 
 	                    else 
@@ -574,7 +539,8 @@ class TiendaControllerCheckout extends TiendaController
 		
 		// convert elements to array that can be binded             
        	JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
-        $values = TiendaHelperBase::elementsToArray( $elements );
+       	$helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
 		
        	// Assign the shipping method to the order object
         $shipping_method_id = @$values['_checked']['shipping_method_id'];

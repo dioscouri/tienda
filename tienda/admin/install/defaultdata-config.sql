@@ -16,3 +16,5 @@ INSERT IGNORE INTO `#__tienda_config` (`config_id`, `config_name`, `value`) VALU
 (11, 'login_url_redirect', ''),
 (12, 'logout_url_redirect','');
 (13, 'display_shipping_tax','1');
+(14, 'initial_order_state','15');
+(15, 'defaultShippingMethod','2');
