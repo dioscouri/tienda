@@ -13,7 +13,7 @@
             <td align="left" width="100%">
                 <?php $link = "index.php?option=com_users&task=add"; ?>
                 <?php $button = "<input type='button' class='button' value='".JText::_("Create New User")."' />"; ?>
-                <?php echo TiendaUrl::popup( $link, $button, '', '', '', '', '', true ); ?>
+                <?php echo TiendaUrl::popup( $link, $button, array('update' => true) ); ?>
             </td>
             <td nowrap="nowrap">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />

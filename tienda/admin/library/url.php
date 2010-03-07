@@ -43,39 +43,41 @@ class TiendaUrl {
 	 * 
 	 * @param $url
 	 * @param $text
-	 * @param $width
-	 * @param $height
-	 * @param $top
-	 * @param $left
-	 * @param $class
-	 * @param $update
-	 * @param $img
-	 * @return unknown_type
+	 * @param array options( 
+	 * 				'width',
+	 *				'height',
+	 * 				'top',
+	 * 				'left',
+	 * 				'class',
+	 * 				'update',
+	 * 				'img'
+	 * 				)
+	 * @return popup html
 	 */
-	function popup( $url, $text, $width='', $height='', $top=0, $left=0, $class='', $update=false, $img=false ) 
-	{
+	function popup( $url, $text, $options = array() ) 
+	{		
 		$html = "";
-		($update)
+		($options['update'])
             ? JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){tiendaUpdate();}'))
             : JHTML::_('behavior.modal');
 
 		$url;
 		
-		$handler = ($img)
+		$handler = ($options['img'])
 		  ? "{handler:'image'}"
 		  : "{handler:'iframe',size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
 
-		if (!empty($width))
+		if (!empty($options['width']))
 		{
-			if (empty($height))
+			if (empty($options['height']))
 			{
-				$height = 480;
+				$options['height'] = 480;
 			}
-			$handler = "{handler: 'iframe', size: {x: $width, y: $height}}";
+			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";
 		}
 
 		$html	= "<a class=\"modal\" href=\"$url\" rel=\"$handler\" >\n";
-		$html 	.= "<span class=\"$class\" >\n";
+		$html 	.= "<span class=\"".$options['class']."\" >\n";
         $html   .= "$text\n";
 		$html 	.= "</span>\n";
 		$html	.= "</a>\n";

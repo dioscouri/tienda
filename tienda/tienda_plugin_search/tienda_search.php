@@ -47,6 +47,8 @@ function plgSearchTienda( $text, $phrase='', $ordering='', $areas=null )
 		 
 		//Then load the parameters of the plugin..
 		$pluginParams = new JParameter( $plugin->params );
+		
+		$limit 			= $pluginParams->def( 'search_limit', 		50 );
 		 
 		//Use the function trim to delete spaces in front of or at the back of the searching terms
 		$text = trim( $text );

@@ -33,7 +33,7 @@
             <td colspan="2">
                 <div class='note'>
 	                <?php $text = JText::_( "Click Here to Manage Your Stored Addresses" )."."; ?>
-	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=addresses", $text, '', '', '', '', '', true );  ?>
+	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=addresses", $text, array('update' => true) );  ?>
                     <?php echo JText::_( "CHECKOUT MANAGE ADDRESSES INSTRUCTIONS" ); ?>
                 </div>
             </td>

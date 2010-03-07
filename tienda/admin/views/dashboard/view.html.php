@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
 
 class TiendaViewDashboard extends TiendaViewBase
 {

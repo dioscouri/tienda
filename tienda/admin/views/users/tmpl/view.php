@@ -34,7 +34,7 @@
                         $url .= @$row->id; 
                         $text = "<button>".JText::_('Click Here to Edit User')."</button>"; 
                         ?>
-                        <div style="float: right;"><?php echo TiendaUrl::popup( $url, $text, '', '', '', '', '', true ); ?></div>
+                        <div style="float: right;"><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
                     </td>
                 </tr>
                 <tr>

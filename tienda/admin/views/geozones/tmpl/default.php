@@ -106,7 +106,7 @@
                     <?php $model->setState( 'filter_geozoneid', $item->geozone_id); ?>
                     <?php echo count( $model->getList()); ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( @$item->link_zones, "Select Zones", '', '', '', '', '', true ); ?>]
+                    [<?php echo TiendaUrl::popup( @$item->link_zones, "Select Zones", array('update' => true) ); ?>]
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->geozonetype_name; ?>

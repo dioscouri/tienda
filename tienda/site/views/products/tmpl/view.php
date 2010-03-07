@@ -27,12 +27,12 @@ $item = @$this->row;
 
 <div class="indproduct">
     <div class="productimage">
-        <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id), '', '', '', '', '', false, true); ?>
+        <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id), array('update' => false, 'img' => true)); ?>
         <br />
         <?php
             if (isset($item->product_full_image))
             {
-                echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), "View Larger", '', '', '', '', '', false, true);
+                echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), "View Larger", array('update' => false, 'img' => true ));
             }
         ?>
     </div>
@@ -70,7 +70,7 @@ $item = @$this->row;
             <?php $url = "index.php?option=com_tienda&format=raw&controller=carts&task=addToCart&productid=".$item->product_id; ?>
             <?php $onclick = 'tiendaDoTask(\''.$url.'\', \'tiendaUserShoppingCart\', document.adminForm);'; ?>
             <?php $text = "<img class='addcart' src='media/com_tienda/images/addcart.png' alt='' onclick=\"$onclick\" />"; ?>           
-            <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, '', '', '', '', '', false );  ?>
+            <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, array('update' => false) );  ?>
             </form>
         </div>
     </div>

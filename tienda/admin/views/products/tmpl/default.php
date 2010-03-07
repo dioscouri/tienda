@@ -135,7 +135,7 @@
 					<div class="product_categories">
 						<?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' ); ?>
 						<?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
-						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", "Select Categories", '', '', '', '', '', false ); ?>]</span>
+						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", "Select Categories" ); ?>]</span>
 						<?php $categories = TiendaHelperProduct::getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
 							<?php $category = $categories[$n]; ?>
@@ -154,12 +154,12 @@
 				<td style="text-align: right;">
 					<?php echo TiendaHelperBase::currency($item->price); ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", "Set Prices", '', '', '', '', '', true ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", "Set Prices", array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					<?php echo (int) $item->product_quantity; ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", "Set Quantities", '', '', '', '', '', true ); ?>]
+                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", "Set Quantities", array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->product_enabled, $i, 'product_enabled.' ); ?>

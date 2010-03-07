@@ -102,7 +102,7 @@
                     <div class="shipping_rates">
                         <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
                         <?php JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' ); ?>
-                        <span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=shippingmethods&task=setrates&id=".$item->shipping_method_id."&tmpl=component", "Set Rates", '', '', '', '', '', false ); ?>]</span>
+                        <span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=shippingmethods&task=setrates&id=".$item->shipping_method_id."&tmpl=component", "Set Rates" ); ?>]</span>
                         <?php 
                         if ($shipping_method_type = TiendaHelperShipping::getType($item->shipping_method_type))
                         {
