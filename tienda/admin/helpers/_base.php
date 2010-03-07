@@ -618,5 +618,6 @@ class TiendaHelperBase extends JObject
                     </dd>
                     </dl>";
 		
+		return $html;
 	}
 }

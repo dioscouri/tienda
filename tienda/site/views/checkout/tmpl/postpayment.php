@@ -11,6 +11,9 @@
     <span><?php echo JText::_( "Checkout Results" ); ?></span>
 </div>
 
+<!-- Progress Bar -->
+<?php echo $this->progress; ?>
+
 <?php echo $plugin_html; ?>
 
 <div class="note">

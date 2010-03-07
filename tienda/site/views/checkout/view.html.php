@@ -68,7 +68,16 @@ class TiendaViewCheckout extends TiendaViewBase
 		$form['validate'] = "<input type='hidden' name='".JUtility::getToken()."' value='1' />";
 		$form['id'] = $model->getId();
 		$this->assign( 'form', $form );
-	}	   
+	}
+	
+	/**
+	 * Displays the checkout progress
+	 * @param int step
+	 * @return html the progress layout
+	 */
+	function displayProgress($step){
+		
+	}
 }
 
 

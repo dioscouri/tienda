@@ -18,6 +18,8 @@ class TiendaControllerCheckout extends TiendaController
 	var $billing_input_prefix  = 'billing_input_';
 	var $shipping_input_prefix = 'shipping_input_';
 	var $defaultShippingMethod = null; // set in constructor
+	var $steps 				   = array(); // set in constructor 
+	var $current_step 		   = 0;
 	
 	/**
 	 * constructor
@@ -31,6 +33,14 @@ class TiendaControllerCheckout extends TiendaController
         $this->_order = JTable::getInstance('Orders', 'TiendaTable');
         $this->defaultShippingMethod = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
         $this->initial_order_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
+        // Default Steps
+        $this->steps = array(
+        					 'ShippingMethod',
+        					 'PaymentMethod',
+        					 'Review',
+        					 'End'
+        					);
+        $this->current_step = 0;
 	}
 
 	/**
@@ -109,6 +119,9 @@ class TiendaControllerCheckout extends TiendaController
 		        
 		        // now that the order object is set, get the orderSummary html
 		        $html = $this->getOrderSummary();
+		        
+		        // Get the current step
+		        $progress = $this->getProgress();
 
 		        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		        $model = JModel::getInstance( 'addresses', 'TiendaModel' );
@@ -128,6 +141,7 @@ class TiendaControllerCheckout extends TiendaController
                 $view->assign( 'billing_address', $billingAddress );
                 $view->assign( 'shipping_address', $shippingAddress );
 				$view->assign( 'orderSummary', $html );
+				$view->assign( 'progress', $progress );
                 $view->assign( 'default_billing_address', $default_billing_address );
                 $view->assign( 'default_shipping_address', $default_shipping_address );
 				
@@ -136,6 +150,32 @@ class TiendaControllerCheckout extends TiendaController
 		}
 	
 		parent::display();
+	}
+	
+	/**
+	 * Get the progress bar
+	 */
+	function getProgress(){
+
+        $view = $this->getView( 'checkout', 'html' );
+        $view->set( '_controller', 'checkout' );
+        $view->set( '_view', 'checkout' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->assign( 'steps', $this->steps );
+        $view->assign( 'current_step', $this->current_step );
+        $view->setLayout( 'progress' );
+        
+         // Get and Set Model
+        $model = $this->getModel('checkout');
+        $view->setModel( $model, true );
+
+        ob_start();
+        $view->display();
+        $html = ob_get_contents(); 
+        ob_end_clean();
+        
+        return $html;
 	}
 	
 	/**
@@ -180,6 +220,7 @@ class TiendaControllerCheckout extends TiendaController
         $response['msg'] = '';
         $response['error'] = '';
         
+        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
         $helper = TiendaHelperBase::getInstance();
 		
         // get elements from post
@@ -259,6 +300,9 @@ class TiendaControllerCheckout extends TiendaController
      */
     function review()
     {
+    	
+    	$this->current_step = 1;
+    	
     	// get the posted values
         $values = JRequest::get('post');
         
@@ -291,6 +335,8 @@ class TiendaControllerCheckout extends TiendaController
         $shipping_method_id = $values['shipping_method_id'];
         $customerNote = $values['customer_note'];
         
+        $progress = $this->getProgress();
+        
         //Set display
         $view = $this->getView( 'checkout', 'html' );       
         $view->setLayout('selectpayment');
@@ -313,6 +359,7 @@ class TiendaControllerCheckout extends TiendaController
         $view->assign('billing_info',$billingAddressArray);
         $view->assign('customer_note', $customerNote);
         $view->assign('values', $values);
+        $view->assign('progress', $progress);
 
         $view->set( 'hidemenu', false);
         $view->assign( 'order', $order );
@@ -592,6 +639,7 @@ class TiendaControllerCheckout extends TiendaController
      */
     function preparePayment()
     {
+    	$this->current_step = 2;
         // verify that form was submitted by checking token
         JRequest::checkToken() or jexit( 'TiendaControllerCheckout::preparePayment - Invalid Token' );
          
@@ -667,12 +715,15 @@ class TiendaControllerCheckout extends TiendaController
                
         $shippingMethodName = $this->getShippingMethod($order->shipping_method_id);
         
+        $progress = $this->getProgress();
+        
         // Set display
         $view = $this->getView( 'checkout', 'html' );       
         $view->setLayout('prepayment');
         $view->set( '_doTask', true);
         $view->assign('order', $order);
         $view->assign('plugin_html', $html);
+        $view->assign('progress', $progress);
         $view->assign('orderSummary', $summary);
         $view->assign('shipping_info', $shippingAddressArray);
         $view->assign('billing_info', $billingAddressArray);
@@ -694,6 +745,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function confirmPayment()
 	{
+		$this->current_step = 3;
 		$orderpayment_type = JRequest::getVar('orderpayment_type');
 		
         // Get post values
@@ -713,14 +765,17 @@ class TiendaControllerCheckout extends TiendaController
         $mainframe =& JFactory::getApplication();
         $order_id = $mainframe->getUserState( 'tienda.order_id' );      
         $order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
-                
+       
+        $progress = $this->getProgress();
+
         // Set display
         $view = $this->getView( 'checkout', 'html' );       
         $view->setLayout('postpayment');
         $view->set( '_doTask', true);
         $view->assign('order_link', $order_link );
+        $view->assign('progress', $progress );
         $view->assign('plugin_html', $html);
-        
+         
         // Get and Set Model
         $model = $this->getModel('checkout');
         $view->setModel( $model, true );

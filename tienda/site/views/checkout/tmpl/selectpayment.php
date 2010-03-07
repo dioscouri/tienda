@@ -13,6 +13,9 @@
 </div>
 
     <?php // echo TiendaMenu::display(); ?>
+    
+    <!-- Progress Bar -->
+	<?php echo $this->progress; ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 

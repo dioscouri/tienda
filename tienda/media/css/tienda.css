@@ -269,3 +269,22 @@ div.address{
 	float:left;
 	padding: 10px;
 }
+
+div.progressbar{
+	width:auto;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;	
+	margin-bottom:10px;
+}
+
+div.progressbar span.step{
+	margin-left:auto;
+	margin-right:auto;
+	padding-left:10px;
+	padding-right:10px;	
+}
+
+div.progressbar span.current-step{
+	font-weight:bold;	
+}

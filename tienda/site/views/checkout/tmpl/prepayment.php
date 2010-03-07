@@ -13,6 +13,9 @@
     <span><?php echo JText::_( "Review Checkout Selections and Submit Payment" ); ?></span>
 </div>
 
+	<!-- Progress Bar -->
+	<?php echo $this->progress; ?>
+
     <!--    ORDER SUMMARY   -->
     <h3><?php echo JText::_("Order Summary") ?></h3>
 	<?php
