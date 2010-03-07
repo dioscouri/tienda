@@ -82,7 +82,7 @@ class TiendaTableCategories extends TiendaTableNested
 		{
 			// add root
 			$database = $this->_db;
-			$query = "INSERT IGNORE INTO `#__tienda_categories` SET `category_name` = 'ROOT', `category_description` = 'root', `parent_id` = '0', `lft` = '1', `rgt` = '2', `category_enabled` = '1', `isroot` = '1'; ";
+			$query = "INSERT IGNORE INTO `#__tienda_categories` SET `category_name` = 'All Categories', `category_description` = 'All categories', `parent_id` = '0', `lft` = '1', `rgt` = '2', `category_enabled` = '1', `isroot` = '1'; ";
 			$database->setQuery( $query );
 			if ($database->query())
 			{
