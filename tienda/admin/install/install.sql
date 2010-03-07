@@ -869,29 +869,13 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `#__tienda_productdownloadlogs`
+-- Versions prior to 0.3.1 won't have file downloads enabled anyway...
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__tienda_productdownloadlogs` (
-  `productdownloadlog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `productfile_id` INT(11) NOT NULL DEFAULT '0' ,
-  `user_id` INT(11) NOT NULL DEFAULT '0' ,
-  `productdownloadlog_datetime` DATETIME NOT NULL COMMENT 'GMT Only' ,
-  `productdownloadlog_ipaddress` VARCHAR(15) NOT NULL DEFAULT '',
-  PRIMARY KEY (`productdownloadlog_id`) ,
-  INDEX `fk_ProductFile_ProductDownloadLog` (`productfile_id` ASC) ,
-  CONSTRAINT `fk_ProductFile_ProductDownloadLog`
-    FOREIGN KEY (`productfile_id` )
-    REFERENCES `#__tienda_productfiles` (`productfile_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
+DROP TABLE IF EXISTS `#__tienda_productfiles`;
 -- -----------------------------------------------------
 -- Table `#__tienda_productfiles`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productfiles` (
+CREATE TABLE IF NOT EXISTS `#__tienda_productfiles` (
   `productfile_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL DEFAULT '0',
   `purchase_required` tinyint(1) NOT NULL,
@@ -910,6 +894,26 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productfiles` (
   CONSTRAINT `fk_Product_ProductFiles`
     FOREIGN KEY (`product_id` )
     REFERENCES `#__tienda_products` (`product_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_productdownloadlogs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productdownloadlogs` (
+  `productdownloadlog_id` int(11) NOT NULL AUTO_INCREMENT,
+  `productfile_id` INT(11) NOT NULL DEFAULT '0' ,
+  `user_id` INT(11) NOT NULL DEFAULT '0' ,
+  `productdownloadlog_datetime` DATETIME NOT NULL COMMENT 'GMT Only' ,
+  `productdownloadlog_ipaddress` VARCHAR(15) NOT NULL DEFAULT '',
+  PRIMARY KEY (`productdownloadlog_id`) ,
+  INDEX `fk_ProductFile_ProductDownloadLog` (`productfile_id` ASC) ,
+  CONSTRAINT `fk_ProductFile_ProductDownloadLog`
+    FOREIGN KEY (`productfile_id` )
+    REFERENCES `#__tienda_productfiles` (`productfile_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB

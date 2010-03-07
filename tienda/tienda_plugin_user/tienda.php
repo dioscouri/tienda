@@ -37,9 +37,32 @@ class plgUserTienda extends JPlugin
      */
     function onLoginUser($user, $options)
     {
+        // Should check that Tienda is installed first before executing
+        if (!$this->_isInstalled())
+        {
+            return;
+        }
+        
         JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
         TiendaHelperCarts::updateDbCart('', true);
         return true;
+    }
+    
+    /**
+     * Checks the extension is installed
+     * 
+     * @return boolean
+     */
+    function _isInstalled()
+    {
+        $success = false;
+        
+        jimport('joomla.filesystem.file');
+        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
+        {
+            $success = true;
+        }
+        return $success;
     }
 }
 ?>
