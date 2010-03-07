@@ -170,6 +170,7 @@ class TiendaConfig extends Tienda
 	var $page_tooltip_logs_disabled			= '0';
 	var $page_tooltip_payments_disabled		= '0';
 	var $page_tooltip_commissions_disabled	= '0';
+	var $page_tooltip_users_view_disabled   = '0';
 	var $article_default					= '0';
 	var $article_potential					= '0';
 	var $article_unapproved					= '0';

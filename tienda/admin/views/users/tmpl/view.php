@@ -4,7 +4,7 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
-    <?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
+    <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
 
     <fieldset>
         <legend><?php echo JText::_('User'); ?></legend>

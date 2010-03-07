@@ -204,6 +204,14 @@
                                 
                             </td>
 						</tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Hide User Dashboard Note' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'page_tooltip_users_view_disabled', 'class="inputbox"', $this->row->get('page_tooltip_users_view_disabled', '0') ); ?>
+                            </td>
+                        </tr>
 					</tbody>
 					</table>
 					<?php

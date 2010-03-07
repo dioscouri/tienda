@@ -39,10 +39,18 @@ class TiendaUrl {
 	}
 
 	/**
-	 * Wrapper that adds the current Itemid to the URL
-	 *
-	 * @param	string $string The string to translate
-	 *
+	 * Displays a url in a lightbox
+	 * 
+	 * @param $url
+	 * @param $text
+	 * @param $width
+	 * @param $height
+	 * @param $top
+	 * @param $left
+	 * @param $class
+	 * @param $update
+	 * @param $img
+	 * @return unknown_type
 	 */
 	function popup( $url, $text, $width='', $height='', $top=0, $left=0, $class='', $update=false, $img=false ) 
 	{
