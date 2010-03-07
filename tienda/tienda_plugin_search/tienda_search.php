@@ -64,11 +64,11 @@ function plgSearchTienda( $text, $phrase='', $ordering='', $areas=null )
  
 				//search exact
                 case 'exact':
-                        $text          = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+                  /*      $text          = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
                         $wheres2       = array();
                         $wheres2[]   = 'LOWER(a.product_name) LIKE '.$text;
                         $where                 = '(' . implode( ') OR (', $wheres2 ) . ')';
-                        break;
+                        break;*/
  
 				//search all or any
                 case 'all':
@@ -115,7 +115,7 @@ function plgSearchTienda( $text, $phrase='', $ordering='', $areas=null )
         $searchtienda_search = JText::_( 'Tienda' );
  
 		//the database query; differs per situation! It will look something like this:
-        $query = 'SELECT a.product_name AS title'
+        $query = 'SELECT a.product_name AS title, a.product_description as text'
         . ' FROM #__tienda_products AS a'
         . ' WHERE ( '. $where .' )'
         . ' AND a.product_enabled = 1'
@@ -124,13 +124,17 @@ function plgSearchTienda( $text, $phrase='', $ordering='', $areas=null )
  
 		//Set query
         $db->setQuery( $query, 0, $limit );
-        $rows = $db->loadObjectList();
+        $rows = $db->loadObjectList();        
  
-		//The 'output' of the displayed link
-        foreach($rows as $key => $row) {
-                $rows[$key]->href = "index.php?option=com_tienda&controller=products&view=products&task=view&id=".$row->slug;
+        if(count($rows) > 0){
+			//The 'output' of the displayed link
+	        foreach($rows as $key => $row) {
+	                $rows[$key]->href = "index.php?option=com_tienda&controller=products&view=products&task=view&id=".$row->slug;
+	                $rows[$key]->section = "Tienda";
+	                $rows[$key]->browsernav = "1";                
+	        }
         }
- 
+        
 		//Return the search results in an array
 		return $rows;
 }
