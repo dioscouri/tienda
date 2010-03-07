@@ -229,8 +229,7 @@ class TiendaModelOrders extends TiendaModelBase
     		
     		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
     		$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
-            $cmodel->setState('filter_id_from', $item->currency_id);
-            $cmodel->setState('filter_id_to', $item->currency_id);
+            $cmodel->setId($item->currency_id);
             $item->currency = $cmodel->getItem();
             
     		// if the order currency is not the same as it was during the order
@@ -299,8 +298,7 @@ class TiendaModelOrders extends TiendaModelBase
     		$order_currency = $order_currency->toArray();
     		
     		$model = JModel::getInstance( 'Currencies', 'TiendaModel' );
-            $model->setState('filter_id_from', $item->currency_id);
-            $model->setState('filter_id_to', $item->currency_id);
+            $model->setId($item->currency_id);
             $item->currency = $model->getItem();
             
     		// if the order currency is not the same as it was during the order
