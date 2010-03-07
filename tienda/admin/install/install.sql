@@ -869,9 +869,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Versions prior to 0.3.1 won't have file downloads enabled anyway...
+-- Versions prior to 0.3.1 will not have file downloads enabled anyway
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__tienda_productfiles`;
+
+
 -- -----------------------------------------------------
 -- Table `#__tienda_productfiles`
 -- -----------------------------------------------------
@@ -898,7 +900,6 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productfiles` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productdownloadlogs`
