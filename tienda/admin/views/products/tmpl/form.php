@@ -7,11 +7,16 @@ JFilterOutput::objectHTMLSafe( $row );
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
-<fieldset>
-	<legend><?php echo JText::_('Form'); ?></legend>
 	<table style="width: 100%">
 	<tr>
-		<td style="width: 65%; vertical-align: top;">
+		<td style="vertical-align: top;">
+<?php 
+	jimport('joomla.html.pane');
+	$tabs = JPane::getInstance( 'tabs' );
+
+	echo $tabs->startPane("tabone");
+	echo $tabs->startPanel( JText::_( 'Basic Informations' ), "basic" );
+?>		
 			<table class="admintable">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
@@ -76,7 +81,26 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
 					</td>
 				</tr>
+				<tr>
+					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+						<label for="product_description">
+						<?php echo JText::_( 'Description' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php $editor = &JFactory::getEditor(); ?>
+						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '450', '100', '20' ) ; ?>
+					</td>
+				</tr>
 				
+				</table>
+<?php 
+
+echo $tabs->endPanel();
+echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
+
+?>
+			<table class="admintable">
 				<?php 
 				if (empty($row->product_id)) 
 				{
@@ -126,7 +150,16 @@ JFilterOutput::objectHTMLSafe( $row );
 					<?php
 				}
 				?>
-
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="tax_class_id">
+						<?php echo JText::_( 'Tax Class' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
+					</td>
+				</tr>
 				<?php 
 				if (empty($row->product_id)) 
 				{
@@ -210,6 +243,43 @@ JFilterOutput::objectHTMLSafe( $row );
                     <?php
                 }
                 ?>
+<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="product_full_image">
+						<?php echo JText::_( 'Current Image' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php
+						jimport('joomla.filesystem.file');
+						if (!empty($row->product_full_image) && JFile::exists( Tienda::getPath( 'products_images').DS.$row->product_full_image ))
+						{
+							?>
+							<img src="<?php echo Tienda::getURL( 'products_images').$row->product_full_image; ?>" style="display: block;" />
+							<?php	
+						}
+						?>
+						<input type="text" name="product_full_image" id="product_full_image" size="48" maxlength="250" value="<?php echo @$row->product_full_image; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="product_full_image_new">
+						<?php echo JText::_( 'Upload New Image' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input name="product_full_image_new" type="file" size="40" />
+					</td>
+				</tr>
+				</table>
+<?php 
+
+echo $tabs->endPanel();
+echo $tabs->startPanel( JText::_( 'Other Info' ), "other" );
+
+?>
+			<table class="admintable">
 
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
@@ -426,17 +496,6 @@ JFilterOutput::objectHTMLSafe( $row );
                         
                     </td>
                 </tr>
-
-				<tr>
-					<td style="width: 100px; text-align: right;" class="key">
-						<label for="tax_class_id">
-						<?php echo JText::_( 'Tax Class' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
-					</td>
-				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <?php echo JText::_( 'Requires Shipping' ); ?>:
@@ -500,50 +559,11 @@ JFilterOutput::objectHTMLSafe( $row );
 		                </div>
 		            </td>
 		        </tr>
-				<tr>
-					<td style="width: 100px; text-align: right;" class="key">
-						<label for="product_full_image">
-						<?php echo JText::_( 'Current Image' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php
-						jimport('joomla.filesystem.file');
-						if (!empty($row->product_full_image) && JFile::exists( Tienda::getPath( 'products_images').DS.$row->product_full_image ))
-						{
-							?>
-							<img src="<?php echo Tienda::getURL( 'products_images').$row->product_full_image; ?>" style="display: block;" />
-							<?php	
-						}
-						?>
-						<input type="text" name="product_full_image" id="product_full_image" size="48" maxlength="250" value="<?php echo @$row->product_full_image; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 100px; text-align: right;" class="key">
-						<label for="product_full_image_new">
-						<?php echo JText::_( 'Upload New Image' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input name="product_full_image_new" type="file" size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 100px; text-align: right;" class="key">
-						<label for="product_description">
-						<?php echo JText::_( 'Description' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?php $editor = &JFactory::getEditor(); ?>
-						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '450', '100', '20' ) ; ?>
-					</td>
-				</tr>
 			</table>
 		</td>
-		<td style="max-width: 35%; vertical-align: top;">
 			<?php
+		// <td style="max-width: 35%; vertical-align: top;">
+		
 //			jimport('joomla.html.pane');
 //			$slider = JPane::getInstance( 'sliders' );
 //			
@@ -558,13 +578,19 @@ JFilterOutput::objectHTMLSafe( $row );
 //			echo $slider->endPanel();
 //			
 //			echo $slider->endPane();
-			?>
 			
-		</td>
+			
+		//</td>
+		?>
 	</tr>
 	</table>
 			
 	<input type="hidden" name="id" value="<?php echo @$row->product_id; ?>" />
 	<input type="hidden" name="task" value="" />
-	</fieldset>
+	
+	<?php
+	echo $tabs->endPanel();
+	echo $tabs->endPane();
+	?>
+	
 </form>
