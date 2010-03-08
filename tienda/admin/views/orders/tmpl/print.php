@@ -4,10 +4,93 @@
 <?php $row = @$this->row; ?>
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
+<?php $config = TiendaConfig::getInstance(); ?>
+
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
     <table style="width: 100%;">
+    <tr>
+    	<td colspan="2" style="vertical-align:top;">
+    	
+    	 <fieldset>
+            <legend><?php echo JText::_('Shop Information'); ?></legend>
+            
+            <table class="admintable" style="float:left; width:50%;">
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Shop Name"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_name', ''); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Company Name"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_company_name', ''); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Shop Owner"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_owner_name', '') ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Phone"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_phone', '') ?>
+                </td>
+            </tr>
+            </table>
+            
+            <table class="admintable" style="float:right; width:50%;">
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Address"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_address_1', '') ?>
+                    <?php 
+                    	$address_2 = $config->get('shop_address_2', '');
+						if(!empty($address_2))
+							echo ", ".$address_2."<br />";
+						
+						echo $config->get('shop_zip', ''). ", ";
+						echo $config->get('shop_city', ''). ", ";
+						echo $row->shop_zone_name. ", ";
+						echo $row->shop_country_name;
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Tax Number 1"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_tax_number_1', ''); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Tax Number 2"); ?>
+                </td>
+                <td>
+                    <?php echo $config->get('shop_tax_number_2', ''); ?>
+                </td>
+            </tr>
+            </table>
+            
+         </fieldset>
+    	</td>
+    </tr>
     <tr>
         <td style="width: 50%; vertical-align: top;">
         

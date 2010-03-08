@@ -50,7 +50,23 @@ class TiendaViewOrders extends TiendaViewBase
 		JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
 
 		$model = $this->getModel();
-		$row = $model->getItem();		
+		$row = $model->getItem();	
+
+		// Get the shop country name
+		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
+		$countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
+		$countryItem = $countryModel->getItem();
+		if($countryItem){
+			$row->shop_country_name = $countryItem->country_name;
+		}
+		
+		// Get the shop zone name
+		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
+		$zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
+		$zoneItem = $zoneModel->getItem();
+		if($zoneItem){
+			$row->shop_zone_name = $zoneItem->zone_name;
+		}
 
 		//retrieve user information and make available to page
 		$user_id = JRequest::getVar('userid', 0, 'get', 'int');

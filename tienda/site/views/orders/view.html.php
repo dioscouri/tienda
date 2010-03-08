@@ -49,11 +49,25 @@ class TiendaViewOrders extends TiendaViewBase
     function _form($tpl='')
     {
         parent::_form($tpl);
-        // TODO Would need this fixed to add prev/next buttons when viewing orders
-        // helper method doesn't properly set filter_userid, so returned prev/next records are invalid
-//        $model = $this->getModel();
-//        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
-//        $surrounding = TiendaHelperOrder::getSurrounding( $model->getId() );
-//        $this->assign('surrounding', $surrounding);	
+        
+        $shop_info = array();
+        
+   		 // Get the shop country name
+		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
+		$countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
+		$countryItem = $countryModel->getItem();
+		if($countryItem){
+			$shop_info['shop_country_name'] = $countryItem->country_name;
+		}
+		
+		// Get the shop zone name
+		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
+		$zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
+		$zoneItem = $zoneModel->getItem();
+		if($zoneItem){
+			$shop_info['shop_zone_name'] = $zoneItem->zone_name;
+		}
+		
+		$this->assign('shop_info', (object) $shop_info);
     }
 }

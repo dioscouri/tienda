@@ -4,13 +4,25 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
+<?php $shop_info = @$this->shop_info; ?>
 <?php $surrounding = @$this->surrounding; ?>
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
+<?php $config = TiendaConfig::getInstance(); ?>
 
 <div class='componentheading'>
 	<span><?php echo JText::_( "Order Detail" ); ?></span>
 </div>
+
+	<div id="order_shop_info">
+		<strong><?php echo $config->get('shop_name', ''); ?></strong><br />
+		<?php echo $config->get('shop_company_name', ''); echo " ".JText::_('of')." "; echo $config->get('shop_owner_name', ''); ?><br />
+		<strong><?php echo JText::_('Address'); ?></strong>: <br /><?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
+		<?php echo $config->get('shop_zip', ''); ?>, <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $shop_info->shop_country_name; ?><br />
+		<strong><?php echo JText::_('Phone'); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
+		<strong><?php echo JText::_('Tax Number 1'); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
+		<strong><?php echo JText::_('Tax Number 2'); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
+	</div>
 		
     <div id="order_info">
         <h3><?php echo JText::_("Order Information"); ?></h3>

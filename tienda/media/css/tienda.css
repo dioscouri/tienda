@@ -288,3 +288,8 @@ div.progressbar span.step{
 div.progressbar span.current-step{
 	font-weight:bold;	
 }
+
+div#order_shop_info{
+	float: right;
+	width:250px;
+}
