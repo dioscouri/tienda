@@ -216,7 +216,13 @@ class TiendaModelProducts extends TiendaModelBase
 	{
 		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
 		$list = parent::getList(); 
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=products&view=products&task=view&id='.$item->product_id;
 			$item->link_edit = 'index.php?option=com_tienda&controller=products&view=products&task=edit&id='.$item->product_id;

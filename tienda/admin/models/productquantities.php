@@ -56,7 +56,13 @@ class TiendaModelProductQuantities extends TiendaModelBase
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
 		
 		$list = parent::getList(); 
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 		    if ($product_attributes = explode( ',', $item->product_attributes ))
 	        {

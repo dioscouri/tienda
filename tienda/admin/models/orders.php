@@ -216,6 +216,11 @@ class TiendaModelOrders extends TiendaModelBase
 		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
 		$list = parent::getList();
 		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
 		foreach(@$list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;

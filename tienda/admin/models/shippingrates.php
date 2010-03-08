@@ -69,7 +69,13 @@ class TiendaModelShippingRates extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList(); 
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 			$item->link_remove = 'index.php?option=com_tienda&controller=shippingrates&task=delete&cid[]='.$item->shipping_rate_id;
 		}

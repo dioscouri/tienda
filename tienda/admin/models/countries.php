@@ -75,7 +75,13 @@ class TiendaModelCountries extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList(); 
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=countries&view=countries&task=edit&id='.$item->country_id;
 		}

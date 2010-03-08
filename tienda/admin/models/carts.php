@@ -66,7 +66,13 @@ class TiendaModelCarts extends TiendaModelBase
     {
     	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $list = parent::getList();
-        foreach(@$list as $item)
+        
+    	// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+        
+        foreach($list as $item)
         {
         	$item->orderitem_attributes_price = '0.00000';
             $item->attributes = array(); // array of each selected attribute's object

@@ -55,7 +55,13 @@ class TiendaModelTaxclasses extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList(); 
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=taxclasses&view=taxclasses&task=edit&id='.$item->tax_class_id;
 			$item->link_taxrates = 'index.php?option=com_tienda&view=taxclasses&task=setrates&tmpl=component&id='.$item->tax_class_id;

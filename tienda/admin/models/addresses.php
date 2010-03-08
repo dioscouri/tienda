@@ -82,10 +82,20 @@ class TiendaModelAddresses extends TiendaModelBase
 		$query->join('LEFT', '#__tienda_zones AS z ON z.zone_id = tbl.zone_id');
 	}
 	
+	/**
+	 * @return array
+	 */
+	
     public function getList()
     {
         $list = parent::getList();
-        foreach(@$list as $item)
+        
+        // If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+        
+        foreach($list as $item)
         {
             $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
         }

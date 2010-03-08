@@ -134,7 +134,13 @@ class TiendaModelCategories extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList();
-		foreach(@$list as $item)
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=categories&view=categories&task=edit&id='.$item->category_id;
 		}
