@@ -55,15 +55,19 @@ class TiendaUrl {
 	 * @return popup html
 	 */
 	function popup( $url, $text, $options = array() ) 
-	{		
+	{
 		$html = "";
-		($options['update'])
-            ? JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){tiendaUpdate();}'))
-            : JHTML::_('behavior.modal');
-
-		$url;
 		
-		$handler = ($options['img'])
+		if (!empty($options['update']))
+		{
+		    JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){tiendaUpdate();}') );
+		}
+            else
+		{
+		    JHTML::_('behavior.modal');
+		}
+		
+		$handler = (!empty($options['img']))
 		  ? "{handler:'image'}"
 		  : "{handler:'iframe',size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
 
@@ -76,8 +80,10 @@ class TiendaUrl {
 			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";
 		}
 
+		$class = (!empty($options['class'])) ? $options['class'] : '';
+		
 		$html	= "<a class=\"modal\" href=\"$url\" rel=\"$handler\" >\n";
-		$html 	.= "<span class=\"".$options['class']."\" >\n";
+		$html 	.= "<span class=\"".$class."\" >\n";
         $html   .= "$text\n";
 		$html 	.= "</span>\n";
 		$html	.= "</a>\n";

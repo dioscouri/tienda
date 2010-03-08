@@ -3,7 +3,7 @@
 -- -----------------------------------------------------
 
 INSERT IGNORE INTO `#__tienda_categories` (`category_id`, `category_name`, `category_description`, `category_thumb_image`, `category_full_image`, `created_date`, `modified_date`, `lft`, `rgt`, `parent_id`, `category_enabled`, `isroot`) VALUES
-(1, 'ROOT', 'root', NULL, NULL, NOW(), NOW(), 1, 30, 0, 1, 1),
+(1, 'All Categories', '', NULL, NULL, NOW(), NOW(), 1, 30, 0, 1, 1),
 (2, 'Laptops & Notebooks', '', '', NULL, NOW(), NOW(), 22, 23, 1, 1, 0),
 (3, 'Phones & PDAs', '', '', NULL, NOW(), NOW(), 26, 27, 1, 1, 0),
 (4, 'Components', '', '', NULL, NOW(), NOW(), 4, 15, 1, 1, 0),

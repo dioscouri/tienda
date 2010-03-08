@@ -18,7 +18,7 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td>
-						<input type="text" name="product_name" id="product_name" value="<?php echo $row->product_name; ?>" size="48" maxlength="250" />
+						<input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
 					</td>
 				</tr>
                 <tr>

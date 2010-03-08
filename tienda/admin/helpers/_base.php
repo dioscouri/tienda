@@ -76,10 +76,10 @@ class TiendaHelperBase extends JObject
 
 			$instance = new $helperClass();
 			
-			$instances[$signature] = & $instance;
+			$instances[$helperClass] = & $instance;
 		}
 
-		return $instances[$signature];
+		return $instances[$helperClass];
 	}
 	
 	
