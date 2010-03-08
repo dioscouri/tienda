@@ -3,6 +3,8 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 
+<?php JFilterOutput::objectHTMLSafe($row); ?>
+
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 		<div id='onBeforeDisplay_wrapper'>
@@ -21,6 +23,168 @@
 					// display defaults
 					$pane = '1';
 					echo $this->sliders->startPane( "pane_$pane" );
+					
+					$legend = JText::_( "Shop Informations" );
+					echo $this->sliders->startPanel( JText::_( $legend ), 'shop' );
+					
+					?>
+					
+					<table class="adminlist">
+					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Shop Name' ); ?>
+                            </th>
+                            <td>
+                               <input type="text" name="shop_name" value="<?php echo $this->row->get('shop_name', ''); ?>" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( "The Name of the Shop" ); ?>
+                            </td>
+                        </tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Company Name' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_company_name" value="<?php echo $this->row->get('shop_company_name', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Address Line 1' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_address_1" value="<?php echo $this->row->get('shop_address_1', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Address Line 2' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_address_2" value="<?php echo $this->row->get('shop_address_2', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'City' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_city" value="<?php echo $this->row->get('shop_city', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Country' ); ?>
+							</th>
+			                <td>
+			                	<?php
+								// TODO Change this to use a task within the checkout controller rather than creating a new zones controller 
+								$url = "index.php?option=com_tienda&format=raw&controller=addresses&task=getzones&name=shop_zone&country_id=";
+								$attribs = array('onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\'shop_country\').value, \'zones_wrapper\', \'\');' );
+								echo TiendaSelect::country( $this->row->get('shop_country', ''), 'shop_country', $attribs,'shop_country', true );
+								?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'State / Region' ); ?>
+							</th>
+			                <td>
+			                	<div id="zones_wrapper">
+						            <?php 
+						            $shop_zone = $this->row->get('shop_zone', '');
+						            if (empty($shop_zone)) 
+						            {
+						            	echo JText::_( "Select Country First" ); 
+						            }
+						            else
+						            {
+						            	echo TiendaSelect::zone( $shop_zone, 'shop_zone', $this->row->get('shop_country', '') );
+						            }
+						            ?>
+					            </div>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Zip Code' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_zip" value="<?php echo $this->row->get('shop_zip', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Tax Number 1' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_tax_number_1" value="<?php echo $this->row->get('shop_tax_number_1', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Tax Number 2' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_tax_number_2" value="<?php echo $this->row->get('shop_tax_number_2', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Phone' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_phone" value="<?php echo $this->row->get('shop_phone', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Shop Owner Name' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="shop_owner_name" value="<?php echo $this->row->get('shop_owner_name', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+					</tbody>
+					</table>
+					
+					<?php
+					echo $this->sliders->endPanel();
 					
 					$legend = JText::_( "Currency Settings" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'currency' );

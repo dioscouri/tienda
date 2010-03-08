@@ -306,7 +306,7 @@ class TiendaSelect extends JHTMLSelect
         {
         	$list[] =  self::option( $item->zone_id, JText::_($item->zone_name), 'zone_id', 'zone_name' );
         }
-
+        
 		return self::genericlist($list, $name, $attribs, 'zone_id', 'zone_name', $selected, $idtag );
  	}
 

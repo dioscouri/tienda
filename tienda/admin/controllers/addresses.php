@@ -23,6 +23,32 @@ class TiendaControllerAddresses extends TiendaController
 		$this->set('suffix', 'addresses');
 	}
 	
+	/**
+     * Returns a selectlist of zones
+     * Called via Ajax
+     * 
+     * @return unknown_type
+     */
+    function getZones()
+    {
+        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+        $html = '';
+        $text = '';
+    	
+    	$country_id = JRequest::getVar('country_id');
+    	$name = JRequest::getVar('name');
+    	$html = TiendaSelect::zone( '', $name, $country_id );
+    	
+        $response = array();
+        $response['msg'] = $html;
+        $response['error'] = '';        
+        
+        // encode and echo (need to echo to send back to browser)
+        echo ( json_encode($response) );
+
+        return; 
+    }
+	
 	function getAddressData(){
 		// set response array
 		$html = '';

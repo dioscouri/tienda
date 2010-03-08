@@ -161,6 +161,7 @@ class Tienda extends JObject
 class TiendaConfig extends Tienda
 {
 
+	// View Options
 	var $show_linkback						= '1';
 	var $page_tooltip_dashboard_disabled	= '0';
 	var $page_tooltip_config_disabled		= '0';
@@ -194,9 +195,23 @@ class TiendaConfig extends Tienda
 	var $logout_url_redirect				= 'index.php';
 	var $login_redirect						= '1';
 	var $orderstates_csv                    = '2, 3, 5, 17';
+	// Other Info
 	var $display_shipping_tax               = '1';
 	var $initial_order_state               = '15';
 	var $defaultShippingMethod               = '2';
+	// Shop Info
+	var $shop_name							= '';
+	var $shop_company_name					= '';
+	var $shop_address_1						= '';
+	var $shop_address_2						= '';
+	var $shop_city							= '';
+	var $shop_country						= '';
+	var $shop_zone							= '';
+	var $shop_zip							= '';
+	var $shop_tax_number_1					= '';
+	var $shop_tax_number_2					= '';
+	var $shop_phone							= '';
+	var $shop_owner_name					= '';
 
 	/**
 	 * constructor
