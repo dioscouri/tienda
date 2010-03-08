@@ -132,6 +132,28 @@ class TiendaFile extends JObject
 		$success = true;		
 		return $success;
 	}
+	
+	/**
+	 * Do the real upload
+	 */
+	function upload(){
+		// path
+		$dest = $this->getDirectory().DS.$this->getPhysicalName();
+		// delete the file if dest exists
+		if ($fileexists = JFile::exists( $dest ))
+		{
+			JFile::delete($dest);
+		}
+		// save path and filename or just filename
+		if (!JFile::upload($this->file_path, $dest))
+		{
+        	$this->setError( sprintf( JText::_("Move failed from"), $this->file_path, $dest) );
+        	return false;			
+		}
+		
+		$this->full_path = $dest;
+		return true;
+	}
 
 	/**
 	 * Returns a list of types

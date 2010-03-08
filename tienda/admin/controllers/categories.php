@@ -170,22 +170,10 @@ class TiendaControllerCategories extends TiendaController
 		$upload->handleUpload( $fieldname );
 		// then save image to appropriate folder
 		$upload->setDirectory( Tienda::getPath('categories_images'));
-		$dest = $upload->getDirectory().DS.$upload->getPhysicalName();
-		// delete the file if dest exists
-		if ($fileexists = JFile::exists( $dest ))
-		{
-			JFile::delete($dest);
-		}
-		// save path and filename or just filename
-		if (!JFile::upload($upload->file_path, $dest))
-		{
-        	$this->setError( sprintf( JText::_("Move failed from"), $upload->file_path, $dest) );
-        	return false;			
-		}
 		
-		// TODO Make thumbnail also
+		// do upload!
+		$upload->upload();
 		
-		$upload->full_path = $dest;    	
     	return $upload;
 	}
 	
