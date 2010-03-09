@@ -137,7 +137,8 @@ class TiendaControllerAddresses extends TiendaController
         $text = '';
     	
     	$country_id = JRequest::getVar('country_id');
-    	$html = TiendaSelect::zone( '', 'zone_id', $country_id );
+    	$prefix = JRequest::getVar('prefix');
+    	$html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id );
     	
         $response = array();
         $response['msg'] = $html;

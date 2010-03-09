@@ -151,6 +151,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
         </copy>
+        <!-- SYSTEM PLUGINS -->
+        <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_system" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
+        </copy>
     	<!-- MODULES -->
     	<copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
     	            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />

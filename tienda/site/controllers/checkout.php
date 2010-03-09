@@ -70,83 +70,78 @@ class TiendaControllerCheckout extends TiendaController
 		// determine layout based on login status
 		if (empty($user->id)) 
 		{
+		    // Display a form for selecting either to register or to login
 			JRequest::setVar('layout', 'form');
 		}
     		else 
 		{
-			// Get User Address Information
 			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-			$model = JModel::getInstance( 'addresses', 'TiendaModel' );
-			$model->setState("filter_userid", $user->id);
-			$model->setState("filter_deleted", 0);
-			$items = $model->getList();
-			// no addresses, redirect to address form			
-			if (empty($items))
-			{
-				JFactory::getApplication()->redirect('index.php?option=com_tienda&view=addresses&layout=form');
-			}
-                else
-			{
-				$shipping_method_id = $this->defaultShippingMethod;
-				
-		        // get the order object so we can populate it
-		        $order = &$this->_order; // a TableOrders object (see constructor)
-		        
-		        // set the currency
-		        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-		        
-		        // set the shipping method
-		        $order->shipping_method_id = $shipping_method_id;
-		        
-		        // set the order's addresses based on the form inputs
-		        // set to user defaults
-		        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
-		        $billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
-		        $shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
-		        $order->setAddress( $billingAddress, 'billing' );
-		        $order->setAddress( $shippingAddress, 'shipping' );
 
-		        // get the items and add them to the order
-		        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
-        		$items = TiendaHelperCarts::getProductsInfo();
-		        foreach ($items as $item)
-		        {
-		            $order->addItem( $item );
-		        }
+			$shipping_method_id = $this->defaultShippingMethod;
+			
+	        // get the order object so we can populate it
+	        $order = &$this->_order; // a TableOrders object (see constructor)
+	        
+	        // set the currency
+	        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+	        
+	        // set the shipping method
+	        $order->shipping_method_id = $shipping_method_id;
+	        
+	        // set the order's addresses based on the form inputs
+	        // set to user defaults
+	        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+	        $billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
+	        $shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
+	        $order->setAddress( $billingAddress, 'billing' );
+	        $order->setAddress( $shippingAddress, 'shipping' );
 
-		        // get the order totals
-		        $order->calculateTotals();
-		        
-		        // now that the order object is set, get the orderSummary html
-		        $html = $this->getOrderSummary();
-		        
-		        // Get the current step
-		        $progress = $this->getProgress();
+	        // get the items and add them to the order
+	        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+    		$items = TiendaHelperCarts::getProductsInfo();
+	        foreach ($items as $item)
+	        {
+	            $order->addItem( $item );
+	        }
 
-		        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		        $model = JModel::getInstance( 'addresses', 'TiendaModel' );
-		        $model->setState("filter_userid", JFactory::getUser()->id);
-		        $model->setState("filter_deleted", 0);
-		        $addresses = $model->getList();
+	        // get the order totals
+	        $order->calculateTotals();
+	        
+	        // now that the order object is set, get the orderSummary html
+	        $html = $this->getOrderSummary();
+	        
+	        // Get the current step
+	        $progress = $this->getProgress();
 
-                // get the default shipping and billing addresses, if possible
-		        $default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
-		        $default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
-                
-		        // now display the entire checkout page
-		        $view = $this->getView( 'checkout', 'html' );
-		        $view->set( 'hidemenu', false);
-		        $view->assign( 'order', $order );
-		        $view->assign( 'addresses', $addresses );
-                $view->assign( 'billing_address', $billingAddress );
-                $view->assign( 'shipping_address', $shippingAddress );
-				$view->assign( 'orderSummary', $html );
-				$view->assign( 'progress', $progress );
-                $view->assign( 'default_billing_address', $default_billing_address );
-                $view->assign( 'default_shipping_address', $default_shipping_address );
-				
-				JRequest::setVar('layout', 'default');
-			}
+	        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+	        $model = JModel::getInstance( 'addresses', 'TiendaModel' );
+	        $model->setState("filter_userid", JFactory::getUser()->id);
+	        $model->setState("filter_deleted", 0);
+	        $addresses = $model->getList();
+
+            // get address forms
+            $billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
+            $shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix );
+
+            // get the default shipping and billing addresses, if possible
+	        $default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
+	        $default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
+            
+	        // now display the entire checkout page
+	        $view = $this->getView( 'checkout', 'html' );
+	        $view->set( 'hidemenu', false);
+	        $view->assign( 'order', $order );
+	        $view->assign( 'addresses', $addresses );
+            $view->assign( 'billing_address', $billingAddress );
+            $view->assign( 'shipping_address', $shippingAddress );
+            $view->assign( 'billing_address_form', $billing_address_form );
+            $view->assign( 'shipping_address_form', $shipping_address_form );
+			$view->assign( 'orderSummary', $html );
+			$view->assign( 'progress', $progress );
+            $view->assign( 'default_billing_address', $default_billing_address );
+            $view->assign( 'default_shipping_address', $default_shipping_address );
+			
+			JRequest::setVar('layout', 'default');
 		}
 	
 		parent::display();
@@ -232,10 +227,9 @@ class TiendaControllerCheckout extends TiendaController
         {
            // do form validation
            // if it fails check, return message
-           $response['error'] = '1';
-           $response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters!"));                       
-
-       		echo ( json_encode( $response ) );
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));                       
+            echo ( json_encode( $response ) );
        		return;
         }
         
@@ -243,54 +237,131 @@ class TiendaControllerCheckout extends TiendaController
         JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
         $helper = TiendaHelperBase::getInstance();
         $submitted_values = $helper->elementsToArray( $elements );
-            
-		if (empty($submitted_values['_checked']['shipping_method_id']) && empty($submitted_values['_checked']['payment_plugin']) )
-		{
-            $response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
-			$response['error'] = '1';
-			
-			echo ( json_encode( $response ) );
         
-        	return;
-		} else if (empty($submitted_values['_checked']['payment_plugin'])){
-			$response['error'] = '0';
-			echo ( json_encode( $response ) );
-        
-        	return;
-		}
-			
-			
-			if (empty($submitted_values['_checked']['payment_plugin']) )
-			{
-	           	$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
-				$response['error'] = '1';
-			}
-	            else
-			{        
-				// Validate the results of the payment plugin	
-		       	$results = array();
-				$dispatcher =& JDispatcher::getInstance();
-				$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
-	
-			    for ($i=0; $i<count($results); $i++) 
-		        {
-		            $result = $results[$i];
-		            if (!empty($result->error))
-		            {
-			            $response['msg'] = $helper->generateMessage( $result->message );
-			             $response['error'] = '1';
-		            } 
-	                    else 
-		            {
-		                $response['error'] = '0';
-		            }
-		        }
-			}
-		
-		
-		echo ( json_encode( $response ) );
-        
+        $step = (!empty($submitted_values['step'])) ? strtolower($submitted_values['step']) : '';
+        switch ($step)
+        {
+            case "selectshipping":
+                $this->validateSelectShipping( $submitted_values );
+                break;
+            case "selectpayment":
+                $this->validateSelectPayment( $submitted_values );
+                break;
+            default:
+                $response['error'] = '1';
+                $response['msg'] = $helper->generateMessage(JText::_("INVALID STEP IN CHECKOUT PROCESS"));                       
+                echo ( json_encode( $response ) );
+                break;
+        }
         return;
+	}
+	
+    /**
+     * Validates the select shipping method form
+     */
+	function validateSelectShipping( $submitted_values )
+	{
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        $helper = TiendaHelperBase::getInstance();
+        
+	    // fail if no shipping method selected
+        if (empty($submitted_values['_checked']['shipping_method_id']))
+        {
+            $response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        // fail if billing address is invalid
+        if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
+        {
+            $response['msg'] = $helper->generateMessage( JText::_( "BILLING ADDRESS ERROR" )." :: ".$this->getError() );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        // fail if shipping address is invalid
+        // if we're checking shipping and the sameasbilling is checked, then this is good
+        $sameasbilling = (!empty($submitted_values['_checked']['sameasbilling']));
+        if (!$sameasbilling && !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, $submitted_values['shipping_address_id'] ))
+        {
+            $response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError() );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        echo ( json_encode( $response ) );
+        return;
+	    
+	}
+	
+	/**
+	 * Validates the select payment form
+	 */
+    function validateSelectPayment( $submitted_values )
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        $helper = TiendaHelperBase::getInstance();
+
+        // fail if no payment method selected
+        if (empty($submitted_values['_checked']['payment_plugin']) )
+        {
+            $response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
+            $response['error'] = '1';
+        }
+            else
+        {        
+            // Validate the results of the payment plugin
+            $results = array();
+            $dispatcher =& JDispatcher::getInstance();
+            $results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
+
+            for ($i=0; $i<count($results); $i++) 
+            {
+                $result = $results[$i];
+                if (!empty($result->error))
+                {
+                    $response['msg'] = $helper->generateMessage( $result->message );
+                    $response['error'] = '1';
+                } 
+                    else 
+                {
+                    // if here, all is OK
+                    $response['error'] = '0';
+                }
+            }
+        }
+        
+        echo ( json_encode( $response ) );
+        return;
+    }
+	
+	/**
+	 * Validates a submitted address inputs
+	 */
+	function validateAddress( $values, $prefix, $address_id )
+	{
+	    $model = $this->getModel( 'Addresses', 'TiendaModel' );
+	    $table = $model->getTable();
+	    $addressArray = $this->getAddress( $address_id, $prefix, $values );
+	    $table->bind( $addressArray );
+	    if (!$table->check())
+	    {
+	        $this->setError( $table->getError() );
+	        return false;
+	    }
+	    return true;
 	}
 	
     /**
@@ -298,9 +369,8 @@ class TiendaControllerCheckout extends TiendaController
      * 
      * @return unknown_type
      */
-    function review()
+    function selectpayment()
     {
-    	
     	$this->current_step = 1;
     	
     	// get the posted values
@@ -329,11 +399,15 @@ class TiendaControllerCheckout extends TiendaController
     	$html = $this->getOrderSummary();
     	
         $values = JRequest::get('post');
+        
         //Set key information from post
-        $shipping_address_id = $values['shipping_address_id'];
-        $billing_address_id = $values['billing_address_id'];
-        $shipping_method_id = $values['shipping_method_id'];
-        $customerNote = $values['customer_note'];
+        $billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
+        $shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
+        $same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
+        $shipping_method_id     = $values['shipping_method_id'];
+        $customerNote           = $values['customer_note'];
+        
+        echo Tienda::dump( $values );
         
         $progress = $this->getProgress();
         
@@ -347,11 +421,40 @@ class TiendaControllerCheckout extends TiendaController
         $view->setModel( $model, true );
         
         //Get Addresses
-        $shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address_id);
-        $billingAddressArray = $this->retrieveAddressIntoArray($billing_address_id);
+        //$shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address_id);
+        //$billingAddressArray = $this->retrieveAddressIntoArray($billing_address_id);
+        $billingAddressArray = $this->_billingAddressArray;
+        $shippingAddressArray = $this->_shippingAddressArray;
+
+        // save the addresses
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+        $shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+
+        // set the order billing address
+        $billingAddress->load( $billing_address_id );
+        $billingAddress->bind( $billingAddressArray );
+        $billingAddress->user_id = JFactory::getUser()->id;
+        $billingAddress->save();
+        $values['billing_address_id'] = $billingAddress->address_id;
+        if ($same_as_billing)
+        {
+            $shipping_address_id = $values['billing_address_id'];
+        }
+        
+        // set the order shipping address
+        if (!$same_as_billing)
+        {
+            $shippingAddress->load( $shipping_address_id );
+            $shippingAddress->bind( $shippingAddressArray );
+            $shippingAddress->user_id = JFactory::getUser()->id;
+            $shippingAddress->save();
+            $shipping_address_id = $shippingAddress->address_id;
+        }
+        $values['shipping_address_id'] = $shipping_address_id; 
         
         $shippingMethodName = $this->getShippingMethod($shipping_method_id);
-        
+
         //Assign Addresses and Shippping Method to view
         $view->assign('shipping_method_name',$shippingMethodName);
         $view->assign('shipping_method_id',$shipping_method_id);
@@ -422,14 +525,14 @@ class TiendaControllerCheckout extends TiendaController
 		
     	// Get the currency from the configuration
         $currency_id			= TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-        $billing_address_id     = $values['billing_address_id'];
-        $shipping_address_id    = $values['shipping_address_id'];
+        $billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
+        $shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
         $shipping_method_id     = $values['shipping_method_id'];
-        //$same_as_billing      = @$values['_checked']['sameasbilling']; // this is for later
+        $same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
         $user_id                = JFactory::getUser()->id;
         $billing_input_prefix   = $this->billing_input_prefix;
         $shipping_input_prefix  = $this->shipping_input_prefix;
-            	    	
+
         $billing_zone_id = 0;
         $billingAddressArray = $this->getAddress( $billing_address_id, $billing_input_prefix, $values );
         if (array_key_exists('zone_id', $billingAddressArray)) 
@@ -439,16 +542,26 @@ class TiendaControllerCheckout extends TiendaController
 
         //SHIPPING ADDRESS: get shipping address from dropdown or form (depending on selection)
         $shipping_zone_id = 0;      
-        $shippingAddressArray = $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
+        if ($same_as_billing)
+        {
+            $shippingAddressArray = $billingAddressArray;
+        }
+            else
+        {
+            $shippingAddressArray = $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
+        }
+        
         if (array_key_exists('zone_id', $shippingAddressArray)) 
         {
             $shipping_zone_id = $shippingAddressArray['zone_id'];
         }
 
         // keep the array for binding during the save process
-        $this->_billingAddressArray = $this->filterArrayUsingPrefix($billingAddressArray, '', 'billing_', true);
-        $this->_shippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
-
+        $this->_orderinfoBillingAddressArray = $this->filterArrayUsingPrefix($billingAddressArray, '', 'billing_', true);
+        $this->_orderinfoShippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
+        $this->_billingAddressArray = $billingAddressArray;
+        $this->_shippingAddressArray = $shippingAddressArray;
+        
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
         $shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
@@ -483,6 +596,14 @@ class TiendaControllerCheckout extends TiendaController
 		else 
 		{
 			$addressArray = $this->filterArrayUsingPrefix($form_input_array, $input_prefix, '', false );
+			// set the zone name
+			$zone = JTable::getInstance('Zones', 'TiendaTable');
+			$zone->load( $addressArray['zone_id'] );
+			$addressArray['zone_name'] = $zone->zone_name;
+			// set the country name
+            $country = JTable::getInstance('Countries', 'TiendaTable');
+            $country->load( $addressArray['country_id'] );
+			$addressArray['country_name'] = $country->country_name;
 		}		
 		return $addressArray;	
 	}
@@ -517,6 +638,33 @@ class TiendaControllerCheckout extends TiendaController
         
         return $html;
 	}
+	
+    /**
+     * Gets an address form for display
+     * 
+     * @param string $prefix 
+     * @return string html 
+     */
+    function getAddressForm( $prefix )
+    {
+        $html = '';
+        $model = $this->getModel( 'Addresses', 'TiendaModel' );
+        $view   = $this->getView( 'checkout', 'html' );
+        $view->set( '_controller', 'checkout' );
+        $view->set( '_view', 'checkout' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->set( 'form_prefix', $prefix );
+        $view->setModel( $model, true );
+        $view->setLayout( 'form_address' );
+        
+        ob_start();
+        $view->display();
+        $html = ob_get_contents(); 
+        ob_end_clean();
+        
+        return $html;
+    }
 	
 	/**
 	 * 
@@ -937,8 +1085,8 @@ class TiendaControllerCheckout extends TiendaController
         $row = JTable::getInstance('OrderInfo', 'TiendaTable');
         $row->order_id = $order->order_id;
         $row->user_email = JFactory::getUser()->get('email');               
-        $row->bind( $this->_billingAddressArray );  
-        $row->bind( $this->_shippingAddressArray );
+        $row->bind( $this->_orderinfoBillingAddressArray );  
+        $row->bind( $this->_orderinfoShippingAddressArray );
        
         if (!$row->save())
         {

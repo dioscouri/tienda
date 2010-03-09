@@ -610,7 +610,7 @@ class TiendaHelperBase extends JObject
 		$html = '<dl id="system-message">
                     <dt class="notice">notice</dt>
                     <dd class="notice message fade">
-                        <ul style="padding: 10px;">';
+                        <ul style="padding: 10px 10px 10px 25px;">';
 		
         $html .= $msg;
         

@@ -101,11 +101,12 @@
     </p>
         
     <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
-    <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo $values['shipping_address_id']?>" />
-    <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo $values['billing_address_id']?>" />
-    <input type="hidden" id="shipping_method_id" name="shipping_method_id" value="<?php echo $values['shipping_method_id']?>" />
+    <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo $values['shipping_address_id']; ?>" />
+    <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo $values['billing_address_id']; ?>" />
+    <input type="hidden" id="shipping_method_id" name="shipping_method_id" value="<?php echo $values['shipping_method_id']; ?>" />
     <input type="hidden" id="customer_note" name="customer_note" value="<?php echo $values['customer_note']?>" />
 	<input type="hidden" id="task" name="task" value="" />
+	<input type="hidden" id="step" name="step" value="selectpayment" />
 
     <?php echo JHTML::_( 'form.token' ); ?>
 </form>

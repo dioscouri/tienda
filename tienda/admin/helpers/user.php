@@ -51,10 +51,18 @@ class TiendaHelperUser extends TiendaHelperBase
 		}
 		$model->setState('filter_userid', $userid);
 		$items = $model->getList();
-		if (!empty($items))
+		if (empty($items))
 		{
-			$return = $items[0];
+            $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+            $model->setState('filter_userid', $userid);
+            $items = $model->getList();
 		}
+		
+        if (!empty($items))
+        {
+            $return = $items[0];
+        }		
+		
 		return $return;
 	}
 	

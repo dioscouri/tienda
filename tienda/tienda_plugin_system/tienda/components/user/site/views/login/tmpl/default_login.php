@@ -1,7 +1,8 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
-$url = JRoute::_( "index.php?option=com_tienda&view=checkout" ); 
+$lang = &JFactory::getLanguage();
+$lang->load( 'com_tienda', JPATH_SITE ); 
 ?>
 
 <table style="width: 100%;"  >
@@ -80,7 +81,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
         
             <input type="hidden" name="option" value="com_user" />
             <input type="hidden" name="task" value="login" />
-            <input type="hidden" name="return" value="<?php echo base64_encode( $url ); ?>" />
+            <input type="hidden" name="return" value="<?php echo $this->return; ?>" />
             <?php echo JHTML::_( 'form.token' ); ?>
         </form>
     
@@ -100,7 +101,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
         </tr>
         <tr>
             <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register&return=".base64_encode( $url ) ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
+                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register" ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
             </td>
         </tr>
         </table>

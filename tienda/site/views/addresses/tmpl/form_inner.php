@@ -3,7 +3,6 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $row = @$this->row; ?>
 
-
 <table>
     <tbody>
     <tr>

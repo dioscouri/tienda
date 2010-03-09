@@ -42,6 +42,7 @@ class TiendaModelSessioncarts extends TiendaModelBase
 	        $item->product_name = $product->product_name;
 	        $item->product_price = $product->price;
         
+	        $item->orderitem_attributes_price = '0.00000';
             $item->attributes = array(); // array of each selected attribute's object
             $attributes_names = array();
             $attibutes_array = explode(',', $item->product_attributes);
@@ -52,6 +53,9 @@ class TiendaModelSessioncarts extends TiendaModelBase
                 $table->load( $attrib_id );
                 // update the price
                 $item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                // store the attribute's price impact
+                $item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                $item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
                 // store a csv of the attrib names
                 $attributes_names[] = JText::_( $table->productattributeoption_name ); 
             }

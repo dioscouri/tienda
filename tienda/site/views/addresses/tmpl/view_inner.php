@@ -4,14 +4,12 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 
-<div id=userAddress_wrapper>
-	<p>
-		<?php 
-            echo $row->title . " ". $row->first_name . " ". $row->last_name . "<br>";
-			echo $row->company . "<br>";
-			echo $row->address_1 . " " . $row->address_2 . "<br>";
-			echo $row->zone_name .", " . $row->city . ", " . $row->postal_code . "<br>";
-			echo $row->country_name . "<br>";
-		?>
-	</p>
-</div>
+<p>
+	<?php 
+        echo $row->title . " ". $row->first_name . " ". $row->last_name . "<br>";
+		echo $row->company . "<br>";
+		echo $row->address_1 . " " . $row->address_2 . "<br>";
+		echo $row->zone_name .", " . $row->city . ", " . $row->postal_code . "<br>";
+		echo $row->country_name . "<br>";
+	?>
+</p>

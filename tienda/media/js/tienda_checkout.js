@@ -32,3 +32,34 @@ function tiendaGetCurrencyTotals()
     tiendaDoTask( url, 'onCheckoutReview_wrapper', document.adminForm );    
 }
 
+/**
+ * If Same as Billing checkbox is selected
+ * this disables all the input fields in the shipping address form
+ * 
+ * @param checkbox
+ * @return
+ */
+function tiendaDisableShippingAddressControls(checkbox)
+{
+    var disable = false;
+    if (checkbox.checked){disable = true;}  
+    var fields = "address_id;title;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
+    var fieldList = fields.split(';');
+
+    for(var index=0;index<fieldList.length;index++){
+        shippingControl = document.getElementById('shipping_input_'+fieldList[index]);
+        if(shippingControl != null){
+            shippingControl.disabled = disable;
+        }
+    }
+    /*
+    var selectedAddressDiv = document.getElementById('selectedShippingAddressDiv');
+    if (selectedAddressDiv != null){
+        if (disable){
+            selectedAddressDiv.style.display = 'none';
+        }
+        else{
+            selectedAddressDiv.style.display = 'inline';
+        }           
+    }*/
+}

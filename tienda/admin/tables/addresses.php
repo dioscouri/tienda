@@ -85,7 +85,7 @@ class TiendaTableAddresses extends TiendaTable
 		}
 	    if (empty($this->address_name))
         {
-            $this->setError( "Address Title For Your Reference" );
+            $this->setError( "Please include an Address Title" );
             return false;
         }
 		if (empty($this->first_name))

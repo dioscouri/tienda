@@ -181,6 +181,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$suffix = strtolower(TiendaHelperCarts::getSuffix());
 		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
      	$model = JModel::getInstance($suffix, 'TiendaModel');
 		$productcart = $model->getList();
 		
