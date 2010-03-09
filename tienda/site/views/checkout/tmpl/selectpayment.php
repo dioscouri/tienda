@@ -107,6 +107,14 @@
     <input type="hidden" id="customer_note" name="customer_note" value="<?php echo $values['customer_note']?>" />
 	<input type="hidden" id="task" name="task" value="" />
 	<input type="hidden" id="step" name="step" value="selectpayment" />
+	<input type="hidden" id="guest" name="guest" value="<?php if($this->guest)echo "1"; else echo "0"; ?>" />
+	<?php
+	if($this->guest){
+	?>
+	<input type="hidden" id="email_address" name="email_address" value="<?php echo $values['email_address']; ?>" />
+	<?php 
+	}
+	?>
 
     <?php echo JHTML::_( 'form.token' ); ?>
 </form>

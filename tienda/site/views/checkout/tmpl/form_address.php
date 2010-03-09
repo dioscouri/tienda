@@ -5,6 +5,7 @@
 <fieldset>
 <table class="address_form" style="clear: both;" >
     <tbody>
+    <?php if(!$this->guest) { ?>
     <tr>
 		<th style="width: 100px; text-align: right;" class="key">
             <?php echo JText::_( 'Address Title' ); ?>
@@ -16,6 +17,10 @@
 			type="text" size="48" maxlength="250" />
 		</td>
 	</tr>
+	<?php } 
+			else
+				echo '<input value="Temporary" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+	?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">
              <?php echo JText::_( 'First name' ); ?>
@@ -85,8 +90,7 @@
 		</th>
 		<td>
 			<?php
-			// TODO Change this to use a task within the checkout controller rather than creating a new zones controller 
-			$url = "index.php?option=com_tienda&format=raw&controller=addresses&task=getzones&prefix={$this->form_prefix}&country_id=";
+			$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
 			$attribs = array('class' => 'inputbox','size' => '1','onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\');' );
 			echo TiendaSelect::country( '', $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', true );
 			?>

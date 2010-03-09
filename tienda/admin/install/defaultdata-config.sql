@@ -30,3 +30,4 @@ INSERT IGNORE INTO `#__tienda_config` (`config_id`, `config_name`, `value`) VALU
 (25, 'shop_tax_number_2','');
 (26, 'shop_phone','');
 (27, 'shop_owner_name','');
+(28, 'guest_checkout_enabled','1');

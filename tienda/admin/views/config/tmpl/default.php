@@ -346,6 +346,17 @@
                                 
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Guest Checkout' ); ?>
+							</th>
+			                <td>
+								<?php echo JHTML::_('select.booleanlist', 'guest_checkout_enabled', 'class="inputbox"', $this->row->get('guest_checkout_enabled', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

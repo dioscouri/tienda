@@ -59,7 +59,7 @@
 		?>
 		<div id="shipping_comments">
 			<h3><?php echo JText::_("Shipping Notes"); ?></h3>
-			<?php echo $this->customer_note; ?>
+			<?php echo $this->order->customer_note; ?>
 		</div>
 	    <?php 
 	} 

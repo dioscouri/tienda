@@ -199,6 +199,7 @@ class TiendaConfig extends Tienda
 	var $display_shipping_tax               = '1';
 	var $initial_order_state               = '15';
 	var $defaultShippingMethod               = '2';
+	var $guest_checkout_enabled               = '1';
 	// Shop Info
 	var $shop_name							= '';
 	var $shop_company_name					= '';
