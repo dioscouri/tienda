@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="icon" client="administrator" method="upgrade">
+    <name>Tienda - Quick Icon</name>
+    <author>Daniele Rosario</author>
+    <authorEmail>realskullbock@gmail.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>1.0</version>
+    <creationDate>March 2010</creationDate>
+    <copyright>2010 Daniele Rosario</copyright>
+    <license>GNU General Public License</license>
+    <description>Displays a link to Tienda in the joomla dashboard</description>
+    
+    <files>
+        <filename module="mod_tienda_quickicon">mod_tienda_quickicon.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.mod_tienda_quickicon.ini</language>
+	</languages>
+	
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param type="spacer" />
+		<param name="text" type="text" size="50" default="Tienda Dashboard" label="Text link" description="Text of the link in the dashboard"></param>
+    </params>
+</install>
