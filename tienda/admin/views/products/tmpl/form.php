@@ -254,11 +254,10 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 						jimport('joomla.filesystem.file');
 						if (!empty($row->product_full_image) && JFile::exists( Tienda::getPath( 'products_images').DS.$row->product_full_image ))
 						{
-							?>
-							<img src="<?php echo Tienda::getURL( 'products_images').$row->product_full_image; ?>" style="display: block;" />
-							<?php	
+							echo TiendaUrl::popup( TiendaHelperProduct::getImage($row->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($row->product_id), array('update' => false, 'img' => true));
 						}
 						?>
+						<br />
 						<input type="text" name="product_full_image" id="product_full_image" size="48" maxlength="250" value="<?php echo @$row->product_full_image; ?>" />
 					</td>
 				</tr>

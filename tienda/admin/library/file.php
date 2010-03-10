@@ -15,6 +15,15 @@ jimport('joomla.filesystem.file');
 
 class TiendaFile extends JObject 
 {
+	
+	function checkDirectory($dir){
+		if (!$exists = &JFolder::exists( $dir ) ) 
+		{
+			$create = &JFolder::create( $dir );
+		} 
+		
+		$change = &JPath::setPermissions( $dir );
+	}
 	/**
 	 * Returns a list of types
 	 * @param mixed Boolean
@@ -395,6 +404,13 @@ class TiendaFile extends JObject
 
 		return $instance;
 
+	}
+	
+	/**
+	 * Get Full file Path
+	 */
+	function getFullPath(){
+		return $this->full_path;
 	}
 	
 }

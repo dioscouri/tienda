@@ -183,6 +183,67 @@
 					</tbody>
 					</table>
 					
+					
+					<?php
+					echo $this->sliders->endPanel();
+					
+					$legend = JText::_( "Images Settings" );
+					echo $this->sliders->startPanel( JText::_( $legend ), 'images' );
+					?>
+					
+					<table class="adminlist">
+					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Product Image Height' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="product_img_height" value="<?php echo $this->row->get('product_img_height', ''); ?>" />
+                            </td>
+                        </tr>
+						<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Product Image Width' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="product_img_width" value="<?php echo $this->row->get('product_img_width', ''); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Category Image Height' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="category_img_height" value="<?php echo $this->row->get('category_img_height', ''); ?>" />
+                            </td>
+                        </tr>
+						<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Category Image Width' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="category_img_width" value="<?php echo $this->row->get('category_img_width', ''); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Manufacturer Image Height' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="manufacturer_img_height" value="<?php echo $this->row->get('manufacturer_img_height', ''); ?>" />
+                            </td>
+                        </tr>
+						<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Manufacturer Image Width' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="manufacturer_img_width" value="<?php echo $this->row->get('manufacturer_img_width', ''); ?>" />
+                            </td>
+                        </tr>
+					</tbody>
+					</table>
+					
 					<?php
 					echo $this->sliders->endPanel();
 					

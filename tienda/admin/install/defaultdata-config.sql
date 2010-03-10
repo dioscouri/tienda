@@ -31,3 +31,9 @@ INSERT IGNORE INTO `#__tienda_config` (`config_id`, `config_name`, `value`) VALU
 (26, 'shop_phone','');
 (27, 'shop_owner_name','');
 (28, 'guest_checkout_enabled','1');
+(29, 'product_img_height','100');
+(30, 'product_img_width','100');
+(31, 'category_img_width','100');
+(32, 'category_img_height','100');
+(33, 'manufacturer_img_width','100');
+(34, 'manufacturer_img_height','100');

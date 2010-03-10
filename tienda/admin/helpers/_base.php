@@ -600,6 +600,16 @@ class TiendaHelperBase extends JObject
 	}
 	
 	/**
+	 * Include JQueryMultiFile script
+	 */
+	function includeJQueryMultiFile(){
+		// Include JQuery + UI
+		self::includeJQuery();
+		self::includeJQueryUI();
+		JHTML::_('script', 'jquery.MultiFile.pack.js', 'media/com_tienda/js/');
+	}
+	
+	/**
 	 * Generate an html message for the checkout page
 	 * used for validation errors
 	 * 

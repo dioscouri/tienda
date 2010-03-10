@@ -215,8 +215,8 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function addfile( $fieldname = 'product_full_image_new', $path = 'products_images' )
 	{
-		JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
-		$upload = new TiendaFile();
+		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+		$upload = new TiendaImage();
 		// handle upload creates upload object properties
 		$upload->handleUpload( $fieldname );
 		// then save image to appropriate folder
@@ -226,7 +226,9 @@ class TiendaControllerProducts extends TiendaController
 		// Do the real upload!
 		$upload->upload();
 		
-		// TODO Make thumbnail also
+		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+		$imgHelper->resizeTiendaImage(&$upload);
 		
     	return $upload;
 	}

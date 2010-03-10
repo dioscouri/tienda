@@ -407,7 +407,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			  break;
 			case "thumb":
 			default:
-				$path = 'products_images';
+				$path = 'products_thumbs';
 				$size = "style='max-width: 100px; max-height: 100px;'";
 			  break;
 		}
