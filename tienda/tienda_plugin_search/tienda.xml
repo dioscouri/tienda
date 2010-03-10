@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="search">
-	<name>Tienda Search Plugin</name>
-	<author>Daniele Rosario</author>
-	<copyright>(c) 2009 Daniele Rosario</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>realskullbock@gmail.com</authorEmail>
-	<version>0.3.0</version>
-	<description><![CDATA[A search plugin for Tienda component.
-	]]></description>
+<install version="1.5" type="plugin" group="search" method="upgrade">
+    <name>Search - Tienda</name>
+    <version>0.3.0</version>
+    <creationDate>March 2010</creationDate>
+    <author>Dioscouri Design</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>Enables searching Tienda products and categories in core search component</description>
+
 	<files>
-		<filename plugin="tienda_search">tienda_search.php</filename>
+		<filename plugin="tienda">tienda.php</filename>
 	</files>
+	
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_search_tienda.ini</language>
+    </languages>
+	
 	<params>
 		<param name="density_flag" type="radio" default="1" label="Keyword density" description="Enables results based on keyword density (overrides Joomla sort).">
 			<option value="0">No</option>

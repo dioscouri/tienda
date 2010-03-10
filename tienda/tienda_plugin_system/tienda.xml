@@ -4,8 +4,8 @@
     <version>0.3.0</version>
     <creationDate>March 2010</creationDate>
     <author>Dioscouri Design</author>
-    <authorEmail>info@tienda.com</authorEmail>
-    <authorUrl>http://www.tienda.com</authorUrl>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License v2</license>
     <description>Handles system overrides for Tienda</description>

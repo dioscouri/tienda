@@ -1,7 +1,7 @@
 <?php
 /**
  * @version 1.5
- * @package Dioscouri
+ * @package Tienda
  * @author  Dioscouri Design
  * @link    http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.

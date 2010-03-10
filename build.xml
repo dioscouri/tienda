@@ -124,6 +124,13 @@
         <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.siteLangDir}" />
         </copy>
+        <!-- SEARCH PLUGINS -->
+        <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_search" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
+        </copy>
     	<!-- CHARTS PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
