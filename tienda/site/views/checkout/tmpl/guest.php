@@ -103,6 +103,7 @@
 		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
 		<input type="hidden" id="step" name="step" value="selectshipping" />
 		<input type="hidden" id="task" name="task" value="" />
+		<input type="hidden" id="guest" name="guest" value="1" />
         </p>
         
         <?php echo $this->form['validate']; ?>

@@ -300,11 +300,28 @@ class TiendaControllerCheckout extends TiendaController
 		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
-
+						
 		$step = (!empty($submitted_values['step'])) ? strtolower($submitted_values['step']) : '';
 		switch ($step)
 		{
 			case "selectshipping":
+				// Validate the email address if it is a guest checkout!
+				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && ($submitted_values['guest'] == 1)){
+					jimport('joomla.mail.helper');
+					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
+						$response['msg'] = $helper->generateMessage( JText::_('Please insert a correct email address') );
+						$response['error'] = '1';
+						echo ( json_encode( $response ) );
+						return;
+					}
+					JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
+						$response['msg'] = $helper->generateMessage( JText::_('This email address is already registered! Login to checkout as a user!') );
+						$response['error'] = '1';
+						echo ( json_encode( $response ) );
+						return;
+					}
+				}
 				$this->validateSelectShipping( $submitted_values );
 				break;
 			case "selectpayment":
@@ -418,6 +435,12 @@ class TiendaControllerCheckout extends TiendaController
 		$model = $this->getModel( 'Addresses', 'TiendaModel' );
 		$table = $model->getTable();
 		$addressArray = $this->getAddress( $address_id, $prefix, $values );
+		
+		// IS Guest Checkout?
+		$used_id = JFactory::getUser()->id;
+		if(TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0)
+			$addressArray['user_id'] = 9999; // Fake id for the checkout process
+			
 		$table->bind( $addressArray );
 		if (!$table->check())
 		{
@@ -900,7 +923,7 @@ class TiendaControllerCheckout extends TiendaController
 		// Get post values
 		$values = JRequest::get('post');
 		
-	// Guest Checkout: Silent Registration!
+		// Guest Checkout: Silent Registration!
 		if(TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $values['guest'] == '1'){
 			
 			
@@ -928,7 +951,7 @@ class TiendaControllerCheckout extends TiendaController
 				
 				$userHelper->login(array('username' => $user->username, 
 										 'password' => $user->password_clear) );
-			
+
 			}
 		}
 
@@ -942,6 +965,24 @@ class TiendaControllerCheckout extends TiendaController
 
 		// Get Order Object
 		$order = $this->_order;
+		
+		// Update the addresses' user id!
+		$shippingAddress = $order->getShippingAddress();
+		$billingAddress = $order->getBillingAddress();
+		
+		$shippingAddress->user_id = $user->id;
+		$billingAddress->user_id = $user->id;
+		
+		if(!$shippingAddress->save()){
+			// Output error message and halt
+			JError::raiseNotice( 'Error Updating the Shipping Address', $shippingAddress->getError() );
+			return false;
+		}
+		if(!$billingAddress->save()){
+			// Output error message and halt
+			JError::raiseNotice( 'Error Updating the Billing Address', $billingAddress->getError() );
+			return false;
+		}				
 
 		// Save an orderpayment with an Incomplete status
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -1080,11 +1121,6 @@ class TiendaControllerCheckout extends TiendaController
 		$order =& $this->_order; // a TableOrders object (see constructor)
 		$order->bind( $values );
 		$order->user_id = JFactory::getUser()->id;
-		
-		// If it is a guest
-		if($order->user_id == 0 && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')){
-			$order->user_id = 9999; // fake user_id
-		}
 		
 		$order->ip_address = $_SERVER['REMOTE_ADDR'];
 		$order->shipping_method_id = $values['shipping_method_id'];
