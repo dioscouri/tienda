@@ -47,6 +47,10 @@ class TiendaModelProducts extends TiendaModelBase
 			$where[] = 'LOWER(tbl.product_sku) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_model) LIKE '.$key;
 			// TODO Add more filters
+			// add maufacturer name
+			$where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
+			// add category name
+			$where[] = 'LOWER(c.category_name) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
@@ -162,6 +166,7 @@ class TiendaModelProducts extends TiendaModelBase
 	{
 		$query->join('LEFT', '#__tienda_productcategoryxref AS p2c ON tbl.product_id = p2c.product_id');	
 		$query->join('LEFT', '#__tienda_categories AS c ON p2c.category_id = c.category_id');
+		$query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id');
 	}
 
 	protected function _buildQueryFields(&$query)
