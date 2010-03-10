@@ -437,7 +437,7 @@ class TiendaControllerCheckout extends TiendaController
 		$addressArray = $this->getAddress( $address_id, $prefix, $values );
 		
 		// IS Guest Checkout?
-		$used_id = JFactory::getUser()->id;
+		$user_id = JFactory::getUser()->id;
 		if(TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0)
 			$addressArray['user_id'] = 9999; // Fake id for the checkout process
 			
