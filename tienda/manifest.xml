@@ -88,6 +88,7 @@
         <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
+        <plugin plugin="tienda_plugin_search" publish="true" group="search" element="tienda" />
         <plugin plugin="tienda_plugin_system" publish="true" group="system" element="tienda" />
 	</plugins>
 </install>
