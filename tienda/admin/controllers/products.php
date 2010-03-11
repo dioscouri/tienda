@@ -228,7 +228,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-		$imgHelper->resizeTiendaImage(&$upload);
+		$imgHelper->resizeTiendaImage(&$upload, 'product');
 		
     	return $upload;
 	}

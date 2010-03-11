@@ -26,7 +26,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 			  break;
 			case "thumb":
 			default:
-				$path = 'categories_images';
+				$path = 'categories_thumbs';
 				$size = "style='max-width: 48px; max-height: 48px;'";
 			  break;
 		}

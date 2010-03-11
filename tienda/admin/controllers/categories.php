@@ -164,8 +164,8 @@ class TiendaControllerCategories extends TiendaController
 	 */
 	function addfile( $fieldname = 'category_full_image_new' )
 	{
-		JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
-		$upload = new TiendaFile();
+		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+		$upload = new TiendaImage();
 		// handle upload creates upload object properties
 		$upload->handleUpload( $fieldname );
 		// then save image to appropriate folder
@@ -173,6 +173,11 @@ class TiendaControllerCategories extends TiendaController
 		
 		// do upload!
 		$upload->upload();
+		
+		// Thumb
+		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+		$imgHelper->resizeTiendaImage(&$upload, 'category');
 		
     	return $upload;
 	}

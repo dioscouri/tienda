@@ -2,6 +2,7 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
+JLoader::import( 'com_tienda.helpers.manufacturer', JPATH_ADMINISTRATOR.DS.'components' );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
@@ -34,11 +35,10 @@ JFilterOutput::objectHTMLSafe( $row );
 						jimport('joomla.filesystem.file');
 						if (!empty($row->manufacturer_image) && JFile::exists( Tienda::getPath( 'manufacturers_images').DS.$row->manufacturer_image ))
 						{
-							?>
-							<img src="<?php echo Tienda::getURL( 'manufacturers_images').$row->manufacturer_image; ?>" style="display: block;" />
-							<?php	
+							echo TiendaUrl::popup( TiendaHelperManufacturer::getImage($row->manufacturer_id, '', '', 'full', true), TiendaHelperManufacturer::getImage($row->manufacturer_id), array('update' => false, 'img' => true));	
 						}
 						?>
+						<br />
 						<input type="text" name="manufacturer_image" id="manufacturer_image" value="<?php echo @$row->manufacturer_image; ?>" size="48" maxlength="250" />
 					</td>
 				</tr>
