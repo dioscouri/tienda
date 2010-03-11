@@ -1,11 +1,19 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
-<?php $row = @$this->row;
+<?php 
+$row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
+$helper = TiendaHelperBase::getInstance();
+$helper->includeMultiFile();
 ?>
+<script type="text/javascript">
+window.addEvent('domready', function(){
+	new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
+});
+</script>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
 	<table style="width: 100%">
 	<tr>
@@ -246,7 +254,7 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 <tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="product_full_image">
-						<?php echo JText::_( 'Current Image' ); ?>:
+						<?php echo JText::_( 'Current Default Image' ); ?>:
 						</label>
 					</td>
 					<td>
@@ -259,6 +267,18 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 						?>
 						<br />
 						<input type="text" name="product_full_image" id="product_full_image" size="48" maxlength="250" value="<?php echo @$row->product_full_image; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="product_image_gallery">
+						<?php echo JText::_( 'Current Images' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php
+						echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=viewGallery&id=".$row->product_id."&tmpl=component", "View Gallery" ); 
+						?>
 					</td>
 				</tr>
 				<tr>

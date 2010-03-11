@@ -46,7 +46,7 @@ class TiendaTableProducts extends TiendaTable
 	 * @return string $dir
 	 */
 	
-	function getImagePath(){
+	function getImagePath($check = true){
 		// Check where we should upload the file
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
@@ -54,15 +54,15 @@ class TiendaTableProducts extends TiendaTable
 		$helper = TiendaHelperBase::getInstance();
 		
 		// is the image path overridden?
-		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, true)){
+		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, $check)){
 			$dir = $this->product_images_path;
 		} else{
 			// try with the SKU
-			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, true)){
+			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, $check)){
 				$dir = $dir.DS.$this->product_sku.DS;
 			} else{
 				// try with the product id
-				if($helper->checkDirectory($dir.DS.$this->product_id, true)){
+				if($helper->checkDirectory($dir.DS.$this->product_id, $check)){
 					$dir = $dir.DS.$this->product_id.DS;
 				}
 			}

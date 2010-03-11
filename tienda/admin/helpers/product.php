@@ -271,49 +271,44 @@ class TiendaHelperProduct extends TiendaHelperBase
 				// TODO figure out what to do if the id is invalid 
 				return null;
 			}
-			
-			// if product_images_path is valid and not empty, use it
-			if (!empty($row->product_images_path))
-			{
-				$folder = $row->product_images_path;
-		        if (JFolder::exists( $folder )) 
-		        {
-                    $files = JFolder::files( $folder );
-                    if (!empty($files))
-                    {
-                    	$paths[$id] = $folder;
-                    }
-		        }
-			}
-            
-			// if no override, use path based on sku if it is valid and not empty
-			// TODO clean SKU so valid characters used for folder name?
-			if (empty($paths[$id]) && !empty($row->product_sku))
-			{
-				$folder = Tienda::getPath( 'products_images' ).DS.'sku'.DS.$row->product_sku;
-			    if (JFolder::exists( $folder )) 
-                {
-                    $files = JFolder::files( $folder );
-                    if (!empty($files))
-                    {
-                        $paths[$id] = $folder;
-                    }
-                }
-			}
-			
-			// if still unset, use path based on id number
-		    if (empty($paths[$id]))
-            {
-                $folder = Tienda::getPath( 'products_images' ).DS.'id'.DS.$row->product_id;
-                if (!JFolder::exists( $folder )) 
-                {
-                	JFolder::create( $folder );
-                }
-                $paths[$id] = $folder;
-            }
+
+			$paths[$id] = $row->getImagePath(false);
 		}
 		
 		return $paths[$id];
+	}
+	
+/**
+	 * Returns the full path to the product's image gallery files
+	 * 
+	 * @param int $id
+	 * @return string
+	 */
+	function getGalleryUrl( $id )
+	{
+		static $urls;
+		
+		$id = (int) $id;
+		
+		if (!is_array($urls)) { $urls = array(); }
+		
+		if (empty($urls[$id]))
+		{
+			$urls[$id] = '';
+			
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $row = JTable::getInstance('Products', 'TiendaTable');
+            $row->load( (int) $id );
+			if (empty($row->product_id))
+			{
+				// TODO figure out what to do if the id is invalid 
+				return null;
+			}
+
+			$urls[$id] = $row->getImageUrl();
+		}
+		
+		return $urls[$id];
 	}
 	
     /**

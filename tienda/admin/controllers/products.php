@@ -113,20 +113,25 @@ class TiendaControllerProducts extends TiendaController
 		$isNew = empty($row->product_id);
 		
 		$fieldname = 'product_full_image_new';
-		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
-		if (!empty($userfile['size']))
-		{
-			
-			$dir = $row->getImagePath(true);
-			
-			if ($upload = $this->addfile( $fieldname, $dir ))
-			{
-				$row->product_full_image = $upload->getPhysicalName();	
-			}
-				else
-			{
-				$error = true;	
-			}
+		$userfiles = JRequest::getVar( $fieldname, '', 'files', 'array' );
+		
+		// Multiple images processing
+		$i = 0;
+		while(!empty($userfiles['size'][$i])){
+				echo $i."<br />";
+				$dir = $row->getImagePath(true);
+				
+				if ($upload = $this->addfile( $fieldname, $i, $dir ))
+				{
+					// The first One is the default!
+					if($i == 0)
+						$row->product_full_image = $upload->getPhysicalName();	
+				}
+					else
+				{
+					$error = true;	
+				}
+				$i++;
 		}
 		
 		if ( $row->save() ) 
@@ -216,12 +221,12 @@ class TiendaControllerProducts extends TiendaController
 	 * Adds a thumbnail image to item
 	 * @return unknown_type
 	 */
-	function addfile( $fieldname = 'product_full_image_new', $path = 'products_images' )
+	function addfile( $fieldname = 'product_full_image_new', $num = 0, $path = 'products_images' )
 	{
 		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
 		$upload = new TiendaImage();
 		// handle upload creates upload object properties
-		$upload->handleUpload( $fieldname );
+		$upload->handleMultipleUpload( $fieldname, $num );
 		// then save image to appropriate folder
 		if ($path == 'products_images') { $path = Tienda::getPath( 'products_images' ); }
 		$upload->setDirectory( $path );
@@ -269,6 +274,38 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectcategories' );
+		$view->display();
+    }
+    
+/**
+	 * Loads view to show the gallery
+	 * 
+	 * @return unknown_type
+	 */
+    function viewGallery()
+    {
+    	$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row->load( $id );
+		
+		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
+		$gallery_path = $helper->getGalleryPath($row->product_id);
+		$gallery_url = $helper->getGalleryUrl($row->product_id);
+		$images = $helper->getGalleryImages($gallery_path);
+		
+		$view	= $this->getView( 'products', 'html' );
+		$model = $this->getModel($this->get('suffix'));
+		
+		$view->setModel($model, true);
+		$view->set( '_controller', 'products' );
+		$view->set( '_view', 'products' );
+		$view->set( '_action', "index.php?option=com_tienda&controller=products&task=viewGallery&tmpl=component&id=".$id);
+		$view->assign( 'row', $row );
+		$view->assign( 'images', $images );
+		$view->assign( 'url', $gallery_url );
+		$view->setLayout( 'gallery' );
+		
 		$view->display();
     }
     

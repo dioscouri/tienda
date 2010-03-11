@@ -94,13 +94,17 @@ class TiendaFile extends JObject
 
 		// check that upload exists
 		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
+		
 		if (!$userfile) 
 		{
 			$this->setError( JText::_( 'No File' ) );
 			return $success;
 		}
 		
-		$this->proper_name = basename($userfile['name']);
+		if($num == -1)
+			$this->proper_name = basename($userfile['name']);
+		else
+			$this->proper_name = basename($userfile['name'][$num]);
 		
 		if ($userfile['size'] == 0) {
 			$this->setError( JText::_( 'Invalid File' ) );
@@ -129,6 +133,71 @@ class TiendaFile extends JObject
 		$this->getExtension();
 		$this->uploaded = true;
 		$success = true;		
+		return $success;
+	}
+	
+/**
+	 * Returns 
+	 * @param mixed Boolean
+	 * @param mixed Boolean
+	 * @return object
+	 */
+	function handleMultipleUpload ($fieldname='userfile', $num = 0) 
+	{
+		$success = false;
+		$config = &TiendaConfig::getInstance();
+		
+		// Check if file uploads are enabled
+		if (!(bool)ini_get('file_uploads')) {
+			$this->setError( JText::_( 'Uploads Disabled' ) );
+			return $success;
+		}
+	
+		// Check that the zlib is available
+		if(!extension_loaded('zlib')) {
+			$this->setError( JText::_( 'ZLib Unavailable' ) );
+			return $success;
+		}
+
+		// check that upload exists
+		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
+		
+		if (!$userfile) 
+		{
+			$this->setError( JText::_( 'No File' ) );
+			return $success;
+		}
+		
+		$this->proper_name = basename($userfile['name'][$num]);
+		
+		if ($userfile['size'][$num] == 0) {
+			$this->setError( JText::_( 'Invalid File' ) );
+			return $success;
+		}
+		
+		$this->size = $userfile['size'][$num]/1024;		
+		// check size of upload against max set in config
+		if($this->size > $config->get( 'files_maxsize', '3000' ) ) 
+		{
+			$this->setError( JText::_( 'Invalid File Size' ) );
+			return $success;
+	    }
+	    $this->size = number_format( $this->size, 2 ).' Kb';
+		
+		if (!is_uploaded_file($userfile['tmp_name'][$num])) 
+		{
+			$this->setError( JText::_( 'Invalid File' ) );
+			return $success;
+	    } 
+	    	else 
+	    {
+	    	$this->file_path = $userfile['tmp_name'][$num];
+		}
+		
+		$this->getExtension();
+		$this->uploaded = true;
+		$success = true;		
+		
 		return $success;
 	}
 	

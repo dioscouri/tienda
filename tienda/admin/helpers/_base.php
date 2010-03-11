@@ -621,11 +621,9 @@ class TiendaHelperBase extends JObject
 	/**
 	 * Include JQueryMultiFile script
 	 */
-	function includeJQueryMultiFile(){
-		// Include JQuery + UI
-		self::includeJQuery();
-		self::includeJQueryUI();
-		JHTML::_('script', 'jquery.MultiFile.pack.js', 'media/com_tienda/js/');
+	function includeMultiFile(){
+		JHTML::_('script', 'Stickman.MultiUpload.packed.js', 'media/com_tienda/js/');
+		JHTML::_('stylesheet', 'Stickman.MultiUpload.css', 'media/com_tienda/css/');
 	}
 	
 	/**
