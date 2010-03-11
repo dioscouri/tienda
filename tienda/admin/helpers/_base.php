@@ -82,6 +82,25 @@ class TiendaHelperBase extends JObject
 		return $instances[$helperClass];
 	}
 	
+	/**
+	 * Check if the path exists, and if not, tries to create it
+	 * @param string $dir
+	 * @param bool $create
+	 */
+	function checkDirectory($dir, $create = true){
+		$return = true;
+		if (!$exists = &JFolder::exists( $dir ) ) 
+		{
+			if($create)
+				$return = &JFolder::create( $dir );
+			else
+				$return = false;
+		} 
+		
+		$change = &JPath::setPermissions( $dir );
+		
+		return ($return && $change);
+	}
 	
 	/**
 	 * Determines whether/not a user can view a record

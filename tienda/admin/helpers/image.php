@@ -61,12 +61,12 @@ class TiendaHelperImage extends TiendaHelperBase
 	/**
 	 * Resize Image
 	 * 
-	 * @param image	string	filename of the image
+	 * @param name	string	filename of the image
 	 * @param type	string	what kind of image: product, category
 	 * @param options	array	array of options: width, height, path, thumb_path
 	 * @return thumb full path
 	 */
-	function resize($image, $type = 'product', $options = array()){
+	function resize($name, $type = 'product', $options = array()){
 		
 		// Check File presence
 		if(!JFile::exists($name)){
@@ -80,47 +80,7 @@ class TiendaHelperImage extends TiendaHelperBase
 		if(!in_array($type, $types))
 			$type = 'product';
 
-		// Code less!
-		$img_path = $type.'_img_path';
-		$thumb_path = $type.'_thumb_path';
-		$img_width = $type.'_img_width';
-		$img_height = $type.'_img_height';
-		
-		// Default path or options path?
-		if(!empty($options['path']) && is_numeric($options['path']))
-			$name = $this->$img_path.$options['path'];
-		else
-			$name = $this->$img_path.$image;
-		
-		
-		
-		$img->load();
-		
-		// Default width or options width?
-		if(!empty($options['width']) && is_numeric($options['width']))
-			$width = $options['width'];
-		else
-			$width = $this->$img_width;
-		
-		// Default height or options height?
-		if(!empty($options['height']) && is_numeric($options['height']))
-			$height = $options['height'];
-		else	
-			$height= $this->$img_height;
-		
-		// Default thumb path or options thumb path?
-		if(!empty($options['thumb_path']) && is_numeric($options['thumb_path']))
-			$dest_dir = $options['thumb_path'];
-		else	
-			$dest_dir = $this->$thumb_path;
-			
-		$img->checkDirectory($dest_dir);
-			
-		$img->resize( $width, $height );
-		$dest_path = $dest_dir.DS.$img->getPhysicalName(true);
-		$img->save($dest_path);
-		
-		return $dest_path;
+		return $this->resizeTiendaImage(&$img, $type, $options);
 	}
 	
 /**
@@ -138,8 +98,7 @@ class TiendaHelperImage extends TiendaHelperBase
 			$type = 'product';
 
 		// Code less!
-		$img_path = $type.'_img_path';
-		$thumb_path = $type.'_thumb_path';
+		$thumb_path = $img->getDirectory().DS.'thumbs';
 		$img_width = $type.'_img_width';
 		$img_height = $type.'_img_height';
 		
@@ -161,9 +120,9 @@ class TiendaHelperImage extends TiendaHelperBase
 		if(!empty($options['thumb_path']) && is_numeric($options['thumb_path']))
 			$dest_dir = $options['thumb_path'];
 		else	
-			$dest_dir = $this->$thumb_path;
+			$dest_dir = $thumb_path;
 			
-		$img->checkDirectory($dest_dir);
+		$this->checkDirectory($dest_dir);
 
 		if($width >= $height)
 			$img->resizeToWidth( $width );

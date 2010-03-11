@@ -432,10 +432,21 @@ class TiendaHelperProduct extends TiendaHelperBase
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 				$row = JTable::getInstance('Products', 'TiendaTable');
 				$row->load( (int) $id );
-				$id = $row->product_full_image;
+				
+				$urli = $row->getImageUrl();
+				$dir = $row->getImagePath();
+				
+				if($path == 'products_thumbs'){
+					$dir .= DS.'thumbs';
+					$urli .= 'thumbs/';
+				}
+				
+				$file = $dir.DS.$row->product_full_image;
+				
+				$id = $urli.$row->product_full_image;
 
-				$src = (JFile::exists( Tienda::getPath( $path ).DS.$row->product_full_image))
-					? Tienda::getUrl( $path ).$id : 'media/com_tienda/images/noimage.png';
+				$src = (JFile::exists( $file ))
+					? $id : 'media/com_tienda/images/noimage.png';
 
 				$tmpl = ($url)
 					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' {$size} >";

@@ -116,7 +116,10 @@ class TiendaControllerProducts extends TiendaController
 		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
 		if (!empty($userfile['size']))
 		{
-			if ($upload = $this->addfile( $fieldname, Tienda::getPath( 'products_images' ) ))
+			
+			$dir = $row->getImagePath(true);
+			
+			if ($upload = $this->addfile( $fieldname, $dir ))
 			{
 				$row->product_full_image = $upload->getPhysicalName();	
 			}

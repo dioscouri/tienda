@@ -40,5 +40,63 @@ class TiendaTableProducts extends TiendaTable
 		
 		return true;
 	}
+	
+	/**
+	 * Get the path to the product current Image
+	 * @return string $dir
+	 */
+	
+	function getImagePath(){
+		// Check where we should upload the file
+		// This is the default one
+		$dir = Tienda::getPath( 'products_images' );
+		
+		$helper = TiendaHelperBase::getInstance();
+		
+		// is the image path overridden?
+		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, true)){
+			$dir = $this->product_images_path;
+		} else{
+			// try with the SKU
+			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, true)){
+				$dir = $dir.DS.$this->product_sku.DS;
+			} else{
+				// try with the product id
+				if($helper->checkDirectory($dir.DS.$this->product_id, true)){
+					$dir = $dir.DS.$this->product_id.DS;
+				}
+			}
+		}
+		
+		return $dir;
+	}
+	
+	function getImageUrl(){
+		// Check where we should upload the file
+		// This is the default one
+		$dir = Tienda::getPath( 'products_images' );
+		
+		$url = Tienda::getUrl('products_images');
+		
+		$helper = TiendaHelperBase::getInstance();
+		
+		// is the image path overridden?
+		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, false)){
+			//$url = $this->product_images_path; ????????
+			$url = "";
+		} else{
+			// try with the SKU
+			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, false)){
+				$url = $url.$this->product_sku."/";
+			} else{
+				// try with the product id
+				if($helper->checkDirectory($dir.DS.$this->product_id, false)){
+					$url = $url.$this->product_id."/";
+				}
+			}
+		}
+		
+		return $url;
+	}
 
 }

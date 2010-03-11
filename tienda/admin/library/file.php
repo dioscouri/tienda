@@ -12,18 +12,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
+JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
 
 class TiendaFile extends JObject 
 {
 	
-	function checkDirectory($dir){
-		if (!$exists = &JFolder::exists( $dir ) ) 
-		{
-			$create = &JFolder::create( $dir );
-		} 
-		
-		$change = &JPath::setPermissions( $dir );
-	}
+	
 	/**
 	 * Returns a list of types
 	 * @param mixed Boolean
@@ -41,12 +35,8 @@ class TiendaFile extends JObject
 			$dir = $this->getDirectory();	
 		}		
 		
-		if (!$exists = &JFolder::exists( $dir ) ) 
-		{
-			$create = &JFolder::create( $dir );
-		} 
-		
-		$change = &JPath::setPermissions( $dir );
+		$helper = TiendaHelperBase::getInstance();
+		$helper->checkDirectory($dir);
 
 		// then confirms existence of htaccess file
 		//		$htaccess = $dir.DS.'.htaccess';
