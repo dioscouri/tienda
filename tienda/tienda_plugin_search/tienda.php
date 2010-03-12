@@ -54,7 +54,7 @@ class plgSearchTienda extends JPlugin
         
         $areas = 
             array(
-                'tienda' => 'Tienda'
+                'tienda' => $this->params->get('title', "Tienda")
             );
         return $areas;
     }
@@ -130,7 +130,7 @@ class plgSearchTienda extends JPlugin
             $item->href         = "index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id;
             $item->title        = JText::_( $item->product_name );
             $item->created      = $item->created_date;
-            $item->section      = JText::_( "Tienda" );
+            $item->section      = JText::_( $this->params->get('title', "Tienda") );
             $item->text         = substr( $item->product_description, 0, 250);
             $item->browsernav   = "1";                
         }

@@ -19,6 +19,7 @@
     </languages>
 	
 	<params>
+        <param name="title" type="text" size="50" default="Tienda" label="Search Category Title" description="Search Category Title"/>
 		<param name="density_flag" type="radio" default="1" label="Keyword density" description="Enables results based on keyword density (overrides Joomla sort).">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
