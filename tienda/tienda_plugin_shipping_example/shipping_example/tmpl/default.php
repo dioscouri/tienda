@@ -104,9 +104,10 @@
                     <div class="shipping_rates">
                         <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
                         <?php JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' ); 
-                        $id = JRequest::getVar('id');
+                        $id = JRequest::getInt('id', '0');
                         ?>
-                        <span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&task=doTask&element=shipping_example&elementTask=setRates&format=raw&id=".$id."&sid=".$item->shipping_method_id, "Set Rates" ); ?>]</span>
+                        <span style="float: right;">[<?php 
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&format=raw&sid={$item->shipping_method_id}", "Set Rates" ); ?>]</span>
                         <?php 
                         if ($shipping_method_type = TiendaHelperShipping::getType($item->shipping_method_type))
                         {

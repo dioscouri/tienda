@@ -1,9 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $form = @$vars->form; ?>
-<?php $row = @$vars->row; ?>
-<?php $items = @$vars->items; ?>
+<?php $form = @$this->form; ?>
+<?php $row = @$this->row; ?>
+<?php $items = @$this->items; ?>
 
 <h3><?php echo JText::_( "Set Rates for" ); ?>: <?php echo $row->shipping_method_name; ?></h3>
 

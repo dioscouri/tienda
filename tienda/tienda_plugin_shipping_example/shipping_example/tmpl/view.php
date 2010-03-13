@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $form = @$vars->form; ?>
-<?php $row = @$vars->item;
+<?php $form = @$this->form2; ?>
+<?php $row = @$this->item;
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
