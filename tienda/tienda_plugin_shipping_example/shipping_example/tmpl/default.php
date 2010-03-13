@@ -107,7 +107,7 @@
                         $id = JRequest::getInt('id', '0');
                         ?>
                         <span style="float: right;">[<?php 
-                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&format=raw&sid={$item->shipping_method_id}", "Set Rates" ); ?>]</span>
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&tmpl=component&sid={$item->shipping_method_id}", "Set Rates" ); ?>]</span>
                         <?php 
                         if ($shipping_method_type = TiendaHelperShipping::getType($item->shipping_method_type))
                         {

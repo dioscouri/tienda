@@ -1,5 +1,8 @@
 <?php
-class TiendaControllerShippingExample extends TiendaController {
+
+JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
+
+class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
 		
 	/**
 	 * constructor
@@ -7,6 +10,7 @@ class TiendaControllerShippingExample extends TiendaController {
 	function __construct() 
 	{
 		parent::__construct();
+		$this->_element = 'shipping_example';
 	}
 	
 	function save(){
@@ -14,9 +18,7 @@ class TiendaControllerShippingExample extends TiendaController {
 		$id = JRequest::getInt('id', '0');
 		$values = JRequest::get('post');
 		
-    	// Include the custom table
-    	$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('includeCustomTables', array() );    
+    	$this->includeCustomTables(); 
     	$table = JTable::getInstance('ShippingMethods', 'TiendaTable');
     	
     	$table->bind($values);
@@ -41,11 +43,10 @@ class TiendaControllerShippingExample extends TiendaController {
     	
     	JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
     	JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
-    	$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('includeCustomModel', array('ShippingRates') );       
+    	$this->includeCustomModel('ShippingRates');
         $sid = JRequest::getVar('sid');
         
-        $dispatcher->trigger('includeCustomTables', array() );  
+        $this->includeCustomTables();  
         $row = JTable::getInstance('ShippingMethods', 'TiendaTable');
         $row->load($sid);
         
@@ -54,13 +55,12 @@ class TiendaControllerShippingExample extends TiendaController {
         $items = $model->getList();
         
         // view
-        $view = $this->getView( 'Shipping_Example', 'html' ); 
+        $view = $this->getView( 'Shipping_Example', 'html' );
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );
 		$view->assign('row', $row);
 		$view->assign('items', $items);
-		$view->addTemplatePath(dirname(__FILE__).DS.'tmpl'.DS);// Important!! Do not change this!
 		$view->setLayout('setrates');
 		$view->display();
     }
@@ -69,8 +69,7 @@ class TiendaControllerShippingExample extends TiendaController {
 		
     	$id = JRequest::getInt('id', '0');
     	$sid = TiendaShippingPlugin::getShippingId();
-    	$dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger('includeCustomModel', array('ShippingMethods') );  
+    	$this->includeCustomModel('ShippingMethods');  
 
         $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
         $model->setId((int)$sid);
@@ -86,9 +85,10 @@ class TiendaControllerShippingExample extends TiendaController {
 		$view->setModel( $model, true );
 		$view->assign('item', $item);
 		$view->assign('form2', $form);
-		$view->addTemplatePath(dirname(__FILE__).DS.'tmpl'.DS);// Important!! Do not change this!
 		$view->setLayout('view');
 		$view->display();
         
     }
+    
+    
 } 
