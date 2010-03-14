@@ -20,7 +20,7 @@ if ($num > 0 && $products)
         <p>
         <b><?php echo $product->product_name; ?></b><br />
         <?php echo $product->product_description ?><br />
-        <?php echo TiendaHelperBase::currency($product->product_price) ?>
+        <?php echo TiendaHelperBase::currency( $product->price ) ?>
         </p>
         <?php
     } 
