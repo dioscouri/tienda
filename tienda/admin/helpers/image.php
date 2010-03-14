@@ -37,7 +37,8 @@ class TiendaHelperImage extends TiendaHelperBase
 	/**
 	 * Private! Use the getInstance
 	 */ 
-	function TiendaHelperImage(){
+	function TiendaHelperImage()
+	{
 		// Parent Helper Construction
 		parent::__construct();
 		
@@ -80,10 +81,10 @@ class TiendaHelperImage extends TiendaHelperBase
 		if(!in_array($type, $types))
 			$type = 'product';
 
-		return $this->resizeTiendaImage(&$img, $type, $options);
+		return $this->resizeImage(&$img, $type, $options);
 	}
 	
-/**
+    /**
 	 * Resize Image
 	 * 
 	 * @param image	string	filename of the image
@@ -91,7 +92,8 @@ class TiendaHelperImage extends TiendaHelperBase
 	 * @param options	array	array of options: width, height, thumb_path
 	 * @return thumb full path
 	 */
-	function resizeTiendaImage(&$img, $type = 'product', $options = array()){
+	function resizeImage( &$img, $type = 'product', $options = array() )
+	{
 
 		$types = array('product', 'category', 'manufacturer');
 		if(!in_array($type, $types))

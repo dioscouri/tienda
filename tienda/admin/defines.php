@@ -214,12 +214,12 @@ class TiendaConfig extends Tienda
 	var $shop_phone							= '';
 	var $shop_owner_name					= '';
 	// Default Dimensions for the images
-	var $product_img_height 		= 0;
-	var $product_img_width 			= 0;
-	var $category_img_height 		= 0;
-	var $category_img_width			= 0;
-	var $manufacturer_img_width		= 0;
-	var $manufacturer_img_height	= 0;
+	var $product_img_height 		= 128;
+	var $product_img_width 			= 96;
+	var $category_img_height 		= 128;
+	var $category_img_width			= 96;
+	var $manufacturer_img_width		= 128;
+	var $manufacturer_img_height	= 96;
 	
 	/**
 	 * constructor
