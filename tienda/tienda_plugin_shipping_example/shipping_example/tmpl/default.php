@@ -10,18 +10,6 @@
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 
-    <table>
-        <tr>
-            <td align="left" width="100%">
-            </td>
-            <td nowrap="nowrap">
-                <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
-            </td>
-        </tr>
-    </table>
-
 	<table class="adminlist" style="clear: both;">
 		<thead>
             <tr>
@@ -32,56 +20,20 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.shipping_method_id", @$state->direction, @$state->order ); ?>
+                	<?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.shipping_method_name", @$state->direction, @$state->order ); ?>
+                	<?php echo JText::_( 'Name' ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Tax Class', "tbl.tax_class_id", @$state->direction, @$state->order ); ?>
+                    <?php echo JText::_( 'Tax Class' ); ?>
                 </th>
                 <th style="width: 100px;">
-    	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.shipping_method_enabled", @$state->direction, @$state->order ); ?>
+    	            <?php echo JText::_( 'Enabled' ); ?>
                 </th>
             </tr>
-            <tr class="filterline">
-                <th colspan="3">
-                	<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                	<div class="range">
-	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
-	                	</div>
-	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
-	                	</div>
-                	</div>
-                </th>
-                <th style="text-align: left;">
-                	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="15"/>
-                	<?php echo TiendaSelect::shippingtype( @$state->filter_shippingtype, 'filter_shippingtype', $attribs, 'shippingtype', true ); ?>
-                </th>
-                <th>
-                    <?php echo TiendaSelect::taxclass( @$state->filter_taxclass, 'filter_taxclass', $attribs, 'taxclass', true, false ); ?>
-                </th>
-                <th>
-    	            <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
-                </th>
-            </tr>
-			<tr>
-				<th colspan="20" style="font-weight: normal;">
-					<div style="float: right; padding: 5px;"><?php //echo @$this->pagination->getResultsCounter(); ?></div>
-					<div style="float: left;"><?php //echo @$this->pagination->getListFooter(); ?></div>
-				</th>
-			</tr>
+		
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="20">
-					<div style="float: right; padding: 5px;"><?php //echo @$this->pagination->getResultsCounter(); ?></div>
-					<?php //echo @$this->pagination->getPagesLinks(); ?>
-				</td>
-			</tr>
-		</tfoot>
         <tbody>
 		<?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
@@ -145,11 +97,10 @@
 	</table>
 
 	<input type="hidden" name="order_change" value="0" />
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="sid" value="" />
+	<input type="hidden" name="shippingTask" value="_default" />
 	<input type="hidden" name="boxchecked" value="" />
 	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
 	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
 
-	<?php echo $form['validate']; ?>
 </form>

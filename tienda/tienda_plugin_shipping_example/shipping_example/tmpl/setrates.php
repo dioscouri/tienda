@@ -1,15 +1,16 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $form = @$this->form; ?>
+<?php $form = @$this->form2; ?>
 <?php $row = @$this->row; ?>
 <?php $items = @$this->items; ?>
+<?php $baseLink = $this->baseLink; ?>
 
 <h3><?php echo JText::_( "Set Rates for" ); ?>: <?php echo $row->shipping_method_name; ?></h3>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_( "Be Sure to Save Your Work" ); ?>:
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('Save Changes'); ?></button>
+	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('shippingTask').value='saverates'; document.adminForm.submit();"><?php echo JText::_('Save Changes'); ?></button>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -53,7 +54,7 @@
                         <input id="shipping_rate_handling" name="shipping_rate_handling" value="" />
                     </td>
             		<td>
-            			<input type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('Create Rate'); ?>" class="button" />
+            			<input type="button" onclick="document.getElementById('shippingTask').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('Create Rate'); ?>" class="button" />
             		</td>
             	</tr>
             	</tbody>
@@ -106,7 +107,7 @@
 					<input type="text" name="handling[<?php echo $item->shipping_rate_id; ?>]" value="<?php echo $item->shipping_rate_handling; ?>" />
 				</td>
 				<td style="text-align: center;">
-					[<a href="index.php?option=com_tienda&controller=shippingrates&task=delete&cid[]=<?php echo $item->shipping_rate_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=shippingmethods&task=setrates&id={$row->shipping_method_id}&tmpl=component"); ?>">
+					[<a href="<?php echo $baseLink; ?>&shippingTask=delete&cid[]=<?php echo $item->shipping_rate_id; ?>&return=<?php echo base64_encode($baseLink."&shippingTask=setrates&sid={$row->shipping_method_id}&tmpl=component"); ?>">
 						<?php echo JText::_( "Delete Rate" ); ?>	
 					</a>
 					]
@@ -133,8 +134,8 @@
 	</table>
 
 	<input type="hidden" name="order_change" value="0" />
-	<input type="hidden" name="id" value="<?php echo $row->shipping_method_id; ?>" />
-	<input type="hidden" name="task" id="task" value="setrates" />
+	<input type="hidden" name="sid" value="<?php echo $row->shipping_method_id; ?>" />
+	<input type="hidden" name="shippingTask" id="shippingTask" value="setrates" />
 	<input type="hidden" name="boxchecked" value="" />
 	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
 	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />

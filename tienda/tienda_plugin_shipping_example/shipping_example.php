@@ -67,6 +67,12 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
         
 		$vars->list = $list;
 		
+		$id = JRequest::getInt('id', '0');
+		$form = array();
+		$form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
+		
+		$vars->form = $form;
+		
 		$view;
         $html = $this->_getLayout('default', $vars);
 		

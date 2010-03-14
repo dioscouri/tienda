@@ -61,7 +61,7 @@ class TiendaModelShipping extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList();
-		foreach($list as $item)
+		foreach(@$list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.$item->id;
 		}
