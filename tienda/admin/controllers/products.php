@@ -110,6 +110,8 @@ class TiendaControllerProducts extends TiendaController
 	    $row = $model->getTable();
 	    $row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
+        $row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
 		$isNew = empty($row->product_id);
 		
 		$fieldname = 'product_full_image_new';
@@ -117,8 +119,9 @@ class TiendaControllerProducts extends TiendaController
 		
 		// Multiple images processing
 		$i = 0;
-		while(!empty($userfiles['size'][$i])){
-				echo $i."<br />";
+		while(!empty($userfiles['size'][$i]))
+		{
+				// echo $i."<br />";
 				$dir = $row->getImagePath(true);
 				
 				if ($upload = $this->addfile( $fieldname, $i, $dir ))

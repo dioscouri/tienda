@@ -82,7 +82,8 @@ class TiendaControllerCategories extends TiendaController
 		
 	    $row = $model->getTable();
 	    $row->load( $model->getId() );
-		$row->bind( $_POST );
+        $row->bind( JRequest::get('POST') );
+        $row->category_description = JRequest::getVar( 'category_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
 		$fieldname = 'category_full_image_new';
 		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
