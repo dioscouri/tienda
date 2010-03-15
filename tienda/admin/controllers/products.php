@@ -1122,6 +1122,62 @@ class TiendaControllerProducts extends TiendaController
         return;			
 		
     }
+    
+    function recreateThumbs(){
+    	
+    	$per_step = 100;
+    	$from_id = JRequest::getInt('from_id', 0);
+    	$to_id =  $from_id + $per_step;
+    	
+    	JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	$width = TiendaConfig::getInstance()->get('product_img_width', '0');
+    	$height = TiendaConfig::getInstance()->get('product_img_height', '0');
+    	
+    	$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
+  
+    	$model = $this->getModel('Products', 'TiendaModel');
+    	$model->setState('filter_id_from', $from_id);
+    	$model->setState('filter_id_to', $to_id);
+    	
+    	$row = $model->getTable();
+    	
+    	$count = $model->getTotal();
+    	
+    	$products = $model->getList();
+    	
+    	foreach($products as $p){
+    		
+    		$path = $helper->getGalleryPath($p->product_id);
+    		$images = $helper->getGalleryImages($path);
+    		
+    		foreach($images as $image){
+	    		
+    			if($image != ''){
+		    		
+	    			$img = new TiendaImage($path.$image);
+		    		$img->load();
+		    		
+		    		if($width >= $height)
+		    			$img->resizeToWidth($width);
+		    		else
+		    			$img->resizeToHeight($height);
+		    			
+		    		$img->save($path.'thumbs'.DS.$image);
+	    		}
+    		}
+    	}
+    	
+    	if($to_id < $count)
+    		$redirect = "index.php?option=com_tienda&controller=products&task=recreateThumbs&from_id=".($to_id+1);
+    	else
+    		$redirect = "index.php?option=com_tienda&view=config";
+    	
+    	$redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, JText::_('Done'), 'notice' );
+        return;
+    }
 
 }
 

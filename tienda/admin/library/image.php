@@ -31,7 +31,7 @@ class TiendaImage extends TiendaFile {
 			
 			$this->full_path = $filename;
 			$this->setDirectory( substr( $this->full_path, 0, strrpos($this->full_path, DS) ) );
-			$this->proper_name = JFile::getName();
+			$this->proper_name = JFile::getName($filename);
 		}
 	}
 	

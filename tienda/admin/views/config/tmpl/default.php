@@ -211,6 +211,14 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Recreate Product Thumbnails' ); ?>
+                            </th>
+                            <td>
+                                <a href="index.php?option=com_tienda&controller=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the product ThumbNails'); ?></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Default Category Image Height' ); ?>
                             </th>
                             <td>
