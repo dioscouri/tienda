@@ -235,6 +235,14 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Recreate Category Thumbnails' ); ?>
+                            </th>
+                            <td>
+                                <a href="index.php?option=com_tienda&controller=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the product ThumbNails'); ?></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Default Manufacturer Image Height' ); ?>
                             </th>
                             <td>
@@ -247,6 +255,14 @@
                             </th>
                             <td>
                                 <input type="text" name="manufacturer_img_width" value="<?php echo $this->row->get('manufacturer_img_width', ''); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Recreate Manufacturer Thumbnails' ); ?>
+                            </th>
+                            <td>
+                                <a href="index.php?option=com_tienda&controller=manufacturers&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the product ThumbNails'); ?></a>
                             </td>
                         </tr>
 					</tbody>

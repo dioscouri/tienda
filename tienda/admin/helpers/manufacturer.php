@@ -22,12 +22,10 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 		{
 			case "full":
 				$path = 'manufacturers_images';
-				$size = "";
 			  break;
 			case "thumb":
 			default:
 				$path = 'manufacturers_thumbs';
-				$size = "style='max-width: 48px; max-height: 48px;'";
 			  break;
 		}
 		
@@ -40,7 +38,7 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 			
 			// if url is true, just return the url of the file and not the whole img tag
 			$tmpl = ($url)
-				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' {$size} >";
+				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' >";
 
 		}
 			else
@@ -58,7 +56,7 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 
 				// if url is true, just return the url of the file and not the whole img tag
 				$tmpl = ($url)
-					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' {$size} >";
+					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' >";
 			}			
 		}
 		return $tmpl;

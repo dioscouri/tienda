@@ -1123,11 +1123,17 @@ class TiendaControllerProducts extends TiendaController
 		
     }
     
+    /**
+     * Batch resize of thumbs
+     * @author Skullbock
+     */
     function recreateThumbs(){
     	
+    	// this will only be if there is only 1 image per product
     	$per_step = 100;
     	$from_id = JRequest::getInt('from_id', 0);
     	$to_id =  $from_id + $per_step;
+    	$done = JRequest::getInt('done', 0);
     	
     	JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
     	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
@@ -1146,30 +1152,43 @@ class TiendaControllerProducts extends TiendaController
     	
     	$products = $model->getList();
     	
+    	// Explanation: $i contains how many images we have processed till now
+    	// $k contains how many products we have checked.
+    	// Max $per_step images resized per call.
+    	// So we continue to cicle on this controller call until $done, which contains
+    	// how many products we have passed till now (in total), does not reach the 
+    	// total number of products in the db.
+    	$i = 0;
+    	$k = 0;
+    	$last_id = $from_id;
     	foreach($products as $p){
-    		
+    		$k++;
     		$path = $helper->getGalleryPath($p->product_id);
     		$images = $helper->getGalleryImages($path);
     		
     		foreach($images as $image){
-	    		
+	    		$i++;
     			if($image != ''){
 		    		
 	    			$img = new TiendaImage($path.$image);
-		    		$img->load();
-		    		
-		    		if($width >= $height)
-		    			$img->resizeToWidth($width);
-		    		else
-		    			$img->resizeToHeight($height);
-		    			
-		    		$img->save($path.'thumbs'.DS.$image);
+		    		$img->setDirectory( $path );
+		
+					// Thumb
+					JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+					$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+					$imgHelper->resizeImage( $img );
 	    		}
     		}
+    		$last_id = $p->product_id;
+    		
+    		if($i >= $per_step)
+    			break;
     	}
     	
-    	if($to_id < $count)
-    		$redirect = "index.php?option=com_tienda&controller=products&task=recreateThumbs&from_id=".($to_id+1);
+    	$done += $k;
+    	
+    	if($done < $count)
+    		$redirect = "index.php?option=com_tienda&controller=products&task=recreateThumbs&from_id=".($last_id+1)."&done=".$done;
     	else
     		$redirect = "index.php?option=com_tienda&view=config";
     	

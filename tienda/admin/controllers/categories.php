@@ -330,6 +330,62 @@ class TiendaControllerCategories extends TiendaController
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
+    
+	/**
+     * Batch resize of thumbs
+     * @author Skullbock
+     */
+    function recreateThumbs(){
+    	
+    	$per_step = 100;
+    	$from_id = JRequest::getInt('from_id', 0);
+    	$to =  $from_id + $per_step;
+    	
+    	JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
+    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	$width = TiendaConfig::getInstance()->get('category_img_width', '0');
+    	$height = TiendaConfig::getInstance()->get('category_img_height', '0');
+  
+    	$model = $this->getModel('Categories', 'TiendaModel');
+    	$model->setState('limistart', $from_id);
+    	$model->setState('limit', $to);
+    	
+    	$row = $model->getTable();
+    	
+    	$count = $model->getTotal();
+    	
+    	$categories = $model->getList();
+    	
+    	$i = 0;
+    	$last_id = $from_id;
+    	foreach($categories as $p){
+ 			$i++;
+    		$image = $p->category_full_image;
+    		
+    		if($image != ''){
+	    		
+    			$img = new TiendaImage($image, 'category');
+    			$img->setDirectory( Tienda::getPath('categories_images'));
+		
+				// Thumb
+				JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+				$imgHelper->resizeImage( $img, 'category');
+    		}
+    		
+    		$last_id = $p->category_id;
+    	}
+    	
+    	if($i < $count)
+    		$redirect = "index.php?option=com_tienda&controller=categories&task=recreateThumbs&from_id=".($last_id+1);
+    	else
+    		$redirect = "index.php?option=com_tienda&view=config";
+    	
+    	$redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, JText::_('Done'), 'notice' );
+        return;
+    }
 }
 
 ?>

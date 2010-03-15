@@ -139,6 +139,62 @@ class TiendaControllerManufacturers extends TiendaController
     	return $upload;
 	}
 	
+	/**
+     * Batch resize of thumbs
+     * @author Skullbock
+     */
+    function recreateThumbs(){
+    	
+    	$per_step = 100;
+    	$from_id = JRequest::getInt('from_id', 0);
+    	$to =  $from_id + $per_step;
+    	
+    	JLoader::import( 'com_tienda.helpers.manufacturer', JPATH_ADMINISTRATOR.DS.'components' );
+    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	$width = TiendaConfig::getInstance()->get('manufacturer_img_width', '0');
+    	$height = TiendaConfig::getInstance()->get('manufacturer_img_height', '0');
+  
+    	$model = $this->getModel('Manufacturers', 'TiendaModel');
+    	$model->setState('limistart', $from_id);
+    	$model->setState('limit', $to);
+    	
+    	$row = $model->getTable();
+    	
+    	$count = $model->getTotal();
+    	
+    	$manufacturers = $model->getList();
+    	
+    	$i = 0;
+    	$last_id = $from_id;
+    	foreach($manufacturers as $p){
+ 			$i++;
+    		$image = $p->manufacturer_full_image;
+    		
+    		if($image != ''){
+	    		
+    			$img = new TiendaImage($image, 'manufacturer');
+    			$img->setDirectory( Tienda::getPath('manufacturers_images'));
+		
+				// Thumb
+				JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+				$imgHelper->resizeImage( $img, 'manufacturer');
+    		}
+    		
+    		$last_id = $p->manufacturer_id;
+    	}
+    	
+    	if($i < $count)
+    		$redirect = "index.php?option=com_tienda&controller=manufacturers&task=recreateThumbs&from_id=".($last_id+1);
+    	else
+    		$redirect = "index.php?option=com_tienda&view=config";
+    	
+    	$redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, JText::_('Done'), 'notice' );
+        return;
+    }
+	
 }
 
 ?>

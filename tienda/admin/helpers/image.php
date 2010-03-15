@@ -131,7 +131,7 @@ class TiendaHelperImage extends TiendaHelperBase
 		else
 			$img->resizeToHeight( $height );
 			
-		$dest_path = $dest_dir.DS.$img->getPhysicalName(true);
+		$dest_path = $dest_dir.DS.$img->getPhysicalName();
 		
 		$img->save($dest_path);
 		
