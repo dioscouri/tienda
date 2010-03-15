@@ -135,12 +135,13 @@ class TiendaHelperShipping extends TiendaHelperBase
 		            $product->load( $pid );
 		            if (!empty($product->product_ships))
 		            {
+		                $product_id = $item->product_id;
 		                $order_ships = true;
 		            }
 				}
 				if ($order_ships)
 				{
-	                $shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id );
+	                $shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $product_id );
 	                $return->shipping_rate_price      = $shippingrate->shipping_rate_price;
 	                $return->shipping_rate_handling   = $shippingrate->shipping_rate_handling;
 				}
