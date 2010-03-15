@@ -126,8 +126,8 @@ class TiendaControllerProducts extends TiendaController
 				
 				if ($upload = $this->addfile( $fieldname, $i, $dir ))
 				{
-					// The first One is the default!
-					if($i == 0)
+					// The first One is the default (if there is no default yet)
+					if($i == 0 && (empty($row->product_full_image) || $row->product_full_image == ''))
 						$row->product_full_image = $upload->getPhysicalName();	
 				}
 					else
@@ -1003,6 +1003,126 @@ class TiendaControllerProducts extends TiendaController
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
+    
+    /**
+     * Delete a product Image.
+     * Expected to be called via Ajax
+     */
+    function deleteImage(){
+    	
+		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+    	
+		$product_id = JRequest::getInt( 'product_id', 0, 'request');
+		$image = JRequest::getVar('image', '', 'request');
+		$image = html_entity_decode($image);
+		
+		// Find and delete the product image
+		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
+		$path = $helper->getGalleryPath($product_id);
+
+		// Check if the data is ok
+		if(!$product_id || empty($image)){
+			$msg = JText::_('Input Data not Valid');
+			
+			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        	$redirect = JRoute::_( $redirect, false );
+        
+        	$this->setRedirect( $redirect, $msg, 'notice' );
+        	return;
+		}
+		
+		// Delete the image if it exists
+		if(JFile::exists($path.$image)){
+			$success = JFile::delete($path.$image);
+			
+			// Try to delete the thumb, too
+			if($success){
+				if(JFile::exists($path.'thumbs'.DS.$image)){
+					JFile::delete($path.'thumbs'.DS.$image);
+					$msg = JText::_('Image Deleted');
+				} else{
+					$msg = JText::_('Cannot Delete the Image Thumbnail: '.$path.'thumbs'.DS.$image);
+				}
+				
+				// if it is the primary image, let's clear the product_image field in the db
+				$model = $this->getModel('products');
+				$row = $model->getTable();
+				$row->load($product_id);
+				
+				if($row->product_full_image == $image)
+					$row->product_full_image = '';
+					
+				$row->store();
+				
+			} else{
+				$msg = JText::_('Cannot Delete the Image: '.$path.$image);
+			}
+			
+			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        	$redirect = JRoute::_( $redirect, false );
+        
+        	$this->setRedirect( $redirect, $msg, 'notice' );
+        	return;
+			
+		} else{
+			$msg = JText::_('Image does not Exist: '.$path.$image);
+			
+			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        	$redirect = JRoute::_( $redirect, false );
+        
+        	$this->setRedirect( $redirect, $msg, 'notice' );
+        	return;
+		}
+		
+		return;
+    }
+    
+    function setDefaultImage(){
+    	
+    	JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+    	
+		$product_id = JRequest::getInt( 'product_id', 0, 'request');
+		$image = JRequest::getVar('image', '', 'request');
+		$image = html_entity_decode($image);
+		
+		// Find and delete the product image
+		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
+		$path = $helper->getGalleryPath($product_id);
+
+		// Check if the data is ok
+		if(!$product_id || empty($image)){
+			$msg = JText::_('Input Data not Valid');
+			
+			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        	$redirect = JRoute::_( $redirect, false );
+        
+        	$this->setRedirect( $redirect, $msg, 'notice' );
+        	return;
+		}
+		
+		// Check if the image exists
+		if(JFile::exists($path.$image)){					
+			// Update
+			$model = $this->getModel('products');
+			$row = $model->getTable();
+			$row->load($product_id);
+			
+			$row->product_full_image = $image;
+				
+			$row->store();
+			$msg = JText::_('Update Successful');
+		} else{
+			$msg = JText::_('Image does not Exist: '.$path.$image);
+		}
+			
+		$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        $redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, $msg, 'notice' );
+        return;			
+		
+    }
+
 }
 
 ?>
