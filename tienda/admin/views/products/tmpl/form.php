@@ -288,7 +288,9 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 						</label>
 					</td>
 					<td>
+						<div class="multiupload"> 
 						<input name="product_full_image_new" type="file" size="40" />
+						</div>
 					</td>
 				</tr>
 				</table>

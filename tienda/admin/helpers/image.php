@@ -35,9 +35,9 @@ class TiendaHelperImage extends TiendaHelperBase
 	
 	
 	/**
-	 * Private! Use the getInstance
+	 * Protected! Use the getInstance
 	 */ 
-	function TiendaHelperImage()
+	protected function TiendaHelperImage()
 	{
 		// Parent Helper Construction
 		parent::__construct();
