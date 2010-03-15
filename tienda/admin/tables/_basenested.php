@@ -581,7 +581,7 @@ class TiendaTableNested extends TiendaTable
 	
 	/**
 	 * Gets the root item in the tree
-	 * @return unknown_type
+	 * @return boolean if fail, stdClass object if true
 	 */
 	public function getRoot()
 	{

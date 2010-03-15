@@ -177,7 +177,7 @@ class TiendaControllerCategories extends TiendaController
 		// Thumb
 		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-		$imgHelper->resizeImage(&$upload, 'category');
+		$imgHelper->resizeImage( $upload, 'category');
 		
     	return $upload;
 	}

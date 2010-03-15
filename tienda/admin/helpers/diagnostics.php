@@ -60,6 +60,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERCURRENCY FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the category root 
+        if (!$this->checkCategoriesRoot()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESROOT FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -231,6 +237,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
+    /**
+     * Checks the orders table to confirm it has the order_currency field
+     * 
+     * return boolean
+     */
     function checkOrdersOrderCurrency()
     {
         // if this has already been done, don't repeat
@@ -259,6 +270,43 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
         return false;        
+    }
+    
+    /**
+     * Confirm that the category root is properly named and doesn't yell at users
+     * return boolean
+     */
+    function checkCategoriesRoot()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCategoriesRoot', '0'))
+        {
+            return true;
+        }
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $category = JTable::getInstance( 'Categories', 'TiendaTable' );
+        $root = $category->getRoot();
+        
+        if ($root->category_name == "ROOT" || $root->category_description == "root")
+        {
+            $category->load( $root->category_id );
+            $category->category_name = "All Categories";
+            $category->category_description = "All Categories";
+            if (!$category->save())
+            {
+                return false;
+            }
+        }
+
+        // Update config to say this has been done already
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'Config', 'TiendaTable' );
+        $table->load( 'checkCategoriesRoot' );
+        $table->config_name = 'checkCategoriesRoot';
+        $table->value = '1';
+        $table->save();
+        return true;        
     }
 
 }

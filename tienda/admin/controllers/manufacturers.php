@@ -134,7 +134,7 @@ class TiendaControllerManufacturers extends TiendaController
 		// Thumb
 		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-		$imgHelper->resizeImage(&$upload, 'manufacturer');
+		$imgHelper->resizeImage( $upload, 'manufacturer');
 		
     	return $upload;
 	}
