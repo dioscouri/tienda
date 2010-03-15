@@ -69,13 +69,12 @@ class TiendaModelCategories extends TiendaModelBase
         		$query->where('tbl.lft BETWEEN '.$parent->lft.' AND '.$parent->rgt );
         	}
        	}
+
        	if (strlen($level))
        	{
        	    $query->where("tbl.parent_id = '$level'");
        	    if ($level > 1)
        	    {
-       	        $parent = $this->getTable();
-       	        $parent->load( $level );
        	        $query->where("parent.category_id = '$level'");  	        
        	    }
        	}

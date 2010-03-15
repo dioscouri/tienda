@@ -46,6 +46,7 @@ class TiendaViewProducts extends TiendaViewBase
 	{
 	    parent::_default();
 
+	    // TODO Move all of this to the controller
 	    $title = (isset($this->state->category_name))
             ? $this->state->category_name
             : JText::_( "All Categories" );
@@ -55,6 +56,8 @@ class TiendaViewProducts extends TiendaViewBase
         $level = (!empty($this->state->filter_category)) ? $this->state->filter_category : '1';
         $cmodel->setState('filter_level', $level);
         $cmodel->setState('filter_enabled', '1');
+        $cmodel->setState('order', 'tbl.lft');
+        $cmodel->setState('direction', 'ASC');
         $citems = $cmodel->getList();
         if ($level > 1) {
             $tcmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
