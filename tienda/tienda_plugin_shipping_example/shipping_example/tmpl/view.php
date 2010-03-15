@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form2; ?>
 <?php $row = @$this->item;
 JFilterOutput::objectHTMLSafe( $row );
@@ -62,7 +63,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	</table>
 						
 	<input type="hidden" name="shipping_method_id" value="<?php echo @$row->shipping_method_id; ?>" />
-	<input type="submit" name="submit" value="Save" />
+	<input type="hidden" id="shippingTask" name="shippingTask" value="<?php echo @$form->shippingTask; ?>" />
 	
 	
 	</fieldset>

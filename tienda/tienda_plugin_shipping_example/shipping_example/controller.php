@@ -13,9 +13,12 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
 		$this->_element = 'shipping_example';
 	}
 	
+	function newMethod(){
+		return $this->view();
+	}
+	
 	function save(){
 		
-		$id = JRequest::getInt('id', '0');
 		$values = JRequest::get('post');
 		
     	$this->includeCustomTables(); 
@@ -33,7 +36,7 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
 			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
         }
         
-        $redirect = "index.php?option=com_tienda&view=shipping&task=view&id=".$id;    	
+        $redirect = $this->baseLink();    	
 
     	$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -71,8 +74,18 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
 		$view->display();
     }
     
+    function cancel(){
+    	$redirect = $this->baseLink();
+        $redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, '', '' );
+    }
+    
     function view(){
-		
+		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('Save'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'cancel', 'delete', 'delete', JText::_('Back'), false, 'shippingTask' );
+    	
     	$id = JRequest::getInt('id', '0');
     	$sid = TiendaShippingPlugin::getShippingId();
     	$this->includeCustomModel('ShippingMethods');  
@@ -84,7 +97,8 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
         
         // Form
         $form = array();
-        $form['action'] = $this->baseLink()."&shippingTask=save";
+        $form['action'] = $this->baseLink();
+        $form['shippingTask'] = 'save';
 		$view = $this->getView( 'Shipping_Example', 'html' ); 
 		$view->hidemenu = true;
 		$view->hidestats = true;
@@ -127,6 +141,40 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
+    
+	function delete()
+	{
+		$error = false;
+		$this->messagetype	= '';
+		$this->message 		= '';
+        
+
+		$model = $this->getModel('shippingmethods');
+		$row = $model->getTable();
+
+		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
+		foreach (@$cids as $cid)
+		{
+			if (!$row->delete($cid))
+			{
+				$this->message .= $row->getError();
+				$this->messagetype = 'notice';
+				$error = true;
+			}
+		}
+
+		if ($error)
+		{
+			$this->message = JText::_('Error') . " - " . $this->message;
+		}
+			else
+		{
+			$this->message = JText::_('Items Deleted');
+		}
+
+		$this->redirect = $this->baseLink();
+		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );
+	}
     
 	/**
      * Saves the properties for all prices in list
@@ -182,10 +230,6 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
-    
-	function delete(){
-    	$this->set('suffix', 'shippingrates');
-    	parent::delete();
-    }
+   
     
 } 

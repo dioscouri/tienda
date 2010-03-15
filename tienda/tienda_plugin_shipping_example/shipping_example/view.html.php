@@ -15,5 +15,4 @@ JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' )
 
 class TiendaViewShipping_Example extends TiendaViewBase
 {
-	
 }

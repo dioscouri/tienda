@@ -351,3 +351,23 @@
 			alert('Please select both a Country and a Zone.');
 		}
 	}
+	
+	
+	function submitTiendabutton(pressbutton, fieldname) {
+		submitTiendaform(pressbutton, fieldname );
+	}
+
+	
+	/**
+	* Submit the admin form using a custom task field name
+	*/
+	function submitTiendaform(pressbutton, fieldname){
+		if (pressbutton) {
+			document.adminForm.elements[fieldname].value=pressbutton;
+		}
+		if (typeof document.adminForm.onsubmit == "function") {
+			document.adminForm.onsubmit();
+		}
+		document.adminForm.submit();
+	}
+
