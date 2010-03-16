@@ -306,7 +306,8 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			case "selectshipping":
 				// Validate the email address if it is a guest checkout!
-				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && ($submitted_values['guest'] == 1)){
+				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && !empty($submitted_values['guest']) )
+				{
 					jimport('joomla.mail.helper');
 					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
 						$response['msg'] = $helper->generateMessage( JText::_('Please insert a correct email address') );
