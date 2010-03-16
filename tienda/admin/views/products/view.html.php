@@ -15,6 +15,20 @@ JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' )
 
 class TiendaViewProducts extends TiendaViewBase 
 {
+	function _form($tpl=null)
+	{
+		parent::_form($tpl);
+		
+		$model = $this->getModel();
+		
+		$dispatcher = JDispatcher::getInstance();
+		$results = $dispatcher->trigger( 'onGetProductView', array( $model->getItem()  ) );
+		
+		$shippingHtml = implode('<hr />', $results);
+        
+		$this->assign('shippingHtml', $shippingHtml);
+	}
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see tienda/admin/views/TiendaViewBase#_defaultToolbar()

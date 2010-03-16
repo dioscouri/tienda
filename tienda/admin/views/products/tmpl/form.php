@@ -581,6 +581,31 @@ echo $tabs->startPanel( JText::_( 'Other Info' ), "other" );
 		            </td>
 		        </tr>
 			</table>
+			
+<?php 
+
+if(!empty($this->shippingHtml)){
+	echo $tabs->endPanel();
+	echo $tabs->startPanel( JText::_( 'Shipping Plugins' ), "shipping" );
+
+?>
+				<table class="admintable">
+
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="shippingPlugins">
+						<?php echo JText::_( 'Shipping Informations' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $this->shippingHtml ?>
+					</td>
+				</tr>		
+				</table>
+<?php 
+	$tabs->endPanel();
+}
+?>
 		</td>
 			<?php
 		// <td style="max-width: 35%; vertical-align: top;">

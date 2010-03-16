@@ -43,6 +43,58 @@ class TiendaShippingPlugin extends TiendaPluginBase
 
         return $html;
     }
+    
+	/**
+     * If you want to show something on the product admin page
+     * 
+     * @param $product the product row
+     * @return html
+     */
+    function onGetProductView( $product )
+    {
+        
+       // $html = Tienda::dump($product);
+		$html = "";
+        return $html;
+    }
+    
+	/**
+     * If you have to save some of the information from the product to you 
+     * plugin database, do it here!
+     * 
+     * @param $product the product row
+     * @return html
+     */
+    function onAfterSaveProducts( $product )
+    {
+        // Do Something here with the product data
+    }
+    
+	/**
+     * If you want to show something on the category admin page
+     * 
+     * @param $category the product row
+     * @return html
+     */
+    function onGetCategoryView( $category )
+    {
+        
+        //$html = Tienda::dump($category);
+		$html = "";
+        return $html;
+    }
+    
+	/**
+     * If you have to save some of the information from the category to you 
+     * plugin database, do it here!
+     * 
+     * @param $category the product row
+     * @return html
+     */
+    function onAfterSaveCategories( $category )
+    {
+        // Do Something here with the category data
+    }
 
     /**
      * Gets the reports namespace for state variables

@@ -119,6 +119,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		// Multiple images processing
 		$i = 0;
+		$error = false;
 		while(!empty($userfiles['size'][$i]))
 		{
 				// echo $i."<br />";

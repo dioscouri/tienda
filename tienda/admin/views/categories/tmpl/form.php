@@ -86,7 +86,29 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo $editor->display( 'category_description',  @$row->category_description, '100%', '450', '100', '20' ) ; ?>
 					</td>
 				</tr>
+				
+							<?php 
+
+if(!empty($this->shippingHtml)){
+
+?>
+
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="shippingPlugins">
+						<?php echo JText::_( 'Shipping Informations' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $this->shippingHtml ?>
+					</td>
+				</tr>		
+
+<?php 
+}
+?>
 			</table>
+
 			<input type="hidden" name="id" value="<?php echo @$row->category_id?>" />
 			<input type="hidden" name="task" value="" />
 	</fieldset>
