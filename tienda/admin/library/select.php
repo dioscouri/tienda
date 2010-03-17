@@ -531,7 +531,7 @@ class TiendaSelect extends JHTMLSelect
         }
 		return JHTML::_('select.radiolist', $list, $name, $attribs, 'value', 'text', $selected, $idtag);
 	}
-    
+
 	/**
 	 * Generates a selectlist for the specified Product Attribute 
 	 *

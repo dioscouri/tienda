@@ -293,3 +293,7 @@ div#order_shop_info{
 	float: right;
 	width:250px;
 }
+
+div.shipping_rates{
+	margin-left:20px;
+}

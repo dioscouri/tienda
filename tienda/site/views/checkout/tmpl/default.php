@@ -131,7 +131,30 @@
 		    	echo TiendaSelect::shippingmethod( $this->order->shipping_method_id, 'shipping_method_id', $attribs, 'shipping_method_id', true ); 
 		    ?>	
 		    <div id="validationmessage" style="padding-top: 10px;"></div>
-        </div>      
+        </div>
+        
+        <!--	SHIPPING METHODS   -->        
+        <h3><?php echo JText::_("Shipping Method") ?></h3>
+        <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
+        <div id='onCheckoutShipping_wrapper'>
+            <?php
+                if ($this->plugins) 
+                {                  
+                    foreach ($this->plugins as $plugin) 
+                    {
+                        ?>
+                        <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetShippingRates('<?php echo $plugin->element; ?>', 'shipping_form_div')" name="shipping_plugin" type="radio" />
+                        <?php echo JText::_( $plugin->name ); ?>
+                        <br/>
+                        <?php
+                    }
+                }
+            ?>
+            
+            <div id='shipping_form_div' style="padding-top: 10px;"></div>
+            
+            <div id="validationmessage" style="padding-top: 10px;"></div>
+        </div>         
 
         <!--    COMMENTS   -->        
         <h3><?php echo JText::_("Shipping Notes") ?></h3>

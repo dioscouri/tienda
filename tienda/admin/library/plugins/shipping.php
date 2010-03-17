@@ -22,6 +22,22 @@ class TiendaShippingPlugin extends TiendaPluginBase
      */
     var $_element    = '';
     
+	/**
+     * Tells extension that this is a shipping plugin
+     * 
+     * @param $element  string      a valid shipping plugin element 
+     * @return boolean
+     */
+    function onGetShippingPlugins( $element )
+    {
+        $success = false;
+        if ($this->_isMe($element)) 
+        {
+            $success = true;
+        }
+        return $success;    
+    }
+    
     /**
      * Wrapper for the internal _renderView method
      * Generally you won't have to override this, 
@@ -55,6 +71,22 @@ class TiendaShippingPlugin extends TiendaPluginBase
         
        // $html = Tienda::dump($product);
 		$html = "";
+        return $html;
+    }
+    
+	/**
+     * Get Shipping Rates
+     * 
+     * @param $product the product row
+     * @return html
+     */
+    function onGetShippingRates( $element, $values )
+    {
+    	if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+        $html = "";
         return $html;
     }
     
@@ -186,12 +218,12 @@ class TiendaShippingPlugin extends TiendaPluginBase
      *  
      * @return unknown_type
      */
-    function _renderView()
+    function _renderView($view = 'view', $vars = null)
     {
         // TODO Load the report, get the data, and render the report html using the form inputs & data
-        
-        $vars = new JObject();
-        $html = $this->_getLayout('view', $vars);
+        if($vars == null)
+        	$vars = new JObject();
+        $html = $this->_getLayout($view, $vars);
         
         return $html;
     }

@@ -10,6 +10,13 @@ function tiendaGetPaymentForm( element, container )
     var url = 'index.php?option=com_tienda&controller=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
     tiendaDoTask( url, container, document.adminForm );
 }
+
+function tiendaGetShippingRates( element, container )
+{
+    var url = 'index.php?option=com_tienda&controller=checkout&task=getShippingRates&format=raw&shipping_element=' + element;
+    tiendaDoTask( url, container );
+}
+
 /**
  * Based on the session contents,
  * calculates the order total

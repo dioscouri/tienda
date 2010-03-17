@@ -46,7 +46,26 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
         return $html;
     }
     
- /**
+    function onGetShippingRates($element, $values){
+    	
+    	if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+        
+        $this->includeCustomModel('ShippingRates');
+        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
+        
+        $vars = new JObject();
+        $vars->rates = $model->getList();
+        $vars->order = $values;
+        
+		$html = $this->_renderView('rates', $vars);
+		return $html;
+        
+    }
+    
+ 	/**
      * Validates the data submitted based on the suffix provided
      * A controller for this plugin, you could say
      * 
