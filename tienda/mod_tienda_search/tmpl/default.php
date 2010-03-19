@@ -16,7 +16,7 @@ $url = JRoute::_( 'index.php?option=com_tienda&controller=products&task=search' 
 ?>
 
 <div id="productSearch">
-    <form action="<?php echo $url; ?>" method="post" name="productSearch">
+    <form action="<?php echo $url; ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>') this.elements['filter'].value = '';">
         <?php echo JText::_('Search').': '; ?>
         <?php echo TiendaSelect::category('', 'filter_category', '', '', true, '', 'All Categories', '', '1'); ?>
         <input type="text" name="filter" value="<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>" onclick="this.value='';"/> 
