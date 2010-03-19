@@ -15,12 +15,6 @@ JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' 
 
 class TiendaTableProductFiles extends TiendaTable 
 {
-	/**
-	 * 
-	 * 
-	 * @param $db
-	 * @return unknown_type
-	 */
 	function TiendaTableProductFiles ( &$db ) 
 	{
 		
@@ -59,6 +53,60 @@ class TiendaTableProductFiles extends TiendaTable
     function reorder()
     {
         parent::reorder('product_id = '.$this->_db->Quote($this->product_id) );
+    }
+    
+    /**
+     * Determines if a user can download the file
+     * only using datetime if it is present
+     *  
+     * @param unknown_type $user_id
+     * @param unknown_type $datetime
+     * @return unknown_type
+     */
+    function canDownload( $user_id, $datetime=null )
+    {
+        // if the user is super admin, yes
+        $user = JFactory::getUser( $user_id );
+        if ($user->gid == '25') { return true; }
+            
+        // if the product file doesn't require purchase
+        if (empty($this->purchase_required))
+        {
+            return true;
+        }
+        
+        // or because they have purchased it and the num_downloads is < max (or max == -1)
+        $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
+        $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductDownloadLogs', 'TiendaModel' );
+        $model->setState('filter_productfile', $this->productfile_id);
+        $model->setState('filter_user', $user_id);
+        $items = $model->getList();
+        $num_downloads = count( $items );
+        
+        if (!empty($productdownloads->productdownload_id) && ( $productdownloads->productdownload_max == '-1' || $num_downloads < $productdownloads->productdownload_max) )
+        {
+            return true;
+        }
+        
+        // otherwise no
+        return false;
+    }
+    
+    /**
+     * Logs a download
+     * 
+     * @param $user_id
+     * @return unknown_type
+     */
+    function logDownload( $user_id )
+    {
+        $downloadlog = JTable::getInstance( 'ProductDownloadLogs', 'TiendaTable' );
+        $downloadlog->user_id = $user_id;
+        $downloadlog->productfile_id = $this->productfile_id;
+        $downloadlog->save();    
     }
 	
 }

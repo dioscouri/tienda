@@ -125,7 +125,7 @@ class TiendaControllerProducts extends TiendaController
 				// echo $i."<br />";
 				$dir = $row->getImagePath(true);
 				
-				if ($upload = $this->addfile( $fieldname, $i, $dir ))
+				if ($upload = $this->addimage( $fieldname, $i, $dir ))
 				{
 					// The first One is the default (if there is no default yet)
 					if($i == 0 && (empty($row->product_full_image) || $row->product_full_image == ''))
@@ -225,7 +225,7 @@ class TiendaControllerProducts extends TiendaController
 	 * Adds a thumbnail image to item
 	 * @return unknown_type
 	 */
-	function addfile( $fieldname = 'product_full_image_new', $num = 0, $path = 'products_images' )
+	function addimage( $fieldname = 'product_full_image_new', $num = 0, $path = 'products_images' )
 	{
 		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
 		$upload = new TiendaImage();
@@ -951,6 +951,37 @@ class TiendaControllerProducts extends TiendaController
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
+    
+    /**
+     * Uploads a file to associate to an item
+     * 
+     * @return unknown_type
+     */
+    function addfile( $fieldname = 'createproductfile_file', $path = 'products_files' )
+    {
+        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
+        $upload = new TiendaFile();
+        // handle upload creates upload object properties
+        $upload->handleUpload( $fieldname );
+        // then save image to appropriate folder
+        if ($path == 'products_files') { $path = Tienda::getPath( 'products_files' ); }
+        $upload->setDirectory( $path );
+        $dest = $upload->getDirectory().DS.$upload->getPhysicalName();
+        // delete the file if dest exists
+        if ($fileexists = JFile::exists( $dest ))
+        {
+            JFile::delete($dest);
+        }
+        // save path and filename or just filename
+        if (!JFile::upload($upload->file_path, $dest))
+        {
+            $this->setError( sprintf( JText::_("Move failed from"), $upload->file_path, $dest) );
+            return false;           
+        }
+        
+        $upload->full_path = $dest;
+        return $upload;
     }
     
     /**

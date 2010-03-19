@@ -81,6 +81,9 @@ $item = @$this->row;
         <?php echo $this->product_description; ?>
     </div>
     
+    <?php // display the files associated with this product ?>
+    <?php echo $this->files; ?>
+    
     <!--
     NOT ENABLED YET
     <div class="reset"></div>

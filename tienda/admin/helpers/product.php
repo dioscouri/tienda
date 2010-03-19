@@ -278,7 +278,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		return $paths[$id];
 	}
 	
-/**
+    /**
 	 * Returns the full path to the product's image gallery files
 	 * 
 	 * @param int $id

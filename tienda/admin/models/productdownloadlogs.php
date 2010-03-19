@@ -13,35 +13,36 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.models._base', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TiendaModelProductFiles extends TiendaModelBase
+class TiendaModelProductDownloadLogs extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
     	$filter          = $this->getState('filter');
         $filter_id	     = $this->getState('filter_id');
-        $filter_enabled       = $this->getState('filter_enabled');
-        $filter_product  = $this->getState('filter_product');
+        $filter_productfile  = $this->getState('filter_productfile');
+        $filter_user       = $this->getState('filter_user');
 
         if ($filter) 
         {
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
             $where = array();
+            $where[] = 'LOWER(tbl.productdownloadlog_id) LIKE '.$key;
             $where[] = 'LOWER(tbl.productfile_id) LIKE '.$key;
-            $where[] = 'LOWER(tbl.productfile_name) LIKE '.$key;
-            $where[] = 'LOWER(tbl.product_id) LIKE '.$key;
+            $where[] = 'LOWER(tbl.user_id) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
+        
 		if (strlen($filter_id))
         {
-            $query->where('tbl.productfile_id = '.(int) $filter_id);
+            $query->where('tbl.productdownloadlog_id = '.(int) $filter_id);
        	}
-        if (strlen($filter_product))
+        if (strlen($filter_productfile))
         {
-            $query->where('tbl.product_id = '.(int) $filter_product);
+            $query->where('tbl.productfile_id = '.(int) $filter_productfile);
         }
-        if (strlen($filter_enabled))
+        if (strlen($filter_user))
         {
-            $query->where('tbl.productfile_enabled = '.(int) $filter_enabled);
+            $query->where('tbl.user_id = '.(int) $filter_user);
         }
     }
 }

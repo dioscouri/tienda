@@ -16,8 +16,6 @@ JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components'
 
 class TiendaFile extends JObject 
 {
-	
-	
 	/**
 	 * Returns a list of types
 	 * @param mixed Boolean
@@ -39,18 +37,17 @@ class TiendaFile extends JObject
 		$helper->checkDirectory($dir);
 
 		// then confirms existence of htaccess file
-		//		$htaccess = $dir.DS.'.htaccess';
-		//		if (!$fileexists = &JFile::exists( $htaccess ) ) {
-		//
-		//			$destination = $htaccess;
-		//			$text = "deny from all";
-		//			
-		//			if ($f = @fopen($destination,'wb')) {
-		//				fwrite ( $f, $text );
-		//				fclose($f);
-		//			}
-		//
-		//		}
+		$htaccess = $dir.DS.'.htaccess';
+		if (!$fileexists = &JFile::exists( $htaccess ) ) 
+		{
+			$destination = $htaccess;
+			$text = "deny from all";
+		    if ( !JFile::write( $destination, $text )) 
+		    {
+                $this->setError( JText::_('STORAGE DIRECTORY IS UNPROTECTED') );
+                return $success;
+            }			
+		}
 
 		$this->_directory = $dir;
 		return $this->_directory;
@@ -101,10 +98,7 @@ class TiendaFile extends JObject
 			return $success;
 		}
 		
-		if($num == -1)
-			$this->proper_name = basename($userfile['name']);
-		else
-			$this->proper_name = basename($userfile['name'][$num]);
+		$this->proper_name = basename($userfile['name']);
 		
 		if ($userfile['size'] == 0) {
 			$this->setError( JText::_( 'Invalid File' ) );
@@ -136,7 +130,7 @@ class TiendaFile extends JObject
 		return $success;
 	}
 	
-/**
+    /**
 	 * Returns 
 	 * @param mixed Boolean
 	 * @param mixed Boolean
@@ -204,7 +198,8 @@ class TiendaFile extends JObject
 	/**
 	 * Do the real upload
 	 */
-	function upload(){
+	function upload()
+	{
 		// path
 		$dest = $this->getDirectory().DS.$this->getPhysicalName();
 		// delete the file if dest exists
@@ -222,6 +217,126 @@ class TiendaFile extends JObject
 		$this->full_path = $dest;
 		return true;
 	}
+	
+    /**
+     * Downloads file
+     * 
+     * @param object Valid productfile object
+     * @param mixed Boolean
+     * @return array
+     */
+    function download( $file ) 
+    {
+        $success = false;
+        
+        //$file->productfile_path = JPath::clean($file->productfile_path);
+        
+        // This will set the Content-Type to the appropriate setting for the file
+        switch( $file->productfile_extension ) {
+             case "pdf": $ctype="application/pdf"; break;
+             case "exe": $ctype="application/octet-stream"; break;
+             case "zip": $ctype="application/zip"; break;
+             case "doc": $ctype="application/msword"; break;
+             case "xls": $ctype="application/vnd.ms-excel"; break;
+             case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
+             case "gif": $ctype="image/gif"; break;
+             case "png": $ctype="image/png"; break;
+             case "jpeg":
+             case "jpg": $ctype="image/jpg"; break;
+             case "mp3": $ctype="audio/mpeg"; break;
+             case "wav": $ctype="audio/x-wav"; break;
+             case "mpeg":
+             case "mpg":
+             case "mpe": $ctype="video/mpeg"; break;
+             case "mov": $ctype="video/quicktime"; break;
+             case "avi": $ctype="video/x-msvideo"; break;
+        
+             // The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+             case "php":
+             case "htm":
+             case "html": if ($file->productfile_path) die("<b>Cannot be used for ". $file->productfile_extension ." files!</b>");
+        
+             default: $ctype="application/octet-stream";
+        }
+        
+        // If requested file exists
+        if (JFile::exists($file->productfile_path)) {
+        
+            while (@ob_end_clean());
+            
+            // Fix IE bugs
+            if (isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+                $header_file = preg_replace('/\./', '%2e', $file->productfile_name, substr_count($file->productfile_name, '.') - 1);
+                
+                if (ini_get('zlib.output_compression'))  {
+                    ini_set('zlib.output_compression', 'Off');
+                }               
+            }
+            else {
+                $header_file = $file->productfile_name;
+            }
+            
+            // Prepare headers
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public", false);
+            
+            header("Content-Description: File Transfer");
+            header("Content-Type: $ctype" );
+            header("Accept-Ranges: bytes");
+            header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: " . filesize($file->productfile_path));
+            
+            // Output file by chunks
+            error_reporting(0);
+            if ( ! ini_get('safe_mode') ) {
+                set_time_limit(0);
+            }
+            
+            $chunk = 1 * (1024 * 1024);
+            $this->readfileChunked($file->productfile_path, $chunk);
+            
+            $success = true;            
+            exit;
+        }
+        
+        return $success;        
+    }
+    
+    /**
+     * Reads the file by chunks
+     * 
+     * @param string $filename
+     * @param int $chunksize
+     * @param boolean $retbytes 
+     * @access public
+     * @return boolean|int Depending on the $retbytes param returns either the the bytes delivered or boolean status
+     */ 
+    function readfileChunked($filename, $chunksize = 1024, $retbytes = true)
+    {
+        $buffer = '';
+        $cnt =0;
+        $handle = fopen($filename, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+        while (!feof($handle)) {
+            $buffer = fread($handle, $chunksize);
+            echo $buffer;
+            @ob_flush();
+            flush();
+            if ($retbytes) {
+                $cnt += strlen($buffer);
+            }
+        }
+       $status = fclose($handle);
+       if ($retbytes && $status) {
+            return $cnt; // return num. bytes delivered like readfile() does.
+        }
+        return $status;
+    }
 
 	/**
 	 * Returns a list of types
@@ -468,7 +583,8 @@ class TiendaFile extends JObject
 	/**
 	 * Get Full file Path
 	 */
-	function getFullPath(){
+	function getFullPath()
+	{
 		return $this->full_path;
 	}
 	

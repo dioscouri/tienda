@@ -13,18 +13,19 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR .DS. 'components' );
 
-class TiendaImage extends TiendaFile {
-	 
+class TiendaImage extends TiendaFile 
+{
 	var $image;
 	var $type;
-
 	
-	function TiendaImage($filename = "") {
-		
+	function TiendaImage($filename = "") 
+	{
 		parent::__construct();
 		
-		if(!empty($filename)){
-			if(!JFile::exists($filename)){
+		if(!empty($filename))
+		{
+			if ( !JFile::exists($filename))
+			{
 				$this->setError("Image does not exist");
 				return;	
 			}
@@ -34,11 +35,38 @@ class TiendaImage extends TiendaFile {
 			$this->proper_name = JFile::getName($filename);
 		}
 	}
+
+    /**
+     * Prepares the storage directory
+     * We override the parent::setDirectory()
+     * because images dont need htaccess
+     * 
+     * @param mixed Boolean
+     * @param mixed Boolean
+     * @return array
+     */
+    function setDirectory( $dir=null ) 
+    {
+        $success = false;
+
+        // checks to confirm existence of directory
+        // then confirms directory is writeable     
+        if ($dir === null)
+        {
+            $dir = $this->getDirectory();   
+        }       
+        
+        $helper = TiendaHelperBase::getInstance();
+        $helper->checkDirectory($dir);
+        $this->_directory = $dir;
+        return $this->_directory;
+    }
 	
 	/**
 	 * Load the image!
 	 */
-	function load(){
+	function load()
+	{
 		$filename = $this->full_path;
 		$image_info = getimagesize($filename);
       	$this->type = $image_info[2];
@@ -59,9 +87,8 @@ class TiendaImage extends TiendaFile {
 	 * @param $compression
 	 * @param $permissions
 	 */
-	
-	function save($filename, $image_type = 'jpg', $compression=75, $permissions=null) {
-		
+	function save($filename, $image_type = 'jpg', $compression=75, $permissions=null) 
+	{		
 		if( $image_type == 'jpg' ) {
 			imagejpeg($this->image,$filename,$compression);
 		} elseif( $image_type == 'gif' ) {

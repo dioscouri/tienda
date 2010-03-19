@@ -87,7 +87,8 @@ class TiendaHelperBase extends JObject
 	 * @param string $dir
 	 * @param bool $create
 	 */
-	function checkDirectory($dir, $create = true){
+	function checkDirectory($dir, $create = true)
+	{
 		$return = true;
 		if (!$exists = &JFolder::exists( $dir ) ) 
 		{
@@ -96,9 +97,7 @@ class TiendaHelperBase extends JObject
 			else
 				$return = false;
 		} 
-		
-		$change = &JPath::setPermissions( $dir );
-		
+		$change = &JPath::setPermissions( $dir );	
 		return ($return && $change);
 	}
 	

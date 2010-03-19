@@ -49,7 +49,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         
         // check the productfiles table 
-        // TODO deprecate this check eventually, b/c it is only needed it the admin installed 0.2.0
+        // deprecate this check eventually, b/c it is only needed it the admin installed 0.2.0
         if (!$this->checkProductFiles()) 
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
@@ -226,11 +226,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance( 'Config', 'TiendaTable' );
-            $table->load( 'checkProductFiles' );
-            $table->config_name = 'checkProductFiles';
-            $table->value = '1';
-            $table->save();
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductFiles') );
+            $config->config_name = 'checkProductFiles';
+            $config->value = '1';
+            $config->save();
             return true;
         }
 
@@ -262,11 +262,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance( 'Config', 'TiendaTable' );
-            $table->load( 'checkOrdersOrderCurrency' );
-            $table->config_name = 'checkOrdersOrderCurrency';
-            $table->value = '1';
-            $table->save();
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrdersOrderCurrency') );
+            $config->config_name = 'checkOrdersOrderCurrency';
+            $config->value = '1';
+            $config->save();
             return true;
         }
         return false;        
@@ -301,12 +301,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 
         // Update config to say this has been done already
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $table = JTable::getInstance( 'Config', 'TiendaTable' );
-        $table->load( 'checkCategoriesRoot' );
-        $table->config_name = 'checkCategoriesRoot';
-        $table->value = '1';
-        $table->save();
+        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        $config->load( array( 'config_name'=>'checkCategoriesRoot') );
+        $config->config_name = 'checkCategoriesRoot';
+        $config->value = '1';
+        $config->save();
         return true;        
     }
-
 }
