@@ -220,6 +220,9 @@ class TiendaConfig extends Tienda
 	var $category_img_width			= 96;
 	var $manufacturer_img_width		= 128;
 	var $manufacturer_img_height	= 96;
+	// Unit measures
+	var $dimensions_unit					= 'cm';
+	var $weight_unit						= 'kg';
 	
 	/**
 	 * constructor

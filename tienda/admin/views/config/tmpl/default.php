@@ -271,7 +271,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_( "Currency Settings" );
+					$legend = JText::_( "Currency & Units Settings" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'currency' );
 					?>
 					
@@ -338,6 +338,28 @@
 							</th>
 			                <td>
 			                	<input type="text" name="currency_symbol_post" value="<?php echo $this->row->get('currency_symbol_post', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Dimensions Measure Unit' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="dimensions_unit" value="<?php echo $this->row->get('dimensions_unit', ''); ?>" />
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Weight Measure Unit' ); ?>
+							</th>
+			                <td>
+			                	<input type="text" name="weight_unit" value="<?php echo $this->row->get('weight_unit', ''); ?>" />
 			                </td>
                             <td>
                                 

@@ -224,6 +224,27 @@ class TiendaHelperBase extends JObject
 		$return = $pre.number_format($amount, $num_decimals, $decimal, $thousands).$post;
 		return $return;
 	}
+	
+	/**
+	 * Return a mesure with its unit
+	 * @param float $amount
+	 * @param string $type could be dimension or weight
+	 */
+	function measure($amount, $type='dimension')
+	{
+        // default to whatever is in config
+            
+        $config = TiendaConfig::getInstance();
+        $dim_unit = $config->get('dimensions_unit', 'cm');
+        $weight_unit = $config->get('weight_unit', 'kg');
+            
+        if(strtolower($type) == 'dimension'){
+        	return $amount.$dim_unit;
+        } else{
+        	return $amount.$weight_unit;
+        }
+		
+	}
 
 	/**
 	 * Nicely format a number
