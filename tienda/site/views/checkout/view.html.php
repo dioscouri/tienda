@@ -75,7 +75,8 @@ class TiendaViewCheckout extends TiendaViewBase
 	 * @param int step
 	 * @return html the progress layout
 	 */
-	function displayProgress($step){
+	function displayProgress($step)
+	{
 		
 	}
 }

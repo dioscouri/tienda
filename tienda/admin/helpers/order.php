@@ -17,6 +17,75 @@ jimport('joomla.filesystem.folder');
 
 class TiendaHelperOrder extends TiendaHelperBase
 {
+    /**
+     * This is a wrapper method for after an orderpayment has been received 
+     * that performs acts such as: 
+     * enabling file downloads, removing items from cart,
+     * updating product quantities, etc
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function setOrderPaymentReceived( $order_id )
+    {
+        // TODO Complete this
+        // When it is completed, update TiendaPaymentPlugin::setOrderPaymentReceived( $order_id ) 
+    }
+    
+    /**
+     * After a checkout has been completed
+     * and a payment has been received (instant)
+     * run this method to enable product downloads
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function enableProductDownloads( $order_id )
+    {
+        $error = false;
+        $errorMsg = "";
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
+        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model->setId( $order_id );
+        $order = $model->getItem();
+        if ($order->orderitems)
+        {
+            foreach ($order->orderitems as $orderitem)
+            {
+                // if this orderItem product has productfiles that are enabled and only available when product is purchased
+                $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+                $model->setState( 'filter_product', $orderitem->product_id );
+                $model->setState( 'filter_enabled', 1 );
+                $model->setState( 'filter_purchaserequired', 1 );
+                if (!$items = $model->getList())
+                {
+                    continue;
+                }
+                
+                // then add them to the order as a productdownloads table object
+                foreach ($items as $item)
+                {
+                    $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+                    $productDownload->product_id = $orderitem->product_id;
+                    $productDownload->productfile_id = $item->productfile_id;
+                    $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
+                    $productDownload->order_id = $order->order_id;
+                    $productDownload->user_id = $order->user_id;
+                    if (!$productDownload->save())
+                    {
+                        // track error
+                        $error = true;
+                        $errorMsg .= $productDownload->getError();
+                        // TODO What to do with this error 
+                    }
+                }
+            }
+        }
+    }
+    
 	/**
 	 * After a checkout has been completed
 	 * and a payment has been received (instant) or scheduled (offline)

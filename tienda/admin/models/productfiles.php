@@ -19,8 +19,9 @@ class TiendaModelProductFiles extends TiendaModelBase
     {
     	$filter          = $this->getState('filter');
         $filter_id	     = $this->getState('filter_id');
-        $filter_enabled       = $this->getState('filter_enabled');
+        $filter_enabled  = $this->getState('filter_enabled');
         $filter_product  = $this->getState('filter_product');
+        $filter_purchaserequired  = $this->getState('filter_purchaserequired');
 
         if ($filter) 
         {
@@ -42,6 +43,10 @@ class TiendaModelProductFiles extends TiendaModelBase
         if (strlen($filter_enabled))
         {
             $query->where('tbl.productfile_enabled = '.(int) $filter_enabled);
+        }
+        if (strlen($filter_purchaserequired))
+        {
+            $query->where('tbl.purchase_required = '.(int) $filter_purchaserequired);
         }
     }
 }

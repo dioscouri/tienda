@@ -382,6 +382,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             
             // remove items from cart
             TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // add productfiles to product downloads
+            TiendaHelperOrder::enableProductDownloads( $orderpayment->order_id );
         }
 
         // save the order

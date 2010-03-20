@@ -15,9 +15,12 @@ JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' 
 
 class TiendaTableOrders extends TiendaTable
 {	
-    /** @var array An array of TiendaOrderItems objects */
+    /** @var array An array of TiendaTableOrderItems objects */
     protected $_items = array();
 
+    /** @var array An array of TiendaTableProductDownloads objects */
+    protected $_downloads = array();
+    
     /** @var array An array of vendor_ids */
     protected $_vendors = array();
     
@@ -178,6 +181,43 @@ class TiendaTableOrders extends TiendaTable
         
         // add the vendor to the order
         $this->addVendor( $orderItem );
+        
+        // add productdownloads records to the order
+        // not necessary yet 
+        // $this->addDownloads( $orderItem );
+    }
+
+    /**
+     * Adds product downloads records to the order 
+     * based on the properties of the item being added
+     * 
+     * @param object    $orderItem      a TableItems object
+     * @return void
+     */
+    function addDownloads( $orderItem )
+    {
+        // if this orderItem product has productfiles that are enabled and only available when product is purchased
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+        $model->setState( 'filter_product', $orderItem->product_id );
+        $model->setState( 'filter_enabled', 1 );
+        $model->setState( 'filter_purchaserequired', 1 );
+        if (!$items = $model->getList())
+        {
+            // TODO Is there any need to return anything here?
+            return;
+        }
+        
+        // then add them to the order as a productdownloads table object
+        foreach ($items as $item)
+        {
+            $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+            $productDownload->product_id = $orderItem->product_id;
+            $productDownload->productfile_id = $item->productfile_id;
+            $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
+            // in the order object, download is identified by the productfile_id
+            $this->_downloads[$item->productfile_id] = $productDownload; 
+        }
     }
     
     /**
@@ -456,9 +496,20 @@ class TiendaTableOrders extends TiendaTable
     }
 
     /**
+     * Gets the order downloads
+     * 
+     * @return array of TiendaTableProductDownloads objects
+     */
+    function getDownloads()
+    {
+        // TODO Attempt to set this property if it is empty
+        return $this->_downloads;
+    }
+    
+    /**
      * Gets the order vendors
      * 
-     * @return array of TableOrderVendors objects
+     * @return array of TiendaTableOrderVendors objects
      */
     function getVendors()
     {

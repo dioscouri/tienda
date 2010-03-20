@@ -143,6 +143,22 @@ class TiendaPaymentPlugin extends TiendaPluginBase
      ************************************/
     
     /**
+     * This method can be executed by a payment plugin after a succesful payment
+     * to perform acts such as enabling file downloads, removing items from cart,
+     * updating product quantities, etc
+     * 
+     * @param unknown_type $order_id
+     * @return unknown_type
+     */
+    function setOrderPaymentReceived( $order_id )
+    {
+       // TODO Complete this
+       // in short, put all the post-payment, order completion tasks inside here 
+       // or at least put a reference here to a similar method in the TiendaHelperOrder, 
+       // such as TiendaHelperOrder::setOrderPaymentReceived( $order_id )  
+    }
+    
+    /**
      * Given an order_id, will remove the order's items from the user's cart
      * 
      * @param unknown_type $order_id

@@ -202,6 +202,12 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
         </copy>
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_quickicon" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon/languages" />
+        </copy>
     	<!-- REPORT PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers" />

@@ -135,6 +135,7 @@ class TiendaControllerProducts extends TiendaController
         $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_enabled', 1 );
+        //$model->setState( 'filter_purchaserequired', 1 );
         $items = $model->getList();
         
         JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );

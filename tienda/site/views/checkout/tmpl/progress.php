@@ -9,13 +9,14 @@ $current_step = @$this->current_step;
 <div class="progressbar">
 	<?php 
 		$i = 0;
-		foreach($steps as $step){
-	?>
-		<span class="step <?php if($i == $current_step) echo 'current-step'; ?>">
-		<?php echo $step; ?>
-		</span>
-	<?php
-		$i++;
+		foreach ($steps as $step)
+		{
+            ?>
+    		<span class="step <?php if($i == $current_step) echo 'current-step'; ?>">
+                <?php echo ($i+1).". ".JText::_( $step ); ?>
+    		</span>
+            <?php
+    		$i++;
 		}
 	?>
 </div>

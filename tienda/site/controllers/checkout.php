@@ -35,12 +35,12 @@ class TiendaControllerCheckout extends TiendaController
 		$this->initial_order_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
 		// Default Steps
 		$this->steps = array(
-        					 'ShippingMethod',
-        					 'PaymentMethod',
-        					 'Review',
-        					 'End'
-        					 );
-        					 $this->current_step = 0;
+            'STEP_SELECTSHIPPINGMETHOD',
+            'STEP_SELECTPAYMENTMETHOD',
+            'STEP_REVIEWORDER',
+            'STEP_CHECKOUTRESULTS'
+        );
+        $this->current_step = 0;
 	}
 
 	/**
@@ -1000,36 +1000,40 @@ class TiendaControllerCheckout extends TiendaController
 
 		// Get post values
 		$values = JRequest::get('post');
+		$user = JFactory::getUser();
 
 		// Guest Checkout: Silent Registration!
-		if(TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $values['guest'] == '1'){
-				
-				
+		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $values['guest'] == '1')
+		{
 			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
 			$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
 				
-			if($userHelper->emailExists($values['email_address'])){
+			if ($userHelper->emailExists($values['email_address']))
+			{
 				// TODO user already existing!
-			} else{
-					
-				// Random Password
+				
+			} 
+                else
+			{
+				// by omitting password, a random Password will be used
 				$details = array(
-								'email' => $values['email_address'],
-								'name' => $values['email_address'],
-								'username' => $values['email_address']			
+					'email' => $values['email_address'],
+					'name' => $values['email_address'],
+					'username' => $values['email_address']			
 				);
 
 				$msg = $this->getError();
 
 				$user = $userHelper->createNewUser($details, $msg);
 
-				if($user->id == 0){
-					// TODO what to do?
+				if (empty($user->id))
+				{
+					// TODO what to do if creating new user failed?
 				}
 
-				$userHelper->login(array('username' => $user->username,
-										 'password' => $user->password_clear) );
-
+				$userHelper->login( 
+				    array('username' => $user->username, 'password' => $user->password_clear) 
+				);
 			}
 		}
 
@@ -1051,12 +1055,15 @@ class TiendaControllerCheckout extends TiendaController
 		$shippingAddress->user_id = $user->id;
 		$billingAddress->user_id = $user->id;
 
-		if(!$shippingAddress->save()){
+		if (!$shippingAddress->save())
+		{
 			// Output error message and halt
 			JError::raiseNotice( 'Error Updating the Shipping Address', $shippingAddress->getError() );
 			return false;
 		}
-		if(!$billingAddress->save()){
+		
+		if (!$billingAddress->save())
+		{
 			// Output error message and halt
 			JError::raiseNotice( 'Error Updating the Billing Address', $billingAddress->getError() );
 			return false;
@@ -1233,7 +1240,7 @@ class TiendaControllerCheckout extends TiendaController
 				// TODO What to do if saving order items fails?
 				$error = true;
 			}
-
+			
 			// save the order vendors
 			if (!$this->saveOrderVendors())
 			{
@@ -1377,7 +1384,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Saves each vendor related to this order to the DB
 	 * @return unknown_type

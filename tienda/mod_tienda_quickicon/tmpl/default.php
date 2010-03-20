@@ -16,7 +16,7 @@ $document->addStyleSheet(Tienda::getURL()."/css/tienda_admin.css");
 <div class="tcpanel">
 <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 <div class="icon"><a href="index.php?option=com_tienda">
-<img src="<?php echo $img ?>" />
+<img src="<?php echo $img ?>" style="width: 96px;" />
 <span><?php echo $text; ?></span> </a></div>
 </div>
 </div>
