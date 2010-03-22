@@ -117,37 +117,11 @@ class TiendaControllerProducts extends TiendaController
 		$fieldname = 'product_full_image_new';
 		$userfiles = JRequest::getVar( $fieldname, '', 'files', 'array' );
 		
-		// Multiple images processing
-		$i = 0;
-		$error = false;
-		while(!empty($userfiles['size'][$i]))
-		{
-				// echo $i."<br />";
-				$dir = $row->getImagePath(true);
-				
-				if ($upload = $this->addimage( $fieldname, $i, $dir ))
-				{
-					// The first One is the default (if there is no default yet)
-					if($i == 0 && (empty($row->product_full_image) || $row->product_full_image == ''))
-						$row->product_full_image = $upload->getPhysicalName();	
-				}
-					else
-				{
-					$error = true;	
-				}
-				$i++;
-		}
-		
 		if ( $row->save() ) 
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
 			$this->message  	= JText::_( 'Saved' );
-			if ($error)
-			{
-				$this->messagetype 	= 'notice';
-				$this->message .= " :: ".$this->getError();	
-			}
 			
 			if ($isNew)
 			{
@@ -171,7 +145,36 @@ class TiendaControllerProducts extends TiendaController
 					$this->message .= " :: ".$category->getError();
 				}
 			}
+
+            // Multiple images processing
+            $i = 0;
+            $error = false;
+            while (!empty($userfiles['size'][$i]))
+            {
+                $dir = $row->getImagePath(true);
+                if ($upload = $this->addimage( $fieldname, $i, $dir ))
+                {
+                    // The first One is the default (if there is no default yet)
+                    if ($i == 0 && (empty($row->product_full_image) || $row->product_full_image == ''))
+                    {
+                        $row->product_full_image = $upload->getPhysicalName();
+                        // need to re-save in this instance
+                        $row->save();
+                    }
+                }
+                    else
+                {
+                    $error = true;  
+                }
+                $i++;
+            }       
 			
+            if ($error)
+            {
+                $this->messagetype  = 'notice';
+                $this->message .= " :: ".$this->getError(); 
+            }
+            
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		} 
@@ -1040,10 +1043,10 @@ class TiendaControllerProducts extends TiendaController
      * Delete a product Image.
      * Expected to be called via Ajax
      */
-    function deleteImage(){
-    	
+    function deleteImage()
+    {
 		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
-    	
+		
 		$product_id = JRequest::getInt( 'product_id', 0, 'request');
 		$image = JRequest::getVar('image', '', 'request');
 		$image = html_entity_decode($image);
@@ -1052,11 +1055,16 @@ class TiendaControllerProducts extends TiendaController
 		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
 		$path = $helper->getGalleryPath($product_id);
 
+        $redirect = JRequest::getVar( 'return' ) ?  
+            base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+        $redirect = JRoute::_( $redirect, false );
+				
 		// Check if the data is ok
-		if(!$product_id || empty($image)){
+		if (empty($product_id) || empty($image))
+		{
 			$msg = JText::_('Input Data not Valid');
 			
-			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+			$redirect = "index.php?option=com_tienda&view=products";
         	$redirect = JRoute::_( $redirect, false );
         
         	$this->setRedirect( $redirect, $msg, 'notice' );
@@ -1068,11 +1076,15 @@ class TiendaControllerProducts extends TiendaController
 			$success = JFile::delete($path.$image);
 			
 			// Try to delete the thumb, too
-			if($success){
-				if(JFile::exists($path.'thumbs'.DS.$image)){
+			if ($success)
+			{
+				if (JFile::exists($path.'thumbs'.DS.$image))
+				{
 					JFile::delete($path.'thumbs'.DS.$image);
 					$msg = JText::_('Image Deleted');
-				} else{
+				} 
+				    else
+				{
 					$msg = JText::_('Cannot Delete the Image Thumbnail: '.$path.'thumbs'.DS.$image);
 				}
 				
@@ -1081,31 +1093,23 @@ class TiendaControllerProducts extends TiendaController
 				$row = $model->getTable();
 				$row->load($product_id);
 				
-				if($row->product_full_image == $image)
-					$row->product_full_image = '';
-					
+				if ($row->product_full_image == $image)
+				{
+				    $row->product_full_image = '';
+				}
+                // TODO Save or store here?				
 				$row->store();
-				
-			} else{
+			} 
+			    else
+			{
 				$msg = JText::_('Cannot Delete the Image: '.$path.$image);
 			}
-			
-			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
-        	$redirect = JRoute::_( $redirect, false );
-        
-        	$this->setRedirect( $redirect, $msg, 'notice' );
-        	return;
-			
-		} else{
+		} 
+		    else
+		{
 			$msg = JText::_('Image does not Exist: '.$path.$image);
-			
-			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
-        	$redirect = JRoute::_( $redirect, false );
-        
-        	$this->setRedirect( $redirect, $msg, 'notice' );
-        	return;
 		}
-		
+		$this->setRedirect( $redirect, $msg, 'notice' );
 		return;
     }
     

@@ -46,7 +46,8 @@ class TiendaTableProducts extends TiendaTable
 	 * @return string $dir
 	 */
 	
-	function getImagePath($check = true){
+	function getImagePath($check = true)
+	{
 		// Check where we should upload the file
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
@@ -54,15 +55,22 @@ class TiendaTableProducts extends TiendaTable
 		$helper = TiendaHelperBase::getInstance();
 		
 		// is the image path overridden?
-		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, $check)){
+		if (!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, $check))
+		{
 			$dir = $this->product_images_path;
-		} else{
+		} 
+            else
+		{
 			// try with the SKU
-			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, $check)){
+			if (!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, $check))
+			{
 				$dir = $dir.DS.$this->product_sku.DS;
-			} else{
+			} 
+                else
+			{
 				// try with the product id
-				if($helper->checkDirectory($dir.DS.$this->product_id, $check)){
+				if($helper->checkDirectory($dir.DS.$this->product_id, $check))
+				{
 					$dir = $dir.DS.$this->product_id.DS;
 				}
 			}
@@ -71,7 +79,12 @@ class TiendaTableProducts extends TiendaTable
 		return $dir;
 	}
 	
-	function getImageUrl(){
+	/**
+	 * Get the URL to the path to images
+	 * @return unknown_type
+	 */
+	function getImageUrl()
+	{
 		// Check where we should upload the file
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
@@ -81,16 +94,23 @@ class TiendaTableProducts extends TiendaTable
 		$helper = TiendaHelperBase::getInstance();
 		
 		// is the image path overridden?
-		if(!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, false)){
+		if (!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, false))
+		{
 			//$url = $this->product_images_path; ????????
 			$url = "";
-		} else{
+		} 
+		    else
+		{
 			// try with the SKU
-			if(!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, false)){
+			if (!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, false))
+			{
 				$url = $url.$this->product_sku."/";
-			} else{
+			} 
+			    else
+			{
 				// try with the product id
-				if($helper->checkDirectory($dir.DS.$this->product_id, false)){
+				if ($helper->checkDirectory($dir.DS.$this->product_id, false))
+				{
 					$url = $url.$this->product_id."/";
 				}
 			}

@@ -6,7 +6,7 @@ SET time_zone = '+00:00';
 -- -----------------------------------------------------
 -- Table `#__tienda_config`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_config` (
+CREATE TABLE IF NOT EXISTS `#__tienda_config` (
   `config_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `config_name` VARCHAR(255) NOT NULL ,
   `value` TEXT NOT NULL ,
@@ -18,7 +18,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `#__tienda_countries`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_countries` (
+CREATE TABLE IF NOT EXISTS `#__tienda_countries` (
   `country_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `country_name` VARCHAR(64) NULL DEFAULT NULL ,
   `country_isocode_2` CHAR(2) NULL DEFAULT NULL ,

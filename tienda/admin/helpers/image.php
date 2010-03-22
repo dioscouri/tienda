@@ -78,10 +78,12 @@ class TiendaHelperImage extends TiendaHelperBase
 		$img = new TiendaImage($name);
 		
 		$types = array('product', 'category', 'manufacturer');
-		if(!in_array($type, $types))
-			$type = 'product';
+		if (!in_array($type, $types))
+		{
+		    $type = 'product';
+		}
 
-		return $this->resizeImage(&$img, $type, $options);
+		return $this->resizeImage( $img, $type, $options );
 	}
 	
     /**

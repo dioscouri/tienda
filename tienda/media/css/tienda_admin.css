@@ -171,6 +171,7 @@ div.multiupload div.list{
 div.multiupload div.list div.item{
 	margin:1px;
 	background: #eee;
+	clear: both;
 }
 div.multiupload div.list div.item:hover{
 	background: #ccc;

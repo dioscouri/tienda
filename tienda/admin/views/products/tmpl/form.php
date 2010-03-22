@@ -1,11 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
 <?php 
 $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
-$helper = TiendaHelperBase::getInstance();
-$helper->includeMultiFile();
 ?>
 <script type="text/javascript">
 window.addEvent('domready', function(){
@@ -251,7 +250,7 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
                     <?php
                 }
                 ?>
-<tr>
+                <tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="product_full_image">
 						<?php echo JText::_( 'Current Default Image' ); ?>:
@@ -276,9 +275,20 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 						</label>
 					</td>
 					<td>
+					    [
 						<?php
 						echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", "View Gallery" ); 
 						?>
+						]
+						<br/>
+						<?php $images = TiendaHelperProduct::getGalleryImages( TiendaHelperProduct::getGalleryPath( $row->product_id ) ); ?> 
+                        <?php foreach (@$images as $image) : ?>
+                            [<a href="<?php echo "index.php?option=com_tienda&controller=products&task=deleteImage&product_id=".$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                <?php echo JText::_("Remove"); ?>
+                            </a>]
+                            <?php echo $image; ?>
+                            <br/>
+                        <?php endforeach; ?>
 					</td>
 				</tr>
 				<tr>

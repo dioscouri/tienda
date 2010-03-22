@@ -226,13 +226,15 @@ var MultiUpload = new Class(
 					name = name.substring( name.lastIndexOf( '//' ) + 1 );
 				}
 			}
+			
 			var item = new Element(
 				'span'
 			).setText( name );
+			
 			var delete_button = new Element(
 				'img',
 				{
-					'src':'../media/com_tienda/images/cross_small.gif',
+					'src':'images/publish_x.png',
 					'alt':'Delete',
 					'title':'Delete',
 					'events':{
