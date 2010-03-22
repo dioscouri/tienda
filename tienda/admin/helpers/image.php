@@ -2,9 +2,9 @@
 /**
  * @version	1.5
  * @package	Tienda
- * @author 	Daniele Rosario
+ * @author 	Dioscouri
  * @link 	http://www.dioscouri.com
- * @copyright Copyright (C) 2010 Daniele Rosario. All rights reserved.
+ * @copyright Copyright (C) 2010 Dioscouri. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 */
 

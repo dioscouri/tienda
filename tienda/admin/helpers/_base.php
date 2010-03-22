@@ -18,7 +18,7 @@ class TiendaHelperBase extends JObject
 	
 	/**
 	 * constructor
-	 * make it private where necessary
+	 * make it protected where necessary
 	 */
 	function __construct()
 	{
