@@ -595,7 +595,7 @@ class TiendaController extends JController
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables'.DS );
 			unset($table);
 			$table = JTable::getInstance( 'config', 'TiendaTable' );
-			$table->load( $config_title );
+			$table->load( array('config_name'=>$config_title) );
 			$table->config_name = $config_title;
 			$table->value = '1';
 
