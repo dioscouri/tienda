@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA CHECKOUT DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA CHECKOUT DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA CHECKOUT DEFAULT LAYOUT</name>
+		<description>TIENDA CHECKOUT DEFAULT LAYOUT DESC</description>
+	</state>
+</metadata>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA PRODUCTS DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA PRODUCTS DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA PRODUCTS DEFAULT LAYOUT</name>
+		<description>TIENDA PRODUCTS DEFAULT LAYOUT DESC</description>
+        <url>
+            <param name="filter_category" section="com_tienda" type="text" default="" label="Select Category" description="A Tienda Category ID" />
+        </url>
+	</state>
+</metadata>

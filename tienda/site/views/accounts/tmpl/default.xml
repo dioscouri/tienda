@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA ACCOUNTS DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA ACCOUNTS DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA ACCOUNTS DEFAULT LAYOUT</name>
+		<description>TIENDA ACCOUNTS DEFAULT LAYOUT DESC</description>
+	</state>
+</metadata>
