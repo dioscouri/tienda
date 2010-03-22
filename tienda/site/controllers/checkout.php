@@ -67,49 +67,24 @@ class TiendaControllerCheckout extends TiendaController
 		$user = JFactory::getUser();
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$guest = JRequest::getVar( 'guest', '0' );
+		
+		if($guest == '1')
+			$guest = true;
+		else 
+			$guest = false;
 
 		// determine layout based on login status
 		// Login / Register / Checkout as a guest
-		if (empty($user->id) && $guest != '1')
+		if (empty($user->id) && !$guest)
 		{
 			// Display a form for selecting either to register or to login
 			JRequest::setVar('layout', 'form');
 		}
 		// Checkout as a Guest
-		else if($guest == '1' && TiendaConfig::getInstance()->get('guest_checkout_enabled')){
+		else if($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')){
 
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-
-			$shipping_method_id = $this->defaultShippingMethod;
-
-			// get the order object so we can populate it
-			$order = &$this->_order; // a TableOrders object (see constructor)
-
-			// set the currency
-			$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-
-			// set the shipping method
-			$order->shipping_method_id = $shipping_method_id;
-
-			// set the order's addresses based on the form inputs
-			/* set to user defaults
-			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
-			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
-			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
-			$order->setAddress( $billingAddress, 'billing' );
-			$order->setAddress( $shippingAddress, 'shipping' );
-			*/
-
-			// get the items and add them to the order
-			JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
-			$items = TiendaHelperCarts::getProductsInfo();
-			foreach ($items as $item)
-			{
-				$order->addItem( $item );
-			}
-
-			// get the order totals
-			$order->calculateTotals();
+			$order = &$this->_order;
+			$order = $this->populateOrder();
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
@@ -138,37 +113,8 @@ class TiendaControllerCheckout extends TiendaController
 		// Already Logged in
 		else
 		{
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-
-			$shipping_method_id = $this->defaultShippingMethod;
-
-			// get the order object so we can populate it
-			$order = &$this->_order; // a TableOrders object (see constructor)
-
-			// set the currency
-			$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-
-			// set the shipping method
-			$order->shipping_method_id = $shipping_method_id;
-
-			// set the order's addresses based on the form inputs
-			// set to user defaults
-			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
-			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
-			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
-			$order->setAddress( $billingAddress, 'billing' );
-			$order->setAddress( $shippingAddress, 'shipping' );
-
-			// get the items and add them to the order
-			JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
-			$items = TiendaHelperCarts::getProductsInfo();
-			foreach ($items as $item)
-			{
-				$order->addItem( $item );
-			}
-
-			// get the order totals
-			$order->calculateTotals();
+			$order = &$this->_order;
+			$order = $this->populateOrder();
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
@@ -215,6 +161,11 @@ class TiendaControllerCheckout extends TiendaController
 		parent::display();
 	}
 	
+	/**
+	 * Populate the order object with items and addresses, and calculate the order Totals
+	 * @param $guest	guest mode?
+	 * @return $order 	the populated order
+	 */
 	function populateOrder($guest = false){
 		
 		$order = $this->_order;
