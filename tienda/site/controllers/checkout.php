@@ -84,7 +84,7 @@ class TiendaControllerCheckout extends TiendaController
 		else if($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')){
 
 			$order = &$this->_order;
-			$order = $this->populateOrder();
+			$order = $this->populateOrder(true);
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
@@ -114,7 +114,7 @@ class TiendaControllerCheckout extends TiendaController
 		else
 		{
 			$order = &$this->_order;
-			$order = $this->populateOrder();
+			$order = $this->populateOrder(false);
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
@@ -128,6 +128,9 @@ class TiendaControllerCheckout extends TiendaController
 			$model->setState("filter_deleted", 0);
 			$addresses = $model->getList();
 
+			$billingAddress = $order->getBillingAddress();
+			$shippingAddress = $order->getShippingAddress();
+			
 			// get address forms
 			$billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
 			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix );
@@ -145,7 +148,7 @@ class TiendaControllerCheckout extends TiendaController
 			$view->set( 'hidemenu', false);
 			$view->assign( 'order', $order );
 			$view->assign( 'addresses', $addresses );
-			$view->assign( 'billing_address', $billingAddress );
+			$view->assign( 'billing_address', $billingAddress);
 			$view->assign( 'shipping_address', $shippingAddress );
 			$view->assign( 'billing_address_form', $billing_address_form );
 			$view->assign( 'shipping_address_form', $shipping_address_form );
