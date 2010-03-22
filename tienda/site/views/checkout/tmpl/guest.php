@@ -40,7 +40,7 @@
         	<tr>
             <td style="text-align: left;">
                 <!--    Email Address   -->             
-                <input name="email_address" id= type="text" size="48" maxlength="250" />
+                <input name="email_address" id="email_address" type="text" size="48" maxlength="250" />
             </td>
         </tr>
 		</table>
