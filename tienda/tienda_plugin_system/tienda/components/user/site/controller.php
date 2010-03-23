@@ -11,10 +11,10 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_SITE.DS."components".DS."com_tienda".DS."controller.php" );
-//jimport('joomla.application.component.controller');
+//require_once( JPATH_SITE.DS."components".DS."com_tienda".DS."controller.php" );
+jimport('joomla.application.component.controller');
 
-class UserController extends TiendaController 
+class UserController extends JController 
 {
     var $suffix = 'user';
     var $_defaultView = 'user';

@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
 
 /**
  * HTML View class for the Users component
