@@ -167,8 +167,9 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $default_currencyid = TiendaConfig::getInstance()->get('default_currencyid', '-1');
         if ($default_currencyid == '-1')
         {
-            $this->setError(JText::_("No Default Currency Selected"));
-            return false;
+            JError::raiseNotice( 'checkDefaultCurrency', JText::_("No Default Currency Selected") );
+            // do not return false here to enable users to actually change the default currency
+            return true;
         } 
             else
         {
@@ -177,8 +178,9 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $table = JTable::getInstance('Currencies', 'TiendaTable');
             if ( !$table->load($default_currencyid) )
             {
-                $this->setError(JText::_("Currency does not exists"));
-                return false;   
+                JError::raiseNotice( 'checkDefaultCurrency', JText::_("Currency does not exists") );
+                // do not return false here to enable users to actually change the default currency
+                return true;
             }
         }
         return true;

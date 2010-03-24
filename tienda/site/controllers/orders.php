@@ -84,6 +84,7 @@ class TiendaControllerOrders extends TiendaController
     function display()
     {
         $model  = $this->getModel( $this->get('suffix') );
+        $this-> _setModelState();
         // filter out the prepayment orders
         $query = $model->getQuery();
         $query->where("tbl.order_state_id != '15'"); // prepayment

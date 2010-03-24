@@ -16,12 +16,25 @@
 
 	<div id="order_shop_info">
 		<strong><?php echo $config->get('shop_name', ''); ?></strong><br />
-		<?php echo $config->get('shop_company_name', ''); echo " ".JText::_('of')." "; echo $config->get('shop_owner_name', ''); ?><br />
-		<strong><?php echo JText::_('Address'); ?></strong>: <br /><?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
-		<?php echo $config->get('shop_zip', ''); ?>, <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $shop_info->shop_country_name; ?><br />
-		<strong><?php echo JText::_('Phone'); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
-		<strong><?php echo JText::_('Tax Number 1'); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
-		<strong><?php echo JText::_('Tax Number 2'); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
+		
+        <?php echo $config->get('shop_company_name', ''); ?><br />
+		<?php echo $config->get('shop_owner_name', ''); ?><br />
+		
+		<?php if ($config->get('shop_address_1', '')) { ?>
+            <strong><?php echo JText::_('Address'); ?></strong>: <br />
+            <?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
+            <?php echo $config->get('shop_zip', ''); ?>, <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $shop_info->shop_country_name; ?><br />		
+		<?php } ?>
+		
+		<?php if ($config->get('shop_phone', '')) { ?>
+            <strong><?php echo JText::_('Phone'); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
+		<?php } ?>
+        <?php if ($config->get('shop_tax_number_1', '')) { ?>
+            <strong><?php echo JText::_('Tax Number 1'); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
+        <?php } ?>
+        <?php if ($config->get('shop_tax_number_2', '')) { ?>
+            <strong><?php echo JText::_('Tax Number 2'); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
+        <?php } ?>
 	</div>
 		
     <div id="order_info">
