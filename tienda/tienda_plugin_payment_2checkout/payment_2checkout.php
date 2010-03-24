@@ -71,7 +71,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->total = $data['orderpayment_amount'];
         
-        $vars->x_Receipt_Link_URL = "index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+        $vars->x_Receipt_Link_URL = JURI::base()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
         
         // Destination
         if($this->params->get('page', 'single') == 'single'){
@@ -81,6 +81,8 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         	// Payment type
         	$vars->pay_method = $this->params->get('pay_method', 'CC');
         }
+        
+        $vars->url = "http://developers.2checkout.com/return_script/";
         
         // 2Checkout account number
         $vars->sid = $this->params->get('sid', '0');
@@ -155,21 +157,93 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
      */
     function _postPayment( $data )
     {
-        // Process the payment
-        $credit_card_processed = JRequest::getVar('credit_card_processed');
-        
+    	$values = JRequest::get('request');
+    	
+    	if($values['credit_card_processed'] == 'Y')
+    		$approved = true;
+    	else
+    		$approved = false;
+    	
+    	$key = $values['key'];
+    	
+    	$secret_word = $this->params->get('secret_word', '');;
+    	$vendor_number = $this->params->get('sid', '');
+    	$order_number = $values['order_number'];
+    	$total = $data['orderpayment_amount'];;	
+    	
+    	$check = md5($secret_word.$vendor_number.$order_number.$total);
+    	
+    	// Check MD5 hash
+    	if( ( $check == $key ) && ( $approved ) ){
+    		$vars->approved = true;
+    	} else{
+    		$vars->approved = false;
+    	}
+    	
+    	$data_temp = array_merge($values, $data);
+    	
+    	$this->_processSale($data_temp);
+    	
+    	// Process the payment        
         $vars = new JObject();
-        
-        if ($credit_card_processed == "Y") 
-        {
-                $vars->message = JText::_('Payment Successful');
-                $html = $this->_getLayout('message', $vars);
-        } else{
-        	$vars->message = JText::_('Payment Denied');
-            $html = $this->_getLayout('message', $vars);
+        $html = $this->_getLayout('message', $vars);
+                
+        return $html;
+    }
+    
+    function _processSale($data){
+    	
+    	// load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment_id = JRequest::getVar('orderpayment_id');
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $orderpayment_id );
+        $orderpayment->transaction_details  = $data['key'];
+        $orderpayment->transaction_id       = $data['order_number'];
+        $orderpayment->transaction_status   = $data['credit_card_processed'];
+       
+        // check the stored amount against the payment amount
+        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+        if ((float) $stored_amount !== (float) $data['total']) {
+            $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
         }
         
-        return $html;
+        // set the order's new status and update quantities if necessary
+        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $orderpayment->order_id );
+        if (count($errors)) 
+        {
+            // if an error occurred 
+            $order->order_state_id = '10'; // FAILED
+        }
+            else 
+        {
+            $order->order_state_id = '17'; // PAYMENT RECEIVED
+            // Update quantities
+            TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
+            
+            // remove items from cart
+            TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // add productfiles to product downloads
+            TiendaHelperOrder::enableProductDownloads( $orderpayment->order_id );
+        }
+
+        // save the order
+        if (!$order->save())
+        {
+        	$errors[] = $order->getError();
+        }
+        
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+        	$errors[] = $orderpayment->getError(); 
+        }
+
+        return count($errors) ? implode("\n", $errors) : '';       
     }
     
     /**

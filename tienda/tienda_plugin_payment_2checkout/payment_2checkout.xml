@@ -21,7 +21,8 @@
 
 	<params>
 		<param name="sid" type="text"  size ="10" default="" label="Account Number" description="Your 2Checkout vendor account number" />
-		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not pass for live sales">
+		<param name="secret_word" type="text"  size ="10" default="" label="Secret Word" description="Your 2Checkout secret word" />
+		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not enable for live sales">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>

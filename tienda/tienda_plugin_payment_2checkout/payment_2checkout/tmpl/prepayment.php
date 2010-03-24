@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
     <input type='hidden' name='pay_method' value='<?php echo @$vars->pay_method; ?>'>
     <input type='hidden' name='sid' value='<?php echo @$vars->sid; ?>'>
     <?php if(@$vars->demo) { ?>
-    <input type='hidden' name='demo' value='1'>
+    <input type='hidden' name='demo' value='Y'>
     <?php } ?>
     <?php if(@$vars->skip_landing) { ?>
     <input type='hidden' name='skip_landing' value='1'>
