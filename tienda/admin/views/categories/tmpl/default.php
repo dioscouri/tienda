@@ -3,6 +3,7 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+<?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' )?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -107,6 +108,14 @@
 					<a href="<?php echo $item->link; ?>">
 						<?php echo str_repeat( '.&nbsp;', $item->level-1 ).JText::_($item->name); ?>
 					</a>
+					<br/>
+					<?php 
+					$layout = Tienda::get( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $item->category_id );
+					if ($layout != 'default') 
+					{
+					    echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 
+					}
+					?>
 				</td>
                 <td style="text-align: center;">
                     <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
@@ -116,7 +125,6 @@
                     [<?php echo TiendaUrl::popup( $select_url, "Select Products" ); ?>]
                 </td>
 				<td style="text-align: center;">
-					<?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' )?>
 					<?php echo TiendaHelperCategory::getImage($item->category_full_image, '', JText::_($item->category_name) ); ?>
 				</td>
 				<td style="text-align: center;">

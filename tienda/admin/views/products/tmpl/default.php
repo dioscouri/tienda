@@ -147,6 +147,13 @@
                     <div class="product_images_path">
                         <b><?php echo JText::_( "Image Gallery Path" ); ?>:</b> <?php echo str_replace( JPATH_SITE, '', TiendaHelperProduct::getGalleryPath( $item->product_id ) ); ?>
                     </div>
+                    <?php 
+                    $layout = Tienda::get( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $item->product_id );
+                    if ($layout != 'view') 
+                    {
+                        echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 
+                    }
+                    ?>
 				</td>
 				<td style="text-align: center;">
 					<?php echo $item->product_sku; ?>

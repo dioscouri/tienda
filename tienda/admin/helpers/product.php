@@ -32,7 +32,18 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         jimport('joomla.filesystem.file');
         $app = JFactory::getApplication();
-        $templatePath = JPATH_SITE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
+        if ($app->isAdmin())
+        {
+            $template = $app->getTemplate();
+            $db = JFactory::getDBO();
+            $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
+            $template = $db->loadResult();
+        }
+            else
+        {
+            $template = $app->getTemplate();
+        }
+        $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
 
         Tienda::load( 'TiendaTableProducts', 'tables.products' );
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
