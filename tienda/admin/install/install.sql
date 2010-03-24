@@ -633,6 +633,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_url` varchar(255) DEFAULT NULL,
   `product_sku` varchar(64) DEFAULT NULL,
   `product_model` varchar(255) DEFAULT NULL,
+  `product_check_inventory` tinyint(1) DEFAULT '1' COMMENT 'Check Inventory for this Product?',
   `product_ships` tinyint(1) DEFAULT '1' COMMENT 'Product Requires Shipping?',
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',

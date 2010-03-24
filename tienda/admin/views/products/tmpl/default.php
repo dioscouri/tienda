@@ -164,9 +164,16 @@
 					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", "Set Prices", array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
-					<?php echo (int) $item->product_quantity; ?>
+					
+					<?php 
+					if(!$item->product_check_inventory){
+						echo JText::_('Check Product Inventory Disabled');
+					} else {
+						echo (int) $item->product_quantity; ?>
                     <br/>
                     [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", "Set Quantities", array('update' => true) ); ?>]
+                    
+                    <?php } ?>
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->product_enabled, $i, 'product_enabled.' ); ?>

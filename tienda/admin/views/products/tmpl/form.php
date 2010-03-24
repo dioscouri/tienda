@@ -214,42 +214,68 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 					<?php
 				}
 				?>
-
-                <?php 
-                if (empty($row->product_id)) 
-                {
-                    // doing a new product, so display a notice
-                    ?>
-                    <tr>
+				
+				
+				<tr>
+					<td style="width: 100px; text-align: right;" class="key">
+						<label for="product_enabled">
+						<?php echo JText::_( 'Check Product Inventory' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo JHTML::_('select.booleanlist', 'product_check_inventory', '', @$row->product_check_inventory ); ?>
+					</td>
+				</tr>
+				
+				
+                <?php
+                if(!$row->product_check_inventory){
+                ?>
+                <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
                             <?php echo JText::_( 'Product Quantities' ); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_( "Click apply to be able to create product quantities" ); ?></div>
+                            <div class="note"><?php echo JText::_( "Product Inventory is disabled. Enable it to set Quantities" ); ?></div>
                         </td>
-                    </tr>
-                    <?php
-                } 
-                    else
-                {
-                    // display lightbox link to manage attributes
-                    ?>
-                    <tr>
-                        <td style="width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Product Quantities' ); ?>:
-                        </td>
-                        <td>
-                            <?php
-                            echo $row->product_quantity;
-                            echo "<br/>";
-                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); 
-                            ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", '', '', '', '', '', true ); ?>]
-                        </td>
-                    </tr>
-                    <?php
+                </tr>
+                <?php
+                } else {
+	                if (empty($row->product_id)) 
+	                {
+	                    // doing a new product, so display a notice
+	                    ?>
+	                    <tr>
+	                        <td width="100" align="right" class="key" style="vertical-align: top;">
+	                            <?php echo JText::_( 'Product Quantities' ); ?>:
+	                        </td>
+	                        <td>
+	                            <div class="note"><?php echo JText::_( "Click apply to be able to create product quantities" ); ?></div>
+	                        </td>
+	                    </tr>
+	                    <?php
+	                } 
+	                    else
+	                {
+	                    // display lightbox link to manage quantities
+	                    ?>
+	                    <tr>
+	                        <td style="width: 100px; text-align: right;" class="key">
+	                            <?php echo JText::_( 'Product Quantities' ); ?>:
+	                        </td>
+	                        <td>
+	                            <?php
+	                            echo $row->product_quantity;
+	                            echo "<br/>";
+	                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); 
+	                            ?>
+	                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", '', '', '', '', '', true ); ?>]
+	                        </td>
+	                    </tr>
+	                    <?php
+	                }
                 }
-                ?>
+	                ?>
                 <tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="product_full_image">

@@ -110,9 +110,11 @@ class TiendaHelperOrder extends TiendaHelperBase
                 // TODO Update quantity based on vendor_id
                 $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
                 $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
-                if ($product->quantity <= '-1')
+
+                // Check if it has inventory enabled
+                if (!$product->product_check_inventory)
                 {
-                	// infinite
+                	// do not update quantities
                 	continue;
                 }
                 
