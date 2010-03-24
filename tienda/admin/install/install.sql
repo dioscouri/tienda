@@ -416,6 +416,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `parent_id` int(11) NOT NULL,
   `category_enabled` tinyint(1) NOT NULL,
   `isroot` tinyint(1) NOT NULL,
+  `category_params` text,
+  `category_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this category',
+  `categoryproducts_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for all products in this category',
   PRIMARY KEY  (`category_id`),
   INDEX `idx_category_name` (`category_name` ASC),
   KEY `parent_id` (`parent_id`))
@@ -649,6 +652,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `recurring_trial_period_interval` int(3) NOT NULL COMMENT 'How many trial-period-units before payments begin?',
   `recurring_trial_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `recurring_trial_price` decimal(12,5) NOT NULL COMMENT 'Cost of trial period',
+  `product_params` text,
+  `product_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this product',
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,

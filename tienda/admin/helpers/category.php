@@ -16,6 +16,44 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperCategory extends TiendaHelperBase
 {
+    /**
+     * Determines a category's layout 
+     * 
+     * @param int $category_id
+     * @return unknown_type
+     */
+    function getLayout( $category_id )
+    {
+        $layout = 'default';
+        
+        jimport('joomla.filesystem.file');
+        $app = JFactory::getApplication();
+        $templatePath = JPATH_SITE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
+
+        Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+        $category = JTable::getInstance( 'Categories', 'TiendaTable' );
+        $category->load( $category_id );
+
+        // if the $category->category_layout file exists in the template, use it
+        if (!empty($category->category_layout) && JFile::exists( sprintf($templatePath, $category->category_layout) ))
+        {
+            return $category->category_layout;
+        }
+            
+        // if all else fails, use the default!
+        return $layout;
+    }
+    
+    /**
+     * Gets a category's image
+     * 
+     * @param $id
+     * @param $by
+     * @param $alt
+     * @param $type
+     * @param $url
+     * @return unknown_type
+     */
 	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
 	{
 		switch($type)

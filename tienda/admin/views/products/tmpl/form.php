@@ -324,6 +324,17 @@ echo $tabs->startPanel( JText::_( 'Other Info' ), "other" );
 				</tr>
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Layout File' ); ?>:
+                    </td>
+                    <td>
+                        <input name="product_layout" id="product_layout" value="<?php echo @$row->product_layout; ?>" size="50" maxlength="255" type="text" />
+                        <div class="note">
+                            <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
+                        </div>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
                         <?php echo JText::_( 'Images Gallery Path Override' ); ?>:
                     </td>
                     <td>
@@ -590,6 +601,14 @@ echo $tabs->startPanel( JText::_( 'Other Info' ), "other" );
 		                </div>
 		            </td>
 		        </tr>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Params' ); ?>:
+                    </td>
+                    <td>
+                        <textarea name="product_params" id="product_params" rows="10" cols="35"><?php echo @$row->product_params; ?></textarea>
+                    </td>
+                </tr>
 			</table>
 			
 <?php 

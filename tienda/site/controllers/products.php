@@ -66,18 +66,59 @@ class TiendaControllerProducts extends TiendaController
 	}
 	
 	/**
+	 * Displays a product category
+	 * 
 	 * (non-PHPdoc)
 	 * @see tienda/admin/TiendaController#display($cachable)
 	 */
 	function display()
 	{
-		JRequest::setVar( 'view', $this->get('suffix') );
-		JRequest::setVar( 'layout', 'default' );
-		JRequest::setVar( 'search', false );
-		parent::display();
+        JRequest::setVar( 'view', $this->get('suffix') );
+        JRequest::setVar( 'search', false );
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $model  = $this->getModel( $this->get('suffix') );
+        $this->_setModelState();
+
+        // get the category we're looking at
+        $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+        $cat = $cmodel->getTable();
+        $cat->load( $filter_category );
+
+        // set the title based on the selected category
+        $title = (empty($cat->category_name)) ? JText::_( "All Categories" ) : JText::_($cat->category_name);
+        $level = (!empty($filter_category)) ? $filter_category : '1';
+        
+        // get the category's sub categories
+        $cmodel->setState('filter_level', $level);
+        $cmodel->setState('filter_enabled', '1');
+        $cmodel->setState('order', 'tbl.lft');
+        $cmodel->setState('direction', 'ASC');
+        $citems = $cmodel->getList();
+
+        // get the products to be displayed in this category
+        $items = $model->getList();
+        
+        $view->assign( 'level', $level);
+        $view->assign( 'title', $title );
+        $view->assign( 'cat', $cat );
+        $view->assign( 'citems', $citems );
+        $view->assign( 'items', $items );
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        
+        // using a helper file, we determine the category's layout 
+        $layout = Tienda::get( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $cat->category_id );
+        $view->setLayout($layout);
+        
+        $view->display();
+        $this->footer();
+        return;
 	}
 	
 	/**
+	 * Displays a single product
 	 * (non-PHPdoc)
 	 * @see tienda/site/TiendaController#view()
 	 */
@@ -113,7 +154,11 @@ class TiendaControllerProducts extends TiendaController
         $view->assign('product_description', $product_description );
         $view->assign( 'files', $this->getFiles( $row->product_id ) );
         $view->setModel( $model, true );
-        $view->setLayout('view');
+        
+        // using a helper file, we determine the product's layout 
+        $layout = Tienda::get( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
+        $view->setLayout($layout);
+        
         $view->display();
         $this->footer();
         return;

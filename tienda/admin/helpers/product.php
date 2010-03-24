@@ -17,176 +17,66 @@ jimport('joomla.filesystem.folder');
 
 class TiendaHelperProduct extends TiendaHelperBase
 {
-	/**
-	 * Given a multi-dimensional array, 
-	 * this will find all possible combinations of the array's elements
-	 *
-	 * Given:
-	 * 
-     * $traits = array
-     * (
-     *   array('Happy', 'Sad', 'Angry', 'Hopeful'),
-     *   array('Outgoing', 'Introverted'),
-     *   array('Tall', 'Short', 'Medium'),
-     *   array('Handsome', 'Plain', 'Ugly')
-     * );
-     * 
-     * Returns:
-     * 
-     * Array
-     * (
-     *      [0] => Happy,Outgoing,Tall,Handsome
-     *      [1] => Happy,Outgoing,Tall,Plain
-     *      [2] => Happy,Outgoing,Tall,Ugly
-     *      [3] => Happy,Outgoing,Short,Handsome
-     *      [4] => Happy,Outgoing,Short,Plain
-     *      [5] => Happy,Outgoing,Short,Ugly
-     *      etc
-     * )
-	 * 
-	 * @param string $string   The result string
-	 * @param array $traits    The multi-dimensional array of values
-	 * @param int $i           The current level
-	 * @param array $return    The final results stored here
-	 * @return array           An Array of CSVs
-	 */
-    function getCombinations($string, $traits, $i, &$return)
-    {
-        if ($i >= count($traits))
-        {
-        	$return[] = str_replace(' ', ',', trim($string)); 
-        }
-            else
-        {
-            foreach ($traits[$i] as $trait)
-            {
-                TiendaHelperProduct::getCombinations("$string $trait", $traits, $i + 1, $return);
-            }
-        }
-    }
-	
     /**
-     * Will return all the CSV combinations possible from a product's attribute options
+     * Determines a product's layout 
      * 
-     * @param unknown_type $product_id
+     * @param int $product_id
+     * @param array options(
+     *              'category_id' = if specified, will be used to determine layout if product doesn't have specific one
+     *              )
      * @return unknown_type
      */
-	function getProductAttributeCSVs( $product_id )
-	{
-		$return = array();
-		$traits = array();
-		
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    function getLayout( $product_id, $options=array() )
+    {
+        $layout = 'view';
         
-        // get all productattributes
-        $model = JModel::getInstance('ProductAttributes', 'TiendaModel');
-        $model->setState('filter_product', $product_id);
-        if ($attributes = $model->getList())
+        jimport('joomla.filesystem.file');
+        $app = JFactory::getApplication();
+        $templatePath = JPATH_SITE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
+
+        Tienda::load( 'TiendaTableProducts', 'tables.products' );
+        $product = JTable::getInstance( 'Products', 'TiendaTable' );
+        $product->load( $product_id );
+
+        // if the product->product_layout file exists in the template, use it
+        if (!empty($product->product_layout) && JFile::exists( sprintf($templatePath, $product->product_layout) ))
         {
-	        foreach ($attributes as $attribute)
-	        {
-	            $paoModel = JModel::getInstance('ProductAttributeOptions', 'TiendaModel');
-	            $paoModel->setState('filter_attribute', $attribute->productattribute_id);
-	            if ($paos = $paoModel->getList())
-	            {
-	            	$options = array();
-			        foreach ($paos as $pao)
-			        {
-                        $options[] = $pao->productattributeoption_id;
-			        }
-			        $traits[] = $options;
-	            }
-	        }
+            return $product->product_layout;
         }
-	    
-        // run recursive function on the data
-	    TiendaHelperProduct::getCombinations( "", $traits, 0, $return );
-	    
-        // before returning them, loop through each record and sort them
-	    $result = array();
-	    foreach ($return as $csv)
-	    {
-	    	$values = explode( ',', $csv );
-            sort($values);
-	    	$result[] = implode(',', $values);
-	    }
-
-	    return $result;
-	}
-
-	/**
-	 * Given a product_id and vendor_id
-	 * will perform a full CSV reconciliation of the _productquantities table
-	 * 
-	 * @param $product_id
-	 * @param $vendor_id
-	 * @return unknown_type
-	 */
-	function doProductQuantitiesReconciliation( $product_id, $vendor_id='0' )
-	{
-        $csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id );
-
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance('ProductQuantities', 'TiendaModel');
-        $model->setState('filter_productid', $model->getId());
-        $model->setState('filter_vendorid', '0');
-        $items = $model->getList();
         
-        $results = TiendaHelperProduct::reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
-	}
-	
-	/**
-	 * Adds any necessary _productsquantities records 
-	 * 
-	 * @param unknown_type $product_id     Product ID
-	 * @param unknown_type $vendor_id      Vendor ID
-	 * @param array $items                 Array of productQuantities objects
-	 * @param unknown_type $csvs           CSV output from getProductAttributeCSVs
-	 * @return array $items                Array of objects
-	 */
-	function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
-	{
-		if (count($items) == count($csvs))
-		{
-			return $items;
-		}
-
-		// remove extras
-	    foreach ($items as $key=>$item)
+        if (!empty($options['category_id']))
         {
-            if (!in_array($item->product_attributes, $csvs))
+            // if the options[category_id] has a layout and it exists, use it
+            Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+            $category = JTable::getInstance( 'Categories', 'TiendaTable' );
+            $category->load( $options['category_id'] );
+            if (!empty($category->categoryproducts_layout) && JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ))
             {
-                $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
-                if (!$row->delete($item->productquantity_id))
-                {
-                    JError::raiseNotice('1', $row->getError());
-                }
-                unset($items[$key]);
+                return $category->categoryproducts_layout;
             }
         }
-		
-        // add new ones
-		$existingEntries = TiendaHelperBase::getColumn( $items, 'product_attributes' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		foreach ($csvs as $csv)
-		{
-            if (!in_array($csv, $existingEntries))
+
+        // if the product is in a category, try to use the layout from that one 
+        $categories = TiendaHelperProduct::getCategories( $product->product_id );
+        if (!empty($categories))
+        {
+            Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+            $category = JTable::getInstance( 'Categories', 'TiendaTable' );
+            $category->load( $categories[0] ); // load the first category
+            if (!empty($category->categoryproducts_layout) && JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ))
             {
-		        $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
-		        $row->product_id = $product_id;
-		        $row->vendor_id = $vendor_id;
-                $row->product_attributes = $csv;
-                if (!$row->save())
-                {
-                	JError::raiseNotice('1', $row->getError());
-                }
-                $items[] = $row; 
+                return $category->categoryproducts_layout;
             }
-		}
-		
-		return $items;
-	}
-	
+        }
+        
+        // TODO if there are multiple categories, which one determines product layout?
+        // if the product is in multiple categories, try to use the layout from the deepest category
+            // and move upwards in tree after that
+            
+        // if all else fails, use the default!
+        return $layout;
+    }
+    
 	/**
 	 * Converts a path string to a URI string
 	 * 
@@ -693,5 +583,175 @@ class TiendaHelperProduct extends TiendaHelperBase
         $return["prev"] = $prev_id;
         $return["next"] = $next_id; 
         return $return;
+    }
+    
+    /**
+     * Given a multi-dimensional array, 
+     * this will find all possible combinations of the array's elements
+     *
+     * Given:
+     * 
+     * $traits = array
+     * (
+     *   array('Happy', 'Sad', 'Angry', 'Hopeful'),
+     *   array('Outgoing', 'Introverted'),
+     *   array('Tall', 'Short', 'Medium'),
+     *   array('Handsome', 'Plain', 'Ugly')
+     * );
+     * 
+     * Returns:
+     * 
+     * Array
+     * (
+     *      [0] => Happy,Outgoing,Tall,Handsome
+     *      [1] => Happy,Outgoing,Tall,Plain
+     *      [2] => Happy,Outgoing,Tall,Ugly
+     *      [3] => Happy,Outgoing,Short,Handsome
+     *      [4] => Happy,Outgoing,Short,Plain
+     *      [5] => Happy,Outgoing,Short,Ugly
+     *      etc
+     * )
+     * 
+     * @param string $string   The result string
+     * @param array $traits    The multi-dimensional array of values
+     * @param int $i           The current level
+     * @param array $return    The final results stored here
+     * @return array           An Array of CSVs
+     */
+    function getCombinations($string, $traits, $i, &$return)
+    {
+        if ($i >= count($traits))
+        {
+            $return[] = str_replace(' ', ',', trim($string)); 
+        }
+            else
+        {
+            foreach ($traits[$i] as $trait)
+            {
+                TiendaHelperProduct::getCombinations("$string $trait", $traits, $i + 1, $return);
+            }
+        }
+    }
+    
+    /**
+     * Will return all the CSV combinations possible from a product's attribute options
+     * 
+     * @param unknown_type $product_id
+     * @return unknown_type
+     */
+    function getProductAttributeCSVs( $product_id )
+    {
+        $return = array();
+        $traits = array();
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        
+        // get all productattributes
+        $model = JModel::getInstance('ProductAttributes', 'TiendaModel');
+        $model->setState('filter_product', $product_id);
+        if ($attributes = $model->getList())
+        {
+            foreach ($attributes as $attribute)
+            {
+                $paoModel = JModel::getInstance('ProductAttributeOptions', 'TiendaModel');
+                $paoModel->setState('filter_attribute', $attribute->productattribute_id);
+                if ($paos = $paoModel->getList())
+                {
+                    $options = array();
+                    foreach ($paos as $pao)
+                    {
+                        $options[] = $pao->productattributeoption_id;
+                    }
+                    $traits[] = $options;
+                }
+            }
+        }
+        
+        // run recursive function on the data
+        TiendaHelperProduct::getCombinations( "", $traits, 0, $return );
+        
+        // before returning them, loop through each record and sort them
+        $result = array();
+        foreach ($return as $csv)
+        {
+            $values = explode( ',', $csv );
+            sort($values);
+            $result[] = implode(',', $values);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Given a product_id and vendor_id
+     * will perform a full CSV reconciliation of the _productquantities table
+     * 
+     * @param $product_id
+     * @param $vendor_id
+     * @return unknown_type
+     */
+    function doProductQuantitiesReconciliation( $product_id, $vendor_id='0' )
+    {
+        $csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id );
+
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance('ProductQuantities', 'TiendaModel');
+        $model->setState('filter_productid', $model->getId());
+        $model->setState('filter_vendorid', '0');
+        $items = $model->getList();
+        
+        $results = TiendaHelperProduct::reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
+    }
+    
+    /**
+     * Adds any necessary _productsquantities records 
+     * 
+     * @param unknown_type $product_id     Product ID
+     * @param unknown_type $vendor_id      Vendor ID
+     * @param array $items                 Array of productQuantities objects
+     * @param unknown_type $csvs           CSV output from getProductAttributeCSVs
+     * @return array $items                Array of objects
+     */
+    function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
+    {
+        if (count($items) == count($csvs))
+        {
+            return $items;
+        }
+
+        // remove extras
+        foreach ($items as $key=>$item)
+        {
+            if (!in_array($item->product_attributes, $csvs))
+            {
+                $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
+                if (!$row->delete($item->productquantity_id))
+                {
+                    JError::raiseNotice('1', $row->getError());
+                }
+                unset($items[$key]);
+            }
+        }
+        
+        // add new ones
+        $existingEntries = TiendaHelperBase::getColumn( $items, 'product_attributes' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        foreach ($csvs as $csv)
+        {
+            if (!in_array($csv, $existingEntries))
+            {
+                $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
+                $row->product_id = $product_id;
+                $row->vendor_id = $vendor_id;
+                $row->product_attributes = $csv;
+                if (!$row->save())
+                {
+                    JError::raiseNotice('1', $row->getError());
+                }
+                $items[] = $row; 
+            }
+        }
+        
+        return $items;
     }
 }

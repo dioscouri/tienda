@@ -66,6 +66,18 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESROOT FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the products table 
+        if (!$this->checkProductsParamsLayout()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTSPARAMSLAYOUT FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
+        // check the categories table 
+        if (!$this->checkCategoriesParamsLayout()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESPARAMSLAYOUT FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -307,5 +319,82 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $config->value = '1';
         $config->save();
         return true;        
+    }
+    
+    /**
+     * Checks the products table to confirm it has the params and layout fields
+     * 
+     * return boolean
+     */
+    function checkProductsParamsLayout()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsParamsLayout', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_params";
+            $definitions["product_params"] = "text";
+
+        $fields[] = "product_layout";
+            $definitions["product_layout"] = "varchar(255) DEFAULT '' COMMENT 'The layout file for this product'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsParamsLayout') );
+            $config->config_name = 'checkProductsParamsLayout';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the categories table to confirm it has the layout field
+     * 
+     * return boolean
+     */
+    function checkCategoriesParamsLayout()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCategoriesParamsLayout', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_categories';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "category_params";
+            $definitions["category_params"] = "text";
+
+        $fields[] = "category_layout";
+            $definitions["category_layout"] = "varchar(255) DEFAULT '' COMMENT 'The layout file for this category'";
+
+        $fields[] = "categoryproducts_layout";
+            $definitions["categoryproducts_layout"] = "varchar(255) DEFAULT '' COMMENT 'The layout file for all products in this category'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCategoriesParamsLayout') );
+            $config->config_name = 'checkCategoriesParamsLayout';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
     }
 }

@@ -9,8 +9,9 @@ $citems = @$this->citems;
 ?>
 
 <?php if ($this->level > 1 ) { ?>
-<div class='catcrumbs'><?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?></div>
+    <div class='catcrumbs'><?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?></div>
 <?php } ?>
+
 <div class='categoryheading'>
     <table>
         <tr>

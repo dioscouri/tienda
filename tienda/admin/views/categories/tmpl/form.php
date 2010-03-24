@@ -75,6 +75,28 @@ JFilterOutput::objectHTMLSafe( $row );
 						<input name="category_full_image_new" type="file" size="40" />
 					</td>
 				</tr>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Category Layout File' ); ?>:
+                    </td>
+                    <td>
+                        <input name="category_layout" id="category_layout" value="<?php echo @$row->category_layout; ?>" size="50" maxlength="255" type="text" />
+                        <div class="note">
+                            <?php echo JText::_( "CATEGORY LAYOUT FILE DESC" ); ?>
+                        </div>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Category Products Layout File' ); ?>:
+                    </td>
+                    <td>
+                        <input name="categoryproducts_layout" id="categoryproducts_layout" value="<?php echo @$row->categoryproducts_layout; ?>" size="50" maxlength="255" type="text" />
+                        <div class="note">
+                            <?php echo JText::_( "CATEGORY PRODUCTS LAYOUT FILE DESC" ); ?>
+                        </div>                        
+                    </td>
+                </tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="category_description">
@@ -86,12 +108,18 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo $editor->display( 'category_description',  @$row->category_description, '100%', '450', '100', '20' ) ; ?>
 					</td>
 				</tr>
-				
-							<?php 
-
-if(!empty($this->shippingHtml)){
-
-?>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Category Params' ); ?>:
+                    </td>
+                    <td>
+                        <textarea name="category_params" id="category_params" rows="10" cols="35"><?php echo @$row->category_params; ?></textarea>
+                    </td>
+                </tr>
+                <?php
+                if(!empty($this->shippingHtml))
+                {
+                ?>
 
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
@@ -102,11 +130,10 @@ if(!empty($this->shippingHtml)){
 					<td>
 						<?php echo $this->shippingHtml ?>
 					</td>
-				</tr>		
-
-<?php 
-}
-?>
+				</tr>
+                <?php 
+                }
+                ?>
 			</table>
 
 			<input type="hidden" name="id" value="<?php echo @$row->category_id?>" />
