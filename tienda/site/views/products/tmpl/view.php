@@ -84,8 +84,6 @@ $item = @$this->row;
     <?php // display the files associated with this product ?>
     <?php echo $this->files; ?>
     
-    <!--
-    NOT ENABLED YET
     <div class="reset"></div>
     <div class="productgallery">
        <div class="productgallerytitle"><?php echo JText::_("Images"); ?></div>
@@ -106,7 +104,7 @@ $item = @$this->row;
         	else
         	{
 	            // TODO Fix this - just a quick test 
-	            $size = "style='max-width: 100px; max-height: 100px;'";
+	            //$size = "style='max-width: 100px; max-height: 100px;'";
 	            
 	            $uri = TiendaHelperProduct::getUriFromPath( $path );
 	            foreach ($images as $image)
@@ -114,7 +112,7 @@ $item = @$this->row;
 	            ?>
 	            <div class="subcategory">
 	                <p class="subcatthumb">
-	                    <img src="<?php echo $uri.$image; ?>" <?php echo $size; ?>/>
+	                    <?php echo TiendaUrl::popup( $uri.$image, '<img src="'.$uri."thumbs/".$image.'" />' , array('update' => false, 'img' => true)); ?>
 	                </p>
 	            </div>
 	            
@@ -125,7 +123,6 @@ $item = @$this->row;
         }
         ?>
     </div>
-    -->
     
     <!--
     NOT ENABLED YET
