@@ -54,7 +54,7 @@
                         $billattribs = array(
                            'class' => 'inputbox',    
                            'size' => '1',
-                           'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', '')"
+                           'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', ''); tiendaGetCheckoutTotals();"
                         );
                         
                         // display select list of stored addresses
@@ -90,7 +90,7 @@
 	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '')"
+	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', ''); tiendaGetCheckoutTotals();"
 	                );
 	                
 	                // display select list of stored addresses
