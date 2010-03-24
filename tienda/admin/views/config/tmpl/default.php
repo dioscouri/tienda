@@ -24,7 +24,7 @@
 					$pane = '1';
 					echo $this->sliders->startPane( "pane_$pane" );
 					
-					$legend = JText::_( "Shop Informations" );
+					$legend = JText::_( "Shop Information" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'shop' );
 					
 					?>

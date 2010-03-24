@@ -75,54 +75,52 @@ $item = @$this->row;
         </div>
     </div>
     
+    <?php if ($this->product_description) { ?>
     <div class="reset"></div>
     <div class="productdesc">
-       <div class="productdesctitle"><?php echo JText::_("Description"); ?></div>
+        <?php if (TiendaConfig::getInstance()->get('display_product_description_header', '1')) { ?>
+            <div class="productdesctitle"><?php echo JText::_("Description"); ?></div>
+        <?php } ?>
         <?php echo $this->product_description; ?>
     </div>
+    <?php } ?>
     
     <?php // display the files associated with this product ?>
     <?php echo $this->files; ?>
     
-    <div class="reset"></div>
-    <div class="productgallery">
-       <div class="productgallerytitle"><?php echo JText::_("Images"); ?></div>
-        <?php $path = TiendaHelperProduct::getGalleryPath($item->product_id); ?>
-        <?php
-        jimport('joomla.filesystem.folder');
-        if (empty($path))
-        {
-            echo JText::_( "None" ); 
-        }
-        else
-        {
-        	$images = TiendaHelperProduct::getGalleryImages( $path );
-        	if (empty($images))
-        	{
-                echo JText::_( "No Images" );
-        	}
-        	else
-        	{
-	            // TODO Fix this - just a quick test 
-	            //$size = "style='max-width: 100px; max-height: 100px;'";
-	            
-	            $uri = TiendaHelperProduct::getUriFromPath( $path );
-	            foreach ($images as $image)
-	            { 
-	            ?>
-	            <div class="subcategory">
-	                <p class="subcatthumb">
-	                    <?php echo TiendaUrl::popup( $uri.$image, '<img src="'.$uri."thumbs/".$image.'" />' , array('update' => false, 'img' => true)); ?>
-	                </p>
-	            </div>
-	            
-	            <?php } ?>
-	            <div class="reset"></div>
-	            <?php        		
-        	}
-        }
+    <?php // display the galelry images associated with this product if there is one ?>
+    <?php $path = TiendaHelperProduct::getGalleryPath($item->product_id); ?>
+    <?php $images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude'=>$item->product_full_image ) ); ?>
+    <?php
+    jimport('joomla.filesystem.folder');
+    if (!empty($path) && !empty($images))
+    {
         ?>
-    </div>
+        <div class="reset"></div>
+        <div class="productgallery">
+        <div class="productgallerytitle"><?php echo JText::_("Images"); ?></div>
+        <?php            
+        $uri = TiendaHelperProduct::getUriFromPath( $path );
+        foreach ($images as $image)
+        { 
+            // dont display if same as default
+            // this should already have been filtered, but just in case...
+            if ($image == $item->product_full_image) { continue; }
+            ?>
+            <div class="subcategory">
+                <p class="subcatthumb">
+                    <?php echo TiendaUrl::popup( $uri.$image, '<img src="'.$uri."thumbs/".$image.'" />' , array('update' => false, 'img' => true)); ?>
+                </p>
+            </div>
+            <?php 
+        } 
+        ?>
+        <div class="reset"></div>
+        </div>
+        <?php        		
+    }
+    ?>
+    
     
     <!--
     NOT ENABLED YET

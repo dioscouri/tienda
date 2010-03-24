@@ -22,7 +22,7 @@ window.addEvent('domready', function(){
 	$tabs = JPane::getInstance( 'tabs' );
 
 	echo $tabs->startPane("tabone");
-	echo $tabs->startPanel( JText::_( 'Basic Informations' ), "basic" );
+	echo $tabs->startPanel( JText::_( 'Basic Information' ), "basic" );
 ?>		
 			<table class="admintable">
 				<tr>
@@ -649,7 +649,7 @@ if(!empty($this->shippingHtml)){
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="shippingPlugins">
-						<?php echo JText::_( 'Shipping Informations' ); ?>:
+						<?php echo JText::_( 'Shipping Information' ); ?>:
 						</label>
 					</td>
 					<td>

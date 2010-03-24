@@ -118,13 +118,22 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $folder
 	 * @return array
 	 */
-	function getGalleryImages( $folder=null )
+	function getGalleryImages( $folder=null, $options=array() )
 	{
 		$images = array();
 		
 		if (empty($folder))
 		{
 			return $images;
+		}
+		
+		if (empty( $options['exclude'] ))
+		{
+		    $options['exclude'] = array();
+		}
+		    elseif (!is_array($options['exclude']))
+		{
+		    $options['exclude'] = array($options['exclude']);
 		}
 		
         if (JFolder::exists( $folder ))
@@ -138,7 +147,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 	            $extension = $namebits[count($namebits)-1];
 	            if (in_array($extension, $extensions))
 	            {
-                    $images[] = $file;	
+	                if (!in_array($file, $options['exclude']))
+	                {
+                        $images[] = $file;
+	                }
 	            }
         	}
         }

@@ -124,7 +124,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<label for="shippingPlugins">
-						<?php echo JText::_( 'Shipping Informations' ); ?>:
+						<?php echo JText::_( 'Shipping Information' ); ?>:
 						</label>
 					</td>
 					<td>
