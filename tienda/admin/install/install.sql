@@ -849,13 +849,6 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Versions prior to 0.3.1 will not have file downloads enabled anyway
--- TODO Remove this in version 0.4.0
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__tienda_productdownloads`;
-
 -- -----------------------------------------------------
 -- Table `#__tienda_productdownloads`
 -- -----------------------------------------------------
@@ -877,13 +870,6 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloads` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Versions prior to 0.3.1 will not have file downloads enabled anyway
--- TODO Remove this in version 0.4.0
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__tienda_productfiles`;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productfiles`
@@ -930,7 +916,6 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloadlogs` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productprices`
