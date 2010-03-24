@@ -11,39 +11,34 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-// Require the defines
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'defines.php' );
+// Check the registry to see if our Tienda class has been overridden
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
-// Require the base controller
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php' );
-
-// Require specific controller if requested
-if ($controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) )) 
-{
-	$path = JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controller.'.php';
-	if (file_exists($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
-	}
-}
+// load the config class
+Tienda::load( 'TiendaConfig', 'defines' );
 
 // before executing any tasks, check the integrity of the installation
-JLoader::import( 'com_tienda.helpers.diagnostics', JPATH_ADMINISTRATOR.DS.'components' );
-$diagnostic = new TiendaHelperDiagnostics();
-$diagnostic->checkInstallation();
+Tienda::get( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInstallation();
+
+// Require the base controller
+Tienda::load( 'TiendaController', 'controller' );
+
+// Require specific controller if requested
+$controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
+if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
+    $controller = '';    
 
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
 // Create the controller
-$classname    = 'TiendaController'.$controller;
-$controller   = new $classname( );
-
+$classname = 'TiendaController'.$controller;
+$controller = Tienda::get( $classname );
+    
 // Perform the requested task
 $controller->execute( JRequest::getVar( 'task' ) );
 
 // Redirect if set by the controller
 $controller->redirect();
-
 ?>

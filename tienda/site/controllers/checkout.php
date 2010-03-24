@@ -81,8 +81,8 @@ class TiendaControllerCheckout extends TiendaController
 			JRequest::setVar('layout', 'form');
 		}
 		// Checkout as a Guest
-		else if($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')){
-
+		else if($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
+		{
 			$order = &$this->_order;
 			$order = $this->populateOrder(true);
 
@@ -110,7 +110,7 @@ class TiendaControllerCheckout extends TiendaController
 
 			JRequest::setVar('layout', 'guest');
 		}
-		// Already Logged in
+		// Already Logged in, a traditional checkout
 		else
 		{
 			$order = &$this->_order;
@@ -169,15 +169,16 @@ class TiendaControllerCheckout extends TiendaController
 	 * @param $guest	guest mode?
 	 * @return $order 	the populated order
 	 */
-	function populateOrder($guest = false){
-		
+	function populateOrder($guest = false)
+	{	
 		$order = $this->_order;
 		// set the currency
 		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 		// set the shipping method
 		$order->shipping_method_id = $this->defaultShippingMethod;
 		
-		if(!$guest){
+		if (!$guest)
+		{
 			// set the order's addresses based on the form inputs
 			// set to user defaults
 			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
@@ -205,8 +206,8 @@ class TiendaControllerCheckout extends TiendaController
 	/**
 	 * Get the progress bar
 	 */
-	function getProgress(){
-
+	function getProgress()
+	{
 		$view = $this->getView( 'checkout', 'html' );
 		$view->set( '_controller', 'checkout' );
 		$view->set( '_view', 'checkout' );

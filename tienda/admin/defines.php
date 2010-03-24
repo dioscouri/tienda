@@ -142,6 +142,96 @@ class Tienda extends JObject
     	return $path;
     }
 
+    /**
+     * Method to intelligently load class files in the Tienda framework
+     *
+     * @param string $classname   The class name
+     * @param string $filepath    The filepath ( dot notation )
+     * @param array  $options
+     * @return boolean
+     */
+    public static function load( $classname, $filepath, $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' ) ) 
+    {
+        $classname = strtolower( $classname );
+        $classes = JLoader::register();
+        if ( class_exists($classname) || array_key_exists( $classname, $classes ) ) 
+        {
+            return true;
+        }
+        
+        static $paths;
+
+        if (empty($paths)) 
+        {
+            $paths = array();
+        }
+        
+        if (empty($paths[$classname]) || !is_file($paths[$classname]))
+        {
+            // find the file and set the path
+            if (!empty($options['base']))
+            {
+                $base = $options['base'];
+            }
+                else
+            {
+                // recreate base from $options array
+                switch ($options['site'])
+                {
+                    case "site":
+                        $base = JPATH_SITE.DS;
+                        break;
+                    default:
+                        $base = JPATH_ADMINISTRATOR.DS;
+                        break;
+                }
+                
+                $base .= (!empty($options['type'])) ? $options['type'].DS : '';
+                $base .= (!empty($options['ext'])) ? $options['ext'].DS : '';
+            }
+            
+            $paths[$classname] = $base.str_replace( '.', DS, $filepath ).'.php';
+        }
+        
+        // if invalid path, return false
+        if (!is_file($paths[$classname]))
+        {
+            return false;
+        }
+        
+        // if not registered, register it
+        if ( !array_key_exists( $classname, $classes ) ) 
+        {
+            JLoader::register( $classname, $paths[$classname] );
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Intelligently loads instances of classes in Tienda framework
+     * 
+     * Usage: $object = Tienda::get( 'TiendaHelperCarts', 'helpers.carts' );
+     * Usage: $suffix = Tienda::get( 'TiendaHelperCarts', 'helpers.carts' )->getSuffix();
+     * Usage: $categories = Tienda::get( 'TiendaSelect', 'library.select' )->category( $selected );
+     * 
+     * @param string $classname   The class name
+     * @param string $filepath    The filepath ( dot notation )
+     * @param array  $options
+     * @return object of requested class (if possible), else a new JObject
+     */
+    public function get( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' )  )
+    {
+        if (Tienda::load( $classname, $filepath, $options ))
+        {
+            $instance = new $classname();
+            return $instance;
+        }
+        
+        $instance = new JObject();
+        return $instance;
+    }
+    
 	/**
 	 * Method to dump the structure of a variable for debugging purposes
 	 *
@@ -157,8 +247,12 @@ class Tienda extends JObject
 	}
 }
 
-	// TODO Merge this class into base defines
-class TiendaConfig extends Tienda
+/**
+ * 
+ * @author Rafael Diaz-Tushman
+ *
+ */
+class TiendaConfig extends JObject
 {
 
 	// View Options
@@ -300,75 +394,6 @@ class TiendaConfig extends Tienda
 		}
 
 		return $instance;
-	}
-
-	/**
-	 *
-	 * @return unknown_type
-	 */
-	function &getFromXML( $needle='version' )
-	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-		jimport('joomla.filesystem.archive');
-		jimport('joomla.filesystem.path');
-		jimport('joomla.installer.installer' );
-		jimport('joomla.installer.helper' );
-
-		$success = "1.50";
-		$pkg = strtolower( "com_Tienda" );
-		// $row = new JObject();
-
-		/* Get the component base directory */
-		$adminDir = JPATH_ADMINISTRATOR .DS. 'components';
-		$siteDir = JPATH_SITE .DS. 'components';
-
-		/* Get the component folder and list of xml files in folder */
-		$folder = $adminDir.DS.$pkg;
-		if (JFolder::exists($folder)) {
-			$xmlFilesInDir = JFolder::files($folder, '.xml$');
-		} else {
-			$folder = $siteDir.DS.$pkg;
-			if (JFolder::exists($folder)) {
-				$xmlFilesInDir = JFolder::files($folder, '.xml$');
-			} else {
-				$xmlFilesInDir = null;
-			}
-		}
-
-		//if there were any xml files found
-		if (count($xmlFilesInDir))
-		{
-			foreach ($xmlFilesInDir as $xmlfile)
-			{
-
-				if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
-					foreach($data as $key => $value) {
-						// $row->$key = $value;
-						if (strtolower($key) == strtolower($needle)) {
-							$success = $value;
-						}
-					}
-				}
-			}
-		}
-
-		return $success;
-	}
-
-	/**
-	 *
-	 * @param $fieldname
-	 * @return unknown_type
-	 */
-	function getFieldname( $fieldname, $option='', $view='', $layout='' )
-	{
-		// use combo of option, view, and layout to find specific variable
-		$o = $option ? $option : strtolower( "com_Tienda" );
-		$v = $view ? $view : JRequest::getVar( 'view', 'default' );
-		$l = $layout ? $layout : JRequest::getVar( 'layout', 'default' );
-		$return = "{$o}_{$v}_{$l}_{$fieldname}";
-		return $return;
 	}
 }
 ?>
