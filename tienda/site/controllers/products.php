@@ -1,9 +1,9 @@
 <?php
 /**
- * @version	1.5
- * @package	Tienda
- * @author 	Dioscouri Design
- * @link 	http://www.dioscouri.com
+ * @version 1.5
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 */
@@ -13,32 +13,32 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class TiendaControllerProducts extends TiendaController 
 {
-	/**
-	 * constructor
-	 */
-	function __construct() 
-	{
-		parent::__construct();
-		
-		$this->set('suffix', 'products');
-	}
-	
-	/**
-	 * Sets the model's state
-	 * 
-	 * @return array()
-	 */
-	function _setModelState()
-	{    	
-		$state = parent::_setModelState();   	
-		$app = JFactory::getApplication();
-		$model = $this->getModel( $this->get('suffix') );
-		$ns = $this->getNamespace();
+    /**
+     * constructor
+     */
+    function __construct() 
+    {
+        parent::__construct();
+        
+        $this->set('suffix', 'products');
+    }
+    
+    /**
+     * Sets the model's state
+     * 
+     * @return array()
+     */
+    function _setModelState()
+    {       
+        $state = parent::_setModelState();      
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $this->getNamespace();
 
-		$date = JFactory::getDate();
-		$state['filter_published']  = 1;
-		$state['filter_published_date'] = $date->toMySQL();
-		$state['filter_enabled']  = 1;
+        $date = JFactory::getDate();
+        $state['filter_published']  = 1;
+        $state['filter_published_date'] = $date->toMySQL();
+        $state['filter_enabled']  = 1;
         $state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
         $state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', '');
         
@@ -48,31 +48,38 @@ class TiendaControllerProducts extends TiendaController
             $state['filter']      = '';
         }
         
-		if ($state['filter_category']) {
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-			$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
-			$cmodel->setId($state['filter_category']);
-			$item = $cmodel->getItem();
-			$state['category_name'] = $item->category_name;
-		} elseif (!$state['search']) {
+        if ($state['filter_category']) 
+        {
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+            $cmodel->setId($state['filter_category']);
+            if ($item = $cmodel->getItem())
+            {
+               $state['category_name'] = $item->category_name;    
+            }
+            
+        } 
+            elseif (!$state['search']) 
+        {
             $state['filter_category'] = '0';
-		}
-		    			
-		foreach (@$state as $key=>$value) {
-			$model->setState( $key, $value );	
-		}
-		
-  		return $state;
-	}
-	
-	/**
-	 * Displays a product category
-	 * 
-	 * (non-PHPdoc)
-	 * @see tienda/admin/TiendaController#display($cachable)
-	 */
-	function display()
-	{
+        }
+                        
+        foreach (@$state as $key=>$value) 
+        {
+            $model->setState( $key, $value );   
+        }
+        
+        return $state;
+    }
+    
+    /**
+     * Displays a product category
+     * 
+     * (non-PHPdoc)
+     * @see tienda/admin/TiendaController#display($cachable)
+     */
+    function display()
+    {
         JRequest::setVar( 'view', $this->get('suffix') );
         JRequest::setVar( 'search', false );
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
@@ -115,19 +122,19 @@ class TiendaControllerProducts extends TiendaController
         $view->display();
         $this->footer();
         return;
-	}
-	
-	/**
-	 * Displays a single product
-	 * (non-PHPdoc)
-	 * @see tienda/site/TiendaController#view()
-	 */
-	function view() 
-	{
-		JRequest::setVar( 'view', $this->get('suffix') );
-		$model 	= $this->getModel( $this->get('suffix') );
-	    $model->getId();
-	    $row = $model->getItem();
+    }
+    
+    /**
+     * Displays a single product
+     * (non-PHPdoc)
+     * @see tienda/site/TiendaController#view()
+     */
+    function view() 
+    {
+        JRequest::setVar( 'view', $this->get('suffix') );
+        $model  = $this->getModel( $this->get('suffix') );
+        $model->getId();
+        $row = $model->getItem();
         if (empty($row->product_enabled))
         {
             $redirect = "index.php?option=com_tienda&view=products";
@@ -138,15 +145,15 @@ class TiendaControllerProducts extends TiendaController
             return;
         }
         
-		JLoader::import( 'com_tienda.library.article', JPATH_ADMINISTRATOR.DS.'components' );
-		$product_description = TiendaArticle::fromString( $row->product_description );
+        JLoader::import( 'com_tienda.library.article', JPATH_ADMINISTRATOR.DS.'components' );
+        $product_description = TiendaArticle::fromString( $row->product_description );
         
-		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+        $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
         $cat = $cmodel->getTable();
         $cat->load( $filter_category );       
-		
+        
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->set('_doTask', true);
         $view->assign( 'row', $row );
@@ -162,8 +169,8 @@ class TiendaControllerProducts extends TiendaController
         $view->display();
         $this->footer();
         return;
-	}
-	
+    }
+    
     /**
      * Gets a product's files list
      * formatted for display
@@ -252,11 +259,11 @@ class TiendaControllerProducts extends TiendaController
             $this->setRedirect( $link );       
         }
     }
-	
-//	/**
-//	 * 
-//	 * @return unknown_type
-//	 */
+    
+//  /**
+//   * 
+//   * @return unknown_type
+//   */
 //    function quickadd() 
 //    {
 //        $model  = $this->getModel( $this->get('suffix') );
