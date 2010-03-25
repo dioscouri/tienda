@@ -251,6 +251,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
+/**
+     * Checks the products table to confirm it has the params and layout fields
+     * 
+     * return boolean
+     */
+    function checkProductsInventory()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsInventory', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_check_inventory";
+            $definitions["product_check_inventory"] = "tinyint(1) DEFAULT '1' COMMENT 'Check Product Inventory?'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsInventory') );
+            $config->config_name = 'checkProductsInventory';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
     /**
      * Checks the orders table to confirm it has the order_currency field
      * 

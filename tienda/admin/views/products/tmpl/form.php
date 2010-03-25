@@ -267,9 +267,10 @@ echo $tabs->startPanel( JText::_( 'Prices, Quantities & Images' ), "prices" );
 	                            <?php
 	                            echo $row->product_quantity;
 	                            echo "<br/>";
-	                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); 
+	                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+	                            $options = array('update' => true ); 
 	                            ?>
-	                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", '', '', '', '', '', true ); ?>]
+	                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
 	                        </td>
 	                    </tr>
 	                    <?php
