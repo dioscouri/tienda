@@ -66,10 +66,19 @@ class TiendaUrl {
 		{
 		    JHTML::_('behavior.modal');
 		}
+
+		// set the $handler_string based on the user's browser
+        $handler_string = "{handler:'iframe',size:{x: window.innerWidth-80, y: window.innerHeight-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
+	    $browser = Tienda::get( 'TiendaBrowser', 'library.browser' );
+        if ( $browser->getBrowser() == TiendaBrowser::BROWSER_IE ) 
+        {
+            // if IE, use 
+            $handler_string = "{handler:'iframe',size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";            
+        }
 		
 		$handler = (!empty($options['img']))
 		  ? "{handler:'image'}"
-		  : "{handler:'iframe',size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
+		  : $handler_string;
 
 		if (!empty($options['width']))
 		{
