@@ -74,7 +74,10 @@ class TiendaHelperCarts extends TiendaHelperBase
                 }
                 $date = JFactory::getDate();
                 $table->last_updated = $date->toMysql();
-                $table->save();
+                if (!$table->save())
+                {
+                    JError::raiseNotice('updateDbCart', $table->getError());
+                }
             }
         }
         return true;

@@ -91,7 +91,8 @@ class TiendaModelCarts extends TiendaModelBase
             	// store a csv of the attrib names
                 $attributes_names[] = JText::_( $table->productattributeoption_name ); 
             }
-            
+
+            // Could someone explain to me why this is necessary?
             if ($item->orderitem_attributes_price >= 0)
             {
             	// formatted for storage in the DB

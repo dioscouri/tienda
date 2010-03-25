@@ -84,18 +84,25 @@ class TiendaControllerCarts extends TiendaController
 	            $cart = $model->getList();
 	            $isPresent = false;
 	            
+	            // find the product in the visitor's cart, if it exists 
 	            foreach ($cart as $cartitem) 
 	            {
 	            	// TODO Make this support vendor_id
 	                if ($cartitem->product_id == $product_id && $cartitem->product_attributes == $attributes_csv) 
 	                {
-	                	$cartitem->product_attributes = $attributes_csv;
-	                    $cartitem->product_qty = $cartitem->product_qty + $product_qty;
-	                    $item = $cartitem;
+	                    // if the item has been found, update quantities
 	                    $isPresent = true;
+	                    $cartitem->user_id = JFactory::getUser()->id;
+	                    $cartitem->product_id = $product_id;
+	                	$cartitem->product_qty = $cartitem->product_qty + $product_qty;
+	                    $cartitem->product_attributes = $attributes_csv;
+	                    $cartitem->vendor_id = '0'; // vendors only in enterprise version
+	                    // store the item so we can send it in the plugin event later
+	                    $item = $cartitem;
 	                }
 	            }
 	            
+	            // if the item was not found in the cart, add it
 	            if (!$isPresent) 
 	            {
 	                $item = new JObject;

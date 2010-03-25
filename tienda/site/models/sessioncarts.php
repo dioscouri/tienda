@@ -33,7 +33,7 @@ class TiendaModelSessioncarts extends TiendaModelBase
             $list = array();
         }
         
-        foreach(@$list as $item)
+        foreach($list as $item)
         {
         	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 	        $model = JModel::getInstance('Products', 'TiendaModel');
@@ -90,7 +90,12 @@ class TiendaSessionCart
     {
         $mainframe =& JFactory::getApplication();
         $cart = $mainframe->getUserState( 'usercart.cart' );
-        foreach (@$cart as $item) 
+        if (empty($cart)) 
+        {
+            $cart = array();
+        }
+        
+        foreach ($cart as $item) 
         {
             if ($item->product_id == $this->product_id && $item->product_attributes == $this->product_attributes) 
             {
