@@ -271,12 +271,23 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_( "Currency & Units Settings" );
+					$legend = JText::_( "Currency Units and Date Settings" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'currency' );
 					?>
 					
 					<table class="adminlist">
 					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'SET DATE FORMAT' ); ?>
+                            </th>
+                            <td>
+                                <input name="date_format" value="<?php echo $this->row->get('date_format', '%a, %d %b %Y, %I:%M%p'); ?>" type="text" size="40"/>
+                            </td>
+                            <td>
+                                <?php echo JText::_( "CONFIG SET DATE FORMAT" ); ?>
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'SELECT DEFAULT CURRENCY FOR DB VALUES' ); ?>

@@ -291,9 +291,9 @@ class TiendaConfig extends JObject
 	var $orderstates_csv                    = '2, 3, 5, 17';
 	// Other Info
 	var $display_shipping_tax               = '1';
-	var $initial_order_state               = '15';
-	var $defaultShippingMethod               = '2';
-	var $guest_checkout_enabled               = '1';
+	var $initial_order_state                = '15';
+	var $defaultShippingMethod              = '2';
+	var $guest_checkout_enabled             = '1';
 	// Shop Info
 	var $shop_name							= '';
 	var $shop_company_name					= '';
@@ -308,15 +308,16 @@ class TiendaConfig extends JObject
 	var $shop_phone							= '';
 	var $shop_owner_name					= '';
 	// Default Dimensions for the images
-	var $product_img_height 		= 128;
-	var $product_img_width 			= 96;
-	var $category_img_height 		= 48;
-	var $category_img_width			= 48;
-	var $manufacturer_img_width		= 128;
-	var $manufacturer_img_height	= 96;
+	var $product_img_height 		        = 128;
+	var $product_img_width 			        = 96;
+	var $category_img_height 		        = 48;
+	var $category_img_width			        = 48;
+	var $manufacturer_img_width		        = 128;
+	var $manufacturer_img_height	        = 96;
 	// Unit measures
 	var $dimensions_unit					= 'cm';
 	var $weight_unit						= 'kg';
+    var $date_format                        = '%a, %d %b %Y, %I:%M%p';
 	
 	/**
 	 * constructor

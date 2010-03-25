@@ -33,7 +33,7 @@
 	<div id="order_info">
 		<h3><?php echo JText::_("Order Information"); ?></h3>
         <strong><?php echo JText::_("Order ID"); ?></strong>: <?php echo @$row->order_id; ?><br/>
-        <strong><?php echo JText::_("Date"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, '%a, %d %b %Y, %I:%M%p'); ?><br/>
+        <strong><?php echo JText::_("Date"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
         <strong><?php echo JText::_("Status"); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
 	</div>
 	

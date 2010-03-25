@@ -47,7 +47,7 @@
 		            <?php echo JText::_("Order Date"); ?>
 		        </td>
 		        <td>
-		            <?php echo JHTML::_('date', $row->created_date, '%a, %d %b %Y, %I:%M%p'); ?>
+		            <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
 		        </td>
 		    </tr>
 		    <tr>
@@ -294,7 +294,7 @@
         <?php foreach (@$histories as $history) : ?>
             <tr class='row<?php echo $k; ?>'>
                 <td style="text-align: center;">
-                    <?php echo JHTML::_('date', $history->date_added, '%a, %d %b %Y, %I:%M%p'); ?>
+                    <?php echo JHTML::_('date', $history->date_added, TiendaConfig::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo JText::_( $history->order_state_name ); ?>

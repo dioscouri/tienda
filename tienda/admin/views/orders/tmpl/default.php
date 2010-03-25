@@ -123,7 +123,7 @@
 				</td>
                 <td style="text-align: center;">
                     <a href="<?php echo $item->link; ?>">
-                        <?php echo JHTML::_('date', $item->created_date, '%a, %d %b %Y, %I:%M%p'); ?>
+                        <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center; width: 50px;">

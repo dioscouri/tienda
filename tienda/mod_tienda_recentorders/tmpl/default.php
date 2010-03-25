@@ -32,7 +32,7 @@ foreach ($orders as $order)
     ?>
     <tr>
         <td><a href="<?php echo $order->link; ?>"><?php echo $order->user_name; ?></a></td>
-        <td style="text-align: center;"><?php echo JHTML::_('date', $order->created_date, '%a, %d %b %Y, %I:%M%p'); ?></td>
+        <td style="text-align: center;"><?php echo JHTML::_('date', $order->created_date, TiendaConfig::getInstance()->get('date_format')); ?></td>
         <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $order->order_total, $order->currency ); ?></td>
     </tr>
     <?php
