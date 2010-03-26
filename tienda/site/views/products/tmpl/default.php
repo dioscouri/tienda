@@ -109,7 +109,7 @@ $citems = @$this->citems;
             <?php endforeach; ?>
         
             <div id="productsfooter">
-                <div style="float: right; padding: 5px;"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+                <div id="resultscounter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
                 <?php echo @$this->pagination->getListFooter(); ?>
             </div>
         </div>
