@@ -1,13 +1,43 @@
 /** Products **/
+
+div#tienda div#heading {
+	padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 10px;
+}
+
+div#tienda div#heading img {
+	vertical-align: middle;
+	padding: 5px;
+	max-height: 75px;
+}
+
+div#tienda div#heading span {
+    vertical-align: middle;
+    font-size: 1.8em;
+}
+
 div.catcrumbs { margin-bottom: 15px; }
 
 div#subcategories {
 	border-bottom: 1px solid #cccccc;
+	margin-bottom: 10px;
+}
+
+div#products span.title {
+    font-weight: bold;	
+}	
+
+div#products div#productsfooter {
+	border-top: 1px solid #cccccc;
+    margin-top: 5px;
+    padding-top: 5px;
 }
 
 div#subcategories h3 {
 	padding: 0 10px;
-	font-weight: normal;
+    margin-bottom: 0px;
 }
 
 div.subcategory {
@@ -16,6 +46,7 @@ div.subcategory {
     width: 100px;
     height: 80px;
     padding: 10px;
+    margin-bottom: 5px;
 }
 
 div.subcategory p {
@@ -119,14 +150,6 @@ div.productbuy p {
 span.productnums {
     font-size: .9em;
     color: #444444;
-}
-
-
-.categoryheading {
-    font-size: 1.8em;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #cccccc;
-    margin-bottom: 10px;
 }
 
 div.catdesc {
