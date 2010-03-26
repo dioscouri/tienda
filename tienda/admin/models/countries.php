@@ -23,6 +23,7 @@ class TiendaModelCountries extends TiendaModelBase
         $filter_name    = $this->getState('filter_name');
         $filter_code2    = $this->getState('filter_code2');
         $filter_code3    = $this->getState('filter_code3');
+        $filter_enabled  = $this->getState('filter_enabled');
        	
        	if ($filter) 
        	{
@@ -55,6 +56,10 @@ class TiendaModelCountries extends TiendaModelBase
             $where = array();
             $where[] = 'LOWER(tbl.country_name) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
+        }
+        if (strlen($filter_enabled))
+        {
+            $query->where('tbl.country_enabled = '.$filter_enabled);
         }
         if ($filter_code2) 
         {

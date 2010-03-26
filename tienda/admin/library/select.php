@@ -227,7 +227,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function country($selected, $name = 'filter_countryid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function country($selected, $name = 'filter_countryid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $enabled = null)
  	{
         $list = array();
 		if($allowAny) {
@@ -236,6 +236,10 @@ class TiendaSelect extends JHTMLSelect
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$model = JModel::getInstance( 'Countries', 'TiendaModel' );
+		if (!empty($enabled))
+		{
+            $model->setState( 'filter_enabled', '1' );
+		}
 		$model->setState( 'order', 'country_name' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();

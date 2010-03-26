@@ -39,4 +39,16 @@ class TiendaViewCountries extends TiendaViewBase
 			  break;
 		}
 	}
+	
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/views/TiendaViewBase#_defaultToolbar()
+     */
+    function _defaultToolbar()
+    {
+        JToolBarHelper::publishList( 'country_enabled.enable' );
+        JToolBarHelper::unpublishList( 'country_enabled.disable' );
+        JToolBarHelper::divider();
+        parent::_defaultToolbar();
+    }
 }

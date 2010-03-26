@@ -21,6 +21,8 @@ class TiendaControllerCountries extends TiendaController
 		parent::__construct();
 		
 		$this->set('suffix', 'countries');
+        $this->registerTask( 'country_enabled.enable', 'boolean' );
+        $this->registerTask( 'country_enabled.disable', 'boolean' );
 	}
 
     /**

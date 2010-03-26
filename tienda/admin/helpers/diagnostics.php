@@ -78,6 +78,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESPARAMSLAYOUT FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the countries table 
+        if (!$this->checkCountriesEnabled()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESENABLED FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -427,6 +433,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCategoriesParamsLayout') );
             $config->config_name = 'checkCategoriesParamsLayout';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the countries table to confirm it has the enabled field
+     * 
+     * return boolean
+     */
+    function checkCountriesEnabled()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCountriesEnabled', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_countries';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "country_enabled";
+            $definitions["country_enabled"] = "TINYINT(1) NOT NULL DEFAULT '1'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCountriesEnabled') );
+            $config->config_name = 'checkCountriesEnabled';
             $config->value = '1';
             $config->save();
             return true;

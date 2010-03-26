@@ -92,7 +92,7 @@
 			<?php
 			$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
 			$attribs = array('class' => 'inputbox','size' => '1','onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\');' );
-			echo TiendaSelect::country( '', $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', true );
+			echo TiendaSelect::country( '', $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', true, true );
 			?>
         </td>
 	</tr>

@@ -19,6 +19,16 @@ JFilterOutput::objectHTMLSafe( $row );
 						<input type="text" name="name" id="name" size="48" maxlength="250" value="<?php echo @$row->country_name; ?>" />
 					</td>
 				</tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="enabled">
+                        <?php echo JText::_( 'Enabled' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'country_enabled', '', @$row->country_enabled ); ?>
+                    </td>
+                </tr>
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_isocode_2">
