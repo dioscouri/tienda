@@ -62,9 +62,9 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         
         // check the category root 
-        if (!$this->checkCategoriesRoot()) 
+        if (!$this->checkCategoriesRootDesc()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESROOT FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESROOTDESC FAILED') .' :: '. $this->getError(), 'error' );
         }
         
         // check the products table 
@@ -330,10 +330,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
      * Confirm that the category root is properly named and doesn't yell at users
      * return boolean
      */
-    function checkCategoriesRoot()
+    function checkCategoriesRootDesc()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkCategoriesRoot', '0'))
+        if (TiendaConfig::getInstance()->get('checkCategoriesRootDesc', '0'))
         {
             return true;
         }
@@ -342,11 +342,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $category = JTable::getInstance( 'Categories', 'TiendaTable' );
         $root = $category->getRoot();
         
-        if ($root->category_name == "ROOT" || $root->category_description == "root")
+        if ($root->category_name == "ROOT" || $root->category_description == "root" || !empty($root->category_description))
         {
             $category->load( $root->category_id );
             $category->category_name = "All Categories";
-            $category->category_description = "All Categories";
+            $category->category_description = "";
             if (!$category->save())
             {
                 return false;
@@ -356,8 +356,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         // Update config to say this has been done already
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $config = JTable::getInstance( 'Config', 'TiendaTable' );
-        $config->load( array( 'config_name'=>'checkCategoriesRoot') );
-        $config->config_name = 'checkCategoriesRoot';
+        $config->load( array( 'config_name'=>'checkCategoriesRootDesc') );
+        $config->config_name = 'checkCategoriesRootDesc';
         $config->value = '1';
         $config->save();
         return true;        

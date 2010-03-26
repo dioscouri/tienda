@@ -8,8 +8,8 @@
 	<state>
 		<name>TIENDA PRODUCTS DEFAULT LAYOUT</name>
 		<description>TIENDA PRODUCTS DEFAULT LAYOUT DESC</description>
-        <url>
-            <param name="filter_category" section="com_tienda" type="text" default="" label="Select Category" description="A Tienda Category ID" />
+        <url addpath="/administrator/components/com_tienda/elements">
+            <param name="filter_category" type="tiendacategory" section="com_tienda" default="" label="Select Category" description="A Tienda Category ID" />
         </url>
 	</state>
 </metadata>
