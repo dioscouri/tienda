@@ -16,35 +16,34 @@ $document->addStyleSheet('modules/mod_tienda_cart/tmpl/tienda_cart.css');
 
 $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
 
-	if ($num > 0)
-	{
-	    $qty = 0;
-	    foreach ($items as $item) 
-	    {
-	        $qty = $qty + $item->orderitem_quantity;
-	    }
-	    $html .= "<b>$qty</b> ".JText::_("Items"); 
-	} 
-	   elseif ($display_null == '1') 
-	{
-	    $text = JText::_( $null_text );
-	    $html .= $text;
-	}
-	
-	$html .= '<br /><b>'.JText::_( "Total" ).'</b> '.TiendaHelperBase::currency($orderTable->order_total);
-    $html .= '
-    <br />
-    <a id="cartLink" href="'.JRoute::_("index.php?option=com_tienda&view=carts").'">'.JText::_("View Your Cart").'</a>
-    <a id="checkoutLink" href="'.JRoute::_("index.php?option=com_tienda&view=checkout").'">'.JText::_("Checkout").'</a>
-    <div class="reset"></div>';
+    $html .= '<span class="CartItems">';
+    if ($num > 0)
+    {
+        $qty = 0;
+        foreach ($items as $item) 
+        {
+            $qty = $qty + $item->orderitem_quantity;
+        }
+        $html .= '<span class="qty">'.$qty.'</span> '.JText::_("Items"); 
+    } 
+       elseif ($display_null == '1') 
+    {
+        $text = JText::_( $null_text );
+        $html .= $text;
+    }
+    $html .= '</span>'; 
+    $html .= '<span class="CartTotal">'.JText::_( "Total" ).':<span>'.TiendaHelperBase::currency($orderTable->order_total).'</span> '.'</span> ';
+    $html .= '<span class="CartView">'.'<a id="cartLink" href="'.JRoute::_("index.php?option=com_tienda&view=carts").'">'.JText::_("View Your Cart").'</a>'.'</span>';
+    $html .= '<span class="CartCheckout">'.'<a id="checkoutLink" href="'.JRoute::_("index.php?option=com_tienda&view=checkout").'">'.JText::_("Checkout").'</a>'.'</span>';
+    $html .= '<div class="reset"></div>';
 
-	if ($ajax) 
-	{
-	    $mainframe->setUserState('usercart.isAjax', false);
-	} 
-	   else 
-	{
-	    $html .= '</div>';
-	}
+    if ($ajax) 
+    {
+        $mainframe->setUserState('usercart.isAjax', false);
+    } 
+       else 
+    {
+        $html .= '</div>';
+    }
         
 echo $html;
