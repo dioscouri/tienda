@@ -18,6 +18,73 @@ jimport('joomla.filesystem.folder');
 class TiendaHelperProduct extends TiendaHelperBase
 {
     /**
+     * Gets the list of available product layout files
+     * from the template's override folder
+     * and the tienda products view folder
+     * 
+     * Returns array of filenames
+     * Array
+     * (
+     *     [0] => view.php
+     *     [1] => camera.php
+     *     [2] => cameras.php
+     *     [3] => computers.php
+     *     [4] => laptop.php
+     * )
+     *  
+     * @param array $options
+     * @return array
+     */
+    function getLayouts( $options=array() )
+    {
+        $layouts = array();
+        // set the default exclusions array
+        $exclusions = array(
+            'default.php',
+            'productfiles.php',
+            'quickadd.php',
+            'search.php',
+        );
+        // TODO merge $exclusions with $options['exclude']
+        
+        jimport('joomla.filesystem.file');
+        $app = JFactory::getApplication();
+        if ($app->isAdmin())
+        {
+            // TODO This doesn't account for when templates are assigned to menu items.  Make it do so
+            $db = JFactory::getDBO();
+            $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
+            $template = $db->loadResult();
+        }
+            else
+        {
+            $template = $app->getTemplate();
+        }
+        $folder = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products';
+        
+        if (JFolder::exists( $folder ))
+        {
+            $extensions = array( 'php' );
+            
+            $files = JFolder::files( $folder );
+            foreach ($files as $file)
+            {
+                $namebits = explode('.', $file);
+                $extension = $namebits[count($namebits)-1];
+                if (in_array($extension, $extensions))
+                {
+                    if (!in_array($file, $exclusions))
+                    {
+                        $layouts[] = $file;
+                    }
+                }
+            }
+        }
+        
+        return $layouts;    
+    }
+    
+    /**
      * Determines a product's layout 
      * 
      * @param int $product_id
@@ -34,7 +101,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $app = JFactory::getApplication();
         if ($app->isAdmin())
         {
-            $template = $app->getTemplate();
+            // TODO This doesn't account for when templates are assigned to menu items.  Make it do so
             $db = JFactory::getDBO();
             $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
             $template = $db->loadResult();

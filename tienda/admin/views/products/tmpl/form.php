@@ -354,7 +354,7 @@ echo $tabs->startPanel( JText::_( 'Other Info' ), "other" );
                         <?php echo JText::_( 'Product Layout File' ); ?>:
                     </td>
                     <td>
-                        <input name="product_layout" id="product_layout" value="<?php echo @$row->product_layout; ?>" size="50" maxlength="255" type="text" />
+                        <?php echo TiendaSelect::productlayout( @$row->product_layout, 'product_layout' ); ?>
                         <div class="note">
                             <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
                         </div>                        

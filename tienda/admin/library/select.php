@@ -611,4 +611,62 @@ class TiendaSelect extends JHTMLSelect
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+    /**
+     * 
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @param unknown_type $title
+     * @return unknown_type
+     */
+    public static function productlayout( $selected, $name = 'filter_productlayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='Select Layout' )
+    {
+        $list = array();
+        if($allowAny) 
+        {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $items = Tienda::get( "TiendaHelperProduct", 'helpers.product' )->getLayouts();
+        foreach ($items as $item)
+        {
+            $namebits = explode('.', $item);
+            $value = $namebits[0];
+            $list[] =  self::option( $value, $item );
+        }
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
+    /**
+     * 
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @param unknown_type $title
+     * @return unknown_type
+     */
+    public static function categorylayout( $selected, $name = 'filter_categorylayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='Select Layout' )
+    {
+        $list = array();
+        if($allowAny) 
+        {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $items = Tienda::get( "TiendaHelperCategory", 'helpers.category' )->getLayouts();
+        foreach ($items as $item)
+        {
+            $namebits = explode('.', $item);
+            $value = $namebits[0];
+            $list[] =  self::option( $value, $item );
+        }
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

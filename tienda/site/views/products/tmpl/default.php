@@ -1,6 +1,4 @@
-<?php
-defined('_JEXEC') or die('Restricted access');
-JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+<?php defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
@@ -8,34 +6,35 @@ $items = @$this->items;
 $citems = @$this->citems;
 ?>
 
-<div id="tienda" class="product default">
-    <div id="categories">
-        <?php if ($this->level > 1 ) : ?>
-            <div id='breadcrumb'>
-                <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
-            </div>
-        <?php endif; ?>
-        
-        <div id='heading'>
+<div id="tienda" class="products default">
+
+    <?php if ($this->level > 1 ) : ?>
+        <div id='tienda_breadcrumb'>
+            <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
+        </div>
+    <?php endif; ?>
+
+    <div id="tienda_categories">    
+        <div id='tienda_category_header'>
             <?php if (isset($state->category_name)) : ?>
                 <img src="<?php echo TiendaHelperCategory::getImage($this->cat->category_id, '', '', '', true); ?>" alt="" class="category image" />
             <?php endif; ?>
 
             <span><?php echo @$this->title; ?></span>
-            <div class='description'><?php echo $this->cat->category_description; ?></div>
+            <div class='category_description'><?php echo $this->cat->category_description; ?></div>
         </div>
         
         <?php if (!empty($citems)) : ?>
-            <div id="subcategories">
+            <div id="tienda_subcategories">
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php foreach ($citems as $citem) : ?>
                     <div class="subcategory">
-                        <div class="subcatthumb">
+                        <div class="subcategory_thumb">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id ); ?>">
                             <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
                             </a>
                         </div>
-                        <div class="subcatname">
+                        <div class="subcategory_name">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id ); ?>">
                             <?php echo $citem->category_name; ?>
                             </a>
@@ -48,18 +47,19 @@ $citems = @$this->citems;
     
     </div>
     
+    <?php if (!empty($items)) : ?>
     <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
     
-        <div id="products">
+        <div id="tienda_products">
             <?php foreach ($items as $item) : ?>
-            <div class="productitem">
-                <div class="productthumb">
-                    <div class="productbuy">
+            <div class="product_item">
+                <div class="product_thumb">
+                    <div class="product_buy">
                         <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ); ?>">
                             <?php echo TiendaHelperProduct::getImage($item->product_id); ?>
                         </a>
                         
-                        <div class="price">
+                        <div class="product_price">
                             <?php echo TiendaHelperBase::currency($item->price); ?>
                         </div>
                         
@@ -70,8 +70,8 @@ $citems = @$this->citems;
                     </div>
                 </div>
                 
-                <div class="productinfo">
-                    <div class="productname">
+                <div class="product_info">
+                    <div class="product_name">
                         <span>
                             <a href="<?php echo JRoute::_($item->link."&filter_category=".$this->cat->category_id ); ?>">
                             <?php echo $item->product_name; ?>
@@ -80,7 +80,7 @@ $citems = @$this->citems;
                     </div>
                     
                     <?php if (!empty($item->product_model) || !empty($item->product_sku)) { ?>
-                        <div class="productnumbers">
+                        <div class="product_numbers">
                             <span class="model">
                                 <?php if (!empty($item->product_model)) : ?>
                                     <span class="title"><?php echo JText::_('Model'); ?>:</span> 
@@ -96,7 +96,7 @@ $citems = @$this->citems;
                         </div>
                     <?php } ?>
 
-                    <div class="productminidesc">
+                    <div class="product_minidesc">
                     <?php 
                         $str = wordwrap($item->product_description, 200, '`|+'); 
                         echo substr($str, 0, stripos($str, '`|+'));
@@ -108,13 +108,14 @@ $citems = @$this->citems;
             <div class="reset"></div>
             <?php endforeach; ?>
         
-            <div id="productsfooter">
-                <div id="resultscounter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+            <div id="products_footer">
+                <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
                 <?php echo @$this->pagination->getListFooter(); ?>
             </div>
         </div>
         
     <?php echo $this->form['validate']; ?>
     </form>
-
+    <?php endif; ?>
+    
 </div>

@@ -80,7 +80,7 @@ JFilterOutput::objectHTMLSafe( $row );
                         <?php echo JText::_( 'Category Layout File' ); ?>:
                     </td>
                     <td>
-                        <input name="category_layout" id="category_layout" value="<?php echo @$row->category_layout; ?>" size="50" maxlength="255" type="text" />
+                        <?php echo TiendaSelect::categorylayout( @$row->category_layout, 'category_layout' ); ?>
                         <div class="note">
                             <?php echo JText::_( "CATEGORY LAYOUT FILE DESC" ); ?>
                         </div>                        
@@ -91,7 +91,7 @@ JFilterOutput::objectHTMLSafe( $row );
                         <?php echo JText::_( 'Category Products Layout File' ); ?>:
                     </td>
                     <td>
-                        <input name="categoryproducts_layout" id="categoryproducts_layout" value="<?php echo @$row->categoryproducts_layout; ?>" size="50" maxlength="255" type="text" />
+                        <?php echo TiendaSelect::productlayout( @$row->categoryproducts_layout, 'categoryproducts_layout' ); ?>
                         <div class="note">
                             <?php echo JText::_( "CATEGORY PRODUCTS LAYOUT FILE DESC" ); ?>
                         </div>                        
