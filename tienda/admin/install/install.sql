@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_countries` (
   `country_isocode_2` CHAR(2) NULL DEFAULT NULL ,
   `country_isocode_3` CHAR(3) NULL DEFAULT NULL ,
   `country_enabled` TINYINT(1) NOT NULL DEFAULT '1' ,
+  `ordering` int(11) NOT NULL,
   PRIMARY KEY (`country_id`) ,
   INDEX `idx_country_name` (`country_name` ASC) )
 ENGINE = InnoDB

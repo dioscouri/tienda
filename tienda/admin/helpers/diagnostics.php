@@ -84,6 +84,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESENABLED FAILED') .' :: '. $this->getError(), 'error' );
         }
+        if (!$this->checkCountriesOrdering()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESORDERING FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -467,6 +471,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCountriesEnabled') );
             $config->config_name = 'checkCountriesEnabled';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the countries table to confirm it has the ordering field
+     * 
+     * return boolean
+     */
+    function checkCountriesOrdering()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCountriesOrdering', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_countries';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "ordering";
+            $definitions["ordering"] = "int(11) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCountriesOrdering') );
+            $config->config_name = 'checkCountriesOrdering';
             $config->value = '1';
             $config->save();
             return true;

@@ -341,14 +341,13 @@ class TiendaModelBase extends JModel
 
        	// TODO Find an abstract way to determine if order is a valid field in query
     	//if (in_array($order, $this->getTable()->getColumns()))
-    	if ($order)
-    	{
-    		$query->order("$order $direction");
-    	}
-
 		if (in_array('ordering', $this->getTable()->getColumns()))
 		{
     		$query->order('ordering ASC');
     	}
+        if ($order)
+        {
+            $query->order("$order $direction");
+        }
     }
 }
