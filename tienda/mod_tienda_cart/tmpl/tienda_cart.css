@@ -24,7 +24,7 @@ span.CartItems, span.CartTotal {
     display: block;
 }
 span.CartItems {
-    border-bottom: 1px solid #cccccc;
+	
 }
 span.CartTotal {
     border-top: 1px solid #cccccc;
@@ -36,7 +36,6 @@ span.CartView {
     float: left;
     width: 65%;
     text-align: left;
-    border-top: 1px solid #cccccc;
 }
 
 span.CartCheckout {
@@ -44,8 +43,7 @@ span.CartCheckout {
     float: right;
     width: 35%;
     text-align: right;
-    border-top: 1px solid #cccccc;
-    }
+}
 
 div.reset {
     clear: both;
@@ -69,19 +67,16 @@ span.CartItems {
 span.CartTotal {
     margin: 0;
     padding: .6em 1em;
-    border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
 }
 span.CartView {
     margin: 0;
     padding: .6em 1em;
-    border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
 }
 span.CartCheckout {
     margin: 0;
     padding: .6em 1em;
-    border-left: 1px solid #cccccc;
 }
 div.reset {
     clear: none;
