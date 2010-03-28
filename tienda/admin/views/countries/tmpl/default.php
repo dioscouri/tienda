@@ -42,6 +42,10 @@
     	            <?php echo TiendaGrid::sort( 'ISO Code 3', "tbl.country_isocode_3", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo JHTML::_('grid.order', @$items ); ?>
+                </th>
+                <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Enabled', "tbl.country_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
@@ -65,6 +69,9 @@
                 </th>
                 <th>
                     <input id="filter_code3" name="filter_code3" value="<?php echo @$state->filter_code3; ?>" size="15"/>
+                </th>
+                <th>
+                    
                 </th>
                 <th>
                     <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true ); ?>
@@ -115,6 +122,10 @@
 						<?php echo $item->country_isocode_3; ?>
 					</a>
 				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaGrid::order($item->country_id); ?>
+                    <?php echo TiendaGrid::ordering($item->country_id, $item->ordering ); ?>
+                </td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::enable($item->country_enabled, $i, 'country_enabled.' ); ?>
                 </td>

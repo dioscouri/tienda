@@ -332,22 +332,24 @@ class TiendaModelBase extends JModel
     }
 
     /**
-     * Builds a generic ORDER BY clasue based on the model's state
+     * Builds a generic ORDER BY clause based on the model's state
      */
     protected function _buildQueryOrder(&$query)
     {
 		$order      = $this->_db->getEscaped( $this->getState('order') );
        	$direction  = $this->_db->getEscaped( strtoupper( $this->getState('direction') ) );
 
-       	// TODO Find an abstract way to determine if order is a valid field in query
-    	//if (in_array($order, $this->getTable()->getColumns()))
-		if (in_array('ordering', $this->getTable()->getColumns()))
-		{
-    		$query->order('ordering ASC');
-    	}
         if ($order)
         {
             $query->order("$order $direction");
         }
+       	
+       	// TODO Find an abstract way to determine if order is a valid field in query
+    	// if (in_array($order, $this->getTable()->getColumns())) does not work
+    	// because you could be ordering by a field from one of the JOINed tables
+		if (in_array('ordering', $this->getTable()->getColumns()))
+		{
+    		$query->order('ordering ASC');
+    	}
     }
 }

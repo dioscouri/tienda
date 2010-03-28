@@ -76,7 +76,26 @@ class TiendaModelCountries extends TiendaModelBase
             $query->where('('.implode(' OR ', $where).')');
         }
     }
-        	
+
+    /**
+     * Builds a generic ORDER BY clause based on the model's state
+     */
+    protected function _buildQueryOrder(&$query)
+    {
+        $order      = $this->_db->getEscaped( $this->getState('order') );
+        $direction  = $this->_db->getEscaped( strtoupper( $this->getState('direction') ) );
+
+        if ($order == 'ordering')
+        {
+            $query->order("$order $direction");
+            $query->order('ordering ASC');
+        }
+            elseif (strlen($order))
+        {
+            $query->order("$order $direction");
+        }
+    }
+    
 	public function getList()
 	{
 		$list = parent::getList(); 
@@ -92,4 +111,5 @@ class TiendaModelCountries extends TiendaModelBase
 		}
 		return $list;
 	}
+
 }

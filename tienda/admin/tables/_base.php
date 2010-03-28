@@ -224,20 +224,24 @@ class TiendaTable extends JTable
 		{
 			return false;
 		}
+		
 		if ( !$this->store() )
 		{
 			return false;
 		}
+		
 		if ( !$this->checkin() )
 		{
 			$this->setError( $this->_db->stderr() );
 			return false;
 		}
+		
 		$this->reorder();
 		$this->setError('');
+		
 		// TODO Move ALL onAfterSave plugin events here as opposed to in the controllers, duh
-//            $dispatcher = JDispatcher::getInstance();
-//            $dispatcher->trigger( 'onAfterSave'.$this->get('_suffix'), array( $this ) );
+        //$dispatcher = JDispatcher::getInstance();
+        //$dispatcher->trigger( 'onAfterSave'.$this->get('_suffix'), array( $this ) );
 		return true;
 	}
 

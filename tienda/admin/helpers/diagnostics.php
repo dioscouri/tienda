@@ -500,8 +500,13 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
-            // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            
+            // also fix the ordering values for the countries
+            $country = JTable::getInstance( 'Countries', 'TiendaTable' );
+            $country->reorder();
+            
+            // Update config to say this has been done already
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCountriesOrdering') );
             $config->config_name = 'checkCountriesOrdering';

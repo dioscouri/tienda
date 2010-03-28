@@ -240,7 +240,7 @@ class TiendaSelect extends JHTMLSelect
 		{
             $model->setState( 'filter_enabled', '1' );
 		}
-		$model->setState( 'order', 'country_name' );
+		$model->setState( 'order', 'ordering' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();
         foreach (@$items as $item)
