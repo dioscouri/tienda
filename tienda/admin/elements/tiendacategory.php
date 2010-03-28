@@ -20,13 +20,8 @@ class JElementTiendaCategory extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-//	    echo "hello";
-//	    echo "$name, $value, $control_name";
-	    $list = Tienda::get( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, true, false, 'Select Category', '', true );
-//	    echo Tienda::dump( $list );	
+	    $list = Tienda::get( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Category', '', true );
 		return $list;
-        // return self::genericlist($list, $name, $attribs, 'category_id', 'category_name', $selected, $idtag );
-//		return JHTML::_('select.genericlist',  array(), ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
 ?>
