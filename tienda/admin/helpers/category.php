@@ -217,12 +217,14 @@ class TiendaHelperCategory extends TiendaHelperBase
 					$name .= JText::_( $item->category_name );
 			  break;
             case 'links':
-                $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=", false);
+                $link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=", false );
                 $name .= " <a href='$link'>".JText::_('All Categories').'</a> ';
 			    foreach (@$path as $cat) 
 			    {
-			        if (!$cat->isroot) {
-			            $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=$cat->category_id", false);
+			        if (!$cat->isroot) 
+			        {
+			            $slug = $cat->category_alias ? ":$cat->category_alias" : "";
+			            $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$cat->category_id.$slug, false);
 			            $name .= " > ";
 			            $name .= " <a href='$link'>".JText::_( $cat->category_name ).'</a> ';
 			        }
@@ -230,9 +232,9 @@ class TiendaHelperCategory extends TiendaHelperBase
                     $name .= " > ";
                     if ($linkSelf)
                     {
-                    	$link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=$id", false);
+                        $slug = $item->category_alias ? ":$item->category_alias" : "";
+                    	$link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$item->category_id.$slug, false);
                     	$name .= " <a href='$link'>".JText::_( $item->category_name ).'</a> ';
-                    	//$name .= JText::_( $item->category_name );
                     }
                         else
                     {
