@@ -7,19 +7,19 @@ JFilterOutput::objectHTMLSafe( $row );
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
 
 	<fieldset>
-		<legend><?php echo JText::_('Language Informations'); ?></legend>
+		<legend><?php echo JText::_('Language Information'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
 						<?php echo JText::_('Name')?>
 					</td>
 					<td>
-						<?php echo $row->name?>
+						<?php echo $row->name; ?>
 					</td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Code')?>
+						<?php echo JText::_('Code'); ?>
 					</td>
 					<td>
 						<?php echo $row->code; ?>
@@ -33,17 +33,16 @@ JFilterOutput::objectHTMLSafe( $row );
 			<?php foreach($row->strings['strings'] as $k => $v){ ?>
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="symbol_left">
 						<?php echo $k; ?>:
-						</label>
 					</td>
 					<td>
-						<input type="text" name="<?php echo $k; ?>" id="<?php echo $k; ?>" size="20" maxlength="250" value="<?php echo $v; ?>" />
+					    <textarea name="<?php echo $k; ?>" id="<?php echo $k; ?>" rows="8" cols="50"><?php echo $v; ?></textarea>
 					</td>
 				</tr>
 			<?php } ?>
 			</table>
 	</fieldset>
-		<input type="hidden" name="id" value="<?php echo @$row->code;?>" />
-		<input type="hidden" name="task" value="" />
+	
+	<input type="hidden" name="id" value="<?php echo @$row->code; ?>" />
+	<input type="hidden" name="task" value="" />
 </form>

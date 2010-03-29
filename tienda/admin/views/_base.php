@@ -113,8 +113,8 @@ class TiendaViewBase extends JView
 	{
 		$views  = array();
 		$views['currencies']		= 'Currencies';
+		$views['emails']            = 'Emails';
 		$views['countries']			= 'Countries';
-		$views['emails']			= 'Emails';
 		$views['zones']				= 'Zones';
 		$views['geozones']			= 'Geo Zones';
 		$views['orderstates']		= 'Order States';
