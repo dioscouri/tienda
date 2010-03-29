@@ -15,6 +15,9 @@ JLoader::import( 'com_tienda.models._base', JPATH_ADMINISTRATOR.DS.'components' 
 
 class TiendaModelEmails extends TiendaModelBase 
 {
+	// The prefix of the email language constants that we should fetch
+	var $email_prefix = 'EMAIL_';
+	
 	function getTable()
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -43,19 +46,35 @@ class TiendaModelEmails extends TiendaModelBase
 	
 	public function getItem( $id = 'en-GB') {
 		$lang = JLanguage::getInstance($id);
-		// Load admin & site language
-		$lang->load('com_tienda', JPATH_ADMINISTRATOR, $id, true);
+		// Load only site language (Email language costants should be only there)
 		$lang->load('com_tienda', JPATH_SITE, $id, true);
 		
-		$lang->strings = array();
-		
-		$strings = $lang->_strings;
-		foreach($strings as $k =>$v){
-			if(stripos( $k, 'EMAIL_'))
-				$lang->strings[$k] = $v;
+		$temp_paths = $lang->getPaths('com_tienda');
+		foreach($temp_paths as $p => $k){
+			$path = $p;
 		}
 		
-		return $lang;
+		$result = new JObject();
+		$result->name = $lang->getName();
+		$result->code = $lang->getTag();
+		$result->path = $path;
+		
+		$result->strings = array();
+		
+		// Load File and Take only the constants that contains "EMAIL_"
+		$file = new JRegistry();
+		$file->loadFile($path);
+		$strings = $file->toArray();
+		$result_strings = array();
+		foreach($strings as $k =>$v){
+			// Only if it is a prefix!
+			if(stripos( $k, 'EMAIL_') === 0)
+				$result_strings[$k] = $v;
+		}
+		$result->strings = array('file' => $path,
+								   'strings' => $result_strings);
+		
+		return $result;
 		
 	}
 }

@@ -27,48 +27,48 @@ class TiendaControllerEmails extends TiendaController
 	function save(){
 		
 		$id = JRequest::getVar('id', 'en-GB');
-		$values = JRequest::get('post');
-
-		unset($values['task']);
-		unset($values['id']);
-		unset($values['option']);
+		$temp_values = JRequest::get('post');
 		
 		$model = $this->getModel('Emails', 'TiendaModel');
+		
+		// Filter values
+		$prefix = $model->email_prefix;
+		$values = array();
+		foreach($temp_values as $k =>$v){
+			if(stripos($k, $prefix) === 0)
+				$values[$k] = $v;
+		}
+		
+		
 		$lang = $model->getItem();
-		$paths = $lang->getPaths('com_tienda');
+		$path = $lang->path;
 		
 		$msg = JText::_('Saved');
 		
 		jimport('joomla.filesystem.file');
-		foreach($paths as $p => $x){		
+
+		if (JFile::exists($path))
+		{
+			$original = new JRegistry();
+			$original->loadFile($path);
 			
-			if (JFile::exists($p))
-			{
-				$original = new JRegistry();
-				$original->loadFile($p);
-				
-				echo Tienda::dump($original);
-				
-				$registry = new JRegistry();
-				$registry->loadArray($values);
-				
-				echo Tienda::dump($registry);
-				
-				$registry->merge($original);
-				
-				echo Tienda::dump($registry);
-				
-				$txt = $registry->toString();
-				
-				$success = JFile::write($p, $txt);
-	
-				if(!$success)
-					$msg = JText::_('Error Saving the new Language File');
-					
+			$registry = new JRegistry();
+			$registry->loadArray($values);
+			
+			// Store the modified data
+			foreach($registry->_registry['default']['data'] as $k => $v){
+				$original->_registry['default']['data']->$k = $v;
 			}
 			
-		}
+			$txt = $original->toString();
+			
+			$success = JFile::write($path, $txt);
 
+			if(!$success)
+				$msg = JText::_('Error Saving the new Language File');
+				
+		}
+			
 		$this->setRedirect( 'index.php?option=com_tienda&view=emails', $msg, 'message' );
 	}
 
