@@ -111,7 +111,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 		$type = strtolower($type);		
 		
 		$return = array();
-		$link = JURI::root()."index.php?option=com_tienda&controller=messages&task=view&id=".$data->order_id;
+		$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
 		$link = JRoute::_( $link, false );
 		
 		$return = new stdClass();
@@ -131,6 +131,10 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$user = JUser::getInstance($data->user_id);
 				$return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
 				$last_history = count($data->orderhistory) - 1;
+				
+				$lang_def = JLanguageHelper::detectLanguage();
+				$lang = JLanguage::getInstance( $lang_def );
+				$lang->load('com_tienda', JPATH_ADMINISTRATOR);
 				
 				$link = JURI::root().JRoute::_("index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id);
 				
