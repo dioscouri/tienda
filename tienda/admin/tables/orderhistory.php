@@ -46,10 +46,11 @@ class TiendaTableOrderHistory extends TiendaTable
     {
         if ( $return = parent::store( $updateNulls ))
         {
-        	if ($this->customer_notified == '1')
+        	if ($this->notify_customer == '1')
         	{
         		// TODO Email the customer that the orderhistory has been updated.
         		// Should the field be changed to notify_customer?
+        		// TODO EmailHelper
         	}
         }
         return $return;

@@ -550,7 +550,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
   `order_id` INT(11) NOT NULL DEFAULT '0' ,
   `order_state_id` INT(11) NOT NULL ,
   `date_added` DATETIME NOT NULL ,
-  `customer_notified` INT(1) NULL DEFAULT '0' ,
+  `notify_customer` INT(1) NULL DEFAULT '0' ,
   `comments` TEXT NULL DEFAULT NULL ,
   PRIMARY KEY (`order_history_id`) ,
   INDEX `fk_OrderState_OrderHistory` (`order_state_id` ASC) ,

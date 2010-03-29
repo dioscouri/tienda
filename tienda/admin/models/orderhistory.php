@@ -38,7 +38,7 @@ class TiendaModelOrderHistory extends TiendaModelBase
         
         if ($filter_notified)
         {
-            $query->where('tbl.customer_notified = '.$filter_notified);
+            $query->where('tbl.notify_customer = '.$filter_notified);
         }
         
     }

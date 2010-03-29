@@ -88,6 +88,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESORDERING FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // Check order history table
+        if (!$this->checkOrderHistory()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERHISTORY FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -510,6 +516,42 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCountriesOrdering') );
             $config->config_name = 'checkCountriesOrdering';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+	/**
+     * Checks the orderhistory table to confirm it has the notify_customer field change
+     * 
+     * return boolean
+     */
+    function checkOrderHistory()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderHistory', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderhistory';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "customer_notified";
+            $newnames["customer_notified"] = "notify_customer";
+            $definitions["customer_notified"] = "TINYINT(1) NOT NULL DEFAULT '1'";
+            
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            
+            // Update config to say this has been done already
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderHistory') );
+            $config->config_name = 'checkOrderHistory';
             $config->value = '1';
             $config->save();
             return true;

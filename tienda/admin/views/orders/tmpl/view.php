@@ -300,7 +300,7 @@
                     <?php echo JText::_( $history->order_state_name ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo TiendaGrid::boolean( $history->customer_notified ); ?>
+                    <?php echo TiendaGrid::boolean( $history->notify_customer ); ?>
                 </td>
             </tr>
             <?php

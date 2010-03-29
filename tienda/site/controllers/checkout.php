@@ -1329,7 +1329,7 @@ class TiendaControllerCheckout extends TiendaController
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;
 		// TODO Should the code for sending email to the customer be inserted to the table ->store() method?
-		$row->customer_notified = '1';
+		$row->notify_customer = '1';
 		$row->comments = JRequest::getVar('order_history_comments', '', 'post');
 
 		if (!$row->save())
