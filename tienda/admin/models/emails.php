@@ -47,7 +47,7 @@ class TiendaModelEmails extends TiendaModelBase
 	public function getItem( $id = 'en-GB') {
 		$lang = JLanguage::getInstance($id);
 		// Load only site language (Email language costants should be only there)
-		$lang->load('com_tienda', JPATH_SITE, $id, true);
+		$lang->load('com_tienda', JPATH_ADMINISTRATOR, $id, true);
 		
 		$temp_paths = $lang->getPaths('com_tienda');
 		foreach($temp_paths as $p => $k){

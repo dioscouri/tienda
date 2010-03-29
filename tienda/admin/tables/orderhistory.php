@@ -48,9 +48,14 @@ class TiendaTableOrderHistory extends TiendaTable
         {
         	if ($this->notify_customer == '1')
         	{
-        		// TODO Email the customer that the orderhistory has been updated.
-        		// Should the field be changed to notify_customer?
-        		// TODO EmailHelper
+        		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        		$helper = TiendaHelperBase::getInstance('Email');
+        		
+        		$model = Tienda::get("TiendaModelOrders", "models.orders");
+        		$model->setId($this->order_id);
+        		$order = $model->getItem();
+        		
+        		$helper->sendEmailNotices($order, 'order');
         	}
         }
         return $return;

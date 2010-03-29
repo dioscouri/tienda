@@ -26,24 +26,16 @@ class TiendaHelperEmail extends TiendaHelperBase
 	
 	/**
 	 * Returns 
-	 * @param mixed Boolean
-	 * @param array Email content
+	 * @param mixed	Data to send
+	 * @param type	Type of mail.
 	 * @return boolean
 	 */
-	public function sendEmailNotices( $data, $type='1' ) 
+	public function sendEmailNotices( $data, $type = 'order' ) 
 	{
 		$mainframe = JFactory::getApplication();
 		$success = false;
 		$done = array();
 
-		// allows the system plugin respond by email to set the message's user
-	    if (empty($data->user))
-        {
-            $data->user = JFactory::getUser();
-        }
-		$user = $data->user;
-		$data->comment = $data->description;
-				
 		// grab config settings for sender name and email
 		$config 	= &TiendaConfig::getInstance();
 		$mailfrom 	= $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
@@ -51,39 +43,26 @@ class TiendaHelperEmail extends TiendaHelperBase
 		$sitename 	= $config->get( 'sitename', $mainframe->getCfg('sitename') );
 		$siteurl 	= $config->get( 'siteurl', JURI::root() );
 		
-		$recipients = $this->getEmailRecipients( $data->id );
-		$content = $this->getEmailContent( $data, $user, $type );
-
+		$recipients = $this->getEmailRecipients( $data->order_id );
+		$content = $this->getEmailContent( $data, $type );
+		
 		// trigger event onAfterGetEmailContent 
 		$dispatcher=& JDispatcher::getInstance(); 
 		$dispatcher->trigger('onAfterGetEmailContent', array( $data, &$content) ); 
-		
-        // Reply Above line
-        // needs to be flush left, i think, if it is one string
-        // if we break this up and concatenate it, then we can indent
-        $temp_body  = ""; 
-
-		$content->body = $temp_body.$content->body;
-		
-		// Add signature
-		if ($config->get('enable_email_signature'))
-		{
-			$content->body .= sprintf( JText::_( 'Email Signature' ), $sitename, $siteurl );
-		}
 				
 		for ($i=0; $i<count($recipients); $i++) 
 		{
 			$recipient = $recipients[$i];
-			if (!isset($done[$recipient->email]) && $recipient->email != $user->email) 
+			if (!isset($done[$recipient])) 
 			{
-				if ( $send = $this->_sendMail( $mailfrom, $fromname, $recipient->email, $content->subject, $content->body ) ) 
+				if ( $send = $this->_sendMail( $mailfrom, $fromname, $recipient, $content->subject, $content->body ) ) 
 				{
 					$success = true;
-					$done[$recipient->email] = $recipient->email;
+					$done[$recipient] = $recipient;
 				}	
 			}
 		}		
-
+		
 		return $success;
 	}
 
@@ -93,10 +72,29 @@ class TiendaHelperEmail extends TiendaHelperBase
 	 * @param $data Object
 	 * @return array
 	 */
-	private function getEmailRecipients( $id ) 
+	private function getEmailRecipients( $id, $type = 'order' ) 
 	{
-		$participants = array();
-		return $participants;
+		$recipients = array();
+		
+		switch($type){
+			case 'order':
+			default:				
+				
+				$model = Tienda::get('TiendaModelOrders', 'models.orders');
+				$model->setId( $id );
+				$order = $model->getItem();
+
+				$user = JUser::getInstance( $order->user_id );
+				$email = $user->email;
+				$recipients[] = $email;
+				
+				// Add the order email only if they are different
+				if( $email != $order->user_email){
+					$recipients[] = $order->user_email;
+				}
+		}
+		
+		return $recipients;
 	}
 
 	/**
@@ -107,13 +105,13 @@ class TiendaHelperEmail extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	private function getEmailContent( $data, $user, $type ) 
+	private function getEmailContent( $data, $type = 'order' ) 
 	{
 		$mainframe = JFactory::getApplication();
-		$type = strtolower($type);
+		$type = strtolower($type);		
 		
 		$return = array();
-		$link = JURI::root()."index.php?option=com_scriba&controller=messages&task=view&id=".$data->id;
+		$link = JURI::root()."index.php?option=com_tienda&controller=messages&task=view&id=".$data->order_id;
 		$link = JRoute::_( $link, false );
 		
 		$return = new stdClass();
@@ -122,55 +120,27 @@ class TiendaHelperEmail extends TiendaHelperBase
 
 		// get config settings
 		$config = &TiendaConfig::getInstance();
-
-		$emails_includedescription 		= $config->get( 'emails_includedescription', '0' );
-		$emails_descriptionmaxlength 	= $config->get( 'emails_descriptionmaxlength', '-1' );
-		$emails_includecomments 		= $config->get( 'emails_includecomments', '0' );
-		$emails_commentmaxlength		= $config->get( 'emails_commentmaxlength', '-1' );		
+		
 		$sitename 						= $config->get( 'sitename', $mainframe->getCfg('sitename') );
 		$siteurl 						= $config->get( 'siteurl', JURI::root() );
 								
 		switch ($type) 
 		{
-			case "2": // addcomment
-			case "comment":
-				$return->subject =  sprintf( JText::_( 'New PM Comment Email Subject' ), $data->id, $user->name );
-				$text = JText::_( "Subject" ).": ".$data->title." [#$data->id] \n\n"; 
-				
-				if ($emails_includecomments) 
-				{
-					// if include, trim and set body
-					if ($emails_commentmaxlength > 0) {
-						$text .= JString::substr( stripslashes( $data->comment ), 0, $emails_commentmaxlength );
-					} else {
-						$text .= stripslashes( $data->comment );
-					}
-					$return->body = $text."\n\n--\n";
-					$return->body .= sprintf( JText::_( 'New PM Comment Email Body' ), $user->name, $sitename, $link);
-				} 
-					else 
-				{
-					$return->body = sprintf( JText::_( 'New PM Comment Email Body' ), $user->name, $sitename, $link);
-				}
-			  break;
-			case "1": // new
+			case "order":
 			default:
-				$return->subject =  sprintf( JText::_( 'New PM Message Email Subject' ), $data->id, $user->name );
-				$text = JText::_( "Subject" ).": ".$data->title." [#$data->id] \n\n";
+				$user = JUser::getInstance($data->user_id);
+				$return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
+				$last_history = count($data->orderhistory) - 1;
 				
-				if ($emails_includedescription) {
-					// if include, trim and set body
-					if ($emails_descriptionmaxlength > 0) {
-						$text = JString::substr( stripslashes( $data->comment ), 0, $emails_descriptionmaxlength );
-					} else {
-						$text = stripslashes( $data->comment );
-					}
-					$return->body = $text."\n\n--\n";
-					$return->body .= sprintf( JText::_( 'New PM Message Email Body' ), $user->name, $sitename, $link);
-				} else {
-					// else 
-					$return->body = sprintf( JText::_( 'New PM Message Email Body' ), $user->name, $sitename, $link);
-				}
+				$link = JURI::root().JRoute::_("index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id);
+				
+				$text  = JText::_('EMAIL_DEAR') ." ".$user->name.", \n ";
+				$text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
+				$text .= JText::_("EMAIL_NEW_STATUS")." ".$data->orderhistory[$last_history]->order_state_name."\n\n";
+				$text .= JText::_("EMAIL_CHECK")." ".$link;	
+				
+				$return->body = $text;
+				
 			  break;
 		}
 		
@@ -202,21 +172,8 @@ class TiendaHelperEmail extends TiendaHelperBase
 		$mailer->addRecipient( $recipient );
 		$mailer->setSubject( $subject );
 		
-        // convert bbcode if present
-        $fulltext = $body;
-        $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onBBCode_RenderText', array(&$fulltext) );
-        $body = $fulltext;
-		
 		// check user mail format type, default html
-		$type = $this->checkEmailFormat();
-		$mailer->IsHTML($type);
-		if ($type)
-		{
-			$mailer->setBody( nl2br( $body ) ); // only do this if HTML, otherwise take out the nl2br
-		} else {
-			$mailer->setBody( ( $body ) );
-		}
+		$mailer->setBody( ( $body ) );
 
 		$sender = array( $from, $fromname );
 		$mailer->setSender($sender);
@@ -224,27 +181,6 @@ class TiendaHelperEmail extends TiendaHelperBase
 		if ($sent == '1') {
 			$success = true;
 		}
-		return $success;
-	}
-	
-	/**
-	 * Check if sendMail should be html or text
-	 * @return boolean
-	 */
-	private function checkEmailFormat()
-	{
-		$success = true;
-		$user = JFactory::getUser();
-		JLoader::import( 'com_scriba.library.settings', JPATH_ADMINISTRATOR.DS.'components' );
-		$settings = TiendaSettings::getInstance( $userid );
-		$html = $settings->get('html_email');
-		
-		if ($n != '1')
-		{ 
-			$success = false;
-		}
-			
-		// all else fails say yes to html!!
 		return $success;
 	}
 }

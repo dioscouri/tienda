@@ -172,6 +172,7 @@ class TiendaModelOrders extends TiendaModelBase
         $field[] = " oi.shipping_zone_name ";
         $field[] = " oi.shipping_country_name ";
         $field[] = " oi.shipping_postal_code ";
+        $field[] = " oi.user_email ";
 
         $field[] = "
             (
