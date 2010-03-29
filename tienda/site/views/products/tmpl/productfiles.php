@@ -12,12 +12,12 @@ $items = @$this->items;
         foreach ($items as $item): ?>
         <div class="productfile">
             <span class="productfile_image">
-                <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&task=downloadfile&format=raw&id='.$item->productfile_id."&product_id=".$this->product_id); ?>">
+                <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=downloadfile&format=raw&id='.$item->productfile_id."&product_id=".$this->product_id); ?>">
                     <img src="<?php echo Tienda::getURL('images')."download.png"; ?>" alt="<?php echo JText::_('Download') ?>" style="height: 24px; padding: 5px; vertical-align: middle;" />
                 </a>
             </span>            
             <span class="productfile_link" style="vertical-align: middle;" >
-                <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&task=downloadfile&format=raw&id='.$item->productfile_id."&product_id=".$this->product_id); ?>"><?php echo $item->productfile_name; ?></a>
+                <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=downloadfile&format=raw&id='.$item->productfile_id."&product_id=".$this->product_id); ?>"><?php echo $item->productfile_name; ?></a>
             </span>
         </div>
         <?php $k = 1 - $k; ?>           

@@ -21,7 +21,7 @@
     <?php echo TiendaMenu::display(); ?>
     <div style="float: right;">
         <?php
-        $url = "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id;
+        $url = JRoute::_( "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id );
         $text = JText::_( "Print Invoice" );
         echo TiendaUrl::popup( $url, $text ); 
         ?>

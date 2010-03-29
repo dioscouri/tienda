@@ -73,17 +73,17 @@
         <?php foreach (@$items as $item) : ?>
             <tr class='row<?php echo $k; ?>'>
                 <td style="text-align: center;">
-                    <a href="<?php echo $item->link_view; ?>">
+                    <a href="<?php echo JRoute::_( $item->link_view ); ?>">
                         <?php echo $item->order_id; ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
-                    <a href="<?php echo $item->link_view; ?>">
+                    <a href="<?php echo JRoute::_( $item->link_view ); ?>">
                         <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
-                    <a href="<?php echo $item->link_view; ?>">
+                    <a href="<?php echo JRoute::_( $item->link_view ); ?>">
                         <?php echo $item->items_count." ".JText::_( "Items" ); ?>
                     </a>
                 </td>

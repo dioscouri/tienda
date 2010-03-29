@@ -141,7 +141,8 @@ class TiendaModelCategories extends TiendaModelBase
 		
 		foreach($list as $item)
 		{
-			$item->link = 'index.php?option=com_tienda&controller=categories&view=categories&task=edit&id='.$item->category_id;
+		    $item->slug = $item->category_alias ? ":$item->category_alias" : "";
+			$item->link = 'index.php?option=com_tienda&view=categories&task=edit&id='.$item->category_id; 
 		}
 		return $list;
 	}

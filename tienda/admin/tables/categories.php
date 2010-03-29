@@ -54,6 +54,12 @@ class TiendaTableCategories extends TiendaTableNested
 			$this->setError( JText::_( "Name Required" ) );
 			return false;
 		}
+        jimport( 'joomla.filter.output' );
+        if (empty($this->category_alias)) 
+        {
+            $this->category_alias = $this->category_name;
+        }
+        $this->category_alias = JFilterOutput::stringURLSafe($this->category_alias);
 		
 		return true;
 	}

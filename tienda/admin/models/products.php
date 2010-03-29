@@ -223,14 +223,15 @@ class TiendaModelProducts extends TiendaModelBase
 		$list = parent::getList(); 
 		
 		// If no item in the list, return an array()
-        if( empty( $list ) ){
+        if ( empty( $list ) ) {
         	return array();
         }
 		
 		foreach($list as $item)
 		{
-			$item->link = 'index.php?option=com_tienda&controller=products&view=products&task=view&id='.$item->product_id;
-			$item->link_edit = 'index.php?option=com_tienda&controller=products&view=products&task=edit&id='.$item->product_id;
+		    $item->slug = $item->product_alias ? ":$item->product_alias" : "";
+			$item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
+			$item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
 		}
 		return $list;
 	}

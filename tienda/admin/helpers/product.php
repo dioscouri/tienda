@@ -390,8 +390,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			// then this is a filename, return the full img tag if file exists, otherwise use a default image
 			$src = (JFile::exists( Tienda::getPath( $path ).DS.$id))
-				? Tienda::getUrl( $path ).$id : 'media/com_tienda/images/noimage.png';
-			
+				? Tienda::getUrl( $path ).$id : JURI::root(true).'/media/com_tienda/images/noimage.png';
+            
 			// if url is true, just return the url of the file and not the whole img tag
 			$tmpl = ($url)
 				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0'>";
@@ -419,7 +419,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$id = $urli.$row->product_full_image;
 
 				$src = (JFile::exists( $file ))
-					? $id : 'media/com_tienda/images/noimage.png';
+					? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
 
 				$tmpl = ($url)
 					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' >";

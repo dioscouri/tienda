@@ -40,7 +40,7 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_published_date'] = $date->toMySQL();
         $state['filter_enabled']  = 1;
         $state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
-        $state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', '');
+        $state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
         
         if ($state['search']) {
             $state['filter']      = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');   
@@ -137,11 +137,11 @@ class TiendaControllerProducts extends TiendaController
         $row = $model->getItem();
         if (empty($row->product_enabled))
         {
-            $redirect = "index.php?option=com_tienda&view=products";
+            $redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=";
             $redirect = JRoute::_( $redirect, false );
-            $this->message = JText::_( "Invalid Product" );
-            $this->messagetype = 'notice';
-            JFactory::getApplication()->redirect( $redirect, $this->message, $this->messagetype );
+            //$this->message = JText::_( "CANNOT VIEW DISABLED PRODUCT" );
+            //$this->messagetype = 'notice';
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
         

@@ -30,12 +30,12 @@ $citems = @$this->citems;
                 <?php foreach ($citems as $citem) : ?>
                     <div class="subcategory">
                         <div class="subcategory_thumb">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id ); ?>">
+                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
                             <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
                             </a>
                         </div>
                         <div class="subcategory_name">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id ); ?>">
+                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
                             <?php echo $citem->category_name; ?>
                             </a>
                         </div>

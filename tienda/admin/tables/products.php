@@ -34,7 +34,13 @@ class TiendaTableProducts extends TiendaTable
 			$date = JFactory::getDate();
 			$this->created_date = $date->toMysql();
 		}
-		
+        jimport( 'joomla.filter.output' );
+        if (empty($this->product_alias)) 
+        {
+            $this->product_alias = $this->product_name;
+        }
+        $this->product_alias = JFilterOutput::stringURLSafe($this->product_alias);
+        		
 		$date = JFactory::getDate();
 		$this->modified_date = $date->toMysql();
 		

@@ -180,22 +180,6 @@ class TiendaController extends JController
 	}
 
 	/**
-	 * @return void
-	 */
-	function view() 
-	{		
-		parent::display();
-	}
-	
-	/**
-	 * @return void
-	 */
-	function edit() 
-	{
-		parent::display();
-	}
-
-	/**
 	 * cancel and redirect to main page
 	 * @return void
 	 */
