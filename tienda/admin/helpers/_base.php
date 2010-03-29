@@ -14,6 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
+Tienda::load( 'TiendaConfig', 'defines' );
+
 class TiendaHelperBase extends JObject
 {   
 	
