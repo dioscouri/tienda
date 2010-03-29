@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Add CSS
-$document->addStyleSheet('modules/mod_tienda_cart/tmpl/tienda_cart.css');
+$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_cart/tmpl/tienda_cart.css');
 
 $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
 
