@@ -82,8 +82,9 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         	$vars->pay_method = $this->params->get('pay_method', 'CC');
         }
         
-        // TODO Add a boolean to this plugin that puts the plugin into "sandbox" mode where the admin can make test transactions 
-        //$vars->url = "http://developers.2checkout.com/return_script/";
+        // Sandbox mode?
+        if($this->params->get('sandbox', '0') == 1) 
+        	$vars->url = "http://developers.2checkout.com/return_script/";
         
         // 2Checkout account number
         $vars->sid = $this->params->get('sid', '0');

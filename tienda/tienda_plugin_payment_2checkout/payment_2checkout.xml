@@ -26,6 +26,10 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+		<param name="sandbox" type="radio" default="0" label="Sandbox Mode" description="Enables sandbox mode. Do not enable for live sales. Allows you to use the 2CO test script">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
 		<param name="automatic_language" type="radio" default="1" label="Automatic Language Selection" description="Automatically set 2checkout language based on the user current language">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
