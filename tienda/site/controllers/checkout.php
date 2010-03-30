@@ -394,7 +394,7 @@ class TiendaControllerCheckout extends TiendaController
 			$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
 			$response['error'] = '1';
 		}
-		else
+		    else
 		{
 			// Validate the results of the payment plugin
 			$results = array();

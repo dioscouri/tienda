@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Payment Plugin - Authorize.net</name>
+	<version>0.3.1</version>
+	<creationDate>March 2010</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Authorize.net payments</description>
+	
+	<files>
+		<filename plugin="payment_authorizedotnet">payment_authorizedotnet.php</filename>
+		<folder>payment_authorizedotnet</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_payment_authorizedotnet.ini</language>
+	</languages>
+
+	<params>
+        <param name="login_id" type="text" size="50" default="" label="AuthorizeDotNet Login ID" description="AuthorizeDotNet Login ID Desc"/>
+        <param name="tran_key" type="textarea" default="" label="AuthorizeDotNet Transaction Key" description="AuthorizeDotNet Transaction Key Desc" rows="5" cols="30" />
+        <param name="md5_hash" type="text" size="50" default="" label="AuthorizeDotNet MD5 Hash" description="AuthorizeDotNet MD5 Hash Desc" />
+        <param name="secure_post" type="radio" default="0" label="AuthorizeDotNet Secure Post" description="AuthorizeDotNet Secure Post Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>        
+        <param type="spacer" />
+        <param name="sandbox" type="radio" default="0" label="AuthorizeDotNet Use Sandbox" description="AuthorizeDotNet Use Sandbox Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="sandbox_login_id" type="text" size="50" default="" label="AuthorizeDotNet Sandbox Login ID" description="AuthorizeDotNet Sandbox Login ID Desc"/>
+        <param name="sandbox_tran_key" type="textarea" default="" label="AuthorizeDotNet Sandbox Transaction Key" description="AuthorizeDotNet Sandbox Transaction Key Desc" rows="5" cols="30" />
+        <param name="sandbox_md5_hash" type="text" size="50" default="" label="AuthorizeDotNet Sandbox MD5 Hash" description="AuthorizeDotNet Sandbox MD5 Hash Desc" />
+	</params>
+			
+</install>

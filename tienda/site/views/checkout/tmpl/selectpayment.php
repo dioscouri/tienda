@@ -81,7 +81,7 @@
                     foreach ($this->plugins as $plugin) 
                     {
                         ?>
-                        <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div')" name="payment_plugin" type="radio" />
+                        <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" />
                         <?php echo JText::_( $plugin->name ); ?>
                         <br/>
                         <?php

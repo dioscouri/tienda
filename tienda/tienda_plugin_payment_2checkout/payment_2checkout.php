@@ -82,7 +82,8 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         	$vars->pay_method = $this->params->get('pay_method', 'CC');
         }
         
-        $vars->url = "http://developers.2checkout.com/return_script/";
+        // TODO Add a boolean to this plugin that puts the plugin into "sandbox" mode where the admin can make test transactions 
+        //$vars->url = "http://developers.2checkout.com/return_script/";
         
         // 2Checkout account number
         $vars->sid = $this->params->get('sid', '0');
@@ -95,13 +96,15 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         }
         
         // Language
-   		if($this->params->get('automatic_language', '0') == 1){
+   		if ($this->params->get('automatic_language', '0') == 1)
+   		{
         	// automatic language from joomla
    			jimport('joomla.language.helper');
    			$lang = JLanguageHelper::detectLanguage();
-   			
-   			switch($lang){
-   				
+            // TODO Use JFactory::getLanguage(); 
+            // and explode the language's code by the '-' to get the var->lang for 2CO
+   			switch($lang)
+   			{
    				// Do more than these two
    				case "it-IT":
    					$vars->lang = "it";
@@ -110,7 +113,6 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
    				default: 	  
    					$vars->lang = 'en';
    					break;
-   				
    			}
    			
         } else{
@@ -191,7 +193,11 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         return $html;
     }
     
-    function _processSale($data){
+    /**
+     * Processes the form data 
+     */
+    function _processSale($data)
+    {
     	
     	// load the orderpayment record and set some values
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );

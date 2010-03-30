@@ -68,7 +68,8 @@ class TiendaHelperEmail extends TiendaHelperBase
 
 	/**
 	 * Returns an array of user objects
-	 * 
+	 * of all users who should receive this email 
+	 *  
 	 * @param $data Object
 	 * @return array
 	 */
@@ -79,7 +80,6 @@ class TiendaHelperEmail extends TiendaHelperBase
 		switch($type){
 			case 'order':
 			default:				
-				
 				$model = Tienda::get('TiendaModelOrders', 'models.orders');
 				$model->setId( $id );
 				$order = $model->getItem();
@@ -132,8 +132,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
 				$last_history = count($data->orderhistory) - 1;
 				
-				$lang_def = JLanguageHelper::detectLanguage();
-				$lang = JLanguage::getInstance( $lang_def );
+				$lang = JFactory::getLanguage();
 				$lang->load('com_tienda', JPATH_ADMINISTRATOR);
 				
 				$link = JURI::root().JRoute::_("index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id);

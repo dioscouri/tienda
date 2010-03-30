@@ -151,6 +151,12 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_paypal/languages" />
         </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
+        </copy>
     	<!-- USER PLUGINS -->
         <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user" />
@@ -167,10 +173,10 @@
         </copy>
     	<!-- MODULES -->
     	<copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
-    	            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
+    	    <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
 		</copy>
     	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-    	            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
+    	    <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
 		</copy>
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />

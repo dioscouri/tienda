@@ -204,6 +204,25 @@ class TiendaPaymentPlugin extends TiendaPluginBase
 
         return $html;
     }
+
+    /**
+     * Wrapper for the internal _verifyForm method
+     * 
+     * @param $element  string      a valid payment plugin element 
+     * @param $data     array       form post data
+     * @return html
+     */
+    function onGetPaymentFormVerify( $element, $data )
+    {
+        if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+
+        $html = $this->_verifyForm( $data );
+
+        return $html;
+    }
     
     /**
      * Wrapper for the internal _renderView method
