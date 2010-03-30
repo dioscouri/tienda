@@ -22,7 +22,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     public function getSuffix()
     {
         $user =& JFactory::getUser();
-        $suffix = ($user->guest) ? 'Sessioncarts' : 'Carts';
+        $suffix = (empty($user->id)) ? 'Sessioncarts' : 'Carts';
         return $suffix;
     }
     

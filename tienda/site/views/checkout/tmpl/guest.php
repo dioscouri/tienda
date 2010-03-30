@@ -8,7 +8,7 @@
 	$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id="; 
 ?>
 <div class='componentheading'>
-    <span><?php echo JText::_( "Insert the Addresses and Select the Shipping Method" ); ?></span>
+    <span><?php echo JText::_( "Select the Shipping Method" ); ?></span>
 </div>
 
     <?php // echo TiendaMenu::display(); ?>
@@ -29,11 +29,11 @@
         </div>
         
         <h3>
-            <?php echo JText::_("Insert Shipping and Billing Addresses") ?>
+            <?php echo JText::_("Set Shipping and Billing Addresses") ?>
         </h3>
         
         <h4>
-            <?php echo JText::_("Insert your Email Address") ?>
+            <?php echo JText::_("Your Email Address") ?>
         </h4>
        	
        	<table style="clear: both;">

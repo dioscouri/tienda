@@ -37,9 +37,9 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
     $html .= '<span class="CartCheckout">'.'<a id="checkoutLink" href="'.JRoute::_("index.php?option=com_tienda&view=checkout").'">'.JText::_("Checkout").'</a>'.'</span>';
     $html .= '<div class="reset"></div>';
 
-    if ($ajax) 
+    if ($ajax)
     {
-        $mainframe->setUserState('usercart.isAjax', false);
+        $mainframe->setUserState('mod_usercart.isAjax', '0');
     } 
        else 
     {

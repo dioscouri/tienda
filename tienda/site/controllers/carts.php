@@ -152,18 +152,29 @@ class TiendaControllerCarts extends TiendaController
     function displayCart()
     {
         JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
-      
-        $mainframe =& JFactory::getApplication();
-        $mainframe->setUserState( 'usercart.isAjax', true );
-
+        
         jimport( 'joomla.application.module.helper' );
         
-        $module = JModuleHelper::getModule('mod_tienda_cart');
-        
-        if ($module) {
-            echo ( json_encode( array('msg'=>JModuleHelper::renderModule($module)) ) );
+        $modules    =& JModuleHelper::_load();
+        if (empty($modules))
+        {
+            echo ( json_encode( array('msg'=>'') ) );
         }
-        return;    
+        
+        foreach ($modules as $module)
+        {
+            if ($module->module == 'mod_tienda_cart')
+            {
+                $mainframe =& JFactory::getApplication();
+                $mainframe->setUserState( 'mod_usercart.isAjax', '1' );
+
+                echo ( json_encode( array('msg'=>JModuleHelper::renderModule($module)) ) );
+                return;    
+            }
+        }
+        
+        echo ( json_encode( array('msg'=>'') ) );
+        return;
     }
 
     /**
@@ -224,6 +235,7 @@ class TiendaControllerCarts extends TiendaController
      */
     function confirmAdd()
     {
+        // $model  = $this->getModel( strtolower( TiendaHelperCarts::getSuffix() ) );
         $model  = $this->getModel( $this->get('suffix') );
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->set('hidemenu', true);

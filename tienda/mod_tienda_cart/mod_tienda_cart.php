@@ -25,8 +25,9 @@ $document = &JFactory::getDocument();
 // params
 $display_null = $params->get( 'display_null', '1' );
 $null_text = $params->get( 'null_text', 'No Items in Your Cart' );
-$ajax = $mainframe->getUserState( 'usercart.isAjax' );
-
+$isAjax = $mainframe->getUserState( 'mod_usercart.isAjax' );
+$ajax = ($isAjax == '1');
+ 
 // Grab the cart
 JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
 $items = TiendaHelperCarts::getProductsInfo();
