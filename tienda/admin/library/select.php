@@ -479,7 +479,8 @@ class TiendaSelect extends JHTMLSelect
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$model = JModel::getInstance( 'orderstates', 'TiendaModel' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$model = JModel::getInstance( 'OrderStates', 'TiendaModel' );
 		$items = $model->getList();
         foreach (@$items as $item)
         {

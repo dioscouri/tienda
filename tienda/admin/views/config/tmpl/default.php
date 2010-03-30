@@ -450,7 +450,18 @@
 								<?php echo TiendaSelect::orderstate($this->row->get('initial_order_state', '15'), 'initial_order_state'); ?>
 			                </td>
                             <td>
-                                
+                                <?php echo JText::_( 'Default: PrePayment (this is the order status before the payment is done!' ); ?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Pending Order State' ); ?>
+							</th>
+			                <td>
+								<?php echo TiendaSelect::orderstate($this->row->get('pending_order_state', '1'), 'pending_order_state'); ?>
+			                </td>
+                            <td>
+                                <?php echo JText::_( 'Default: Pending (this is the order status for pending orders!' ); ?>
                             </td>
 						</tr>
 						<tr>

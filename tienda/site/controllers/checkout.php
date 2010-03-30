@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TiendaControllerCheckout extends TiendaController
 {
 	var $_order                = null; // a TableOrders() object
-	var $initial_order_state   = null; // pre-payment/orphan set in costructor
+	var $initial_order_state   = 15; // pre-payment/orphan set in costructor
 	var $billing_input_prefix  = 'billing_input_';
 	var $shipping_input_prefix = 'shipping_input_';
 	var $defaultShippingMethod = null; // set in constructor
@@ -1328,7 +1328,7 @@ class TiendaControllerCheckout extends TiendaController
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;
-		// TODO Should the code for sending email to the customer be inserted to the table ->store() method?
+
 		$row->notify_customer = '1';
 		$row->comments = JRequest::getVar('order_history_comments', '', 'post');
 

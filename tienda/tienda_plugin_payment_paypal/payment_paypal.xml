@@ -19,7 +19,7 @@
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal.ini</language>
 	</languages>
 
-	<params>
+	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="merchant_email" type="text" size="50" default="" label="Paypal Email" description="Paypal Email Desc"/>
 		<param name="currency" type="text" size="10" default="USD" label="Paypal Currency" description="Paypal Currency Desc"/>
 		<param name="secure_post" type="radio" default="0" label="Paypal Secure Post" description="Paypal Secure Post Desc">
@@ -41,6 +41,8 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+		<param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
 	</params>
 			
 </install>

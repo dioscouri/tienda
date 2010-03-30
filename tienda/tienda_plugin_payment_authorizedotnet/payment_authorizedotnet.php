@@ -852,11 +852,11 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             if (count($errors)) 
             {
                 // if an error occurred 
-                $order->order_state_id = '10'; // FAILED
+                $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
             }
                 else 
             {
-                $order->order_state_id = '17'; // PAYMENT RECEIVED
+                $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
                 // Update quantities
                 TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
                 

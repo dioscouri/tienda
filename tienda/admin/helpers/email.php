@@ -108,7 +108,10 @@ class TiendaHelperEmail extends TiendaHelperBase
 	private function getEmailContent( $data, $type = 'order' ) 
 	{
 		$mainframe = JFactory::getApplication();
-		$type = strtolower($type);		
+		$type = strtolower($type);	
+
+		$lang = &JFactory::getLanguage();
+		$lang->load('com_tienda', JPATH_ADMINISTRATOR);
 		
 		$return = array();
 		$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;

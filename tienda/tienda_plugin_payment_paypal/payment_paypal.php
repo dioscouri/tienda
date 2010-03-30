@@ -362,12 +362,12 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         if (count($errors)) 
         {
             // if an error occurred 
-            $order->order_state_id = '10'; // FAILED
+            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
         }
             elseif (@$data['payment_status'] == 'Pending') 
         {
             // if the transaction has the "pending" status,
-            $order->order_state_id = '1'; // PENDING
+            $order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
             // Update quantities for echeck payments
             TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
             
@@ -376,7 +376,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         }
             else 
         {
-            $order->order_state_id = '17'; // PAYMENT RECEIVED
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
             // Update quantities
             TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
             

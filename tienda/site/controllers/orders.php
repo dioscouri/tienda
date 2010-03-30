@@ -86,8 +86,9 @@ class TiendaControllerOrders extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $this-> _setModelState();
         // filter out the prepayment orders
+        $prepayment_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
         $query = $model->getQuery();
-        $query->where("tbl.order_state_id != '15'"); // prepayment
+        $query->where("tbl.order_state_id != '{$prepayment_state}'"); // prepayment
         $model->setQuery($query);
         
         $view = $this->getView( 'orders', 'html' );

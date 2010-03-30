@@ -39,3 +39,4 @@ INSERT IGNORE INTO `#__tienda_config` (`config_id`, `config_name`, `value`) VALU
 (34, 'manufacturer_img_height','100');
 (35, 'dimensions_unit','cm');
 (36, 'weight_unit','kg');
+(37, 'pending_order_state','1');

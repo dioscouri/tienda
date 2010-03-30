@@ -19,7 +19,7 @@
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_2checkout.ini</language>
 	</languages>
 
-	<params>
+	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="sid" type="text"  size ="10" default="" label="Account Number" description="Your 2Checkout vendor account number" />
 		<param name="secret_word" type="text"  size ="10" default="" label="Secret Word" description="Your 2Checkout secret word" />
 		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not enable for live sales">
@@ -66,6 +66,10 @@
 		  <option value="single">Single Page Payment Routine (Only supports credit card payments and intangible products/services.)</option>
 		  <option value="mutiple">Multi-page Payment Routine (Supports all payment methods. Supports tangible and intangible products/services.)</option>
 		</param>
+  		<param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+
+		
 	</params>
 			
 </install>
