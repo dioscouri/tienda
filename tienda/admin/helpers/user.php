@@ -255,6 +255,31 @@ class TiendaHelperUser extends TiendaHelperBase
 		
 		return $success;		
 	}
+	
+    /**
+     * Unblocks a user
+     * 
+     * @param int $user_id
+     * @param int $unblock
+     * @return boolean
+     */
+    function unblockUser($user_id, $unblock = 1)
+    {
+        $user =& JFactory::getUser( (int)$user_id );
+        
+        if ($user->get('id')) {
+            $user->set('block', !$unblock);
+        
+            if (  ! $user->save()) {
+                return false;
+            }
+            
+            return true;
+        }
+        else {
+            return false;   
+        }
+    }
 
 	/**
 	 * Returns yes/no

@@ -22,6 +22,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
     var $_element    = 'payment_authorizedotnet';
     var $login_id    = '';
     var $tran_key    = '';
+    var $_isLog      = false;
     
     /**
      * 
@@ -296,7 +297,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
      */
     function & _getUser( $submitted_values, $user_id = 0 )
     {
-        $config =& AmbrasubsConfig::getInstance();
+        $config = TiendaConfig::getInstance();
         
         if ($user_id) {
             $user =& JFactory::getUser($user_id);
@@ -313,6 +314,8 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $msg->type      = '';
         $msg->message   = '';
         
+        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+        
         $newuser_email = $submitted_values['email'];
         // create user from email
         jimport('joomla.user.helper');
@@ -323,10 +326,10 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $details['password2']   = $details['password'];
         $details['block']       = $config->get('block_automatically_registered') ? '1' : '0';
         
-        if ($user =& AmbrasubsHelperUser::createNewUser( $details, $msg )) {
+        if ($user =& TiendaHelperUser::createNewUser( $details, $msg )) {
             if ( ! $config->get('block_automatically_registered')) {
                 // login the new user
-                $login = AmbrasubsHelperUser::login( $details, '1' );
+                $login = TiendaHelperUser::login( $details, '1' );
             }
             
             // indicate that user was registed by AS automatically
@@ -436,7 +439,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
 
         // joomla info
         $user =& JFactory::getUser();
-        $submitted_email            = $data['email'] ? $data['email'] : '';
+        $submitted_email            = !empty($data['email']) ? $data['email'] : '';
         $auth_userid                = $user->id;
         $auth_useremail             = empty($user->id) ? $submitted_email : $user->email;
         
@@ -448,9 +451,10 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $orderpayment->load( $data['orderpayment_id'] );
         $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
-                
+
+        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
         $auth_description           = JText::_( "Order Number" ).": ".$order->order_id;
-        $auth_amount                = $order->order_amount;
+        $auth_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $auth_invoice_num           = $data['orderpayment_id']; 
         
         // customer information
@@ -501,6 +505,56 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         
         return $authnet_values;
     }
+    
+    /**
+     * Sends a request to the server using cURL
+     * 
+     * @param string $url
+     * @param string $content
+     * @param arrray $http_headers (optional)
+     * @return string
+     * @access protected 
+     */
+    function _sendRequest($url, $content, $http_headers = array())
+    {
+        $ch = curl_init($url); 
+        
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+        
+        if (is_array($http_headers) && count($http_headers)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $http_headers);
+        }
+        
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // uncomment this line if you get no gateway response. ###
+        
+        $resp = curl_exec($ch);
+        curl_close ($ch);
+
+        return $resp;
+    }
+    
+    /**
+     * Simple logger 
+     * 
+     * @param string $text
+     * @param string $type
+     * @return void
+     */
+    function _log($text, $type = 'message')
+    {
+        if ($this->_isLog) {
+            $file = JPATH_ROOT . "/cache/{$this->_element}.log";
+            $date = JFactory::getDate();
+            
+            $f = fopen($file, 'a');
+            fwrite($f, "\n\n" . $date->toFormat('%Y-%m-%d %H:%M:%S'));
+            fwrite($f, "\n" . $type . ': ' . $text);            
+            fclose($f);
+        }   
+    }
         
     /**
      * Processes a simple (non-recurring payment)
@@ -527,7 +581,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         
         // evaluate the response
         $evaluateResponse = $this->_evaluateSimplePaymentResponse( $resp, $authnet_values );
-        $html = $evaluateResponse->message;
+        $html = $evaluateResponse;
 
         return $html;
     }
@@ -830,7 +884,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             // check that payment amount is correct for order_id
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-            $orderpayment->load( $orderpayment_id );
+            $orderpayment->load( $invoiceResponse );
             if (empty($orderpayment->order_id))
             {
                 // TODO fail
@@ -839,9 +893,12 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             $orderpayment->transaction_id       = $transactionidResponse;
             $orderpayment->transaction_status   = $paymentResponse;
 
-            $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-            if ((float) $stored_amount !== (float) $amountResponse ) {
-                $errors[] = JText::_('TIENDA AUTHORIZEDOTNET MESSAGE AMOUNT INVALID');
+            JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+            $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+            $respond_amount = TiendaHelperBase::number( $amountResponse, array( 'thousands'=>'' ) );
+            if ($stored_amount != $respond_amount ) {
+                $errors[] = JText::_('TIENDA AUTHORIZEDOTNET MESSAGE PAYMENT AMOUNT INVALID');
+                $errors[] = $stored_amount . " != " . $respond_amount;
             }
             
             // set the order's new status and update quantities if necessary
@@ -878,7 +935,13 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             {
                 $errors[] = $orderpayment->getError(); 
             }
-    
+
+            if (empty($errors))
+            {
+                $return = JText::_( "TIENDA AUTHORIZEDOTNET MESSAGE PAYMENT SUCCESS" );
+                return $return;                
+            }
+            
             return count($errors) ? implode("\n", $errors) : '';
 
         // ===================
