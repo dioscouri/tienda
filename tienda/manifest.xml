@@ -73,9 +73,9 @@
 		<module module="mod_tienda_cart" client="site" position="left" />
         <module module="mod_tienda_products" client="site" position="left" />
         <module module="mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
-        <module module="mod_tienda_search" client="site" position="left" />
-		<module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="mod_tienda_search" client="site" position="left" />
         <module module="mod_tienda_useraddress" position="tienda_user_main" publish="true" client="administrator"/>
 	</modules> 
 
@@ -87,11 +87,13 @@
 
 		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
 		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
+        <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
         <plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
         <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
         <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
         <plugin plugin="tienda_plugin_search" publish="true" group="search" element="tienda" />
         <plugin plugin="tienda_plugin_system" publish="true" group="system" element="tienda" />
+        <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
 	</plugins>
