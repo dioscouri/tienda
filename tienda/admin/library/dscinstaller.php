@@ -264,7 +264,7 @@ if (!class_exists( 'dscInstaller' )) {
 		 */
 		function installExtension($entry, $entryType='archive') 
 		{
-			switch($entryType)
+            switch(strtolower($entryType))
 			{
 				case "Folder":
 				case "folder":
@@ -302,7 +302,7 @@ if (!class_exists( 'dscInstaller' )) {
 	
 			//grab the manifest information
 			$manifestInformation = $this->getManifestInformation($installer);
-			$savedParameters = ""; 
+            $savedParameters = new stdClass(); 
 			
 			//check if the extension is installed already and if so uninstall it
 			$elementID = $this->checkIfInstalledAlready($manifestInformation);
@@ -329,13 +329,14 @@ if (!class_exists( 'dscInstaller' )) {
 				// Package installed sucessfully so publish the extension if set to yes
 				$manifestInformation = $this->getManifestInformation($installer);
 				$publishExtension = $this->get( '_publishExtension', false );
+
 				if ($publishExtension)
 				{
 					$this->publishExtension($manifestInformation);	
 				}
 				
 				//restore extension parameters if requested
-				if ($this->_saveParameters) {
+				if ($this->_saveParameters && isset($savedParameters->params)) {
 					$this->restoreParameters($manifestInformation, $savedParameters);
 				}
 				$result = true;
@@ -586,66 +587,128 @@ if (!class_exists( 'dscInstaller' )) {
 			return $manifestInformation;
 		}
 	
-		/**
-		 * Returns the current params "row" setting of the given extension
-		 *
-		 * @access public
-		 * @param Array $manifestInformation an array of information identifying the extension
-		 * @return String the information that was in the params row in the database
-		 */
-		function saveParameters($manifestInformation) {
-			//select the right query based on the manifest information
-			switch ($manifestInformation["type"]) {
-				case "component":
-					$query = "SELECT `params` FROM #__components WHERE `name` = '".$manifestInformation["element"]."'";
-					break;
-				case "module":
-					$query = "SELECT `params` FROM #__modules WHERE `module` = '".$manifestInformation["element"]."'";
-					break;
-				case "plugin":
-					$query = "SELECT `params` FROM #__plugins WHERE `folder` = '".$manifestInformation["group"]."' AND `element` = '".$manifestInformation["element"]."'";
-					break;
-				default:
-					$query = "";
-			}
-			//run the query if it was formed
-			if ($query != "") {
-				$this->_db->setQuery($query);
-				$savedParameters = $this->_db->loadResult();
-				return $savedParameters;
-			} else {
-				return "";
-			}
-		}
-	
-		/**
-		 * Restores the params row of a given extension in the database
-		 *
-		 * @access public
-		 * @param Array $manifestInformation the infomration identidying the extension
-		 * @param String $savedParameters the previously saved parameters
-		 */
-		function restoreParameters($manifestInformation, $savedParameters) {
-			//select the right query based on the manifest information
-			switch ($manifestInformation["type"]) {
-				case "component":
-					$query = "UPDATE #__components SET `params` = '".$savedParameters."' WHERE `name` = '".$manifestInformation["element"]."'";
-					break;
-				case "module":
-					$query = "UPDATE #__modules SET `params` = '".$savedParameters."' WHERE `module` = '".$manifestInformation["element"]."'";
-					break;
-				case "plugin":
-					$query = "UPDATE #__plugins SET `params` = '".$savedParameters."' WHERE `folder` = '".$manifestInformation["group"]."' AND `element` = '".$manifestInformation["element"]."'";
-					break;
-				default:
-					$query = "";
-			}
-			//run the query if it was formed
-			if ($query != "") {
-				$this->_db->setQuery($query);
-				$this->_db->query();
-			}
-		}
+	        /**
+         * Component: returns the "params" and "enabled" fields of the #__components table
+         * Module: returns the "access", "published" and "params" fields of the #__modules table
+         * Plugin: returns the "access", "published" and "params" fields of the #__plugins table
+         *
+         * @access public
+         * @param Array $manifestInformation an array of information identifying the extension
+         * @return String the information that was in the params row in the database
+         */
+        function saveParameters($manifestInformation) {
+            //select the right query based on the manifest information
+            switch ($manifestInformation["type"]) {
+                case "component":
+                    $query = "SELECT `enabled`,`params` FROM `#__components`".
+                            " WHERE `name` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    break;
+                case "module":
+                    $query = "SELECT `access`,`published`,`params` FROM `#__modules`".
+                            " WHERE `module` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    break;
+                case "plugin":
+                    $query = "SELECT `access`,`published`,`params` FROM `#__plugins`".
+                            " WHERE `folder` = '".$this->_db->getEscaped($manifestInformation["group"])."' &&  ".
+                            "`element` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    break;
+                default:
+                    $query = "";
+            }
+            //run the query if it was formed
+            if ($query != "") {
+                $this->_db->setQuery($query);
+                $savedParameters = $this->_db->loadObject();
+                return $savedParameters;
+            } else {
+                return (object) array();
+            }
+        }
+    
+        /**
+         * Restores the parameters saved of a given extension in the database
+         *
+         * @access public
+         * @param Array $manifestInformation the infomration identidying the extension
+         * @param String $savedParameters the previously saved parameters
+         */
+        function restoreParameters($manifestInformation, $savedParameters)
+        {   
+            // Load the new settings
+            switch ($manifestInformation["type"]) {
+                case "component":
+                    $qry_load = "SELECT * FROM `#__components`".
+                                " WHERE `name` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    
+                    break;
+                case "module":
+                    $qry_load = "SELECT * FROM `#__modules`".
+                                " WHERE `module` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    
+                    break;
+                case "plugin":
+                    $qry_load = "SELECT * FROM `#__plugins`".
+                                " WHERE `folder` = '".$this->_db->getEscaped($manifestInformation["group"])."' && ".
+                                "`element` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    
+                    break;
+                default:
+                    return;
+            }
+            
+            // Load new parameters from the DB
+            $this->_db->setQuery($qry_load);
+            $obj = $this->_db->loadObject();
+            
+            // enabled: keep the old parameter
+            // access: keep the old parameter
+            // published: keep the old parameter
+            // params: merge (older is more important than defaut new)
+            
+            // Converting to Object Format
+            $new_params = JRegistryFormatINI::stringToObject($obj->params);
+            $old_params = JRegistryFormatINI::stringToObject($savedParameters->params);
+            
+            $old_params = (object) array_merge((array) $new_params, (array) $old_params);
+            
+            // Converting back to INI format
+            $savedParameters->params = JRegistryFormatINI::objectToString($old_params, '');
+            
+            
+            // Save the merged new / old settings
+            switch ($manifestInformation["type"]) {
+                case "component":
+                    $qry_save = "UPDATE `#__components` SET ".
+                                "`enabled`=".intval($savedParameters->enabled).", ".
+                                "`params` = '".$this->_db->getEscaped($savedParameters->params)."'".
+                                " WHERE `name` = '".$manifestInformation["element"]."'";
+                    
+                    break;
+                
+                case "module":
+                    $qry_save = "UPDATE `#__modules` SET ".
+                                "`access` = ".intval($savedParameters->access).", ".
+                                "`published` = ".intval($savedParameters->published).", ".
+                                "`params` = '".$this->_db->getEscaped($savedParameters->params)."'".
+                                " WHERE `module` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                
+                    break;
+                    
+                case "plugin":
+                    $qry_save = "UPDATE `#__plugins` SET ".
+                                "`access` = ".intval($savedParameters->access).", ".
+                                "`published` = ".intval($savedParameters->published).", ".
+                                "`params` = '".$this->_db->getEscaped($savedParameters->params)."'".
+                                " WHERE `folder` = '".$this->_db->getEscaped($manifestInformation["group"])."' && ".
+                                "`element` = '".$this->_db->getEscaped($manifestInformation["element"])."'";
+                    break;
+                default:
+                    return;
+            }
+            
+            $this->_db->setQuery($qry_save);
+            $this->_db->query();
+        }
 	
 		/**
 		 * Tricks joomla so as to not run the custom unistall script of a component during an uninstall
