@@ -70,8 +70,8 @@ class TiendaViewBase extends JView
 	{
 		$views = array();
 		$views['dashboard']			= 'Dashboard';
-		$views['users']				= 'Users';
 		$views['orders']			= 'Orders';
+        $views['users']             = 'Users';
 		$views['products']  		= 'Products';
 		$views['categories']		= 'Categories';
 		$views['manufacturers']		= 'Manufacturers';
