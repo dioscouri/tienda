@@ -56,6 +56,7 @@ class modTiendaRecentOrdersHelper extends TiendaHelperBase
      */
     function _orders()
     {
+        jimport( 'joomla.application.component.model' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
