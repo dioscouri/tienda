@@ -16,6 +16,7 @@ class Tienda extends JObject
     static $_versiontype    = 'community';
     static $_copyrightyear 	= '2010';
     static $_name 			= 'tienda';
+    static $_min_php		= '5.2';
 
     /**
      * Get the version
@@ -41,6 +42,42 @@ class Tienda extends JObject
     {
         return self::$_name;
     }
+
+    /**
+     * Get the Minimum Version of Php
+     */
+    public static function getMinPhp()
+    {
+	    //get version from PHP. Note this should be in format 'x.x.x' but on some systems will look like this: eg. 'x.x.x-unbuntu5.2'
+    	$phpV = self::getServerPhp();
+    	$minV = self::$_min_php; 
+    	$passes = false;
+	
+	    if ($phpV[0] >= $minV[0]) {
+	        if (empty($minV[2]) || $minV[2] == '*') {
+	            $passes = true;
+	        } elseif ($phpV[2] >= $minV[2]) {
+	            if (empty($minV[4]) || $minV[4] == '*' || $phpV[4] >= $minV[4]) {
+	                $passes = true;
+	            }
+	        }
+	    }
+
+	    //if it doesn't pass raise a Joomla Notice
+	    if (!$passes) :
+	    	JError::raiseNotice('VERSION_ERROR',sprintf(JText::_('ERROR_PHP_VERSION'),$minV,$phpV));
+	    endif;
+
+	    //return minimum PHP version
+	    return self::$_min_php;
+    }
+    
+    public static function getServerPhp()
+    {
+    	return PHP_VERSION;
+    }
+    
+    
 
 	/**
      * Get the URL to the folder containing all media assets
