@@ -28,8 +28,7 @@
 			<br/>
 			<?php echo JText::_( "Version" ); ?>: <?php echo Tienda::getVersion(); ?>
 			<br/>
-			<?php echo JText::_( "MinPhp" ); ?>: <?php echo Tienda::getMinPhp();?> 			
-			<?php echo JText::_( "ServerPhp" ); ?>: <?php echo Tienda::getServerPhp(); ?>
+			<?php echo sprintf( JText::_('PHP_VERSION_LINE'), Tienda::getMinPhp(), Tienda::getServerPhp() ); ?>
 		</td>
 		<td style="text-align: right; width: 33%;">
 			<a href="<?php echo $url; ?>" target="_blank"><img src="<?php echo $img_path."/".$img_file;?>"></img></a>
