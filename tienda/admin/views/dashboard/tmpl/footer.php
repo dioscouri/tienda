@@ -28,8 +28,7 @@
 			<br/>
 			<?php echo JText::_( "Version" ); ?>: <?php echo Tienda::getVersion(); ?>
 			<br/>
-			<?php echo JText::_( "MinPhp" ); ?>: <?php echo Tienda::getMinPhp();?>
-			<br/>
+			<?php echo JText::_( "MinPhp" ); ?>: <?php echo Tienda::getMinPhp();?> 			
 			<?php echo JText::_( "ServerPhp" ); ?>: <?php echo Tienda::getServerPhp(); ?>
 		</td>
 		<td style="text-align: right; width: 33%;">
