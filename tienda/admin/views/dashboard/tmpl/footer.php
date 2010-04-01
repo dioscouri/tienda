@@ -27,6 +27,10 @@
 			<?php echo JText::_( "Copyright" ); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
 			<br/>
 			<?php echo JText::_( "Version" ); ?>: <?php echo Tienda::getVersion(); ?>
+			<br/>
+			<?php echo JText::_( "MinPhp" ); ?>: <?php echo Tienda::getMinPhp();?>
+			<br/>
+			<?php echo JText::_( "ServerPhp" ); ?>: <?php echo Tienda::getServerPhp(); ?>
 		</td>
 		<td style="text-align: right; width: 33%;">
 			<a href="<?php echo $url; ?>" target="_blank"><img src="<?php echo $img_path."/".$img_file;?>"></img></a>
