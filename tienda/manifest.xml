@@ -36,6 +36,7 @@
 			<file>defines.php</file>
 			<file>index.html</file>
 			<folder>controllers</folder>
+            <folder>elements</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>library</folder>
