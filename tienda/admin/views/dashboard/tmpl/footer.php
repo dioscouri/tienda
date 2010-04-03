@@ -20,6 +20,8 @@
 			<a href="http://twitter.com/dioscouri" target="_blank"><?php echo JText::_( "Follow Us on Twitter" ); ?></a>
 			<br/>
 			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_( "Leave JED Feedback" ); ?></a>
+			<br/>
+			<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=dashboard&layout=submitbug'); ?>"><?php echo JText::_( "Submit a Bug!" ); ?></a>
 		</td>
 		<td style="text-align: center; width: 33%;">
 			<?php echo JText::_( "Tienda" ); ?>: <?php echo JText::_( "Tienda Desc" ); ?>
