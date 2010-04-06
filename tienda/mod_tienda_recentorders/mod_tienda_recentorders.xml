@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="tienda_dashboard_right" client="administrator" method="upgrade">
     <name>Tienda - Recent Orders</name>
-    <author>Dioscouri.com</author>
+    <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
     <version>0.4.0</version>
-    <creationDate>November 2009</creationDate>
-    <copyright>2009 Dioscouri.com</copyright>
+    <creationDate>April 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
     <description>THIS MODULE DISPLAYS RECENT ORDERS</description>
     <files>

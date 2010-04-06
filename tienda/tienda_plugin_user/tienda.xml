@@ -2,11 +2,11 @@
 <install version="1.5" type="plugin" group="user" method="upgrade">
     <name>User - Tienda</name>
     <version>0.4.0</version>
-    <creationDate>October 2009</creationDate>
-    <author>Dioscouri Design</author>
+    <creationDate>April 2010</creationDate>
+    <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
-    <copyright>2009 Dioscouri.com</copyright>
+    <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License v2</license>
     <description>Handles user events for Tienda</description>
     

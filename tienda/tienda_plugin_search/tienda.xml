@@ -2,8 +2,8 @@
 <install version="1.5" type="plugin" group="search" method="upgrade">
     <name>Search - Tienda</name>
     <version>0.4.0</version>
-    <creationDate>March 2010</creationDate>
-    <author>Dioscouri Design</author>
+    <creationDate>April 2010</creationDate>
+    <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>

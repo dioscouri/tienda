@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="left" method="upgrade">
     <name>Tienda - Products</name>
-    <author>Skullbock</author>
+    <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
     <version>0.4.0</version>
-    <creationDate>March 2010</creationDate>
-    <copyright>2010 Skullbock</copyright>
+    <creationDate>April 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
     <description>Display a set of Products based on Parameters</description>
     

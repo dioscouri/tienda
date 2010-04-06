@@ -2,11 +2,11 @@
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda Payment Plugin - Paypal (Standard) Payments</name>
 	<version>0.4.0</version>
-	<creationDate>January 2010</creationDate>
-	<author>Dioscouri Design</author>
+	<creationDate>April 2010</creationDate>
+	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>
-	<copyright>2008 Dioscouri.com</copyright>
+	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>This plugin enables standard Paypal payments</description>
 	
