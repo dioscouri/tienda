@@ -20,7 +20,7 @@
         for(i=0; i<form.elements.length; i++)
         {
             var string = form.elements[i].name;
-            if (string.substring(0,6) == 'filter')
+            if (string && string.substring(0,6) == 'filter')
             {
                 form.elements[i].value = '';
             }

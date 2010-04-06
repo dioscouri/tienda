@@ -58,7 +58,7 @@ class TiendaController extends JController
         $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.'.$model->getTable()->getKeyName(), 'cmd');
         $state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
         $state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
-        $state['id']        = JRequest::getVar('id', 'post', JRequest::getVar('id', 'get', '', 'int'), 'int');
+        $state['id']        = JRequest::getVar('id', JRequest::getVar('id', '', 'get', 'int'), 'post', 'int');
 
         // TODO santize the filter
         // $state['filter']   	= 

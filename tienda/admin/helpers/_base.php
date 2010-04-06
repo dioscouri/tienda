@@ -657,7 +657,8 @@ class TiendaHelperBase extends JObject
 	 * @param string message
 	 * @return html message
 	 */
-	function generateMessage($msg){
+	function generateMessage($msg)
+	{
 		$html = '<dl id="system-message">
                     <dt class="notice">notice</dt>
                     <dd class="notice message fade">

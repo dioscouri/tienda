@@ -267,7 +267,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
-/**
+    /**
      * Checks the products table to confirm it has the params and layout fields
      * 
      * return boolean

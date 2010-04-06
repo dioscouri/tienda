@@ -15,6 +15,7 @@
 	<files folder="site">
 		<file>tienda.php</file>
 		<file>controller.php</file>
+        <file>router.php</file>
 		<file>index.html</file>
 		<folder>controllers</folder>
 		<folder>models</folder>
