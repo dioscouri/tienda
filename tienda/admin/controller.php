@@ -783,6 +783,8 @@ class TiendaController extends JController
 		require_once($path.'sysinfo_phpinfo.php');
 		require_once($path.'sysinfo_phpsettings.php');
 		require_once($path.'sysinfo_config.php');
+		jimport('joomla.filesystem.file');
+		
 		$contents = ob_get_contents();
 		
 		
