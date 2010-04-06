@@ -322,7 +322,7 @@ class TiendaTableOrders extends TiendaTable
         }
         
         $geozones = $this->getBillingGeoZones();
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         foreach ($items as $key=>$item)
         {
             $orderitem_tax = 0;

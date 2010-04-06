@@ -55,7 +55,7 @@ class TiendaViewProducts extends TiendaViewBase
     	}
     	
     	$divider = false;
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
         if (!empty($surrounding['prev']))
         {
@@ -82,7 +82,7 @@ class TiendaViewProducts extends TiendaViewBase
 	{
 		$model = $this->getModel();
 	    $divider = false;
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
         if (!empty($surrounding['prev']))
         {

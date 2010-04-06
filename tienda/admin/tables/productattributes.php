@@ -62,7 +62,7 @@ class TiendaTableProductAttributes extends TiendaTable
     {
         $return = parent::save();
         
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         TiendaHelperProduct::doProductQuantitiesReconciliation( $this->product_id, '0' );
         
         return $return;

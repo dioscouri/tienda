@@ -66,7 +66,7 @@ class TiendaTableProductAttributeOptions extends TiendaTable
     	$pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
     	$pa->load( $this->productattribute_id );
     	
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         TiendaHelperProduct::doProductQuantitiesReconciliation( $pa->product_id, '0' );
         
     	return $return;

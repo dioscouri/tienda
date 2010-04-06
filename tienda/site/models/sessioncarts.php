@@ -41,7 +41,15 @@ class TiendaModelSessioncarts extends TiendaModelBase
 	        $product = $model->getItem();
 	        $item->product_name = $product->product_name;
 	        $item->product_price = $product->price;
-        
+
+            // at this point, ->product_price holds the default price for the product, 
+            // but the user may qualify for a discount based on volume or date, so let's get that price override 
+            $item->product_price_override = Tienda::get( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, '0', JFactory::getDate()->toMySQL() );
+            if (!empty($item->product_price_override))
+            {
+                $item->product_price = $item->product_price_override->product_price;
+            }
+	        
 	        $item->orderitem_attributes_price = '0.00000';
             $item->attributes = array(); // array of each selected attribute's object
             $attributes_names = array();

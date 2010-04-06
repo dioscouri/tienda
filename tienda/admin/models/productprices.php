@@ -17,7 +17,7 @@ class TiendaModelProductPrices extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
-        $filter_id	= $this->getState('filter_id');
+        $filter_id	        = $this->getState('filter_id');
         $filter_quantity	= $this->getState('filter_quantity');
        	$filter_user_group	= $this->getState('filter_user_group');       	
         $filter_date		= $this->getState('filter_date');
@@ -34,8 +34,8 @@ class TiendaModelProductPrices extends TiendaModelBase
         {
         	$query->where("(
         		(tbl.price_quantity_start <= '".(int) $filter_quantity."' AND tbl.price_quantity_end >= '".(int) $filter_quantity."')
-        		OR tbl.price_quantity_end = '0'
-        		OR tbl.price_quantity_end < '".(int) $filter_quantity."'
+        		OR 
+        		(tbl.price_quantity_end = '0' AND tbl.price_quantity_start <= '".(int) $filter_quantity."' )
 			)");
        	}
         if (strlen($filter_date))
@@ -44,8 +44,6 @@ class TiendaModelProductPrices extends TiendaModelBase
         	$query->where("tbl.product_price_startdate <= '".$filter_date."'");
   			$query->where("(tbl.product_price_enddate >= '".$filter_date."' OR tbl.product_price_enddate = '$nullDate' )");
        	}
-       	
-       	
     }
         	
 	public function getList()
@@ -67,4 +65,28 @@ class TiendaModelProductPrices extends TiendaModelBase
 		}
 		return $list;
 	}
+	
+    /**
+     * Gets an item for displaying (as opposed to saving, which requires a JTable object)
+     * using the query from the model
+     *
+     * @return database->loadObject() record
+     */
+    public function getItem()
+    {
+        if (empty( $this->_item ))
+        {
+            $query = $this->getQuery();
+            $this->_db->setQuery( (string) $query );
+            $this->_item = $this->_db->loadObject();
+            if (is_object($this->_item))
+            {
+                $nullDate = JFactory::getDBO()->getNullDate();
+                // convert working dates to localtime for display
+                $this->_item->product_price_startdate = ($this->_item->product_price_startdate != $nullDate) ? JHTML::_( "date", $this->_item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->product_price_startdate;
+                $this->_item->product_price_enddate = ($this->_item->product_price_enddate != $nullDate) ? JHTML::_( "date", $this->_item->product_price_enddate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->product_price_enddate;
+            }
+        }
+        return $this->_item;
+    }
 }

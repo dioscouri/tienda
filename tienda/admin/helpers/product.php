@@ -497,12 +497,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$model->setState( 'filter_user_group', $default_user_group );				
 			}
 		
-		$items = $model->getList();
-		if (count($items) >= '1')
-		{
-			// TODO return the first record even if more than one returned?
-			$price = $items[0];	
-		}
+		// set the ordering so the most discounted item is at the top of the list
+        $model->setState( 'order', 'price_quantity_start' );
+        $model->setState( 'direction', 'DESC' );
+
+        // TiendaModelProductPrices is a special model that overrides getItem
+		$price = $model->getItem();
 		return $price;	
 	}
 	

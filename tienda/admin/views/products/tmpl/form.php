@@ -135,7 +135,7 @@ window.addEvent('domready', function(){
                         <td>
                             <?php
                             JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
-                            JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' ); 
+                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributes&id=".$row->product_id."&tmpl=component", "Set Attributes" ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>

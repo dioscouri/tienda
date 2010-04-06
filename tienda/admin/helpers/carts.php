@@ -196,13 +196,22 @@ class TiendaHelperCarts extends TiendaHelperBase
 	            $productModel->setId($product->product_id);
 	            if ($productItem = $productModel->getItem())
 	            {
+	                $productItem->product_price = $productItem->price;
+	                // at this point, ->product_price holds the default price for the product, 
+                    // but the user may qualify for a discount based on volume or date, so let's get that price override 
+                    $productItem->product_price_override = Tienda::get( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, '0', JFactory::getDate()->toMySQL() );
+                    if (!empty($productItem->product_price_override))
+                    {
+                        $productItem->product_price = $productItem->product_price_override->product_price;
+                    }
+            
 	            	// TODO Push this into the orders object->addItem() method?
 		            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
 		            $orderItem->product_id             = $productItem->product_id;
 		            $orderItem->orderitem_sku          = $productItem->product_sku;
 		            $orderItem->orderitem_name         = $productItem->product_name;
 		            $orderItem->orderitem_quantity     = $product->product_qty;
-		            $orderItem->orderitem_price        = $productItem->price;
+		            $orderItem->orderitem_price        = $productItem->product_price;
 		            $orderItem->orderitem_attributes   = $product->product_attributes;
 		            $orderItem->orderitem_attribute_names   = $product->attributes_names;
 		            $orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
