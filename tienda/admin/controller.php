@@ -759,8 +759,13 @@ class TiendaController extends JController
 		$view->display();
 	}
 	
-	function sendBug(){
-		
+	/**
+	 * Submits a bug report to Dioscouri.
+	 * Thanks so much!  They really help improve the product!
+	 * 
+	 */
+	function sendBug()
+	{
 		global $mainframe;
 		
 		$body = JRequest::getVar('body');
@@ -804,6 +809,12 @@ class TiendaController extends JController
 		$mailer = JFactory::getMailer();
 		
 		$success = false;
+		
+        // For now, bug submission goes to info@dioscouri.com,
+        // but in the future, it will go to projects@dioscouri.com
+        // (once we get the Redmine auto-create working properly
+        // and format the subject/body of the email properly)
+        
 		$mailer->addRecipient( 'info@dioscouri.com' );
 		$mailer->setSubject( 'AUTOMATIC TIENDA ISSUE REPORT' );
 		
