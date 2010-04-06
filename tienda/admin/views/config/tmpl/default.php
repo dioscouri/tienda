@@ -195,6 +195,14 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Default Category Image' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'use_default_category_image', 'class="inputbox"', $this->row->get('use_default_category_image', '1') ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Default Product Image Height' ); ?>
                             </th>
                             <td>

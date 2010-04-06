@@ -17,7 +17,9 @@ $citems = @$this->citems;
     <div id="tienda_categories">    
         <div id='tienda_category_header'>
             <?php if (isset($state->category_name)) : ?>
-                <img src="<?php echo TiendaHelperCategory::getImage($this->cat->category_id, '', '', '', true); ?>" alt="" class="category image" />
+                <?php if (!empty($this->cat->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
+                    <img src="<?php echo TiendaHelperCategory::getImage($this->cat->category_id, '', '', '', true); ?>" alt="" class="category image" />
+                <?php endif; ?>
             <?php endif; ?>
 
             <span><?php echo @$this->title; ?></span>
@@ -29,11 +31,13 @@ $citems = @$this->citems;
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php foreach ($citems as $citem) : ?>
                     <div class="subcategory">
-                        <div class="subcategory_thumb">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
-                            <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
-                            </a>
-                        </div>
+                        <?php if (!empty($citem->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
+                            <div class="subcategory_thumb">
+                                <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
+                                <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
                         <div class="subcategory_name">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
                             <?php echo $citem->category_name; ?>

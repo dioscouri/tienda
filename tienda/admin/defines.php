@@ -355,6 +355,7 @@ class TiendaConfig extends JObject
 	var $dimensions_unit					= 'cm';
 	var $weight_unit						= 'kg';
     var $date_format                        = '%a, %d %b %Y, %I:%M%p';
+    var $use_default_category_image         = '1';
 	
 	/**
 	 * constructor
