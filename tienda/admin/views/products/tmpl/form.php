@@ -289,7 +289,7 @@ window.addEvent('domready', function(){
                         <td>
                             <?php
                             JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
-                            JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' ); 
+                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
                             <?php $prices = TiendaHelperProduct::getPrices( $row->product_id ); ?>
@@ -623,7 +623,7 @@ window.addEvent('domready', function(){
                         <td>
                             <?php
                             JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
-                            JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' ); 
+                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setfiles&id=".$row->product_id."&tmpl=component", "Manage Files" ); ?>]
                             <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>

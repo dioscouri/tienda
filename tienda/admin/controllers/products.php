@@ -78,7 +78,7 @@ class TiendaControllerProducts extends TiendaController
         }
         $task = JRequest::getVar( "task" );
         $redirect = "index.php?option=com_tienda&view=products";
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
         switch ($task)
         {
@@ -191,7 +191,7 @@ class TiendaControllerProducts extends TiendaController
             case "saveprev":
             	$redirect .= '&view='.$this->get('suffix');
                 // get prev in list
-		        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+		        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		        $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
 		        if (!empty($surrounding['prev']))
 		        {
@@ -201,7 +201,7 @@ class TiendaControllerProducts extends TiendaController
             case "savenext":
     	        $redirect .= '&view='.$this->get('suffix');
                 // get next in list
-                JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+                Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
                 if (!empty($surrounding['next']))
                 {
@@ -295,7 +295,7 @@ class TiendaControllerProducts extends TiendaController
 		$row = JTable::getInstance('Products', 'TiendaTable');
 		$row->load( $id );
 		
-		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
 		$gallery_path = $helper->getGalleryPath($row->product_id);
 		$gallery_url = $helper->getGalleryUrl($row->product_id);
@@ -446,7 +446,7 @@ class TiendaControllerProducts extends TiendaController
         $row = JTable::getInstance('Products', 'TiendaTable');
         $row->load($model->getId());
         
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $csvs = TiendaHelperProduct::getProductAttributeCSVs( $row->product_id );
         $items = TiendaHelperProduct::reconcileProductAttributeCSVs( $row->product_id, '0', $items, $csvs );
                 
@@ -921,7 +921,7 @@ class TiendaControllerProducts extends TiendaController
         $row->purchase_required = JRequest::getVar( 'createproductfile_purchaserequired' );
 
         $fieldname = 'createproductfile_file';
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $path = TiendaHelperProduct::getFilePath( $row->product_id );
         $userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
         if (!empty($userfile['size']))
@@ -1045,7 +1045,7 @@ class TiendaControllerProducts extends TiendaController
      */
     function deleteImage()
     {
-		JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		
 		$product_id = JRequest::getInt( 'product_id', 0, 'request');
 		$image = JRequest::getVar('image', '', 'request');
@@ -1115,7 +1115,7 @@ class TiendaControllerProducts extends TiendaController
     
     function setDefaultImage(){
     	
-    	JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     	
 		$product_id = JRequest::getInt( 'product_id', 0, 'request');
 		$image = JRequest::getVar('image', '', 'request');
@@ -1171,7 +1171,7 @@ class TiendaControllerProducts extends TiendaController
     	$to_id =  $from_id + $per_step;
     	$done = JRequest::getInt('done', 0);
     	
-    	JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
     	$width = TiendaConfig::getInstance()->get('product_img_width', '0');
     	$height = TiendaConfig::getInstance()->get('product_img_height', '0');

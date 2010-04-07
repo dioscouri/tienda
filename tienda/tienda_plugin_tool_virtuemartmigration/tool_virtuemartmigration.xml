@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda Tool Plugin - VirtueMart Migration</name>
-	<version>0.4.1</version>
+	<version>0.4.2</version>
 	<creationDate>April 2010</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>

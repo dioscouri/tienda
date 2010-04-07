@@ -59,7 +59,7 @@ class TiendaModelProductAttributes extends TiendaModelBase
     
 //    public function getList()
 //    {
-//        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+//        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 //        $list = parent::getList(); 
 //        foreach(@$list as $item)
 //        {

@@ -419,7 +419,7 @@ class TiendaTableOrders extends TiendaTable
         
         // calculate product subtotal and taxes
         // calculate shipping total
-        JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
         foreach ($items as $item)
         {

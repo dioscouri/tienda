@@ -3,7 +3,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('stylesheet', 'tienda.js', 'media/com_tienda/js/');  
 $images = @$this->images;
 $path = @$this->url; 
-JLoader::import( 'com_tienda.helpers.product', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
 $product_id = JRequest::getInt('id', 0);
 ?>
