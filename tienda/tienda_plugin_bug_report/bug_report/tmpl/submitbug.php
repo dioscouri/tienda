@@ -1,10 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/'); ?>
 <?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">System Informations</a>';?>
 <div class="note">
 	<?php echo JText::_("Warning! Along with the bug informations that you write here will be sent also all the informations gathered from {$link}"); ?>
 </div>
 
-<form action="<?php echo JRoute::_( 'index.php?option=com_tienda&task=sendBug' ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( 'index.php?option=com_tienda&task=doTask&element=bug_report&elementTask=sendBug' ) ?>" method="post" class="adminform" name="adminForm" >
 
     <fieldset>
         <legend><?php echo JText::_('Submit Bug'); ?></legend>

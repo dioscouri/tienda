@@ -4,6 +4,13 @@
 		$img_file = "dioscouri_logo_transparent.png";
 		$img_path = "../media/com_tienda/images";
 
+		JPluginHelper::importPlugin('tienda');
+		$dispatcher =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( 'onGetFooter', array() );
+		
+		$html = implode('', $results);
+		echo $html;
+		
 		$url = "http://www.dioscouri.com/";
 		if ($amigosid = TiendaConfig::getInstance()->get( 'amigosid', '' ))
 		{
@@ -21,7 +28,7 @@
 			<br/>
 			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_( "Leave JED Feedback" ); ?></a>
 			<br/>
-			<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=dashboard&layout=submitbug'); ?>"><?php echo JText::_( "Submit a Bug!" ); ?></a>
+			<?php echo $this->extraHtml; ?>
 		</td>
 		<td style="text-align: center; width: 33%;">
 			<?php echo JText::_( "Tienda" ); ?>: <?php echo JText::_( "Tienda Desc" ); ?>

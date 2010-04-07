@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - BugReport</name>
+	<version>0.4.2</version>
+	<creationDate>April 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLUGINDESC</description>
+	
+	<files>
+		<filename plugin="bug_report">bug_report.php</filename>
+		<folder>bug_report</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_bug_report.ini</language>
+	</languages>
+
+	<params>
+	</params>
+			
+</install>

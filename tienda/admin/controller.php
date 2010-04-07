@@ -616,10 +616,17 @@ class TiendaController extends JController
 	{
 		$model	= $this->getModel( 'dashboard' );
 		$view	= $this->getView( 'dashboard', 'html' );
+		
+		$dispatcher =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( 'onAfterFooter', array() );
+		
+		$html = implode('<br />', $results);
+		
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );
 		$view->setLayout('footer');
+		$view->assign('extraHtml', $html);
 		$view->display();
 	}
 
@@ -758,92 +765,7 @@ class TiendaController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
-	/**
-	 * Submits a bug report to Dioscouri.
-	 * Thanks so much!  They really help improve the product!
-	 * 
-	 */
-	function sendBug()
-	{
-		global $mainframe;
-		
-		$body = JRequest::getVar('body');
-		$name = JRequest::getVar('title');
-		
-		$doc = JDocument::getInstance('raw');
-		
-		ob_start();
-		$option = JRequest::getCmd('option');
-		
-		$db =& JFactory::getDBO();
-		$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_admin'.DS;
-		
-		require_once($path.'admin.admin.html.php');
-		
-		$path .= 'tmpl'.DS;
-		
-		require_once($path.'sysinfo_system.php');
-		require_once($path.'sysinfo_directory.php');
-		require_once($path.'sysinfo_phpinfo.php');
-		require_once($path.'sysinfo_phpsettings.php');
-		require_once($path.'sysinfo_config.php');
-		jimport('joomla.filesystem.file');
-		
-		$contents = ob_get_contents();
-		
-		
-		ob_end_clean();
-		
-		$doc->setBuffer($contents);
-		$contents = $doc->render();
-		
-		$sitename 	= $config->get( 'sitename', $mainframe->getCfg('sitename') );
-		
-		// write file with info
-		$config = JFactory::getConfig();
-		$filename = 'system_info_'.$sitename.'.html';
-		$file = JPATH_SITE.DS.'tmp'.DS.$filename;
-		JFile::write($file, $contents);
-		
-		$mailer = JFactory::getMailer();
-		
-		$success = false;
-		
-        // For now, bug submission goes to info@dioscouri.com,
-        // but in the future, it will go to projects@dioscouri.com
-        // (once we get the Redmine auto-create working properly
-        // and format the subject/body of the email properly)
-        
-		$mailer->addRecipient( 'info@dioscouri.com' );
-		$mailer->setSubject( 'AUTOMATIC TIENDA ISSUE REPORT' );
-		
-		$mailfrom 	= $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
-		$fromname 	= $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
-		
-		// check user mail format type, default html
-		$mailer->setBody( $name."\n\n".$body );
-		$mailer->addAttachment($file);
-		
-		$sender = array( $from, $fromname );
-		$mailer->setSender($mailfrom);
-		$sent = $mailer->send();
-		if ($sent == '1') {
-			$success = true;
-		}
-		JFile::delete($file);
-		
-		if($success ){
-			$msg = JText::_('Bug Submitted Successfully! Thanks for your help! Visit projects.dioscouri.com for more informations!');
-			$msgtype = 'message'; 
-		} else{
-			$msg = JText::_('Error while submitting the bug!');
-			$msgtype = 'notice';
-		}
-		
-		$this->setRedirect( JRoute::_('index.php?option=com_tienda&view=dashboard'), $msg, $msgtype );
-		
-	}
+
 }
 
 ?>
