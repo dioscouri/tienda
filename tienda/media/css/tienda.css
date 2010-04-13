@@ -53,10 +53,8 @@ div#tienda_subcategories h3 {
 div.subcategory {
 	float: left;
     text-align: center;
-    width: 100px;
-    height: 80px;
     padding: 10px;
-    margin-bottom: 5px;
+    margin: 5px;
 }
 
 /** PRODUCT VIEW **/

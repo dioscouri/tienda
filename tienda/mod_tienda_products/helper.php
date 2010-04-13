@@ -32,6 +32,14 @@ class modTiendaProductsHelper extends JObject
      */
     function getProducts()
     {
+        // Check the registry to see if our Tienda class has been overridden
+        if ( !class_exists('Tienda') ) 
+            JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+        
+        // load the config class
+        Tienda::load( 'TiendaConfig', 'defines' );
+                
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model

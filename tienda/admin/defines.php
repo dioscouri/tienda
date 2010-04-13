@@ -75,8 +75,6 @@ class Tienda extends JObject
     {
     	return PHP_VERSION;
     }
-    
-    
 
 	/**
      * Get the URL to the folder containing all media assets
