@@ -180,7 +180,7 @@ class TiendaSelect extends JHTMLSelect
 
 		return self::genericlist($list, $name, $attribs, 'manufacturer_id', 'manufacturer_name', $selected, $idtag );
  	}
-
+ 	
  	/**
  	 * 
  	 * @param unknown_type $selected

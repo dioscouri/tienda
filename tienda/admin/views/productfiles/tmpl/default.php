@@ -46,6 +46,53 @@
 
 </div>
 
+<div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Choose a New File from Server'); ?></div>
+    <div style="float: right;">
+        <button onclick="document.getElementById('task').value='createfilefromdisk'; document.adminForm.submit();"><?php echo JText::_('Create File'); ?></button>
+    </div>
+    <div class="reset"></div>
+
+    <table class="adminlist">
+    	<thead>
+    	<tr>
+    		<th><?php echo JText::_( "Name" ); ?></th>
+    		<th><?php echo JText::_( "Purchase Required" ); ?></th>
+    		<th><?php echo JText::_( "Enabled" ); ?></th>
+    		<th></th>
+    	</tr>
+    	</thead>
+    	<tbody>
+    	<tr>
+    		<td style="text-align: center;">
+    			<input id="createproductfile_name" name="createproductfile_name" value="" size="40" />
+    		</td>
+            <td style="text-align: center;">
+                <?php echo JHTML::_('select.booleanlist', 'createproductfile_purchaserequired', '', '' ); ?>
+            </td>
+    		<td style="text-align: center;">
+    		    <?php echo JHTML::_('select.booleanlist', 'createproductfile_enabled', '', '' ); ?>
+    		</td>
+            <td style="text-align: center;">
+                <?php 
+                	$helper = Tienda::get('TiendaHelperProduct', 'helpers.product');
+                	$path = $helper->getFilePath($row->product_id);
+					$files = $helper->getServerFiles($path);
+					
+					$list = array();
+					foreach(@$files as $file){
+						$list[] =  TiendaSelect::option( $file, $file );
+					}
+					
+					echo JHTMLSelect::genericlist($list, 'createproductfile_file');
+                ?>
+            </td>
+    	</tr>
+    	</tbody>
+    </table>
+
+</div>
+
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Files'); ?></div>
     <div style="float: right;">

@@ -600,6 +600,61 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $items;
     }
 	
+    
+	/**
+	 * Returns array of filenames
+	 * Array
+     * (
+     *     [0] => airmac.png
+     *     [1] => airportdisk.png
+     *     [2] => applepowerbook.png
+     *     [3] => cdr.png
+     *     [4] => cdrw.png
+     *     [5] => cinemadisplay.png
+     *     [6] => floppy.png
+     *     [7] => macmini.png
+     *     [8] => shirt1.jpg
+     * )
+	 * @param $folder
+	 * @return array
+	 */
+	function getServerFiles( $folder=null, $options=array() )
+	{
+		$files = array();
+		
+		if (empty($folder))
+		{
+			return $files;
+		}
+		
+		if (empty( $options['exclude'] ))
+		{
+		    $options['exclude'] = array();
+		}
+		    elseif (!is_array($options['exclude']))
+		{
+		    $options['exclude'] = array($options['exclude']);
+		}
+		
+		// Add .htaccess exclusion
+		if(!in_array('.htaccess', $options['exclude']))
+			$options['exclude'][] = '.htaccess';
+		
+        if (JFolder::exists( $folder ))
+        {        	
+        	$serverfiles = JFolder::files( $folder );
+        	foreach ($serverfiles as $file)
+        	{
+                if (!in_array($file, $options['exclude']))
+                {
+                        $files[] = $file;
+                }
+        	}
+        }
+        
+        return $files;
+	}
+	
     /**
      * Finds the prev & next items in the list 
      *  

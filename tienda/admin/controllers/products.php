@@ -957,6 +957,53 @@ class TiendaControllerProducts extends TiendaController
     }
     
     /**
+     * Creates a file from disk and redirects
+     * 
+     * @return unknown_type
+     */
+    function createfilefromdisk()
+    {
+        $this->set('suffix', 'productfiles');
+        $model  = $this->getModel( $this->get('suffix') );
+        
+        $file = JRequest::getVar( 'createproductfile_file' );
+        
+        $row = $model->getTable();
+        $row->product_id = JRequest::getVar( 'id' );
+        $row->productfile_name = JRequest::getVar( 'createproductfile_name' );
+        $row->productfile_enabled = JRequest::getVar( 'createproductfile_enabled' );
+        $row->purchase_required = JRequest::getVar( 'createproductfile_purchaserequired' );
+		
+        if(empty($row->productfile_name))
+			$row->productfile_name = $file;
+
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        $path = TiendaHelperProduct::getFilePath( $row->product_id ) . DS . $file;
+        $namebits = explode('.', $file);
+		$extension = $namebits[count($namebits)-1];
+		        
+		$row->productfile_extension = $extension;
+        $row->productfile_path = $path;
+        
+        if ( $row->save() ) 
+        {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+        } 
+            else 
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+        
+        $redirect = "index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component";
+        $redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
+   
+    
+    /**
      * Uploads a file to associate to an item
      * 
      * @return unknown_type
