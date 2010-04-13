@@ -27,7 +27,7 @@ Tienda::load( 'TiendaController', 'controller' );
 // Require specific controller if requested
 $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
 if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
-    $controller = '';    
+    $controller = '';
 
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
