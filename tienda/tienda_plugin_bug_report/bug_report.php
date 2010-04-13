@@ -77,6 +77,9 @@ class plgTiendaBug_report extends JPlugin
 		$body = JRequest::getVar('body');
 		$name = JRequest::getVar('title');
 		
+		$body .= "\n\n Project: tienda";
+		$body .= "\n Tracker: Bug";
+		
 		$doc = JDocument::getInstance('raw');
 		
 		ob_start();
@@ -121,14 +124,14 @@ class plgTiendaBug_report extends JPlugin
         // (once we get the Redmine auto-create working properly
         // and format the subject/body of the email properly)
         
-		$mailer->addRecipient( 'info@dioscouri.com' );
-		$mailer->setSubject( 'AUTOMATIC TIENDA ISSUE REPORT' );
+		$mailer->addRecipient( 'projects@dioscouri.com' );
+		$mailer->setSubject( $name );
 		
 		$mailfrom 	= $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
 		$fromname 	= $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
 		
 		// check user mail format type, default html
-		$mailer->setBody( $name."\n\n".$body );
+		$mailer->setBody( $body );
 		$mailer->addAttachment($file);
 		
 		$sender = array( $mailfrom, $fromname );
