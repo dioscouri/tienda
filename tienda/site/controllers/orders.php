@@ -20,7 +20,8 @@ class TiendaControllerOrders extends TiendaController
 	{
         if (empty(JFactory::getUser()->id))
         {
-            $redirect = "index.php?option=com_tienda&view=carts";
+            $url = JRoute::_( "index.php?option=com_tienda&view=orders" );
+            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
             $redirect = JRoute::_( $redirect, false );
             JFactory::getApplication()->redirect( $redirect );
             return;
