@@ -100,7 +100,9 @@
         <?php foreach (@$items as $item) : ?>
 			<tr class='row<?php echo $k; ?>'>
                 <td>
-                    <?php echo JText::_( $item->orderitem_name ); ?>
+                    <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id ); ?>">
+                        <?php echo JText::_( $item->orderitem_name ); ?>
+                    </a>
                     <br/>
                     
                     <?php if (!empty($item->attributes_names)) : ?>
