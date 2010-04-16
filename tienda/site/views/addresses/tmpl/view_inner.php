@@ -9,7 +9,7 @@
         echo $row->title . " ". $row->first_name . " ". $row->last_name . "<br>";
 		echo $row->company . "<br>";
 		echo $row->address_1 . " " . $row->address_2 . "<br>";
-		echo $row->zone_name .", " . $row->city . ", " . $row->postal_code . "<br>";
+		echo $row->city . ", " . $row->zone_name ." " . $row->postal_code . "<br>";
 		echo $row->country_name . "<br>";
 	?>
 </p>

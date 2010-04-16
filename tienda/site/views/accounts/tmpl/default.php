@@ -83,7 +83,7 @@
                         echo $address->title . " ". $address->first_name . " ". $address->last_name . "<br>";
 			            echo $address->company . "<br>";
 			            echo $address->address_1 . " " . $address->address_2 . "<br>";
-			            echo $address->zone_name .", " . $address->city . ", " . $address->postal_code . "<br>";
+			            echo $address->city . ", " . $address->zone_name .", " . $address->postal_code . "<br>";
 			            echo $address->country_name . "<br>";
                     } 
                     else
@@ -109,7 +109,7 @@
                         echo $address->title . " ". $address->first_name . " ". $address->last_name . "<br>";
                         echo $address->company . "<br>";
                         echo $address->address_1 . " " . $address->address_2 . "<br>";
-                        echo $address->zone_name .", " . $address->city . ", " . $address->postal_code . "<br>";
+                        echo $address->city . ", " . $address->zone_name .", " . $address->postal_code . "<br>";
                         echo $address->country_name . "<br>";
                     } 
                     else

@@ -23,7 +23,7 @@
 		<?php if ($config->get('shop_address_1', '')) { ?>
             <strong><?php echo JText::_('Address'); ?></strong>: <br />
             <?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
-            <?php echo $config->get('shop_zip', ''); ?>, <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $shop_info->shop_country_name; ?><br />		
+            <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $config->get('shop_zip', ''); ?>, <?php echo $shop_info->shop_country_name; ?><br />		
 		<?php } ?>
 		
 		<?php if ($config->get('shop_phone', '')) { ?>

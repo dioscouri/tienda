@@ -62,10 +62,10 @@
                     	$address_2 = $config->get('shop_address_2', '');
 						if(!empty($address_2))
 							echo ", ".$address_2."<br />";
-						
-						echo $config->get('shop_zip', ''). ", ";
+
 						echo $config->get('shop_city', ''). ", ";
 						echo $row->shop_zone_name. ", ";
+						echo $config->get('shop_zip', ''). " ";
 						echo $row->shop_country_name;
                     ?>
                 </td>
