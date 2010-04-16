@@ -228,14 +228,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
             else 
         {
             $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
-            // Update quantities
-            TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
-            
-            // remove items from cart
-            TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
-            
-            // add productfiles to product downloads
-            TiendaHelperOrder::enableProductDownloads( $orderpayment->order_id );
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
         }
 
         // save the order

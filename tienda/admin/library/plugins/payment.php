@@ -152,10 +152,8 @@ class TiendaPaymentPlugin extends TiendaPluginBase
      */
     function setOrderPaymentReceived( $order_id )
     {
-       // TODO Complete this
-       // in short, put all the post-payment, order completion tasks inside here 
-       // or at least put a reference here to a similar method in the TiendaHelperOrder, 
-       // such as TiendaHelperOrder::setOrderPaymentReceived( $order_id )  
+       JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' ); 
+       TiendaHelperOrder::setOrderPaymentReceived( $order_id );  
     }
     
     /**
