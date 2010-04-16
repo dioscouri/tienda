@@ -104,24 +104,28 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
             </td>
         </tr>
         </table>
-        
-        <div class='componentheading' style="margin-top:15px;">
-            <span><?php echo JText::_( "Checkout as a Guest" ); ?></span>
-        </div>
-        <!-- REGISTRATION -->
 
-        <table>
-        <tr>
-            <td style="height: 40px; padding: 5px;">
-                <?php echo JTEXT::_('CHECKOUT AS A GUEST DESC'); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( $url . "&guest=1" ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
-            </td>
-        </tr>
-        </table>
+        <div class="reset"></div>
+        
+        <?php if (TiendaConfig::getInstance()->get('guest_checkout_enabled')) : ?>
+            <div class='componentheading' style="margin-top:15px;">
+                <span><?php echo JText::_( "Checkout as a Guest" ); ?></span>
+            </div>
+            <!-- REGISTRATION -->
+        
+            <table>
+            <tr>
+                <td style="height: 40px; padding: 5px;">
+                    <?php echo JTEXT::_('CHECKOUT AS A GUEST DESC'); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( $url . "&guest=1" ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
+                </td>
+            </tr>
+            </table>
+        <?php endif; ?>
         
     </td>
 </tr>
