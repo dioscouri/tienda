@@ -17,7 +17,7 @@ $state = @$this->state;
     
 <div class="cartitems">
     <?php if (!empty($items)) { ?>
-    <form action="<?php echo JRoute::_('index.php?option=com_tienda&controller=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
+    <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
         [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>">
@@ -44,7 +44,7 @@ $state = @$this->state;
                         <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_id; ?>" onclick="isChecked(this.checked);" />
                     </td>
                     <td>
-                        <a href="<?php echo JRoute::_("index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id); ?>">
+                        <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=products&task=view&id=".$item->product_id); ?>">
                             <?php echo $item->product_name; ?>
                         </a>
                         <br/>
@@ -108,6 +108,6 @@ $state = @$this->state;
         </table>
     </form>
     <?php } else { ?>
-    <p>No items in your cart.</p>
+    <p><?php echo JText::_( "No items in your cart" ); ?></p>
     <?php } ?>
 </div>

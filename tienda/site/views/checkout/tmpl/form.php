@@ -121,7 +121,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
             </tr>
             <tr>
                 <td>
-                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( $url . "&guest=1" ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
+                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=" ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
                 </td>
             </tr>
             </table>
