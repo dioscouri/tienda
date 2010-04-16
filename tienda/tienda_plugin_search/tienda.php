@@ -83,6 +83,12 @@ class plgSearchTienda extends JPlugin
             }
         }
         
+        $keyword = trim( $keyword );
+        if (empty($keyword)) 
+        {
+            return array();
+        }
+        
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
