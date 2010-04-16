@@ -154,8 +154,8 @@ class TiendaHelperUser extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	function &createNewUser( $details, &$msg ) {
-		global $mainframe;
+	function createNewUser( $details, &$msg ) 
+	{
 		$success = false;
 		// Get required system objects
 		$user 		= clone(JFactory::getUser());
@@ -169,9 +169,18 @@ class TiendaHelperUser extends TiendaHelperBase
 		if (!$newUsertype) { $newUsertype = 'Registered'; }
 
 		// Bind the post array to the user object
-		if (!$user->bind( $details )) {
-			return $success;
+		if (!$user->bind( $details )) 
+		{
+            $this->setError( $user->getError() );
+            return false;
 		}
+		
+		if (empty($user->password))
+		{
+		    jimport('joomla.user.helper');
+            $user->password = JUserHelper::genRandomPassword();    
+		}
+		
 		// Set some initial user values
 		$user->set('id', 0);
 		$user->set('usertype', '');

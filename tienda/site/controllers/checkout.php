@@ -688,7 +688,8 @@ class TiendaControllerCheckout extends TiendaController
 		$shipping_input_prefix  = $this->shipping_input_prefix;
 
 		// Guest checkout
-		if($user_id == 0 && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')){
+		if ($user_id == 0 && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1'))
+		{
 			$user_id = 9999;
 		}
 
@@ -965,17 +966,22 @@ class TiendaControllerCheckout extends TiendaController
 				
 			if ($userHelper->emailExists($values['email_address']))
 			{
-				// TODO user already existing!
+				// TODO user already exists
 				
 			} 
                 else
 			{
-				// by omitting password, a random Password will be used
+				// create the details array with new user info
 				$details = array(
 					'email' => $values['email_address'],
 					'name' => $values['email_address'],
 					'username' => $values['email_address']			
 				);
+				
+				// use a random password, and send password2 for the email
+				jimport('joomla.user.helper');
+                $details['password']    = JUserHelper::genRandomPassword();
+                $details['password2']   = $details['password'];
 
 				$msg = $this->getError();
 

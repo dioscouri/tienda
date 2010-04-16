@@ -295,7 +295,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
      * @return JUser object
      * @access protected
      */
-    function & _getUser( $submitted_values, $user_id = 0 )
+    function _getUser( $submitted_values, $user_id = 0 )
     {
         $config = TiendaConfig::getInstance();
         
