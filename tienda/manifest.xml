@@ -86,7 +86,8 @@
         <!-- Sample: -->
         <!-- Instructions: plugin="package_folder_containing_plugin_files" element="plugin_filename" -->
 		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user" element="tienda" /> -->
-
+        
+        <plugin plugin="tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
 		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
 		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
         <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />

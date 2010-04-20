@@ -79,6 +79,7 @@ class plgTiendaBug_report extends JPlugin
 		
 		$body .= "\n\n Project: tienda";
 		$body .= "\n Tracker: Bug";
+		$body .= "\n Affected Version: ".Tienda::getVersion();
 		
 		$doc = JDocument::getInstance('raw');
 		
