@@ -11,12 +11,10 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="name">
 						<?php echo JText::_( 'Name' ); ?>:
-						</label>
 					</td>
 					<td>
-						<input type="text" name="name" id="name" size="48" maxlength="250" value="<?php echo @$row->country_name; ?>" />
+						<input type="text" name="country_name" id="country_name" size="48" maxlength="250" value="<?php echo @$row->country_name; ?>" />
 					</td>
 				</tr>
                 <tr>
