@@ -111,6 +111,7 @@ class TiendaControllerProducts extends TiendaController
 	    $row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
         $row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
 		$isNew = empty($row->product_id);
 		

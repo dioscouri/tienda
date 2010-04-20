@@ -86,13 +86,22 @@ window.addEvent('domready', function(){
             <table class="admintable" style="width: 100%;">
 				<tr>
 					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-						<?php echo JText::_( 'Description' ); ?>:
+						<?php echo JText::_( 'Full Description' ); ?>:
 					</td>
 					<td>
 						<?php $editor = &JFactory::getEditor(); ?>
 						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '300', '75', '20' ) ; ?>
 					</td>
 				</tr>
+                <tr>
+                    <td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+                        <?php echo JText::_( 'Short Description' ); ?>:
+                    </td>
+                    <td>
+                        <?php $editor = &JFactory::getEditor(); ?>
+                        <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
+                    </td>
+                </tr>
             </table>
             </fieldset>
 			

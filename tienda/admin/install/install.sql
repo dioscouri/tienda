@@ -627,6 +627,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `vendor_id` int(11) NOT NULL DEFAULT '0',
   `manufacturer_id` int(11) NOT NULL DEFAULT '0',
   `product_description` text,
+  `product_description_short` text,
   `product_full_image` varchar(255) DEFAULT NULL,
   `product_weight` decimal(10,4) DEFAULT '0.0000',
   `product_length` decimal(10,4) DEFAULT '0.0000',

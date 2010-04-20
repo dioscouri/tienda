@@ -101,10 +101,17 @@ $citems = @$this->citems;
                     <?php } ?>
 
                     <div class="product_minidesc">
-                    <?php 
-                        $str = wordwrap($item->product_description, 200, '`|+'); 
-                        echo substr($str, 0, stripos($str, '`|+'));
-                        if (!empty($str)) { echo '...'; }
+                    <?php
+                        if (!empty($item->product_description_short))
+                        {
+                            echo $item->product_description_short;
+                        }
+                            else
+                        {
+                            $str = wordwrap($item->product_description, 200, '`|+'); 
+                            echo substr($str, 0, stripos($str, '`|+'));
+                            if (!empty($str)) { echo '...'; }
+                        }
                     ?>
                     </div>
                 </div>

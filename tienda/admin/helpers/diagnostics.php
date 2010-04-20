@@ -94,6 +94,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERHISTORY FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkProductsShortDesc()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTSSHORTDESC FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -552,6 +557,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkOrderHistory') );
             $config->config_name = 'checkOrderHistory';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * 
+     * 
+     * return boolean
+     */
+    function checkProductsShortDesc()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsShortDesc', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_description_short";
+            $definitions["product_description_short"] = "text";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            
+            // Update config to say this has been done already
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsShortDesc') );
+            $config->config_name = 'checkProductsShortDesc';
             $config->value = '1';
             $config->save();
             return true;
