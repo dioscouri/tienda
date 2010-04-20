@@ -166,7 +166,7 @@
 				<td style="text-align: center;">
 					
 					<?php 
-					if(!$item->product_check_inventory){
+					if(!isset($item->product_check_inventory)){
 						echo JText::_('Check Product Inventory Disabled');
 					} else {
 						echo (int) $item->product_quantity; ?>
