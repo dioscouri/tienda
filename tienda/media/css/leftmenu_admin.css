@@ -1,21 +1,21 @@
 @charset "utf-8";
 
 /* leftmenu styling */
-#leftmenu {
+div.leftmenu {
 	/* border-bottom: 1px solid #ccc; */
 	padding-bottom: 10px;
 	margin-bottom: 5px;
 }
 
-#leftmenu li {
+div.leftmenu li {
 	float: left;
 	padding: 0;
 	margin: 0;
 }
 
-#leftmenu a,
-#leftmenu li a,
-#leftmenu span.nolink {
+div.leftmenu a,
+div.leftmenu li a,
+div.leftmenu span.nolink {
 	cursor: pointer;
 	padding: 0px 15px 15px 0px;
 	/* border-right: 1px solid #ccc; */
@@ -26,17 +26,17 @@
 	display: block;
 }
 
-#leftmenu span.nolink {
+div.leftmenu span.nolink {
 	color: #999;
 }
 
-#leftmenu a.active
+div.leftmenu a.active
 {
 	text-decoration: underline;
 	color: #000;
 }
 
-#leftmenu span.nolink.active {
+div.leftmenu span.nolink.active {
 	color: #000;
 	/* text-decoration: underline; */
 }

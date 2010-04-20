@@ -12,7 +12,7 @@
     <span><?php echo JText::_( "Select Payment Method" ); ?></span>
 </div>
 
-    <?php // echo TiendaMenu::display(); ?>
+    <?php // if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
     
     <!-- Progress Bar -->
 	<?php echo $this->progress; ?>

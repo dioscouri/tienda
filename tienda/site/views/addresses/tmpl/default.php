@@ -10,7 +10,7 @@
     <span><?php echo JText::_( "Manage Your Addresses" ); ?></span>
 </div>
 
-    <?php echo TiendaMenu::display(); ?>
+    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
 
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">

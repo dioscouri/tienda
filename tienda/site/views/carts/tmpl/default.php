@@ -13,7 +13,7 @@ $state = @$this->state;
     <span><?php echo JText::_( "My Shopping Cart" ); ?></span>
 </div>
 
-    <?php echo TiendaMenu::display(); ?>
+    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
     
 <div class="cartitems">
     <?php if (!empty($items)) { ?>

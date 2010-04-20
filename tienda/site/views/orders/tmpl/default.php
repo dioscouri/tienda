@@ -9,7 +9,7 @@
 	<span><?php echo JText::_( "Order History" ); ?></span>
 </div>
 
-	<?php echo TiendaMenu::display(); ?>
+	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
 		
 <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
     

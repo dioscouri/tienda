@@ -14,8 +14,93 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.toolbar');
 require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php' );
 
-class TiendaMenu extends JSubMenuHelper
+class TiendaMenu extends JObject
 {
+    private $_name = array();
+    private $_menu;
+    
+    function __construct($name = 'submenu')
+    {
+        $this->_name = $name;
+		
+        $this->_menu =& JToolBar::getInstance( $name );
+        
+        // Try to load initial values for the menu with a config file
+        $initialpath = 'media' . DS . 'com_tienda' . DS . 'menus';
+		
+        $admin = JFactory::getApplication()->isAdmin();
+	    if ($admin) {
+	        $path = '..' . DS . $initialpath . DS . 'admin';
+	    } else {
+	        $path = $initialpath . DS . 'site';
+	    }
+		    
+	    $xmlfile = $path . DS . "$name.xml";
+
+	    // Does the file exist?
+        if (file_exists($xmlfile)) {
+
+            $xml = new JSimpleXML;
+            
+            // Parse the file
+            if ($xml->loadFile($xmlfile)) {
+                
+                foreach ($xml->document->children() as $child) {
+                    $name = $url = NULL;
+                    
+                    // $child will be a single link with name and url sub elements
+                    foreach ($child->children() as $element) {
+                        switch ($element->_name) {
+                            case 'name':
+                                $name = JText::_($element->_data);
+                                break;
+                            case 'url':
+                                $url = $element->_data;
+                                break;
+                        }
+                    }
+                    
+                    // If we have both a URL and name, add a new inactive link
+                    if (!empty($name) && !empty($url)) {
+                        parse_str($url, $urlvars);
+                        $active = (strtolower( JRequest::getVar('view') ) == strtolower($urlvars['view']));
+                        $url = ($admin) ? $url : JRoute::_($url);                        
+                        $this->_menu->appendButton($name, $url, $active);
+                    }
+                    
+                }
+            }
+        }
+
+    }
+    
+    /**
+     * 
+     * @param string $name
+     * @return mixed
+     * 
+     * Returns a reference to a JToolBar object or false if submenus have been disabled by an admin
+     */
+    function & getInstance($name = 'submenu')
+    {
+        // Check the config to see if the admin has disabled submenus
+		if (!TiendaConfig::getInstance()->get('display_submenu', '1')) {
+		    return false;
+		}
+		
+        static $instances;
+        
+        if (!isset($instances)) {
+            $instances = array();
+        }
+        
+        if (empty ($instances[$name])) {
+            $instances[$name] = new TiendaMenu($name);
+        }
+        
+        return $instances[$name];
+    }
+    
 	/**
 	 * 
 	 * @param $name
@@ -23,71 +108,31 @@ class TiendaMenu extends JSubMenuHelper
 	 * @param $active
 	 * @return unknown_type
 	 */
-	function addEntry($title, $link = '', $active=false, $name='submenu')
+	function addEntry($title, $link = '', $active=false)
 	{
-		$menu = &JToolBar::getInstance( $name );
-		$menu->appendButton($title, $link, $active);
+		$this->_menu->appendButton($title, $link, $active);
 	}
 	
 	/**
-	 * Returns HTML to display the submenu
+	 * Displays the menu according to view.
 	 * 
 	 * @return unknown_type
 	 */
-	function display( $name='submenu', $stylesheet='menu.css' )
+	function display()
 	{
-		// Check the config to see if the admin has disabled submenus
-		if (!TiendaConfig::getInstance()->get('display_submenu', '1'))
-		{
-			return null;
-		}
-		
-		// TODO I think this should be removed - all CSS files should be included by tmpl files
-		JHTML::_('stylesheet', $stylesheet, 'media/com_tienda/css/');	
-		
-		$mainframe = JFactory::getApplication();
-
-		$menu = JToolBar::getInstance( $name );
-		$list = $menu->_bar;
-
-		if (!is_array($list) || !count($list)) {
-			return null;
-		}
-
 		$hide = JRequest::getInt('hidemainmenu');
-		$txt = "<div id=\"{$name}\">\n";
-		//$txt .= "<ul id=\"{$name}\">\n";
-
-		/*
-		 * Iterate through the link items for building the menu items
-		 */
-		foreach ($list as $item)
-		{
-			//$txt .= "<li>\n";
-			if ($hide)
-			{
-				if (isset ($item[2]) && $item[2] == 1) {
-					$txt .= "<span class=\"nolink active\">".$item[0]."</span>\n";
-				}
-				else {
-					$txt .= "<span class=\"nolink\">".$item[0]."</span>\n";
-				}
-			}
-			else
-			{
-				if (isset ($item[2]) && $item[2] == 1) {
-					$txt .= "<a class=\"active\" href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
-				}
-				else {
-					$txt .= "<a href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
-				}
-			}
-			//$txt .= "</li>\n";
+		
+		// If we're using the default name of submenu, use the menu template
+		// Otherwise, load the named template.
+		$layout = ($this->_name == 'submenu') ? 'menu' : $this->_name;
+				
+		if (!empty($this->_menu->_bar)) {
+		    $view = new JView(array('name'=>'dashboard'));
+		    $view->set('items', $this->_menu->_bar);
+		    $view->set('name', $this->_name);
+		    $view->set('hide', $hide);
+    		$view->setLayout($layout);
+    		$view->display();		    
 		}
-
-		//$txt .= "</ul>\n";
-		$txt .= "</div>\n";
-
-		return $txt;
 	}
 }

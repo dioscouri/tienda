@@ -34,8 +34,9 @@ class TiendaViewGeozones extends TiendaViewBase
 			  break;
 			case "default":
 			default:
-				//$this->set( 'leftMenu', true );
-				$this->set( 'leftMenu', $this->get('leftMenu', true ) );
+				if ($this->get('leftMenu', true)) {
+				    $this->set( 'leftMenu', 'localization');
+				}
 				$this->_default($tpl);
 			  break;
 		}

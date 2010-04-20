@@ -63,13 +63,14 @@ class TiendaViewBase extends JView
 			require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php' );
 			$view = strtolower( JRequest::getVar('view') );
 
+			$menu =& TiendaMenu::getInstance();
 			if (!empty(JFactory::getUser()->id))
 			{
-	            JSubMenuHelper::addEntry(JText::_('Dashboard'), JRoute::_('index.php?option=com_tienda&view=dashboard'), $view == 'dashboard' ? true : false );
-	            JSubMenuHelper::addEntry(JText::_('Profile'), JRoute::_('index.php?option=com_tienda&view=accounts'), $view == 'accounts' ? true : false );
-                JSubMenuHelper::addEntry(JText::_('Order History'), JRoute::_('index.php?option=com_tienda&view=orders'), $view == 'orders' ? true : false);
+			    $menu->addEntry('Dashboard', 'index.php?option=com_tienda&view=dashboard', $view == 'dashboard' ? true : false );
+	            $menu->addEntry('Profile', 'index.php?option=com_tienda&view=accounts', $view == 'accounts' ? true : false );
+                $menu->addEntry('Order History', 'index.php?option=com_tienda&view=orders', $view == 'orders' ? true : false);
 			}
-			JSubMenuHelper::addEntry(JText::_('Shopping Cart'), JRoute::_('index.php?option=com_tienda&view=carts'), $view == 'carts' ? true : false);
+			$menu->addEntry('Shopping Cart', 'index.php?option=com_tienda&view=carts', $view == 'carts' ? true : false);
 		}
 	}
 	

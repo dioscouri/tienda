@@ -7,7 +7,7 @@
 	<span><?php echo JText::_( "My Account" ); ?></span>
 </div>
 
-	<?php echo TiendaMenu::display(); ?>
+	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
 		
 <table style="width: 100%;">
 <tr>

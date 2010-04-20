@@ -18,7 +18,7 @@
 	<span><?php echo JText::_( "Order Detail" ); ?></span>
 </div>
 
-    <?php echo TiendaMenu::display(); ?>
+    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
     <div style="float: right;">
         <?php
         $url = JRoute::_( "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id );

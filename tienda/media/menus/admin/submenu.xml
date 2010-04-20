@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+       <name>Dashboard</name>
+       <url>index.php?option=com_tienda&amp;view=dashboard</url>
+   </link>
+   <link>
+       <name>Orders</name>
+       <url>index.php?option=com_tienda&amp;view=orders</url>
+   </link>
+   <link>
+       <name>Users</name>
+       <url>index.php?option=com_tienda&amp;view=users</url>
+   </link>
+   <link>
+       <name>Products</name>
+       <url>index.php?option=com_tienda&amp;view=products</url>
+   </link>
+   <link>
+       <name>Categories</name>
+       <url>index.php?option=com_tienda&amp;view=categories</url>
+   </link>
+   <link>
+       <name>Manufacturers</name>
+       <url>index.php?option=com_tienda&amp;view=manufacturers</url>
+   </link>
+   <link>
+       <name>Localization</name>
+       <url>index.php?option=com_tienda&amp;view=localization</url>
+   </link>
+   <link>
+       <name>Reports</name>
+       <url>index.php?option=com_tienda&amp;view=reports</url>
+   </link>
+   <link>
+       <name>Tools</name>
+       <url>index.php?option=com_tienda&amp;view=tools</url>
+   </link>
+   <link>
+       <name>Configuration</name>
+       <url>index.php?option=com_tienda&amp;view=config</url>
+   </link>
+</menu>

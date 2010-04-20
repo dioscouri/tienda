@@ -28,21 +28,22 @@ class TiendaViewBase extends JView
         JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
         JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
         JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
-        
+        JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
+                
         $this->getLayoutVars($tpl);
         
 		$this->displayTitle( $this->get('title') );
 
 		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 		{
-			$this->displayMenubar();
+            $menu =& TiendaMenu::getInstance();
 		}
         
         jimport( 'joomla.application.module.helper' );		
 		$modules = JModuleHelper::getModules("tienda_left");
 		if ($modules && !JRequest::getInt('hidemainmenu') || !empty($this->leftMenu))
 		{
-			$this->displayWithLeftMenu($tpl=null);
+			$this->displayWithLeftMenu($tpl=null, $this->leftMenu);
 		}
 			else
 		{
@@ -63,101 +64,22 @@ class TiendaViewBase extends JView
 	}
 
 	/**
-	 * Gets the default submenu bar
-	 * @return array
-	 */
-	function getMenubar()
-	{
-		$views = array();
-		$views['dashboard']			= 'Dashboard';
-		$views['orders']			= 'Orders';
-        $views['users']             = 'Users';
-		$views['products']  		= 'Products';
-		$views['categories']		= 'Categories';
-		$views['manufacturers']		= 'Manufacturers';
-		$views['localization']		= 'Localization';
-		$views['reports']           = 'Reports';
-		$views['tools']             = 'Tools';
-		$views['config']			= 'Configuration';
-		return $views;
-	}
-
-	/**
-	 * Displays the default submenu bar 
-	 * @return void
-	 */
-	function displayMenubar()
-	{
-		$views = $this->getMenubar();
-
-		$left = array();
-		if (isset($this->leftMenu)) { $left = $this->getLeftMenubar(); }
-
-		foreach($views as $view => $title)
-		{
-			$current = strtolower( JRequest::getVar('view') );
-			$active = ($view == $current );
-			if (array_key_exists($current, $left) && $view == 'localization' ) { $active = true; }
-			JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_tienda&view='.$view, $active );
-		}
-	}
-
-	/**
-	 * Gets the selected left menu bar
-	 * TODO This can be consolidated with getMenuBar
-	 * 
-	 * @param unknown_type $type
-	 * @return unknown_type
-	 */
-	function getLeftMenubar( $type='' )
-	{
-		$views  = array();
-		$views['currencies']		= 'Currencies';
-		$views['emails']            = 'Emails';
-		$views['countries']			= 'Countries';
-		$views['zones']				= 'Zones';
-		$views['geozones']			= 'Geo Zones';
-		$views['orderstates']		= 'Order States';
-		$views['taxclasses']		= 'Tax Classes';
-		$views['shippingmethods']   = 'Shipping Methods';
-
-		return $views;
-	}
-
-	/**
-	 * Displays the left menu bar
-	 * @param $name
-	 * @return unknown_type
-	 */
-	function displayLeftMenubar($name='leftmenu')
-	{
-		JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
-
-		$views = $this->getLeftMenubar();
-
-		foreach($views as $view => $title)
-		{
-			$active = ($view == strtolower( JRequest::getVar('view') ) );
-			TiendaMenu::addEntry(JText::_($title), 'index.php?option=com_tienda&view='.$view, $active, $name );
-		}
-
-		echo TiendaMenu::display( $name, "{$name}_admin.css" );
-	}
-
-	/**
 	 * Displays a layout file with room for a left menu bar
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-    public function displayWithLeftMenu($tpl=null)
+    public function displayWithLeftMenu($tpl=null, $menuname)
     {
     	// TODO This is an ugly, quick hack - fix it
     	echo "<table width='100%'>";
     		echo "<tr>";
 	    		echo "<td style='width: 180px; padding-right: 5px; vertical-align: top;' >";
 
-					$this->displayLeftMenubar();
-
+	    		    JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
+					if ($menu =& TiendaMenu::getInstance($menuname)) {
+					    $menu->display();
+					}
+					
 					$modules = JModuleHelper::getModules("tienda_left");
 					$document	= &JFactory::getDocument();
 					$renderer	= $document->loadRenderer('module');

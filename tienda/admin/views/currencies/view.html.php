@@ -34,7 +34,7 @@ class TiendaViewCurrencies extends TiendaViewBase
 			  break;
 			case "default":
 			default:
-				$this->set( 'leftMenu', true );
+				$this->set( 'leftMenu', 'localization' );
 				$this->_default($tpl);
 			  break;
 		}

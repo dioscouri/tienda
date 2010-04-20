@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+       <name>Currencies</name>
+       <url>index.php?option=com_tienda&amp;view=currencies</url>
+   </link>
+   <link>
+       <name>Emails</name>
+       <url>index.php?option=com_tienda&amp;view=emails</url>
+   </link>
+   <link>
+       <name>Countries</name>
+       <url>index.php?option=com_tienda&amp;view=countries</url>
+   </link>
+   <link>
+       <name>Zones</name>
+       <url>index.php?option=com_tienda&amp;view=zones</url>
+   </link>
+   <link>
+       <name>Geo Zones</name>
+       <url>index.php?option=com_tienda&amp;view=geozones</url>
+   </link>
+   <link>
+       <name>Order States</name>
+       <url>index.php?option=com_tienda&amp;view=orderstates</url>
+   </link>
+   <link>
+       <name>Tax Classes</name>
+       <url>index.php?option=com_tienda&amp;view=taxclasses</url>
+   </link>
+   <link>
+       <name>Shipping Methods</name>
+       <url>index.php?option=com_tienda&amp;view=shippingmethods</url>
+   </link>
+</menu>

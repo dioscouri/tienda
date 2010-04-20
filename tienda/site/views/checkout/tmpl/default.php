@@ -11,7 +11,7 @@
     <span><?php echo JText::_( "Select Addresses and Shipping Method" ); ?></span>
 </div>
 
-    <?php // echo TiendaMenu::display(); ?>
+    <?php // if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
     
 <div id='onCheckout_wrapper'>
 
