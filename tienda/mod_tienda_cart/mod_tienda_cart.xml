@@ -25,6 +25,10 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+        <param name="display_lightbox" type="radio" default="0" label="Display Cart in Lightbox" description="Display Cart in Lightbox">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
 		<param name="null_text" type="text" size="50" default="No Items in Your Cart" label="No Items Text" description="No Items Text Desc"></param>
     </params>
 </install>

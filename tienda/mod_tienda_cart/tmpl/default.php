@@ -33,7 +33,17 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
     }
     $html .= '</span>'; 
     $html .= '<span class="CartTotal">'.JText::_( "Total" ).':<span>'.TiendaHelperBase::currency($orderTable->order_total).'</span> '.'</span> ';
-    $html .= '<span class="CartView">'.'<a id="cartLink" href="'.JRoute::_("index.php?option=com_tienda&view=carts").'">'.JText::_("View Your Cart").'</a>'.'</span>';
+    $html .= '<span class="CartView">';
+    if ($params->get('display_lightbox') == '1')
+    {
+        $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
+        $html .= Tienda::get("TiendaUrl", 'library.url')->popup( "index.php?option=com_tienda&view=carts&tmpl=component", JText::_("View Your Cart"), $lightbox_attribs );
+    }
+        else
+    {
+        $html .= '<a id="cartLink" href="'.JRoute::_("index.php?option=com_tienda&view=carts").'">'.JText::_("View Your Cart").'</a>';
+    }
+    $html .= '</span>';
     $html .= '<span class="CartCheckout">'.'<a id="checkoutLink" href="'.JRoute::_("index.php?option=com_tienda&view=checkout").'">'.JText::_("Checkout").'</a>'.'</span>';
     $html .= '<div class="reset"></div>';
 
