@@ -20,9 +20,9 @@ foreach ($this->items as $item) {
     } else {
         
         if ($item[2] == 1) {
-        ?> <a class="active" href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php
+        ?> <a class="active" href="<?php echo JRoute::_( $item[1] ); ?>"><?php echo $item[0]; ?></a> <?php
         } else {
-        ?> <a href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php   
+        ?> <a href="<?php echo JRoute::_( $item[1] ); ?>"><?php echo $item[0]; ?></a> <?php   
         }        
     }
     

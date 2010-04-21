@@ -126,7 +126,8 @@ class TiendaMenu extends JObject
 		// Otherwise, load the named template.
 		$layout = ($this->_name == 'submenu') ? 'menu' : $this->_name;
 				
-		if (!empty($this->_menu->_bar)) {
+		if (!empty($this->_menu->_bar)) 
+		{
 		    $view = new JView(array('name'=>'dashboard'));
 		    $view->set('items', $this->_menu->_bar);
 		    $view->set('name', $this->_name);
