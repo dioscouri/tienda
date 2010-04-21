@@ -34,7 +34,7 @@ class TiendaViewCountries extends TiendaViewBase
 			  break;
 			case "default":
 			default:
-				$this->set( 'leftMenu', 'localization' );
+				$this->set( 'leftMenu', 'leftmenu_localization' );
 				$this->_default($tpl);
 			  break;
 		}

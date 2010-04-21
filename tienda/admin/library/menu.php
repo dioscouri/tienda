@@ -60,7 +60,7 @@ class TiendaMenu extends JObject
                         }
                     }
                     
-                    // If we have both a URL and name, add a new inactive link
+                    // If we have both a URL and name, add a new link
                     if (!empty($name) && !empty($url)) {
                         parse_str($url, $urlvars);
                         $active = (strtolower( JRequest::getVar('view') ) == strtolower($urlvars['view']));
@@ -79,7 +79,7 @@ class TiendaMenu extends JObject
      * @param string $name
      * @return mixed
      * 
-     * Returns a reference to a JToolBar object or false if submenus have been disabled by an admin
+     * Returns a reference to a TiendaMenu object or false if submenus have been disabled by an admin
      */
     function & getInstance($name = 'submenu')
     {
@@ -122,17 +122,14 @@ class TiendaMenu extends JObject
 	{
 		$hide = JRequest::getInt('hidemainmenu');
 		
-		// If we're using the default name of submenu, use the menu template
-		// Otherwise, load the named template.
-		$layout = ($this->_name == 'submenu') ? 'menu' : $this->_name;
-				
+		// Load the named template, if there are links to display.				
 		if (!empty($this->_menu->_bar)) 
 		{
 		    $view = new JView(array('name'=>'dashboard'));
 		    $view->set('items', $this->_menu->_bar);
 		    $view->set('name', $this->_name);
 		    $view->set('hide', $hide);
-    		$view->setLayout($layout);
+    		$view->setLayout($this->_name);
     		$view->display();		    
 		}
 	}
