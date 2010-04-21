@@ -37,7 +37,7 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
     if ($params->get('display_lightbox') == '1')
     {
         $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
-        $html .= Tienda::get("TiendaUrl", 'library.url')->popup( "index.php?option=com_tienda&view=carts&tmpl=component", JText::_("View Your Cart"), $lightbox_attribs );
+        $html .= Tienda::get("TiendaUrl", 'library.url')->popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", JText::_("View Your Cart"), $lightbox_attribs );
     }
         else
     {
