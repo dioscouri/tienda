@@ -428,6 +428,17 @@
 					
 					<table class="adminlist">
 					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Width of UI Lightboxes' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="lightbox_width" value="<?php echo $this->row->get('lightbox_width', ''); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
 						<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Show Dioscouri Link in Footer' ); ?>
