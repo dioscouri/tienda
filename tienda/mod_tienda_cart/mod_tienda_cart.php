@@ -46,4 +46,12 @@ $orderTable->calculateTotals();
 // format the subtotal
 $order_subtotal = TiendaHelperBase::currency($orderTable->order_total);
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_cart' ) );
+if (!empty($items) || (empty($items) && $params->get('display_null')) )
+{
+    require( JModuleHelper::getLayoutPath( 'mod_tienda_cart' ) );    
+}
+    else 
+{
+    // don't display anything
+}
+
