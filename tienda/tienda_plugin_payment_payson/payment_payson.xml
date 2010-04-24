@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Payment Plugin - Payson (Standard) Payments</name>
+	<version>0.1.0</version>
+	<creationDate>April 2010</creationDate>
+	<author>Henrik</author>
+	<authorEmail>henrik@hussfelt.net</authorEmail>
+	<authorUrl>http://hussfelt.net/</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables standard Payson payments</description>
+	
+	<files>
+		<filename plugin="payment_payson">payment_payson</filename>
+		<folder>payment_payson</folder>  	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_payson.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param default="" name="payson_md5" description="Payson MD5 Key" label="Payson MD5 Key" type="text" />
+		<param default="https://www.payson.se/Images/payson_agent_logo_1.gif" name="payson_image" description="Payson image" label="Payson image" type="text" />
+		<param default="" name="payson_agent_id" description="Payson Agent ID" label="Payson Agent ID" type="text" />
+		<param default="" name="payson_seller_email" description="Payson seller email" label="Payson seller email" type="text" />
+		<param default="1" name="payson_guarantee" description="Payson Guarantee" label="Payson Guarantee" type="radio">
+			<option value="2">Yes</option>
+			<option value="1">No</option>
+		</param>
+		<param default="0" name="sandbox" description="Sandbox mode" label="Sandbox mode" type="radio">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param default="0" name="PaymentMethod" description="Payment methods accepted" label="Payment methods accepted" type="list">
+			<option value="1">Card (VISA/MasterCard)</option>
+			<option value="2">Internet bank (SEB, Handelsbanken, Nordea and Swedbank)</option>
+			<option value="3">Only money on users Payson account</option>
+		</param>
+	</params>
+			
+</install>
