@@ -2,42 +2,50 @@
 
 <?php echo JText::_( "Tienda Paypal Payment Stadard Preparation Message" ); ?>
 
-<form action='<?php echo $vars->post_url; ?>' method='post'>
+<form target="pagseguro" method="post"
+action="https://pagseguro.uol.com.br/checkout/checkout.jhtml">
 
-<!--USER INFO-->
-    <input type='hidden' name='first_name' value='<?php echo @$vars->first_name; ?>'>
-    <input type='hidden' name='last_name' value='<?php echo @$vars->last_name; ?>'>
-    <input type='hidden' name='email' value='<?php echo @$vars->email; ?>'>
+<!-- STORE INFO -->
+<input type="hidden" name="email_cobranca" value="<?php echo $vars->merchant_email; ?>">
+<input type="hidden" name="tipo" value="CP">
+<input type="hidden" name="moeda" value='<?php echo $vars->currency_code; ?>> <!-- should be BRL -->
 
-<!--SHIPPING ADDRESS PROVIDED-->
-    <input type='hidden' name='address1' value='<?php echo @$vars->address_1; ?>'>
-    <input type='hidden' name='address2' value='<?php echo @$vars->address_2; ?>'>
-    <input type='hidden' name='city' value='<?php echo @$vars->city; ?>'>
-    <input type='hidden' name='country' value='<?php echo @$vars->country; ?>'>
-    <input type='hidden' name='state' value='<?php echo @$vars->region; ?>'>
-    <input type='hidden' name='zip' value='<?php echo @$vars->postal_code; ?>'>
+<!-- CLIENT INFO -->
+<input type="hidden" name="cliente_nome" value='<?php echo @$vars->first_name; ?>'>
+<input type="hidden" name="cliente_cep" value='<?php echo @$vars->postal_code; ?>'>
+<input type="hidden" name="cliente_end" value='<?php echo @$vars->address_1; ?>'>
+<input type="hidden" name="cliente_num" value="12">
+<input type="hidden" name="cliente_compl" value="Sala 109">
+<input type="hidden" name="cliente_bairro" value="Bairro do cliente">
+<input type="hidden" name="cliente_cidade" value='<?php echo @$vars->city; ?>'>
+<input type="hidden" name="cliente_uf" value="ES">
+<input type="hidden" name="cliente_pais" value='<?php echo @$vars->country; ?>'>
+<input type="hidden" name="cliente_ddd" value="27">
+<input type="hidden" name="cliente_tel" value="22345678">
+<input type="hidden" name="cliente_email" value='<?php echo @$vars->email; ?>'>
 
-<!--CART INFO AGGREGATED-->
-    <input type='hidden' name='amount_1' value='<?php echo TiendaHelperBase::number( @$vars->orderpayment_amount, array( 'thousands' =>'' ) ); ?>'>
-    <input type='hidden' name='item_name_1' value='<?php echo JText::_( "Order Number" ).": ".$vars->order_id; ?>'>
-    <input type='hidden' name='item_number_1' value='<?php echo $vars->order_id; ?>'>
-    <input type='hidden' name='custom' value='<?php echo @$vars->orderpayment_id; ?>'>
-    <!-- IPN-PDT  ONLY -->
-    <input type='hidden' name='invoice' value='<?php echo @$vars->orderpayment_id; ?>'>
+<!--CART INFO -->
+<!-- TODO must loop for each item -->
+<input type="hidden" name="item_id_1" value="12345">
+<input type="hidden" name="item_descr_1"
+value="Descrição do item a ser vendido">
+<input type="hidden" name="item_quant_1" value="1">
+<input type="hidden" name="item_valor_1" value="100">
+<input type="hidden" name="item_frete_1" value="0">
+<input type="hidden" name="item_peso_1" value="0">
 
-<!--PAYPAL VARIABLES-->
-	<input type='hidden' name='cmd' value='_cart'>
-	<input type="hidden" name="business" value="<?php echo $vars->merchant_email; ?>" />
-	<input type='hidden' name='return' value='<?php echo JRoute::_( $vars->return_url ); ?>'>
-	<input type='hidden' name='cancel_return' value='<?php echo JRoute::_( $vars->cancel_url ); ?>'>
-	<input type="hidden" name="notify_url" value="<?php echo JRoute::_( $vars->notify_url ); ?>" />
-	<input type='hidden' name='currency_code' value='<?php echo $vars->currency_code; ?>'>
-	<input type='hidden' name='no_note' value='1'>
-	<input type="hidden" name="upload" value="1">
+<input type="hidden" name="item_id_2" value="67890">
+<input type="hidden" name="item_descr_2"
+value="Descrição do item 2 a ser vendido">
+<input type="hidden" name="item_quant_2" value="1">
+<input type="hidden" name="item_valor_2" value="199">
+<input type="hidden" name="item_frete_2" value="0">
+<input type="hidden" name="item_peso_2" value="0">
+<input type="hidden" name="tipo_frete" value="EN">
 
-    <?php echo JText::_('Click The Paypal Button to Complete Your Order'); ?>
-	
-	<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
-	<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-
+<!-- BUTTON -->
+<?php echo JText::_('Click The Paypal Button to Complete Your Order'); ?>
+<input type="image"
+src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/carrinhoproprio/btnFinalizaBR.jpg"
+name="submit" alt="Pague com PagSeguro - é rápido, grátis e seguro!">
 </form>

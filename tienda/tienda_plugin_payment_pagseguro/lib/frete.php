@@ -67,8 +67,8 @@ class PgsFrete
         $ch    = curl_init();
         if ('https'===$parse['scheme']) {
             // Nao verificar certificado
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
         curl_setopt($ch, CURLOPT_URL, $url); // Retornar o resultado
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retornar o resultado
