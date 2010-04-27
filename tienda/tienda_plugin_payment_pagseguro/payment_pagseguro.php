@@ -2,8 +2,8 @@
 /**
  * @version 1.5
  * @package Tienda
- * @author  Dioscouri Design
- * @link    http://www.dioscouri.com
+ * @author  Marco Barbosa
+ * @link    http://marcobarbosa.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 */
@@ -13,13 +13,13 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.library.plugins.payment', JPATH_ADMINISTRATOR.DS.'components' );
 
-class plgTiendaPayment_paypal extends TiendaPaymentPlugin
+class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
 {
     /**
      * @var $_element  string  Should always correspond with the plugin's filename,
      *                         forcing it to be unique
      */
-    var $_element    = 'payment_paypal';
+    var $_element    = 'payment_pagseguro';
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      * @param   array  $config  An array that holds the plugin configuration
      * @since 1.5
      */
-    function plgTiendaPayment_paypal(& $subject, $config) {
+    function plgTiendaPayment_pagseguro(& $subject, $config) {
         parent::__construct($subject, $config);
         $this->loadLanguage( '', JPATH_ADMINISTRATOR );
     }
@@ -160,7 +160,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      ************************************/
 
     /**
-     * Gets the Paypal gateway URL
+     * Gets the PagSeguro gateway URL
      *
      * @param boolean $full
      * @return string

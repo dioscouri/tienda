@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
+
     <name>Tienda Payment Plugin - PagSeguro Payments</name>
     <version>0.1.0</version>
     <creationDate>April 2010</creationDate>
@@ -21,24 +22,24 @@
     </languages>
 
     <params addpath="/administrator/components/com_tienda/elements">
-        <param name="merchant_email" type="text" size="50" default="" label="Paypal Email" description="Paypal Email Desc"/>
-        <param name="currency" type="text" size="10" default="USD" label="Paypal Currency" description="Paypal Currency Desc"/>
-        <param name="secure_post" type="radio" default="0" label="Paypal Secure Post" description="Paypal Secure Post Desc">
+        <param name="merchant_email" type="text" size="50" default="" label="Pagseguro Email" description="Pagseguro Email Desc"/>
+        <param name="currency" type="text" size="10" default="USD" label="Pagseguro Currency" description="Pagseguro Currency Desc"/>
+        <param name="secure_post" type="radio" default="0" label="Pagseguro Secure Post" description="Pagseguro Secure Post Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>
         <param type="spacer" />
-        <param name="sandbox" type="radio" default="0" label="Paypal Use Sandbox" description="Paypal Use Sandbox Desc">
+        <param name="sandbox" type="radio" default="0" label="Pagseguro Use Sandbox" description="Pagseguro Use Sandbox Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>
-        <param name="sandbox_merchant_email" type="text" size="50" default="" label="Paypal Sandbox Merchant Email" description="Paypal Sandbox Merchant Email Desc"/>
-        <param name="sandbox_customer_email" type="text" size="50" default="" label="Paypal Sandbox Customer Email" description="Paypal Sandbox Customer Email Desc"/>
+        <param name="sandbox_merchant_email" type="text" size="50" default="" label="Pagseguro Sandbox Merchant Email" description="Pagseguro Sandbox Merchant Email Desc"/>
+        <param name="sandbox_customer_email" type="text" size="50" default="" label="Pagseguro Sandbox Customer Email" description="Pagseguro Sandbox Customer Email Desc"/>
         <param type="spacer" />
-        <param name="auth_token" type="textarea" default="" label="Paypal Auth Token" description="Paypal Auth Token Desc" rows="5" cols="30" />
+        <param name="auth_token" type="textarea" default="" label="Pagseguro Auth Token" description="Pagseguro Auth Token Desc" rows="5" cols="30" />
         <param type="spacer" />
-        <param name="articleid" type="text" size="10" default="" label="Paypal Article Number" description="Paypal Article Number Desc"/>
-        <param name="display_article_title" type="radio" default="0" label="Paypal Display Article Title" description="Paypal Display Article Title Desc" >
+        <param name="articleid" type="text" size="10" default="" label="Pagseguro Article Number" description="Pagseguro Article Number Desc"/>
+        <param name="display_article_title" type="radio" default="0" label="Pagseguro Display Article Title" description="Pagseguro Display Article Title Desc" >
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>

@@ -4,10 +4,11 @@
 
 <?php
 // account token
+// TODO must get from xml
 define('TOKEN','0123456789abcdef0123456789abcdef');
 
 // Include the return class
-include('retorno.php');
+include('../../lib/retorno.php');
 
 // function that captures return data
 function retorno_automatico ( $VendedorEmail, $TransacaoID,
@@ -24,6 +25,5 @@ function retorno_automatico ( $VendedorEmail, $TransacaoID,
 
 }
 
-// A partir daqui, é só HTML:
-// From here on, just html (we got your order, waiting for payment confirmation...)
+// From here on, just html output ("we got your order", "waiting for payment confirmation",...)
 ?>
