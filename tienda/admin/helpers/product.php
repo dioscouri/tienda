@@ -372,8 +372,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $url
 	 * @return unknown_type
 	 */
-	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
+	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false, $resize=false, $options=array() )
 	{
+		
 		switch($type)
 		{
 			case "full":
@@ -394,7 +395,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             
 			// if url is true, just return the url of the file and not the whole img tag
 			$tmpl = ($url)
-				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0'>";
+				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
 
 		}
 			else
@@ -410,19 +411,84 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$dir = $row->getImagePath();
 				
 				if($path == 'products_thumbs'){
-					$dir .= DS.'thumbs';
+					$dir .= 'thumbs';
 					$urli .= 'thumbs/';
 				}
 				
 				$file = $dir.DS.$row->product_full_image;
 				
 				$id = $urli.$row->product_full_image;
+				
+				// Gotta do some resizing first?
+				if ($resize)
+				{
+					// Add a suffix to the thumb to avoid conflicts with user settings
+					$suffix = '';
+				
+					if (isset($options['width']) && isset($options['height'])) 
+					{
+						$suffix = '_'.$options['width'].'x'.$options['height'];
+					}
+					elseif (isset($options['width']))
+					{
+						$suffix = '_w'.$options['width'];
+					}
+					elseif (isset($options['height']))
+					{
+						$suffix = '_h'.$options['height'];
+					}
+					
+					// Add suffix to file path
+					$dot = strrpos($file, '.');
+					$resize = substr($file, 0, $dot).$suffix.substr($file, $dot);
+					
+					if (!JFile::exists($resize))
+					{
+						
+						Tienda::load('TiendaImage', 'library.image');
+						$image = new TiendaImage($file);
+						$image->load();
+						// If both width and height set, gotta figure hwo to resize
+						if (isset($options['width']) && isset($options['height'])) 
+						{
+							// If width is larger, proportionally
+							if (($options['width'] / $image->getWidth()) < ($options['height'] / $image->getHeight()))
+							{
+								$image->resizeToWidth($options['width']);
+								$image->save($resize);
+							}
+							// If height is larger, proportionally
+							else
+							{
+								$image->resizeToHeight($options['height']);
+								$image->save($resize);
+							}
+						}
+						// If only width is set
+						elseif (isset($options['width']))
+						{
+							$image->resizeToWidth($options['width']);
+							$image->save($resize);
+						}
+						// If only height is set
+						elseif (isset($options['height']))
+						{
+							$image->resizeToHeight($options['height']);
+							$image->save($resize);
+						}
+						
+					}
+					
+					// Add suffix to url path
+					$dot = strrpos($id, '.');
+					$id = substr($id, 0, $dot).$suffix.substr($id, $dot);
+				}
 
 				$src = (JFile::exists( $file ))
 					? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
 
 				$tmpl = ($url)
-					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' >";
+					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
 			}			
 		}
 		return $tmpl;
