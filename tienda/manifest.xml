@@ -67,6 +67,8 @@
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
+		<folder>menus</folder>
+		<file>index.html</file>
 	</media>
 		
 	<!-- Modules -->	
