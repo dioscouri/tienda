@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  An ant build file for joomla install packages
- 
+
  @author     Dioscouri Design
  @link     http://www.dioscouri.com
  @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
@@ -20,11 +20,11 @@
     cfg.buildDir=packages
     cfg.localhostRoot=../../www
     cfg.xmlfile=files.txt
-    
+
     ftp.server=
     ftp.user=
     ftp.password=
-    ftp.dir=     
+    ftp.dir=
 
     rsync.server=
     rsync.user=
@@ -43,9 +43,9 @@
     <property name="cfg.siteLangDir" location="${cfg.comDir}/languages/site" />
     <property name="cfg.pluginChartsDir" location="${cfg.comDir}/${cfg.comName}_plugin_charts" />
     <property name="cfg.pluginPaymentDir" location="${cfg.comDir}/${cfg.comName}_plugin_payment" />
-	<property name="cfg.pluginReportDir" location="${cfg.comDir}/${cfg.comName}_plugin_report" />
+    <property name="cfg.pluginReportDir" location="${cfg.comDir}/${cfg.comName}_plugin_report" />
     <property name="cfg.pluginToolDir" location="${cfg.comDir}/${cfg.comName}_plugin_tool" />
-    
+
     <!-- some settings that are currently unused -->
     <property name="cfg.addversion" value="true" />
     <property name="cfg.versionprefix" value="v" />
@@ -131,19 +131,19 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
         </copy>
-    	<!-- CHARTS PLUGINS -->
+        <!-- CHARTS PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
         </copy>
-    	<!-- PAYMENT PLUGINS -->
+        <!-- PAYMENT PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_offline" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-        	<fileset dir="${cfg.pluginPaymentDir}_offline/languages" />
+            <fileset dir="${cfg.pluginPaymentDir}_offline/languages" />
         </copy>
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_paypal" />
@@ -157,7 +157,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
         </copy>
-    	<!-- USER PLUGINS -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_pagseguro" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_pagseguro/languages" />
+        </copy>
+        <!-- USER PLUGINS -->
         <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user" />
         </copy>
@@ -171,13 +177,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
         </copy>
-    	<!-- MODULES -->
-    	<copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
-    	    <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
-		</copy>
-    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-    	    <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
-		</copy>
+        <!-- MODULES -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
+        </copy>
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
         </copy>
@@ -214,14 +220,14 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon/languages" />
         </copy>
-    	<!-- REPORT PLUGINS -->
+        <!-- REPORT PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
         </copy>
-    	<!-- TOOL PLUGINS -->
+        <!-- TOOL PLUGINS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_xcartmigration" />
         </copy>

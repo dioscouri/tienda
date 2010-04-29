@@ -22,7 +22,6 @@ function retorno_automatico ( $VendedorEmail, $TransacaoID,
   // and if it's all correct, update the order status
 
 
-
 }
 
 // From here on, just html output ("we got your order", "waiting for payment confirmation",...)
