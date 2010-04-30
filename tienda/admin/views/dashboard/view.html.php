@@ -11,8 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
-JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaViewBase', 'views._base' );
+Tienda::load( 'TiendaGrid', 'library.grid' );
 
 class TiendaViewDashboard extends TiendaViewBase
 {
@@ -61,9 +61,9 @@ class TiendaViewDashboard extends TiendaViewBase
      */
     function getLayoutVars($tpl=null)
     {
-        JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
+        Tienda::load( 'TiendaGrid', 'library.grid' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
         if (empty($this->hidestats))
         {
         	// properly format the statesCSV
@@ -505,7 +505,7 @@ class TiendaViewDashboard extends TiendaViewBase
 
         if (empty($results)) {
             // No Tienda Charts plugin enabled, use Google Charts.
-            JLoader::import( 'com_tienda.library.charts', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaCharts', 'library.charts' );
             $chart = TiendaCharts::renderGoogleChart($args['data'], $chart_title, $chart_type);
         } else {
             $chart = $results[0];
@@ -557,7 +557,7 @@ class TiendaViewDashboard extends TiendaViewBase
 
         if (empty($results)) {
             // No Tienda Charts plugin enabled, use Google Charts.
-            JLoader::import( 'com_tienda.library.charts', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaCharts', 'library.charts' );
             $chart = TiendaCharts::renderGoogleChart($args['data'], $chart_title, $chart_type);
         } else {
             $chart = $results[0];
@@ -568,38 +568,5 @@ class TiendaViewDashboard extends TiendaViewBase
         $this->assign( "$variable_name", $row);
         
         return;
-    	
-        JLoader::import( 'com_synk.libchart.classes.libchart', JPATH_SITE.DS.'media' );
-        $row = new JObject();
-        // Create Chart from Data
-            // first specify the chart type and dimensions
-            $chart = new VerticalBarChart(600, 250);
-
-            // then set title
-            $row->title = JText::_( $chart_title );
-            $chart->setTitle( null );
-
-            // then create a dataset
-            $dataSet = new XYDataSet();
-
-            $max = 0;
-            if (is_array($data->rows)) { foreach ($data->rows as $r) {
-                if ($r[$type] > $max) { $max = $r[$type]; }
-                $dataSet->addPoint(new Point($r['datedata'], $r[$type]));
-            } } // end foreach
-
-            // link dataset to chart
-            $chart->setDataSet($dataSet);
-            $chart->bound->setUpperBound($max);
-
-            // render to a png file
-            jimport('joomla.user.helper');
-            $newfilename = JUserHelper::genRandomPassword();
-            $tmp_path = JFactory::getApplication()->getCfg('tmp_path');
-            $chart->render( $tmp_path.DS.$newfilename.'.png' );
-
-            $row->image = JHTML::_( "image.site", "$newfilename.png", "../tmp/" );
-
-        $this->assign( "$variable_name", $row );
     }
 }

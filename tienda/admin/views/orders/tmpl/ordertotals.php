@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $totals = @$this->row; ?>
-<?php JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+<?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
 <table class="adminlist">
 <thead>

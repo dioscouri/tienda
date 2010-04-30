@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.payment', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaPaymentPlugin', 'library.plugins.payment' );
 
 class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
 {
@@ -62,7 +62,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     function _prePayment( $data )
     {
         // prepare the payment form
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance();
         
         $vars = new JObject();
@@ -216,8 +216,8 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         }
         
         // set the order's new status and update quantities if necessary
-        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors)) 

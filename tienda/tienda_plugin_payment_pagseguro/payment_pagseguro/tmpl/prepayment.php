@@ -2,13 +2,12 @@
 
 <?php echo JText::_( "Tienda Paypal Payment Stadard Preparation Message" ); ?>
 
-<form target="pagseguro" method="post"
-action="https://pagseguro.uol.com.br/checkout/checkout.jhtml">
+<form target="pagseguro" method="post" action="https://pagseguro.uol.com.br/checkout/checkout.jhtml">
 
     <!-- STORE INFO -->
     <input type="hidden" name="email_cobranca" value="<?php echo $vars->merchant_email; ?>">
     <input type="hidden" name="tipo" value="CP">
-    <input type="hidden" name="moeda" value='<?php echo $vars->currency_code; ?>> <!-- should be BRL -->
+    <input type="hidden" name="moeda" value='<?php echo $vars->currency_code; ?>'> <!-- should be BRL -->
 
     <!-- CLIENT INFO -->
     <input type="hidden" name="cliente_nome" value='<?php echo @$vars->first_name; ?>'>

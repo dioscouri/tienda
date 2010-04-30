@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableOrders extends TiendaTable
 {	
@@ -376,7 +376,7 @@ class TiendaTableOrders extends TiendaTable
         {
             $geozone_id = $geozone->geozone_id;
             // calculate shipping total by passing entire items array to helper
-            JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
             $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $geozone_id, $items );
 
             $order_shipping       += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
@@ -420,7 +420,7 @@ class TiendaTableOrders extends TiendaTable
         // calculate product subtotal and taxes
         // calculate shipping total
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
         foreach ($items as $item)
         {
             if (!empty($item->vendor_id))
@@ -664,7 +664,7 @@ class TiendaTableOrders extends TiendaTable
      */
     function setGeozones()
     {
-        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
         if (!empty($this->_billing_address))
         { 
             $this->_billing_geozones = TiendaHelperShipping::getGeoZones( $this->_billing_address->zone_id, '1' ); 

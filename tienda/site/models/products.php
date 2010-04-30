@@ -11,4 +11,4 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.models.products', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaModelProducts', 'models.products' );

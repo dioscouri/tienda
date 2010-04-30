@@ -107,7 +107,7 @@ class TiendaModelElementAddress extends JModel
 		$this->_list = $db->loadObjectList();
 		
 		//currency formatting
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 		// If there is a db query error, throw a HTTP 500 and exit
 		if ($db->getErrorNum()) {

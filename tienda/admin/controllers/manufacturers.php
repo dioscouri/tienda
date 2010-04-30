@@ -121,7 +121,7 @@ class TiendaControllerManufacturers extends TiendaController
 	 */
 	function addfile( $fieldname = 'manufacturer_image_new' )
 	{
-		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaImage', 'library.image' );
 		$upload = new TiendaImage();
 		// handle upload creates upload object properties
 		$upload->handleUpload( $fieldname );
@@ -132,7 +132,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$upload->upload();
 		
 		// Thumb
-		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 		$imgHelper->resizeImage( $upload, 'manufacturer');
 		
@@ -149,8 +149,8 @@ class TiendaControllerManufacturers extends TiendaController
     	$from_id = JRequest::getInt('from_id', 0);
     	$to =  $from_id + $per_step;
     	
-    	JLoader::import( 'com_tienda.helpers.manufacturer', JPATH_ADMINISTRATOR.DS.'components' );
-    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
+    	Tienda::load( 'TiendaImage', 'library.image' );
     	$width = TiendaConfig::getInstance()->get('manufacturer_img_width', '0');
     	$height = TiendaConfig::getInstance()->get('manufacturer_img_height', '0');
   
@@ -176,7 +176,7 @@ class TiendaControllerManufacturers extends TiendaController
     			$img->setDirectory( Tienda::getPath('manufacturers_images'));
 		
 				// Thumb
-				JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+				Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 				$imgHelper->resizeImage( $img, 'manufacturer');
     		}

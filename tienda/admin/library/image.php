@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR .DS. 'components' );
+Tienda::load( 'TiendaFile', 'library.file' );
 
 class TiendaImage extends TiendaFile 
 {

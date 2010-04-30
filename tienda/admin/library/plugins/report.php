@@ -11,8 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins._base', JPATH_ADMINISTRATOR.DS.'components' );
-JLoader::import( 'com_tienda.models._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
+Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaReportPlugin extends TiendaPluginBase
 {

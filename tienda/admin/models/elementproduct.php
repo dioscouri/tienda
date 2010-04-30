@@ -100,7 +100,7 @@ class TiendaModelElementProduct extends JModel
 		$this->_list = $db->loadObjectList();
 		
 		//currency formatting
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		foreach($this->_list as $item)
 		{
 			$item->product_price = TiendaHelperBase::currency($item->product_price); 

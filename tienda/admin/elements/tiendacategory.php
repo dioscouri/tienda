@@ -20,7 +20,7 @@ class JElementTiendaCategory extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-	    $list = Tienda::get( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Category', '', true );
+	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Category', '', true );
 		return $list;
 	}
 }

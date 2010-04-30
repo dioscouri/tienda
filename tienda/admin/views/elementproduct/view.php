@@ -57,7 +57,7 @@ class TiendaViewElementProduct extends JView
 		$object = JRequest::getVar( 'object' );
 		$link = 'index.php?option=com_tienda&task=elementProduct&tmpl=component&object='.$object;
 
-		JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaGrid', 'library.grid' );
 		?>
 		<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 

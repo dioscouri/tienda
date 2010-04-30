@@ -39,7 +39,7 @@ class TiendaViewBase extends JView
     	
         $this->getLayoutVars($tpl);
         
-        JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaMenu', 'library.menu' );
         
         if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
         {
@@ -121,8 +121,8 @@ class TiendaViewBase extends JView
 	 */
 	function _default($tpl='')
 	{
-		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaSelect', 'library.select' );
+		Tienda::load( 'TiendaGrid', 'library.grid' );
 		$model = $this->getModel();
 		
 		// set the model state
@@ -150,7 +150,7 @@ class TiendaViewBase extends JView
 	 */
 	function _form($tpl='')
 	{
-		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaSelect', 'library.select' );
 		$model = $this->getModel();
 			
 		// get the data

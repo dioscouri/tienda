@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.tool', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaToolPlugin', 'library.plugins.tool' );
 
 class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 {

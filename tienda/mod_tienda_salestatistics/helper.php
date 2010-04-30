@@ -11,8 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
-JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+Tienda::load( 'TiendaQuery', 'library.query' );
 
 class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 {

@@ -503,7 +503,7 @@ class TiendaSelect extends JHTMLSelect
         if($allowAny) {
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
-        JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
         $items = TiendaHelperShipping::getTypes();
         foreach ($items as $item)
         {
@@ -630,7 +630,7 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $items = Tienda::get( "TiendaHelperProduct", 'helpers.product' )->getLayouts();
+        $items = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getLayouts();
         foreach ($items as $item)
         {
             $namebits = explode('.', $item);
@@ -659,7 +659,7 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $items = Tienda::get( "TiendaHelperCategory", 'helpers.category' )->getLayouts();
+        $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getLayouts();
         foreach ($items as $item)
         {
             $namebits = explode('.', $item);

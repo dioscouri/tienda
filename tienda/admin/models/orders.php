@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.models._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelOrders extends TiendaModelBase
 {
@@ -214,7 +214,7 @@ class TiendaModelOrders extends TiendaModelBase
 	
 	public function getList()
 	{
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$list = parent::getList();
 		
 		// If no item in the list, return an array()
@@ -253,7 +253,7 @@ class TiendaModelOrders extends TiendaModelBase
 	
 	public function getItem()
 	{
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		
 		if ($item = parent::getItem())

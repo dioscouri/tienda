@@ -69,7 +69,7 @@ class TiendaUrl {
 
 		// set the $handler_string based on the user's browser
         $handler_string = "{handler:'iframe',size:{x: window.innerWidth-80, y: window.innerHeight-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
-	    $browser = Tienda::get( 'TiendaBrowser', 'library.browser' );
+	    $browser = Tienda::getClass( 'TiendaBrowser', 'library.browser' );
         if ( $browser->getBrowser() == TiendaBrowser::BROWSER_IE ) 
         {
             // if IE, use 

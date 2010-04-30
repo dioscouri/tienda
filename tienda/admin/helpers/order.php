@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -60,7 +60,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
         
         // 2. remove items from cart
-        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         TiendaHelperCarts::removeOrderItems( $order_id );
         
         // TODO Should we log this as part of orderhistory?

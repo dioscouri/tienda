@@ -143,7 +143,7 @@ window.addEvent('domready', function(){
                         </td>
                         <td>
                             <?php
-                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+                            Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributes&id=".$row->product_id."&tmpl=component", "Set Attributes" ); ?>]
@@ -297,7 +297,7 @@ window.addEvent('domready', function(){
                         </td>
                         <td>
                             <?php
-                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+                            Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
@@ -376,7 +376,7 @@ window.addEvent('domready', function(){
                                 <?php
                                 echo $row->product_quantity;
                                 echo "<br/>";
-                                JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+                                Tienda::load( 'TiendaUrl', 'library.url' );
                                 $options = array('update' => true ); 
                                 ?>
                                 [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
@@ -508,8 +508,8 @@ window.addEvent('domready', function(){
                             </label>
                         </td>
                         <td>
-                            <?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' ); ?>
-                            <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+                            <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
+                            <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$row->product_id."&tmpl=component", "Select Categories" ); ?>]
                             <?php $categories = TiendaHelperProduct::getCategories( $row->product_id ); ?>
                             <div id="current_categories">
@@ -631,7 +631,7 @@ window.addEvent('domready', function(){
                         </td>
                         <td>
                             <?php
-                            JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+                            Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setfiles&id=".$row->product_id."&tmpl=component", "Manage Files" ); ?>]

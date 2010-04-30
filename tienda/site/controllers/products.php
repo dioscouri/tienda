@@ -116,7 +116,7 @@ class TiendaControllerProducts extends TiendaController
         $view->setModel( $model, true );
         
         // using a helper file, we determine the category's layout 
-        $layout = Tienda::get( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $cat->category_id );
+        $layout = Tienda::getClass( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $cat->category_id );
         $view->setLayout($layout);
         
         $view->display();
@@ -145,7 +145,7 @@ class TiendaControllerProducts extends TiendaController
             return;
         }
         
-        JLoader::import( 'com_tienda.library.article', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaArticle', 'library.article' );
         $product_description = TiendaArticle::fromString( $row->product_description );
         
         $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
@@ -163,7 +163,7 @@ class TiendaControllerProducts extends TiendaController
         $view->setModel( $model, true );
         
         // using a helper file, we determine the product's layout 
-        $layout = Tienda::get( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
+        $layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
         $view->setLayout($layout);
         
         $view->display();
@@ -190,7 +190,7 @@ class TiendaControllerProducts extends TiendaController
         //$model->setState( 'filter_purchaserequired', 1 );
         $items = $model->getList();
         
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
         $items = $helper->filterRestricted( $items, JFactory::getUser()->id );
         
@@ -227,7 +227,7 @@ class TiendaControllerProducts extends TiendaController
         $product_id = intval( JRequest::getvar( 'product_id', '', 'request', 'int' ) );
         $link = 'index.php?option=com_tienda&controller=products&view=products&task=view&id='.$product_id;
 
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
         
         if ( !$canView = $helper->canDownload( $productfile_id, JFactory::getUser()->id ) ) 
@@ -250,7 +250,7 @@ class TiendaControllerProducts extends TiendaController
         }
         
         // log and download
-        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaFile', 'library.file' );
         // Log the download
         $productfile->logDownload( $user->id );
         if ($downloadFile = TiendaFile::download( $productfile )) 

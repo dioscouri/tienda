@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JLoader::import( 'com_tienda.tables._basexref', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaTableXref', 'tables._basexref' );
 
 class TiendaTableCarts extends TiendaTableXref 
 {

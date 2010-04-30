@@ -27,7 +27,7 @@
                 </th>
                 <td>
                     <?php
-                    JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+                    Tienda::load( 'TiendaHelperUser', 'helpers.user' );
                     $userinfo = TiendaHelperUser::getBasicInfo( JFactory::getUser()->id );
                     if (empty($userinfo->user_id))
                     {
@@ -77,7 +77,7 @@
                 </th>
                 <td>
                     <?php
-                    JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+                    Tienda::load( 'TiendaHelperUser', 'helpers.user' );
                     if ($address = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' ))
                     {
                         echo $address->title . " ". $address->first_name . " ". $address->last_name . "<br>";

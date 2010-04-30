@@ -3,7 +3,7 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
-<?php JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+<?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 

@@ -133,7 +133,7 @@ class TiendaControllerAddresses extends TiendaController
      */
     function getZones()
     {
-        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
         $html = '';
         $text = '';
     	

@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewOrders extends TiendaViewBase 
 {
@@ -47,7 +47,7 @@ class TiendaViewOrders extends TiendaViewBase
 	function _form($tpl = null) 
 	{
 		parent::_form($tpl);
-		JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaUrl', 'library.url' );
 
 		$model = $this->getModel();
 		$row = $model->getItem();	
@@ -104,7 +104,7 @@ class TiendaViewOrders extends TiendaViewBase
     {
         $divider = false;
         $model = $this->getModel();
-        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         $surrounding = TiendaHelperOrder::getSurrounding( $model->getId() );
         if (!empty($surrounding['prev']))
         {

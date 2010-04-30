@@ -234,6 +234,12 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
         </copy>
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration/languages" />
+        </copy>
     </target>
 
     <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">

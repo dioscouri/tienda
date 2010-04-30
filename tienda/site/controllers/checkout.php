@@ -140,8 +140,8 @@ class TiendaControllerCheckout extends TiendaController
 			$default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
 
 			// get all the enabled shipping plugins
-			JLoader::import( 'com_tienda.helpers.plugin', JPATH_ADMINISTRATOR.DS.'components' );
-			$plugins = TiendaHelperPlugins::getPluginsWithEvent( 'onGetShippingPlugins' );
+			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
+			$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
 				
 			// now display the entire checkout page
 			$view = $this->getView( 'checkout', 'html' );
@@ -181,7 +181,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			// set the order's addresses based on the form inputs
 			// set to user defaults
-			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
 			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
 			$order->setAddress( $billingAddress, 'billing' );
@@ -190,7 +190,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		
 		// get the items and add them to the order
-		JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$items = TiendaHelperCarts::getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -271,7 +271,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['msg'] = '';
 		$response['error'] = '';
 
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 
 		// get elements from post
@@ -290,7 +290,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		// convert elements to array that can be binded
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
 
@@ -308,7 +308,7 @@ class TiendaControllerCheckout extends TiendaController
 						echo ( json_encode( $response ) );
 						return;
 					}
-					JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
 						$response['msg'] = $helper->generateMessage( JText::_('This email address is already registered! Login to checkout as a user!') );
 						$response['error'] = '1';
@@ -339,7 +339,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['msg'] = '';
 		$response['error'] = '';
 
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if no shipping method selected
@@ -385,7 +385,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['msg'] = '';
 		$response['error'] = '';
 
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if no payment method selected
@@ -452,7 +452,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function getZones()
 	{
-		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaSelect', 'library.select' );
 		$html = '';
 		$text = '';
 			
@@ -500,7 +500,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// get the items and add them to the order
-		JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$items = TiendaHelperCarts::getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -584,8 +584,8 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'orderSummary', $html );
 
 		// get all the enabled payment plugins
-		JLoader::import( 'com_tienda.helpers.plugin', JPATH_ADMINISTRATOR.DS.'components' );
-		$plugins = TiendaHelperPlugins::getPluginsWithEvent( 'onGetPaymentPlugins' );
+		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
+		$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
 		$view->assign('plugins', $plugins);
 
 		$view->display();
@@ -894,7 +894,7 @@ class TiendaControllerCheckout extends TiendaController
 		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 
 		// convert elements to array that can be binded
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 		$values = $helper->elementsToArray( $elements );
 
@@ -917,7 +917,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// get the items and add them to the order
-		JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$items = TiendaHelperCarts::getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -961,7 +961,7 @@ class TiendaControllerCheckout extends TiendaController
 		// Guest Checkout: Silent Registration!
 		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $values['guest'] == '1')
 		{
-			JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 			$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
 				
 			if ($userHelper->emailExists($values['email_address']))
@@ -1173,11 +1173,11 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// Store the text verion of the currency for order integrity
-		JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 		$order->order_currency = TiendaHelperOrder::currencyToParameters($order->currency_id);
 
 		//get the items and add them to the order
-		JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$reviewitems = TiendaHelperCarts::getProductsInfo();
 
 		foreach ($reviewitems as $reviewitem)

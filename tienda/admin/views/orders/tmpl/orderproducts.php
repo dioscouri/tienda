@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = (!empty($this->row->orderitems)) ? $this->row->orderitems : array(); ?>
-<?php JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+<?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
         <table class="adminlist">
             <thead>

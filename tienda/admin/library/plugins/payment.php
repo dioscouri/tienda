@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
 
 class TiendaPaymentPlugin extends TiendaPluginBase 
 {
@@ -152,7 +152,7 @@ class TiendaPaymentPlugin extends TiendaPluginBase
      */
     function setOrderPaymentReceived( $order_id )
     {
-       JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' ); 
+       Tienda::load( 'TiendaHelperOrder', 'helpers.order' ); 
        TiendaHelperOrder::setOrderPaymentReceived( $order_id );  
     }
     
@@ -164,7 +164,7 @@ class TiendaPaymentPlugin extends TiendaPluginBase
      */
     function removeOrderItemsFromCart( $order_id )
     {
-	    JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 	    TiendaHelperCarts::removeOrderItems( $order_id );
     }
     

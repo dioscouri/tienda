@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.payment', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaPaymentPlugin', 'library.plugins.payment' );
 
 class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
 {
@@ -314,7 +314,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $msg->type      = '';
         $msg->message   = '';
         
-        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         
         $newuser_email = $submitted_values['email'];
         // create user from email
@@ -452,7 +452,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $auth_description           = JText::_( "Order Number" ).": ".$order->order_id;
         $auth_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $auth_invoice_num           = $data['orderpayment_id']; 
@@ -893,7 +893,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             $orderpayment->transaction_id       = $transactionidResponse;
             $orderpayment->transaction_status   = $paymentResponse;
 
-            JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaHelperBase', 'helpers._base' );
             $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
             $respond_amount = TiendaHelperBase::number( $amountResponse, array( 'thousands'=>'' ) );
             if ($stored_amount != $respond_amount ) {
@@ -902,8 +902,8 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             }
             
             // set the order's new status and update quantities if necessary
-            JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
-            JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
             $order = JTable::getInstance('Orders', 'TiendaTable');
             $order->load( $orderpayment->order_id );
             if (count($errors)) 

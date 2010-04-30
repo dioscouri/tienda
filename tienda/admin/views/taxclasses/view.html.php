@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewTaxclasses extends TiendaViewBase 
 {
@@ -42,7 +42,7 @@ class TiendaViewTaxclasses extends TiendaViewBase
 	
 	function _default($tpl=null)
 	{
-		JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaUrl', 'library.url' );
 		parent::_default($tpl);
 	}
 

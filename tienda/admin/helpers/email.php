@@ -80,7 +80,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 		switch($type){
 			case 'order':
 			default:				
-				$model = Tienda::get('TiendaModelOrders', 'models.orders');
+				$model = Tienda::getClass('TiendaModelOrders', 'models.orders');
 				$model->setId( $id );
 				$order = $model->getItem();
 

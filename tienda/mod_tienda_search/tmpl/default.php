@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaSelect', 'library.select' );
 $url = JRoute::_( 'index.php?option=com_tienda&controller=products&task=search' , false);
 ?>
 

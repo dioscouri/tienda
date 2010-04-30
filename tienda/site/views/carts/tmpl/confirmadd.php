@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
-JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->items;
 $state = @$this->state;
 ?>

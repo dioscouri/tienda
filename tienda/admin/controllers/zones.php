@@ -55,7 +55,7 @@ class TiendaControllerZones extends TiendaController
 	function filterZones() 
 	{
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaSelect', 'library.select' );
 		
 		$idtag = 'zone_id';
 		$countryid = JRequest::getVar( 'countryid', '', 'request', 'int' );
@@ -91,7 +91,6 @@ class TiendaControllerZones extends TiendaController
 	function addZone() 
 	{
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.html', JPATH_ADMINISTRATOR.DS.'components' );
 
 		$zoneid = JRequest::getVar( 'zoneid', '', 'request', 'int' );		
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );
@@ -120,7 +119,6 @@ class TiendaControllerZones extends TiendaController
 	function removeZone() 
 	{
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.html', JPATH_ADMINISTRATOR.DS.'components' );
 
 		$zrid = JRequest::getVar( 'zrid', '', 'request', 'int' );		
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );

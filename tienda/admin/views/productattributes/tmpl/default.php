@@ -4,7 +4,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
-<?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                             
 <h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Attributes for" ); ?>: <?php echo $row->product_name; ?></h1>
 

@@ -44,8 +44,8 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
     
     function setRates(){
     	
-    	JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
-    	JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( 'TiendaGrid', 'library.grid' );
+    	Tienda::load( 'TiendaSelect', 'library.select' );
     	$this->includeCustomModel('ShippingRates');
         $sid = JRequest::getVar('sid');
         

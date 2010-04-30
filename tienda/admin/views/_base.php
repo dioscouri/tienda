@@ -25,10 +25,10 @@ class TiendaViewBase extends JView
 	{
 		JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/');
 		
-        JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaUrl', 'library.url' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
+        Tienda::load( 'TiendaGrid', 'library.grid' );
+        Tienda::load( 'TiendaMenu', 'library.menu' );
                 
         $this->getLayoutVars($tpl);
         
@@ -75,7 +75,7 @@ class TiendaViewBase extends JView
     		echo "<tr>";
 	    		echo "<td style='width: 180px; padding-right: 5px; vertical-align: top;' >";
 
-	    		    JLoader::import( 'com_tienda.library.menu', JPATH_ADMINISTRATOR.DS.'components' );
+	    		    Tienda::load( 'TiendaMenu', 'library.menu' );
 					if ($menu =& TiendaMenu::getInstance($menuname)) {
 					    $menu->display();
 					}

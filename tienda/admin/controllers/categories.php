@@ -126,7 +126,7 @@ class TiendaControllerCategories extends TiendaController
             case "saveprev":
                 $redirect .= '&view='.$this->get('suffix');
                 // get prev in list
-                JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
+                Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
                 $surrounding = TiendaHelperCategory::getSurrounding( $model->getId() );
                 if (!empty($surrounding['prev']))
                 {
@@ -136,7 +136,7 @@ class TiendaControllerCategories extends TiendaController
             case "savenext":
                 $redirect .= '&view='.$this->get('suffix');
                 // get next in list
-                JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
+                Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
                 $surrounding = TiendaHelperCategory::getSurrounding( $model->getId() );
                 if (!empty($surrounding['next']))
                 {
@@ -165,7 +165,7 @@ class TiendaControllerCategories extends TiendaController
 	 */
 	function addfile( $fieldname = 'category_full_image_new' )
 	{
-		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaImage', 'library.image' );
 		$upload = new TiendaImage();
 		// handle upload creates upload object properties
 		$upload->handleUpload( $fieldname );
@@ -176,7 +176,7 @@ class TiendaControllerCategories extends TiendaController
 		$upload->upload();
 		
 		// Thumb
-		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 		$imgHelper->resizeImage( $upload, 'category');
 		
@@ -341,8 +341,8 @@ class TiendaControllerCategories extends TiendaController
     	$from_id = JRequest::getInt('from_id', 0);
     	$to =  $from_id + $per_step;
     	
-    	JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
-    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
+    	Tienda::load( 'TiendaImage', 'library.image' );
     	$width = TiendaConfig::getInstance()->get('category_img_width', '0');
     	$height = TiendaConfig::getInstance()->get('category_img_height', '0');
   
@@ -368,7 +368,7 @@ class TiendaControllerCategories extends TiendaController
     			$img->setDirectory( Tienda::getPath('categories_images'));
 		
 				// Thumb
-				JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+				Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 				$imgHelper->resizeImage( $img, 'category');
     		}

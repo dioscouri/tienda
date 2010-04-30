@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -31,7 +30,7 @@ class TiendaControllerAddresses extends TiendaController
      */
     function getZones()
     {
-        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
         $html = '';
         $text = '';
     	

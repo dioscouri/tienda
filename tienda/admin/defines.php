@@ -190,6 +190,7 @@ class Tienda extends JObject
         $classes = JLoader::register();
         if ( class_exists($classname) || array_key_exists( $classname, $classes ) ) 
         {
+            // echo "$classname exists<br/>";
             return true;
         }
         
@@ -230,12 +231,14 @@ class Tienda extends JObject
         // if invalid path, return false
         if (!is_file($paths[$classname]))
         {
+            // echo "file does not exist<br/>";
             return false;
         }
         
         // if not registered, register it
         if ( !array_key_exists( $classname, $classes ) ) 
         {
+            // echo "$classname not registered, so registering it<br/>";
             JLoader::register( $classname, $paths[$classname] );
             return true;
         }
@@ -245,16 +248,16 @@ class Tienda extends JObject
     /**
      * Intelligently loads instances of classes in Tienda framework
      * 
-     * Usage: $object = Tienda::get( 'TiendaHelperCarts', 'helpers.carts' );
-     * Usage: $suffix = Tienda::get( 'TiendaHelperCarts', 'helpers.carts' )->getSuffix();
-     * Usage: $categories = Tienda::get( 'TiendaSelect', 'library.select' )->category( $selected );
+     * Usage: $object = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' );
+     * Usage: $suffix = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' )->getSuffix();
+     * Usage: $categories = Tienda::getClass( 'TiendaSelect', 'library.select' )->category( $selected );
      * 
      * @param string $classname   The class name
      * @param string $filepath    The filepath ( dot notation )
      * @param array  $options
      * @return object of requested class (if possible), else a new JObject
      */
-    public function get( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' )  )
+    public function getClass( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' )  )
     {
         if (Tienda::load( $classname, $filepath, $options ))
         {

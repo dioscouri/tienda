@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.views._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewConfig extends TiendaViewBase 
 {
@@ -38,9 +38,9 @@ class TiendaViewConfig extends TiendaViewBase
 	 **/
 	function _default($tpl = null) 
 	{
-		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
-		JLoader::import( 'com_tienda.library.tools', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaSelect', 'library.select' );
+		Tienda::load( 'TiendaGrid', 'library.grid' );
+		Tienda::load( 'TiendaTools', 'library.tools' );
 
 		// check config
 			$row = TiendaConfig::getInstance();
@@ -52,12 +52,12 @@ class TiendaViewConfig extends TiendaViewBase
 			
 		// plugins
         	$filtered = array();
-	        $items = TiendaHelperTools::getPlugins();
+	        $items = TiendaTools::getPlugins();
 			for ($i=0; $i<count($items); $i++) 
 			{
 				$item = &$items[$i];
 				// Check if they have an event
-				if ($hasEvent = TiendaHelperTools::hasEvent( $item, 'onListConfigTienda' )) {
+				if ($hasEvent = TiendaTools::hasEvent( $item, 'onListConfigTienda' )) {
 					// add item to filtered array
 					$filtered[] = $item;
 				}

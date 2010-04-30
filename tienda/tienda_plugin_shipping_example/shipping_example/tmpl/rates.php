@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+<?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 <?php jimport('joomla.html') ?>
 
 <?php 

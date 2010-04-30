@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaShippingPlugin', 'library.plugins.shipping' );
 
 class plgTiendaShipping_Example extends TiendaShippingPlugin
 {

@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableOrderHistory extends TiendaTable 
 {
@@ -51,7 +51,7 @@ class TiendaTableOrderHistory extends TiendaTable
         		Tienda::load( "TiendaHelperBase", 'helpers._base' );
         		$helper = TiendaHelperBase::getInstance('Email');
         		
-        		$model = Tienda::get("TiendaModelOrders", "models.orders");
+        		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
         		$model->setId($this->order_id);
         		$order = $model->getItem();
         		

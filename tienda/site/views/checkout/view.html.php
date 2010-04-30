@@ -44,7 +44,7 @@ class TiendaViewCheckout extends TiendaViewBase
 	
 	/**
 	 * We could actually get rid of this override entirely 
-	 * and just call $items = TiendaHelperPlugins::getPlugins();
+	 * and just call $items = TiendaHelperPlugin::getPlugins();
 	 * from within the tmpl file  
 	 * 
 	 */
@@ -52,9 +52,9 @@ class TiendaViewCheckout extends TiendaViewBase
 	{
         parent::_default($tpl);
         
-        JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
-        JLoader::import( 'com_tienda.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaUrl', 'library.url' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
+        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 			
 		$model = $this->getModel();
 		

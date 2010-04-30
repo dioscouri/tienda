@@ -158,7 +158,7 @@ class TiendaPluginBase extends JPlugin
         $articleid = $this->params->get('articleid');
         if ($articleid)
         {
-            JLoader::import( 'com_tienda.library.article', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaArticle', 'library.article' );
             $html = TiendaArticle::display( $articleid );
         }
         

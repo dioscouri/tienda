@@ -1,6 +1,5 @@
 <?php
 /**
- * @version 1.5
  * @package Tienda
  * @author  Dioscouri Design
  * @link    http://www.dioscouri.com
@@ -14,11 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 /** Import library dependencies */
 jimport('joomla.event.plugin');
 
-/**
- * plgUserSynctiendacarts class.
- *
- * @extends JPlugin
- */
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+
 class plgUserTienda extends JPlugin
 {
     function plgUserTienda(&$subject, $config)
@@ -43,7 +40,7 @@ class plgUserTienda extends JPlugin
             return;
         }
         
-        JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         TiendaHelperCarts::updateDbCart('', true);
         return true;
     }

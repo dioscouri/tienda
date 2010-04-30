@@ -52,7 +52,7 @@ class plgTiendaBug_report extends JPlugin
 	
 	function submitBug(){
 		
-		JLoader::import('components.com_tienda.views._base', JPATH_ADMINISTRATOR);
+		Tienda::load( 'TiendaViewBase', 'views._base' );
 		$view = new TiendaViewBase();
 		$view->displayTitle(JText::_('SUBMIT BUG'));
 		$view->displayMenubar();

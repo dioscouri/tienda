@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaHelperCarts extends TiendaHelperBase
 {
@@ -199,7 +199,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	                $productItem->product_price = $productItem->price;
 	                // at this point, ->product_price holds the default price for the product, 
                     // but the user may qualify for a discount based on volume or date, so let's get that price override 
-                    $productItem->product_price_override = Tienda::get( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, '0', JFactory::getDate()->toMySQL() );
+                    $productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, '0', JFactory::getDate()->toMySQL() );
                     if (!empty($productItem->product_price_override))
                     {
                         $productItem->product_price = $productItem->product_price_override->product_price;

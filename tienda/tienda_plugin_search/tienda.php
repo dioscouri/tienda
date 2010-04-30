@@ -33,8 +33,9 @@ class plgSearchTienda extends JPlugin
         jimport('joomla.filesystem.file');
         if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
         {
-            require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php';
             $success = true;
+            if ( !class_exists('Tienda') ) 
+                JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
         }
         return $success;
     }

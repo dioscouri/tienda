@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperPlugins extends TiendaHelperBase
+class TiendaHelperPlugin extends TiendaHelperBase
 {
 	/**
 	 * Only returns plugins that have a specific event
@@ -25,11 +25,11 @@ class TiendaHelperPlugins extends TiendaHelperBase
 	function getPluginsWithEvent( $eventName, $folder='Tienda' )
 	{
 		$return = array();
-		if ($plugins = TiendaHelperPlugins::getPlugins( $folder ))
+		if ($plugins = TiendaHelperPlugin::getPlugins( $folder ))
 		{
 			foreach ($plugins as $plugin)
 			{
-				if (TiendaHelperPlugins::hasEvent( $plugin, $eventName ))
+				if (TiendaHelperPlugin::hasEvent( $plugin, $eventName ))
 				{
 					$return[] = $plugin;
 				}

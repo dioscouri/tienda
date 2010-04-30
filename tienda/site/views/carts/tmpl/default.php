@@ -4,7 +4,7 @@ JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
-JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->items;
 $state = @$this->state;
 ?>

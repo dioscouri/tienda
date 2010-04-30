@@ -2,7 +2,7 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
-JLoader::import( 'com_tienda.helpers.manufacturer', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >

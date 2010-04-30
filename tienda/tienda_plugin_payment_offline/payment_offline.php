@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.payment', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaPaymentPlugin', 'library.plugins.payment' );
 
 class plgTiendaPayment_offline extends TiendaPaymentPlugin
 {
@@ -99,11 +99,11 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         if ($orderpayment->save())
         {
             // Update quantities
-            JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
             TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
             
             // remove items from cart
-            JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
             TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
         }
         

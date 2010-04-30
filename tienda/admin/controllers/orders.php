@@ -117,7 +117,7 @@ class TiendaControllerOrders extends TiendaController
         }
         $task = JRequest::getVar( "task" );
         $redirect = "index.php?option=com_tienda&view=orders";
-        JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         $surrounding = TiendaHelperOrder::getSurrounding( $model->getId() );
         switch ($task)
         {
@@ -307,7 +307,7 @@ class TiendaControllerOrders extends TiendaController
         // get elements from post
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
         // convert elements to array that can be binded             
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $values = TiendaHelperBase::elementsToArray( $elements );
 
         $cids = $values['products'];
@@ -347,7 +347,7 @@ class TiendaControllerOrders extends TiendaController
         // get elements from post
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
         // convert elements to array that can be binded             
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $values = TiendaHelperBase::elementsToArray( $elements );
 
         $cids = $values['products'];
@@ -395,7 +395,6 @@ class TiendaControllerOrders extends TiendaController
         $order_products = JArrayHelper::fromObject( $order_products );
         $order_quantities = JArrayHelper::fromObject( $order_quantities );
         
-        JLoader::import( 'com_tienda.helpers.taxrates', JPATH_ADMINISTRATOR.DS.'components' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $items = array();
@@ -440,7 +439,7 @@ class TiendaControllerOrders extends TiendaController
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 
         // convert elements to array that can be binded             
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $values = TiendaHelperBase::elementsToArray( $elements );
 
         // get the order object so we can populate it

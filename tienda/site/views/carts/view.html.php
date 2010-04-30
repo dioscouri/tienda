@@ -33,7 +33,7 @@ class TiendaViewCarts extends TiendaViewBase
               break;
             case "default":
             default:
-                JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+                Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
                 $suffix = strtolower( TiendaHelperCarts::getSuffix() );
                 switch($suffix) 
                 {

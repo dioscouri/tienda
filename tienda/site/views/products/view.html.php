@@ -13,8 +13,8 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.views._base', JPATH_SITE.DS.'components' );
 Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' );
-JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
+Tienda::load( 'TiendaUrl', 'library.url' );
 
 class TiendaViewProducts extends TiendaViewBase  
 {

@@ -133,8 +133,8 @@
 						<?php echo JText::_($item->product_name); ?>
 					</a>
 					<div class="product_categories">
-						<?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' ); ?>
-						<?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+						<?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
+						<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
 						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", "Select Categories", array('update' => true) ); ?>]</span>
 						<?php $categories = TiendaHelperProduct::getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
@@ -148,7 +148,7 @@
                         <b><?php echo JText::_( "Image Gallery Path" ); ?>:</b> <?php echo str_replace( JPATH_SITE, '', TiendaHelperProduct::getGalleryPath( $item->product_id ) ); ?>
                     </div>
                     <?php 
-                    $layout = Tienda::get( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $item->product_id );
+                    $layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $item->product_id );
                     if ($layout != 'view') 
                     {
                         echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 

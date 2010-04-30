@@ -54,8 +54,8 @@
                         <?php echo $item->shipping_method_name; ?>
                     </a>
                     <div class="shipping_rates">
-                        <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
-                        <?php JLoader::import( 'com_tienda.helpers.shipping', JPATH_ADMINISTRATOR.DS.'components' ); 
+                        <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
+                        <?php Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' ); 
                         $id = JRequest::getInt('id', '0');
                         ?>
                         <span style="float: right;">[<?php 

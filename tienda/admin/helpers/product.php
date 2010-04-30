@@ -1,9 +1,9 @@
 <?php
 /**
- * @version	1.5
- * @package	Tienda
- * @author 	Dioscouri Design
- * @link 	http://www.dioscouri.com
+ * @version 1.5
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 */
@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -155,22 +155,22 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $layout;
     }
     
-	/**
-	 * Converts a path string to a URI string
-	 * 
-	 * @param $path
-	 * @return unknown_type
-	 */
-	function getUriFromPath( $path )
-	{
-		$path = str_replace(JPATH_SITE.DS, JURI::root(), $path);		
-		$path = str_replace(DS, '/', $path);
+    /**
+     * Converts a path string to a URI string
+     * 
+     * @param $path
+     * @return unknown_type
+     */
+    function getUriFromPath( $path )
+    {
+        $path = str_replace(JPATH_SITE.DS, JURI::root(), $path);        
+        $path = str_replace(DS, '/', $path);
         return $path;
-	}
-	
-	/**
-	 * Returns array of filenames
-	 * Array
+    }
+    
+    /**
+     * Returns array of filenames
+     * Array
      * (
      *     [0] => airmac.png
      *     [1] => airportdisk.png
@@ -182,115 +182,115 @@ class TiendaHelperProduct extends TiendaHelperBase
      *     [7] => macmini.png
      *     [8] => shirt1.jpg
      * )
-	 * @param $folder
-	 * @return array
-	 */
-	function getGalleryImages( $folder=null, $options=array() )
-	{
-		$images = array();
-		
-		if (empty($folder))
-		{
-			return $images;
-		}
-		
-		if (empty( $options['exclude'] ))
-		{
-		    $options['exclude'] = array();
-		}
-		    elseif (!is_array($options['exclude']))
-		{
-		    $options['exclude'] = array($options['exclude']);
-		}
-		
+     * @param $folder
+     * @return array
+     */
+    function getGalleryImages( $folder=null, $options=array() )
+    {
+        $images = array();
+        
+        if (empty($folder))
+        {
+            return $images;
+        }
+        
+        if (empty( $options['exclude'] ))
+        {
+            $options['exclude'] = array();
+        }
+            elseif (!is_array($options['exclude']))
+        {
+            $options['exclude'] = array($options['exclude']);
+        }
+        
         if (JFolder::exists( $folder ))
         {
-        	$extensions = array( 'png', 'gif', 'jpg', 'jpeg' );
-        	
-        	$files = JFolder::files( $folder );
-        	foreach ($files as $file)
-        	{
-	            $namebits = explode('.', $file);
-	            $extension = $namebits[count($namebits)-1];
-	            if (in_array($extension, $extensions))
-	            {
-	                if (!in_array($file, $options['exclude']))
-	                {
+            $extensions = array( 'png', 'gif', 'jpg', 'jpeg' );
+            
+            $files = JFolder::files( $folder );
+            foreach ($files as $file)
+            {
+                $namebits = explode('.', $file);
+                $extension = $namebits[count($namebits)-1];
+                if (in_array($extension, $extensions))
+                {
+                    if (!in_array($file, $options['exclude']))
+                    {
                         $images[] = $file;
-	                }
-	            }
-        	}
+                    }
+                }
+            }
         }
         
         return $images;
-	}
-	
-	/**
-	 * Returns the full path to the product's image gallery files
-	 * 
-	 * @param int $id
-	 * @return string
-	 */
-	function getGalleryPath( $id )
-	{
-		static $paths;
-		
-		$id = (int) $id;
-		
-		if (!is_array($paths)) { $paths = array(); }
-		
-		if (empty($paths[$id]))
-		{
-			$paths[$id] = '';
-			
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $row = JTable::getInstance('Products', 'TiendaTable');
-            $row->load( (int) $id );
-			if (empty($row->product_id))
-			{
-				// TODO figure out what to do if the id is invalid 
-				return null;
-			}
-
-			$paths[$id] = $row->getImagePath(false);
-		}
-		
-		return $paths[$id];
-	}
-	
+    }
+    
     /**
-	 * Returns the full path to the product's image gallery files
-	 * 
-	 * @param int $id
-	 * @return string
-	 */
-	function getGalleryUrl( $id )
-	{
-		static $urls;
-		
-		$id = (int) $id;
-		
-		if (!is_array($urls)) { $urls = array(); }
-		
-		if (empty($urls[$id]))
-		{
-			$urls[$id] = '';
-			
+     * Returns the full path to the product's image gallery files
+     * 
+     * @param int $id
+     * @return string
+     */
+    function getGalleryPath( $id )
+    {
+        static $paths;
+        
+        $id = (int) $id;
+        
+        if (!is_array($paths)) { $paths = array(); }
+        
+        if (empty($paths[$id]))
+        {
+            $paths[$id] = '';
+            
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $row = JTable::getInstance('Products', 'TiendaTable');
             $row->load( (int) $id );
-			if (empty($row->product_id))
-			{
-				// TODO figure out what to do if the id is invalid 
-				return null;
-			}
+            if (empty($row->product_id))
+            {
+                // TODO figure out what to do if the id is invalid 
+                return null;
+            }
 
-			$urls[$id] = $row->getImageUrl();
-		}
-		
-		return $urls[$id];
-	}
-	
+            $paths[$id] = $row->getImagePath(false);
+        }
+        
+        return $paths[$id];
+    }
+    
+    /**
+     * Returns the full path to the product's image gallery files
+     * 
+     * @param int $id
+     * @return string
+     */
+    function getGalleryUrl( $id )
+    {
+        static $urls;
+        
+        $id = (int) $id;
+        
+        if (!is_array($urls)) { $urls = array(); }
+        
+        if (empty($urls[$id]))
+        {
+            $urls[$id] = '';
+            
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $row = JTable::getInstance('Products', 'TiendaTable');
+            $row->load( (int) $id );
+            if (empty($row->product_id))
+            {
+                // TODO figure out what to do if the id is invalid 
+                return null;
+            }
+
+            $urls[$id] = $row->getImageUrl();
+        }
+        
+        return $urls[$id];
+    }
+    
     /**
      * Returns the full path to the product's files
      * 
@@ -361,217 +361,217 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         // TODO Make sure the files folder has htaccess file
         return $paths[$id];
-    }	
-	
-	/**
-	 * 
-	 * @param $id
-	 * @param $by
-	 * @param $alt
-	 * @param $type
-	 * @param $url
-	 * @return unknown_type
-	 */
-	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false, $resize=false, $options=array() )
-	{
-		
-		switch($type)
-		{
-			case "full":
-				$path = 'products_images';
-			  break;
-			case "thumb":
-			default:
-				$path = 'products_thumbs';
-			  break;
-		}
-		
-		$tmpl = "";
-		if (strpos($id, '.'))
-		{
-			// then this is a filename, return the full img tag if file exists, otherwise use a default image
-			$src = (JFile::exists( Tienda::getPath( $path ).DS.$id))
-				? Tienda::getUrl( $path ).$id : JURI::root(true).'/media/com_tienda/images/noimage.png';
+    }   
+    
+    /**
+     * 
+     * @param $id
+     * @param $by
+     * @param $alt
+     * @param $type
+     * @param $url
+     * @return unknown_type
+     */
+    function getImage( $id, $by='id', $alt='', $type='thumb', $url=false, $resize=false, $options=array() )
+    {
+        
+        switch($type)
+        {
+            case "full":
+                $path = 'products_images';
+              break;
+            case "thumb":
+            default:
+                $path = 'products_thumbs';
+              break;
+        }
+        
+        $tmpl = "";
+        if (strpos($id, '.'))
+        {
+            // then this is a filename, return the full img tag if file exists, otherwise use a default image
+            $src = (JFile::exists( Tienda::getPath( $path ).DS.$id))
+                ? Tienda::getUrl( $path ).$id : JURI::root(true).'/media/com_tienda/images/noimage.png';
             
-			// if url is true, just return the url of the file and not the whole img tag
-			$tmpl = ($url)
-				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
+            // if url is true, just return the url of the file and not the whole img tag
+            $tmpl = ($url)
+                ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
 
-		}
-			else
-		{
-			if (!empty($id))
-			{
-				// load the item, get the filename, create tmpl
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-				$row = JTable::getInstance('Products', 'TiendaTable');
-				$row->load( (int) $id );
-				
-				$urli = $row->getImageUrl();
-				$dir = $row->getImagePath();
-				
-				if($path == 'products_thumbs'){
-					$dir .= 'thumbs';
-					$urli .= 'thumbs/';
-				}
-				
-				$file = $dir.DS.$row->product_full_image;
-				
-				$id = $urli.$row->product_full_image;
-				
-				// Gotta do some resizing first?
-				if ($resize)
-				{
-					// Add a suffix to the thumb to avoid conflicts with user settings
-					$suffix = '';
-				
-					if (isset($options['width']) && isset($options['height'])) 
-					{
-						$suffix = '_'.$options['width'].'x'.$options['height'];
-					}
-					elseif (isset($options['width']))
-					{
-						$suffix = '_w'.$options['width'];
-					}
-					elseif (isset($options['height']))
-					{
-						$suffix = '_h'.$options['height'];
-					}
-					
-					// Add suffix to file path
-					$dot = strrpos($file, '.');
-					$resize = substr($file, 0, $dot).$suffix.substr($file, $dot);
-					
-					if (!JFile::exists($resize))
-					{
-						
-						Tienda::load('TiendaImage', 'library.image');
-						$image = new TiendaImage($file);
-						$image->load();
-						// If both width and height set, gotta figure hwo to resize
-						if (isset($options['width']) && isset($options['height'])) 
-						{
-							// If width is larger, proportionally
-							if (($options['width'] / $image->getWidth()) < ($options['height'] / $image->getHeight()))
-							{
-								$image->resizeToWidth($options['width']);
-								$image->save($resize);
-							}
-							// If height is larger, proportionally
-							else
-							{
-								$image->resizeToHeight($options['height']);
-								$image->save($resize);
-							}
-						}
-						// If only width is set
-						elseif (isset($options['width']))
-						{
-							$image->resizeToWidth($options['width']);
-							$image->save($resize);
-						}
-						// If only height is set
-						elseif (isset($options['height']))
-						{
-							$image->resizeToHeight($options['height']);
-							$image->save($resize);
-						}
-						
-					}
-					
-					// Add suffix to url path
-					$dot = strrpos($id, '.');
-					$id = substr($id, 0, $dot).$suffix.substr($id, $dot);
-				}
+        }
+            else
+        {
+            if (!empty($id))
+            {
+                // load the item, get the filename, create tmpl
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                $row = JTable::getInstance('Products', 'TiendaTable');
+                $row->load( (int) $id );
+                
+                $urli = $row->getImageUrl();
+                $dir = $row->getImagePath();
+                
+                if($path == 'products_thumbs'){
+                    $dir .= 'thumbs';
+                    $urli .= 'thumbs/';
+                }
+                
+                $file = $dir.DS.$row->product_full_image;
+                
+                $id = $urli.$row->product_full_image;
+                
+                // Gotta do some resizing first?
+                if ($resize)
+                {
+                    // Add a suffix to the thumb to avoid conflicts with user settings
+                    $suffix = '';
+                
+                    if (isset($options['width']) && isset($options['height'])) 
+                    {
+                        $suffix = '_'.$options['width'].'x'.$options['height'];
+                    }
+                    elseif (isset($options['width']))
+                    {
+                        $suffix = '_w'.$options['width'];
+                    }
+                    elseif (isset($options['height']))
+                    {
+                        $suffix = '_h'.$options['height'];
+                    }
+                    
+                    // Add suffix to file path
+                    $dot = strrpos($file, '.');
+                    $resize = substr($file, 0, $dot).$suffix.substr($file, $dot);
+                    
+                    if (!JFile::exists($resize))
+                    {
+                        
+                        Tienda::load('TiendaImage', 'library.image');
+                        $image = new TiendaImage($file);
+                        $image->load();
+                        // If both width and height set, gotta figure hwo to resize
+                        if (isset($options['width']) && isset($options['height'])) 
+                        {
+                            // If width is larger, proportionally
+                            if (($options['width'] / $image->getWidth()) < ($options['height'] / $image->getHeight()))
+                            {
+                                $image->resizeToWidth($options['width']);
+                                $image->save($resize);
+                            }
+                            // If height is larger, proportionally
+                            else
+                            {
+                                $image->resizeToHeight($options['height']);
+                                $image->save($resize);
+                            }
+                        }
+                        // If only width is set
+                        elseif (isset($options['width']))
+                        {
+                            $image->resizeToWidth($options['width']);
+                            $image->save($resize);
+                        }
+                        // If only height is set
+                        elseif (isset($options['height']))
+                        {
+                            $image->resizeToHeight($options['height']);
+                            $image->save($resize);
+                        }
+                        
+                    }
+                    
+                    // Add suffix to url path
+                    $dot = strrpos($id, '.');
+                    $id = substr($id, 0, $dot).$suffix.substr($id, $dot);
+                }
 
-				$src = (JFile::exists( $file ))
-					? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
+                $src = (JFile::exists( $file ))
+                    ? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
 
-				$tmpl = ($url)
-					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
-			}			
-		}
-		return $tmpl;
-	}
-	
-	/**
-	 * Gets a product's list of prices
-	 * 
-	 * @param $id
-	 * @return array
-	 */
-	function getPrices( $id )
-	{
-		if (empty($id))
-		{
-			return array();
-		}
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
-		$model->setState( 'filter_id', $id );
-		$items = $model->getList();
-		return $items;
-	}
-	
-	/**
-	 * Returns a product's price based on the quantity purchased, user's group, and date
-	 * 
-	 * @param unknown_type $id
-	 * @param unknown_type $quantity
-	 * @param unknown_type $user_group_id
-	 * @param unknown_type $date
-	 * @return unknown_type
-	 */
-	function getPrice( $id, $quantity='1', $user_group_id='', $date='' )
-	{
-		$price = null;
-		if (empty($id))
-		{
-			return $price;
-		}
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
-		$model->setState( 'filter_id', $id );
-		$prices = TiendaHelperProduct::getPrices($id);
-		
-		(int) $quantity;
-		if ($quantity <= '0') { $quantity = '1'; }
-			//where price_quantity_start < $quantity
-			$model->setState( 'filter_quantity', $quantity );
-			
-		// does date even matter?
-		$nullDate = JFactory::getDBO()->getNullDate();
-		if (empty($date) || $date == $nullDate) { $date = JFactory::getDate()->toMysql(); }
-			$model->setState( 'filter_date', $date );
-			//where product_price_startdate <= $date
-			//where product_price_enddate >= $date OR product_price_enddate == nullDate 
-			
-		// does user_group_id?
-		(int) $user_group_id;
-		$default_user_group = '0'; /* TODO Use a default $user_group_id */
-		if ($user_group_id <= '0') { $user_group_id = $default_user_group; }
-			// using ->getPrices(), do a getColumn() on the array for the user_group_id column
-			$user_group_ids = TiendaHelperBase::getColumn($prices, 'user_group_id');
-			if (in_array($user_group_id, $user_group_ids))
-			{
-				// if $user_group_id is in the column, then set the query to pull an exact match on it,
-				$model->setState( 'filter_user_group', $user_group_id ); 
-			} 
-				else
-			{
-				// otherwise, $user_group_id_determined = the default $user_group_id
-				$model->setState( 'filter_user_group', $default_user_group );				
-			}
-		
-		// set the ordering so the most discounted item is at the top of the list
+                $tmpl = ($url)
+                    ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
+            }           
+        }
+        return $tmpl;
+    }
+    
+    /**
+     * Gets a product's list of prices
+     * 
+     * @param $id
+     * @return array
+     */
+    function getPrices( $id )
+    {
+        if (empty($id))
+        {
+            return array();
+        }
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
+        $model->setState( 'filter_id', $id );
+        $items = $model->getList();
+        return $items;
+    }
+    
+    /**
+     * Returns a product's price based on the quantity purchased, user's group, and date
+     * 
+     * @param unknown_type $id
+     * @param unknown_type $quantity
+     * @param unknown_type $user_group_id
+     * @param unknown_type $date
+     * @return unknown_type
+     */
+    function getPrice( $id, $quantity='1', $user_group_id='', $date='' )
+    {
+        $price = null;
+        if (empty($id))
+        {
+            return $price;
+        }
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
+        $model->setState( 'filter_id', $id );
+        $prices = TiendaHelperProduct::getPrices($id);
+        
+        (int) $quantity;
+        if ($quantity <= '0') { $quantity = '1'; }
+            //where price_quantity_start < $quantity
+            $model->setState( 'filter_quantity', $quantity );
+            
+        // does date even matter?
+        $nullDate = JFactory::getDBO()->getNullDate();
+        if (empty($date) || $date == $nullDate) { $date = JFactory::getDate()->toMysql(); }
+            $model->setState( 'filter_date', $date );
+            //where product_price_startdate <= $date
+            //where product_price_enddate >= $date OR product_price_enddate == nullDate 
+            
+        // does user_group_id?
+        (int) $user_group_id;
+        $default_user_group = '0'; /* TODO Use a default $user_group_id */
+        if ($user_group_id <= '0') { $user_group_id = $default_user_group; }
+            // using ->getPrices(), do a getColumn() on the array for the user_group_id column
+            $user_group_ids = TiendaHelperBase::getColumn($prices, 'user_group_id');
+            if (in_array($user_group_id, $user_group_ids))
+            {
+                // if $user_group_id is in the column, then set the query to pull an exact match on it,
+                $model->setState( 'filter_user_group', $user_group_id ); 
+            } 
+                else
+            {
+                // otherwise, $user_group_id_determined = the default $user_group_id
+                $model->setState( 'filter_user_group', $default_user_group );               
+            }
+        
+        // set the ordering so the most discounted item is at the top of the list
         $model->setState( 'order', 'price_quantity_start' );
         $model->setState( 'direction', 'DESC' );
 
         // TiendaModelProductPrices is a special model that overrides getItem
-		$price = $model->getItem();
-		return $price;	
-	}
-	
+        $price = $model->getItem();
+        return $price;  
+    }
+    
     /**
      * Returns the tax rate for an item
      *  
@@ -581,7 +581,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     public function getTaxRate( $product_id, $geozone_id )
     {
-    	JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaQuery', 'library.query' );
             
         $taxrate = "0.00000";
         $db = JFactory::getDBO();
@@ -596,44 +596,44 @@ class TiendaHelperProduct extends TiendaHelperBase
         $db->setQuery( (string) $query );
         if ($data = $db->loadObject())
         {
-        	$taxrate = $data->tax_rate;
+            $taxrate = $data->tax_rate;
         }
         
         return $taxrate;
     }
-	
-	/**
-	 * Gets a product's list of categories
-	 * 
-	 * @param $id
-	 * @return array
-	 */
-	function getCategories( $id )
-	{
-		if (empty($id))
-		{
-			return array();
-		}
-		JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
-		
-		$query = new TiendaQuery();
-		$query->select( "tbl.category_id" );
-		$query->from( $table->getTableName()." AS tbl" );
-		$query->where( "tbl.product_id = ".(int) $id );
-		$db = JFactory::getDBO();
-		$db->setQuery( (string) $query );
-		$items = $db->loadResultArray();
-		return $items;
-	}
-	
-	/**
-	 * Returns a list of a product's attributes
-	 * 
-	 * @param unknown_type $id
-	 * @return unknown_type
-	 */
+    
+    /**
+     * Gets a product's list of categories
+     * 
+     * @param $id
+     * @return array
+     */
+    function getCategories( $id )
+    {
+        if (empty($id))
+        {
+            return array();
+        }
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        $query->select( "tbl.category_id" );
+        $query->from( $table->getTableName()." AS tbl" );
+        $query->where( "tbl.product_id = ".(int) $id );
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadResultArray();
+        return $items;
+    }
+    
+    /**
+     * Returns a list of a product's attributes
+     * 
+     * @param unknown_type $id
+     * @return unknown_type
+     */
     function getAttributes( $id )
     {
         if (empty($id))
@@ -665,11 +665,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         $items = $model->getList();
         return $items;
     }
-	
     
-	/**
-	 * Returns array of filenames
-	 * Array
+    
+    /**
+     * Returns array of filenames
+     * Array
      * (
      *     [0] => airmac.png
      *     [1] => airportdisk.png
@@ -681,46 +681,46 @@ class TiendaHelperProduct extends TiendaHelperBase
      *     [7] => macmini.png
      *     [8] => shirt1.jpg
      * )
-	 * @param $folder
-	 * @return array
-	 */
-	function getServerFiles( $folder=null, $options=array() )
-	{
-		$files = array();
-		
-		if (empty($folder))
-		{
-			return $files;
-		}
-		
-		if (empty( $options['exclude'] ))
-		{
-		    $options['exclude'] = array();
-		}
-		    elseif (!is_array($options['exclude']))
-		{
-		    $options['exclude'] = array($options['exclude']);
-		}
-		
-		// Add .htaccess exclusion
-		if(!in_array('.htaccess', $options['exclude']))
-			$options['exclude'][] = '.htaccess';
-		
+     * @param $folder
+     * @return array
+     */
+    function getServerFiles( $folder=null, $options=array() )
+    {
+        $files = array();
+        
+        if (empty($folder))
+        {
+            return $files;
+        }
+        
+        if (empty( $options['exclude'] ))
+        {
+            $options['exclude'] = array();
+        }
+            elseif (!is_array($options['exclude']))
+        {
+            $options['exclude'] = array($options['exclude']);
+        }
+        
+        // Add .htaccess exclusion
+        if(!in_array('.htaccess', $options['exclude']))
+            $options['exclude'][] = '.htaccess';
+        
         if (JFolder::exists( $folder ))
-        {        	
-        	$serverfiles = JFolder::files( $folder );
-        	foreach ($serverfiles as $file)
-        	{
+        {           
+            $serverfiles = JFolder::files( $folder );
+            foreach ($serverfiles as $file)
+            {
                 if (!in_array($file, $options['exclude']))
                 {
                         $files[] = $file;
                 }
-        	}
+            }
         }
         
         return $files;
-	}
-	
+    }
+    
     /**
      * Finds the prev & next items in the list 
      *  

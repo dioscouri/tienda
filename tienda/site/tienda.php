@@ -42,7 +42,7 @@ JPluginHelper::importPlugin( 'tienda' );
 
 // Create the controller
 $classname = 'TiendaController'.$controller;
-$controller = Tienda::get( $classname );
+$controller = Tienda::getClass( $classname );
 
 // ensure a valid task exists
 $task = JRequest::getVar('task');

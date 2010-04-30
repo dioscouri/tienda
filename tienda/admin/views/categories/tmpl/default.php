@@ -3,7 +3,7 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
-<?php JLoader::import( 'com_tienda.helpers.category', JPATH_ADMINISTRATOR.DS.'components' )?>
+<?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -110,7 +110,7 @@
 					</a>
 					<br/>
 					<?php 
-					$layout = Tienda::get( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $item->category_id );
+					$layout = Tienda::getClass( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $item->category_id );
 					if ($layout != 'default') 
 					{
 					    echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 
@@ -118,7 +118,7 @@
 					?>
 				</td>
                 <td style="text-align: center;">
-                    <?php JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' ); ?>
+                    <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                     <?php echo $item->products_count." ".JText::_("Products"); ?>
                     <br/>
                     <?php $select_url = "index.php?option=com_tienda&controller=categories&task=selectproducts&id=".$item->category_id."&tmpl=component"; ?>

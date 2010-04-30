@@ -120,7 +120,7 @@ class TiendaControllerOrders extends TiendaController
             return;
         }
         
-        JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaUrl', 'library.url' );
         
         $view = $this->getView( 'orders', 'html' );
         $view->set( '_controller', 'orders' );
@@ -154,7 +154,7 @@ class TiendaControllerOrders extends TiendaController
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
-        JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaUrl', 'library.url' );
         JRequest::setVar( 'view', $this->get('suffix') );
         JRequest::setVar( 'layout', 'print' );   
         parent::display();

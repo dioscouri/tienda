@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.model' );
-JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaQuery', 'library.query' );
 
 class TiendaModelBase extends JModel
 {

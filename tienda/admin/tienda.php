@@ -19,7 +19,7 @@ if ( !class_exists('Tienda') )
 Tienda::load( 'TiendaConfig', 'defines' );
 
 // before executing any tasks, check the integrity of the installation
-Tienda::get( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInstallation();
+Tienda::getClass( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInstallation();
 
 // Require the base controller
 Tienda::load( 'TiendaController', 'controller' );
@@ -34,7 +34,7 @@ JPluginHelper::importPlugin( 'tienda' );
 
 // Create the controller
 $classname = 'TiendaController'.$controller;
-$controller = Tienda::get( $classname );
+$controller = Tienda::getClass( $classname );
     
 // Perform the requested task
 $controller->execute( JRequest::getVar( 'task' ) );

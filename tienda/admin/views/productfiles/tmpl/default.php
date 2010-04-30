@@ -75,7 +75,7 @@
     		</td>
             <td style="text-align: center;">
                 <?php 
-                	$helper = Tienda::get('TiendaHelperProduct', 'helpers.product');
+                	$helper = Tienda::getClass('TiendaHelperProduct', 'helpers.product');
                 	$path = $helper->getFilePath($row->product_id);
 					$files = $helper->getServerFiles($path);
 					

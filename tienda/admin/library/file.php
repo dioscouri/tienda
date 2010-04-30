@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaFile extends JObject 
 {

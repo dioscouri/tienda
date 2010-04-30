@@ -231,7 +231,7 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function addimage( $fieldname = 'product_full_image_new', $num = 0, $path = 'products_images' )
 	{
-		JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaImage', 'library.image' );
 		$upload = new TiendaImage();
 		// handle upload creates upload object properties
 		$upload->handleMultipleUpload( $fieldname, $num );
@@ -242,7 +242,7 @@ class TiendaControllerProducts extends TiendaController
 		// Do the real upload!
 		$upload->upload();
 		
-		JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 		$imgHelper->resizeImage( $upload, 'product');
 		
@@ -1011,7 +1011,7 @@ class TiendaControllerProducts extends TiendaController
      */
     function addfile( $fieldname = 'createproductfile_file', $path = 'products_files' )
     {
-        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaFile', 'library.file' );
         $upload = new TiendaFile();
         // handle upload creates upload object properties
         $upload->handleUpload( $fieldname );
@@ -1220,7 +1220,7 @@ class TiendaControllerProducts extends TiendaController
     	$done = JRequest::getInt('done', 0);
     	
     	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-    	JLoader::import( 'com_tienda.library.image', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( 'TiendaImage', 'library.image' );
     	$width = TiendaConfig::getInstance()->get('product_img_width', '0');
     	$height = TiendaConfig::getInstance()->get('product_img_height', '0');
     	
@@ -1258,7 +1258,7 @@ class TiendaControllerProducts extends TiendaController
 		    		$img->setDirectory( $path );
 		
 					// Thumb
-					JLoader::import( 'com_tienda.helpers.image', JPATH_ADMINISTRATOR.DS.'components' );
+					Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 					$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 					$imgHelper->resizeImage( $img );
 	    		}

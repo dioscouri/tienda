@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 jimport('joomla.filesystem.file');
 
 class TiendaHelperShipping extends TiendaHelperBase
@@ -226,7 +226,7 @@ class TiendaHelperShipping extends TiendaHelperBase
      */
     public function getTaxRate( $shipping_method_id, $geozone_id )
     {
-    	JLoader::import( 'com_tienda.library.query', JPATH_ADMINISTRATOR.DS.'components' );
+    	Tienda::load( 'TiendaQuery', 'library.query' );
             
         $taxrate = "0.00000";
         $db = JFactory::getDBO();

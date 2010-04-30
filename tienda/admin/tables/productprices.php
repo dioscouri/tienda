@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JLoader::import( 'com_tienda.tables._base', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableProductprices extends TiendaTable 
 {
@@ -42,7 +42,7 @@ class TiendaTableProductprices extends TiendaTable
 		}
 
 		$nullDate = $this->_db->getNullDate();
-		JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $this->product_price_startdate = ($this->product_price_startdate != $nullDate) ? TiendaHelperBase::getOffsetDate( $this->product_price_startdate ) : $this->product_price_startdate;
         $this->product_price_enddate = ($this->product_price_enddate != $nullDate) ? TiendaHelperBase::getOffsetDate( $this->product_price_enddate ) : $this->product_price_enddate;
 

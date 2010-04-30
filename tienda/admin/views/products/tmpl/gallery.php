@@ -4,7 +4,7 @@ JHTML::_('stylesheet', 'tienda.js', 'media/com_tienda/js/');
 $images = @$this->images;
 $path = @$this->url; 
 Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaUrl', 'library.url' );
 $product_id = JRequest::getInt('id', 0);
 ?>
 <div id="gallery">

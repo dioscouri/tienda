@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 
 class TiendaControllerCarts extends TiendaController
 {
@@ -60,7 +60,7 @@ class TiendaControllerCarts extends TiendaController
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
         
         // convert elements to array that can be binded             
-        JLoader::import( 'com_tienda.helpers._base', JPATH_ADMINISTRATOR.DS.'components' );
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $values = TiendaHelperBase::elementsToArray( $elements );
         $product_id = $values['product_id'];
         $product_qty = $values['product_qty'];
