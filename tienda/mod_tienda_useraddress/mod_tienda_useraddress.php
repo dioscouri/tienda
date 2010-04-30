@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -10,6 +9,10 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+
+// Check the registry to see if our Tienda class has been overridden
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 require_once( dirname(__FILE__).DS.'helper.php' );
 

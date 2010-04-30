@@ -11,6 +11,10 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+// Check the registry to see if our Tienda class has been overridden
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
@@ -27,10 +31,6 @@ $display_null = $params->get( 'display_null', '1' );
 $null_text = $params->get( 'null_text', 'No Items in Your Cart' );
 $isAjax = $mainframe->getUserState( 'mod_usercart.isAjax' );
 $ajax = ($isAjax == '1');
-
-// Check the registry to see if our Tienda class has been overridden
-if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 // Grab the cart
 Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );

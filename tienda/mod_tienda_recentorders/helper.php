@@ -14,7 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 Tienda::load( 'TiendaQuery', 'library.query' );
 
-// TODO Should this be in an /admin/helpers/statistics.php?
 class modTiendaRecentOrdersHelper extends TiendaHelperBase
 {
 	var $_orders = null;

@@ -11,6 +11,10 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+// Check the registry to see if our Tienda class has been overridden
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    
 // include lang files
 $element = strtolower( 'com_Tienda' );
 $lang =& JFactory::getLanguage();

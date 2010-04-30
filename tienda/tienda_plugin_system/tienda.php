@@ -137,8 +137,10 @@ class plgSystemTienda extends JPlugin
         jimport('joomla.filesystem.file');
         if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
         {
-            require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php';
             $success = true;
+            // Check the registry to see if our Tienda class has been overridden
+            if ( !class_exists('Tienda') ) 
+                JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
         }
         return $success;
     }
