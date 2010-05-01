@@ -107,10 +107,14 @@ $citems = @$this->citems;
                             echo $item->product_description_short;
                         }
                             else
-                        {
-                            $str = wordwrap($item->product_description, 200, '`|+'); 
-                            echo substr($str, 0, stripos($str, '`|+'));
-                            if (!empty($str)) { echo '...'; }
+                        {                  
+                            $str = wordwrap($item->product_description, 200, '`|+');
+                            $wrap_pos = strpos($str, '`|+');
+                            if ($wrap_pos !== false) {
+                                echo substr($str, 0, $wrap_pos).'...';
+                            } else {
+                                echo $str;
+                            }    
                         }
                     ?>
                     </div>
