@@ -53,8 +53,194 @@
     <property name="cfg.datefmt" value="yyyy-MM-dd" />
     <property name="cfg.dateloc" value="en,UK" />
 
-    <target name="build" depends="clean, init, build_component, info" />
+    <target name="build" depends="update_localhost" />
 
+    <target name="update_localhost" description="attemps to update files on localhost server with files from working directory">
+        <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
+            <available file="${tmpdir}" type="dir" />
+        </condition>
+    	<!-- MAIN COMPONENT -->	
+        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.adminFilesDir}" />
+        </copy>
+        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset file="${cfg.comDir}/manifest.xml" />
+        </copy>
+        <copy todir="${destdir}/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.siteFilesDir}" />
+        </copy>
+    	<!-- MEDIA FILES -->
+        <copy todir="${destdir}/media/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.mediaFilesDir}" />
+        </copy>
+    	<!-- LANGUAGE FILES -->
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.adminLangDir}" />
+        </copy>
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.siteLangDir}" />
+        </copy>
+    <!-- MODULES -->
+        <!-- CART -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart/languages" />
+        </copy>
+    	<!-- CATEGORIES -->
+    	<!-- PRODUCTS -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
+        </copy>
+        <!-- QUICKICON -->
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_quickicon" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon/languages" />
+        </copy>
+    	<!-- RECENT ORDERS -->
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_recentorders" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders/languages" />
+        </copy>
+        <!-- SALES STATS -->
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_salestatistics" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics/languages" />
+        </copy>
+        <!-- SEARCH -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_search" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search/languages" />
+        </copy>
+    	<!-- USER ADDRESS -->
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_useraddress" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
+        </copy>
+    <!-- PLUGINS -->
+        <!-- BUG REPORT -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_bug_report" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_bug_report/languages" />
+        </copy>
+        <!-- CHARTS PLUGINS -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
+        </copy>
+    <!-- PAYMENT PLUGINS -->
+    	<!-- 2CHECKOUT -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_2checkout" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_2checkout/languages" />
+        </copy>
+    	<!-- AUTHORIZE DOT NET -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
+        </copy>
+    	<!-- GOOGLE CHECKOUT -->
+    	<!-- MONERIS -->
+    	<!-- MONEYBOOKERS -->
+    	<!-- OFFLINE -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_offline" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_offline/languages" />
+        </copy>
+    	<!-- PAGSEGURO -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_pagseguro" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_pagseguro/languages" />
+        </copy>
+    	<!-- PAYPAL -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_paypal" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_paypal/languages" />
+        </copy>
+    	<!-- PAYSON -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_payson" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_payson/languages" />
+        </copy>	
+    	<!-- PSIGATE -->
+    	
+    <!-- REPORT PLUGINS -->
+    	<!-- BEST SELLERS -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_bestsellers" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
+        </copy>
+        <!-- SEARCH -->
+        <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_search" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
+        </copy>
+        <!-- SYSTEM PLUGINS -->
+        <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_system" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
+        </copy>
+    <!-- TOOL PLUGINS -->
+    	<!-- VIRTUEMART MIGRATION-->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration/languages" />
+        </copy>
+        <!-- XCART MIGRATION -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_xcartmigration" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
+        </copy>
+        <!-- USER PLUGINS -->
+        <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_user" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
+        </copy>
+
+    </target>
+	
     <target name="init" description="creates nessecary directory to build with">
         <mkdir dir="${cfg.buildVersionDir}" />
         <mkdir dir="${cfg.buildVersionDir}/plugins" />
@@ -100,146 +286,6 @@
         <delete dir="packages" />
         <delete dir="${cfg.extensionsDir}" />
         <delete file="${cfg.xmlfile}" />
-    </target>
-
-    <target name="update_localhost" description="attemps to update files on localhost server with files from working directory">
-        <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
-            <available file="${tmpdir}" type="dir" />
-        </condition>
-        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.adminFilesDir}" />
-        </copy>
-        <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset file="${cfg.comDir}/manifest.xml" />
-        </copy>
-        <copy todir="${destdir}/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.siteFilesDir}" />
-        </copy>
-        <copy todir="${destdir}/media/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.mediaFilesDir}" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.adminLangDir}" />
-        </copy>
-        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.siteLangDir}" />
-        </copy>
-        <!-- SEARCH PLUGINS -->
-        <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_search" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
-        </copy>
-        <!-- CHARTS PLUGINS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
-        </copy>
-        <!-- PAYMENT PLUGINS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_offline" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_offline/languages" />
-        </copy>
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_paypal" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_paypal/languages" />
-        </copy>
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
-        </copy>
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_pagseguro" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_pagseguro/languages" />
-        </copy>
-        <!-- USER PLUGINS -->
-        <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_user" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
-        </copy>
-        <!-- SYSTEM PLUGINS -->
-        <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_system" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
-        </copy>
-        <!-- MODULES -->
-        <copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
-        </copy>
-        <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart/languages" />
-        </copy>
-        <copy todir="${destdir}/modules/mod_${cfg.comName}_search" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search/languages" />
-        </copy>
-        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_salestatistics" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_salestatistics/languages" />
-        </copy>
-        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_recentorders" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_recentorders/languages" />
-        </copy>
-        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_useraddress" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
-        </copy>
-        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_quickicon" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon/languages" />
-        </copy>
-        <!-- REPORT PLUGINS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginReportDir}_bestsellers" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
-        </copy>
-        <!-- TOOL PLUGINS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginToolDir}_xcartmigration" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
-        </copy>
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginToolDir}_virtuemartmigration/languages" />
-        </copy>
     </target>
 
     <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">
