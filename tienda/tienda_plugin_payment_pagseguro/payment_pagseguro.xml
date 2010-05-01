@@ -17,8 +17,7 @@
     </files>
 
     <languages>
-        <language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal.ini</language>
-        <language tag="pt-BR">languages/pt-BR.plg_tienda_payment_paypal.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_tienda_payment_pagseguro.ini</language>
     </languages>
 
     <params addpath="/administrator/components/com_tienda/elements">
