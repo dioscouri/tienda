@@ -20,6 +20,7 @@ class TiendaModelProducts extends TiendaModelBase
        	$filter     = $this->getState('filter');
         $filter_id_from	= $this->getState('filter_id_from');
         $filter_id_to	= $this->getState('filter_id_to');
+		$filter_id_set = $this->getState('filter_id_set');
         $filter_name	= $this->getState('filter_name');
        	$enabled		= $this->getState('filter_enabled');
         $filter_quantity_from	= $this->getState('filter_quantity_from');
@@ -35,6 +36,7 @@ class TiendaModelProducts extends TiendaModelBase
         $filter_datetype    = $this->getState('filter_datetype');
         $filter_published   = $this->getState('filter_published');
         $filter_published_date  = $this->getState('filter_published_date');
+		$filter_manufacturer = $this->getState('filter_manufacturer');
         
        	if ($filter) 
        	{
@@ -73,6 +75,10 @@ class TiendaModelProducts extends TiendaModelBase
         {
         	$query->where('tbl.product_id <= '.(int) $filter_id_to);
        	}
+		if (strlen($filter_id_set))
+		{
+			$query->where('tbl.product_id IN ('.$filter_id_set.')');
+		}
     	if (strlen($filter_name))
         {
         	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_name ) ) ).'%');
@@ -154,6 +160,10 @@ class TiendaModelProducts extends TiendaModelBase
                   break;
             }
         }
+		if (strlen($filter_manufacturer))
+		{
+			$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
+		}
         if (strlen($filter_published))
         {
         	// TODO Add this after updating the products form to add publish/unpublish date fields

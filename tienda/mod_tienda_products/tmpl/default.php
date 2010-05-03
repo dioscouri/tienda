@@ -11,21 +11,45 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ($num > 0 && $products)
-{
-    
-    foreach (@$products as $product)
-    {
-        ?>
-        <p>
-        <b><?php echo $product->product_name; ?></b><br />
-        <?php echo $product->product_description ?><br />
-        <?php echo Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->currency( $product->price ) ?>
-        </p>
-        <?php
-    } 
+// Add CSS
+$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_products/tmpl/tienda_products.css');
 
-    
+$resize = false;
+$options = array();
+if ($params->get('display_image_width', '') != '')
+{
+	$options['width'] = $params->get('display_image_width');
+}
+if ($params->get('display_image_height', '') != '')
+{
+	$options['height'] = $params->get('display_image_height');
+}
+
+if ($num > 0 && @$products)
+{
+	echo '<div class="tienda_products_'.$params->get('display_style','flat').'">';
+    // Loop through the products to display
+    foreach (@$products as $product) : ?>
+		<div class="tienda_product_item<?php if ($params->get('display_style','flat') == 'grid') echo ' grid' .$params->get('display_grid_items' ,'3'); ?>">
+        <h4 class="product_title"><a href="<?php echo JRoute::_( $product->link ); ?>"><?php echo $product->product_name; ?></a></h4>
+		
+		<?php if ($params->get('display_image','1') != '0') : ?>
+			<?php if ($params->get('display_image_link','1') != '0') : ?>
+				<p class="product_image"><a href="<?php echo JRoute::_( $product->link ); ?>">
+				<?php echo TiendaHelperProduct::getImage($product->product_id, 'id', $product->product_name, 'thumb', false, $resize, $options); ?>
+				</a></p>
+			<?php else : ?>
+				<p class="product_image"><?php echo TiendaHelperProduct::getImage($product->product_id, 'id', $product->product_name, 'thumb', false, $resize, $options); ?></p>
+			<?php endif; ?>
+		<?php endif; ?>
+
+        <?php if ($params->get('display_price','1') != '0') : ?><p class="product_price"><?php echo Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->currency( $product->price ) ?></p><?php endif; ?>
+
+		<?php if ($params->get('display_description','1') != '0' && $product->product_description_short != null) : ?><p class="product_description"><?php $product->product_description_short ?></p><?php endif; ?>
+		</div>
+		<?php  endforeach;
+	echo '</div>';
+
 }  
     elseif ($display_null == '1') 
 {

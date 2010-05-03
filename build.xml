@@ -89,6 +89,12 @@
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart/languages" />
         </copy>
     	<!-- CATEGORIES -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_categories" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_categories" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_categories/languages" />
+        </copy>
     	<!-- PRODUCTS -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />

@@ -10,6 +10,7 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.component.model' );
 
 class modTiendaProductsHelper extends JObject
 {
@@ -48,7 +49,18 @@ class modTiendaProductsHelper extends JObject
     	// setting the model's state tells it what items to return
     	$model->setState('filter_published', '1');
     	$model->setState('filter_enabled', '1');
-    	
+		
+		// Set category state
+		if ($this->params->get('category', '1') != '1')
+			$model->setState('filter_category', $this->params->get('category', '1'));
+
+		// Set manufacturer state
+		if ($this->params->get('manufacturer', '') != '')
+				$model->setState('filter_manufacturer', $this->params->get('manufacturer', ''));
+
+		// Set id set state
+		if ($this->params->get('id_set', '') != '')
+				$model->setState('filter_id_set', $this->params->get('id_set', ''));
     	// set the states based on the parameters
     	$model->setState('limit', $this->params->get( 'max_number', '10' ));
     	if($this->params->get( 'price_from', '-1' ) != '-1')

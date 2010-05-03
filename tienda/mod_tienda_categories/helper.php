@@ -10,6 +10,7 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.component.model' );
 
 class modTiendaCategoriesHelper extends JObject
 {
@@ -37,15 +38,16 @@ class modTiendaCategoriesHelper extends JObject
         Tienda::load( 'TiendaConfig', 'defines' );
                 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-    	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model
-    	$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+    	$model = JModel::getInstance( 'categories', 'TiendaModel' );
 
     	// TODO Make this depend on the current filter_category? 
     	
     	// setting the model's state tells it what items to return
     	$model->setState('filter_enabled', '1');
+		$model->setState('order', 'tbl.lft');
     	
     	// set the states based on the parameters
     	
@@ -55,4 +57,6 @@ class modTiendaCategoriesHelper extends JObject
     	return $items;
     }
 }
+
+
 ?>

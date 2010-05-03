@@ -2,4 +2,8 @@ div.reset
 {
     clear: none;
 }
-
+#tienda_categories_mod .level1 {}
+#tienda_categories_mod .level2 {margin-left: 5px;}
+#tienda_categories_mod .level3 {margin-left: 10px;}
+#tienda_categories_mod .level4 {margin-left: 15px;}
+#tienda_categories_mod .level5 {margin-left: 20px;}

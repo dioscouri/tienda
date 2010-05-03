@@ -32,5 +32,6 @@ $products = $helper->getProducts();
 $num = count($products);
 
 $mainframe =& JFactory::getApplication();
+$document =& JFactory::getDocument();
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_products' ) );

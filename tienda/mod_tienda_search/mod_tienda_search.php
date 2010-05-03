@@ -21,4 +21,6 @@ $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
+$category_filter = $params->get('category_filter', '1');
+
 require( JModuleHelper::getLayoutPath( 'mod_tienda_search' ) );

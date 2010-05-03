@@ -10,11 +10,13 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.component.model' );
 
 class modTiendaCartHelper
 {
     function getCart()
     {
+
     	//require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );

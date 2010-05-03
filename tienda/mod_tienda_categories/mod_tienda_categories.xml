@@ -22,6 +22,11 @@
 	</languages>
 	
 	<params>
+		<!-- TODO add multiple display variations
+		<param name="display_type" type="list" default="list" label="Display Type" description="Display Type Description">
+			<option value="list">Flat List</option>
+			<option value="dropdown">Dropdown</option>
+		</param> -->
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
     </params>
 </install>

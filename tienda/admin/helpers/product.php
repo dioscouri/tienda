@@ -395,7 +395,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             
             // if url is true, just return the url of the file and not the whole img tag
             $tmpl = ($url)
-                ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
+                ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' />";
 
         }
             else
@@ -488,7 +488,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     ? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
 
                 $tmpl = ($url)
-                    ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' name='".JText::_( $alt )."' align='center' border='0' />";
+                    ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' />";
             }           
         }
         return $tmpl;
