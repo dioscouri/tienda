@@ -20,7 +20,7 @@ class JElementTiendaOrderState extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-	    $select = Tienda::load( 'TiendaSelect', 'library.select' );
+	    $select = Tienda::getClass( 'TiendaSelect', 'library.select' );
 	    $list = $select->orderstate($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Order State', '', true );
 		return $list;
 	}

@@ -54,6 +54,18 @@ class modTiendaCategoriesHelper extends JObject
         // using the set filters, get a list
     	$items = $model->getList();
     	
+    	if (!empty($items))
+    	{
+    	    foreach ($items as $item)
+    	    {
+    	        $item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($item->category_id, true);
+    	        if (empty($item->itemid))
+    	        {
+                    $item->itemid = $this->params->get('itemid');    
+    	        }
+    	    }
+    	}
+    	
     	return $items;
     }
 }

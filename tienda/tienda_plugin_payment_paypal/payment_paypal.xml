@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Tienda Payment Plugin - Paypal (Standard) Payments</name>
+	<name>Paypal Payments</name>
 	<version>0.4.3</version>
 	<creationDate>April 2010</creationDate>
 	<author>Dioscouri</author>
