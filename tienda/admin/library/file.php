@@ -229,7 +229,7 @@ class TiendaFile extends JObject
     {
         $success = false;
         
-        //$file->productfile_path = JPath::clean($file->productfile_path);
+        $file->productfile_path = JPath::clean($file->productfile_path);
         
         // This will set the Content-Type to the appropriate setting for the file
         switch( $file->productfile_extension ) {
@@ -276,7 +276,7 @@ class TiendaFile extends JObject
                 $header_file = $file->productfile_name;
             }
             
-            // Prepare headers
+                    // Prepare headers
             header("Pragma: public");
             header("Expires: 0");
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -288,18 +288,29 @@ class TiendaFile extends JObject
             header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
             header("Content-Transfer-Encoding: binary");
             header("Content-Length: " . filesize($file->productfile_path));
-            
-            // Output file by chunks
+
             error_reporting(0);
             if ( ! ini_get('safe_mode') ) {
                 set_time_limit(0);
             }
             
-            $chunk = 1 * (1024 * 1024);
-            $this->readfileChunked($file->productfile_path, $chunk);
+            if (intval( ini_get('output_buffering')) > '1' )
+            {
+                ob_clean();
+                flush();
+                @readfile($file->productfile_path);
+                exit;                
+            }
+                else
+            {
+                // Output file by chunks
+                $chunk = 1 * (1024 * 1024);
+                $this->readfileChunked($file->productfile_path, $chunk);
+                exit;
+            }
             
             $success = true;            
-            exit;
+            
         }
         
         return $success;        
@@ -320,9 +331,12 @@ class TiendaFile extends JObject
         $cnt =0;
         $handle = fopen($filename, 'rb');
         if ($handle === false) {
+            JError::raiseWarning( 1, 'TiendaFile::readfileChunked: '.JText::_('Unable to open file') . ": '$filename'");
             return false;
         }
-        while (!feof($handle)) {
+        
+        while (!feof($handle)) 
+        {
             $buffer = fread($handle, $chunksize);
             echo $buffer;
             @ob_flush();
@@ -331,6 +345,7 @@ class TiendaFile extends JObject
                 $cnt += strlen($buffer);
             }
         }
+ 
        $status = fclose($handle);
        if ($retbytes && $status) {
             return $cnt; // return num. bytes delivered like readfile() does.
