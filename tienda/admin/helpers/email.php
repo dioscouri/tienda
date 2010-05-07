@@ -136,15 +136,17 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$lang->load('com_tienda', JPATH_ADMINISTRATOR);
 				$link = JURI::root().JRoute::_("index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id);
 				
-				// First Save, new order!
-				if( count($data->orderhistory == 1) ){
+				if ( count($data->orderhistory) == 1 )
+				{
+                    // First Save, new order!
 					$return->subject = JText::_('EMAIL_THANKS_NEW_ORDER');
 					$text = $text  = JText::_('EMAIL_DEAR') ." ".$user->name.", \n ";
 					$text .= sprintf( JText::_("EMAIL_NEW_ORDER_TEXT"), $data->order_id )."\n\n";;
 					$text .= JText::_("EMAIL_CHECK")." ".$link;	
 				}
-				// Status Change
-				else{
+				    else
+				{
+                    // Status Change
 					$return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
 					$last_history = count($data->orderhistory) - 1;
 					

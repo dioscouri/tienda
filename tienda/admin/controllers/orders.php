@@ -957,7 +957,7 @@ class TiendaControllerOrders extends TiendaController
 	        $history = JTable::getInstance('OrderHistory', 'TiendaTable');
 	        $history->order_id             = $row->order_id;
 	        $history->order_state_id       = $row->order_state_id;
-	        $history->notify_customer    = JRequest::getVar('new_orderstate_notify'); 
+	        $history->notify_customer      = JRequest::getVar('new_orderstate_notify'); 
 	        $history->comments             = JRequest::getVar('new_orderstate_comments');
 	        
 	        if (!$history->save())
