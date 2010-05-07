@@ -1,8 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/'); ?>
-<?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">System Informations</a>';?>
+
+<?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">'.JText::_( "System Information" ).'</a>'; ?>
+
 <div class="note">
-	<?php echo JText::_("Warning! Along with the bug informations that you write here will be sent also all the informations gathered from {$link}"); ?>
+	<?php echo JText::_("Warning! Along with the bug details, this form will also send all the information gathered from {$link}" ); ?>
 </div>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&task=doTask&element=bug_report&elementTask=sendBug' ) ?>" method="post" class="adminform" name="adminForm" >
@@ -31,6 +33,7 @@
                     </td>
                 </tr>
             </table>
-            <input type="submit" value="<?php echo JText::_('Send'); ?>">
+            <input class="button" type="submit" value="<?php echo JText::_('Send'); ?>">
+            <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=dashboard'); ?>'" value="<?php echo JText::_('Cancel'); ?>" />
     </fieldset>
 </form>

@@ -50,12 +50,18 @@ class plgTiendaBug_report extends JPlugin
         return $text;
 	}
 	
-	function submitBug(){
-		
+	/**
+	 * Displays the submit bug form
+	 */
+	function submitBug()
+	{
 		Tienda::load( 'TiendaViewBase', 'views._base' );
 		$view = new TiendaViewBase();
 		$view->displayTitle(JText::_('SUBMIT BUG'));
-		$view->displayMenubar();
+		
+		Tienda::load( 'TiendaMenu', 'library.menu' );
+		$menu =& TiendaMenu::getInstance();
+
 		unset($view);
 		
 		ob_start();
