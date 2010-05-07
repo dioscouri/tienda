@@ -1245,15 +1245,17 @@ class TiendaControllerProducts extends TiendaController
     	$i = 0;
     	$k = 0;
     	$last_id = $from_id;
-    	foreach($products as $p){
+    	foreach ($products as $p)
+    	{
     		$k++;
     		$path = $helper->getGalleryPath($p->product_id);
     		$images = $helper->getGalleryImages($path);
     		
-    		foreach($images as $image){
+    		foreach ($images as $image)
+    		{
 	    		$i++;
-    			if($image != ''){
-		    		
+    			if ($image != '')
+    			{
 	    			$img = new TiendaImage($path.$image);
 		    		$img->setDirectory( $path );
 		
@@ -1265,13 +1267,13 @@ class TiendaControllerProducts extends TiendaController
     		}
     		$last_id = $p->product_id;
     		
-    		if($i >= $per_step)
+    		if ($i >= $per_step)
     			break;
     	}
     	
     	$done += $k;
     	
-    	if($done < $count)
+    	if ($done < $count)
     		$redirect = "index.php?option=com_tienda&controller=products&task=recreateThumbs&from_id=".($last_id+1)."&done=".$done;
     	else
     		$redirect = "index.php?option=com_tienda&view=config";

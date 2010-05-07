@@ -222,7 +222,7 @@
                                 <?php echo JText::_( 'Recreate Product Thumbnails' ); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&controller=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Product Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Product Thumbnails'); ?></a>
                             </td>
                         </tr>
                         <tr>
@@ -246,7 +246,7 @@
                                 <?php echo JText::_( 'Recreate Category Thumbnails' ); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&controller=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Category Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Category Thumbnails'); ?></a>
                             </td>
                         </tr>
                         <tr>
@@ -270,7 +270,7 @@
                                 <?php echo JText::_( 'Recreate Manufacturer Thumbnails' ); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&controller=manufacturers&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Manufacturer Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=manufacturers&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Manufacturer Thumbnails'); ?></a>
                             </td>
                         </tr>
 					</tbody>
