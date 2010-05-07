@@ -217,14 +217,22 @@ class TiendaHelperCategory extends TiendaHelperBase
 					$name .= JText::_( $item->category_name );
 			  break;
             case 'links':
-                $link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=", false );
+                // get the root category
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
+                $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
+                $link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );
                 $name .= " <a href='$link'>".JText::_('All Categories').'</a> ';
 			    foreach (@$path as $cat) 
 			    {
 			        if (!$cat->isroot) 
 			        {
+			            if (!$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($cat->category_id, true))
+			            {
+			                $itemid = $root_itemid;
+			            }
 			            $slug = $cat->category_alias ? ":$cat->category_alias" : "";
-			            $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$cat->category_id.$slug, false);
+			            $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$cat->category_id.$slug."&Itemid=".$itemid, false);
 			            $name .= " > ";
 			            $name .= " <a href='$link'>".JText::_( $cat->category_name ).'</a> ';
 			        }
@@ -232,8 +240,12 @@ class TiendaHelperCategory extends TiendaHelperBase
                     $name .= " > ";
                     if ($linkSelf)
                     {
+                        if (!$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($item->category_id, true))
+                        {
+                            $itemid = $root_itemid;
+                        }
                         $slug = $item->category_alias ? ":$item->category_alias" : "";
-                    	$link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$item->category_id.$slug, false);
+                    	$link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$item->category_id.$slug."&Itemid=".$itemid, false);
                     	$name .= " <a href='$link'>".JText::_( $item->category_name ).'</a> ';
                     }
                         else

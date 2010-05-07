@@ -638,7 +638,7 @@ window.addEvent('domready', function(){
                             <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>
                             <div id="current_files">
                                 <?php foreach (@$files as $file) : ?>
-                                    [<a href="<?php echo "index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=".$file->file_id."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                    [<a href="<?php echo "index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
                                     <?php echo $file->productfile_name; ?>
