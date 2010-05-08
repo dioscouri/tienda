@@ -31,8 +31,9 @@ class TiendaModelBase extends JModel
         if (empty($name)) {
             $name = $this->getName();
         }
-
-        if($table = &$this->_createTable( $name, $prefix, $options ))  {
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        if ($table = $this->_createTable( $name, $prefix, $options ))  {
             return $table;
         }
 

@@ -41,7 +41,7 @@ class modTiendaCategoriesHelper extends JObject
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model
-    	$model = JModel::getInstance( 'categories', 'TiendaModel' );
+    	$model = JModel::getInstance( 'Categories', 'TiendaModel' );
 
     	// TODO Make this depend on the current filter_category? 
     	
