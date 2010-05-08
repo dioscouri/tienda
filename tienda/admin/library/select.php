@@ -206,7 +206,7 @@ class TiendaSelect extends JHTMLSelect
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$model = JModel::getInstance( 'Taxclasses', 'TiendaModel' );
-		$model->setState( 'order', 'tax_class_name' );
+		$model->setState( 'order', 'ordering' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();
         foreach (@$items as $item)

@@ -17,8 +17,10 @@ class TiendaModelTaxrates extends TiendaModelBase
 {
 	protected function _buildQueryWhere(&$query)
 	{
-		$filter     = $this->getState('filter');
-		$taxclassid	= $this->getState('filter_taxclassid');
+		$filter               = $this->getState('filter');
+		$filter_id            = $this->getState('filter_id');
+		$filter_geozone       = $this->getState('filter_geozone');
+		$filter_taxclassid	  = $this->getState('filter_taxclassid');
 		
 		if ($filter) 
 		{
@@ -33,10 +35,21 @@ class TiendaModelTaxrates extends TiendaModelBase
 				
 			$query->where('('.implode(' OR ', $where).')');
 		}
-		if (strlen($taxclassid))
+		
+		if (strlen($filter_id))
 		{
-			$query->where('tbl.tax_class_id = '.$taxclassid);
+			$query->where('tbl.tax_rate_id = '.$filter_id);
 		}
+		
+	    if (strlen($filter_taxclassid))
+        {
+            $query->where('tbl.tax_class_id = '.$filter_taxclassid);
+        }
+        
+	    if (strlen($filter_geozone))
+        {
+            $query->where('tbl.geozone_id = '.$filter_geozone);
+        }
 	}
     
 	protected function _buildQueryJoins(&$query)

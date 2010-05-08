@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -36,7 +35,6 @@ class TiendaModelTaxclasses extends TiendaModelBase
     {
         $field = array();
         
-        // This subquery returns the default price for the product and allows for sorting by price
         $field[] = "
             (
             SELECT 

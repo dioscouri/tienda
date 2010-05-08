@@ -338,6 +338,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_taxclasses` (
   `tax_class_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `tax_class_name` VARCHAR(32) NOT NULL DEFAULT '' ,
   `tax_class_description` VARCHAR(255) NOT NULL DEFAULT '' ,
+  `ordering` int(11) NOT NULL,
   `created_date` DATETIME NOT NULL ,
   `modified_date` DATETIME NOT NULL ,
   PRIMARY KEY (`tax_class_id`) )

@@ -37,6 +37,10 @@ $items = @$this->items;
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.tax_class_name", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo JHTML::_('grid.order', @$items ); ?>
+                </th>
                 <th>
                 	<?php echo JText::_( "Assigned Tax Rates" ); ?>
                 </th>
@@ -64,11 +68,15 @@ $items = @$this->items;
 					<br/>
 					<?php echo JText::_($item->tax_class_description); ?>
 				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaGrid::order($item->tax_class_id); ?>
+                    <?php echo TiendaGrid::ordering($item->tax_class_id, $item->ordering ); ?>
+                </td>
 				<td style="text-align: center;">
 					<?php echo JText::_( "Tax Rates Assigned" ); ?>:
 					<?php echo $item->taxrates_assigned ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( @$item->link_taxrates, "Set Tax Rates" ); ?>]
+					[<?php echo TiendaUrl::popup( @$item->link_taxrates, "Set Tax Rates", array( 'update'=>true ) ); ?>]
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
