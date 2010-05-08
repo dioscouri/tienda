@@ -23,6 +23,7 @@
         <thead>
             <tr>
                 <th><?php echo JText::_( "Geozone" ); ?></th>
+                <th><?php echo JText::_( "Description" ); ?></th>
                 <th><?php echo JText::_( "Rate" ); ?></th>
             </tr>
         </thead>
@@ -30,6 +31,9 @@
             <tr>
                 <td style="text-align: center;">
                     <?php echo TiendaSelect::geozone( '', 'geozone_id' ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <input id="tax_rate_description" name="tax_rate_description" value="" />
                 </td>
                 <td style="text-align: center;">
                     <input id="tax_rate" name="tax_rate" value="" />
@@ -58,6 +62,9 @@
                 <th style="text-align: left;">
                     <?php echo TiendaGrid::sort( 'Geo Zone', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
                 </th>
+                <th>
+                    <?php echo TiendaGrid::sort( 'Tax Rate Description', "tbl.tax_rate_description", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Tax Rate', "tbl.tax_rate", @$state->direction, @$state->order ); ?>
                 </th>
@@ -77,6 +84,9 @@
                 </td>   
                 <td style="text-align: left;">
                     <?php echo JText::_( $item->geozone_name ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <input type="text" name="description[<?php echo $item->tax_rate_id; ?>]" value="<?php echo $item->tax_rate_description; ?>" />
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="rate[<?php echo $item->tax_rate_id; ?>]" value="<?php echo $item->tax_rate; ?>" />

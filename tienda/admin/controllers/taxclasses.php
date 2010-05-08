@@ -95,15 +95,18 @@ class TiendaControllerTaxclasses extends TiendaController
         $this->message      = '';
                 
         $model = $this->getModel('taxrates');
+        
         $row = $model->getTable();
         
         $cids = JRequest::getVar('cid', array(0), 'request', 'array');
         $rates = JRequest::getVar('rate', array(0), 'request', 'array');
+        $descriptions = JRequest::getVar('description', array(0), 'request', 'array');
         
         foreach (@$cids as $cid)
         {
             $row->load( $cid );
             $row->tax_rate = $rates[$cid];
+            $row->tax_rate_description = $descriptions[$cid];
 
             if (!$row->save())
             {
@@ -122,7 +125,7 @@ class TiendaControllerTaxclasses extends TiendaController
             $this->message = "";
         }
 
-        $redirect = "index.php?option=com_tienda&controller=taxclasses&task=setrates&id={$model->getId()}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=taxclasses&task=setrates&id={$row->tax_class_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
