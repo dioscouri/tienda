@@ -126,7 +126,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
     {
     	$user = JFactory::getUser();  	
         $vars = new JObject();
-        $vars->payment_method   = $this->_paymentMethods();
+        $vars->payment_method   = $this->_paymentMethods('offline_payment_method', $this->params->get('default'));
         
         $html = $this->_getLayout('form', $vars);
         
@@ -195,6 +195,9 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         }
         if ($this->params->get('enable_wire')) {
             $types[] = JHTML::_('select.option', 'wire', JText::_( "Wire Transfer" ) ); 
+        }
+        if ($this->params->get('enable_invoice')) {
+            $types[] = JHTML::_('select.option', 'invoice', JText::_( "Invoice" ) ); 
         }
         if ($this->params->get('enable_other')) {
             $types[] = JHTML::_('select.option', 'other', JText::_( "Other" ) );    

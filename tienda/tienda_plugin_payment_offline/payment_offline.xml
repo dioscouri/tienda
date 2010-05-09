@@ -32,11 +32,23 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+        <param name="enable_invoice" type="radio" default="1" label="Offline Accept Invoice" description="Offline Accept Invoice Desc">
+            <option value="0">No</option>
+            <option value="1">Yes</option> 
+        </param>
 		<param name="enable_other" type="radio" default="1" label="Offline Accept Other" description="Offline Accept Other Desc">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
 		<param name="articleid" type="text" size="10" default="" label="Offline Article Number" description="Offline Article Number Desc"/>
+
+        <param name="default" type="list" default="checkt" label="Default Offline Payment Type" description="Default Offline Payment Type Desc">
+            <option value="check">Check</option>
+            <option value="moneyorder">Money Order</option>
+            <option value="wire">Wire</option>
+            <option value="invoice">Invoice</option>
+            <option value="other">Other</option> 
+        </param>
 	</params>
 			
 </install>
