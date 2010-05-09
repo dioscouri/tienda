@@ -151,14 +151,12 @@
 	                    echo $item->shipping_country_name;
 					}
 					?>
-					<?php 
-					// Enterprise only?
-					// If the vendor_id > 0, display vendor_name
-					if (!empty($item->vendor_id))
-					{
-						echo "<b>".JText::_( "Vendor" )."</b>: ".$item->vendor_name;
-					}
-					?>
+                    <?php 
+                    if (!empty($item->order_number))
+                    {
+                        echo "<br/><b>".JText::_( "Order Number" )."</b>: ".$item->order_number;
+                    }
+                    ?>
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaHelperBase::currency( $item->order_total, $item->currency ); ?>

@@ -28,7 +28,8 @@ class TiendaModelOrders extends TiendaModelBase
        	$filter_datetype	= $this->getState('filter_datetype');
         $filter_total_from = $this->getState('filter_total_from');
         $filter_total_to   = $this->getState('filter_total_to');
-
+        $filter_ordernumber    = $this->getState('filter_ordernumber');
+        
        	if ($filter)
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
@@ -36,6 +37,7 @@ class TiendaModelOrders extends TiendaModelBase
 			$where = array();
 
 			$where[] = 'LOWER(tbl.order_id) LIKE '.$key;
+			$where[] = 'LOWER(tbl.order_number) LIKE '.$key;
 			$where[] = 'LOWER(ui.first_name) LIKE '.$key;
 			$where[] = 'LOWER(ui.last_name) LIKE '.$key;
 			$where[] = 'LOWER(u.email) LIKE '.$key;

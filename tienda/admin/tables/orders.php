@@ -90,6 +90,7 @@ class TiendaTableOrders extends TiendaTable
 			$date = JFactory::getDate();
 			$this->modified_date = $date->toMysql();
 		}
+		
 		return true;
 	}
 
@@ -103,6 +104,14 @@ class TiendaTableOrders extends TiendaTable
 	{
         if ($return = parent::save())
         {
+            // create the order_number when the order is saved, since it is based on the auto-inc value
+            $order_number_prefix = TiendaConfig::getInstance()->get('order_number_prefix');
+            if (!empty($order_number_prefix) && empty($this->order_number) && !empty($this->order_id))
+            {
+                $this->order_number = $order_number_prefix.$this->order_id;
+                $this->store();
+            }
+            
             // TODO All of the protected vars information could be saved here instead, no?	
         }
         return $return;
