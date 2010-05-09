@@ -419,15 +419,150 @@
                         </tr>
 					</tbody>
 					</table>
+                    <?php
+                    echo $this->sliders->endPanel();
+                    
+                    $legend = JText::_( "Order and Checkout Settings" );
+                    echo $this->sliders->startPanel( JText::_( $legend ), 'orders' );
+                    ?>
+
+                    <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Require Acceptance of Terms on Checkout' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'require_terms', 'class="inputbox"', $this->row->get('require_terms', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Terms and Conditions Article' ); ?>
+                            </th>
+                            <td style="width: 280px;">
+                                <?php echo $this->elementArticle_terms; ?>
+                                <?php echo $this->resetArticle_terms; ?>              
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Article for Terms and Conditions Desc' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Show Shipping Tax on Order Invoices and Checkout' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_shipping_tax', 'class="inputbox"', $this->row->get('display_shipping_tax', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Initial Order State' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::orderstate($this->row->get('initial_order_state', '15'), 'initial_order_state'); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Initial Order State DESC' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Pending Order State' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::orderstate($this->row->get('pending_order_state', '1'), 'pending_order_state'); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Pending Order State DESC' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Shipping Method' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::shippingtype($this->row->get('defaultShippingMethod', '2'), 'defaultShippingMethod'); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Guest Checkout' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'guest_checkout_enabled', 'class="inputbox"', $this->row->get('guest_checkout_enabled', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Order Number Prefix' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="order_number_prefix" value="<?php echo $this->row->get('order_number_prefix', ''); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Order Number Prefix Desc' ); ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_( "Other Settings" );
-					echo $this->sliders->startPanel( JText::_( $legend ), 'others' );
+					$legend = JText::_( "Display Settings" );
+					echo $this->sliders->startPanel( JText::_( $legend ), 'display' );
 					?>
 					
 					<table class="adminlist">
 					<tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_prices_with_tax', 'class="inputbox"', $this->row->get('display_prices_with_tax', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Product Prices with Link to Shipping Costs Article' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_prices_with_shipping', 'class="inputbox"', $this->row->get('display_prices_with_shipping', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Shipping Costs Article' ); ?>
+                            </th>
+                            <td style="width: 280px;">
+                                <?php echo $this->elementArticle_shipping; ?>
+                                <?php echo $this->resetArticle_shipping; ?>              
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Article for Shipping Costs Desc' ); ?>
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Width of UI Lightboxes' ); ?>
@@ -445,61 +580,6 @@
 							</th>
 			                <td>
 								<?php echo JHTML::_('select.booleanlist', 'show_linkback', 'class="inputbox"', $this->row->get('show_linkback', '1') ); ?>
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Show Shipping Tax' ); ?>
-							</th>
-			                <td>
-								<?php echo JHTML::_('select.booleanlist', 'display_shipping_tax', 'class="inputbox"', $this->row->get('display_shipping_tax', '1') ); ?>
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Initial Order State' ); ?>
-							</th>
-			                <td>
-								<?php echo TiendaSelect::orderstate($this->row->get('initial_order_state', '15'), 'initial_order_state'); ?>
-			                </td>
-                            <td>
-                                <?php echo JText::_( 'Default: PrePayment (this is the order status before the payment is done!' ); ?>
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Pending Order State' ); ?>
-							</th>
-			                <td>
-								<?php echo TiendaSelect::orderstate($this->row->get('pending_order_state', '1'), 'pending_order_state'); ?>
-			                </td>
-                            <td>
-                                <?php echo JText::_( 'Default: Pending (this is the order status for pending orders!' ); ?>
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Default Shipping Method' ); ?>
-							</th>
-			                <td>
-								<?php echo TiendaSelect::shippingtype($this->row->get('defaultShippingMethod', '2'), 'defaultShippingMethod'); ?>
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Enable Guest Checkout' ); ?>
-							</th>
-			                <td>
-								<?php echo JHTML::_('select.booleanlist', 'guest_checkout_enabled', 'class="inputbox"', $this->row->get('guest_checkout_enabled', '1') ); ?>
 			                </td>
                             <td>
                                 

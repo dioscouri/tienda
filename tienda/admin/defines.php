@@ -358,6 +358,13 @@ class TiendaConfig extends JObject
     var $date_format                        = '%a, %d %b %Y, %I:%M%p';
     var $use_default_category_image         = '1';
     var $lightbox_width                     = '';
+    var $require_terms                      = '0';
+    var $article_terms                      = '';
+    var $order_number_prefix                = '';
+	var $article_shipping                   = '0';
+	var $display_prices_with_shipping       = '0';
+	var $display_prices_with_tax            = '0';
+	
 	
 	/**
 	 * constructor

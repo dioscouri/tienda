@@ -87,31 +87,18 @@ class TiendaViewConfig extends TiendaViewBase
 			
 		// Elements
 		$elementArticleModel 	= JModel::getInstance( 'ElementArticle', 'TiendaModel' );
-			// default
-			$elementArticle_default 		= $elementArticleModel->_fetchElement( 'article_default', @$row->get('article_default') );
-			$resetArticle_default			= $elementArticleModel->_clearElement( 'article_default', '0' );
-			$this->assign('elementArticle_default', $elementArticle_default);
-			$this->assign('resetArticle_default', $resetArticle_default);
-			// potential
-			$elementArticle_potential 		= $elementArticleModel->_fetchElement( 'article_potential', @$row->get('article_potential') );
-			$resetArticle_potential			= $elementArticleModel->_clearElement( 'article_potential', '0' );
-			$this->assign('elementArticle_potential', $elementArticle_potential);
-			$this->assign('resetArticle_potential', $resetArticle_potential);
-			// suspended
-			$elementArticle_disabled 		= $elementArticleModel->_fetchElement( 'article_disabled', @$row->get('article_disabled') );
-			$resetArticle_disabled			= $elementArticleModel->_clearElement( 'article_disabled', '0' );
-			$this->assign('elementArticle_disabled', $elementArticle_disabled);
-			$this->assign('resetArticle_disabled', $resetArticle_disabled);
-			// unapproved
-			$elementArticle_unapproved 		= $elementArticleModel->_fetchElement( 'article_unapproved', @$row->get('article_unapproved') );
-			$resetArticle_unapproved			= $elementArticleModel->_clearElement( 'article_unapproved', '0' );
-			$this->assign('elementArticle_unapproved', $elementArticle_unapproved);
-			$this->assign('resetArticle_unapproved', $resetArticle_unapproved);
-			// application
-			$elementArticle_application 		= $elementArticleModel->_fetchElement( 'article_application', @$row->get('article_application') );
-			$resetArticle_application			= $elementArticleModel->_clearElement( 'article_application', '0' );
-			$this->assign('elementArticle_application', $elementArticle_application);
-			$this->assign('resetArticle_application', $resetArticle_application);
+			// terms
+			$elementArticle_terms 		= $elementArticleModel->_fetchElement( 'article_terms', @$row->get('article_terms') );
+			$resetArticle_terms			= $elementArticleModel->_clearElement( 'article_terms', '0' );
+			$this->assign('elementArticle_terms', $elementArticle_terms);
+			$this->assign('resetArticle_terms', $resetArticle_terms);
+            // shipping
+            $elementArticle_shipping       = $elementArticleModel->_fetchElement( 'article_shipping', @$row->get('article_shipping') );
+            $resetArticle_shipping         = $elementArticleModel->_clearElement( 'article_shipping', '0' );
+            $this->assign('elementArticle_shipping', $elementArticle_shipping);
+            $this->assign('resetArticle_shipping', $resetArticle_shipping);			
+			
+
     }
     
 }

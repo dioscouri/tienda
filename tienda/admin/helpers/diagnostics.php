@@ -104,6 +104,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKTAXCLASSESORDERING FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkOrdersOrderNumber()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERNUMBER FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -637,6 +643,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTaxclassesOrdering') );
             $config->config_name = 'checkTaxclassesOrdering';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the orders table for the order_number field
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrdersOrderNumber()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrdersOrderNumber', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orders';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "order_number";
+            $definitions["order_number"] = "varchar(255) DEFAULT '' COMMENT 'The Invoice Number that Can be Set by Admins'";
+
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrdersOrderNumber') );
+            $config->config_name = 'checkOrdersOrderNumber';
             $config->value = '1';
             $config->save();
             return true;
