@@ -73,6 +73,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $vars->post_url = $this->_getPostUrl();
         
         // TODO: Currency choice not Accepted Yet, but when it is use TiendaConfig::getInstance()->get('currency');
+        // TODO: How to recalculate
         $vars->currency_code = "SEK"; 
 
         // set variables for user info
@@ -80,19 +81,20 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $vars->BuyerFirstName	= $data['orderinfo']->shipping_first_name;
         $vars->BuyerLastName	= $data['orderinfo']->shipping_last_name;
         $vars->BuyerEmail		= $data['orderinfo']->user_email;
-        $vars->Cost				= str_replace(",", ".", $data['orderpayment_amount']); // TODO: Change to helper
+        $vars->Cost				= str_replace(".", ",", TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands' =>'' ) ));
 		$vars->ExtraCost		= '0'; // TODO: Implement later, might be configured from plugin parameters to let the shop owner take an extra cost?
         $vars->RefNr			= $data['orderpayment_id'];
         $vars->PaymentMethod	= $this->_getParam( 'PaymentMethod' );
-        $vars->OkUrl			= JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message&order_id=".$vars->order_id;
-        $vars->CancelUrl		= JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel&order_id=".$vars->order_id;
+        $vars->OkUrl			= JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
+        $vars->CancelUrl		= JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
         $vars->AgentId			= $this->_getParam( 'payson_agent_id', '' );
         $vars->GuaranteeOffered	= $this->_getParam( 'payson_guarantee', '' );
         $vars->payson_image		= $this->_getParam( 'payson_image', '' );
 
         // Create the MD5 to validate the request at Payson
         $Key = $this->_getParam( 'payson_md5' );
-		$MD5string = $vars->SellerEmail . ":" . $vars->Cost . ":" . $vars->ExtraCost . ":" . $vars->OkUrl . ":" . $vars->GuaranteeOffered . $Key;
+		$MD5string = $vars->SellerEmail . ":" . round($vars->Cost,0) . ":" . $vars->ExtraCost . ":" . $vars->OkUrl . ":" . $vars->GuaranteeOffered . $Key;
+
 		$vars->MD5 = md5($MD5string);
 
         $html = $this->_getLayout('prepayment', $vars);
