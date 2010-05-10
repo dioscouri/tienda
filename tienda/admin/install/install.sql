@@ -771,7 +771,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxclasses` (
   `ordertaxclass_amount` decimal(15,5) DEFAULT '0.00000',
   `ordertaxclass_description` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Display name of the tax class',
   `tax_class_id` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`ordertaxclass_id`)
+  PRIMARY KEY (`ordertaxclass_id`),
+  KEY `order_id` (`order_id`),
+  KEY `tax_class_id` (`tax_class_id`)
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -787,7 +789,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxrates` (
   `ordertaxrate_amount` decimal(15,5) DEFAULT '0.00000',
   `ordertaxrate_description` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Display name of the tax rate',
   `tax_rate_id` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`ordertaxrate_id`)
+  PRIMARY KEY (`ordertaxrate_id`),
+  KEY `order_id` (`order_id`),
+  KEY `tax_rate_id` (`tax_rate_id`)
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
