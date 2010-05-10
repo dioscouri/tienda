@@ -207,13 +207,13 @@ class TiendaHelperCarts extends TiendaHelperBase
             
 	            	// TODO Push this into the orders object->addItem() method?
 		            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
-		            $orderItem->product_id             = $productItem->product_id;
-		            $orderItem->orderitem_sku          = $productItem->product_sku;
-		            $orderItem->orderitem_name         = $productItem->product_name;
-		            $orderItem->orderitem_quantity     = $product->product_qty;
-		            $orderItem->orderitem_price        = $productItem->product_price;
-		            $orderItem->orderitem_attributes   = $product->product_attributes;
-		            $orderItem->orderitem_attribute_names   = $product->attributes_names;
+		            $orderItem->product_id                    = $productItem->product_id;
+		            $orderItem->orderitem_sku                 = $productItem->product_sku;
+		            $orderItem->orderitem_name                = $productItem->product_name;
+		            $orderItem->orderitem_quantity            = $product->product_qty;
+		            $orderItem->orderitem_price               = $productItem->product_price;
+		            $orderItem->orderitem_attributes          = $product->product_attributes;
+		            $orderItem->orderitem_attribute_names     = $product->attributes_names;
 		            $orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
 		            $orderItem->orderitem_final_price         = $product->product_price * $orderItem->orderitem_quantity;
 		            // TODO When do attributes for selected item get set during admin-side order creation?

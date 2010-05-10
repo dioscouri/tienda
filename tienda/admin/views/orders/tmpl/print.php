@@ -60,12 +60,14 @@
                     <?php echo $config->get('shop_address_1', '') ?>
                     <?php 
                     	$address_2 = $config->get('shop_address_2', '');
-						if(!empty($address_2))
-							echo ", ".$address_2."<br />";
+						if (!empty($address_2))
+						{
+						    echo "<br/>".$address_2."<br />";
+						}
 
-						echo $config->get('shop_city', ''). ", ";
-						echo $row->shop_zone_name. ", ";
-						echo $config->get('shop_zip', ''). " ";
+						echo $config->get('shop_city', ''). " ";
+						echo $row->shop_zone_name. " ";
+						echo $config->get('shop_zip', ''). "<br/>";
 						echo $row->shop_country_name;
                     ?>
                 </td>
@@ -143,14 +145,6 @@
                 </td>
                 <td>
                     <?php echo $row->email; ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_("IP Address"); ?>
-                </td>
-                <td>
-                    <?php echo $row->ip_address; ?>
                 </td>
             </tr>
             </table>
@@ -305,14 +299,37 @@
             <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
             </th>
         </tr>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Tax" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
-            </th>
-        </tr>
+        <?php
+        if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
+        {
+            foreach ($row->ordertaxclasses as $taxclass)
+            {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( $taxclass->ordertaxclass_description ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($taxclass->ordertaxclass_amount, $row->currency); ?>
+                </th>
+            </tr>
+            <?php
+            }
+        } 
+            else
+        {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Tax" ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
+                </th>
+            </tr>
+            <?php            
+        }
+        ?>
         <tr>
             <th colspan="2" style="text-align: right;">
             <?php echo JText::_( "Shipping" ); ?>

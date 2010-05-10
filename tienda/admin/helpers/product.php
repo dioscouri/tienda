@@ -679,9 +679,10 @@ class TiendaHelperProduct extends TiendaHelperBase
      *  
      * @param int $product_id
      * @param int $geozone_id
-     * @return int
+     * @param boolean $return_object
+     * @return float | object if $return_object=true
      */
-    public function getTaxRate( $product_id, $geozone_id )
+    public function getTaxRate( $product_id, $geozone_id, $return_object=false )
     {
         Tienda::load( 'TiendaQuery', 'library.query' );
             
@@ -699,6 +700,19 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ($data = $db->loadObject())
         {
             $taxrate = $data->tax_rate;
+            if ($return_object)
+            {
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                $taxrate = JTable::getInstance( 'TaxRates', 'TiendaTable' );
+                $taxrate->load( array( 'tax_rate_id'=>$data->tax_rate_id ) );
+            }
+        }
+            elseif ($return_object)
+        {
+            // if there is no defined tax rate, but an object is expected to be returned
+            //  return an object
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $taxrate = JTable::getInstance( 'TaxRates', 'TiendaTable' );
         }
         
         return $taxrate;

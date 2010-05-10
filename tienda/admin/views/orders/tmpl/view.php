@@ -2,6 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
+<?php $order = @$this->order; ?>
 <?php $surrounding = @$this->surrounding; ?>
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
@@ -99,9 +100,7 @@
             <?php endif; ?>
     
             </fieldset>
-		
-		</td>
-		<td style="width: 50%; vertical-align: top;">
+
 		
             <fieldset>
             <legend><?php echo JText::_('Shipping Information'); ?></legend>
@@ -184,10 +183,6 @@
             </table>
             
             </fieldset>
-		    
-		</td>
-	</tr>
-	</table>
 
     <div id="orderitems">
 	<fieldset>
@@ -244,14 +239,37 @@
             <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
             </th>
         </tr>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Tax" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
-            </th>
-        </tr>
+        <?php
+        if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
+        {
+            foreach ($row->ordertaxclasses as $taxclass)
+            {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( $taxclass->ordertaxclass_description ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($taxclass->ordertaxclass_amount, $row->currency); ?>
+                </th>
+            </tr>
+            <?php
+            }
+        } 
+            else
+        {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Tax" ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
+                </th>
+            </tr>
+            <?php            
+        }
+        ?>
         <tr>
             <th colspan="2" style="text-align: right;">
             <?php echo JText::_( "Shipping" ); ?>
@@ -273,6 +291,9 @@
         </fieldset>
     </div>
 
+        </td>
+        <td style="width: 50%; vertical-align: top;">
+
 	<?php
 	if (!empty($histories))
 	{ 
@@ -284,7 +305,7 @@
         <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
-                <th style="text-align: center;"><?php echo JText::_("Date"); ?></th>
+                <th style="text-align: left;"><?php echo JText::_("Date"); ?></th>
                 <th style="text-align: center;"><?php echo JText::_("Status"); ?></th>
                 <th style="text-align: center;"><?php echo JText::_("Notification Sent"); ?></th>
             </tr>
@@ -293,7 +314,7 @@
         <?php $i=0; $k=0; ?>
         <?php foreach (@$histories as $history) : ?>
             <tr class='row<?php echo $k; ?>'>
-                <td style="text-align: center;">
+                <td style="text-align: left;">
                     <?php echo JHTML::_('date', $history->date_added, TiendaConfig::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: center;">
@@ -345,7 +366,7 @@
 	    </td>
 	    <td>
 	        <input value="<?php echo JText::_( "Update Order" ); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
-	        <?php echo TiendaSelect::orderstate( '', 'new_orderstate_id' ); ?>
+	        <?php echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id' ); ?>
 	    </td>
 	</tr>
 	<tr>
@@ -367,6 +388,11 @@
 	</table>
 	
 	</fieldset>
+
+        </td>
+    </tr>
+    </table>
+
     
     <input type="hidden" name="prev" value="<?php echo intval(@$surrounding["prev"]); ?>" />
     <input type="hidden" name="next" value="<?php echo intval(@$surrounding["next"]); ?>" />        

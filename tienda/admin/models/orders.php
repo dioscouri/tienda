@@ -299,6 +299,13 @@ class TiendaModelOrders extends TiendaModelBase
             $model->setState( 'direction', 'ASC' );
             $item->orderpayments = $model->getList();
             
+            //retrieve the order's taxclasses
+            $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
+            $model->setState( 'filter_orderid', $item->order_id);
+            $model->setState( 'order', 'tbl.ordertaxclass_description' );
+            $model->setState( 'direction', 'ASC' );
+            $item->ordertaxclasses = $model->getList();
+            
             // retrieve the order's currency
 			// this loads the currency, using the FK is it is the same of the
     		// currency used in the order, or the JParameter currency of the order otherwise

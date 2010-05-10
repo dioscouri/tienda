@@ -28,7 +28,7 @@ class TiendaControllerOrders extends TiendaController
 		$this->registerTask( 'edit', 'view' );
 		$this->registerTask( 'prev', 'jump' );
 		$this->registerTask( 'next', 'jump' );
-		$this->registerTask( 'print', 'printOrder' );
+		$this->registerTask( 'print', 'view' );
 		$this->registerTask( 'new', 'selectUser' );
 		$this->registerTask( 'add', 'selectUser' );
 		$this->registerTask( 'update_status', 'updateStatus' );
@@ -76,20 +76,45 @@ class TiendaControllerOrders extends TiendaController
      */
     function view()
     {
-        JRequest::setVar( 'view', $this->get('suffix') );
-        JRequest::setVar( 'layout', 'view' );
-        parent::display();
-    }
-    
-    /**
-     * Displays item
-     * @return void
-     */
-    function printOrder()
-    {
-    	$model = $this->getModel( $this->get('suffix') );
-        $row = $model->getTable( 'orders' );
-        $row->load( $model->getId() );
+        Tienda::load( 'TiendaUrl', 'library.url' );
+        
+        $model = $this->getModel( $this->get('suffix') );
+        $order = $model->getTable( 'orders' );
+        $order->load( $model->getId() );
+        $row = $model->getItem();
+        
+        // Get the shop country name
+        $row->shop_country_name = "";
+        $countryModel = JModel::getInstance('Countries', 'TiendaModel');
+        $countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
+        $countryItem = $countryModel->getItem();
+        if ($countryItem && TiendaConfig::getInstance()->get('shop_country'))
+        {
+            $row->shop_country_name = $countryItem->country_name;
+        }
+        
+        // Get the shop zone name
+        $row->shop_zone_name = "";
+        $zoneModel = JModel::getInstance('Zones', 'TiendaModel');
+        $zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
+        $zoneItem = $zoneModel->getItem();
+        if ($zoneItem && TiendaConfig::getInstance()->get('shop_zone'))
+        {
+            $row->shop_zone_name = $zoneItem->zone_name;
+        }
+
+        //retrieve user information and make available to page
+        if (!empty($row->user_id))
+        {
+            //get the user information from jos_users and jos_tienda_userinfo
+            $userModel  = JModel::getInstance( 'Users', 'TiendaModel' );
+            $userModel->setId($row->user_id);
+            $userItem = $userModel->getItem();
+            if ($userItem)
+            {
+                $row->userinfo = $userItem;
+            }       
+        }
         
         $view   = $this->getView( 'orders', 'html' );
         $view->set( '_controller', 'orders' );
@@ -97,9 +122,17 @@ class TiendaControllerOrders extends TiendaController
         $view->setModel( $model, true );
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
-        $view->setLayout( 'print' );
+        $view->assign( 'order', $order );
+        
+        if ($this->getTask() == 'print')
+        {
+            $view->setLayout( 'print' );
+        }
+            else
+        {
+            $view->setLayout( 'view' );    
+        }        
         $view->display();
-
     }
     
     /**

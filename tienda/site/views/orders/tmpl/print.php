@@ -137,14 +137,37 @@
             <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
             </th>
         </tr>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Tax" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
-            </th>
-        </tr>
+        <?php
+        if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
+        {
+            foreach ($row->ordertaxclasses as $taxclass)
+            {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( $taxclass->ordertaxclass_description ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($taxclass->ordertaxclass_amount, $row->currency); ?>
+                </th>
+            </tr>
+            <?php
+            }
+        } 
+            else
+        {
+            ?>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Tax" ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
+                </th>
+            </tr>
+            <?php            
+        }
+        ?>
         <tr>
             <th colspan="2" style="text-align: right;">
             <?php echo JText::_( "Shipping" ); ?>

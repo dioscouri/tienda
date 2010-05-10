@@ -1187,7 +1187,7 @@ class TiendaControllerCheckout extends TiendaController
 		$order->order_state_id = $this->initial_order_state;
 		$order->calculateTotals();
 		$order->getShippingTotal();
-		$order->getOrderNumber();
+		$order->getInvoiceNumber();
 
 		$model  = JModel::getInstance('Orders', 'TiendaModel');
 		//TODO: Do Something with Payment Infomation
@@ -1222,6 +1222,13 @@ class TiendaControllerCheckout extends TiendaController
 				// TODO What to do if saving order history fails?
 				$error = true;
 			}
+			
+		    // save the order taxes
+            if (!$this->saveOrderTaxes())
+            {
+                // TODO What to do if saving order taxes fails?
+                $error = true;
+            }
 		}
 
 		if ($error)
@@ -1308,9 +1315,19 @@ class TiendaControllerCheckout extends TiendaController
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
-		$row->user_email = JFactory::getUser()->get('email');
+		$row->user_email = JFactory::getUser()->get('email');       
 		$row->bind( $this->_orderinfoBillingAddressArray );
 		$row->bind( $this->_orderinfoShippingAddressArray );
+        
+        // Get Addresses
+        $shipping_address = $order->getShippingAddress();
+        $billing_address = $order->getBillingAddress();
+
+        // set zones and countries
+        $row->billing_zone_id       = $billing_address->zone_id;
+        $row->billing_country_id    = $billing_address->country_id;
+        $row->shipping_zone_id      = $shipping_address->zone_id;
+        $row->shipping_country_id   = $shipping_address->country_id;
 			
 		if (!$row->save())
 		{
@@ -1387,4 +1404,44 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return true;
 	}
+	
+    /**
+     * Adds an order tax class/rate record to the DB for this order
+     * for each relevant tax class & rate
+     *  
+     * @return unknown_type
+     */
+    function saveOrderTaxes()
+    {
+        $order =& $this->_order;
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $taxclasses = $order->getTaxClasses();
+        foreach ($taxclasses as $taxclass)
+        {
+            unset($row);        
+            $row = JTable::getInstance('OrderTaxClasses', 'TiendaTable');
+            $row->order_id = $order->order_id;
+            $row->tax_class_id = $taxclass->tax_class_id;
+            $row->ordertaxclass_amount = $order->getTaxClassAmount( $taxclass->tax_class_id );
+            $row->ordertaxclass_description = $taxclass->tax_rate_description;
+            $row->save();
+        }
+        
+        $taxrates = $order->getTaxRates();
+        foreach ($taxrates as $taxrate)
+        {
+            unset($row);        
+            $row = JTable::getInstance('OrderTaxRates', 'TiendaTable');
+            $row->order_id = $order->order_id;
+            $row->tax_rate_id = $taxrate->tax_rate_id;
+            $row->ordertaxrate_rate = $taxrate->tax_rate;
+            $row->ordertaxrate_amount = $order->getTaxRateAmount( $taxrate->tax_rate_id );
+            $row->ordertaxrate_description = $taxrate->tax_rate_description;
+            $row->save();
+        }
+        
+        // TODO Better error tracking necessary here
+        return true;
+    }
 }

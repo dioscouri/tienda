@@ -110,6 +110,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERNUMBER FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkOrderInfoZones()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERINFOZONES FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -678,6 +683,50 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkOrdersOrderNumber') );
             $config->config_name = 'checkOrdersOrderNumber';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the orderinfo table for the zones fields
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrderInfoZones()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderInfoZones', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderinfo';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "billing_zone_id";
+            $definitions["billing_zone_id"] = "int(11) NOT NULL DEFAULT '0'";
+            
+        $fields[] = "billing_country_id";
+            $definitions["billing_country_id"] = "int(11) NOT NULL DEFAULT '0'";
+            
+        $fields[] = "shipping_zone_id";
+            $definitions["shipping_zone_id"] = "int(11) NOT NULL DEFAULT '0'";
+            
+        $fields[] = "shipping_country_id";
+            $definitions["shipping_country_id"] = "int(11) NOT NULL DEFAULT '0'";
+
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderInfoZones') );
+            $config->config_name = 'checkOrderInfoZones';
             $config->value = '1';
             $config->save();
             return true;

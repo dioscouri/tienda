@@ -71,17 +71,43 @@ $items = @$this->orderitems;
                     <td colspan="2" style="text-align: right;">
                     <?php 
                     	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
-   						echo JText::_("Product Tax").":<br>";
+                    	$display_taxclass_lineitems = TiendaConfig::getInstance()->get('display_taxclass_lineitems', '0');
+                    	if ($display_taxclass_lineitems)
+                    	{
+                            foreach ($order->getTaxClasses() as $taxclass)
+                            {
+                                $tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
+                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
+                                    echo JText::_( $tax_desc ).":<br/>";
+                            }
+                    	}
+                    	    else
+                    	{
+                    	    echo JText::_("Product Tax").":<br>";    
+                    	}
+   						
                     	echo JText::_("Shipping and Handling").":";
-                    	if($display_shipping_tax)
+                    	if ($display_shipping_tax)
                     		echo "<br>".JText::_("Shipping Tax").":";
                     ?>
                     </td>
                     <td colspan="2" style="text-align: right;">
                      <?php 
-                        echo TiendaHelperBase::currency($order->order_tax) . "<br>";
+                        if ($display_taxclass_lineitems)
+                        {
+                            foreach ($order->getTaxClasses() as $taxclass)
+                            {
+                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
+                                    echo TiendaHelperBase::currency($order->getTaxClassAmount( $taxclass->tax_class_id ), $order->currency)."<br/>";
+                            }
+                        }
+                            else
+                        {
+                            echo TiendaHelperBase::currency($order->order_tax) . "<br>";    
+                        }
+                        
                     	echo TiendaHelperBase::currency($order->order_shipping);
-                    	if($display_shipping_tax)
+                    	if ($display_shipping_tax)
                     		echo "<br>" . TiendaHelperBase::currency($order->order_shipping_tax);	
                     ?>                  
                     </td>

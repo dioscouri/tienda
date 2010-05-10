@@ -36,7 +36,7 @@
                                 <?php echo JText::_( 'Shop Name' ); ?>
                             </th>
                             <td>
-                               <input type="text" name="shop_name" value="<?php echo $this->row->get('shop_name', ''); ?>" />
+                               <input type="text" name="shop_name" value="<?php echo $this->row->get('shop_name', ''); ?>" size="25" />
                             </td>
                             <td>
                                 <?php echo JText::_( "The Name of the Shop" ); ?>
@@ -47,7 +47,7 @@
 								<?php echo JText::_( 'Company Name' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_company_name" value="<?php echo $this->row->get('shop_company_name', ''); ?>" />
+			                	<input type="text" name="shop_company_name" value="<?php echo $this->row->get('shop_company_name', ''); ?>" size="25" />
 			                </td>
                             <td>
                                 
@@ -58,7 +58,7 @@
 								<?php echo JText::_( 'Address Line 1' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_address_1" value="<?php echo $this->row->get('shop_address_1', ''); ?>" />
+			                	<input type="text" name="shop_address_1" value="<?php echo $this->row->get('shop_address_1', ''); ?>" size="35" />
 			                </td>
                             <td>
                                 
@@ -69,7 +69,7 @@
 								<?php echo JText::_( 'Address Line 2' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_address_2" value="<?php echo $this->row->get('shop_address_2', ''); ?>" />
+			                	<input type="text" name="shop_address_2" value="<?php echo $this->row->get('shop_address_2', ''); ?>" size="35" />
 			                </td>
                             <td>
                                 
@@ -80,7 +80,7 @@
 								<?php echo JText::_( 'City' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_city" value="<?php echo $this->row->get('shop_city', ''); ?>" />
+			                	<input type="text" name="shop_city" value="<?php echo $this->row->get('shop_city', ''); ?>" size="25" />
 			                </td>
                             <td>
                                 
@@ -127,7 +127,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Zip Code' ); ?>
+								<?php echo JText::_( 'Postal Code' ); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="shop_zip" value="<?php echo $this->row->get('shop_zip', ''); ?>" />
@@ -141,7 +141,7 @@
 								<?php echo JText::_( 'Tax Number 1' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_tax_number_1" value="<?php echo $this->row->get('shop_tax_number_1', ''); ?>" />
+			                	<input type="text" name="shop_tax_number_1" value="<?php echo $this->row->get('shop_tax_number_1', ''); ?>" size="25" />
 			                </td>
                             <td>
                                 
@@ -152,7 +152,7 @@
 								<?php echo JText::_( 'Tax Number 2' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_tax_number_2" value="<?php echo $this->row->get('shop_tax_number_2', ''); ?>" />
+			                	<input type="text" name="shop_tax_number_2" value="<?php echo $this->row->get('shop_tax_number_2', ''); ?>" size="25" />
 			                </td>
                             <td>
                                 
@@ -174,7 +174,7 @@
 								<?php echo JText::_( 'Shop Owner Name' ); ?>
 							</th>
 			                <td>
-			                	<input type="text" name="shop_owner_name" value="<?php echo $this->row->get('shop_owner_name', ''); ?>" />
+			                	<input type="text" name="shop_owner_name" value="<?php echo $this->row->get('shop_owner_name', ''); ?>" size="35" />
 			                </td>
                             <td>
                                 
@@ -449,6 +449,17 @@
                             </td>
                             <td>
                                 <?php echo JText::_( 'Article for Terms and Conditions Desc' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Show Separate Line Items for Each Tax Class' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_taxclass_lineitems', 'class="inputbox"', $this->row->get('display_taxclass_lineitems', '0') ); ?>
+                            </td>
+                            <td>
+                                
                             </td>
                         </tr>
                         <tr>

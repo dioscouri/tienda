@@ -107,8 +107,11 @@ class TiendaControllerOrders extends TiendaController
     {
     	// if the user cannot view order, fail
         $model  = $this->getModel( $this->get('suffix') );
-        $model->getId();
+        $order = $model->getTable( 'orders' );
+        $order->load( $model->getId() );
+        
         $row = $model->getItem();
+                
         $user_id = JFactory::getUser()->id;
         if (empty($user_id) || $user_id != $row->user_id)
         {
@@ -128,10 +131,11 @@ class TiendaControllerOrders extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', false);
         $view->setModel( $model, true );
+        $view->assign( 'order', $order );
+        
         $view->setLayout( 'view' );
-        JRequest::setVar( 'view', $this->get('suffix') );
-        JRequest::setVar( 'layout', 'view' );
-        parent::display();
+        $view->display();
+        $this->footer();
     }
     
     /**

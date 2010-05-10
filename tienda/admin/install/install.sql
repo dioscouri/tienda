@@ -501,6 +501,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `order_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `user_id` INT(11) NOT NULL DEFAULT '0' ,
   `shipping_method_id` INT(11) NOT NULL DEFAULT '0' ,
+  `order_number` varchar(255) DEFAULT '' COMMENT 'The Invoice Number that Can be Set by Admins' , 
   `order_total` DECIMAL(15,5) NOT NULL DEFAULT '0.00000' ,
   `order_subtotal` DECIMAL(15,5) NULL DEFAULT '0.00000' ,
   `order_tax` DECIMAL(10,2) NULL DEFAULT '0.00' ,
@@ -762,6 +763,37 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
+-- Table `#__tienda_ordertaxclasses`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxclasses` (
+  `ordertaxclass_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `order_id` INT(11) NOT NULL DEFAULT '0' ,
+  `ordertaxclass_amount` decimal(15,5) DEFAULT '0.00000',
+  `ordertaxclass_description` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Display name of the tax class',
+  `tax_class_id` INT(11) NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`ordertaxclass_id`)
+  )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_ordertaxrates`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxrates` (
+  `ordertaxrate_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `order_id` INT(11) NOT NULL DEFAULT '0' ,
+  `ordertaxrate_rate` decimal(7,4) DEFAULT '0.0000',
+  `ordertaxrate_amount` decimal(15,5) DEFAULT '0.00000',
+  `ordertaxrate_description` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Display name of the tax rate',
+  `tax_rate_id` INT(11) NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`ordertaxrate_id`)
+  )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
 -- Table `#__tienda_orderpayments`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
@@ -803,6 +835,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `billing_city` VARCHAR(32) NOT NULL DEFAULT '' ,
   `billing_zone_name` VARCHAR(32) NOT NULL DEFAULT '' ,
   `billing_country_name` VARCHAR(64) NOT NULL DEFAULT '' ,
+  `billing_zone_id` INT(11) NOT NULL DEFAULT '' ,
+  `billing_country_id` INT(11) NOT NULL DEFAULT '' ,
   `billing_postal_code` VARCHAR(32) NOT NULL DEFAULT '' ,
   `shipping_company` VARCHAR(64) NULL DEFAULT NULL ,
   `shipping_last_name` VARCHAR(32) NULL DEFAULT NULL ,
@@ -816,6 +850,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `shipping_city` VARCHAR(32) NOT NULL DEFAULT '' ,
   `shipping_zone_name` VARCHAR(32) NOT NULL DEFAULT '' ,
   `shipping_country_name` VARCHAR(64) NOT NULL DEFAULT '' ,
+  `shipping_zone_id` INT(11) NOT NULL DEFAULT '' ,
+  `shipping_country_id` INT(11) NOT NULL DEFAULT '' ,
   `shipping_postal_code` VARCHAR(32) NOT NULL DEFAULT '' ,
   `user_email` VARCHAR(255) NOT NULL DEFAULT '' ,
   PRIMARY KEY (`orderinfo_id`) ,

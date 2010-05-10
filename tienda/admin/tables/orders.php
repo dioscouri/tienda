@@ -41,6 +41,18 @@ class TiendaTableOrders extends TiendaTable
      * This is used exclusively during orderTotal calculation
      */
     protected $_recurringItemExists = false;
+
+    /** @var array An array of TiendaTableTaxRates objects (the unique taxrates for this order) */
+    protected $_taxrates = array();
+    
+    /** @var array An array of tax amounts, indexed by tax_rate_id */
+    protected $_taxrate_amounts = array();
+    
+    /** @var array An array of TiendaTableTaxRates objects (the unique taxclasses for this order) */
+    protected $_taxclasses = array();
+    
+    /** @var array An array of tax amounts, indexed by tax_class_id */
+    protected $_taxclass_amounts = array();
     
 	/**
 	 * @param $db
@@ -310,7 +322,9 @@ class TiendaTableOrders extends TiendaTable
         // set object properties
         $this->order_subtotal   = $subtotal;
         
-        // TODO Do something fun here to allow the subtotal to be modified via plugins?
+        // Allow this to be modified via plugins
+        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onCalculateProductTotals", array( $this ) );
     }
 
     /**
@@ -341,8 +355,42 @@ class TiendaTableOrders extends TiendaTable
             foreach ($geozones as $geozone)
             {
                 $geozone_id = $geozone->geozone_id;
-                $product_tax_rate = 0;
-                $product_tax_rate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone_id );
+                $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone_id, true );
+                $product_tax_rate = $taxrate->tax_rate;
+                
+                // add this as one of the taxrates applicable to this order
+                if (!empty($taxrate->tax_rate_id) && empty($this->_taxrates[$taxrate->tax_rate_id]))
+                {
+                    $this->_taxrates[$taxrate->tax_rate_id] = $taxrate;    
+                }
+                
+                // track the total amount of tax applied to this order for this taxrate
+                if (!empty($taxrate->tax_rate_id) && empty($this->_taxrate_amounts[$taxrate->tax_rate_id]))
+                {
+                    $this->_taxrate_amounts[$taxrate->tax_rate_id] = 0;    
+                }
+                if (!empty($taxrate->tax_rate_id))
+                {
+                    $this->_taxrate_amounts[$taxrate->tax_rate_id] += ($product_tax_rate/100) * $item->orderitem_final_price;    
+                }                
+
+                // add this as one of the taxclasses applicable to this order
+                if (!empty($taxrate->tax_class_id) && empty($this->_taxclasses[$taxrate->tax_class_id]))
+                {
+                    $this->_taxclasses[$taxrate->tax_class_id] = $taxrate;    
+                }
+                
+                // track the total amount of tax applied to this order for this taxclass
+                if (!empty($taxrate->tax_class_id) && empty($this->_taxclass_amounts[$taxrate->tax_class_id]))
+                {
+                    $this->_taxclass_amounts[$taxrate->tax_class_id] = 0;    
+                }
+                
+                if (!empty($taxrate->tax_class_id))
+                {
+                    $this->_taxclass_amounts[$taxrate->tax_class_id] += ($product_tax_rate/100) * $item->orderitem_final_price;                    
+                }
+                
                 // track the total tax for this item
                 $orderitem_tax += ($product_tax_rate/100) * $item->orderitem_final_price;
             }
@@ -353,8 +401,10 @@ class TiendaTableOrders extends TiendaTable
         }        
         $this->order_tax = $tax_total;
         
-        // TODO Do something fun here to allow the order tax to be modified via plugins?
-        
+        // some locations may want taxes calculated on shippingGeoZone, so
+        // Allow this to be modified via plugins
+        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onCalculateTaxTotals", array( $this ) );
     }
     
     /**
@@ -449,6 +499,10 @@ class TiendaTableOrders extends TiendaTable
         }
     
         // at this point, each vendor's TableOrderVendor object is populated
+        
+        // Allow this to be modified via plugins
+        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onCalculateVendorTotals", array( $this ) );
     }
     
     /**
@@ -459,15 +513,33 @@ class TiendaTableOrders extends TiendaTable
     function getItems()
     {
         // TODO once all references use this getter, we can do fun things with this method, such as fire a plugin event
-
-        $items =& $this->_items;
+        
+        // if empty($items) && !empty($this->order_id), then this is an order from the db,  
+        // so we grab all the orderitems from the db  
+        if (empty($this->_items) && !empty($this->order_id))
+        {
+            // TODO Do this?  How will this impact Site::TiendaControllerCheckout->saveOrderItems()?
+            //retrieve the order's items
+            $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+            $model->setState( 'filter_orderid', $this->order_id);
+            $model->setState( 'order', 'tbl.orderitem_name' );
+            $model->setState( 'direction', 'ASC' );
+            $orderitems = $model->getList();
+            foreach ($orderitems as $orderitem)
+            {
+                unset($table);
+                $table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+                $table->load( $orderitem->orderitem_id );
+                $this->addItem( $table );
+            }
+        }
+        
+        $items =& $this->_items;        
         if (!is_array($items))
         {
             $items = array();
         }
         
-        // TODO if empty($items) && !empty($this->order_id), do we grab all the orderitems from the db?  
-
         // ensure that the items array only has one recurring item in it
         foreach ($items as $item)
         {
@@ -580,7 +652,16 @@ class TiendaTableOrders extends TiendaTable
      */
     function getBillingGeoZones()
     {
-        // TODO Set this if it isn't
+        // Set this if it isn't
+        if (empty($this->_billing_geozones) && !empty($this->order_id))
+        {
+            $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+            $orderinfo->load( array('order_id'=>$this->order_id) );
+            $orderinfo->zone_id = $orderinfo->billing_zone_id; 
+            // TODO What to do about orders that exist from pre 0.5.0 without zone_id
+            $this->setAddress( $orderinfo, 'billing' );
+        }
+                
         return $this->_billing_geozones;
     }
     
@@ -591,7 +672,16 @@ class TiendaTableOrders extends TiendaTable
      */
     function getShippingGeoZones()
     {
-        // TODO Set this if it isn't
+        // Set this if it isn't
+        if (empty($this->_shipping_geozones) && !empty($this->order_id))
+        {
+            $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+            $orderinfo->load( array('order_id'=>$this->order_id) );
+            $orderinfo->zone_id = $orderinfo->shipping_zone_id; 
+            // TODO What to do about orders that exist from pre 0.5.0 without zone_id
+            $this->setAddress( $orderinfo, 'shipping' );
+        }
+        
         return $this->_shipping_geozones;
     }
 
@@ -616,11 +706,11 @@ class TiendaTableOrders extends TiendaTable
     }
     
     /**
-     * Generates a unique order number based on the order's properties
+     * Generates a unique invoice number based on the order's properties
      * 
-     * @return unknown_type
+     * @return string from $order_date-$order_time-$user_id
      */
-    function getOrderNumber( $refresh=false )
+    function getInvoiceNumber( $refresh=false )
     {
         if (empty($this->_order_number) || $refresh)
         {
@@ -637,6 +727,82 @@ class TiendaTableOrders extends TiendaTable
         }
 
         return $this->_order_number;
+    }
+    
+    /**
+     * Gets the tax rates applicable to this order
+     * and returns an array of taxrate objects 
+     * 
+     * @return array    An array of objects
+     */
+    function getTaxRates()
+    {
+        if (empty($this->_taxrates))
+        {
+            $this->calculateTaxTotals();
+        }
+        
+        return $this->_taxrates;    
+    }
+
+    /**
+     * Gets the order's tax amount for the specified tax rate
+     * 
+     * @return float if taxrate applies to this order, null otherwise
+     */
+    function getTaxRateAmount( $taxrate_id )
+    {
+        $amount = null;
+
+        if (empty($this->_taxrate_amounts))
+        {
+            $this->calculateTaxTotals();
+        }
+        
+        if (!empty($this->_taxrate_amounts[$taxrate_id]))
+        {
+            $amount = $this->_taxrate_amounts[$taxrate_id];
+        }
+        
+        return $amount;        
+    }
+    
+    /**
+     * Gets the tax classes applicable to this order
+     * and returns an array of taxclass objects 
+     * 
+     * @return array    An array of objects
+     */
+    function getTaxClasses()
+    {
+        if (empty($this->_taxclasses))
+        {
+            $this->calculateTaxTotals();
+        }
+        
+        return $this->_taxclasses;    
+    }
+
+    /**
+     * Gets the order's tax amount for the specified tax class
+     * 
+     * @return float if taxclass applies to this order, null otherwise
+     */
+    function getTaxClassAmount( $taxclass_id )
+    {
+        $amount = null;
+
+        if (empty($this->_taxclass_amounts))
+        {
+            $this->calculateTaxTotals();
+        }
+        
+        if (!empty($this->_taxclass_amounts[$taxclass_id]))
+        {
+            $amount = $this->_taxclass_amounts[$taxclass_id];
+        }
+        
+        return $amount;        
     }
     
     /**

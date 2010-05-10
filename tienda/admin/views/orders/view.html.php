@@ -39,51 +39,6 @@ class TiendaViewOrders extends TiendaViewBase
               break;
         }
     }
-	    
-	/**
-	 * Method for collecting custom information for displaying an order 
-	 * @return void
-	 **/
-	function _form($tpl = null) 
-	{
-		parent::_form($tpl);
-		Tienda::load( 'TiendaUrl', 'library.url' );
-
-		$model = $this->getModel();
-		$row = $model->getItem();	
-
-		// Get the shop country name
-		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
-		$countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
-		$countryItem = $countryModel->getItem();
-		if($countryItem){
-			$row->shop_country_name = $countryItem->country_name;
-		}
-		
-		// Get the shop zone name
-		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
-		$zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
-		$zoneItem = $zoneModel->getItem();
-		if($zoneItem){
-			$row->shop_zone_name = $zoneItem->zone_name;
-		}
-
-		//retrieve user information and make available to page
-		$user_id = JRequest::getVar('userid', 0, 'get', 'int');
-		$row->user_id = $user_id;
-		if ($user_id> 0)
-		{
-			//get the user information from jos_users and jos_tienda_userinfo
-			$userModel 	= JModel::getInstance( 'Users', 'TiendaModel' );
-			$userModel->setId($user_id);
-			$userItem = $userModel->getItem();
-			if ($userItem)
-			{
-				$row->userinfo = $userItem;
-			} 		
-		}
-		$this->assign('row', $row );
-    }
     
     /**
      * The default toolbar for a list

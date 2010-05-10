@@ -364,7 +364,7 @@ class TiendaConfig extends JObject
 	var $article_shipping                   = '0';
 	var $display_prices_with_shipping       = '0';
 	var $display_prices_with_tax            = '0';
-	
+    var $display_taxclass_lineitems         = '0'; 	
 	
 	/**
 	 * constructor
