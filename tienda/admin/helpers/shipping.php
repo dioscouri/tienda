@@ -141,9 +141,9 @@ class TiendaHelperShipping extends TiendaHelperBase
 				}
 				if ($order_ships)
 				{
-	                $shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $product_id );
-	                $return->shipping_rate_price      = $shippingrate->shipping_rate_price;
-	                $return->shipping_rate_handling   = $shippingrate->shipping_rate_handling;
+	                //$shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $product_id );
+	                //$return->shipping_rate_price      = $shippingrate->shipping_rate_price;
+	                //$return->shipping_rate_handling   = $shippingrate->shipping_rate_handling;
 				}
                 break;
             case "1":
@@ -155,9 +155,9 @@ class TiendaHelperShipping extends TiendaHelperBase
                 {
                     $pid = $item->product_id;
                     $qty = $item->orderitem_quantity;
-                    $rates[$pid] = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
-                    $return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
-			        $return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
+                    //$rates[$pid] = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+                    //$return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
+			        //$return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
             	}
                 break;
             default:

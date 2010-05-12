@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
 Tienda::load( 'TiendaModelBase', 'models._base' );
 
-class TiendaShippingPlugin extends TiendaPluginBase
+class TiendaShippingPlugin extends TiendaPluginBase 
 {
     /**
      * @var $_element  string  Should always correspond with the plugin's filename, 
@@ -22,84 +22,70 @@ class TiendaShippingPlugin extends TiendaPluginBase
      */
     var $_element    = '';
     
-	/**
-     * Tells extension that this is a shipping plugin
-     * 
-     * @param $element  string      a valid shipping plugin element 
-     * @return boolean
-     */
-    function onGetShippingPlugins( $element )
-    {
-        $success = false;
-        if ($this->_isMe($element)) 
-        {
-            $success = true;
-        }
-        return $success;    
-    }
+	function plgTiendaTool_shipping_example(& $subject, $config) 
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage( '', JPATH_SITE );
+	}
     
-    /**
-     * Wrapper for the internal _renderView method
-     * Generally you won't have to override this, 
-     * but you can if you want to
+    /************************************
+     * Note to 3pd: 
      * 
-     * @param $options
-     * @return unknown_type
-     */
-    function onGetShippingView( $row )
-    {
-        if (!$this->_isMe($row)) 
-        {
-            return null;
-        }
-        
-        $html = "";
-        $html .= $this->_renderForm();
-        $html .= $this->_renderView();
-
-        return $html;
-    }
+     * The methods between here
+     * and the next comment block are 
+     * yours to modify by overrriding them in your shipping plugin
+     * 
+     ************************************/
     
 	/**
-     * If you want to show something on the product admin page
+     * Returns the Shipping Rates.
      * 
      * @param $product the product row
      * @return html
      */
-    function onGetProductView( $product )
-    {
-        
-       // $html = Tienda::dump($product);
-		$html = "";
-        return $html;
-    }
-    
-	/**
-     * Get Shipping Rates
-     * 
-     * @param $product the product row
-     * @return html
-     */
-    function onGetShippingRates( $element, $values )
+    public function onGetShippingRates( $element, $values )
     {
     	if (!$this->_isMe($element)) 
         {
             return null;
         }
-        $html = "";
-        return $html;
+    }
+    
+    /** 
+     * Shows the shipping view
+     * 
+     * @param $row	the shipping data
+     * @return unknown_type
+     */
+    public function onGetShippingView( $row )
+    {
+        if (!$this->_isMe($row)) 
+        {
+            return null;
+        }       
     }
     
 	/**
-     * If you have to save some of the information from the product to you 
-     * plugin database, do it here!
+     * If you want to show something on the product admin page, 
+     * override this function
      * 
      * @param $product the product row
      * @return html
      */
-    function onAfterSaveProducts( $product )
+    public function onGetProductView( $product )
     {
-        // Do Something here with the product data
+    	// show something on the product admin page
+    }
+    
+	/**
+     * If you have to deal with the product data after the save
+     * 
+     * @param $product the product row
+     * @return html
+     */
+    protected function onAfterSaveProducts( $product )
+    {
+    	// Do Something here with the product data
     }
     
 	/**
@@ -108,31 +94,54 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $category the product row
      * @return html
      */
-    function onGetCategoryView( $category )
+    public function onGetCategoryView( $category )
     {
-        
-        //$html = Tienda::dump($category);
-		$html = "";
-        return $html;
+		// show something on the category admin page
     }
     
 	/**
-     * If you have to save some of the information from the category to you 
-     * plugin database, do it here!
+     * If you have to deal with the category data after the save
      * 
      * @param $category the product row
      * @return html
      */
-    function onAfterSaveCategories( $category )
+    protected function onAfterSaveCategories( $category )
     {
         // Do Something here with the category data
+    }
+    
+    
+    /************************************
+     * Note to 3pd: 
+     * 
+     * DO NOT MODIFY ANYTHING AFTER THIS
+     * TEXT BLOCK UNLESS YOU KNOW WHAT YOU 
+     * ARE DOING!!!!!
+     * 
+     ************************************/
+    
+    
+	/**
+     * Tells extension that this is a shipping plugin
+     * 
+     * @param $element  string      a valid shipping plugin element 
+     * @return boolean	true if it is this particular shipping plugin
+     */
+    public function onGetShippingPlugins( $element )
+    {
+        $success = false;
+        if ($this->_isMe($element)) 
+        {
+            $success = true;
+        }
+        return $success;    
     }
 
     /**
      * Gets the reports namespace for state variables
      * @return string
      */
-    function _getNamespace()
+    protected function _getNamespace()
     {
         $app = JFactory::getApplication();
         $ns = $app->getName().'::'.'com.tienda.shipping.'.$this->get('_element');
@@ -141,7 +150,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
     /**
      * Make the standard Tienda Table avaiable in the plugin
      */
-    function includeTiendaTables(){
+    protected function includeTiendaTables(){
     	// Include Tienda Tables Classes
     	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     }
@@ -150,8 +159,12 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * Include a particular Tienda Model
      * @param $name the name of the mode (ex: products)
      */
-    function includeTiendaModel($name){
-    	JLoader::import( 'com_tienda.models.'.strtolower($name), JPATH_ADMINISTRATOR.DS.'components' );
+    protected function includeTiendaModel($name){
+    	
+    	if(strtolower($name) != 'base')
+    		Tienda::load( 'TiendaModel'.ucfirst(strtolower($name)), 'models.'.strtolower($name) );
+    	else
+    		Tienda::load( 'TiendaModelBase', 'models._base' );
     }
     
 	/**
@@ -160,14 +173,11 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $plugin the name of the plugin in which the model is stored
      * @param $group the group of the plugin
      */
-    function includeCustomModel($name, $plugin = '', $group = 'tienda'){
-    	
+    protected function includeCustomModel($name, $plugin = '', $group = 'tienda'){
     	if (empty($plugin)) 
         {
             $plugin = $this->_element;
         }
-        
-    	Tienda::load( 'TiendaModelBase', 'models._base' );
     	JLoader::import( 'plugins.'.$group.'.'.$plugin.'.models.'.strtolower($name), JPATH_SITE );
     }
    
@@ -176,7 +186,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $plugin the name of the plugin in which the table is stored
      * @param $group the group of the plugin
      */
-    function includeCustomTables($plugin = '', $group = 'tienda'){
+    protected function includeCustomTables($plugin = '', $group = 'tienda'){
     	
     	if (empty($plugin)) 
         {
@@ -188,30 +198,31 @@ class TiendaShippingPlugin extends TiendaPluginBase
     	JTable::addIncludePath( $customPath );
     }
     
-    function getShippingTask(){
+    /**
+     * Get the task for the shipping plugin controller
+     */
+    public function getShippingTask(){
     	$task = JRequest::getVar('shippingTask', '');
     	return $task;
     }
     
-    function getShippingId(){
+    /**
+     * Get the id of the current shipping plugin
+     */
+    public function getShippingId(){
     	$sid = JRequest::getVar('sid', '');
     	return $sid;
     }
     
-    function getShippingVar($name){
+    /**
+     * Get a variable from the JRequest object
+     * @param unknown_type $name
+     */
+    public function getShippingVar($name){
     	$var = JRequest::getVar($name, '');
     	return $var;
     }
-
-    /************************************
-     * Note to 3pd: 
-     * 
-     * The methods between here
-     * and the next comment block are 
-     * yours to modify by overrriding them in your report plugin
-     * 
-     ************************************/
-            
+    
     /**
      * Prepares the 'view' tmpl layout
      * when viewing a report
@@ -220,7 +231,6 @@ class TiendaShippingPlugin extends TiendaPluginBase
      */
     function _renderView($view = 'view', $vars = null)
     {
-        // TODO Load the report, get the data, and render the report html using the form inputs & data
         if($vars == null)
         	$vars = new JObject();
         $html = $this->_getLayout($view, $vars);
@@ -241,4 +251,25 @@ class TiendaShippingPlugin extends TiendaPluginBase
         return $html;
     }
     
+ 	/**
+     * Gets the appropriate values from the request
+     * 
+     * @return unknown_type
+     */
+    function _getState()
+    {
+        $state = new JObject();
+        
+        foreach ($state->getProperties() as $key => $value)
+        {
+            $new_value = JRequest::getVar( $key );
+            $value_exists = array_key_exists( $key, JRequest::get( 'post' ) );
+            if ( $value_exists && !empty($key) )
+            {
+                $state->$key = $new_value;
+            }
+        }
+        return $state;
+    }
+                
 }

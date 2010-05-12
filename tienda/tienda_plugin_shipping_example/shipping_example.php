@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaShippingPlugin', 'library.plugins.shipping' );
+JLoader::import( 'com_tienda.library.plugins.shipping', JPATH_ADMINISTRATOR.DS.'components' );
 
 class plgTiendaShipping_Example extends TiendaShippingPlugin
 {
@@ -21,12 +21,6 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
 	 */
     var $_element   = 'shipping_example';
     
-    
-	function plgTiendaTool_shipping_example(& $subject, $config) 
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
-	}
 	
     /**
      * Overriding 
@@ -48,6 +42,7 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
     
     function onGetShippingRates($element, $values){
     	
+    	// Check if this is the right plugin
     	if (!$this->_isMe($element)) 
         {
             return null;
@@ -96,33 +91,10 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
 		
 		$vars->form = $form;
 		
-		$view;
         $html = $this->_getLayout('default', $vars);
 		
         return $html;
-    }	
-
-    /**
-     * Gets the appropriate values from the request
-     * 
-     * @return unknown_type
-     */
-    function _getState()
-    {
-        $state = new JObject();
-        
-        foreach ($state->getProperties() as $key => $value)
-        {
-            $new_value = JRequest::getVar( $key );
-            $value_exists = array_key_exists( $key, $_POST );
-            if ( $value_exists && !empty($key) )
-            {
-                $state->$key = $new_value;
-            }
-        }
-        return $state;
-    }
-    
+    }   
     
    
 }

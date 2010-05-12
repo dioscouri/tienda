@@ -1,4 +1,16 @@
 <?php
+/**
+ * @version 1.5
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*/
+
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
 class TiendaControllerShippingPlugin extends TiendaController {
 		
 	// the same as the plugin's one!
@@ -15,7 +27,7 @@ class TiendaControllerShippingPlugin extends TiendaController {
 	/**
 	 * Overrides the getView method, adding the plugin's layout path
 	 */
-	function getView( $name = '', $type = '', $prefix = '', $config = array() ){
+	public function getView( $name = '', $type = '', $prefix = '', $config = array() ){
     	$view = parent::getView( $name, $type, $prefix, $config ); 
     	$view->addTemplatePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.$this->_element.DS.'tmpl'.DS);
     	
@@ -25,29 +37,29 @@ class TiendaControllerShippingPlugin extends TiendaController {
     /**
      * Overrides the delete method, to include the custom models and tables.
      */
-    function delete(){
+    public function delete(){
     	$this->includeCustomModel('ShippingRates');
     	$this->includeCustomTables();
     	parent::delete();
     }
     
-    function includeCustomTables(){
+    protected function includeCustomTables(){
    		// Include the custom table
     	$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('includeCustomTables', array() );
     }   
     
-    function includeCustomModel( $name ){
+    protected function includeCustomModel( $name ){
     	$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('includeCustomModel', array($name) );
     }       
 	
-    function includeTiendaModel( $name ){
+    protected function includeTiendaModel( $name ){
     	$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('includeTiendaModel', array($name) );
     }
 
-    function baseLink(){
+    protected function baseLink(){
     	$id = JRequest::getInt('id', '');
     	return "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
     }

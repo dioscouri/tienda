@@ -11,6 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+Tienda::load( 'TiendaModelBase', 'models.base' );
+
 class TiendaModelShippingMethods extends TiendaModelBase 
 {
     protected function _buildQueryWhere(&$query)
