@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="k2" method="upgrade">
+    <name>K2 integration with Tienda</name>
+    <version>0.4.4</version>
+    <creationDate>April 2010</creationDate>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>Integration of K2 (CCK) as catalog manager with Tienda as shopping cart</description>
+
+	<files>
+		<filename plugin="tienda">tienda.php</filename>
+        <folder>tienda</folder>
+	</files>
+	
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_k2_tienda.ini</language>
+    </languages>
+	
+	<params>
+
+	</params>
+</install>
