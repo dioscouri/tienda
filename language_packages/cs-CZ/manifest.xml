@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="language" version="1.5.0" method="upgrade">
     <name>Czech Tienda</name>
     <version>0.4.3 Community</version>
     <creationDate>May 2010</creationDate>
     <author>Marek Liolias</author>
-    <authorEmail></authorEmail>
+    <authorEmail>marek.liolias@gmail.com</authorEmail>
     <authorUrl></authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
