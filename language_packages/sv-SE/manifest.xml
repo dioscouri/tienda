@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="language" version="1.5.0" method="upgrade">
+    <name>Swedish Tienda</name>
+    <version>0.4.3 Community</version>
+    <creationDate>May 2010</creationDate>
+    <author>Mei Ya E-service</author>
+    <authorEmail>info@mei-ya.se</authorEmail>
+    <authorUrl>http://www.mei-ya.se</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description>Swedish translation for Tienda</description>
+
+	<languages folder="site">
+		<language tag="sv-SE">sv-SE.com_tienda.ini</language>
+	</languages>
+	
+	<!-- Application/administrator -->
+	<administration>
+		<languages folder="admin">
+			<language tag="sv-SE">sv-SE.com_tienda.ini</language>
+		</languages>
+	</administration>
+
+</install>
