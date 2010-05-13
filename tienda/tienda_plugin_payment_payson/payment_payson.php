@@ -73,7 +73,9 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $vars->post_url = $this->_getPostUrl();
         
         // TODO: Currency choice not Accepted Yet, but when it is use TiendaConfig::getInstance()->get('currency');
-        // TODO: How to recalculate
+        // TODO: Recalculate to SEK with something like:
+		// $vars->Cost = TiendaCurrency::convert( $data['orderpayment_amount'], TiendaConfig::getInstance()->get('currency'), "SEK" );
+        
         $vars->currency_code = "SEK"; 
 
         // set variables for user info
@@ -81,7 +83,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $vars->BuyerFirstName	= $data['orderinfo']->shipping_first_name;
         $vars->BuyerLastName	= $data['orderinfo']->shipping_last_name;
         $vars->BuyerEmail		= $data['orderinfo']->user_email;
-        $vars->Cost				= str_replace(".", ",", TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands' =>'' ) ));
+        $vars->Cost				= str_replace(".", ",", TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands' =>'', 'currency_decimal' => ',', 'num_decimals' => 2 ) ) );
 		$vars->ExtraCost		= '0'; // TODO: Implement later, might be configured from plugin parameters to let the shop owner take an extra cost?
         $vars->RefNr			= $data['orderpayment_id'];
         $vars->PaymentMethod	= $this->_getParam( 'PaymentMethod' );
@@ -93,7 +95,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
 
         // Create the MD5 to validate the request at Payson
         $Key = $this->_getParam( 'payson_md5' );
-		$MD5string = $vars->SellerEmail . ":" . round($vars->Cost,0) . ":" . $vars->ExtraCost . ":" . $vars->OkUrl . ":" . $vars->GuaranteeOffered . $Key;
+		$MD5string = $vars->SellerEmail . ":" . $vars->Cost . ":" . $vars->ExtraCost . ":" . $vars->OkUrl . ":" . $vars->GuaranteeOffered . $Key;
 
 		$vars->MD5 = md5($MD5string);
 
