@@ -11,9 +11,9 @@
   		<field type="titletext" name="currency_name" translate="1">Currency name</field>
   		<field type="text" name="symbol_left" translate="1">Symbol left</field>
   		<field type="text" name="symbol_right" translate="1">Symbol right</field>
-  		<field type="text" name="currency_decimals" translate="1">Currency decimals</field>
-  		<field type="text" name="decimal_separator" translate="1">Decimal separator</field>
-  		<field type="text" name="thousands_separator" translate="1">Thousands separator</field>
+  		<field type="text" name="currency_decimals" translate="0">Currency decimals</field>
+  		<field type="text" name="decimal_separator" translate="0">Decimal separator</field>
+  		<field type="text" name="thousands_separator" translate="0">Thousands separator</field>
   	</table>
   </reference>
 </joomfish>

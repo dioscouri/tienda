@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Product Files</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Product Files table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_productfiles">
+  	<table name="tienda_productfiles">
+  		<field type="referenceid" name="productfile_id" translate="0">ID</field>
+  		<field type="titletext" name="productfile_name" translate="1">Product file name</field>
+  		<field type="htmltext" name="productfile_description" translate="1">Product file description</field>
+  	</table>
+  </reference>
+</joomfish>

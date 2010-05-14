@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Products</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Products table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_products">
+  	<table name="tienda_products">
+  		<field type="referenceid" name="product_id" translate="0">ID</field>
+  		<field type="titletext" name="product_name" translate="1">Product name</field>
+  		<field type="text" name="product_alias" translate="1">Product alias (Slug)</field>
+  		<field type="htmltext" name="product_description" translate="1">Product description</field>
+  		<field type="htmltext" name="product_description_short" translate="1">Product description short</field>
+  		<field type="text" name="product_full_image" translate="0">Product full image</field>
+  		<field type="text" name="product_model" translate="1">Product model</field>
+  	</table>
+  </reference>
+</joomfish>

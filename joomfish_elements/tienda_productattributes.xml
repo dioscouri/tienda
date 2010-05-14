@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Product Attributes</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Product Attributes table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_productattributes">
+  	<table name="tienda_productattributes">
+  		<field type="referenceid" name="productattribute_id" translate="0">ID</field>
+  		<field type="titletext" name="productattribute_name" translate="1">Product attribute name</field>
+  	</table>
+  </reference>
+</joomfish>

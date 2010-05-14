@@ -9,7 +9,7 @@
   	<table name="tienda_manufacturers">
   		<field type="referenceid" name="manufacturer_id" translate="0">ID</field>
   		<field type="titletext" name="manufacturer_name" translate="1">Manufacturer name</field>
-  		<field type="text" name="manufacturer_image" translate="1">Manufacturer image</field>
+  		<field type="text" name="manufacturer_image" translate="0">Manufacturer image</field>
   	</table>
   </reference>
 </joomfish>

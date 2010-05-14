@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Shipping Methods</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Shipping Methods table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_shippingmethods">
+  	<table name="tienda_shippingmethods">
+  		<field type="referenceid" name="shipping_method_id" translate="0">ID</field>
+  		<field type="titletext" name="shipping_method_name" translate="1">Geozone name</field>
+  	</table>
+  </reference>
+</joomfish>

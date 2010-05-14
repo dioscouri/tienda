@@ -11,10 +11,10 @@
   		<field type="titletext" name="category_name" translate="1">Category name</field>
   		<field type="text" name="category_alias" translate="1">Alias (Slug)</field>
   		<field type="htmltext" name="category_description" translate="1">Category description</field>
-  		<field type="text" name="category_thumb_image" translate="1">Thumb Image</field>
-  		<field type="text" name="category_full_image" translate="1">Full Image</field>
-  		<field type="text" name="category_layout" translate="1">Category Layout</field>
-  		<field type="text" name="categoryproducts_layout" translate="1">Category Product Layout</field>
+  		<field type="text" name="category_thumb_image" translate="0">Thumb Image</field>
+  		<field type="text" name="category_full_image" translate="0">Full Image</field>
+  		<field type="text" name="category_layout" translate="0">Category Layout</field>
+  		<field type="text" name="categoryproducts_layout" translate="0">Category Product Layout</field>
   	</table>
   </reference>
 </joomfish>
