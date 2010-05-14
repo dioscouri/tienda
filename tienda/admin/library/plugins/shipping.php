@@ -39,7 +39,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
     
 	/**
      * Returns the Shipping Rates.
-     * 
+     * @param $element the shipping element name
      * @param $product the product row
      * @return html
      */
@@ -49,6 +49,30 @@ class TiendaShippingPlugin extends TiendaPluginBase
         {
             return null;
         }
+    }
+    
+	/**
+     * Here you will have to save the shipping rate information
+     * 
+     * @param $element the shipping element name
+     * @param $order the order object
+     * @return html
+     */
+    public function onPostSaveShipping( $element, $order )
+    {
+    	if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * Get a particular shipping rate
+     * @param unknown_type $rate_id
+     */
+    public function getShippingRate( $rate_id )
+    {
+    
     }
     
     /** 

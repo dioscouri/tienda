@@ -299,6 +299,13 @@ class TiendaModelOrders extends TiendaModelBase
             $model->setState( 'direction', 'ASC' );
             $item->orderpayments = $model->getList();
             
+            //retrieve the order's shippings
+            $model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
+            $model->setState( 'filter_orderid', $item->order_id);
+            $model->setState( 'order', 'tbl.created_date' );
+            $model->setState( 'direction', 'ASC' );
+            $item->ordershippings = $model->getList();
+            
             //retrieve the order's taxclasses
             $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
             $model->setState( 'filter_orderid', $item->order_id);

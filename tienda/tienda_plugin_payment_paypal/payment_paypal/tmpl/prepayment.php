@@ -18,7 +18,7 @@
     <input type='hidden' name='zip' value='<?php echo @$vars->postal_code; ?>'>
 
 <!--CART INFO AGGREGATED-->
-    <input type='hidden' name='amount_1' value='<?php echo TiendaHelperBase::number( @$vars->orderpayment_amount, array( 'thousands' =>'' ) ); ?>'>
+    <input type='hidden' name='amount_1' value='<?php echo TiendaHelperBase::number( @$vars->orderpayment_amount, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
     <input type='hidden' name='item_name_1' value='<?php echo JText::_( "Order Number" ).": ".$vars->order_id; ?>'>
     <input type='hidden' name='item_number_1' value='<?php echo $vars->order_id; ?>'>
     <input type='hidden' name='custom' value='<?php echo @$vars->orderpayment_id; ?>'>

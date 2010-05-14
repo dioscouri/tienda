@@ -7,7 +7,7 @@
 $rates = array();
 foreach($vars->rates as $rate){
 	$r = new JObject;
-	$r->value = $rate->shipping_rate_price;
+	$r->value = $rate->shipping_rate_id;
 	$r->text = TiendaHelperBase::currency($rate->shipping_rate_price, $vars->order->currency_id);
 	$rates[] = &$r;
 }

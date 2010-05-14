@@ -1229,6 +1229,13 @@ class TiendaControllerCheckout extends TiendaController
                 // TODO What to do if saving order taxes fails?
                 $error = true;
             }
+            
+			// save the order shipping info
+            if (!$this->saveOrderShippings())
+            {
+                // TODO What to do if saving order shippings fails?
+                $error = true;
+            }
 		}
 
 		if ($error)
@@ -1444,4 +1451,32 @@ class TiendaControllerCheckout extends TiendaController
         // TODO Better error tracking necessary here
         return true;
     }
+    
+	/**
+	 * Saves the order shipping info to the DB
+	 * @return unknown_type
+	 */
+	function saveOrderShippings()
+	{
+		$order =& $this->_order;
+		
+		$shipping_plugin = JRequest::getVar('shipping_plugin', '');
+			
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
+		$row->order_id = $order->order_id;
+		$row->ordershipping_type = $shipping_plugin;
+		
+		// Let the plugin store the information about the shipping 
+		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher->trigger( "onPostSaveShipping", array( $shipping_plugin, $order ) );
+			
+		if (!$row->save())
+		{
+			$this->setError( $row->getError() );
+			return false;
+		}
+		
+		return true;
+	}
 }
