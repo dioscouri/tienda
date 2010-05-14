@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Geozones</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Geozones table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_geozones">
+  	<table name="tienda_geozones">
+  		<field type="referenceid" name="geozone_id" translate="0">ID</field>
+  		<field type="titletext" name="geozone_name" translate="1">Geozone name</field>
+  		<field type="htmltext" name="geozone_description" translate="1">Geozone description</field>
+  	</table>
+  </reference>
+</joomfish>
