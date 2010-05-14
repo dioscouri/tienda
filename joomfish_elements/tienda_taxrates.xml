@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Tax Rates</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Tax Rates table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_taxclasses">
+  	<table name="tienda_taxclasses">
+  		<field type="referenceid" name="tax_rate_id" translate="0">ID</field>
+  		<field type="titletext" name="tax_rate_description" translate="1">Tax rate description</field>
+  	</table>
+  </reference>
+</joomfish>

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Tax Classes</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Tax Classes table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_taxclasses">
+  	<table name="tienda_taxclasses">
+  		<field type="referenceid" name="tax_class_id" translate="0">ID</field>
+  		<field type="titletext" name="tax_class_name" translate="1">Tax class name</field>
+  		<field type="textarea" name="tax_class_description" translate="1">Tax class description</field>
+  	</table>
+  </reference>
+</joomfish>
