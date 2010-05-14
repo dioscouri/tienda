@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Order States</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Order States table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_orderstates">
+  	<table name="tienda_orderstates">
+  		<field type="referenceid" name="order_state_id" translate="0">ID</field>
+  		<field type="titletext" name="order_state_name" translate="1">Order state name</field>
+  		<field type="textarea" name="order_state_description" translate="1">Order state description</field>
+  		<field type="text" name="order_state_code" translate="1">Order state code</field>
+  	</table>
+  </reference>
+</joomfish>

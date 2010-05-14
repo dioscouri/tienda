@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Manufacturers</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Manufacturers table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_manufacturers">
+  	<table name="tienda_manufacturers">
+  		<field type="referenceid" name="manufacturer_id" translate="0">ID</field>
+  		<field type="titletext" name="manufacturer_name" translate="1">Manufacturer name</field>
+  		<field type="text" name="manufacturer_image" translate="1">Manufacturer image</field>
+  	</table>
+  </reference>
+</joomfish>
