@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Address</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Addresses table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_addresses">
+  	<table name="tienda_addresses">
+  		<field type="referenceid" name="address_id" translate="0">ID</field>
+  		<field type="titletext" name="address_name"  length="50" maxlength="250" translate="1">Address Name</field>
+  		<field type="text" name="company"  length="50" maxlength="250" translate="0">Company</field>
+  		<field type="text" name="title"  length="50" maxlength="250" translate="1">Title</field>
+  		<field type="text" name="first_name" translate="1">First Name</field>
+  		<field type="text" name="last_name" translate="1">Last Name</field>
+  		<field type="text" name="middle_name" translate="1">Middle Name</field>
+  		<field type="textarea" name="address_1" translate="1">Address 1</field>
+  		<field type="textarea" name="address_2" translate="1">Address 2</field>
+  	</table>
+  </reference>
+</joomfish>
