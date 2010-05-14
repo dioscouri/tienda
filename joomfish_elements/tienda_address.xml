@@ -8,9 +8,9 @@
   <reference type="tienda_addresses">
   	<table name="tienda_addresses">
   		<field type="referenceid" name="address_id" translate="0">ID</field>
-  		<field type="titletext" name="address_name"  length="50" maxlength="250" translate="1">Address Name</field>
-  		<field type="text" name="company"  length="50" maxlength="250" translate="0">Company</field>
-  		<field type="text" name="title"  length="50" maxlength="250" translate="1">Title</field>
+  		<field type="titletext" name="address_name" translate="1">Address Name</field>
+  		<field type="text" name="company"  translate="1">Company</field>
+  		<field type="text" name="title" translate="1">Title</field>
   		<field type="text" name="first_name" translate="1">First Name</field>
   		<field type="text" name="last_name" translate="1">Last Name</field>
   		<field type="text" name="middle_name" translate="1">Middle Name</field>

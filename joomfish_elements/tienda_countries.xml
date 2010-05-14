@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Countries</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Countries table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_countries">
+  	<table name="tienda_countries">
+  		<field type="referenceid" name="country_id" translate="0">ID</field>
+  		<field type="titletext" name="country_name" translate="1">Country name</field>
+  	</table>
+  </reference>
+</joomfish>

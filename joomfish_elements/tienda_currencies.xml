@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Currencies</name>
+  <author>Ivo Apostolov</author>
+  <version>0.44</version>
+  <description>Definition for the Tienda Currencies table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_currencies">
+  	<table name="tienda_currencies">
+  		<field type="referenceid" name="currency_id" translate="0">ID</field>
+  		<field type="titletext" name="currency_name" translate="1">Currency name</field>
+  		<field type="text" name="symbol_left" translate="1">Symbol left</field>
+  		<field type="text" name="symbol_right" translate="1">Symbol right</field>
+  		<field type="text" name="currency_decimals" translate="1">Currency decimals</field>
+  		<field type="text" name="decimal_separator" translate="1">Decimal separator</field>
+  		<field type="text" name="thousands_separator" translate="1">Thousands separator</field>
+  	</table>
+  </reference>
+</joomfish>

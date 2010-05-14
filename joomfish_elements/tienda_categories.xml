@@ -8,8 +8,8 @@
   <reference type="tienda_categories">
   	<table name="tienda_categories">
   		<field type="referenceid" name="category_id" translate="0">ID</field>
-  		<field type="titletext" name="category_name"  length="50" maxlength="250" translate="1">Category name</field>
-  		<field type="text" name="category_alias"  length="50" maxlength="250" translate="0">Alias (Slug)</field>
+  		<field type="titletext" name="category_name" translate="1">Category name</field>
+  		<field type="text" name="category_alias" translate="1">Alias (Slug)</field>
   		<field type="htmltext" name="category_description" translate="1">Category description</field>
   		<field type="text" name="category_thumb_image" translate="1">Thumb Image</field>
   		<field type="text" name="category_full_image" translate="1">Full Image</field>
