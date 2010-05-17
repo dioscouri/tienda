@@ -115,6 +115,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERINFOZONES FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkCurrenciesExchange()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCURRENCIESEXCHANGE FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -727,6 +731,44 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkOrderInfoZones') );
             $config->config_name = 'checkOrderInfoZones';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the currencies table for the exchange fields
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkCurrenciesExchange()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCurrenciesExchange', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_currencies';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "updated_date";
+            $definitions["updated_date"] = "datetime NOT NULL COMMENT 'The last time the currency was updated'";
+            
+        $fields[] = "exchange_rate";
+            $definitions["exchange_rate"] = "DECIMAL(15,8) NOT NULL DEFAULT '0.00000000' COMMENT 'Exchange rate of currency to USD'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCurrenciesExchange') );
+            $config->config_name = 'checkCurrenciesExchange';
             $config->value = '1';
             $config->save();
             return true;

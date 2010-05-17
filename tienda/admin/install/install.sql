@@ -444,6 +444,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_currencies` (
   `created_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   `currency_enabled` tinyint(1) NOT NULL,
+  `exchange_rate` DECIMAL(15,8) NOT NULL DEFAULT '0.00000000' COMMENT 'Exchange rate of currency to USD',
+  `updated_date` datetime NOT NULL COMMENT 'The last time the currency was updated',
   PRIMARY KEY (`currency_id`) ,
   INDEX `idx_currency_name` (`currency_name` ASC) ,
   INDEX `idx_currency_code` (`currency_code` ASC) )
