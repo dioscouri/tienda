@@ -115,8 +115,8 @@ class TiendaControllerCarts extends TiendaController
 	            }
 	
 	            // Set the session cart with the new values
-	            $mainframe =& JFactory::getApplication();
-	            $mainframe->setUserState( 'usercart.cart', $cart );
+                $session =& JFactory::getSession();
+	            $session->set('tienda.sessioncart', $cart);
 	            break;
 	            
 	        case 'carts':

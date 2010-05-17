@@ -76,7 +76,7 @@ $item = @$this->row;
                 </div>
                 
                 <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" size="5" />
-                <?php $url = "index.php?option=com_tienda&format=raw&controller=carts&task=addToCart&productid=".$item->product_id; ?>
+                <?php $url = "index.php?option=com_tienda&format=raw&view=carts&task=addToCart&productid=".$item->product_id; ?>
                 <?php $onclick = 'tiendaDoTask(\''.$url.'\', \'tiendaUserShoppingCart\', document.adminForm);'; ?>
                 <?php $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('Add to Cart')."' onclick=\"$onclick\" />"; ?>           
                 <?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>

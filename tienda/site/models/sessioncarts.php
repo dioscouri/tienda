@@ -26,8 +26,8 @@ class TiendaModelSessioncarts extends TiendaModelBase
      */ 
     function getList()
     {
-        $mainframe =& JFactory::getApplication();
-        $list = $mainframe->getUserState( 'usercart.cart' );
+        $session =& JFactory::getSession();
+        $list = $session->get('tienda.sessioncart', array());
         if (empty($list)) 
         {
             $list = array();
@@ -96,8 +96,8 @@ class TiendaSessionCart
     
     function save()
     {
-        $mainframe =& JFactory::getApplication();
-        $cart = $mainframe->getUserState( 'usercart.cart' );
+        $session =& JFactory::getSession();
+        $cart = $session->get('tienda.sessioncart', array());
         if (empty($cart)) 
         {
             $cart = array();
@@ -117,7 +117,8 @@ class TiendaSessionCart
 	            $item->product_attributes = implode(',', $product_attributes);
 	        }
         }
-        $mainframe->setUserState( 'usercart.cart', $cart);
+        $session->set('tienda.sessioncart', $cart);
+        
     }
     
     function bind($vals)
@@ -134,9 +135,12 @@ class TiendaSessionCart
         $userid         = $data['user_id'];
         $product_id     = $data['product_id'];
         $product_attributes = $data['product_attributes'];
+        
         // $userid isn't used but is added for allowing abstraction with the carts model
-        $mainframe =& JFactory::getApplication();
-        $cart = $mainframe->getUserState( 'usercart.cart' );
+
+        $session =& JFactory::getSession();
+        $cart = $session->get('tienda.sessioncart', array());
+        
         foreach ($cart as $key=>$item) 
         {
         	if ($item->product_id == $product_id && $item->product_attributes == $product_attributes)
@@ -146,7 +150,7 @@ class TiendaSessionCart
         	}
         }
         
-        $mainframe->setUserState( 'usercart.cart', $cart);
+        $session->set('tienda.sessioncart', $cart);
         return $itemRemoved;
         
     }

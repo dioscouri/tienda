@@ -38,8 +38,8 @@ class TiendaHelperCarts extends TiendaHelperBase
     {
         if ($sync) 
         {
-            $mainframe =& JFactory::getApplication();
-            $cart = $mainframe->getUserState( 'usercart.cart' );
+            $session =& JFactory::getSession();
+            $cart = $session->get('tienda.sessioncart', array());
         }
         
         if (!empty($cart)) 
@@ -139,8 +139,8 @@ class TiendaHelperCarts extends TiendaHelperBase
                 }
     
                 // Set the session cart with the new values
-                $mainframe =& JFactory::getApplication();
-                $mainframe->setUserState( 'usercart.cart', $cart );
+                $session =& JFactory::getSession();
+                $session->set('tienda.sessioncart', $cart);
                 break;
                 
             case 'carts':
