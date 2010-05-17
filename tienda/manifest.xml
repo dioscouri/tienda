@@ -24,7 +24,6 @@
 
 	<languages>
 		<language tag="en-GB">languages/site/en-GB.com_tienda.ini</language>
-        <language tag="de-DE">languages/site/de-DE.com_tienda.ini</language>
 	</languages>
 	
 	<!-- Application/administrator -->
@@ -48,7 +47,6 @@
 
 		<languages>
 			<language tag="en-GB">languages/admin/en-GB.com_tienda.ini</language>
-            <language tag="de-DE">languages/admin/de-DE.com_tienda.ini</language>
 		</languages>
 	</administration>
 	

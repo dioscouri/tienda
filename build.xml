@@ -152,13 +152,6 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
         </copy>
-        <!-- K2 -->
-        <copy todir="${destdir}/plugins/k2" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_k2" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_k2/languages" />
-        </copy>
     <!-- PAYMENT PLUGINS -->
     	<!-- 2CHECKOUT -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
