@@ -4,6 +4,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
+<?php Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -43,6 +44,9 @@
     	            <?php echo JText::_( "Format" ); ?>
                 </th>
                 <th>
+                    <?php echo JText::_( "Value in USD" ); ?>
+                </th>
+                <th>
     	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.currency_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
@@ -63,6 +67,8 @@
                 </th>
                 <th>
                     <input id="filter_code" name="filter_code" value="<?php echo @$state->filter_code; ?>" size="15"/>
+                </th>
+                <th>
                 </th>
                 <th>
                 </th>
@@ -109,8 +115,11 @@
 					<?php echo $item->currency_code; ?>
 				</td>
 				<td style="text-align: center;">
-				    <?php echo TiendaHelperBase::currency( '9876.54321', $item ); ?>
+				    <?php echo TiendaHelperCurrency::format( '9876.54321', $item ); ?>
 				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaHelperCurrency::convert( $item->currency_code ); ?>
+                </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->currency_enabled, $i, 'currency_enabled.' ); ?>
 				</td>

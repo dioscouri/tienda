@@ -160,73 +160,20 @@ class TiendaHelperBase extends JObject
 		return $tiendaHelperPaths;
 	}
 
-	/**
-	 * Format a number according to currency rules
-	 * 
-	 * @param unknown_type $amount
-	 * @param unknown_type $currency
-	 * @return unknown_type
-	 */
-	function currency($amount, $currency='', $options='')
-	{
-        // default to whatever is in config
-            
-            $config = TiendaConfig::getInstance();
-            $options = (array) $options;
-            
-            $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
-            $thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
-            $decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
-            $pre = isset($options['pre']) ? $options['pre'] : $config->get('currency_symbol_pre', '$');
-            $post = isset($options['post']) ? $options['post'] : $config->get('currency_symbol_post', '');
-            
-            
-		// if currency is an object, use it's properties
-		if (is_object($currency))
-		{
-			$table = $currency;
-            $num_decimals = $table->currency_decimals;
-            $thousands  = $table->thousands_separator;
-            $decimal    = $table->decimal_separator;
-            $pre        = $table->symbol_left;
-            $post       = $table->symbol_right;
-		}
-		elseif (!empty($currency) && is_numeric($currency))
-		{
-            // TODO if currency is an integer, load the object for its id
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance('Currencies', 'TiendaTable');
-            $table->load( (int) $currency );
-            if (!empty($table->currency_id))
-            {
-	            $num_decimals = $table->currency_decimals;
-	            $thousands  = $table->thousands_separator;
-	            $decimal    = $table->decimal_separator;
-	            $pre        = $table->symbol_left;
-	            $post       = $table->symbol_right;
-            }
-		}
-		elseif (!empty($currency))
-		{
-            // TODO if currency is a string (currency_code) load the object for its code
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance('Currencies', 'TiendaTable');
-            $keynames = array();
-            $keynames['currency_code'] = (string) $currency;
-            $table->load( $keynames );
-            if (!empty($table->currency_id))
-            {
-                $num_decimals = $table->currency_decimals;
-                $thousands  = $table->thousands_separator;
-                $decimal    = $table->decimal_separator;
-                $pre        = $table->symbol_left;
-                $post       = $table->symbol_right;
-            }
-		}
-
-		$return = $pre.number_format($amount, $num_decimals, $decimal, $thousands).$post;
-		return $return;
-	}
+    /**
+     * Formats and converts a number according to currency rules
+     * As of v0.5.0 is a wrapper
+     * 
+     * @param unknown_type $amount
+     * @param unknown_type $currency
+     * @return unknown_type
+     */
+    function currency($amount, $currency='', $options='')
+    {
+        Tienda::load('TiendaHelperCurrency', 'helpers.currency');
+        $amount = TiendaHelperCurrency::_($amount, $currency, $options);
+        return $amount;
+    }
 	
 	/**
 	 * Return a mesure with its unit
@@ -672,4 +619,38 @@ class TiendaHelperBase extends JObject
 		
 		return $html;
 	}
+	
+    /**
+     * Sets a json_encoded session variable to value
+     * 
+     * @param unknown_type $key
+     * @param unknown_type $value
+     * @return void
+     */
+    function setSessionVariable($key, $value)
+    {
+        $session =& JFactory::getSession();
+        $session->set($key, json_encode($value));
+    }
+    
+    /**
+     * Gets json_encoded session variable
+     * 
+     * @param str $key
+     * @return mixed
+     */
+    function getSessionVariable($key, $default=null)
+    {
+        $session =& JFactory::getSession();
+        $sessionvalue = $default;
+        if ($session->has($key))
+        {
+            $sessionvalue = $session->get($key);
+            if (!empty($sessionvalue))
+            {
+                $sessionvalue = json_decode($sessionvalue); 
+            }
+        }
+        return $sessionvalue;
+    }
 }

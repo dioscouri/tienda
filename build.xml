@@ -92,14 +92,21 @@
         <copy todir="${destdir}/modules/mod_${cfg.comName}_categories" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_categories" />
         </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_categories/languages" />
+        </copy>
+        <!-- CURRENCY -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_currency" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_currency" />
+        </copy>
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_currency/languages" />
         </copy>
     	<!-- PRODUCTS -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products" />
         </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
         </copy>
         <!-- QUICKICON -->
@@ -127,7 +134,7 @@
         <copy todir="${destdir}/modules/mod_${cfg.comName}_search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search" />
         </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search/languages" />
         </copy>
     	<!-- USER ADDRESS -->

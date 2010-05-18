@@ -760,7 +760,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $definitions["updated_date"] = "datetime NOT NULL COMMENT 'The last time the currency was updated'";
             
         $fields[] = "exchange_rate";
-            $definitions["exchange_rate"] = "DECIMAL(15,8) NOT NULL DEFAULT '0.00000000' COMMENT 'Exchange rate of currency to USD'";
+            $definitions["exchange_rate"] = "DECIMAL(15,8) NOT NULL DEFAULT '0.00000000' COMMENT 'Value of currency in USD'";
             
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
