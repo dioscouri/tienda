@@ -963,10 +963,11 @@ class TiendaHelperProduct extends TiendaHelperBase
     /**
      * Will return all the CSV combinations possible from a product's attribute options
      * 
-     * @param unknown_type $product_id
+     * @param unknown_type $product_id 
+     * @param $attributeOptionId
      * @return unknown_type
      */
-    function getProductAttributeCSVs( $product_id )
+    function getProductAttributeCSVs( $product_id, $attributeOptionId='0' )
     {
         $return = array();
         $traits = array();
@@ -986,14 +987,23 @@ class TiendaHelperProduct extends TiendaHelperBase
                 {
                     $options = array();
                     foreach ($paos as $pao)
-                    {
-                        $options[] = $pao->productattributeoption_id;
+                    {   
+                       // Genrate the arrray of single value with the id of newly created attribute option    
+                    	if($attributeOptionId == $pao->productattributeoption_id){
+                        	$newOption = array();
+                        	$newOption[]=(string) $attributeOptionId;
+                        	$options=$newOption;
+                        	
+                        	break;
+                        }
+                    	
+                    	$options[] = $pao->productattributeoption_id;
+                                       
                     }
                     $traits[] = $options;
                 }
             }
         }
-        
         // run recursive function on the data
         TiendaHelperProduct::getCombinations( "", $traits, 0, $return );
         
@@ -1005,8 +1015,8 @@ class TiendaHelperProduct extends TiendaHelperBase
             sort($values);
             $result[] = implode(',', $values);
         }
-
-        return $result;
+        
+       return $result;
     }
 
     /**
@@ -1015,12 +1025,13 @@ class TiendaHelperProduct extends TiendaHelperBase
      * 
      * @param $product_id
      * @param $vendor_id
+     * @param $attributeOptionId
      * @return unknown_type
      */
-    function doProductQuantitiesReconciliation( $product_id, $vendor_id='0' )
+    function doProductQuantitiesReconciliation( $product_id, $vendor_id='0', $attributeOptionId='0' )
     {
-        $csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id );
-
+        
+    	$csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id, $attributeOptionId );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance('ProductQuantities', 'TiendaModel');
         $model->setState('filter_productid', $model->getId());
@@ -1041,7 +1052,8 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
     {
-        if (count($items) == count($csvs))
+         	
+    	if (count($items) == count($csvs))
         {
             return $items;
         }

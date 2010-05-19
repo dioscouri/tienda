@@ -62,12 +62,11 @@ class TiendaTableProductAttributeOptions extends TiendaTable
     function save()
     {
     	$return = parent::save();
-    	
     	$pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
     	$pa->load( $this->productattribute_id );
     	
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        TiendaHelperProduct::doProductQuantitiesReconciliation( $pa->product_id, '0' );
+        TiendaHelperProduct::doProductQuantitiesReconciliation( $pa->product_id, '0', $this->productattributeoption_id );
         
     	return $return;
     }
