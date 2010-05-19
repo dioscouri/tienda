@@ -39,7 +39,7 @@ class TiendaHelperCarts extends TiendaHelperBase
         if ($sync) 
         {
             $session =& JFactory::getSession();
-            $cart = $session->get('tienda.sessioncart', array());
+            $cart = $session->get('tienda_sessioncart', array());
         }
         
         if (!empty($cart)) 
@@ -140,7 +140,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     
                 // Set the session cart with the new values
                 $session =& JFactory::getSession();
-                $session->set('tienda.sessioncart', $cart);
+                $session->set('tienda_sessioncart', $cart);
                 break;
                 
             case 'carts':

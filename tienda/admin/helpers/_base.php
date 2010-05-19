@@ -256,6 +256,10 @@ class TiendaHelperBase extends JObject
 		$return = array();
         $names = array();
         $checked_items = array();
+        if (empty($elements))
+        {
+            $elements = array();
+        }
         
 		foreach (@$elements as $element)
 		{

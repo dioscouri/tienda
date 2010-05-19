@@ -371,3 +371,65 @@
 		document.adminForm.submit();
 	}
 
+	/**
+	 * Pauses execution for the specified milliseconds
+	 * @param milliseconds
+	 * @return
+	 */
+	function tiendaPause(milliseconds) 
+	{
+	    var dt = new Date();
+	    while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+	}
+	
+    /**
+     * 
+     * @param {String} url to query
+     * @param {String} document element to update after execution
+     * @param {String} form name (optional)
+     * @param {String} msg message for the modal div (optional)
+     */
+    function tiendaConfirmAdd( url, container, form, msg ) 
+    {
+        tiendaNewModal(msg);
+        
+        // if url is present, do validation
+        if (url && form) 
+        {   
+            // loop through form elements and prepare an array of objects for passing to server
+            var str = new Array();
+            for(i=0; i<form.elements.length; i++)
+            {
+                postvar = {
+                    name : form.elements[i].name,
+                    value : form.elements[i].value,
+                    checked : form.elements[i].checked,
+                    id : form.elements[i].id
+                };
+                str[i] = postvar;
+            }
+            // execute Ajax request to server
+            var a=new Ajax(url,{
+                method:"post",
+                data:{"elements":Json.toString(str)},
+                onComplete: function(response){
+                    var resp=Json.evaluate(response, false);
+                    if ($(container)) { $(container).setHTML(resp.msg); }
+                    (function() { document.body.removeChild($('tiendaModal')); }).delay(500);
+                    return true;
+                }
+            }).request();
+        }
+            else if (url && !form) 
+        {
+            // execute Ajax request to server
+            var a=new Ajax(url,{
+                method:"post",
+                onComplete: function(response){
+                    var resp=Json.evaluate(response, false);
+                    if ($(container)) { $(container).setHTML(resp.msg); }
+                    (function() { document.body.removeChild($('tiendaModal')); }).delay(500);
+            }
+            }).request();           
+        }
+    }

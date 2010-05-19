@@ -27,14 +27,19 @@ class TiendaModelSessioncarts extends TiendaModelBase
     function getList()
     {
         $session =& JFactory::getSession();
-        $list = $session->get('tienda.sessioncart', array());
+        $list = $session->get('tienda_sessioncart', array());
         if (empty($list)) 
         {
             $list = array();
         }
         
-        foreach($list as $item)
+        foreach ($list as $item)
         {
+            if (empty($item->product_id))
+            {
+                unset($list[key($list)]);
+                continue;
+            }
         	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 	        $model = JModel::getInstance('Products', 'TiendaModel');
 	        $model->setId( (int) $item->product_id );
@@ -97,7 +102,7 @@ class TiendaSessionCart
     function save()
     {
         $session =& JFactory::getSession();
-        $cart = $session->get('tienda.sessioncart', array());
+        $cart = $session->get('tienda_sessioncart', array());
         if (empty($cart)) 
         {
             $cart = array();
@@ -117,7 +122,7 @@ class TiendaSessionCart
 	            $item->product_attributes = implode(',', $product_attributes);
 	        }
         }
-        $session->set('tienda.sessioncart', $cart);
+        $session->set('tienda_sessioncart', $cart);
         
     }
     
@@ -139,7 +144,7 @@ class TiendaSessionCart
         // $userid isn't used but is added for allowing abstraction with the carts model
 
         $session =& JFactory::getSession();
-        $cart = $session->get('tienda.sessioncart', array());
+        $cart = $session->get('tienda_sessioncart', array());
         
         foreach ($cart as $key=>$item) 
         {
@@ -150,7 +155,7 @@ class TiendaSessionCart
         	}
         }
         
-        $session->set('tienda.sessioncart', $cart);
+        $session->set('tienda_sessioncart', $cart);
         return $itemRemoved;
         
     }

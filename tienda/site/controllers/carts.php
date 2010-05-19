@@ -62,8 +62,8 @@ class TiendaControllerCarts extends TiendaController
         // convert elements to array that can be binded             
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $values = TiendaHelperBase::elementsToArray( $elements );
-        $product_id = $values['product_id'];
-        $product_qty = $values['product_qty'];
+        $product_id = !empty( $values['product_id'] ) ? $values['product_id'] : JRequest::getVar( 'product_id' );
+        $product_qty = !empty( $values['product_qty'] ) ? $values['product_qty'] : '1';
         $attributes = array();
         
         foreach ($values as $key=>$value)
@@ -113,10 +113,17 @@ class TiendaControllerCarts extends TiendaController
 	                $item->vendor_id = '0'; // vendors only in enterprise version
 	                $cart[] = $item;
 	            }
-	
+
 	            // Set the session cart with the new values
                 $session =& JFactory::getSession();
-	            $session->set('tienda.sessioncart', $cart);
+	            $session->set('tienda_sessioncart', $cart);
+	            
+//                $session =& JFactory::getSession();
+//                $list = $session->get('tienda_sessioncart', array());
+//                $msg = Tienda::dump($list);
+//                echo ( json_encode( array('msg'=>$msg) ) );
+//                return;
+                
 	            break;
 	            
 	        case 'carts':
@@ -154,11 +161,12 @@ class TiendaControllerCarts extends TiendaController
         JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
         
         jimport( 'joomla.application.module.helper' );
-        
+
         $modules    =& JModuleHelper::_load();
         if (empty($modules))
         {
             echo ( json_encode( array('msg'=>'') ) );
+            return;
         }
         
         foreach ($modules as $module)
@@ -235,6 +243,9 @@ class TiendaControllerCarts extends TiendaController
      */
     function confirmAdd()
     {
+        //        $session =& JFactory::getSession();
+        //        $list = $session->get('tienda_sessioncart', array());
+        //        echo Tienda::dump($list);
         // $model  = $this->getModel( strtolower( TiendaHelperCarts::getSuffix() ) );
         $model  = $this->getModel( $this->get('suffix') );
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );

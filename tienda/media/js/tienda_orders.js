@@ -62,17 +62,6 @@ function tiendaRemoveProducts(message)
 }
 
 /**
- * Pauses execution for the specified milliseconds
- * @param milliseconds
- * @return
- */
-function tiendaPause(milliseconds) 
-{
-    var dt = new Date();
-    while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-}
-
-/**
  * Gets an address
  * 
  * @param addressType

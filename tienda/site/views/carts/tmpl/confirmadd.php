@@ -11,7 +11,7 @@ $state = @$this->state;
 </div>
     
 <div class="cartitems">
-    <form action="<?php echo JRoute::_('index.php?option=com_tienda&controller=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
+    <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
             <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('Begin Checkout'); ?>" name="begincheckout" type="submit" class="button" />
