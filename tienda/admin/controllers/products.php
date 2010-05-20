@@ -448,9 +448,10 @@ class TiendaControllerProducts extends TiendaController
         $row->load($model->getId());
         
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        $csvs = TiendaHelperProduct::getProductAttributeCSVs( $row->product_id );
-        $items = TiendaHelperProduct::reconcileProductAttributeCSVs( $row->product_id, '0', $items, $csvs );
-                
+        // $csvs = TiendaHelperProduct::getProductAttributeCSVs( $row->product_id );
+        // $items = TiendaHelperProduct::reconcileProductAttributeCSVs( $row->product_id, '0', $items, $csvs );
+        TiendaHelperProduct::doProductQuantitiesReconciliation( $row->product_id );
+        
         $state = parent::_setModelState();
         $app = JFactory::getApplication();
         $ns = $this->getNamespace();

@@ -56,14 +56,50 @@ class TiendaTableProductAttributes extends TiendaTable
     }
     
     /**
-     * Run function after saveing 
+     * Run function after saving 
      */
     function save()
     {
-        $return = parent::save();
+        if ($return = parent::save())
+        {
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            TiendaHelperProduct::doProductQuantitiesReconciliation( $this->product_id, '0' );
+        }
         
-        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        TiendaHelperProduct::doProductQuantitiesReconciliation( $this->product_id, '0' );
+        return $return;
+    }
+    
+    /**
+     * Run function after deleteing
+     */
+    function delete( $oid=null )
+    {
+        if ($oid) 
+        { 
+            $k = $oid;
+            $row = JTable::getInstance('ProductAttributes', 'TiendaTable');
+            $row->load( $k );
+            $product_id = $row->product_id; 
+        } 
+            else 
+        { 
+            $k = $this->_tbl_key;
+            $product_id = $this->product_id; 
+        }
+        
+        if ($return = parent::delete( $oid ))
+        {
+            // also delete all PAOs for this PA
+            $query = new TiendaQuery();
+            $query->delete();
+            $query->from( '#__tienda_productattributeoptions' );
+            $query->where( 'productattribute_id = '.$k );
+            $this->_db->setQuery( (string) $query );
+            $this->_db->query();
+
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            TiendaHelperProduct::doProductQuantitiesReconciliation( $product_id );
+        }
         
         return $return;
     }

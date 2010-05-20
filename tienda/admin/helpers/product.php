@@ -988,12 +988,12 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $options = array();
                     foreach ($paos as $pao)
                     {   
-                       // Genrate the arrray of single value with the id of newly created attribute option    
-                    	if($attributeOptionId == $pao->productattributeoption_id){
+                        // Genrate the arrray of single value with the id of newly created attribute option    
+                    	if ($attributeOptionId == $pao->productattributeoption_id)
+                    	{
                         	$newOption = array();
-                        	$newOption[]=(string) $attributeOptionId;
-                        	$options=$newOption;
-                        	
+                        	$newOption[] = (string) $attributeOptionId;
+                        	$options = $newOption;
                         	break;
                         }
                     	
@@ -1030,12 +1030,16 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function doProductQuantitiesReconciliation( $product_id, $vendor_id='0', $attributeOptionId='0' )
     {
+        if (empty($product_id))
+        {
+            return false;
+        }
         
     	$csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id, $attributeOptionId );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance('ProductQuantities', 'TiendaModel');
-        $model->setState('filter_productid', $model->getId());
-        $model->setState('filter_vendorid', '0');
+        $model->setState('filter_productid', $product_id );
+        $model->setState('filter_vendorid', $vendor_id );
         $items = $model->getList();
         
         $results = TiendaHelperProduct::reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
@@ -1052,16 +1056,11 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
     {
-         	
-    	if (count($items) == count($csvs))
-        {
-            return $items;
-        }
-
         // remove extras
+        $done = array();
         foreach ($items as $key=>$item)
         {
-            if (!in_array($item->product_attributes, $csvs))
+            if (!in_array($item->product_attributes, $csvs) || in_array($item->product_attributes, $done) )
             {
                 $row = JTable::getInstance('ProductQuantities', 'TiendaTable');
                 if (!$row->delete($item->productquantity_id))
@@ -1070,6 +1069,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
                 unset($items[$key]);
             }
+            $done[] = $item->product_attributes;
         }
         
         // add new ones
@@ -1089,7 +1089,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
                 $items[] = $row; 
             }
-        }
+        }      
         
         return $items;
     }
