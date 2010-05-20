@@ -123,7 +123,7 @@
         </tr>
         </table>
 
-        <!-- SHIPPING METHODS
+        <!-- SHIPPING METHODS -->
         <h3><?php echo JText::_("Shipping Method") ?></h3>
         <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
         <div id="shippingmethods">
@@ -133,7 +133,9 @@
 		    ?>	
 		    <div id="validationmessage" style="padding-top: 10px;"></div>
         </div>
-         -->
+        
+        <!--    SHIPPING METHODS   --><!--
+        NOT UNTIL INCREMENT 5
         <h3><?php echo JText::_("Shipping Method") ?></h3>
         <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
         <div id='onCheckoutShipping_wrapper'>
@@ -156,7 +158,7 @@
             <div id="validationmessage" style="padding-top: 10px;"></div>
         </div>         
 
-        <!--    COMMENTS   -->        
+        --><!--    COMMENTS   -->        
         <h3><?php echo JText::_("Shipping Notes") ?></h3>
         <?php echo JText::_( "Add optional notes for shipment here" ); ?>:
         <br/>

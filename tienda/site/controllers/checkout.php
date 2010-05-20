@@ -1231,11 +1231,11 @@ class TiendaControllerCheckout extends TiendaController
             }
             
 			// save the order shipping info
-            if (!$this->saveOrderShippings())
-            {
-                // TODO What to do if saving order shippings fails?
-                $error = true;
-            }
+//            if (!$this->saveOrderShippings())
+//            {
+//                // TODO What to do if saving order shippings fails?
+//                $error = true;
+//            }
 		}
 
 		if ($error)
@@ -1466,17 +1466,17 @@ class TiendaControllerCheckout extends TiendaController
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->ordershipping_type = $shipping_plugin;
-		
-		// Let the plugin store the information about the shipping 
-		$dispatcher =& JDispatcher::getInstance();
-		$dispatcher->trigger( "onPostSaveShipping", array( $shipping_plugin, $order ) );
 			
 		if (!$row->save())
 		{
 			$this->setError( $row->getError() );
 			return false;
 		}
-		
+
+        // Let the plugin store the information about the shipping 
+        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher->trigger( "onPostSaveShipping", array( $shipping_plugin, $row ) );
+				
 		return true;
 	}
 }
