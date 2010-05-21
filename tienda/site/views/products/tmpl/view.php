@@ -3,14 +3,19 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
-$inventryArray = @$this->invetoryList;
+$inventoryEnabled=@$this->inventoryEnabled;
+
 $str = '';
+if($item->product_check_inventory==1){
+$inventryArray = @$this->invetoryList;
 foreach($inventryArray as $k=>$v)
 {
 	$str .= "$k=>$v&&";
 	
 }
 JHTML::_('script', 'tienda_inevntory_check.js', 'media/com_tienda/js/');
+
+}
 ?>
 <script>
 // seting the java script variables with inventry array from php variables
@@ -74,9 +79,15 @@ strignOfOptions = "<?php echo $str ?>";
                     ?>
                     <div class="pao" id='productattributeoption_<?php echo $attribute->productattribute_id; ?>'>
                     <?php
-                    $evevnt="ONCHANGE";
-                    $action="checkStock();";
-                    echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, '', '',$evevnt, $action );
+                   if($item->product_check_inventory==1) {
+                    	$evevnt="ONCHANGE";
+                        $action="checkStock();";
+                          echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, '', '',$evevnt, $action );
+                    }else {
+  						echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id);
+                    }	
+                    
+                  
                     ?>
                     </div>
                     <?php
@@ -87,7 +98,12 @@ strignOfOptions = "<?php echo $str ?>";
                 <!--quantity-->
                 <div id='product_quantity_input'>
                     <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-                    <input type="text" name="product_qty" value="1" size="5" onkeyup="checkStock()" />    
+                <?php if($item->product_check_inventory==1) {  ?>   
+                    <input type="text" name="product_qty" value="1" size="5" onkeyup="checkStock()" />  
+               <?php } else {?>
+                    <input type="text" name="product_qty" value="1" size="5"  />    
+               <?php } ?>
+               
                 </div>
                 
                 

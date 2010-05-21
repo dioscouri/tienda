@@ -135,7 +135,6 @@ class TiendaControllerProducts extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $model->getId();
         $row = $model->getItem();
-        $inventoryList=$model->getProductQuantities();
         if (empty($row->product_enabled))
         {
             $redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=";
@@ -159,7 +158,15 @@ class TiendaControllerProducts extends TiendaController
         $view->set('_doTask', true);
         $view->assign( 'row', $row );
         $view->assign( 'cat', $cat );
+        
+        // Check If the inventroy is set then it will go for the inventory product quantities
+        
+
+        if($row->product_check_inventory==1){
+        $inventoryList=$model->getProductQuantities();
         $view->assign( 'invetoryList', $inventoryList );
+        }
+        
         $view->assign('product_description', $product_description );
         $view->assign( 'files', $this->getFiles( $row->product_id ) );
         $view->setModel( $model, true );
