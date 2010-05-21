@@ -545,11 +545,9 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $name
 	 * @param unknown_type $attribs
 	 * @param unknown_type $idtag
-	 * @param string $event
-	 * @param string action
 	 * @return unknown_type
 	 */
-    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $evevnt=null , $action=null)
+    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null)
     {
         $list = array();
         
@@ -563,57 +561,12 @@ class TiendaSelect extends JHTMLSelect
         	$display_suffix = ($item->productattributeoption_price > '0') ? ": ".$item->productattributeoption_prefix.TiendaHelperBase::currency($item->productattributeoption_price) : '';
         	$display_name = JText::_($item->productattributeoption_name).$display_suffix;
             $list[] =  self::option( $item->productattributeoption_id, $display_name );
-            //$evevnt="ONCHANGE";
-           // $action="checkStock();";
         }
-        return self::genericlistWithEventAction($list, $name, $attribs, 'value', 'text', $selected, $idtag, false, $evevnt, $action );
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag  );
     }	
 	
     
-    /**
-	 * Generates an HTML select list
-	 *
-	 * @param	array	An array of objects
-	 * @param	string	The value of the HTML name attribute
-	 * @param	string	Additional HTML attributes for the <select> tag
-	 * @param	string	The name of the object variable for the option value
-	 * @param	string	The name of the object variable for the option text
-	 * @param	mixed	The key that is selected (accepts an array or a string)
-	 * @param	string	The Event on which action should perform
-	 * @param	string  The name of the action which should perform on the method. 
-	 * @returns	string	HTML for the select list
-	 */
-	function genericlistWithEventAction( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $translate = false, $evevnt, $action )
-	{
-		if ( is_array( $arr ) ) {
-			reset( $arr );
-		}
-
-		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
-		 }
-
-		$id = $name;
-
-		if ( $idtag ) {
-			$id = $idtag;
-		}
-
-		$id		= str_replace('[','',$id);
-		$id		= str_replace(']','',$id);
-
-		$html	= '<select name="'. $name .'" id="'. $id .'" '. $attribs .' '.$evevnt.'='. $action.' >';
-		$html	.= JHTMLSelect::Options( $arr, $key, $text, $selected, $translate );
-		$html	.= '</select>';
-
-		return $html;
-	}
-    
-    
-    
-    
-    
-	/**
+     /**
 	 * Generates a +/- select list for pao prefixes
 	 * 
 	 * @param unknown_type $selected

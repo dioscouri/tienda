@@ -29,10 +29,10 @@ function checkStock() {
 
 	for (k = 0; k < optionsArray.length - 1; k++) {
 		var csvOfDataBase = (optionsArray[k].split('=>')[0]);
-		var avialbleQuantity = parseInt((optionsArray[k].split('=>')[1]));
+		var availableQuantity = parseInt((optionsArray[k].split('=>')[1]));
 		
 		if (csvOfDataBase == csv) {
-			if (avialbleQuantity < requiredQuantity) {
+			if (availableQuantity < requiredQuantity) {
 				hide("add_to_cart");
 				show("add_to_cart_deactive");
 			} else {
