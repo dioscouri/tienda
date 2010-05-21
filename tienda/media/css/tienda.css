@@ -285,3 +285,9 @@ div#order_shop_info{
 div.shipping_rates{
 	margin-left:20px;
 }
+
+div.add_to_cart_deactive{
+float:right!important;
+width:100%;
+text-align:right!important;
+}

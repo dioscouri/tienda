@@ -245,4 +245,32 @@ class TiendaModelProducts extends TiendaModelBase
 		}
 		return $list;
 	}
+	
+	
+	/**
+     * Gets a product's quantity list for all combination
+     * @return array with CSV and quantity; 
+     */
+	public function getProductQuantities()
+	{
+		$query =" SELECT  product_attributes,quantity   FROM
+                #__tienda_productquantities
+            WHERE 
+                product_id = ".$this->_id;
+		
+		$this->_db->setQuery($query);
+	    $results=$this->_db->query();
+	    
+	    $results=$this->_db->loadObjectList();
+	    $inventoryList=array();
+	    
+	    foreach($results as $result) 
+	    {
+	    	$inventoryList[$result->product_attributes]=$result->quantity;
+	    }
+	  return $inventoryList;
+		
+	}
+	
+	
 }

@@ -3,7 +3,19 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
+$inventryArray = @$this->invetoryList;
+$str = '';
+foreach($inventryArray as $k=>$v)
+{
+	$str .= "$k=>$v&&";
+	
+}
+JHTML::_('script', 'tienda_inevntory_check.js', 'media/com_tienda/js/');
 ?>
+<script>
+// seting the java script variables with inventry array from php variables
+strignOfOptions = "<?php echo $str ?>";
+</script>
 
 <div id="tienda" class="products view">
     
@@ -16,7 +28,7 @@ $item = @$this->row;
             <span class="product_name">
                 <?php echo $item->product_name; ?>
             </span>
-            
+      
             <div class="product_numbers">
                 <?php if (!empty($item->product_model)) : ?>
                     <span class="model">
@@ -55,13 +67,16 @@ $item = @$this->row;
                 <!--attribute options-->
                 <div id='product_attributeoptions'>
                 <?php
+                
                 $attributes = TiendaHelperProduct::getAttributes( $item->product_id );
                 foreach ($attributes as $attribute)
                 {
                     ?>
                     <div class="pao" id='productattributeoption_<?php echo $attribute->productattribute_id; ?>'>
                     <?php
-                    echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id );
+                    $evevnt="ONCHANGE";
+                    $action="checkStock();";
+                    echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, '', '',$evevnt, $action );
                     ?>
                     </div>
                     <?php
@@ -72,20 +87,33 @@ $item = @$this->row;
                 <!--quantity-->
                 <div id='product_quantity_input'>
                     <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-                    <input type="text" name="product_qty" value="1" size="5" />    
+                    <input type="text" name="product_qty" value="1" size="5" onkeyup="checkStock()" />    
                 </div>
                 
+                
+                <!-- Add to cart button ---> 
+               <div id='add_to_cart' style="display: block";> 
                 <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" size="5" />
                 <?php $url = "index.php?option=com_tienda&format=raw&view=carts&task=addToCart&product_id=".$item->product_id; ?>
                 <?php $onclick = 'tiendaDoTask(\''.$url.'\', \'tiendaUserShoppingCart\', document.adminForm); tiendaPause(500);'; ?>
                 <?php $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('Add to Cart')."' onclick=\"$onclick\" />"; ?>          
                 <?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>
                 <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );  ?>
-                </form>
+               </div>
+               
+               
+          
+             </form>
+            
             </div>
         </div>
+         <!-- Not avilable in stock  --->  
+               <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
+                  <span><?php echo JText::_("out_of_stock"); ?></span> 
+               </div>
         
-        <?php if ($this->product_description) : ?>
+                
+                <?php if ($this->product_description) : ?>
             <div class="reset"></div>
             
             <div id="product_description">
@@ -109,6 +137,7 @@ $item = @$this->row;
         if (!empty($path) && !empty($images))
         {
             ?>
+            
             <div class="reset"></div>
             <div class="product_gallery">
                 <div id="product_gallery_header" class="tienda_header">
