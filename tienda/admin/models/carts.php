@@ -111,4 +111,32 @@ class TiendaModelCarts extends TiendaModelBase
         }
         return $list;
     }
+    
+    
+    /*
+     * It will check that is there any item in the cart list for which shipping is require
+     * will return true  
+     * Other wise will return false 
+     *    
+     *  @return Boolean
+     */
+    public function getShippingIsEnabled()
+    {
+    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $list = parent::getList();
+        
+    	// If no item in the list, return false
+        if( empty( $list ) ){
+          	return false;;
+        }
+        
+        foreach($list as $item)
+        {
+        	$shiping=Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnable($item->product_id);
+        	if ($shiping)
+        	return true;
+        }
+        return false;
+    }
+    
 }

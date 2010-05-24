@@ -7,6 +7,7 @@
 	$row = @$this->row;
 	$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id="; 
 ?>
+
 <div class='componentheading'>
     <span><?php echo JText::_( "Select the Shipping Method" ); ?></span>
 </div>

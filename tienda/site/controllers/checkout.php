@@ -107,18 +107,36 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'progress', $progress );
 			//$view->assign( 'default_billing_address', $default_billing_address );
 			//$view->assign( 'default_shipping_address', $default_shipping_address );
+			
+			// Checking that shipping required for all item or not
+			$cartsModel = $this->getModel('carts');
+		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
+			if($isShoppingEnabled){
+				$showShipping=true;
+				
+			}else {
+				$showShipping=false;
+			}
+			
+			 $view->assign( 'showShipping', $showShipping );
+		
+			
 
 			JRequest::setVar('layout', 'guest');
 		}
 		// Already Logged in, a traditional checkout
 		else
-		{
+		{   
 			$order = &$this->_order;
+			
+					
+			//$order = &$this->_order;
 			$order = $this->populateOrder(false);
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
 
+			
 			// Get the current step
 			$progress = $this->getProgress();
 
@@ -142,7 +160,10 @@ class TiendaControllerCheckout extends TiendaController
 			// get all the enabled shipping plugins
 			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 			$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-				
+
+			
+			
+			
 			// now display the entire checkout page
 			$view = $this->getView( 'checkout', 'html' );
 			$view->set( 'hidemenu', false);
@@ -156,7 +177,20 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'progress', $progress );
 			$view->assign( 'default_billing_address', $default_billing_address );
 			$view->assign( 'default_shipping_address', $default_shipping_address );
-			$view->assign( 'plugins', $plugins );
+		    $view->assign( 'plugins', $plugins );
+
+			// Checking that shipping required for all item or not
+			$cartsModel = $this->getModel('carts');
+		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
+			if($isShoppingEnabled){
+				$showShipping=true;
+				
+			}else {
+				$showShipping=false;
+			}
+			
+			 $view->assign( 'showShipping', $showShipping );
+		
 
 			JRequest::setVar('layout', 'default');
 		}
@@ -293,7 +327,7 @@ class TiendaControllerCheckout extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
-
+       
 		$step = (!empty($submitted_values['step'])) ? strtolower($submitted_values['step']) : '';
 		switch ($step)
 		{
@@ -321,6 +355,29 @@ class TiendaControllerCheckout extends TiendaController
 			case "selectpayment":
 				$this->validateSelectPayment( $submitted_values );
 				break;
+//			case "noshipping": 
+//				// Validate the email address if it is a guest checkout!
+//				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && !empty($submitted_values['guest']) )
+//				{
+//					jimport('joomla.mail.helper');
+//					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
+//						$response['msg'] = $helper->generateMessage( JText::_('Please insert a correct email address') );
+//						$response['error'] = '1';
+//						echo ( json_encode( $response ) );
+//						return;
+//					}
+//					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+//					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
+//						$response['msg'] = $helper->generateMessage( JText::_('This email address is already registered! Login to checkout as a user!') );
+//						$response['error'] = '1';
+//						echo ( json_encode( $response ) );
+//						return;
+//					}
+//				}
+//				$response['error'] = '0';
+//				echo ( json_encode( $response ) );
+//			return;;
+//				break;				
 			default:
 				$response['error'] = '1';
 				$response['msg'] = $helper->generateMessage(JText::_("INVALID STEP IN CHECKOUT PROCESS"));
@@ -333,7 +390,7 @@ class TiendaControllerCheckout extends TiendaController
 	/**
 	 * Validates the select shipping method form
 	 */
-	function validateSelectShipping( $submitted_values )
+	function validateSelectShipping( $submitted_values)
 	{
 		$response = array();
 		$response['msg'] = '';
@@ -343,6 +400,9 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if no shipping method selected
+		if($submitted_values[''])
+		if($submitted_values['shippingrequired'])
+		{
 		if (empty($submitted_values['_checked']['shipping_method_id']))
 		{
 			$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
@@ -350,7 +410,7 @@ class TiendaControllerCheckout extends TiendaController
 			echo ( json_encode( $response ) );
 			return;
 		}
-
+	   } 
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{

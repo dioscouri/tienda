@@ -1093,4 +1093,40 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         return $items;
     }
+    
+    
+    
+ /**
+     * Gets a product's shipping is require or not
+     * 
+     * @param $id
+     * @return boolean
+     */
+    function isShippingEnable( $id )
+    {
+        if (empty($id))
+        {
+            return false;
+        }
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'Products', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        $query->select( "tbl.product_ships" );
+        $query->from( $table->getTableName()." AS tbl" );
+        $query->where( "tbl.product_id = ".(int) $id );
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadResult();
+
+        if($items==1){
+        	return true;
+        }
+        else {
+        	return false;
+        }
+        return true;
+    }
+    
 }
