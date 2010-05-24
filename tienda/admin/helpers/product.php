@@ -1129,4 +1129,8 @@ class TiendaHelperProduct extends TiendaHelperBase
         return true;
     }
     
+      
+   
+    
+    
 }

@@ -79,7 +79,9 @@ strignOfOptions = "<?php echo $str ?>";
                     ?>
                     <div class="pao" id='productattributeoption_<?php echo $attribute->productattribute_id; ?>'>
                     <?php
-                   if($item->product_check_inventory==1) {
+                   echo "<span>".$attribute->productattribute_name." : </span>";
+                    
+                    if($item->product_check_inventory==1) {
                     	$event="ONCHANGE";
                         $action="checkStock();";
                         $attribs = array('class' => 'inputbox', 'size' => '1','ONCHANGE'=>$action);
@@ -126,9 +128,15 @@ strignOfOptions = "<?php echo $str ?>";
         </div>
          <!-- Not avilable in stock  --->  
                <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("out_of_stock"); ?></span> 
+                  <span><?php echo JText::_("out_of_stock"); ?></span>
+                  <span><?php echo JText::_("available_stock"); ?><label id="stock"></label></span> 
                </div>
-        
+               
+               
+        <!-- Not valid quantity  --->  
+               <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
+                  <span><?php echo JText::_("invalid_quantity"); ?></span>
+               </div>
                 
                 <?php if ($this->product_description) : ?>
             <div class="reset"></div>

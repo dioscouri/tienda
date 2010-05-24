@@ -35,12 +35,23 @@ function checkStock() {
 			if (availableQuantity < requiredQuantity) {
 				hide("add_to_cart");
 				show("add_to_cart_deactive");
+				hide("invalid_quantity");
+				document.getElementById('stock').innerHTML=availableQuantity;
 			} else {
 				show("add_to_cart");
 				hide("add_to_cart_deactive");
+				hide("invalid_quantity");
 			}
 		}
 	}
+	
+	if ( requiredQuantity <= 0) {
+		hide("add_to_cart");
+		hide("add_to_cart_deactive");
+		show("invalid_quantity");
+	
+	} 
+ 	
 
 }
 
@@ -91,3 +102,6 @@ function show(idByName) {
 		document.poppedLayer = eval('document.layers[idByName]');
 	document.poppedLayer.style.display = "block";;
 }
+
+
+
