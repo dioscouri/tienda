@@ -132,8 +132,8 @@ class TiendaModelCarts extends TiendaModelBase
         
         foreach($list as $item)
         {
-        	$shiping=Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnable($item->product_id);
-        	if ($shiping)
+        	$shipping=Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnable($item->product_id);
+        	if ($shipping)
         	return true;
         }
         return false;

@@ -355,29 +355,6 @@ class TiendaControllerCheckout extends TiendaController
 			case "selectpayment":
 				$this->validateSelectPayment( $submitted_values );
 				break;
-//			case "noshipping": 
-//				// Validate the email address if it is a guest checkout!
-//				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && !empty($submitted_values['guest']) )
-//				{
-//					jimport('joomla.mail.helper');
-//					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
-//						$response['msg'] = $helper->generateMessage( JText::_('Please insert a correct email address') );
-//						$response['error'] = '1';
-//						echo ( json_encode( $response ) );
-//						return;
-//					}
-//					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-//					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
-//						$response['msg'] = $helper->generateMessage( JText::_('This email address is already registered! Login to checkout as a user!') );
-//						$response['error'] = '1';
-//						echo ( json_encode( $response ) );
-//						return;
-//					}
-//				}
-//				$response['error'] = '0';
-//				echo ( json_encode( $response ) );
-//			return;;
-//				break;				
 			default:
 				$response['error'] = '1';
 				$response['msg'] = $helper->generateMessage(JText::_("INVALID STEP IN CHECKOUT PROCESS"));
