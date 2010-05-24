@@ -107,36 +107,18 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'progress', $progress );
 			//$view->assign( 'default_billing_address', $default_billing_address );
 			//$view->assign( 'default_shipping_address', $default_shipping_address );
-			
-			// Checking that shipping required for all item or not
-			$cartsModel = $this->getModel('carts');
-		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
-			if($isShoppingEnabled){
-				$showShipping=true;
-				
-			}else {
-				$showShipping=false;
-			}
-			
-			 $view->assign( 'showShipping', $showShipping );
-		
-			
 
 			JRequest::setVar('layout', 'guest');
 		}
 		// Already Logged in, a traditional checkout
 		else
-		{   
+		{
 			$order = &$this->_order;
-			
-					
-			//$order = &$this->_order;
 			$order = $this->populateOrder(false);
 
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
 
-			
 			// Get the current step
 			$progress = $this->getProgress();
 
@@ -160,10 +142,7 @@ class TiendaControllerCheckout extends TiendaController
 			// get all the enabled shipping plugins
 			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 			$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-
-			
-			
-			
+				
 			// now display the entire checkout page
 			$view = $this->getView( 'checkout', 'html' );
 			$view->set( 'hidemenu', false);
@@ -177,21 +156,8 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'progress', $progress );
 			$view->assign( 'default_billing_address', $default_billing_address );
 			$view->assign( 'default_shipping_address', $default_shipping_address );
-		    $view->assign( 'plugins', $plugins );
-
-			// Checking that shipping required for all item or not
-			$cartsModel = $this->getModel('carts');
-		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
-			if($isShoppingEnabled){
-				$showShipping=true;
-				
-			}else {
-				$showShipping=false;
-			}
+			$view->assign( 'plugins', $plugins );
 			
-			 $view->assign( 'showShipping', $showShipping );
-		
-
 			JRequest::setVar('layout', 'default');
 		}
 		
@@ -327,7 +293,7 @@ class TiendaControllerCheckout extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
-       
+
 		$step = (!empty($submitted_values['step'])) ? strtolower($submitted_values['step']) : '';
 		switch ($step)
 		{
@@ -367,7 +333,7 @@ class TiendaControllerCheckout extends TiendaController
 	/**
 	 * Validates the select shipping method form
 	 */
-	function validateSelectShipping( $submitted_values)
+	function validateSelectShipping( $submitted_values )
 	{
 		$response = array();
 		$response['msg'] = '';
@@ -377,17 +343,14 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if no shipping method selected
-		if($submitted_values[''])
-		if($submitted_values['shippingrequired'])
-		{
-		if (empty($submitted_values['_checked']['shipping_method_id']))
+		if (empty($submitted_values['_checked']['shipping_rate']))
 		{
 			$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
 		}
-	   } 
+
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{
@@ -533,7 +496,15 @@ class TiendaControllerCheckout extends TiendaController
 
 		$order->bind( $values );
 		$order->user_id = $user_id;
-		$order->shipping_method_id = $values['shipping_method_id'];
+		//$order->shipping_method_id = $values['shipping_method_id'];
+		
+		// set the shipping method
+		$order->shipping = new JObject();
+		$order->shipping->shipping_price      = $values['shipping_price'];
+		$order->shipping->shipping_extra   = $values['shipping_extra'];
+		$order->shipping->shipping_name        = $values['shipping_name'];
+		$order->shipping->shipping_tax      = $values['shipping_tax'];
+		
 		$this->setAddresses( $values );
 
 		// get the items and add them to the order
@@ -556,7 +527,7 @@ class TiendaControllerCheckout extends TiendaController
 		$billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
 		$shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
 		$same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
-		$shipping_method_id     = $values['shipping_method_id'];
+		//$shipping_method_id     = $values['shipping_method_id'];
 		$customerNote           = $values['customer_note'];
 
 		$progress = $this->getProgress();
@@ -604,11 +575,11 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		$values['shipping_address_id'] = $shipping_address_id;
 
-		$shippingMethodName = $this->getShippingMethod($shipping_method_id);
+		$shippingMethodName = $values['shipping_name'];
 
 		//Assign Addresses and Shippping Method to view
 		$view->assign('shipping_method_name',$shippingMethodName);
-		$view->assign('shipping_method_id',$shipping_method_id);
+		//$view->assign('shipping_method_id',$shipping_method_id);
 		$view->assign('shipping_info',$shippingAddressArray);
 		$view->assign('billing_info',$billingAddressArray);
 		$view->assign('customer_note', $customerNote);
@@ -690,14 +661,35 @@ class TiendaControllerCheckout extends TiendaController
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onGetShippingRates", array( $element, $values ) );
 
-		for ($i=0; $i<count($results); $i++)
+		
+		foreach ($results as $result)
 		{
-			$text .= $results[$i];
+			foreach( $result as $r )
+			{
+				$rates[] = $r;
+			}
 		}
+		
+		//Set display
+		$view = $this->getView( 'checkout', 'html' );
+		$view->setLayout('shipping_rates');
+		$view->set( '_doTask', true);
 
+		//Get and Set Model
+		$model = $this->getModel('checkout');
+		$view->setModel( $model, true );
+		
+		$view->set( 'hidemenu', false);
+		$view->assign( 'rates', $rates );
+		
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+		
 		// set response array
 		$response = array();
-		$response['msg'] = $text;
+		$response['msg'] = $html;
 
 		// encode and echo (need to echo to send back to browser)
 		echo json_encode($response);
@@ -718,7 +710,7 @@ class TiendaControllerCheckout extends TiendaController
 		$currency_id			= TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 		$billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
 		$shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
-		$shipping_method_id     = $values['shipping_method_id'];
+		//$shipping_method_id     = $values['shipping_method_id'];
 		$same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
 		$user_id                = JFactory::getUser()->id;
 		$billing_input_prefix   = $this->billing_input_prefix;
@@ -912,14 +904,14 @@ class TiendaControllerCheckout extends TiendaController
 	 *
 	 * @param $shipping_method_id
 	 * @return unknown_type
-	 */
+	
 	function getShippingMethod($shipping_method_id)
 	{
 		$model = JModel::getInstance( 'ShippingMethods', 'TiendaModel' );
 		$model->setId($shipping_method_id);
 		$item = $model->getItem();
 		return $item->shipping_method_name;
-	}
+	} */
 
 	/**
 	 * Sets the selected shipping method
@@ -934,10 +926,13 @@ class TiendaControllerCheckout extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 		$values = $helper->elementsToArray( $elements );
+		
+		$response = array();
+		$response['msg'] = Tienda::dump($values);
+		$response['error'] = '';
 
-		// Assign the shipping method to the order object
-		$shipping_method_id = @$values['_checked']['shipping_method_id'];
-
+		
+		
 		// get the order object so we can populate it
 		$order = &$this->_order; // a TableOrders object (see constructor)
 
@@ -948,8 +943,12 @@ class TiendaControllerCheckout extends TiendaController
 		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 
 		// set the shipping method
-		$order->shipping_method_id = $shipping_method_id;
-
+		$order->shipping = new JObject();
+		$order->shipping->shipping_price      = $values['shipping_price'];
+		$order->shipping->shipping_extra   = $values['shipping_extra'];
+		$order->shipping->shipping_name        = $values['shipping_name'];
+		$order->shipping->shipping_tax      = $values['shipping_tax'];
+		
 		// set the addresses
 		$this->setAddresses( $values );
 
@@ -1121,7 +1120,7 @@ class TiendaControllerCheckout extends TiendaController
 		$shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address->id);
 		$billingAddressArray = $this->retrieveAddressIntoArray($billing_address->id);
 			
-		$shippingMethodName = $this->getShippingMethod($order->shipping_method_id);
+		$shippingMethodName = $values['shipping_name'];
 
 		$progress = $this->getProgress();
 
@@ -1206,8 +1205,14 @@ class TiendaControllerCheckout extends TiendaController
 		$order->user_id = JFactory::getUser()->id;
 
 		$order->ip_address = $_SERVER['REMOTE_ADDR'];
-		$order->shipping_method_id = $values['shipping_method_id'];
 		$this->setAddresses( $values );
+		
+		// set the shipping method
+		$order->shipping = new JObject();
+		$order->shipping->shipping_price      = $values['shipping_price'];
+		$order->shipping->shipping_extra   = $values['shipping_extra'];
+		$order->shipping->shipping_name        = $values['shipping_name'];
+		$order->shipping->shipping_tax      = $values['shipping_tax'];
 
 		// Store the text verion of the currency for order integrity
 		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
@@ -1268,11 +1273,11 @@ class TiendaControllerCheckout extends TiendaController
             }
             
 			// save the order shipping info
-//            if (!$this->saveOrderShippings())
-//            {
-//                // TODO What to do if saving order shippings fails?
-//                $error = true;
-//            }
+           if (!$this->saveOrderShippings())
+            {
+                // TODO What to do if saving order shippings fails?
+                $error = true;
+            }
 		}
 
 		if ($error)
@@ -1498,11 +1503,19 @@ class TiendaControllerCheckout extends TiendaController
 		$order =& $this->_order;
 		
 		$shipping_plugin = JRequest::getVar('shipping_plugin', '');
+		$shipping_name = JRequest::getVar('shipping_name', '');
+		$shipping_price = JRequest::getVar('shipping_price', '');
+		$shipping_tax = JRequest::getVar('shipping_tax', '');
+		$shipping_extra = JRequest::getVar('shipping_extra', '');
 			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->ordershipping_type = $shipping_plugin;
+		$row->ordershipping_price = $shipping_price;
+		$row->ordershipping_name = $shipping_name;
+		$row->ordershipping_tax = $shipping_tax;
+		$row->ordershipping_extra = $shipping_extra;
 			
 		if (!$row->save())
 		{

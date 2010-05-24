@@ -419,37 +419,41 @@ class TiendaTableOrders extends TiendaTable
         $order_shipping_tax = 0.00;
         
         $items =& $this->getItems();
-        if (!is_array($items))
+        if (!is_array($items) || !$this->shipping)
         {
             $this->order_shipping       = $order_shipping;
             $this->order_shipping_tax   = $order_shipping_tax;
             return;
         }
 
+
         // This support multiple shipping geozones
         // For each item in $this->getShippingGeoZones, calculate the shipping total
         // and store the object for later user
         $shipping_totals = array();
-        $geozones = $this->getShippingGeoZones();
+        /*
+         $geozones = $this->getShippingGeoZones();
         foreach ($geozones as $geozone)
         {
             $geozone_id = $geozone->geozone_id;
-            // calculate shipping total by passing entire items array to helper
-            Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
-            $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $geozone_id, $items );
-
+			$shipping_total = new stdClass();
+			$shipping_total->shipping_rate_price = 0;
+			$shipping_total->shipping_rate_total = 0;
+			$shipping_total->shipping_rate_handling = 0;
+			$shipping_total->shipping_tax_total = 0;
+            
             $order_shipping       += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
             $order_shipping_tax   += $shipping_total->shipping_tax_total;
             
             $shipping_totals[] = $shipping_total; 
         }
-        
+        */
         // store the shipping_totals objects
-        $this->_shipping_totals = $shipping_totals;
+        //$this->_shipping_totals = $shipping_totals;
         
         // set object properties
-        $this->order_shipping       = $order_shipping;
-        $this->order_shipping_tax   = $order_shipping_tax;
+        $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
+        $this->order_shipping_tax   = $this->shipping->shipping_tax;
         
         // Allow this to be modified via plugins
         $dispatcher    =& JDispatcher::getInstance();
@@ -479,7 +483,7 @@ class TiendaTableOrders extends TiendaTable
         // calculate product subtotal and taxes
         // calculate shipping total
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+        //Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
         foreach ($items as $item)
         {
             if (!empty($item->vendor_id))
@@ -491,7 +495,7 @@ class TiendaTableOrders extends TiendaTable
                 // if the shipping method is NOT per-order, calculate the per-item shipping cost
                 if (!empty($this->shipping_method_id) && $this->shipping_method_id != '2')
                 {
-                    $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $this->getShippingGeoZone(), $item->product_id );
+                    $shipping_total = 0;//TiendaHelperShipping::getTotal( $this->shipping_method_id, $this->getShippingGeoZone(), $item->product_id );
                     $this->_vendors[$item->vendor_id]->ordervendor_shipping     += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
                     $this->_vendors[$item->vendor_id]->ordervendor_shipping_tax += $shipping_total->shipping_tax_total;
                 }

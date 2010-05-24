@@ -24,6 +24,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
 		$filter_enabled = $this->getState('filter_enabled');
 		$filter_taxclass = $this->getState('filter_taxclass');
 		$filter_shippingtype = $this->getState('filter_shippingtype');
+		$filter_subtotal = $this->getState('filter_subtotal');
         
         if ($filter) 
         {
@@ -71,6 +72,10 @@ class TiendaModelShippingMethods extends TiendaModelBase
         {
             $query->where('tbl.shipping_method_type = '.(int) $filter_shippingtype);
         }
+    	if ( $filter_subtotal )
+        {
+            $query->where('tbl.subtotal_minimum <= '. $filter_subtotal);
+        }
     }
 
     protected function _buildQueryJoins(&$query)
@@ -98,7 +103,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
         
         foreach($list as $item)
         {
-            $item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.$_GET['id'].'&shippingTask=view&sid='.$item->shipping_method_id;
+            $item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.@$_GET['id'].'&shippingTask=view&sid='.$item->shipping_method_id;
         }
         return $list;
     }

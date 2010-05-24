@@ -17,6 +17,16 @@ function tiendaGetShippingRates( element, container )
     tiendaDoTask( url, container );
 }
 
+function tiendaSetShippingRate(name, price, tax, extra)
+{
+	$('shipping_name').value = name;
+	$('shipping_price').value = price;
+	$('shipping_tax').value = tax;
+	$('shipping_extra').value = extra;
+	tiendaGetCheckoutTotals();
+}
+
+
 /**
  * Based on the session contents,
  * calculates the order total
@@ -69,4 +79,11 @@ function tiendaDisableShippingAddressControls(checkbox)
             selectedAddressDiv.style.display = 'inline';
         }           
     }*/
+}
+
+function tiendaManageShippingRates(){
+	$('shipping_form_div').getElements('input[name=shipping_rate]').addEvent('click', function(){
+		tiendaGetCheckoutTotals();
+	}
+	);
 }

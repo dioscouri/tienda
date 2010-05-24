@@ -111,7 +111,7 @@
 		            <?php echo JText::_("Shipping Method"); ?>
 		        </td>
 	            <td>
-	                <?php echo JText::_( $row->shipping_method_name ); ?>
+	                <?php echo JText::_( $row->ordershipping_name ); ?>
 	            </td>
 	        </tr>
 	        <tr>

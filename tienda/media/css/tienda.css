@@ -291,3 +291,7 @@ float:right!important;
 width:100%;
 text-align:right!important;
 }
+
+div#shipping_form_div{
+	padding-left: 30px;
+}

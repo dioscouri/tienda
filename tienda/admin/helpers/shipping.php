@@ -16,33 +16,6 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperShipping extends TiendaHelperBase
 {
-    /**
-     * Gets geozones associated with a zone id
-     * 
-     * @param $zone_id
-     * @param $geozonetype
-     * @return array
-     */
-    function getGeoZones( $zone_id, $geozonetype='2' )
-    {
-    	$return = array();
-    	if (empty($zone_id))
-    	{
-    		return $return;
-    	}
-    	
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-    	$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
-        $model->setState( 'filter_zone', $zone_id );
-        $model->setState( 'filter_geozonetype', $geozonetype );
-        $items = $model->getList();
-        if (!empty($items))
-        {
-        	$return = $items;
-        }
-        
-        return $return;
-    }
 	
 	/**
 	 * Returns the list of shipping method types
@@ -175,75 +148,31 @@ class TiendaHelperShipping extends TiendaHelperBase
 	}
 	
 	/**
-	 * Returns the shipping rate for an item
-	 * Going through this helper enables product-specific flat rates in the future...
-	 *  
-	 * @param int $shipping_method_id
-	 * @param int $geozone_id
-	 * @param int $product_id
-	 * @return object
-	 */
-	public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0' )
-	{
-        // TODO Give this better error reporting capabilities
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
-        $model->setState('filter_shippingmethod', $shipping_method_id);
-        $model->setState('filter_geozone', $geozone_id);
-        
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
-        $product = JTable::getInstance( 'Products', 'TiendaTable' );
-        $product->load( $product_id );
-        if (empty($product->product_id))
-        {
-            return JTable::getInstance('ShippingRates', 'TiendaTable');           
-        }
-        if (empty($product->product_ships))
-        {
-            // product doesn't require shipping, therefore cannot impact shipping costs
-            return JTable::getInstance('ShippingRates', 'TiendaTable');
-        }
-        
-        if ($use_weight)
-        {
-	        $model->setState('filter_weight', $product->product_weight);
-        }
-        $items = $model->getList();
-        if (empty($items))
-        {
-            return JTable::getInstance('ShippingRates', 'TiendaTable');           
-        }
-        
-        return $items[0];
-	}
-	
-    /**
-     * Returns the tax rate for an item
-     *  
-     * @param int $shipping_method_id
-     * @param int $geozone_id
-     * @return int
+     * Gets geozones associated with a zone id
+     * 
+     * @param $zone_id
+     * @param $geozonetype
+     * @return array
      */
-    public function getTaxRate( $shipping_method_id, $geozone_id )
+    public function getGeoZones( $zone_id, $geozonetype='2' )
     {
-    	Tienda::load( 'TiendaQuery', 'library.query' );
-            
-        $taxrate = "0.00000";
-        $db = JFactory::getDBO();
-        
-        $query = new TiendaQuery();
-        $query->select( 'tbl.*' );
-        $query->from('#__tienda_taxrates AS tbl');
-        $query->join('LEFT', '#__tienda_shippingmethods AS shippingmethod ON shippingmethod.tax_class_id = tbl.tax_class_id');
-        $query->where('shippingmethod.shipping_method_id = '.$shipping_method_id);
-        $query->where('tbl.geozone_id = '.$geozone_id);
-        
-        $db->setQuery( (string) $query );
-        if ($data = $db->loadObject())
+    	$return = array();
+    	if (empty($zone_id))
+    	{
+    		return $return;
+    	}
+    	
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    	$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
+        $model->setState( 'filter_zone', $zone_id );
+        $model->setState( 'filter_geozonetype', $geozonetype );
+        $items = $model->getList();
+        if (!empty($items))
         {
-            $taxrate = $data->tax_rate;
+        	$return = $items;
         }
         
-        return $taxrate;
+        return $return;
     }
+	
 }

@@ -41,7 +41,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * Returns the Shipping Rates.
      * @param $element the shipping element name
      * @param $product the product row
-     * @return html
+     * @return array
      */
     public function onGetShippingRates( $element, $values )
     {

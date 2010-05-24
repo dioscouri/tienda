@@ -147,7 +147,7 @@ class TiendaModelOrders extends TiendaModelBase
 		$field[] = " ui.first_name as first_name";
 		$field[] = " ui.last_name as last_name";
 		$field[] = " s.* ";
-		$field[] = " shipping.shipping_method_name ";
+		$field[] = " shipping.ordershipping_name ";
         $field[] = " oi.billing_company ";
         $field[] = " oi.billing_last_name ";
         $field[] = " oi.billing_first_name ";
@@ -197,7 +197,7 @@ class TiendaModelOrders extends TiendaModelBase
 		$query->join('LEFT', '#__users AS u ON u.id = tbl.user_id');
 		$query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = tbl.order_state_id');
         $query->join('LEFT', '#__tienda_orderinfo AS oi ON tbl.order_id = oi.order_id');
-        $query->join('LEFT', '#__tienda_shippingmethods AS shipping ON shipping.shipping_method_id = tbl.shipping_method_id');   
+        $query->join('LEFT', '#__tienda_ordershippings AS shipping ON shipping.order_id = tbl.order_id');   
 	}
 
     protected function _buildQueryOrder(&$query)
@@ -300,11 +300,11 @@ class TiendaModelOrders extends TiendaModelBase
             $item->orderpayments = $model->getList();
             
             //retrieve the order's shippings
-//            $model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
-//            $model->setState( 'filter_orderid', $item->order_id);
-//            $model->setState( 'order', 'tbl.created_date' );
-//            $model->setState( 'direction', 'ASC' );
-//            $item->ordershippings = $model->getList();
+			$model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
+            $model->setState( 'filter_orderid', $item->order_id);
+            $model->setState( 'order', 'tbl.created_date' );
+            $model->setState( 'direction', 'ASC' );
+            $item->ordershippings = $model->getList();
             
             //retrieve the order's taxclasses
             $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );

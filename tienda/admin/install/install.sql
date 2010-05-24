@@ -822,6 +822,24 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+--
+-- Table `#__tienda_ordershippings`
+--
+
+CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
+  `ordershipping_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL DEFAULT '0',
+  `ordershipping_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'Element name of shipping plugin',
+  `ordershipping_price` decimal(15,5) DEFAULT '0.00000',
+  `ordershipping_name` varchar(255) NOT NULL DEFAULT '',
+  `ordershipping_tax` decimal(15,5) DEFAULT '0.00000',
+  `ordershipping_extra` decimal(15,5) DEFAULT '0.00000',
+  `created_date` datetime NOT NULL COMMENT 'GMT',
+  PRIMARY KEY (`ordershipping_id`),
+  KEY `idx_order_shipping_order_id` (`order_id`),
+  KEY `fk_Orders_OrderShipping` (`order_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores each of the payment records for orders' ;
+
 
 -- -----------------------------------------------------
 -- Table `#__tienda_orderinfo`
