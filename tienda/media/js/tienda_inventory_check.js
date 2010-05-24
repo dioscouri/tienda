@@ -5,8 +5,7 @@
  * 
  */
 function checkStock() {
-
-	optionsArray = strignOfOptions.split('&&');
+    optionsArray = strignOfOptions.split('&&');
 
 	var csv = null;
 	var numberOfSelection = 0;
