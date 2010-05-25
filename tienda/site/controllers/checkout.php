@@ -660,13 +660,15 @@ class TiendaControllerCheckout extends TiendaController
 		$results = array();
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onGetShippingRates", array( $element, $values ) );
-
 		
 		foreach ($results as $result)
 		{
-			foreach( $result as $r )
+			if(is_array($result))
 			{
-				$rates[] = $r;
+				foreach( $result as $r )
+				{
+						$rates[] = $r;
+				}
 			}
 		}
 		

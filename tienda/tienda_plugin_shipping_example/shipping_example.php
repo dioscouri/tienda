@@ -86,6 +86,7 @@ class plgTiendaShipping_Example extends TiendaShippingPlugin
         	$vars[$i]['price'] = $rate->shipping_rate_price;
         	$vars[$i]['tax'] = $rate->shipping_tax_total;
         	$vars[$i]['extra'] = $rate->shipping_rate_handling;
+        	$i++;
         }
         
 		return $vars;
