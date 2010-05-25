@@ -1,7 +1,13 @@
 <?php defined('_JEXEC') or die('Restricted access'); 
 $rates = $this->rates;
 
-foreach( $rates as $rate )
+if(!count($rates))
+{
+	echo JText::_('NO RATES AVAILABLE!');
+}
+else {
+
+foreach( @$rates as $rate )
 {
 ?>
 
@@ -9,7 +15,9 @@ foreach( $rates as $rate )
 
 <?php 
 }
+}
 ?>
+
 
 <input type="hidden" name="shipping_price" id="shipping_price" value="" />
 <input type="hidden" name="shipping_tax" id="shipping_tax" value="" />

@@ -48,58 +48,37 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
             return null;
         }
         
-        $rates = $this->sendRequest();
+	    $address = $values->getShippingAddress();
+	    $orderItems = $values->getItems();
         
-        $i = 0;
-        foreach( $rates['rates'] as $rate )
-        {
-        	$vars[$i]['name'] = $rates['method']. " - ". $rate['name'];
-        	$vars[$i]['price'] = $rate['price'];
-        	$vars[$i]['tax'] = $rate['tax'];
-        	$vars[$i]['extra'] = $rate['extra'];
-        	$i++;
-        }
+        $rates = $this->sendRequest($address, $orderItems);
         
-		return $vars;
+		return $rates;
         
     }
     
     function viewConfig()
     {
-    	$html = "";
-        
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('New'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('Delete'), false, 'shippingTask' );
-		
-        $vars = new JObject();
-       
-		$form = array();
-		$form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
-		
-		$vars->form = $form;
-		
-		
-        $html = $this->_getLayout('default', $vars);
+        $html = $this->_getLayout('default', new JObject());
 		
         return $html;
     }
     
     
-	function sendRequest()
+	function sendRequest($address, $orderItems)
     {
     	@ini_set("soap.wsdl_cache_enabled", "0");
- 
+    	
     	// Start the Soap Client
     	$wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';
 		$client = new SoapClient($wsdl, array('trace' => 1));
 		
-		$request = $this->getRequestData();
-		
+		$request = $this->getRequestData($address, $orderItems);
+
 	    try 
 		{
 		    $response = $client->getRates( $request );
-		        
+		    
 		    if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR')
 		    {
 		        $rates = $this->processResponse($response);
@@ -107,92 +86,148 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 		    }
 		    else
 		    {
-		        echo Tienda::dump($response);
-		        return false;
+		        return array();
 		    } 
 		    
 		    $this->writeToLog($client);    // Write to log file   
 		
 		} catch (SoapFault $exception) {
-			echo Tienda::dump($exception);
-		  	return false;        
+		  	return array();      
 		}
     }
     
-    protected function getRequestData()
+    protected function getRequestData($address, $orderItems)
     {
-    	$key = 'vIFK9F0wa5wp6qIk';
-    	$password = 'ZfoGN25SKlHMb2foixabUXJg6';
+    	$key = $this->params->get('key');
+    	$password = $this->params->get('password');
     	
-    	$shipAccount = '510087160';
-    	$meter = '118513664';
+    	$shipAccount = $this->params->get('account');
+    	$meter = $this->params->get('meter');
     	
-    	$billAccount = '510087160';
-    	$dutyAccount = '510087160';
+    	$billAccount = $this->params->get('account');
+    	$dutyAccount = $this->params->get('account');
     	
+    	$config = TiendaConfig::getInstance();
+    	$shop_address_1 = $config->get('shop_address_1');
+    	$shop_address_2 = $config->get('shop_address_2');
+    	$shop_city = $config->get('shop_city');
+    	$shop_country = $config->get('shop_country');
+    	
+    	$this->includeTiendaTables();
+    	$table = JTable::getInstance('Countries', 'TiendaTable');
+    	$table->load($shop_country);
+    	$shop_country = $table->country_isocode_2;
+    	
+    	$shop_zone = $config->get('shop_zone');
+    	
+    	$table = JTable::getInstance('Zones', 'TiendaTable');
+    	$table->load($shop_zone);
+    	$shop_zone = $table->code;
+    	
+    	$shop_zip = $config->get('shop_zip');
+    	
+    	/* Credentials */
     	$request['WebAuthenticationDetail'] = array('UserCredential' =>
                                       array('Key' => $key, 'Password' => $password)); 
 		$request['ClientDetail'] = array('AccountNumber' => $shipAccount, 'MeterNumber' => $meter);
 		$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v8 using PHP ***');
 		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '8', 'Intermediate' => '0', 'Minor' => '0');
-		$request['ReturnTransitAndCommit'] = true;
-		$request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		$request['ReturnTransitAndCommit'] = false;
 		$request['RequestedShipment']['ShipTimestamp'] = date('c');
-		$request['RequestedShipment']['ServiceType'] = 'PRIORITY_OVERNIGHT'; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
-		$request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-		$request['RequestedShipment']['Shipper'] = array('Address' => array(
-		                                          'StreetLines' => array('10 Fed Ex Pkwy'), // Origin details
-		                                          'City' => 'Memphis',
-		                                          'StateOrProvinceCode' => 'TN',
-		                                          'PostalCode' => '38115',
-		                                          'CountryCode' => 'US'));
-		$request['RequestedShipment']['Recipient'] = array('Address' => array (
-		                                               'StreetLines' => array('13450 Farmcrest Ct'), // Destination details
-		                                               'City' => 'Herndon',
-		                                               'StateOrProvinceCode' => 'VA',
-		                                               'PostalCode' => '20171',
-		                                               'CountryCode' => 'US'));
+		
+		/* Configurable Values */
+		if( $this->params->get('dropoff', 0) != 0 )
+			$request['RequestedShipment']['DropoffType'] = $this->params->get('dropoff'); // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+			
+		if( $this->params->get('service', 0) != 0 )
+			$request['RequestedShipment']['ServiceType'] =  $this->params->get('service'); // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+			
+			
+		$request['RequestedShipment']['PackagingType'] = $this->params->get('packaging', 'YOUR_PACKAGING'); // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+		
+		/* Auto Compiled values */
+		$request['RequestedShipment']['Shipper'] = array('Address' => array (
+		                                               'StreetLines' => array($shop_address_1, $shop_address_2), // Destination details
+		                                               'City' => $shop_city,
+		                                               'StateOrProvinceCode' => $shop_zone,
+		                                               'PostalCode' => $shop_zip,
+		                                               'CountryCode' => $shop_country)); 		
+		$request['RequestedShipment']['Recipient'] = array('Address' => array(
+		                                          'StreetLines' => array($address->address_1,$address->address_2 ), // Origin details
+		                                          'City' => $address->city,
+		                                          'StateOrProvinceCode' => $address->zone_code,
+		                                          'PostalCode' => $address->postal_code,
+		                                          'CountryCode' => $address->country_code));
 		$request['RequestedShipment']['ShippingChargesPayment'] = array('PaymentType' => 'SENDER',
 		                                                        'Payor' => array('AccountNumber' => $billAccount,
-		                                                                     'CountryCode' => 'US'));
+		                                                                     'CountryCode' => $shop_country));
 		$request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT'; 
-		$request['RequestedShipment']['RateRequestTypes'] = 'LIST'; 
-		$request['RequestedShipment']['PackageCount'] = '2';
+		//$request['RequestedShipment']['RateRequestTypes'] = 'LIST'; 
+		
 		$request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
-		$request['RequestedShipment']['RequestedPackageLineItems'] = array('0' => array('Weight' => array('Value' => 2.0,
-		                                                                                    'Units' => 'LB'),
-		                                                                                    'Dimensions' => array('Length' => 10,
-		                                                                                        'Width' => 10,
-		                                                                                        'Height' => 3,
-		                                                                                        'Units' => 'IN')),
-		                                                                   '1' => array('Weight' => array('Value' => 5.0,
-		                                                                                    'Units' => 'LB'),
-		                                                                                    'Dimensions' => array('Length' => 20,
-		                                                                                        'Width' => 20,
-		                                                                                        'Height' => 10,
-		                                                                                        'Units' => 'IN')));
+		$request['RequestedShipment']['RequestedPackageLineItems'] = array();
+		
+		$request['RequestedShipment']['PackageCount'] = 0;
+		
+		foreach($orderItems as $item)
+		{
+			$product = JTable::getInstance('Products', 'TiendaTable');
+			$product->load($item->product_id);
+			if($product->product_ships)
+			{
+				$request['RequestedShipment']['PackageCount'] = $request['RequestedShipment']['PackageCount']+1;
+				
+				$request['RequestedShipment']['RequestedPackageLineItems'][] = array('Weight' => array(
+																							'Value' => $product->product_weight,
+		                                                                                    'Units' => $this->params->get('weight_unit', 'KG')
+																								),
+		                                                                             'Dimensions' => array(
+		                                                                             			'Length' => $product->product_length,
+		                                                                                        'Width' => $product->product_width,
+		                                                                                        'Height' => $product->product_height,
+		                                                                                        'Units' => $this->params->get('dimension_unit', 'CM')
+																								)
+																			);
+																			
+			}
+			
+		}
+		
 		return $request;
     }
     
     protected function processResponse( $response )
     {
-    	$details = $response->RateReplyDetails;
-    	$rates['method'] = $details->ServiceType;
+    	$reply_details = $response->RateReplyDetails;
     	
-    	$rate_details = $details->RatedShipmentDetails;
-    	
-    	$i = 0;
-    	foreach($rate_details as $rate )
+    	if(!is_array($reply_details))
     	{
-    		$rate = $rate->ShipmentRateDetail;
-    		$rates['rates'][$i]['name'] = $rate->RateType;
-    		$rates['rates'][$i]['price'] = $rate->TotalBaseCharge->Amount;
-    		$rates['rates'][$i]['extra'] = $rate->TotalSurcharges->Amount;
-    		$rates['rates'][$i]['total'] = $rate->TotalNetFedExCharge->Amount;
-    		$rates['rates'][$i]['tax'] = $rate->TotalTaxes->Amount;
-    		$i++;
+    		$temp = $reply_details;
+    		$reply_details = array();
+    		$reply_details[] = $temp;
     	}
     	
+    	$i = 0;
+    	foreach($reply_details as $details)
+    	{
+	    	$method = $details->ServiceType;
+	    	
+	    	$rate_details = $details->RatedShipmentDetails;
+	    	
+	    	foreach($rate_details as $rate )
+	    	{
+	    		$rate = $rate->ShipmentRateDetail;
+	    		if( stripos($rate->RateType ,  'PAYOR_ACCOUNT') !== false )
+	    		{
+		    		$rates[$i]['name'] = $method;
+		    		$rates[$i]['price'] = $rate->TotalBaseCharge->Amount;
+		    		$rates[$i]['extra'] = $rate->TotalSurcharges->Amount;
+		    		$rates[$i]['total'] = $rate->TotalNetFedExCharge->Amount;
+		    		$rates[$i]['tax'] = $rate->TotalTaxes->Amount;
+		    		$i++;
+	    		}
+	    	}
+    	}
     	return $rates;
     }
     

@@ -72,6 +72,8 @@ class TiendaModelAddresses extends TiendaModelBase
 		$field[] = " tbl.* ";		
 		$field[] = " c.country_name as country_name ";
 		$field[] = " z.zone_name as zone_name ";
+		$field[] = " c.country_isocode_2 as country_code ";
+		$field[] = " z.code as zone_code ";
 		
 		$query->select( $field );
 	}    

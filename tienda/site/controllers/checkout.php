@@ -667,7 +667,7 @@ class TiendaControllerCheckout extends TiendaController
 			{
 				foreach( $result as $r )
 				{
-						$rates[] = $r;
+					$rates[] = $r;
 				}
 			}
 		}
