@@ -551,6 +551,7 @@
                                 
                             </td>
                         </tr>
+
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Link to Shipping Costs Article' ); ?>

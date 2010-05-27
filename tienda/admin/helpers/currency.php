@@ -113,6 +113,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         }
         
         $return = $pre.number_format($amount, $num_decimals, $decimal, $thousands).$post;
+        
         return $return;
     }
     

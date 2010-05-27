@@ -198,7 +198,10 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
     
     protected function processResponse( $response )
     {
-    	$reply_details = $response->RateReplyDetails;
+    	if( property_exists( $response, 'RateReplyDetails' ) )
+    		$reply_details = $response->RateReplyDetails;
+    	else
+    		return array();
     	
     	if(!is_array($reply_details))
     	{

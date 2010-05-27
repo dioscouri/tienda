@@ -64,7 +64,27 @@ $citems = @$this->citems;
                         </a>
                         
                         <div class="product_price">
-                            <?php echo TiendaHelperBase::currency($item->price); ?>
+                            <?php echo TiendaHelperBase::currency($item->price); 
+                            
+                            // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
+                            $config = TiendaConfig::getInstance();
+                            $show_tax = $config->get('display_prices_with_shipping', 1);
+                            
+                            $article_link = $config->get('article_shipping', '');
+                            $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
+                            
+					        if($show_tax)
+					        {
+					        	Tienda::load('TiendaHelperUser', 'helpers.user');
+					        	$geozone = TiendaHelperUser::getGeoZone(JFactory::getUser()->id);
+					        	$tax = TiendaHelperProduct::getTaxRate($item->product_id, $geozone);
+					        	$tax = TiendaHelperBase::number($tax, array('num_decimals', 2));
+					        	echo sprintf( JText::_('INCLUDE_TAX'), $tax) ;
+					        	echo '<br /><a href="'.$shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $shipping_cost_link).'</a>' ;
+					        }	
+                            
+                            ?>
+                            
                         </div>
                         
                         <?php // TODO Make this display the "quickAdd" layout in a lightbox ?>
