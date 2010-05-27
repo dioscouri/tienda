@@ -70,7 +70,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
     	@ini_set("soap.wsdl_cache_enabled", "0");
     	
     	// Start the Soap Client
-    	$wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';
+    	$wsdl = dirname( __FILE__ ).DS.'shipping_fedex'.DS.'RateService_v8.wsdl';
 		$client = new SoapClient($wsdl, array('trace' => 1));
 		
 		$request = $this->getRequestData($address, $orderItems);

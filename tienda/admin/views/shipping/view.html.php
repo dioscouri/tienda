@@ -15,6 +15,31 @@ Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewShipping extends TiendaViewBase
 {
+    /**
+     * 
+     * @param $tpl
+     * @return unknown_type
+     */
+    function getLayoutVars($tpl=null) 
+    {
+        $layout = $this->getLayout();
+        switch(strtolower($layout))
+        {
+            case "view":
+                $this->_form($tpl);
+              break;
+            case "form":
+                JRequest::setVar('hidemainmenu', '1');
+                $this->_form($tpl);
+              break;
+            case "default":
+            default:
+                $this->set( 'leftMenu', 'leftmenu_localization' );
+                $this->_default($tpl);
+              break;
+        }
+    }
+    
 	function _form($tpl=null)
 	{
 		$model = $this->getModel();
