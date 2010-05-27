@@ -388,31 +388,40 @@ class TiendaControllerCheckout extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 
-		// fail if no payment method selected
-		if (empty($submitted_values['_checked']['payment_plugin']) )
+		// fail if not checked terms & condition
+		if( TiendaConfig::getInstance('show_terms', '1') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
-			$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
+			$response['msg'] = $helper->generateMessage(JText::_('Please Check the Terms & Conditions'));
 			$response['error'] = '1';
-		}
-		    else
+		} else
 		{
-			// Validate the results of the payment plugin
-			$results = array();
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
-
-			for ($i=0; $i<count($results); $i++)
+		
+			// fail if no payment method selected
+			if (empty($submitted_values['_checked']['payment_plugin']) )
 			{
-				$result = $results[$i];
-				if (!empty($result->error))
+				$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
+				$response['error'] = '1';
+			}
+			    else
+			{
+				// Validate the results of the payment plugin
+				$results = array();
+				$dispatcher =& JDispatcher::getInstance();
+				$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
+	
+				for ($i=0; $i<count($results); $i++)
 				{
-					$response['msg'] = $helper->generateMessage( $result->message );
-					$response['error'] = '1';
-				}
-				else
-				{
-					// if here, all is OK
-					$response['error'] = '0';
+					$result = $results[$i];
+					if (!empty($result->error))
+					{
+						$response['msg'] = $helper->generateMessage( $result->message );
+						$response['error'] = '1';
+					}
+					else
+					{
+						// if here, all is OK
+						$response['error'] = '0';
+					}
 				}
 			}
 		}

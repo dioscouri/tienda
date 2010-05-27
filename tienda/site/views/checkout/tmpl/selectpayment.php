@@ -70,7 +70,21 @@
 	    		</div>
 	    	<?php } ?>
 	 	<br/>
+	 	
+	 	 <?php 
+	    	if( TiendaConfig::getInstance()->get('require_terms', '1') ){
+	    		
+	    		$terms_article = TiendaConfig::getInstance()->get('article_terms');
+	    		$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
+	    		?>
+	 	<div id="shipping_terms">
+    		<h3><?php echo JText::_("Terms & Conditions"); ?></h3>
+ 			<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
+ 			<br/>
+ 			<br/>
+    	</div>
  	
+ 	<?php } ?>
         <!--    PAYMENT METHODS   -->        
         <h3><?php echo JText::_("Payment Method") ?></h3>
         <p><?php echo JText::_("Please select your preferred payment method below"); ?>:</p>
