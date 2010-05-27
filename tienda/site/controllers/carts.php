@@ -37,7 +37,16 @@ class TiendaControllerCarts extends TiendaController
         $app = JFactory::getApplication();
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
-                        
+
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();
+        
+        $state['filter_user'] = $user->id;
+        if (empty($user->id))
+        {
+            $state['filter_session'] = $session->getId();
+        }       
+
         foreach (@$state as $key=>$value)
         {
             $model->setState( $key, $value );   
@@ -81,62 +90,17 @@ class TiendaControllerCarts extends TiendaController
         switch ($suffix) 
         {
 	        case 'sessioncarts':
-	            $cart = $model->getList();
-	            $isPresent = false;
-	            
-	            // find the product in the visitor's cart, if it exists 
-	            foreach ($cart as $cartitem) 
-	            {
-	            	// TODO Make this support vendor_id
-	                if ($cartitem->product_id == $product_id && $cartitem->product_attributes == $attributes_csv) 
-	                {
-	                    // if the item has been found, update quantities
-	                    $isPresent = true;
-	                    $cartitem->user_id = JFactory::getUser()->id;
-	                    $cartitem->product_id = $product_id;
-	                	$cartitem->product_qty = $cartitem->product_qty + $product_qty;
-	                    $cartitem->product_attributes = $attributes_csv;
-	                    $cartitem->vendor_id = '0'; // vendors only in enterprise version
-	                    // store the item so we can send it in the plugin event later
-	                    $item = $cartitem;
-	                }
-	            }
-	            
-	            // if the item was not found in the cart, add it
-	            if (!$isPresent) 
-	            {
-	                $item = new JObject;
-	                $item->user_id = JFactory::getUser()->id;
-	                $item->product_id = $product_id;
-	                $item->product_qty = $product_qty;
-	                $item->product_attributes = $attributes_csv;
-	                $item->vendor_id = '0'; // vendors only in enterprise version
-	                $cart[] = $item;
-	            }
-
-	            // Set the session cart with the new values
-                $session =& JFactory::getSession();
-	            $session->set('tienda_sessioncart', $cart);
-	            
-//                $session =& JFactory::getSession();
-//                $list = $session->get('tienda_sessioncart', array());
-//                $msg = Tienda::dump($list);
-//                echo ( json_encode( array('msg'=>$msg) ) );
-//                return;
-                
-	            break;
-	            
 	        case 'carts':
 	        default:
 	            $item = new JObject;
-	            $item->user_id = JFactory::getUser()->id;
-	            $item->product_id = $product_id;
+	            $item->user_id     = JFactory::getUser()->id;
+	            $item->product_id  = $product_id;
 	            $item->product_qty = $product_qty;
 	            $item->product_attributes = $attributes_csv;
-	            $item->vendor_id = '0'; // vendors only in enterprise version
+	            $item->vendor_id   = '0'; // vendors only in enterprise version
 	            $cart = array();
 	            $cart[] = $item;
-	            TiendaHelperCarts::updateDbCart($cart);
+	            TiendaHelperCarts::updateCart($cart);
 	            break;
         }
         
@@ -192,7 +156,10 @@ class TiendaControllerCarts extends TiendaController
     function update()
     {
         $model 	= $this->getModel( strtolower(TiendaHelperCarts::getSuffix()) );
+        $this->_setModelState();
+        
         $user =& JFactory::getUser();
+        $session =& JFactory::getSession();
 
         $cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
@@ -226,6 +193,7 @@ class TiendaControllerCarts extends TiendaController
             	$keynames = explode('.', $key);
             	$product_id = $keynames[0];
                 $vals['user_id'] = $user->id;
+                $vals['session_id'] = $session->getId();
                 $vals['product_id'] = $product_id;
                 $vals['product_qty'] = $value;
                 $vals['product_attributes'] = $product_attributes[$key];
@@ -235,7 +203,7 @@ class TiendaControllerCarts extends TiendaController
             }
         }
 
-        $this->setRedirect( 'index.php?option=com_tienda&controller=carts&view=carts', '', '');
+        $this->setRedirect( 'index.php?option=com_tienda&view=carts' );
     }
     
     /*
@@ -243,11 +211,9 @@ class TiendaControllerCarts extends TiendaController
      */
     function confirmAdd()
     {
-        //        $session =& JFactory::getSession();
-        //        $list = $session->get('tienda_sessioncart', array());
-        //        echo Tienda::dump($list);
-        // $model  = $this->getModel( strtolower( TiendaHelperCarts::getSuffix() ) );
         $model  = $this->getModel( $this->get('suffix') );
+        $this->_setModelState();
+        
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);

@@ -16,11 +16,17 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 class TiendaHelperCarts extends TiendaHelperBase
 {
     /**
+     * TODO Remove this and all references to it
+     * because all carts now use the one carts model
+     * 
      * Fetches the name of the cart model to use
      * @return string
      */
     public function getSuffix()
     {
+        return 'Carts';
+
+        // TODO Remove this
         $user =& JFactory::getUser();
         $suffix = (empty($user->id)) ? 'Sessioncarts' : 'Carts';
         return $suffix;
@@ -34,12 +40,20 @@ class TiendaHelperCarts extends TiendaHelperBase
      * @param array
      * @param boolean
      */
-    function updateDbCart($cart = array(), $sync = false)
+    function updateCart($cart = array(), $sync = false)
     {
-        if ($sync) 
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();
+        
+        if ($sync)
         {
-            $session =& JFactory::getSession();
-            $cart = $session->get('tienda_sessioncart', array());
+            // get the cart based on session id
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'Carts', 'TiendaModel' );
+            $model->setState( 'filter_user', '0' );
+            $model->setState( 'filter_session', $session->getId() );
+            $cart = $model->getList();
+            TiendaHelperCarts::cleanCart($session->getId());
         }
         
         if (!empty($cart)) 
@@ -52,12 +66,17 @@ class TiendaHelperCarts extends TiendaHelperBase
             	
             	$keynames = array();
             	$keynames['user_id'] = $item->user_id;
+            	if (empty($item->user_id)) 
+            	{
+            	    $keynames['session_id'] = $session->getId();
+            	}
             	$keynames['product_id'] = $item->product_id;
             	$keynames['product_attributes'] = $item->product_attributes;
                 if ($table->load($keynames)) 
                 {
                     if ($sync) 
                     {
+                        // if syncing, the quantity as set in the session takes precedence
                         $table->product_qty = $item->product_qty;
                     } 
                         else 
@@ -71,16 +90,39 @@ class TiendaHelperCarts extends TiendaHelperBase
                     $table->product_id = $item->product_id;
                     $table->product_attributes = $item->product_attributes;
                     $table->user_id = $item->user_id;
+                    $table->session_id = $session->getId();
                 }
                 $date = JFactory::getDate();
                 $table->last_updated = $date->toMysql();
                 if (!$table->save())
                 {
-                    JError::raiseNotice('updateDbCart', $table->getError());
+                    JError::raiseNotice('updateCart', $table->getError());
                 }
             }
         }
         return true;
+    }
+    
+    /**
+     * Given a session id, removes the entries from the carts db where user_id = 0
+     * @return null
+     */
+    function cleanCart( $session_id )
+    {
+        $db = JFactory::getDBO();
+        
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $query = new TiendaQuery();
+        $query->delete();
+        $query->from( "#__tienda_carts" );
+        $query->where( "`session_id` = '$session_id' " );
+        $query->where( "`user_id` = '0'" );
+        $db->setQuery( (string) $query );
+        
+        // TODO Make this report errors and return boolean
+        $db->query();
+        
+        return null;    
     }
     
     /**
@@ -128,21 +170,6 @@ class TiendaHelperCarts extends TiendaHelperBase
         switch ($suffix) 
         {
             case 'sessioncarts':
-                $cart = $model->getList();
-                foreach ($cart as $cartitem) 
-                {
-                	$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
-                	if ($cartitem->product_qty > $product->quantity )
-                	{
-                		$cartitem->product_qty = $product->quantity;
-                	}
-                }
-    
-                // Set the session cart with the new values
-                $session =& JFactory::getSession();
-                $session->set('tienda_sessioncart', $cart);
-                break;
-                
             case 'carts':
             default:
             	
@@ -151,6 +178,10 @@ class TiendaHelperCarts extends TiendaHelperBase
                 {
 	                $keynames = array();
 	                $keynames['user_id'] = $cartitem->user_id;
+	                if (empty($cartitem->user_id))
+	                {
+	                    $keynames['session_id'] = $cartitem->session_id;
+	                }
 	                $keynames['product_id'] = $cartitem->product_id;
 	                $keynames['product_attributes'] = $cartitem->product_attributes;
 	                
@@ -160,6 +191,7 @@ class TiendaHelperCarts extends TiendaHelperBase
                     $table->product_id = $cartitem->product_id;
                     $table->product_attributes = $cartitem->product_attributes;
                     $table->user_id = $cartitem->user_id;
+                    $table->session_id = $cartitem->session_id;
 
                     $product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
                     if ($cartitem->product_qty > $product->quantity )

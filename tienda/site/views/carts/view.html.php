@@ -33,22 +33,7 @@ class TiendaViewCarts extends TiendaViewBase
               break;
             case "default":
             default:
-                Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-                $suffix = strtolower( TiendaHelperCarts::getSuffix() );
-
-                switch($suffix) 
-                {
-                    case 'Sessioncarts':
-                    case 'sessioncarts':
-                        JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
-                        $model = JModel::getInstance($suffix, 'TiendaModel');
-                        $list = $model->getList();
-                        $this->assign('items', $list);
-                        break;
-                    default:
-                        $this->_default($tpl);
-                        break;
-                }
+                $this->_default($tpl);
               break;
         }
     }

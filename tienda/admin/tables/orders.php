@@ -430,12 +430,17 @@ class TiendaTableOrders extends TiendaTable
         // This support multiple shipping geozones
         // For each item in $this->getShippingGeoZones, calculate the shipping total
         // and store the object for later user
-        $shipping_totals = array();
+        $shipping_totals = array();       
+            
         /*
-         $geozones = $this->getShippingGeoZones();
+        $geozones = $this->getShippingGeoZones();
         foreach ($geozones as $geozone)
         {
             $geozone_id = $geozone->geozone_id;
+            // calculate shipping total by passing entire items array to helper    
+            Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+            $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $geozone_id, $items );
+            
 			$shipping_total = new stdClass();
 			$shipping_total->shipping_rate_price = 0;
 			$shipping_total->shipping_rate_total = 0;

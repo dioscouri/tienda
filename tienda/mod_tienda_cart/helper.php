@@ -25,6 +25,16 @@ class modTiendaCartHelper
         // determine whether we're working with a session or db cart
         $suffix = TiendaHelperCarts::getSuffix();
     	$model = JModel::getInstance( $suffix, 'TiendaModel' );
+    	
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();
+        
+        $model->setState('filter_user', $user->id );
+        if (empty($user->id))
+        {
+            $model->setState('filter_session', $session->getId() );
+        }
+    	
     	$cart = $model->getList();
     	return $cart;
     }

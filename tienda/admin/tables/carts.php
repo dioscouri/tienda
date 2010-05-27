@@ -23,6 +23,7 @@ class TiendaTableCarts extends TiendaTableXref
     {
         $keynames = array();
         $keynames['user_id']    = 'user_id';
+        $keynames['session_id'] = 'session_id';
         $keynames['product_id'] = 'product_id';
         $keynames['product_attributes'] = 'product_attributes';
         $this->setKeyNames( $keynames );
@@ -39,9 +40,9 @@ class TiendaTableCarts extends TiendaTableXref
     
     function check()
     {        
-        if (empty($this->user_id))
+        if (empty($this->user_id) && empty($this->session_id))
         {
-            $this->setError( JText::_( "User Required" ) );
+            $this->setError( JText::_( "User or Session Required" ) );
             return false;
         }
         if (empty($this->product_id))

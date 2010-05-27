@@ -26,6 +26,7 @@ class TiendaViewShipping extends TiendaViewBase
         switch(strtolower($layout))
         {
             case "view":
+                $this->set( 'leftMenu', 'leftmenu_localization' );
                 $this->_form($tpl);
               break;
             case "form":

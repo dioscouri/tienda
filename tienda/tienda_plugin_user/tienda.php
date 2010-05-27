@@ -41,7 +41,7 @@ class plgUserTienda extends JPlugin
         }
         
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        TiendaHelperCarts::updateDbCart('', true);
+        TiendaHelperCarts::updateCart('', true);
         return true;
     }
     

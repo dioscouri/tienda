@@ -67,7 +67,7 @@ class JButtonTienda extends JButton{
 	}
 }
 
-class TiendaToolBarHelper extends JToolBarHelper{
+class TiendaToolBarHelper extends JToolBarHelper {
 	
 	/**
 	* Writes a custom option and task button for the button bar

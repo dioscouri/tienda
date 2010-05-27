@@ -388,6 +388,7 @@ COLLATE = utf8_general_ci;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   `user_id` INT(11) NOT NULL ,
+  `session_id` VARCHAR(200) NOT NULL ,
   `product_id` INT(11) NOT NULL ,
   `vendor_id` INT(11) NOT NULL ,
   `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,

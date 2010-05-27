@@ -119,6 +119,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCURRENCIESEXCHANGE FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkCartsSessionId()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -770,6 +775,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCurrenciesExchange') );
             $config->config_name = 'checkCurrenciesExchange';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the carts table for missing fields
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkCartsSessionId()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCartsSessionId', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_carts';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "session_id";
+            $definitions["session_id"] = "VARCHAR(200) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCartsSessionId') );
+            $config->config_name = 'checkCartsSessionId';
             $config->value = '1';
             $config->save();
             return true;

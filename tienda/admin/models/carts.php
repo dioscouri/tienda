@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -17,14 +16,23 @@ class TiendaModelCarts extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
-        $user =& JFactory::getUser();
-        $query->where('tbl.user_id = '.(int) $user->id);
+        $filter_user     = $this->getState('filter_user');
+        $filter_session  = $this->getState('filter_session');
+        $filter_product  = $this->getState('filter_product');
 
-        $productid  = $this->getState('filter_product_id');
-
-        if (!empty($productid)) 
+        if (strlen($filter_user))
         {
-            $query->where('tbl.product_id = '.(int) $productid);
+            $query->where('tbl.user_id = '.$filter_user);
+        }
+        
+        if (strlen($filter_session))
+        {
+            $query->where( "tbl.session_id = '".$filter_session."'" );
+        }
+        
+        if (!empty($filter_product)) 
+        {
+            $query->where('tbl.product_id = '.(int) $filter_product);
             $this->setState('limit', 1);
        	}
     }
@@ -130,9 +138,9 @@ class TiendaModelCarts extends TiendaModelBase
           	return false;;
         }
         
-        foreach($list as $item)
+        foreach ($list as $item)
         {
-        	$shipping=Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnable($item->product_id);
+        	$shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnable($item->product_id);
         	if ($shipping)
         	return true;
         }
