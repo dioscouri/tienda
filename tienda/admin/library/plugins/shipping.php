@@ -22,7 +22,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      */
     var $_element    = '';
     
-	function plgTiendaTool_shipping_example(& $subject, $config) 
+	function __construct(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_SITE );

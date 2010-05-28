@@ -662,6 +662,7 @@ class TiendaControllerCheckout extends TiendaController
 		else
 			$guest = false;
 		
+	    $rates = array();
 		$values = &$this->populateOrder($guest);
 		$text = "";
 		$user = JFactory::getUser();
@@ -672,7 +673,7 @@ class TiendaControllerCheckout extends TiendaController
 		
 		foreach ($results as $result)
 		{
-			if(is_array($result))
+			if (is_array($result))
 			{
 				foreach( $result as $r )
 				{

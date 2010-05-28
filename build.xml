@@ -225,12 +225,12 @@
         </copy>
     	
     <!-- SHIPPING PLUGINS -->
-    	<!-- EXAMPLE -->
+    	<!-- STANDARD -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginShippingDir}_example" />
+            <fileset dir="${cfg.pluginShippingDir}_standard" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginShippingDir}_example/languages" />
+            <fileset dir="${cfg.pluginShippingDir}_standard/languages" />
         </copy>
     	<!-- FEDEX -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">

@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaModelBase', 'models.base' );
+Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelShippingMethods extends TiendaModelBase 
 {
@@ -72,7 +72,8 @@ class TiendaModelShippingMethods extends TiendaModelBase
         {
             $query->where('tbl.shipping_method_type = '.(int) $filter_shippingtype);
         }
-    	if ( $filter_subtotal )
+        
+    	if ( strlen($filter_subtotal ))
         {
             $query->where('tbl.subtotal_minimum <= '. $filter_subtotal);
         }

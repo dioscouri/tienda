@@ -13,6 +13,6 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
 
-class TiendaViewShipping_Example extends TiendaViewBase
+class TiendaViewShipping_Standard extends TiendaViewBase
 {
 }

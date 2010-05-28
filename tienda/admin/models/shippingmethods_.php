@@ -24,6 +24,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
 		$filter_enabled = $this->getState('filter_enabled');
 		$filter_taxclass = $this->getState('filter_taxclass');
 		$filter_shippingtype = $this->getState('filter_shippingtype');
+        $filter_subtotal = $this->getState('filter_subtotal');
         
         if ($filter) 
         {
@@ -70,6 +71,11 @@ class TiendaModelShippingMethods extends TiendaModelBase
         if (strlen($filter_shippingtype))
         {
             $query->where('tbl.shipping_method_type = '.(int) $filter_shippingtype);
+        }
+        
+        if ( strlen($filter_subtotal ))
+        {
+            $query->where('tbl.subtotal_minimum <= '. $filter_subtotal);
         }
     }
 

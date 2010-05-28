@@ -2,7 +2,7 @@
 
 JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
+class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
 		
 	/**
 	 * constructor
@@ -10,7 +10,7 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
 	function __construct() 
 	{
 		parent::__construct();
-		$this->_element = 'shipping_example';
+		$this->_element = 'shipping_standard';
 	}
 	
 	function newMethod(){
@@ -62,7 +62,7 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
         $form['action'] = $this->baseLink();
         
         // view
-        $view = $this->getView( 'Shipping_Example', 'html' );
+        $view = $this->getView( 'Shipping_Standard', 'html' );
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );
@@ -99,7 +99,7 @@ class TiendaControllerShippingExample extends TiendaControllerShippingPlugin {
         $form = array();
         $form['action'] = $this->baseLink();
         $form['shippingTask'] = 'save';
-		$view = $this->getView( 'Shipping_Example', 'html' ); 
+		$view = $this->getView( 'shipping_standard', 'html' ); 
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );

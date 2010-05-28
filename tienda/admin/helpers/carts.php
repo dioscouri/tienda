@@ -218,6 +218,15 @@ class TiendaHelperCarts extends TiendaHelperBase
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
      	$model = JModel::getInstance($suffix, 'TiendaModel');
+     	
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();        
+        $model->setState('filter_user', $user->id );
+        if (empty($user->id))
+        {
+            $model->setState('filter_session', $session->getId() );
+        }
+     	
 		$productcart = $model->getList();
 		
 		$productitems = array();
