@@ -14,6 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
 Tienda::load( 'TiendaModelBase', 'models._base' );
 
+if(!class_exists('TiendaShippingPlugin'))
+{
+
 class TiendaShippingPlugin extends TiendaPluginBase 
 {
     /**
@@ -204,7 +207,8 @@ class TiendaShippingPlugin extends TiendaPluginBase
             $plugin = $this->_element;
         }
 
-    	JLoader::import( 'plugins.'.$group.'.'.$plugin.'.models.'.strtolower($name), JPATH_SITE );
+        if(!class_exists('TiendaModel'.$name))
+    		JLoader::import( 'plugins.'.$group.'.'.$plugin.'.models.'.strtolower($name), JPATH_SITE );
     }
    
     /**
@@ -298,4 +302,6 @@ class TiendaShippingPlugin extends TiendaPluginBase
         return $state;
     }
                 
+}
+
 }

@@ -138,19 +138,22 @@
         <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
         <div id='onCheckoutShipping_wrapper'>
             <?php
-                if ($this->plugins) 
+
+                if ($this->rates) 
                 {                  
-                    foreach ($this->plugins as $plugin) 
+                    foreach ($this->rates as $rate) 
                     {
                         ?>
-                        <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetShippingRates('<?php echo $plugin->element; ?>', 'shipping_form_div')" name="shipping_plugin" type="radio" />
-                        <?php echo JText::_( $plugin->name ); ?>
+                        <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>);" /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
                         <br/>
                         <?php
                     }
                 }
             ?>
-            
+            <input type="hidden" name="shipping_price" id="shipping_price" value="" />
+			<input type="hidden" name="shipping_tax" id="shipping_tax" value="" />
+			<input type="hidden" name="shipping_name" id="shipping_name" value="" />
+			<input type="hidden" name="shipping_extra" id="shipping_extra" value="" />
             <div id='shipping_form_div' style="padding-top: 10px;"></div>
             
             <div id="validationmessage" style="padding-top: 10px;"></div>

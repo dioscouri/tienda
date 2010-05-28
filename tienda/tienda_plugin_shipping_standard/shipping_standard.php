@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaShippingPlugin', 'library.plugins.shipping' );
+Tienda::load('TiendaShippingPlugin', 'library.plugins.shipping');
 
 class plgTiendaShipping_Standard extends TiendaShippingPlugin
 {
@@ -71,7 +71,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $i = 0;
         foreach( $rates as $rate )
         {
-        	$vars[$i]['id'] = $rate->shipping_method_id;
+        	$vars[$i]['element'] = $this->_element;
         	$vars[$i]['name'] = $rate->shipping_method_name;
         	$vars[$i]['price'] = $rate->shipping_rate_price;
         	$vars[$i]['tax'] = $rate->shipping_tax_total;

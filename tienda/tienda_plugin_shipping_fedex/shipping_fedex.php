@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.shipping', JPATH_ADMINISTRATOR.DS.'components' );
+Tienda::load('TiendaShippingPlugin', 'library.plugins.shipping');
 
 class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 {
@@ -222,6 +222,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 	    		if( stripos($rate->RateType ,  'PAYOR_ACCOUNT') !== false )
 	    		{
 		    		$rates[$i]['name'] = $method;
+		    		$rates[$i]['element'] = $this->_element;
 		    		$rates[$i]['price'] = $rate->TotalBaseCharge->Amount;
 		    		$rates[$i]['extra'] = $rate->TotalSurcharges->Amount;
 		    		$rates[$i]['total'] = $rate->TotalNetFedExCharge->Amount;

@@ -142,7 +142,31 @@ class TiendaControllerCheckout extends TiendaController
 			// get all the enabled shipping plugins
 			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 			$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-				
+
+			$dispatcher =& JDispatcher::getInstance();
+			
+			$rates = array();
+		 	if ($plugins) 
+            {                  
+	            foreach ($plugins as $plugin) 
+	            {
+	            	$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $order ) );
+		
+					foreach ($results as $result)
+					{
+						if(is_array($result))
+						{
+							foreach( $result as $r )
+							{
+								$rates[] = $r;
+							}
+						}
+					}// endforeach results
+				            	
+	            } // endforeach plugins
+            } // endif plugins
+			
+			
 			// now display the entire checkout page
 			$view = $this->getView( 'checkout', 'html' );
 			$view->set( 'hidemenu', false);
@@ -156,7 +180,7 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'progress', $progress );
 			$view->assign( 'default_billing_address', $default_billing_address );
 			$view->assign( 'default_shipping_address', $default_shipping_address );
-			$view->assign( 'plugins', $plugins );
+			$view->assign( 'rates', $rates );
 			
 			JRequest::setVar('layout', 'default');
 		}
