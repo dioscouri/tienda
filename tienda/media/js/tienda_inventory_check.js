@@ -7,7 +7,7 @@
 function checkStock() {
     optionsArray = strignOfOptions.split('&&');
 
-	var csv = null;
+	var csv = "";
 	var numberOfSelection = 0;
 	var requiredQuantity = 0;
 	for ($k = 0; $k < document.adminForm.elements.length; $k++) {
@@ -25,11 +25,10 @@ function checkStock() {
 		}
 
 	}
-
+	
 	for (k = 0; k < optionsArray.length - 1; k++) {
 		var csvOfDataBase = (optionsArray[k].split('=>')[0]);
 		var availableQuantity = parseInt((optionsArray[k].split('=>')[1]));
-		
 		if (csvOfDataBase == csv) {
 			if (availableQuantity < requiredQuantity) {
 				hide("add_to_cart");

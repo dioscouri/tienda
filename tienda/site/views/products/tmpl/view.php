@@ -5,7 +5,7 @@ $state = @$this->state;
 $item = @$this->row;
 $inventoryEnabled = @$this->inventoryEnabled;
 $str = '';
-if ($item->product_check_inventory==1)
+if ($item->product_check_inventory)
 {
     $inventryArray = @$this->invetoryList;
     foreach ($inventryArray as $k=>$v)

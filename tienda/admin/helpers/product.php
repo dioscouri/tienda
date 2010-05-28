@@ -1113,8 +1113,87 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         return true;
     }
+
+/**
+     * returns a product's quantity list for all combination
+     * @return array with CSV and quantity; 
+     */
+	public function getProductQuantities( $id )
+	{
+		
+		
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+        $query = new TiendaQuery();
+       
+        $select[]="quantities.product_attributes";
+        $select[]="quantities.quantity";		
+		
+		$query->select( $select );
+        $query->from($tableQuantity->getTableName()." AS quantities");
+		$query->where("quantities.product_id = ".$id );
+	  	
+		$db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+	    
+	    $results=$db->loadObjectList();
+	    $inventoryList=array();
+	    
+	    foreach($results as $result) 
+	    {
+	    	$inventoryList[$result->product_attributes]=$result->quantity;
+	    }
+	  return $inventoryList;
+		
+	}  
     
+    
+    
+
+    
+    /**
+     * return the total quantity and Product name of product on the basis of the attribute 
+     * 
+     * @param $id
+     * @param $attribute
+     * @return an array with the name and the quantity of Product;
+     */
+    function getAvailableQuantity( $id, $attribute )
+    {
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+        $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        
+        $select[]="product.product_description";
+        $select[]="quantities.quantity";
       
+        
+        $query->select( $select );
+        $query->from($tableProduct->getTableName()." AS product");
+       
+        $leftJoinCondition=$tableQuantity->getTableName()." as quantities ON product.product_id = quantities.product_id ";
+        $query->leftJoin ($leftJoinCondition);
+		
+        $whereClause[]="quantities.product_id = ".(int) $id;
+        $whereClause[]="quantities.product_attributes='".$attribute."'";
+        $whereClause[]="product.product_check_inventory =1 ";
+		$query->where($whereClause,"AND" );
+        
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadRow();
+
+               
+        return $items;
+        
+        
+    }   
    
     
     
