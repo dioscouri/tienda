@@ -2,7 +2,10 @@
 
 JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
+class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin 
+{
+
+    var $_element   = 'shipping_standard';
 		
 	/**
 	 * constructor
@@ -10,7 +13,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
 	function __construct() 
 	{
 		parent::__construct();
-		$this->_element = 'shipping_standard';
+		//$this->_element = 'shipping_standard';
 	}
 	
 	function newMethod(){
@@ -42,7 +45,8 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
     
-    function setRates(){
+    function setRates()
+    {
     	
     	Tienda::load( 'TiendaGrid', 'library.grid' );
     	Tienda::load( 'TiendaSelect', 'library.select' );
@@ -62,7 +66,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
         $form['action'] = $this->baseLink();
         
         // view
-        $view = $this->getView( 'Shipping_Standard', 'html' );
+        $view = $this->getView( 'shipping_standard', 'html' );
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );
@@ -81,10 +85,11 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin {
         $this->setRedirect( $redirect, '', '' );
     }
     
-    function view(){
+    function view()
+    {
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
 		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('Save'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'cancel', 'delete', 'delete', JText::_('Back'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('Close'), false, 'shippingTask' );
     	
     	$id = JRequest::getInt('id', '0');
     	$sid = TiendaShippingPlugin::getShippingId();

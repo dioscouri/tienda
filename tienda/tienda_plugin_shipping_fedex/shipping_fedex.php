@@ -19,8 +19,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 	 * @var $_element  string  Should always correspond with the plugin's filename, 
 	 *                         forcing it to be unique 
 	 */
-    var $_element   = 'shipping_fedex';
-    
+    var $_element   = 'shipping_fedex'; 
 	
     /**
      * Overriding 

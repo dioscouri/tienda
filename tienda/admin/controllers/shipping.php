@@ -71,7 +71,7 @@ class TiendaControllerShipping extends TiendaController
 			// The name of the Shipping Controller should be the same of the $_element name, 
 			// without the shipping_ prefix and with the first letter Uppercase, and should 
 			// be placed into a controller.php file inside the root of the plugin
-			// Ex: shipping_example => TiendaControllerShippingExample in shipping_example/controller.php
+			// Ex: shipping_standard => TiendaControllerShippingStandard in shipping_standard/controller.php
 			$controllerName = str_ireplace('shipping_', '', $element);
 			$controllerName = ucfirst($controllerName);
 			
@@ -86,7 +86,7 @@ class TiendaControllerShipping extends TiendaController
 			
 			$className    = 'TiendaControllerShipping'.$controllerName;
 
-			if($controllerName != '' && class_exists($className)){
+			if ($controllerName != '' && class_exists($className)){
 				
 	    		// Create the controller
 				$controller   = new $className( );

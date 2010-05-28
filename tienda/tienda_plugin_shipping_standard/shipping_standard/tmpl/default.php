@@ -32,8 +32,14 @@
     	            <?php echo JText::_( 'Enabled' ); ?>
                 </th>
             </tr>
-		
 		</thead>
+        <tfoot>
+            <tr>
+                <td colspan="20">
+                    &nbsp;
+                </td>
+            </tr>
+        </tfoot>
         <tbody>
 		<?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>

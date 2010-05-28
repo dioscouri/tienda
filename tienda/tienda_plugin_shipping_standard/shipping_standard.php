@@ -13,15 +13,14 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaShippingPlugin', 'library.plugins.shipping' );
 
-class plgTiendaShipping_Example extends TiendaShippingPlugin
+class plgTiendaShipping_Standard extends TiendaShippingPlugin
 {
 	/**
 	 * @var $_element  string  Should always correspond with the plugin's filename, 
 	 *                         forcing it to be unique 
 	 */
     var $_element   = 'shipping_standard';
-    
-	
+
     /**
      * Overriding 
      * 

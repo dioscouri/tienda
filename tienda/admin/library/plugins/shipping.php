@@ -185,7 +185,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      */
     protected function includeTiendaModel($name){
     	
-    	if(strtolower($name) != 'base')
+    	if (strtolower($name) != 'base')
     		Tienda::load( 'TiendaModel'.ucfirst(strtolower($name)), 'models.'.strtolower($name) );
     	else
     		Tienda::load( 'TiendaModelBase', 'models._base' );
@@ -197,11 +197,13 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $plugin the name of the plugin in which the model is stored
      * @param $group the group of the plugin
      */
-    protected function includeCustomModel($name, $plugin = '', $group = 'tienda'){
+    protected function includeCustomModel($name, $plugin = '', $group = 'tienda')
+    {
     	if (empty($plugin)) 
         {
             $plugin = $this->_element;
         }
+
     	JLoader::import( 'plugins.'.$group.'.'.$plugin.'.models.'.strtolower($name), JPATH_SITE );
     }
    

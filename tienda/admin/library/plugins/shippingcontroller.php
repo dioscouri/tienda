@@ -37,7 +37,8 @@ class TiendaControllerShippingPlugin extends TiendaController {
     /**
      * Overrides the delete method, to include the custom models and tables.
      */
-    public function delete(){
+    public function delete()
+    {
     	$this->includeCustomModel('ShippingRates');
     	$this->includeCustomTables();
     	parent::delete();
@@ -51,7 +52,7 @@ class TiendaControllerShippingPlugin extends TiendaController {
     
     protected function includeCustomModel( $name ){
     	$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('includeCustomModel', array($name) );
+		$dispatcher->trigger('includeCustomModel', array($name, $this->_element) );
     }       
 	
     protected function includeTiendaModel( $name ){
