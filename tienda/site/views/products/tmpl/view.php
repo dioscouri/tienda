@@ -3,24 +3,25 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
-$inventoryEnabled=@$this->inventoryEnabled;
+$inventoryEnabled = @$this->inventoryEnabled;
 $str = '';
-if($item->product_check_inventory==1){
-$inventryArray = @$this->invetoryList;
-foreach($inventryArray as $k=>$v)
+if ($item->product_check_inventory==1)
 {
-	$str .= "$k=>$v&&";
-	
-}
-?>
-<script>
-// seting the java script variables with inventry array from php variables
-strignOfOptions = "<?php echo $str ?>";
-</script>
-
-<?php 
-JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
-
+    $inventryArray = @$this->invetoryList;
+    foreach ($inventryArray as $k=>$v)
+    {
+    	$str .= "$k=>$v&&";
+    	
+    }
+    ?>
+    
+    <script>
+    // seting the java script variables with inventry array from php variables
+    strignOfOptions = "<?php echo $str ?>";
+    </script>
+    
+    <?php 
+    JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
 }
 ?>
 
