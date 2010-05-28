@@ -164,7 +164,9 @@ class TiendaControllerCarts extends TiendaController
         $cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
         $quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
-                
+
+        $messageBuffer="";
+        
         $remove = JRequest::getVar('remove');
         if ($remove) 
         {
@@ -178,7 +180,7 @@ class TiendaControllerCarts extends TiendaController
 	                $item->product_id = $product_id;
 	                $item->product_attributes = $product_attributes[$key];
 	                $item->vendor_id = '0'; // vendors only in enterprise version
-	                	
+	               
 	                // fire plugin event
 	                $dispatcher = JDispatcher::getInstance();
 	                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
@@ -195,6 +197,15 @@ class TiendaControllerCarts extends TiendaController
                 $vals['user_id'] = $user->id;
                 $vals['session_id'] = $session->getId();
                 $vals['product_id'] = $product_id;
+                
+               
+                // using a helper file,To determine the product's information related to inventory     
+                 $availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$key] );	
+                 if( $availableQuantity->product_check_inventory && $value >$availableQuantity->quantity ) {
+                 	JFactory::getApplication()->enqueueMessage($availableQuantity->product_name. JText::_( ' out of stock  ' )." - ".JText::_( 'available quantity ' ).$availableQuantity-> quantity);
+                    continue;
+                 }	
+            
                 $vals['product_qty'] = $value;
                 $vals['product_attributes'] = $product_attributes[$key];
                 $row = $model->getTable();
@@ -202,7 +213,7 @@ class TiendaControllerCarts extends TiendaController
                 $row->save();
             }
         }
-
+       
         $this->setRedirect( 'index.php?option=com_tienda&view=carts' );
     }
     
@@ -213,7 +224,7 @@ class TiendaControllerCarts extends TiendaController
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
-        
+       
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);

@@ -1170,8 +1170,9 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         $query = new TiendaQuery();
         
-        $select[]="product.product_description";
+        $select[]="product.product_name";
         $select[]="quantities.quantity";
+        $select[]="product.product_check_inventory";
       
         
         $query->select( $select );
@@ -1187,9 +1188,8 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         $db = JFactory::getDBO();
         $db->setQuery( (string) $query );
-        $items = $db->loadRow();
-
-               
+        $items = $db->loadObject();
+       
         return $items;
         
         
