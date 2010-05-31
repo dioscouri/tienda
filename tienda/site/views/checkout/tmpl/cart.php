@@ -11,7 +11,6 @@ $items = @$this->orderitems;
 ?>
 
 <div class="cartitems">
-
            <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>

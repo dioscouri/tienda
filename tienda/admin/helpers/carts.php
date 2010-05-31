@@ -246,7 +246,16 @@ class TiendaHelperCarts extends TiendaHelperBase
                     {
                         $productItem->product_price = $productItem->product_price_override->product_price;
                     }
-            
+                    
+                   if($productItem->product_check_inventory){
+                    // using a helper file,To determine the product's information related to inventory     
+                	$availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $productItem->product_id, $product->product_attributes );	
+	                 if( $availableQuantity->product_check_inventory && $product->product_qty >$availableQuantity->quantity ) {
+	                 JFactory::getApplication()->enqueueMessage(JText::sprintf( 'CART_QUANTITY_ADJUSTED',$productItem->product_name, $product->product_qty, $availableQuantity-> quantity ));
+	                  $product->product_qty=$availableQuantity-> quantity; 
+	                 }	                    
+                   }   
+                  
 	            	// TODO Push this into the orders object->addItem() method?
 		            $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
 		            $orderItem->product_id                    = $productItem->product_id;

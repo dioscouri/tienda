@@ -202,7 +202,7 @@ class TiendaControllerCarts extends TiendaController
                 // using a helper file,To determine the product's information related to inventory     
                  $availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$key] );	
                  if( $availableQuantity->product_check_inventory && $value >$availableQuantity->quantity ) {
-                 	JFactory::getApplication()->enqueueMessage($availableQuantity->product_name. JText::_( ' out of stock  ' )." - ".JText::_( 'available quantity ' ).$availableQuantity-> quantity);
+                	JFactory::getApplication()->enqueueMessage(JText::sprintf( 'NOT_AVAILABLE_QUANTITY',$availableQuantity->product_name, $availableQuantity-> quantity ));
                     continue;
                  }	
             
