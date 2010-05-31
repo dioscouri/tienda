@@ -108,6 +108,19 @@ class TiendaControllerCheckout extends TiendaController
 			//$view->assign( 'default_billing_address', $default_billing_address );
 			//$view->assign( 'default_shipping_address', $default_shipping_address );
 
+			// Checking that shipping required for all item or not
+			$showShipping=false;
+			$cartsModel = $this->getModel('carts');
+		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
+			if($isShoppingEnabled){
+				$showShipping=true;
+				
+			}else {
+				$showShipping=false;
+			}
+			$view->assign( 'showShipping', $showShipping );
+				
+			
 			JRequest::setVar('layout', 'guest');
 		}
 		// Already Logged in, a traditional checkout
@@ -181,6 +194,18 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'default_billing_address', $default_billing_address );
 			$view->assign( 'default_shipping_address', $default_shipping_address );
 			$view->assign( 'rates', $rates );
+			
+     		// Checking that shipping required for all item or not
+			$showShipping=false;
+			$cartsModel = $this->getModel('carts');
+		    $isShoppingEnabled=$cartsModel->getShippingIsEnabled();
+			if($isShoppingEnabled){
+				$showShipping=true;
+				
+			}else {
+				$showShipping=false;
+			}
+			$view->assign( 'showShipping', $showShipping );
 			
 			JRequest::setVar('layout', 'default');
 		}
@@ -367,6 +392,9 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if no shipping method selected
+	
+		if($submitted_values['shippingrequired'])
+		{
 		if (empty($submitted_values['_checked']['shipping_rate']))
 		{
 			$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
@@ -374,7 +402,7 @@ class TiendaControllerCheckout extends TiendaController
 			echo ( json_encode( $response ) );
 			return;
 		}
-
+		}
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{
@@ -386,6 +414,8 @@ class TiendaControllerCheckout extends TiendaController
 
 		// fail if shipping address is invalid
 		// if we're checking shipping and the sameasbilling is checked, then this is good
+		if($submitted_values['shippingrequired'])
+		{
 		$sameasbilling = (!empty($submitted_values['_checked']['sameasbilling']));
 		if (!$sameasbilling && !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, $submitted_values['shipping_address_id'] ))
 		{
@@ -394,7 +424,7 @@ class TiendaControllerCheckout extends TiendaController
 			echo ( json_encode( $response ) );
 			return;
 		}
-
+		}
 		echo ( json_encode( $response ) );
 		return;
 		 

@@ -130,17 +130,27 @@ class TiendaModelCarts extends TiendaModelBase
      */
     public function getShippingIsEnabled()
     {
-    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $list = parent::getList();
-        
+    	$suffix = strtolower(TiendaHelperCarts::getSuffix());
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+	   	$model = JModel::getInstance($suffix, 'TiendaModel');
+     	
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();        
+        $model->setState('filter_user', $user->id );
+        if (empty($user->id))
+        {
+            $model->setState('filter_session', $session->getId() );
+        }
+     	
+		$list = $model->getList();
+				
     	// If no item in the list, return false
         if( empty( $list ) ){
           	return false;;
         }
-        
         foreach ($list as $item)
         {
-        	$shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
+           	$shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
         	if ($shipping)
         	return true;
         }

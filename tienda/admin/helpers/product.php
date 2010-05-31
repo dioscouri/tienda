@@ -1107,11 +1107,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $table = JTable::getInstance( 'Products', 'TiendaTable' );
         $table->load( (int) $id);
-        if (empty($table->product_ships))
+        if ($table->product_ships)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
 /**
