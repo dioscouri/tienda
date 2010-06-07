@@ -124,6 +124,13 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkOrderZoneAndUser()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
+        
 
     }
     
@@ -810,6 +817,46 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCartsSessionId') );
             $config->config_name = 'checkCartsSessionId';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    
+     /**
+     * Checks the orderinfo table for the zone id and the user id 
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrderZoneAndUser()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderZoneAndUser', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderinfo';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "zone_id";
+            $definitions["zone_id"] = "int(11) NULL DEFAULT '0'";
+     
+        $fields[] = "user_id";
+            $definitions["user_id"] = "int(11)NULL DEFAULT '0'";
+       
+
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderZoneAndUser') );
+            $config->config_name = 'checkOrderZoneAndUser';
             $config->value = '1';
             $config->save();
             return true;

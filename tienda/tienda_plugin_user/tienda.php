@@ -33,15 +33,19 @@ class plgUserTienda extends JPlugin
      * @return unknown_type
      */
     function onLoginUser($user, $options)
-    {
-        // Should check that Tienda is installed first before executing
+    {	
+    	$session =& JFactory::getSession();
+    	$old_sessionId= $session->get('old_sessionId',array());
+   	
+    	   	
+    	// Should check that Tienda is installed first before executing
         if (!$this->_isInstalled())
         {
             return;
         }
         
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        TiendaHelperCarts::updateCart('', true);
+        TiendaHelperCarts::updateCart('', true, $old_sessionId[0]);
         return true;
     }
     

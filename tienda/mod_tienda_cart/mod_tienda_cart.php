@@ -37,6 +37,7 @@ Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 $items = TiendaHelperCarts::getProductsInfo();
 $num = count($items);
 
+
 // Convert the cart to a "fake" order, to show totals and others things
 JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 $orderTable = &JTable::getInstance('Orders', 'TiendaTable');

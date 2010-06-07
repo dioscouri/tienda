@@ -879,6 +879,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `shipping_country_id` INT(11) NOT NULL DEFAULT '0' ,
   `shipping_postal_code` VARCHAR(32) NOT NULL DEFAULT '' ,
   `user_email` VARCHAR(255) NOT NULL DEFAULT '' ,
+  `zone_id` INT(11) NULL DEFAULT '0' ,
+  `user_id` INT(11) NULL DEFAULT '0' ,
   PRIMARY KEY (`orderinfo_id`) ,
   INDEX `idx_orderinfo_order_id` (`order_id` ASC) ,
   INDEX `fk_Orders_OrderInfo` (`order_id` ASC) ,

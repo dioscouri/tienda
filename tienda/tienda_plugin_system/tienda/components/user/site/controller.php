@@ -265,7 +265,8 @@ class UserController extends JController
      */
     function login()
     {
-        // Check for request forgeries
+           	
+    	// Check for request forgeries
         JRequest::checkToken('request') or jexit( 'Invalid Token' );
 
         global $mainframe;
@@ -307,6 +308,7 @@ class UserController extends JController
             // Redirect to a login form
             $mainframe->redirect( $return );
         }
+        
     }
 
     function logout()

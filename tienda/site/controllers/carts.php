@@ -12,6 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+//Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaControllerCarts extends TiendaController
 {
@@ -61,7 +62,15 @@ class TiendaControllerCarts extends TiendaController
      */
     function addToCart()
     {
-        $response = array();
+        // saving the session id which will use to update the cart
+        $session =& JFactory::getSession();
+        
+        // After login it should percistein the array so that taking it into array 
+        $old_sessionId=array();
+        $old_sessionId[]=$session->getId();
+    	$session->set('old_sessionId',$old_sessionId );
+    	   	
+    	$response = array();
         $response['msg'] = '';
         $response['error'] = '';
         
@@ -121,8 +130,8 @@ class TiendaControllerCarts extends TiendaController
      * @return unknown_type
      */
     function displayCart()
-    {
-        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+    {  
+    	JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
         
         jimport( 'joomla.application.module.helper' );
 
@@ -157,7 +166,7 @@ class TiendaControllerCarts extends TiendaController
     {
         $model 	= $this->getModel( strtolower(TiendaHelperCarts::getSuffix()) );
         $this->_setModelState();
-        
+
         $user =& JFactory::getUser();
         $session =& JFactory::getSession();
 
@@ -165,8 +174,6 @@ class TiendaControllerCarts extends TiendaController
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
         $quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
 
-        $messageBuffer="";
-        
         $remove = JRequest::getVar('remove');
         if ($remove) 
         {
