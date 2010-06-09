@@ -9,7 +9,7 @@
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "Select the Shipping Method ghghgh" ); ?></span>
+    <span><?php echo JText::_( "Select the Shipping Method" ); ?></span>
 </div>
 
     <?php // if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>

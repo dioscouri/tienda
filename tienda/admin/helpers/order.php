@@ -166,8 +166,12 @@ class TiendaHelperOrder extends TiendaHelperBase
                 $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
                 $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
 
+                $productsTable = JTable::getInstance( 'Products', 'TiendaTable' );
+                $productsTable->load($orderitem->product_id);
+                       
+                
                 // Check if it has inventory enabled
-                if (!$product->product_check_inventory)
+                if (!$productsTable->product_check_inventory  || empty($product->product_id))
                 {
                 	// do not update quantities
                 	continue;
@@ -189,9 +193,8 @@ class TiendaHelperOrder extends TiendaHelperBase
                 {
                 	$new_quantity = 0;
                 }
-                
                 $product->quantity = $new_quantity;
-                $product->save();
+ 			    $product->save();
         	}
         }
         

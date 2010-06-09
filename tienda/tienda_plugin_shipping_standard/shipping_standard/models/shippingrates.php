@@ -69,7 +69,7 @@ class TiendaModelShippingRates extends TiendaModelBase
 	public function getList()
 	{
 		$list = parent::getList(); 
-		
+			
 		// If no item in the list, return an array()
         if( empty( $list ) ){
         	return array();

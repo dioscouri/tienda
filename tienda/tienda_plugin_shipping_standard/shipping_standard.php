@@ -53,7 +53,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         }
 
         $vars = array();
-        
+       
         $this->includeTiendaTables();       
         $this->includeCustomModel('ShippingMethods');
         $this->includeCustomModel('ShippingRates');
@@ -136,6 +136,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		$this->includeCustomTables('shipping_standard');
 		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
+	  
 		if (empty($shippingmethod->shipping_method_id))
 		{
 			// TODO if this is an object, setError, otherwise return false, or 0.000?
@@ -173,7 +174,9 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             	$rates = array();
                 foreach ($orderItems as $item)
                 {
-                    $pid = $item->product_id;
+                      
+		
+                	$pid = $item->product_id;
                     $qty = $item->orderitem_quantity;
                     $rates[$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
                     $return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
@@ -246,6 +249,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
+              
         $product->load( $product_id );
         if (empty($product->product_id))
         {
@@ -256,13 +260,13 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             // product doesn't require shipping, therefore cannot impact shipping costs
             return JTable::getInstance('ShippingRates', 'TiendaTable');
         }
-        
+      
         if ($use_weight)
         {
             $model->setState('filter_weight', $product->product_weight);
         }
         $items = $model->getList();
-        
+       
         if (empty($items))
         {
             return JTable::getInstance('ShippingRates', 'TiendaTable');           

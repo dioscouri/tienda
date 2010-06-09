@@ -976,11 +976,11 @@ class TiendaControllerOrders extends TiendaController
      */
     function updateStatus()
     {
-        $model  = $this->getModel( $this->get('suffix') );
+    	$model  = $this->getModel( $this->get('suffix') );
         $row = $model->getTable();
         $row->load( $model->getId() );
         $row->order_state_id = JRequest::getVar('new_orderstate_id');
-        
+      
         if ( $row->save() )
         {
             $model->setId( $row->order_id );

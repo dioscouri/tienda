@@ -40,6 +40,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 *
 	 * @param array
 	 * @param boolean
+	 * @param string
 	 */
 	function updateCart($cart = array(), $sync = false, $old_sessionId='')
 	{
