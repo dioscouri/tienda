@@ -133,7 +133,6 @@ if ($item->product_check_inventory)
                
                 </div>
                 
-                
                 <!-- Add to cart button ---> 
                <div id='add_to_cart' style="display: block";> 
                 <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" size="5" />
@@ -143,22 +142,23 @@ if ($item->product_check_inventory)
                 <?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>
                 <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );  ?>
                </div>
+               
+                <!-- Not avilable in stock  --->  
+                <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
+                  <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
+                  <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
+                </div>
+               
+               
+                <!-- Not valid quantity  --->  
+                <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
+                  <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
+                </div>
              </form>
             
             </div>
         </div>
         
-         <!-- Not avilable in stock  --->  
-               <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
-                  <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
-                  <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
-               </div>
-               
-               
-        <!-- Not valid quantity  --->  
-               <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
-               </div>
                 
        <?php if ($this->product_description) : ?>
             <div class="reset"></div>
