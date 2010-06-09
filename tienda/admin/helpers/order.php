@@ -54,6 +54,10 @@ class TiendaHelperOrder extends TiendaHelperBase
             $error = true;
         }
         
+        // Fire an onAfterSetOrderPaymentReceived event
+        $dispatcher = JDispatcher::getInstance();
+        $dispatcher->trigger( 'onAfterSetOrderPaymentReceived', array( $order_id ) );
+            
         // TODO Track errors with these (1,2,3)?
         
         // 1. Update quantities

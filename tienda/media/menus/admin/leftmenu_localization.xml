@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-       <name>Currencies</name>
-       <url>index.php?option=com_tienda&#38;view=currencies</url>
-   </link>
-   <link>
-       <name>Emails</name>
-       <url>index.php?option=com_tienda&#38;view=emails</url>
-   </link>
-   <link>
        <name>Countries</name>
        <url>index.php?option=com_tienda&#38;view=countries</url>
    </link>
@@ -19,6 +11,14 @@
    <link>
        <name>Geo Zones</name>
        <url>index.php?option=com_tienda&#38;view=geozones</url>
+   </link>
+   <link>
+       <name>Currencies</name>
+       <url>index.php?option=com_tienda&#38;view=currencies</url>
+   </link>
+   <link>
+       <name>Emails</name>
+       <url>index.php?option=com_tienda&#38;view=emails</url>
    </link>
    <link>
        <name>Order States</name>

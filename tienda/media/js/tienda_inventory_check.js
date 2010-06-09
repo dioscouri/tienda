@@ -4,8 +4,9 @@
  * button visible and invisible or Show out of stock message .
  * 
  */
-function checkStock() {
-    optionsArray = strignOfOptions.split('&&');
+function TiendaCheckStock() 
+{
+    optionsArray = stringOfOptions.split('&&');
 
 	var csv = "";
 	var numberOfSelection = 0;
@@ -31,22 +32,22 @@ function checkStock() {
 		var availableQuantity = parseInt((optionsArray[k].split('=>')[1]));
 		if (csvOfDataBase == csv) {
 			if (availableQuantity < requiredQuantity) {
-				hide("add_to_cart");
-				show("add_to_cart_deactive");
-				hide("invalid_quantity");
+				TiendaHide("add_to_cart");
+				TiendaShow("add_to_cart_deactive");
+				TiendaHide("invalid_quantity");
 				document.getElementById('stock').innerHTML=availableQuantity;
 			} else {
-				show("add_to_cart");
-				hide("add_to_cart_deactive");
-				hide("invalid_quantity");
+				TiendaShow("add_to_cart");
+				TiendaHide("add_to_cart_deactive");
+				TiendaHide("invalid_quantity");
 			}
 		}
 	}
 	
 	if ( requiredQuantity <= 0) {
-		hide("add_to_cart");
-		hide("add_to_cart_deactive");
-		show("invalid_quantity");
+		TiendaHide("add_to_cart");
+		TiendaHide("add_to_cart_deactive");
+		TiendaShow("invalid_quantity");
 	
 	} 
  	
@@ -73,7 +74,8 @@ if (window.navigator.userAgent.toLowerCase().match("gecko")) {
  * 
  * @param  string idByName (Id of the Div)
  */
-function hide(idByName) {
+function TiendaHide(idByName) 
+{
 	if (browserType == "gecko")
 		document.poppedLayer = eval('document.getElementById(idByName)');
 	else if (browserType == "ie")
@@ -91,7 +93,8 @@ function hide(idByName) {
  * 
  * @param  string idByName (Id of the Div)
  */
-function show(idByName) {
+function TiendaShow(idByName) 
+{
 	if (browserType == "gecko")
 		document.poppedLayer = eval('document.getElementById(idByName)');
 	else if (browserType == "ie")

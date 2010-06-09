@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="left" method="upgrade">
+    <name>Tienda - Popular Products</name>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.4.4</version>
+    <creationDate>April 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>Display a set of Products based on Parameters</description>
+    
+    <files>
+        <filename module="mod_popular_products">mod_popular_products.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+    
+    <params addpath="/modules/mod_popular_products/elements">
+
+        <param name="category" type="tiendacategory" default="" label="Category" description="Category Desc" />
+        <param name="manufacturer" type="tiendamanufacturer" default="" label="Manufacturer" description="Manufacturer Desc" />
+        <param name="id_set" type="text" default="" label="ID Set" description="ID Set Desc" />
+        <!--<param name="attribute" type="text" default="" label="Attribute" description="Attribute Description" />-->
+        <param name="price_from" type="text" default="" label="Price From" description="PRICE_FROM" />
+        <param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />
+
+        <param type="spacer" />
+        <param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+        <param name="display_image" type="list" default="1" label="Show Image" description="Show Image Desc">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+        <param name="display_image_link" type="list" default="1" label="Link Image" description="Link Image Desc">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+        <param name="display_image_width" type="text" default="" label="Image Width" description="Image Width Desc" />
+        <param name="display_image_height" type="text" default="" label="Image Width" description="Image Height Desc" />
+        <param name="display_description" type="list" default="1" label="Show Short" description="Show Short Desc">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+        <param name="display_price" type="list" default="1" label="Show Price" description="Show Price Desc">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+        <param name="max_number" type="text" default="" label="Max Number" description="MAX_NUMBER" />
+        <param type="spacer" />
+        <param name="display_style" type="list" default="flat" label="Display Style" description="Display Style Desc">
+            <option value="flat">Column</option>
+            <option value="grid">Grid</option>
+        </param>
+        <param name="display_grid_items" type="list" default="3" label="Grid Items" description="Grid Items Desc">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </param>
+        <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+        <param type="spacer" />
+        <param name="display_null" type="radio" default="1" label="Display No Products" description="Display No Products Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="null_text" type="text" size="50" default="No Products Set" label="No Products Set" description="No Products Text Desc"></param>
+    </params>
+</install>

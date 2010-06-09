@@ -160,19 +160,16 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'cat', $cat );
 
 		// Check If the inventroy is set then it will go for the inventory product quantities
-
-
-		if($row->product_check_inventory){
-
-
-			$inventoryList=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getProductQuantities( $row->product_id );
+		if ($row->product_check_inventory)
+		{
+			$inventoryList = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getProductQuantities( $row->product_id );
 
 			// if there is no entry of product in the productquantities
-			if(count($inventoryList)==0){
+			if (count($inventoryList)==0)
+			{
 				$inventoryList['']= '0';
 			}
-
-			$view->assign( 'invetoryList', $inventoryList );
+			$view->assign( 'inventoryList', $inventoryList );
 		}
 
 		$view->assign('product_description', $product_description );

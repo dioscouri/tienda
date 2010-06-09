@@ -23,7 +23,7 @@ class TiendaViewLocalization extends TiendaViewBase
 	function display($tpl=null) 
 	{
 		$app = JFactory::getApplication();
-		$app->redirect("index.php?option=com_tienda&view=currencies");
+		$app->redirect("index.php?option=com_tienda&view=countries");
 		return;
     }
 }

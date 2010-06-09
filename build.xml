@@ -82,6 +82,11 @@
             <fileset dir="${cfg.siteLangDir}" />
         </copy>
     <!-- MODULES -->
+        <!-- POPULAR PRODUCTS -->
+        <copy todir="${destdir}/modules/mod_popular_products" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_popular_products" />
+        </copy>
+
         <!-- CART -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
@@ -146,6 +151,10 @@
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
         </copy>
     <!-- PLUGINS -->
+        <!-- RELATED PRODUCTS -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_relatedproducts" />
+        </copy>
         <!-- BUG REPORT -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_bug_report" />

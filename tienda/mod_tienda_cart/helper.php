@@ -16,15 +16,13 @@ class modTiendaCartHelper
 {
     function getCart()
     {
-
-    	//require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // determine whether we're working with a session or db cart
         $suffix = TiendaHelperCarts::getSuffix();
-    	$model = JModel::getInstance( $suffix, 'TiendaModel' );
+    	$model = JModel::getInstance( 'Carts', 'TiendaModel' );
     	
         $session =& JFactory::getSession();
         $user =& JFactory::getUser();

@@ -3,21 +3,20 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
-$inventoryEnabled = @$this->inventoryEnabled;
+
 $str = '';
 if ($item->product_check_inventory)
 {
-    $inventryArray = @$this->invetoryList;
-    foreach ($inventryArray as $k=>$v)
+    $inventoryList = @$this->inventoryList;
+    foreach ($inventoryList as $k=>$v)
     {
     	$str .= "$k=>$v&&";
-    	
     }
     ?>
     
     <script>
-    // seting the java script variables with inventry array from php variables
-    strignOfOptions = "<?php echo $str ?>";
+    // seting the java script variables with inventory array from php variables
+    stringOfOptions = "<?php echo $str; ?>";
     </script>
     
     <?php 
@@ -108,7 +107,7 @@ if ($item->product_check_inventory)
                     
                     if($item->product_check_inventory==1) {
                     	$event="ONCHANGE";
-                        $action="checkStock();";
+                        $action="TiendaCheckStock();";
                         $attribs = array('class' => 'inputbox', 'size' => '1','ONCHANGE'=>$action);
                           echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, $attribs  );
                     }else {
@@ -127,7 +126,7 @@ if ($item->product_check_inventory)
                 <div id='product_quantity_input'>
                     <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
                 <?php if($item->product_check_inventory==1) {  ?>   
-                    <input type="text" name="product_qty" value="1" size="5" onkeyup="checkStock()" />  
+                    <input type="text" name="product_qty" value="1" size="5" onkeyup="TiendaCheckStock()" />  
                <?php } else {?>
                     <input type="text" name="product_qty" value="1" size="5"  />    
                <?php } ?>
@@ -144,26 +143,24 @@ if ($item->product_check_inventory)
                 <?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>
                 <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );  ?>
                </div>
-               
-               
-          
              </form>
             
             </div>
         </div>
+        
          <!-- Not avilable in stock  --->  
                <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("out_of_stock"); ?></span>
-                  <span><?php echo JText::_("available_stock"); ?><label id="stock"></label></span> 
+                  <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
+                  <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
                </div>
                
                
         <!-- Not valid quantity  --->  
                <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("invalid_quantity"); ?></span>
+                  <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
                </div>
                 
-                <?php if ($this->product_description) : ?>
+       <?php if ($this->product_description) : ?>
             <div class="reset"></div>
             
             <div id="product_description">
@@ -215,6 +212,8 @@ if ($item->product_check_inventory)
         <div class="reset"></div>
     </div>
 </div>
+
+<?php // checks inventory stock for the current product ?>
 <script>
-checkStock();
+TiendaCheckStock();
 </script>

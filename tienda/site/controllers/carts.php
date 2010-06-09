@@ -82,8 +82,11 @@ class TiendaControllerCarts extends TiendaController
         $values = TiendaHelperBase::elementsToArray( $elements );
         $product_id = !empty( $values['product_id'] ) ? $values['product_id'] : JRequest::getVar( 'product_id' );
         $product_qty = !empty( $values['product_qty'] ) ? $values['product_qty'] : '1';
-        $attributes = array();
         
+        // Integrity checks on quantity being added
+        if ($product_qty < 0) { $product_qty = '1'; } 
+        
+        $attributes = array();
         foreach ($values as $key=>$value)
         {
         	if (substr($key, 0, 10) == 'attribute_')
