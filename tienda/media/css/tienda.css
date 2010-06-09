@@ -67,7 +67,7 @@ div#product_quantity_input span.title {
     font-weight: bold;
 }
 div#product_attributeoptions {
-    text-align: left;
+    text-align: right;
 }
 
 div#tienda_product_header {
@@ -87,8 +87,6 @@ div#tienda_product_header span.title {
 
 div.product_image {
     text-align: center;
-    width: 100px;
-    font-size: .9em;
     float: left;
 }
 
@@ -122,13 +120,21 @@ span.product_name {
     font-weight: bold;
 }
 
-div.product_buy {
+.default div.product_buy {
     font-size: 1.3em;
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
     float: right;
     padding: 10px;
-    width: 50%;
+}
+
+.view div.product_buy {
+    font-size: 1.3em;
+    vertical-align: middle;
+    text-align: right;
+    float: right;
+    padding: 10px;
+    width: 65%;
 }
 
 img.addcart {
@@ -267,7 +273,8 @@ div.progressbar{
 	margin-bottom:10px;
 }
 
-div.progressbar span.step{
+div.progressbar span.step
+{
 	margin-left:auto;
 	margin-right:auto;
 	padding-left:10px;
@@ -280,16 +287,15 @@ div.progressbar span.current-step{
 
 div#order_shop_info{
 	float: right;
-	width:250px;
+	width: 250px;
 }
 
 div.shipping_rates{
 	margin-left:20px;
 }
 
-div.add_to_cart_deactive{
-float:right!important;
-width:100%;
+div.add_to_cart_deactive
+{
 
 }
 

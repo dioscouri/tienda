@@ -66,9 +66,7 @@ class TiendaControllerCarts extends TiendaController
         $session =& JFactory::getSession();
         
         // After login it should percistein the array so that taking it into array 
-        $old_sessionId=array();
-        $old_sessionId[]=$session->getId();
-    	$session->set('old_sessionId',$old_sessionId );
+    	$session->set( 'old_sessionId', $session->getId() );
     	   	
     	$response = array();
         $response['msg'] = '';
@@ -96,7 +94,7 @@ class TiendaControllerCarts extends TiendaController
         // Integrity checks on quantity being added
         if ($product_qty < 0) { $product_qty = '1'; } 
 
-        // using a helper file,To determine the product's information related to inventory     
+        // using a helper file to determine the product's information related to inventory     
         $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
         if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
         {

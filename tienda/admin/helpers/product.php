@@ -1120,8 +1120,6 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
 	public function getProductQuantities( $id )
 	{
-		
-		
         Tienda::load( 'TiendaQuery', 'library.query' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         
@@ -1148,11 +1146,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	  return $inventoryList;
 		
 	}  
-    
-    
-    
 
-    
     /**
      * return the total quantity and Product name of product on the basis of the attribute 
      * 
@@ -1167,6 +1161,13 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
         $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
+        
+        $tableProduct->load( $id );
+        if (empty($tableProduct->product_check_inventory))
+        {
+            $tableProduct->quantity = '9999';
+            return $tableProduct;
+        }
         
         $query = new TiendaQuery();
         

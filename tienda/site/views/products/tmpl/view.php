@@ -1,28 +1,25 @@
 <?php defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
 
 $str = '';
-if ($item->product_check_inventory)
+if ($inventoryList = @$this->inventoryList)
 {
-    $inventoryList = @$this->inventoryList;
     foreach ($inventoryList as $k=>$v)
     {
-    	$str .= "$k=>$v&&";
-    }
-    ?>
-    
-    <script>
-    // seting the java script variables with inventory array from php variables
-    stringOfOptions = "<?php echo $str; ?>";
-    </script>
-    
-    <?php 
-    JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
+        $str .= "$k=>$v&&";
+    }    
 }
 ?>
+
+<script>
+// seting the java script variables with inventory array from php variables
+stringOfOptions = "<?php echo $str; ?>";
+</script>
+    
 
 <div id="tienda" class="products view">
     
@@ -143,22 +140,21 @@ if ($item->product_check_inventory)
                 <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );  ?>
                </div>
                
-                <!-- Not avilable in stock  --->  
-                <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
-                  <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
-                  <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
-                </div>
-               
-               
-                <!-- Not valid quantity  --->  
-                <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
-                </div>
-             </form>
+            <!-- Not avilable in stock  --->  
+            <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
+              <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
+              <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
+            </div>
+           
+           
+            <!-- Not valid quantity  --->  
+            <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
+              <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
+            </div>
             
+             </form>
             </div>
         </div>
-        
                 
        <?php if ($this->product_description) : ?>
             <div class="reset"></div>

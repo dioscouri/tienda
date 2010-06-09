@@ -42,7 +42,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param boolean
 	 * @param string
 	 */
-	function updateCart($cart = array(), $sync = false, $old_sessionId='')
+	function updateCart($cart = array(), $sync = false, $old_sessionId='' )
 	{
 		$session =& JFactory::getSession();
 		$user =& JFactory::getUser();
@@ -50,12 +50,17 @@ class TiendaHelperCarts extends TiendaHelperBase
 		if ($sync)
 		{
 			// get the cart based on session id
+			$session_id2use = $old_sessionId;
+			if (empty($old_sessionId))
+			{
+			    $session_id2use = $session->getId(); 
+			}
 			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 			$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 			$model->setState( 'filter_user', '0' );
-			$model->setState( 'filter_session', $old_sessionId );
+			$model->setState( 'filter_session', $session_id2use );
 			$cart = $model->getList();
-			TiendaHelperCarts::cleanCart($old_sessionId);
+			TiendaHelperCarts::cleanCart($session_id2use);
 		}
 
 		if (!empty($cart))
@@ -110,22 +115,45 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 	/**
 	 * Given a session id, removes the entries from the carts db where user_id = 0
+	 * If no session_id, then updates session_id value in cart for current user
 	 * @return null
 	 */
-	function cleanCart( $session_id )
+	function cleanCart( $session_id='' )
 	{
 		$db = JFactory::getDBO();
 
 		Tienda::load( 'TiendaQuery', 'library.query' );
 		$query = new TiendaQuery();
-		$query->delete();
-		$query->from( "#__tienda_carts" );
-		$query->where( "`session_id` = '$session_id' " );
-		$query->where( "`user_id` = '0'" );
-		$db->setQuery( (string) $query );
+		
+		if (!empty($session_id))
+		{
+            $query->delete();
+            $query->from( "#__tienda_carts" );
+            $query->where( "`session_id` = '$session_id' " );
+            $query->where( "`user_id` = '0'" );
+            $db->setQuery( (string) $query );
+                // TODO Make this report errors and return boolean
+                $db->query();
+		}
+		  else
+		{
+		    $user =& JFactory::getUser();
+		    if (!empty($user->id))
+		    {
+		        $user_id = $user->id;
+                $session =& JFactory::getSession();
+                $session_id = $session->getId();
+                
+                $query->update( "#__tienda_carts" );
+                $query->set( "`session_id` = '$session_id' " );
+                $query->where( "`user_id` = '$user_id'" );
+                $db->setQuery( (string) $query );
+                // TODO Make this report errors and return boolean
+                $db->query();
+		    }
 
-		// TODO Make this report errors and return boolean
-		$db->query();
+		}
+
      	return null;
 	}
 
@@ -199,6 +227,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$product = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+	    $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 
 		$suffix = strtolower( TiendaHelperCarts::getSuffix() );
 		$model = JModel::getInstance( $suffix, 'TiendaModel' );
@@ -212,6 +241,13 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$cart = $model->getList();
 				foreach ($cart as $cartitem)
 				{
+				    $tableProduct->load( $cartitem->product_id );
+                    if (empty($tableProduct->product_check_inventory))
+                    {
+                        // if this item doesn't check inventory, skip it
+                        continue;
+                    }
+                    
 					$keynames = array();
 					$keynames['user_id'] = $cartitem->user_id;
 					if (empty($cartitem->user_id))
@@ -220,23 +256,26 @@ class TiendaHelperCarts extends TiendaHelperBase
 					}
 					$keynames['product_id'] = $cartitem->product_id;
 					$keynames['product_attributes'] = $cartitem->product_attributes;
-					 
-					$table = JTable::getInstance( 'Carts', 'TiendaTable' );
-					$table->load($keynames);
-					$table->product_qty = $cartitem->product_qty;
-					$table->product_id = $cartitem->product_id;
-					$table->product_attributes = $cartitem->product_attributes;
-					$table->user_id = $cartitem->user_id;
-					$table->session_id = $cartitem->session_id;
 
 					$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
 					if ($cartitem->product_qty > $product->quantity )
 					{
-						JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $table->product_qty ));
+                        // enqueu a system message
+                        JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
+                        
+						// load table to adjust quantity in cart
+                        $table = JTable::getInstance( 'Carts', 'TiendaTable' );
+                        $table->load($keynames);
+                        $table->product_qty = $cartitem->product_qty;
+                        $table->product_id = $cartitem->product_id;
+                        $table->product_attributes = $cartitem->product_attributes;
+                        $table->user_id = $cartitem->user_id;
+                        $table->session_id = $cartitem->session_id;                        
+    					// adjust the cart quantity
                         $table->product_qty = $product->quantity;
+                        $table->save();
 					}
-
-					$table->save();
+					
 				}
 
 				break;
