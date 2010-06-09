@@ -1157,7 +1157,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * return the total quantity and Product name of product on the basis of the attribute 
      * 
      * @param $id
-     * @param $attribute
+     * @param $attribute  CSV of attribute properties, in numeric order
      * @return an array with the name and the quantity of Product;
      */
     function getAvailableQuantity( $id, $attribute )
@@ -1173,7 +1173,6 @@ class TiendaHelperProduct extends TiendaHelperBase
         $select[]="product.product_name";
         $select[]="quantities.quantity";
         $select[]="product.product_check_inventory";
-      
         
         $query->select( $select );
         $query->from($tableProduct->getTableName()." AS product");

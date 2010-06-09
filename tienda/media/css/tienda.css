@@ -125,9 +125,10 @@ span.product_name {
 div.product_buy {
     font-size: 1.3em;
     vertical-align: middle;
-    text-align: center;
+    text-align: left;
     float: right;
     padding: 10px;
+    width: 50%;
 }
 
 img.addcart {
@@ -289,7 +290,7 @@ div.shipping_rates{
 div.add_to_cart_deactive{
 float:right!important;
 width:100%;
-text-align:right!important;
+
 }
 
 div#shipping_form_div{

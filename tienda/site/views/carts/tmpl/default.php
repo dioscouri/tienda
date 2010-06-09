@@ -106,6 +106,10 @@ $state = @$this->state;
                 </tr>
             </tfoot>
         </table>
+        
+        <input type="hidden" name="boxchecked" value="" />
+        <?php echo $this->form['validate']; ?>
+        
     </form>
     <?php } else { ?>
     <p><?php echo JText::_( "No items in your cart" ); ?></p>

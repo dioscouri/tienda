@@ -83,9 +83,6 @@ class TiendaControllerCarts extends TiendaController
         $product_id = !empty( $values['product_id'] ) ? $values['product_id'] : JRequest::getVar( 'product_id' );
         $product_qty = !empty( $values['product_qty'] ) ? $values['product_qty'] : '1';
         
-        // Integrity checks on quantity being added
-        if ($product_qty < 0) { $product_qty = '1'; } 
-        
         $attributes = array();
         foreach ($values as $key=>$value)
         {
@@ -95,6 +92,17 @@ class TiendaControllerCarts extends TiendaController
         	}
         }
         $attributes_csv = implode( ',', $attributes );
+
+        // Integrity checks on quantity being added
+        if ($product_qty < 0) { $product_qty = '1'; } 
+
+        // using a helper file,To determine the product's information related to inventory     
+        $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
+        if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+        {
+            JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ));
+            $product_qty = $availableQuantity->quantity;
+        }
         
         $suffix = strtolower(TiendaHelperCarts::getSuffix());
         $model = $this->getModel($suffix);
@@ -207,14 +215,14 @@ class TiendaControllerCarts extends TiendaController
                 $vals['user_id'] = $user->id;
                 $vals['session_id'] = $session->getId();
                 $vals['product_id'] = $product_id;
-                
                
                 // using a helper file,To determine the product's information related to inventory     
-                 $availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$key] );	
-                 if( $availableQuantity->product_check_inventory && $value >$availableQuantity->quantity ) {
-                	JFactory::getApplication()->enqueueMessage(JText::sprintf( 'NOT_AVAILABLE_QUANTITY',$availableQuantity->product_name, $availableQuantity-> quantity ));
+                $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$key] );	
+                if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
+                {
+                	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
                     continue;
-                 }	
+                }
             
                 $vals['product_qty'] = $value;
                 $vals['product_attributes'] = $product_attributes[$key];
@@ -223,7 +231,8 @@ class TiendaControllerCarts extends TiendaController
                 $row->save();
             }
         }
-       
+        
+        TiendaHelperCarts::fixQuantities();       
         $this->setRedirect( 'index.php?option=com_tienda&view=carts' );
     }
     
@@ -234,7 +243,7 @@ class TiendaControllerCarts extends TiendaController
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
-       
+
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);

@@ -102,6 +102,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 			}
 		}
+		
+		TiendaHelperCarts::fixQuantities();
+		
 		return true;
 	}
 
@@ -229,7 +232,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 					$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
 					if ($cartitem->product_qty > $product->quantity )
 					{
-						$table->product_qty = $product->quantity;
+						JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $table->product_qty ));
+                        $table->product_qty = $product->quantity;
 					}
 
 					$table->save();
