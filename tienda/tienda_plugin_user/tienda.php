@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /** Import library dependencies */
-jimport('joomla.event.plugin');
+jimport('joomla.plugin.plugin');
 
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );

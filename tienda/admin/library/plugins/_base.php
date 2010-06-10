@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 // TODO Make all Tienda plugins extend this _base file, to reduce code redundancy
 
 /** Import library dependencies */
-jimport('joomla.event.plugin');
+jimport('joomla.plugin.plugin');
 jimport('joomla.utilities.string');
 
 class TiendaPluginBase extends JPlugin

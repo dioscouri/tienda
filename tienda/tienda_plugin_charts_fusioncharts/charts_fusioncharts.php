@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /** Import library dependencies */
-jimport('joomla.event.plugin');
+jimport('joomla.plugin.plugin');
 
 /**
  * plgTiendaCharts_fusioncharts class.
