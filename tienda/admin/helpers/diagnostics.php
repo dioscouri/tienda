@@ -130,6 +130,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+   	    if (!$this->checkOrderPaymentReceived()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+        }
         
 
     }
@@ -863,4 +867,43 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+    
+    
+   /**
+     * Checks the orders table for the payment_received
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrderPaymentReceived()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderPaymentReceived', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orders';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "payment_received";
+            $definitions["payment_received"] = "TINYINT(1) NOT NULL DEFAULT '0'";
+     
+       
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderPaymentReceived') );
+            $config->config_name = 'checkOrderPaymentReceived';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
 }

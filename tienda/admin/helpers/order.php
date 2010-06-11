@@ -101,7 +101,7 @@ class TiendaHelperOrder extends TiendaHelperBase
      */
     function enableProductDownloads( $order_id )
     {
-        $error = false;
+    	$error = false;
         $errorMsg = "";
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -310,4 +310,68 @@ class TiendaHelperOrder extends TiendaHelperBase
     	
     	return $param->toString();
     }
+    
+  /**
+     * This method for after an orderpayment has been received when the admin click on the 
+     * that performs acts such as: 
+     * enabling file downloads
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function setOrderPaymentReceivedByAdmin( $order_id )
+    {
+        $errors = array();
+        $error = false;
+
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $order_id );
+         
+        if (empty($order->order_id))
+        {
+            	// TODO we must make sure this class is always instantiated
+            $this->setError( JText::_( "Invalid Order ID" ) );
+            return false;
+        }
+        
+      
+        // email the user
+        $row = JTable::getInstance('OrderHistory', 'TiendaTable');
+        $row->order_id = $order_id;
+        $row->order_state_id = $order->order_state_id;
+        $row->notify_customer = '1';
+        $row->comments = JText::_( "Payment Received" );
+        if (!$row->save())
+        {
+            $errors[] = $row->getError();
+            $error = true;
+        }
+        
+        // Fire an onAfterSetOrderPaymentReceived event
+        $dispatcher = JDispatcher::getInstance();
+        $dispatcher->trigger( 'onAfterSetOrderPaymentReceived', array( $order_id ) );
+            
+        // TODO Track errors with these (1,2,3)?
+        
+        // 1. Update quantities
+       // TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
+        
+        // 2. remove items from cart
+//        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+//        TiendaHelperCarts::removeOrderItems( $order_id );
+        
+        // TODO Should we log this as part of orderhistory?
+        // 3. add productfiles to product downloads
+       
+        TiendaHelperOrder::enableProductDownloads( $order_id );
+        
+        if ($error)
+        {
+            $this->setError( implode( '<br/>', $errors ) );
+            return false;
+        }
+        return true;
+    }
+    
 }

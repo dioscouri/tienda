@@ -123,7 +123,6 @@ class TiendaControllerOrders extends TiendaController
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
         $view->assign( 'order', $order );
-        
         if ($this->getTask() == 'print')
         {
             $view->setLayout( 'print' );
@@ -980,8 +979,18 @@ class TiendaControllerOrders extends TiendaController
         $row = $model->getTable();
         $row->load( $model->getId() );
         $row->order_state_id = JRequest::getVar('new_orderstate_id');
-      
-        if ( $row->save() )
+        
+        $paymentRecived= JRequest::getVar('paymentRecived');
+       
+        
+        if($paymentRecived=="on" && $row->payment_received!=1){
+        
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' ); 
+        TiendaHelperOrder::setOrderPaymentReceivedByAdmin( $row->order_id ); 
+        $row->payment_received=1;
+        }
+               
+        if ( $row->save())
         {
             $model->setId( $row->order_id );
             $this->messagetype  = 'message';
