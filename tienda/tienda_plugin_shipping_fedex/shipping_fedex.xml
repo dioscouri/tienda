@@ -20,6 +20,10 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
+        <param name="connection_type" type="list" default="curl" label="Connection Type" description="Connection Type Desc">
+          <option value="curl">Curl</option>
+          <!-- <option value="soap">SOAP</option> -->
+        </param>
 		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
 		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
 		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>

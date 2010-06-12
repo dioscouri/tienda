@@ -34,14 +34,12 @@ class plgTiendaRelatedProducts extends TiendaPluginBase
      */
     function onAfterDisplayProductFormRightColumn( $product )
     {
-        echo $this->_renderForm();
+        // echo $this->_renderForm();
         return null;
     }
     
     function onAfterSaveProducts( $product )
     {
         echo JRequest::getVar( 'related_products' );
-        echo "<br/>We're in the save method";
-        exit;
     }
 }

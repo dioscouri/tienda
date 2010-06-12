@@ -29,6 +29,8 @@ class TiendaShippingPlugin extends TiendaPluginBase
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$this->loadLanguage( '', JPATH_SITE );
+		$this->getShopAddress();
 	}
     
     /************************************
@@ -300,6 +302,35 @@ class TiendaShippingPlugin extends TiendaPluginBase
             }
         }
         return $state;
+    }
+    
+    function getShopAddress()
+    {
+        if (empty($this->shopAddress))
+        {
+            $this->shopAddress = new JObject();
+            
+            $config = TiendaConfig::getInstance();
+            $this->shopAddress->address_1 = $config->get('shop_address_1');
+            $this->shopAddress->address_2 = $config->get('shop_address_2');
+            $this->shopAddress->city = $config->get('shop_city');
+            $this->shopAddress->country = $config->get('shop_country');
+            
+            $this->includeTiendaTables();
+            $table = JTable::getInstance('Countries', 'TiendaTable');
+            $table->load($this->shopAddress->country);
+            $this->shopAddress->country_isocode_2 = $table->country_isocode_2;
+            
+            $this->shopAddress->zone = $config->get('shop_zone');
+            
+            $table = JTable::getInstance('Zones', 'TiendaTable');
+            $table->load($this->shopAddress->zone);
+            $this->shopAddress->zone_code = $table->code;
+            
+            $this->shopAddress->zip = $config->get('shop_zip');            
+        }
+        return $this->shopAddress;
+
     }
                 
 }

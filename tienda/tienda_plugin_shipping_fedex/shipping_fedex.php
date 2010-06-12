@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri
  * @link 	http://www.dioscouri.com
@@ -49,9 +48,8 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         
 	    $address = $values->getShippingAddress();
 	    $orderItems = $values->getItems();
-        
+	    
         $rates = $this->sendRequest($address, $orderItems);
-        
 		return $rates;
         
     }
@@ -76,175 +74,107 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         return $html;
     }
     
-    
-	function sendRequest($address, $orderItems)
+    function sendRequest( $address, $orderItems )
     {
-    	@ini_set("soap.wsdl_cache_enabled", "0");
-    	
-    	// Start the Soap Client
-    	$wsdl = dirname( __FILE__ ).DS.'shipping_fedex'.DS.'RateService_v8.wsdl';
-		$client = new SoapClient($wsdl, array('trace' => 1));
-		
-		$request = $this->getRequestData($address, $orderItems);
+        $rates = array();
+        
+        require_once( dirname( __FILE__ ).DS.'shipping_fedex'.DS."fedex.php" );
 
-	    try 
-		{
-		    $response = $client->getRates( $request );
-		    
-		    if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR')
-		    {
-		        $rates = $this->processResponse($response);
-		        return $rates;
-		    }
-		    else
-		    {
-		        return array();
-		    } 
-		    
-		    $this->writeToLog($client);    // Write to log file   
-		
-		} catch (SoapFault $exception) {
-		  	return array();      
-		}
-    }
-    
-    protected function getRequestData($address, $orderItems)
-    {
-    	$key = $this->params->get('key');
-    	$password = $this->params->get('password');
-    	
-    	$shipAccount = $this->params->get('account');
-    	$meter = $this->params->get('meter');
-    	
-    	$billAccount = $this->params->get('account');
-    	$dutyAccount = $this->params->get('account');
-    	
-    	$config = TiendaConfig::getInstance();
-    	$shop_address_1 = $config->get('shop_address_1');
-    	$shop_address_2 = $config->get('shop_address_2');
-    	$shop_city = $config->get('shop_city');
-    	$shop_country = $config->get('shop_country');
-    	
-    	$this->includeTiendaTables();
-    	$table = JTable::getInstance('Countries', 'TiendaTable');
-    	$table->load($shop_country);
-    	$shop_country = $table->country_isocode_2;
-    	
-    	$shop_zone = $config->get('shop_zone');
-    	
-    	$table = JTable::getInstance('Zones', 'TiendaTable');
-    	$table->load($shop_zone);
-    	$shop_zone = $table->code;
-    	
-    	$shop_zip = $config->get('shop_zip');
-    	
-    	/* Credentials */
-    	$request['WebAuthenticationDetail'] = array('UserCredential' =>
-                                      array('Key' => $key, 'Password' => $password)); 
-		$request['ClientDetail'] = array('AccountNumber' => $shipAccount, 'MeterNumber' => $meter);
-		$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v8 using PHP ***');
-		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '8', 'Intermediate' => '0', 'Minor' => '0');
-		$request['ReturnTransitAndCommit'] = false;
-		$request['RequestedShipment']['ShipTimestamp'] = date('c');
-		
-		/* Configurable Values */
-		if( $this->params->get('dropoff', 0) != 0 )
-			$request['RequestedShipment']['DropoffType'] = $this->params->get('dropoff'); // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
-			
-		if( $this->params->get('service', 0) != 0 )
-			$request['RequestedShipment']['ServiceType'] =  $this->params->get('service'); // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
-			
-			
-		$request['RequestedShipment']['PackagingType'] = $this->params->get('packaging', 'YOUR_PACKAGING'); // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-		
-		/* Auto Compiled values */
-		$request['RequestedShipment']['Shipper'] = array('Address' => array (
-		                                               'StreetLines' => array($shop_address_1, $shop_address_2), // Destination details
-		                                               'City' => $shop_city,
-		                                               'StateOrProvinceCode' => $shop_zone,
-		                                               'PostalCode' => $shop_zip,
-		                                               'CountryCode' => $shop_country)); 		
-		$request['RequestedShipment']['Recipient'] = array('Address' => array(
-		                                          'StreetLines' => array($address->address_1,$address->address_2 ), // Origin details
-		                                          'City' => $address->city,
-		                                          'StateOrProvinceCode' => $address->zone_code,
-		                                          'PostalCode' => $address->postal_code,
-		                                          'CountryCode' => $address->country_code));
-		$request['RequestedShipment']['ShippingChargesPayment'] = array('PaymentType' => 'SENDER',
-		                                                        'Payor' => array('AccountNumber' => $billAccount,
-		                                                                     'CountryCode' => $shop_country));
-		$request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT'; 
-		//$request['RequestedShipment']['RateRequestTypes'] = 'LIST'; 
-		
-		$request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
-		$request['RequestedShipment']['RequestedPackageLineItems'] = array();
-		
-		$request['RequestedShipment']['PackageCount'] = 0;
-		
-		foreach($orderItems as $item)
-		{
-			$product = JTable::getInstance('Products', 'TiendaTable');
-			$product->load($item->product_id);
-			if($product->product_ships)
-			{
-				$request['RequestedShipment']['PackageCount'] = $request['RequestedShipment']['PackageCount']+1;
-				
-				$request['RequestedShipment']['RequestedPackageLineItems'][] = array('Weight' => array(
-																							'Value' => $product->product_weight,
-		                                                                                    'Units' => $this->params->get('weight_unit', 'KG')
-																								),
-		                                                                             'Dimensions' => array(
-		                                                                             			'Length' => $product->product_length,
-		                                                                                        'Width' => $product->product_width,
-		                                                                                        'Height' => $product->product_height,
-		                                                                                        'Units' => $this->params->get('dimension_unit', 'CM')
-																								)
-																			);
-																			
-			}
-			
-		}
-		
-		return $request;
-    }
-    
-    protected function processResponse( $response )
-    {
-    	if( property_exists( $response, 'RateReplyDetails' ) )
-    		$reply_details = $response->RateReplyDetails;
-    	else
-    		return array();
-    	
-    	if(!is_array($reply_details))
-    	{
-    		$temp = $reply_details;
-    		$reply_details = array();
-    		$reply_details[] = $temp;
-    	}
-    	
-    	$i = 0;
-    	foreach($reply_details as $details)
-    	{
-	    	$method = $details->ServiceType;
-	    	
-	    	$rate_details = $details->RatedShipmentDetails;
-	    	
-	    	foreach($rate_details as $rate )
-	    	{
-	    		$rate = $rate->ShipmentRateDetail;
-	    		if( stripos($rate->RateType ,  'PAYOR_ACCOUNT') !== false )
-	    		{
-		    		$rates[$i]['name'] = $method;
-		    		$rates[$i]['element'] = $this->_element;
-		    		$rates[$i]['price'] = $rate->TotalBaseCharge->Amount;
-		    		$rates[$i]['extra'] = $rate->TotalSurcharges->Amount;
-		    		$rates[$i]['total'] = $rate->TotalNetFedExCharge->Amount;
-		    		$rates[$i]['tax'] = $rate->TotalTaxes->Amount;
-		    		$i++;
-	    		}
-	    	}
-    	}
-    	return $rates;
+        // TODO Use params to determine which of these is enabled
+
+//        $fedexService['EUROPE_FIRST_INTERNATIONAL_PRIORITY']           = 'EUROPE_FIRST_INTERNATIONAL_PRIORITY';
+//        $fedexService['FEDEX_1_DAY_FREIGHT']           = 'FEDEX_1_DAY_FREIGHT';
+        $fedexService['FEDEX_2_DAY']           = JText::_( 'FEDEX_2_DAY' );
+//        $fedexService['FEDEX_2_DAY_FREIGHT']           = 'FEDEX_2_DAY_FREIGHT';
+//        $fedexService['FEDEX_3_DAY_FREIGHT']           = 'FEDEX_3_DAY_FREIGHT';
+//        $fedexService['FEDEX_EXPRESS_SAVER']           = 'FEDEX_EXPRESS_SAVER';
+        $fedexService['FEDEX_GROUND']           = JText::_( 'FEDEX_GROUND' );
+//        $fedexService['FIRST_OVERNIGHT']           = 'FIRST_OVERNIGHT';
+//        $fedexService['GROUND_HOME_DELIVERY']           = 'GROUND_HOME_DELIVERY';
+//        $fedexService['INTERNATIONAL_ECONOMY']           = 'INTERNATIONAL_ECONOMY';
+//        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT']           = 'INTERNATIONAL_ECONOMY_FREIGHT';
+//        $fedexService['INTERNATIONAL_FIRST']           = 'INTERNATIONAL_FIRST';
+//        $fedexService['INTERNATIONAL_PRIORITY']           = 'INTERNATIONAL_PRIORITY';
+//        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT']           = 'INTERNATIONAL_PRIORITY_FREIGHT';
+        $fedexService['PRIORITY_OVERNIGHT']           = JText::_( 'PRIORITY_OVERNIGHT' );
+//        $fedexService['SMART_POST']           = 'SMART_POST';
+        $fedexService['STANDARD_OVERNIGHT']           = JText::_( 'STANDARD_OVERNIGHT' );
+//        $fedexService['FEDEX_FREIGHT']           = 'FEDEX_FREIGHT';
+//        $fedexService['FEDEX_NATIONAL_FREIGHT']           = 'FEDEX_NATIONAL_FREIGHT';
+//        $fedexService['INTERNATIONAL_GROUND']           = 'FEDEX_NATIONAL_FREIGHT';
+        
+        $shipAccount = $this->params->get('account');
+        $meter = $this->params->get('meter');
+        $billAccount = $this->params->get('account');
+        $key = $this->params->get('key');
+        $password = $this->params->get('password');
+        
+        $packageCount = 0;
+        $packages = array();
+        
+        foreach ( $orderItems as $item )
+        {
+            $product = JTable::getInstance('Products', 'TiendaTable');
+            $product->load($item->product_id);
+            if ($product->product_ships)
+            {
+                $packageCount = $packageCount + 1;
+                $weight = array(
+                    'Value' => $product->product_weight,
+                    'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
+                );
+                
+                $dimensions = array(
+                    'Length' => $product->product_length,
+                    'Width' => $product->product_width,
+                    'Height' => $product->product_height,
+                    'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
+                );
+                
+                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
+            }            
+        }
+        
+        foreach($fedexService as $service=>$serviceName)
+        {
+            $fedex = new TiendaFedexShip;
+            
+            $fedex->setKey($key);
+            $fedex->setPassword($password);
+            $fedex->setAccountNumber($billAccount);
+            $fedex->setMeterNumber($meter);
+            $fedex->setService($service, $serviceName);
+            $fedex->setPayorType("SENDER");
+            $fedex->setCarrierCode("FDXE");
+            $fedex->setDropoffType("REGULAR_PICKUP");
+            $fedex->setPackaging("YOUR_PACKAGING");
+            
+            $fedex->packageLineItems = $packages;
+            $fedex->setPackageCount($packageCount);
+                        
+            $fedex->setOriginAddressLine($this->shopAddress->address_1);
+            $fedex->setOriginAddressLine($this->shopAddress->address_2);
+            $fedex->setOriginCity($this->shopAddress->city);
+            $fedex->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
+            $fedex->setOriginPostalCode($this->shopAddress->zip);
+            $fedex->setOriginCountryCode($this->shopAddress->country_isocode_2);
+            
+            $fedex->setDestAddressLine($address->address_1);
+            $fedex->setDestAddressLine($address->address_2);
+            $fedex->setDestCity($address->city);
+            $fedex->setDestStateOrProvinceCode($address->zone_code);
+            $fedex->setDestPostalCode($address->postal_code);
+            $fedex->setDestCountryCode($address->country_code);
+                        
+            if ($fedex->getRate())
+            {
+                $fedex->rate->summary['element'] = $this->_element;
+                $rates[] = $fedex->rate->summary;
+            }
+        }
+        
+        return $rates;
+        
     }
     
 	protected function writeToLog($client)
