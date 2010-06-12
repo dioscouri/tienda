@@ -216,4 +216,21 @@ class TiendaPluginBase extends JPlugin
         }
         return $suffix;
     }
+
+    /**
+     * Gets the row from the __plugins DB table that corresponds to this plugin
+     *  
+     * @return object
+     */
+    function _getMe()
+    {
+        if (empty($this->_row))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance('Shipping', 'TiendaTable');
+            $table->load( array('element'=>$this->_element, 'folder'=>'tienda') );
+            $this->_row = $table;
+        }
+        return $this->_row;
+    }
 }

@@ -105,6 +105,7 @@
 	<input type="hidden" name="order_change" value="0" />
 	<input type="hidden" name="sid" value="" />
 	<input type="hidden" name="shippingTask" value="_default" />
+	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="" />
 	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
 	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />

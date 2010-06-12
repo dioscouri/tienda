@@ -56,9 +56,22 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         
     }
     
+    /**
+     * Displays the admin-side configuration form for the plugin
+     * 
+     */
     function viewConfig()
     {
-        $html = $this->_getLayout('default', new JObject());
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        TiendaToolBarHelper::cancel( 'close', 'Close' );
+        
+        $plugin = $this->_getMe(); 
+        $plugin_id = $plugin->id;
+        
+        $vars = new JObject();
+        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+        $vars->id = $plugin_id;
+        $html = $this->_getLayout('default', $vars);
 		
         return $html;
     }

@@ -28,7 +28,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
 	function __construct(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_SITE );
+		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
     
     /************************************
