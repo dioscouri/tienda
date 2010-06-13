@@ -98,9 +98,10 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         $orderpayment->transaction_details = implode("\n", $formatted); 
         if ($orderpayment->save())
         {
-          
-        	// Update quantities  
-             Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        	// Don't remove order quantities until payment is actually received?
+        	// Or do we remove them now?
+        	// TODO Make that a param in the offline payments plugin
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
             TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
             
             // remove items from cart

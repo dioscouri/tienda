@@ -13,7 +13,6 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 	function __construct() 
 	{
 		parent::__construct();
-		//$this->_element = 'shipping_standard';
 	}
 	
 	function newMethod(){

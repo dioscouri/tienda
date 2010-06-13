@@ -20,10 +20,6 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-        <param name="connection_type" type="list" default="curl" label="Connection Type" description="Connection Type Desc">
-          <option value="curl">Curl</option>
-          <!-- <option value="soap">SOAP</option> -->
-        </param>
 		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
 		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
 		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
@@ -36,29 +32,7 @@
 		  <option value="REQUEST_COURIER">Request Courier</option>
 		  <option value="STATION">Station</option>
 		</param>
-		<param name="service" type="list" default="0" label="Service Type" description="Service Type Desc">
-		  	<option value="0">None</option>
-		 	<option value="EUROPE_FIRST_INTERNATIONAL_PRIORITY">EUROPE_FIRST_INTERNATIONAL_PRIORITY</option>
-			<option value="FEDEX_1_DAY_FREIGHT">FEDEX_1_DAY_FREIGHT</option>
-			<option value="FEDEX_2_DAY">FEDEX_2_DAY</option>
-			<option value="FEDEX_2_DAY_FREIGHT">FEDEX_2_DAY_FREIGHT</option>
-			<option value="FEDEX_3_DAY_FREIGHT">FEDEX_3_DAY_FREIGHT</option>
-			<option value="FEDEX_EXPRESS_SAVER">FEDEX_EXPRESS_SAVER</option>
-			<option value="FEDEX_GROUND">FEDEX_GROUND</option>
-			<option value="FIRST_OVERNIGHT">FIRST_OVERNIGHT</option>
-			<option value="GROUND_HOME_DELIVERY">GROUND_HOME_DELIVERY</option>
-			<option value="INTERNATIONAL_ECONOMY">INTERNATIONAL_ECONOMY</option>
-			<option value="INTERNATIONAL_ECONOMY_FREIGHT">INTERNATIONAL_ECONOMY_FREIGHT</option>
-			<option value="INTERNATIONAL_FIRST">INTERNATIONAL_FIRST</option>
-			<option value="INTERNATIONAL_PRIORITY">INTERNATIONAL_PRIORITY</option>
-			<option value="INTERNATIONAL_PRIORITY_FREIGHT">INTERNATIONAL_PRIORITY_FREIGHT</option>
-			<option value="PRIORITY_OVERNIGHT">PRIORITY_OVERNIGHT</option>
-			<option value="SMART_POST">SMART_POST</option>
-			<option value="STANDARD_OVERNIGHT">STANDARD_OVERNIGHT</option>
-			<option value="FEDEX_FREIGHT">FEDEX_FREIGHT</option>
-			<option value="FEDEX_NATIONAL_FREIGHT">FEDEX_NATIONAL_FREIGHT</option>
-			<option value="INTERNATIONAL_GROUND">FEDEX_NATIONAL_FREIGHT</option>
-		</param>
+        <param name="services" type="textarea" default="FEDEX_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
 		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
 			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
 			<option value="FEDEX_10KG_BOX">FEDEX_10KG_BOX</option>

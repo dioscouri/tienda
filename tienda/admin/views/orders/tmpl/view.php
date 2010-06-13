@@ -370,20 +370,17 @@
 	    </td>
 	</tr>
 	<tr>
-	<td style="width: 100px; text-align: right;" class="key">
-	       
-	        <?php echo JText::_("Set Payment as Received for Entire Order?"); ?>
-	   </td>
-	   <td>
-	   <?php if ($order->payment_received != 1) {?>
-	     <input id="paymentRecived" name="paymentRecived" type="checkbox" />
-	     <?php } else {?>
-	     <input id="paymentRecived" name="paymentRecived" type="checkbox" checked="true" disabled />
-	     <?php }?>
-	   </td>
-	   
-	</tr>
-	
+    	<td style="width: 100px; text-align: right;" class="key">
+            <?php echo JText::_("Do Completed Order Tasks")."?"; ?>
+        </td>
+    	<td>
+    	   <?php if (empty($order->completed_tasks)) {?>
+    	     <input id="completed_tasks" name="completed_tasks" type="checkbox" />
+    	     <?php } else {?>
+    	     <input id="completed_tasks" name="completed_tasks" type="checkbox" checked="checked" disabled="disabled" />
+    	     <?php }?>
+    	</td>	   
+	</tr>	
 	<tr>
 	    <td style="width: 100px; text-align: right;" class="key">
 	        <?php echo JText::_("Notify Customer about Change in Status"); ?>

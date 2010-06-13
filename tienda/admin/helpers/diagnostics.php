@@ -127,14 +127,18 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         
         if (!$this->checkOrderZoneAndUser()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERZONEANDUSER FAILED') .' :: '. $this->getError(), 'error' );
         }
         
-   	    if (!$this->checkOrderPaymentReceived()) 
+   	    if (!$this->checkOrderCompletedTasks()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERCOMPLETEDTASKS FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkOrderQuantitiesUpdated()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERQUANTITIESUPDATED FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -868,18 +872,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
-    
-    
    /**
-     * Checks the orders table for the payment_received
+     * Checks the orders table for the completed_tasks
      * As of v0.5.0
      * 
      * return boolean
      */
-    function checkOrderPaymentReceived()
+    function checkOrderCompletedTasks()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkOrderPaymentReceived', '0'))
+        if (TiendaConfig::getInstance()->get('checkOrderCompletedTasks', '0'))
         {
             return true;
         }
@@ -888,17 +890,54 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $definitions = array();
         $fields = array();
         
-        $fields[] = "payment_received";
-            $definitions["payment_received"] = "TINYINT(1) NOT NULL DEFAULT '0'";
-     
+        $fields[] = "completed_tasks";
+            $definitions["completed_tasks"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the OrderCompleted tasks executed?'";
+            
+        $fields[] = "quantities_updated";
+            $definitions["quantities_updated"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the Product Quantities updated?'";     
        
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkOrderPaymentReceived') );
-            $config->config_name = 'checkOrderPaymentReceived';
+            $config->load( array( 'config_name'=>'checkOrderCompletedTasks') );
+            $config->config_name = 'checkOrderCompletedTasks';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+   /**
+     * Checks the orders table for the quantities_updated
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrderQuantitiesUpdated()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderQuantitiesUpdated', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orders';
+        $definitions = array();
+        $fields = array();
+
+        $fields[] = "quantities_updated";
+            $definitions["quantities_updated"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the Product Quantities updated?'";     
+       
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderQuantitiesUpdated') );
+            $config->config_name = 'checkOrderQuantitiesUpdated';
             $config->value = '1';
             $config->save();
             return true;

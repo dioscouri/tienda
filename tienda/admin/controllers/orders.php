@@ -980,16 +980,16 @@ class TiendaControllerOrders extends TiendaController
         $row->load( $model->getId() );
         $row->order_state_id = JRequest::getVar('new_orderstate_id');
         
-        $paymentRecived= JRequest::getVar('paymentRecived');
+        $completed_tasks = JRequest::getVar('completed_tasks');
        
         
-        if($paymentRecived=="on" && $row->payment_received!=1){
-        
-        Tienda::load( 'TiendaHelperOrder', 'helpers.order' ); 
-        TiendaHelperOrder::setOrderPaymentReceivedByAdmin( $row->order_id ); 
-        $row->payment_received=1;
+        if ($completed_tasks == "on" && empty($row->completed_tasks) )
+        {
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' ); 
+            TiendaHelperOrder::doCompletedOrderTasks( $row->order_id ); 
+            $row->completed_tasks = 1;
         }
-               
+
         if ( $row->save())
         {
             $model->setId( $row->order_id );

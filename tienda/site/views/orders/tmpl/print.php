@@ -75,7 +75,7 @@
 
     <div id="shipping_info">
         <h3><?php echo JText::_("Shipping Information"); ?></h3>
-        <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->shipping_method_name ); ?><br/>
+        <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
         <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
                     <?php
                     echo $row->shipping_first_name." ".$row->shipping_last_name."<br/>";

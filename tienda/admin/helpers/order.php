@@ -58,19 +58,9 @@ class TiendaHelperOrder extends TiendaHelperBase
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger( 'onAfterSetOrderPaymentReceived', array( $order_id ) );
             
-        // TODO Track errors with these (1,2,3)?
-        
-        // 1. Update quantities
-        TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
-        
-        // 2. remove items from cart
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        TiendaHelperCarts::removeOrderItems( $order_id );
-        
-        // TODO Should we log this as part of orderhistory?
-        // 3. add productfiles to product downloads
-        TiendaHelperOrder::enableProductDownloads( $order_id );
-        
+        // Do orderTasks
+        TiendaHelperOrder::doCompletedOrderTasks( $order_id );
+                
         if ($error)
         {
             $this->setError( implode( '<br/>', $errors ) );
@@ -161,7 +151,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
-        if ($order->orderitems)
+        if ($order->orderitems && empty($order->quantities_updated))
         {
         	foreach ($order->orderitems as $orderitem)
         	{
@@ -200,6 +190,11 @@ class TiendaHelperOrder extends TiendaHelperBase
                 $product->quantity = $new_quantity;
  			    $product->save();
         	}
+        	
+        	$row = $model->getTable();
+        	$row->load(array('order_id'=>$order->order_id));
+        	$row->quantities_updated = 1;
+        	$row->store();
         }
         
 	}
@@ -319,7 +314,7 @@ class TiendaHelperOrder extends TiendaHelperBase
      * @param $order_id
      * @return unknown_type
      */
-    function setOrderPaymentReceivedByAdmin( $order_id )
+    function doCompletedOrderTasks( $order_id )
     {
         $errors = array();
         $error = false;
@@ -335,35 +330,18 @@ class TiendaHelperOrder extends TiendaHelperBase
             return false;
         }
         
-      
-        // email the user
-        $row = JTable::getInstance('OrderHistory', 'TiendaTable');
-        $row->order_id = $order_id;
-        $row->order_state_id = $order->order_state_id;
-        $row->notify_customer = '1';
-        $row->comments = JText::_( "Payment Received" );
-        if (!$row->save())
-        {
-            $errors[] = $row->getError();
-            $error = true;
-        }
-        
-        // Fire an onAfterSetOrderPaymentReceived event
+        // Fire an doCompletedOrderTasks event
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onAfterSetOrderPaymentReceived', array( $order_id ) );
+        $dispatcher->trigger( 'doCompletedOrderTasks', array( $order_id ) );
             
-        // TODO Track errors with these (1,2,3)?
-        
         // 1. Update quantities
-       // TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
+        TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
         
         // 2. remove items from cart
-//        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-//        TiendaHelperCarts::removeOrderItems( $order_id );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        TiendaHelperCarts::removeOrderItems( $order_id );
         
-        // TODO Should we log this as part of orderhistory?
         // 3. add productfiles to product downloads
-       
         TiendaHelperOrder::enableProductDownloads( $order_id );
         
         if ($error)
@@ -371,7 +349,13 @@ class TiendaHelperOrder extends TiendaHelperBase
             $this->setError( implode( '<br/>', $errors ) );
             return false;
         }
-        return true;
+            else
+        {
+            $order->completed_tasks = '1';
+            $order->store();
+            return true;    
+        }
+        
     }
     
 }

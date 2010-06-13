@@ -46,13 +46,14 @@ class TiendaControllerShipping extends TiendaController
         return $state;
     }
     
-    function execute( $task ){
-    	
-    	$shippingTask = JRequest::getWord('shippingTask', '');
-    	
+    function execute( $task )
+    {
+    	$shippingTask = JRequest::getCmd('shippingTask', '');
+
     	// Check if we are in a shipping method view. If it is so, 
     	// Try lo load the shipping plugin controller (if any)
-    	if( $task  == "view" && $shippingTask != '' ){
+    	if ( $task  == "view" && $shippingTask != '' )
+    	{
     		$model = $this->getModel('Shipping', 'TiendaModel');
 
     		$id = JRequest::getInt('id', '0');
@@ -77,7 +78,8 @@ class TiendaControllerShipping extends TiendaController
 			
 	    	$path = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS;
 	    	$controllerPath = $path.$element.DS.'controller.php';
-	    	
+
+                	    	
 			if (file_exists($controllerPath)) {
 				require_once $controllerPath;
 			} else {
@@ -93,7 +95,7 @@ class TiendaControllerShipping extends TiendaController
 				
 				// Add the view Path
 				$controller->addViewPath($path);
-				
+
 				// Perform the requested task
 				$controller->execute( $shippingTask );
 				

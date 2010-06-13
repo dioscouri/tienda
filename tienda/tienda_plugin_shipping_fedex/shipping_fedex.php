@@ -53,6 +53,51 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 		return $rates;
         
     }
+
+    function getFedexServices()
+    {
+        $fedexService['EUROPE_FIRST_INTERNATIONAL_PRIORITY'] = JText::_( 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' );
+        $fedexService['FEDEX_1_DAY_FREIGHT']    = JText::_( 'FEDEX_1_DAY_FREIGHT' );
+        $fedexService['FEDEX_2_DAY']            = JText::_( 'FEDEX_2_DAY' );
+        $fedexService['FEDEX_2_DAY_FREIGHT']    = JText::_( 'FEDEX_2_DAY_FREIGHT' );
+        $fedexService['FEDEX_3_DAY_FREIGHT']    = JText::_( 'FEDEX_3_DAY_FREIGHT' );
+        $fedexService['FEDEX_EXPRESS_SAVER']    = JText::_( 'FEDEX_EXPRESS_SAVER' );
+        $fedexService['FEDEX_GROUND']           = JText::_( 'FEDEX_GROUND' );
+        $fedexService['FIRST_OVERNIGHT']        = JText::_( 'FIRST_OVERNIGHT' );
+        $fedexService['GROUND_HOME_DELIVERY']   = JText::_( 'GROUND_HOME_DELIVERY' );
+        $fedexService['INTERNATIONAL_ECONOMY']  = JText::_( 'INTERNATIONAL_ECONOMY' );
+        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT'] = JText::_( 'INTERNATIONAL_ECONOMY_FREIGHT' );
+        $fedexService['INTERNATIONAL_FIRST']    = JText::_( 'INTERNATIONAL_FIRST' );
+        $fedexService['INTERNATIONAL_PRIORITY'] = JText::_( 'INTERNATIONAL_PRIORITY' );
+        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT'] = JText::_( 'INTERNATIONAL_PRIORITY_FREIGHT' );
+        $fedexService['PRIORITY_OVERNIGHT']     = JText::_( 'PRIORITY_OVERNIGHT' );
+        $fedexService['SMART_POST']             = JText::_( 'SMART_POST' );
+        $fedexService['STANDARD_OVERNIGHT']     = JText::_( 'STANDARD_OVERNIGHT' );
+        $fedexService['FEDEX_FREIGHT']          = JText::_( 'FEDEX_FREIGHT' );
+        $fedexService['FEDEX_NATIONAL_FREIGHT'] = JText::_( 'FEDEX_NATIONAL_FREIGHT' );
+        $fedexService['INTERNATIONAL_GROUND']   = JText::_( 'INTERNATIONAL_GROUND' );
+        
+        return $fedexService;
+    }
+
+    /**
+     * Gets the list of enabled services
+     */
+    function getServices()
+    {
+        $fedexServices = $this->getFedexServices();
+        $services = array();
+        $services_list = @preg_replace( '/\s/', '', $this->params->get( 'services' ) );
+        $services_array = explode( ',', $services_list );
+        foreach ($services_array as $service)
+        {
+            if (array_key_exists($service, $fedexServices))
+            {
+                $services[$service] = $fedexServices[$service];
+            }
+        }
+        return $services;
+    }
     
     /**
      * Displays the admin-side configuration form for the plugin
@@ -61,7 +106,17 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
     function viewConfig()
     {
         JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        // TODO Finish this
+        //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
+        //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
         TiendaToolBarHelper::cancel( 'close', 'Close' );
+        
+        $vars = new JObject();
+        $vars->state = $this->_getState();
+        $id = JRequest::getInt('id', '0');
+        $form = array();
+        $form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
+        $vars->form = $form;
         
         $plugin = $this->_getMe(); 
         $plugin_id = $plugin->id;
@@ -69,6 +124,8 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         $vars = new JObject();
         $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
         $vars->id = $plugin_id;
+        $vars->list = $this->getFedexServices();
+        $vars->services = $this->getServices();
         $html = $this->_getLayout('default', $vars);
 		
         return $html;
@@ -80,29 +137,9 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         
         require_once( dirname( __FILE__ ).DS.'shipping_fedex'.DS."fedex.php" );
 
-        // TODO Use params to determine which of these is enabled
+        // Use params to determine which of these is enabled
+        $services = $this->getServices();
 
-//        $fedexService['EUROPE_FIRST_INTERNATIONAL_PRIORITY']           = 'EUROPE_FIRST_INTERNATIONAL_PRIORITY';
-//        $fedexService['FEDEX_1_DAY_FREIGHT']           = 'FEDEX_1_DAY_FREIGHT';
-        $fedexService['FEDEX_2_DAY']           = JText::_( 'FEDEX_2_DAY' );
-//        $fedexService['FEDEX_2_DAY_FREIGHT']           = 'FEDEX_2_DAY_FREIGHT';
-//        $fedexService['FEDEX_3_DAY_FREIGHT']           = 'FEDEX_3_DAY_FREIGHT';
-//        $fedexService['FEDEX_EXPRESS_SAVER']           = 'FEDEX_EXPRESS_SAVER';
-        $fedexService['FEDEX_GROUND']           = JText::_( 'FEDEX_GROUND' );
-//        $fedexService['FIRST_OVERNIGHT']           = 'FIRST_OVERNIGHT';
-//        $fedexService['GROUND_HOME_DELIVERY']           = 'GROUND_HOME_DELIVERY';
-//        $fedexService['INTERNATIONAL_ECONOMY']           = 'INTERNATIONAL_ECONOMY';
-//        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT']           = 'INTERNATIONAL_ECONOMY_FREIGHT';
-//        $fedexService['INTERNATIONAL_FIRST']           = 'INTERNATIONAL_FIRST';
-//        $fedexService['INTERNATIONAL_PRIORITY']           = 'INTERNATIONAL_PRIORITY';
-//        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT']           = 'INTERNATIONAL_PRIORITY_FREIGHT';
-        $fedexService['PRIORITY_OVERNIGHT']           = JText::_( 'PRIORITY_OVERNIGHT' );
-//        $fedexService['SMART_POST']           = 'SMART_POST';
-        $fedexService['STANDARD_OVERNIGHT']           = JText::_( 'STANDARD_OVERNIGHT' );
-//        $fedexService['FEDEX_FREIGHT']           = 'FEDEX_FREIGHT';
-//        $fedexService['FEDEX_NATIONAL_FREIGHT']           = 'FEDEX_NATIONAL_FREIGHT';
-//        $fedexService['INTERNATIONAL_GROUND']           = 'FEDEX_NATIONAL_FREIGHT';
-        
         $shipAccount = $this->params->get('account');
         $meter = $this->params->get('meter');
         $billAccount = $this->params->get('account');
@@ -135,7 +172,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
             }            
         }
         
-        foreach($fedexService as $service=>$serviceName)
+        foreach($services as $service=>$serviceName)
         {
             $fedex = new TiendaFedexShip;
             

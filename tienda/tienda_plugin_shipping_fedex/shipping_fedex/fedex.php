@@ -220,6 +220,10 @@ class TiendaFedexShip extends TiendaFedex
             }        
     }
     
+    /**
+     * Creates the request array for sending to fedex
+     * @return array
+     */
     function createRequest()
     {
         /* Credentials */
@@ -272,14 +276,18 @@ class TiendaFedexShip extends TiendaFedex
         
         $this->request = $request;
     }
-    
 
+    /**
+     * Processes the response frm fedex
+     * @param $response
+     * @return boolean 
+     */
     protected function processResponse( $response )
     {
         if( property_exists( $response, 'RateReplyDetails' ) )
             $reply_details = $response->RateReplyDetails;
         else
-            return array();
+            return false;
         
         if(!is_array($reply_details))
         {
