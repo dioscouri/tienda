@@ -109,6 +109,7 @@ class TiendaControllerOrders extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $order = $model->getTable( 'orders' );
         $order->load( $model->getId() );
+        $order->getItems();
         
         $row = $model->getItem();
                 
@@ -147,7 +148,13 @@ class TiendaControllerOrders extends TiendaController
         // if the user cannot view order, fail
         $model  = $this->getModel( $this->get('suffix') );
         $model->getId();
-        $row = $model->getItem();
+        $order = $model->getTable( 'orders' );
+        $order->load( $model->getId() );
+        $order->getItems();
+        
+        $row =& $model->getItem();
+        $row->order_ships = $order->order_ships;
+        
         $user_id = JFactory::getUser()->id;
         if (empty($user_id) || $user_id != $row->user_id)
         {

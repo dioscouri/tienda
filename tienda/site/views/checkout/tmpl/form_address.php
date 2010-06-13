@@ -114,7 +114,9 @@
     	</th>
         <td>
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code"
-			id="<?php echo $this->form_prefix; ?>postal_code" size="25" maxlength="250" onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" />
+			id="<?php echo $this->form_prefix; ?>postal_code" size="25" maxlength="250" 
+			<?php if (!empty($this->showShipping)) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" <?php } ?> 
+			/>
 		</td>
 	</tr>
 	<tr>

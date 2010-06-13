@@ -53,6 +53,7 @@
 
         <div id="shipping_info" class="address">
         <h3><?php echo JText::_("Shipping Information"); ?></h3>
+        <?php if (!empty($this->showShipping)) { ?>
         <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
         <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
                     <?php
@@ -64,7 +65,9 @@
                     echo $shipping_info['postal_code'] ." ";
                     echo $shipping_info['country_name'];
                     ?>
-            <br/>
+        <?php } else { ?>
+        <?php echo JText::_( "No Shipping Required" ); ?>
+        <?php } ?>
         </div>
     
 	    <div class="reset"></div>
@@ -128,14 +131,14 @@
     </p>
         
     <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
-    <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo $values['shipping_address_id']; ?>" />
-    <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo $values['billing_address_id']; ?>" />
-    <input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo $values['shipping_plugin']; ?>" />
-    <input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $values['shipping_price']; ?>" />
-	<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $values['shipping_tax']; ?>" />
-	<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $values['shipping_name']; ?>" />
-	<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $values['shipping_extra']; ?>" />
-    <input type="hidden" id="customer_note" name="customer_note" value="<?php echo $values['customer_note']?>" />
+    <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo @$values['shipping_address_id']; ?>" />
+    <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo @$values['billing_address_id']; ?>" />
+    <input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo @$values['shipping_plugin']; ?>" />
+    <input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo @$values['shipping_price']; ?>" />
+	<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo @$values['shipping_tax']; ?>" />
+	<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo @$values['shipping_name']; ?>" />
+	<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo @$values['shipping_extra']; ?>" />
+    <input type="hidden" id="customer_note" name="customer_note" value="<?php echo (!empty($values['customer_note'])) ? $values['customer_note'] : ''; ?>" />
 	<input type="hidden" id="task" name="task" value="" />
 	<input type="hidden" id="step" name="step" value="selectpayment" />
 	<input type="hidden" id="guest" name="guest" value="<?php if($this->guest)echo "1"; else echo "0"; ?>" />

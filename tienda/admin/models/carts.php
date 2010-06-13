@@ -146,7 +146,7 @@ class TiendaModelCarts extends TiendaModelBase
 				
     	// If no item in the list, return false
         if( empty( $list ) ){
-          	return false;;
+          	return false;
         }
         foreach ($list as $item)
         {

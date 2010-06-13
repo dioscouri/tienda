@@ -139,6 +139,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERQUANTITIESUPDATED FAILED') .' :: '. $this->getError(), 'error' );
         }
+    
+        if (!$this->checkOrdersOrderShips()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrdersOrderShips FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -935,6 +940,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkOrderQuantitiesUpdated') );
             $config->config_name = 'checkOrderQuantitiesUpdated';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+   /**
+     * Checks the orders table for the order_ships
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkOrdersOrderShips()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrdersOrderShips', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orders';
+        $definitions = array();
+        $fields = array();
+
+        $fields[] = "order_ships";
+            $definitions["order_ships"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Does this order require shipping?'";     
+       
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrdersOrderShips') );
+            $config->config_name = 'checkOrdersOrderShips';
             $config->value = '1';
             $config->save();
             return true;

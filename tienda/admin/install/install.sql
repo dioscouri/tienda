@@ -518,6 +518,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `modified_date` DATETIME NULL DEFAULT NULL COMMENT 'GMT' ,
   `customer_note` TEXT NOT NULL ,
   `ip_address` VARCHAR(15) NOT NULL ,
+  `order_ships` tinyint(1) NOT NULL COMMENT 'Does this order require shipping?',
   `order_recurs` tinyint(1) NOT NULL COMMENT 'Does any amount from this order recur?',
   `recurring_amount` decimal(12,5) NOT NULL COMMENT 'The amount of the recurring charge',
   `recurring_payments` int(11) NOT NULL COMMENT 'How many recurring payments?',

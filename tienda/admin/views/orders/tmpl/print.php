@@ -1,7 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
+<?php $row = @$this->row; ?> 
+<?php $order = @$this->order; ?>
 <?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
@@ -147,20 +148,24 @@
                     <?php echo $row->email; ?>
                 </td>
             </tr>
-            </table>
-            
             <?php if (@$row->customer_note) : ?>
-                <div id="customer_note">
-                    <h3><?php echo JText::_("Note"); ?></h3>
-                    <span><?php echo @$row->customer_note; ?></span>
-                </div>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Note"); ?>
+                </td>
+                <td>
+                    <?php echo $row->customer_note; ?>
+                </td>
+            </tr>
             <?php endif; ?>
+            </table>
     
             </fieldset>
         
         </td>
         <td style="width: 50%; vertical-align: top;">
         
+            <?php if ($order->order_ships) { ?>
             <fieldset>
             <legend><?php echo JText::_('Shipping Information'); ?></legend>
             
@@ -191,6 +196,7 @@
             </tr>
             </table>
             </fieldset>
+            <?php } ?>
             
             <fieldset>
             <legend><?php echo JText::_('Payment Information'); ?></legend>

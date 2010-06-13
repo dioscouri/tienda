@@ -42,34 +42,38 @@
         ?>
     </div>
 
-    <div id="shipping_info" class="address">
-        <h3><?php echo JText::_("Shipping Information"); ?></h3>
-        <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
-        <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
-        <?php
-        echo $shipping_info['first_name']." ". $shipping_info['last_name']."<br/>";
-        echo $shipping_info['address_1'].", ";
-        echo $shipping_info['address_2'] ? $shipping_info['address_2'] .", " : "";
-        echo $shipping_info['city'] .", ";
-        echo $shipping_info['zone_name'] ." ";
-        echo $shipping_info['postal_code'] ." ";
-        echo $shipping_info['country_name'];
-        ?>
-    </div>
+    <?php if (!empty($this->showShipping)) { ?>
+        <div id="shipping_info" class="address">
+            <h3><?php echo JText::_("Shipping Information"); ?></h3>
+            <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
+            <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
+            <?php
+            echo $shipping_info['first_name']." ". $shipping_info['last_name']."<br/>";
+            echo $shipping_info['address_1'].", ";
+            echo $shipping_info['address_2'] ? $shipping_info['address_2'] .", " : "";
+            echo $shipping_info['city'] .", ";
+            echo $shipping_info['zone_name'] ." ";
+            echo $shipping_info['postal_code'] ." ";
+            echo $shipping_info['country_name'];
+            ?>
+        </div>
+        
+        <div class="reset"></div>
+        
+    	<?php 
+    	if(!empty($this->order->customer_note))
+    	{
+    		?>
+    		<div id="shipping_comments">
+    			<h3><?php echo JText::_("Shipping Notes"); ?></h3>
+    			<?php echo $this->order->customer_note; ?>
+    		</div>
+    	    <?php 
+    	} 
+    	?>
+    <?php } ?>
     
     <div class="reset"></div>
-    
-	<?php 
-	if(!empty($this->order->customer_note))
-	{
-		?>
-		<div id="shipping_comments">
-			<h3><?php echo JText::_("Shipping Notes"); ?></h3>
-			<?php echo $this->order->customer_note; ?>
-		</div>
-	    <?php 
-	} 
-	?>
     
     <?php if (!empty($this->onAfterDisplayPrePayment)) : ?>
         <div id='onAfterDisplayPrePayment_wrapper'>

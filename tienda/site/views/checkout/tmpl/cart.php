@@ -85,9 +85,14 @@ $items = @$this->orderitems;
                     	    echo JText::_("Product Tax").":<br>";    
                     	}
    						
-                    	echo JText::_("Shipping and Handling").":";
-                    	if ($display_shipping_tax)
-                    		echo "<br>".JText::_("Shipping Tax").":";
+                    	if (!empty($this->showShipping))
+                    	{
+                            echo JText::_("Shipping and Handling").":";
+                            if ($display_shipping_tax) {
+                                echo "<br>".JText::_("Shipping Tax").":";
+                            }                    	    
+                    	}
+
                     ?>
                     </td>
                     <td colspan="2" style="text-align: right;">
@@ -105,9 +110,14 @@ $items = @$this->orderitems;
                             echo TiendaHelperBase::currency($order->order_tax) . "<br>";    
                         }
                         
-                    	echo TiendaHelperBase::currency($order->order_shipping);
-                    	if ($display_shipping_tax)
-                    		echo "<br>" . TiendaHelperBase::currency($order->order_shipping_tax);	
+                        if (!empty($this->showShipping))
+                        {
+                            echo TiendaHelperBase::currency($order->order_shipping);
+                            if ($display_shipping_tax) {
+                                echo "<br>" . TiendaHelperBase::currency($order->order_shipping_tax);
+                            }                               
+                        }
+
                     ?>                  
                     </td>
                 </tr>

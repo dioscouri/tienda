@@ -66,25 +66,26 @@
 		        ?>
             </div> 
         <br/>
-        
 	</div>
 
-    <div id="shipping_info">
-        <h3><?php echo JText::_("Shipping Information"); ?></h3>
-        <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
-        <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
-                    <?php
-                    echo $row->shipping_first_name." ".$row->shipping_last_name."<br/>";
-                    echo $row->shipping_address_1.", ";
-                    echo $row->shipping_address_2 ? $row->shipping_address_2.", " : "";
-                    echo $row->shipping_city.", ";
-                    echo $row->shipping_zone_name." ";
-                    echo $row->shipping_postal_code." ";
-                    echo $row->shipping_country_name;
-                    ?>
-        <br/>
-    </div>
-
+    <?php if ($order->order_ships) { ?>
+        <div id="shipping_info">
+            <h3><?php echo JText::_("Shipping Information"); ?></h3>
+            <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
+            <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
+                        <?php
+                        echo $row->shipping_first_name." ".$row->shipping_last_name."<br/>";
+                        echo $row->shipping_address_1.", ";
+                        echo $row->shipping_address_2 ? $row->shipping_address_2.", " : "";
+                        echo $row->shipping_city.", ";
+                        echo $row->shipping_zone_name." ";
+                        echo $row->shipping_postal_code." ";
+                        echo $row->shipping_country_name;
+                        ?>
+            <br/>
+        </div>
+    <?php } ?>
+    
 	<div id="items_info">
 		<h3><?php echo JText::_("Items in Order"); ?></h3>
 		
@@ -192,9 +193,9 @@
 		</table>
 	</div>
 
-	<?php if (@$row->customer_note) : ?>
+	<?php if (!empty($row->customer_note)) : ?>
 		<div id="customer_note">
 			<h3><?php echo JText::_("Note"); ?></h3>
-			<span><?php echo @$row->customer_note; ?></span>
+			<span><?php echo $row->customer_note; ?></span>
 		</div>
 	<?php endif; ?>

@@ -136,19 +136,27 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'rates', $rates );
 
 			// Checking whether shipping is required
-			$showShipping = false;
-			$cartsModel = $this->getModel('carts');
-			if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
-			{
-				$showShipping = true;
-			}
-			$view->assign( 'showShipping', $showShipping );
-			
-			if ($showShipping)
-			{
-			    $shipping_method_form = $this->getShippingHtml( 'shipping_yes' );
-			    $view->assign( 'shipping_method_form', $shipping_method_form );
-			}
+            $showShipping = false;
+            $shipping_layout = "shipping_no";
+            
+            $cartsModel = $this->getModel('carts');
+            if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+            {
+                $showShipping = true;
+            }
+            
+            if ($showShipping)
+            {
+                $shipping_layout = "shipping_yes";
+                if (empty( $shippingAddress ))
+                {
+                    $shipping_layout = "shipping_calculate";
+                }
+                
+            }
+            $shipping_method_form = $this->getShippingHtml( $shipping_layout );
+            $view->assign( 'showShipping', $showShipping );
+            $view->assign( 'shipping_method_form', $shipping_method_form );
 			
 			JRequest::setVar('layout', 'guest');
 		}
@@ -197,13 +205,14 @@ class TiendaControllerCheckout extends TiendaController
 			
 		    // Check whether shipping is required
             $showShipping = false;
+            $shipping_layout = "shipping_no";
+            
             $cartsModel = $this->getModel('carts');
             if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
             {
                 $showShipping = true;
             }
             
-            $shipping_method_form = "";
             if ($showShipping)
             {
                 $shipping_layout = "shipping_yes";
@@ -211,8 +220,9 @@ class TiendaControllerCheckout extends TiendaController
                 {
                     $shipping_layout = "shipping_calculate";
                 }
-                $shipping_method_form = $this->getShippingHtml( $shipping_layout );
+                
             }
+            $shipping_method_form = $this->getShippingHtml( $shipping_layout );
             $view->assign( 'showShipping', $showShipping );
 			$view->assign( 'shipping_method_form', $shipping_method_form );
 			
@@ -319,7 +329,17 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'order', $order );
 		$view->assign( 'orderitems', $order->getItems() );
-		$view->assign( 'shipping_total', $order->getShippingTotal() );
+		
+        // Checking whether shipping is required
+        $showShipping = false;
+        $cartsModel = $this->getModel('carts');
+        if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+        {
+            $showShipping = true;
+            $view->assign( 'shipping_total', $order->getShippingTotal() );
+        }
+        $view->assign( 'showShipping', $showShipping );
+		
 		$view->setLayout( 'cart' );
 
 		ob_start();
@@ -413,7 +433,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// fail if no shipping method selected
 		
-		if($submitted_values['shippingrequired'])
+		if ($submitted_values['shippingrequired'])
 		{
     		if (empty($submitted_values['_checked']['shipping_plugin']))
     		{
@@ -746,6 +766,15 @@ class TiendaControllerCheckout extends TiendaController
 		$view->setModel( $model, true );
 		$view->setLayout( 'form_address' );
 
+        // Checking whether shipping is required
+        $showShipping = false;
+        $cartsModel = $this->getModel('carts');
+        if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+        {
+            $showShipping = true;
+        }
+        $view->assign( 'showShipping', $showShipping );
+		
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
@@ -1026,10 +1055,10 @@ class TiendaControllerCheckout extends TiendaController
         
         // set the shipping method
         $order->shipping = new JObject();
-        $order->shipping->shipping_price      = $values['shipping_price'];
-        $order->shipping->shipping_extra      = $values['shipping_extra'];
-        $order->shipping->shipping_name       = $values['shipping_name'];
-        $order->shipping->shipping_tax        = $values['shipping_tax'];
+        $order->shipping->shipping_price      = @$values['shipping_price'];
+        $order->shipping->shipping_extra      = @$values['shipping_extra'];
+        $order->shipping->shipping_name       = @$values['shipping_name'];
+        $order->shipping->shipping_tax        = @$values['shipping_tax'];
         
         $this->setAddresses( $values );
 
@@ -1054,7 +1083,7 @@ class TiendaControllerCheckout extends TiendaController
         $shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
         $same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
         //$shipping_method_id     = $values['shipping_method_id'];
-        $customerNote           = $values['customer_note'];
+        $customerNote           = @$values['customer_note'];
 
         $progress = $this->getProgress();
 
@@ -1066,6 +1095,15 @@ class TiendaControllerCheckout extends TiendaController
         //Get and Set Model
         $model = $this->getModel('checkout');
         $view->setModel( $model, true );
+        
+        // Checking whether shipping is required
+        $showShipping = false;
+        $cartsModel = $this->getModel('carts');
+        if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+        {
+            $showShipping = true;
+        }
+        $view->assign( 'showShipping', $showShipping );
 
         //Get Addresses
         //$shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address_id);
@@ -1101,7 +1139,7 @@ class TiendaControllerCheckout extends TiendaController
         }
         $values['shipping_address_id'] = $shipping_address_id;
 
-        $shippingMethodName = $values['shipping_name'];
+        $shippingMethodName = @$values['shipping_name'];
 
         //Assign Addresses and Shippping Method to view
         $view->assign('shipping_method_name',$shippingMethodName);
@@ -1255,7 +1293,15 @@ class TiendaControllerCheckout extends TiendaController
 		$shippingAddress->user_id = $user->id;
 		$billingAddress->user_id = $user->id;
 
-		if (!$shippingAddress->save())
+        // Checking whether shipping is required
+        $showShipping = false;
+        $cartsModel = $this->getModel('carts');
+        if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+        {
+            $showShipping = true;
+        }
+		
+		if ($showShipping && !$shippingAddress->save())
 		{
     		// Output error message and halt
 			JError::raiseNotice( 'Error Updating the Shipping Address', $shippingAddress->getError() );
@@ -1319,7 +1365,7 @@ class TiendaControllerCheckout extends TiendaController
 		// Get Addresses
 		$shipping_address = $order->getShippingAddress();
 		$billing_address = $order->getBillingAddress();
-		$shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address->id);
+		$shippingAddressArray = $showShipping ? $this->retrieveAddressIntoArray($shipping_address->id) : array();
 		$billingAddressArray = $this->retrieveAddressIntoArray($billing_address->id);
 			
 		$shippingMethodName = $values['shipping_name'];
@@ -1337,7 +1383,8 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign('shipping_info', $shippingAddressArray);
 		$view->assign('billing_info', $billingAddressArray);
 		$view->assign('shipping_method_name',$shippingMethodName);
-
+        $view->assign( 'showShipping', $showShipping );
+        
 		// Get and Set Model
 		$model = $this->getModel('checkout');
 		$view->setModel( $model, true );
@@ -1427,7 +1474,7 @@ class TiendaControllerCheckout extends TiendaController
 		$order =& $this->_order; // a TableOrders object (see constructor)
 		$order->bind( $values );
 		$order->user_id = JFactory::getUser()->id;
-
+        
 		$order->ip_address = $_SERVER['REMOTE_ADDR'];
 		$this->setAddresses( $values );
 		

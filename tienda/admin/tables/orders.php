@@ -522,7 +522,7 @@ class TiendaTableOrders extends TiendaTable
     function getItems()
     {
         // TODO once all references use this getter, we can do fun things with this method, such as fire a plugin event
-        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         // if empty($items) && !empty($this->order_id), then this is an order from the db,  
         // so we grab all the orderitems from the db  
         if (empty($this->_items) && !empty($this->order_id))
@@ -552,6 +552,9 @@ class TiendaTableOrders extends TiendaTable
         // ensure that the items array only has one recurring item in it
         foreach ($items as $item)
         {
+            $shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
+            if ($shipping) { $this->order_ships = '1'; }
+            
             if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
             {
                 // Only one recurring item allowed per order. 

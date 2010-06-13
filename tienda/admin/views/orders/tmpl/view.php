@@ -90,21 +90,25 @@
                     <?php echo $row->ip_address; ?>
                 </td>
             </tr>
-            </table>
             
             <?php if (@$row->customer_note) : ?>
-                <div id="customer_note">
-                    <h3><?php echo JText::_("Note"); ?></h3>
-                    <span><?php echo @$row->customer_note; ?></span>
-                </div>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_("Note"); ?>
+                </td>
+                <td>
+                    <?php echo $row->customer_note; ?>
+                </td>
+            </tr>
             <?php endif; ?>
-    
+            </table>
+            
             </fieldset>
 
-		
+		    <?php if ($order->order_ships) { ?>  
             <fieldset>
             <legend><?php echo JText::_('Shipping Information'); ?></legend>
-	        
+            	        
 		    <table class="admintable" style="clear: both;">
 		    <tr>
 		        <td style="width: 100px; text-align: right;" class="key">
@@ -132,6 +136,7 @@
 		    </tr>
 		    </table>
 		    </fieldset>
+		    <?php } ?>
 		    
             <fieldset>
             <legend><?php echo JText::_('Payment Information'); ?></legend>
