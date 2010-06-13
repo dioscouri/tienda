@@ -112,7 +112,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $product the product row
      * @return html
      */
-    protected function onAfterSaveProducts( $product )
+    public function onAfterSaveProducts( $product )
     {
     	// Do Something here with the product data
     }
@@ -134,7 +134,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $category the product row
      * @return html
      */
-    protected function onAfterSaveCategories( $category )
+    public function onAfterSaveCategories( $category )
     {
         // Do Something here with the category data
     }
@@ -175,61 +175,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
         $app = JFactory::getApplication();
         $ns = $app->getName().'::'.'com.tienda.shipping.'.$this->get('_element');
     }
-    
-    /**
-     * Make the standard Tienda Table avaiable in the plugin
-     */
-    protected function includeTiendaTables(){
-    	// Include Tienda Tables Classes
-    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-    }
-    
-    /**
-     * Include a particular Tienda Model
-     * @param $name the name of the mode (ex: products)
-     */
-    protected function includeTiendaModel($name){
-    	
-    	if (strtolower($name) != 'base')
-    		Tienda::load( 'TiendaModel'.ucfirst(strtolower($name)), 'models.'.strtolower($name) );
-    	else
-    		Tienda::load( 'TiendaModelBase', 'models._base' );
-    }
-    
-	/**
-     * Include a particular Custom Model
-     * @param $name the name of the model
-     * @param $plugin the name of the plugin in which the model is stored
-     * @param $group the group of the plugin
-     */
-    protected function includeCustomModel($name, $plugin = '', $group = 'tienda')
-    {
-    	if (empty($plugin)) 
-        {
-            $plugin = $this->_element;
-        }
-
-        if(!class_exists('TiendaModel'.$name))
-    		JLoader::import( 'plugins.'.$group.'.'.$plugin.'.models.'.strtolower($name), JPATH_SITE );
-    }
-   
-    /**
-     * add a user-defined table to list of available tables (including the Tienda tables
-     * @param $plugin the name of the plugin in which the table is stored
-     * @param $group the group of the plugin
-     */
-    protected function includeCustomTables($plugin = '', $group = 'tienda'){
-    	
-    	if (empty($plugin)) 
-        {
-            $plugin = $this->_element;
-        }
-    	
-    	$this->includeTiendaTables();
-    	$customPath = JPATH_SITE.DS.'plugins'.DS.$group.DS.$plugin.DS.'tables';
-    	JTable::addIncludePath( $customPath );
-    }
-    
+        
     /**
      * Get the task for the shipping plugin controller
      */
