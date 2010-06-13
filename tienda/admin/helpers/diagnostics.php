@@ -891,10 +891,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $fields = array();
         
         $fields[] = "completed_tasks";
-            $definitions["completed_tasks"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the OrderCompleted tasks executed?'";
-            
-        $fields[] = "quantities_updated";
-            $definitions["quantities_updated"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the Product Quantities updated?'";     
+            $definitions["completed_tasks"] = "TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the OrderCompleted tasks executed?'";    
        
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
