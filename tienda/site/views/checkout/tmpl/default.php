@@ -42,6 +42,7 @@
                 </div>
             </td>
         </tr>
+        
         <tr>
             <td style="text-align: left;">
                 <!--    BILLING ADDRESS   -->             
@@ -79,7 +80,7 @@
         </tr>
         <tr>
             <td style="text-align: left;">
-                <!--    SHIPPING ADDRESS   -->
+                <!-- SHIPPING ADDRESS   -->
                 <?php if($this->showShipping) { ?>
 	            <h4 id='shipping_address_header' class="address_header">
 	               <?php echo JText::_("Shipping Address") ?>
@@ -125,64 +126,21 @@
          <?php } ?>
         </table>
        
-       <?php /* <!-- SHIPPING METHODS -->
-        <h3><?php echo JText::_("Shipping Method") ?></h3>
-        <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
-        <div id="shippingmethods">
-	    	<?php 
-	    		$attribs = array( 'class' => 'inputbox', 'size' => '1', 'onclick' => 'tiendaGetCheckoutTotals();');
-		    	echo TiendaSelect::shippingmethod( $this->order->shipping_method_id, 'shipping_method_id', $attribs, 'shipping_method_id', true ); 
-		    ?>	
-		    <div id="validationmessage" style="padding-top: 10px;"></div>
-        </div>*/ ?>
-        <?php if($this->showShipping) { ?>
-        <h3><?php echo JText::_("Shipping Method") ?></h3>
-        <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
-        <?php } ?>
+        <!-- SHIPPING METHODS -->
         <div id='onCheckoutShipping_wrapper'>
-            <?php if($this->showShipping) { ?>
-             <?php
-
-                if ($this->rates) 
-                {                  
-                    foreach ($this->rates as $rate) 
-                    {
-                        ?>
-                        <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>);" /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
-                        <br/>
-                        <?php
-                    }
-                }
-            ?>
-            <input type="hidden" name="shipping_price" id="shipping_price" value="" />
-			<input type="hidden" name="shipping_tax" id="shipping_tax" value="" />
-			<input type="hidden" name="shipping_name" id="shipping_name" value="" />
-			<input type="hidden" name="shipping_extra" id="shipping_extra" value="" />
-            <div id='shipping_form_div' style="padding-top: 10px;"></div>
-            <?php } ?>
-            <div id="validationmessage" style="padding-top: 10px;"></div>
+            <?php echo $this->shipping_method_form; ?>
         </div>         
-
-        <!--    COMMENTS   -->     
-        <?php if($this->showShipping) { ?>   
-        <h3><?php echo JText::_("Shipping Notes") ?></h3>
-        <?php echo JText::_( "Add optional notes for shipment here" ); ?>:
-        <br/>
-        <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
-        <?php } ?>
-        <p>            
-        <!--    SUBMIT   -->
-         <?php if($this->showShipping) { ?>
-         <input type="hidden" id="step" name="shippingrequired"  value="1" />
-         <?php }else {?>
-          <input type="hidden" id="step" name="shippingrequired" value="0"  />
-          <?php } ?>
-        <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>'" value="<?php echo JText::_('Return to Shopping Cart'); ?>" />
-        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('Select Payment Method'); ?>" />	
-		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
-		<input type="hidden" id="step" name="step" value="selectshipping" />
-		<input type="hidden" id="task" name="task" value="" />
-        </p>
+            
+        <h3><?php echo JText::_("Continue Checkout") ?></h3>
+        
+        <div id="validationmessage"></div>
+        
+        <!--    SUBMIT   -->    
+            <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>'" value="<?php echo JText::_('Return to Shopping Cart'); ?>" />
+            <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('Select Payment Method'); ?>" />	
+    		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
+    		<input type="hidden" id="step" name="step" value="selectshipping" />
+    		<input type="hidden" id="task" name="task" value="" />
         
         <?php echo $this->form['validate']; ?>
     </form>

@@ -7,14 +7,14 @@
  */
 function tiendaGetPaymentForm( element, container )
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
+    var url = 'index.php?option=com_tienda&view=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
     tiendaDoTask( url, container, document.adminForm );
 }
 
-function tiendaGetShippingRates( element, container )
+function tiendaGetShippingRates( container, form )
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=getShippingRates&format=raw&shipping_element=' + element;
-    tiendaDoTask( url, container );
+    var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
+    tiendaDoTask( url, container, form );
 }
 
 function tiendaSetShippingRate(name, price, tax, extra)
@@ -26,7 +26,6 @@ function tiendaSetShippingRate(name, price, tax, extra)
 	tiendaGetCheckoutTotals();
 }
 
-
 /**
  * Based on the session contents,
  * calculates the order total
@@ -36,16 +35,17 @@ function tiendaSetShippingRate(name, price, tax, extra)
  */
 function tiendaGetCheckoutTotals()
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=setShippingMethod&format=raw';
+    var url = 'index.php?option=com_tienda&view=checkout&task=setShippingMethod&format=raw';
     tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm );    
 }
+
 /**
  * Recalculates the currency amounts
  * @return
  */
 function tiendaGetCurrencyTotals()
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=setCurrency&format=raw';
+    var url = 'index.php?option=com_tienda&view=checkout&task=setCurrency&format=raw';
     tiendaDoTask( url, 'onCheckoutReview_wrapper', document.adminForm );    
 }
 
@@ -81,8 +81,9 @@ function tiendaDisableShippingAddressControls(checkbox)
     }*/
 }
 
-function tiendaManageShippingRates(){
-	$('shipping_form_div').getElements('input[name=shipping_rate]').addEvent('click', function(){
+function tiendaManageShippingRates()
+{
+	$('shipping_form_div').getElements('input[name=shipping_rate]').addEvent('click', function() {
 		tiendaGetCheckoutTotals();
 	}
 	);

@@ -48,7 +48,7 @@ class TiendaShippingPlugin extends TiendaPluginBase
      * @param $product the product row
      * @return array
      */
-    public function onGetShippingRates( $element, $values )
+    public function onGetShippingRates( $element, $order )
     {
     	if (!$this->_isMe($element)) 
         {
@@ -330,7 +330,28 @@ class TiendaShippingPlugin extends TiendaPluginBase
             $this->shopAddress->zip = $config->get('shop_zip');            
         }
         return $this->shopAddress;
-
+    }
+    
+    function checkAddress( $address )
+    {
+        $this->includeTiendaTables();
+        
+        if (empty($address->zone_code))
+        {
+            $table = JTable::getInstance('Zones', 'TiendaTable');
+            $table->load($address->zone_id);
+            $address->zone_code = $table->code;
+        }
+        
+        if (empty($address->country_code))
+        {
+            $table = JTable::getInstance('Countries', 'TiendaTable');
+            $table->load($address->country_id);
+            $address->country_isocode_2 = $table->country_isocode_2;
+            $address->country_code = $table->country_isocode_2;
+        }
+        
+        return $address;
     }
                 
 }

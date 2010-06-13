@@ -38,22 +38,23 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         return $html;
     }
     
-    function onGetShippingRates($element, $values){
-    	
+    function onGetShippingRates($element, $order)
+    {    	
     	// Check if this is the right plugin
     	if (!$this->_isMe($element)) 
         {
             return null;
         }
         
-	    $address = $values->getShippingAddress();
-	    $orderItems = $values->getItems();
+	    $address = $order->getShippingAddress();
+	    $address = $this->checkAddress( $address );
+	    $orderItems = $order->getItems();
 	    
         $rates = $this->sendRequest($address, $orderItems);
 		return $rates;
         
     }
-
+    
     function getFedexServices()
     {
         $fedexService['EUROPE_FIRST_INTERNATIONAL_PRIORITY'] = JText::_( 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' );
@@ -172,7 +173,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
             }            
         }
         
-        foreach($services as $service=>$serviceName)
+        foreach ($services as $service=>$serviceName)
         {
             $fedex = new TiendaFedexShip;
             

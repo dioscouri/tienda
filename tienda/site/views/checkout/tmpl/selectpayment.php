@@ -117,7 +117,6 @@
     <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
     <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo $values['shipping_address_id']; ?>" />
     <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo $values['billing_address_id']; ?>" />
-    <input type="hidden" id="shipping_rate" name="shipping_rate" value="<?php echo $values['shipping_rate']; ?>" />
     <input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo $values['shipping_plugin']; ?>" />
     <input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $values['shipping_price']; ?>" />
 	<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $values['shipping_tax']; ?>" />
