@@ -22,6 +22,12 @@
 	echo @$this->orderSummary;
 	?>
 	
+    <?php if (!empty($this->onBeforeDisplayPrePayment)) : ?>
+        <div id='onBeforeDisplayPrePayment_wrapper'>
+        <?php echo $this->onBeforeDisplayPrePayment; ?>
+        </div>
+    <?php endif; ?>
+	
     <div id="payment_info" class="address">
         <h3><?php echo JText::_("Billing Information"); ?></h3>
         <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
@@ -64,11 +70,17 @@
 	    <?php 
 	} 
 	?>
+    
+    <?php if (!empty($this->onAfterDisplayPrePayment)) : ?>
+        <div id='onAfterDisplayPrePayment_wrapper'>
+        <?php echo $this->onAfterDisplayPrePayment; ?>
+        </div>
+    <?php endif; ?>
 
     <div class="reset"></div>
         
     <!--    PAYMENT METHOD   -->
     <h3><?php echo JText::_("Payment Method"); ?></h3>
 
-
 	<?php echo $plugin_html; ?>
+    

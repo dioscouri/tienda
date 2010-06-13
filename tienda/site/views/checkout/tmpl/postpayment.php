@@ -14,6 +14,12 @@
 <!-- Progress Bar -->
 <?php echo $this->progress; ?>
 
+<?php if (!empty($this->onBeforeDisplayPostPayment)) : ?>
+    <div id='onBeforeDisplayPostPayment_wrapper'>
+    <?php echo $this->onBeforeDisplayPostPayment; ?>
+    </div>
+<?php endif; ?>
+
 <?php echo $plugin_html; ?>
 
 <div class="note">
@@ -21,3 +27,9 @@
         <?php echo JText::_( "Click Here to View and Print an Invoice" ); ?>
 	</a>
 </div>
+
+<?php if (!empty($this->onAfterDisplayPostPayment)) : ?>
+    <div id='onAfterDisplayPostPayment_wrapper'>
+    <?php echo $this->onAfterDisplayPostPayment; ?>
+    </div>
+<?php endif; ?>

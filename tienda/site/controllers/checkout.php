@@ -219,6 +219,18 @@ class TiendaControllerCheckout extends TiendaController
 			JRequest::setVar('layout', 'default');
 		}
 		
+		$dispatcher =& JDispatcher::getInstance();
+		
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplaySelectShipping', array( $order ) );
+        $view->assign( 'onBeforeDisplaySelectShipping', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplaySelectShipping', array( $order ) );
+        $view->assign( 'onAfterDisplaySelectShipping', ob_get_contents() );
+        ob_end_clean();
+		
 		parent::display();
 	}
 	
@@ -403,15 +415,16 @@ class TiendaControllerCheckout extends TiendaController
 		
 		if($submitted_values['shippingrequired'])
 		{
-		if (empty($submitted_values['_checked']['shipping_plugin']))
-		{
-			
-			$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
-			$response['error'] = '1';
-			echo ( json_encode( $response ) );
-			return;
+    		if (empty($submitted_values['_checked']['shipping_plugin']))
+    		{
+    			
+    			$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
+    			$response['error'] = '1';
+    			echo ( json_encode( $response ) );
+    			return;
+    		}
 		}
-		}
+		
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{
@@ -434,9 +447,29 @@ class TiendaControllerCheckout extends TiendaController
     			return;
     		}
 		}
+
+		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+        $results = array();
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onValidateSelectShipping", array( $submitted_values ) );
+
+        for ($i=0; $i<count($results); $i++)
+        {
+            $result = $results[$i];
+            if (!empty($result->error))
+            {
+                $response['msg'] = $helper->generateMessage( $result->message );
+                $response['error'] = '1';
+            }
+            else
+            {
+                // if here, all is OK
+                $response['error'] = '0';
+            }
+        }
+		
 		echo ( json_encode( $response ) );
-		return;
-		 
+		return;		 
 	}
 
 	/**
@@ -489,8 +522,28 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
-		echo ( json_encode( $response ) );
-		return;
+        // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+        $results = array();
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onValidateSelectPayment", array( $submitted_values ) );
+
+        for ($i=0; $i<count($results); $i++)
+        {
+            $result = $results[$i];
+            if (!empty($result->error))
+            {
+                $response['msg'] = $helper->generateMessage( $result->message );
+                $response['error'] = '1';
+            }
+            else
+            {
+                // if here, all is OK
+                $response['error'] = '0';
+            }
+        }
+        
+        echo ( json_encode( $response ) );
+        return;
 	}
 
 	/**
@@ -1069,6 +1122,19 @@ class TiendaControllerCheckout extends TiendaController
         $plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
         $view->assign('plugins', $plugins);
 
+        $dispatcher =& JDispatcher::getInstance();
+        
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
+        $view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
+        $view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
+        ob_end_clean();
+        
+        
         $view->display();
         $this->footer();
     }
@@ -1275,6 +1341,17 @@ class TiendaControllerCheckout extends TiendaController
 		// Get and Set Model
 		$model = $this->getModel('checkout');
 		$view->setModel( $model, true );
+		
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplayPrePayment', array( $order ) );
+        $view->assign( 'onBeforeDisplayPrePayment', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplayPrePayment', array( $order ) );
+        $view->assign( 'onAfterDisplayPrePayment', ob_get_contents() );
+        ob_end_clean();
+		
 		$view->display();
 
 		return;
@@ -1322,6 +1399,17 @@ class TiendaControllerCheckout extends TiendaController
 		// Get and Set Model
 		$model = $this->getModel('checkout');
 		$view->setModel( $model, true );
+		
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplayPostPayment', array( $order_id ) );
+        $view->assign( 'onBeforeDisplayPostPayment', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplayPostPayment', array( $order_id ) );
+        $view->assign( 'onAfterDisplayPostPayment', ob_get_contents() );
+        ob_end_clean();
+        
 		$view->display();
 
 		return;

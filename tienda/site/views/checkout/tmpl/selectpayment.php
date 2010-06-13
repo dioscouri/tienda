@@ -28,6 +28,13 @@
             ?>
         </div>
         
+        <?php if (!empty($this->onBeforeDisplaySelectPayment)) : ?>
+            <div id='onBeforeDisplaySelectPayment_wrapper'>
+            <?php echo $this->onBeforeDisplaySelectPayment; ?>
+            </div>
+        <?php endif; ?>
+
+        
 	   <div id="payment_info" class="address">
 		<h3><?php echo JText::_("Billing Information"); ?></h3>
 		<strong><?php echo JText::_("Total Amount Due"); ?></strong>: <?php echo TiendaHelperBase::currency( $this->order->order_total ); ?><br/>
@@ -108,6 +115,12 @@
             <div id="validationmessage" style="padding-top: 10px;"></div>
         </div>
     </div>
+
+        <?php if (!empty($this->onAfterDisplaySelectPayment)) : ?>
+            <div id='onAfterDisplaySelectPayment_wrapper'>
+            <?php echo $this->onAfterDisplaySelectPayment; ?>
+            </div>
+        <?php endif; ?>
 
     <p>
         <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>'" value="<?php echo JText::_('Return to Shopping Cart'); ?>" />

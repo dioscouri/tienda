@@ -27,6 +27,12 @@
                 echo @$this->orderSummary;
  		    ?>
         </div>
+        
+        <?php if (!empty($this->onBeforeDisplaySelectShipping)) : ?>
+            <div id='onBeforeDisplaySelectShipping_wrapper'>
+            <?php echo $this->onBeforeDisplaySelectShipping; ?>
+            </div>
+        <?php endif; ?>
 
         <h3>
             <?php echo JText::_("Select Shipping and Billing Addresses") ?>
@@ -129,7 +135,13 @@
         <!-- SHIPPING METHODS -->
         <div id='onCheckoutShipping_wrapper'>
             <?php echo $this->shipping_method_form; ?>
-        </div>         
+        </div>
+        
+        <?php if (!empty($this->onAfterDisplaySelectShipping)) : ?>
+            <div id='onAfterDisplaySelectShipping_wrapper'>
+            <?php echo $this->onAfterDisplaySelectShipping; ?>
+            </div>
+        <?php endif; ?>
             
         <h3><?php echo JText::_("Continue Checkout") ?></h3>
         
