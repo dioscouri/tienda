@@ -180,6 +180,23 @@ class TiendaControllerProducts extends TiendaController
 		$layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
 		$view->setLayout($layout);
 
+        $dispatcher =& JDispatcher::getInstance();
+        
+        ob_start();
+        $dispatcher->trigger( 'onDisplayProductAttributeOptions', array( $row->product_id ) );
+        $view->assign( 'onDisplayProductAttributeOptions', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplayProduct', array( $row->product_id ) );
+        $view->assign( 'onBeforeDisplayProduct', ob_get_contents() );
+        ob_end_clean();
+        
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplayProduct', array( $row->product_id ) );
+        $view->assign( 'onAfterDisplayProduct', ob_get_contents() );
+        ob_end_clean();
+		
 		$view->display();
 		$this->footer();
 		return;

@@ -28,6 +28,13 @@ stringOfOptions = "<?php echo $str; ?>";
     </div>
     
     <div id="tienda_product">
+
+        <?php if (!empty($this->onBeforeDisplayProduct)) : ?>
+            <div id='onBeforeDisplayProduct_wrapper'>
+            <?php echo $this->onBeforeDisplayProduct; ?>
+            </div>
+        <?php endif; ?>
+    
         <div id='tienda_product_header'>
             <span class="product_name">
                 <?php echo $item->product_name; ?>
@@ -64,6 +71,8 @@ stringOfOptions = "<?php echo $str; ?>";
         
         <div class="product_buy">
             <div>
+                <div id="validationmessage"></div>
+                
                 <form action="" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
                 <!--base price-->
                 <span class="product_price">
@@ -93,30 +102,35 @@ stringOfOptions = "<?php echo $str; ?>";
                 <!--attribute options-->
                 <div id='product_attributeoptions'>
                 <?php
-                
                 $attributes = TiendaHelperProduct::getAttributes( $item->product_id );
                 foreach ($attributes as $attribute)
                 {
                     ?>
                     <div class="pao" id='productattributeoption_<?php echo $attribute->productattribute_id; ?>'>
                     <?php
-                   echo "<span>".$attribute->productattribute_name." : </span>";
+                    echo "<span>".$attribute->productattribute_name." : </span>";
                     
-                    if($item->product_check_inventory==1) {
-                    	$event="ONCHANGE";
-                        $action="TiendaCheckStock();";
-                        $attribs = array('class' => 'inputbox', 'size' => '1','ONCHANGE'=>$action);
-                          echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, $attribs  );
-                    }else {
+                    if ($item->product_check_inventory == 1) 
+                    {
+                        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"TiendaCheckStock();");
+                        echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, $attribs  );
+                    } 
+                        else 
+                    {
   						echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id);
                     }	
-                    
-                  
                     ?>
                     </div>
                     <?php
                 }
                 ?>
+                
+                <?php if (!empty($this->onDisplayProductAttributeOptions)) : ?>
+                    <div id='onDisplayProductAttributeOptions_wrapper'>
+                    <?php echo $this->onDisplayProductAttributeOptions; ?>
+                    </div>
+                <?php endif; ?>
+                
                 </div>
                 
                 <!--quantity-->
@@ -206,6 +220,13 @@ stringOfOptions = "<?php echo $str; ?>";
         ?>
         
         <div class="reset"></div>
+
+        <?php if (!empty($this->onAfterDisplayProduct)) : ?>
+            <div id='onAfterDisplayProduct_wrapper'>
+            <?php echo $this->onAfterDisplayProduct; ?>
+            </div>
+        <?php endif; ?>
+        
     </div>
 </div>
 

@@ -102,32 +102,42 @@ class TiendaControllerCarts extends TiendaController
             $product_qty = $availableQuantity->quantity;
         }
         
-        $suffix = strtolower(TiendaHelperCarts::getSuffix());
-        $model = $this->getModel($suffix);
+        // create cart object out of item properties
+        $item = new JObject;
+        $item->user_id     = JFactory::getUser()->id;
+        $item->product_id  = $product_id;
+        $item->product_qty = $product_qty;
+        $item->product_attributes = $attributes_csv;
+        $item->vendor_id   = '0'; // vendors only in enterprise version
         
-        switch ($suffix) 
+        // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+        $results = array();
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onBeforeAddToCart", array( $item, $values ) );
+
+        for ($i=0; $i<count($results); $i++)
         {
-	        case 'sessioncarts':
-	        case 'carts':
-	        default:
-	            $item = new JObject;
-	            $item->user_id     = JFactory::getUser()->id;
-	            $item->product_id  = $product_id;
-	            $item->product_qty = $product_qty;
-	            $item->product_attributes = $attributes_csv;
-	            $item->vendor_id   = '0'; // vendors only in enterprise version
-	            $cart = array();
-	            $cart[] = $item;
-	            TiendaHelperCarts::updateCart($cart);
-	            break;
+            $result = $results[$i];
+            if (!empty($result->error))
+            {
+                $response['msg'] = $helper->generateMessage( $result->message );
+                $response['error'] = '1';
+                echo ( json_encode( $response ) );
+                return;
+            }
+            else
+            {
+                // if here, all is OK
+                $response['error'] = '0';
+            }
         }
+        
+        // add the item to the cart
+        TiendaHelperCarts::updateCart( array( $item ) );
         
         // fire plugin event
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onAddToCart', array( $item ) );
-
-        // TODO Do we want to do this?  Or use a back-order system?
-        // TiendaHelperCarts::fixQuantities();
+        $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
         
         // update the cart module, if it is enabled
         $this->displayCart();

@@ -44,6 +44,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             'productfiles.php',
             'quickadd.php',
             'search.php',
+            'view.php',
         );
         // TODO merge $exclusions with $options['exclude']
         
@@ -73,7 +74,29 @@ class TiendaHelperProduct extends TiendaHelperBase
                 $extension = $namebits[count($namebits)-1];
                 if (in_array($extension, $extensions))
                 {
-                    if (!in_array($file, $exclusions))
+                    if (!in_array($file, $exclusions) && !in_array($file, $layouts))
+                    {
+                        $layouts[] = $file;
+                    }
+                }
+            }
+        }
+        
+        // now do the tienda folder
+        $folder = JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'views'.DS.'products'.DS.'tmpl';
+        
+        if (JFolder::exists( $folder ))
+        {
+            $extensions = array( 'php' );
+            
+            $files = JFolder::files( $folder );
+            foreach ($files as $file)
+            {
+                $namebits = explode('.', $file);
+                $extension = $namebits[count($namebits)-1];
+                if (in_array($extension, $extensions))
+                {
+                    if (!in_array($file, $exclusions) && !in_array($file, $layouts))
                     {
                         $layouts[] = $file;
                     }
@@ -111,13 +134,17 @@ class TiendaHelperProduct extends TiendaHelperBase
             $template = $app->getTemplate();
         }
         $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
+        $extensionPath = JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'views'.DS.'products'.DS.'tmpl'.DS.'%s'.'.php';
 
         Tienda::load( 'TiendaTableProducts', 'tables.products' );
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
         $product->load( $product_id );
 
         // if the product->product_layout file exists in the template, use it
-        if (!empty($product->product_layout) && JFile::exists( sprintf($templatePath, $product->product_layout) ))
+        if (
+            !empty($product->product_layout) && 
+            (JFile::exists( sprintf($templatePath, $product->product_layout) ) || JFile::exists( sprintf($extensionPath, $product->product_layout) )) 
+        )
         {
             return $product->product_layout;
         }
@@ -128,7 +155,10 @@ class TiendaHelperProduct extends TiendaHelperBase
             Tienda::load( 'TiendaTableCategories', 'tables.categories' );
             $category = JTable::getInstance( 'Categories', 'TiendaTable' );
             $category->load( $options['category_id'] );
-            if (!empty($category->categoryproducts_layout) && JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ))
+            if (
+                !empty($category->categoryproducts_layout) && 
+                (JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ) || JFile::exists( sprintf($extensionPath, $category->categoryproducts_layout) ))
+            )
             {
                 return $category->categoryproducts_layout;
             }
@@ -141,7 +171,10 @@ class TiendaHelperProduct extends TiendaHelperBase
             Tienda::load( 'TiendaTableCategories', 'tables.categories' );
             $category = JTable::getInstance( 'Categories', 'TiendaTable' );
             $category->load( $categories[0] ); // load the first category
-            if (!empty($category->categoryproducts_layout) && JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ))
+            if (
+                !empty($category->categoryproducts_layout) && 
+                (JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ) || JFile::exists( sprintf($extensionPath, $category->categoryproducts_layout) ))
+            )
             {
                 return $category->categoryproducts_layout;
             }
