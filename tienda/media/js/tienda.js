@@ -209,9 +209,9 @@
 	 * @param {String} form name (optional)
 	 * @param {String} msg message for the modal div (optional)
 	 */
-	function tiendaDoTask( url, container, form, msg ) 
+	function tiendaDoTask( url, container, form, msg, doModal ) 
 	{
-		tiendaNewModal(msg);
+		if (doModal != false) { tiendaNewModal(msg); }
 		
     	// if url is present, do validation
 		if (url && form) 
@@ -235,7 +235,7 @@
                 onComplete: function(response){
                     var resp=Json.evaluate(response, false);
                     if ($(container)) { $(container).setHTML(resp.msg); }
-                    (function() { document.body.removeChild($('tiendaModal')); }).delay(500);
+                    if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
                     return true;
                 }
             }).request();
@@ -248,7 +248,7 @@
                 onComplete: function(response){
                     var resp=Json.evaluate(response, false);
                     if ($(container)) { $(container).setHTML(resp.msg); }
-                    (function() { document.body.removeChild($('tiendaModal')); }).delay(500);
+                    if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
                     return true;
             }
             }).request();			
@@ -421,7 +421,8 @@
                 }
                     else
                 {
-                    tiendaDoTask( cartUrl, cartContainer );
+                    tiendaPause(500);
+                    tiendaDoTask( cartUrl, cartContainer, '', '', false );
                     return true;
                 }
             }

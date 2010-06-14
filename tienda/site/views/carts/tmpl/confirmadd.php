@@ -4,6 +4,7 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->items;
 $state = @$this->state;
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 ?>
 
 <div class='componentheading'>
