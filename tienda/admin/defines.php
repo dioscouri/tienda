@@ -333,6 +333,7 @@ class TiendaConfig extends JObject
 	var $defaultShippingMethod              = '2';
 	var $guest_checkout_enabled             = '1';
 	// Shop Info
+	var $shop_enabled                       = '1';
 	var $shop_name							= '';
 	var $shop_company_name					= '';
 	var $shop_address_1						= '';
@@ -364,7 +365,8 @@ class TiendaConfig extends JObject
 	var $article_shipping                   = '0';
 	var $display_prices_with_shipping       = '0';
 	var $display_prices_with_tax            = '0';
-    var $display_taxclass_lineitems         = '0'; 	
+    var $display_taxclass_lineitems         = '0';
+    var $addtocartaction                    = 'lightbox'; 	
 	
 	/**
 	 * constructor

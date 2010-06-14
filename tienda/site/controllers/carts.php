@@ -54,6 +54,40 @@ class TiendaControllerCarts extends TiendaController
         }
         return $state;
     }
+    
+    function display()
+    {
+        if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
+        {
+            $return = base64_decode($return);
+            if (!JURI::isInternal($return)) 
+            {
+                $return = '';
+            }
+        }
+        
+        if ($return)
+        {
+            $redirect = $return;
+        }
+            else 
+        {
+            $redirect = JRoute::_( "index.php?option=com_tienda&view=products" ); 
+        }
+        
+        $model  = $this->getModel( $this->get('suffix') );
+        $this->_setModelState();
+
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('default');
+        $view->assign( 'return', $redirect );
+        $view->display();
+        $this->footer();
+        return;
+    }
 
     /**
      * Adds an item to a User's shopping cart
@@ -62,6 +96,11 @@ class TiendaControllerCarts extends TiendaController
      */
     function addToCart()
     {
+        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            return false;    
+        }
+        
         // saving the session id which will use to update the cart
         $session =& JFactory::getSession();
         
@@ -105,8 +144,8 @@ class TiendaControllerCarts extends TiendaController
         // create cart object out of item properties
         $item = new JObject;
         $item->user_id     = JFactory::getUser()->id;
-        $item->product_id  = $product_id;
-        $item->product_qty = $product_qty;
+        $item->product_id  = (int) $product_id;
+        $item->product_qty = (int) $product_qty;
         $item->product_attributes = $attributes_csv;
         $item->vendor_id   = '0'; // vendors only in enterprise version
         

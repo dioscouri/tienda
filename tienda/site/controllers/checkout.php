@@ -27,6 +27,12 @@ class TiendaControllerCheckout extends TiendaController
 	function __construct()
 	{
 		parent::__construct();
+	    if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Checkout Disabled" ) );
+            return;    
+        }
+		
 		$this->set('suffix', 'checkout');
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );

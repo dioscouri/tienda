@@ -91,12 +91,19 @@ $state = @$this->state;
                         <b><?php echo JText::_( "Tax and Shipping Totals" ); ?></b>
                         <br/>
                         <?php
-                        		echo JText::_( "Calculated during checkout process" );
+                            echo JText::_( "Calculated during checkout process" );
                     	?>
               	 	</td>
                 </tr>
                 <tr>
-                    <td colspan="20" style="text-align: right;">
+                    <td colspan="3">
+                        <?php if (!empty($this->return)) { ?>
+                        [<a href="<?php echo $this->return; ?>">
+                            <?php echo JText::_( "Continue Shopping" ); ?>
+                        </a>]
+                        <?php } ?>
+                    </td>
+                    <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
 				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>">
 				            <?php echo JText::_( "Begin Checkout" ); ?>

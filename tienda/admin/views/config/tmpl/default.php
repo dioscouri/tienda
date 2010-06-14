@@ -33,6 +33,17 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Shopping' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'shop_enabled', 'class="inputbox"', $this->row->get('shop_enabled', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Shop Name' ); ?>
                             </th>
                             <td>
@@ -573,6 +584,17 @@
                             </td>
                             <td>
                                 <?php echo JText::_( 'Article for Shipping Costs Desc' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Add to Cart Action' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::addtocartaction( $this->row->get('addtocartaction', 'lightbox'), 'addtocartaction' ); ?>
+                            </td>
+                            <td>
+                                
                             </td>
                         </tr>
                         <tr>
