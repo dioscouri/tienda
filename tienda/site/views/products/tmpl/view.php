@@ -157,7 +157,7 @@ stringOfOptions = "<?php echo $str; ?>";
                         case "redirect":
                             $u = JURI::getInstance(); $returnUrl = base64_encode( $u->toString() );
                             $cartUrl = JRoute::_( "index.php?option=com_tienda&view=carts" )."&return=".$returnUrl; 
-                            $onclick = 'tiendaAddToCart(\''.$url.'\', \'validationmessage\', document.adminForm); tiendaPause(500); window.location=(\''.$cartUrl.'\');';
+                            $onclick = 'if (tiendaAddToCart(\''.$url.'\', \'validationmessage\', document.adminForm)) { tiendaPause(500); window.location=(\''.$cartUrl.'\'); }';
                             $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('Add to Cart')."' onclick=\"$onclick\" />";
                             echo $text;
                             break;

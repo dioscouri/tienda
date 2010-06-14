@@ -159,6 +159,8 @@ class TiendaControllerCarts extends TiendaController
             $result = $results[$i];
             if (!empty($result->error))
             {
+                Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance();
                 $response['msg'] = $helper->generateMessage( $result->message );
                 $response['error'] = '1';
                 echo ( json_encode( $response ) );

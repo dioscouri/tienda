@@ -28,6 +28,47 @@ class plgTiendaCheckoutExample extends TiendaPluginBase
 	
     /**
      * 
+     * @param array $values     The input values from the form
+     * @return unknown_type
+     */
+    function onBeforeAddToCart( $item, $values )
+    {
+        $return = new JObject();
+        
+        $return->error = false; // set this to true to have fun!
+        $return->message = "Checkout Example says FAIL!"; // string
+        
+        return $return;
+    }
+	
+    /**
+     * 
+     * @param $object The current order object
+     * @return unknown_type
+     */
+    function onDisplayProductAttributeOptions( $order )
+    {
+        $vars = new JObject();
+        $vars->message = "Inside: onDisplayProductAttributeOptions"; 
+        
+        echo $this->_getLayout( 'message', $vars );
+        return null;
+    }
+    
+    /**
+     * 
+     * @param array $values     The input values from the form
+     * @return unknown_type
+     */
+    function onAfterAddToCart( $item, $values )
+    {
+        // do something
+        
+        return null;
+    }
+    
+    /**
+     * 
      * @param $object The current order object
      * @return unknown_type
      */
