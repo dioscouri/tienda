@@ -160,7 +160,6 @@ class TiendaControllerCheckout extends TiendaController
                 {
                     $shipping_layout = "shipping_calculate";
                 }
-                
             }
             $shipping_method_form = $this->getShippingHtml( $shipping_layout );
             $view->assign( 'showShipping', $showShipping );
@@ -1850,6 +1849,11 @@ class TiendaControllerCheckout extends TiendaController
         $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
         $model->setId($address_id);
         $item = $model->getItem();
-        return get_object_vars( $item );
+        if (is_object($item))
+        {
+            return get_object_vars( $item );    
+        }
+        return array();
+        
     }
 }
