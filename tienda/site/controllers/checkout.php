@@ -85,10 +85,12 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			// Display a form for selecting either to register or to login
 			JRequest::setVar('layout', 'form');
+            parent::display();
+            return;
 		}
-		// Checkout as a Guest
-		else if($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
+            elseif ($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
 		{
+		    // Checkout as a Guest
 			$order = &$this->_order;
 			$order = $this->populateOrder(true);
 
@@ -166,9 +168,9 @@ class TiendaControllerCheckout extends TiendaController
 			
 			JRequest::setVar('layout', 'guest');
 		}
-		// Already Logged in, a traditional checkout
-		else
+		  else
 		{
+		    // Already Logged in, a traditional checkout
 		    $order = &$this->_order;
 			$order = $this->populateOrder(false);
 
