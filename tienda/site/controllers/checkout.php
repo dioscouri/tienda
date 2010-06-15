@@ -102,7 +102,7 @@ class TiendaControllerCheckout extends TiendaController
 
 			// get address forms
 			$billing_address_form = $this->getAddressForm( $this->billing_input_prefix, true );
-			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, true );
+			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, true, true );
 
 				// get all the enabled shipping plugins
 			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
@@ -190,7 +190,7 @@ class TiendaControllerCheckout extends TiendaController
 			
 			// get address forms
 			$billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
-			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix );
+			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, false ,true );
 
 			// get the default shipping and billing addresses, if possible
 			$default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
@@ -759,7 +759,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @param string $prefix
 	 * @return string html
 	 */
-	function getAddressForm( $prefix, $guest = false )
+	function getAddressForm( $prefix, $guest = false, $forShipping=false )
 	{
 		$html = '';
 		$model = $this->getModel( 'Addresses', 'TiendaModel' );
@@ -781,6 +781,7 @@ class TiendaControllerCheckout extends TiendaController
             $showShipping = true;
         }
         $view->assign( 'showShipping', $showShipping );
+        $view->assign( 'forShipping', $forShipping );
 		
 		ob_start();
 		$view->display();

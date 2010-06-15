@@ -56,10 +56,12 @@ function tiendaGetCurrencyTotals()
  * @param checkbox
  * @return
  */
-function tiendaDisableShippingAddressControls(checkbox)
+function tiendaDisableShippingAddressControls(checkbox, form)
 {
-    var disable = false;
-    if (checkbox.checked){disable = true;}  
+    
+	var disable = false;
+    if (checkbox.checked){disable = true;tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );}  
+    
     var fields = "address_id;title;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
     var fieldList = fields.split(';');
 
