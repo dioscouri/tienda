@@ -147,7 +147,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         
         // check the products table 
        
-        if (!$this->checkProducts()) 
+        if (!$this->checkProductsName()) 
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
         }
@@ -996,10 +996,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
      * 
      * @return boolean
      */
-    function checkProducts() 
+    function checkProductsName() 
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkProducts', '0'))
+        if (TiendaConfig::getInstance()->get('checkProductsName', '0'))
         {
             return true;
         }
@@ -1016,8 +1016,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkProducts') );
-            $config->config_name = 'checkProducts';
+            $config->load( array( 'config_name'=>'checkProductsName') );
+            $config->config_name = 'checkProductsName';
             $config->value = '1';
             $config->save();
             return true;
