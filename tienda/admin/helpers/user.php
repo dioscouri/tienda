@@ -357,11 +357,20 @@ class TiendaHelperUser extends TiendaHelperBase
 		$message->setBody( $body );
 		$sender = array( $from, $fromname );
 		$message->setSender($sender);
-		$sent = $message->send();
+       
+		// $sent = $message->send(); calling the own method of TiendaHelperEmail to send mail
+		
+		$header=$message->CreateHeader();
+		$header =  str_replace('>','',str_replace('<',' ',$header));
+	 
+        // creating the TiendaHelperEmail which is extending the JMail
+		Tienda::load( 'TiendaHelperEmail', 'helpers.email' );
+		$sent=TiendaHelperEmail::Sendmail($message, $header, $body);
 		if ($sent == '1') {
 			$success = true;
 		}
 		
 		return $success;
+	
 	}
 }

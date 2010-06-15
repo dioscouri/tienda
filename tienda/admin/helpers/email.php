@@ -191,13 +191,43 @@ class TiendaHelperEmail extends TiendaHelperBase
 		
 		// check user mail format type, default html
 		$mailer->setBody( ( $body ) );
-
+        	
 		$sender = array( $from, $fromname );
 		$mailer->setSender($sender);
-		$sent = $mailer->send();
+			
+		//$sent = $mailer->send();
+		 $header=$mailer->CreateHeader();
+		 $header =  str_replace('>','',str_replace('<',' ',$header));
+	 
+		$sent=$this->Sendmail($mailer,$header, $body);
+		
 		if ($sent == '1') {
 			$success = true;
 		}
 		return $success;
 	}
+	
+	
+	function Sendmail($mailer,$header, $body){
+	
+		switch($mailer->Mailer) {
+	      case 'sendmail':
+	        $sent = $mailer->SendmailSend($header, $body);
+	        break;
+	      case 'smtp':
+	        $sent = $mailer->SmtpSend($header, $body);
+	        break;
+	      case 'mail':
+	        $sent = $mailer->MailSend($header, $body);
+	        break;
+	      default:
+	        $sent = $mailer->MailSend($header, $body);
+	        break;
+		 }
+
+		 return $sent;
+		
+	}
+	
+	
 }

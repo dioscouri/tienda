@@ -1680,7 +1680,8 @@ class TiendaControllerCheckout extends TiendaController
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;
 
-		$row->notify_customer = '0'; // don't notify the customer on prepayment
+		//$row->notify_customer = '0'; // don't notify the customer on prepayment
+		$row->notify_customer = '1'; // don't notify the customer on prepayment
 		$row->comments = JRequest::getVar('order_history_comments', '', 'post');
 
 		if (!$row->save())
