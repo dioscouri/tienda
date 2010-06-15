@@ -144,6 +144,14 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkOrdersOrderShips FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the products table 
+       
+        if (!$this->checkProducts()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
 
     }
     
@@ -981,5 +989,43 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+    
+ /**
+     * Check if the _product table is correct
+     * 
+     * @return boolean
+     */
+    function checkProducts() 
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProducts', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_name";
+            $newnames["product_name"] = "product_name";
+            $definitions["product_name"] =" varchar(255) NOT NULL DEFAULT ''";
+       if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProducts') );
+            $config->config_name = 'checkProducts';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+            
+            
+        return false;        
+    }
+    
     
 }
