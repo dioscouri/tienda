@@ -14,6 +14,11 @@
 	<span><?php echo JText::_( "Order Detail" ); ?></span>
 </div>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderPrint', array( $row ) );                    
+    ?>
+    
 	<div id="order_shop_info">
 		<strong><?php echo $config->get('shop_name', ''); ?></strong><br />
 		
@@ -90,6 +95,11 @@
             <br/>
         </div>
     <?php } ?>
+    
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderPrintOrderItems', array( $row ) );                    
+    ?>
     
     <div id="items_info">
         <h3><?php echo JText::_("Items in Order"); ?></h3>
@@ -190,12 +200,22 @@
         </table>
     </div>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderPrintOrderItems', array( $row ) );                    
+    ?>
+
     <?php if (!empty($row->customer_note)) : ?>
         <div id="customer_note">
             <h3><?php echo JText::_("Note"); ?></h3>
             <span><?php echo @$row->customer_note; ?></span>
         </div>
     <?php endif; ?>
+    
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderPrint', array( $row ) );                    
+    ?>
 
 <?php if (JRequest::getVar('task') == 'print') : ?>
     <script type="text/javascript">

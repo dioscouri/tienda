@@ -10,6 +10,11 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderPrint', array( $row ) );                    
+    ?>
+
     <table style="width: 100%;">
     <tr>
     	<td colspan="2" style="vertical-align:top;">
@@ -250,6 +255,11 @@
     </tr>
     </table>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderPrintOrderItems', array( $row ) );                    
+    ?>
+
     <div id="orderitems">
     <fieldset>
         <legend><?php echo JText::_('Items in Order'); ?></legend>
@@ -356,6 +366,16 @@
         </table>
         </fieldset>
     </div>
+
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderPrintOrderItems', array( $row ) );                    
+    ?>
+    
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderPrint', array( $row ) );                    
+    ?>
     
     <input type="hidden" name="prev" value="<?php echo intval(@$surrounding["prev"]); ?>" />
     <input type="hidden" name="next" value="<?php echo intval(@$surrounding["next"]); ?>" />        

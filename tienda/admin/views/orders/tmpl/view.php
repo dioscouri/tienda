@@ -26,6 +26,10 @@
         </tr>
     </table>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderView', array( $row ) );                    
+    ?>
 
 	<table style="width: 100%;">
 	<tr>
@@ -187,229 +191,253 @@
             </tr>
             </table>
             
-            </fieldset>
-
-    <div id="orderitems">
-	<fieldset>
-	    <legend><?php echo JText::_('Items in Order'); ?></legend>
-
-        <table class="adminlist" style="clear: both;">
-        <thead>
-            <tr>
-                <th style="text-align: left;"><?php echo JText::_("Item"); ?></th>
-                <th style="width: 150px; text-align: center;"><?php echo JText::_("Quantity"); ?></th>
-                <th style="width: 150px; text-align: right;"><?php echo JText::_("Amount"); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php $i=0; $k=0; ?>
-        <?php foreach (@$items as $item) : ?>
-            <tr class='row<?php echo $k; ?>'>
-                <td>
-                    <?php echo JText::_( $item->orderitem_name ); ?>
-                    <br/>
-                    
-                    <?php if (!empty($item->attributes_names)) : ?>
-                        <?php echo $item->attributes_names; ?>
-                        <br/>
-                    <?php endif; ?>
-                    
-                    <b><?php echo JText::_( "Price" ); ?>:</b>
-                    <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
-                </td>
-                <td style="text-align: center;">
-                    <?php echo $item->orderitem_quantity; ?>
-                </td>
-                <td style="text-align: right;">
-                    <?php echo TiendaHelperBase::currency( $item->orderitem_final_price, $row->currency ); ?>
-                </td>
-            </tr>
-        <?php $i=$i+1; $k = (1 - $k); ?>
-        <?php endforeach; ?>
+        </fieldset>
         
-        <?php if (empty($items)) : ?>
-            <tr>
-                <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
-                </td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Subtotal" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
-            </th>
-        </tr>
         <?php
-        if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
-        {
-            foreach ($row->ordertaxclasses as $taxclass)
-            {
-            ?>
-            <tr>
-                <th colspan="2" style="text-align: right;">
-                <?php echo JText::_( $taxclass->ordertaxclass_description ); ?>
-                </th>
-                <th style="text-align: right;">
-                <?php echo TiendaHelperBase::currency($taxclass->ordertaxclass_amount, $row->currency); ?>
-                </th>
-            </tr>
-            <?php
-            }
-        } 
-            else
-        {
-            ?>
-            <tr>
-                <th colspan="2" style="text-align: right;">
-                <?php echo JText::_( "Tax" ); ?>
-                </th>
-                <th style="text-align: right;">
-                <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
-                </th>
-            </tr>
-            <?php            
-        }
+            // fire plugin event here to enable extending the form
+            JDispatcher::getInstance()->trigger('onBeforeDisplayOrderViewOrderItems', array( $row ) );                    
         ?>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Shipping" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
-            </th>
-        </tr>
-        <tr>
-            <th colspan="2" style="font-size: 120%; text-align: right;">
-            <?php echo JText::_( "Total" ); ?>
-            </th>
-            <th style="font-size: 120%; text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_total, $row->currency); ?>
-            </th>
-        </tr>
-        </tfoot>
-        </table>
-        </fieldset>
-    </div>
 
-        </td>
-        <td style="width: 50%; vertical-align: top;">
-
-	<?php
-	if (!empty($histories))
-	{ 
-	?>
-    <div id="orderhistory">
-    <fieldset>
-        <legend><?php echo JText::_('Order History'); ?></legend>
-
-        <table class="adminlist" style="clear: both;">
-        <thead>
+        <div id="orderitems">
+    	<fieldset>
+    	    <legend><?php echo JText::_('Items in Order'); ?></legend>
+    
+            <table class="adminlist" style="clear: both;">
+            <thead>
+                <tr>
+                    <th style="text-align: left;"><?php echo JText::_("Item"); ?></th>
+                    <th style="width: 150px; text-align: center;"><?php echo JText::_("Quantity"); ?></th>
+                    <th style="width: 150px; text-align: right;"><?php echo JText::_("Amount"); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $i=0; $k=0; ?>
+            <?php foreach (@$items as $item) : ?>
+                <tr class='row<?php echo $k; ?>'>
+                    <td>
+                        <?php echo JText::_( $item->orderitem_name ); ?>
+                        <br/>
+                        
+                        <?php if (!empty($item->attributes_names)) : ?>
+                            <?php echo $item->attributes_names; ?>
+                            <br/>
+                        <?php endif; ?>
+                        
+                        <b><?php echo JText::_( "Price" ); ?>:</b>
+                        <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php echo $item->orderitem_quantity; ?>
+                    </td>
+                    <td style="text-align: right;">
+                        <?php echo TiendaHelperBase::currency( $item->orderitem_final_price, $row->currency ); ?>
+                    </td>
+                </tr>
+            <?php $i=$i+1; $k = (1 - $k); ?>
+            <?php endforeach; ?>
+            
+            <?php if (empty($items)) : ?>
+                <tr>
+                    <td colspan="10" align="center">
+                        <?php echo JText::_('No items found'); ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+            <tfoot>
             <tr>
-                <th style="text-align: left;"><?php echo JText::_("Date"); ?></th>
-                <th style="text-align: center;"><?php echo JText::_("Status"); ?></th>
-                <th style="text-align: center;"><?php echo JText::_("Notification Sent"); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php $i=0; $k=0; ?>
-        <?php foreach (@$histories as $history) : ?>
-            <tr class='row<?php echo $k; ?>'>
-                <td style="text-align: left;">
-                    <?php echo JHTML::_('date', $history->date_added, TiendaConfig::getInstance()->get('date_format')); ?>
-                </td>
-                <td style="text-align: center;">
-                    <?php echo JText::_( $history->order_state_name ); ?>
-                </td>
-                <td style="text-align: center;">
-                    <?php echo TiendaGrid::boolean( $history->notify_customer ); ?>
-                </td>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Subtotal" ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
+                </th>
             </tr>
             <?php
-            if (!empty($history->comments))
-            { 
+            if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
+            {
+                foreach ($row->ordertaxclasses as $taxclass)
+                {
                 ?>
-	            <tr class='row<?php echo $k; ?>'>
-	                <td colspan="3" style="text-align: left; padding-left: 10px;">
-	                    <b><?php echo JText::_( "Comments" ); ?></b>:
-	                    <?php echo $history->comments; ?>
-	                </td>
-	            </tr>            	
-                <?php 
+                <tr>
+                    <th colspan="2" style="text-align: right;">
+                    <?php echo JText::_( $taxclass->ordertaxclass_description ); ?>
+                    </th>
+                    <th style="text-align: right;">
+                    <?php echo TiendaHelperBase::currency($taxclass->ordertaxclass_amount, $row->currency); ?>
+                    </th>
+                </tr>
+                <?php
+                }
+            } 
+                else
+            {
+                ?>
+                <tr>
+                    <th colspan="2" style="text-align: right;">
+                    <?php echo JText::_( "Tax" ); ?>
+                    </th>
+                    <th style="text-align: right;">
+                    <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>
+                    </th>
+                </tr>
+                <?php            
             }
             ?>
-            
-        <?php $i=$i+1; $k = (1 - $k); ?>
-        <?php endforeach; ?>
-        
-        <?php if (empty($histories)) : ?>
             <tr>
-                <td colspan="10" align="center">
-                    <?php echo JText::_('No order history found'); ?>
-                </td>
+                <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Shipping" ); ?>
+                </th>
+                <th style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
+                </th>
             </tr>
-        <?php endif; ?>
-        </tbody>
-        </table>
-        </fieldset>
-    </div>
-    <?php
-	}
-    ?>
+            <tr>
+                <th colspan="2" style="font-size: 120%; text-align: right;">
+                <?php echo JText::_( "Total" ); ?>
+                </th>
+                <th style="font-size: 120%; text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_total, $row->currency); ?>
+                </th>
+            </tr>
+            </tfoot>
+            </table>
+            </fieldset>
+        </div>
 
-	<fieldset>
-	<legend><?php echo JText::_('Update Order'); ?></legend>
-	
-	<table class="admintable" style="clear: both; width: 100%;">
-	<tr>
-	    <td style="width: 100px; text-align: right;" class="key">
-	        <?php echo JText::_("New Status"); ?>
-	    </td>
-	    <td>
-	        <input value="<?php echo JText::_( "Update Order" ); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
-	        <?php echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id' ); ?>
-	    </td>
-	</tr>
-	<tr>
-    	<td style="width: 100px; text-align: right;" class="key">
-            <?php echo JText::_("Do Completed Order Tasks")."?"; ?>
-        </td>
-    	<td>
-    	   <?php if (empty($order->completed_tasks)) {?>
-    	     <input id="completed_tasks" name="completed_tasks" type="checkbox" />
-    	     <?php } else {?>
-    	     <input id="completed_tasks" name="completed_tasks" type="checkbox" checked="checked" disabled="disabled" />
-    	     <?php }?>
-    	</td>	   
-	</tr>	
-	<tr>
-	    <td style="width: 100px; text-align: right;" class="key">
-	        <?php echo JText::_("Notify Customer about Change in Status"); ?>
-	    </td>
-	    <td>
-	        <?php echo TiendaSelect::booleans( '0', 'new_orderstate_notify', '', '', '', '', 'Yes', 'No' ); ?>
-	    </td>
-	</tr>
-	<tr>
-	    <td style="width: 100px; text-align: right;" class="key">
-	        <?php echo JText::_("Comments"); ?>
-	    </td>
-	    <td>
-            <textarea name="new_orderstate_comments" rows="5" style="width: 100%;"></textarea>
-	    </td>
-	</tr>
-	</table>
-	
-	</fieldset>
+        <?php
+            // fire plugin event here to enable extending the form
+            JDispatcher::getInstance()->trigger('onAfterDisplayOrderViewOrderItems', array( $row ) );                    
+        ?>
+
+    </td>
+    <td style="width: 50%; vertical-align: top;">
+
+        <?php
+            // fire plugin event here to enable extending the form
+            JDispatcher::getInstance()->trigger('onBeforeDisplayOrderViewOrderHistory', array( $row ) );                    
+        ?>
+
+    	<?php
+    	if (!empty($histories))
+    	{ 
+    	?>
+        <div id="orderhistory">
+        <fieldset>
+            <legend><?php echo JText::_('Order History'); ?></legend>
+    
+            <table class="adminlist" style="clear: both;">
+            <thead>
+                <tr>
+                    <th style="text-align: left;"><?php echo JText::_("Date"); ?></th>
+                    <th style="text-align: center;"><?php echo JText::_("Status"); ?></th>
+                    <th style="text-align: center;"><?php echo JText::_("Notification Sent"); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $i=0; $k=0; ?>
+            <?php foreach (@$histories as $history) : ?>
+                <tr class='row<?php echo $k; ?>'>
+                    <td style="text-align: left;">
+                        <?php echo JHTML::_('date', $history->date_added, TiendaConfig::getInstance()->get('date_format')); ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php echo JText::_( $history->order_state_name ); ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php echo TiendaGrid::boolean( $history->notify_customer ); ?>
+                    </td>
+                </tr>
+                <?php
+                if (!empty($history->comments))
+                { 
+                    ?>
+    	            <tr class='row<?php echo $k; ?>'>
+    	                <td colspan="3" style="text-align: left; padding-left: 10px;">
+    	                    <b><?php echo JText::_( "Comments" ); ?></b>:
+    	                    <?php echo $history->comments; ?>
+    	                </td>
+    	            </tr>            	
+                    <?php 
+                }
+                ?>
+                
+            <?php $i=$i+1; $k = (1 - $k); ?>
+            <?php endforeach; ?>
+            
+            <?php if (empty($histories)) : ?>
+                <tr>
+                    <td colspan="10" align="center">
+                        <?php echo JText::_('No order history found'); ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+            </table>
+            </fieldset>
+        </div>
+        <?php
+    	}
+        ?>
+    
+    	<fieldset>
+    	<legend><?php echo JText::_('Update Order'); ?></legend>
+    	
+    	<table class="admintable" style="clear: both; width: 100%;">
+    	<tr>
+    	    <td style="width: 100px; text-align: right;" class="key">
+    	        <?php echo JText::_("New Status"); ?>
+    	    </td>
+    	    <td>
+    	        <input value="<?php echo JText::_( "Update Order" ); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
+    	        <?php echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id' ); ?>
+    	    </td>
+    	</tr>
+    	<tr>
+        	<td style="width: 100px; text-align: right;" class="key">
+                <?php echo JText::_("Do Completed Order Tasks")."?"; ?>
+            </td>
+        	<td>
+        	   <?php if (empty($order->completed_tasks)) {?>
+        	     <input id="completed_tasks" name="completed_tasks" type="checkbox" />
+        	     <?php } else {?>
+        	     <input id="completed_tasks" name="completed_tasks" type="checkbox" checked="checked" disabled="disabled" />
+        	     <?php }?>
+        	</td>	   
+    	</tr>	
+    	<tr>
+    	    <td style="width: 100px; text-align: right;" class="key">
+    	        <?php echo JText::_("Notify Customer about Change in Status"); ?>
+    	    </td>
+    	    <td>
+    	        <?php echo TiendaSelect::booleans( '0', 'new_orderstate_notify', '', '', '', '', 'Yes', 'No' ); ?>
+    	    </td>
+    	</tr>
+    	<tr>
+    	    <td style="width: 100px; text-align: right;" class="key">
+    	        <?php echo JText::_("Comments"); ?>
+    	    </td>
+    	    <td>
+                <textarea name="new_orderstate_comments" rows="5" style="width: 100%;"></textarea>
+    	    </td>
+    	</tr>
+    	</table>
+    	
+    	</fieldset>
+
+        <?php
+            // fire plugin event here to enable extending the form
+            JDispatcher::getInstance()->trigger('onAfterDisplayOrderViewOrderHistory', array( $row ) );                    
+        ?>
 
         </td>
     </tr>
     </table>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderView', array( $row ) );                    
+    ?>
     
     <input type="hidden" name="prev" value="<?php echo intval(@$surrounding["prev"]); ?>" />
     <input type="hidden" name="next" value="<?php echo intval(@$surrounding["next"]); ?>" />        

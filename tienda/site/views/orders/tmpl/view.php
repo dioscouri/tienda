@@ -30,6 +30,11 @@
     <?php
     echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=orders")."'>".JText::_( 'Return to List' )."</a>";
     ?>
+
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderView', array( $row ) );                    
+    ?>
 		
 	<div id="order_info">
 		<h3><?php echo JText::_("Order Information"); ?></h3>
@@ -85,6 +90,11 @@
             <br/>
         </div>
     <?php } ?>
+    
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onBeforeDisplayOrderViewOrderItems', array( $row ) );                    
+    ?>
     
 	<div id="items_info">
 		<h3><?php echo JText::_("Items in Order"); ?></h3>
@@ -193,9 +203,19 @@
 		</table>
 	</div>
 
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderViewOrderItems', array( $row ) );                    
+    ?>
+
 	<?php if (!empty($row->customer_note)) : ?>
 		<div id="customer_note">
 			<h3><?php echo JText::_("Note"); ?></h3>
 			<span><?php echo $row->customer_note; ?></span>
 		</div>
 	<?php endif; ?>
+
+    <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onAfterDisplayOrderView', array( $row ) );                    
+    ?>
