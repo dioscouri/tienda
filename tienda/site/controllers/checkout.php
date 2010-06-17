@@ -1255,31 +1255,73 @@ class TiendaControllerCheckout extends TiendaController
                 else
 			{
 				// create the details array with new user info
+//				$details = array(
+//					'email' => $values['email_address'],
+//					'name' => $values['email_address'],
+//					'username' => $values['email_address']			
+//				);
+				
+				//getting  domain from the config
+				$config 	= &TiendaConfig::getInstance();
+				global $mainframe;
+				$sitename 	= $config->get( 'sitename', $mainframe->getCfg('sitename') );
+				
+				$uri = JURI::getInstance();
+				$domain = $uri->gethost();
+							
+				$guestId=$userHelper->getLastUserId();
+				$guestId=$guestId+1; 	
+            	
+			    $guestMailId="guest".$guestId."@".$domain;
+			
+				
 				$details = array(
 					'email' => $values['email_address'],
-					'name' => $values['email_address'],
-					'username' => $values['email_address']			
+					'name' => "guest".$guestId,
+					'username' => "guest".$guestId			
 				);
 				
+							
 				// use a random password, and send password2 for the email
 				jimport('joomla.user.helper');
                 $details['password']    = JUserHelper::genRandomPassword();
                 $details['password2']   = $details['password'];
 
 				$msg = $this->getError();
-
 				$user = $userHelper->createNewUser($details, $msg);
 
+				
 				if (empty($user->id))
 				{
 					// TODO what to do if creating new user failed?
+								
+				}
+				
+				$userinfoDetails =array ('user_id'  => $user->id, 'emailId' => $values['email_address']);
+				$userInfo=$userHelper->createGuestUser($userinfoDetails);
+			    
+				if (empty($userInfo->user_info_id))
+				{
+					// TODO what to do if creating new user info failed?
 				}
 				
 				
-		 	    $userHelper->login( 
+				$userHelper->login( 
 				    array('username' => $user->username, 'password' => $user->password_clear) 
 				);
-			     	
+              
+										
+//		 	    $userHelper->login( 
+//				    array('username' => $user->username, 'password' => $user->password_clear) 
+//				);
+//              
+				// update user table for the email ids 
+				
+				$useremailUpdate= $userHelper->updateUserEmail($user->user_id,$guestMailId);
+				if($useremailUpdate){
+					
+					// TODO what to do when email id does not update for the guest user  
+				}
 				
 			}
 		}

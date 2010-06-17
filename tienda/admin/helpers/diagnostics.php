@@ -151,7 +151,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
         }
-        
+        // check the user info table 
+       
+        if (!$this->checkUserInfoEmail()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -1027,5 +1032,39 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
+    /**
+     * Checks the user info table for the emailid fields
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkUserInfoEmail()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkUserInfoEmail', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_userinfo';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "emailId";
+            $definitions["emailId"] = "varchar(255) DEFAULT 'NUlLL'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkUserInfoEmail') );
+            $config->config_name = 'checkUserInfoEmail';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
     
 }

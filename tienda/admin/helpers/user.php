@@ -190,11 +190,11 @@ class TiendaHelperUser extends TiendaHelperBase
 		$user->set('registerDate', $date->toMySQL());
 	
 		// If user activation is turned on, we need to set the activation information
-		$useractivation = '0';
+		$useractivation = '1';
 		if ($useractivation == '1') {
 			jimport('joomla.user.helper');
 			$user->set('activation', md5( JUserHelper::genRandomPassword() ) );
-			$user->set('block', '1');
+			$user->set('block', '0');
 		}
 
 		// If there was an error with registration, set the message and display form
@@ -319,7 +319,7 @@ class TiendaHelperUser extends TiendaHelperBase
 
 		if ( $useractivation == 1 ){
 			$message = sprintf ( JText::_( 'Email Message Activation' ), $sitename, $siteURL, $email, $password, $activation );
-		} else {
+			} else {
 			$message = sprintf ( JText::_( 'Email Message' ), $sitename, $siteURL, $email, $password );
 		}
 
@@ -358,7 +358,9 @@ class TiendaHelperUser extends TiendaHelperBase
 		$sender = array( $from, $fromname );
 		$message->setSender($sender);
        
-		// $sent = $message->send(); calling the own method of TiendaHelperEmail to send mail
+		// $sent = $message->send();
+
+		//calling the own method of TiendaHelperEmail to send mail
 		
 		$header=$message->CreateHeader();
 		$header =  str_replace('>','',str_replace('<',' ',$header));
@@ -369,8 +371,75 @@ class TiendaHelperUser extends TiendaHelperBase
 		if ($sent == '1') {
 			$success = true;
 		}
-		
 		return $success;
 	
 	}
+	
+
+	/*
+	 *this method will call when the guest user is creating it will enter the user info and update the user table too. 
+	 * 
+	 */ 
+	
+	function createGuestUser($details){
+		
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $user = JTable::getInstance('UserInfo', 'TiendaTable');
+        
+		$success = false;
+		
+		// Bind the post array to the user object
+		if (!$user->bind( $details )) 
+		{
+            $this->setError( $user->getError() );
+            return false;
+		}
+         
+		  $user->set('html_emails', 0);
+		  		  
+		// If there was an error with registration, set the message and display form
+		if ( !$user->save() ) {
+			$msg->message = $user->getError();
+			return $success;
+		}
+		
+		return $user;
+		
+	}
+	
+	function updateUserEmail($userid,$guestMailId){
+		
+		$success=true;
+		$user =& JFactory::getUser();
+		$user->set('email',$guestMailId);
+		
+        if ( !$user->save() ) {
+			$msg->message = $user->getError();
+			$success=false;
+			return $success;
+		}
+		
+       return $success; 
+	}
+	
+	function getLastUserId()
+	{
+		
+		$database = &JFactory::getDBO();
+		$string = $database->getEscaped($string);
+		$query = "
+			SELECT 
+				MAX(id) as id
+			FROM 
+				#__users
+			";
+		$database->setQuery($query);
+		$result = &$database->loadObject();
+		
+		return $result->id;
+		
+		
+
+	}
+	
 }

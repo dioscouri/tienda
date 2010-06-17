@@ -86,14 +86,31 @@ class TiendaHelperEmail extends TiendaHelperBase
 
 				$user = JUser::getInstance( $order->user_id );
 				$email = $user->email;
-				$recipients[] = $email;
+				$needle="guest";
+				$pos = strpos($email,$needle);
+				
+				if($pos === false) {
+				 // string needle NOT found in haystack
+				 $recipients[] = $email;
+					   
+				}
+				else {
+				 // string needle found in haystack
+				 //getting the user info and sending the email on the correct email id 
+					
+ 				Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+				$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+			 	$userInfo=$userHelper->getBasicInfo($order->user_id);	
+				$recipients[]=$userInfo->emailId;	
+				}
+								
+				//$recipients[] = $email;
 				
 				// Add the order email only if they are different
 				if( $email != $order->user_email){
 					$recipients[] = $order->user_email;
 				}
-		}
-		
+		    }
 		return $recipients;
 	}
 
