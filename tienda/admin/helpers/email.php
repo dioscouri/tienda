@@ -44,7 +44,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
-        $recipients = $this->getEmailRecipients( $data->order_id );
+        $recipients = $this->getEmailRecipients( $data->order_id, $type );
         $content = $this->getEmailContent( $data, $type );
         
         // trigger event onAfterGetEmailContent 
@@ -80,6 +80,15 @@ class TiendaHelperEmail extends TiendaHelperBase
         
         switch ($type)
         {
+            case "new_order":
+                $system_recipients = $this->getSystemEmailRecipients();
+                foreach ($system_recipients as $r)
+                {
+                    if (!in_array($r->email, $recipients))
+                    {
+                        $recipients[] = $r->email;    
+                    }
+                }
             case 'order':
             default:                
                 $model = Tienda::getClass('TiendaModelOrders', 'models.orders');
@@ -244,5 +253,27 @@ class TiendaHelperEmail extends TiendaHelperBase
         }
         
         return $success;
+    }
+    
+    /**
+     * Gets all targets for system emails
+     * 
+     * return array of objects
+     */
+    function getSystemEmailRecipients()
+    {
+        $db =& JFactory::getDBO();
+        $query = "
+            SELECT tbl.email
+            FROM #__users AS tbl
+            WHERE tbl.sendEmail = '1';
+        "; 
+        $db->setQuery( $query );
+        $items = $db->loadObjectList();
+        if (empty($items))
+        {
+            return array();
+        }
+        return $items;
     }
 }
