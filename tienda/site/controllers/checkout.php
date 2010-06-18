@@ -91,7 +91,7 @@ class TiendaControllerCheckout extends TiendaController
             elseif ($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
 		{
 		    // Checkout as a Guest
-			$order = &$this->_order;
+			$order =& $this->_order;
 			$order = $this->populateOrder(true);
 
 			// now that the order object is set, get the orderSummary html
@@ -170,7 +170,7 @@ class TiendaControllerCheckout extends TiendaController
 		  else
 		{
 		    // Already Logged in, a traditional checkout
-		    $order = &$this->_order;
+		    $order =& $this->_order;
 			$order = $this->populateOrder(false);
 
 			// now that the order object is set, get the orderSummary html
@@ -258,7 +258,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function populateOrder($guest = false)
 	{	
-		$order = $this->_order;
+		$order =& $this->_order;
 		// set the currency
 		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 		// set the shipping method
@@ -324,7 +324,7 @@ class TiendaControllerCheckout extends TiendaController
 	function getOrderSummary()
 	{
 		// get the order object
-		$order = &$this->_order; // a TableOrders object (see constructor)
+		$order =& $this->_order; // a TableOrders object (see constructor)
 
 		$model = $this->getModel('carts');
 		$view = $this->getView( 'checkout', 'html' );
@@ -512,7 +512,7 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if not checked terms & condition
-		if( TiendaConfig::getInstance()->get('show_terms', '1') && empty($submitted_values['_checked']['shipping_terms']) )
+		if( TiendaConfig::getInstance()->get('show_terms') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
 			$response['msg'] = $helper->generateMessage(JText::_('Please Check the Terms & Conditions'));
 			$response['error'] = '1';
@@ -630,7 +630,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function setAddresses( $values )
 	{
-		$order = $this->_order; // a TableOrders object (see constructor)
+		$order =& $this->_order; // a TableOrders object (see constructor)
 
 		// Get the currency from the configuration
 		$currency_id			= TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
@@ -987,11 +987,11 @@ class TiendaControllerCheckout extends TiendaController
 		$values = $helper->elementsToArray( $elements );
 		
 		$response = array();
-		$response['msg'] = Tienda::dump($values);
+		$response['msg'] = '';
 		$response['error'] = '';
 		
 		// get the order object so we can populate it
-		$order = &$this->_order; // a TableOrders object (see constructor)
+		$order =& $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -1046,7 +1046,7 @@ class TiendaControllerCheckout extends TiendaController
         $values = JRequest::get('post');
 
         // get the order object so we can populate it
-        $order = &$this->_order; // a TableOrders object (see constructor)
+        $order =& $this->_order; // a TableOrders object (see constructor)
 
         $user_id = JFactory::getUser()->id;
         // Guest Checkout
@@ -1311,8 +1311,8 @@ class TiendaControllerCheckout extends TiendaController
 		}
  		
 		// Get Order Object
-		$order = $this->_order;
-		
+		$order =& $this->_order;
+
 		// Update the addresses' user id!
 		$shippingAddress = $order->getShippingAddress();
 		$billingAddress = $order->getBillingAddress();
@@ -1392,8 +1392,9 @@ class TiendaControllerCheckout extends TiendaController
 		// Get Addresses
 		$shipping_address = $order->getShippingAddress();
 		$billing_address = $order->getBillingAddress();
-		$shippingAddressArray = $showShipping ? $this->retrieveAddressIntoArray($shipping_address->id) : array();
-		$billingAddressArray = $this->retrieveAddressIntoArray($billing_address->id);
+
+		$shippingAddressArray = $showShipping ? $this->_shippingAddressArray : array();
+		$billingAddressArray = $this->_billingAddressArray;
 			
 		$shippingMethodName = $values['shipping_name'];
 
@@ -1569,9 +1570,9 @@ class TiendaControllerCheckout extends TiendaController
                 // TODO What to do if saving order taxes fails?
                 $error = true;
             }
-            
+
 			// save the order shipping info
-           if (!$this->saveOrderShippings())
+            if (!$this->saveOrderShippings())
             {
                 // TODO What to do if saving order shippings fails?
                 $error = true;
@@ -1874,6 +1875,5 @@ class TiendaControllerCheckout extends TiendaController
             return get_object_vars( $item );    
         }
         return array();
-        
     }
 }

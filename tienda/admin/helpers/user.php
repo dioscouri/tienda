@@ -370,7 +370,7 @@ class TiendaHelperUser extends TiendaHelperBase
         // check user mail format type, default html
         $message->IsHTML(true);
         $body = htmlspecialchars_decode( $body );
-        $message->setBody( $body );
+        $message->setBody( nl2br( $body ) );
         
         $sender = array( $from, $fromname );
         $message->setSender($sender);
