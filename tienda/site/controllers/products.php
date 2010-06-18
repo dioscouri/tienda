@@ -369,7 +369,8 @@ class TiendaControllerProducts extends TiendaController
 			$view->set( 'hidemenu', true);
 			$view->setModel( $model, true );
 			$view->setLayout( 'product_files' );
-			$view->set('items', $items);
+			$view->set('downloadItems', $items[0]);
+			$view->set('nondownloadItems', $items[1]);
 			$view->set('product_id', $product_id);
 
 			ob_start();

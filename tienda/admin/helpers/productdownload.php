@@ -29,15 +29,21 @@ class TiendaHelperProductDownload extends TiendaHelperBase
     {
         (array) $productfiles;
         $filtered = array();
-        
+        $nonFiltred=array();
+               
         foreach ($productfiles as $productfile)
         {
             if (TiendaHelperProductDownload::canDownload( $productfile->productfile_id, $user_id))
             {
                 $filtered[] = $productfile;
             }
+            else {
+            	$nonFiltred[] = $productfile;
+            }
         }
-        return $filtered;
+        
+        $totalItem = array(0 =>$filtered,1=>$nonFiltred);
+        return $totalItem;
     }
     
     /**
