@@ -6,8 +6,11 @@ $downloadItems = @$this->downloadItems;
 $nondownloadItems = @$this->nondownloadItems;
 ?>
 
-    <div class="productdesc">
-       <div class="productdesctitle"><?php echo JText::_("Files"); ?></div>
+    <div id="product_files">
+        <div id="product_files_header" class="tienda_header">
+            <span><?php echo JText::_("Files"); ?></span>
+        </div>
+       
         <?php
         $k = 0;         
         foreach ($downloadItems as $item): ?>

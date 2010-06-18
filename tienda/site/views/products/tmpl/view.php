@@ -4,22 +4,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
-
-$str = '';
-if ($inventoryList = @$this->inventoryList)
-{
-    foreach ($inventoryList as $k=>$v)
-    {
-        $str .= "$k=>$v&&";
-    }    
-}
-?>
-
-<script>
-// seting the java script variables with inventory array from php variables
-stringOfOptions = "<?php echo $str; ?>";
-</script>
-    
+?>  
 
 <div id="tienda" class="products view">
     
@@ -134,8 +119,3 @@ stringOfOptions = "<?php echo $str; ?>";
         
     </div>
 </div>
-
-<?php // checks inventory stock for the current product ?>
-<!--<script>-->
-<!--TiendaCheckStock();-->
-<!--</script>-->
