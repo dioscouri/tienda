@@ -95,13 +95,29 @@ class TiendaHelperBase extends JObject
 		$return = true;
 		if (!$exists = &JFolder::exists( $dir ) ) 
 		{
-			if($create)
-				$return = &JFolder::create( $dir );
-			else
-				$return = false;
-		} 
-		$change = &JPath::setPermissions( $dir );	
-		return ($return && $change);
+			if ($create)
+			{
+			    if (!$return = &JFolder::create( $dir ))
+			    {
+			        $this->setError( "Attempted to Create Dir But Failed" );
+			    }
+			}
+                else
+			{
+			    $return = false;
+			    $this->setError( "Dir Does Not Exist and Did Not Attempt to Create" );
+			}
+		}
+		
+        if (!is_writable($dir)) 
+        {
+            if (!$change = &JPath::setPermissions( $dir ))
+            {
+                $this->setError( "Changing Permissions on Dir Failed" );
+            }
+        }
+        
+		return $return;
 	}
 	
 	/**

@@ -153,6 +153,7 @@ class TiendaControllerProducts extends TiendaController
             while (!empty($userfiles['size'][$i]))
             {
                 $dir = $row->getImagePath(true);
+
                 if ($upload = $this->addimage( $fieldname, $i, $dir ))
                 {
                     // The first One is the default (if there is no default yet)
@@ -184,7 +185,7 @@ class TiendaControllerProducts extends TiendaController
 			$this->messagetype 	= 'notice';			
 			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
 		}
-		
+
     	$redirect = "index.php?option=com_tienda";
     	$task = JRequest::getVar('task');
     	switch ($task)
@@ -244,7 +245,10 @@ class TiendaControllerProducts extends TiendaController
 		
 		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-		$imgHelper->resizeImage( $upload, 'product');
+		if (!$imgHelper->resizeImage( $upload, 'product'))
+		{
+		    JFactory::enqueueMessage( JText::_("Could Not Create Thumb") );
+		}
 		
     	return $upload;
 	}
