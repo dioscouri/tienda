@@ -646,6 +646,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_model` varchar(255) DEFAULT NULL,
   `product_check_inventory` tinyint(1) DEFAULT '1' COMMENT 'Check Inventory for this Product?',
   `product_ships` tinyint(1) DEFAULT '1' COMMENT 'Product Requires Shipping?',
+  `ordering` int(11) NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
   `publish_date` datetime NOT NULL COMMENT 'GMT Only',
@@ -1145,7 +1146,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   `phone_2` VARCHAR(32) NULL DEFAULT NULL ,
   `fax` VARCHAR(32) NULL DEFAULT NULL ,
   `html_emails` TINYINT(1) NOT NULL DEFAULT '0' ,
-  `emailId` VARCHAR(255) NULL DEFAULT NULL ,
+  `email` VARCHAR(255) NULL DEFAULT NULL ,
   PRIMARY KEY (`user_info_id`) ,
   INDEX `idx_user_info_user_id` (`user_id` ASC) )
 ENGINE = InnoDB

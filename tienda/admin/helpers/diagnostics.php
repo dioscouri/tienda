@@ -146,18 +146,62 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         
         // check the products table 
-       
         if (!$this->checkProductsName()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsName FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
         // check the user info table 
-       
-        if (!$this->checkUserInfoEmail()) 
+        if (!$this->checkUserInfoEmailDropId()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoEmailDropId FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
+        // check the user info table 
+        if (!$this->checkProductsOrdering()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsOrdering FAILED') .' :: '. $this->getError(), 'error' );
         }
 
+    }
+    
+    /**
+     * Creates a table if it doesn't exist
+     * 
+     * @param $table
+     * @param $definition
+     */
+    function createTable( $table, $definition )
+    {
+        if (!$this->tableExists( $table ))
+        {
+            $db =& JFactory::getDBO();
+            $db->setQuery( $definition );
+            if (!$db->query())
+            {
+                $this->setError( $db->getErrorMsg() );
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Checks if a table exists
+     * 
+     * @param $table
+     */
+    function tableExists( $table )
+    {
+        $db =& JFactory::getDBO();
+        
+        // Manually replace the Joomla Tables prefix. Automatically it fails
+        // because the table name is between single-quotes
+        $db->setQuery(str_replace('#__', $db->_table_prefix, "SHOW TABLES LIKE '$table'"));
+        $result = $db->loadObject();
+        
+        if ($result === null) return false;
+        else return true;
     }
     
     /**
@@ -221,6 +265,44 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             if ($rows && !$database->getErrorNum()) 
             {       
                 $query = "ALTER TABLE `{$table}` CHANGE `{$field}` `{$newnames[$field]}` {$definitions[$field]}; ";
+                $database->setQuery( $query );
+                if (!$database->query())
+                {
+                    $errors[] = $database->getErrorMsg();
+                }
+            }
+        }
+        
+        if (!empty($errors))
+        {
+            $this->setError( implode('<br/>', $errors) );
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Drops fields from a table
+     * 
+     * @param string $table
+     * @param array $fields
+     * @param array $definitions
+     * @return boolean
+     */
+    function dropTableFields($table, $fields)
+    {
+        $database = JFactory::getDBO();
+        $fields = (array) $fields;
+        $errors = array();
+        
+        foreach ($fields as $field)
+        {
+            $query = " SHOW COLUMNS FROM {$table} LIKE '{$field}' ";
+            $database->setQuery( $query );
+            $rows = $database->loadObjectList();
+            if ($rows && !$database->getErrorNum()) 
+            {       
+                $query = "ALTER TABLE `{$table}` DROP `{$field}`; ";
                 $database->setQuery( $query );
                 if (!$database->query())
                 {
@@ -1016,7 +1098,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $fields[] = "product_name";
             $newnames["product_name"] = "product_name";
             $definitions["product_name"] =" varchar(255) NOT NULL DEFAULT ''";
-       if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+            
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -1038,10 +1121,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
      * 
      * return boolean
      */
-    function checkUserInfoEmail()
+    function checkUserInfoEmailDropId()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkUserInfoEmail', '0'))
+        if (TiendaConfig::getInstance()->get('checkUserInfoEmailDropId', '0'))
         {
             return true;
         }
@@ -1049,17 +1132,66 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $table = '#__tienda_userinfo';
         $definitions = array();
         $fields = array();
+        $newnames = array();
         
         $fields[] = "emailId";
-            $definitions["emailId"] = "varchar(255) DEFAULT 'NUlLL'";
+            $newnames["emailId"] = "email";
+            $definitions["emailId"] =" varchar(255) NOT NULL DEFAULT ''";
+            
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            
+        }
+        
+        // this will only execute a change if email doesn't exist
+        $definitions = array();
+        $fields = array();
+                
+        $fields[] = "email";
+            $definitions["email"] = "varchar(255) NOT NULL DEFAULT ''";
             
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkUserInfoEmail') );
-            $config->config_name = 'checkUserInfoEmail';
+            $config->load( array( 'config_name'=>'checkUserInfoEmailDropId') );
+            $config->config_name = 'checkUserInfoEmailDropId';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+/**
+     * Checks the products table for the ordering field
+     * As of v0.5.0
+     * 
+     * return boolean
+     */
+    function checkProductsOrdering()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsOrdering', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "ordering";
+            $definitions["ordering"] = "int(11) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsOrdering') );
+            $config->config_name = 'checkProductsOrdering';
             $config->value = '1';
             $config->save();
             return true;

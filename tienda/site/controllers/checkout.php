@@ -1297,7 +1297,7 @@ class TiendaControllerCheckout extends TiendaController
 								
 				}
 				
-				$userinfoDetails =array ('user_id'  => $user->id, 'emailId' => $values['email_address']);
+				$userinfoDetails =array ('user_id'  => $user->id, 'email' => $values['email_address']);
 				$userInfo=$userHelper->createGuestUser($userinfoDetails);
 			    
 				if (empty($userInfo->user_info_id))

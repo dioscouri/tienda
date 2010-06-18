@@ -89,19 +89,20 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$needle="guest";
 				$pos = strpos($email,$needle);
 				
-				if($pos === false) {
-				 // string needle NOT found in haystack
-				 $recipients[] = $email;
-					   
+				if ($pos === false) 
+				{
+    				 // string needle NOT found in haystack
+    				 $recipients[] = $email;
 				}
-				else {
-				 // string needle found in haystack
-				 //getting the user info and sending the email on the correct email id 
-					
- 				Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-				$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
-			 	$userInfo=$userHelper->getBasicInfo($order->user_id);	
-				$recipients[]=$userInfo->emailId;	
+				    else 
+				{
+    				// string needle found in haystack
+    				//getting the user info and sending the email on the correct email id 
+    					
+     				Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+    				$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+    			 	$userInfo=$userHelper->getBasicInfo($order->user_id);	
+    				$recipients[] = $userInfo->email;	
 				}
 								
 				//$recipients[] = $email;
