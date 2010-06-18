@@ -89,18 +89,45 @@ class TiendaImage extends TiendaFile
 	 */
 	function save($filename, $image_type = 'jpg', $compression=75, $permissions=null) 
 	{		
-		if( $image_type == 'jpg' ) {
-			imagejpeg($this->image,$filename,$compression);
-		} elseif( $image_type == 'gif' ) {
-			imagegif($this->image,$filename);
-		} elseif( $image_type == 'png' ) {
-			imagepng($this->image,$filename);
-		}
-		
-		if( $permissions != null) {
-			chmod($filename,$permissions);
-		}
-		unset($this->image);
+        $success = true;
+        
+        ob_start();     
+        if( $image_type == 'jpg' ) {
+            if (!$success = imagejpeg($this->image, '', $compression))
+            {
+                $this->setError( "TiendaImage::save( 'jpeg' ) Failed" );
+            }
+        } elseif( $image_type == 'gif' ) {
+            if (!$success = imagegif($this->image, '' ))
+            {
+                $this->setError( "TiendaImage::save( 'gif' ) Failed" );
+            }
+        } elseif( $image_type == 'png' ) {
+            if (!$success = imagepng($this->image, '' ))
+            {
+                $this->setError( "TiendaImage::save( 'png' ) Failed" );
+            }
+        }
+
+        if ($success)
+        {
+            $imgToWrite = ob_get_contents();
+            ob_end_clean();
+                                
+            if (!JFile::write( $filename, $imgToWrite)) 
+            {
+                $this->setError( JText::_( "Could not write file" ).": ".$filename );
+                return false;
+            }
+            
+            if( $permissions != null) {
+                chmod($filename,$permissions);
+            }
+            unset($this->image);
+            return true;        
+        }
+        
+        return false;
 	}
 	
 	/**
