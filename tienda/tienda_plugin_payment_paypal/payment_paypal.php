@@ -373,11 +373,17 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             
             // remove items from cart
             TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
         }
             else 
         {
             $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
             $this->setOrderPaymentReceived( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
         }
 
         // save the order
@@ -390,6 +396,17 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         if (!$orderpayment->save())
         {
         	$errors[] = $orderpayment->getError(); 
+        }
+        
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
         }
 
         return count($errors) ? implode("\n", $errors) : '';        

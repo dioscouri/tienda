@@ -29,7 +29,7 @@ class TiendaHelperProductDownload extends TiendaHelperBase
     {
         (array) $productfiles;
         $filtered = array();
-        $nonFiltred=array();
+        $unfiltered = array();
                
         foreach ($productfiles as $productfile)
         {
@@ -37,13 +37,14 @@ class TiendaHelperProductDownload extends TiendaHelperBase
             {
                 $filtered[] = $productfile;
             }
-            else {
-            	$nonFiltred[] = $productfile;
+                else 
+            {
+            	$unfiltered[] = $productfile;
             }
         }
         
-        $totalItem = array(0 =>$filtered,1=>$nonFiltred);
-        return $totalItem;
+        $allItems = array( 0=>$filtered, 1=>$unfiltered );
+        return $allItems;
     }
     
     /**

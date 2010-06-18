@@ -25,6 +25,7 @@ class TiendaViewOrders extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+            case "email":
         	case "print":
             case "view":
                 $this->_form($tpl);

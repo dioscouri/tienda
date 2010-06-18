@@ -306,7 +306,7 @@ class TiendaHelperOrder extends TiendaHelperBase
     	return $param->toString();
     }
     
-  /**
+    /**
      * This method for after an orderpayment has been received when the admin click on the 
      * that performs acts such as: 
      * enabling file downloads
@@ -355,7 +355,47 @@ class TiendaHelperOrder extends TiendaHelperBase
             $order->store();
             return true;    
         }
+    }
+    
+    /**
+     * Gets an order, formatted for email
+     * 
+     * return html
+     */
+    function getOrderHtmlForEmail( $order_id )
+    {
+        $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
         
+        // Require specific controller if requested
+        Tienda::load( 'TiendaController', "controller", $options );
+        
+        // load the plugins
+        JPluginHelper::importPlugin( 'tienda' );
+        
+        // Create the controller
+        $classname = 'TiendaController';
+        $controller = Tienda::getClass( $classname );      
+        
+        $view = $controller->getView( 'orders', 'html' );
+        $model  = $controller->getModel( 'orders' );
+        $model->setId( $order_id );
+        $order =& $model->getItem();
+        
+        $view->set( '_controller', 'orders' );
+        $view->set( '_view', 'orders' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', false);
+        $view->setModel( $model, true );
+        $view->assign( 'order', $order );
+        $view->setLayout( 'email' );
+        
+        // Perform the requested task
+        ob_start();
+        $view->display();
+        $output = ob_get_contents();
+        ob_end_clean();
+        
+        return $output;
     }
     
 }

@@ -356,12 +356,12 @@ class TiendaControllerProducts extends TiendaController
 		//$model->setState( 'filter_purchaserequired', 1 );
 		$items = $model->getList();
 
-		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-		$helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
-		$items = $helper->filterRestricted( $items, JFactory::getUser()->id );
-
 		if (!empty($items))
 		{
+            Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
+            $filtered_items = $helper->filterRestricted( $items, JFactory::getUser()->id );
+        
 			$view   = $this->getView( 'products', 'html' );
 			$view->set( '_controller', 'products' );
 			$view->set( '_view', 'products' );
@@ -369,8 +369,8 @@ class TiendaControllerProducts extends TiendaController
 			$view->set( 'hidemenu', true);
 			$view->setModel( $model, true );
 			$view->setLayout( 'product_files' );
-			$view->set('downloadItems', $items[0]);
-			$view->set('nondownloadItems', $items[1]);
+			$view->set('downloadItems', $filtered_items[0]);
+			$view->set('nondownloadItems', $filtered_items[1]);
 			$view->set('product_id', $product_id);
 
 			ob_start();

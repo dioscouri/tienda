@@ -107,6 +107,16 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
             // remove items from cart
             Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
             TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            
+            $helper->sendEmailNotices($order, 'new_order');
         }
         
         // display the layout

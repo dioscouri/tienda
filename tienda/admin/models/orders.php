@@ -146,6 +146,7 @@ class TiendaModelOrders extends TiendaModelBase
 		$field[] = " ui.fax ";
 		$field[] = " ui.first_name as first_name";
 		$field[] = " ui.last_name as last_name";
+		$field[] = " ui.email as userinfo_email";
 		$field[] = " s.* ";
 		$field[] = " shipping.ordershipping_name ";
         $field[] = " oi.billing_company ";

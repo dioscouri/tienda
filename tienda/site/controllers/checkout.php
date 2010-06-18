@@ -1254,75 +1254,51 @@ class TiendaControllerCheckout extends TiendaController
 			} 
                 else
 			{
-				// create the details array with new user info
-//				$details = array(
-//					'email' => $values['email_address'],
-//					'name' => $values['email_address'],
-//					'username' => $values['email_address']			
-//				);
-				
-				//getting  domain from the config
-				$config 	= &TiendaConfig::getInstance();
-				global $mainframe;
-				$sitename 	= $config->get( 'sitename', $mainframe->getCfg('sitename') );
-				
-				$uri = JURI::getInstance();
-				$domain = $uri->gethost();
-							
-				$guestId=$userHelper->getLastUserId();
-				$guestId=$guestId+1; 	
-            	
-			    $guestMailId="guest".$guestId."@".$domain;
+			    // create a guest email address to be stored in the __users table    			    
+    				//get the domain from the uri
+    				$uri = JURI::getInstance();
+    				$domain = $uri->gethost();
+    				$lastUserId = $userHelper->getLastUserId();
+    				$guestId = $lastUserId + 1;
+    				// format: guest_[id]@domain.com
+    			    $guest_email = "guest_".$guestId."@".$domain;
 			
-				
+				// send the guest user credentials to the user's real email address
 				$details = array(
 					'email' => $values['email_address'],
-					'name' => "guest".$guestId,
-					'username' => "guest".$guestId			
+					'name' => "guest_".$guestId,
+					'username' => "guest_".$guestId			
 				);
-				
 							
 				// use a random password, and send password2 for the email
 				jimport('joomla.user.helper');
                 $details['password']    = JUserHelper::genRandomPassword();
                 $details['password2']   = $details['password'];
 
+                // create the new user
 				$msg = $this->getError();
-				$user = $userHelper->createNewUser($details, $msg);
-
+				$user = $userHelper->createNewUser($details, true);
 				
 				if (empty($user->id))
 				{
 					// TODO what to do if creating new user failed?
-								
 				}
+
+				// but don't save the user's real email in the __users db table
+				$userEmailUpdate = $userHelper->updateUserEmail($user->id, $guest_email);
 				
-				$userinfoDetails =array ('user_id'  => $user->id, 'email' => $values['email_address']);
-				$userInfo=$userHelper->createGuestUser($userinfoDetails);
-			    
-				if (empty($userInfo->user_info_id))
-				{
-					// TODO what to do if creating new user info failed?
-				}
+				// save the real user's info in the userinfo table
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                $userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+        		$userinfo->load( array('user_id'=>$user->id) );
+        		$userinfo->user_id = $user->id;
+        		$userinfo->email = $values['email_address'];
+        		$userinfo->save();
 				
-				
+        		// login the user
 				$userHelper->login( 
-				    array('username' => $user->username, 'password' => $user->password_clear) 
-				);
-              
-										
-//		 	    $userHelper->login( 
-//				    array('username' => $user->username, 'password' => $user->password_clear) 
-//				);
-//              
-				// update user table for the email ids 
-				
-				$useremailUpdate= $userHelper->updateUserEmail($user->user_id,$guestMailId);
-				if($useremailUpdate){
-					
-					// TODO what to do when email id does not update for the guest user  
-				}
-				
+				    array('username' => $user->username, 'password' => $details['password']) 
+				);				
 			}
 		}
             
@@ -1724,8 +1700,7 @@ class TiendaControllerCheckout extends TiendaController
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;
 
-		//$row->notify_customer = '0'; // don't notify the customer on prepayment
-		$row->notify_customer = '1'; // don't notify the customer on prepayment
+		$row->notify_customer = '0'; // don't notify the customer on prepayment
 		$row->comments = JRequest::getVar('order_history_comments', '', 'post');
 
 		if (!$row->save())

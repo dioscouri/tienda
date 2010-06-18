@@ -310,10 +310,6 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             return $user;
         }
         
-        $msg = new stdClass();
-        $msg->type      = '';
-        $msg->message   = '';
-        
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         
         $newuser_email = $submitted_values['email'];
@@ -326,7 +322,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $details['password2']   = $details['password'];
         $details['block']       = $config->get('block_automatically_registered') ? '1' : '0';
         
-        if ($user =& TiendaHelperUser::createNewUser( $details, $msg )) {
+        if ($user =& TiendaHelperUser::createNewUser( $details )) {
             if ( ! $config->get('block_automatically_registered')) {
                 // login the new user
                 $login = TiendaHelperUser::login( $details, '1' );
@@ -915,6 +911,9 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             {
                 $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
                 $this->setOrderPaymentReceived( $orderpayment->order_id );
+                
+                // send email
+                $send_email = true;
             }
     
             // save the order
@@ -927,6 +926,17 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             if (!$orderpayment->save())
             {
                 $errors[] = $orderpayment->getError(); 
+            }
+            
+            if ($send_email)
+            {
+                // send notice of new order
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Email');
+                $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                $model->setId( $orderpayment->order_id );
+                $order = $model->getItem();
+                $helper->sendEmailNotices($order, 'new_order');
             }
 
             if (empty($errors))
