@@ -228,7 +228,7 @@ class TiendaControllerProducts extends TiendaController
         $view->assign( 'item', $row );
         $view->assign('product_id', $product_id);
         $view->assign('values', $values);
-        $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category'));
+        $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category', (int) @$values['filter_category'] ));
         $view->assign('filter_category', $filter_category);
         $view->assign('validation', "index.php?option=com_tienda&view=products&view=products&task=validate&format=raw" );
         
