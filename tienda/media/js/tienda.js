@@ -71,7 +71,7 @@
      */
     function tiendaFormValidation( url, container, task, form ) 
     {
-        if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' ) 
+        if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' ) 
         {
             // loop through form elements and prepare an array of objects for passing to server
             var str = new Array();
@@ -427,6 +427,32 @@
                 }
             }
         }).request();
+    }
+    
+    function tiendaUpdateAddToCart( container, form )
+    {
+        var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart';
         
-
+        // loop through form elements and prepare an array of objects for passing to server
+        var str = new Array();
+        for(i=0; i<form.elements.length; i++)
+        {
+            postvar = {
+                name : form.elements[i].name,
+                value : form.elements[i].value,
+                checked : form.elements[i].checked,
+                id : form.elements[i].id
+            };
+            str[i] = postvar;
+        }
+        // execute Ajax request to server
+        var a=new Ajax(url,{
+            method:"post",
+            data:{"elements":Json.toString(str)},
+            onComplete: function(response){
+                var resp=Json.evaluate(response, false);
+                if ($(container)) { $(container).setHTML(resp.msg); }
+                return true;
+            }
+        }).request();
     }

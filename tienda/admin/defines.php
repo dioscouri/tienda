@@ -366,7 +366,8 @@ class TiendaConfig extends JObject
 	var $display_prices_with_shipping       = '0';
 	var $display_prices_with_tax            = '0';
     var $display_taxclass_lineitems         = '0';
-    var $addtocartaction                    = 'lightbox'; 	
+    var $addtocartaction                    = 'redirect'; 	
+    var $cartbutton                         = 'image';
 	
 	/**
 	 * constructor

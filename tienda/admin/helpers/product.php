@@ -41,7 +41,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         // set the default exclusions array
         $exclusions = array(
             'default.php',
-            'productfiles.php',
+            'product_files.php',
             'quickadd.php',
             'search.php',
             'view.php',
@@ -72,7 +72,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             {
                 $namebits = explode('.', $file);
                 $extension = $namebits[count($namebits)-1];
-                if (in_array($extension, $extensions))
+                if (in_array($extension, $extensions) && (substr($file, 0, 8) != 'product_'))
                 {
                     if (!in_array($file, $exclusions) && !in_array($file, $layouts))
                     {
@@ -797,6 +797,46 @@ class TiendaHelperProduct extends TiendaHelperBase
     }
     
     /**
+     * Returns a default list of a product's attributes
+     * 
+     * @param int $id
+     * @return array
+     */
+    function getDefaultAttributes( $id )
+    {
+        if (empty($id))
+        {
+            return array();
+        }
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+        $model->setState( 'filter_product', $id );
+        $items = $model->getList();
+        if (empty($items))
+        {
+            return array();
+        }
+        
+        $list = array();
+        foreach ($items as $item)
+        {
+            $key = 'attribute_'.$item->productattribute_id;
+            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+            $model->setState( 'filter_attribute', $item->productattribute_id );
+            $model->setState('order', 'tbl.ordering');
+            $model->setState('direction', 'ASC');
+            $options = $model->getList();
+            if (!empty($options))
+            {
+                $option = $options[0];
+                $list[$key] = $option->productattributeoption_id;
+            }
+        }
+        return $list;
+    }
+    
+    
+    /**
      * Returns a list of a product's files
      * 
      * @param unknown_type $id
@@ -1221,9 +1261,19 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         $db = JFactory::getDBO();
         $db->setQuery( (string) $query );
-        $items = $db->loadObject();
-       
-        return $items;
+        $item = $db->loadObject();
+
+        if (empty($item))
+        {
+            $return = new JObject();
+            $return->product_id = $id;
+            $return->product_name = $tableProduct->product_name;
+            $return->quantity = 0;
+            $return->product_check_inventory = $tableProduct->product_check_inventory;
+            return $return;
+        }
+        
+        return $item;
         
         
     }   

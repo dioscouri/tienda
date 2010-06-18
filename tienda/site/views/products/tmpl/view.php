@@ -69,130 +69,11 @@ stringOfOptions = "<?php echo $str; ?>";
             </div>
         </div>
         
-        <?php if (TiendaConfig::getInstance()->get('shop_enabled', '1')) { ?>
-            <div class="product_buy">
-                <div>
-                    <div id="validationmessage"></div>
-                    
-                    <form action="" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
-                    <!--base price-->
-                    <span class="product_price">
-                    <?php 
-                    echo TiendaHelperBase::currency($item->price); 
-                                
-                    // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-                    $config = TiendaConfig::getInstance();
-                    $show_tax = $config->get('display_prices_with_shipping', 1);
-                    
-                    $article_link = $config->get('article_shipping', '');
-                    $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
-                    
-    		        if ($show_tax)
-    		        {
-    		        	Tienda::load('TiendaHelperUser', 'helpers.user');
-    		        	$geozone = TiendaHelperUser::getGeoZone(JFactory::getUser()->id);
-    		        	$tax = TiendaHelperProduct::getTaxRate($item->product_id, $geozone);
-    		        	$tax = TiendaHelperBase::number($tax, array('num_decimals', 2));
-    		        	echo sprintf( JText::_('INCLUDE_TAX'), $tax) ;
-    		        	echo '<br /><a href="'.$shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $shipping_cost_link).'</a>' ;
-    		        }	
-                    
-                    ?>
-                    </span>
-                    
-                    <!--attribute options-->
-                    <div id='product_attributeoptions'>
-                    <?php
-                    $attributes = TiendaHelperProduct::getAttributes( $item->product_id );
-                    foreach ($attributes as $attribute)
-                    {
-                        ?>
-                        <div class="pao" id='productattributeoption_<?php echo $attribute->productattribute_id; ?>'>
-                        <?php
-                        echo "<span>".$attribute->productattribute_name." : </span>";
-                        
-                        if ($item->product_check_inventory == 1) 
-                        {
-                            $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"TiendaCheckStock();");
-                            echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id, $attribs  );
-                        } 
-                            else 
-                        {
-      						echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, '', 'attribute_'.$attribute->productattribute_id);
-                        }	
-                        ?>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    
-                    <?php if (!empty($this->onDisplayProductAttributeOptions)) : ?>
-                        <div id='onDisplayProductAttributeOptions_wrapper'>
-                        <?php echo $this->onDisplayProductAttributeOptions; ?>
-                        </div>
-                    <?php endif; ?>
-                    
-                    </div>
-                    
-                    <!--quantity-->
-                    <div id='product_quantity_input'>
-                        <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-                    <?php if($item->product_check_inventory==1) {  ?>   
-                        <input type="text" name="product_qty" value="1" size="5" onkeyup="TiendaCheckStock()" />  
-                   <?php } else {?>
-                        <input type="text" name="product_qty" value="1" size="5"  />    
-                   <?php } ?>
-                   
-                    </div>
-                    
-                    <!-- Add to cart button ---> 
-                   <div id='add_to_cart' style="display: block";> 
-                    <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" size="5" />
-                    <?php $url = "index.php?option=com_tienda&format=raw&view=carts&task=addToCart&product_id=".$item->product_id; ?>
-                    <?php $onclick = 'tiendaAddToCart(\''.$url.'\', \'validationmessage\', document.adminForm);'; ?>
-                    <?php $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('Add to Cart')."' onclick=\"$onclick\" />"; ?>
-                    <?php 
-                    switch (TiendaConfig::getInstance()->get('addtocartaction', 'lightbox')) 
-                    {
-                        case "redirect":
-                            $u = JURI::getInstance(); $returnUrl = base64_encode( $u->toString() );
-                            $cartUrl = JRoute::_( "index.php?option=com_tienda&view=carts" )."&return=".$returnUrl; 
-                            $onclick = 'if (tiendaAddToCart(\''.$url.'\', \'validationmessage\', document.adminForm)) { tiendaPause(500); window.location=(\''.$cartUrl.'\'); }';
-                            $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('Add to Cart')."' onclick=\"$onclick\" />";
-                            echo $text;
-                            break;
-                        case "0":
-                        case "none":
-                            // just display the add to cart image
-                            echo $text;
-                            break;
-                        case "lightbox":
-                        default:
-                            $lightbox_attribs = array(); 
-                            $lightbox['update'] = false; 
-                            if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
-                            echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );
-                            break;
-                    } 
-                    ?>
-                   </div>
-                   
-                <!-- Not avilable in stock  --->  
-                <div id='add_to_cart_deactive' class="add_to_cart_deactive" style="display: none;"> 
-                  <div><?php echo JText::_("OUT_OF_STOCK"); ?></div>
-                  <div><?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"></label></div> 
-                </div>
-               
-               
-                <!-- Not valid quantity  --->  
-                <div id='invalid_quantity' class="add_to_cart_deactive" style="display: none;"> 
-                  <span><?php echo JText::_("INVALID_QUANTITY"); ?></span>
-                </div>
-                
-                 </form>
-                </div>
+        <?php if (TiendaConfig::getInstance()->get('shop_enabled', '1')) : ?>
+            <div class="product_buy" id="product_buy">
+                <?php if (!empty($this->product_buy)) { echo $this->product_buy; } ?>
             </div>
-       <?php } ?>
+        <?php endif; ?>
                 
        <?php if ($this->product_description) : ?>
             <div class="reset"></div>
@@ -255,6 +136,6 @@ stringOfOptions = "<?php echo $str; ?>";
 </div>
 
 <?php // checks inventory stock for the current product ?>
-<script>
-TiendaCheckStock();
-</script>
+<!--<script>-->
+<!--TiendaCheckStock();-->
+<!--</script>-->

@@ -686,10 +686,32 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "None" ) );
-        $list[] = JHTML::_('select.option',  'lightbox', JText::_( "Display Minicart in Lightbox" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_( "Remain on Product Page" ) );
+        // $list[] = JHTML::_('select.option',  'lightbox', JText::_( "Display Minicart in Lightbox" ) );
         $list[] = JHTML::_('select.option',  'redirect', JText::_( "Redirect to Cart" ) );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+    /**
+    * Generates range list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function cartbutton( $selected, $name = 'filter_cartbutton', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Cart Button' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'image', JText::_( "Image" ) );
+        $list[] = JHTML::_('select.option',  'button', JText::_( "Button" ) );
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
 }

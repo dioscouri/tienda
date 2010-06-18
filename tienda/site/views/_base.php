@@ -162,7 +162,7 @@ class TiendaViewBase extends JView
             $view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
             $task = strtolower( $this->get( '_task', 'edit' ) );
 			$form['action'] = $this->get( '_action', "index.php?option=com_tienda&controller={$controller}&view={$view}&task={$task}&id=".$model->getId() );
-			$form['validation'] = $this->get( '_validation', "index.php?option=com_tienda&controller={$controller}&task=validate&format=raw" );
+			$form['validation'] = $this->get( '_validation', "index.php?option=com_tienda&controller={$controller}&view={$view}&task=validate&format=raw" );
 			$form['validate'] = "<input type='hidden' name='".JUtility::getToken()."' value='1' />";
 			$form['id'] = $model->getId();
 			$this->assign( 'form', $form );

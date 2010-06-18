@@ -599,6 +599,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Select Cart Button Type' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::cartbutton( $this->row->get('cartbutton', 'image'), 'cartbutton' ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Width of UI Lightboxes' ); ?>
                             </th>
                             <td>

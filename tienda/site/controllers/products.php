@@ -174,6 +174,7 @@ class TiendaControllerProducts extends TiendaController
 
 		$view->assign('product_description', $product_description );
 		$view->assign( 'files', $this->getFiles( $row->product_id ) );
+		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
 		$view->setModel( $model, true );
 
 		// using a helper file, we determine the product's layout
@@ -201,7 +202,141 @@ class TiendaControllerProducts extends TiendaController
 		$this->footer();
 		return;
 	}
+	
+    /**
+     * Gets a product's add to cart section
+     * formatted for display
+     *
+     * @param int $address_id
+     * @return string html
+     */
+    function getAddToCart( $product_id, $values=array() )
+    {
+        $html = '';
 
+        $view   =& $this->getView( 'products', 'html' );
+        $model  = $this->getModel( $this->get('suffix') );
+        $model->setId( $product_id );
+        $row = $model->getItem();
+        
+        $view->set( '_controller', 'products' );
+        $view->set( '_view', 'products' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->setLayout( 'product_buy' );        
+        $view->assign( 'item', $row );
+        $view->assign('product_id', $product_id);
+        $view->assign('values', $values);
+        $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category'));
+        $view->assign('filter_category', $filter_category);
+        $view->assign('validation', "index.php?option=com_tienda&view=products&view=products&task=validate&format=raw" );
+        
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_shipping', 1);
+        $view->assign( 'show_tax', $show_tax );
+        $view->assign( 'tax', 0 );
+        $view->assign( 'shipping_cost_link', '' );
+        
+        if ($show_tax)
+        {
+            $article_link = $config->get('article_shipping', '');
+            $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
+            $view->assign( 'shipping_cost_link', $shipping_cost_link );
+            
+            Tienda::load('TiendaHelperUser', 'helpers.user');
+            $geozone = TiendaHelperUser::getGeoZone( JFactory::getUser()->id );
+            $tax = TiendaHelperProduct::getTaxRate($product_id, $geozone);
+            $tax = TiendaHelperBase::number($tax, array('num_decimals', 2));
+            $view->assign( 'tax', $tax );
+        }
+        
+        $invalidQuantity = '0';
+        if (empty($values))
+        {
+            $product_qty = '1';
+            // get the default set of attribute_csv
+            $default_attributes = TiendaHelperProduct::getDefaultAttributes( $product_id );
+            sort($default_attributes);
+            $attributes_csv = implode( ',', $default_attributes );
+            $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );
+            if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+            {
+                $invalidQuantity = '1';
+            }
+        }
+        
+        if (!empty($values))
+        {
+            $product_id = !empty( $values['product_id'] ) ? (int) $values['product_id'] : JRequest::getInt( 'product_id' );
+            $product_qty = !empty( $values['product_qty'] ) ? (int) $values['product_qty'] : '1';
+            
+            // TODO only display attributes available based on the first selected attribute?
+            $attributes = array();
+            foreach ($values as $key=>$value)
+            {
+                if (substr($key, 0, 10) == 'attribute_')
+                {
+                    $attributes[] = $value;
+                }
+            }
+            sort($attributes);
+            $attributes_csv = implode( ',', $attributes );
+            
+            // Integrity checks on quantity being added
+            if ($product_qty < 0) { $product_qty = '1'; } 
+    
+            // using a helper file to determine the product's information related to inventory     
+            $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
+            if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+            {
+                $invalidQuantity = '1';
+            }
+        }
+        
+        $view->assign( 'availableQuantity', $availableQuantity );
+        $view->assign( 'invalidQuantity', $invalidQuantity );
+        
+        $dispatcher =& JDispatcher::getInstance();
+        
+        ob_start();
+        $dispatcher->trigger( 'onDisplayProductAttributeOptions', array( $row->product_id ) );
+        $view->assign( 'onDisplayProductAttributeOptions', ob_get_contents() );
+        ob_end_clean();
+
+        ob_start();
+        $view->display();
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        return $html;
+    }
+
+    /**
+     * 
+     */
+    function updateAddToCart()
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+            
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+        
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );             
+        $values = TiendaHelperBase::elementsToArray( $elements );
+        
+        // now get the summary
+        $html = $this->getAddToCart( $values['product_id'], $values );
+        
+        $response['msg'] = $html;
+        // encode and echo (need to echo to send back to browser)
+        echo json_encode($response);
+        return;
+    }
+    
 	/**
 	 * Gets a product's files list
 	 * formatted for display
@@ -233,7 +368,7 @@ class TiendaControllerProducts extends TiendaController
 			$view->set( '_doTask', true);
 			$view->set( 'hidemenu', true);
 			$view->setModel( $model, true );
-			$view->setLayout( 'productfiles' );
+			$view->setLayout( 'product_files' );
 			$view->set('items', $items);
 			$view->set('product_id', $product_id);
 
@@ -331,6 +466,230 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'search', true );
 		parent::display();
 	}
+	
+    /**
+     * Verifies the fields in a submitted form.  Uses the table's check() method.
+     * Will often be overridden. Is expected to be called via Ajax 
+     * 
+     * @return unknown_type
+     */
+    function validate()
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+            
+        // get elements from post
+            $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+            // validate it using table's ->check() method
+            if (empty($elements))
+            {
+                // if it fails check, return message
+                $response['error'] = '1';
+                $response['msg'] = '
+                    <dl id="system-message">
+                    <dt class="notice">notice</dt>
+                    <dd class="notice message fade">
+                        <ul style="padding: 10px;">'.
+                        JText::_("Could not process form").": ".Tienda::dump( $elements )                        
+                        .'</ul>
+                    </dd>
+                    </dl>
+                    ';
+                echo ( json_encode( $response ) );
+                return;
+            }
+
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            $response['msg'] = $helper->generateMessage( "Shop Disabled" );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return false;    
+        }
+            
+        // convert elements to array that can be binded             
+        $values = TiendaHelperBase::elementsToArray( $elements );
+        $product_id = !empty( $values['product_id'] ) ? (int) $values['product_id'] : JRequest::getInt( 'product_id' );
+        $product_qty = !empty( $values['product_qty'] ) ? (int) $values['product_qty'] : '1';
+        
+        $attributes = array();
+        foreach ($values as $key=>$value)
+        {
+            if (substr($key, 0, 10) == 'attribute_')
+            {
+                $attributes[] = $value;
+            }
+        }
+        sort($attributes);
+        $attributes_csv = implode( ',', $attributes );
+
+        // Integrity checks on quantity being added
+        if ($product_qty < 0) { $product_qty = '1'; } 
+
+        // using a helper file to determine the product's information related to inventory     
+        $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
+        if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+        {
+            $response['msg'] = $helper->generateMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return false;
+        }
+        
+        // create cart object out of item properties
+        $item = new JObject;
+        $item->user_id     = JFactory::getUser()->id;
+        $item->product_id  = (int) $product_id;
+        $item->product_qty = (int) $product_qty;
+        $item->product_attributes = $attributes_csv;
+        $item->vendor_id   = '0'; // vendors only in enterprise version
+        
+        // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+        $results = array();
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onValidateAddToCart", array( $item, $values ) );
+
+        for ($i=0; $i<count($results); $i++)
+        {
+            $result = $results[$i];
+            if (!empty($result->error))
+            {
+                Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance();
+                $response['msg'] = $helper->generateMessage( $result->message );
+                $response['error'] = '1';
+                echo ( json_encode( $response ) );
+                return;
+            }
+                else
+            {
+                // if here, all is OK
+                $response['error'] = '0';
+            }
+        }
+        echo ( json_encode( $response ) );
+        return;
+    }
+    
+    /**
+     * Verifies the fields in a submitted form.
+     * Then adds the item to the users cart 
+     * 
+     * @return unknown_type
+     */
+    function addToCart()
+    {
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+        $product_id = JRequest::getInt( 'product_id' );
+        $product_qty = JRequest::getInt( 'product_qty' );
+        $filter_category = JRequest::getInt( 'filter_category' );
+        
+        // set the default redirect URL
+        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category";
+        $redirect = JRoute::_( $redirect, false );
+        
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Shop Disabled" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+            
+        // convert elements to array that can be binded             
+        $values = JRequest::get('post');
+        
+        $attributes = array();
+        foreach ($values as $key=>$value)
+        {
+            if (substr($key, 0, 10) == 'attribute_')
+            {
+                $attributes[] = $value;
+            }
+        }
+        sort($attributes);
+        $attributes_csv = implode( ',', $attributes );
+        
+        // Integrity checks on quantity being added
+        if ($product_qty < 0) { $product_qty = '1'; } 
+
+        // using a helper file to determine the product's information related to inventory     
+        $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
+        if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;            
+        }
+        
+        // create cart object out of item properties
+        $item = new JObject;
+        $item->user_id     = JFactory::getUser()->id;
+        $item->product_id  = (int) $product_id;
+        $item->product_qty = (int) $product_qty;
+        $item->product_attributes = $attributes_csv;
+        $item->vendor_id   = '0'; // vendors only in enterprise version
+        
+        // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+        $results = array();
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onBeforeAddToCart", array( $item, $values ) );
+
+        for ($i=0; $i<count($results); $i++)
+        {
+            $result = $results[$i];
+            if (!empty($result->error))
+            {
+                $this->messagetype  = 'notice';         
+                $this->message      = $result->message;
+                $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                return;
+            }
+        }
+        
+        // if here, add to cart
+        // add the item to the cart
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        TiendaHelperCarts::updateCart( array( $item ) );
+        
+        // fire plugin event
+        $dispatcher = JDispatcher::getInstance();
+        $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
+        
+        // get the 'success' redirect url
+        // TODO Enable redirect via base64_encoded urls?
+        switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
+        {
+            case "redirect":
+                $returnUrl = base64_encode( $redirect );
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts" )."&return=".$returnUrl;
+                break;
+            case "0":
+            case "none":
+                break;
+            case "lightbox":
+            default:
+                // TODO Figure out how to get the lightbox to display even after a redirect
+//                $lightbox_attribs = array(); 
+//                $lightbox['update'] = false; 
+//                if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
+//                echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );
+                break;
+        }
+        
+        $this->messagetype  = 'message';
+        $this->message      = JText::_( "Item Added to Your Cart" );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;
+        
+    }
 }
 
 ?>
