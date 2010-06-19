@@ -32,6 +32,15 @@ class TiendaControllerCheckout extends TiendaController
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Checkout Disabled" ) );
             return;    
         }
+        
+	    // get the items and add them to the order
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $items = TiendaHelperCarts::getProductsInfo();
+        if (empty($items))
+        {
+            JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
+            return;
+        }
 		
 		$this->set('suffix', 'checkout');
 		// create the order object
@@ -277,7 +286,7 @@ class TiendaControllerCheckout extends TiendaController
 		
 		// get the items and add them to the order
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+		$items = TiendaHelperCarts::getProductsInfo();		
 		foreach ($items as $item)
 		{
 			$order->addItem( $item );
