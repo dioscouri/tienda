@@ -69,7 +69,7 @@ class plgSearchTienda extends JPlugin
      * @param unknown_type $areas
      * @return unknown_type
      */    
-    function onSearch( $keyword, $match='', $ordering='', $areas=null )
+    function onSearch( $keyword='', $match='', $ordering='', $areas=null )
     {
         if (!$this->_isInstalled())
         {
