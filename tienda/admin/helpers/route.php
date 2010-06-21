@@ -53,9 +53,11 @@ class TiendaHelperRoute extends TiendaHelperBase
                 }
             }
         }
+         
+        if (empty($items[$option])) return array();
+           return $items[$option]; 
         
-        return $items[$option];
-    }
+       }
     
     /**
      * Finds the itemid for the set of variables provided in $needles
