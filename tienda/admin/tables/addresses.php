@@ -110,7 +110,7 @@ class TiendaTableAddresses extends TiendaTable
         }
 	    if (empty($this->postal_code))
         {
-            $this->setError( "City Required" );
+            $this->setError( "Postal Code Required" );
             return false;
         }
 	    if (empty($this->country_id))
