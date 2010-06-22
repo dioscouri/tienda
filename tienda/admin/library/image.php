@@ -181,7 +181,17 @@ class TiendaImage extends TiendaFile
 	 */
 	function resize($width,$height) {
 		$new_image = imagecreatetruecolor($width, $height);
+		
+		    imagesavealpha($new_image, true);
+		    $trans_colour = imagecolorallocatealpha($new_image, 255, 255, 255, 256);
+		    imagefill($new_image, 0, 0, $trans_colour);
+		    header("Content-type: image/png");
+		    imagepng($new_image);
+				
 		imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
+		
+		imagefill($new_image, 0, 0, $trans_colour);
+		
 		$this->image = $new_image;
 	}
 }
