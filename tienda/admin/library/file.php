@@ -98,8 +98,9 @@ class TiendaFile extends JObject
 			return $success;
 		}
 		
-		$this->proper_name = basename($userfile['name']);
-		
+		//$this->proper_name = basename($userfile['name']);
+		$userFileName = basename($userfile['name']);
+		$this->proper_name = TiendaFile::getProperName($userFileName);
 		if ($userfile['size'] == 0) {
 			$this->setError( JText::_( 'Invalid File' ) );
 			return $success;
@@ -129,6 +130,26 @@ class TiendaFile extends JObject
 		$success = true;		
 		return $success;
 	}
+	
+	/*
+	 * Return the name after repalcing the . into -
+	 * @param  String
+	 * @return String
+	 */
+	function getProperName($fileName){
+	
+	$position=strrpos($fileName,'.');
+	$length=strlen($fileName);
+	$file=substr($fileName,0,$position);
+	$temp=explode('.',$file);
+    $file=implode('-',$temp);
+	
+	$extention=substr($fileName,$position+1,$length-$position);
+	$fileName=$file.".".$extention;
+	
+	return $fileName;
+	}
+	
 	
     /**
 	 * Returns 
@@ -162,7 +183,11 @@ class TiendaFile extends JObject
 			return $success;
 		}
 		
-		$this->proper_name = basename($userfile['name'][$num]);
+		//$this->proper_name = basename($userfile['name'][$num]);
+		
+		$userFileName=basename($userfile['name'][$num]);
+		
+		$this->proper_name = TiendaFile::getProperName($userFileName);
 		
 		if ($userfile['size'][$num] == 0) {
 			$this->setError( JText::_( 'Invalid File' ) );
@@ -402,7 +427,7 @@ class TiendaFile extends JObject
 			$name = explode('.', $this->proper_name);
 			$this->physicalname = $this->cleanTitle( $name[0] ).'.'.$this->getExtension();
 		}
-				
+		
 		return $this->physicalname;
 	}
 	
@@ -421,11 +446,11 @@ class TiendaFile extends JObject
 		$wc = strip_tags($trim_title);
 		
 		// remove 'words' that don't consist of alphanumerical characters or punctuation
-		$pattern = "#[^(\w|\d|\'|\"|\.|\!|\?|;|,|\\|\/|\-|:|\&|@)]+#";
+		$pattern = "#[^(\w|\d|\'|\"|\.|\!|\?|;|,|\\|\/|:|\&|@)]+#";
 		$wc = trim(preg_replace($pattern, "", $wc));
 		
 		// remove one-letter 'words' that consist only of punctuation
-		$wc = trim(preg_replace("#\s*[(\'|\"|\.|\!|\?|;|,|\\|\/|\-|:|\&|@)]\s*#", "", $wc));
+		$wc = trim(preg_replace("#\s*[(\'|\"|\.|\!|\?|;|,|\\|\/|:|\&|@)]\s*#", "", $wc));
 		
 		// remove superfluous whitespace
 		$wc = preg_replace("/\s\s+/", "", $wc);		
