@@ -776,9 +776,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
---
+-- -----------------------------------------------------
 -- Table `#__tienda_ordershippings`
---
+-- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   `ordershipping_id` int(11) NOT NULL AUTO_INCREMENT,
