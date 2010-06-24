@@ -56,12 +56,15 @@ class TiendaTableProducts extends TiendaTable
     {
         if ( $return = parent::store( $updateNulls ))
         {
-            // consolidate image gallery paths if necessary            
-            Tienda::load( "TiendaHelperBase", 'helpers._base' );
-            $helper = TiendaHelperBase::getInstance('Product');
-            if ($helper->consolidateGalleryImages( $this->product_id ) === true )
+            if (empty($this->_isNew))
             {
-                JFactory::getApplication()->enqueueMessage( JText::_( "Images Consolidated Message" ) );
+                // consolidate image gallery paths if necessary            
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Product');
+                if ($helper->consolidateGalleryImages( $this->product_id ) === true )
+                {
+                    JFactory::getApplication()->enqueueMessage( JText::_( "Images Consolidated Message" ) );
+                }
             }
         }
         return $return;

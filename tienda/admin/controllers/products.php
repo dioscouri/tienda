@@ -113,18 +113,19 @@ class TiendaControllerProducts extends TiendaController
         $row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
-		$isNew = empty($row->product_id);
+		$row->_isNew = empty($row->product_id);
 		
 		$fieldname = 'product_full_image_new';
 		$userfiles = JRequest::getVar( $fieldname, '', 'files', 'array' );
 		
 		if ( $row->save() ) 
 		{
+		    $row->product_id = $row->id;
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
 			$this->message  	= JText::_( 'Saved' );
 			
-			if ($isNew)
+			if ($row->_isNew)
 			{
 				// set price
 				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
