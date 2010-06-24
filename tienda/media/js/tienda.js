@@ -92,7 +92,7 @@
                 data:{"elements":Json.toString(str)},
                 onComplete: function(response){
                     var resp=Json.evaluate(response, false);
-                    $(container).setHTML(resp.msg);
+                    if ($(container)) { $(container).setHTML(resp.msg); }
                     if (resp.error != '1') 
                     {
                         form.task.value = task;

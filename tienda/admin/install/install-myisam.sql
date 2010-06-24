@@ -1,8 +1,3 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
-SET time_zone = '+00:00';
-
 -- -----------------------------------------------------
 -- Table `#__tienda_config`
 -- -----------------------------------------------------
@@ -10,8 +5,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_config` (
   `config_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `config_name` VARCHAR(255) NOT NULL ,
   `value` TEXT NOT NULL ,
-  PRIMARY KEY (`config_id`) )
-ENGINE = InnoDB
+  PRIMARY KEY (`config_id`) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -26,8 +22,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_countries` (
   `country_enabled` TINYINT(1) NOT NULL DEFAULT '1' ,
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`country_id`) ,
-  INDEX `idx_country_name` (`country_name` ASC) )
-ENGINE = InnoDB
+  INDEX `idx_country_name` (`country_name` ASC) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -286,15 +283,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_geozones` (
   `created_date` DATETIME NULL ,
   `modified_date` DATETIME NULL ,
   PRIMARY KEY (`geozone_id`),
-  INDEX `fk_geozonetype` (`geozonetype_id` ASC) ,
-  CONSTRAINT `fk_geozonetype`
-    FOREIGN KEY (`geozonetype_id` )
-    REFERENCES `#__tienda_geozonetypes` (`geozonetype_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  INDEX `fk_geozonetype` (`geozonetype_id` ASC)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_geozonetypes`
@@ -304,8 +296,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_geozonetypes` (
   `geozonetype_name` VARCHAR(32) NOT NULL DEFAULT '' ,
   `created_date` DATETIME NULL ,
   `modified_date` DATETIME NULL ,
-  PRIMARY KEY (`geozonetype_id`) )
-ENGINE = InnoDB
+  PRIMARY KEY (`geozonetype_id`) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
@@ -326,8 +319,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_manufacturers` (
   `manufacturer_enabled` TINYINT(1) NOT NULL ,
   `created_date` datetime NOT NULL COMMENT 'GMT',
   `modified_date` datetime NOT NULL COMMENT 'GMT',
-  PRIMARY KEY (`manufacturer_id`) )
-ENGINE = InnoDB
+  PRIMARY KEY (`manufacturer_id`) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -341,8 +335,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_taxclasses` (
   `ordering` int(11) NOT NULL,
   `created_date` DATETIME NOT NULL ,
   `modified_date` DATETIME NOT NULL ,
-  PRIMARY KEY (`tax_class_id`) )
-ENGINE = InnoDB
+  PRIMARY KEY (`tax_class_id`) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -367,20 +362,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_taxrates` (
   `modified_date` DATETIME NOT NULL ,
   PRIMARY KEY (`tax_rate_id`) ,
   INDEX `fk_TaxClass_TaxRates` (`tax_class_id` ASC) ,
-  INDEX `fk_geozones_taxrates` (`geozone_id` ASC) ,
-  CONSTRAINT `fk_TaxClass_TaxRates`
-    FOREIGN KEY (`tax_class_id` )
-    REFERENCES `#__tienda_taxclasses` (`tax_class_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_geozones_taxrates`
-    FOREIGN KEY (`geozone_id` )
-    REFERENCES `#__tienda_geozones` (`geozone_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  INDEX `fk_geozones_taxrates` (`geozone_id` ASC)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -394,12 +379,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
   `product_qty` INT(11) NOT NULL DEFAULT '1' ,
   `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) ,
-  CONSTRAINT `fk_carts_products`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `#__tienda_products` (`product_id`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
+  INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -425,8 +407,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `categoryproducts_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for all products in this category',
   PRIMARY KEY  (`category_id`),
   INDEX `idx_category_name` (`category_name` ASC),
-  KEY `parent_id` (`parent_id`))
-ENGINE = InnoDB
+  KEY `parent_id` (`parent_id`)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -449,8 +432,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_currencies` (
   `updated_date` datetime NOT NULL COMMENT 'The last time the currency was updated',
   PRIMARY KEY (`currency_id`) ,
   INDEX `idx_currency_name` (`currency_name` ASC) ,
-  INDEX `idx_currency_code` (`currency_code` ASC) )
-ENGINE = InnoDB
+  INDEX `idx_currency_code` (`currency_code` ASC) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -472,8 +456,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderstates` (
   `order_state_code` CHAR(1) NOT NULL DEFAULT '' ,
   `order_state_name` VARCHAR(64) NULL DEFAULT NULL ,
   `order_state_description` TEXT NOT NULL ,
-  PRIMARY KEY (`order_state_id`) )
-ENGINE = InnoDB
+  PRIMARY KEY (`order_state_id`) 
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -533,20 +518,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   PRIMARY KEY (`order_id`) ,
   INDEX `idx_orders_user_id` (`user_id` ASC) ,
   INDEX `fk_OrderState_Order` (`order_state_id` ASC) ,
-  INDEX `fk_currencies_orders` (`currency_id` ASC) ,
-  CONSTRAINT `fk_OrderState_Order`
-    FOREIGN KEY (`order_state_id` )
-    REFERENCES `#__tienda_orderstates` (`order_state_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_currencies_orders`
-    FOREIGN KEY (`currency_id` )
-    REFERENCES `#__tienda_currencies` (`currency_id` )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  INDEX `fk_currencies_orders` (`currency_id` ASC)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
 
 
 
@@ -562,18 +537,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
   `comments` TEXT NULL DEFAULT NULL ,
   PRIMARY KEY (`order_history_id`) ,
   INDEX `fk_OrderState_OrderHistory` (`order_state_id` ASC) ,
-  INDEX `fk_Orders_OrderHistory` (`order_id` ASC) ,
-  CONSTRAINT `fk_OrderState_OrderHistory`
-    FOREIGN KEY (`order_state_id` )
-    REFERENCES `#__tienda_orderstates` (`order_state_id` )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Orders_OrderHistory`
-    FOREIGN KEY (`order_id` )
-    REFERENCES `#__tienda_orders` (`order_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Orders_OrderHistory` (`order_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -591,7 +557,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productquantities` (
   KEY `product_id` (`product_id`),
   KEY `vendor_id` (`vendor_id`)
 )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -606,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributes` (
   PRIMARY KEY (`productattribute_id`),
   KEY `product_id` (`product_id`)
 )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -623,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptions` (
   PRIMARY KEY (`productattributeoption_id`),
   KEY `productattribute_id` (`productattribute_id`)
 )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -670,13 +636,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,
-  INDEX `fk_taxclasses_products` (`tax_class_id` ASC) ,
-  CONSTRAINT `fk_taxclasses_products`
-    FOREIGN KEY (`tax_class_id` )
-    REFERENCES `#__tienda_taxclasses` (`tax_class_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
+  INDEX `fk_taxclasses_products` (`tax_class_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -694,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_orderitemattributes` (
   PRIMARY KEY (`orderitemattribute_id`),
   KEY `productattribute_id` (`productattributeoption_id`)
 ) 
-ENGINE=InnoDB 
+ENGINE=MyISAM 
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -731,18 +693,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   INDEX `idx_order_item_order_id` (`order_id` ASC) ,
   INDEX `idx_order_item_vendor_id` (`vendor_id` ASC) ,
   INDEX `fk_Order_OrderItem` (`order_id` ASC) ,
-  INDEX `fk_Product_OrderItem` (`product_id` ASC) ,
-  CONSTRAINT `fk_Order_OrderItem`
-    FOREIGN KEY (`order_id` )
-    REFERENCES `#__tienda_orders` (`order_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Product_OrderItem`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_OrderItem` (`product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -765,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordervendors` (
   KEY `idx_orders_vendor_id` (`vendor_id`),
   KEY `idx_orders_order_id` (`order_id`)
 )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -781,8 +734,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxclasses` (
   PRIMARY KEY (`ordertaxclass_id`),
   KEY `order_id` (`order_id`),
   KEY `tax_class_id` (`tax_class_id`)
-  )
-ENGINE = InnoDB
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -799,8 +752,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxrates` (
   PRIMARY KEY (`ordertaxrate_id`),
   KEY `order_id` (`order_id`),
   KEY `tax_rate_id` (`tax_rate_id`)
-  )
-ENGINE = InnoDB
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -818,13 +771,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
   `created_date` DATETIME NOT NULL COMMENT 'GMT' ,
   INDEX `idx_order_payment_order_id` (`order_id` ASC) ,
   INDEX `fk_Orders_OrderPayment` (`order_id` ASC) ,
-  PRIMARY KEY (`orderpayment_id`) ,
-  CONSTRAINT `fk_Orders_OrderPayment`
-    FOREIGN KEY (`order_id` )
-    REFERENCES `#__tienda_orders` (`order_id` )
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  PRIMARY KEY (`orderpayment_id`)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 --
@@ -843,7 +792,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   PRIMARY KEY (`ordershipping_id`),
   KEY `idx_order_shipping_order_id` (`order_id`),
   KEY `fk_Orders_OrderShipping` (`order_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores each of the shipping records for orders' ;
+) 
+ENGINE=MyISAM 
+DEFAULT CHARSET=utf8 
+COMMENT='Stores each of the shipping records for orders' ;
 
 
 -- -----------------------------------------------------
@@ -887,13 +839,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `user_id` INT(11) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`orderinfo_id`) ,
   INDEX `idx_orderinfo_order_id` (`order_id` ASC) ,
-  INDEX `fk_Orders_OrderInfo` (`order_id` ASC) ,
-  CONSTRAINT `fk_Orders_OrderInfo`
-    FOREIGN KEY (`order_id` )
-    REFERENCES `#__tienda_orders` (`order_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Orders_OrderInfo` (`order_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -906,18 +854,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
   INDEX `idx_product_category_xref_category_id` (`category_id` ASC) ,
   INDEX `idx_product_category_xref_product_id` (`product_id` ASC) ,
   INDEX `fk_Product_ProductCategory` (`product_id` ASC) ,
-  INDEX `fk_Category_ProductCategory` (`category_id` ASC) ,
-  CONSTRAINT `fk_Product_ProductCategory`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Category_ProductCategory`
-    FOREIGN KEY (`category_id` )
-    REFERENCES `#__tienda_categories` (`category_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Category_ProductCategory` (`category_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -933,13 +872,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloads` (
   `productdownload_enddate` DATETIME NOT NULL COMMENT 'GMT Only' ,
   `productdownload_max` INT(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`productdownload_id`) ,
-  INDEX `fk_Product_ProductDownload` (`product_id` ASC) ,
-  CONSTRAINT `fk_Product_ProductDownload`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_ProductDownload` (`product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -960,13 +895,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productfiles` (
   `created_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
   PRIMARY KEY (`productfile_id`) ,
-  INDEX `fk_Product_ProductFiles` (`product_id` ASC) ,
-  CONSTRAINT `fk_Product_ProductFiles`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_ProductFiles` (`product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -979,13 +910,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloadlogs` (
   `productdownloadlog_datetime` DATETIME NOT NULL COMMENT 'GMT Only' ,
   `productdownloadlog_ipaddress` VARCHAR(15) NOT NULL DEFAULT '',
   PRIMARY KEY (`productdownloadlog_id`) ,
-  INDEX `fk_ProductFile_ProductDownloadLog` (`productfile_id` ASC) ,
-  CONSTRAINT `fk_ProductFile_ProductDownloadLog`
-    FOREIGN KEY (`productfile_id` )
-    REFERENCES `#__tienda_productfiles` (`productfile_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_ProductFile_ProductDownloadLog` (`productfile_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -1005,13 +932,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productprices` (
   PRIMARY KEY (`product_price_id`) ,
   INDEX `idx_product_price_product_id` (`product_id` ASC) ,
   INDEX `idx_product_price_user_group_id` (`user_group_id` ASC) ,
-  INDEX `fk_Product_ProductPrice` (`product_id` ASC) ,
-  CONSTRAINT `fk_Product_ProductPrices`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_ProductPrice` (`product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1024,18 +947,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productrelations` (
   `product_id_b` INT(11) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`product_relation_id`) ,
   INDEX `fk_Product_ProductRelationsA` (`product_id_a` ASC) ,
-  INDEX `fk_Product_ProductRelationsB` (`product_id_b` ASC) ,
-  CONSTRAINT `fk_Product_ProductRelationsA`
-    FOREIGN KEY (`product_id_a` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Product_ProductRelationsB`
-    FOREIGN KEY (`product_id_b` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_ProductRelationsB` (`product_id_b` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1054,13 +968,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productreviews` (
   `published` CHAR(1) NOT NULL DEFAULT 'Y' ,
   PRIMARY KEY (`review_id`) ,
   UNIQUE INDEX `product_id` (`product_id` ASC, `userid` ASC) ,
-  INDEX `fk_Product_ProductReview` (`product_id` ASC) ,
-  CONSTRAINT `fk_Product_ProductReview`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  INDEX `fk_Product_ProductReview` (`product_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1075,13 +985,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productvotes` (
   `rating` TINYINT(1) NOT NULL DEFAULT '0' ,
   `lastip` VARCHAR(50) NOT NULL DEFAULT '0' ,
   INDEX `fk_Product_ProductVotes` (`product_id` ASC) ,
-  PRIMARY KEY (`product_vote_id`) ,
-  CONSTRAINT `fk_Product_ProductVotes`
-    FOREIGN KEY (`product_id` )
-    REFERENCES `#__tienda_products` (`product_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
+  PRIMARY KEY (`product_vote_id`)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1096,13 +1002,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingmethods` (
   `shipping_method_type` tinyint(1) NOT NULL COMMENT '0=weight-based, 1=per-item, 2=per-order',
   `subtotal_minimum` decimal(12,5) NOT NULL COMMENT 'Minimum Subtotal required for shipping method to be active',
   PRIMARY KEY (`shipping_method_id`) ,
-  KEY `fk_taxclasses_shippingmethods` (`tax_class_id`) ,
-  CONSTRAINT `fk_taxclass_shippingmethods`
-    FOREIGN KEY (`tax_class_id` )
-    REFERENCES `#__tienda_taxclasses` (`tax_class_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION) 
-ENGINE = InnoDB
+  KEY `fk_taxclasses_shippingmethods` (`tax_class_id`)
+) 
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1120,14 +1022,11 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates` (
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
   PRIMARY KEY (`shipping_rate_id`) ,
-  KEY `fk_geozone_shippingrates` (`geozone_id` ASC) ,
-  CONSTRAINT `fk_geozone_shippingrates`
-    FOREIGN KEY (`geozone_id` )
-    REFERENCES `#__tienda_geozones` (`geozone_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  KEY `fk_geozone_shippingrates` (`geozone_id` ASC)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+;
 
 
 
@@ -1148,10 +1047,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   `html_emails` TINYINT(1) NOT NULL DEFAULT '0' ,
   `email` VARCHAR(255) NULL DEFAULT NULL ,
   PRIMARY KEY (`user_info_id`) ,
-  INDEX `idx_user_info_user_id` (`user_id` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+  INDEX `idx_user_info_user_id` (`user_id` ASC) 
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -1182,18 +1081,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_addresses` (
   PRIMARY KEY (`address_id`) ,
   INDEX `idx_address_id` (`address_id` ASC) ,
   INDEX `fk_addresses_countries` (`country_id` ASC) ,
-  INDEX `fk_zones_addresses` (`zone_id` ASC) ,
-  CONSTRAINT `fk_addresses_countries`
-    FOREIGN KEY (`country_id` )
-    REFERENCES `#__tienda_countries` (`country_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_zones_addresses`
-    FOREIGN KEY (`zone_id` )
-    REFERENCES `#__tienda_zones` (`zone_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
+  INDEX `fk_zones_addresses` (`zone_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -1207,13 +1097,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_zones` (
   `code` VARCHAR(32) NOT NULL DEFAULT '' ,
   `zone_name` VARCHAR(128) NOT NULL ,
   PRIMARY KEY (`zone_id`) ,
-  INDEX `fk_countries_zones` (`country_id` ASC) ,
-  CONSTRAINT `fk_countries_zones`
-    FOREIGN KEY (`country_id` )
-    REFERENCES `#__tienda_countries` (`country_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
+  INDEX `fk_countries_zones` (`country_id` ASC)
+)
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- --------------------------------------------------------
@@ -5076,20 +4962,6 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_zonerelations` (
   `modified_date` DATETIME NULL ,
   PRIMARY KEY (`zonerelation_id`) ,
   INDEX `fk_geozone_zonerelations` (`geozone_id` ASC) ,
-  INDEX `fk_geozone_zones` (`zone_id` ASC) ,
-  CONSTRAINT `fk_geozone_zonerelations`
-    FOREIGN KEY (`geozone_id` )
-    REFERENCES `#__tienda_geozones` (`geozone_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_geozone_zones`
-    FOREIGN KEY (`zone_id` )
-    REFERENCES `#__tienda_zones` (`zone_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+  INDEX `fk_geozone_zones` (`zone_id` ASC)
+)
+ENGINE = MyISAM;

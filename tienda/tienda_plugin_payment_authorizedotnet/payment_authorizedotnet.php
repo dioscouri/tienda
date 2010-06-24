@@ -109,7 +109,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Paypal Message Invalid Action' );
+                $vars->message = JText::_( 'Invalid Action' );
                 $html = $this->_getLayout('message', $vars);
               break;
         }
