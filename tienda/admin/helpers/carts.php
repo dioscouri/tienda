@@ -42,7 +42,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param boolean
 	 * @param string
 	 */
-	function updateCart($cart = array(), $sync = false, $old_sessionId='' )
+	function updateCart($cart = array(), $sync = false, $old_sessionid='' )
 	{
 		$session =& JFactory::getSession();
 		$user =& JFactory::getUser();
@@ -50,8 +50,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		if ($sync)
 		{
 			// get the cart based on session id
-			$session_id2use = $old_sessionId;
-			if (empty($old_sessionId))
+			$session_id2use = $old_sessionid;
+			if (empty($old_sessionid))
 			{
 			    $session_id2use = $session->getId(); 
 			}

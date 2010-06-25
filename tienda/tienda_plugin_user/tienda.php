@@ -35,7 +35,7 @@ class plgUserTienda extends JPlugin
     function onLoginUser($user, $options)
     {	
     	$session =& JFactory::getSession();
-    	$old_sessionId = $session->get( 'old_sessionId' );
+    	$old_sessionid = $session->get( 'old_sessionid' );
     	   	
     	// Should check that Tienda is installed first before executing
         if (!$this->_isInstalled())
@@ -44,9 +44,9 @@ class plgUserTienda extends JPlugin
         }
         
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        if (!empty($old_sessionId))
+        if (!empty($old_sessionid))
         {
-            TiendaHelperCarts::updateCart('', true, $old_sessionId);    
+            TiendaHelperCarts::updateCart('', true, $old_sessionid);    
         }
             else
         {

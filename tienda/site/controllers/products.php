@@ -656,6 +656,11 @@ class TiendaControllerProducts extends TiendaController
         }
         
         // if here, add to cart
+        
+        // After login, session_id is changed by Joomla, so store this for reference
+        $session =& JFactory::getSession(); 
+        $session->set( 'old_sessionid', $session->getId() );
+        
         // add the item to the cart
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         TiendaHelperCarts::updateCart( array( $item ) );

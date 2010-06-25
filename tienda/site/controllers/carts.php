@@ -104,8 +104,8 @@ class TiendaControllerCarts extends TiendaController
         // saving the session id which will use to update the cart
         $session =& JFactory::getSession();
         
-        // After login it should percistein the array so that taking it into array 
-    	$session->set( 'old_sessionId', $session->getId() );
+        // After login, session_id is changed by Joomla, so store this for reference 
+    	$session->set( 'old_sessionid', $session->getId() );
     	   	
     	$response = array();
         $response['msg'] = '';
