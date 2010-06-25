@@ -446,11 +446,11 @@ class TiendaFile extends JObject
 		$wc = strip_tags($trim_title);
 		
 		// remove 'words' that don't consist of alphanumerical characters or punctuation
-		$pattern = "#[^(\w|\d|\'|\"|\.|\!|\?|;|,|\\|\/|:|\&|@)]+#";
+		$pattern = "#[^(\w|\d|\'|\"|\.|\!|\?|;|,|\-|\/|:|\&|@)]+#";
 		$wc = trim(preg_replace($pattern, "", $wc));
 		
 		// remove one-letter 'words' that consist only of punctuation
-		$wc = trim(preg_replace("#\s*[(\'|\"|\.|\!|\?|;|,|\\|\/|:|\&|@)]\s*#", "", $wc));
+		$wc = trim(preg_replace("#\s*[(\'|\"|\.|\!|\?|;|,|\/|:|\&|@)]\s*#", "", $wc));
 		
 		// remove superfluous whitespace
 		$wc = preg_replace("/\s\s+/", "", $wc);		
