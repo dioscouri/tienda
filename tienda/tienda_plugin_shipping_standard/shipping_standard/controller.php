@@ -114,7 +114,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
         
     }
     
-/**
+    /**
      * Creates a rate and redirects
      * 
      * @return unknown_type

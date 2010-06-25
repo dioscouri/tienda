@@ -107,15 +107,14 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 
         $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
         $list = $model->getList();
-        
 		$vars->list = $list;
 		
 		$id = JRequest::getInt('id', '0');
 		$form = array();
 		$form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
-		
 		$vars->form = $form;
 		
+		$vars->sid = $id;
         $html = $this->_getLayout('default', $vars);
 		
         return $html;

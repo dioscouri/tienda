@@ -1,8 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
-<?php //echo @$vars->token; ?>
-
 <?php $form = @$vars->form; ?>
 <?php $items = @$vars->list; ?>
 
@@ -86,7 +84,7 @@
 				    <?php echo $item->tax_class_name; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo TiendaGrid::enable($item->shipping_method_enabled, $i, 'shipping_method_enabled.' ); ?>
+					<?php echo TiendaGrid::boolean( $item->shipping_method_enabled ); ?>
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
@@ -103,9 +101,9 @@
 	</table>
 
 	<input type="hidden" name="order_change" value="0" />
-	<input type="hidden" name="sid" value="" />
+	<input type="hidden" name="sid" value=" <?php echo $vars->sid; ?>" />
 	<input type="hidden" name="shippingTask" value="_default" />
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="view" />
 	<input type="hidden" name="boxchecked" value="" />
 	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
 	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />

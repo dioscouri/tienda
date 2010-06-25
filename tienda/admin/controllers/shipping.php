@@ -46,6 +46,12 @@ class TiendaControllerShipping extends TiendaController
         return $state;
     }
     
+    /**
+     * Will execute a task within a shipping plugin
+     * 
+     * (non-PHPdoc)
+     * @see application/component/JController::execute()
+     */
     function execute( $task )
     {
     	$shippingTask = JRequest::getCmd('shippingTask', '');
