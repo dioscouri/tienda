@@ -63,6 +63,21 @@
 		            <?php echo $row->order_state_name; ?>
 		        </td>
 		    </tr>
+            <?php if (!empty($row->commissions)) { ?>
+                <?php JHTML::_('behavior.tooltip'); ?>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_("Commissions"); ?>
+                        <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_( "Order Has a Commission" ); ?>" class="hasTip" />
+                    </td>
+                    <td>
+                        <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $row->order_id; ?>" target="_blank">
+                            <?php echo JText::_( "View Commission Records" ); ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php } ?>		    
+		    
 		    </table>
 		    </fieldset>
 		    

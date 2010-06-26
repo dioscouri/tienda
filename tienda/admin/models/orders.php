@@ -225,6 +225,7 @@ class TiendaModelOrders extends TiendaModelBase
         	return array();
         }
 		
+        $amigos = TiendaHelperBase::getInstance( 'Amigos' );
 		foreach(@$list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
@@ -250,6 +251,12 @@ class TiendaModelOrders extends TiendaModelBase
     				$item->currency->$k = $v;
     			}
     		}
+    		
+    		// has a commission?
+    		if ($amigos->isInstalled())
+    		{
+    		    $item->commissions = $amigos->getCommissions( $item->order_id );
+    		}
 		}
 		return $list;
 	}
@@ -258,6 +265,7 @@ class TiendaModelOrders extends TiendaModelBase
 	{
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$amigos = TiendaHelperBase::getInstance( 'Amigos' );
 		
 		if ($item = parent::getItem())
 		{
@@ -332,6 +340,12 @@ class TiendaModelOrders extends TiendaModelBase
     				$item->currency->$k = $v;
     			}
     		}
+    		
+		    // has a commission?
+            if ($amigos->isInstalled())
+            {
+                $item->commissions = $amigos->getCommissions( $item->order_id );
+            }
 		}
         return $item;
 	}	

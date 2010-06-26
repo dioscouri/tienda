@@ -128,7 +128,7 @@
                 </td>
                 <td style="text-align: center; width: 50px;">
                     <a href="<?php echo $item->link_view; ?>">
-                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php JText::_( "Order Dashboard" ); ?>"/>
+                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_( "Order Dashboard" ); ?>"/>
                     </a>
                 </td>
 				<td style="text-align: left;">
@@ -141,7 +141,7 @@
 					{
 					   echo JText::_( "Undefined Shipping Address" ); 
 					}
-					else
+					   else
 					{
 	                    echo $item->shipping_address_1.", ";
 	                    echo $item->shipping_address_2 ? $item->shipping_address_2.", " : "";
@@ -160,6 +160,13 @@
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaHelperBase::currency( $item->order_total, $item->currency ); ?>
+                    <?php if (!empty($item->commissions)) { ?>
+                        <br/>
+                        <?php JHTML::_('behavior.tooltip'); ?>
+                        <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_( "Order Has a Commission" ); ?>::<?php echo JText::_( "View Commission Records" ); ?>" class="hasTip" />
+                        </a>
+                    <?php } ?>
 				</td>
 				<td style="text-align: center;">
 					<?php echo $item->order_state_name; ?>

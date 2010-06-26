@@ -344,6 +344,10 @@ class TiendaHelperOrder extends TiendaHelperBase
         // 3. add productfiles to product downloads
         TiendaHelperOrder::enableProductDownloads( $order_id );
         
+        // 4. register commission, if amigos is installed
+        $helper = TiendaHelperBase::getInstance( 'Amigos' );
+        $helper->createCommission( $order_id );
+        
         if ($error)
         {
             $this->setError( implode( '<br/>', $errors ) );
