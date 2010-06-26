@@ -97,6 +97,11 @@ class TiendaControllerProducts extends TiendaController
 		$title = (empty($cat->category_name)) ? JText::_( "All Categories" ) : JText::_($cat->category_name);
 		$level = (!empty($filter_category)) ? $filter_category : '1';
 
+        // breadcrumb support
+        $app = JFactory::getApplication();
+        $pathway = $app->getPathway();
+        $pathway->addItem( $title );
+		
 		// get the category's sub categories
 		$cmodel->setState('filter_level', $level);
 		$cmodel->setState('filter_enabled', '1');
@@ -105,7 +110,14 @@ class TiendaControllerProducts extends TiendaController
 		$citems = $cmodel->getList();
 
 		// get the products to be displayed in this category
-		$items = $model->getList();
+		if ($items =& $model->getList())
+		{
+		    foreach ($items as $item)
+		    {
+                $itemid = JRoute::_( Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category ) );
+                $item->itemid = JRequest::getInt('Itemid', $itemid);		        
+		    }
+		}
 
 		$view->assign( 'level', $level);
 		$view->assign( 'title', $title );
@@ -149,6 +161,14 @@ class TiendaControllerProducts extends TiendaController
 		$product_description = TiendaArticle::fromString( $row->product_description );
 
 		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+		if (empty($filter_category)) 
+		{ 
+		    $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $row->product_id );
+		    if (!empty($categories))
+		    {
+		        $filter_category = $categories[0];
+		    }
+		}
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
 		$cat = $cmodel->getTable();
@@ -158,6 +178,11 @@ class TiendaControllerProducts extends TiendaController
 		$view->set('_doTask', true);
 		$view->assign( 'row', $row );
 		$view->assign( 'cat', $cat );
+		
+        // breadcrumb support
+        $app = JFactory::getApplication();
+        $pathway = $app->getPathway();
+        $pathway->addItem( $row->product_name );
 
 		// Check If the inventroy is set then it will go for the inventory product quantities
 		if ($row->product_check_inventory)
