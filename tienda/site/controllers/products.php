@@ -99,22 +99,58 @@ class TiendaControllerProducts extends TiendaController
 
         // breadcrumb support
         $app = JFactory::getApplication();
-        $pathway = $app->getPathway();
-        $pathway->addItem( $title );
+        $pathway =& $app->getPathway();
+        $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
+        $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
+        // add the categories to the pathway
+        Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        // add the item being viewed to the pathway
+        $pathway_values = $pathway->getPathway();
+	    $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
+        $pathway_links = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'link' );
+        $cat_url = "index.php?Itemid=$category_itemid";
+        if (!in_array($cat->category_name, $pathway_names))
+        {
+            $pathway->addItem( $title );
+        }
+		
+        // breadcrumb support
+//        $app = JFactory::getApplication();
+//        $pathway = $app->getPathway();
+//        $pathway_values = $pathway->getPathway();
+//        $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
+//        $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
+//        $pathway_links = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'link' );
+//        $cat_url = "index.php?Itemid=$category_itemid";
+//        echo "cat_url = $cat_url";
+//        if (!in_array($cat->category_name, $pathway_names) || !in_array($cat_url, $pathway_links))
+//        {
+////            $pathway->addItem( $cat->category_name, $cat_url );
+//            $pathway->addItem( $title );
+//        }
+//        echo Tienda::dump( $pathway_values );
+//        echo Tienda::dump( $pathway_links );
 		
 		// get the category's sub categories
 		$cmodel->setState('filter_level', $level);
 		$cmodel->setState('filter_enabled', '1');
 		$cmodel->setState('order', 'tbl.lft');
 		$cmodel->setState('direction', 'ASC');
-		$citems = $cmodel->getList();
+		if ($citems =& $cmodel->getList())
+		{
+		    foreach ($citems as $item)
+            {
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
+                $item->itemid = JRequest::getInt('Itemid', $itemid);
+            }
+		}
 
 		// get the products to be displayed in this category
 		if ($items =& $model->getList())
 		{
 		    foreach ($items as $item)
 		    {
-                $itemid = JRoute::_( Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category ) );
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);		        
 		    }
 		}
@@ -181,7 +217,12 @@ class TiendaControllerProducts extends TiendaController
 		
         // breadcrumb support
         $app = JFactory::getApplication();
-        $pathway = $app->getPathway();
+        $pathway =& $app->getPathway();
+        $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
+        $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
+        // add the categories to the pathway
+        Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        // add the item being viewed to the pathway
         $pathway->addItem( $row->product_name );
 
 		// Check If the inventroy is set then it will go for the inventory product quantities

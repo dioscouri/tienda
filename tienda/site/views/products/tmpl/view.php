@@ -8,9 +8,11 @@ $item = @$this->row;
 
 <div id="tienda" class="products view">
     
-    <div id='tienda_breadcrumb'>
-        <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links', true); ?>
-    </div>
+    <?php if (TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
+        <div id='tienda_breadcrumb'>
+            <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links', true); ?>
+        </div>
+    <?php endif; ?>
     
     <div id="tienda_product">
 

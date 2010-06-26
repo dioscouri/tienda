@@ -368,6 +368,8 @@ class TiendaConfig extends JObject
     var $display_taxclass_lineitems         = '0';
     var $addtocartaction                    = 'redirect'; 	
     var $cartbutton                         = 'image';
+    var $include_root_pathway               = '0';
+    var $display_tienda_pathway             = '1';
 	
 	/**
 	 * constructor

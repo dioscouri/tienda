@@ -203,6 +203,32 @@ class TiendaHelperCategory extends TiendaHelperBase
 
 		switch ($format)
 		{
+		    case "array":
+		        $name = array();
+		        foreach (@$path as $cat)
+                {
+                    $include_root = TiendaConfig::getInstance()->get('include_root_pathway', false );
+                    if (!$cat->isroot || $include_root )
+                    {
+                        $pathway_object = new JObject();
+                        $pathway_object->name = $cat->category_name;
+                            $slug = $cat->category_alias ? ":$cat->category_alias" : "";
+                            $link = "index.php?option=com_tienda&view=products&filter_category=".$cat->category_id.$slug;
+                        $pathway_object->link = $link;
+                        $pathway_object->id = $cat->category_id; 
+                        $name[] = $pathway_object;
+                    }
+                }
+                
+                // add the item
+                $pathway_object = new JObject();
+                $pathway_object->name = $item->category_name;
+                    $slug = $item->category_alias ? ":$item->category_alias" : "";
+                    $link = "index.php?option=com_tienda&view=products&filter_category=".$item->category_id.$slug;
+                $pathway_object->link = $link;
+                $pathway_object->id = $item->category_id; 
+                $name[] = $pathway_object;                
+		      break;
 			case "bullet":
 				foreach (@$path as $cat)
 				{

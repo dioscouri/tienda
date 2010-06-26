@@ -8,7 +8,7 @@ $citems = @$this->citems;
 
 <div id="tienda" class="products default">
 
-    <?php if ($this->level > 1 ) : ?>
+    <?php if ($this->level > 1 && TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
         <div id='tienda_breadcrumb'>
             <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
         </div>
@@ -33,13 +33,13 @@ $citems = @$this->citems;
                     <div class="subcategory">
                         <?php if (!empty($citem->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
                             <div class="subcategory_thumb">
-                                <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
+                                <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
                                 <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
                                 </a>
                             </div>
                         <?php endif; ?>
                         <div class="subcategory_name">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug ); ?>">
+                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
                             <?php echo $citem->category_name; ?>
                             </a>
                         </div>

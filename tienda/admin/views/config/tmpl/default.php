@@ -553,6 +553,28 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Root Category in Joomla Breadcrumb' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'include_root_pathway', 'class="inputbox"', $this->row->get('include_root_pathway', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Tienda Breadcrumb' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_tienda_pathway', 'class="inputbox"', $this->row->get('display_tienda_pathway', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
                             </th>
                             <td>
@@ -562,7 +584,6 @@
                                 
                             </td>
                         </tr>
-
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Link to Shipping Costs Article' ); ?>
