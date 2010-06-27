@@ -91,6 +91,13 @@ class TiendaTableXref extends TiendaTable
         }
         $oid = (array) $oid;
 
+	    $dispatcher = JDispatcher::getInstance();
+        $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this, $oid ) );
+        if (in_array(false, $before, true))
+        {
+            return false;
+        }
+        
 	    $db = $this->getDBO();
         
         // initialize the query
@@ -116,7 +123,7 @@ class TiendaTableXref extends TiendaTable
 		if ($db->query())
 		{
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this ) );
+			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $oid ) );
 			return true;
 		}
 		else
@@ -176,11 +183,12 @@ class TiendaTableXref extends TiendaTable
 				continue;
 			}
 			if ( in_array( $k, $this->getKeyNames() ) ) 
-			{ // PK not to be updated
+			{ 
+			    // PK not to be updated?
 				// TODO Use query builder
 				// ->where()
 				$where[] = $k . '=' . $this->_db->Quote( $v );
-				continue;
+				// continue; // Allow PKs to be updated?
 			}
 			if ($v === null)
 			{

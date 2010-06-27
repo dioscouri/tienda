@@ -358,6 +358,13 @@ class TiendaTableNested extends TiendaTable
 			return false;	
 		}
 		
+	    $dispatcher = JDispatcher::getInstance();
+        $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this, $id ) );
+        if (in_array(false, $before, true))
+        {
+            return false;
+        }
+		
 		$database = $this->_db;
 
 		//LOCK TABLE nested_category WRITE;
@@ -418,7 +425,7 @@ class TiendaTableNested extends TiendaTable
 		$this->_unlock();
 		
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this ) );
+		$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $id ) );
 			
 		return true;
 	}

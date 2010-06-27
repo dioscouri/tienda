@@ -275,7 +275,7 @@ class TiendaTable extends JTable
 	function delete( $oid=null )
 	{
 	    $dispatcher = JDispatcher::getInstance();
-        $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this ) );
+        $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this, $oid ) );
         if (in_array(false, $before, true))
         {
             return false;
@@ -284,7 +284,7 @@ class TiendaTable extends JTable
 		if ( $return = parent::delete( $oid ))
 		{
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this ) );
+			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $oid ) );
 		}
 		return $return;
 	}

@@ -387,7 +387,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 return null;
             }
 
-            $paths[$id] = $row->getImagePath(false);
+            $paths[$id] = $row->getImagePath(true);
         }
         
         return $paths[$id];
