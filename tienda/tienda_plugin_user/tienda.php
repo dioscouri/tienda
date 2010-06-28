@@ -46,11 +46,7 @@ class plgUserTienda extends JPlugin
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         if (!empty($old_sessionid))
         {
-<<<<<<< .mine
-            TiendaHelperCarts::updateCart('', true, $old_sessionId);
-=======
             TiendaHelperCarts::updateCart('', true, $old_sessionid);
->>>>>>> .r381
         }
             else
         {
