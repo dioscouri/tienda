@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 /** Import library dependencies */
 jimport('joomla.plugin.plugin');
 
-if ( !class_exists('Tienda') ) 
+if ( !class_exists('Tienda') )
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 class plgUserTienda extends JPlugin
@@ -27,48 +27,52 @@ class plgUserTienda extends JPlugin
     /**
      * When the user logs in, their session cart should override their db-stored cart.
      * Current actions take precedence
-     * 
+     *
      * @param $user
      * @param $options
      * @return unknown_type
      */
     function onLoginUser($user, $options)
-    {	
+    {
     	$session =& JFactory::getSession();
     	$old_sessionid = $session->get( 'old_sessionid' );
-    	   	
+
     	// Should check that Tienda is installed first before executing
         if (!$this->_isInstalled())
         {
             return;
         }
-        
+
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         if (!empty($old_sessionid))
         {
-            TiendaHelperCarts::updateCart('', true, $old_sessionid);    
+<<<<<<< .mine
+            TiendaHelperCarts::updateCart('', true, $old_sessionId);
+=======
+            TiendaHelperCarts::updateCart('', true, $old_sessionid);
+>>>>>>> .r381
         }
             else
         {
             TiendaHelperCarts::updateCart( '', true );
         }
-        
+
         TiendaHelperCarts::cleanCart();
-        
+
         return true;
     }
-    
+
     /**
      * Checks the extension is installed
-     * 
+     *
      * @return boolean
      */
     function _isInstalled()
     {
         $success = false;
-        
+
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
+        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php'))
         {
             $success = true;
         }
