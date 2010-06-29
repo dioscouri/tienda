@@ -33,6 +33,11 @@ class TiendaViewOrders extends TiendaViewBase
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
               break;
+            case "batchedit":
+                JRequest::setVar('hidemainmenu', '1');
+                $this->_batchedit($tpl);
+              break;  
+             
             case "default":
             default:
                 $this->_default($tpl);
@@ -46,9 +51,7 @@ class TiendaViewOrders extends TiendaViewBase
      */
     function _defaultToolbar()
     {
-        // JToolBarHelper::editList();
-        //JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
-        //JToolBarHelper::addnew();
+        JToolBarHelper::custom('batchedit', "forward", "forward", JText::_( 'Batch Edit' ), false);
     }
     
     /**
@@ -78,4 +81,53 @@ class TiendaViewOrders extends TiendaViewBase
         $this->assign('surrounding', $surrounding);
         parent::_viewToolbar($isNew);
     }
+    
+    
+/**
+	 * Process the data for the convert view
+	 * @return void
+	 **/
+	function _batchedit($tpl=null)
+	{
+		// Import necessary helpers + library files
+		JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
+		$model = $this->getModel();
+		
+		// set the model state
+			$this->assign( 'state', $model->getState() );
+			
+		// page-navigation
+			$this->assign( 'pagination', $model->getPagination() );
+		
+		// list of items
+			$items = $model->getList();	
+			$this->assign('items', $items);
+			
+		// set toolbar
+			$this->_batcheditToolbar();
+			
+		// form
+			$validate = JUtility::getToken();
+			$form = array();
+			$controller = strtolower( $this->get( '_controller', JRequest::getVar('controller', JRequest::getVar('view') ) ) );
+			$view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
+			$action = $this->get( '_action', "index.php?option=com_tienda&controller={$controller}&view={$view}" );
+			$form['action'] = $action;
+			$form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
+			$this->assign( 'form', $form );
+	}
+	
+	function _batcheditToolbar()
+	{
+		$this->set('title', "Order Batch Edit" );
+		JToolBarHelper::save('updatebatch');
+		JToolBarHelper::cancel();
+	}
+    
+    
+    
+    
+    
 }
