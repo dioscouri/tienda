@@ -553,6 +553,17 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Out of Stock Products' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_out_of_stock', 'class="inputbox"', $this->row->get('display_out_of_stock', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Root Category in Joomla Breadcrumb' ); ?>
                             </th>
                             <td>

@@ -1209,15 +1209,15 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$db = JFactory::getDBO();
         $db->setQuery( (string) $query );
 	    
-	    $results=$db->loadObjectList();
-	    $inventoryList=array();
+	    $results = $db->loadObjectList();
+	    $inventoryList = array();
 	    
-	    foreach($results as $result) 
+	    foreach ($results as $result) 
 	    {
-	    	$inventoryList[$result->product_attributes]=$result->quantity;
+	    	$inventoryList[$result->product_attributes] = $result->quantity;
 	    }
-	  return $inventoryList;
-		
+	    
+	    return $inventoryList;
 	}  
 
     /**

@@ -86,15 +86,23 @@ class TiendaModelProducts extends TiendaModelBase
        	}
 		if (strlen($filter_quantity_from))
         {
-        	$query->where('(
-            SELECT 
-                SUM(quantities.quantity)
-            FROM
-                #__tienda_productquantities AS quantities
-            WHERE 
-                quantities.product_id = tbl.product_id 
-                AND quantities.vendor_id = 0
-            ) >= '.(int) $filter_quantity_from);
+        	$query->where("
+        	tbl.product_check_inventory = '0' OR
+        	( 
+            	(
+                    SELECT 
+                        SUM(quantities.quantity)
+                    FROM
+                        #__tienda_productquantities AS quantities
+                    WHERE 
+                        quantities.product_id = tbl.product_id 
+                        AND quantities.vendor_id = 0
+                ) >= '".(int) $filter_quantity_from."' 
+                AND 
+                tbl.product_check_inventory = '1'
+            )
+            "
+        	);
        	}
 		if (strlen($filter_quantity_to))
         {

@@ -370,6 +370,7 @@ class TiendaConfig extends JObject
     var $cartbutton                         = 'image';
     var $include_root_pathway               = '0';
     var $display_tienda_pathway             = '1';
+    var $display_out_of_stock               = '1';
 	
 	/**
 	 * constructor

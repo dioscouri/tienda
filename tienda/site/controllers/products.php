@@ -86,6 +86,11 @@ class TiendaControllerProducts extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
 		$this->_setModelState();
 
+		if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
+		{
+		    $model->setState('filter_quantity_from', '1');
+		}
+		
 		// get the category we're looking at
 		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -113,23 +118,6 @@ class TiendaControllerProducts extends TiendaController
         {
             $pathway->addItem( $title );
         }
-		
-        // breadcrumb support
-//        $app = JFactory::getApplication();
-//        $pathway = $app->getPathway();
-//        $pathway_values = $pathway->getPathway();
-//        $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
-//        $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
-//        $pathway_links = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'link' );
-//        $cat_url = "index.php?Itemid=$category_itemid";
-//        echo "cat_url = $cat_url";
-//        if (!in_array($cat->category_name, $pathway_names) || !in_array($cat_url, $pathway_links))
-//        {
-////            $pathway->addItem( $cat->category_name, $cat_url );
-//            $pathway->addItem( $title );
-//        }
-//        echo Tienda::dump( $pathway_values );
-//        echo Tienda::dump( $pathway_links );
 		
 		// get the category's sub categories
 		$cmodel->setState('filter_level', $level);
@@ -183,28 +171,31 @@ class TiendaControllerProducts extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
 		$model->getId();
 		$row = $model->getItem();
+		
+		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+	    if (empty($filter_category)) 
+        { 
+            $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $row->product_id );
+            if (!empty($categories))
+            {
+                $filter_category = $categories[0];
+            }
+        }
+        		
 		if (empty($row->product_enabled))
 		{
-			$redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=";
+			$redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=".$filter_category;
 			$redirect = JRoute::_( $redirect, false );
-			//$this->message = JText::_( "CANNOT VIEW DISABLED PRODUCT" );
-			//$this->messagetype = 'notice';
+			$this->message = JText::_( "CANNOT VIEW DISABLED PRODUCT" );
+			$this->messagetype = 'notice';
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
 		}
-
+		
 		Tienda::load( 'TiendaArticle', 'library.article' );
 		$product_description = TiendaArticle::fromString( $row->product_description );
 
-		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
-		if (empty($filter_category)) 
-		{ 
-		    $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $row->product_id );
-		    if (!empty($categories))
-		    {
-		        $filter_category = $categories[0];
-		    }
-		}
+
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
 		$cat = $cmodel->getTable();
@@ -229,11 +220,22 @@ class TiendaControllerProducts extends TiendaController
 		if ($row->product_check_inventory)
 		{
 			$inventoryList = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getProductQuantities( $row->product_id );
-
+        
+            if (!TiendaConfig::getInstance()->get('display_out_of_stock') && empty($inventoryList))
+            {
+                // redirect
+                $redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=".$filter_category;
+                $redirect = JRoute::_( $redirect, false );
+                $this->message = JText::_( "CANNOT VIEW PRODUCT" );
+                $this->messagetype = 'notice';
+                $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                return;
+            }
+			
 			// if there is no entry of product in the productquantities
-			if (count($inventoryList)==0)
+			if (count($inventoryList) == 0)
 			{
-				$inventoryList['']= '0';
+				$inventoryList[''] = '0';
 			}
 			$view->assign( 'inventoryList', $inventoryList );
 		}
