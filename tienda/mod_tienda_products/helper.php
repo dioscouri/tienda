@@ -68,9 +68,13 @@ class modTiendaProductsHelper extends JObject
     	if($this->params->get( 'price_to', '-1' ) != '-1')
     		$model->setState('filter_price_to', $this->params->get( 'price_to', '-1' ));
     	
-        // using the set filters, get a list of products
+       if ($this->params->get('random', '0') == '1'){
+    		$model->setState('order', 'RAND()');
+    	}
+    		
+        // using the set filters, get a list of products 
+      
     	$products = $model->getList();
-    	
     	return $products;
     }
 }

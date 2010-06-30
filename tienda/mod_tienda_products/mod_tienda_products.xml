@@ -31,6 +31,10 @@
 		<!--<param name="attribute" type="text" default="" label="Attribute" description="Attribute Description" />-->
 		<param name="price_from" type="text" default="" label="Price From" description="PRICE_FROM" />
 		<param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />
+		<param name="random" type="list" default="0" label="Randomly Selected Products" description="Random" >
+		<option value="1">ENABLED</option>
+		<option value="0">DISABLED</option>
+		</param>
 
 		<param type="spacer" />
 		<param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">
