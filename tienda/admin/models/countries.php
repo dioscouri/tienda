@@ -59,7 +59,7 @@ class TiendaModelCountries extends TiendaModelBase
         }
         if (strlen($filter_enabled))
         {
-            $query->where('tbl.country_enabled = '.$filter_enabled);
+            $query->where('tbl.country_enabled = '.$this->_db->Quote($filter_enabled));
         }
         if ($filter_code2) 
         {

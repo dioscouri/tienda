@@ -37,7 +37,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
         
         if (strlen($filter_enabled))
         {
-            $query->where('tbl.shipping_method_enabled = '.$filter_enabled);
+            $query->where('tbl.shipping_method_enabled = '.$this->_db->Quote($filter_enabled));
         }
         
         if (strlen($filter_id_from))
@@ -75,7 +75,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
         
         if ( strlen($filter_subtotal ))
         {
-            $query->where('tbl.subtotal_minimum <= '. $filter_subtotal);
+            $query->where('tbl.subtotal_minimum <= '.$filter_subtotal);
         }
     }
 

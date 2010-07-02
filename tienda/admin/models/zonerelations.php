@@ -36,19 +36,19 @@ class TiendaModelZonerelations extends TiendaModelBase
 		}
 		if (strlen($filter_geozoneid))
 		{
-			$query->where('tbl.geozone_id = '.$filter_geozoneid);
+			$query->where('tbl.geozone_id = '.$this->_db->Quote($filter_geozoneid));
 		}
 	    if (strlen($filter_geozonetype))
         {
-            $query->where('gz.geozonetype_id = '.$filter_geozonetype);
+            $query->where('gz.geozonetype_id = '.$this->_db->Quote($filter_geozonetype));
         }
 	    if (strlen($filter_zone))
         {
-            $query->where('tbl.zone_id = '.$filter_zone);
+            $query->where('tbl.zone_id = '.$this->_db->Quote($filter_zone));
         }
 	    if (strlen($filter_countryid))
         {
-            $query->where('z.country_id = '.$filter_countryid);
+            $query->where('z.country_id = '.$this->_db->Quote($filter_countryid));
         }
 	}
     

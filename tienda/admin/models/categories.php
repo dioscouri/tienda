@@ -58,7 +58,7 @@ class TiendaModelCategories extends TiendaModelBase
        	}
     	if (strlen($enabled))
         {
-        	$query->where('tbl.category_enabled = '.$enabled);
+        	$query->where('tbl.category_enabled = '.$this->_db->Quote($enabled));
        	}
         if (strlen($parentid))
         {

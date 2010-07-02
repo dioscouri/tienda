@@ -150,6 +150,15 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
         </copy>
+    	 <!-- My ORDER -->
+    	 <copy todir="${destdir}/modules/mod_${cfg.comName}_my_order" preservelastmodified="true" overwrite="true">
+    	   <fileset dir="${cfg.comDir}/mod_${cfg.comName}_my_order" />
+    	 </copy>
+    	<!-- My ORDER PRODUCTS -->
+    	 <copy todir="${destdir}/modules/mod_${cfg.comName}_my_orderProducts" preservelastmodified="true" overwrite="true">
+    	 <fileset dir="${cfg.comDir}/mod_${cfg.comName}_my_orderProducts" />
+    	 </copy>
+    	
     <!-- PLUGINS -->
         <!-- RELATED PRODUCTS -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">

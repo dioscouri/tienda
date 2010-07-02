@@ -57,7 +57,7 @@ class TiendaModelGeozones extends TiendaModelBase
         }
         if (strlen($filter_geozonetype))
         {
-            $query->where('tbl.geozonetype_id = '.$filter_geozonetype);
+            $query->where('tbl.geozonetype_id = '.$this->_db->Quote($filter_geozonetype));
         }
        	
     }

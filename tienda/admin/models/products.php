@@ -58,7 +58,7 @@ class TiendaModelProducts extends TiendaModelBase
        	}
 		if (strlen($enabled))
         {
-        	$query->where('tbl.product_enabled = '.$enabled);
+        	$query->where('tbl.product_enabled = '.$this->_db->Quote($enabled));
        	}
 		if (strlen($filter_id_from))
         {

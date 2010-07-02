@@ -40,16 +40,15 @@ class TiendaModelAddresses extends TiendaModelBase
        	}
         if (strlen($filter_deleted))
         {
-        	$query->where('tbl.is_deleted = '.$filter_deleted);
+        	$query->where('tbl.is_deleted = '.$this->_db->Quote($filter_deleted));
        	}
 		
 		if ($filter_addressid){
-			$query->where('tbl.address_id = '.$filter_addressid);
-			echo 'tbl.address_id = '.$filter_addressid;
+			$query->where('tbl.address_id = '.$this->_db->Quote($filter_addressid));
 		}
        	if ($filter_userid)
        	{
-        	$query->where('tbl.user_id = '.$filter_userid);
+        	$query->where('tbl.user_id = '.$this->_db->Quote($filter_userid));
        	}    
        	if ($filter_shippingid)
        	{

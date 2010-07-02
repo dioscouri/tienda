@@ -22,12 +22,12 @@ class TiendaModelCarts extends TiendaModelBase
 
         if (strlen($filter_user))
         {
-            $query->where('tbl.user_id = '.$filter_user);
+            $query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
         }
         
         if (strlen($filter_session))
         {
-            $query->where( "tbl.session_id = '".$filter_session."'" );
+            $query->where( "tbl.session_id = ".$this->_db->Quote($filter_session));
         }
         
         if (!empty($filter_product)) 

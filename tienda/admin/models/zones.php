@@ -67,11 +67,11 @@ class TiendaModelZones extends TiendaModelBase
         }
         if (strlen($filter_countryid))
         {
-        	$query->where('tbl.country_id = '.$filter_countryid);
+        	$query->where('tbl.country_id = '.$this->_db->Quote($filter_countryid));
        	}
         if (strlen($filter_geozoneid))
         {
-            $query->where('zr.geozone_id = '.$filter_geozoneid);
+            $query->where('zr.geozone_id = '.$this->_db->Quote($filter_geozoneid));
         }
     }
     

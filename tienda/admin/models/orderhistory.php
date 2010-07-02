@@ -33,12 +33,12 @@ class TiendaModelOrderHistory extends TiendaModelBase
        	
         if ($filter_orderid)
         {
-            $query->where('tbl.order_id = '.$filter_orderid);
+            $query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
         }
         
         if ($filter_notified)
         {
-            $query->where('tbl.notify_customer = '.$filter_notified);
+            $query->where('tbl.notify_customer = '.$this->_db->Quote($filter_notified));
         }
         
     }

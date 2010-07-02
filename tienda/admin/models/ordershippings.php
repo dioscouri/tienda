@@ -32,7 +32,7 @@ class TiendaModelOrderShippings extends TiendaModelBase
        	
         if ($filter_orderid)
         {
-            $query->where('tbl.order_id = '.$filter_orderid);
+            $query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
         }
     }
 }

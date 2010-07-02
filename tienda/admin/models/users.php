@@ -37,7 +37,7 @@ class TiendaModelUsers extends TiendaModelBase
        	}
         if (strlen($block))
         {
-        	$query->where('tbl.block = '.$block);
+        	$query->where('tbl.block = '.$this->_db->Quote($block));
        	}
         if (strlen($filter_id_from))
         {

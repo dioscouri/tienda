@@ -32,7 +32,7 @@ class TiendaModelVendors extends TiendaModelBase
        	}
     	if (strlen($enabled))
         {
-          	$query->where('tbl.vendor_enabled = '.$enabled);
+          	$query->where('tbl.vendor_enabled = '.$this->_db->Quote($enabled));
        	}
     }
      

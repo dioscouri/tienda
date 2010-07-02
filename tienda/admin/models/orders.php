@@ -77,11 +77,11 @@ class TiendaModelOrders extends TiendaModelBase
        	
         if (strlen($orderstate))
         {
-        	$query->where('tbl.order_state_id = '.$orderstate);
+        	$query->where('tbl.order_state_id = '.$this->_db->Quote($orderstate));
        	}
         if (strlen($filter_userid))
         {
-            $query->where('tbl.user_id = '.$filter_userid);
+            $query->where('tbl.user_id = '.$this->_db->Quote($filter_userid));
         }
 
         if (strlen($filter_date_from))
