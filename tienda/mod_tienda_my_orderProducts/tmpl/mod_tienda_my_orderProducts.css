@@ -1,0 +1,23 @@
+div.tienda_products_grid div.product_items {
+	float: left;
+}
+div.tienda_products_grid div.product_items.grid2 {
+	width: 47%;
+	margin-right: 5%;
+}
+div.tienda_products_grid div.product_items.grid3 {
+	width: 30%;
+	margin-right: 5%;
+}
+div.tienda_products_grid div.product_items.grid4 {
+	width: 22%;
+	margin-right: 3%;
+}
+div.tienda_products_grid div.product_items.grid5 {
+	width: 17%;
+	margin-right: 3%;
+}
+div.tienda_products_grid div.product_items.grid6 {
+	width: 13%;
+	margin-right: 4%;
+}
