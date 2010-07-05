@@ -22,11 +22,11 @@
 
         
         <param type="spacer" />
-        <param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">
+        <param name="display_id" type="list" default="1" label="Show Id" description="Show ID of the Order ">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image" type="list" default="1" label="Show Image" description="Show Image Desc">
+        <param name="display_date" type="list" default="1" label="Show Date" description="Show Date Desc">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
@@ -34,16 +34,17 @@
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image_width" type="text" default="" label="Image Width" description="Image Width Desc" />
-        <param name="display_image_height" type="text" default="" label="Image Width" description="Image Height Desc" />
-        <param name="display_description" type="list" default="1" label="Show Short" description="Show Short Desc">
-            <option value="1">ENABLED</option>
-            <option value="0">DISABLED</option>
-        </param>
+       
         <param name="display_price" type="list" default="1" label="Show Price" description="Show Price Desc">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
+       
+        <param name="display_state" type="list" default="1" label="Show State" description="Show State">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+
         <param name="max_number" type="text" default="" label="Max Number" description="MAX_NUMBER" />
         <param type="spacer" />
         <param name="display_style" type="list" default="flat" label="Display Style" description="Display Style Desc">
