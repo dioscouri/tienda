@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="language" version="1.5.0" method="upgrade">
+<install type="language" version="1.5" method="upgrade">
     <name>French Tienda</name>
+    <tag>fr-FR</tag>
     <version>0.5.0 Community</version>
     <creationDate>May 2010</creationDate>
     <author>JC Richard</author>
@@ -9,16 +10,39 @@
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
     <license>GNU General Public License v2</license>
-    <description>French translation for Tienda</description>
+    <description>French language pack for Tienda</description>
 
-    <languages folder="site">
-        <language tag="fr-FR">fr-FR.com_tienda.ini</language>
-    </languages>
+	<site>
+		<languages folder="site">
+			<language tag="fr-FR">fr-FR.com_tienda.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_products.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_salestatistics.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_cart.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_quickicon.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_search.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_categories.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_recentorders.ini</language>
+			<language tag="fr-FR">fr-FR.mod_tienda_useraddress.ini</language>
+		</languages>
+	</site>
 
     <!-- Application/administrator -->
     <administration>
         <languages folder="admin">
             <language tag="fr-FR">fr-FR.com_tienda.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_payment_2checkout.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_report_bestsellers.ini</language>
+            <language tag="fr-FR">fr-FR.plg_search_tienda.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_payment_authorizedotnet.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_shipping_example.ini</language>
+            <language tag="fr-FR">fr-FR.plg_system_tienda.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_payment_moneybookers.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_tool_virtuemartmigration.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_bug_report.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_payment_offline.ini</language>
+            <language tag="fr-FR">fr-FR.plg_user_tienda.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_charts_fusioncharts.ini</language>
+            <language tag="fr-FR">fr-FR.plg_tienda_payment_paypal.ini</language>
         </languages>
     </administration>
 
