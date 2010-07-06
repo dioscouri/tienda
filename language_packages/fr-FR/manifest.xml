@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="language" version="1.5" method="upgrade">
+<install version="1.5" client="both" type="language" method="upgrade">
     <name>French Tienda</name>
     <tag>fr-FR</tag>
     <version>0.5.0 Community</version>
     <creationDate>May 2010</creationDate>
     <author>JC Richard</author>
     <authorEmail>djanubis03@gmail.com</authorEmail>
-    <authorUrl></authorUrl>
+    <authorUrl>www.lab-project.net</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
     <license>GNU General Public License v2</license>
-    <description>French language pack for Tienda</description>
+    <description>Pack langue française pour Tienda</description>
 
 	<site>
-		<languages folder="site">
-			<language tag="fr-FR">fr-FR.com_tienda.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_products.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_salestatistics.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_cart.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_quickicon.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_search.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_categories.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_recentorders.ini</language>
-			<language tag="fr-FR">fr-FR.mod_tienda_useraddress.ini</language>
-		</languages>
+		<files folder="site">
+			<filename>fr-FR.com_tienda.ini</filename>
+			<filename>fr-FR.mod_tienda_products.ini</filename>
+			<filename>fr-FR.mod_tienda_salestatistics.ini</filename>
+			<filename>fr-FR.mod_tienda_cart.ini</filename>
+			<filename>fr-FR.mod_tienda_quickicon.ini</filename>
+			<filename>fr-FR.mod_tienda_search.ini</filename>
+			<filename>fr-FR.mod_tienda_categories.ini</filename>
+			<filename>fr-FR.mod_tienda_recentorders.ini</filename>
+			<filename>fr-FR.mod_tienda_useraddress.ini</filename>
+		</files>
 	</site>
 
     <!-- Application/administrator -->
     <administration>
-        <languages folder="admin">
-            <language tag="fr-FR">fr-FR.com_tienda.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_payment_2checkout.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_report_bestsellers.ini</language>
-            <language tag="fr-FR">fr-FR.plg_search_tienda.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_payment_authorizedotnet.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_shipping_example.ini</language>
-            <language tag="fr-FR">fr-FR.plg_system_tienda.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_payment_moneybookers.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_tool_virtuemartmigration.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_bug_report.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_payment_offline.ini</language>
-            <language tag="fr-FR">fr-FR.plg_user_tienda.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_charts_fusioncharts.ini</language>
-            <language tag="fr-FR">fr-FR.plg_tienda_payment_paypal.ini</language>
-        </languages>
+        <files folder="admin">
+            <filename>fr-FR.com_tienda.ini</filename>
+            <filename>fr-FR.plg_tienda_payment_2checkout.ini</filename>
+            <filename>fr-FR.plg_tienda_report_bestsellers.ini</filename>
+            <filename>fr-FR.plg_search_tienda.ini</filename>
+            <filename>fr-FR.plg_tienda_payment_authorizedotnet.ini</filename>
+            <filename>fr-FR.plg_tienda_shipping_example.ini</filename>
+            <filename>fr-FR.plg_system_tienda.ini</filename>
+            <filename>fr-FR.plg_tienda_payment_moneybookers.ini</filename>
+            <filename>fr-FR.plg_tienda_tool_virtuemartmigration.ini</filename>
+            <filename>fr-FR.plg_tienda_bug_report.ini</filename>
+            <filename>fr-FR.plg_tienda_payment_offline.ini</filename>
+            <filename>fr-FR.plg_user_tienda.ini</filename>
+            <filename>fr-FR.plg_tienda_charts_fusioncharts.ini</filename>
+            <filename>fr-FR.plg_tienda_payment_paypal.ini</filename>
+        </files>
     </administration>
 
 </install>
