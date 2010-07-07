@@ -33,7 +33,6 @@
             <?php echo $this->onBeforeDisplaySelectPayment; ?>
             </div>
         <?php endif; ?>
-
         
 	   <div id="payment_info" class="address">
 		<h3><?php echo JText::_("Billing Information"); ?></h3>
@@ -82,41 +81,43 @@
 	 	<br/>
 	 	
 	 	 <?php 
-	    	if( TiendaConfig::getInstance()->get('require_terms', '1') ){
-	    		
+	    	if( TiendaConfig::getInstance()->get('require_terms', '1') )
+	    	{
 	    		$terms_article = TiendaConfig::getInstance()->get('article_terms');
 	    		$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
 	    		?>
-	 	<div id="shipping_terms">
-    		<h3><?php echo JText::_("Terms & Conditions"); ?></h3>
- 			<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
- 			<br/>
- 			<br/>
-    	</div>
- 	
- 	<?php } ?>
-        <!--    PAYMENT METHODS   -->        
-        <h3><?php echo JText::_("Payment Method") ?></h3>
-        <p><?php echo JText::_("Please select your preferred payment method below"); ?>:</p>
-        <div id='onCheckoutPayment_wrapper'>
-            <?php
-                if ($this->plugins) 
-                {                  
-                    foreach ($this->plugins as $plugin) 
-                    {
-                        ?>
-                        <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" />
-                        <?php echo JText::_( $plugin->name ); ?>
-                        <br/>
-                        <?php
+        	 	<div id="shipping_terms">
+            		<h3><?php echo JText::_("Terms & Conditions"); ?></h3>
+         			<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
+         			<br/>
+         			<br/>
+            	</div>
+        <?php } ?>
+        
+        <?php if (!empty($this->showPayment)) { ?>
+            <!--    PAYMENT METHODS   -->        
+            <h3><?php echo JText::_("Payment Method") ?></h3>
+            <p><?php echo JText::_("Please select your preferred payment method below"); ?>:</p>
+            <div id='onCheckoutPayment_wrapper'>
+                <?php
+                    if ($this->plugins) 
+                    {                  
+                        foreach ($this->plugins as $plugin) 
+                        {
+                            ?>
+                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" />
+                            <?php echo JText::_( $plugin->name ); ?>
+                            <br/>
+                            <?php
+                        }
                     }
-                }
-            ?>
-            
-            <div id='payment_form_div' style="padding-top: 10px;"></div>
-            
-            <div id="validationmessage" style="padding-top: 10px;"></div>
-        </div>
+                ?>
+                
+                <div id='payment_form_div' style="padding-top: 10px;"></div>
+                
+                <div id="validationmessage" style="padding-top: 10px;"></div>
+            </div>
+        <?php } ?>
     </div>
 
         <?php if (!empty($this->onAfterDisplaySelectPayment)) : ?>
@@ -130,6 +131,7 @@
         <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm )" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
     </p>
         
+    <input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total; ?>" />
     <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
     <input type="hidden" id="shipping_address_id" name="shipping_address_id" value="<?php echo @$values['shipping_address_id']; ?>" />
     <input type="hidden" id="billing_address_id" name="billing_address_id" value="<?php echo @$values['billing_address_id']; ?>" />

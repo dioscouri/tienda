@@ -86,7 +86,6 @@
         <copy todir="${destdir}/modules/mod_popular_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_popular_products" />
         </copy>
-
         <!-- CART -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
@@ -150,14 +149,20 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
         </copy>
-    	 <!-- My ORDER -->
-    	 <copy todir="${destdir}/modules/mod_${cfg.comName}_my_order" preservelastmodified="true" overwrite="true">
-    	   <fileset dir="${cfg.comDir}/mod_${cfg.comName}_my_order" />
-    	 </copy>
-    	<!-- My ORDER PRODUCTS -->
-    	 <copy todir="${destdir}/modules/mod_${cfg.comName}_my_orderProducts" preservelastmodified="true" overwrite="true">
-    	 <fileset dir="${cfg.comDir}/mod_${cfg.comName}_my_orderProducts" />
-    	 </copy>
+    	<!-- MY ORDERS -->
+    	<copy todir="${destdir}/modules/mod_tienda_my_orders" preservelastmodified="true" overwrite="true">
+    		<fileset dir="${cfg.comDir}/mod_tienda_my_orders" />
+    	</copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+        	<fileset dir="${cfg.comDir}/mod_tienda_my_orders/languages" />
+        </copy>
+    	<!-- MY ORDER ITEMS -->
+    	<copy todir="${destdir}/modules/mod_tienda_my_orderitems" preservelastmodified="true" overwrite="true">
+    		<fileset dir="${cfg.comDir}/mod_tienda_my_orderitems" />
+    	</copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_my_orderitems/languages" />
+        </copy>
     	
     <!-- PLUGINS -->
         <!-- RELATED PRODUCTS -->

@@ -28,7 +28,7 @@ class TiendaHelperPathway extends TiendaHelperBase
         $app = JFactory::getApplication();
         $pathway =& $app->getPathway();
         $pathway_values = $pathway->getPathway();
-        
+
         // find the array_key of the first item in items that is in pathway
         $found = false;
         $found_key = 0;
@@ -53,7 +53,7 @@ class TiendaHelperPathway extends TiendaHelperBase
 
         foreach ($pathway_values as $key=>$object)
         {
-            if ($key < $found_key || $key == 0)
+            if ($key < $found_key || !$found)
             {
                 $new_pathway[] = $object;
             }
@@ -66,7 +66,7 @@ class TiendaHelperPathway extends TiendaHelperBase
             $item->link .= "&Itemid=".$category_itemid;
             $new_pathway[] = $item;
         }
-        
+
         $pathway->setPathway( $new_pathway );
         
         return $new_pathway;

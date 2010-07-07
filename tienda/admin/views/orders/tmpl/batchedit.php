@@ -13,29 +13,21 @@
                 <th style="width: 20px;">
                 	<?php echo JText::_("Id"); ?>
                 </th>
-                <th>
+                <th style="text-align: left;">
                 	<?php echo JText::_("Order"); ?>
-                	
                 </th>
-                
                 <th>
                 	<?php echo JText::_("Order Status"); ?>
-                	
                 </th>
-
 				 <th>
-                	<?php echo JText::_("Completed Task"); ?>
-                	
+                	<?php echo JText::_("Do Completed Order Tasks"); ?>?
                 </th>
                 <th>
                 	<?php echo JText::_("Notify Customer"); ?>
-                	
                 </th>
                  <th>
-                	<?php echo JText::_("Comments"); ?>
-                	
+                	<?php echo JText::_("Comments"); ?>                	
                 </th>
-                
             </tr>
 		</thead>
         <tbody>
@@ -43,15 +35,42 @@
         <?php foreach (@$items as $item) : ?>
             <tr class='row<?php echo $k; ?>'>
 				<td style="text-align: center;">
-					<a href="<?php echo $item->link; ?>">
+					<a href="<?php echo $item->link; ?>" target="_blank">
 						<?php echo $item->order_id; ?>
 					</a>
 					<input type="hidden" name="cid[]" value="<?php echo $item->order_id; ?>"/>
 				</td>
-				<td style="text-align: center;">
-					<a href="<?php echo $item->link; ?>">
+				<td style="text-align: left;">
+				    <div>
+					<a href="<?php echo $item->link; ?>" target="_blank">
 						<?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
 					</a>
+					</div>
+                    <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
+                    <br/>
+                    <b><?php echo JText::_( "Ship to" ); ?></b>:
+                    <?php 
+                    if (empty($item->shipping_address_1)) 
+                    {
+                       echo JText::_( "Undefined Shipping Address" ); 
+                    }
+                       else
+                    {
+                        echo $item->shipping_address_1.", ";
+                        echo $item->shipping_address_2 ? $item->shipping_address_2.", " : "";
+                        echo $item->shipping_city.", ";
+                        echo $item->shipping_zone_name." ";
+                        echo $item->shipping_postal_code." ";
+                        echo $item->shipping_country_name;
+                    }
+                    ?>
+                    <?php 
+                    if (!empty($item->order_number))
+                    {
+                        echo "<br/><b>".JText::_( "Order Number" )."</b>: ".$item->order_number;
+                    }
+                    ?>
 				</td>
 								
 				<td style="text-align: center;">
@@ -71,9 +90,7 @@
     	    	</td>
     	    	
     	    <td style="text-align: center;">
-			     <textarea id="new_orderstate_comments" style="width: 90%;" rows="5" name="new_orderstate_comments[]" >
-			     
-			     </textarea>
+			     <textarea id="new_orderstate_comments" style="width: 90%;" rows="5" name="new_orderstate_comments[<?php echo $item->order_id; ?>]" ></textarea>
 			     
 			</td>				
 			</tr>

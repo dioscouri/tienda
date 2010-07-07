@@ -19,7 +19,7 @@
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal.ini</language>
 	</languages>
 
-	<params addpath="/administrator/components/com_tienda/elements">
+	<params addpath="/administrator/components/com_tienda/elements/">
 		<param name="merchant_email" type="text" size="50" default="" label="Paypal Email" description="Paypal Email Desc"/>
 		<param name="currency" type="text" size="10" default="USD" label="Paypal Currency" description="Paypal Currency Desc"/>
 		<param name="secure_post" type="radio" default="0" label="Paypal Secure Post" description="Paypal Secure Post Desc">

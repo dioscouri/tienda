@@ -18,20 +18,20 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
-$element = strtolower( 'com_Tienda' );
+$element = strtolower( 'com_tienda' );
 $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $display_null = $params->get( 'display_null', '1' );
-$null_text = $params->get( 'null_text', 'No Products Returned' );
+$null_text = $params->get( 'null_text', 'No Orders Returned' );
 
-// Grab the products
-$helper = new modMyOrderProductsHelper( $params ); 
-$products = $helper->getProducts();
-$num = count($products);
+// Grab the order
+$helper = new modTiendaMyOrdersHelper( $params ); 
+$orders = $helper->getOrders();
+$num = count($orders);
 
 $mainframe =& JFactory::getApplication();
 $document =& JFactory::getDocument();
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_my_orderProducts' ) );
+require( JModuleHelper::getLayoutPath( 'mod_tienda_my_orders' ) );

@@ -669,6 +669,28 @@ window.addEvent('domready', function(){
                 ?>            
             </table>
             </fieldset>
+            
+            <fieldset>
+            <legend><?php echo JText::_( "Publication Dates" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Publish Up' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Publish Down' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
             		
 		<?php
     		// fire plugin event here to enable extending the form

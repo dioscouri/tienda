@@ -1034,7 +1034,6 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function batchedit()
 	{
-
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 			
 		// select only the ids from cid
@@ -1052,8 +1051,6 @@ class TiendaControllerOrders extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'batchedit' );
 		$view->display();
-
-
 	}
 
 	/**

@@ -530,10 +530,14 @@ class TiendaControllerCheckout extends TiendaController
 		{
 		
 			// fail if no payment method selected
-			if (empty($submitted_values['_checked']['payment_plugin']) )
+			if (empty($submitted_values['_checked']['payment_plugin']) && !empty($submitted_values['order_total']) )
 			{
 				$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
 				$response['error'] = '1';
+			}
+			    elseif ( (float)$submitted_values['order_total'] == (float)'0.00' ) 
+			{
+			    $response['error'] = '0';
 			}
 			    else
 			{
@@ -1172,7 +1176,14 @@ class TiendaControllerCheckout extends TiendaController
         $view->set( 'hidemenu', false);
         $view->assign( 'order', $order );
         $view->assign( 'orderSummary', $html );
-
+        
+        $showPayment = true;
+        if ((float)$order->order_total == (float)'0.00')
+        {
+            $showPayment = false;   
+        }
+        $view->assign(' showPayment', $showPayment );
+        
         // get all the enabled payment plugins
         Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
         $plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
@@ -1343,6 +1354,7 @@ class TiendaControllerCheckout extends TiendaController
 			JError::raiseNotice( 'Error Updating the Shipping Address', $shippingAddress->getError() );
 			return false;
 		}
+		
 		if (!$billingAddress->save())
 		{ 
 			// Output error message and halt
@@ -1350,12 +1362,21 @@ class TiendaControllerCheckout extends TiendaController
 			return false;
 		}
 
+		$orderpayment_type = $values['payment_plugin'];
+		$transaction_status = JText::_( "Incomplete" );
+	    // in the case of orders with a value of 0.00, use custom values
+        if ( (float) $order->order_total == (float)'0.00' )
+        {
+            $orderpayment_type = 'free';
+            $transaction_status = JText::_( "Complete" );
+        }
+		
 		// Save an orderpayment with an Incomplete status
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->order_id = $order->order_id;
-		$orderpayment->orderpayment_type = $values['payment_plugin']; // this is the payment plugin selected
-		$orderpayment->transaction_status = JText::_( "Incomplete" ); // payment plugin updates this field onPostPayment
+		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
+		$orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
 		$orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
 		if (!$orderpayment->save())
 		{
@@ -1384,6 +1405,13 @@ class TiendaControllerCheckout extends TiendaController
 		// with a button that submits a form to the method that fires the onPostPayment plugin event ("confirm order")
 		// target: index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
 		// onPostPayment, payment plugin to update order status with payment status
+		
+		// in the case of orders with a value of 0.00, we redirect to the confirmPayment page
+		if ( (float) $order->order_total == (float)'0.00' )
+		{
+		    JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
+		    return;
+		}
 
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
@@ -1455,20 +1483,42 @@ class TiendaControllerCheckout extends TiendaController
 		// Get post values
 		$values = JRequest::get('post');
 
-		$dispatcher =& JDispatcher::getInstance();
-		$results = $dispatcher->trigger( "onPostPayment", array( $orderpayment_type, $values ) );
-
-		// Display whatever comes back from Payment Plugin for the onPrePayment
-		$html = "";
-		for ($i=0; $i<count($results); $i++)
-		{
-			$html .= $results[$i];
-		}
-
-		// get the order_id from the session set by the prePayment
-		$mainframe =& JFactory::getApplication();
-		$order_id = $mainframe->getUserState( 'tienda.order_id' );
-		$order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
+        // get the order_id from the session set by the prePayment
+        $mainframe =& JFactory::getApplication();
+        $order_id = $mainframe->getUserState( 'tienda.order_id' );
+        $order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
+        
+        $dispatcher =& JDispatcher::getInstance();
+        $html = "";
+        $order =& $this->_order;
+        $order->load( array('order_id'=>$order_id) );
+	    if ( (float) $order->order_total == (float)'0.00' )
+        {
+            $order->order_state_id = '17'; // PAYMENT RECEIVED
+            $order->save();
+            
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $order_model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $order_model->setId( $order_id );
+            $order_model_item = $order_model->getItem();
+            $helper->sendEmailNotices($order_model_item, 'new_order');
+            
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' ); 
+            TiendaHelperOrder::setOrderPaymentReceived( $order_id );
+        }
+            else
+        {
+            // get the payment results from the payment plugin
+            $results = $dispatcher->trigger( "onPostPayment", array( $orderpayment_type, $values ) );
+    
+            // Display whatever comes back from Payment Plugin for the onPrePayment
+            for ($i=0; $i<count($results); $i++)
+            {
+                $html .= $results[$i];
+            }            
+        }
 
 		$progress = $this->getProgress();
 

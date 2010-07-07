@@ -24,14 +24,14 @@ $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $display_null = $params->get( 'display_null', '1' );
-$null_text = $params->get( 'null_text', 'No Orders Returned' );
+$null_text = $params->get( 'null_text', 'No Products Returned' );
 
-// Grab the order
-$helper = new modMyOrderHelper( $params ); 
-$orders = $helper->getOrders();
-$num = count($orders);
+// Grab the products
+$helper = new modTiendaMyOrderItemsHelper( $params ); 
+$products = $helper->getProducts();
+$num = count($products);
 
 $mainframe =& JFactory::getApplication();
 $document =& JFactory::getDocument();
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_my_order' ) );
+require( JModuleHelper::getLayoutPath( 'mod_tienda_my_orderitems' ) );

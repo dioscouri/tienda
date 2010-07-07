@@ -36,7 +36,7 @@ class TiendaControllerProducts extends TiendaController
 		$ns = $this->getNamespace();
 
 		$date = JFactory::getDate();
-		$state['filter_published']  = 1;
+		$state['filter_published'] = 1;
 		$state['filter_published_date'] = $date->toMySQL();
 		$state['filter_enabled']  = 1;
 		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
@@ -301,22 +301,28 @@ class TiendaControllerProducts extends TiendaController
         $view->assign('validation', "index.php?option=com_tienda&view=products&view=products&task=validate&format=raw" );
         
         $config = TiendaConfig::getInstance();
-        $show_tax = $config->get('display_prices_with_shipping', 1);
+        $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'tax', 0 );
         $view->assign( 'shipping_cost_link', '' );
         
         if ($show_tax)
         {
-            $article_link = $config->get('article_shipping', '');
-            $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
-            $view->assign( 'shipping_cost_link', $shipping_cost_link );
-            
+            // TODO finish TiendaHelperUser::getGeoZone -- that's why this isn't working
             Tienda::load('TiendaHelperUser', 'helpers.user');
             $geozone = TiendaHelperUser::getGeoZone( JFactory::getUser()->id );
             $tax = TiendaHelperProduct::getTaxRate($product_id, $geozone);
             $tax = TiendaHelperBase::number($tax, array('num_decimals', 2));
             $view->assign( 'tax', $tax );
+        }
+        
+        // TODO What about this??
+        $show_shipping = $config->get('display_prices_with_shipping');
+        if ($show_shipping)
+        {
+            $article_link = $config->get('article_shipping', '');
+            $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
+            $view->assign( 'shipping_cost_link', $shipping_cost_link );
         }
         
         $invalidQuantity = '0';

@@ -155,6 +155,7 @@ class TiendaModelProducts extends TiendaModelBase
                   break;
             }
         }
+        
         if (strlen($filter_date_to))
         {
             switch ($filter_datetype)
@@ -168,14 +169,16 @@ class TiendaModelProducts extends TiendaModelBase
                   break;
             }
         }
+        
 		if (strlen($filter_manufacturer))
 		{
 			$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
 		}
+		
         if (strlen($filter_published))
         {
         	// TODO Add this after updating the products form to add publish/unpublish date fields
-        	//$query->where("(tbl.publish_date <= '".$filter_published_date."' AND (tbl.unpublish_date > '".$filter_published_date."' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
+        	$query->where("(tbl.publish_date <= '".$filter_published_date."' AND (tbl.unpublish_date > '".$filter_published_date."' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
         }
         
     }
@@ -253,9 +256,5 @@ class TiendaModelProducts extends TiendaModelBase
 		}
 		return $list;
 	}
-	
-	
 
-	
-	
 }

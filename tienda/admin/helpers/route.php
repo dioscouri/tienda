@@ -194,6 +194,11 @@ class TiendaHelperRoute extends TiendaHelperBase
         {
             $link .= '&Itemid=' . $itemid;
         }
+            elseif($category_id)
+        {
+            $itemid = self::category($category_id, true);
+            $link .= '&Itemid=' . $itemid;
+        }
 
         return $link;
     }

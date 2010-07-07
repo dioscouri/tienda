@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.model' );
 
-class modMyOrderProductsHelper extends JObject
+class modTiendaMyOrdersHelper extends JObject
 {
     /**
      * Sets the modules params as a property of the object
@@ -31,7 +31,7 @@ class modMyOrderProductsHelper extends JObject
      * @param $parameters
      * @return unknown_type
      */
-    function getProducts()
+    function getOrders()
     {
         // Check the registry to see if our Tienda class has been overridden
         if ( !class_exists('Tienda') ) 
@@ -41,17 +41,16 @@ class modMyOrderProductsHelper extends JObject
         Tienda::load( 'TiendaConfig', 'defines' );
                 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-    	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model
-    	$model = JModel::getInstance( 'products', 'TiendaModel' );
+    	$model = JModel::getInstance( 'orders', 'TiendaModel' );
         $model->setState( 'limit', $this->params->get( 'max_number', '5') );  
     	$user = JFactory::getUser();
-        $product_id_query="SELECT distinct(product_id) FROM `jos_tienda_orderitems` where order_id IN(SELECT order_id from jos_tienda_orders where user_id=".$user->id.")
-        ";
-        $model->setState( 'filter_id_set', $product_id_query); 
-    	$products = $model->getList();
-    	return $products;
+        
+    	$model->setState( 'filter_userid', $user->id); 
+    	$orders = $model->getList();
+    	return $orders;
     }
 }
 ?>

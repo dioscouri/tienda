@@ -20,6 +20,7 @@ class TiendaModelOrderItems extends TiendaModelBase
     {
        	$filter     	= $this->getState('filter');
        	$filter_orderid	= $this->getState('filter_orderid');
+       	$filter_userid  = $this->getState('filter_userid');
         $filter_date_from   = $this->getState('filter_date_from');
         $filter_date_to     = $this->getState('filter_date_to');
         $filter_datetype    = $this->getState('filter_datetype');
@@ -70,6 +71,11 @@ class TiendaModelOrderItems extends TiendaModelBase
                     $query->where("o.created_date <= '".$filter_date_to."'");
                   break;
             }
+        }
+        
+        if (strlen($filter_userid))
+        {
+            $query->where('o.user_id = '.$this->_db->Quote($filter_userid));
         }
     }
 

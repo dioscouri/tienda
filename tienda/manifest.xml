@@ -75,6 +75,8 @@
 		<module module="mod_tienda_cart" client="site" position="left" />
 		<module module="mod_tienda_categories" client="site" position="left" />
         <module module="mod_tienda_currency" client="site" position="left" />
+        <module module="mod_tienda_my_orderitems" client="site" position="left" />
+        <module module="mod_tienda_my_orders" client="site" position="left" />
         <module module="mod_tienda_products" client="site" position="left" />
         <module module="mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
         <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
