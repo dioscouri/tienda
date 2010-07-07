@@ -18,6 +18,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
+		<label for="email">
+			<?php echo JText::_( 'email' ); ?>:
+		</label>
+	</td>
+	<td>
+		<input class="inputbox required validate-email" type="text" id="email" name="email" value="<?php echo $this->escape($this->user->get('email'));?>" size="40" />
+	</td>
+</tr>
+<tr>
+	<td>
 		<label for="username">
 			<?php echo JText::_( 'User Name' ); ?>:
 		</label>
@@ -34,16 +44,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<td>
 		<input class="inputbox required" type="text" id="name" name="name" value="<?php echo $this->escape($this->user->get('name'));?>" size="40" />
-	</td>
-</tr>
-<tr>
-	<td>
-		<label for="email">
-			<?php echo JText::_( 'email' ); ?>:
-		</label>
-	</td>
-	<td>
-		<input class="inputbox required validate-email" type="text" id="email" name="email" value="<?php echo $this->escape($this->user->get('email'));?>" size="40" />
 	</td>
 </tr>
 <?php if($this->user->get('password')) : ?>

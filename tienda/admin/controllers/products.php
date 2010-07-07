@@ -43,18 +43,18 @@ class TiendaControllerProducts extends TiendaController
 		$model = $this->getModel( $this->get('suffix') );
     	$ns = $this->getNamespace();
 
-    	$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
-    	$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
-    	$state['filter_name'] 		= $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
-    	$state['filter_quantity_from'] 	= $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
-    	$state['filter_quantity_to'] 		= $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', '');
-    	$state['filter_category'] 		= $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
-    	$state['filter_sku'] 		= $app->getUserStateFromRequest($ns.'sku', 'filter_sku', '', '');
-    	$state['filter_price_from'] 	= $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '', '');
-    	$state['filter_price_to'] 		= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
-    	$state['filter_taxclass']   = $app->getUserStateFromRequest($ns.'taxclass', 'filter_taxclass', '', '');
-    	$state['filter_ships']   = $app->getUserStateFromRequest($ns.'ships', 'filter_ships', '', '');
+    	$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
+    	$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');
+    	$state['filter_name'] 		= $app->getUserStateFromRequest($ns.'name', 'filter_name', '', 'string');
+		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', 'int');
+    	$state['filter_quantity_from'] 	= $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', 'int');
+    	$state['filter_quantity_to'] 		= $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', 'int');
+    	$state['filter_category'] 		= $app->getUserStateFromRequest($ns.'category', 'filter_category', '', 'string');
+    	$state['filter_sku'] 		= $app->getUserStateFromRequest($ns.'sku', 'filter_sku', '', 'string');
+    	$state['filter_price_from'] 	= $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '', 'float');
+    	$state['filter_price_to'] 		= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', 'float');
+    	$state['filter_taxclass']   = $app->getUserStateFromRequest($ns.'taxclass', 'filter_taxclass', '', 'string');
+    	$state['filter_ships']   = $app->getUserStateFromRequest($ns.'ships', 'filter_ships', '', 'string');
     	
     	foreach (@$state as $key=>$value)
 		{

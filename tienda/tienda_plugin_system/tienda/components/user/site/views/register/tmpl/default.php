@@ -22,6 +22,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 <tr>
+    <td height="40">
+        <label id="emailmsg" for="email">
+            <?php echo JText::_( 'Email' ); ?>:
+        </label>
+    </td>
+    <td>
+        <input type="text" id="email" name="email" size="40" value="<?php echo $this->escape($this->user->get( 'email' ));?>" class="inputbox required validate-email" maxlength="100" /> *
+    </td>
+</tr>
+<tr>
     <td width="30%" height="40">
         <label id="namemsg" for="name">
             <?php echo JText::_( 'Name' ); ?>:
@@ -39,16 +49,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
     </td>
     <td>
         <input type="text" id="username" name="username" size="40" value="<?php echo $this->escape($this->user->get( 'username' ));?>" class="inputbox required validate-username" maxlength="25" /> *
-    </td>
-</tr>
-<tr>
-    <td height="40">
-        <label id="emailmsg" for="email">
-            <?php echo JText::_( 'Email' ); ?>:
-        </label>
-    </td>
-    <td>
-        <input type="text" id="email" name="email" size="40" value="<?php echo $this->escape($this->user->get( 'email' ));?>" class="inputbox required validate-email" maxlength="100" /> *
     </td>
 </tr>
 <tr>
@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
     <td colspan="2" height="40">
-        <?php echo JText::_( 'REGISTER_REQUIRED' ); ?>
+        <?php echo JText::_( 'REGISTER_REQUIRED sdfsdfsdfdsf' ); ?>
     </td>
 </tr>
 </table>

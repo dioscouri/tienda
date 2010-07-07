@@ -35,11 +35,11 @@ class TiendaControllerUsers extends TiendaController
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
 
-        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
-        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
-        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-        $state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', '');
-        $state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', '');
+        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
+        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');
+        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', 'string');
+        $state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', 'string');
+        $state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', 'string');
         
         foreach (@$state as $key=>$value)
         {

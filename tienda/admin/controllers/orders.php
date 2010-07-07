@@ -53,15 +53,15 @@ class TiendaControllerOrders extends TiendaController
 
 		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.created_date', 'cmd');
 		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'DESC', 'word');
-		$state['filter_orderstate'] 	= $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', '');
-		$state['filter_user'] 	      = $app->getUserStateFromRequest($ns.'user', 'filter_user', '', '');
-		$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
-		$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
+		$state['filter_orderstate'] 	= $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', 'stirng');
+		$state['filter_user'] 	      = $app->getUserStateFromRequest($ns.'user', 'filter_user', '', 'string');
+		$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
+		$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');
 		$state['filter_date_from'] = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
 		$state['filter_date_to'] = $app->getUserStateFromRequest($ns.'date_to', 'filter_date_to', '', '');
 		$state['filter_datetype']   = $app->getUserStateFromRequest($ns.'datetype', 'filter_datetype', '', '');
-		$state['filter_total_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_total_from', '', '');
-		$state['filter_total_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_total_to', '', '');
+		$state['filter_total_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_total_from', '', 'float');
+		$state['filter_total_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_total_to', '', 'float');
 
 		foreach (@$state as $key=>$value)
 		{
