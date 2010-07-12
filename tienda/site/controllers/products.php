@@ -107,8 +107,11 @@ class TiendaControllerProducts extends TiendaController
         $pathway =& $app->getPathway();
         $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
         $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
-        // add the categories to the pathway
-        Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        if (!empty($items))
+        {
+            // add the categories to the pathway
+            Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        }
         // add the item being viewed to the pathway
         $pathway_values = $pathway->getPathway();
 	    $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
@@ -211,8 +214,11 @@ class TiendaControllerProducts extends TiendaController
         $pathway =& $app->getPathway();
         $category_itemid = JRequest::getInt('Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
         $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
-        // add the categories to the pathway
-        Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        if (!empty($items))
+        {
+            // add the categories to the pathway
+            Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+        }
         // add the item being viewed to the pathway
         $pathway->addItem( $row->product_name );
 
