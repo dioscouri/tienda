@@ -335,10 +335,21 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $errors[] = JText::_('PAYPAL MESSAGE RECEIVER INVALID');
         }
         
+        if (empty($data['custom']))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        
         // load the orderpayment record and set some values
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
+        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
         $orderpayment->transaction_details  = $data['transaction_details'];
         $orderpayment->transaction_id       = $data['txn_id'];
         $orderpayment->transaction_status   = $data['payment_status'];

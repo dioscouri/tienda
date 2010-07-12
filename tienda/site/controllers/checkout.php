@@ -36,7 +36,8 @@ class TiendaControllerCheckout extends TiendaController
 	    // get the items and add them to the order
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         $items = TiendaHelperCarts::getProductsInfo();
-        if (empty($items))
+        $task = JRequest::getVar('task');
+        if (empty($items) && $task != 'confirmPayment' )
         {
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
             return;
@@ -1485,14 +1486,14 @@ class TiendaControllerCheckout extends TiendaController
 
         // get the order_id from the session set by the prePayment
         $mainframe =& JFactory::getApplication();
-        $order_id = $mainframe->getUserState( 'tienda.order_id' );
+        $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
         $order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
         
         $dispatcher =& JDispatcher::getInstance();
         $html = "";
         $order =& $this->_order;
         $order->load( array('order_id'=>$order_id) );
-	    if ( (float) $order->order_total == (float)'0.00' )
+	    if ( (!empty($order_id)) && (float) $order->order_total == (float)'0.00' )
         {
             $order->order_state_id = '17'; // PAYMENT RECEIVED
             $order->save();
@@ -1520,32 +1521,35 @@ class TiendaControllerCheckout extends TiendaController
             }            
         }
 
-		$progress = $this->getProgress();
-
-		// Set display
-		$view = $this->getView( 'checkout', 'html' );
-		$view->setLayout('postpayment');
-		$view->set( '_doTask', true);
-		$view->assign('order_link', $order_link );
-		$view->assign('progress', $progress );
-		$view->assign('plugin_html', $html);
-			
-		// Get and Set Model
-		$model = $this->getModel('checkout');
-		$view->setModel( $model, true );
-		
-        ob_start();
-        $dispatcher->trigger( 'onBeforeDisplayPostPayment', array( $order_id ) );
-        $view->assign( 'onBeforeDisplayPostPayment', ob_get_contents() );
-        ob_end_clean();
-        
-        ob_start();
-        $dispatcher->trigger( 'onAfterDisplayPostPayment', array( $order_id ) );
-        $view->assign( 'onAfterDisplayPostPayment', ob_get_contents() );
-        ob_end_clean();
-        
-		$view->display();
-
+        // $order_id would be empty on posts back from Paypal, for example
+        if (!empty($order_id))
+        {
+            $progress = $this->getProgress();
+    
+            // Set display
+            $view = $this->getView( 'checkout', 'html' );
+            $view->setLayout('postpayment');
+            $view->set( '_doTask', true);
+            $view->assign('order_link', $order_link );
+            $view->assign('progress', $progress );
+            $view->assign('plugin_html', $html);
+                
+            // Get and Set Model
+            $model = $this->getModel('checkout');
+            $view->setModel( $model, true );
+            
+            ob_start();
+            $dispatcher->trigger( 'onBeforeDisplayPostPayment', array( $order_id ) );
+            $view->assign( 'onBeforeDisplayPostPayment', ob_get_contents() );
+            ob_end_clean();
+            
+            ob_start();
+            $dispatcher->trigger( 'onAfterDisplayPostPayment', array( $order_id ) );
+            $view->assign( 'onAfterDisplayPostPayment', ob_get_contents() );
+            ob_end_clean();
+            
+            $view->display();            
+        }
 		return;
 	}
 

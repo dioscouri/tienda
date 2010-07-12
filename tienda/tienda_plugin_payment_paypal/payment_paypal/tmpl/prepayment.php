@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php echo JText::_( "Tienda Paypal Payment Stadard Preparation Message" ); ?>
+<?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
 
 <form action='<?php echo $vars->post_url; ?>' method='post'>
 
