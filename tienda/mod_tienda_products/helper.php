@@ -44,10 +44,12 @@ class modTiendaProductsHelper extends JObject
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model
-    	$model = JModel::getInstance( 'products', 'TiendaModel' );
+    	$model = JModel::getInstance( 'Products', 'TiendaModel' );
     	
     	// setting the model's state tells it what items to return
     	$model->setState('filter_published', '1');
+    	$date =& JFactory::getDate();
+    	$model->setState('filter_published_date', $date->toMysql() );
     	$model->setState('filter_enabled', '1');
 		
 		// Set category state
@@ -60,7 +62,13 @@ class modTiendaProductsHelper extends JObject
 
 		// Set id set state
 		if ($this->params->get('id_set', '') != '')
-				$model->setState('filter_id_set', $this->params->get('id_set', ''));
+		{
+		    $params_id_set = $this->params->get('id_set');
+		    $id_array = explode(',', $params_id_set);
+		    $id_set = "'".implode("', '", $id_array)."'";
+		    $model->setState('filter_id_set', $id_set);
+		}
+				
     	// set the states based on the parameters
     	$model->setState('limit', $this->params->get( 'max_number', '10' ));
     	if($this->params->get( 'price_from', '-1' ) != '-1')
@@ -73,8 +81,22 @@ class modTiendaProductsHelper extends JObject
     	}
     		
         // using the set filters, get a list of products 
-      
-    	$products = $model->getList();
+    	if ($products = $model->getList())
+    	{
+    	    foreach ($products as $product)
+    	    {
+    	        $product->filter_category = '';
+    	        $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product->product_id );
+                if (!empty($categories))
+                {
+                    $product->link .= "&filter_category=".$categories[0];
+                    $product->filter_category = $categories[0];
+                }
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $product->filter_category, true );
+                $product->itemid = $itemid;
+    	    }
+    	}
+    	
     	return $products;
     }
 }

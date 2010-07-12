@@ -35,7 +35,7 @@ if ($num > 0 && @$products)
 		
 		<?php if ($params->get('display_image','1') != '0') : ?>
 			<?php if ($params->get('display_image_link','1') != '0') : ?>
-				<p class="product_image"><a href="<?php echo JRoute::_( $product->link ); ?>">
+				<p class="product_image"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>">
 				<?php echo TiendaHelperProduct::getImage($product->product_id, 'id', $product->product_name, 'thumb', false, $resize, $options); ?>
 				</a></p>
 			<?php else : ?>

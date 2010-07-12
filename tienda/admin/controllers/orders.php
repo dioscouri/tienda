@@ -53,7 +53,7 @@ class TiendaControllerOrders extends TiendaController
 
 		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.created_date', 'cmd');
 		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'DESC', 'word');
-		$state['filter_orderstate'] 	= $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', 'stirng');
+		$state['filter_orderstate'] 	= $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', 'string');
 		$state['filter_user'] 	      = $app->getUserStateFromRequest($ns.'user', 'filter_user', '', 'string');
 		$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
 		$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');

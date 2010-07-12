@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 class Tienda extends JObject
 {
     static $_version 		= '0.5.0';
+    static $_build          = 'r362';
     static $_versiontype    = 'community';
     static $_copyrightyear 	= '2010';
     static $_name 			= 'tienda';
@@ -23,7 +24,7 @@ class Tienda extends JObject
      */
     public static function getVersion()
     {
-        $version = self::$_version." ".JText::_( ucfirst(self::$_versiontype) );
+        $version = self::$_version." ".JText::_( ucfirst(self::$_versiontype) )." ".self::$_build;
         return $version;
     }
 

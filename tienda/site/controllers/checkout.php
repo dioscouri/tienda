@@ -1182,7 +1182,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             $showPayment = false;   
         }
-        $view->assign(' showPayment', $showPayment );
+        $view->assign( 'showPayment', $showPayment );
         
         // get all the enabled payment plugins
         Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );

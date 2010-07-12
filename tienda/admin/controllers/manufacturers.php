@@ -40,7 +40,7 @@ class TiendaControllerManufacturers extends TiendaController
     	$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
     	$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');
     	$state['filter_name'] 		= $app->getUserStateFromRequest($ns.'name', 'filter_name', '', 'string');
-		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', 'string');
+		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', 'int');
     			
     	foreach (@$state as $key=>$value)
 		{
