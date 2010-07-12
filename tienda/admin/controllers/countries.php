@@ -37,11 +37,11 @@ class TiendaControllerCountries extends TiendaController
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
 
-        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', 'int');
-        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', 'int');
-        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', 'string');
-        $state['filter_code2']         = $app->getUserStateFromRequest($ns.'code2', 'filter_code2', '', 'string');
-        $state['filter_code3']         = $app->getUserStateFromRequest($ns.'code3', 'filter_code3', '', 'string');
+        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
+        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
+        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_code2']         = $app->getUserStateFromRequest($ns.'code2', 'filter_code2', '', '');
+        $state['filter_code3']         = $app->getUserStateFromRequest($ns.'code3', 'filter_code3', '', '');
         
         foreach (@$state as $key=>$value)
         {
