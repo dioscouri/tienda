@@ -49,12 +49,12 @@ class TiendaHelperUser extends TiendaHelperBase
                 $model->setState('filter_isdefaultbilling', '1');
                 break;
         }
-        $model->setState('filter_userid', $userid);
+        $model->setState('filter_userid', (int) $userid);
         $items = $model->getList();
         if (empty($items))
         {
             $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
-            $model->setState('filter_userid', $userid);
+            $model->setState('filter_userid', (int) $userid);
             $items = $model->getList();
         }
         
@@ -71,12 +71,18 @@ class TiendaHelperUser extends TiendaHelperBase
      * @param unknown_type $userid
      * @return unknown_type
      */
-    function getGeoZone( $userid )
+    function getGeoZones( $userid )
     {
-        // TODO Finish this
-        // first, attempt by their default shipping zone
-        // if not, then by their last order shipping zone
-        // if not, then attempt to get their geozone using geoIP location tools
+        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+        
+        $address = TiendaHelperUser::getPrimaryAddress( $userid, 'billing' );
+        if (empty($address->zone_id))
+        {
+            return array();
+        }
+        
+        $geozones = TiendaHelperShipping::getGeoZones( $address->zone_id, '1' );
+        return $geozones;
     }
     
     /**

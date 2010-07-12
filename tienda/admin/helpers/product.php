@@ -717,6 +717,47 @@ class TiendaHelperProduct extends TiendaHelperBase
     }
     
     /**
+     * 
+     * Gets the tax total for a product based on an array of geozones
+     * @param $product_id
+     * @param $geozones
+     * @return object
+     */
+    public function getTaxTotal( $product_id, $geozones )
+    {
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model  = JModel::getInstance( 'Products', 'TiendaModel' );
+        $model->setId( $product_id );
+        $row = $model->getItem();
+        
+        $orderitem_tax = 0;
+        $tax_rates = array();
+        $tax_amounts = array();
+        
+        // For each item in $this->getBillingGeoZone, calculate the tax total
+        // and update the item's tax value
+        foreach ($geozones as $geozone)
+        {
+            $geozone_id = $geozone->geozone_id;
+            $taxrate = TiendaHelperProduct::getTaxRate($product_id, $geozone_id, true );
+            $product_tax_rate = $taxrate->tax_rate;
+            
+            // track the total tax for this item
+            $orderitem_tax += ($product_tax_rate/100) * $row->price;
+            
+            $tax_rates[$taxrate->tax_rate_id] = $taxrate; 
+            $tax_amounts[$taxrate->tax_rate_id] = ($product_tax_rate/100) * $row->price;; 
+        }
+        
+        $return = new JObject();
+        $return->tax_rates = $tax_rates;
+        $return->tax_amounts = $tax_amounts;
+        $return->tax_total = $orderitem_tax;
+         
+        return $return;
+    }
+    
+    /**
      * Returns the tax rate for an item
      *  
      * @param int $product_id

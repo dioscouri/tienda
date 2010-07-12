@@ -304,15 +304,17 @@ class TiendaControllerProducts extends TiendaController
         $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'tax', 0 );
+        $view->assign( 'taxtotal', '' );
         $view->assign( 'shipping_cost_link', '' );
         
         if ($show_tax)
         {
             // TODO finish TiendaHelperUser::getGeoZone -- that's why this isn't working
             Tienda::load('TiendaHelperUser', 'helpers.user');
-            $geozone = TiendaHelperUser::getGeoZone( JFactory::getUser()->id );
-            $tax = TiendaHelperProduct::getTaxRate($product_id, $geozone);
-            $tax = TiendaHelperBase::number($tax, array('num_decimals', 2));
+            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+            $taxtotal = TiendaHelperProduct::getTaxTotal($product_id, $geozones);
+            $tax = $taxtotal->tax_total;
+            $view->assign( 'taxtotal', $taxtotal );
             $view->assign( 'tax', $tax );
         }
         

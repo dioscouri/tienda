@@ -20,7 +20,13 @@ $values = @$this->values;
         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
         if ($this->show_tax)
         {
-            echo sprintf( JText::_('INCLUDE_TAX'), $this->tax);
+            if (!empty($this->tax))
+            {
+                echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($this->tax));
+            }
+        }
+        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
+        {
             echo '<br /><a href="'.$this->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $this->shipping_cost_link).'</a>' ;
         }
         ?>

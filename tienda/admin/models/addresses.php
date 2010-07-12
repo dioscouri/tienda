@@ -46,7 +46,7 @@ class TiendaModelAddresses extends TiendaModelBase
 		if ($filter_addressid){
 			$query->where('tbl.address_id = '.$this->_db->Quote($filter_addressid));
 		}
-       	if ($filter_userid)
+       	if (strlen($filter_userid))
        	{
         	$query->where('tbl.user_id = '.$this->_db->Quote($filter_userid));
        	}    
