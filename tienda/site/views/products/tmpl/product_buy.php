@@ -24,6 +24,10 @@ $values = @$this->values;
             {
                 echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($this->tax));
             }
+                else
+            {
+                echo JText::_('PLUS_TAX');
+            }
         }
         if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
         {

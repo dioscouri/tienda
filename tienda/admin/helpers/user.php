@@ -68,7 +68,7 @@ class TiendaHelperUser extends TiendaHelperBase
     
     /**
      * Gets a user's geozone
-     * @param unknown_type $userid
+     * @param int $userid
      * @return unknown_type
      */
     function getGeoZones( $userid )
