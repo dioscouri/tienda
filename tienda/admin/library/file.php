@@ -107,12 +107,6 @@ class TiendaFile extends JObject
 		}
 		
 		$this->size = $userfile['size']/1024;		
-		// check size of upload against max set in config
-		if($this->size > $config->get( 'files_maxsize', '3000' ) ) 
-		{
-			$this->setError( JText::_( 'Invalid File Size' ) );
-			return $success;
-	    }
 	    $this->size = number_format( $this->size, 2 ).' Kb';
 		
 		if (!is_uploaded_file($userfile['tmp_name'])) 
@@ -287,7 +281,10 @@ class TiendaFile extends JObject
         // If requested file exists
         if (JFile::exists($file->productfile_path)) {
         
-            while (@ob_end_clean());
+            if (intval( ini_get('output_buffering')) > '1' )
+            {
+                while (ob_end_clean());                
+            }
             
             // Fix IE bugs
             if (isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
@@ -301,7 +298,7 @@ class TiendaFile extends JObject
                 $header_file = $file->productfile_name;
             }
             
-                    // Prepare headers
+            // Prepare headers
             header("Pragma: public");
             header("Expires: 0");
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -328,14 +325,24 @@ class TiendaFile extends JObject
             }
                 else
             {
-                // Output file by chunks
+                //Output file by chunks
                 $chunk = 1 * (1024 * 1024);
-                $this->readfileChunked($file->productfile_path, $chunk);
+                $total = filesize($file->productfile_path);
+                $sent = 0;
+                while ($sent < $total)
+                {
+                    echo file_get_contents($file->productfile_path, false, null, $sent, $chunk );
+                    $sent += $chunk;
+                    @ob_flush();
+                    @flush();
+                }
+                // fread doesn't seem to be working, using file_get_contents instead
+                //$this->readfileChunked($file->productfile_path, $chunk);
                 exit;
             }
             
             $success = true;            
-            
+            exit;
         }
         
         return $success;        
@@ -362,10 +369,15 @@ class TiendaFile extends JObject
         
         while (!feof($handle)) 
         {
-            $buffer = fread($handle, $chunksize);
-            echo $buffer;
-            @ob_flush();
-            flush();
+            if (($buffer = fread($handle, $chunksize)) === '' )
+            {
+                echo $buffer;
+                if (intval( ini_get('output_buffering')) > '1' )
+                {
+                    ob_flush(); 
+                    flush(); 
+                }
+            }
             if ($retbytes) {
                 $cnt += strlen($buffer);
             }
@@ -374,8 +386,8 @@ class TiendaFile extends JObject
        $status = fclose($handle);
        if ($retbytes && $status) {
             return $cnt; // return num. bytes delivered like readfile() does.
-        }
-        return $status;
+       }
+       return $status;
     }
 
 	/**
