@@ -61,11 +61,11 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $model->setState( 'filter_enabled', '1' );
         $model->setState( 'filter_subtotal', $order->order_subtotal );
         $methods = $model->getList();
-        
+
         $rates = array();
         foreach( $methods as $method )
         {
-        	$rates[] = $this->getTotal($method->shipping_method_id, $order->getShippingGeoZone(), $order->getItems() );
+        	$rates[] = $this->getTotal($method->shipping_method_id, $order->getShippingGeoZones(), $order->getItems() );
         }
         
         $i = 0;
@@ -120,14 +120,23 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         return $html;
     }   
     
-    
-	protected function getTotal( $shipping_method_id, $geozone_id, $orderItems )
+    /**
+     * 
+     * Returns an object with the total cost of shipping for this method and the array of geozones
+     * 
+     * @param unknown_type $shipping_method_id
+     * @param array $geozones
+     * @param unknown_type $orderItems
+     */
+	protected function getTotal( $shipping_method_id, $geozones, $orderItems )
 	{
         $return = new JObject();
         $return->shipping_rate_price      = '0.00000';
         $return->shipping_rate_handling   = '0.00000';
         $return->shipping_tax_rate        = '0.00000';
         $return->shipping_tax_total       = '0.00000';
+        
+        $geozone_rates = array();
 	    
         // cast product_id as an array
         $orderItems = (array) $orderItems;
@@ -164,7 +173,18 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				}
 				if ($order_ships)
 				{
-	                $return = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+				    foreach ($geozones as $geozone)
+				    {
+				        $geozone_id = $geozone->geozone_id;
+				        if (empty($geozone_rates[$geozone_id]) || !is_array($geozone_rates[$geozone_id]))
+                        {
+                            $geozone_rates[$geozone_id] = array();
+                        }
+				        $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+				        $geozone_rates[$geozone_id]['0']->qty = '1';  
+				        $geozone_rates[$geozone_id]['0']->shipping_method_type = $shippingmethod->shipping_method_type;   
+				    }
+				    // todo calc & prepare the return object 
 				}
                 break;
             case "1":
@@ -174,14 +194,24 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             	$rates = array();
                 foreach ($orderItems as $item)
                 {
-                      
-		
                 	$pid = $item->product_id;
                     $qty = $item->orderitem_quantity;
-                    $rates[$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
-                    $return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
-                    $return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
-                
+                    foreach ($geozones as $geozone)
+                    {
+                        $geozone_id = $geozone->geozone_id;
+                        if (empty($geozone_rates[$geozone_id]) || !is_array($geozone_rates[$geozone_id]))
+                        {
+                            $geozone_rates[$geozone_id] = array();
+                        }
+                        // $geozone_rates[$geozone_id][$pid] contains the shipping rate object for ONE product_id at this geozone.  
+                        // You need to multiply by the quantity later
+                        $geozone_rates[$geozone_id][$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+                        $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
+                        $geozone_rates[$geozone_id][$pid]->qty = $qty;
+                    }
+//                    $rates[$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+//                    $return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
+//                    $return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
             	}
                 break;
             default:
@@ -190,13 +220,37 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 	            return $return;
                 break;
 		}
-
-        // get the shipping tax rate and total
-        $return->shipping_tax_rate    = $this->getTaxRate( $shipping_method_id, $geozone_id );
-        $return->shipping_tax_total   = ($return->shipping_tax_rate/100) * ($return->shipping_rate_price + $return->shipping_rate_handling);
-        $return->shipping_method_id   = $shipping_method_id;
-        $return->shipping_method_name = $shippingmethod->shipping_method_name;
+		
+		$shipping_tax_rates = array();
+        $shipping_method_price = 0;
+        $shipping_method_handling = 0;
+        $shipping_method_tax_total = 0;
         
+		// now calc for the entire method
+		foreach ($geozone_rates as $geozone_id=>$geozone_rate_array)
+		{
+		    foreach ($geozone_rate_array as $geozone_rate)
+		    {
+                $shipping_tax_rates[$geozone_id] = $this->getTaxRate( $shipping_method_id, $geozone_id );
+                $shipping_method_price += ($geozone_rate->shipping_rate_price * $geozone_rate->qty);
+                $shipping_method_handling += $geozone_rate->shipping_rate_handling;
+                $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($geozone_rate->shipping_rate_price + $geozone_rate->shipping_rate_handling); 
+		    }
+		}
+
+		// here is where a global handling rate would be added
+		if ($global_handling = TiendaConfig::getInstance()->get( 'global_handling' ))
+		{
+		    $shipping_method_handling += $global_handling; 
+		}
+        // return formatted object
+        $return->shipping_rate_price    = $shipping_method_price;
+		$return->shipping_rate_handling = $shipping_method_handling; 
+        $return->shipping_tax_rates     = $shipping_tax_rates;
+        $return->shipping_tax_total     = $shipping_method_tax_total;
+        $return->shipping_method_id     = $shipping_method_id;
+        $return->shipping_method_name   = $shippingmethod->shipping_method_name;
+	
 		return $return;
 	}
 	

@@ -279,9 +279,49 @@ class Tienda extends JObject
 	 * @since	1.5
 	 * @static
 	 */
-	public static function dump( &$var, $htmlSafe = true ) {
-		$result = print_r( $var, true );
-		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+	public static function dump( $var, $ignore_underscore = false, $htmlSafe = true ) 
+	{
+	    if (!$ignore_underscore)
+	    {
+            $result = print_r( $var, true );
+            return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+	    }
+	    
+	    if (!is_object($var) && !is_array($var))
+	    {
+            $result = print_r( $var, true );
+            return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+	    }
+	    
+	    // TODO do a recursive remove of underscored keys
+	    
+	    if (is_object($var))
+	    {
+	        $keys = get_object_vars($var);
+	        foreach ($keys as $key=>$value)
+	        {
+	            if (substr($key, 0, 1) == '_')
+	            {
+	                unset($var->$key);
+	            }
+	        }
+            $result = print_r( $var, true );
+            return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+	    }
+	    
+	    if (is_array($var))
+        {
+            foreach ($var as $key=>$value)
+            {
+                if (substr($key, 0, 1) == '_')
+                {
+                    unset($var[$key]);
+                }
+            }
+            $result = print_r( $var, true );
+            return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+        }
+
 	}
 }
 
@@ -372,6 +412,7 @@ class TiendaConfig extends JObject
     var $include_root_pathway               = '0';
     var $display_tienda_pathway             = '1';
     var $display_out_of_stock               = '1';
+    var $global_handling                    = '';
 	
 	/**
 	 * constructor

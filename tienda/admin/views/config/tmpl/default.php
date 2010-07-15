@@ -539,6 +539,17 @@
                                 <?php echo JText::_( 'Order Number Prefix Desc' ); ?>
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Global Handling Cost' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="global_handling" value="<?php echo $this->row->get('global_handling', ''); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Global Handling Cost Desc' ); ?>
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
 

@@ -167,6 +167,7 @@ class TiendaHelperShipping extends TiendaHelperBase
         $model->setState( 'filter_zone', $zone_id );
         $model->setState( 'filter_geozonetype', $geozonetype );
         $items = $model->getList();
+
         if (!empty($items))
         {
         	$return = $items;
