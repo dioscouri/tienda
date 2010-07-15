@@ -159,6 +159,47 @@ class TiendaControllerCategories extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 	
+    /**
+     * Deletes record(s) and redirects to default layout
+     */
+    function delete()
+    {
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
+        if (!isset($this->redirect)) {
+            $this->redirect = JRequest::getVar( 'return' )
+                ? base64_decode( JRequest::getVar( 'return' ) )
+                : 'index.php?option=com_tienda&view='.$this->get('suffix');
+            $this->redirect = JRoute::_( $this->redirect, false );
+        }
+
+        $model = $this->getModel($this->get('suffix'));
+
+        $cids = JRequest::getVar('cid', array (0), 'request', 'array');
+        foreach (@$cids as $cid)
+        {
+            $row = $model->getTable();
+            if (!$row->delete($cid))
+            {
+                $this->message .= $row->getError();
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
+
+        if ($error)
+        {
+            $this->message = JText::_('Error') . " - " . $this->message;
+        }
+            else
+        {
+            $this->message = JText::_('Items Deleted');
+        }
+
+        $this->setRedirect( $this->redirect, $this->message, $this->messagetype );
+    }
+	
 	/**
 	 * Adds a thumbnail image to item
 	 * @return unknown_type
