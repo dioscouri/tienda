@@ -299,11 +299,6 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
         </copy>
-		 
-		 <!-- JEVENT PRODUCTS -->
-        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_jevent" />
-        </copy>
 
     </target>
 	

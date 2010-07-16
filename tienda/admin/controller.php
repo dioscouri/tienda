@@ -765,19 +765,6 @@ class TiendaController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
-/**
-	 * For displaying a searchable list of Jevents in a lightbox
-	 * Usage:
-	 */
-	function elementEvent()
-	{
-		$model	= $this->getModel( 'elementevent' );
-		$view	= $this->getView( 'elementevent' );
-		include_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'helper.php' );
-		$view->setModel( $model, true );
-		$view->display();
-	}
 
 }
 
