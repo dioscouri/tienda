@@ -106,13 +106,11 @@ class TiendaControllerProducts extends TiendaController
 	function save() 
 	{
 		$model 	= $this->getModel( $this->get('suffix') );
-		
 	    $row = $model->getTable();
 	    $row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
         $row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
 		$row->_isNew = empty($row->product_id);
 		
 		$fieldname = 'product_full_image_new';
@@ -1291,5 +1289,6 @@ class TiendaControllerProducts extends TiendaController
     }
 
 }
+
 
 ?>

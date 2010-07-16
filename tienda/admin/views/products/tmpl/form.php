@@ -693,7 +693,10 @@ window.addEvent('domready', function(){
             </fieldset>
             		
 		<?php
-    		// fire plugin event here to enable extending the form
+   //Printing the Jevent Plugin
+		echo $this->eventHtml[0];
+		
+		// fire plugin event here to enable extending the form
             JDispatcher::getInstance()->trigger('onAfterDisplayProductFormRightColumn', array( $row ) );                    
 		?>
 		</td>
