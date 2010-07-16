@@ -42,6 +42,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $exclusions = array(
             'default.php',
             'product_files.php',
+            'product_buy.php',
             'quickadd.php',
             'search.php',
             'view.php',
