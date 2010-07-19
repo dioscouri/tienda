@@ -13,7 +13,19 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaModelBase', 'models._base' );
 
-class TiendaModelProductJEvent extends TiendaModelBase 
+class TiendaModelJEventsEvents extends TiendaModelBase 
 {
+    protected function _buildQueryJoins(&$query)
+    {
+        $query->join('LEFT', '#__jevents_vevdetail AS eventdetails ON eventdetails.evdet_id = tbl.detail_id');
+    }
     
+    protected function _buildQueryFields(&$query)
+    {
+        $fields = array();
+        $fields[] = " tbl.* ";
+        $fields[] = " eventdetails.* ";
+        
+        $query->select( $fields );
+    }
 }

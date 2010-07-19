@@ -23,6 +23,9 @@ class plgTiendaJEvents extends TiendaPluginBase
 {
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		
+		// include custom tables
+		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'jevents'.DS.'tables' );
 	}
 
 	/**
@@ -30,27 +33,24 @@ class plgTiendaJEvents extends TiendaPluginBase
 	 * @param  object
 	 * @return string
 	 */
-	function onAfterDisplayProductFormRightColumn( $model )
+	function onAfterDisplayProductFormRightColumn( $product )
 	{
-		$productid = 1;
-//       	if($model->_item !=null && !empty($model->_item)) {
-//       		$productid=$model->_item->product_id;
-//       	}
-//        
+        if (empty($product->product_id))
+        {
+            // this is a new product
+        }
+        
        	// events
-//       	//$elementEventModel 	= JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-//       	$this->includeTiendaTables();
 		$this->includeCustomModel('ElementEvent');
-       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-       	$elementEvent_terms 		= $elementEventModel->_fetchElement( 'jevent', $productid );
-		$resetEvent_terms			= $elementEventModel->_clearElement( 'jevent', '0' );
+       	$elementEventModel = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+       	$elementEvent_terms = $elementEventModel->_fetchElement( 'jevent', $product->product_id );
+		$resetEvent_terms = $elementEventModel->_clearElement( 'jevent', '0' );
 		
+		$vars->product = $product;
 		$vars->elementEvent_terms = $elementEvent_terms;
-		$vars->resetEvent_terms =$resetEvent_terms;
-		 echo $this->_getLayout( 'event_form', $vars );
+		$vars->resetEvent_terms = $resetEvent_terms;
+        echo $this->_getLayout( 'product_form', $vars );
         return null;
-  // return $html;                            
-   
 	}
 
 	/*
@@ -60,13 +60,12 @@ class plgTiendaJEvents extends TiendaPluginBase
 	 */
 	function onAfterSaveProducts( $product )
 	{
+	    jimport('joomla.application.component.helper');
 		// check jevent is installed
-		$isInstalled=JComponentHelper::isEnabled('com_jevents', false);
-		jimport('joomla.application.component.helper');
+		$isInstalled = JComponentHelper::isEnabled('com_jevents', false);
 
 		// if JEvent is installed
-
-		if($isInstalled)
+		if ($isInstalled)
 		{
 			$post_data=JRequest::get('POST');
 			$event= $post_data['jevent'];
@@ -84,8 +83,8 @@ class plgTiendaJEvents extends TiendaPluginBase
 			$productEnvent['event_id']=$post_data['jevent'];
 			$row->bind( $productEnvent );
 				
-			if(!$row->save()){
-
+			if(!$row->save())
+			{
 				// TODO : If data does not save properly
 
 				$this->messagetype  = 'notice';
@@ -98,29 +97,21 @@ class plgTiendaJEvents extends TiendaPluginBase
 	/*
 	 * to show the list of the events s
 	 */
-	
-	
-function showEvents()
+    function showEvents()
 	{
-		echo "I am here ";
-		$this->includeCustomModel('ElementEvent');
-       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-       	$rows=$elementEventModel->getList();
+        Tienda::load( 'TiendaUrl', 'library.url' );
+        Tienda::load( 'TiendaSelect', 'library.select' );
+        Tienda::load( 'TiendaGrid', 'library.grid' );
+	    
+		$this->includeCustomModel('JEventsEvents');
+       	$model = JModel::getInstance( 'JEventsEvents', 'TiendaModel' );
+       	$items = $model->getList();
        	
-        $this->includeCustomView('ElementEvent');
-      	$elementViewModel 	=JModel::getInstance( 'ElementEvent', 'TiendaView' );
-        $elementViewModel->assign("List",$rows);
-        $elementViewModel->assign("pagination",$elementEventModel->getPagination());
-        $elementViewModel->display();
-
-////		$model = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-//		$view =JView::getInstance( 'ElementEvent', 'TiendaView' );
-//		$view->assign( "items",$model->getList() );
-//		$view->assign( "pagination", $model->getPagination() );
-//		$view->display();
-        
-		//return $text;
-       	//die();		
+       	// here you could loop thru the items if you wanted, to add an ->link to each one, for example
+       	
+       	$vars->state = $model->getState();
+        $vars->items = $items;
+        echo $this->_getLayout( 'list', $vars );
 		
 	}
 }

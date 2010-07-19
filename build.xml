@@ -46,7 +46,8 @@
     <property name="cfg.pluginReportDir" location="${cfg.comDir}/${cfg.comName}_plugin_report" />
 	<property name="cfg.pluginShippingDir" location="${cfg.comDir}/${cfg.comName}_plugin_shipping" />
     <property name="cfg.pluginToolDir" location="${cfg.comDir}/${cfg.comName}_plugin_tool" />
-
+	<property name="cfg.aux" value="${basedir}/auxiliary_extensions" />
+	
     <!-- some settings that are currently unused -->
     <property name="cfg.addversion" value="true" />
     <property name="cfg.versionprefix" value="v" />
@@ -299,7 +300,15 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
         </copy>
-
+    	
+    <!-- AUXILIARY EXTENSIONS -->
+        <!-- JEVENTS -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_jevents" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_jevents/languages" />
+        </copy>
     </target>
 	
     <target name="init" description="creates nessecary directory to build with">

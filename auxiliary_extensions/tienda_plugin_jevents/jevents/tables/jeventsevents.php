@@ -11,16 +11,22 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class TiendaTableProductjevent extends TiendaTable 
+class TiendaTableJEventsEvents extends TiendaTable 
 {
-    function TiendaTableProductjevent ( &$db ) 
+    /**
+     * 
+     * This table should correspond to the __jevents_vevent
+     * @param $db
+     */
+    function TiendaTableJEventsEvents ( &$db ) 
     {
+        $tbl_key    = 'ev_id';
+        $name       = 'jevents';
+        $tbl_suffix  = 'vevent';
         
-        $tbl_key    = 'productevent_id';
-        $name       = 'tienda';
-        $tbl_suffix  = 'productevent';
         $this->set( '_tbl_key', $tbl_key );
         $this->set( '_suffix', $tbl_suffix );
+        
         parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );   
     }
 }

@@ -192,7 +192,7 @@ class TiendaModelElementEvent extends JModel
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=showEvents&object='.$name;
+		$link = 'index.php?option=com_tienda&task=doTask&tmpl=component&element=jevents&elementTask=showEvents&object='.$name;
 		       // 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=showEvents 
 
 		JHTML::_('behavior.modal', 'a.modal');
