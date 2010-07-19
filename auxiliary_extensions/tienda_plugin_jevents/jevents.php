@@ -103,21 +103,21 @@ class plgTiendaJEvents extends TiendaPluginBase
 function showEvents()
 	{
 		echo "I am here ";
-	//	$this->includeCustomModel('ElementEvent');
-//       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-//       	$rows=$elementEventModel->getList();
-//       	
+		$this->includeCustomModel('ElementEvent');
+       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+       	$rows=$elementEventModel->getList();
+       	
         $this->includeCustomView('ElementEvent');
-//      	$elementViewModel 	=JModel::getInstance( 'ElementEvent', 'TiendaView' );
-//        $elementViewModel->assign("List",$rows);
-//        $elementViewModel->assign("pagination",$elementEventModel->getPagination());
-//        $elementViewModel->display();
+      	$elementViewModel 	=JModel::getInstance( 'ElementEvent', 'TiendaView' );
+        $elementViewModel->assign("List",$rows);
+        $elementViewModel->assign("pagination",$elementEventModel->getPagination());
+        $elementViewModel->display();
 
-		$model = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-		$view = new  JView ( 'ElementEvent', 'TiendaView' );
-		$view->assign( "items",$model->getList() );
-		$view->assign( "pagination", $model->getPagination() );
-		$view->display();
+////		$model = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+//		$view =JView::getInstance( 'ElementEvent', 'TiendaView' );
+//		$view->assign( "items",$model->getList() );
+//		$view->assign( "pagination", $model->getPagination() );
+//		$view->display();
         
 		//return $text;
        	//die();		
