@@ -288,4 +288,23 @@ class TiendaPluginBase extends JPlugin
         $customPath = JPATH_SITE.DS.'plugins'.DS.$group.DS.$plugin.DS.'tables';
         JTable::addIncludePath( $customPath );
     }
+    
+    /**
+     * Include a particular Custom View
+     * @param $name the name of the view
+     * @param $plugin the name of the plugin in which the view is stored
+     * @param $group the group of the plugin
+     */
+    protected function includeCustomView($name, $plugin = '', $group = 'tienda')
+    {
+        if (empty($plugin)) 
+        {
+            $plugin = $this->_element;
+        }
+
+        if(!class_exists('TiendaView'.$name))
+            JLoader::import( 'plugins.'.$group.'.'.$plugin.'.views.'.strtolower($name), JPATH_SITE );
+    }
+   
+    
 }
