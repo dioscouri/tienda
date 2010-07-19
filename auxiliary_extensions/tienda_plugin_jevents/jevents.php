@@ -11,7 +11,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
-
 class plgTiendaJEvents extends TiendaPluginBase
 {
 	/**
@@ -21,180 +20,107 @@ class plgTiendaJEvents extends TiendaPluginBase
     var $_element    = 'jevents';
     
 	function plgTiendaJEvents(& $subject, $config) 
-	{
+{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
-		
-		//Check the installation integrity
-        $helper = Tienda::getClass( 'TiendaHelperDiagnosticsJEvents', 'jevents.diagnostic', array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ) );
-        $helper->checkInstallation();
-        
-        // load files
-        Tienda::load( 'TiendaHelperJEvents', 'jevents.helper', array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ) );
-        JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'jevents'.DS.'tables' );
 	}
-	
-    /**
-     *  
-     * @return unknown_type
-     */
-	function doCompletedOrderTasks( $order_id )
+
+	/**
+	 * will return the HTML of the event maping 
+	 * @param  object
+	 * @return string
+	 */
+	function onAfterDisplayProductFormRightColumn( $model )
 	{
-        // check the connection
-        $jevents = new TiendaHelperJEvents();
-        if (!$db = $jevents->getDBO())
-        {
-            JFactory::getApplication()->enqueueMessage( $jevents->getError(), 'notice' );
-            return null; 
-        }
-        
-        // now that order is completed, 
-        // create new records in the LS database tables
-            // create customer first
-            // then create cart (order)
-            // then create cart items
-             
-        
+		$productid = 1;
+//       	if($model->_item !=null && !empty($model->_item)) {
+//       		$productid=$model->_item->product_id;
+//       	}
+//        
+       	// events
+//       	//$elementEventModel 	= JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+//       	$this->includeTiendaTables();
+		$this->includeCustomModel('ElementEvent');
+       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+       	$elementEvent_terms 		= $elementEventModel->_fetchElement( 'jevent', $productid );
+		$resetEvent_terms			= $elementEventModel->_clearElement( 'jevent', '0' );
+		
+		$vars->elementEvent_terms = $elementEvent_terms;
+		$vars->resetEvent_terms =$resetEvent_terms;
+		 echo $this->_getLayout( 'event_form', $vars );
         return null;
+  // return $html;                            
+   
+	}
+
+	/*
+	 * will update or insert the mapping table on the saving of the product
+	 *
+	 * @return unknown_type
+	 */
+	function onAfterSaveProducts( $product )
+	{
+		// check jevent is installed
+		$isInstalled=JComponentHelper::isEnabled('com_jevents', false);
+		jimport('joomla.application.component.helper');
+
+		// if JEvent is installed
+
+		if($isInstalled)
+		{
+			$post_data=JRequest::get('POST');
+			$event= $post_data['jevent'];
+
+			$this->includeTiendaTables();
+			$this->includeCustomModel('ProductJEvent');
+			$model = JModel::getInstance('ProductJEvent', 'TiendaModel');
+				
+			$row = $model->getTable();
+			$row->load(array('product_id'=>$post_data['id']));
+
+			// creating an array for the binding
+			$productEnvent= array();
+			$productEnvent['product_id']=$post_data['id'];
+			$productEnvent['event_id']=$post_data['jevent'];
+			$row->bind( $productEnvent );
+				
+			if(!$row->save()){
+
+				// TODO : If data does not save properly
+
+				$this->messagetype  = 'notice';
+				$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			}
+		}
+			
 	}
 	
-    /**
-     *  
-     * @return unknown_type
-     */
-    function onBeforeDisplayProductForm( $item )
-    {
-        $vars = new JObject();
-        
-        //        $table = JTable::getInstance( 'LSProductsXref', 'TiendaTable' );
-        //        $table->load( array( 'product_id'=>$item->product_id ) );
-        //        if (empty($table->rowid))
-        //        {
-        //            $vars->message = JText::_( "No LSProduct exists for this TiendaProduct" );
-        //        }
-        //            else
-        //        {
-        //            $product = JTable::getInstance( 'LSProducts', 'TiendaTable' );
-        //            $product->load( array( 'rowid'=>$table->rowid ) );
-        //            $vars->product = $product;
-        //        } 
-        
-        echo $this->_getLayout( 'product_form', $vars );
-        return null;
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @param unknown_type $product
-     */
-    function onBeforeStoreProducts( $product )
-    {
-        // do something
-        
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @param unknown_type $price
-     */
-    function onBeforeStoreProductPrices( $price )
-    {
-        // do something
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @param unknown_type $price
-     */
-    function onBeforeDeleteProductPrices( $price )
-    {
-        // do something
-    }
-    
-    /**
-     * Do something after the product is saved
-     */
-    function onAfterSaveProducts( $product )
-    {
+	/*
+	 * to show the list of the events s
+	 */
+	
+	
+function showEvents()
+	{
+		echo "I am here ";
+	//	$this->includeCustomModel('ElementEvent');
+//       	$elementEventModel 	=JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+//       	$rows=$elementEventModel->getList();
+//       	
+        $this->includeCustomView('ElementEvent');
+//      	$elementViewModel 	=JModel::getInstance( 'ElementEvent', 'TiendaView' );
+//        $elementViewModel->assign("List",$rows);
+//        $elementViewModel->assign("pagination",$elementEventModel->getPagination());
+//        $elementViewModel->display();
 
-    }
-    
-    /**
-     * 
-     * @param $object The current product
-     * @return unknown_type
-     */
-    function onDisplayProductAttributeOptions( $product )
-    {
-        // $vars = new JObject();
-        // $vars->message = "Inside: onDisplayProductAttributeOptions"; 
-        // echo $this->_getLayout( 'message', $vars );
-        return null;
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @param $row
-     */
-    function onListConfigTienda( $row )
-    {
-        if ($this->_isMe( $row ))
-        {
-            return true;
-        }
-        return null;
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @param $row
-     * @param $config
-     */
-    function onDisplayConfigFormSliders( $row, $config )
-    {
-        $vars = new JObject();
-        $vars->config = $config;
+		$model = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
+		$view = new  JView ( 'ElementEvent', 'TiendaView' );
+		$view->assign( "items",$model->getList() );
+		$view->assign( "pagination", $model->getPagination() );
+		$view->display();
         
-        echo $this->_getLayout( 'config', $vars );
-        return null;        
-    }
-
-    /**
-     * 
-     * Enter description here ...
-     * @param $row
-     */
-    function onAfterSaveConfig( $row )
-    {
-        // get each of the jevents_* post variables
-        // save them to the __tienda_config table
-        //        $fields = array( 
-        //            'jevents_host',
-        //            'jevents_user',
-        //            'jevents_password',
-        //            'jevents_database',
-        //            'jevents_prefix',
-        //            'jevents_driver',
-        //            'jevents_port'
-        //        );
-        //
-        //        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        //        foreach ($fields as $field)
-        //        {
-        //            $config = JTable::getInstance( 'Config', 'TiendaTable' );
-        //            $config->load( array( 'config_name'=>$field ) );
-        //            $config->config_name = $field;
-        //            $config->value = JRequest::getVar( $field );
-        //            
-        //            if (!$config->save())
-        //            {
-        //                JFactory::getApplication()->enqueueMessage( $config->getError(), 'notice' );
-        //            }
-        //        }
-    }
+		//return $text;
+       	//die();		
+		
+	}
 }

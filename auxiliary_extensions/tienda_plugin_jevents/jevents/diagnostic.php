@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaHelperDiagnostics', 'helpers.diagnostics' );
 
-class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics 
+class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics 
 {
     /**
      * Performs basic checks on your installation to ensure it is OK
