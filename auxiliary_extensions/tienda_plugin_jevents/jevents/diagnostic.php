@@ -20,11 +20,10 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
      */
     function checkInstallation() 
     {
-        if (!$this->checkTableProjectJEventXref()) 
+        if (!$this->checkTableJEventEventsProducts()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC checkTableProjectJEventXref FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkTableJEventEventsProducts FAILED') .' :: '. $this->getError(), 'error' );
         }
-           
     }    
     
     /**
@@ -71,21 +70,20 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
      * for associating Tienda products with the JEvent
      * 
      */
-    function checkTableProjectJEventXref()
+    function checkTableJEventEventsProducts()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableProjectJEventXref', '0'))
+        if (TiendaConfig::getInstance()->get('checkTableJEventEventsProducts', '0'))
         {
             return true;
         }
         
-        $table = '#__tienda_ls_customers_xref';
+        $table = '#__tienda_jeventseventsproducts';
         $definition = "
-        CREATE TABLE IF NOT EXISTS `#__tienda_productevent` (
-		  `productevent_id` int(11) NOT NULL AUTO_INCREMENT,
-		  `product_id` int(11) NOT NULL,
-		  `event_id` int(11) NOT NULL,
-		  PRIMARY KEY (`productevent_id`)
+        CREATE TABLE IF NOT EXISTS `#__tienda_jeventseventsproducts` (
+		  `product_id` int(11) NOT NULL COMMENT 'Tienda product id',
+		  `event_id` int(11) NOT NULL COMMENT 'JEvents event id',
+		  UNIQUE KEY `jeventseventproduct` (`product_id`,`event_id`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8   ";
         
         if ($this->createTable( $table, $definition ))
@@ -93,8 +91,8 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkTableProjectJEventXref') );
-            $config->config_name = 'checkTableProjectJEventXref';
+            $config->load( array( 'config_name'=>'checkTableJEventEventsProducts') );
+            $config->config_name = 'checkTableJEventEventsProducts';
             $config->value = '1';
             $config->save();
             return true;
