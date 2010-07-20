@@ -1,11 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $state = $vars->state; ?>
 <?php $items = $vars->items; ?>
-<?php 
-echo Tienda::dump( $state );
-echo Tienda::dump( $items );
-?>
-
 <?php
 JHTML::_('behavior.tooltip');
 $object = JRequest::getVar( 'object' );
@@ -61,13 +56,14 @@ $link = 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=sho
                 <?php echo $item->ev_id; ?>
             </td>
             <td style="text-align: left;">
-                <?php echo $item->summary; ?>
+              <a style="cursor: pointer;" onclick="window.parent.jSelectEvent('<?php echo $item->evdet_id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$item->summary); ?>', '<?php echo JRequest::getVar('object'); ?>');">
+							<?php echo htmlspecialchars($item->summary, ENT_QUOTES, 'UTF-8'); ?></a>
+              </td>
+            <td>
+                <?php  echo JHTML::date( $item->dtstart); ?>
             </td>
             <td>
-                <?php echo $item->dtstart; ?>
-            </td>
-            <td>
-                <?php echo $item->dtend; ?>
+                <?php echo JHTML::date( $item->dtend); ?>
             </td>
         </tr>
         <?php
@@ -78,6 +74,6 @@ $link = 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=sho
     </table>
 
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+<input type="hidden" name="filter_order" value="<?php //echo $lists['order']; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php // echo $lists['order_Dir']; ?>" />
 </form>

@@ -20,25 +20,11 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
      */
     function checkInstallation() 
     {
-        if (!$this->checkTableLSCustomersXref()) 
+        if (!$this->checkTableProjectJEventXref()) 
         {
-            return $this->redirect( JText::_('DIAGNOSTIC checkTableLSCustomersXref FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkTableProjectJEventXref FAILED') .' :: '. $this->getError(), 'error' );
         }
-        
-        if (!$this->checkTableLSOrdersXref()) 
-        {
-            return $this->redirect( JText::_('DIAGNOSTIC checkTableLSOrdersXref FAILED') .' :: '. $this->getError(), 'error' );
-        }
-        
-        if (!$this->checkTableLSProductsXref()) 
-        {
-            return $this->redirect( JText::_('DIAGNOSTIC checkTableLSProductsXref FAILED') .' :: '. $this->getError(), 'error' );
-        }
-        
-        if (!$this->checkTableLSCategoriesXref()) 
-        {
-            return $this->redirect( JText::_('DIAGNOSTIC checkTableLSCategoriesXref FAILED') .' :: '. $this->getError(), 'error' );
-        }
+           
     }    
     
     /**
@@ -82,33 +68,33 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
     
     /**
      * Confirms existence of the DB table 
-     * for associating Tienda users with LS customers
+     * for associating Tienda products with the JEvent
      * 
      */
-    function checkTableLSCustomersXref()
+    function checkTableProjectJEventXref()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSCustomersXref', '0'))
+        if (TiendaConfig::getInstance()->get('checkTableProjectJEventXref', '0'))
         {
             return true;
         }
         
         $table = '#__tienda_ls_customers_xref';
         $definition = "
-            CREATE TABLE IF NOT EXISTS `#__tienda_ls_customers_xref` (
-              `rowid` int(11) NOT NULL COMMENT 'LS Customer ID',
-              `user_id` int(11) NOT NULL COMMENT 'Tienda User ID',
-              UNIQUE KEY `customer_id` (`rowid`,`user_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-        ";
+        CREATE TABLE IF NOT EXISTS `#__tienda_productevent` (
+		  `productevent_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `product_id` int(11) NOT NULL,
+		  `event_id` int(11) NOT NULL,
+		  PRIMARY KEY (`productevent_id`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8   ";
         
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkTableLSCustomersXref') );
-            $config->config_name = 'checkTableLSCustomersXref';
+            $config->load( array( 'config_name'=>'checkTableProjectJEventXref') );
+            $config->config_name = 'checkTableProjectJEventXref';
             $config->value = '1';
             $config->save();
             return true;
@@ -116,111 +102,6 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
         return false;        
     }
     
-    /**
-     * Confirms existence of the DB table 
-     * for associating Tienda orders with LS carts
-     * 
-     */
-    function checkTableLSOrdersXref()
-    {
-        // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSOrdersXref', '0'))
-        {
-            return true;
-        }
-        
-        $table = '#__tienda_ls_orders_xref';
-        $definition = "
-            CREATE TABLE IF NOT EXISTS `#__tienda_ls_orders_xref` (
-              `rowid` int(11) NOT NULL COMMENT 'LS Cart ID',
-              `order_id` int(11) NOT NULL COMMENT 'Tienda Order ID',
-              UNIQUE KEY `cart_id` (`rowid`,`order_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-        ";
-        
-        if ($this->createTable( $table, $definition ))
-        {
-            // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkTableLSOrdersXref') );
-            $config->config_name = 'checkTableLSOrdersXref';
-            $config->value = '1';
-            $config->save();
-            return true;
-        }
-        return false;        
-    }
-    
-    /**
-     * Confirms existence of the DB table 
-     * for associating Tienda products with LS products
-     * 
-     */
-    function checkTableLSProductsXref()
-    {
-        // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSProductsXref', '0'))
-        {
-            return true;
-        }
-        
-        $table = '#__tienda_ls_products_xref';
-        $definition = "
-            CREATE TABLE IF NOT EXISTS `#__tienda_ls_products_xref` (
-              `rowid` int(11) NOT NULL COMMENT 'LS Product ID',
-              `product_id` int(11) NOT NULL COMMENT 'Tienda Product ID',
-              UNIQUE KEY `ls_product_id` (`rowid`,`product_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-        ";
-        
-        if ($this->createTable( $table, $definition ))
-        {
-            // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkTableLSProductsXref') );
-            $config->config_name = 'checkTableLSProductsXref';
-            $config->value = '1';
-            $config->save();
-            return true;
-        }
-        return false;        
-    }
-    
-    /**
-     * Confirms existence of the DB table 
-     * for associating Tienda categories with LS categories
-     * 
-     */
-    function checkTableLSCategoriesXref()
-    {
-        // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSCategoriesXref', '0'))
-        {
-            return true;
-        }
-        
-        $table = '#__tienda_ls_categories_xref';
-        $definition = "
-            CREATE TABLE IF NOT EXISTS `#__tienda_ls_categories_xref` (
-              `rowid` int(11) NOT NULL COMMENT 'LS Category ID',
-              `category_id` int(11) NOT NULL COMMENT 'Tienda Category ID',
-              UNIQUE KEY `ls_category_id` (`rowid`,`category_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-        ";
-        
-        if ($this->createTable( $table, $definition ))
-        {
-            // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkTableLSCategoriesXref') );
-            $config->config_name = 'checkTableLSCategoriesXref';
-            $config->value = '1';
-            $config->save();
-            return true;
-        }
-        return false;        
-    }
+  
+   
 }
