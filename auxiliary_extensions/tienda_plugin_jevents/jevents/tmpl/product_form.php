@@ -1,7 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $message = @$vars->message; ?>
 <?php $product = $vars->product; ?>
-<?php $event_details = $vars->event_details; ?>
+<?php $event_details = $vars->event_details; 
+?>
 
 <fieldset><legend><?php echo JText::_( "JEvents Integration" ); ?></legend>
 <table class="admintable" style="width: 100%;">
@@ -27,6 +28,11 @@
 				<td style="vertical-align: top; width: 100px; text-align: right;"
 			class="key"> <b> <?php  echo  JText::_('JEvent End Date');?> </b> </td>
 				<td> <?php  echo JHTML::date( $event_details->dtend);?></td>
+			</tr>
+			<tr>
+				<td style="vertical-align: top; width: 100px; text-align: right;"
+			class="key"> <b> <?php  echo  JText::_('JEvent Location');?> </b> </td>
+				<td> <?php  echo  $event_details->location;?></td>
 			</tr>
 		</table>
 		</fieldset>
