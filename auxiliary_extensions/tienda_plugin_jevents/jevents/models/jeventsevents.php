@@ -37,11 +37,18 @@ class TiendaModelJEventsEvents extends TiendaModelBase
 		{
 			$query->where('tbl.ev_id = '.(int) $filter_event);
 		}
-
+       // for summary 
 		if (strlen($filter_eventsummary))
 		{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_eventsummary ) ) ).'%');
 			$query->where('LOWER(eventdetails.summary) LIKE '.$key);
+		}
+		
+		// for details 
+	if (strlen($filter_eventsummary))
+		{
+			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_eventsummary ) ) ).'%');
+			$query->where('LOWER(eventdetails.description) LIKE '.$key);
 		}
 
 	}
