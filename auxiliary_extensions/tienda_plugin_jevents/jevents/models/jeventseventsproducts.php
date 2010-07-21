@@ -15,6 +15,39 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelJEventsEventsProducts extends TiendaModelBase
 {
+    protected function _buildQueryWhere(&$query)
+    {
+        $filter_product = $this->getState('filter_product');
+        $filter_productname = $this->getState('filter_productname');
+        $filter_event = $this->getState('filter_event');
+        $filter_eventsummary = $this->getState('filter_eventsummary');
+
+
+        if (strlen($filter_product))
+        {
+            $query->where('product.product_id = '.(int) $filter_product);
+        }
+
+        if (strlen($filter_productname))
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
+            $query->where('LOWER(product.product_name) LIKE '.$key);
+        }
+
+            
+        if (strlen($filter_event))
+        {
+            $query->where('event.ev_id = '.(int) $filter_event);
+        }
+
+        if (strlen($filter_eventsummary))
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
+            $query->where('LOWER(eventdetails.summary) LIKE '.$key);
+        }
+
+    }
+    
 	protected function _buildQueryJoins(&$query)
 	{
 		$query->join('LEFT', '#__tienda_products AS product ON product.product_id = tbl.product_id');
@@ -30,38 +63,5 @@ class TiendaModelJEventsEventsProducts extends TiendaModelBase
 		$fields[] = " event.* ";
 		$fields[] = " eventdetails.* ";
 		$query->select( $fields );
-	}
-
-	protected function _buildQueryWhere(&$query)
-	{
-		$filter_product =$this->getState('filter_product');
-		$filter_productname =$this->getState('filter_productname');
-		$filter_event =$this->getState('filter_event');
-		$filter_eventsummary =$this->getState('filter_eventsummary');
-
-
-		if (strlen($filter_product))
-		{
-			$query->where('product.product_id = '.(int) $filter_product);
-		}
-
-		if (strlen($filter_productname))
-		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
-			$query->where('LOWER(product.product_name) LIKE '.$key);
-		}
-
-			
-		if (strlen($filter_event))
-		{
-			$query->where('event.ev_id = '.(int) $filter_event);
-		}
-
-		if (strlen($filter_eventsummary))
-		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
-			$query->where('LOWER(eventdetails.summary) LIKE '.$key);
-		}
-
 	}
 }

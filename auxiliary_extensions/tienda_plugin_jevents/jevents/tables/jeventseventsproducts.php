@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaTableXref', 'tables._basexref' );
+Tienda::load( 'TiendaTableXref', 'tables._base' );
 
-class TiendaTableJEventsEventsProducts extends TiendaTableXref 
+class TiendaTableJEventsEventsProducts extends TiendaTable 
 {
     function TiendaTableJEventsEventsProducts ( &$db ) 
     {    
@@ -41,11 +41,6 @@ class TiendaTableJEventsEventsProducts extends TiendaTableXref
      */
     function check()
     {
-        if (empty($this->event_id))
-        {
-            $this->setError( JText::_( "Event ID Required" ) );
-            return false;
-        }
         if (empty($this->product_id))
         {
             $this->setError( JText::_( "Tienda Product ID Required" ) );

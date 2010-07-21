@@ -84,7 +84,7 @@ class TiendaHelperDiagnosticsJEvents extends TiendaHelperDiagnostics
 		  `product_id` int(11) NOT NULL COMMENT 'Tienda product id',
 		  `event_id` int(11) NOT NULL COMMENT 'JEvents event id',
 		  UNIQUE KEY `jeventseventproduct` (`product_id`,`event_id`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8   ";
+		) ENGINE=MyISAM ";
         
         if ($this->createTable( $table, $definition ))
         {

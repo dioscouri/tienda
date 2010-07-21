@@ -231,44 +231,10 @@ class TiendaModelElementEvent extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'Select an Event' ).'\', \''.$name.'\' )">'.JText::_( 'Clear Selection' ).'</span>
+		<a href="javascript:void(0);" onclick="resetElement( \''.$value.'\', \''.JText::_( 'Select an Event' ).'\', \''.$name.'\' )">'.JText::_( 'Clear Selection' ).'</span>
 		</div></div>'."\n";
 
 		return $html;
 	}
-	/**
-	 * This method fetch the data from the JEvent mapping table
-	 * @return
-	 * @param object $name
-	 * @param object $value[optional]
-	 * @param object $node[optional]
-	 * @param object $control_name[optional]
-	 */
-	function _getJEventId($name, $value=0)
-	{
-		global $mainframe;
-
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
-		$control_name='';
-		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-
-		if($value!=0){
-				
-			$query="SELECT map.event_id FROM  `#__tienda_jeventseventsproducts` as map WHERE map.product_id = ".$value;
-			$db->setQuery($query);
-			$evetnDetail = $db->loadObject();
-			if($evetnDetail){
-				return $evetnDetail->event_id;
-			}
-				
-		}
-		return 0;
-	}
-
-
-
-
 }
 ?>

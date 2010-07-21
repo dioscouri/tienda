@@ -15,6 +15,26 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelJEventsEvents extends TiendaModelBase
 {
+    protected function _buildQueryWhere(&$query)
+    {
+        $filter = $this->getState('filter');
+        $filter_event =$this->getState('filter_event');
+        
+        if (strlen($filter_event))
+        {
+            $query->where('tbl.ev_id = '.(int) $filter_event);
+        }
+
+        if (strlen($filter))
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(eventdetails.summary) LIKE '.$key;
+            $where[] = 'LOWER(eventdetails.description) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+    }
+    
 	protected function _buildQueryJoins(&$query)
 	{
 		$query->join('LEFT', '#__jevents_vevdetail AS eventdetails ON eventdetails.evdet_id = tbl.detail_id');
@@ -28,29 +48,4 @@ class TiendaModelJEventsEvents extends TiendaModelBase
 
 		$query->select( $fields );
 	}
-
-	protected function _buildQueryWhere(&$query)
-	{
-		$filter_event =$this->getState('filter_event');
-		$filter_eventsummary =$this->getState('filter');
-		if (strlen($filter_event))
-		{
-			$query->where('tbl.ev_id = '.(int) $filter_event);
-		}
-       // for summary 
-		if (strlen($filter_eventsummary))
-		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_eventsummary ) ) ).'%');
-			$query->where('LOWER(eventdetails.summary) LIKE '.$key);
-		}
-		
-		// for details 
-	if (strlen($filter_eventsummary))
-		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_eventsummary ) ) ).'%');
-			$query->where('LOWER(eventdetails.description) LIKE '.$key);
-		}
-
-	}
-
 }

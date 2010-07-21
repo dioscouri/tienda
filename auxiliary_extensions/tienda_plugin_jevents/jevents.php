@@ -23,9 +23,14 @@ class plgTiendaJEvents extends TiendaPluginBase
     {
         parent::__construct($subject, $config);
         $this->loadLanguage( '', JPATH_ADMINISTRATOR );
+
+        //Check the installation integrity
+        $helper = Tienda::getClass( 'TiendaHelperDiagnosticsJevents', 'jevents.diagnostic', array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ) );
+        $helper->checkInstallation();
         
         // include custom tables
         JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'jevents'.DS.'tables' );
+        JModel::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'jevents'.DS.'models' );
     }
 
     /**
@@ -35,29 +40,26 @@ class plgTiendaJEvents extends TiendaPluginBase
      */
     function onAfterDisplayProductFormRightColumn( $product )
     {
-        $product_id='';
+        $product_id = '';
         if (!empty($product->product_id))
         {
             // this is a existing product
-            $product_id=$product->product_id;           
+            $product_id = $product->product_id;           
         }
         
         // events
-        $this->includeCustomModel('ElementEvent');
         $elementEventModel = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-        $elementEvent_terms = $elementEventModel->_fetchElement( 'jevent', $product_id );
-        $resetEvent_terms = $elementEventModel->_clearElement( 'jevent', '0' );
+        $elementEvent_terms = $elementEventModel->_fetchElement( 'jevent_eventid', $product_id );
+        $resetEvent_terms = $elementEventModel->_clearElement( 'jevent_eventid', '0' );
         
-        $eventid = $elementEventModel->_getJEventId('jevent', $product_id);
-        $eventDeatil = null;
-
-        if(!empty($eventid) && $eventid !=0){        
-        $eventDeatil=$this->getJEventItem($eventid);
-        }
+        $model = JModel::getInstance('JeventsEventsProducts', 'TiendaModel');
+        $model->setId( $product_id );
+        $event = $model->getItem();
+        
         $vars->product = $product;
         $vars->elementEvent_terms = $elementEvent_terms;
         $vars->resetEvent_terms = $resetEvent_terms;
-        $vars->event_details = $eventDeatil;
+        $vars->event = $event;
         echo $this->_getLayout( 'product_form', $vars );
         return null;
     }
@@ -74,33 +76,26 @@ class plgTiendaJEvents extends TiendaPluginBase
         $isInstalled = JComponentHelper::isEnabled('com_jevents', false);
 
 		// if JEvent is installed
-		if($isInstalled)
+		if ($isInstalled)
 		{
-			$post_data =JRequest::get('POST');
-			$event = $post_data['jevent'];
+			$event_id = JRequest::getInt('jevent_eventid');
+            $product_id = JRequest::getInt('id');
 
-			$this->includeCustomModel('JEventsEventsProducts');
-			$model = JModel::getInstance('JEventsEventsProducts', 'TiendaModel');
-
-			$this->includeCustomTables('JEventsEventsProducts');
 			$row = JTable::getInstance('JEventsEventsProducts', 'TiendaTable');
 			
-			$row->load(array('product_id'=>$post_data['id']));
-          
-			// creating an array for the binding
-			$productEnvent= array();
-			$productEnvent['event_id']=$post_data['jevent'];
-			$productEnvent['product_id']=$post_data['id'];
-			$row->bind( $productEnvent );
-			if(!$row->save())
+			$row->load( array('product_id'=>$product_id) );
+            $row->event_id = $event_id;
+
+			if (!$row->save())
 			{
-				// TODO : If data does not save properly
 				$this->messagetype  = 'notice';
 				$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+				JFactory::getApplication()->enqueueMessage( $this->message, $this->messagetype );
 			}
 		}
-			
+
 	}
+	
 	/*
 	 * to show the list of the events 
 	 */
@@ -135,22 +130,6 @@ class plgTiendaJEvents extends TiendaPluginBase
 	}
 	
 	
-/*
- * 
- */	
-	function getJEventItem($eventId=0)
-	{
-			if(!empty($eventId) || $eventId !=0){
-				$this->includeCustomModel('JEventsEvents');
-				$jEventModel = JModel::getInstance( 'JEventsEvents', 'TiendaModel' );
-				$jEventModel->setId($eventId);
-				return $jEventModel->getItem();
-			}
-			 // In case there is no event mapping
-			
-	    return null;
-	}
-	
 	/**
 	 * Sets the model's default state based on values in the request
 	 *
@@ -180,11 +159,12 @@ class plgTiendaJEvents extends TiendaPluginBase
 		}
   		return $state;
     }
+    
     /**
      * Gets the view's namespace for state variables
      * @return string
      */  
- function getNamespace($model)
+    function getNamespace($model)
     {
     	$app = JFactory::getApplication();
     	$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
