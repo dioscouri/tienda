@@ -90,6 +90,7 @@ class plgTiendaJEvents extends TiendaPluginBase
 			// creating an array for the binding
 			$productEnvent= array();
 			$productEnvent['event_id']=$post_data['jevent'];
+			$productEnvent['product_id']=$post_data['id'];
 			$row->bind( $productEnvent );
 			if(!$row->save())
 			{
