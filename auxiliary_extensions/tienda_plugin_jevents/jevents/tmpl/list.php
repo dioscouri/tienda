@@ -1,10 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $state = $vars->state; ?>
 <?php $items = $vars->items; ?>
-<?php
-JHTML::_('behavior.tooltip');
+<?php JHTML::_('behavior.tooltip');
 $object = JRequest::getVar( 'object' );
-$link = 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=showEvents&object='.$object;
+$link = 'index.php?option=com_tienda&task=doTask&element=jevents&tmpl=component&elementTask=showEvents&object='.$object;
 ?>
 
 <form action="<?php echo $link; ?>" method="post" name="adminForm">
@@ -74,6 +73,7 @@ $link = 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=sho
     </table>
 
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php //echo $lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php // echo $lists['order_Dir']; ?>" />
+<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
+<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
+	
 </form>

@@ -44,7 +44,7 @@ class TiendaModelElementEvent extends JModel
 	function getList()
 	{
 		global $mainframe;
-     	if (!empty($this->_list)) {
+		if (!empty($this->_list)) {
 			return $this->_list;
 		}
 
@@ -131,7 +131,7 @@ class TiendaModelElementEvent extends JModel
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
-      return $this->_list;
+		return $this->_list;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class TiendaModelElementEvent extends JModel
 	}
 
 	/**
-	 * This method fetch the data from the J
+	 * This method fetch the data from the JEvent mapping table
 	 * @return
 	 * @param object $name
 	 * @param object $value[optional]
@@ -165,7 +165,7 @@ class TiendaModelElementEvent extends JModel
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 
 		if($value!=0){
-			$query="SELECT event.* FROM  `#__jevents_vevdetail` as event Left JOIN `#__tienda_productevent` as map on  map.event_id  = event.evdet_id where map.product_id = ".$value;
+			$query="SELECT event.* FROM  `#__jevents_vevdetail` as event Left JOIN `#__tienda_jeventseventsproducts` as map on  map.event_id  = event.evdet_id where map.product_id = ".$value;
 			$db->setQuery($query);
 			$evetnDetail = $db->loadObject();
 
@@ -173,7 +173,7 @@ class TiendaModelElementEvent extends JModel
 				$title = $evetnDetail->summary;
 				$value= $evetnDetail->evdet_id;
 			}
-			// In case there is no event mapping 
+			// In case there is no event mapping
 			else {
 				$value=0;
 				$title = JText::_('Select an Event');
@@ -193,7 +193,6 @@ class TiendaModelElementEvent extends JModel
 		$doc->addScriptDeclaration($js);
 
 		$link = 'index.php?option=com_tienda&task=doTask&tmpl=component&element=jevents&elementTask=showEvents&object='.$name;
-		       // 'index.php?option=com_tienda&task=doTask&element=jevents&elementTask=showEvents 
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
@@ -237,6 +236,39 @@ class TiendaModelElementEvent extends JModel
 
 		return $html;
 	}
+	/**
+	 * This method fetch the data from the JEvent mapping table
+	 * @return
+	 * @param object $name
+	 * @param object $value[optional]
+	 * @param object $node[optional]
+	 * @param object $control_name[optional]
+	 */
+	function _getJEventId($name, $value=0)
+	{
+		global $mainframe;
+
+		$db			=& JFactory::getDBO();
+		$doc 		=& JFactory::getDocument();
+		$template 	= $mainframe->getTemplate();
+		$control_name='';
+		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
+
+		if($value!=0){
+				
+			$query="SELECT map.event_id FROM  `#__tienda_jeventseventsproducts` as map WHERE map.product_id = ".$value;
+			$db->setQuery($query);
+			$evetnDetail = $db->loadObject();
+			if($evetnDetail){
+				return $evetnDetail->event_id;
+			}
+				
+		}
+		return 0;
+	}
+
+
+
 
 }
 ?>

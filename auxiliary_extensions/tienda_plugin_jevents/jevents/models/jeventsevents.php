@@ -32,8 +32,7 @@ class TiendaModelJEventsEvents extends TiendaModelBase
 	protected function _buildQueryWhere(&$query)
 	{
 		$filter_event =$this->getState('filter_event');
-		$filter_eventsummary =$this->getState('filter_eventsummary');
-
+		$filter_eventsummary =$this->getState('filter');
 		if (strlen($filter_event))
 		{
 			$query->where('tbl.ev_id = '.(int) $filter_event);
@@ -41,9 +40,10 @@ class TiendaModelJEventsEvents extends TiendaModelBase
 
 		if (strlen($filter_eventsummary))
 		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
+			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_eventsummary ) ) ).'%');
 			$query->where('LOWER(eventdetails.summary) LIKE '.$key);
 		}
 
 	}
+
 }

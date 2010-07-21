@@ -35,20 +35,29 @@ class plgTiendaJEvents extends TiendaPluginBase
      */
     function onAfterDisplayProductFormRightColumn( $product )
     {
-        if (empty($product->product_id))
+        $product_id='';
+        if (!empty($product->product_id))
         {
-            // this is a new product
+            // this is a existing product
+            $product_id=$product->product_id;           
         }
         
         // events
         $this->includeCustomModel('ElementEvent');
         $elementEventModel = JModel::getInstance( 'ElementEvent', 'TiendaModel' );
-        $elementEvent_terms = $elementEventModel->_fetchElement( 'jevent', $product->product_id );
+        $elementEvent_terms = $elementEventModel->_fetchElement( 'jevent', $product_id );
         $resetEvent_terms = $elementEventModel->_clearElement( 'jevent', '0' );
         
+        $eventid = $elementEventModel->_getJEventId('jevent', $product_id);
+        $eventDeatil = null;
+
+        if(!empty($eventid) && $eventid !=0){        
+        $eventDeatil=$this->getJEventItem($eventid);
+        }
         $vars->product = $product;
         $vars->elementEvent_terms = $elementEvent_terms;
         $vars->resetEvent_terms = $resetEvent_terms;
+        $vars->event_details = $eventDeatil;
         echo $this->_getLayout( 'product_form', $vars );
         return null;
     }
@@ -80,7 +89,6 @@ class plgTiendaJEvents extends TiendaPluginBase
           
 			// creating an array for the binding
 			$productEnvent= array();
-			$productEnvent['product_id']=$post_data['id'];
 			$productEnvent['event_id']=$post_data['jevent'];
 			$row->bind( $productEnvent );
 			if(!$row->save())
@@ -93,7 +101,7 @@ class plgTiendaJEvents extends TiendaPluginBase
 			
 	}
 	/*
-	 * to show the list of the events s
+	 * to show the list of the events 
 	 */
     function showEvents()
 	{
@@ -103,6 +111,20 @@ class plgTiendaJEvents extends TiendaPluginBase
 	    
 		$this->includeCustomModel('JEventsEvents');
        	$model = JModel::getInstance( 'JEventsEvents', 'TiendaModel' );
+       	
+	  	$state = $this->_setModelState($model);
+    	$app = JFactory::getApplication();
+		
+        $ns = $this->getNamespace($model);
+
+      //	$state['filter_parentid'] 	= $app->getUserStateFromRequest($ns.'parentid', 'filter_parentid', '', '');
+      	$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'evdet_id', 'cmd');
+
+    	foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );	
+		}
+       	
        	$items = $model->getList();
        	// here you could loop thru the items if you wanted, to add an ->link to each one, for example
        	
@@ -110,4 +132,62 @@ class plgTiendaJEvents extends TiendaPluginBase
         $vars->items = $items;
         echo $this->_getLayout( 'list', $vars );
 	}
+	
+	
+/*
+ * 
+ */	
+	function getJEventItem($eventId=0)
+	{
+			if(!empty($eventId) || $eventId !=0){
+				$this->includeCustomModel('JEventsEvents');
+				$jEventModel = JModel::getInstance( 'JEventsEvents', 'TiendaModel' );
+				$jEventModel->setId($eventId);
+				return $jEventModel->getItem();
+			}
+			 // In case there is no event mapping
+			
+	    return null;
+	}
+	
+	/**
+	 * Sets the model's default state based on values in the request
+	 *
+	 * @return array()
+	 */
+    function _setModelState($model)
+    {
+		$app = JFactory::getApplication();
+		$ns = $this->getNamespace($model);
+
+		$state = array();
+
+        $state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+        $state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
+        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.'.$model->getTable()->getKeyName(), 'cmd');
+        $state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
+        $state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+        $state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
+        $state['id']        = JRequest::getVar('id', JRequest::getVar('id', '', 'get', 'int'), 'post', 'int');
+
+        // TODO santize the filter
+        // $state['filter']   	=
+
+    	foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
+  		return $state;
+    }
+    /**
+     * Gets the view's namespace for state variables
+     * @return string
+     */  
+ function getNamespace($model)
+    {
+    	$app = JFactory::getApplication();
+    	$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
+    	return $ns;
+    }
+	
 }
