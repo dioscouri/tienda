@@ -84,6 +84,12 @@ class plgTiendaJEvents extends TiendaPluginBase
 			$row = JTable::getInstance('JEventsEventsProducts', 'TiendaTable');
 			
 			$row->load( array('product_id'=>$product_id) );
+			if (empty($row->product_id))
+			{
+			    // do nothing because no association exists
+			    return;
+			}
+			
             $row->event_id = $event_id;
 
 			if (!$row->save())
