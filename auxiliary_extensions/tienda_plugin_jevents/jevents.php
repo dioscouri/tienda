@@ -79,7 +79,7 @@ class plgTiendaJEvents extends TiendaPluginBase
 		if ($isInstalled)
 		{
 			$event_id = JRequest::getInt('jevent_eventid');
-            $product_id = JRequest::getInt('id');
+            $product_id = $product->product_id;
 
 			$row = JTable::getInstance('JEventsEventsProducts', 'TiendaTable');
 			
