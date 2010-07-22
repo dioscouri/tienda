@@ -52,6 +52,7 @@ class TiendaViewOrders extends TiendaViewBase
     function _defaultToolbar()
     {
         JToolBarHelper::custom('batchedit', "forward", "forward", JText::_( 'Batch Edit' ), false);
+        JToolBarHelper::addnew();
     }
     
     /**
@@ -83,7 +84,7 @@ class TiendaViewOrders extends TiendaViewBase
     }
     
     
-/**
+    /**
 	 * Process the data for the convert view
 	 * @return void
 	 **/

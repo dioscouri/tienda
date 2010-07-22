@@ -43,6 +43,8 @@
 				</th>
 				<th>
 				</th>
+				<th>
+				</th>
             </tr>
             <tr class="filterline">
                 <th colspan="2">
@@ -64,6 +66,8 @@
                 </th>
                 <th>
                     <input id="filter_email" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
+                </th>
+                <th>
                 </th>
                 <th>
                 </th>
@@ -113,6 +117,13 @@
 					</a>
 					]
 				</td>
+                <td style="text-align: center;">
+                    [
+                    <a href="<?php echo $item->link_createorder; ?>">
+                        <?php echo JText::_( "Create Order" ); ?>
+                    </a>
+                    ]
+                </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
 			<?php endforeach; ?>
