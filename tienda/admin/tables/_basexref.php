@@ -182,14 +182,15 @@ class TiendaTableXref extends TiendaTable
 			if ( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}
+			
 			if ( in_array( $k, $this->getKeyNames() ) ) 
 			{ 
-			    // PK not to be updated?
+                // Allow PKs to be updated
 				// TODO Use query builder
 				// ->where()
 				$where[] = $k . '=' . $this->_db->Quote( $v );
-				// continue; // Allow PKs to be updated?
 			}
+			
 			if ($v === null)
 			{
 				if ($updateNulls) {
