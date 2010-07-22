@@ -785,7 +785,8 @@ class TiendaControllerProducts extends TiendaController
         {
             case "redirect":
                 $returnUrl = base64_encode( $redirect );
-                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts" )."&return=".$returnUrl;
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts" );
+                if (strpos($redirect, '?') === false) { $redirect .= "?return=".$returnUrl; } else { $redirect .= "&return=".$returnUrl; }
                 break;
             case "0":
             case "none":
