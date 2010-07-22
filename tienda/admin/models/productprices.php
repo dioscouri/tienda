@@ -45,7 +45,21 @@ class TiendaModelProductPrices extends TiendaModelBase
   			$query->where("(tbl.product_price_enddate >= '".$filter_date."' OR tbl.product_price_enddate = '$nullDate' )");
        	}
     }
-        	
+
+    protected function _buildQueryJoins(&$query)
+    {
+        $query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');   
+    }
+    
+    protected function _buildQueryFields(&$query)
+    {
+        $fields = array();
+        $fields[] = " p.product_recurs ";
+        
+        $query->select( $this->getState( 'select', 'tbl.*' ) );
+        $query->select( $fields );
+    }
+    
 	public function getList()
 	{
 		$nullDate = JFactory::getDBO()->getNullDate();

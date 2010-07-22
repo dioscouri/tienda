@@ -287,7 +287,8 @@ class TiendaControllerCheckout extends TiendaController
 		
 		// get the items and add them to the order
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();		
+		$items = TiendaHelperCarts::getProductsInfo();
+		
 		foreach ($items as $item)
 		{
 			$order->addItem( $item );

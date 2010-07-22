@@ -151,7 +151,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
-        if ($order->orderitems && empty($order->quantities_updated))
+        if (!empty($order->orderitems) && empty($order->quantities_updated))
         {
         	foreach ($order->orderitems as $orderitem)
         	{

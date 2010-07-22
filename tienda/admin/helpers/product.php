@@ -661,7 +661,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     /**
      * Returns a product's price based on the quantity purchased, user's group, and date
      * 
-     * @param unknown_type $id
+     * @param int $id
      * @param unknown_type $quantity
      * @param unknown_type $user_group_id
      * @param unknown_type $date

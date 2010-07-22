@@ -237,9 +237,21 @@
                             <?php echo $item->attributes_names; ?>
                             <br/>
                         <?php endif; ?>
-                        
-                        <b><?php echo JText::_( "Price" ); ?>:</b>
-                        <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
+
+                        <?php if ($item->orderitem_recurs) : ?>
+                            <?php $recurring_subtotal = $item->recurring_price; ?>
+                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+                            <?php if ($item->recurring_trial) : ?>
+                                <br/>
+                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+                            <?php endif; ?>    
+                        <?php else : ?>
+                            <b><?php echo JText::_( "Price" ); ?>:</b>
+                            <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>                         
+                        <?php endif; ?> 
+
                     </td>
                     <td style="text-align: center;">
                         <?php echo $item->orderitem_quantity; ?>

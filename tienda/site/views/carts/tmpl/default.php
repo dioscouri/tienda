@@ -56,13 +56,13 @@ $state = @$this->state;
 	                    <input name="product_attributes[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />
                         
                         <?php if ($item->product_recurs) : ?>
-                            <?php $recurring_subtotal = $item->product_price; ?>
-                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?>
+                            <?php $recurring_subtotal = $item->recurring_price; ?>
+                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
                             (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
                             <?php if ($item->recurring_trial) : ?>
                                 <br/>
                                 <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>)
+                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
                             <?php endif; ?>    
                         <?php else : ?>
                             <?php echo JText::_( "Price" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?>                         

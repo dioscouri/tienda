@@ -162,6 +162,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsOrdering FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        // check the user info table 
+        if (!$this->checkOrderitemsRecurringPrice()) 
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsRecurringPrice FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -1164,7 +1170,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
-/**
+    /**
      * Checks the products table for the ordering field
      * As of v0.5.0
      * 
@@ -1199,4 +1205,38 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
+    /**
+     * Checks the orderitems table for the recurring_price field
+     * As of v0.5.2
+     * 
+     * return boolean
+     */
+    function checkOrderitemsRecurringPrice()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderitemsRecurringPrice', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderitems';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "recurring_price";
+            $definitions["recurring_price"] = "decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Recurring price of the item'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderitemsRecurringPrice') );
+            $config->config_name = 'checkOrderitemsRecurringPrice';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
 }

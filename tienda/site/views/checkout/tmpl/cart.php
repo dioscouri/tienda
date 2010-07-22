@@ -33,17 +33,33 @@ $items = @$this->orderitems;
                             <?php echo $item->orderitem_attribute_names; ?>
                             <br/>
                         <?php endif; ?>
+
+                        <?php if ($item->orderitem_recurs) : ?>
+                            <?php $recurring_subtotal = $item->recurring_price; ?>
+                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+                            <?php if ($item->recurring_trial) : ?>
+                                <br/>
+                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+                            <?php endif; ?>    
+                        <?php else : ?>
+                            <?php echo JText::_( "Price" ); ?>:
+                            <?php $price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ); ?> 
+                            <?php echo TiendaHelperBase::currency($price); ?>                         
+                        <?php endif; ?> 
                         
-                        <?php echo JText::_( "Price" ); ?>:
-                        <?php $price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ); ?> 
-                        <?php echo TiendaHelperBase::currency($price); ?>
+
+
                     </td>
                     <td style="width: 50px; text-align: center;">
                         <?php echo $item->orderitem_quantity;?>  
                     </td>
                     <td style="text-align: right;">
                         <?php $itemsubtotal = $price * $item->orderitem_quantity; ?>
-                        <?php echo TiendaHelperBase::currency($itemsubtotal); ?>                       
+                        <?php //echo TiendaHelperBase::currency($itemsubtotal); ?>
+                        <?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>
+                                               
                     </td>
                 </tr>
               

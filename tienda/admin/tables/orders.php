@@ -177,7 +177,7 @@ class TiendaTableOrders extends TiendaTable
             $this->order_recurs = true;
             // set the orderitem's recurring product values
             $orderItem->orderitem_recurs            = $product->product_recurs;
-            $orderItem->recurring_amount            = ""; // just the product_price? 
+            $orderItem->recurring_price             = $product->recurring_price; 
             $orderItem->recurring_payments          = $product->recurring_payments;
             $orderItem->recurring_period_interval   = $product->recurring_period_interval;
             $orderItem->recurring_period_unit       = $product->recurring_period_unit;
@@ -549,41 +549,46 @@ class TiendaTableOrders extends TiendaTable
             $items = array();
         }
         
-        // ensure that the items array only has one recurring item in it
-        foreach ($items as $key=>$item)
+        if (empty($this->_itemschecked))
         {
-            $shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
-            if ($shipping) { $this->order_ships = '1'; }
-            
-            if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
+            // ensure that the items array only has one recurring item in it
+            foreach ($items as $key=>$item)
             {
-                // Only one recurring item allowed per order. 
-                // If the item is recurring, 
-                // check if there already is a recurring item accounted for in the order
-                // if so, remove this one from the order but leave it in the cart and continue
-                // if not, add its properties 
-                $this->_recurringItemExists = true;
+                $shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
+                if ($shipping) { $this->order_ships = '1'; }
                 
-                $this->recurring_payments          = $item->recurring_payments;
-                $this->recurring_period_interval   = $item->recurring_period_interval;
-                $this->recurring_period_unit       = $item->recurring_period_unit;
-                $this->recurring_trial             = $item->recurring_trial;
-                $this->recurring_trial_period_interval = $item->recurring_trial_period_interval;
-                $this->recurring_trial_period_unit = $item->recurring_trial_period_unit;
-                $this->recurring_trial_price       = $item->recurring_trial_price;
-                $this->recurring_amount            = $item->recurring_amount; // TODO Add tax?
-                // TODO Set some kind of _recurring_item property, so it is easy to get the recurring item later?
+                if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
+                {
+                    // Only one recurring item allowed per order. 
+                    // If the item is recurring, 
+                    // check if there already is a recurring item accounted for in the order
+                    // if so, remove this one from the order but leave it in the cart and continue
+                    // if not, add its properties 
+                    $this->_recurringItemExists = true;
+                    
+                    $this->recurring_payments          = $item->recurring_payments;
+                    $this->recurring_period_interval   = $item->recurring_period_interval;
+                    $this->recurring_period_unit       = $item->recurring_period_unit;
+                    $this->recurring_trial             = $item->recurring_trial;
+                    $this->recurring_trial_period_interval = $item->recurring_trial_period_interval;
+                    $this->recurring_trial_period_unit = $item->recurring_trial_period_unit;
+                    $this->recurring_trial_price       = $item->recurring_trial_price;
+                    $this->recurring_amount             = $item->recurring_price; // TODO Add tax?
+                    //$this->recurring_amount            = $item->recurring_amount; // TODO Add tax?
+                    // TODO Set some kind of _recurring_item property, so it is easy to get the recurring item later?
+                }
+                    elseif (!empty($this->_recurringItemExists) && $item->orderitem_recurs)
+                {
+                    // Only one recurring item allowed per order. 
+                    // If the item is recurring, 
+                    // check if there already is a recurring item accounted for in the order
+                    // if so, remove this one from the order but leave it in the cart and continue
+                    unset($items[$key]);
+                }
             }
-                elseif (!empty($this->_recurringItemExists) && $item->orderitem_recurs)
-            {
-                // Only one recurring item allowed per order. 
-                // If the item is recurring, 
-                // check if there already is a recurring item accounted for in the order
-                // if so, remove this one from the order but leave it in the cart and continue
-                unset($items[$key]);
-            }
+            $this->_itemschecked = true;            
         }
-
+        
         $this->_items = $items;
         return $this->_items;
     }

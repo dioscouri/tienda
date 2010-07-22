@@ -240,21 +240,61 @@ class TiendaModelProducts extends TiendaModelBase
         	
 	public function getList()
 	{
-		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-		$list = parent::getList(); 
-		
-		// If no item in the list, return an array()
-        if ( empty( $list ) ) {
-        	return array();
+        if (empty( $this->_list ))
+        {
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            $list = parent::getList(); 
+            
+            // If no item in the list, return an array()
+            if ( empty( $list ) ) {
+                return array();
+            }
+    
+            
+            
+            foreach($list as $item)
+            {
+                if ($item->product_recurs)
+                {
+                    if ($item->recurring_trial)
+                    {
+                        $item->recurring_price = $item->price;
+                        $item->price = $item->recurring_trial_price;
+                    }
+                }
+                
+                $item->slug = $item->product_alias ? ":$item->product_alias" : "";
+                $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
+                $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
+            }
+            
+            $this->_list = $list;
         }
-		
-		foreach($list as $item)
-		{
-		    $item->slug = $item->product_alias ? ":$item->product_alias" : "";
-			$item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
-			$item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
-		}
-		return $list;
+        return $this->_list;
+	}
+	
+	function getItem()
+	{
+        if (empty( $this->_item ))
+        {
+            $item = parent::getItem();
+
+            if ($item->product_recurs)
+            {
+                if ($item->recurring_trial)
+                {
+                    $item->recurring_price = $item->price;
+                    $item->price = $item->recurring_trial_price;
+                }
+            }
+
+            $item->slug = $item->product_alias ? ":$item->product_alias" : "";
+            $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
+            $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
+            
+            $this->_item = $item;
+        }
+        return $this->_item;
 	}
 
 }

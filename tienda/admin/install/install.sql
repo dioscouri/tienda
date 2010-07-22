@@ -720,6 +720,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `orderitem_status` CHAR(1) NULL DEFAULT NULL ,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT' ,
   `orderitem_recurs` tinyint(1) NOT NULL COMMENT 'Do any payments for this orderitem recur?',
+  `recurring_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Recurring price of the item',
   `recurring_payments` int(11) NOT NULL COMMENT 'How many recurring payments?',
   `recurring_period_interval` int(3) NOT NULL COMMENT 'How many period-units between payments?',
   `recurring_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',

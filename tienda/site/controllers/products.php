@@ -315,7 +315,7 @@ class TiendaControllerProducts extends TiendaController
         
         if ($show_tax)
         {
-            // TODO finish TiendaHelperUser::getGeoZone -- that's why this isn't working
+            // finish TiendaHelperUser::getGeoZone -- that's why this isn't working
             Tienda::load('TiendaHelperUser', 'helpers.user');
             $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
             $taxtotal = TiendaHelperProduct::getTaxTotal($product_id, $geozones);
