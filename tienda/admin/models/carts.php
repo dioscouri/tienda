@@ -45,8 +45,24 @@ class TiendaModelCarts extends TiendaModelBase
 	protected function _buildQueryFields(&$query)
 	{
        	$field = array();
-        $field[] = " p.product_name as product_name ";
-
+        $field[] = " p.product_name ";
+        $field[] = " p.product_sku ";
+        $field[] = " p.product_full_image ";
+        $field[] = " p.product_ships ";
+        $field[] = " p.product_weight ";
+        $field[] = " p.product_length ";
+        $field[] = " p.product_width ";
+        $field[] = " p.product_height ";
+        $field[] = " p.product_recurs ";
+        $field[] = " p.tax_class_id ";
+        $field[] = " p.recurring_payments ";
+        $field[] = " p.recurring_period_interval ";
+        $field[] = " p.recurring_period_unit ";
+        $field[] = " p.recurring_trial ";
+        $field[] = " p.recurring_trial_period_interval ";
+        $field[] = " p.recurring_trial_period_unit ";
+        $field[] = " p.recurring_trial_price ";
+        
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		$default_group = '0'; // TODO Use default user_group_id

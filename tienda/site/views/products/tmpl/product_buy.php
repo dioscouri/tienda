@@ -114,6 +114,21 @@ $values = @$this->values;
         ?>
     </div>
     
+    <?php if (!empty($item->product_recurs)) : ?> 
+        <div id='product_recurs'> 
+            <span class="title"><?php echo JText::_("THIS PRODUCTS CHARGES RECUR"); ?></span>
+            <div id="product_recurs_prices"> 
+            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->price); ?>
+            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+            <?php if ($item->recurring_trial) : ?>
+                <br/>
+                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>)
+            <?php endif; ?> 
+            </div>
+        </div>
+    <?php endif; ?>
+    
     <?php if (!empty($item->product_check_inventory)) : ?> 
         <div id='available_stock'> 
           <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"><?php echo (int) $this->availableQuantity->quantity; ?></label> 

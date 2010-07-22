@@ -141,6 +141,10 @@ img.addcart {
     cursor: pointer;
 }
 
+div#product_recurs span.title {
+	font-weight: bold;
+}
+
 /** SHARED **/
 
 table.adminlist {

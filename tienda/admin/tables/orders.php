@@ -550,7 +550,7 @@ class TiendaTableOrders extends TiendaTable
         }
         
         // ensure that the items array only has one recurring item in it
-        foreach ($items as $item)
+        foreach ($items as $key=>$item)
         {
             $shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
             if ($shipping) { $this->order_ships = '1'; }

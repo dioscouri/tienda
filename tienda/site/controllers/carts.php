@@ -240,7 +240,7 @@ class TiendaControllerCarts extends TiendaController
             foreach ($cids as $key=>$product_id)
             {
                 $row = $model->getTable();
-                $ids = array('user_id'=>$user->id, 'product_id'=>$product_id, 'product_attributes'=>$product_attributes[$key] );
+                $ids = array('user_id'=>$user->id, 'session_id'=>$session->getId(), 'product_id'=>$product_id, 'product_attributes'=>$product_attributes[$key] );
                 if ($return = $row->delete($ids))
                 {
 	                $item = new JObject;
@@ -272,12 +272,40 @@ class TiendaControllerCarts extends TiendaController
                 	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
                     continue;
                 }
-            
-                $vals['product_qty'] = $value;
-                $vals['product_attributes'] = $product_attributes[$key];
+                
+                if ($value > 1)
+                {
+                    $product = JTable::getInstance( 'Products', 'TiendaTable' );
+                    $product->load( array( 'product_id'=>$product_id) );
+                    if ($product->product_recurs)
+                    {
+                        $value = 1;
+                    }
+                }
+
                 $row = $model->getTable();
-                $row->bind($vals);
-                $row->save();
+                $vals['product_attributes'] = $product_attributes[$key];
+                $vals['product_qty'] = $value;
+                if (empty($vals['product_qty']))
+                {
+                    // remove it
+                    if ($return = $row->delete($vals))
+                    {
+                        $item = new JObject;
+                        $item->product_id = $product_id;
+                        $item->product_attributes = $product_attributes[$key];
+                        $item->vendor_id = '0'; // vendors only in enterprise version
+                       
+                        // fire plugin event
+                        $dispatcher = JDispatcher::getInstance();
+                        $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+                    }
+                }
+                    else
+                {
+                    $row->bind($vals);
+                    $row->save();                    
+                }
             }
         }
         

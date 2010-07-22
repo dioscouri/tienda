@@ -1,6 +1,5 @@
 <?php
 /**
- * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -322,7 +321,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 					$productItem->product_price = $productItem->product_price_override->product_price;
 				}
 
-				if($productItem->product_check_inventory){
+				if($productItem->product_check_inventory)
+				{
 					// using a helper file,To determine the product's information related to inventory
 					$availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $productItem->product_id, $product->product_attributes );
 					if( $availableQuantity->product_check_inventory && $product->product_qty >$availableQuantity->quantity && $availableQuantity->quantity >=1) {
@@ -331,7 +331,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 					}
 
 					// removing the product from the cart if it's not avilable
-					if($availableQuantity->quantity==0){
+					if($availableQuantity->quantity==0)
+					{
 						 
 						if($product->user_id==0){
 							TiendaHelperCarts::removeCartItem( $session_id, $product->user_id, $product->product_id );
@@ -342,26 +343,68 @@ class TiendaHelperCarts extends TiendaHelperBase
 						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'Not avilable').$productItem->product_name);
 						continue;
 					}
-					 
-				}
+                }
 
-			// TODO Push this into the orders object->addItem() method?
-			$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
-			$orderItem->product_id                    = $productItem->product_id;
-			$orderItem->orderitem_sku                 = $productItem->product_sku;
-			$orderItem->orderitem_name                = $productItem->product_name;
-			$orderItem->orderitem_quantity            = $product->product_qty;
-			$orderItem->orderitem_price               = $productItem->product_price;
-			$orderItem->orderitem_attributes          = $product->product_attributes;
-			$orderItem->orderitem_attribute_names     = $product->attributes_names;
-			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
-			$orderItem->orderitem_final_price         = $product->product_price * $orderItem->orderitem_quantity;
-			// TODO When do attributes for selected item get set during admin-side order creation?
-			array_push($productitems, $orderItem);
-		}
-	}
-	
-	return $productitems;
-  }
+    			// TODO Push this into the orders object->addItem() method?
+    			$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
+    			$orderItem->product_id                    = $productItem->product_id;
+    			$orderItem->orderitem_sku                 = $productItem->product_sku;
+    			$orderItem->orderitem_name                = $productItem->product_name;
+    			$orderItem->orderitem_quantity            = $product->product_qty;
+    			$orderItem->orderitem_price               = $productItem->product_price;
+    			$orderItem->orderitem_attributes          = $product->product_attributes;
+    			$orderItem->orderitem_attribute_names     = $product->attributes_names;
+    			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
+    			$orderItem->orderitem_final_price         = $product->product_price * $orderItem->orderitem_quantity;
+    			// TODO When do attributes for selected item get set during admin-side order creation?
+    			array_push($productitems, $orderItem);
+            }
+	   }
+	   return $productitems;
+    }
+  
+    /**
+    * 
+    * Given a user_id or session_id,
+    * Will determine if the cart has a recurring item in it
+    * @param $cart_id
+    */
+    function hasRecurringItem( $cart_id, $id_type='user_id' )
+    {
+        // get the cart's items
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $model = JModel::getInstance( 'Carts', 'TiendaModel' );
+
+        switch ($id_type)
+        {
+            case "session":
+            case "session_id":
+                $model->setState('filter_session', $cart_id);        
+                break;
+            case "user":
+            case "user_id":
+            default:
+                $model->setState('filter_user', $cart_id);        
+                break;                
+        }
+        
+        $cart_items = $model->getList();
+        if (empty($cart_items))
+        {
+            return false;    
+        }
+        
+        // foreach
+        foreach ($cart_items as $item)
+        {
+            if ($item->product_recurs)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
   
 }

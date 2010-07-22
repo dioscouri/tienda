@@ -712,6 +712,34 @@ class TiendaControllerProducts extends TiendaController
             return;            
         }
         
+        // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
+        $product = JTable::getInstance('Products', 'TiendaTable');
+        $product->load( array( 'product_id'=>$product_id ) );
+        
+        $user = JFactory::getUser();
+        $cart_id = $user->id;
+        $id_type = "user_id";
+        if (empty($user->id))
+        {
+            $session =& JFactory::getSession();
+            $cart_id = $session->getId();
+            $id_type = "session";
+        }
+        
+        $cart_recurs = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' )->hasRecurringItem( $cart_id, $id_type );
+        if ($product->product_recurs && $cart_recurs)
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Cart Already Recurs" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;            
+        }
+        
+        if ($product->product_recurs)
+        {
+            $product_qty = '1';
+        }
+        
         // create cart object out of item properties
         $item = new JObject;
         $item->user_id     = JFactory::getUser()->id;

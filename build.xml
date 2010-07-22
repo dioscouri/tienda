@@ -302,13 +302,6 @@
         </copy>
     	
     <!-- AUXILIARY EXTENSIONS -->
-        <!-- JEVENTS -->
-        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.aux}/tienda_plugin_jevents" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.aux}/tienda_plugin_jevents/languages" />
-        </copy>
     </target>
 	
     <target name="init" description="creates nessecary directory to build with">
