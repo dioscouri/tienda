@@ -278,10 +278,14 @@ class TiendaModelProducts extends TiendaModelBase
         if (empty( $this->_item ))
         {
             $item = parent::getItem();
-
-            if ($item->product_recurs)
+            if (empty($item))
             {
-                if ($item->recurring_trial)
+                return $item;
+            }
+
+            if (!empty($item->product_recurs))
+            {
+                if (!empty($item->recurring_trial))
                 {
                     $item->recurring_price = $item->price;
                     $item->price = $item->recurring_trial_price;

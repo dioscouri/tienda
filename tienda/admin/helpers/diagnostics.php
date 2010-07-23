@@ -168,6 +168,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsRecurringPrice FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkProductsCheckInventory())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsCheckInventory FAILED') .' :: '. $this->getError(), 'error' );
+        }
 
     }
     
@@ -1237,6 +1242,47 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config->save();
             return true;
         }
+        return false;        
+    }
+    
+    /**
+     * Check if the _products table is correct
+     * As of v0.5.2
+     * 
+     * @return boolean
+     */
+    function checkProductsCheckInventory() 
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsCheckInventory', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_check_inventory";
+            $newnames["product_check_inventory"] = "product_check_inventory";
+            $definitions["product_check_inventory"] = "tinyint(1) DEFAULT '0' COMMENT 'Check Inventory for this Product?'";
+
+        $fields[] = "product_ships";
+            $newnames["product_ships"] = "product_ships";
+            $definitions["product_ships"] = "tinyint(1) DEFAULT '0' COMMENT 'Product Requires Shipping?'";
+        
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsCheckInventory') );
+            $config->config_name = 'checkProductsCheckInventory';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+
         return false;        
     }
 }

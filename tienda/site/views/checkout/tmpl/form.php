@@ -54,10 +54,16 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
                     <span style="float: left">
                         <input type="checkbox" name="remember" class="inputbox" value="yes"/>
                     </span>
-                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
                 </td>
             </tr>
             <?php endif; ?>
+            <tr>
+                <td>
+                </td>
+                <td style="text-align: right;">
+                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
+                </td>
+            </tr>
             <tr>
                 <td style="height: 40px;">
                     <ul>
