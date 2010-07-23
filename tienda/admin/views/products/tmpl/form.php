@@ -1,6 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('behavior.tooltip'); ?>
 <?php jimport('joomla.html.pane'); ?>
 <?php $tabs = &JPane::getInstance( 'tabs' ); ?>
 <?php $form = @$this->form; ?>
@@ -235,31 +236,6 @@ window.addEvent('domready', function(){
                         </tr>
                         </table>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Params' ); ?>:
-                    </td>
-                    <td>
-                        <textarea name="product_params" id="product_params" rows="10" cols="55"><?php echo @$row->product_params; ?></textarea>
-                    </td>
-                </tr>
-            </table>
-            </fieldset>
-
-            <fieldset>
-            <legend><?php echo JText::_( "Display" ); ?></legend>
-            <table class="admintable" style="width: 100%;">
-                <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Layout File' ); ?>:
-                    </td>
-                    <td>
-                        <?php echo TiendaSelect::productlayout( @$row->product_layout, 'product_layout' ); ?>
-                        <div class="note">
-                            <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
-                        </div>                        
                     </td>
                 </tr>
             </table>
@@ -504,226 +480,316 @@ window.addEvent('domready', function(){
     echo $tabs->startPanel( JText::_( 'Pricing and Inventory' ), "panel_pricing"); 
     ?>
 
-    <div style="clear: both;"></div>
-    
-    <div style="float: left; width: 50%;">
-        <fieldset>
-        <legend><?php echo JText::_( "Prices and Inventory" ); ?></legend>
+        <div style="clear: both;"></div>
         
-        <table class="admintable">
-            <?php 
-            if (empty($row->product_id)) 
-            {
-                // doing a new product, so collect default info
-                ?>
-                <tr>
-                    <td width="100" align="right" class="key" style="vertical-align: top;">
-                        <label for="product_price">
-                        <?php echo JText::_( 'Normal Price' ); ?>:
-                        </label>
-                    </td>
-                    <td>
-                        <input type="text" name="product_price" id="product_price" value="<?php echo @$row->product_price; ?>" size="25" maxlength="25" />
-                        <div class="note"><?php echo JText::_( "Set Normal Price Now Special Prices Later" ); ?></div>
-                    </td>
-                </tr>
-                <?php
-            } 
-                else
-            {
-                // display lightbox link to manage prices
-                ?>
-                <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <label for="product_prices">
-                        <?php echo JText::_( 'Prices' ); ?>:
-                        </label>
-                    </td>
-                    <td>
-                        <?php
-                        Tienda::load( 'TiendaUrl', 'library.url' );
-                        Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
-                        ?>
-                        [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
-                        <?php $prices = TiendaHelperProduct::getPrices( $row->product_id ); ?>
-                        <div id="current_prices">
-                            <?php foreach (@$prices as $price) : ?>
-                                [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
-                                    <?php echo JText::_("Remove"); ?>
-                                </a>]
-                                <?php echo TiendaHelperBase::currency( $price->product_price ); ?>
-                                <br/>
-                            <?php endforeach; ?>
-                        </div>
-                    </td>
-                </tr>
-                <?php
-            }
-            ?>
-            <tr>
-                <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Tax Class' ); ?>:
-                </td>
-                <td>
-                    <?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Check Product Inventory' ); ?>:
-                </td>
-                <td>
-                    <?php echo JHTML::_('select.booleanlist', 'product_check_inventory', '', @$row->product_check_inventory ); ?>
-                </td>
-            </tr>
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Prices and Inventory" ); ?></legend>
             
-            
-            <?php
-            if (empty($row->product_check_inventory))
-            {
-            ?>
-            <tr>
-                    <td width="100" align="right" class="key" style="vertical-align: top;">
-                        <?php echo JText::_( 'Product Quantities' ); ?>:
-                    </td>
-                    <td>
-                        <div class="note"><?php echo JText::_( "Product Inventory is disabled. Enable it to set Quantities" ); ?></div>
-                    </td>
-            </tr>
-            <?php
-            } 
-            else 
-            {
+            <table class="admintable">
+                <?php 
                 if (empty($row->product_id)) 
                 {
-                    // doing a new product, so display a notice
+                    // doing a new product, so collect default info
                     ?>
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
-                            <?php echo JText::_( 'Product Quantities' ); ?>:
+                            <label for="product_price">
+                            <?php echo JText::_( 'Normal Price' ); ?>:
+                            </label>
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_( "Click apply to be able to create product quantities" ); ?></div>
+                            <input type="text" name="product_price" id="product_price" value="<?php echo @$row->product_price; ?>" size="25" maxlength="25" />
+                            <div class="note"><?php echo JText::_( "Set Normal Price Now Special Prices Later" ); ?></div>
                         </td>
                     </tr>
                     <?php
                 } 
                     else
                 {
-                    // display lightbox link to manage quantities
+                    // display lightbox link to manage prices
                     ?>
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Product Quantities' ); ?>:
+                            <label for="product_prices">
+                            <?php echo JText::_( 'Prices' ); ?>:
+                            </label>
                         </td>
                         <td>
                             <?php
-                            echo $row->product_quantity;
-                            echo "<br/>";
                             Tienda::load( 'TiendaUrl', 'library.url' );
-                            $options = array('update' => true ); 
+                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
+                            <?php $prices = TiendaHelperProduct::getPrices( $row->product_id ); ?>
+                            <div id="current_prices">
+                                <?php foreach (@$prices as $price) : ?>
+                                    [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                        <?php echo JText::_("Remove"); ?>
+                                    </a>]
+                                    <?php echo TiendaHelperBase::currency( $price->product_price ); ?>
+                                    <br/>
+                                <?php endforeach; ?>
+                            </div>
                         </td>
                     </tr>
                     <?php
                 }
-            }
-            ?>
-        </table>
-        </fieldset>
-    </div>
+                ?>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Tax Class' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Check Product Inventory' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'product_check_inventory', '', @$row->product_check_inventory ); ?>
+                    </td>
+                </tr>
+                
+                
+                <?php
+                if (empty($row->product_check_inventory))
+                {
+                ?>
+                <tr>
+                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                            <?php echo JText::_( 'Product Quantities' ); ?>:
+                        </td>
+                        <td>
+                            <div class="note"><?php echo JText::_( "Product Inventory is disabled. Enable it to set Quantities" ); ?></div>
+                        </td>
+                </tr>
+                <?php
+                } 
+                else 
+                {
+                    if (empty($row->product_id)) 
+                    {
+                        // doing a new product, so display a notice
+                        ?>
+                        <tr>
+                            <td width="100" align="right" class="key" style="vertical-align: top;">
+                                <?php echo JText::_( 'Product Quantities' ); ?>:
+                            </td>
+                            <td>
+                                <div class="note"><?php echo JText::_( "Click apply to be able to create product quantities" ); ?></div>
+                            </td>
+                        </tr>
+                        <?php
+                    } 
+                        else
+                    {
+                        // display lightbox link to manage quantities
+                        ?>
+                        <tr>
+                            <td style="width: 100px; text-align: right;" class="key">
+                                <?php echo JText::_( 'Product Quantities' ); ?>:
+                            </td>
+                            <td>
+                                <?php
+                                echo $row->product_quantity;
+                                echo "<br/>";
+                                Tienda::load( 'TiendaUrl', 'library.url' );
+                                $options = array('update' => true ); 
+                                ?>
+                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+            </table>
+            </fieldset>
+        </div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Recurring Charges" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Charges Recur' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_("No"); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_("Yes"); ?></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Number of Recurring Charges' ); ?>:
+                    </td>
+                    <td>
+                        <input name="recurring_payments" id="recurring_payments" value="<?php echo @$row->recurring_payments; ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Recurring Period Interval' ); ?>:
+                    </td>
+                    <td>
+                        <input name="recurring_period_interval" id="recurring_period_interval" value="<?php echo @$row->recurring_period_interval; ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Recurring Period Units' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::periodUnit( @$row->recurring_period_unit, 'recurring_period_unit' ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Trial Period' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'recurring_trial', '', @$row->recurring_trial ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Trial Period Price' ); ?>:
+                    </td>
+                    <td>
+                        <input name="recurring_trial_price" id="recurring_trial_price" value="<?php echo @$row->recurring_trial_price; ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Trial Period Interval' ); ?>:
+                    </td>
+                    <td>
+                        <input name="recurring_trial_period_interval" id="recurring_trial_period_interval" value="<?php echo @$row->recurring_trial_period_interval; ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Trial Period Units' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::periodUnit( @$row->recurring_trial_period_unit, 'recurring_trial_period_unit' ); ?>
+                    </td>
+                </tr>          
+            </table>
+            </fieldset>
+        </div>
     
-    <div style="float: left; width: 50%;">
-        <fieldset>
-        <legend><?php echo JText::_( "Recurring Charges" ); ?></legend>
-        <table class="admintable" style="width: 100%;">
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Product Charges Recur' ); ?>:
-                </td>
-                <td>
-                    <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_("No"); ?></label>
-                    <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_("Yes"); ?></label>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Number of Recurring Charges' ); ?>:
-                </td>
-                <td>
-                    <input name="recurring_payments" id="recurring_payments" value="<?php echo @$row->recurring_payments; ?>" size="10" maxlength="10" type="text" />
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Recurring Period Interval' ); ?>:
-                </td>
-                <td>
-                    <input name="recurring_period_interval" id="recurring_period_interval" value="<?php echo @$row->recurring_period_interval; ?>" size="10" maxlength="10" type="text" />
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Recurring Period Units' ); ?>:
-                </td>
-                <td>
-                    <?php echo TiendaSelect::periodUnit( @$row->recurring_period_unit, 'recurring_period_unit' ); ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Trial Period' ); ?>:
-                </td>
-                <td>
-                    <?php echo JHTML::_('select.booleanlist', 'recurring_trial', '', @$row->recurring_trial ); ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Trial Period Price' ); ?>:
-                </td>
-                <td>
-                    <input name="recurring_trial_price" id="recurring_trial_price" value="<?php echo @$row->recurring_trial_price; ?>" size="10" maxlength="10" type="text" />
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Trial Period Interval' ); ?>:
-                </td>
-                <td>
-                    <input name="recurring_trial_period_interval" id="recurring_trial_period_interval" value="<?php echo @$row->recurring_trial_period_interval; ?>" size="10" maxlength="10" type="text" />
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 125px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Trial Period Units' ); ?>:
-                </td>
-                <td>
-                    <?php echo TiendaSelect::periodUnit( @$row->recurring_trial_period_unit, 'recurring_trial_period_unit' ); ?>
-                </td>
-            </tr>          
-        </table>
-        </fieldset>
-    </div>
-
-    <div style="clear: both;"></div>
+        <div style="clear: both;"></div>
     
     <?php 
     echo $tabs->endPanel();
     
     // Tab
-    //echo $tabs->startPanel( JText::_( 'Integrations' ), "panel_integrations"); 
+    echo $tabs->startPanel( JText::_( 'Display' ), "panel_display"); 
     ?>
+        <div style="clear: both;"></div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Display" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Layout File' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::productlayout( @$row->product_layout, 'product_layout' ); ?>
+                        <div class="note">
+                            <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
+                        </div>                        
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+        </div>
 
         <?php
         // fire plugin event here to enable extending the form
-        //JDispatcher::getInstance()->trigger('onDisplayProductFormIntegrations', array( $row ) );                    
+        JDispatcher::getInstance()->trigger('onDisplayProductFormDisplay', array( $row ) );                    
         ?>
-
+        
+        <div style="clear: both;"></div>
+    
     <?php 
-    //echo $tabs->endPanel();
+    echo $tabs->endPanel();
+    
+    // Tab
+    echo $tabs->startPanel( JText::_( 'Integrations' ), "panel_integrations"); 
+    ?>
 
+        <div style="clear: both;"></div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Amigos Integration" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_("Commission Rate Override").'::'.JText::_( "Commission Rate Override Tip" ); ?>" >
+                        <?php echo JText::_( 'Commission Rate Override' ); ?>:
+                    </td>
+                    <td>
+                        <input name="amigos_commission_override" id="amigos_commission_override" value="<?php echo @$row->product_parameters->get('amigos_commission_override'); ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+        </div>
+
+        <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onDisplayProductFormIntegrations', array( $row ) );                    
+        ?>
+        
+        <div style="clear: both;"></div>
+    <?php 
+    echo $tabs->endPanel();
+    
+    // Tab
+    echo $tabs->startPanel( JText::_( 'Advanced' ), "panel_advanced"); 
+    ?>
+        <div style="clear: both;"></div>
+        
+        <div class="note">
+            <?php echo JText::_( "Advanced Panel Notice" ); ?>
+        </div>
+        
+        <div style="clear: both;"></div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Product Parameters" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Params' ); ?>:
+                    </td>
+                    <td>
+                        <textarea name="product_params" id="product_params" rows="10" cols="55"><?php echo @$row->product_params; ?></textarea>
+                    </td>
+                </tr>
+                </table>
+            </fieldset>
+        </div>
+
+        <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onDisplayProductFormAdvanced', array( $row ) );                    
+        ?>
+        
+        <div style="clear: both;"></div>
+        
+    <?php 
+    echo $tabs->endPanel();
+    
     // fire plugin event here to enable extending the form's tabs
     JDispatcher::getInstance()->trigger('onAfterDisplayProductFormTabs', array( $tabs ) );
     

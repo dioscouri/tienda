@@ -117,6 +117,9 @@ class TiendaControllerProducts extends TiendaController
 		
 		$fieldname = 'product_full_image_new';
 		$userfiles = JRequest::getVar( $fieldname, '', 'files', 'array' );
+
+        // save the integrations
+		$row = $this->prepareParameters( $row );
 		
 		if ( $row->save() ) 
 		{
@@ -227,6 +230,20 @@ class TiendaControllerProducts extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
     
+	/**
+	 * 
+	 * A separate space for working through all the different integrations 
+	 */
+	function prepareParameters( &$row )
+	{
+        // this row's product_params has already been set from the textarea's POST 
+        // so we need to add to it
+        $params = new JParameter( trim($row->product_params) );
+        $params->set( 'amigos_commission_override', JRequest::getVar('amigos_commission_override') );
+        $row->product_params = trim( $params->toString() );
+	    return $row;
+	}
+	
 	/**
 	 * Adds a thumbnail image to item
 	 * @return unknown_type

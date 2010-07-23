@@ -249,8 +249,6 @@ class TiendaModelProducts extends TiendaModelBase
             if ( empty( $list ) ) {
                 return array();
             }
-    
-            
             
             foreach($list as $item)
             {
@@ -262,6 +260,8 @@ class TiendaModelProducts extends TiendaModelBase
                         $item->price = $item->recurring_trial_price;
                     }
                 }
+                
+                $item->product_parameters = new JParameter( $item->product_params );
                 
                 $item->slug = $item->product_alias ? ":$item->product_alias" : "";
                 $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
@@ -291,6 +291,8 @@ class TiendaModelProducts extends TiendaModelBase
                     $item->price = $item->recurring_trial_price;
                 }
             }
+            
+            $item->product_parameters = new JParameter( $item->product_params );
 
             $item->slug = $item->product_alias ? ":$item->product_alias" : "";
             $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;

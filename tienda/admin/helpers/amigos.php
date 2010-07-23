@@ -109,8 +109,12 @@ class TiendaHelperAmigos extends TiendaHelperBase
         }
         
         // get the order
-        $order = JTable::getInstance( 'Orders', 'TiendaTable' );
-        $order->load( array( 'order_id'=>$order_id ) );
+        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model->setId( $order_id );
+        $order = $model->getItem();
+        
+//        $order = JTable::getInstance( 'Orders', 'TiendaTable' );
+//        $order->load( array( 'order_id'=>$order_id ) );
         
         $referral = $this->getReferralStatus($order->user_id);
         if (empty($order->user_id) || empty($referral))
@@ -126,7 +130,6 @@ class TiendaHelperAmigos extends TiendaHelperBase
             JLoader::import( 'com_amigos.defines', JPATH_ADMINISTRATOR.DS.'components' );    
         }        
         Tienda::load( 'AmigosHelperCommission', 'helpers.commission', array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_amigos' ) );
-        Tienda::load( 'AmigosHelperCommission', 'helpers.commission', array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_amigos' ) );
         
         if (!empty($referral->accountid))
         {
@@ -135,9 +138,34 @@ class TiendaHelperAmigos extends TiendaHelperBase
             // get the account
             $account = JTable::getInstance('Accounts', 'Table');
             $account->load( $referral->accountid );
-            // get payouttype
+            
+            // get payout type and value
             $payout = JTable::getInstance('Payouts', 'Table');
             $payout->load( $account->payoutid );
+            $payout_type = $payout->payouttype ? $payout->payouttype : $config->get('default_payouttype', 'PPSP');
+            $payout_value = $payout->value ? $payout->value : $config->get('default_payout_value', '10%');
+            
+            // determine the commission value based on each product's commission rate override
+            $commission_value = 0;
+            foreach ($order->orderitems as $orderitem)
+            {
+                $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+                $model->setId( $orderitem->product_id );
+                $product = $model->getItem();
+                
+                // does this product have a override for the commission rate?
+                if ($product->product_parameters->get('amigos_commission_override') === '')
+                {
+                    $product_commission_value = AmigosHelperCommission::calculate( $payout_type, $payout_value, $orderitem->orderitem_final_price );
+                }
+                    else
+                {
+                    $product_payout_value = $product->product_parameters->get('amigos_commission_override');
+                    $product_commission_value = AmigosHelperCommission::calculate( $payout_type, $product_payout_value, $orderitem->orderitem_final_price );
+                }
+                
+                $commission_value += $product_commission_value;
+            }
             
             // create commission record
             $commission = JTable::getInstance('Commissions', 'Table');
@@ -149,9 +177,9 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $commission->created_datetime   = $date->toMysql();
             $commission->refer_url          = $referral->refer_url;
             $commission->amigosid           = $referral->amigosid;
-            $commission->payouttype         = $payout->payouttype ? $payout->payouttype : $config->get('default_payouttype', 'PPSP');
-            $commission->payout_value       = $payout->value ? $payout->value : $config->get('default_payout_value', '10%');
-            $commission->value              = AmigosHelperCommission::calculate( $commission->payouttype, $commission->payout_value, $commission->order_value );
+            $commission->payouttype         = $payout_type;
+            $commission->payout_value       = $payout_value;
+            $commission->value              = $commission_value;
             
             if (!$commission->save())
             {
