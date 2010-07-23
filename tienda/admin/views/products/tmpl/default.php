@@ -42,7 +42,7 @@
                 	<?php echo TiendaGrid::sort( 'Price', "price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                	<?php echo TiendaGrid::sort( 'Quantity', "tbl.product_in_stock", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'Quantity', "product_quantity", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
     	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.product_enabled", @$state->direction, @$state->order ); ?>
