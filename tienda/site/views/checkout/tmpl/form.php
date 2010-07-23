@@ -50,7 +50,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
                 <td>
                     <?php echo JText::_('REMEMBER ME'); ?>
                 </td>
-                <td style="text-align: right;">
+                <td>
                     <span style="float: left">
                         <input type="checkbox" name="remember" class="inputbox" value="yes"/>
                     </span>
