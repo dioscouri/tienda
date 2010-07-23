@@ -77,17 +77,19 @@ $citems = @$this->citems;
 					        {
                                 Tienda::load('TiendaHelperUser', 'helpers.user');
                                 $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+					            if (empty($geozones))
+                                {
+                                    // use the default
+                                    $table = JTable::getInstance('Geozones', 'TiendaTable');
+                                    $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                                    $geozones = array( $table );
+                                }
                                 $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
                                 $tax = $taxtotal->tax_total;
                                 if (!empty($tax))
                                 {
                                     echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($tax));    
                                 }
-                                    else 
-                                {
-                                    echo JText::_('PLUS_TAX');
-                                }
-                                
 					        }
 
 					        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))

@@ -608,6 +608,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Tax Geozone' ); ?>
+                            </th>
+                            <td>
+                                <?php echo TiendaSelect::geozone( $this->row->get('default_tax_geozone'), 'default_tax_geozone' ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Default Tax Geozone Desc' ); ?>            
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Link to Shipping Costs Article' ); ?>
                             </th>
                             <td>

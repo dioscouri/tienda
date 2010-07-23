@@ -413,6 +413,7 @@ class TiendaConfig extends JObject
     var $display_tienda_pathway             = '1';
     var $display_out_of_stock               = '1';
     var $global_handling                    = '';
+    var $default_tax_geozone                = '';
 	
 	/**
 	 * constructor
