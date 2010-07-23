@@ -61,6 +61,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERCURRENCY FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkProductsInventory())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsInventory FAILED') .' :: '. $this->getError(), 'error' );
+        }
+                
         // check the category root 
         if (!$this->checkCategoriesRootDesc()) 
         {
@@ -442,7 +447,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $fields = array();
         
         $fields[] = "product_check_inventory";
-            $definitions["product_check_inventory"] = "tinyint(1) DEFAULT '1' COMMENT 'Check Product Inventory?'";
+            $definitions["product_check_inventory"] = "tinyint(1) DEFAULT '0' COMMENT 'Check Product Inventory?'";
             
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
