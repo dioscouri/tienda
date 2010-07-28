@@ -791,7 +791,7 @@ window.addEvent('domready', function(){
     echo $tabs->endPanel();
     
     // fire plugin event here to enable extending the form's tabs
-    JDispatcher::getInstance()->trigger('onAfterDisplayProductFormTabs', array( $tabs ) );
+    JDispatcher::getInstance()->trigger('onAfterDisplayProductFormTabs', array( $tabs, $row ) );
     
     echo $tabs->endPane();
     ?>
