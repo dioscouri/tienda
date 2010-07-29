@@ -11,12 +11,13 @@ if (JRequest::getVar('windowtask') == 'close')
 ?>
     <script type="text/javascript">
     window.parent.tiendaAddProductsToOrder();
-    </script> 
+    </script>
 <?php
 }
 ?>
+
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-    <button onclick="document.getElementById('task').value='addProducts'; document.adminForm.submit();"> <?php echo JText::_( "Add Selected Products to Order" ); ?></button>
+    <button onclick="document.getElementById('task').value='addproducts'; document.adminForm.submit();"> <?php echo JText::_( "Add Selected Products to Order" ); ?></button>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -105,6 +106,6 @@ if (JRequest::getVar('windowtask') == 'close')
     <input type="hidden" name="boxchecked" value="" />
     <input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
     <input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
-    <input type="hidden" name="userid" value="<?php echo JRequest::getVar('userid'); ?>" />
+    
     <?php echo $this->form['validate']; ?>
 </form>

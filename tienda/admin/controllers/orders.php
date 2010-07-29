@@ -194,9 +194,7 @@ class TiendaControllerOrders extends TiendaController
 		{
 			JRequest::setVar( 'hidemainmenu', '1' );
 			JRequest::setVar( 'layout', 'form' );
-
-			//parent::display();
-			$this->displayForm();
+			parent::display();
 		}
 	}
 
@@ -236,146 +234,64 @@ class TiendaControllerOrders extends TiendaController
 	 *
 	 * @return unknown_type
 	 */
-	// Comented by Rakesh duto concept of the session
-	//
-	//	function addProducts()
-	//	{
-	//
-	//		// get the posted variables
-	//		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
-	//		$quantity = JRequest::getVar('quantity', array(0), 'request', 'array');
-	//
-	//
-	//		// get the session variables
-	//		$order_products = $this->getSessionVariable('order_products', array());
-	//		$order_quantities = $this->getSessionVariable('order_quantities', array());
-	//
-	//		jimport('joomla.utilities.arrayhelper'); //joomla/utilities/arrayhelper.php (line 23)
-	//		$order_products = JArrayHelper::fromObject( $order_products );
-	//		$order_quantities = JArrayHelper::fromObject( $order_quantities );
-	//
-	//		if (empty($order_products)) { $order_products = array(); }
-	//		if (empty($order_quantities)) { $order_quantities = array(); }
-	//
-	//		foreach (@$cids as $cid)
-	//		{
-	//			if (empty($cid)) { continue; }
-	//
-	//			if (!in_array($cid, $order_products))
-	//			{
-	//				// Add the posted products to the session variable if it doesn't exist
-	//				$order_products[$cid] = $cid;
-	//				$order_quantities[$cid] = $quantity[$cid];
-	//			}
-	//			else
-	//			{
-	//				$order_products[$cid] = $cid;
-	//				// If it exists, update quantity
-	//				if (!array_key_exists($cid, $order_quantities))
-	//				{
-	//					$order_quantities[$cid] = $quantity[$cid];
-	//				}
-	//				else
-	//				{
-	//					$order_quantities[$cid] += $quantity[$cid];
-	//				}
-	//			}
-	//		}
-	//
-	//		// save to the session
-	//		$this->setSessionVariable('order_products', $order_products);
-	//		$this->setSessionVariable('order_quantities', $order_quantities);
-	//
-	//		// set the close window variable so the view closes the lightbox
-	//		JRequest::setVar('windowtask', 'close');
-	//
-	//		$model = $this->getModel( $this->get('suffix') );
-	//		$view = $this->getView( 'orders', 'html' );
-	//		$view->set( '_controller', 'orders' );
-	//		$view->set( '_view', 'orders' );
-	//		$view->set( '_action', "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component" );
-	//		$view->setModel( $model, true );
-	//		$view->setLayout( 'close' );
-	//
-	//		// fille writing for logs
-	////		$myFile = "januFile.txt";
-	////		$fh = fopen($myFile, 'a+') or die("can't open file");
-	////		$stringData = "Tracy Tanner\n";
-	////		$temp=serialize($view);
-	////		fwrite($fh, $temp);
-	////		fclose($fh);
-	//
-	//		$view->display();
-	//	}
-
-	function addProducts() {
-
+	function addProducts()
+	{
+		// get the posted variables
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 		$quantity = JRequest::getVar('quantity', array(0), 'request', 'array');
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 
-		foreach($cids as $key=>$value){
-			$product_id = $value;
-			$product_qty = $quantity[$key+1];
-			$userid = JRequest::getVar( "userid" );
-			
-			// Integrity checks on quantity being added
-			if ($product_qty < 0) { $product_qty = '1'; }
-				
-			// create cart object out of item properties
-			$item = new JObject;
-			$item->user_id     = (int) $userid;
-			$item->product_id  = (int) $product_id;
-			$item->product_qty = (int) $product_qty;
-			$item->product_attributes = $attributes_csv;
-			$item->vendor_id   = '0'; // vendors only in enterprise version
+		// get the session variables
+		$order_products = $this->getSessionVariable('order_products', array());
+		$order_quantities = $this->getSessionVariable('order_quantities', array());
+
+		jimport('joomla.utilities.arrayhelper'); //joomla/utilities/arrayhelper.php (line 23)
+		$order_products = JArrayHelper::fromObject( $order_products );
+		$order_quantities = JArrayHelper::fromObject( $order_quantities );
+
+		if (empty($order_products)) { $order_products = array(); }
+		if (empty($order_quantities)) { $order_quantities = array(); }
+
+		foreach (@$cids as $cid)
+		{
+			if (empty($cid)) { continue; }
 			 
-		 // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
-			$results = array();
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger( "onBeforeAddToCart", array( $item, $values ) );
-
-			for ($i=0; $i<count($results); $i++)
+			if (!in_array($cid, $order_products))
 			{
-				$result = $results[$i];
-				if (!empty($result->error))
+				// Add the posted products to the session variable if it doesn't exist
+				$order_products[$cid] = $cid;
+				$order_quantities[$cid] = $quantity[$cid];
+			}
+			else
+			{
+				$order_products[$cid] = $cid;
+				// If it exists, update quantity
+				if (!array_key_exists($cid, $order_quantities))
 				{
-					Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-					$helper = TiendaHelperBase::getInstance();
-					$response['msg'] = $helper->generateMessage( $result->message );
-					$response['error'] = '1';
-					echo ( json_encode( $response ) );
-					return;
+					$order_quantities[$cid] = $quantity[$cid];
 				}
 				else
 				{
-					// if here, all is OK
-					$response['error'] = '0';
+					$order_quantities[$cid] += $quantity[$cid];
 				}
 			}
-			 
-			// add the item to the cart
-				
-			TiendaHelperCarts::updateCart( array( $item ) );
-
-			// fire plugin event
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
-				
 		}
 
-		//	 fille writing for logs
-		//		$myFile = "januFile.txt";
-		//		$fh = fopen($myFile, 'a+') or die("can't open file");
-		//		$stringData = "Tracy Tanner\n";
-		//		$temp=serialize($cids);
-		//		fwrite($fh, $temp);
-		//		$temp=serialize($quantity);
-		//		fwrite($fh, $temp);
-		//		fclose($fh);
+		// save to the session
+		$this->setSessionVariable('order_products', $order_products);
+		$this->setSessionVariable('order_quantities', $order_quantities);
 
+		// set the close window variable so the view closes the lightbox
+		JRequest::setVar('windowtask', 'close');
+
+		$model = $this->getModel( $this->get('suffix') );
+		$view = $this->getView( 'orders', 'html' );
+		$view->set( '_controller', 'orders' );
+		$view->set( '_view', 'orders' );
+		$view->set( '_action', "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component" );
+		$view->setModel( $model, true );
+		$view->setLayout( 'close' );
+		$view->display();
 	}
-
 
 	/**
 	 * Gets the products from the session variable
@@ -388,7 +304,7 @@ class TiendaControllerOrders extends TiendaController
 		$row = new JObject();
 		// TODO This needs to reflect the order's selected currency
 		$row->orderitems = $this->getProductsInfo();
-			
+		 
 		$this->set('suffix', 'orders');
 		$model = $this->getModel( $this->get('suffix') );
 		$view   = $this->getView( 'orders', 'html' );
@@ -398,7 +314,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->assign( 'row', $row );
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'orderproducts' );
-			
+		 
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
@@ -930,7 +846,7 @@ class TiendaControllerOrders extends TiendaController
 	function saveOrderInfo()
 	{
 		$order =& $this->_order;
-			
+		 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
@@ -953,7 +869,7 @@ class TiendaControllerOrders extends TiendaController
 	function saveOrderHistory()
 	{
 		$order =& $this->_order;
-			
+		 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order->order_id;
@@ -979,13 +895,13 @@ class TiendaControllerOrders extends TiendaController
 	{
 		$order =& $this->_order;
 		$items = $order->getItems();
-			
+		 
 		if (empty($items) || !is_array($items))
 		{
 			$this->setError( "saveOrderItems:: ".JText::_( "Items Array is Invalid" ) );
 			return false;
 		}
-			
+		 
 		$error = false;
 		$errorMsg = "";
 		foreach ($items as $item)
@@ -1066,7 +982,7 @@ class TiendaControllerOrders extends TiendaController
 		$row->order_state_id = JRequest::getVar('new_orderstate_id');
 
 		$completed_tasks = JRequest::getVar('completed_tasks');
-			
+		 
 
 		if ($completed_tasks == "on" && empty($row->completed_tasks) )
 		{
@@ -1086,12 +1002,12 @@ class TiendaControllerOrders extends TiendaController
 			$history->order_state_id       = $row->order_state_id;
 			$history->notify_customer      = JRequest::getVar('new_orderstate_notify');
 			$history->comments             = JRequest::getVar('new_orderstate_comments');
-
+			 
 			if (!$history->save())
 			{
 				$this->setError( $history->getError() );
 				$this->messagetype  = 'notice';
-					
+				 
 				$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
 			}
 
@@ -1110,7 +1026,7 @@ class TiendaControllerOrders extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-
+	 
 	/**
 	 * Displays list of orders to update there status
 	 * provide diffrent functions like send mail to user update staus etc.
@@ -1141,7 +1057,7 @@ class TiendaControllerOrders extends TiendaController
 	 * This method is updating the all orders on the basis of the action
 	 * @return void
 	 */
-
+	 
 	function updatebatch()
 	{
 		$model 	= $this->getModel( $this->get('suffix') );
@@ -1152,7 +1068,7 @@ class TiendaControllerOrders extends TiendaController
 		$completeTasks = JRequest::getVar('completed_tasks', array (0), 'post', 'array');
 		$states = JRequest::getVar('new_orderstate_id', array (0), 'post', 'array');
 		$comments = JRequest::getVar('new_orderstate_comments', array (0), 'post', 'array');
-
+		
 		// for the updation
 		$counter=0;
 
@@ -1163,7 +1079,7 @@ class TiendaControllerOrders extends TiendaController
 		 $row->order_state_id = $states[$counter];
 		 $completed_tasks = $completeTasks[$orderId];
 		 $is_notify=0;
-
+		 
 		 if ($completed_tasks == "on" && empty($row->completed_tasks) )
 		 {
 		 	Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
@@ -1171,40 +1087,40 @@ class TiendaControllerOrders extends TiendaController
 		 	$row->completed_tasks = 1;
 		 }
 
-		 // saving the row
-		 if ( $row->save())
-		 {
-		 	$model->setId( $row->order_id );
-		 	$this->messagetype  = 'message';
-		 	$this->message      = JText::_( 'Order Saved' );
+		// saving the row  
+		if ( $row->save())
+		{
+			$model->setId( $row->order_id );
+			$this->messagetype  = 'message';
+			$this->message      = JText::_( 'Order Saved' );
 
-		 	$history = JTable::getInstance('OrderHistory', 'TiendaTable');
-		 	$history->order_id             = $row->order_id;
-		 	$history->order_state_id       = $row->order_state_id;
-		 	if($sendMails[$orderId]=="on"){
-		 		$is_notify=1;
-		 	}
-		 	$history->notify_customer      = $is_notify;
-		 	$history->comments             = $comments[$counter];
+			$history = JTable::getInstance('OrderHistory', 'TiendaTable');
+			$history->order_id             = $row->order_id;
+			$history->order_state_id       = $row->order_state_id;
+			if($sendMails[$orderId]=="on"){
+				$is_notify=1;
+			}
+			$history->notify_customer      = $is_notify;
+			$history->comments             = $comments[$counter];
+			 
+			if (!$history->save())
+			{
+				$this->setError( $history->getError() );
+				$this->messagetype  = 'notice';
+				$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
+			}
 
-		 	if (!$history->save())
-		 	{
-		 		$this->setError( $history->getError() );
-		 		$this->messagetype  = 'notice';
-		 		$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
-		 	}
-
-		 	$dispatcher = JDispatcher::getInstance();
-		 	$dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
-		 }
-
-		 else
-		 {
-		 	$this->messagetype  = 'notice';
-		 	$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
-		 }
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
+		}
+		 	
+		else
+		{
+			$this->messagetype  = 'notice';
+			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+		}
 		 $counter++;
-
+		
 		}
 		$redirect = "index.php?option=com_tienda";
 		$redirect .= '&view='.$this->get('suffix');
@@ -1213,71 +1129,5 @@ class TiendaControllerOrders extends TiendaController
 
 	}
 
-	function displayForm($cachable=false)
-	{
-		// this sets the default view
-		JRequest::setVar( 'view', JRequest::getVar( 'view', 'dashboard' ) );
-		$userid = JRequest::getVar( "userid" );
-		
-		$document =& JFactory::getDocument();
-
-		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', $this->getName() );
-		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-
-		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-
-		// Get/Create the model
-		if ($model = & $this->getModel($viewName))
-		{
-			// controller sets the model's state - this is why we override parent::display()
-			$this->_setModelState();
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
-		$view->assign("userid",$userid);
-		
-		// get the product list on the basisi of user from cart 
-		$productsInCart= $this->getProductsFromCart($userid);
-		$view->assign("productsInCart",$productsInCart);
-
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeDisplayAdminComponentTienda', array() );
-
-		// Display the view
-		if ($cachable && $viewType != 'feed') {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		} else {
-			$view->display();
-		}
-
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onAfterDisplayAdminComponentTienda', array() );
-
-		$this->footer();
-	}
-	
-	/*
-	 * this method will return the list of product objects which is in the cart of the selected user
-	 * @parama userid
-	 * return list Product's objects
-	 */
-	function getProductsFromCart($userid= 0){
-		$productList=array();
-		if ($userid!=0){
-		$model = $this->getModel('carts' );
-		$model->setState('filter_user',$userid);
-		$productList=$model->getList();
-		
-		return $productList;
-		}
-	return $productList;
-	}
-	
 }
 ?>
