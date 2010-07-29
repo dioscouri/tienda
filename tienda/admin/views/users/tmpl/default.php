@@ -118,6 +118,11 @@
 					]
 				</td>
                 <td style="text-align: center;">
+                    [
+                    <a href="<?php echo $item->link_createorder; ?>">
+                        <?php echo JText::_( "Create Order" ); ?>
+                    </a>
+                    ]
                 </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

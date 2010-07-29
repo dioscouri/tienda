@@ -5,6 +5,7 @@ JHTML::_('script', 'tienda_orders.js', 'media/com_tienda/js/');
 $form = @$this->form;
 $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
+$userid= $this->userid;
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm">
@@ -21,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
                        <?php echo JText::_( "Products in Order" ); ?>
                     </th>
                     <th style="text-align: center; width: 20%;" >
-                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component", JText::_( "Add Products to Order" ) ); ?>
+                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component&userid=".$userid, JText::_( "Add Products to Order" ) ); ?>
                     </th>
                 </tr>
             </thead>
@@ -29,7 +30,7 @@ JFilterOutput::objectHTMLSafe( $row );
             <tr>
                 <td colspan="2">
 	                <div id="order_products_div">
-	                    <?php include("orderproducts.php"); ?>
+	                    <?php include("cart_products.php"); ?>
 	                </div>                
                 </td>
             </tr>
@@ -42,13 +43,13 @@ JFilterOutput::objectHTMLSafe( $row );
 	        <tr>
 	            <td style="width: 50%; vertical-align: top;">
 	            
-                    <?php include("form_address_billing.php"); ?>
+                    <?php // commented by Pratyushinclude("form_address_billing.php"); ?>
 	                <div id="billingSelectedAddressDiv" style="padding-left: 5px;"></div>
 	                
 	            </td>
 	            <td style="width: 50%; vertical-align: top;">
 	            
-	                <?php include("form_address_shipping.php"); ?>	                
+	                <?php // commented by Pratyush include("form_address_shipping.php"); ?>	                
 	                <div id="shippingSelectedAddressDiv" style="padding-left: 5px;"></div>
 	            </td>
 	        </tr>
@@ -119,7 +120,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		        </th>
 		        <td>
 			        <?php $attribs = array( 'class' => 'inputbox', 'size' => '1', 'onchange' => 'tiendaGetOrderTotals();' ); ?>
-		            <?php echo TiendaSelect::shippingmethod( 0, 'shipping_method_id', $attribs, 'shipping_method_id', true ); ?>
+		            <?php //commented by Pratyush echo TiendaSelect::shippingmethod( 0, 'shipping_method_id', $attribs, 'shipping_method_id', true ); ?>
 		        </td>
 		    </tr>
         </tbody>
