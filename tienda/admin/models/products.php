@@ -200,6 +200,8 @@ class TiendaModelProducts extends TiendaModelBase
 			$field[] = " c.category_name AS category_name ";
 		}
 		
+		$field[] = " m.manufacturer_name AS manufacturer_name ";
+		
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		$default_group = '0'; // TODO Use default user_group_id
