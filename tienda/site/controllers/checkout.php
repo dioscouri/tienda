@@ -523,7 +523,7 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 
 		// fail if not checked terms & condition
-		if( TiendaConfig::getInstance()->get('show_terms') && empty($submitted_values['_checked']['shipping_terms']) )
+		if( TiendaConfig::getInstance()->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
 			$response['msg'] = $helper->generateMessage(JText::_('Please Check the Terms & Conditions'));
 			$response['error'] = '1';
