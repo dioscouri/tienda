@@ -61,4 +61,3 @@
 	</tr>					
 	</tbody>
 </table>
-<?php //echo Tienda::dump( $this->row ); ?>

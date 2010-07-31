@@ -56,8 +56,6 @@ $items = @$this->orderitems;
                         <?php echo $item->orderitem_quantity;?>  
                     </td>
                     <td style="text-align: right;">
-                        <?php $itemsubtotal = $price * $item->orderitem_quantity; ?>
-                        <?php //echo TiendaHelperBase::currency($itemsubtotal); ?>
                         <?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>
                                                
                     </td>

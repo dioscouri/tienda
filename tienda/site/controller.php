@@ -236,7 +236,7 @@ class TiendaController extends JController
                     <dt class="notice">notice</dt>
                     <dd class="notice message fade">
                         <ul style="padding: 10px;">'.
-                        JText::_("Could not process form").": ".Tienda::dump( $elements )                        
+                        JText::_("Could not process form")                        
                         .'</ul>
                     </dd>
                     </dl>

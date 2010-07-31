@@ -48,8 +48,7 @@ class TiendaControllerShippingFedex extends TiendaControllerShippingPlugin
         $query = "SELECT `params` FROM `#__plugins` WHERE `id` = '$id'";
         $database->setQuery($query);
         $jparams = new JParameter($database->loadObject()->params);
-        echo Tienda::dump( $jparams );
-        exit;        
+        
         foreach (@$params_arr as $param => $val) { $jparams->set($param, $val); }
         
         $query = "UPDATE `#__plugins` SET `params`= '".$jparams->toString()."' WHERE `id`= '$plg_id'";
