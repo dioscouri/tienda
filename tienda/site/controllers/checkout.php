@@ -1396,7 +1396,8 @@ class TiendaControllerCheckout extends TiendaController
 		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
 		$mainframe =& JFactory::getApplication();
 		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
-   
+        $mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
+           
 		// 2. perform payment process
 		// this is the onPrePayment plugin event
 		// in the case of offsite payment plugins (like Paypal), they will display an order summary (perhaps with ****** for CC number)

@@ -67,10 +67,15 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // if order has both recurring and non-recurring items,
         if ($vars->is_recurring && count($items) > '1')
         {
-            // TODO Complete this
-            // do non-recurring first, 
-            // then upon return, ask user to checkout again for recurring items
             $vars->cmd = '_cart';
+            // Adjust the orderpayment amount since it's a mixed cart
+            // first orderpayment is just the non-recurring items total
+            // then upon return, ask user to checkout again for recurring items
+            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            $orderpayment->load( $vars->orderpayment_id );
+            $amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $amount; 
+            $orderpayment->save();
         }
             elseif ($vars->is_recurring && count($items) == '1')
         {
@@ -88,7 +93,11 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // set payment plugin variables        
         $vars->merchant_email = $this->_getParam( 'merchant_email' );
         $vars->post_url = $this->_getPostUrl();
-        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
+        
+        // are there both recurring and non-recurring items in cart? 
+        // if so, then user must perform two checkouts,
+        // so store a flag in the return_url        
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message&checkout=1";
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
         $vars->notify_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
         $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: TiendaConfig::getInstance()->get('currency');
@@ -105,6 +114,82 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
         
         $html = $this->_getLayout('prepayment', $vars);
+        return $html;
+    }
+
+    /**
+     * Prepares the payment form
+     * and returns HTML Form to be displayed to the user
+     * for the second of two payments (when cart has both recurring and non-recurring items)
+     * 
+     * Submit button target for onsite payments & return URL for offsite payments should be:
+     * index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
+     * where xxxxxxx = $_element = the plugin's filename 
+     *  
+     * @return string   HTML to display
+     */
+    function _secondPayment( $order_id )
+    {
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $order_id );
+        $items = $order->getItems();
+        $vars->is_recurring = $order->isRecurring();
+        
+        // create a new orderpayment record
+        // we're creating a new orderpayment record,
+        // this one just for the recurring item
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->order_id = $order->order_id;
+        $orderpayment->orderpayment_type = $this->_element;
+        $orderpayment->transaction_status = JText::_( "Incomplete" );
+        $amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+        $orderpayment->orderpayment_amount = $amount;
+        if (!$orderpayment->save())
+        {
+            // Output error message and halt
+            JError::raiseNotice( 'Error Saving Pending Payment Record', $orderpayment->getError() );
+            return false;
+        }
+        
+        // prepare the payment form
+        $vars = new JObject();
+        $vars->order_id = $order_id;
+        $vars->orderpayment_id = $orderpayment->orderpayment_id;
+        $vars->orderpayment_amount = $orderpayment->orderpayment_amount;
+        $vars->orderpayment_type = $this->_element;
+        $vars->cmd = '_xclick-subscriptions';
+        $vars->order = $order;
+        $vars->orderitems = $items;
+        
+        // set payment plugin variables        
+        $vars->merchant_email = $this->_getParam( 'merchant_email' );
+        $vars->post_url = $this->_getPostUrl();
+        
+        // are there both recurring and non-recurring items in cart? 
+        // if so, then user must perform two checkouts,
+        // so store a flag in the return_url        
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
+        $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
+        $vars->notify_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
+        $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: TiendaConfig::getInstance()->get('currency');
+
+        // set variables for user info
+        $row = JTable::getInstance('OrderInfo', 'TiendaTable');
+        $row->load(array('order_id'=>$order_id));
+        $data = array('orderinfo'=>$row);
+        
+        $vars->first_name   = $data['orderinfo']->shipping_first_name;
+        $vars->last_name    = $data['orderinfo']->shipping_last_name;
+        $vars->email        = $data['orderinfo']->user_email;
+        $vars->address_1    = $data['orderinfo']->shipping_address_1;
+        $vars->address_2    = $data['orderinfo']->shipping_address_2;
+        $vars->city         = $data['orderinfo']->shipping_city;
+        $vars->country      = $data['orderinfo']->shipping_country_name;
+        $vars->region       = $data['orderinfo']->shipping_zone_name;
+        $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
+        
+        $html = $this->_getLayout('message', $vars);
+        $html .= $this->_getLayout('prepayment', $vars);
         return $html;
     }
     
@@ -126,9 +211,25 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         switch ($paction) 
         {
             case "display_message":
-                $vars->message = JText::_('PAYPAL MESSAGE PAYMENT ACCEPTED FOR VALIDATION');
-                $html = $this->_getLayout('message', $vars);
-                $html .= $this->_displayArticle();
+                $checkout = JRequest::getInt('checkout');
+                // get the order_id from the session set by the prePayment
+                $mainframe =& JFactory::getApplication();
+                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
+                $order = JTable::getInstance('Orders', 'TiendaTable');
+                $order->load( $order_id );
+                $items = $order->getItems();
+
+                // if order has both recurring and non-recurring items,
+                if ($order->isRecurring() && count($items) > '1' && $checkout == '1')
+                {
+                    $html .= $this->_secondPayment( $order_id );
+                }
+                    else
+                {
+                    $vars->message = JText::_('PAYPAL MESSAGE PAYMENT ACCEPTED FOR VALIDATION');
+                    $html = $this->_getLayout('message', $vars);
+                    $html .= $this->_displayArticle();                    
+                }     
               break;
             case "process":
                 $vars->message = $this->_process();
@@ -855,6 +956,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $orderitem->orderitem_status = '1';
         $orderitem->save();
 
+        // TODO Here we need to verify the payment amount
+        
         // if no subscription exists for this subscr_id,
         // create new subscription for the user
         $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
