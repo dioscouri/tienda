@@ -6,7 +6,7 @@
    </link>
    <link>
         <name>Payments</name>
-        <url>index.php?option=com_tienda&#38;view=payments</url>
+        <url>index.php?option=com_tienda&#38;view=orderpayments</url>
    </link>
    <link>
         <name>Subscriptions</name>
