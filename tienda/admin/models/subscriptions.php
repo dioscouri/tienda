@@ -104,12 +104,26 @@ class TiendaModelSubscriptions extends TiendaModelBase
             return array();
         }
         
+        Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
         foreach ($list as $item)
         {
             $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
+            $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );
         }
         
         return $list;
+    }
+    
+    public function getItem()
+    {
+        Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+        if ($item = parent::getItem())
+        {
+            $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
+            $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
+            $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );            
+        }
+        return $item;
     }
 }

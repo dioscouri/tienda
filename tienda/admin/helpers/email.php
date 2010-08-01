@@ -154,14 +154,61 @@ class TiendaHelperEmail extends TiendaHelperBase
         
         $sitename = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl = $config->get( 'siteurl', JURI::root() );
-                                
+
+        $lang = JFactory::getLanguage();
+        $lang->load('com_tienda', JPATH_ADMINISTRATOR);
+        
         switch ($type) 
         {
+            case "subscription":
+                $user = JUser::getInstance($data->user_id);
+                $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
+                $link = JRoute::_( $link, false );
+                
+                if ( count($data->history) == 1 )
+                {
+                    // new order
+                    $return->subject = sprintf( JText::_('EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
+
+                    // set the email body
+                    $text = JText::_('EMAIL_DEAR') ." ".$user->name.",\n\n";
+                    $text .= JText::_("EMAIL_THANKS_NEW_SUBSCRIPTION")."\n\n";
+                    $text .= JText::_("EMAIL_CHECK")." ".$link."\n\n";
+                    $text .= JText::_("EMAIL_RECEIPT_FOLLOWS")."\n\n";
+                    if ($this->use_html)
+                    {
+                        $text = nl2br( $text );
+                    }
+                    
+                    // get the order body
+                    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+                    $text .= TiendaHelperOrder::getOrderHtmlForEmail( $data->order_id );
+                }
+                    else
+                {
+                    // Status Change
+                    $return->subject = JText::_( 'EMAIL_SUBSCRIPTION_STATUS_CHANGE' );
+                    $last_history = count($data->history) - 1;
+                    
+                    $text  = JText::_('EMAIL_DEAR') ." ".$user->name.",\n\n";
+                    $text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
+                    if (!empty($data->history[$last_history]->comments))
+                    {
+                        $text .= sprintf( JText::_("EMAIL_ADDITIONAL_COMMENTS"), $data->history[$last_history]->comments );
+                    }
+                    $text .= JText::_("EMAIL_CHECK")." ".$link;
+
+                    if ($this->use_html)
+                    {
+                        $text = nl2br( $text );
+                    }
+                }
+                
+                $return->body = $text;
+                break;
             case "order":
             default:
                 $user = JUser::getInstance($data->user_id);
-                $lang = JFactory::getLanguage();
-                $lang->load('com_tienda', JPATH_ADMINISTRATOR);
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
                 
@@ -206,7 +253,6 @@ class TiendaHelperEmail extends TiendaHelperBase
                 }
                 
                 $return->body = $text;
-                
               break;
         }
         
