@@ -466,22 +466,40 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         switch ($data['txn_type'])
         {
             case 'subscr_signup':
-                $errors[] = $this->_processSubscriptionSignup( $data );
+                if (!$this->_processSubscriptionSignup( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             case 'subscr_payment':
-                $errors[] = $this->_processSubscriptionPayment( $data );
+                if (!$this->_processSubscriptionPayment( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             case 'subscr_eot':
-                $errors[] = $this->_processSubscriptionEndOfTerm( $data );
+                if (!$this->_processSubscriptionEndOfTerm( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             case 'subscr_cancel':
-                $errors[] = $this->_processSubscriptionCancel( $data );
+                if (!$this->_processSubscriptionCancel( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             case 'subscr_modify':
-                $errors[] = $this->_processSubscriptionModify( $data );
+                if (!$this->_processSubscriptionModify( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             case 'subscr_failed':
-                $errors[] = $this->_processSubscriptionFailed( $data );
+                if (!$this->_processSubscriptionFailed( $data ))
+                {
+                    $errors[] = $this->getError();
+                }
                 break;
             default:
                 $errors[] = JText::_('PAYPAL MESSAGE INVALID TRANSACTION TYPE');               
@@ -657,7 +675,18 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // generally these are IMMEDIATELY followed by a subscr_payment IPN notification,
         // EXCEPT if the subscription has a FREE trial.
         // In the case of a FREE trial, ONLY a subscr_signup IPN is sent, 
-        // so code accordingly 
+        // so code accordingly
+
+        // TODO 
+        // if the payment amount is empty,
+        // create new subscription for the user
+        // for the order's recurring_trial_period_interval
+        // using it's recurring_trial_period_unit
+        //$database = JFactory::getDBO();
+        //$query = " SELECT DATE_ADD('{$this->payment_datetime}', INTERVAL {$table_type->period} DAY ) ";
+        //$database->setQuery( $query );
+        //$expires_datetime = $database->loadResult();
+        // add a sub history entry, email the user?
     }
     
     /**
@@ -669,6 +698,15 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     function _processSubscriptionPayment( $data )
     {
         // the normal notice that requires action.
+        // create a subscription_id if no subscr_id record exists
+        // set expiration dates 
+        // add a sub history entry, email the user?
+                
+        // baased on payment_datetime, find expiration date 'period' days in future
+        //$database = JFactory::getDBO();
+        //$query = " SELECT DATE_ADD('{$this->payment_datetime}', INTERVAL {$table_type->period} DAY ) ";
+        //$database->setQuery( $query );
+        //$expires_datetime = $database->loadResult();
         
         // Check that custom (orderpayment_id) is present, we need it for payment amount verification
         if (empty($data['custom']))
@@ -715,8 +753,10 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                     //If the profile naturally ends then you will get an EOT IPN right when the final payment is made.  
                         //You will not get an IPN when the time paid for is completed.  
                         //You will need to calculate that time period on your own 
-                        //and then when the time the customer paid is up you no longer give them access to your service.
+                        //and then when the time the customer paid is up you no longer give them access to your service.                       
                 break;
+                
+            // either way, Tienda does nothing.  expires_datetime is already set from the last payment instance.
         }
     }
     
@@ -728,9 +768,32 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     function _processSubscriptionCancel( $data )
     {
-        // get the subscription_id based on the orderpayment_id=>order_id=>orderitem_id=>subscription_id 
-        // Cancel the subscription using the Subscription Helper and the subscription_id
+        // do nothing.  user may be cancelling mid-period. 
+        // the sub's expires_datetime is already set from the last payment instance, 
+        // and Tienda will deactivate subscriptions in the system plugin
         
+        // sample code for deactivating a subscription:        
+        //        // get the subscription_id based on the orderpayment_id=>order_id=>orderitem_id=>subscription_id
+        //        $model = Tienda::getClass("TiendaModelSubscriptions", "models.subscriptions");
+        //        $model->setState( 'filter_orderid', $data['item_number'] );
+        //        $model->setState( 'filter_transactionid', $data['subscr_id'] );
+        //        if (!$subscriptions = $model->getList())
+        //        {
+        //            // return some error
+        //            $return = JText::_('PAYPAL MESSAGE NO RECURRING ITEM FOUND');
+        //            return $return;
+        //        }
+        //        $subscription = $subscriptions[0];
+        //        
+        //        // Cancel the subscription using the Subscription Helper and the subscription_id
+        //        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        //        $helper = TiendaHelperBase::getInstance('Subscription');
+        //        if (!$helper->cancel( $subscription->subscription_id ))
+        //        {
+        //            $this->setError( $helper->getError() );
+        //            return false;
+        //        }
+        //        return true;
     }
     
     /**

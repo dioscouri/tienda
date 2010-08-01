@@ -23,6 +23,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $filter_orderitemid = $this->getState('filter_orderitemid');
         $filter_enabled = $this->getState('filter_enabled');
         $filter_productid = $this->getState('filter_productid');
+        $filter_transactionid = $this->getState('filter_transactionid');
         
        	if ($filter) 
        	{
@@ -35,6 +36,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
         if (strlen($filter_subscriptionid))
         {
             $query->where('tbl.subscription_id = '.$this->_db->Quote($filter_subscriptionid));
+        }
+        
+        if (strlen($filter_transactionid))
+        {
+            $query->where('tbl.transaction_id = '.$this->_db->Quote($filter_transactionid));
         }
         
         if (strlen($filter_userid))
