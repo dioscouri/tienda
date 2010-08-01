@@ -16,7 +16,25 @@ jimport('joomla.filesystem.folder');
 
 class TiendaHelperSubscription extends TiendaHelperBase
 {
-    function cancel()
+    /**
+     * Given a subscription ID, will cancel it
+     * 
+     * @param unknown_type $subscription_id
+     * @return unknown_type
+     */
+    function cancel( $subscription_id )
+    {
+        
+    }
+
+    /**
+     * Given a user_id and product_id, checks if the user has a valid subscription for it
+     * 
+     * @param $user_id
+     * @param $product_id
+     * @return unknown_type
+     */
+    function isValid( $user_id, $product_id )
     {
         
     }

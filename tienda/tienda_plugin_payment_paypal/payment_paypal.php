@@ -462,25 +462,6 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $errors[] = JText::_('PAYPAL MESSAGE RECEIVER INVALID');
         }
         
-        // Check that custom (orderpayment_id) is present, we need it for payment amount verification
-        if (empty($data['custom']))
-        {
-            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-            return count($errors) ? implode("\n", $errors) : '';
-        }
-        // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-        $orderpayment->load( $data['custom'] );
-        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
-        {
-            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-            return count($errors) ? implode("\n", $errors) : '';
-        }
-        $orderpayment->transaction_details  = $data['transaction_details'];
-        $orderpayment->transaction_id       = $data['txn_id'];
-        $orderpayment->transaction_status   = $data['payment_status'];        
-        
         // Evaluate the payment based on txn_type, mc_gross, subscr_id        
         switch ($data['txn_type'])
         {
@@ -689,6 +670,25 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     {
         // the normal notice that requires action.
         
+        // Check that custom (orderpayment_id) is present, we need it for payment amount verification
+        if (empty($data['custom']))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        // load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $data['custom'] );
+        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        $orderpayment->transaction_details  = $data['transaction_details'];
+        $orderpayment->transaction_id       = $data['txn_id'];
+        $orderpayment->transaction_status   = $data['payment_status'];
+        
     }
     
     /**
@@ -728,7 +728,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     function _processSubscriptionCancel( $data )
     {
-        // Cancel the subscription using the Subscription Helper
+        // get the subscription_id based on the orderpayment_id=>order_id=>orderitem_id=>subscription_id 
+        // Cancel the subscription using the Subscription Helper and the subscription_id
+        
     }
     
     /**
@@ -753,7 +755,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     {
         // don't cancel the subscription.  an EOT will be triggered if all the payment retry attempts fail,
         // so cancel the subscription only in _processSubscriptionEndOfTerm (EOT)
-        // perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
+        // TODO perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
     }
     
 }
