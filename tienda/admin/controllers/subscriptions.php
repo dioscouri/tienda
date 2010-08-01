@@ -10,7 +10,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class TiendaControllerOrderPayments extends TiendaController 
+class TiendaControllerSubscriptions extends TiendaController 
 {
 	/**
 	 * constructor
@@ -18,7 +18,10 @@ class TiendaControllerOrderPayments extends TiendaController
 	function __construct() 
 	{
 		parent::__construct();
-		$this->set('suffix', 'orderpayments');
+		$this->set('suffix', 'subscriptions');
+        $this->registerTask( 'subscription_enabled.enable', 'boolean' );
+        $this->registerTask( 'subscription_enabled.disable', 'boolean' );
+        $this->registerTask( 'update_subscription', 'update' );
 	}
 	
 	/**
@@ -39,6 +42,7 @@ class TiendaControllerOrderPayments extends TiendaController
         $state['filter_type']       = $app->getUserStateFromRequest($ns.'filter_type', 'filter_type', '', '');
         $state['filter_transaction']    = $app->getUserStateFromRequest($ns.'filter_transaction', 'filter_transaction', '', '');
         $state['filter_user']         = $app->getUserStateFromRequest($ns.'filter_user', 'filter_user', '', '');
+        $state['filter_userid']         = $app->getUserStateFromRequest($ns.'filter_userid', 'filter_userid', '', '');
         $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
@@ -46,12 +50,41 @@ class TiendaControllerOrderPayments extends TiendaController
         $state['filter_datetype']   = 'created';
         $state['filter_total_from']    = $app->getUserStateFromRequest($ns.'filter_total_from', 'filter_total_from', '', '');
         $state['filter_total_to']      = $app->getUserStateFromRequest($ns.'filter_total_to', 'filter_total_to', '', '');
+		$state['filter_enabled']       = $app->getUserStateFromRequest($ns.'filter_enabled', 'filter_enabled', '', '');
 		
     	foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );	
 		}
   		return $state;
+    }
+    
+    /**
+     * 
+     * Adds a subscription history entry to a subscription
+     * @return unknown_type
+     */
+    function update()
+    {
+        $row = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+        $post = JRequest::get('post', '4');
+        $row->bind( $post );
+        $row->subscription_id = JRequest::getInt('id');
+        if ($row->save())
+        {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
+        }
+            else
+        {
+            $this->messagetype  = 'notice';
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+
+        $redirect = "index.php?option=com_tienda";
+        $redirect .= '&view='.$this->get('suffix').'&task=view&id='.$row->subscription_id;
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
 }
 

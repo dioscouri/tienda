@@ -65,4 +65,24 @@ class TiendaHelperSubscription extends TiendaHelperBase
         }
         return false;
     }
+    
+    /**
+     * 
+     * Get's a subscription's history
+     * @param $subscription_id
+     * @return array
+     */
+    function getHistory( $subscription_id )
+    {
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'SubscriptionHistory', 'TiendaModel' );
+        $model->setState("filter_subscriptionid", $subscription_id );
+        $model->setState("order", 'tbl.created_datetime' );
+        $model->setState("direction", 'ASC');
+        if ($data = $model->getList())
+        {
+            return $data;
+        }
+        return array();
+    }
 }

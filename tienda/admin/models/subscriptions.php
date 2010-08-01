@@ -65,7 +65,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
 
         if (strlen($filter_productid))
         {
-            $query->where('p.product_id = '.$this->_db->Quote($filter_productid));
+            $query->where('tbl.product_id = '.$this->_db->Quote($filter_productid));
         }
     }
     
@@ -74,6 +74,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $query->join('LEFT', '#__tienda_orderitems AS oi ON oi.orderitem_id = tbl.orderitem_id');
         $query->join('LEFT', '#__tienda_products AS p ON oi.product_id = p.product_id');
         $query->join('LEFT', '#__tienda_orders AS o ON tbl.order_id = o.order_id');
+        $query->join('LEFT', '#__users AS u ON u.id = tbl.user_id');
     }
     
     protected function _buildQueryFields(&$query)
@@ -86,7 +87,29 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $field[] = " p.product_model ";
         $field[] = " o.* ";
         $field[] = " oi.* ";
+        $field[] = " u.name AS user_name ";
+        $field[] = " u.username AS user_username "; 
+        $field[] = " u.email ";
 
         $query->select( $field );
+    }
+    
+    public function getList()
+    {
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $list = parent::getList();
+        
+        // If no item in the list, return an array()
+        if( empty( $list ) ){
+            return array();
+        }
+        
+        foreach ($list as $item)
+        {
+            $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
+            $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
+        }
+        
+        return $list;
     }
 }

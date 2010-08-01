@@ -169,6 +169,49 @@ class TiendaModelBase extends JModel
 		}
 		return $this->_all;
 	}
+	
+    public function getSurrounding( $id )
+    {
+        $prev = $this->getState('prev');
+        $next = $this->getState('next');
+        if (strlen($prev) || strlen($next)) 
+        {
+            $return["prev"] = $prev;
+            $return["next"] = $next;
+            return $return;
+        }
+
+        // subtract/add to the limitstart/limit so you get the prev/next when you're at the end of a paginated list
+        $limit = $this->getState('limit') + 2;
+        $limitstart = (($this->getState('limitstart') - 1) < 0) ? 0 : $this->getState('limitstart') - 1;
+        
+        $query = $this->_buildQuery( true );
+        $rowset = $this->_getList( (string) $query, $limitstart, $limit );
+        $count = count($rowset);
+
+        $key = $this->getTable()->getKeyName();
+            
+        $found = false;
+        $prev_id = '';
+        $next_id = '';
+
+        for ($i=0; $i < $count && empty($found); $i++) 
+        {
+            $row = $rowset[$i];     
+            if ($row->$key == $id)
+            { 
+                $found = true; 
+                $prev_num = $i - 1;
+                $next_num = $i + 1;
+                if (!empty($rowset[$prev_num]->$key)) { $prev_id = $rowset[$prev_num]->$key; }
+                if (!empty($rowset[$next_num]->$key)) { $next_id = $rowset[$next_num]->$key; }
+            }
+        }
+        
+        $return["prev"] = $prev_id;
+        $return["next"] = $next_id; 
+        return $return;
+    }
 
 	/**
 	 * Paginates the data
@@ -250,9 +293,9 @@ class TiendaModelBase extends JModel
      *
      * @return  string  SELECT query
      */
-    protected function _buildQuery()
+    protected function _buildQuery( $refresh=false )
     {
-    	if (!empty($this->_query))
+    	if (!empty($this->_query) && !$refresh)
     	{
     		return $this->_query;
     	}

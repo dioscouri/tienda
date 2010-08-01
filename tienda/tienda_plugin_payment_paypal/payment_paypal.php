@@ -753,7 +753,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
             $subscription->user_id = $order->user_id;
             $subscription->order_id = $order->order_id;
-            $subscription->orderitem_id = $order_item->orderitem_id;
+            $subscription->product_id = $orderitem->product_id;
+            $subscription->orderitem_id = $orderitem->orderitem_id;
             $subscription->transaction_id = $data['subscr_id'];
             $subscription->created_datetime = $date->toMySQL();
             $subscription->subscription_enabled = '1';
@@ -877,7 +878,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 
             $subscription->user_id = $order->user_id;
             $subscription->order_id = $order->order_id;
-            $subscription->orderitem_id = $order_item->orderitem_id;
+            $subscription->product_id = $orderitem->product_id;
+            $subscription->orderitem_id = $orderitem->orderitem_id;
             $subscription->transaction_id = $data['subscr_id'];
             $subscription->created_datetime = $date->toMySQL();
             $subscription->subscription_enabled = '1';
