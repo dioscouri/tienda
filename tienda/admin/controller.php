@@ -45,6 +45,10 @@ class TiendaController extends JController
 		$this->registerTask( 'unpublish', 'enable' );
 		$this->registerTask( 'disable', 'enable' );
 		$this->registerTask( 'saveorder', 'ordering' );
+        $this->registerTask( 'prev', 'jump' );
+        $this->registerTask( 'next', 'jump' );
+        $this->registerTask( 'saveprev', 'save' );
+        $this->registerTask( 'savenext', 'save' );
 		$this->registerTask( 'page_tooltip_enable', 'pagetooltip_switch' );
 		$this->registerTask( 'page_tooltip_disable', 'pagetooltip_switch' );
 	}
@@ -190,10 +194,23 @@ class TiendaController extends JController
 	 */
 	function view()
 	{
-		JRequest::setVar( 'view', $this->get('suffix') );
-		JRequest::setVar( 'layout', 'view' );
-		parent::display();
-		$this->footer();
+        $model = $this->getModel( $this->get('suffix') );
+        $model->getId();
+        $row = $model->getItem();
+        
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $view->setModel( $model, true );
+        $view->assign( 'row', $row );
+        $view->setLayout( 'view' );
+        
+        $model->emptyState();
+        $this->_setModelState();
+        $surrounding = $model->getSurrounding( $model->getId() );
+        $view->assign( 'surrounding', $surrounding );
+        
+        $view->display();
+        $this->footer();
+        return;
 	}
 
 	/**
@@ -204,7 +221,7 @@ class TiendaController extends JController
 	 */
 	function edit()
 	{
-		JRequest::setVar( 'view', $this->get('suffix') );
+	    $view   = $this->getView( $this->get('suffix'), 'html' );
 		$model 	= $this->getModel( $this->get('suffix') );
 	    $row = $model->getTable();
 	    $row->load( $model->getId() );
@@ -216,17 +233,25 @@ class TiendaController extends JController
 			if ($row->checkout( $userid ))
 			{
 				JRequest::setVar( 'hidemainmenu', '1' );
-				JRequest::setVar( 'layout', 'form' );
-				parent::display();
+				$view->setLayout( 'form' );
 			}
 		}
 			else
 		{
-			JRequest::setVar( 'layout', 'view' );
-			parent::display();
+			$view->setLayout( 'view' );
 		}
-		
-		$this->footer();
+
+        $view->setModel( $model, true );
+        $view->assign( 'row', $row );
+        
+        $model->emptyState();
+        $this->_setModelState();
+        $surrounding = $model->getSurrounding( $model->getId() );
+        $view->assign( 'surrounding', $surrounding );
+        
+        $view->display();
+        $this->footer();
+        return;
 	}
 
 	/**
@@ -316,6 +341,29 @@ class TiendaController extends JController
     	$task = JRequest::getVar('task');
     	switch ($task)
     	{
+            case "saveprev":
+                $redirect .= '&view='.$this->get('suffix');
+                // get prev in list
+                $model->emptyState();
+                $this->_setModelState();
+                $surrounding = $model->getSurrounding( $model->getId() );
+                if (!empty($surrounding['prev']))
+                {
+                    $redirect .= '&task=edit&id='.$surrounding['prev'];
+                }
+              break;
+            case "savenext":
+                $redirect .= '&view='.$this->get('suffix');
+                // get next in list
+                $model->emptyState();
+                $this->_setModelState();
+                $surrounding = $model->getSurrounding( $model->getId() );
+                if (!empty($surrounding['next']))
+                {
+                    $redirect .= '&task=edit&id='.$surrounding['next'];
+                }
+              break;
+              
     		case "savenew":
     			$redirect .= '&view='.$this->get('suffix').'&task=add';
     		  break;
@@ -574,6 +622,46 @@ class TiendaController extends JController
 		JRequest::setVar( 'task', $field.'.'.$action );
 		$this->boolean();
 	}
+	
+    /**
+     * Checks in the current item and displays the previous/next one in the list
+     * @return unknown_type
+     */
+    function jump() 
+    {
+        $model = $this->getModel( $this->get('suffix') );
+        $id = $model->getId();
+        $row = $model->getTable();
+        $row->load( $id );
+        if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
+        {
+            $row->checkin();
+        }
+        $task = JRequest::getVar( "task" );
+        $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+        
+        $model->emptyState();
+        $this->_setModelState();
+        $surrounding = $model->getSurrounding( $id );
+
+        switch ($task)
+        {
+            case "prev":
+                if (!empty($surrounding['prev']))
+                {
+                    $redirect .= "&task=view&id=".$surrounding['prev'];
+                }
+                break;
+            case "next":
+                if (!empty($surrounding['next']))
+                {
+                    $redirect .= "&task=view&id=".$surrounding['next'];
+                }
+                break;
+        }
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );        
+    }
 
 	/**
 	 * Hides a tooltip message

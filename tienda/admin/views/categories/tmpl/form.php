@@ -67,7 +67,7 @@ JFilterOutput::objectHTMLSafe( $row );
     						jimport('joomla.filesystem.file');
     						if (!empty($row->category_full_image) && JFile::exists( Tienda::getPath( 'categories_images').DS.$row->category_full_image ))
     						{
-    							echo TiendaUrl::popup( TiendaHelperCategory::getImage($row->category_id, '', '', 'full', true), TiendaHelperCategory::getImage($row->category_id), array('update' => false, 'img' => true));
+    							echo TiendaUrl::popup( Tienda::getClass( 'TiendaHelperCategory', 'helpers.category' )->getImage($row->category_id, '', '', 'full', true), TiendaHelperCategory::getImage($row->category_id), array('update' => false, 'img' => true));
     						}
     						?>
     						<br />

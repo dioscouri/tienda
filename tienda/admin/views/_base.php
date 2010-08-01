@@ -235,6 +235,23 @@ class TiendaViewBase extends JView
 	 */
 	function _formToolbar( $isNew=null )
 	{
+	    $divider = false;
+        $surrounding = (!empty($this->surrounding)) ? $this->surrounding : array();
+        if (!empty($surrounding['prev']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
+        }
+        if (!empty($surrounding['next']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);
+        }
+        if ($divider)
+        {
+            JToolBarHelper::divider();
+        }
+	    
 		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_( 'Save + New' ), false);
 		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
@@ -256,6 +273,23 @@ class TiendaViewBase extends JView
 	 */
 	function _viewToolbar( $isNew=null )
 	{
-		JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+        $divider = false;
+        $surrounding = (!empty($this->surrounding)) ? $this->surrounding : array();
+        if (!empty($surrounding['prev']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('prev', "prev", "prev", JText::_( 'Prev' ), false);
+        }
+        if (!empty($surrounding['next']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('next', "next", "next", JText::_( 'Next' ), false);  
+        }
+        if ($divider)
+        {
+            JToolBarHelper::divider();
+        }
+        
+        JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
 	}
 }

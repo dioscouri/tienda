@@ -182,8 +182,8 @@ class TiendaModelBase extends JModel
         }
 
         // subtract/add to the limitstart/limit so you get the prev/next when you're at the end of a paginated list
-        $limit = $this->getState('limit') + 2;
-        $limitstart = (($this->getState('limitstart') - 1) < 0) ? 0 : $this->getState('limitstart') - 1;
+        $limit = $this->getState('limit') + 25;
+        $limitstart = (($this->getState('limitstart') - 25) < 0) ? 0 : $this->getState('limitstart') - 25;
         
         $query = $this->_buildQuery( true );
         $rowset = $this->_getList( (string) $query, $limitstart, $limit );

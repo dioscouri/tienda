@@ -132,6 +132,12 @@ class TiendaControllerOrders extends TiendaController
 		{
 			$view->setLayout( 'view' );
 		}
+
+        $model->emptyState();
+        $this->_setModelState();
+        $surrounding = $model->getSurrounding( $model->getId() );
+        $view->assign( 'surrounding', $surrounding );
+		
 		$view->display();
 	}
 

@@ -51,33 +51,6 @@ class TiendaViewCategories extends TiendaViewBase
 		$this->assign('shippingHtml', $shippingHtml);
 	}
 	
-	/**
-	 * (non-PHPdoc)
-	 * @see tienda/admin/views/TiendaViewBase#_formToolbar($isNew)
-	 */
-    function _formToolbar( $isNew=null )
-    {
-        $divider = false;
-        $model = $this->getModel();
-        Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
-        $surrounding = TiendaHelperCategory::getSurrounding( $model->getId() );
-        if (!empty($surrounding['prev']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
-        }
-        if (!empty($surrounding['next']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);  
-        }
-        if ($divider)
-        {
-            JToolBarHelper::divider();
-        }
-        parent::_formToolbar($isNew);
-    }
-	
     /**
      * (non-PHPdoc)
      * @see tienda/admin/views/TiendaViewBase#_defaultToolbar()

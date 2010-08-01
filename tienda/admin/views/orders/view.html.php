@@ -56,35 +56,6 @@ class TiendaViewOrders extends TiendaViewBase
     }
     
     /**
-     * (non-PHPdoc)
-     * @see tienda/admin/views/TiendaViewBase#_viewToolbar($isNew)
-     */
-    function _viewToolbar( $isNew=null )
-    {
-        $divider = false;
-        $model = $this->getModel();
-        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-        $surrounding = TiendaHelperOrder::getSurrounding( $model->getId() );
-        if (!empty($surrounding['prev']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('prev', "prev", "prev", JText::_( 'Prev' ), false);
-        }
-        if (!empty($surrounding['next']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('next', "next", "next", JText::_( 'Next' ), false);  
-        }
-        if ($divider)
-        {
-            JToolBarHelper::divider();
-        }
-        $this->assign('surrounding', $surrounding);
-        parent::_viewToolbar($isNew);
-    }
-    
-    
-    /**
 	 * Process the data for the convert view
 	 * @return void
 	 **/

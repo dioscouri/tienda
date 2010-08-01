@@ -83,24 +83,6 @@ class TiendaViewProducts extends TiendaViewBase
     	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_( 'Dashboard' ), false);
             JToolBarHelper::divider();	
     	}
-    	
-    	$divider = false;
-        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
-        if (!empty($surrounding['prev']))
-        {
-        	$divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
-        }
-        if (!empty($surrounding['next']))
-        {
-        	$divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);  
-        }
-    	if ($divider)
-    	{
-            JToolBarHelper::divider();
-    	}
         parent::_formToolbar($isNew);
     }
     
@@ -110,26 +92,8 @@ class TiendaViewProducts extends TiendaViewBase
      */
 	function _viewToolbar( $isNew=null )
 	{
-		$model = $this->getModel();
-	    $divider = false;
-        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        $surrounding = TiendaHelperProduct::getSurrounding( $model->getId() );
-        if (!empty($surrounding['prev']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('prev', "prev", "prev", JText::_( 'Prev' ), false);
-        }
-        if (!empty($surrounding['next']))
-        {
-            $divider = true;
-            JToolBarHelper::custom('next', "next", "next", JText::_( 'Next' ), false);  
-        }
-        if ($divider)
-        {
-            JToolBarHelper::divider();
-        }
-        $this->assign('surrounding', $surrounding);
-		JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_( 'Edit' ), false);
-		JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_( 'Edit' ), false);
+        JToolBarHelper::divider();
+        parent::_viewToolbar($isNew);
 	}
 }
