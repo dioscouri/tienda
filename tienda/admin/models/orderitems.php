@@ -24,6 +24,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_date_from   = $this->getState('filter_date_from');
         $filter_date_to     = $this->getState('filter_date_to');
         $filter_datetype    = $this->getState('filter_datetype');
+        $filter_recurs  = $this->getState('filter_recurs');
         
        	if ($filter)
        	{
@@ -39,8 +40,13 @@ class TiendaModelOrderItems extends TiendaModelBase
        	{
         	$query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
        	}
-       	
-            if (strlen($filter_date_from))
+
+       	if (strlen($filter_recurs))
+        {
+            $query->where('tbl.orderitem_recurs = 1');
+        }       	
+        
+        if (strlen($filter_date_from))
         {
             switch ($filter_datetype)
             {

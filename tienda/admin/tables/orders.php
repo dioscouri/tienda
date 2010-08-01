@@ -41,6 +41,10 @@ class TiendaTableOrders extends TiendaTable
      * This is used exclusively during orderTotal calculation
      */
     protected $_recurringItemExists = false;
+    
+    /** @var object And OrderItem Object, only populated if the orderitem recurs
+     */
+    protected $_recurringItem = false;
 
     /** @var array An array of TiendaTableTaxRates objects (the unique taxrates for this order) */
     protected $_taxrates = array();
@@ -565,7 +569,7 @@ class TiendaTableOrders extends TiendaTable
                     // if so, remove this one from the order but leave it in the cart and continue
                     // if not, add its properties 
                     $this->_recurringItemExists = true;
-                    
+                    $this->_recurringItem = $item;
                     $this->recurring_payments          = $item->recurring_payments;
                     $this->recurring_period_interval   = $item->recurring_period_interval;
                     $this->recurring_period_unit       = $item->recurring_period_unit;
@@ -865,5 +869,49 @@ class TiendaTableOrders extends TiendaTable
         {
             $this->_shipping_geozones = TiendaHelperShipping::getGeoZones( $this->_shipping_address->zone_id, '2' );   
         }
+    }
+    
+    /**
+     * Checks whether an order is recurring
+     * @return boolean
+     */
+    function isRecurring()
+    {
+        if (empty($this->order_id))
+        {
+            // check the $_recurringItemExists value
+            return $this->_recurringItemExists;
+        }
+        
+        return $this->order_recurs;
+    }
+    
+    /**
+     * Gets an order's recurring item, if it exists
+     * @return boolean
+     */
+    function getRecurringItem()
+    {
+        $is_recurring = $this->isRecurring();
+        
+        if (empty($is_recurring))
+        {
+            return false;
+        }
+        
+        if (empty($this->_recurringItem))
+        {
+            // get the item from the DB
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+            $model->setState( 'filter_orderid', $this->order_id );
+            $model->setState( 'filter_recurs', '1' );
+            if ($orderitems = $model->getList())
+            {
+                $this->_recurringItem = $orderitems[0];
+            }
+        }
+        
+        return $this->_recurringItem;
     }
 }

@@ -21,17 +21,6 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
 	 */
     var $_element    = 'payment_paypal';
     
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
 	function plgTiendaPayment_paypal(& $subject, $config) {
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
@@ -69,7 +58,34 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->orderpayment_amount = $data['orderpayment_amount'];
         $vars->orderpayment_type = $this->_element;
 
-        // set payment plugin variables
+        // set paypal checkout type
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $data['order_id'] );
+        $items = $order->getItems();
+        $vars->is_recurring = $order->isRecurring();
+        
+        // if order has both recurring and non-recurring items,
+        if ($vars->is_recurring && count($items) > '1')
+        {
+            // TODO Complete this
+            // do non-recurring first, 
+            // then upon return, ask user to checkout again for recurring items
+            $vars->cmd = '_cart';
+        }
+            elseif ($vars->is_recurring && count($items) == '1')
+        {
+            // only recurring
+            $vars->cmd = '_xclick-subscriptions';
+        }
+            else
+        {
+            // do normal cart checkout
+            $vars->cmd = '_cart';
+        } 
+        $vars->order = $order;
+        $vars->orderitems = $items;
+        
+        // set payment plugin variables        
         $vars->merchant_email = $this->_getParam( 'merchant_email' );
         $vars->post_url = $this->_getPostUrl();
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
@@ -285,9 +301,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             	$payment_error = $this->_processSale( $data, $error );
             }
             elseif (strpos($data['txn_type'], 'subscr_') === 0) {
-            	// TODO Complete this
-                //$payment_error = $this->_processSubscription( $data, $error );
-                $payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE SUBSCRIPTIONS UNSUPPORTED" ).": ".$data['txn_type'];
+                $payment_error = $this->_processSubscription( $data, $error );
+                //$payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE SUBSCRIPTIONS UNSUPPORTED" ).": ".$data['txn_type'];
             }
             else {
                 // other methods not supported right now
@@ -422,6 +437,148 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
 
         return count($errors) ? implode("\n", $errors) : '';        
     }
+    
+    /**
+     * Processes the subscription payment
+     * 
+     * @param array $data IPN data
+     * @return boolean Did the IPN Validate?
+     * @access protected
+     */
+    function _processSubscription( $data, $ipnValidationFailed='' )
+    {
+        /*
+         * validate the payment data
+         */
+        $errors = array();
+        
+        if (!empty($ipnValidationFailed))
+        {
+            $errors[] = $ipnValidationFailed;
+        }
+        
+        // is the recipient correct?
+        if (empty($data['receiver_email']) || $data['receiver_email'] != $this->_getParam( 'merchant_email' )) {
+            $errors[] = JText::_('PAYPAL MESSAGE RECEIVER INVALID');
+        }
+        
+        // Check that custom (orderpayment_id) is present, we need it for payment amount verification
+        if (empty($data['custom']))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        // load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $data['custom'] );
+        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
+        {
+            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        $orderpayment->transaction_details  = $data['transaction_details'];
+        $orderpayment->transaction_id       = $data['txn_id'];
+        $orderpayment->transaction_status   = $data['payment_status'];        
+        
+        // Evaluate the payment based on txn_type, mc_gross, subscr_id        
+        switch ($data['txn_type'])
+        {
+            case 'subscr_signup':
+                $errors[] = $this->_processSubscriptionSignup( $data );
+                break;
+            case 'subscr_payment':
+                $errors[] = $this->_processSubscriptionPayment( $data );
+                break;
+            case 'subscr_eot':
+                $errors[] = $this->_processSubscriptionEndOfTerm( $data );
+                break;
+            case 'subscr_cancel':
+                $errors[] = $this->_processSubscriptionCancel( $data );
+                break;
+            case 'subscr_modify':
+                $errors[] = $this->_processSubscriptionModify( $data );
+                break;
+            case 'subscr_failed':
+                $errors[] = $this->_processSubscriptionFailed( $data );
+                break;
+            default:
+                $errors[] = JText::_('PAYPAL MESSAGE INVALID TRANSACTION TYPE');               
+                break;
+        }
+        
+        return count($errors) ? implode("\n", $errors) : '';
+
+        /** TODO Remove the rest of this **/
+       
+        // check the stored amount against the payment amount
+        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+        if ((float) $stored_amount !== (float) $data['mc_gross']) {
+            $errors[] = JText::_('PAYPAL MESSAGE AMOUNT INVALID');
+        }
+        
+        // check the payment status
+        if (empty($data['payment_status']) || ($data['payment_status'] != 'Completed' && $data['payment_status'] != 'Pending')) {
+            $errors[] = JText::sprintf('PAYPAL MESSAGE STATUS INVALID', @$data['payment_status']);
+        }
+        
+        // set the order's new status and update quantities if necessary
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $orderpayment->order_id );
+        if (count($errors)) 
+        {
+            // if an error occurred 
+            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+        }
+            elseif (@$data['payment_status'] == 'Pending') 
+        {
+            // if the transaction has the "pending" status,
+            $order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
+            // Update quantities for echeck payments
+            TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
+            
+            // remove items from cart
+            TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
+        }
+            else 
+        {
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
+        }
+
+        // save the order
+        if (!$order->save())
+        {
+            $errors[] = $order->getError();
+        }
+        
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+            $errors[] = $orderpayment->getError(); 
+        }
+        
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
+        }
+
+        return count($errors) ? implode("\n", $errors) : '';        
+    }
 
     /**
      * Formatts the payment data for storing
@@ -504,7 +661,99 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             return false;
         }
         
-        return $admins;               
+        return $admins;
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionSignup( $data )
+    {
+        // the user has created a new subscription profile.
+        // generally these are IMMEDIATELY followed by a subscr_payment IPN notification,
+        // EXCEPT if the subscription has a FREE trial.
+        // In the case of a FREE trial, ONLY a subscr_signup IPN is sent, 
+        // so code accordingly 
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionPayment( $data )
+    {
+        // the normal notice that requires action.
+        
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionEndOfTerm( $data )
+    {
+        // $data['custom'] is available
+        
+        $substr = substr($data['subscr_id'], 0, 2);
+        switch($substr)
+        {
+            case "S-":
+                //If your profile ID starts with S- then your EOT IPN works as follows:
+                    //If the profile is canceled then you get an EOT at the end of the time that the buyer paid for.
+                    //If the profile naturally ends then you get an EOT at the end of the time that the buyer paid for.
+                break;
+            case "I-":
+                //If your profile ID starts with I- then your EOT IPN works as follows:
+                    //If the profile is canceled then you never get an EOT IPN.
+                    //If the profile naturally ends then you will get an EOT IPN right when the final payment is made.  
+                        //You will not get an IPN when the time paid for is completed.  
+                        //You will need to calculate that time period on your own 
+                        //and then when the time the customer paid is up you no longer give them access to your service.
+                break;
+        }
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionCancel( $data )
+    {
+        // Cancel the subscription using the Subscription Helper
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionModify( $data )
+    {
+        // we don't really do anything with this transaction type
+    }
+    
+    /**
+     * When one of the recurring payments for a subscription has failed
+     * this method will be triggered
+     * 
+     * @param $data
+     * @return unknown_type
+     */
+    function _processSubscriptionFailed( $data )
+    {
+        // don't cancel the subscription.  an EOT will be triggered if all the payment retry attempts fail,
+        // so cancel the subscription only in _processSubscriptionEndOfTerm (EOT)
+        // perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
     }
     
 }
