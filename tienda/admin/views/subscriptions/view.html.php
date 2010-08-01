@@ -39,4 +39,15 @@ class TiendaViewSubscriptions extends TiendaViewBase
               break;
         }
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/views/TiendaViewBase#_viewToolbar($isNew)
+     */
+    function _viewToolbar( $isNew=null )
+    {
+        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_( 'Edit' ), false);
+        JToolBarHelper::divider();
+        parent::_viewToolbar($isNew);
+    }
 }
