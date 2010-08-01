@@ -5112,7 +5112,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
 CREATE TABLE IF NOT EXISTS `#__tienda_subscriptionhistory` (
   `subscriptionhistory_id` int(11) NOT NULL AUTO_INCREMENT,
   `subscription_id` int(11) NOT NULL,
-  `subscriptionhistory_type` varchar(64) NOT NULL COMMENT 'payment, email, download, modification, cancellation',
+  `subscriptionhistory_type` varchar(64) NOT NULL COMMENT 'payment, email, download, creation, modification, cancellation',
   `created_datetime` datetime NOT NULL,
   `notify_customer` tinyint(1) NOT NULL,
   `comments` text NOT NULL,

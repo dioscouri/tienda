@@ -672,21 +672,136 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     function _processSubscriptionSignup( $data )
     {
         // the user has created a new subscription profile.
-        // generally these are IMMEDIATELY followed by a subscr_payment IPN notification,
+        // these are IMMEDIATELY followed by a subscr_payment IPN notification,
         // EXCEPT if the subscription has a FREE trial.
         // In the case of a FREE trial, ONLY a subscr_signup IPN is sent, 
         // so code accordingly
+        
+        $errors = array();        
+        // Check that custom (orderpayment_id) is present, we need it for payment amount verification
+        if (empty($data['custom']))
+        {
+            $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
+            return false;
+        }
+        // load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $data['custom'] );
+        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
+        {
+            $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
+            return false;
+        }
 
-        // TODO 
-        // if the payment amount is empty,
+        // if the payment amount is FREE
         // create new subscription for the user
         // for the order's recurring_trial_period_interval
         // using it's recurring_trial_period_unit
-        //$database = JFactory::getDBO();
-        //$query = " SELECT DATE_ADD('{$this->payment_datetime}', INTERVAL {$table_type->period} DAY ) ";
-        //$database->setQuery( $query );
-        //$expires_datetime = $database->loadResult();
-        // add a sub history entry, email the user?
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $data['item_number'] );
+        $items = $order->getItems();
+        if (!empty($order->recurring_trial) && (float) $order->recurring_trial_price == (float) '0.00' )
+        {
+            $orderpayment->transaction_details  = $data['transaction_details'];
+            $orderpayment->transaction_id       = $data['subscr_id'];
+            $orderpayment->transaction_status   = JText::_( "Created" );
+            if (!$orderpayment->save())
+            {
+                $errors[] = $orderpayment->getError(); 
+            }
+            
+            if (count($items) == '1')
+            {
+                // update order status
+                Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+                Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+                $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+                $this->setOrderPaymentReceived( $orderpayment->order_id );
+                
+                // send email
+                $send_email = true;
+                
+                // save the order
+                if (!$order->save())
+                {
+                    $errors[] = $order->getError();
+                }
+                
+                if ($send_email)
+                {
+                    // send notice of new order
+                    Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                    $helper = TiendaHelperBase::getInstance('Email');
+                    $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                    $model->setId( $orderpayment->order_id );
+                    $order = $model->getItem();
+                    $helper->sendEmailNotices($order, 'new_order');
+                }
+            }
+            
+            // Update orderitem_status
+            $order_item = $orders->getRecurringItem();
+            $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
+            $orderitem->orderitem_id = $order_item->orderitem_id;
+            $orderitem->orderitem_status = '1';
+            $orderitem->save();
+            
+            $date = JFactory::getDate();
+            // create free subscription
+            $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+            $subscription->user_id = $order->user_id;
+            $subscription->order_id = $order->order_id;
+            $subscription->orderitem_id = $order_item->orderitem_id;
+            $subscription->transaction_id = $data['subscr_id'];
+            $subscription->created_datetime = $date->toMySQL();
+            $subscription->subscription_enabled = '1';
+            
+            switch($order->recurring_trial_period_unit) 
+            {
+                case "Y":
+                    $period_unit = "YEAR";
+                    break;
+                case "M":
+                    $period_unit = "MONTH";
+                    break;
+                case "W":
+                    $period_unit = "WEEK";
+                    break;
+                case "D":
+                default:
+                    $period_unit = "DAY";
+                    break;
+            }
+            $database = JFactory::getDBO();
+            $query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$order->recurring_trial_period_interval} $period_unit ) ";
+            $database->setQuery( $query );
+            $subscription->expires_datetime = $database->loadResult();
+            
+            if (!$subscription->save())
+            {
+                $this->setError( $subscription->getError() );
+                return false;
+            }
+            
+            // add a sub history entry, email the user?
+            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory->subscription_id = $subscription->subscription_id;
+            $subscriptionhistory->subscriptionhistory_type = 'creation';
+            $subscriptionhistory->created_datetime = $date->toMySQL();
+            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
+            $subscriptionhistory->comments = JText::_( 'NEW TRIAL SUBSCRIPTION CREATED' );
+            $subscriptionhistory->save();
+        }
+        
+        $error = count($errors) ? implode("\n", $errors) : '';
+        if (!empty($error))
+        {
+            $this->setError( $error );
+            return false;            
+        }
+        return true;
     }
     
     /**
@@ -697,22 +812,18 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     function _processSubscriptionPayment( $data )
     {
+        // if we're here, a successful payment has been made.  
         // the normal notice that requires action.
         // create a subscription_id if no subscr_id record exists
         // set expiration dates 
         // add a sub history entry, email the user?
-                
-        // baased on payment_datetime, find expiration date 'period' days in future
-        //$database = JFactory::getDBO();
-        //$query = " SELECT DATE_ADD('{$this->payment_datetime}', INTERVAL {$table_type->period} DAY ) ";
-        //$database->setQuery( $query );
-        //$expires_datetime = $database->loadResult();
-        
+
+        $errors = array();        
         // Check that custom (orderpayment_id) is present, we need it for payment amount verification
         if (empty($data['custom']))
         {
-            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-            return count($errors) ? implode("\n", $errors) : '';
+            $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
+            return false;
         }
         // load the orderpayment record and set some values
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -720,13 +831,170 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
         {
-            $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-            return count($errors) ? implode("\n", $errors) : '';
+            $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
+            return false;
         }
         $orderpayment->transaction_details  = $data['transaction_details'];
         $orderpayment->transaction_id       = $data['txn_id'];
         $orderpayment->transaction_status   = $data['payment_status'];
+        if (!$orderpayment->save())
+        {
+            $errors[] = $orderpayment->getError(); 
+        }
         
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $data['item_number'] );
+        $items = $order->getItems();
+        
+        // Update orderitem_status
+        $order_item = $orders->getRecurringItem();
+        $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
+        $orderitem->orderitem_id = $order_item->orderitem_id;
+        $orderitem->orderitem_status = '1';
+        $orderitem->save();
+
+        // if no subscription exists for this subscr_id,
+        // create new subscription for the user
+        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $subscription->load( array('transaction_id'=>$data['subscr_id']));
+        if (empty($subscription->subscription_id))
+        {
+            $date = JFactory::getDate();
+            // create new subscription
+            // if recurring trial, set it 
+            // for the order's recurring_trial_period_interval
+            // using its recurring_trial_period_unit
+            // otherwise, do the normal recurring_period_interval
+            // and the recurring_period_unit
+            $recurring_period_unit = $order->recurring_period_unit;
+            $recurring_period_interval = $order->recurring_period_interval;
+            if (!empty($order->recurring_trial))
+            {
+                $recurring_period_unit = $order->recurring_trial_period_unit;
+                $recurring_period_interval = $order->recurring_trial_period_interval;
+            }          
+                
+            $subscription->user_id = $order->user_id;
+            $subscription->order_id = $order->order_id;
+            $subscription->orderitem_id = $order_item->orderitem_id;
+            $subscription->transaction_id = $data['subscr_id'];
+            $subscription->created_datetime = $date->toMySQL();
+            $subscription->subscription_enabled = '1';
+            switch($recurring_period_unit) 
+            {
+                case "Y":
+                    $period_unit = "YEAR";
+                    break;
+                case "M":
+                    $period_unit = "MONTH";
+                    break;
+                case "W":
+                    $period_unit = "WEEK";
+                    break;
+                case "D":
+                default:
+                    $period_unit = "DAY";
+                    break;
+            }
+            $database = JFactory::getDBO();
+            $query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$recurring_period_interval} $period_unit ) ";
+            $database->setQuery( $query );
+            $subscription->expires_datetime = $database->loadResult();
+            
+            if (!$subscription->save())
+            {
+                $this->setError( $subscription->getError() );
+                return false;
+            }
+            
+            // add a sub history entry, email the user?
+            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory->subscription_id = $subscription->subscription_id;
+            $subscriptionhistory->subscriptionhistory_type = 'creation';
+            $subscriptionhistory->created_datetime = $date->toMySQL();
+            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
+            $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION CREATED' );
+            $subscriptionhistory->save();
+        }
+            else
+        {
+            // subscription exists, just update its expiration date
+            // based on normal interval and period
+            switch($order->recurring_period_unit) 
+            {
+                case "Y":
+                    $period_unit = "YEAR";
+                    break;
+                case "M":
+                    $period_unit = "MONTH";
+                    break;
+                case "W":
+                    $period_unit = "WEEK";
+                    break;
+                case "D":
+                default:
+                    $period_unit = "DAY";
+                    break;
+            }
+            $database = JFactory::getDBO();
+            $today = $date = JFactory::getDate();
+            $query = " SELECT DATE_ADD('{$today}', INTERVAL {$order->recurring_period_interval} $period_unit ) ";
+            $database->setQuery( $query );
+            $subscription->expires_datetime = $database->loadResult();
+            
+            if (!$subscription->save())
+            {
+                $this->setError( $subscription->getError() );
+                return false;
+            }
+            
+            // add a sub history entry, email the user?
+            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory->subscription_id = $subscription->subscription_id;
+            $subscriptionhistory->subscriptionhistory_type = 'payment';
+            $subscriptionhistory->created_datetime = $date->toMySQL();
+            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
+            $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION PAYMENT RECEIVED' );
+            $subscriptionhistory->save();
+        }
+
+        if (count($items) == '1')
+        {
+            // update order status
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
+            
+            // save the order
+            if (!$order->save())
+            {
+                $errors[] = $order->getError();
+            }
+            
+            if ($send_email)
+            {
+                // send notice of new order
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Email');
+                $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                $model->setId( $orderpayment->order_id );
+                $order = $model->getItem();
+                $helper->sendEmailNotices($order, 'new_order');
+            }
+        }
+        
+        $error = count($errors) ? implode("\n", $errors) : '';
+        if (!empty($error))
+        {
+            $this->setError( $error );
+            return false;            
+        }
+        return true;
     }
     
     /**
@@ -756,7 +1024,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                         //and then when the time the customer paid is up you no longer give them access to your service.                       
                 break;
                 
-            // either way, Tienda does nothing.  expires_datetime is already set from the last payment instance.
+            // either way, Tienda does nothing
+            // the sub's expires_datetime is already set from the last payment instance, 
+            // and Tienda will deactivate subscriptions in the system plugin
         }
     }
     
@@ -821,8 +1091,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // TODO perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
     }
     
-}
-
+    
       /* TYPICAL RESPONSE FROM PAYPAL INCLUDES:
        * mc_gross=49.99
        * &protection_eligibility=Eligible
@@ -880,3 +1149,5 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      * Processed: A payment has been accepted.
      * Voided: This authorization has been voided.
     */
+    
+}
