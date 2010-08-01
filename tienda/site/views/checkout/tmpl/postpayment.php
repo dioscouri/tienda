@@ -23,7 +23,7 @@
 <?php echo $plugin_html; ?>
 
 <div class="note">
-	<a href="<?php echo JRoute::_($order_link); ?>" target="_blank">
+	<a href="<?php echo JRoute::_($order_link); ?>">
         <?php echo JText::_( "Click Here to View and Print an Invoice" ); ?>
 	</a>
 </div>

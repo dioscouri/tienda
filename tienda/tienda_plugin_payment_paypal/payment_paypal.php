@@ -68,24 +68,28 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         if ($vars->is_recurring && count($items) > '1')
         {
             $vars->cmd = '_cart';
+            $vars->mixed_cart = true;
             // Adjust the orderpayment amount since it's a mixed cart
             // first orderpayment is just the non-recurring items total
             // then upon return, ask user to checkout again for recurring items
             $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $vars->orderpayment_id );
-            $amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
-            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $amount; 
+            $vars->amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $vars->amount; 
             $orderpayment->save();
+            $vars->orderpayment_amount = $orderpayment->orderpayment_amount;
         }
             elseif ($vars->is_recurring && count($items) == '1')
         {
             // only recurring
             $vars->cmd = '_xclick-subscriptions';
+            $vars->mixed_cart = false;
         }
             else
         {
             // do normal cart checkout
             $vars->cmd = '_cart';
+            $vars->mixed_cart = false;
         } 
         $vars->order = $order;
         $vars->orderitems = $items;
@@ -188,7 +192,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->region       = $data['orderinfo']->shipping_zone_name;
         $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
         
-        $html = $this->_getLayout('message', $vars);
+        $html = $this->_getLayout('secondpayment', $vars);
         $html .= $this->_getLayout('prepayment', $vars);
         return $html;
     }
@@ -222,7 +226,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 // if order has both recurring and non-recurring items,
                 if ($order->isRecurring() && count($items) > '1' && $checkout == '1')
                 {
-                    $html .= $this->_secondPayment( $order_id );
+                    $html = $this->_secondPayment( $order_id );
                 }
                     else
                 {

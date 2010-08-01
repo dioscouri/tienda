@@ -47,9 +47,10 @@
                     <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message Recurring Only" ); ?>
                 </div>
                 <div class="prepayment_action">
-                    <span><?php echo JText::_('Click The Paypal Button to Complete Your Order'); ?></span>
-                    <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but20.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
+                    <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but20.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                    <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                     <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                    <div style="clear: both;"></div>
                 </div>
             </div>
             
@@ -68,16 +69,37 @@
             <input type="hidden" name="upload" value="1">
             <input type='hidden' name='invoice' value='<?php echo @$vars->orderpayment_id; ?>'>
 
-            <div id="payment_paypal">
-                <div class="prepayment_message">
-                    <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
+            <?php if ($vars->mixed_cart) { ?>
+                <div class="note_green">
+                    <span class="alert"><?php echo JText::_( "Please Note" ) ?></span>
+                    <?php echo JText::_( "Mixed Cart Message" ); ?>
                 </div>
-                <div class="prepayment_action">
-                    <span><?php echo JText::_('Click The Paypal Button to Complete Your Order'); ?></span>
-                    <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
-                    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                
+                <div id="payment_paypal">
+                    <div class="prepayment_message">
+                        <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message Mixed Cart" ); ?>
+                    </div>
+                    <div class="prepayment_action">
+                        <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                        <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "First Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
+                        <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Second Checkout Amount").":</b> ".TiendaHelperBase::currency( $vars->amount ); ?></div>
+                        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                        <div style="clear: both;"></div>
+                    </div>
                 </div>
-            </div>
+            <?php } else { ?>
+                <div id="payment_paypal">
+                    <div class="prepayment_message">
+                        <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
+                    </div>
+                    <div class="prepayment_action">
+                        <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                        <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
+                        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            <?php } ?>
             <?php
             break;            
     }

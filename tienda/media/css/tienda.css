@@ -255,6 +255,13 @@ span.href:hover {
 	border-collapse: collapse;	
 }
 
+.alert {
+	font-weight: bold; 
+	font-size: 13px;
+	text-transform: uppercase;
+	padding: 10px;
+}
+
 /** custom **/
 .label {
 	margin-top: 5px;
@@ -305,4 +312,12 @@ div.add_to_cart_deactive
 
 div#shipping_form_div{
 	padding-left: 30px;
+}
+
+div.prepayment_message {
+	padding: 10px;
+}
+	
+div.prepayment_action {
+	padding: 10px;
 }
