@@ -24,18 +24,45 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function cancel( $subscription_id )
     {
-        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $subscription->subscription_id = $subscription_id;
+        $subscription->status = 0;
+        if (!$subscription->save())
+        {
+            $this->setError( $subscription->getError() );
+            return false;
+        }
+        return true;
     }
 
     /**
-     * Given a user_id and product_id, checks if the user has a valid subscription for it
+     * Given a user_id and product_id, checks if the user has a valid subscription for it.
+     * Optional date will check to see if subscription is/was/will-be valid on a certain date
      * 
      * @param $user_id
      * @param $product_id
+     * @param $date (TBD) , $date=''
+     * 
      * @return unknown_type
      */
     function isValid( $user_id, $product_id )
     {
+        $date='';
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        $model->setState("filter_userid", $user_id );
+        $model->setState("filter_productid", $product_id );
+        $model->setState("filter_enabled", 1);
+        if (!empty($date))
+        {
+            // TODO Enable this.  Add filters to model and set state here.
+        }
         
+        if ($subscriptions = $model->getList())
+        {
+            return true;
+        }
+        return false;
     }
 }

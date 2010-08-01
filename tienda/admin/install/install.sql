@@ -5101,7 +5101,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
   `transaction_id` varchar(255) NOT NULL COMMENT 'The unique id for this subscription from the payment processor',
   `created_datetime` datetime NOT NULL,
   `expires_datetime` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `subscription_enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`subscription_id`)
 ) ENGINE=MyISAM ;
 
