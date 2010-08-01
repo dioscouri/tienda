@@ -106,11 +106,14 @@ class TiendaModelCarts extends TiendaModelBase
                 $item->product_price = $item->product_price_override->product_price;
             }
             
-            if ($item->product_recurs && $item->recurring_trial)
+            if ($item->product_recurs)
             {
                 $item->recurring_price = $item->product_price;
-                $item->product_price = $item->recurring_trial_price; 
-            }            
+                if ($item->recurring_trial)
+                {
+                    $item->product_price = $item->recurring_trial_price; 
+                }
+            }
             
         	$item->orderitem_attributes_price = '0.00000';
             $item->attributes = array(); // array of each selected attribute's object

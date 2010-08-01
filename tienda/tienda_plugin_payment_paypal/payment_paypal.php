@@ -407,7 +407,6 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
             elseif (strpos($data['txn_type'], 'subscr_') === 0) {
                 $payment_error = $this->_processSubscription( $data, $error );
-                //$payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE SUBSCRIPTIONS UNSUPPORTED" ).": ".$data['txn_type'];
             }
             else {
                 // other methods not supported right now
@@ -847,7 +846,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
             
             // Update orderitem_status
-            $order_item = $orders->getRecurringItem();
+            $order_item = $order->getRecurringItem();
             $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
             $orderitem->orderitem_id = $order_item->orderitem_id;
             $orderitem->orderitem_status = '1';
@@ -954,7 +953,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $items = $order->getItems();
         
         // Update orderitem_status
-        $order_item = $orders->getRecurringItem();
+        $order_item = $order->getRecurringItem();
         $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
         $orderitem->orderitem_id = $order_item->orderitem_id;
         $orderitem->orderitem_status = '1';

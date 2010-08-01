@@ -258,9 +258,9 @@ class TiendaModelProducts extends TiendaModelBase
             {
                 if ($item->product_recurs)
                 {
+                    $item->recurring_price = $item->price;
                     if ($item->recurring_trial)
                     {
-                        $item->recurring_price = $item->price;
                         $item->price = $item->recurring_trial_price;
                     }
                 }
@@ -289,9 +289,9 @@ class TiendaModelProducts extends TiendaModelBase
 
             if (!empty($item->product_recurs))
             {
+                $item->recurring_price = $item->price;
                 if (!empty($item->recurring_trial))
                 {
-                    $item->recurring_price = $item->price;
                     $item->price = $item->recurring_trial_price;
                 }
             }

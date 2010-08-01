@@ -336,7 +336,7 @@ window.addEvent('domready', function(){
                         ?>
                         ]
                         <br/>
-                        <?php $images = TiendaHelperProduct::getGalleryImages( TiendaHelperProduct::getGalleryPath( @$row->product_id ) ); ?> 
+                        <?php $images = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getGalleryImages( TiendaHelperProduct::getGalleryPath( @$row->product_id ) ); ?> 
                         <?php foreach (@$images as $image) : ?>
                             [<a href="<?php echo "index.php?option=com_tienda&controller=products&task=deleteImage&product_id=".@$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".@$row->product_id); ?>">
                                 <?php echo JText::_("Remove"); ?>

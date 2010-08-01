@@ -186,7 +186,7 @@
 			
 			<?php if (!count(@$items)) : ?>
 			<tr>
-				<td colspan="10" align="center">
+				<td colspan="20" align="center">
 					<?php echo JText::_('No items found'); ?>
 				</td>
 			</tr>
