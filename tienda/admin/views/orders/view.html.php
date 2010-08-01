@@ -40,6 +40,7 @@ class TiendaViewOrders extends TiendaViewBase
              
             case "default":
             default:
+                $this->set( 'leftMenu', 'leftmenu_orders' );
                 $this->_default($tpl);
               break;
         }

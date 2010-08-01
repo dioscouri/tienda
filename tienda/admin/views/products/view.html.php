@@ -15,14 +15,44 @@ Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewProducts extends TiendaViewBase 
 {
+    /**
+     * 
+     * @param $tpl
+     * @return unknown_type
+     */
+    function getLayoutVars($tpl=null) 
+    {
+        $layout = $this->getLayout();
+        switch(strtolower($layout))
+        {
+            case "form":
+                JRequest::setVar('hidemainmenu', '1');
+                $this->_form($tpl);
+              break;
+            case "default":
+            default:
+                $this->set( 'leftMenu', 'leftmenu_catalog' );
+                $this->_default($tpl);
+              break;
+        }
+    }
+    
 	function _form($tpl=null)
 	{
 		parent::_form($tpl);
 		
 		$model = $this->getModel();
+		$item = $model->getItem();
+		if (empty($item->product_id))
+		{
+		    // this is a new product
+		    $item = JTable::getInstance('Products', 'TiendaTable');
+            $item->product_parameters = new JParameter( $item->product_params );
+            $this->assign( 'row', $item );
+		}
 		
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger( 'onGetProductView', array( $model->getItem()  ) );
+		$results = $dispatcher->trigger( 'onGetProductView', array( $model->getItem() ) );
 		
 		$shippingHtml = implode('<hr />', $results);
         

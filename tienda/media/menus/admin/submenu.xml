@@ -9,20 +9,12 @@
        <url>index.php?option=com_tienda&#38;view=orders</url>
    </link>
    <link>
+       <name>Product Catalog</name>
+       <url>index.php?option=com_tienda&#38;view=catalog</url>
+   </link>
+   <link>
        <name>Users</name>
        <url>index.php?option=com_tienda&#38;view=users</url>
-   </link>
-   <link>
-       <name>Products</name>
-       <url>index.php?option=com_tienda&#38;view=products</url>
-   </link>
-   <link>
-       <name>Categories</name>
-       <url>index.php?option=com_tienda&#38;view=categories</url>
-   </link>
-   <link>
-       <name>Manufacturers</name>
-       <url>index.php?option=com_tienda&#38;view=manufacturers</url>
    </link>
    <link>
        <name>Localization</name>

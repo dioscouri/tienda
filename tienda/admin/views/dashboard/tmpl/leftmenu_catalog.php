@@ -4,7 +4,7 @@ JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
 ?>
 
 <div id="<?php echo $this->name; ?>" class="leftmenu">
-    <div class="title"><?php echo JText::_( "Localization Menu" ); ?></div>
+    <div class="title"><?php echo JText::_( "Catalog Menu" ); ?></div>
     
     <div class="menuitems">
     <?php 

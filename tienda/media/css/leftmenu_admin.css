@@ -2,11 +2,12 @@
 
 /* leftmenu styling */
 div.leftmenu {
-	/* border-bottom: 1px solid #ccc; */
-	padding-bottom: 10px;
 	margin-bottom: 5px;
+	border: 1px solid #E7E7E7;
 }
-
+div.leftmenu div.menuitems {
+}
+	
 div.leftmenu li {
 	float: left;
 	padding: 0;
@@ -17,10 +18,9 @@ div.leftmenu a,
 div.leftmenu li a,
 div.leftmenu span.nolink {
 	cursor: pointer;
-	padding: 0px 15px 15px 0px;
-	/* border-right: 1px solid #ccc; */
+	padding: 10px 15px 10px 10px;
+	border-top: 1px dotted #CCCCCC;
 	font-weight: bold;
-	/* color: #0B55C4; */
 	line-height: 12px;
 	height: 12px;
 	display: block;
@@ -32,11 +32,18 @@ div.leftmenu span.nolink {
 
 div.leftmenu a.active
 {
-	text-decoration: underline;
-	color: #000;
+	color: #000000;
+	background: none repeat scroll 0 0 #FFFFCC;
 }
 
 div.leftmenu span.nolink.active {
 	color: #000;
-	/* text-decoration: underline; */
+}
+
+div.leftmenu div.title {
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding: 10px;
+	background: none repeat scroll 0 0 #F0F0F0;
 }
