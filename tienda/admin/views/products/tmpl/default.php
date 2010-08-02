@@ -45,6 +45,10 @@
                 	<?php echo TiendaGrid::sort( 'Quantity', "product_quantity", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo JHTML::_('grid.order', @$items ); ?>
+                </th>
+                <th style="width: 100px;">
     	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.product_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
@@ -88,6 +92,8 @@
 	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_quantity_to" name="filter_quantity_to" value="<?php echo @$state->filter_quantity_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
+                </th>
+                <th>
                 </th>
                 <th>
     	            <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
@@ -175,6 +181,10 @@
                     
                     <?php } ?>
 				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaGrid::order($item->product_id); ?>
+                    <?php echo TiendaGrid::ordering($item->product_id, $item->ordering ); ?>
+                </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->product_enabled, $i, 'product_enabled.' ); ?>
 				</td>

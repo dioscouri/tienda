@@ -36,6 +36,8 @@ class TiendaControllerProducts extends TiendaController
 		$ns = $this->getNamespace();
 
 		$date = JFactory::getDate();
+		$state['order'] = 'tbl.ordering';
+		$state['direction'] = 'ASC';
 		$state['filter_published'] = 1;
 		$state['filter_published_date'] = $date->toMySQL();
 		$state['filter_enabled']  = 1;
