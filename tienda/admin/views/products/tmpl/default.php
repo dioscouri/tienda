@@ -130,9 +130,7 @@
 					</a>
 				</td>
 				<td style="text-align: center; width: 50px;">
-					<a href="<?php echo $item->link; ?>">
-						<img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php JText::_( "Product Dashboard" ); ?>"/>
-					</a>
+                    <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
 				</td>
 				<td style="text-align: left;">
 					<a href="<?php echo $item->link_edit; ?>">

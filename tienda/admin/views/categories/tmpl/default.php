@@ -33,13 +33,12 @@
                 <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'ID', "tbl.category_id", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 50px;">
+                </th>
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.category_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                </th>
-                <th style="width: 100px;">
-    	            <?php echo JText::_( "Image" ); ?>
                 </th>
                 <th style="width: 100px;">
     	            <?php echo TiendaGrid::sort( 'Order', "tbl.lft", @$state->direction, @$state->order ); ?>
@@ -59,12 +58,12 @@
 	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
-                </th>                
+                </th>
+                <th>
+                </th>
                 <th style="text-align: left;">
                 	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 	<?php echo TiendaSelect::category( @$state->filter_parentid, 'filter_parentid', $attribs, 'parentid', true ); ?>
-                </th>
-                <th>
                 </th>
                 <th>
                 </th>
@@ -103,7 +102,10 @@
 					<a href="<?php echo $item->link; ?>">
 						<?php echo $item->category_id; ?>
 					</a>
-				</td>	
+				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaHelperCategory::getImage($item->category_full_image, '', JText::_($item->category_name) ); ?>
+                </td>
 				<td style="text-align: left;">
 					<a href="<?php echo $item->link; ?>">
 						<?php echo str_repeat( '.&nbsp;', $item->level-1 ).JText::_($item->name); ?>
@@ -124,9 +126,6 @@
                     <?php $select_url = "index.php?option=com_tienda&controller=categories&task=selectproducts&id=".$item->category_id."&tmpl=component"; ?>
                     [<?php echo TiendaUrl::popup( $select_url, "Select Products" ); ?>]
                 </td>
-				<td style="text-align: center;">
-					<?php echo TiendaHelperCategory::getImage($item->category_full_image, '', JText::_($item->category_name) ); ?>
-				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::order($item->category_id); ?>
 				</td>
