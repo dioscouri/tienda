@@ -1032,9 +1032,46 @@ class TiendaControllerOrders extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-	 
+    /**
+     * Displays list of orders to update there status
+     * provide diffrent functions like send mail to user update staus etc.
+     * @return void
+     */
+    function delete()
+    {
+        $confirmdelete = JRequest::getInt('confirmdelete');
+        if (!empty($confirmdelete))
+        {
+            parent::delete();
+        }
+            else 
+        {
+            $cids = JRequest::getVar('cid', array(0), 'request', 'array');
+                
+            // select only the ids from cid
+            $model  = $this->getModel( $this->get('suffix') );
+    
+            $query = $model->getQuery();
+            $query->where("tbl.order_id IN ('".implode( "', '", $cids )."') ");
+            $model->setQuery( $query );
+    
+            // create view, assign model, and display
+            $view = $this->getView( 'orders', 'html' );
+            $view->set( '_controller', 'orders' );
+            $view->set( '_view', 'orders' );
+            $view->setModel( $model, true );
+            $items = $model->getList(); 
+            $view->assign('items', $items);
+            $view->assign( 'pagination', $model->getPagination() );
+            $view->assign( 'state', $model->getState() );
+            $view->setLayout( 'confirmdelete' );
+            $view->display();
+            $this->footer();
+        }
+    }
+	
 	/**
-	 * Displays list of orders to update there status
+	 * Displays list of orders to update their status
 	 * provide diffrent functions like send mail to user update staus etc.
 	 * @return void
 	 */
@@ -1057,6 +1094,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'batchedit' );
 		$view->display();
+		$this->footer();
 	}
 
 	/**

@@ -104,6 +104,13 @@ td img {
 	background-color: #EBF6DF;
 }
 
+.alert {
+    font-weight: bold; 
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
 /** custom **/
 .label {
 	margin-top: 5px;

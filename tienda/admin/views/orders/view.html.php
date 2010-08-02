@@ -12,6 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
+JLoader::import( 'com_tienda.library.select', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.library.grid', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.library.url', JPATH_ADMINISTRATOR.DS.'components' );
 
 class TiendaViewOrders extends TiendaViewBase 
 {
@@ -25,6 +28,18 @@ class TiendaViewOrders extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+            case "confirmdelete":
+                JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
+                JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+                $validate = JUtility::getToken();
+                $form = array();
+                $controller = strtolower( $this->get( '_controller', JRequest::getVar('controller', JRequest::getVar('view') ) ) );
+                $view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
+                $action = $this->get( '_action', "index.php?option=com_tienda&controller={$controller}&view={$view}" );
+                $form['action'] = $action;
+                $form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
+                $this->assign( 'form', $form );
+              break;
         	case "print":
             case "view":
                 $this->_form($tpl);
@@ -37,7 +52,6 @@ class TiendaViewOrders extends TiendaViewBase
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_batchedit($tpl);
               break;  
-             
             case "default":
             default:
                 $this->set( 'leftMenu', 'leftmenu_orders' );
@@ -53,6 +67,8 @@ class TiendaViewOrders extends TiendaViewBase
     function _defaultToolbar()
     {
         JToolBarHelper::custom('batchedit', "forward", "forward", JText::_( 'Batch Edit' ), false);
+        JToolBarHelper::divider();
+        JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
     }
     
     /**
