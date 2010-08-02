@@ -240,7 +240,12 @@ class TiendaControllerCarts extends TiendaController
             foreach ($cids as $key=>$product_id)
             {
                 $row = $model->getTable();
-                $ids = array('user_id'=>$user->id, 'session_id'=>$session->getId(), 'product_id'=>$product_id, 'product_attributes'=>$product_attributes[$key] );
+                $ids = array('user_id'=>$user->id, 'product_id'=>$product_id, 'product_attributes'=>$product_attributes[$key] );
+                if (empty($user->id))
+                {
+                    $ids['session_id'] = $session->getId();
+                }
+                
                 if ($return = $row->delete($ids))
                 {
 	                $item = new JObject;

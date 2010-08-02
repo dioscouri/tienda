@@ -155,13 +155,18 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		
 		switch($shippingmethod->shipping_method_type)
 		{
+		    case "3":
 			case "2":
-				// 2 = per order
+				// 2 = per order - weight based
+                // 3 = per order - flat rate
 				// if any of the products in the order require shipping
+				$sum_weight = 0;
 				$order_ships = false;
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
 				foreach ($orderItems as $item)
 				{
+				    // find out if the order ships
+				    // and while looping through, sum the weight of all shippable products in the order
 					$pid = $item->product_id;
 		            $product = JTable::getInstance( 'Products', 'TiendaTable' );
 		            $product->load( $pid );
@@ -169,8 +174,10 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		            {
 		                $product_id = $item->product_id;
 		                $order_ships = true;
+		                $sum_weight += ($product->product_weight * $item->orderitem_quantity);
 		            }
 				}
+				
 				if ($order_ships)
 				{
 				    foreach ($geozones as $geozone)
@@ -180,17 +187,28 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         {
                             $geozone_rates[$geozone_id] = array();
                         }
-				        $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+                        
+                        if ($shippingmethod->shipping_method_type == '3')
+                        {
+                            // don't use weight, just do flat rate for entire order
+                            // regardless of weight and regardless of the number of items
+                            $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+                        }
+                            else
+                        {
+                            // get the shipping rate for the entire order using the sum weight of all products in the order that ship
+                            $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $sum_weight );
+                        }
+                        
 				        $geozone_rates[$geozone_id]['0']->qty = '1';  
 				        $geozone_rates[$geozone_id]['0']->shipping_method_type = $shippingmethod->shipping_method_type;   
 				    }
-				    // todo calc & prepare the return object 
 				}
                 break;
             case "1":
             case "0":
-            	// 0 = per item
-            	// 1 = weight based
+            	// 0 = per item - flat rate
+            	// 1 = per item - weight based
             	$rates = array();
                 foreach ($orderItems as $item)
                 {
@@ -209,9 +227,6 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
                         $geozone_rates[$geozone_id][$pid]->qty = $qty;
                     }
-//                    $rates[$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
-//                    $return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
-//                    $return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
             	}
                 break;
             default:
@@ -293,7 +308,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
      * @param int $product_id
      * @return object
      */
-    public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0' )
+    public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0', $weight='0' )
     {
         // TODO Give this better error reporting capabilities
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -317,7 +332,14 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
       
         if ($use_weight)
         {
-            $model->setState('filter_weight', $product->product_weight);
+            if(!empty($weight))
+            {
+                $model->setState('filter_weight', $weight);
+            }
+                else
+            {
+                $model->setState('filter_weight', $product->product_weight);
+            }
         }
         $items = $model->getList();
        

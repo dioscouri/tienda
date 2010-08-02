@@ -33,17 +33,22 @@ class TiendaHelperShipping extends TiendaHelperBase
 		{
             $object = new JObject();
             $object->id = '0';
-            $object->title = JText::_( "Per Item" );
+            $object->title = JText::_( "Flat Rate Per Item" );
             $instance[$object->id] = $object;
 
             $object = new JObject();
             $object->id = '1';
-            $object->title = JText::_( "Weight Based" );
+            $object->title = JText::_( "Weight Based Per Item" );
             $instance[$object->id] = $object;
             
             $object = new JObject();
             $object->id = '2';
-            $object->title = JText::_( "Per Order" );
+            $object->title = JText::_( "Weight Based Per Order" );
+            $instance[$object->id] = $object;
+            
+            $object = new JObject();
+            $object->id = '3';
+            $object->title = JText::_( "Flat Rate Per Order" );
             $instance[$object->id] = $object;
 		}
 		

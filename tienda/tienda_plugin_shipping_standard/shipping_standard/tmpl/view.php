@@ -9,6 +9,7 @@ JFilterOutput::objectHTMLSafe( $row );
 <fieldset>
 	<legend><?php echo JText::_('Form'); ?></legend>
 	
+	<div style="width: 65%; float: left;">
 	<table class="admintable">
 		<tr>
 			<td width="100" align="right" class="key">
@@ -61,7 +62,21 @@ JFilterOutput::objectHTMLSafe( $row );
             </td>
         </tr>
 	</table>
-						
+    </div>
+    
+    <div class="note" style="width: 25%; float: left; padding-right: 20px;">
+        <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_( "Note" ); ?>:</span>
+        <?php echo JText::_( "Shipping Type Help Text" ); ?>:
+        <ul>
+            <li><?php echo JText::_( "Flat Rate Per Item HELP TEXT" ); ?></li>
+            <li><?php echo JText::_( "Weight-Based Per Item HELP TEXT" ); ?></li>
+            <li><?php echo JText::_( "Flat Rate Per Order HELP TEXT" ); ?></li>
+            <li><?php echo JText::_( "Weight-Based Per Order HELP TEXT" ); ?></li>
+        </ul>
+    </div>    						
+    
+    <div style="clear: both;"></div>
+        
 	<input type="hidden" name="shipping_method_id" value="<?php echo @$row->shipping_method_id; ?>" />
 	<input type="hidden" id="shippingTask" name="shippingTask" value="<?php echo @$form->shippingTask; ?>" />
 	
