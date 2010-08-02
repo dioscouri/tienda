@@ -1184,48 +1184,56 @@ class TiendaControllerProducts extends TiendaController
 		return;
     }
     
-    function setDefaultImage(){
-    	
+    function setDefaultImage()
+    {
     	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     	
 		$product_id = JRequest::getInt( 'product_id', 0, 'request');
 		$image = JRequest::getVar('image', '', 'request');
 		$image = html_entity_decode($image);
-		
-		// Find and delete the product image
-		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
+
+		// Find the product image
+		$helper = TiendaHelperBase::getInstance('Product');
 		$path = $helper->getGalleryPath($product_id);
 
 		// Check if the data is ok
-		if(!$product_id || empty($image)){
+		if (empty($product_id) || empty($image))
+		{
+        echo $product_id." ".$image;
+        exit;
 			$msg = JText::_('Input Data not Valid');
-			
 			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
         	$redirect = JRoute::_( $redirect, false );
-        
         	$this->setRedirect( $redirect, $msg, 'notice' );
         	return;
 		}
 		
 		// Check if the image exists
-		if(JFile::exists($path.$image)){					
+		if (JFile::exists($path.$image) || JFile::exists($path.DS.$image))
+		{					
 			// Update
 			$model = $this->getModel('products');
 			$row = $model->getTable();
-			$row->load($product_id);
-			
+			$row->load( array( 'product_id'=>$product_id ) );
 			$row->product_full_image = $image;
-				
-			$row->store();
-			$msg = JText::_('Update Successful');
-		} else{
-			$msg = JText::_('Image does not Exist: '.$path.$image);
+			if (!$row->store())
+			{
+			    JFactory::getApplication()->enqueueMessage( $row->getError(), 'notice' );
+			}
+			
+			$this->message = JText::_('Update Successful');
+			$this->messagetype = 'message';
+		} 
+    		else
+		{
+			$this->message = JText::_('Image does not Exist: '.$path.$image);
+			$this->messagetype = 'notice';
 		}
 			
 		$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
-        $this->setRedirect( $redirect, $msg, 'notice' );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;			
 		
     }

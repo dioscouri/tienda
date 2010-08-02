@@ -25,6 +25,9 @@ class TiendaViewCategories extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+            case "selectproducts":
+                $this->_default($tpl);
+              break;
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
