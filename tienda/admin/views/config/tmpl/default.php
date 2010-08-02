@@ -684,6 +684,19 @@
                                 
                             </td>
 						</tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Your Dioscouri Affiliate ID' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="amigosid" value="<?php echo $this->row->get('amigosid', ''); ?>" class="inputbox" />
+                            </td>
+                            <td>
+                                <a href='http://www.dioscouri.com/index.php?option=com_amigos' target='_blank'>
+                                <?php echo JText::_( "No AmigosID" ); ?>
+                                </a>                                
+                            </td>
+                        </tr>
 					</tbody>
 					</table>
 					<?php

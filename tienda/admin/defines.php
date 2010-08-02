@@ -335,6 +335,7 @@ class TiendaConfig extends JObject
 
 	// View Options
 	var $show_linkback						= '1';
+	var $amigosid                           = '';
 	var $page_tooltip_dashboard_disabled	= '0';
 	var $page_tooltip_config_disabled		= '0';
 	var $page_tooltip_tools_disabled		= '0';
