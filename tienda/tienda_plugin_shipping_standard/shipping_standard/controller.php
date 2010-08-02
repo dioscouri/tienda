@@ -13,6 +13,8 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 	function __construct() 
 	{
 		parent::__construct();
+		JModel::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_standard'.DS.'models');
+		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_standard'.DS.'tables');
 	}
 	
 	function newMethod(){
@@ -115,46 +117,17 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
     }
     
     /**
-     * Creates a rate and redirects
-     * 
-     * @return unknown_type
+     * Deletes a shipping method
+     * @see tienda/admin/library/plugins/TiendaControllerShippingPlugin::delete()
      */
-    function createrate()
-    {
-    	$this->includeCustomModel('shippingrates');
-    	$this->includeCustomTables();
-    	
-        $this->set('suffix', 'shippingrates');
-        $model  = $this->getModel( $this->get('suffix') );
-        
-        $row = $model->getTable();
-        $row->bind(JRequest::get('post'));
-        if ( $row->save() ) 
-        {
-            $dispatcher = JDispatcher::getInstance();
-            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
-        } 
-            else 
-        {
-            $this->messagetype  = 'notice';         
-            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
-        }
-        
-        $redirect = $this->baseLink()."&shippingTask=setrates&sid={$row->shipping_method_id}&tmpl=component";
-        $redirect = JRoute::_( $redirect, false );
-        
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
-    }
-    
 	function delete()
 	{
 		$error = false;
 		$this->messagetype	= '';
 		$this->message 		= '';
-        
 
 		$model = $this->getModel('shippingmethods');
-		$row = $model->getTable();
+        $row = JTable::getInstance('ShippingMethods', 'TiendaTable');
 
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 		foreach (@$cids as $cid)
@@ -179,7 +152,39 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$this->redirect = $this->baseLink();
 		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );
 	}
-    
+
+    /**
+     * Creates a shipping rate and redirects
+     * 
+     * @return unknown_type
+     */
+    function createrate()
+    {
+        $this->includeCustomModel('shippingrates');
+        $this->includeCustomTables();
+        
+        $this->set('suffix', 'shippingrates');
+        $model  = $this->getModel( $this->get('suffix') );
+        
+        $row = $model->getTable();
+        $row->bind(JRequest::get('post'));
+        if ( $row->save() ) 
+        {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+        } 
+            else 
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+        
+        $redirect = $this->baseLink()."&shippingTask=setrates&sid={$row->shipping_method_id}&tmpl=component";
+        $redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
+	
 	/**
      * Saves the properties for all prices in list
      * 
@@ -235,5 +240,43 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
    
-    
+    /**
+     * Deletes a shipping rate and redirects
+     * 
+     * @return unknown_type
+     */
+    function deleterate()
+    {
+        $this->set('suffix', 'shippingrates');
+        $model  = $this->getModel( $this->get('suffix') );
+        
+        $cids = JRequest::getVar('cid', array(0), 'request', 'array');        
+        
+        foreach (@$cids as $cid)
+        {
+            $row = $model->getTable();
+            $row->load( $cid );
+
+            if (!$row->delete())
+            {
+                $this->message .= $row->getError();
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
+        
+        if ($error)
+        {
+            $this->message = JText::_('Error') . " - " . $this->message;
+        }
+            else
+        {
+            $this->message = "";
+        }
+
+        $redirect = $this->baseLink()."&shippingTask=setrates&sid={$row->shipping_method_id}&tmpl=component";
+        $redirect = JRoute::_( $redirect, false );
+        
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }    
 } 
