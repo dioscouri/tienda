@@ -9,22 +9,31 @@ $values = @$this->values;
     <div id="validationmessage"></div>
     
     <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+
     <!--base price-->
     <span id="product_price" class="product_price">
-        <?php 
-        echo TiendaHelperBase::currency($item->price); 
-        ?>
-    </span>
-    <span id="product_price_extra" class="product_price_extra">
         <?php            
         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-        if ($this->show_tax)
+        if (!empty($this->show_tax))
         {
             if (!empty($this->tax))
             {
-                echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($this->tax));
+                if ($this->show_tax == '2')
+                {
+                    echo TiendaHelperBase::currency($item->price + $this->tax);
+                }
+                    else
+                {
+                    echo TiendaHelperBase::currency($item->price);
+                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($this->tax));
+                }
             }
         }
+            else
+        {
+            echo TiendaHelperBase::currency($item->price);
+        }
+        
         if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
         {
             echo '<br /><a href="'.$this->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $this->shipping_cost_link).'</a>' ;

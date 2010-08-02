@@ -600,10 +600,9 @@
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
                             </th>
                             <td>
-                                <?php echo JHTML::_('select.booleanlist', 'display_prices_with_tax', 'class="inputbox"', $this->row->get('display_prices_with_tax', '0') ); ?>
+                                <?php echo TiendaSelect::displaywithtax( $this->row->get('display_prices_with_tax', '0'), 'display_prices_with_tax' ); ?>
                             </td>
                             <td>
-                                
                             </td>
                         </tr>
                         <tr>

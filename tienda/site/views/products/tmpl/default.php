@@ -64,8 +64,7 @@ $citems = @$this->citems;
                         </a>
                         
                         <div class="product_price">
-                            <?php echo TiendaHelperBase::currency($item->price); 
-                            
+                            <?php
                             // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
                             $config = TiendaConfig::getInstance();
                             $show_tax = $config->get('display_prices_with_tax');
@@ -73,7 +72,7 @@ $citems = @$this->citems;
                             $article_link = $config->get('article_shipping', '');
                             $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
                             
-					        if ($show_tax)
+					        if (!empty($show_tax))
 					        {
                                 Tienda::load('TiendaHelperUser', 'helpers.user');
                                 $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
@@ -88,8 +87,25 @@ $citems = @$this->citems;
                                 $tax = $taxtotal->tax_total;
                                 if (!empty($tax))
                                 {
-                                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($tax));    
+                                    if ($show_tax == '2')
+                                    {
+                                        // sum
+                                        echo TiendaHelperBase::currency($item->price + $tax);
+                                    }
+                                        else
+                                    {
+                                        echo TiendaHelperBase::currency($item->price);
+                                        echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($tax));
+                                    }    
                                 }
+                                    else
+                                {
+                                    echo TiendaHelperBase::currency($item->price); 
+                                }
+					        }
+					           else
+					        {
+					            echo TiendaHelperBase::currency($item->price); 
 					        }
 
 					        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))

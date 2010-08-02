@@ -701,6 +701,28 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
+    public static function displaywithtax( $selected, $name = 'filter_displaywithtax', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Display Prices With Tax' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  '0', JText::_( "Do Not Display Tax" ) );
+        $list[] = JHTML::_('select.option',  '1', JText::_( "Display Tax Next to Price" ) );
+        $list[] = JHTML::_('select.option',  '2', JText::_( "Sum the Tax and Product Price" ) );
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
+    /**
+    * Generates range list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
     public static function cartbutton( $selected, $name = 'filter_cartbutton', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Cart Button' )
     {
         $list = array();
