@@ -25,6 +25,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_date_to     = $this->getState('filter_date_to');
         $filter_datetype    = $this->getState('filter_datetype');
         $filter_recurs  = $this->getState('filter_recurs');
+        $filter_productid  = $this->getState('filter_productid');
         
        	if ($filter)
        	{
@@ -83,6 +84,11 @@ class TiendaModelOrderItems extends TiendaModelBase
         {
             $query->where('o.user_id = '.$this->_db->Quote($filter_userid));
         }
+
+        if (strlen($filter_productid))
+        {
+            $query->where('tbl.product_id = '.$this->_db->Quote($filter_productid));
+        }
     }
 
     protected function _buildQueryFields(&$query)
@@ -117,7 +123,7 @@ class TiendaModelOrderItems extends TiendaModelBase
 		
 		foreach($list as $item)
 		{
-			$item->link = 'index.php?option=com_tienda&controller=orderitems&view=orderitems&task=edit&id='.$item->orderitem_id;
+			$item->link = 'index.php?option=com_tienda&view=orderitems&task=edit&id='.$item->orderitem_id;
 		}
 		return $list;
 	}    

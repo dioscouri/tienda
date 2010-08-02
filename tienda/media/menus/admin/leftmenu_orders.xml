@@ -12,4 +12,8 @@
         <name>Subscriptions</name>
         <url>index.php?option=com_tienda&#38;view=subscriptions</url>
    </link>
+   <link>
+        <name>Ordered Items</name>
+        <url>index.php?option=com_tienda&#38;view=orderitems</url>
+   </link>
 </menu>

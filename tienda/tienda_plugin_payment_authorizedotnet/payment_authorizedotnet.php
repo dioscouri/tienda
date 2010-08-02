@@ -592,6 +592,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
      */
     function _evaluateSimplePaymentResponse( $resp, $submitted_values )
     {
+        $send_email = false;
         $object = new JObject();
         $object->message = '';
         $html = '';

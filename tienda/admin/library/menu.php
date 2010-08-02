@@ -120,8 +120,11 @@ class TiendaMenu extends JObject
 	 */
 	function display()
 	{
+	    jimport( 'joomla.application.component.view' );
+	    
+	    // TODO This should be passed as an argument
 		$hide = JRequest::getInt('hidemainmenu');
-		
+        		
 		// Load the named template, if there are links to display.				
 		if (!empty($this->_menu->_bar)) 
 		{
@@ -129,7 +132,7 @@ class TiendaMenu extends JObject
 		    $view->set('items', $this->_menu->_bar);
 		    $view->set('name', $this->_name);
 		    $view->set('hide', $hide);
-    		$view->setLayout($this->_name);
+    		$view->setLayout('leftmenu');
     		$view->display();		    
 		}
 	}

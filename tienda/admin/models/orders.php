@@ -161,6 +161,7 @@ class TiendaModelOrders extends TiendaModelBase
         $field[] = " oi.billing_city ";
         $field[] = " oi.billing_zone_name ";
         $field[] = " oi.billing_country_name ";
+        $field[] = " oi.billing_country_id ";
         $field[] = " oi.billing_postal_code ";
         $field[] = " oi.shipping_company ";
         $field[] = " oi.shipping_last_name ";
@@ -174,6 +175,7 @@ class TiendaModelOrders extends TiendaModelBase
         $field[] = " oi.shipping_city ";
         $field[] = " oi.shipping_zone_name ";
         $field[] = " oi.shipping_country_name ";
+        $field[] = " oi.shipping_country_id ";
         $field[] = " oi.shipping_postal_code ";
         $field[] = " oi.user_email ";
 
