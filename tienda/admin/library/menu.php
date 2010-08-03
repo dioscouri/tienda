@@ -118,7 +118,7 @@ class TiendaMenu extends JObject
 	 * 
 	 * @return unknown_type
 	 */
-	function display()
+	function display($layout='submenu', $hidemainmenu='')
 	{
 	    jimport( 'joomla.application.component.view' );
 	    
@@ -132,7 +132,7 @@ class TiendaMenu extends JObject
 		    $view->set('items', $this->_menu->_bar);
 		    $view->set('name', $this->_name);
 		    $view->set('hide', $hide);
-    		$view->setLayout('leftmenu');
+    		$view->setLayout($layout);
     		$view->display();		    
 		}
 	}

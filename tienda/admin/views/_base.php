@@ -77,7 +77,7 @@ class TiendaViewBase extends JView
 
 	    		    Tienda::load( 'TiendaMenu', 'library.menu' );
 					if ($menu =& TiendaMenu::getInstance($menuname)) {
-					    $menu->display();
+					    $menu->display('leftmenu');
 					}
 					
 					$modules = JModuleHelper::getModules("tienda_left");
