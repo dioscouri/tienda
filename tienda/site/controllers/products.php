@@ -65,7 +65,8 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$state['filter_category'] = '0';
 		}
-		if ($state['search'] && $state['filter_category'] = '1')
+		
+		if ($state['search'] && $state['filter_category'] == '1')
 		{
 			$state['filter_category'] = '';
 		}
