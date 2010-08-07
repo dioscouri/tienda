@@ -400,39 +400,6 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_( "Administrator Dashboard Settings" );
-					echo $this->sliders->startPanel( JText::_( $legend ), 'dashboard' );
-					?>
-					
-					<table class="adminlist">
-					<tbody>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Display Statistics' ); ?>
-							</th>
-			                <td>
-								<?php echo JHTML::_('select.booleanlist', 'display_dashboard_statistics', 'class="inputbox"', $this->row->get('display_dashboard_statistics', '1') ); ?>
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-                        <tr>
-                            <th style="width: 25%;">
-                                <?php echo JText::_( 'SELECT ORDER STATES TO REPORT ON' ); ?>
-                            </th>
-                            <td>
-                                <input type="text" name="orderstates_csv" value="<?php echo $this->row->get('orderstates_csv', '2, 3, 5, 17'); ?>" />
-                            </td>
-                            <td>
-                                <?php echo JText::_( "CONFIG ORDER STATES TO REPORT ON" ); ?>
-                            </td>
-                        </tr>
-					</tbody>
-					</table>
-                    <?php
-                    echo $this->sliders->endPanel();
-                    
                     $legend = JText::_( "Order and Checkout Settings" );
                     echo $this->sliders->startPanel( JText::_( $legend ), 'orders' );
                     ?>
@@ -700,6 +667,62 @@
 					</table>
 					<?php
 					echo $this->sliders->endPanel();
+					
+                    $legend = JText::_( "Administrator Dashboard Settings" );
+                    echo $this->sliders->startPanel( JText::_( $legend ), 'dashboard' );
+                    ?>
+                    
+                    <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Statistics' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_dashboard_statistics', 'class="inputbox"', $this->row->get('display_dashboard_statistics', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'SELECT ORDER STATES TO REPORT ON' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="orderstates_csv" value="<?php echo $this->row->get('orderstates_csv', '2, 3, 5, 17'); ?>" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( "CONFIG ORDER STATES TO REPORT ON" ); ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <?php
+                    echo $this->sliders->endPanel();
+                    
+                    $legend = JText::_( "Subscription Settings" );
+                    echo $this->sliders->startPanel( JText::_( $legend ), 'subscriptions' );
+                    ?>
+                    
+                    <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Expiration Notice' ); ?>
+                            </th>
+                            <td>
+                                <input name="subscriptions_expiring_notice_days" value="<?php echo $this->row->get('subscriptions_expiring_notice_days', '14'); ?>" type="text" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( "Expiration Notice DESC" ); ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <?php
+                    echo $this->sliders->endPanel();
+                    
 					
 					$legend = JText::_( "Administrator ToolTips" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );

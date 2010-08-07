@@ -20,7 +20,6 @@
     
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.mod_tienda_products.ini</language>
-		<language tag="de-DE">de-DE.mod_tienda_products.ini</language>
 	</languages>
 	
 	<params addpath="/modules/mod_tienda_products/elements">

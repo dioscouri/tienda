@@ -271,13 +271,22 @@
             <fileset dir="${cfg.pluginShippingDir}_fedex/languages" />
         </copy>
 
-        <!-- SYSTEM PLUGINS -->
+    <!-- SYSTEM PLUGINS -->
+    	<!-- OVERRIDES -->
         <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_system" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
         </copy>
+    	<!-- SUBSCRIPTIONS -->
+        <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_subscriptions" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_subscriptions/languages" />
+        </copy>
+    	
     <!-- TOOL PLUGINS -->
     	<!-- VIRTUEMART MIGRATION-->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">

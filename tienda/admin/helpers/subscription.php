@@ -27,7 +27,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
-        $subscription->status = 0;
+        $subscription->subscription_enabled = 0;
         if (!$subscription->save())
         {
             $this->setError( $subscription->getError() );
@@ -84,5 +84,111 @@ class TiendaHelperSubscription extends TiendaHelperBase
             return $data;
         }
         return array();
+    }
+    
+    /**
+     * Checks for subscriptions that have expired,
+     * sets them to expired, and sends out email notices
+     *  
+     * @return unknown_type
+     */
+    function checkExpired()
+    {
+        $date = JFactory::getDate();
+        $today = $date->toFormat( "%Y-%m-%d 00:00:00" );
+        
+        // select all subs that have expired but still have status = '1';
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        $model->setState("filter_datetype", 'expires' );
+        $model->setState("filter_date_from", $today );
+        $model->setState("filter_enabled", '1' );
+        if ($list = $model->getList())
+        {
+            foreach ($list as $item)
+            {
+                $this->setExpired( $item->subscription_id );
+            }
+        }
+        
+        // Update config to say this has been done
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        $config->load( array( 'config_name'=>'subscriptions_last_checked') );
+        $config->config_name = 'subscriptions_last_checked';
+        $config->value = $today;
+        $config->save();
+        
+        // TODO send summary email to admins
+    }
+    
+    /**
+     * Marks a subscription as expired
+     * and sends the expired email to the user
+     * 
+     * @param $subscription_id
+     * @return unknown_type
+     */
+    function setExpired( $subscription_id )
+    {
+        // change status = '0'
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $subscription->subscription_id = $subscription_id;
+        $subscription->subscription_enabled = 0;
+        if (!$subscription->save())
+        {
+            $this->setError( $subscription->getError() );
+            return false;
+        }
+        
+        // fire plugin event onAfterExpiredSubscription        
+        JPluginHelper::importPlugin( 'tienda' );
+        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher->trigger( 'onAfterExpiredSubscription', array( $subscription ) );
+        
+        // TODO Email user that their subs expired
+
+        return true;
+    }
+
+    /**
+     * Checks for subscriptions that expire x days in future
+     * and sends out email notices
+     *  
+     * @return unknown_type
+     */
+    function checkExpiring()
+    {
+        $config = TiendaConfig::getInstance();
+        
+        // select all subs that expire in x days (where expires > today + x & expires < today + x + 1)
+        $subscriptions_expiring_notice_days = $config->get( 'subscriptions_expiring_notice_days', '14' );
+        $subscriptions_expiring_notice_days_end = $subscriptions_expiring_notice_days + '1';
+        $date = JFactory::getDate();
+        $today = $date->toFormat( "%Y-%m-%d 00:00:00" );
+        
+        $database =& JFactory::getDBO();
+        $query = " SELECT DATE_ADD('".$today."', INTERVAL %s DAY) ";
+        $database->setQuery( sprintf($query, $subscriptions_expiring_notice_days ) );
+        $start_date = $database->loadResult();
+
+        $database->setQuery( sprintf($query, $subscriptions_expiring_notice_days_end ) );
+        $end_date = $database->loadResult();
+        
+        // select all subs that expire between those dates
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        $model->setState("filter_datetype", 'expires' );
+        $model->setState("filter_date_from", $start_date );
+        $model->setState("filter_date_to", $end_date );
+        $model->setState("filter_enabled", '1' );
+        if ($list = $model->getList())
+        {
+            foreach ($list as $item)
+            {
+                // TODO Send expiring email for $item->subscription_id
+            }
+        }
     }
 }

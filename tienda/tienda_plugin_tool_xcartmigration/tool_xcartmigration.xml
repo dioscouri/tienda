@@ -17,7 +17,6 @@
 
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_tool_xcartmigration.ini</language>
-		<language tag="de-DE">de-DE.plg_tienda_tool_xcartmigration.ini</language>
 	</languages>
 
 	<params>

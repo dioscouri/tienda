@@ -160,6 +160,8 @@ class TiendaHelperEmail extends TiendaHelperBase
         
         switch ($type) 
         {
+            case "subscription_new":
+            case "new_subscription":
             case "subscription":
                 $user = JUser::getInstance($data->user_id);
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;

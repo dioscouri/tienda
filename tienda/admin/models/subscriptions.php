@@ -24,6 +24,9 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $filter_enabled = $this->getState('filter_enabled');
         $filter_productid = $this->getState('filter_productid');
         $filter_transactionid = $this->getState('filter_transactionid');
+        $filter_date_from   = $this->getState('filter_date_from');
+        $filter_date_to     = $this->getState('filter_date_to');
+        $filter_datetype    = $this->getState('filter_datetype');
         
        	if ($filter) 
        	{
@@ -66,6 +69,34 @@ class TiendaModelSubscriptions extends TiendaModelBase
         if (strlen($filter_productid))
         {
             $query->where('tbl.product_id = '.$this->_db->Quote($filter_productid));
+        }
+        
+        if (strlen($filter_date_from))
+        {
+            switch ($filter_datetype)
+            {
+                case "expires":
+                    $query->where("tbl.expires_datetime >= '".$filter_date_from."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("tbl.created_datetime >= '".$filter_date_from."'");
+                  break;
+            }
+        }
+        
+        if (strlen($filter_date_to))
+        {
+            switch ($filter_datetype)
+            {
+                case "expires":
+                    $query->where("tbl.expires_datetime <= '".$filter_date_to."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("tbl.created_datetime <= '".$filter_date_to."'");
+                  break;
+            }
         }
     }
     
