@@ -667,7 +667,29 @@
 					</table>
 					<?php
 					echo $this->sliders->endPanel();
-					
+                    
+                    $legend = JText::_( "Subscription Settings" );
+                    echo $this->sliders->startPanel( JText::_( $legend ), 'subscriptions' );
+                    ?>
+                    
+                    <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Expiration Notice' ); ?>
+                            </th>
+                            <td>
+                                <input name="subscriptions_expiring_notice_days" value="<?php echo $this->row->get('subscriptions_expiring_notice_days', '14'); ?>" type="text" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( "Expiration Notice DESC" ); ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <?php
+                    echo $this->sliders->endPanel();
+
                     $legend = JText::_( "Administrator Dashboard Settings" );
                     echo $this->sliders->startPanel( JText::_( $legend ), 'dashboard' );
                     ?>
@@ -700,29 +722,6 @@
                     </table>
                     <?php
                     echo $this->sliders->endPanel();
-                    
-                    $legend = JText::_( "Subscription Settings" );
-                    echo $this->sliders->startPanel( JText::_( $legend ), 'subscriptions' );
-                    ?>
-                    
-                    <table class="adminlist">
-                    <tbody>
-                        <tr>
-                            <th style="width: 25%;">
-                                <?php echo JText::_( 'Expiration Notice' ); ?>
-                            </th>
-                            <td>
-                                <input name="subscriptions_expiring_notice_days" value="<?php echo $this->row->get('subscriptions_expiring_notice_days', '14'); ?>" type="text" />
-                            </td>
-                            <td>
-                                <?php echo JText::_( "Expiration Notice DESC" ); ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                    <?php
-                    echo $this->sliders->endPanel();
-                    
 					
 					$legend = JText::_( "Administrator ToolTips" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
