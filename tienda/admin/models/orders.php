@@ -271,6 +271,10 @@ class TiendaModelOrders extends TiendaModelBase
 		
 		if ($item = parent::getItem())
 		{
+		    // get the orderinfo
+		    $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+		    $item->orderinfo->load(array('order_id'=>$item->order_id));
+		    
 	        //retrieve the order's items
 	        $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
 	        $model->setState( 'filter_orderid', $item->order_id);
