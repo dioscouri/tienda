@@ -50,7 +50,7 @@
 			<option value="0">DISABLED</option>
 		</param>
 		<param name="display_image_width" type="text" default="" label="Image Width" description="Image Width Desc" />
-		<param name="display_image_height" type="text" default="" label="Image Width" description="Image Height Desc" />
+		<param name="display_image_height" type="text" default="" label="Image Height" description="Image Height Desc" />
 		<param name="display_description" type="list" default="1" label="Show Short" description="Show Short Desc">
 			<option value="1">ENABLED</option>
 			<option value="0">DISABLED</option>
