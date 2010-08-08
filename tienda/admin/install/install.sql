@@ -1020,19 +1020,20 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `#__tienda_productrelations`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_productrelations` (
-  `product_relation_id` INT(11) NOT NULL ,
-  `product_id_a` INT(11) NOT NULL DEFAULT '0' ,
-  `product_id_b` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`product_relation_id`) ,
-  INDEX `fk_Product_ProductRelationsA` (`product_id_a` ASC) ,
-  INDEX `fk_Product_ProductRelationsB` (`product_id_b` ASC) ,
+  `productrelation_id` INT(11) NOT NULL ,
+  `product_id_from` INT(11) NOT NULL DEFAULT '0' ,
+  `product_id_to` INT(11) NOT NULL DEFAULT '0' ,
+  `relation_type` VARCHAR(64) NOT NULL DEFAULT '' ,
+  PRIMARY KEY (`productrelation_id`) ,
+  INDEX `fk_Product_ProductRelationsA` (`product_id_from` ASC) ,
+  INDEX `fk_Product_ProductRelationsB` (`product_id_to` ASC) ,
   CONSTRAINT `fk_Product_ProductRelationsA`
-    FOREIGN KEY (`product_id_a` )
+    FOREIGN KEY (`product_id_from` )
     REFERENCES `#__tienda_products` (`product_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Product_ProductRelationsB`
-    FOREIGN KEY (`product_id_b` )
+    FOREIGN KEY (`product_id_to` )
     REFERENCES `#__tienda_products` (`product_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)

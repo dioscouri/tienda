@@ -179,6 +179,15 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsCheckInventory FAILED') .' :: '. $this->getError(), 'error' );
         }
 
+        if (!$this->checkProductRelationsExisting())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductRelationsExisting FAILED') .' :: '. $this->getError(), 'error' );
+        }
+
+        if (!$this->checkProductRelationsType())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductRelationsType FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -1288,6 +1297,86 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
 
+        return false;        
+    }
+    
+    /**
+     * Check if the _productrelations table is correct
+     * As of v0.5.3
+     * 
+     * @return boolean
+     */
+    function checkProductRelationsExisting() 
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductRelationsExisting', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productrelations';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_relation_id";
+            $newnames["product_relation_id"] = "productrelation_id";
+            $definitions["product_relation_id"] = "int(11) NOT NULL AUTO_INCREMENT";
+
+        $fields[] = "product_id_a";
+            $newnames["product_id_a"] = "product_id_from";
+            $definitions["product_id_a"] = "int(11) NOT NULL DEFAULT '0'";
+
+        $fields[] = "product_id_b";
+            $newnames["product_id_b"] = "product_id_to";
+            $definitions["product_id_b"] = "int(11) NOT NULL DEFAULT '0'";
+            
+        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductRelationsExisting') );
+            $config->config_name = 'checkProductRelationsExisting';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+
+        return false;        
+    }
+    
+    /**
+     * Check if the _productrelations table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkProductRelationsType()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductRelationsType', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productrelations';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "relation_type";
+            $definitions["relation_type"] = "VARCHAR(64) NOT NULL DEFAULT ''";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductRelationsType') );
+            $config->config_name = 'checkProductRelationsType';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
         return false;        
     }
 }
