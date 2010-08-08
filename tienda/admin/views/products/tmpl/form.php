@@ -731,16 +731,53 @@ window.addEvent('domready', function(){
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_( "Amigos Integration" ); ?></legend>
-            <table class="admintable" style="width: 100%;">
-                <tr>
-                    <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_("Commission Rate Override").'::'.JText::_( "Commission Rate Override Tip" ); ?>" >
-                        <?php echo JText::_( 'Commission Rate Override' ); ?>:
-                    </td>
-                    <td>
-                        <input name="amigos_commission_override" id="amigos_commission_override" value="<?php echo @$row->product_parameters->get('amigos_commission_override'); ?>" size="10" maxlength="10" type="text" />
-                    </td>
-                </tr>
-            </table>
+            <?php if (Tienda::getClass('TiendaHelperAmigos', 'helpers.amigos')->isInstalled()) : ?>
+                <table class="admintable" style="width: 100%;">
+                    <tr>
+                        <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_("Commission Rate Override").'::'.JText::_( "Commission Rate Override Tip" ); ?>" >
+                            <?php echo JText::_( 'Commission Rate Override' ); ?>:
+                        </td>
+                        <td>
+                            <input name="amigos_commission_override" id="amigos_commission_override" value="<?php echo @$row->product_parameters->get('amigos_commission_override'); ?>" size="10" maxlength="10" type="text" />
+                        </td>
+                    </tr>
+                </table>
+            <?php else : ?>
+                <div class="note">
+                    <?php echo JText::_( "Amigos Installation Notice" ); ?>
+                </div>
+            <?php endif; ?>
+            </fieldset>
+        </div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Billets Integration" ); ?></legend>
+            
+            <?php if (Tienda::getClass('TiendaHelperBillets', 'helpers.billets')->isInstalled()) : ?>
+                <table class="admintable" style="width: 100%;">
+                    <tr>
+                        <td title="<?php echo JText::_("Ticket Limit Increase").'::'.JText::_( "Ticket Limit Increase Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Ticket Limit Increase' ); ?>:
+                        </td>
+                        <td>
+                            <input name="billets_ticket_limit_increase" value="<?php echo @$row->product_parameters->get('billets_ticket_limit_increase'); ?>" size="10" maxlength="10" type="text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("Excludes User From Ticket Limits").'::'.JText::_( "Excludes User From Ticket Limits Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Excludes User From Ticket Limits' ); ?>:
+                        </td>
+                        <td>
+                            <?php echo JHTML::_('select.booleanlist', 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
+                        </td>
+                    </tr>
+                </table>
+            <?php else : ?>
+                <div class="note">
+                    <?php echo JText::_( "Billets Version Notice" ); ?>
+                </div>
+            <?php endif; ?>
             </fieldset>
         </div>
 

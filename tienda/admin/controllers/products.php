@@ -240,6 +240,8 @@ class TiendaControllerProducts extends TiendaController
         // so we need to add to it
         $params = new JParameter( trim($row->product_params) );
         $params->set( 'amigos_commission_override', JRequest::getVar('amigos_commission_override') );
+        $params->set( 'billets_ticket_limit_increase', JRequest::getVar('billets_ticket_limit_increase') );
+        $params->set( 'billets_ticket_limit_exclusion', JRequest::getVar('billets_ticket_limit_exclusion') );
         $row->product_params = trim( $params->toString() );
 	    return $row;
 	}

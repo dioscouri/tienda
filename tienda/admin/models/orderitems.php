@@ -99,6 +99,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $field[] = " p.product_name ";
         $field[] = " p.product_sku ";
         $field[] = " p.product_model ";
+        $field[] = " p.product_params ";
         $field[] = " o.* ";
         $field[] = " s.* ";
 

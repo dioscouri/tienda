@@ -149,7 +149,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $commission_value = 0;
             foreach ($order->orderitems as $orderitem)
             {
-                $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+                $model = JModel::getInstance( 'Products', 'TiendaModel' );
                 $model->setId( $orderitem->product_id );
                 $product = $model->getItem();
                 
