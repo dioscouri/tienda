@@ -25,6 +25,7 @@ class TiendaViewProducts extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+            case "form_relations":
             case "gallery":
             case "setquantities":
             case "selectcategories":

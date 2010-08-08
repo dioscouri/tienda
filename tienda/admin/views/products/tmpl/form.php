@@ -687,6 +687,44 @@ window.addEvent('domready', function(){
     
     <?php 
     echo $tabs->endPanel();
+
+    // Tab
+    echo $tabs->startPanel( JText::_( 'Related Items' ), "panel_relations"); 
+    ?>
+        <div style="clear: both;"></div>
+        
+        <div style="width: 100%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Add New Relationship" ); ?></legend>
+                <div id="new_relationship" style="float: left;">
+                    <?php echo TiendaSelect::relationship('', 'new_relationship_type'); ?>
+                    <?php echo JText::_( "Product ID" ).": "; ?>
+                    <input name="new_relationship_productid_to" size="15" type="text" />
+                    <input name="new_relationship_productid_from" value="<?php echo @$row->product_id; ?>" type="hidden" />
+                    <input value="<?php echo JText::_( "Add" ); ?>" type="button" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_( "Updating Relationships" ); ?>');" />
+                </div>
+                <div style="clear: both;"></div>
+            </fieldset>
+        </div>
+        
+        <div style="width: 100%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Existing Relationships" ); ?></legend>
+                <div id="existing_relationships">
+                <?php echo $this->product_relations; ?>
+                </div>
+            </fieldset>
+        </div>
+
+        <?php
+        // fire plugin event here to enable extending the form
+        JDispatcher::getInstance()->trigger('onDisplayProductFormRelations', array( $row ) );                    
+        ?>
+        
+        <div style="clear: both;"></div>
+    
+    <?php 
+    echo $tabs->endPanel();
     
     // Tab
     echo $tabs->startPanel( JText::_( 'Display' ), "panel_display"); 

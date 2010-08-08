@@ -1238,7 +1238,53 @@ class TiendaHelperProduct extends TiendaHelperBase
         return false;
     }
 
-/**
+    /**
+     * Checks if the specified relationship exists
+     * TODO Make this support $product_to='any'
+     * TODO Make this support $relation_type='any'
+     * 
+     * @param $product_from
+     * @param $product_to
+     * @param $relation_type
+     * @return unknown_type
+     */
+    function relationshipExists( $product_from, $product_to, $relation_type='relates' )
+    {
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+        $keys = array(
+            'product_id_from'=>$product_from,
+            'product_id_to'=>$product_to,
+            'relation_type'=>$relation_type,
+        );
+        $table->load( $keys );
+        if (!empty($table->product_id_from))
+        {
+            return true;
+        }
+        
+        // relates can be inverted
+        if ($relation_type == 'relates')
+        {
+            // so try the inverse
+            $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+            $keys = array(
+                'product_id_from'=>$product_to,
+                'product_id_to'=>$product_from,
+                'relation_type'=>$relation_type,
+            );
+            $table->load( $keys );
+            if (!empty($table->product_id_from))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+
+    }
+
+    /**
      * returns a product's quantity list for all combination
      * @return array with CSV and quantity; 
      */

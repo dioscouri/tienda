@@ -650,6 +650,31 @@ class TiendaSelect extends JHTMLSelect
     
     /**
      * 
+     * Enter description here ...
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @param unknown_type $title
+     * @return unknown_type
+     */
+    public static function relationship( $selected, $name = 'filter_relationtype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Relationship' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'relates', JText::_( "Related To" ) );
+//        $list[] = JHTML::_('select.option',  'requires', JText::_( "Requires" ) );
+//        $list[] = JHTML::_('select.option',  'required_by', JText::_( "Required By" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
+    /**
+     * 
      * @param unknown_type $selected
      * @param unknown_type $name
      * @param unknown_type $attribs

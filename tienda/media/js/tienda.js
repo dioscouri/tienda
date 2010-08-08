@@ -456,3 +456,14 @@
             }
         }).request();
     }
+    
+    function tiendaAddRelationship(container, msg) {
+        var url = 'index.php?option=com_tienda&view=products&task=addRelationship&format=raw';
+        tiendaDoTask( url, container, document.adminForm, msg, true );
+        document.adminForm.new_relationship_productid_to.value = '';
+    }
+    
+    function tiendaRemoveRelationship(id, container, msg) {
+        var url = 'index.php?option=com_tienda&view=products&task=removeRelationship&format=raw&productrelation_id=' + id;
+        tiendaDoTask( url, container, document.adminForm, msg, true );
+    }

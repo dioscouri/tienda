@@ -64,6 +64,19 @@ class TiendaControllerProducts extends TiendaController
     }
     
     /**
+     * 
+     * @return unknown_type
+     */
+    function edit()
+    {
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $model  = $this->getModel( $this->get('suffix') );
+        $view->assign( 'product_relations', $this->getRelationshipsHtml($model->getId()) );
+        
+        parent::edit();
+    }
+    
+    /**
      * Checks in the current item and displays the previous/next one in the list
      * @return unknown_type
      */
@@ -1316,7 +1329,135 @@ class TiendaControllerProducts extends TiendaController
         $this->setRedirect( $redirect, JText::_('Done'), 'notice' );
         return;
     }
+    
+    /**
+     * 
+     * Adds a product relationship
+     * @return unknown_type
+     */
+    function removeRelationship()
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
 
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+        
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $submitted_values = $helper->elementsToArray( $elements );
+        
+        $product_id = $submitted_values['new_relationship_productid_from'];
+        $productrelation_id = JRequest::getInt('productrelation_id');
+        
+        $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+        $table->delete( $productrelation_id );
+        
+        $response['error'] = '0';
+        $response['msg'] = $this->getRelationshipsHtml( $product_id );
+        
+        echo ( json_encode( $response ) );
+    }
+    
+    /**
+     * 
+     * Adds a product relationship
+     * @return unknown_type
+     */
+    function addRelationship()
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+        
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $submitted_values = $helper->elementsToArray( $elements );
+        
+        $product_id = $submitted_values['new_relationship_productid_from'];
+        $product_to = $submitted_values['new_relationship_productid_to'];
+        $relation_type = $submitted_values['new_relationship_type'];
+
+        // verify product id exists 
+        $product = JTable::getInstance('Products', 'TiendaTable');
+        $product->load(array('product_id'=>$product_to));
+        if (empty($product->product_id))
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "Invalid Product" ) );
+            $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        // and that relationship doesn't already exist
+        $producthelper = TiendaHelperBase::getInstance( 'Product' );
+        if ($producthelper->relationshipExists( $product_id, $product_to, $relation_type ))
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
+            $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
+            echo ( json_encode( $response ) );
+            return;            
+        }
+        
+        // TODO and that it doesn't conflict
+        
+        $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+        $table->product_id_from = $product_id; 
+        $table->product_id_to = $product_to;
+        $table->relation_type = $relation_type;
+        $table->save();
+        
+        $response['error'] = '0';
+        $response['msg'] = $this->getRelationshipsHtml( $product_id );
+        
+        echo ( json_encode( $response ) );
+    }
+    
+    /**
+     * Gets an address formatted for display
+     *
+     * @param int $address_id
+     * @return string html
+     */
+    function getRelationshipsHtml( $product_id )
+    {
+        $html = '';
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState('filter_product', $product_id);
+        
+        if ($items = $model->getList())
+        {
+            $view   = $this->getView( 'products', 'html' );
+            $view->set( '_controller', 'products' );
+            $view->set( '_view', 'products' );
+            $view->set( '_doTask', true);
+            $view->set( 'hidemenu', true);
+            $view->setModel( $model, true );
+            $view->setLayout( 'form_relations' );
+            $view->set('items', $items);
+            $view->set('product_id', $product_id);
+            ob_start();
+            $view->display();
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+
+        return $html;
+    }
 }
 
 ?>
