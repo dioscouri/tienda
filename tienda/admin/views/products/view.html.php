@@ -25,7 +25,6 @@ class TiendaViewProducts extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
-            case "form_relations":
             case "gallery":
             case "setquantities":
             case "selectcategories":
@@ -34,6 +33,7 @@ class TiendaViewProducts extends TiendaViewBase
             case "view":
                 $this->_form($tpl);
               break;
+            case "form_relations":              
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);

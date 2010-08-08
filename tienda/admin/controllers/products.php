@@ -72,8 +72,10 @@ class TiendaControllerProducts extends TiendaController
         $view   = $this->getView( $this->get('suffix'), 'html' );
         $model  = $this->getModel( $this->get('suffix') );
         $view->assign( 'product_relations', $this->getRelationshipsHtml($model->getId()) );
-        
+        $view->set( 'hidemenu', false);
+                
         parent::edit();
+        
     }
     
     /**
@@ -1450,6 +1452,7 @@ class TiendaControllerProducts extends TiendaController
             $view->setLayout( 'form_relations' );
             $view->set('items', $items);
             $view->set('product_id', $product_id);
+            
             ob_start();
             $view->display();
             $html = ob_get_contents();
