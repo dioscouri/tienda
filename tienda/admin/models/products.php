@@ -48,10 +48,7 @@ class TiendaModelProducts extends TiendaModelBase
 			$where[] = 'LOWER(tbl.product_description) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_sku) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_model) LIKE '.$key;
-			// TODO Add more filters
-			// add maufacturer name
 			$where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
-			// add category name
 			$where[] = 'LOWER(c.category_name) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');

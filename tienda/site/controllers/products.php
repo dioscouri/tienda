@@ -61,7 +61,7 @@ class TiendaControllerProducts extends TiendaController
 			}
 
 		}
-		elseif (!$state['search'])
+    		elseif (!$state['search'])
 		{
 			$state['filter_category'] = '0';
 		}

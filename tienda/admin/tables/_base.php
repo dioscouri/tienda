@@ -151,9 +151,9 @@ class TiendaTable extends JTable
 	 */
 	function load( $oid=null, $reset=true )
 	{
-		if (is_numeric($oid))
+		if (!is_array($oid))
 		{
-			// load by primary key if numeric
+			// load by primary key if not array
 			$keyName = $this->getKeyName();
 			$oid = array( $keyName => $oid );
 		}
