@@ -256,6 +256,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign('product_description', $product_description );
 		$view->assign( 'files', $this->getFiles( $row->product_id ) );
 		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
+		$view->assign( 'product_relations', $this->getRelationshipsHtml( $row->product_id ) );
 		$view->setModel( $model, true );
 
 		// using a helper file, we determine the product's layout
@@ -478,6 +479,67 @@ class TiendaControllerProducts extends TiendaController
 
 		return $html;
 	}
+	
+    /**
+     * Gets a product's related items
+     * formatted for display
+     *
+     * @param int $address_id
+     * @return string html
+     */
+    function getRelationshipsHtml( $product_id )
+    {
+        $html = '';
+
+        // get the list
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState( 'filter_product', $product_id );
+        if ($items = $model->getList())
+        {
+            foreach ($items as $item)
+            {
+                if ($item->product_id_from == $product_id)
+                {
+                    // display the _product_to
+                    $item->product_id = $item->product_id_to;
+                    $item->product_name = $item->product_name_to;
+                    $item->product_model = $item->product_model_to;
+                    $item->product_sku = $item->product_sku_to;
+                    $item->product_price = $item->product_price_to;
+                } 
+                    else 
+                { 
+                    // display the _product_from
+                    $item->product_id = $item->product_id_from;
+                    $item->product_name = $item->product_name_from;
+                    $item->product_model = $item->product_model_from;
+                    $item->product_sku = $item->product_sku_from;
+                    $item->product_price = $item->product_price_from;
+                }
+            }
+        }
+
+        if (!empty($items))
+        {
+            $view   = $this->getView( 'products', 'html' );
+            $view->set( '_controller', 'products' );
+            $view->set( '_view', 'products' );
+            $view->set( '_doTask', true);
+            $view->set( 'hidemenu', true);
+            $view->setModel( $model, true );
+            $view->setLayout( 'product_relations' );
+            $view->set('items', $items);
+            $view->set('product_id', $product_id);
+
+            ob_start();
+            $view->display();
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+
+        return $html;
+    }
 
 	/**
 	 * downloads a file

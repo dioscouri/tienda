@@ -75,9 +75,6 @@ $item = @$this->row;
             </div>
         <?php endif; ?>
         
-        <?php // display the files associated with this product ?>
-        <?php echo $this->files; ?>
-        
         <?php // display the gallery images associated with this product if there is one ?>
         <?php $path = TiendaHelperProduct::getGalleryPath($item->product_id); ?>
         <?php $images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude'=>$item->product_full_image ) ); ?>
@@ -112,6 +109,12 @@ $item = @$this->row;
         ?>
         
         <div class="reset"></div>
+
+        <?php // display the files associated with this product ?>
+        <?php echo $this->files; ?>
+
+        <?php // display the products associated with this product ?>
+        <?php echo $this->product_relations; ?>
 
         <?php if (!empty($this->onAfterDisplayProduct)) : ?>
             <div id='onAfterDisplayProduct_wrapper'>

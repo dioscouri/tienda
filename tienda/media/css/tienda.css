@@ -321,3 +321,15 @@ div.prepayment_message {
 div.prepayment_action {
 	padding: 10px;
 }
+
+div.productrelation {
+	float: left;
+	display: block;
+	width: 20%;
+	min-height: 150px; 
+}
+
+div.productrelation_item {
+	margin: auto;
+	text-align: center;
+}
