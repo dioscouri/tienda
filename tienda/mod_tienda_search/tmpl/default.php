@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaSelect', 'library.select' );
-$url = JRoute::_( 'index.php?option=com_tienda&controller=products&task=search' , false);
+$url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search' , false);
 ?>
 
 <div id="productSearch">
@@ -21,6 +21,7 @@ $url = JRoute::_( 'index.php?option=com_tienda&controller=products&task=search' 
         <?php if ($category_filter != '0') : ?><?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?><?php endif; ?>
         <input type="text" name="filter" value="<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>" onclick="this.value='';"/> 
         <input type="submit" value="Submit" />
+        <input type="hidden" name="task" value="search" />
     </form>
 </div>
   
