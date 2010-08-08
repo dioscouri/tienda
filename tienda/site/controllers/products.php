@@ -495,6 +495,7 @@ class TiendaControllerProducts extends TiendaController
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
+        $model->setState( 'filter_relation', 'relates' );
         if ($items = $model->getList())
         {
             foreach ($items as $item)
@@ -816,6 +817,8 @@ class TiendaControllerProducts extends TiendaController
         {
             $product_qty = '1';
         }
+        
+        // does the user/cart match all dependencies?  does this product require
         
         // create cart object out of item properties
         $item = new JObject;

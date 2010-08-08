@@ -188,3 +188,25 @@ div.multiupload div.list img{
 	margin: 3px;
 	cursor:pointer;
 }
+
+/** related products **/
+
+span.relationship_requires {
+	color: red;
+}
+
+span.relationship_relates {
+    color: green;
+}
+
+span.relationship_required_by {
+    color: darkorange;
+}
+
+span.relationship_requires_past {
+    color: red;
+}
+
+span.relationship_requires_current {
+    color: red;
+}

@@ -1395,7 +1395,7 @@ class TiendaControllerProducts extends TiendaController
         // verify product id exists 
         $product = JTable::getInstance('Products', 'TiendaTable');
         $product->load(array('product_id'=>$product_to));
-        if (empty($product->product_id))
+        if (empty($product->product_id) || $product_id == $product_to)
         {
             $response['error'] = '1';
             $response['msg'] = $helper->generateMessage( JText::_( "Invalid Product" ) );
@@ -1413,6 +1413,31 @@ class TiendaControllerProducts extends TiendaController
             $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
             echo ( json_encode( $response ) );
             return;            
+        }
+        
+        if ($relation_type == 'required_by')
+        {
+            // check existence of required_by relationship
+            if ($producthelper->relationshipExists( $product_to, $product_id, 'requires' ))
+            {
+                $response['error'] = '1';
+                $response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
+                $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
+                echo ( json_encode( $response ) );
+                return;            
+            }
+            
+            // then add it, need to flip to/from
+            $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+            $table->product_id_from = $product_to; 
+            $table->product_id_to = $product_id;
+            $table->relation_type = 'requires';
+            $table->save();
+            
+            $response['error'] = '0';
+            $response['msg'] = $this->getRelationshipsHtml( $product_id );
+            echo ( json_encode( $response ) );
+            return;
         }
         
         // TODO and that it doesn't conflict

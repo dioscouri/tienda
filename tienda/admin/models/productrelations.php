@@ -19,6 +19,7 @@ class TiendaModelProductRelations extends TiendaModelBase
     {
         $filter_id = $this->getState('filter_id');
         $filter_product = $this->getState('filter_product');
+        $filter_relation = $this->getState('filter_relation');
        	$filter_product_from = $this->getState('filter_product_from');       	
         $filter_product_to = $this->getState('filter_product_to');
         
@@ -42,6 +43,11 @@ class TiendaModelProductRelations extends TiendaModelBase
        	if (strlen($filter_product_to))
         {
             $query->where('tbl.product_id_to = '.(int) $filter_product_to);
+        }
+        
+        if (strlen($filter_relation))
+        {
+            $query->where("tbl.relation_type = '$filter_relation'");
         }
     }
 
