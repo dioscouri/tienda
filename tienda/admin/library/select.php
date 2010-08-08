@@ -430,9 +430,44 @@ class TiendaSelect extends JHTMLSelect
         {
         	return self::genericlist($list, $name, $attribs, 'address_id', 'address_name', $selected, $idtag );
         }
-
-		
  	}
+ 	
+ 	/**
+ 	 * Displays a select list of the user's orders
+ 	 * 
+ 	 * @param unknown_type $user_id
+ 	 * @param unknown_type $selected
+ 	 * @param unknown_type $name
+ 	 * @param unknown_type $attribs
+ 	 * @param unknown_type $idtag
+ 	 * @param unknown_type $allowAny
+ 	 * @param unknown_type $title
+ 	 * @return unknown_type
+ 	 */
+    public static function order($user_id, $selected = '', $name = 'filter_order', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title = 'Select Order' )
+    {
+        if (empty($user_id))
+        {
+            return JText::_("Invalid User");
+        }
+
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -", 'value', 'text' );
+        }
+        
+        $model = Tienda::getClass('TiendaModelOrders', 'models.orders');
+        $model->setState("filter_userid", $user_id);
+        $items = $model->getList();
+        foreach ($items as $item)
+        {
+            $title = "# " .$item->order_id;
+            $title .= " - " . JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format'));
+            $list[] = JHTML::_('select.option', $item->order_id, $title );  
+        }
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
  	
     /**
      * 
