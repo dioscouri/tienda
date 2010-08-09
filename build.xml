@@ -166,10 +166,6 @@
         </copy>
     	
     <!-- PLUGINS -->
-        <!-- RELATED PRODUCTS -->
-        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_relatedproducts" />
-        </copy>
         <!-- BUG REPORT -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_bug_report" />

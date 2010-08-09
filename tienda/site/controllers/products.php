@@ -804,7 +804,10 @@ class TiendaControllerProducts extends TiendaController
             $id_type = "session";
         }
         
-        $cart_recurs = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' )->hasRecurringItem( $cart_id, $id_type );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $carthelper = new TiendaHelperCarts();
+        
+        $cart_recurs = $carthelper->hasRecurringItem( $cart_id, $id_type );
         if ($product->product_recurs && $cart_recurs)
         {
             $this->messagetype  = 'notice';         
@@ -818,8 +821,6 @@ class TiendaControllerProducts extends TiendaController
             $product_qty = '1';
         }
         
-        // does the user/cart match all dependencies?  does this product require
-        
         // create cart object out of item properties
         $item = new JObject;
         $item->user_id     = JFactory::getUser()->id;
@@ -827,6 +828,16 @@ class TiendaControllerProducts extends TiendaController
         $item->product_qty = (int) $product_qty;
         $item->product_attributes = $attributes_csv;
         $item->vendor_id   = '0'; // vendors only in enterprise version
+
+        // does the user/cart match all dependencies?
+        $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
+        if (!$canAddToCart)
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Cannot Add Item to Cart" ) . " - " . $carthelper->getError();
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;            
+        }
         
         // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
         $results = array();

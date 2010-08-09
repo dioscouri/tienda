@@ -403,8 +403,123 @@ class TiendaHelperCarts extends TiendaHelperBase
                 return true;
             }
         }
-        
         return false;
+    }
+    
+    /**
+     * Confirms that item can be added to cart
+     * 
+     * @param $item     A CartItem object (equiv to a row in the __carts table)
+     * @param $cart_id
+     * @param $id_type
+     * @return unknown_type
+     */
+    function canAddItem( $item, $cart_id, $id_type='user_id' )
+    {
+        $cart = array();
+        $ordered_items = array();
+        $active_subs = array();
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        // does this cart item have any dependencies?
+        // if not, return true
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState('filter_product_from', $item->product_id);
+        $model->setState('filter_relations', array('requires', 'requires_past', 'requires_current') );
+        if (!$relations = $model->getList())
+        {
+            return true;
+        }
+
+        // get the cart's items as well as user info (if logged in)
+        $model = JModel::getInstance( 'Carts', 'TiendaModel' );
+        switch ($id_type)
+        {
+            case "session":
+            case "session_id":
+                $model->setState('filter_session', $cart_id);        
+                break;
+            case "user":
+            case "user_id":
+            default:
+                $model->setState('filter_user', $cart_id);
+                // get the user's ordered items
+                $oi_model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+                $oi_model->setState( 'filter_userid', $cart_id );
+                if ($oi = $oi_model->getList())
+                {
+                    foreach ($oi as $oi_item)
+                    {
+                        $ordered_items[] = $oi_item->product_id;
+                    }                    
+                }
+                // get the user's active subscriptions
+                $subs_model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+                $subs_model->setState("filter_userid", $cart_id );
+                $subs_model->setState("filter_enabled", 1);
+                if ($subs = $subs_model->getList())
+                {
+                    foreach ($subs as $sub_item)
+                    {
+                        $active_subs[] = $sub_item->product_id;
+                    }                    
+                }                
+                break;                
+        }
+        
+        // get the cart items
+        $cart_items = $model->getList();
+        if (!empty($cart_items))
+        {
+            // foreach
+            foreach ($cart_items as $citem)
+            {
+                $cart[] = $citem->product_id;
+            }            
+        }
+        
+        // $cart is now an array of product_ids that are in the cart
+        // $active_subs is now an array of product_ids that are active subscriptions
+        // $ordered_items is now an array of product_ids the user has purchased
+        
+        // foreach dependency, check that it is met
+        foreach ($relations as $relation)
+        {
+            // switch relation_type
+            switch ($relation->relation_type)
+            {
+                case "requires":
+                    // cart must already have required item in it
+                    if (!in_array($relation->product_id_to, $cart))
+                    {
+                        $this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+                        return false;
+                    }
+                    break;
+                case "requires_past":
+                    // cart must already have required item in it
+                    // or user must have purchased it some time in the past
+                    if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $ordered_items))
+                    {
+                        $this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+                        return false;
+                    }
+                    break;
+                case "requires_current":
+                    // cart must already have required item in it
+                    // or user must have active subscription
+                    if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $active_subs))
+                    {
+                        $this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
     }
   
 }
