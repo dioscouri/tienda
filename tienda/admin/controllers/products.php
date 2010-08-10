@@ -136,6 +136,10 @@ class TiendaControllerProducts extends TiendaController
         // save the integrations
 		$row = $this->prepareParameters( $row );
 		
+		//check if normal price exists
+		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+		$prices = TiendaHelperProduct::getPrices( $row->product_id );
+		
 		if ( $row->save() ) 
 		{
 		    $row->product_id = $row->id;
@@ -143,9 +147,9 @@ class TiendaControllerProducts extends TiendaController
 			$this->messagetype 	= 'message';
 			$this->message  	= JText::_( 'Saved' );
 			
-			if ($row->_isNew)
+			if ($row->_isNew || empty($prices))
 			{
-				// set price
+				// set price if new or no prices set
 				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				$price->product_id = $row->id;
 				$price->product_price = JRequest::getVar( 'product_price' );
@@ -154,7 +158,10 @@ class TiendaControllerProducts extends TiendaController
 					$this->messagetype 	= 'notice';
 					$this->message .= " :: ".$price->getError();
 				}
-				
+			}
+			
+			if ($row->_isNew)
+			{
 				// set category
 				$category = JTable::getInstance( 'Productcategories', 'TiendaTable' );
 				$category->product_id = $row->id;

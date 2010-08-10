@@ -487,10 +487,12 @@ window.addEvent('domready', function(){
             <legend><?php echo JText::_( "Prices and Inventory" ); ?></legend>
             
             <table class="admintable">
-                <?php 
-                if (empty($row->product_id)) 
+                <?php
+				Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+				$prices = TiendaHelperProduct::getPrices( $row->product_id );
+                if (empty($row->product_id) || empty($prices)) 
                 {
-                    // doing a new product, so collect default info
+                    // new product (or no prices set) - ask for normal price
                     ?>
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
@@ -518,10 +520,8 @@ window.addEvent('domready', function(){
                         <td>
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
-                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
-                            <?php $prices = TiendaHelperProduct::getPrices( $row->product_id ); ?>
                             <div id="current_prices">
                                 <?php foreach (@$prices as $price) : ?>
                                     [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
