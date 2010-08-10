@@ -314,8 +314,9 @@ class TiendaControllerCarts extends TiendaController
             }
         }
         
-        TiendaHelperCarts::fixQuantities();       
-        $this->setRedirect( 'index.php?option=com_tienda&view=carts' );
+        TiendaHelperCarts::fixQuantities();
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts", false );
+        $this->setRedirect( $redirect );
     }
     
     /*
