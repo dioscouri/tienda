@@ -1313,8 +1313,25 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return true;
         }
-        
+
         $table = '#__tienda_productrelations';
+        
+        $db = JFactory::getDBO();
+        $query = " SHOW COLUMNS FROM {$table} LIKE 'productrelation_id' ";
+        $db->setQuery( $query );
+        $rows = $db->loadObjectList();
+        if ($rows) 
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductRelationsExisting') );
+            $config->config_name = 'checkProductRelationsExisting';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        
         $definitions = array();
         $fields = array();
         
@@ -1329,8 +1346,30 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $fields[] = "product_id_b";
             $newnames["product_id_b"] = "product_id_to";
             $definitions["product_id_b"] = "int(11) NOT NULL DEFAULT '0'";
+        
+        
+        $query = "
+        SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+        SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+        SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+        SET time_zone = '+00:00';
+        ";
+
+        foreach ($fields as $field) 
+        {
+            $query .= "ALTER TABLE `{$table}` CHANGE `{$field}` `{$newnames[$field]}` {$definitions[$field]}; ";            
+        }
+        
+        $query .= "
+        SET SQL_MODE=@OLD_SQL_MODE;
+        SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+        SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+        ";
+        
+        $db = JFactory::getDBO();
+        $db->setQuery($query);
             
-        if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+        if ($db->query())
         {
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -1341,7 +1380,6 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config->save();
             return true;
         }
-
         return false;        
     }
     
