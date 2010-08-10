@@ -39,6 +39,8 @@ drop table if exists `#__tienda_products`;
 drop table if exists `#__tienda_productvotes`;
 drop table if exists `#__tienda_shippingmethods`;
 drop table if exists `#__tienda_shippingrates`;
+drop table if exists `#__tienda_subscriptions`;
+drop table if exists `#__tienda_subscriptionhistory`;
 drop table if exists `#__tienda_taxclasses`;
 drop table if exists `#__tienda_taxrates`;
 drop table if exists `#__tienda_userinfo`;

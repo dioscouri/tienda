@@ -942,12 +942,13 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `#__tienda_productrelations`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_productrelations` (
-  `product_relation_id` INT(11) NOT NULL ,
-  `product_id_a` INT(11) NOT NULL DEFAULT '0' ,
-  `product_id_b` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`product_relation_id`) ,
-  INDEX `fk_Product_ProductRelationsA` (`product_id_a` ASC) ,
-  INDEX `fk_Product_ProductRelationsB` (`product_id_b` ASC)
+  `productrelation_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id_from` INT(11) NOT NULL DEFAULT '0' ,
+  `product_id_to` INT(11) NOT NULL DEFAULT '0' ,
+  `relation_type` VARCHAR(64) NOT NULL DEFAULT '' ,
+  PRIMARY KEY (`productrelation_id`) ,
+  INDEX `fk_Product_ProductRelationsA` (`product_id_from` ASC) ,
+  INDEX `fk_Product_ProductRelationsB` (`product_id_to` ASC)
 )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
@@ -4965,3 +4966,34 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_zonerelations` (
   INDEX `fk_geozone_zones` (`zone_id` ASC)
 )
 ENGINE = MyISAM;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_subscriptions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
+  `subscription_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `orderitem_id` int(11) NOT NULL,
+  `transaction_id` varchar(255) NOT NULL COMMENT 'The unique id for this subscription from the payment processor',
+  `created_datetime` datetime NOT NULL,
+  `expires_datetime` datetime NOT NULL,
+  `subscription_enabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`subscription_id`)
+) ENGINE=MyISAM ;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_subscriptionhistory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_subscriptionhistory` (
+  `subscriptionhistory_id` int(11) NOT NULL AUTO_INCREMENT,
+  `subscription_id` int(11) NOT NULL,
+  `subscriptionhistory_type` varchar(64) NOT NULL COMMENT 'payment, email, download, creation, modification, cancellation',
+  `created_datetime` datetime NOT NULL,
+  `notify_customer` tinyint(1) NOT NULL,
+  `comments` text NOT NULL,
+  PRIMARY KEY (`subscriptionhistory_id`)
+) ENGINE=MyISAM ;

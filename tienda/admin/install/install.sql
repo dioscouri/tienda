@@ -1019,8 +1019,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `#__tienda_productrelations`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productrelations` (
-  `productrelation_id` INT(11) NOT NULL ,
+CREATE TABLE IF NOT EXISTS `#__tienda_productrelations` (
+  `productrelation_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id_from` INT(11) NOT NULL DEFAULT '0' ,
   `product_id_to` INT(11) NOT NULL DEFAULT '0' ,
   `relation_type` VARCHAR(64) NOT NULL DEFAULT '' ,
