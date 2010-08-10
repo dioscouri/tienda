@@ -1332,43 +1332,38 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
         
-        $definitions = array();
-        $fields = array();
-        
-        $fields[] = "product_relation_id";
-            $newnames["product_relation_id"] = "productrelation_id";
-            $definitions["product_relation_id"] = "int(11) NOT NULL AUTO_INCREMENT";
-
-        $fields[] = "product_id_a";
-            $newnames["product_id_a"] = "product_id_from";
-            $definitions["product_id_a"] = "int(11) NOT NULL DEFAULT '0'";
-
-        $fields[] = "product_id_b";
-            $newnames["product_id_b"] = "product_id_to";
-            $definitions["product_id_b"] = "int(11) NOT NULL DEFAULT '0'";
-        
-        
-        $query = "
-        SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-        SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-        SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
-        SET time_zone = '+00:00';
-        ";
-
-        foreach ($fields as $field) 
+        $query = "DROP TABLE `{$table}`";
+        $db->setQuery( $query );
+        if (!$db->query())
         {
-            $query .= "ALTER TABLE `{$table}` CHANGE `{$field}` `{$newnames[$field]}` {$definitions[$field]}; ";            
+            $this->setError( $db->getErrorMsg() );
+            return false;
         }
         
-        $query .= "
-        SET SQL_MODE=@OLD_SQL_MODE;
-        SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-        SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+        $query = "
+        CREATE TABLE IF NOT EXISTS `#__tienda_productrelations` (
+          `productrelation_id` int(11) NOT NULL AUTO_INCREMENT,
+          `product_id_from` INT(11) NOT NULL DEFAULT '0' ,
+          `product_id_to` INT(11) NOT NULL DEFAULT '0' ,
+          `relation_type` VARCHAR(64) NOT NULL DEFAULT '' ,
+          PRIMARY KEY (`productrelation_id`) ,
+          INDEX `fk_Product_ProductRelationsA` (`product_id_from` ASC) ,
+          INDEX `fk_Product_ProductRelationsB` (`product_id_to` ASC) ,
+          CONSTRAINT `fk_Product_ProductRelationsA`
+            FOREIGN KEY (`product_id_from` )
+            REFERENCES `#__tienda_products` (`product_id` )
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+          CONSTRAINT `fk_Product_ProductRelationsB`
+            FOREIGN KEY (`product_id_to` )
+            REFERENCES `#__tienda_products` (`product_id` )
+            ON DELETE CASCADE
+            ON UPDATE CASCADE)
+        ENGINE = InnoDB
+        DEFAULT CHARACTER SET = utf8;
         ";
-        
-        $db = JFactory::getDBO();
-        $db->setQuery($query);
-            
+
+        $db->setQuery( $query );
         if ($db->query())
         {
             // Update config to say this has been done already
