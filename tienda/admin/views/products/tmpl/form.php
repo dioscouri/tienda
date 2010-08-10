@@ -17,6 +17,69 @@ window.addEvent('domready', function(){
 
 <form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
+    <fieldset>
+    <legend><?php echo JText::_( "Basic Information" ); ?></legend>
+        <table class="admintable">
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Name' ); ?>:
+                </td>
+                <td>
+                    <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
+                </td>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Enabled' ); ?>:
+                </td>
+                <td>
+                    <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Alias' ); ?>:
+                </td>
+                <td>
+                    <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
+                </td>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'ID' ); ?>:
+                </td>
+                <td>
+                    <?php 
+                    if (empty($row->product_id)) 
+                    {
+                        ?>
+                        <div class="note"><?php echo JText::_( "Automatically Generated" ); ?></div>
+                        <?php
+                    }
+                    else
+                    {
+                        echo @$row->product_id;
+                    }
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <label for="product_model">
+                    <?php echo JText::_( 'Model' ); ?>:
+                    </label>
+                </td>
+                <td>
+                    <input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
+                </td>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'SKU' ); ?>:
+                </td>
+                <td>
+                    <input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <div class="reset"></div>
+    
     <?php
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onBeforeDisplayProductForm', array( $row ) );                    
@@ -35,89 +98,9 @@ window.addEvent('domready', function(){
 		<td style="vertical-align: top; width: 65%;">
 		
             <fieldset>
-            <legend><?php echo JText::_( "Basic Information" ); ?></legend>
-			<table class="admintable">
-                <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Name' ); ?>:
-                    </td>
-                    <td>
-                        <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
-                    </td>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Enabled' ); ?>:
-                    </td>
-                    <td>
-                        <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Alias' ); ?>:
-                    </td>
-                    <td>
-                        <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
-                    </td>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'ID' ); ?>:
-                    </td>
-                    <td>
-                        <?php 
-                        if (empty($row->product_id)) 
-                        {
-                            ?>
-                            <div class="note"><?php echo JText::_( "Automatically Generated" ); ?></div>
-                            <?php
-                        }
-                        else
-                        {
-                            echo @$row->product_id;
-                        }
-                        ?>
-                    </td>
-                </tr>
-				<tr>
-					<td style="width: 100px; text-align: right;" class="key">
-						<label for="product_model">
-						<?php echo JText::_( 'Model' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
-					</td>
-					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'SKU' ); ?>:
-					</td>
-					<td>
-						<input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
-					</td>
-				</tr>
-			</table>
-			
-            <table class="admintable" style="width: 100%;">
-				<tr>
-					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-						<?php echo JText::_( 'Full Description' ); ?>:
-					</td>
-					<td>
-						<?php $editor = &JFactory::getEditor(); ?>
-						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '300', '75', '20' ) ; ?>
-					</td>
-				</tr>
-                <tr>
-                    <td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-                        <?php echo JText::_( 'Short Description' ); ?>:
-                    </td>
-                    <td>
-                        <?php $editor = &JFactory::getEditor(); ?>
-                        <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
-                    </td>
-                </tr>
-            </table>
-            </fieldset>
-			
-            <fieldset>
-            <legend><?php echo JText::_( "Other Information" ); ?></legend>
+            <legend><?php echo JText::_( "Additional Information" ); ?></legend>
+            
+            <div style='float: left; width: 50%;'>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
@@ -185,57 +168,80 @@ window.addEvent('domready', function(){
                         <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_("Yes"); ?></label>
                     </td>
                 </tr>
+                </table>
+                </div>
+                
+                <?php // Only display if product ships ?>
+                <div id="shipping_options" style='float: right; width: 50%; <?php if (empty($row->product_ships)) { echo "display: none;"; } ?>' >                
+                <table class="admintable" style="width: 100%;">
                 <tr>
-                    <td style="width: 100px; text-align: right;">
-                        
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="product_weight">
+                        <?php echo JText::_( 'Weight' ); ?>:
+                        </label>
                     </td>
                     <td>
-                        <?php // Only display if product ships ?>
-                        <div id="shipping_options" style='width: 100%; <?php if (empty($row->product_ships)) { echo "display: none;"; } ?>' >
-                        <table class="admintable">
-                        <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
-                                <label for="product_weight">
-                                <?php echo JText::_( 'Weight' ); ?>:
-                                </label>
-                            </td>
-                            <td>
-                                <input type="text" name="product_weight" id="product_weight" value="<?php echo @$row->product_weight; ?>" size="48" maxlength="250" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
-                                <label for="product_length">
-                                <?php echo JText::_( 'Length' ); ?>:
-                                </label>
-                            </td>
-                            <td>
-                                <input type="text" name="product_length" id="product_length" value="<?php echo @$row->product_length; ?>" size="48" maxlength="250" />
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
-                                <label for="product_width">
-                                <?php echo JText::_( 'Width' ); ?>:
-                                </label>
-                            </td>
-                            <td>
-                                <input type="text" name="product_width" id="product_width" value="<?php echo @$row->product_width; ?>" size="48" maxlength="250" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
-                                <label for="product_height">
-                                <?php echo JText::_( 'Height' ); ?>:
-                                </label>
-                            </td>
-                            <td>
-                                <input type="text" name="product_height" id="product_height" value="<?php echo @$row->product_height; ?>" size="48" maxlength="250" />
-                            </td>
-                        </tr>
-                        </table>
-                        </div>
+                        <input type="text" name="product_weight" id="product_weight" value="<?php echo @$row->product_weight; ?>" size="48" maxlength="250" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="product_length">
+                        <?php echo JText::_( 'Length' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="product_length" id="product_length" value="<?php echo @$row->product_length; ?>" size="48" maxlength="250" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="product_width">
+                        <?php echo JText::_( 'Width' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="product_width" id="product_width" value="<?php echo @$row->product_width; ?>" size="48" maxlength="250" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="product_height">
+                        <?php echo JText::_( 'Height' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="product_height" id="product_height" value="<?php echo @$row->product_height; ?>" size="48" maxlength="250" />
+                    </td>
+                </tr>
+            </table>
+            </div>
+            
+            <div class="reset"></div>
+            
+            </fieldset>
+		
+            <fieldset>
+            <legend><?php echo JText::_( "Long and Short Description" ); ?></legend>
+            
+            <table class="admintable" style="width: 100%;">
+				<tr>
+					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+						<?php echo JText::_( 'Full Description' ); ?>:
+					</td>
+					<td>
+						<?php $editor = &JFactory::getEditor(); ?>
+						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '300', '75', '20' ) ; ?>
+					</td>
+				</tr>
+                <tr>
+                    <td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+                        <?php echo JText::_( 'Short Description' ); ?>:
+                    </td>
+                    <td>
+                        <?php $editor = &JFactory::getEditor(); ?>
+                        <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
                     </td>
                 </tr>
             </table>
