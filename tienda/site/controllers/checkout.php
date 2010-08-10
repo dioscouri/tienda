@@ -95,6 +95,10 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			// Display a form for selecting either to register or to login
 			JRequest::setVar('layout', 'form');
+			Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+			$helper = new TiendaHelperRoute();
+			$view = $this->getView( 'checkout', 'html' );
+			$view->assign('checkout_itemid', $helper->findItemid( array('view'=>'checkout') ) );
             parent::display();
             return;
 		}
