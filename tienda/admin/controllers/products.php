@@ -323,7 +323,7 @@ class TiendaControllerProducts extends TiendaController
 		$view	= $this->getView( 'products', 'html' );
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
-		$view->set( '_action', "index.php?option=com_tienda&controller=products&task=selectcategories&tmpl=component&id=".$model->getId() );
+		$view->set( '_action', "index.php?option=com_tienda&view=products&task=selectcategories&tmpl=component&id=".$model->getId() );
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
@@ -354,7 +354,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->setModel($model, true);
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
-		$view->set( '_action', "index.php?option=com_tienda&controller=products&task=viewGallery&tmpl=component&id=".$id);
+		$view->set( '_action', "index.php?option=com_tienda&view=products&task=viewGallery&tmpl=component&id=".$id);
 		$view->assign( 'row', $row );
 		$view->assign( 'images', $images );
 		$view->assign( 'url', $gallery_url );
@@ -472,7 +472,7 @@ class TiendaControllerProducts extends TiendaController
 		}
  
 		$redirect = JRequest::getVar( 'return' ) ?  
-			base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=products&task=selectcategories&tmpl=component&id=".$id;
+			base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&view=products&task=selectcategories&tmpl=component&id=".$id;
 		$redirect = JRoute::_( $redirect, false );
 		
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -510,7 +510,7 @@ class TiendaControllerProducts extends TiendaController
         $view   = $this->getView( 'products', 'html' );
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
-        $view->set( '_action', "index.php?option=com_tienda&controller=products&task=setquantities&id={$model->getId()}&tmpl=component" );
+        $view->set( '_action', "index.php?option=com_tienda&view=products&task=setquantities&id={$model->getId()}&tmpl=component" );
         $view->setModel( $model, true );
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
@@ -557,7 +557,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message = "";
         }
 
-        $redirect = "index.php?option=com_tienda&controller=products&task=setquantities&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setquantities&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -587,7 +587,7 @@ class TiendaControllerProducts extends TiendaController
 		$view	= $this->getView( 'productprices', 'html' );
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
-		$view->set( '_action', "index.php?option=com_tienda&controller=products&task=setprices&id={$model->getId()}&tmpl=component" );
+		$view->set( '_action', "index.php?option=com_tienda&view=products&task=setprices&id={$model->getId()}&tmpl=component" );
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
@@ -624,7 +624,7 @@ class TiendaControllerProducts extends TiendaController
 			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
 		}
 		
-		$redirect = "index.php?option=com_tienda&controller=products&task=setprices&id={$row->product_id}&tmpl=component";
+		$redirect = "index.php?option=com_tienda&view=products&task=setprices&id={$row->product_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 		
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -677,7 +677,7 @@ class TiendaControllerProducts extends TiendaController
 			$this->message = "";
 		}
 
-		$redirect = "index.php?option=com_tienda&controller=products&task=setprices&id={$row->product_id}&tmpl=component";
+		$redirect = "index.php?option=com_tienda&view=products&task=setprices&id={$row->product_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 		
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -710,7 +710,7 @@ class TiendaControllerProducts extends TiendaController
         $view   = $this->getView( 'productattributes', 'html' );
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
-        $view->set( '_action', "index.php?option=com_tienda&controller=products&task=setattributes&tmpl=component&id=".$model->getId() );
+        $view->set( '_action', "index.php?option=com_tienda&view=products&task=setattributes&tmpl=component&id=".$model->getId() );
         $view->setModel( $model, true );
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
@@ -743,7 +743,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
         
-        $redirect = "index.php?option=com_tienda&controller=products&task=setattributes&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setattributes&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -791,7 +791,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message = "";
         }
 
-        $redirect = "index.php?option=com_tienda&controller=products&task=setattributes&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setattributes&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -824,7 +824,7 @@ class TiendaControllerProducts extends TiendaController
         $view   = $this->getView( 'productattributeoptions', 'html' );
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
-        $view->set( '_action', "index.php?option=com_tienda&controller=products&task=setattributeoptions&tmpl=component&id=".$model->getId() );
+        $view->set( '_action', "index.php?option=com_tienda&view=products&task=setattributeoptions&tmpl=component&id=".$model->getId() );
         $view->setModel( $model, true );
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
@@ -859,7 +859,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
         
-        $redirect = "index.php?option=com_tienda&controller=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -911,7 +911,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message = "";
         }
 
-        $redirect = "index.php?option=com_tienda&controller=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -944,7 +944,7 @@ class TiendaControllerProducts extends TiendaController
         $view   = $this->getView( 'productfiles', 'html' );
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
-        $view->set( '_action', "index.php?option=com_tienda&controller=products&task=setfiles&tmpl=component&id=".$model->getId() );
+        $view->set( '_action', "index.php?option=com_tienda&view=products&task=setfiles&tmpl=component&id=".$model->getId() );
         $view->setModel( $model, true );
         $view->assign( 'state', $model->getState() );
         $view->assign( 'row', $row );
@@ -998,7 +998,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
         
-        $redirect = "index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setfiles&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1044,7 +1044,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
         
-        $redirect = "index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setfiles&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1128,7 +1128,7 @@ class TiendaControllerProducts extends TiendaController
             $this->message = "";
         }
 
-        $redirect = "index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component";
+        $redirect = "index.php?option=com_tienda&view=products&task=setfiles&id={$row->product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1151,7 +1151,7 @@ class TiendaControllerProducts extends TiendaController
 		$path = $helper->getGalleryPath($product_id);
 
         $redirect = JRequest::getVar( 'return' ) ?  
-            base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+            base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&view=products&task=viewGallery&id={$product_id}&tmpl=component";
         $redirect = JRoute::_( $redirect, false );
 				
 		// Check if the data is ok
@@ -1223,10 +1223,8 @@ class TiendaControllerProducts extends TiendaController
 		// Check if the data is ok
 		if (empty($product_id) || empty($image))
 		{
-        echo $product_id." ".$image;
-        exit;
 			$msg = JText::_('Input Data not Valid');
-			$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+			$redirect = "index.php?option=com_tienda&view=products&task=viewGallery&id={$product_id}&tmpl=component";
         	$redirect = JRoute::_( $redirect, false );
         	$this->setRedirect( $redirect, $msg, 'notice' );
         	return;
@@ -1254,7 +1252,7 @@ class TiendaControllerProducts extends TiendaController
 			$this->messagetype = 'notice';
 		}
 			
-		$redirect = "index.php?option=com_tienda&controller=products&task=viewGallery&id={$product_id}&tmpl=component";
+		$redirect = "index.php?option=com_tienda&view=products&task=viewGallery&id={$product_id}&tmpl=component&update_parent=1";
         $redirect = JRoute::_( $redirect, false );
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1329,7 +1327,7 @@ class TiendaControllerProducts extends TiendaController
     	$done += $k;
     	
     	if ($done < $count)
-    		$redirect = "index.php?option=com_tienda&controller=products&task=recreateThumbs&from_id=".($last_id+1)."&done=".$done;
+    		$redirect = "index.php?option=com_tienda&view=products&task=recreateThumbs&from_id=".($last_id+1)."&done=".$done;
     	else
     		$redirect = "index.php?option=com_tienda&view=config";
     	
@@ -1492,6 +1490,31 @@ class TiendaControllerProducts extends TiendaController
         }
 
         return $html;
+    }
+    
+    /**
+     * 
+     * Adds a product relationship
+     * @return unknown_type
+     */
+    function updateDefaultImage()
+    {
+        $response = array();
+        $response['default_image'] = '';
+        $response['default_image_name'] = '';
+
+        $product_id = JRequest::getInt('product_id');
+        Tienda::load( 'TiendaUrl', 'library.url' );
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        
+        $row = JTable::getInstance('Products', 'TiendaTable');
+        $row->load($product_id);
+        
+        $response['default_image'] = TiendaHelperProduct::getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 ) );
+        $response['default_image_name'] = $row->product_full_image;
+        
+        echo ( json_encode( $response ) );
+        return;
     }
 }
 

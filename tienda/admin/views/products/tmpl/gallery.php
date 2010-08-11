@@ -6,6 +6,15 @@ $path = @$this->url;
 Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 Tienda::load( 'TiendaUrl', 'library.url' );
 $product_id = JRequest::getInt('id', 0);
+$update_parent = JRequest::getInt('update_parent');
+if (!empty($update_parent))
+{
+    ?>
+    <script type="text/javascript">
+    window.parent.tiendaUpdateParentDefaultImage('<?php echo $product_id; ?>');
+    </script>
+    <?php
+}
 ?>
 <div id="gallery">
 	<table border="0">

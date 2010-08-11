@@ -1,14 +1,17 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 <?php jimport('joomla.html.pane'); ?>
 <?php $tabs = &JPane::getInstance( 'tabs' ); ?>
 <?php $form = @$this->form; ?>
-<?php 
-$row = @$this->row;
-JFilterOutput::objectHTMLSafe( $row );
+<?php  $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
+<?php
+Tienda::load( 'TiendaUrl', 'library.url' );
+Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
 ?>
+
 <script type="text/javascript">
 window.addEvent('domready', function(){
 	new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
@@ -19,6 +22,7 @@ window.addEvent('domready', function(){
 
     <fieldset>
     <legend><?php echo JText::_( "Basic Information" ); ?></legend>
+        <div id="basic_info" style="float: left;">
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
@@ -76,6 +80,17 @@ window.addEvent('domready', function(){
                 </td>
             </tr>
         </table>
+        </div>
+        
+        <div id="default_image" style="float: right; padding: 0px 5px 5px 0px;">
+            <?php
+            jimport('joomla.filesystem.file');
+            if (!empty($row->product_full_image))
+            {
+                echo TiendaUrl::popup( TiendaHelperProduct::getImage($row->product_id, '', '', 'full', true, false ), TiendaHelperProduct::getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 )), array('update' => false, 'img' => true));
+            }
+            ?>
+        </div>
     </fieldset>
 
     <div class="reset"></div>
@@ -136,18 +151,14 @@ window.addEvent('domready', function(){
                             <?php echo JText::_( 'Product Attributes' ); ?>:
                         </td>
                         <td>
-                            <?php
-                            Tienda::load( 'TiendaUrl', 'library.url' );
-                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
-                            ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributes&id=".$row->product_id."&tmpl=component", "Set Attributes" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", "Set Attributes" ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>
-                                    [<a href="<?php echo "index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                    [<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
-                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", "Set Attribute Options" ); ?>]
+                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", "Set Attribute Options" ); ?>]
                                     <?php echo $attribute->productattribute_name; ?>
                                     <?php echo "(".$attribute->option_names_csv.")"; ?>
                                     <br/>
@@ -289,11 +300,11 @@ window.addEvent('domready', function(){
                         <td>
                             <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
                             <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$row->product_id."&tmpl=component", "Select Categories" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", "Select Categories" ); ?>]
                             <?php $categories = TiendaHelperProduct::getCategories( $row->product_id ); ?>
                             <div id="current_categories">
                                 <?php foreach (@$categories as $category) : ?>
-                                    [<a href="<?php echo "index.php?option=com_tienda&controller=products&task=selected_disable&id=".$row->product_id."&cid[]=".$category."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                    [<a href="<?php echo "index.php?option=com_tienda&view=products&task=selected_disable&id=".$row->product_id."&cid[]=".$category."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
                                     <?php echo TiendaHelperCategory::getPathName( $category ); ?>
@@ -318,15 +329,11 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
+                        <div id='default_image_name'>
                         <?php
-                        jimport('joomla.filesystem.file');
-                        if (!empty($row->product_full_image))
-                        {
-                            echo TiendaUrl::popup( TiendaHelperProduct::getImage($row->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($row->product_id), array('update' => false, 'img' => true));
-                        }
+                            echo $row->product_full_image;
                         ?>
-                        <br />
-                        <input type="text" name="product_full_image" id="product_full_image" size="48" maxlength="250" value="<?php echo @$row->product_full_image; ?>" />
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -338,13 +345,13 @@ window.addEvent('domready', function(){
                     <td>
                         [
                         <?php
-                        echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", "View Gallery" ); 
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", "View Gallery" ); 
                         ?>
                         ]
                         <br/>
                         <?php $images = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getGalleryImages( TiendaHelperProduct::getGalleryPath( @$row->product_id ) ); ?> 
                         <?php foreach (@$images as $image) : ?>
-                            [<a href="<?php echo "index.php?option=com_tienda&controller=products&task=deleteImage&product_id=".@$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".@$row->product_id); ?>">
+                            [<a href="<?php echo "index.php?option=com_tienda&view=products&task=deleteImage&product_id=".@$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".@$row->product_id); ?>">
                                 <?php echo JText::_("Remove"); ?>
                             </a>]
                             <?php echo $image; ?>
@@ -413,11 +420,11 @@ window.addEvent('domready', function(){
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setfiles&id=".$row->product_id."&tmpl=component", "Manage Files" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", "Manage Files" ); ?>]
                             <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>
                             <div id="current_files">
                                 <?php foreach (@$files as $file) : ?>
-                                    [<a href="<?php echo "index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                    [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
                                     <?php echo $file->productfile_name; ?>
@@ -527,10 +534,10 @@ window.addEvent('domready', function(){
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
                             <div id="current_prices">
                                 <?php foreach (@$prices as $price) : ?>
-                                    [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&controller=products&task=edit&id=".$row->product_id); ?>">
+                                    [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
                                     <?php echo TiendaHelperBase::currency( $price->product_price ); ?>
@@ -605,7 +612,7 @@ window.addEvent('domready', function(){
                                 Tienda::load( 'TiendaUrl', 'library.url' );
                                 $options = array('update' => true ); 
                                 ?>
-                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
+                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
                             </td>
                         </tr>
                         <?php
