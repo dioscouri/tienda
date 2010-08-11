@@ -353,7 +353,11 @@ class TiendaHelperOrder extends TiendaHelperBase
         
         // 5. change ticket limits if billets is installed
         $helper = TiendaHelperBase::getInstance( 'Billets' );
-        $helper->adjustUserLimits( $order_id );
+        $helper->processOrder( $order_id );
+        
+        // 6. add to JUGA Groups if JUGA installed
+        $helper = TiendaHelperBase::getInstance( 'Juga' );
+        $helper->processOrder( $order_id );
         
         if ($error)
         {

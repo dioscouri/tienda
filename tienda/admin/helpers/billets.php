@@ -39,7 +39,13 @@ class TiendaHelperBillets extends TiendaHelperBase
         return $success;
     }
     
-    function adjustUserLimits( $order_id ) 
+    /**
+     * Processes a new order
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function processOrder( $order_id ) 
     {
         if (!$this->isInstalled())
         {

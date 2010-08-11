@@ -871,6 +871,37 @@ window.addEvent('domready', function(){
             </fieldset>
         </div>
 
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "JUGA Integration" ); ?></legend>
+            
+            <?php if (Tienda::getClass('TiendaHelperJuga', 'helpers.juga')->isInstalled()) : ?>
+                <table class="admintable" style="width: 100%;">
+                    <tr>
+                        <td title="<?php echo JText::_("JUGA Group IDs").'::'.JText::_( "JUGA Group IDs Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'JUGA Group IDs' ); ?>:
+                        </td>
+                        <td>
+                            <textarea name="juga_group_csv_add" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_add'); ?></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("JUGA Group IDs REMOVE").'::'.JText::_( "JUGA Group IDs REMOVE Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'JUGA Group REMOVE IDs' ); ?>:
+                        </td>
+                        <td>
+                            <textarea name="juga_group_csv_remove" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove'); ?></textarea>
+                        </td>
+                    </tr>
+                </table>
+            <?php else : ?>
+                <div class="note">
+                    <?php echo JText::_( "Juga Version Notice" ); ?>
+                </div>
+            <?php endif; ?>
+            </fieldset>
+        </div>
+
         <?php
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onDisplayProductFormIntegrations', array( $row ) );                    
