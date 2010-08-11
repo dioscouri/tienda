@@ -267,6 +267,28 @@ window.addEvent('domready', function(){
 		<td style="max-width: 35%; min-width: 35%; width: 35%; vertical-align: top;">
 
             <fieldset>
+            <legend><?php echo JText::_( "Publication Dates" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Publish Up' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Publish Down' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+
+            <fieldset>
             <legend><?php echo JText::_( "Categories" ); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <?php 
@@ -453,28 +475,6 @@ window.addEvent('domready', function(){
                     <?php
                 }
                 ?>            
-            </table>
-            </fieldset>
-            
-            <fieldset>
-            <legend><?php echo JText::_( "Publication Dates" ); ?></legend>
-            <table class="admintable" style="width: 100%;">
-                <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Publish Up' ); ?>:
-                    </td>
-                    <td>
-                        <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S' ); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Publish Down' ); ?>:
-                    </td>
-                    <td>
-                        <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S' ); ?>
-                    </td>
-                </tr>
             </table>
             </fieldset>
             		
