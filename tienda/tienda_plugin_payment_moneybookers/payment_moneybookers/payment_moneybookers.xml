@@ -62,8 +62,8 @@
 		  <option value="single">Single Page Payment Routine (Only supports credit card payments and intangible products/services.)</option>
 		  <option value="mutiple">Multi-page Payment Routine (Supports all payment methods. Supports tangible and intangible products/services.)</option>
 		</param>
-		<param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
-   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
 	</params>
 			
 </install>

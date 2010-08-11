@@ -35,8 +35,8 @@
         <param name="sandbox_login_id" type="text" size="50" default="" label="AuthorizeDotNet Sandbox Login ID" description="AuthorizeDotNet Sandbox Login ID Desc"/>
         <param name="sandbox_tran_key" type="textarea" default="" label="AuthorizeDotNet Sandbox Transaction Key" description="AuthorizeDotNet Sandbox Transaction Key Desc" rows="5" cols="30" />
         <param name="sandbox_md5_hash" type="text" size="50" default="" label="AuthorizeDotNet Sandbox MD5 Hash" description="AuthorizeDotNet Sandbox MD5 Hash Desc" />
-        <param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
-   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
 	</params>
 			
 </install>
