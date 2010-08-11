@@ -175,7 +175,7 @@ class TiendaTableOrders extends TiendaTable
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $orderItem->product_id );
         $product = $model->getItem();
-        if ($product->product_recurs)
+        if (!empty($product->product_recurs))
         {
         	// flag the order as recurring
             $this->order_recurs = true;
@@ -189,6 +189,15 @@ class TiendaTableOrders extends TiendaTable
             $orderItem->recurring_trial_period_interval = $product->recurring_trial_period_interval;
             $orderItem->recurring_trial_period_unit = $product->recurring_trial_period_unit;
             $orderItem->recurring_trial_price       = $product->recurring_trial_price;
+        }
+        
+        if (!empty($product->product_subscription))
+        {
+            // set the orderitem's subscription product values
+            $orderItem->orderitem_subscription      = $product->product_subscription;
+            $orderItem->subscription_lifetime       = $product->subscription_lifetime;
+            $orderItem->subscription_period_interval= $product->subscription_period_interval;
+            $orderItem->subscription_period_unit    = $product->subscription_period_unit;
         }
         
         // Use hash to separate items when customer is buying the same product from multiple vendors

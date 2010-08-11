@@ -333,7 +333,10 @@ class TiendaHelperOrder extends TiendaHelperBase
         // Fire an doCompletedOrderTasks event
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger( 'doCompletedOrderTasks', array( $order_id ) );
-            
+        
+        // 0. Enable One-Time Purchase Subscriptions
+        TiendaHelperOrder::enableNonRecurringSubscriptions( $order_id );            
+        
         // 1. Update quantities
         TiendaHelperOrder::updateProductQuantities( $order_id, '-' );
         
@@ -404,6 +407,52 @@ class TiendaHelperOrder extends TiendaHelperBase
         ob_end_clean();
         
         return $output;
+    }
+    
+    /**
+     * After a checkout has been completed
+     * and a payment has been received (instant)
+     * run this method to enable 
+     * any non-recurring subscriptions that were created when the order was saved
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function enableNonRecurringSubscriptions( $order_id )
+    {
+        $error = false;
+        $errorMsg = "";
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model->setId( $order_id );
+        $order = $model->getItem();
+        if ($order->orderitems)
+        {
+            foreach ($order->orderitems as $orderitem)
+            {
+                // if this orderItem created a subscription, enable it
+                if (!empty($orderitem->orderitem_subscription))
+                {
+                    // these are only for one-time payments that create subscriptions
+                    // recurring payment subscriptions are handled differently - by the payment plugins
+                    $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+                    $subscription->load( array( 'orderitem_id'=>$orderitem->orderitem_id ) );
+                    if (!empty($subscription->subscription_id))
+                    {
+                        $subscription->subscription_enabled = '1';
+                        if (!$subscription->save())
+                        {
+                            // track error
+                            $error = true;
+                            $errorMsg .= $subscription->getError();
+                            // TODO What to do with this error 
+                        }
+                    }
+                }
+            }
+        }
     }
     
 }

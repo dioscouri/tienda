@@ -633,6 +633,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `recurring_trial_price` decimal(12,5) NOT NULL COMMENT 'Cost of trial period',
   `product_params` text,
   `product_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this product',
+  `product_subscription` tinyint(1) NOT NULL COMMENT 'Product creates a subscription?',
+  `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
+  `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
+  `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,
@@ -689,6 +693,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `recurring_trial_period_interval` int(3) NOT NULL COMMENT 'How many trial-period-units before payments begin?',
   `recurring_trial_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `recurring_trial_price` decimal(12,5) NOT NULL COMMENT 'Cost of trial period',
+  `orderitem_subscription` tinyint(1) NOT NULL COMMENT 'Orderitem creates a subscription?',
+  `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
+  `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
+  `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   PRIMARY KEY (`orderitem_id`) ,
   INDEX `idx_order_item_order_id` (`order_id` ASC) ,
   INDEX `idx_order_item_vendor_id` (`vendor_id` ASC) ,
@@ -4981,6 +4989,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
   `created_datetime` datetime NOT NULL,
   `expires_datetime` datetime NOT NULL,
   `subscription_enabled` tinyint(1) NOT NULL,
+  `lifetime_enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`subscription_id`)
 ) ENGINE=MyISAM ;
 

@@ -17,6 +17,14 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'Lifetime Subscription' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'lifetime_enabled', '', @$row->lifetime_enabled ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
                         <?php echo JText::_( 'User ID' ); ?>:
                     </td>
                     <td>

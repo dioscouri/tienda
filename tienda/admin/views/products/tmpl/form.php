@@ -625,7 +625,46 @@ window.addEvent('domready', function(){
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Recurring Charges" ); ?></legend>
+            <legend><?php echo JText::_( "Subscription for One Time Charge" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Creates Subscription' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_("No"); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_("Yes"); ?></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Lifetime Subscription' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Period Interval' ); ?>:
+                    </td>
+                    <td>
+                        <input name="subscription_period_interval" id="subscription_period_interval" value="<?php echo @$row->subscription_period_interval; ?>" size="10" maxlength="10" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Period Unit' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::periodUnit( @$row->subscription_period_unit, 'subscription_period_unit' ); ?>
+                    </td>
+                </tr>          
+            </table>
+            </fieldset>
+            
+            <fieldset>
+            <legend><?php echo JText::_( "Subscription with Recurring Charges" ); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">

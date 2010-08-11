@@ -27,6 +27,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $filter_date_from   = $this->getState('filter_date_from');
         $filter_date_to     = $this->getState('filter_date_to');
         $filter_datetype    = $this->getState('filter_datetype');
+        $filter_lifetime = $this->getState('filter_lifetime');
         
        	if ($filter) 
        	{
@@ -64,6 +65,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
         if (strlen($filter_enabled))
         {
             $query->where('tbl.subscription_enabled = '.$this->_db->Quote($filter_enabled));
+        }
+        
+        if (strlen($filter_lifetime))
+        {
+            $query->where('tbl.lifetime_enabled = '.$this->_db->Quote($filter_lifetime));
         }
 
         if (strlen($filter_productid))

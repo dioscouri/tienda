@@ -26,6 +26,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'Lifetime Subscription' ); ?>?
+                    </td>
+                    <td>
+                        <?php echo TiendaGrid::boolean( @$row->lifetime_enabled ); ?>
+                    </td>
+                </tr>
+                <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <?php echo JText::_( 'Created' ); ?>:
                     </td>

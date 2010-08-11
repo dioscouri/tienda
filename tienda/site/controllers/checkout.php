@@ -1685,8 +1685,67 @@ class TiendaControllerCheckout extends TiendaController
 				$error = true;
 				$errorMsg .= $item->getError();
 			}
-			else
+    			else
 			{
+			    // does the orderitem create a subscription?
+			    if (!empty($item->orderitem_subscription))
+			    {
+			        $date = JFactory::getDate();
+			        // these are only for one-time payments that create subscriptions
+			        // recurring payment subscriptions are handled differently - by the payment plugins
+			        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+                    $subscription->user_id = $order->user_id;
+                    $subscription->order_id = $order->order_id;
+                    $subscription->product_id = $item->product_id;
+                    $subscription->orderitem_id = $item->orderitem_id;
+                    $subscription->transaction_id = ''; // in recurring payments, this is the subscr_id
+                    $subscription->created_datetime = $date->toMySQL();
+                    $subscription->subscription_enabled = '0'; // disabled at first, enabled after payment clears
+                    switch($item->subscription_period_unit) 
+                    {
+                        case "Y":
+                            $period_unit = "YEAR";
+                            break;
+                        case "M":
+                            $period_unit = "MONTH";
+                            break;
+                        case "W":
+                            $period_unit = "WEEK";
+                            break;
+                        case "D":
+                        default:
+                            $period_unit = "DAY";
+                            break;
+                    }
+                    
+                    if (!empty($item->subscription_lifetime))
+                    {
+                        // set expiration 100 years in future
+                        $period_unit = "YEAR";
+                        $item->subscription_period_interval = '100';
+                        $subscription->lifetime_enabled = '1';
+                    }
+                    $database = JFactory::getDBO();
+                    $query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$item->subscription_period_interval} $period_unit ) ";
+                    $database->setQuery( $query );
+                    $subscription->expires_datetime = $database->loadResult();
+                    
+                    if (!$subscription->save())
+                    {
+                        $error = true;
+                        $errorMsg .= $subscription->getError();
+                    }
+                    
+                    // add a sub history entry, email the user?
+                    $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+                    $subscriptionhistory->subscription_id = $subscription->subscription_id;
+                    $subscriptionhistory->subscriptionhistory_type = 'creation';
+                    $subscriptionhistory->created_datetime = $date->toMySQL();
+                    $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
+                    $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION CREATED' );
+                    $subscriptionhistory->save();
+			    }
+			    
 				// Save the attributes also
 				if (!empty($item->orderitem_attributes))
 				{

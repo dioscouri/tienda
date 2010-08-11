@@ -21,6 +21,8 @@ class TiendaControllerSubscriptions extends TiendaController
 		$this->set('suffix', 'subscriptions');
         $this->registerTask( 'subscription_enabled.enable', 'boolean' );
         $this->registerTask( 'subscription_enabled.disable', 'boolean' );
+        $this->registerTask( 'lifetime_enabled.enable', 'boolean' );
+        $this->registerTask( 'lifetime_enabled.disable', 'boolean' );
         $this->registerTask( 'update_subscription', 'update' );
 	}
 	
@@ -51,6 +53,7 @@ class TiendaControllerSubscriptions extends TiendaController
         $state['filter_total_from']    = $app->getUserStateFromRequest($ns.'filter_total_from', 'filter_total_from', '', '');
         $state['filter_total_to']      = $app->getUserStateFromRequest($ns.'filter_total_to', 'filter_total_to', '', '');
 		$state['filter_enabled']       = $app->getUserStateFromRequest($ns.'filter_enabled', 'filter_enabled', '', '');
+		$state['filter_lifetime']       = $app->getUserStateFromRequest($ns.'filter_lifetime', 'filter_lifetime', '', '');
 		
     	foreach (@$state as $key=>$value)
 		{

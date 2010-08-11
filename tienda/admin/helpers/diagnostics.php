@@ -188,6 +188,21 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductRelationsType FAILED') .' :: '. $this->getError(), 'error' );
         }
+    
+        if (!$this->checkSubscriptionsExpire())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionsExpire FAILED') .' :: '. $this->getError(), 'error' );
+        }
+    
+        if (!$this->checkProductsSubscriptions())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
+        if (!$this->checkOrderItemsSubscriptions())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemsSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -1412,4 +1427,129 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+    /**
+     * Check if the _subscriptions table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkSubscriptionsExpire()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkSubscriptionsExpire', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_subscriptions';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "lifetime_enabled";
+            $definitions["lifetime_enabled"] = "tinyint(1) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkSubscriptionsExpire') );
+            $config->config_name = 'checkSubscriptionsExpire';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Check if the _products table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkProductsSubscriptions()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsSubscriptions', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_subscription";
+            $definitions["product_subscription"] = "tinyint(1) NOT NULL COMMENT 'Product creates a subscription?'";
+
+        $fields[] = "subscription_lifetime";
+            $definitions["subscription_lifetime"] = "tinyint(1) NOT NULL COMMENT 'Lifetime subscription?'";
+            
+        $fields[] = "subscription_period_interval";
+            $definitions["subscription_period_interval"] = "int(3) NOT NULL COMMENT 'How many period-units does the subscription last?'";
+            
+        $fields[] = "subscription_period_unit";
+            $definitions["subscription_period_unit"] = "varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsSubscriptions') );
+            $config->config_name = 'checkProductsSubscriptions';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Check if the _products table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkOrderItemsSubscriptions()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderItemsSubscriptions', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderitems';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "orderitem_subscription";
+            $definitions["orderitem_subscription"] = "tinyint(1) NOT NULL COMMENT 'Orderitem creates a subscription?'";
+
+        $fields[] = "subscription_lifetime";
+            $definitions["subscription_lifetime"] = "tinyint(1) NOT NULL COMMENT 'Lifetime subscription?'";
+            
+        $fields[] = "subscription_period_interval";
+            $definitions["subscription_period_interval"] = "int(3) NOT NULL COMMENT 'How many period-units does the subscription last?'";
+            
+        $fields[] = "subscription_period_unit";
+            $definitions["subscription_period_unit"] = "varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderItemsSubscriptions') );
+            $config->config_name = 'checkOrderItemsSubscriptions';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    
 }

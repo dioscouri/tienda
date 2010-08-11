@@ -56,6 +56,9 @@
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Enabled', "tbl.subscription_enabled", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Lifetime', "tbl.lifetime_enabled", @$state->direction, @$state->order ); ?>
+                </th>
             </tr>
             <tr class="filterline">
                 <th colspan="3">
@@ -109,6 +112,9 @@
                 </th>
                 <th>
                     <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
+                </th>
+                <th>
+                    <?php echo TiendaSelect::booleans( @$state->filter_lifetime, 'filter_lifetime', $attribs, 'lifetime', true, 'Lifetime State' ); ?>
                 </th>
             </tr>
 			<tr>
@@ -179,6 +185,9 @@
                 </td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::enable($item->subscription_enabled, $i, 'subscription_enabled.' ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <?php echo TiendaGrid::enable($item->lifetime_enabled, $i, 'lifetime_enabled.' ); ?>
                 </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
