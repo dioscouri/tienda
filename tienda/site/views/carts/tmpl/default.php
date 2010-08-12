@@ -7,6 +7,8 @@ JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->items;
 $state = @$this->state;
+Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+$router = new TiendaHelperRoute();
 ?>
 
 <div class='componentheading'>
@@ -17,10 +19,10 @@ $state = @$this->state;
     
 <div class="cartitems">
     <?php if (!empty($items)) { ?>
-    <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
+    <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update&Itemid='.$router->findItemid( array('view'=>'carts') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>">
+        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$router->findItemid( array('view'=>'checkout') ) ); ?>">
             <?php echo JText::_( "Begin Checkout" ); ?>
         </a>]
         </div>
@@ -121,7 +123,7 @@ $state = @$this->state;
                     </td>
                     <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
-				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>">
+				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$router->findItemid( array('view'=>'checkout') )); ?>">
 				            <?php echo JText::_( "Begin Checkout" ); ?>
 				        </a>]
 				        </div>

@@ -495,7 +495,7 @@ class TiendaControllerProducts extends TiendaController
     function getRelationshipsHtml( $product_id )
     {
         $html = '';
-
+        
         // get the list
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
@@ -503,6 +503,16 @@ class TiendaControllerProducts extends TiendaController
         $model->setState( 'filter_relation', 'relates' );
         if ($items = $model->getList())
         {
+            $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+            if (empty($filter_category)) 
+            { 
+                $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product_id );
+                if (!empty($categories))
+                {
+                    $filter_category = $categories[0];
+                }
+            }
+        
             foreach ($items as $item)
             {
                 if ($item->product_id_from == $product_id)
@@ -523,6 +533,9 @@ class TiendaControllerProducts extends TiendaController
                     $item->product_sku = $item->product_sku_from;
                     $item->product_price = $item->product_price_from;
                 }
+                
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
+                $item->itemid = JRequest::getInt('Itemid', $itemid);
             }
         }
 
@@ -786,9 +799,16 @@ class TiendaControllerProducts extends TiendaController
         $product_id = JRequest::getInt( 'product_id' );
         $product_qty = JRequest::getInt( 'product_qty' );
         $filter_category = JRequest::getInt( 'filter_category' );
+
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute();
+        if (!$itemid = $router->product( $product_id, $filter_category, true ))
+        {
+            $itemid = $router->category( 1, true );
+        }
         
         // set the default redirect URL
-        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category";
+        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=".$itemid;
         $redirect = JRoute::_( $redirect, false );
         
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
@@ -923,7 +943,8 @@ class TiendaControllerProducts extends TiendaController
         {
             case "redirect":
                 $returnUrl = base64_encode( $redirect );
-                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts", false );
+                $itemid = $router->findItemid( array('view'=>'checkout') );
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
                 if (strpos($redirect, '?') === false) { $redirect .= "?return=".$returnUrl; } else { $redirect .= "&return=".$returnUrl; }
                 break;
             case "0":

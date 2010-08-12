@@ -328,7 +328,10 @@ class TiendaControllerCarts extends TiendaController
             $carthelper->checkIntegrity($user->id);
         }
         
-        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts", false );
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute();
+        
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
         $this->setRedirect( $redirect );
     }
     
