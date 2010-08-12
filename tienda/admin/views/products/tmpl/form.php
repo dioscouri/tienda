@@ -914,7 +914,7 @@ window.addEvent('domready', function(){
                     </tr>
                     <tr>
                         <td title="<?php echo JText::_("JUGA Group IDs REMOVE").'::'.JText::_( "JUGA Group IDs REMOVE Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'JUGA Group REMOVE IDs' ); ?>:
+                            <?php echo JText::_( 'JUGA Group IDs REMOVE' ); ?>:
                         </td>
                         <td>
                             <textarea name="juga_group_csv_remove" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove'); ?></textarea>
