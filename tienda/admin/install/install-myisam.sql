@@ -621,6 +621,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_alias` varchar(255) NOT NULL,
   `tax_class_id` int(11) DEFAULT NULL,
   `product_enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `product_notforsale` tinyint(1) NOT NULL DEFAULT '0',
+  `quantity_restriction` tinyint(1) NOT NULL DEFAULT '0',
   `product_images_path` varchar(255) NOT NULL,
   `product_files_path` varchar(255) NOT NULL,
   `product_recurs` tinyint(1) NOT NULL COMMENT 'Do payments for this product recur?',

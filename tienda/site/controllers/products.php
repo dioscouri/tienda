@@ -301,6 +301,11 @@ class TiendaControllerProducts extends TiendaController
         $model->setId( $product_id );
         $row = $model->getItem();
         
+        if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
+        {
+            return $html;
+        }
+        
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
         $view->set( '_doTask', true);
@@ -701,6 +706,39 @@ class TiendaControllerProducts extends TiendaController
             return false;
         }
         
+        $product = JTable::getInstance('Products', 'TiendaTable');
+        $product->load( array( 'product_id'=>$product_id ) );
+        
+        // if product notforsale, fail
+        if ($product->product_notforsale)
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Product Not For Sale" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+        
+        $user = JFactory::getUser();
+        $keynames = array();
+        $keynames['user_id'] = $user->id;
+        if (empty($user->id))
+        {
+            $session =& JFactory::getSession();
+            $keynames['session_id'] = $session->getId();
+        }
+        $keynames['product_id'] = $product_id;
+        
+        $cartitem = JTable::getInstance( 'Carts', 'TiendaTable' );
+        $cartitem->load($keynames);
+        if ($product->quantity_restriction && $cartitem->product_qty > '1')
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Item Already in Cart" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+    
+        
         // create cart object out of item properties
         $item = new JObject;
         $item->user_id     = JFactory::getUser()->id;
@@ -793,6 +831,15 @@ class TiendaControllerProducts extends TiendaController
         // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
         $product = JTable::getInstance('Products', 'TiendaTable');
         $product->load( array( 'product_id'=>$product_id ) );
+        
+        // if product notforsale, fail
+        if ($product->product_notforsale)
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Product Not For Sale" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
         
         $user = JFactory::getUser();
         $cart_id = $user->id;

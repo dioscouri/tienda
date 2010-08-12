@@ -54,6 +54,9 @@ class TiendaModelCarts extends TiendaModelBase
         $field[] = " p.product_width ";
         $field[] = " p.product_height ";
         $field[] = " p.product_recurs ";
+        $field[] = " p.product_enabled ";
+        $field[] = " p.product_notforsale ";
+        $field[] = " p.quantity_restriction ";
         $field[] = " p.tax_class_id ";
         $field[] = " p.recurring_payments ";
         $field[] = " p.recurring_period_interval ";

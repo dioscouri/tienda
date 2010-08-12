@@ -83,16 +83,15 @@ $values = @$this->values;
     
     </div>
     
+    <?php if ($item->quantity_restriction) : ?>
+        <input type="hidden" name="product_qty" value="1" size="5" />
+    <?php else : ?>
     <!--quantity-->
     <div id='product_quantity_input'>
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-    <?php if($item->product_check_inventory==1) {  ?>   
-        <input type="text" name="product_qty" value="1" size="5" />  
-   <?php } else {?>
-        <input type="text" name="product_qty" value="1" size="5" />    
-   <?php } ?>
-   
+        <input type="text" name="product_qty" value="1" size="5" />
     </div>
+    <?php endif; ?>
     
     <!-- Add to cart button ---> 
     <div id='add_to_cart' style="display: block;"> 

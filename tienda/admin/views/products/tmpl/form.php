@@ -22,7 +22,7 @@ window.addEvent('domready', function(){
 
     <fieldset>
     <legend><?php echo JText::_( "Basic Information" ); ?></legend>
-        <div id="basic_info" style="float: left;">
+        <div style="float: left;">
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
@@ -30,12 +30,6 @@ window.addEvent('domready', function(){
                 </td>
                 <td>
                     <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
-                </td>
-                <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Enabled' ); ?>:
-                </td>
-                <td>
-                    <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
                 </td>
             </tr>
             <tr>
@@ -45,6 +39,8 @@ window.addEvent('domready', function(){
                 <td>
                     <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
                 </td>
+            </tr>
+            <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_( 'ID' ); ?>:
                 </td>
@@ -53,7 +49,7 @@ window.addEvent('domready', function(){
                     if (empty($row->product_id)) 
                     {
                         ?>
-                        <div class="note"><?php echo JText::_( "Automatically Generated" ); ?></div>
+                        <div style="color: grey;"><?php echo JText::_( "Automatically Generated" ); ?></div>
                         <?php
                     }
                     else
@@ -63,15 +59,19 @@ window.addEvent('domready', function(){
                     ?>
                 </td>
             </tr>
+        </table>
+        </div>
+        <div style="float: left;">
+        <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <label for="product_model">
                     <?php echo JText::_( 'Model' ); ?>:
-                    </label>
                 </td>
                 <td>
                     <input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
                 </td>
+            </tr>
+            <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_( 'SKU' ); ?>:
                 </td>
@@ -79,9 +79,16 @@ window.addEvent('domready', function(){
                     <input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
                 </td>
             </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Enabled' ); ?>:
+                </td>
+                <td>
+                    <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
+                </td>
+            </tr>
         </table>
         </div>
-        
         <div id="default_image" style="float: right; padding: 0px 5px 5px 0px;">
             <?php
             jimport('joomla.filesystem.file');
@@ -500,6 +507,15 @@ window.addEvent('domready', function(){
             <legend><?php echo JText::_( "Prices and Inventory" ); ?></legend>
             
             <table class="admintable">
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Item for Sale' ); ?>
+                    </td>
+                    <td>
+                        <?php echo ''; ?>
+                        <?php echo JHTML::_('select.booleanlist', 'product_notforsale', '', @$row->product_notforsale, 'no', 'yes' ); ?>
+                    </td>
+                </tr>
                 <?php
 				Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 				$prices = TiendaHelperProduct::getPrices( $row->product_id );
@@ -619,6 +635,14 @@ window.addEvent('domready', function(){
                     }
                 }
                 ?>
+                <tr>
+                    <td title="<?php echo JText::_("Purchase Quantity Restriction").'::'.JText::_( "Purchase Quantity Restriction Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Purchase Quantity Restriction' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'quantity_restriction', '', @$row->quantity_restriction ); ?>
+                    </td>
+                </tr>
             </table>
             </fieldset>
         </div>
@@ -648,7 +672,7 @@ window.addEvent('domready', function(){
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td title="<?php echo JText::_("Subscription Period Interval").'::'.JText::_( "Subscription Period Interval Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
                         <?php echo JText::_( 'Subscription Period Interval' ); ?>:
                     </td>
                     <td>

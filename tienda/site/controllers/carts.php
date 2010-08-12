@@ -57,6 +57,9 @@ class TiendaControllerCarts extends TiendaController
     
     function display()
     {
+        Tienda::load('TiendaHelperCarts', 'helpers.carts');
+        TiendaHelperCarts::fixQuantities();
+        
         if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
         {
             $return = base64_decode($return);
@@ -282,7 +285,7 @@ class TiendaControllerCarts extends TiendaController
                 {
                     $product = JTable::getInstance( 'Products', 'TiendaTable' );
                     $product->load( array( 'product_id'=>$product_id) );
-                    if ($product->product_recurs)
+                    if ($product->product_recurs || $product->quantity_restriction)
                     {
                         $value = 1;
                     }
