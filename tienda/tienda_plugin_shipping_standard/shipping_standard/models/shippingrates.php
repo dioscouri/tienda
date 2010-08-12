@@ -22,6 +22,7 @@ class TiendaModelShippingRates extends TiendaModelBase
         $filter_weight = $this->getState('filter_weight');
        	$filter_user_group	= $this->getState('filter_user_group');
         $filter_geozone = $this->getState('filter_geozone');
+        $filter_geozones = $this->getState('filter_geozones');
         
 		if (strlen($filter_id))
         {
@@ -49,6 +50,11 @@ class TiendaModelShippingRates extends TiendaModelBase
         if (strlen($filter_geozone))
         {
             $query->where('tbl.geozone_id = '.(int) $filter_geozone);
+        }
+        
+        if (is_array($filter_geozones))
+        {
+            $query->where("tbl.geozone_id IN ('" . implode("', '", $filter_geozones ) . "')" );
         }
     }
     

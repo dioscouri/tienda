@@ -57,17 +57,33 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $this->includeTiendaTables();       
         $this->includeCustomModel('ShippingMethods');
         $this->includeCustomModel('ShippingRates');
+        
+        $geozones = $order->getShippingGeoZones();
+        $gz_array = array();
+        foreach ($geozones as $geozone)
+        {
+            $gz_array[] = $geozone->geozone_id;
+        }
+
+        $rates = array();
         $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
         $model->setState( 'filter_enabled', '1' );
         $model->setState( 'filter_subtotal', $order->order_subtotal );
-        $methods = $model->getList();
-
-        $rates = array();
-        foreach( $methods as $method )
+        if ($methods = $model->getList())
         {
-        	$rates[] = $this->getTotal($method->shipping_method_id, $order->getShippingGeoZones(), $order->getItems() );
+            foreach( $methods as $method )
+            {
+                // filter the list of methods according to geozone
+                $ratemodel = JModel::getInstance('ShippingRates', 'TiendaModel');
+                $ratemodel->setState('filter_shippingmethod', $method->shipping_method_id);
+                $ratemodel->setState('filter_geozones', $gz_array);
+                if ($ratesexist = $ratemodel->getList())
+                {
+                    $rates[] = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );
+                }
+            }
         }
-        
+
         $i = 0;
         foreach( $rates as $rate )
         {
