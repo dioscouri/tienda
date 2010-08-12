@@ -625,7 +625,10 @@ window.addEvent('domready', function(){
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Subscription for One Time Charge" ); ?></legend>
+            <legend><?php echo JText::_( "Non Recurring Subscription" ); ?></legend>
+            
+            <div class="note"><?php echo JText::_( "Non Recurring Subscription NOTE" ); ?></div>
+            
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
