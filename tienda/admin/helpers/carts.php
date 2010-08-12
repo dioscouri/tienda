@@ -172,7 +172,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$query = new TiendaQuery();
 		$query->delete();
 		$query->from( "#__tienda_carts" );
-		if($user_id){
+		if (empty($user_id)) 
+		{
 			$query->where( "`session_id` = '$session_id' " );
 		}
 		$query->where( "`user_id` = '".$user_id."'" );
@@ -442,8 +443,8 @@ class TiendaHelperCarts extends TiendaHelperBase
         $ordered_items = array();
         $active_subs = array();
         
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         
         // does this cart item have any dependencies?
         // if not, return true
@@ -541,6 +542,58 @@ class TiendaHelperCarts extends TiendaHelperBase
             }
         }
 
+        return true;
+    }
+    
+    /**
+     * Checks the integrity of a cart
+     * to make sure all dependencies are met
+     * 
+     * @param $cart_id
+     * @param $id_type
+     * @return unknown_type
+     */
+    function checkIntegrity( $cart_id, $id_type='user_id' )
+    {
+        $user_id = 0;
+        $session_id = '';
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        
+        // get the cart's items as well as user info (if logged in)
+        $model = JModel::getInstance( 'Carts', 'TiendaModel' );
+        switch ($id_type)
+        {
+            case "session":
+            case "session_id":
+                $model->setState('filter_session', $cart_id);
+                $session_id = $cart_id;        
+                break;
+            case "user":
+            case "user_id":
+            default:
+                $model->setState('filter_user', $cart_id);
+                $user_id = $cart_id;
+                break;                
+        }
+        
+        $carthelper = new TiendaHelperCarts();
+        
+        // get the cart items
+        $cart_items = $model->getList();
+        if (!empty($cart_items))
+        {
+            // foreach
+            foreach ($cart_items as $citem)
+            {
+                if (!$carthelper->canAddItem( $citem, $cart_id, $id_type ))
+                {
+                    JFactory::getApplication()->enqueueMessage( JText::_( 'Removing Item From Cart for Failed Dependencies' ) . " - " . $citem->product_name, 'message' );
+                    $carthelper->removeCartItem($session_id, $user_id, $citem->product_id);
+                }
+            }            
+        }
         return true;
     }
   

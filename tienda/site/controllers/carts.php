@@ -317,7 +317,17 @@ class TiendaControllerCarts extends TiendaController
             }
         }
         
-        TiendaHelperCarts::fixQuantities();
+        $carthelper = new TiendaHelperCarts();
+        $carthelper->fixQuantities();
+        if (empty($user->id))
+        {
+            $carthelper->checkIntegrity($session->getId(), 'session_id');
+        }
+            else
+        {
+            $carthelper->checkIntegrity($user->id);
+        }
+        
         $redirect = JRoute::_( "index.php?option=com_tienda&view=carts", false );
         $this->setRedirect( $redirect );
     }
