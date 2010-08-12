@@ -359,6 +359,10 @@ class TiendaHelperOrder extends TiendaHelperBase
         $helper = TiendaHelperBase::getInstance( 'Juga' );
         $helper->processOrder( $order_id );
         
+        // 7. change core ACL if set
+        $helper = TiendaHelperBase::getInstance( 'User' );
+        $helper->processOrder( $order_id );
+        
         if ($error)
         {
             $this->setError( implode( '<br/>', $errors ) );

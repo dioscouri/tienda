@@ -901,6 +901,34 @@ window.addEvent('domready', function(){
             <?php endif; ?>
             </fieldset>
         </div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Core Joomla User Integration" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td title="<?php echo JText::_("Change Joomla ACL").'::'.JText::_( "Change Joomla ACL Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Change Joomla ACL' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td title="<?php echo JText::_("New Joomla ACL").'::'.JText::_( "New Joomla ACL Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'New Joomla ACL' ); ?>:
+                    </td>
+                    <td>
+                        <?php
+                        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+                        $helper = new TiendaHelperUser();
+                        echo $helper->getACLSelectList( $row->product_parameters->get('core_user_new_gid') );
+                        ?>
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+        </div>
 
         <?php
         // fire plugin event here to enable extending the form

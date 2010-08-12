@@ -424,4 +424,53 @@ class TiendaHelperUser extends TiendaHelperBase
         return $result->id;
     }
     
+    function getACLSelectList( $default='', $fieldname='core_user_new_gid' )
+    {
+        $object = new JObject();
+        $object->value = '';
+        $object->text = JText::_( "No Change" );
+        $gtree = JFactory::getACL()->get_group_children_tree( null, 'USERS', false );
+        foreach ($gtree as $key=>$item)
+        {
+            if ($item->value == '29' || $item->value == '30')
+            {
+                unset($gtree[$key]);
+            }
+        }
+        array_unshift($gtree, $object );
+        return JHTML::_('select.genericlist', $gtree, $fieldname, 'size="1"', 'value', 'text', $default );
+    }
+    
+    /**
+     * Processes a new order
+     * 
+     * @param $order_id
+     * @return unknown_type
+     */
+    function processOrder( $order_id ) 
+    {
+        // get the order
+        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model->setId( $order_id );
+        $order = $model->getItem();
+        
+        // find the products in the order that are integrated 
+        foreach ($order->orderitems as $orderitem)
+        {
+            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            $model->setId( $orderitem->product_id );
+            $product = $model->getItem();
+            
+            $core_user_change_gid = $product->product_parameters->get('core_user_change_gid');
+            $core_user_new_gid = $product->product_parameters->get('core_user_new_gid');
+            if (!empty($core_user_change_gid))
+            {
+                $user = new JUser();
+                $user->load( $order->user_id );
+                $user->gid = $core_user_new_gid;
+                $user->save();
+            }
+        }
+    }
+    
 }

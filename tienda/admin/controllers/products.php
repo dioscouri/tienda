@@ -266,6 +266,9 @@ class TiendaControllerProducts extends TiendaController
         $params->set( 'billets_ticket_limit_exclusion', JRequest::getVar('billets_ticket_limit_exclusion') );
         $params->set( 'juga_group_csv_add', JRequest::getVar('juga_group_csv_add') );
         $params->set( 'juga_group_csv_remove', JRequest::getVar('juga_group_csv_remove') );
+        $params->set( 'core_user_change_gid', JRequest::getVar('core_user_change_gid') );
+        $params->set( 'core_user_new_gid', JRequest::getVar('core_user_new_gid') );
+        
         $row->product_params = trim( $params->toString() );
 	    return $row;
 	}
