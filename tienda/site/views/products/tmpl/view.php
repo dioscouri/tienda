@@ -115,6 +115,9 @@ $item = @$this->row;
 
         <?php // display the files associated with this product ?>
         <?php echo $this->files; ?>
+        
+        <?php // display the products required by this product ?>
+        <?php echo $this->product_requirements; ?>
 
         <?php // display the products associated with this product ?>
         <?php echo $this->product_relations; ?>

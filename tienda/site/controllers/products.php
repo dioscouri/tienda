@@ -258,6 +258,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
 		$view->assign( 'product_relations', $this->getRelationshipsHtml( $row->product_id, 'relates' ) );
 		$view->assign( 'product_children', $this->getRelationshipsHtml( $row->product_id, 'parent' ) );
+		$view->assign( 'product_requirements', $this->getRelationshipsHtml( $row->product_id, 'requires' ) );
 		$view->setModel( $model, true );
 
 		// using a helper file, we determine the product's layout
@@ -516,6 +517,11 @@ class TiendaControllerProducts extends TiendaController
         
         switch ($relation_type)
         {
+            case "requires":
+                $model->setState( 'filter_product_from', $product_id );
+                $check_quantity = false;
+                $layout = 'product_requirements';
+                break;
             case "parent":
             case "child":
             case "children":
