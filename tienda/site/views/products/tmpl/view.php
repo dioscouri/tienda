@@ -61,8 +61,11 @@ $item = @$this->row;
                 <?php if (!empty($this->product_buy)) { echo $this->product_buy; } ?>
             </div>
         <?php endif; ?>
+        
+        <?php // display this product's group ?>
+        <?php echo $this->product_children; ?>
                 
-       <?php if ($this->product_description) : ?>
+        <?php if ($this->product_description) : ?>
             <div class="reset"></div>
             
             <div id="product_description">

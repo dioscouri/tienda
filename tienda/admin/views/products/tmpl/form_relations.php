@@ -35,7 +35,12 @@
             if ($item->relation_type == 'requires' && $item->product_id_to == $this->product_id)
             {
                 $item->relation_type = 'required_by';
-            } 
+            }
+
+            if ($item->relation_type == 'parent' && $item->product_id_to == $this->product_id)
+            {
+                $item->relation_type = 'child';
+            }
             ?>
         
             <tr class='row<?php echo $k; ?>'>

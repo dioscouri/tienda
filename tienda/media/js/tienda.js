@@ -71,7 +71,7 @@ function tiendaGridOrder(id, change)
  */
 function tiendaFormValidation( url, container, task, form ) 
 {
-    if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' ) 
+    if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' ) 
     {
         // loop through form elements and prepare an array of objects for passing to server
         var str = new Array();

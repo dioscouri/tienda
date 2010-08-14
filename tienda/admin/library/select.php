@@ -671,7 +671,9 @@ class TiendaSelect extends JHTMLSelect
         $list[] = JHTML::_('select.option',  'required_by', JText::_( "Relationship required_by" ) );
         $list[] = JHTML::_('select.option',  'requires_past', JText::_( "Relationship requires_past" ) );
         $list[] = JHTML::_('select.option',  'requires_current', JText::_( "Relationship requires_current" ) );
-        
+        $list[] = JHTML::_('select.option',  'child', JText::_( "Relationship Child" ) );
+        $list[] = JHTML::_('select.option',  'parent', JText::_( "Relationship Parent" ) );
+                
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
     

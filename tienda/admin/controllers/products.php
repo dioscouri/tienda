@@ -1425,43 +1425,52 @@ class TiendaControllerProducts extends TiendaController
             return;            
         }
         
-        if ($relation_type == 'required_by')
+        switch ($relation_type)
         {
-            // check existence of required_by relationship
-            if ($producthelper->relationshipExists( $product_to, $product_id, 'requires' ))
-            {
-                $response['error'] = '1';
-                $response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
-                $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
-                echo ( json_encode( $response ) );
-                return;            
-            }
-            
-            // then add it, need to flip to/from
-            $table = JTable::getInstance('ProductRelations', 'TiendaTable');
-            $table->product_id_from = $product_to; 
-            $table->product_id_to = $product_id;
-            $table->relation_type = 'requires';
-            $table->save();
-            
-            $response['error'] = '0';
-            $response['msg'] = $this->getRelationshipsHtml( $product_id );
-            echo ( json_encode( $response ) );
-            return;
+            case "child":                
+            case "required_by":
+                // for these two, we must flip to/from
+                switch ($relation_type)
+                {
+                    case "child":
+                        $rtype = 'parent';
+                        break;
+                    case "required_by":
+                        $rtype = 'requires';
+                        break;
+                }
+                
+                // check existence of required_by relationship
+                if ($producthelper->relationshipExists( $product_to, $product_id, $rtype ))
+                {
+                    $response['error'] = '1';
+                    $response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
+                    $response['msg'] .= $this->getRelationshipsHtml( $product_id );            
+                    echo ( json_encode( $response ) );
+                    return;            
+                }
+                
+                // then add it, need to flip to/from
+                $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+                $table->product_id_from = $product_to; 
+                $table->product_id_to = $product_id;
+                $table->relation_type = $rtype;
+                $table->save();
+                break;
+            default:
+                $table = JTable::getInstance('ProductRelations', 'TiendaTable');
+                $table->product_id_from = $product_id; 
+                $table->product_id_to = $product_to;
+                $table->relation_type = $relation_type;
+                $table->save();
+                break;
         }
-        
-        // TODO and that it doesn't conflict
-        
-        $table = JTable::getInstance('ProductRelations', 'TiendaTable');
-        $table->product_id_from = $product_id; 
-        $table->product_id_to = $product_to;
-        $table->relation_type = $relation_type;
-        $table->save();
         
         $response['error'] = '0';
         $response['msg'] = $this->getRelationshipsHtml( $product_id );
         
         echo ( json_encode( $response ) );
+        return;
     }
     
     /**

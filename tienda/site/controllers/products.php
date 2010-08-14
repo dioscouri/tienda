@@ -256,7 +256,8 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign('product_description', $product_description );
 		$view->assign( 'files', $this->getFiles( $row->product_id ) );
 		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
-		$view->assign( 'product_relations', $this->getRelationshipsHtml( $row->product_id ) );
+		$view->assign( 'product_relations', $this->getRelationshipsHtml( $row->product_id, 'relates' ) );
+		$view->assign( 'product_children', $this->getRelationshipsHtml( $row->product_id, 'parent' ) );
 		$view->setModel( $model, true );
 
 		// using a helper file, we determine the product's layout
@@ -317,7 +318,7 @@ class TiendaControllerProducts extends TiendaController
         $view->assign('values', $values);
         $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category', (int) @$values['filter_category'] ));
         $view->assign('filter_category', $filter_category);
-        $view->assign('validation', "index.php?option=com_tienda&view=products&view=products&task=validate&format=raw" );
+        $view->assign('validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
         
         $config = TiendaConfig::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
@@ -503,15 +504,36 @@ class TiendaControllerProducts extends TiendaController
      * @param int $address_id
      * @return string html
      */
-    function getRelationshipsHtml( $product_id )
+    function getRelationshipsHtml( $product_id, $relation_type='relates' )
     {
         $html = '';
-        
+        $validation = "";
+
         // get the list
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
-        $model->setState( 'filter_product', $product_id );
-        $model->setState( 'filter_relation', 'relates' );
+        $model->setState( 'filter_relation', $relation_type );
+        
+        switch ($relation_type)
+        {
+            case "parent":
+            case "child":
+            case "children":
+                $model->setState( 'filter_product_from', $product_id );
+                $check_quantity = true;
+                $validation = "index.php?option=com_tienda&view=products&task=validateChildren&format=raw";
+                $layout = 'product_children';
+                break;
+            case "relates":
+                $model->setState( 'filter_product', $product_id );
+                $check_quantity = false;
+                $layout = 'product_relations';
+                break;
+            default:
+                return $html;
+                break;
+        }
+
         if ($items = $model->getList())
         {
             $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
@@ -524,8 +546,16 @@ class TiendaControllerProducts extends TiendaController
                 }
             }
         
-            foreach ($items as $item)
+            foreach ($items as $key=>$item)
             {
+                if ($check_quantity)
+                {
+                    // TODO Unset $items[$key] if 
+                    // this is out of stock && 
+                    // check_inventory && 
+                    // item for sale
+                }
+                
                 if ($item->product_id_from == $product_id)
                 {
                     // display the _product_to
@@ -558,9 +588,11 @@ class TiendaControllerProducts extends TiendaController
             $view->set( '_doTask', true);
             $view->set( 'hidemenu', true);
             $view->setModel( $model, true );
-            $view->setLayout( 'product_relations' );
+            $view->setLayout( $layout );
             $view->set('items', $items);
             $view->set('product_id', $product_id);
+            $view->assign('filter_category', $filter_category);
+            $view->assign('validation', $validation );
 
             ob_start();
             $view->display();
@@ -736,10 +768,10 @@ class TiendaControllerProducts extends TiendaController
         // if product notforsale, fail
         if ($product->product_notforsale)
         {
-            $this->messagetype  = 'notice';         
-            $this->message      = JText::_( "Product Not For Sale" );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
+            $response['msg'] = $helper->generateMessage( "Product Not For Sale" );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return false;
         }
         
         $user = JFactory::getUser();
@@ -756,10 +788,10 @@ class TiendaControllerProducts extends TiendaController
         $cartitem->load($keynames);
         if ($product->quantity_restriction && $cartitem->product_qty > '1')
         {
-            $this->messagetype  = 'notice';         
-            $this->message      = JText::_( "Item Already in Cart" );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
+            $response['msg'] = $helper->generateMessage( "Item Already in Cart" );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return false;
         }
     
         
@@ -976,6 +1008,360 @@ class TiendaControllerProducts extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
         
+    }
+    
+    /**
+     * Verifies the fields in a submitted form.  Uses the table's check() method.
+     * Will often be overridden. Is expected to be called via Ajax 
+     * 
+     * @return unknown_type
+     */
+    function validateChildren()
+    {
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+        // validate it using table's ->check() method
+        if (empty($elements))
+        {
+            // if it fails check, return message
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( "Could not process form" );
+            echo ( json_encode( $response ) );
+            return;
+        }
+
+        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            $response['msg'] = $helper->generateMessage( "Shop Disabled" );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return false;    
+        }
+            
+        // convert elements to array that can be binded             
+        $values = TiendaHelperBase::elementsToArray( $elements );
+        $attributes_csv = '';
+        $product_id = !empty( $values['product_id'] ) ? (int) $values['product_id'] : JRequest::getInt( 'product_id' );
+        $quantities = !empty( $values['quantities'] ) ? $values['quantities'] : array();
+
+        $items = array(); // this will collect the items to add to the cart 
+        $attributes_csv = '';
+        
+        $user = JFactory::getUser();
+        $cart_id = $user->id;
+        $id_type = "user_id";
+        if (empty($user->id))
+        {
+            $session =& JFactory::getSession();
+            $cart_id = $session->getId();
+            $id_type = "session";
+        }
+        
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $carthelper = new TiendaHelperCarts();
+        
+        $cart_recurs = $carthelper->hasRecurringItem( $cart_id, $id_type );
+        
+        // TODO get the children
+        // loop thru each child,
+        // get the list
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState( 'filter_product', $product_id );
+        $model->setState( 'filter_relation', 'parent' );
+        if ($children = $model->getList())
+        {
+            foreach ($children as $child)
+            {
+                $product_qty = $quantities[$child->product_id_to];
+                
+                // Integrity checks on quantity being added
+                if ($product_qty < 0) { $product_qty = '1'; } 
+        
+                // using a helper file to determine the product's information related to inventory     
+                $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $child->product_id_to, $attributes_csv );    
+                if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+                {
+                    $response['msg'] = $helper->generateMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+                    $response['error'] = '1';
+                    echo ( json_encode( $response ) );
+                    return false;
+                }
+                
+                // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
+                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product->load( array( 'product_id'=>$child->product_id_to ) );
+                
+                // if product notforsale, fail
+                if ($product->product_notforsale)
+                {
+                    $response['msg'] = $helper->generateMessage( "Product Not For Sale" );
+                    $response['error'] = '1';
+                    echo ( json_encode( $response ) );
+                    return false;
+                }
+                
+                if ($product->product_recurs && $cart_recurs)
+                {
+                    $response['msg'] = $helper->generateMessage( "Cart Already Recurs" );
+                    $response['error'] = '1';
+                    echo ( json_encode( $response ) );
+                    return false;
+                }
+                
+                if ($product->product_recurs)
+                {
+                    $product_qty = '1';
+                }
+
+                // create cart object out of item properties
+                $item = new JObject;
+                $item->user_id     = JFactory::getUser()->id;
+                $item->product_id  = (int) $child->product_id_to;
+                $item->product_qty = (int) $product_qty;
+                $item->product_attributes = $attributes_csv;
+                $item->vendor_id   = '0'; // vendors only in enterprise version
+        
+                // does the user/cart match all dependencies?
+                $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
+                if (!$canAddToCart)
+                {
+                    $response['msg'] = $helper->generateMessage( JText::_( "Cannot Add Item to Cart" ) . " - " . $carthelper->getError() );
+                    $response['error'] = '1';
+                    echo ( json_encode( $response ) );
+                    return false;
+                }
+                
+                // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+                $results = array();
+                $dispatcher =& JDispatcher::getInstance();
+                $results = $dispatcher->trigger( "onValidateAddToCart", array( $item, $values ) );
+        
+                for ($i=0; $i<count($results); $i++)
+                {
+                    $result = $results[$i];
+                    if (!empty($result->error))
+                    {
+                        $response['msg'] = $helper->generateMessage( $result->message );
+                        $response['error'] = '1';
+                        echo ( json_encode( $response ) );
+                        return false;
+                    }
+                }
+                
+                // if here, add to cart                
+                $items[] = $item;
+            }
+        }
+        
+        if (!empty($items))
+        {
+            $response['error'] = '0';                
+        }
+            else
+        {
+            $response['msg'] = $helper->generateMessage( "No Items Passed Validity Check" );
+            $response['error'] = '1';
+        }
+        
+        echo ( json_encode( $response ) );
+        return;
+    }
+    
+    /**
+     * Verifies the fields in a submitted form.
+     * Then adds the item to the users cart 
+     * 
+     * @return unknown_type
+     */
+    function addChildrenToCart()
+    {
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+        $product_id = JRequest::getInt( 'product_id' );
+        $quantities = JRequest::getVar('quantities', array(0), 'request', 'array');
+        $filter_category = JRequest::getInt( 'filter_category' );
+
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute();
+        if (!$itemid = $router->product( $product_id, $filter_category, true ))
+        {
+            $itemid = $router->category( 1, true );
+        }
+        
+        // set the default redirect URL
+        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=".$itemid;
+        $redirect = JRoute::_( $redirect, false );
+        
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( "Shop Disabled" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+
+        $items = array(); // this will collect the items to add to the cart 
+        
+        // convert elements to array that can be binded             
+        $values = JRequest::get('post');
+        $attributes_csv = '';
+        
+        $user = JFactory::getUser();
+        $cart_id = $user->id;
+        $id_type = "user_id";
+        if (empty($user->id))
+        {
+            $session =& JFactory::getSession();
+            $cart_id = $session->getId();
+            $id_type = "session";
+        }
+        
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $carthelper = new TiendaHelperCarts();
+        
+        $cart_recurs = $carthelper->hasRecurringItem( $cart_id, $id_type );
+        
+        // TODO get the children
+        // loop thru each child,
+        // get the list
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState( 'filter_product', $product_id );
+        $model->setState( 'filter_relation', 'parent' );
+        if ($children = $model->getList())
+        {
+            foreach ($children as $child)
+            {
+                $product_qty = $quantities[$child->product_id_to];
+                
+                // Integrity checks on quantity being added
+                if ($product_qty < 0) { $product_qty = '1'; } 
+        
+                // using a helper file to determine the product's information related to inventory     
+                $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $child->product_id_to, $attributes_csv );    
+                if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
+                {
+                    $this->messagetype  = 'notice';         
+                    $this->message      = JText::_( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+                    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                    return;            
+                }
+                
+                // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
+                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product->load( array( 'product_id'=>$child->product_id_to ) );
+                
+                // if product notforsale, fail
+                if ($product->product_notforsale)
+                {
+                    $this->messagetype  = 'notice';         
+                    $this->message      = JText::_( "Product Not For Sale" );
+                    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                    return;
+                }
+                
+                if ($product->product_recurs && $cart_recurs)
+                {
+                    $this->messagetype  = 'notice';         
+                    $this->message      = JText::_( "Cart Already Recurs" );
+                    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                    return;            
+                }
+                
+                if ($product->product_recurs)
+                {
+                    $product_qty = '1';
+                }
+
+                // create cart object out of item properties
+                $item = new JObject;
+                $item->user_id     = JFactory::getUser()->id;
+                $item->product_id  = (int) $child->product_id_to;
+                $item->product_qty = (int) $product_qty;
+                $item->product_attributes = $attributes_csv;
+                $item->vendor_id   = '0'; // vendors only in enterprise version
+        
+                // does the user/cart match all dependencies?
+                $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
+                if (!$canAddToCart)
+                {
+                    $this->messagetype  = 'notice';         
+                    $this->message      = JText::_( "Cannot Add Item to Cart" ) . " - " . $carthelper->getError();
+                    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                    return;            
+                }
+                
+                // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
+                $results = array();
+                $dispatcher =& JDispatcher::getInstance();
+                $results = $dispatcher->trigger( "onBeforeAddToCart", array( $item, $values ) );
+        
+                for ($i=0; $i<count($results); $i++)
+                {
+                    $result = $results[$i];
+                    if (!empty($result->error))
+                    {
+                        $this->messagetype  = 'notice';         
+                        $this->message      = $result->message;
+                        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                        return;
+                    }
+                }
+                
+                // if here, add to cart                
+                $items[] = $item;
+            }
+        }
+        
+        if (!empty($items))
+        {
+            // add the items to the cart
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+            TiendaHelperCarts::updateCart( $items );
+            
+            // fire plugin event
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterAddToCart', array( $items, $values ) );
+            
+            $this->messagetype  = 'message';
+            $this->message      = JText::_( "Items Added to Your Cart" );                
+        }
+        
+        // After login, session_id is changed by Joomla, so store this for reference
+        $session =& JFactory::getSession(); 
+        $session->set( 'old_sessionid', $session->getId() );
+        
+        // get the 'success' redirect url
+        // TODO Enable redirect via base64_encoded urls?
+        switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
+        {
+            case "redirect":
+                $returnUrl = base64_encode( $redirect );
+                $itemid = $router->findItemid( array('view'=>'checkout') );
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
+                if (strpos($redirect, '?') === false) { $redirect .= "?return=".$returnUrl; } else { $redirect .= "&return=".$returnUrl; }
+                break;
+            case "0":
+            case "none":
+                break;
+            case "lightbox":
+            default:
+                // TODO Figure out how to get the lightbox to display even after a redirect
+                break;
+        }
+
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;        
     }
 }
 
