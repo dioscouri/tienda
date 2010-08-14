@@ -462,7 +462,6 @@ class TiendaControllerProducts extends TiendaController
 		// get the user's active subscriptions to this product, if possible
 		$submodel = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
 		$submodel->setState('filter_userid', JFactory::getUser()->id);
-		$submodel->setState('filter_enabled', '1');
 		$submodel->setState('filter_productid', $product_id);
 		$subs = $submodel->getList(); 
 		

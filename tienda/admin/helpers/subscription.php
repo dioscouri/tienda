@@ -196,7 +196,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
      * Ensures a subscriber has access to files 
      * added after their subscription started
      * 
-     * @param $subscriptions array of active subscription objects
+     * @param $subscriptions array of subscription objects
      * @param $files array optional array of files for the subscriptions, only sent if one kind of product is in subscriptions
      * @return unknown_type
      */
@@ -228,19 +228,25 @@ class TiendaHelperSubscription extends TiendaHelperBase
             {
                 if ($file->created_date > $subscription->checkedfiles_datetime || $file->created_date == $nullDate)
                 {
-                    $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
-                    $productDownload->product_id = $subscription->product_id;
-                    $productDownload->productfile_id = $file->productfile_id;
-                    $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
-                    $productDownload->order_id = $subscription->order_id;
-                    $productDownload->user_id = $subscription->user_id;
-                    if (!$productDownload->save())
+                    // check: was the file added while the subscription was active?
+                    if ( $subscription->subscription_enabled || 
+                    (empty($subscription->subscription_enabled) && $subscription->created_datetime < $file->created_date && $file->created_date < $subscription->expires_datetime)
+                    )
                     {
-                        // track error
-                        $error = true;
-                        $errorMsg .= $productDownload->getError();
-                        JFactory::getApplication()->enqueueMessage( $productDownload->getError(), 'notice' );
-                        // TODO What to do with this error 
+                        $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+                        $productDownload->product_id = $subscription->product_id;
+                        $productDownload->productfile_id = $file->productfile_id;
+                        $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
+                        $productDownload->order_id = $subscription->order_id;
+                        $productDownload->user_id = $subscription->user_id;
+                        if (!$productDownload->save())
+                        {
+                            // track error
+                            $error = true;
+                            $errorMsg .= $productDownload->getError();
+                            JFactory::getApplication()->enqueueMessage( $productDownload->getError(), 'notice' );
+                            // TODO What to do with this error 
+                        }                        
                     }
                 }
             }
