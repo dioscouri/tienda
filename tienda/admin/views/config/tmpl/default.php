@@ -564,6 +564,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Product Quantity' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_product_quantity', 'class="inputbox"', $this->row->get('display_product_quantity', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
                             </th>
                             <td>

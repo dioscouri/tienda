@@ -137,10 +137,12 @@ $values = @$this->values;
         </div>
     <?php endif; ?>
     
-    <?php if (!empty($item->product_check_inventory)) : ?> 
+    <?php if (!empty($item->product_check_inventory)) : ?>
+        <?php if (TiendaConfig::getInstance()->get('display_product_quantity', '1')) : ?> 
         <div id='available_stock'> 
           <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"><?php echo (int) $this->availableQuantity->quantity; ?></label> 
         </div>
+        <?php endif; ?>
     <?php endif; ?>
     
     <?php if (!empty($item->product_check_inventory) && !empty($this->invalidQuantity) ) : ?>
