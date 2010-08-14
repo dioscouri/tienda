@@ -1575,8 +1575,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $definitions = array();
         $fields = array();
         
-        $fields[] = "product_forsale";
-            $definitions["product_forsale"] = "tinyint(1) NOT NULL";
+        $fields[] = "product_notforsale";
+            $definitions["product_notforsale"] = "tinyint(1) NOT NULL";
 
         $fields[] = "quantity_restriction";
             $definitions["quantity_restriction"] = "tinyint(1) NOT NULL";
