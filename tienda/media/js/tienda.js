@@ -271,9 +271,8 @@ function tiendaNewModal (msg)
     var t = (h / 2) - 15;
     var l = (w / 2) - 15;
 	var i = document.createElement('img');
-	var s = window.location.toString();
-	var src = 'media/com_tienda/images/ajax-loader.gif';
-	i.src = (s.match(/administrator\/index.php/)) ? '../' + src : src;
+	var src = window.com_tienda.jbase + 'media/com_tienda/images/ajax-loader.gif';
+	i.src = src;
 	i.style.position = 'absolute';
 	i.style.top = t + 'px';
 	i.style.left = l + 'px';
