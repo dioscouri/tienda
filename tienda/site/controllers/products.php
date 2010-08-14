@@ -459,8 +459,20 @@ class TiendaControllerProducts extends TiendaController
 		//$model->setState( 'filter_purchaserequired', 1 );
 		$items = $model->getList();
 
+		// get the user's active subscriptions to this product, if possible
+		$submodel = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+		$submodel->setState('filter_userid', JFactory::getUser()->id);
+		$submodel->setState('filter_enabled', '1');
+		$submodel->setState('filter_productid', $product_id);
+		$subs = $submodel->getList(); 
+		
 		if (!empty($items))
 		{
+		    // reconcile the list of files to the date the sub's files were last checked 
+		    Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+		    $subhelper = new TiendaHelperSubscription();
+		    $subhelper->reconcileFiles($subs);
+		    
             Tienda::load( 'TiendaHelperBase', 'helpers._base' );
             $helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
             $filtered_items = $helper->filterRestricted( $items, JFactory::getUser()->id );

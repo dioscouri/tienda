@@ -38,11 +38,22 @@ class TiendaTableProductFiles extends TiendaTable
 			$this->setError( JText::_( "Product Association Required" ) );
 			return false;
 		}
+		
         if (empty($this->productfile_name))
         {
             $this->setError( JText::_( "File Name Required" ) );
             return false;
         }
+
+	    $nullDate   = $this->_db->getNullDate();
+        if (empty($this->created_date) || $this->created_date == $nullDate)
+        {
+            $date = JFactory::getDate();
+            $this->created_date = $date->toMysql();
+        }
+        $date = JFactory::getDate();
+        $this->modified_date = $date->toMysql();
+        
 		return true;
 	}
 	

@@ -17,7 +17,6 @@ class TiendaTableProducts extends TiendaTable
 {
 	function TiendaTableProducts ( &$db ) 
 	{
-		
 		$tbl_key 	= 'product_id';
 		$tbl_suffix = 'products';
 		$this->set( '_suffix', $tbl_suffix );

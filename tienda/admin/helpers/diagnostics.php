@@ -209,6 +209,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsForSale FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkSubscriptionsCheckFiles())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionsCheckFiles FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -1588,6 +1593,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkProductsForSale') );
             $config->config_name = 'checkProductsForSale';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Check if the _subscriptions table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkSubscriptionsCheckFiles()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkSubscriptionsCheckFiles', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_subscriptions';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "checkedfiles_datetime";
+            $definitions["checkedfiles_datetime"] = "datetime NOT NULL COMMENT 'When were this subscriptions files last checked?'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkSubscriptionsCheckFiles') );
+            $config->config_name = 'checkSubscriptionsCheckFiles';
             $config->value = '1';
             $config->save();
             return true;

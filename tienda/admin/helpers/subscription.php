@@ -191,4 +191,65 @@ class TiendaHelperSubscription extends TiendaHelperBase
             }
         }
     }
+    
+    /**
+     * Ensures a subscriber has access to files 
+     * added after their subscription started
+     * 
+     * @param $subscriptions array of active subscription objects
+     * @param $files array optional array of files for the subscriptions, only sent if one kind of product is in subscriptions
+     * @return unknown_type
+     */
+    function reconcileFiles( $subscriptions, $files=array() )
+    {
+        $errorMsg = '';
+        $date = JFactory::getDate();
+        $db = JFactory::getDBO();
+        $nullDate = $db->getNullDate();
+        
+        // foreach of the subs
+        foreach ( $subscriptions as $subscription )
+        {
+            $productfiles = $files;
+            // if files is empty, get the product's files
+            if (empty($productfiles))
+            {
+                JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+                $model->setState( 'filter_product', $subscription->product_id );
+                $model->setState( 'filter_enabled', 1 );
+                $model->setState( 'filter_purchaserequired', 1 );
+                $productfiles = $model->getList();
+            }
+            
+            // if any of the files were created after the sub's last checked date,
+            // add access for the sub's user
+            foreach ($productfiles as $file)
+            {
+                if ($file->created_date > $subscription->checkedfiles_datetime || $file->created_date == $nullDate)
+                {
+                    $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+                    $productDownload->product_id = $subscription->product_id;
+                    $productDownload->productfile_id = $file->productfile_id;
+                    $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
+                    $productDownload->order_id = $subscription->order_id;
+                    $productDownload->user_id = $subscription->user_id;
+                    if (!$productDownload->save())
+                    {
+                        // track error
+                        $error = true;
+                        $errorMsg .= $productDownload->getError();
+                        JFactory::getApplication()->enqueueMessage( $productDownload->getError(), 'notice' );
+                        // TODO What to do with this error 
+                    }
+                }
+            }
+            
+            $subtable = JTable::getInstance('Subscriptions', 'TiendaTable');
+            $subtable->subscription_id = $subscription->subscription_id;
+            $subtable->checkedfiles_datetime = $date->toMySQL();
+            $subtable->save();
+        }
+
+    }
 }

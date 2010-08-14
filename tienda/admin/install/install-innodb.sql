@@ -5115,6 +5115,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
   `expires_datetime` datetime NOT NULL,
   `subscription_enabled` tinyint(1) NOT NULL,
   `lifetime_enabled` tinyint(1) NOT NULL,
+  `checkedfiles_datetime` datetime NOT NULL COMMENT 'When were this subscriptions files last checked?',
   PRIMARY KEY (`subscription_id`)
 ) ENGINE=MyISAM ;
 
