@@ -63,6 +63,8 @@ $citems = @$this->citems;
                             <?php echo TiendaHelperProduct::getImage($item->product_id); ?>
                         </a>
                         
+                        <?php if (empty($item->product_notforsale)) : ?>
+                        
                         <div class="product_price">
                             <?php
                             // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
@@ -114,6 +116,7 @@ $citems = @$this->citems;
                             }
                             ?>
                         </div>
+                        <?php endif; ?>
                         
                         <?php // TODO Make this display the "quickAdd" layout in a lightbox ?>
                         <?php // $url = "index.php?option=com_tienda&format=raw&controller=carts&task=addToCart&productid=".$item->product_id; ?>
