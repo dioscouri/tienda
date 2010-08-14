@@ -29,6 +29,12 @@ $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
 if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
     $controller = '';
 
+$doc = JFactory::getDocument();
+$uri = JURI::getInstance();
+$js = "var com_tienda = {};\n";
+$js.= "com_tienda.jbase = '".$uri->root()."';\n";
+$doc->addScriptDeclaration($js);
+
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
