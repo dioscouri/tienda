@@ -79,11 +79,17 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                 $ratemodel->setState('filter_geozones', $gz_array);
                 if ($ratesexist = $ratemodel->getList())
                 {
-                    $rates[] = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );
+                    $total = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );
+                    if ($total)
+                    {
+                        $rates[] = $total;
+                    }
                 }
             }
         }
 
+//        echo Tienda::dump($rates);
+        
         $i = 0;
         foreach( $rates as $rate )
         {
@@ -152,6 +158,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $return->shipping_tax_rate        = '0.00000';
         $return->shipping_tax_total       = '0.00000';
         
+        $rate_exists = false;
         $geozone_rates = array();
 	    
         // cast product_id as an array
@@ -198,6 +205,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				{
 				    foreach ($geozones as $geozone)
 				    {
+				        unset($rate);
+				        
 				        $geozone_id = $geozone->geozone_id;
 				        if (empty($geozone_rates[$geozone_id]) || !is_array($geozone_rates[$geozone_id]))
                         {
@@ -208,14 +217,22 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         {
                             // don't use weight, just do flat rate for entire order
                             // regardless of weight and regardless of the number of items
-                            $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+                            $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+                            $geozone_rates[$geozone_id]['0'] = $rate;
                         }
                             else
                         {
                             // get the shipping rate for the entire order using the sum weight of all products in the order that ship
-                            $geozone_rates[$geozone_id]['0'] = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $sum_weight );
+                            $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $sum_weight );
+                            $geozone_rates[$geozone_id]['0'] = $rate;
                         }
                         
+				        // if $rate->shipping_rate_id is empty, then no real rate was found 
+                        if (!empty($rate->shipping_rate_id))
+                        {
+                            $rate_exists = true;
+                        }
+                            
 				        $geozone_rates[$geozone_id]['0']->qty = '1';  
 				        $geozone_rates[$geozone_id]['0']->shipping_method_type = $shippingmethod->shipping_method_type;   
 				    }
@@ -232,6 +249,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                     $qty = $item->orderitem_quantity;
                     foreach ($geozones as $geozone)
                     {
+                        unset($rate);
+                        
                         $geozone_id = $geozone->geozone_id;
                         if (empty($geozone_rates[$geozone_id]) || !is_array($geozone_rates[$geozone_id]))
                         {
@@ -239,17 +258,29 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         }
                         // $geozone_rates[$geozone_id][$pid] contains the shipping rate object for ONE product_id at this geozone.  
                         // You need to multiply by the quantity later
-                        $geozone_rates[$geozone_id][$pid] = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+                        $rate = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+                        $geozone_rates[$geozone_id][$pid] = $rate; 
                         $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
                         $geozone_rates[$geozone_id][$pid]->qty = $qty;
+                        
+                        // if $rate->shipping_rate_id is empty, then no real rate was found 
+                        if (!empty($rate->shipping_rate_id))
+                        {
+                            $rate_exists = true;
+                        }
                     }
             	}
                 break;
             default:
-	            // TODO if this is an object, setError, otherwise return false, or 0.000?
-	            $return->setError( JText::_( "Invalid Shipping Method Type" ) );
-	            return $return;
+	            $this->setError( JText::_( "Invalid Shipping Method Type" ) );
+	            return false;
                 break;
+		}
+		
+		if (!$rate_exists)
+		{
+            $this->setError( JText::_( "No Rate Found" ) );
+            return false;
 		}
 		
 		$shipping_tax_rates = array();

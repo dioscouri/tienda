@@ -1,7 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
 
 <h3><?php echo JText::_("Select a Shipping Method") ?></h3>
-<input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form )" value="<?php echo JText::_("Click here to update your shipping rates "); ?>" />
+<input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update your shipping rates "); ?>" />
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
@@ -19,7 +20,11 @@
     }
         else
     {
-        echo JText::_( "There was an error collecting shipping rates" );
+        ?>
+        <div class="note">
+        <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
+        </div>
+        <?php
     }
 ?>
 <input type="hidden" name="shipping_price" id="shipping_price" value="" />

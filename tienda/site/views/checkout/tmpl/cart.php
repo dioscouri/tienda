@@ -128,7 +128,7 @@ $items = @$this->orderitems;
                         {
                             echo TiendaHelperBase::currency($order->order_shipping);
                             if ($display_shipping_tax) {
-                                echo "<br>" . TiendaHelperBase::currency($order->order_shipping_tax);
+                                echo "<br>" . TiendaHelperBase::currency( (float) $order->order_shipping_tax);
                             }                               
                         }
 

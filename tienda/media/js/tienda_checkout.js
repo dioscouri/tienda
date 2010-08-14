@@ -11,10 +11,11 @@ function tiendaGetPaymentForm( element, container )
     tiendaDoTask( url, container, document.adminForm );
 }
 
-function tiendaGetShippingRates( container, form )
+function tiendaGetShippingRates( container, form, msg )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
-    tiendaDoTask( url, container, form );
+    tiendaDoTask( url, container, form, msg );
+    tiendaGetCheckoutTotals();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra)
@@ -36,7 +37,7 @@ function tiendaSetShippingRate(name, price, tax, extra)
 function tiendaGetCheckoutTotals()
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=setShippingMethod&format=raw';
-    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm );    
+    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false );    
 }
 
 /**
