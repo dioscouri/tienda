@@ -18,10 +18,15 @@ $url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search' , fals
 <div id="productSearch">
     <form action="<?php echo $url; ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>') this.elements['filter'].value = '';">
         <?php echo JText::_('Search').': '; ?>
-        <?php if ($category_filter != '0') : ?><?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?><?php endif; ?>
+        <?php if ($category_filter != '0') : ?>
+            <?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?>
+        <?php else: ?>
+            <input type="hidden" name="filter_category" value="1" />    
+        <?php endif; ?>
         <input type="text" name="filter" value="<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>" onclick="this.value='';"/> 
         <input type="submit" value="Submit" />
         <input type="hidden" name="task" value="search" />
+        <input type="hidden" name="search" value="1" />
     </form>
 </div>
   
