@@ -163,7 +163,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         }
         
         $dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$item ) );
+		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$item ) );
         
         return $item;
     }

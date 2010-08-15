@@ -103,7 +103,7 @@ class TiendaModelProductPrices extends TiendaModelBase
         }
         
         $dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
         
         return $this->_item;
     }

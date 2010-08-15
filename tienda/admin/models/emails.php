@@ -75,7 +75,7 @@ class TiendaModelEmails extends TiendaModelBase
 								   'strings' => $result_strings);
 		
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$result ) );
+		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$result ) );
 		
 		return $result;
 		
