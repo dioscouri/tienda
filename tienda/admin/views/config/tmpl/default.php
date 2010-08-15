@@ -798,13 +798,13 @@
 					<tbody>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Enable Automatic Reordering of a table?' ); ?>
+								<?php echo JText::_( 'Enable Automatic Table Reordering' ); ?>
 							</th>
-							<td>
+							<td style="width: 150px;">
 		                        <?php echo JHTML::_('select.booleanlist', 'enable_reorder_table', 'class="inputbox"', $this->row->get('enable_reorder_table', '1') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_( 'Enable the funtion that compacts the ordering sequence of the selected records? This could be very heavy if you have large tables (ex: > 1000 products)' ); ?>
+                                <?php echo JText::_( 'ENABLE AUTOMATIC TABLE REORDERING DESC' ); ?>
                             </td>
 						</tr>
 					</tbody>

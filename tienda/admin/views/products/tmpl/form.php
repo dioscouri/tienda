@@ -1010,7 +1010,7 @@ window.addEvent('domready', function(){
                         <?php echo JText::_( 'Available Objects' ); ?>:
                     </td>
                     <td>
-                        {user} = JFactory::getUser()<br/>
+                        {user} = JFactory::getUser( <?php echo "$"."order->user_id"; ?> )<br/>
                         {date} = JFactory::getDate()<br/>
                         {request} = JRequest::getVar()<br/>
                         {order} = TiendaTableOrders()<br/>
