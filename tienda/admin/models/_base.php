@@ -153,6 +153,10 @@ class TiendaModelBase extends JModel
 			$this->_db->setQuery( (string) $query );
 			$this->_item = $this->_db->loadObject();
 		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+		
 		return $this->_item;
 	}
 

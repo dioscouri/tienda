@@ -203,7 +203,15 @@ class TiendaTable extends JTable
 		
 	    if ( $result = $db->loadAssoc() )
         {
-            return $this->bind($result);
+        	$result = $this->bind($result);
+        	
+        	if( $result )
+        	{
+        		$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger( 'onLoad'.$this->get('_suffix'), array( &$this ) );	
+        	}
+            
+			return $object;
         }
         else
         {
