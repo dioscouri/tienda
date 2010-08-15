@@ -347,19 +347,23 @@ class TiendaHelperOrder extends TiendaHelperBase
         // 3. add productfiles to product downloads
         TiendaHelperOrder::enableProductDownloads( $order_id );
         
-        // 4. register commission if amigos is installed
+        // 4. do SQL queries
+        $helper = TiendaHelperBase::getInstance( 'Sql' );
+        $helper->processOrder( $order_id );
+        
+        // register commission if amigos is installed
         $helper = TiendaHelperBase::getInstance( 'Amigos' );
         $helper->createCommission( $order_id );
         
-        // 5. change ticket limits if billets is installed
+        // change ticket limits if billets is installed
         $helper = TiendaHelperBase::getInstance( 'Billets' );
         $helper->processOrder( $order_id );
         
-        // 6. add to JUGA Groups if JUGA installed
+        // add to JUGA Groups if JUGA installed
         $helper = TiendaHelperBase::getInstance( 'Juga' );
         $helper->processOrder( $order_id );
         
-        // 7. change core ACL if set
+        // change core ACL if set
         $helper = TiendaHelperBase::getInstance( 'User' );
         $helper->processOrder( $order_id );
         

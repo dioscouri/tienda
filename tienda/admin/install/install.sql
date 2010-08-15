@@ -673,6 +673,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
   `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
   `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
+  `product_sql` text NOT NULL COMMENT 'SQL queries to be executed after the product is purchased',
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,

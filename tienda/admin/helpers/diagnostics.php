@@ -214,6 +214,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionsCheckFiles FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkProductsSQL())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -1634,4 +1639,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+    /**
+     * Check if the _subscriptions table is correct
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkProductsSQL()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsSQL', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+    
+        $fields[] = "product_sql";
+            $definitions["product_sql"] = "text NOT NULL COMMENT 'SQL queries to be executed after the product is purchased'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsSQL') );
+            $config->config_name = 'checkProductsSQL';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
 }

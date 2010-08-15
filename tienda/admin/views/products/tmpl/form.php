@@ -992,6 +992,48 @@ window.addEvent('domready', function(){
                 </table>
             </fieldset>
         </div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "SQL for After Purchase" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td title="<?php echo JText::_("Product SQL").'::'.JText::_( "Product SQL Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Product SQL' ); ?>:
+                    </td>
+                    <td>
+                        <textarea name="product_sql" rows="10" cols="55"><?php echo @$row->product_sql; ?></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td title="<?php echo JText::_("Available Objects").'::'.JText::_( "Available Objects Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Available Objects' ); ?>:
+                    </td>
+                    <td>
+                        {user} = JFactory::getUser()<br/>
+                        {date} = JFactory::getDate()<br/>
+                        {request} = JRequest::getVar()<br/>
+                        {order} = TiendaTableOrders()<br/>
+                        {orderitem} = TiendaTableOrderItems()<br/>
+                        {product} = TiendaTableProducts()<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td title="<?php echo JText::_("Normal Usage").'::'.JText::_( "Normal Usage Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Normal Usage' ); ?>:
+                    </td>
+                    <td>
+                        <br/>
+                        <?php echo "{user.name} == JFactory::getUser()->name"; ?><br/>
+                        <?php echo "{user.username} == JFactory::getUser()->username"; ?><br/>
+                        <?php echo "{user.email} == JFactory::getUser()->email"; ?><br/>
+                        <?php echo "{date.toMySQL()} == JFactory::getDate()->toMySQL()"; ?><br/>
+                        <?php echo "{request.task} == JRequest::getVar('task');"; ?><br/>
+                    </td>
+                </tr>
+                </table>
+            </fieldset>
+        </div>
 
         <?php
         // fire plugin event here to enable extending the form
