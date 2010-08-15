@@ -154,11 +154,11 @@ class TiendaModelBase extends JModel
 			$this->_item = $this->_db->loadObject();
 		}
 		
-		$overridden_methods = $this->get_overriden_methods( get_class($this) );
-		if (!in_array($overridden_methods, 'getItem'))  
+		$overridden_methods = $this->getOverriddenMethods( get_class($this) );
+		if (!in_array('getItem', $overridden_methods))  
 		{
 			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+			$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
 		}
 		
 		return $this->_item;
@@ -405,10 +405,10 @@ class TiendaModelBase extends JModel
     	}
     }
     
-	protected function get_overriden_methods($class)
+	protected function getOverriddenMethods($class)
 	{
 	    $rClass = new ReflectionClass($class);
-	    $array = NULL;
+	    $array = array();
 	        
 	    foreach ($rClass->getMethods() as $rMethod)
 	    {
@@ -422,7 +422,7 @@ class TiendaModelBase extends JModel
 	                == $rClass->getName())
 	            {
 	                // if so, then it is overriden, so add to array
-	                $array[] .=  $rMethod->getName();
+	                $array[] =  $rMethod->getName();
 	            }
 	        }
 	        catch (exception $e)

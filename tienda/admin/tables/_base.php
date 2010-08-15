@@ -211,7 +211,7 @@ class TiendaTable extends JTable
 				$dispatcher->trigger( 'onLoad'.$this->get('_suffix'), array( &$this ) );	
         	}
             
-			return $object;
+			return $result;
         }
         else
         {
