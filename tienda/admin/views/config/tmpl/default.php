@@ -787,7 +787,31 @@
 					</tbody>
 					</table>
 					<?php
-						echo $this->sliders->endPanel();				
+						echo $this->sliders->endPanel();	
+
+						
+						$legend = JText::_( "Advanced Settings" );
+	                    echo $this->sliders->startPanel( JText::_( $legend ), 'advanced' );
+	                    ?>
+                    
+					<table class="adminlist">
+					<tbody>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Automatic Reordering of a table?' ); ?>
+							</th>
+							<td>
+		                        <?php echo JHTML::_('select.booleanlist', 'enable_reorder_table', 'class="inputbox"', $this->row->get('enable_reorder_table', '1') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'Enable the funtion that compacts the ordering sequence of the selected records? This could be very heavy if you have large tables (ex: > 1000 products)' ); ?>
+                            </td>
+						</tr>
+					</tbody>
+					</table>
+					<?php
+						echo $this->sliders->endPanel();
+						
 						// if there are plugins, display them accordingly
 		                if ($this->items_sliders) 
 		                {               	

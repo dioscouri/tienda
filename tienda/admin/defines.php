@@ -417,6 +417,7 @@ class TiendaConfig extends JObject
     var $default_tax_geozone                = '';
     var $subscriptions_expiring_notice_days = '14';
     var $display_product_quantity           = '1';
+    var $enable_reorder_table	            = '1';
     	
 	/**
 	 * constructor

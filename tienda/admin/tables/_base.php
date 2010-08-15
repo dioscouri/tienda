@@ -244,7 +244,11 @@ class TiendaTable extends JTable
 			return false;
 		}
 		
-		$this->reorder();
+		if( TiendaConfig::get('enable_reorder_table', '1') )
+		{
+			$this->reorder();
+		}
+		
 		$this->setError('');
 		
 		// TODO Move ALL onAfterSave plugin events here as opposed to in the controllers, duh
