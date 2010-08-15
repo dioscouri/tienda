@@ -353,6 +353,10 @@ class TiendaModelOrders extends TiendaModelBase
                 $item->commissions = $amigos->getCommissions( $item->order_id );
             }
 		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$item ) );
+		
         return $item;
 	}	
 }

@@ -161,6 +161,10 @@ class TiendaModelSubscriptions extends TiendaModelBase
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
             $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );            
         }
+        
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$item ) );
+        
         return $item;
     }
 }

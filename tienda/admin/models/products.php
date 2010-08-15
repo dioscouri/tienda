@@ -301,6 +301,10 @@ class TiendaModelProducts extends TiendaModelBase
             
             $this->_item = $item;
         }
+        
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+        
         return $this->_item;
 	}
 

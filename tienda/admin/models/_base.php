@@ -154,8 +154,12 @@ class TiendaModelBase extends JModel
 			$this->_item = $this->_db->loadObject();
 		}
 		
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+		$overridden_methods = $this->get_overriden_methods( get_class($this) );
+		if (!in_array($overridden_methods, 'getItem'))  
+		{
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+		}
 		
 		return $this->_item;
 	}
@@ -400,4 +404,31 @@ class TiendaModelBase extends JModel
     		$query->order('ordering ASC');
     	}
     }
+    
+	protected function get_overriden_methods($class)
+	{
+	    $rClass = new ReflectionClass($class);
+	    $array = NULL;
+	        
+	    foreach ($rClass->getMethods() as $rMethod)
+	    {
+	        try
+	        {
+	            // attempt to find method in parent class
+	            new ReflectionMethod($rClass->getParentClass()->getName(),
+	                                $rMethod->getName());
+	            // check whether method is explicitly defined in this class
+	            if ($rMethod->getDeclaringClass()->getName()
+	                == $rClass->getName())
+	            {
+	                // if so, then it is overriden, so add to array
+	                $array[] .=  $rMethod->getName();
+	            }
+	        }
+	        catch (exception $e)
+	        {    /* was not in parent class! */    }
+	    }
+	    
+	    return $array;
+	}
 }

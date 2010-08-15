@@ -101,6 +101,10 @@ class TiendaModelProductPrices extends TiendaModelBase
                 $this->_item->product_price_enddate = ($this->_item->product_price_enddate != $nullDate) ? JHTML::_( "date", $this->_item->product_price_enddate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->product_price_enddate;
             }
         }
+        
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$this->_item ) );
+        
         return $this->_item;
     }
 }

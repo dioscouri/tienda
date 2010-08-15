@@ -74,6 +74,9 @@ class TiendaModelEmails extends TiendaModelBase
 		$result->strings = array('file' => $path,
 								   'strings' => $result_strings);
 		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepare'.$this->get('_suffix'), array( &$result ) );
+		
 		return $result;
 		
 	}
