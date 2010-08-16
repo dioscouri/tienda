@@ -246,6 +246,40 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             FROM {$p}product_category_xref as p;
         ";
         
+        $queries[5]->title = "ORDERS";
+        $queries[5] = "
+            INSERT IGNORE INTO #__tienda_orders ( order_id, user_id, order_number, order_total, order_subtotal, order_tax, order_shipping, order_shipping_tax, order_discount, order_currency, customer_note, ip_address )
+            SELECT o.order_id, o.user_id, o.order_number, o.order_total, o.order_subtotal, o.order_tax, o.order_shipping, o.order_shipping_tax, o.order_discount, o.order_currency, o.customer_note, o.ip_address
+            FROM {$p}orders as o;
+        ";
+
+        $queries[6]->title = "ORDER PAYMENTS";
+        $queries[6] = "            
+            INSERT IGNORE INTO #__tienda_orderpayments ( order_id, orderpayment_type, transaction_details, transaction_id )
+            SELECT order_id, order_payment_name, order_payment_log, order_payment_trans_id
+            FROM {$p}order_payment;
+        ";
+        
+        $queries[7]->title = "ORDER ITEMS";
+        $queries[7] = "            
+            INSERT IGNORE INTO #__tienda_orderitems ( order_id, product_id, orderitem_attributes, orderitem_sku, orderitem_name, orderitem_quantity, orderitem_price, orderitem_final_price )
+            SELECT order_id, product_id, product_attribute, order_item_sku, order_item_name, product_quantity, product_item_price, product_final_price 
+            FROM {$p}order_item;
+        ";
+        
+        $queries[8]->title = "ORDER HISTORY";
+        $queries[8] = "            
+            INSERT IGNORE INTO #__tienda_orderhistory ( order_id, date_added, notify_customer, comments )
+            SELECT order_id, date_added, customer_notified, comments
+            FROM {$p}order_history;
+        ";
+        
+        $queries[9]->title = "ORDER INFO";
+        $queries[9] = "            
+            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_1, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
+            SELECT order_id, company, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, user_id  
+            FROM {$p}order_user_info WHERE address_type = 'BT';
+        ";
         
         $results = array();
         $db = JFactory::getDBO();
@@ -333,6 +367,52 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             INSERT IGNORE INTO #__tienda_productcategoryxref ( category_id, product_id )
             VALUES ( %s )
         ";
+        
+        $queries[5]->title = "ORDERS";
+        $queries[5]->select = "
+            SELECT o.order_id, o.user_id, o.order_number, o.order_total, o.order_subtotal, o.order_tax, o.order_shipping, o.order_shipping_tax, o.order_discount, o.order_currency, o.customer_note, o.ip_address
+            FROM {$p}orders as o;
+        ";
+        $queries[5]->insert = "
+            INSERT IGNORE INTO #__tienda_orders ( order_id, user_id, order_number, order_total, order_subtotal, order_tax, order_shipping, order_shipping_tax, order_discount, order_currency, customer_note, ip_address )
+        ";
+
+        $queries[6]->title = "ORDER PAYMENTS";
+        $queries[6]->select = "
+            SELECT order_id, order_payment_name, order_payment_log, order_payment_trans_id
+            FROM {$p}order_payment;
+        ";
+        $queries[6]->insert = "            
+            INSERT IGNORE INTO #__tienda_orderpayments ( order_id, orderpayment_type, transaction_details, transaction_id )
+        ";
+        
+        $queries[7]->title = "ORDER ITEMS";
+        $queries[7]->select = "
+            SELECT order_id, product_id, product_attribute, order_item_sku, order_item_name, product_quantity, product_item_price, product_final_price 
+            FROM {$p}order_item;
+        ";
+        $queries[7]->insert = "
+            INSERT IGNORE INTO #__tienda_orderitems ( order_id, product_id, orderitem_attributes, orderitem_sku, orderitem_name, orderitem_quantity, orderitem_price, orderitem_final_price )
+        ";
+        
+        $queries[8]->title = "ORDER HISTORY";
+        $queries[8]->select = "
+            SELECT order_id, date_added, customer_notified, comments
+            FROM {$p}order_history;
+        ";
+        $queries[8]->insert = "            
+            INSERT IGNORE INTO #__tienda_orderhistory ( order_id, date_added, notify_customer, comments )
+        ";
+        
+        $queries[9]->title = "ORDER INFO";
+        $queries[9]->select = "
+            SELECT order_id, company, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, user_id  
+            FROM {$p}order_user_info WHERE address_type = 'BT';
+        ";
+        $queries[9]->insert = "            
+            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_1, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
+        ";
+        
         
         $results = array();
         $jDBO = JFactory::getDBO();
