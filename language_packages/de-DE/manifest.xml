@@ -15,12 +15,38 @@
 	<site>
 		<files folder="site">
 			<filename>de-DE.com_tienda.ini</filename>
+			<filename>de-DE.mod_tienda_cart.ini</filename>
+			<filename>de-DE.mod_tienda_categories.ini</filename>
+			<filename>de-DE.mod_tienda_currency.ini</filename>
+			<filename>de-DE.mod_tienda_products.ini</filename>
+			<filename>de-DE.mod_tienda_quickicon.ini</filename>
+			<filename>de-DE.mod_tienda_search.ini</filename>
+			<filename>de-DE.mod_tienda_useraddress.ini</filename>
     	</files>
     </site>
     
     <administration>
     	<files folder="admin">
     		<filename>de-DE.com_tienda.ini</filename>
+    		<filename>de-DE.mod_tienda_recentorders.ini</filename>
+    		<filename>de-DE.mod_tienda_salestatistics.ini</filename>
+    		<filename>de-DE.plg_search_tienda.ini</filename>
+    		<filename>de-DE.plg_system_tienda.ini</filename>
+    		<filename>de-DE.plg_tienda_bug_report.ini</filename>
+    		<filename>de-DE.plg_tienda_charts_fusioncharts.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_2checkout.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_authorizedotnet.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_moneybookers.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_offline.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_pagseguro.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_paypal.ini</filename>
+    		<filename>de-DE.plg_tienda_payment_payson.ini</filename>
+    		<filename>de-DE.plg_tienda_report_bestsellers.ini</filename>
+    		<filename>de-DE.plg_tienda_shipping_example.ini</filename>
+    		<filename>de-DE.plg_tienda_shipping_standard.ini</filename>
+    		<filename>de-DE.plg_tienda_tool_virtuemartmigration.ini</filename>
+    		<filename>de-DE.plg_tienda_tool_xcartmigration.ini</filename>
+    		<filename>de-DE.plg_user_tienda.ini</filename>
     	</files>
     </administration>
 </install>
