@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="language" version="1.5.0" method="upgrade">
+<install version="1.5" client="both" type="language" method="upgrade">
     <name>German Tienda</name>
+    <tag>de-DE</tag>
     <version>0.4.3 Community</version>
     <creationDate>May 2010</creationDate>
     <author>Norbert Graup and Roger Perren</author>
@@ -10,16 +11,16 @@
     <copyrightHolder>Dioscouri.com</copyrightHolder>
     <license>GNU General Public License v2</license>
     <description>German translation for Tienda</description>
-
-    <languages folder="site">
-        <language tag="de-DE">de-DE.com_tienda.ini</language>
-    </languages>
     
-    <!-- Application/administrator -->
+	<site>
+		<files folder="site">
+			<filename>de-DE.com_tienda.ini</filename>
+    	</files>
+    </site>
+    
     <administration>
-        <languages folder="admin">
-            <language tag="de-DE">de-DE.com_tienda.ini</language>
-        </languages>
+    	<files folder="admin">
+    		<filename>de-DE.com_tienda.ini</filename>
+    	</files>
     </administration>
-
 </install>
