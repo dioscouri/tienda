@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.model' );
 
-class modPopularProductsHelper extends JObject
+class modTiendaPopularProductsHelper extends JObject
 {
     /**
      * Sets the modules params as a property of the object

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version 1.5
  * @package Tienda
  * @author  Dioscouri Design
  * @link    http://www.dioscouri.com
@@ -18,7 +17,7 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
-$element = strtolower( 'com_Tienda' );
+$element = strtolower( 'com_tienda' );
 $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
@@ -27,11 +26,11 @@ $display_null = $params->get( 'display_null', '1' );
 $null_text = $params->get( 'null_text', 'No Products Returned' );
 
 // Grab the products
-$helper = new modPopularProductsHelper( $params ); 
+$helper = new modTiendaPopularProductsHelper( $params ); 
 $products = $helper->getProducts();
 $num = count($products);
 
 $mainframe =& JFactory::getApplication();
 $document =& JFactory::getDocument();
 
-require( JModuleHelper::getLayoutPath( 'mod_popular_products' ) );
+require( JModuleHelper::getLayoutPath( 'mod_tienda_popular_products' ) );
