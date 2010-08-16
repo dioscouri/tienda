@@ -77,6 +77,11 @@ class TiendaControllerCarts extends TiendaController
         {
             $redirect = JRoute::_( "index.php?option=com_tienda&view=products" ); 
         }
+
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute();
+        $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
+        if (empty($checkout_itemid)) { $checkout_itemid = JRequest::getInt('Itemid'); }
         
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
@@ -87,6 +92,7 @@ class TiendaControllerCarts extends TiendaController
         $view->setModel( $model, true );
         $view->setLayout('default');
         $view->assign( 'return', $redirect );
+        $view->assign( 'checkout_itemid', $checkout_itemid );
         $view->display();
         $this->footer();
         return;

@@ -22,7 +22,7 @@ $router = new TiendaHelperRoute();
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update&Itemid='.$router->findItemid( array('view'=>'carts') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$router->findItemid( array('view'=>'checkout') ) ); ?>">
+        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>">
             <?php echo JText::_( "Begin Checkout" ); ?>
         </a>]
         </div>
@@ -123,7 +123,7 @@ $router = new TiendaHelperRoute();
                     </td>
                     <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
-				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$router->findItemid( array('view'=>'checkout') )); ?>">
+				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>">
 				            <?php echo JText::_( "Begin Checkout" ); ?>
 				        </a>]
 				        </div>
