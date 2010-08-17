@@ -204,9 +204,9 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemsSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
         }
 
-        if (!$this->checkProductsForSale())
+        if (!$this->checkProductsNotForSale())
         {
-            return $this->redirect( JText::_('DIAGNOSTIC checkProductsForSale FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsNotForSale FAILED') .' :: '. $this->getError(), 'error' );
         }
         
         if (!$this->checkSubscriptionsCheckFiles())
@@ -1573,10 +1573,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
      * 
      * return boolean
      */
-    function checkProductsForSale()
+    function checkProductsNotForSale()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkProductsForSale', '0'))
+        if (TiendaConfig::getInstance()->get('checkProductsNotForSale', '0'))
         {
             return true;
         }
@@ -1596,8 +1596,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkProductsForSale') );
-            $config->config_name = 'checkProductsForSale';
+            $config->load( array( 'config_name'=>'checkProductsNotForSale') );
+            $config->config_name = 'checkProductsNotForSale';
             $config->value = '1';
             $config->save();
             return true;
