@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Add CSS
-$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_products/tmpl/tienda_products.css');
+$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_products/tmpl/mod_tienda_popular_products.css');
 
 $resize = false;
 $options = array();
@@ -31,11 +31,11 @@ if ($num > 0 && @$products)
     // Loop through the products to display
     foreach (@$products as $product) : ?>
 		<div class="tienda_product_item<?php if ($params->get('display_style','flat') == 'grid') echo ' grid' .$params->get('display_grid_items' ,'3'); ?>">
-        <h4 class="product_title"><a href="<?php echo JRoute::_( $product->link ); ?>"><?php echo $product->product_name; ?></a></h4>
+        <h4 class="product_title"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>"><?php echo $product->product_name; ?></a></h4>
 		
 		<?php if ($params->get('display_image','1') != '0') : ?>
 			<?php if ($params->get('display_image_link','1') != '0') : ?>
-				<p class="product_image"><a href="<?php echo JRoute::_( $product->link ); ?>">
+				<p class="product_image"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>">
 				<?php echo TiendaHelperProduct::getImage($product->product_id, 'id', $product->product_name, 'thumb', false, $resize, $options); ?>
 				</a></p>
 			<?php else : ?>
@@ -43,7 +43,9 @@ if ($num > 0 && @$products)
 			<?php endif; ?>
 		<?php endif; ?>
 
-       
+        <?php if ($params->get('display_price','1') != '0') : ?><p class="product_price"><?php echo Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->currency( $product->price ) ?></p><?php endif; ?>
+
+        <?php if ($params->get('display_description','1') != '0' && $product->product_description_short != null) : ?><p class="product_description"><?php echo $product->product_description_short ?></p><?php endif; ?>
 	</div>
 		<?php  endforeach;
 	echo '</div>';

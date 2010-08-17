@@ -18,12 +18,12 @@
     </files>
     
     <params>
-        <param name="category" type="tiendacategory" default="" label="Category" description="Category Desc" />
-        <param name="manufacturer" type="tiendamanufacturer" default="" label="Manufacturer" description="Manufacturer Desc" />
-        <param name="id_set" type="text" default="" label="ID Set" description="ID Set Desc" />
+        <!--<param name="category" type="tiendacategory" default="" label="Category" description="Category Desc" />-->
+        <!--<param name="manufacturer" type="tiendamanufacturer" default="" label="Manufacturer" description="Manufacturer Desc" />-->
+        <!--<param name="id_set" type="text" default="" label="ID Set" description="ID Set Desc" />-->
         <!--<param name="attribute" type="text" default="" label="Attribute" description="Attribute Description" />-->
-        <param name="price_from" type="text" default="" label="Price From" description="PRICE_FROM" />
-        <param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />
+        <!--<param name="price_from" type="text" default="" label="Price From" description="PRICE_FROM" />-->
+        <!--<param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />-->
 
         <param type="spacer" />
         <param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">
@@ -39,7 +39,7 @@
             <option value="0">DISABLED</option>
         </param>
         <param name="display_image_width" type="text" default="" label="Image Width" description="Image Width Desc" />
-        <param name="display_image_height" type="text" default="" label="Image Width" description="Image Height Desc" />
+        <param name="display_image_height" type="text" default="" label="Image Height" description="Image Height Desc" />
         <param name="display_description" type="list" default="1" label="Show Short" description="Show Short Desc">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>

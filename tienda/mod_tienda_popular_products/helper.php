@@ -39,7 +39,9 @@ class modTiendaPopularProductsHelper extends JObject
         
         // load the config class
         Tienda::load( 'TiendaConfig', 'defines' );
-                
+        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+        $helper = new TiendaHelperProduct();
+        
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
@@ -55,6 +57,7 @@ class modTiendaPopularProductsHelper extends JObject
         // select the total number of sales for each product
         $field = array();
         $field[] = " SUM(tbl.orderitem_quantity) AS total_sales ";
+        $field[] = " p.product_description_short AS product_description_short ";
         $query->select( $field );
         
         // order results by the total sales
@@ -63,8 +66,31 @@ class modTiendaPopularProductsHelper extends JObject
         $model->setQuery( $query );
     	
         // using the set filters, get a list of products
-    	$products = $model->getList();
-    	
+    	if ($products = $model->getList())
+    	{
+    	    foreach ($products as $product)
+    	    {
+    	        $product->link = 'index.php?option=com_tienda&view=products&task=view&id='.$product->product_id;
+    	        $price = $helper->getPrice( $product->product_id );
+    	        $product->price = $price->product_price; 
+    	        
+                $product->filter_category = '';
+                $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product->product_id );
+                if (!empty($categories))
+                {
+                    $product->link .= "&filter_category=".$categories[0];
+                    $product->filter_category = $categories[0];
+                }
+                
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $product->filter_category, true );
+                if (empty($itemid))
+                {
+                    $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->findItemid( array( 'view'=>'products' ) );                    
+                }
+                $product->itemid = $itemid;
+    	    }
+    	}
+
     	return $products;
     }
 }

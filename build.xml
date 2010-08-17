@@ -84,8 +84,8 @@
         </copy>
     <!-- MODULES -->
         <!-- POPULAR PRODUCTS -->
-        <copy todir="${destdir}/modules/mod_popular_products" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/mod_popular_products" />
+        <copy todir="${destdir}/modules/mod_tienda_popular_products" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_popular_products" />
         </copy>
         <!-- CART -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
