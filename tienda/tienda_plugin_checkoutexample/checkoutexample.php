@@ -56,14 +56,14 @@ class plgTiendaCheckoutExample extends TiendaPluginBase
     }
     
     /**
+     * This event is fired after an item is added to the cart
      * 
+     * @param $item obj         The cart item object
      * @param array $values     The input values from the form
      * @return unknown_type
      */
     function onAfterAddToCart( $item, $values )
     {
-        // do something
-        
         return null;
     }
     
@@ -183,7 +183,7 @@ class plgTiendaCheckoutExample extends TiendaPluginBase
     
     /**
      * 
-     * @param $object The current order object
+     * @param $order_id int The current order id number
      * @return unknown_type
      */
     function onBeforeDisplayPostPayment( $order_id )
@@ -197,7 +197,7 @@ class plgTiendaCheckoutExample extends TiendaPluginBase
     
     /**
      * 
-     * @param $object The current order object
+     * @param $order_id int The current order id number
      * @return unknown_type
      */
     function onAfterDisplayPostPayment( $order_id )
@@ -208,5 +208,17 @@ class plgTiendaCheckoutExample extends TiendaPluginBase
         echo $this->_getLayout( 'message', $vars );
         return null;
     }
-
+    
+    /**
+     * This event is fired after an order has been successfully paid for
+     * and it's status becomes 'Payment Received'
+     * 
+     * @param $order_id int The current order id number
+     * @return unknown_type
+     */
+    function doCompletedOrderTasks( $order_id )
+    {
+        return null;
+    }
+    
 }
