@@ -305,6 +305,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
         </copy>
+    	<!-- CONTENT PLUGINS -->
+        <copy todir="${destdir}/plugins/content" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_content_product" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_content_product/languages" />
+        </copy>
     	
     <!-- AUXILIARY EXTENSIONS -->
     </target>
@@ -324,7 +331,7 @@
     <target name="build_plugins" description="packages any plugins">
         <!-- add all plugin directories here -->
         <!-- EX: <zip destfile="${cfg.buildVersionDir}/plugins/aplugin.zip" basedir="${cfg.versionDir}/aplugin" /> -->
-        <!--         <zip destfile="${cfg.buildVersionDir}/plugins/billets_plugin_ambrasubs.zip" basedir="${cfg.versionDir}/billets_plugin_ambrasubs" /> -->
+        <!--zip destfile="${cfg.buildVersionDir}/plugins/tienda_plugin_content_product.zip" basedir="${cfg.comDir}/tienda_plugin_content_product" />--> 
     </target>
 
     <target name="build_modules" description="packages any modules">
