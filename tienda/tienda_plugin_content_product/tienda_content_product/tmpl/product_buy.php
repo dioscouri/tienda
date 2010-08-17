@@ -9,7 +9,7 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 <div>
     <div id="validationmessage"></div>
     
-    <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+    <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
     <!--base price-->
     <span id="product_price" class="product_price">
