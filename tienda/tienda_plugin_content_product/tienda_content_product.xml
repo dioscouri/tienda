@@ -8,7 +8,9 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>Shows a product in the content</description>
+	<description>Shows a product in the content. 
+	Usage: {tiendaproduct id=1 attribute_1=2}
+	</description>
 	
 	<files>
 		<filename plugin="tienda_content_product">tienda_content_product.php</filename>

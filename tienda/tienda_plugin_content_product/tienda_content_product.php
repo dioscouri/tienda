@@ -123,11 +123,19 @@ class plgContentTienda_Content_Product extends TiendaPluginBase
 		
 		$params = $params->renderToArray();
 		
+		$params['attributes'] = array();
 		// Merge plugin parameters with tag parameters, overwriting wherever necessary
 		foreach( $inline_params as $p )
 		{
 			$data = explode("=", $p);
-			$params[$data[0]] = $data[1];
+			$k = $data[0];
+			$v = $data[1];
+			
+			// Merge the attribute options in one subarray
+			if (substr($k, 0, 10) == 'attribute_')
+				$params['attributes'][$k] = $v;
+			else
+				$params[$k] = $v;
 		}
 		
 		// No id set, return
@@ -181,10 +189,10 @@ class plgContentTienda_Content_Product extends TiendaPluginBase
 		}
 
 		$files = $this->getFiles( $row->product_id );
-		$product_buy = $this->getAddToCart( $row->product_id );
-		//$product_relations = $this->getRelationshipsHtml( $row->product_id, 'relates' );
-		//$product_children = $this->getRelationshipsHtml( $row->product_id, 'parent' );
-		//$product_requirements = $this->getRelationshipsHtml( $row->product_id, 'requires' );
+		$product_buy = $this->getAddToCart( $row->product_id, $params['attributes'] );
+		$product_relations = $this->getRelationshipsHtml( $row->product_id, 'relates' );
+		$product_children = $this->getRelationshipsHtml( $row->product_id, 'parent' );
+		$product_requirements = $this->getRelationshipsHtml( $row->product_id, 'requires' );
 		
         $dispatcher =& JDispatcher::getInstance();
         
@@ -212,7 +220,112 @@ class plgContentTienda_Content_Product extends TiendaPluginBase
 		
 	}
 	
-/**
+	/**
+     * Gets a product's related items
+     * formatted for display
+     *
+     * @param int $address_id
+     * @return string html
+     */
+    function getRelationshipsHtml( $product_id, $relation_type='relates' )
+    {
+        $html = '';
+        $validation = "";
+
+        // get the list
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->setState( 'filter_relation', $relation_type );
+        
+        switch ($relation_type)
+        {
+            case "requires":
+                $model->setState( 'filter_product_from', $product_id );
+                $check_quantity = false;
+                $layout = 'product_requirements';
+                break;
+            case "parent":
+            case "child":
+            case "children":
+                $model->setState( 'filter_product_from', $product_id );
+                $check_quantity = true;
+                $validation = "index.php?option=com_tienda&view=products&task=validateChildren&format=raw";
+                $layout = 'product_children';
+                break;
+            case "relates":
+                $model->setState( 'filter_product', $product_id );
+                $check_quantity = false;
+                $layout = 'product_relations';
+                break;
+            default:
+                return $html;
+                break;
+        }
+
+        if ($items = $model->getList())
+        {
+            $filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
+            if (empty($filter_category)) 
+            { 
+                $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product_id );
+                if (!empty($categories))
+                {
+                    $filter_category = $categories[0];
+                }
+            }
+        
+            foreach ($items as $key=>$item)
+            {
+                if ($check_quantity)
+                {
+                    // TODO Unset $items[$key] if 
+                    // this is out of stock && 
+                    // check_inventory && 
+                    // item for sale
+                }
+                
+                if ($item->product_id_from == $product_id)
+                {
+                    // display the _product_to
+                    $item->product_id = $item->product_id_to;
+                    $item->product_name = $item->product_name_to;
+                    $item->product_model = $item->product_model_to;
+                    $item->product_sku = $item->product_sku_to;
+                    $item->product_price = $item->product_price_to;
+                } 
+                    else 
+                { 
+                    // display the _product_from
+                    $item->product_id = $item->product_id_from;
+                    $item->product_name = $item->product_name_from;
+                    $item->product_model = $item->product_model_from;
+                    $item->product_sku = $item->product_sku_from;
+                    $item->product_price = $item->product_price_from;
+                }
+                
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
+                $item->itemid = JRequest::getInt('Itemid', $itemid);
+            }
+        }
+
+        if (!empty($items))
+        {
+        	$vars = new JObject();
+            $vars->items = $items;
+            $vars->product_id = $product_id;
+            $vars->filter_category = $filter_category;
+            $vars->validation =  $validation;
+
+            ob_start();
+            echo $this->_getLayout( $layout, $vars );
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+
+        return $html;
+    }
+	
+	/**
 	 * Gets a product's files list
 	 * formatted for display
 	 *
@@ -380,13 +493,18 @@ class plgContentTienda_Content_Product extends TiendaPluginBase
         ob_end_clean();
 
         ob_start();
-        include('tienda_content_product'.DS.'tmpl'.DS.'product_buy.php');
+       	echo $this->_getLayout('product_buy', $vars);
         $html = ob_get_contents();
         ob_end_clean();
         
         return $html;
     }
 	
+    
+    function _getLayout($layout, $vars = false, $plugin = '', $group = 'content')
+    {
+    	return parent::_getLayout($layout, $vars, $plugin, $group);
+    }
     
 }
 

@@ -11,12 +11,6 @@ Tienda::load('TiendaUrl', 'library.url');
 
 <div id="tienda" class="products view">
     
-    <?php if (TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
-        <div id='tienda_breadcrumb'>
-            <?php echo TiendaHelperCategory::getPathName($cat->category_id, 'links', true); ?>
-        </div>
-    <?php endif; ?>
-    
     <div id="tienda_product">
 
         <?php if (!empty($onBeforeDisplayProduct)) : ?>
