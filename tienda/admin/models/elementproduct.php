@@ -137,39 +137,24 @@ class TiendaModelElementProduct extends JModel
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
+		
 		$html = "";
 		$doc 		=& JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		
-		$title = JText::_('Add products');
-		
-		$js = "
-		function jSelectProducts(productarray) 
+		$title = JText::_('Select products');
+		if ($value) {
+			$title =$value;
+		}
+		else
 		{
-			var str = new Array();
-			for(i=0; i<productarray.length; i++)
-			{
-				var productitem = productarray[i];
-				str[i] = {productid : productitem.productid, qty : productitem.qty};
-			}
-					
-			var container = 'itemsOrderedDiv';
-			var url = 'index.php?option=com_tienda&controller=orders&task=getorderitemdata&format=raw';
-            var a=new Ajax(url,{ method:\"post\",
-				data:{\"elements\":Json.toString(str)},
-                onComplete: function(response){                	
-                    var resp=Json.evaluate(response);
-                    document.getElementById('itemsOrderedDiv').innerHTML = resp.msg;
-                    document.getElementById('sbox-window').close();
-                    tiendaGetOrderTotals();                 
-                }
-            });
-            try{
-	            a.request();
-            }
-            catch(err){
-            	alert(err.description);
-            }
+			$title=JText::_('Select a Product');
+		}
+
+ $js = "
+		function jSelectProducts(id, title, object) {
+			document.getElementById(object + '_id').value = id;
+			document.getElementById(object + '_name').value = title;
+			document.getElementById('sbox-window').close();
 		}";
 		
 		$doc->addScriptDeclaration($js);
@@ -177,7 +162,8 @@ class TiendaModelElementProduct extends JModel
 		$link = 'index.php?option=com_tienda&task=elementproduct&tmpl=component&object='.$name;
 
 		JHTML::_('behavior.modal', 'a.modal');
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.$title.'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.$title.'</a></div></div>'."\n";
+		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
+		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Select a User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('Select').'</a></div></div>'."\n";
 		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
 
 		return $html;
@@ -211,7 +197,7 @@ class TiendaModelElementProduct extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'Add products' ).'\', \''.$name.'\' )">'.JText::_( 'Remove products' ).'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'select products' ).'\', \''.$name.'\' )">'.JText::_( 'Clear selection' ).'</span>
 		</div></div>'."\n";
 
 		return $html;

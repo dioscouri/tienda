@@ -65,7 +65,7 @@ class TiendaViewElementProduct extends JView
 
 <table>
 	<tr>
-		<td width="100%"><?php echo JText::_( 'Filter' ); ?>: <input
+		<td width="100%" ><?php echo JText::_( 'Filter' ); ?>: <input
 			type="text" name="search" id="search"
 			value="<?php echo $lists['search'];?>" class="text_area"
 			onchange="document.adminForm.submit();" />
@@ -73,26 +73,23 @@ class TiendaViewElementProduct extends JView
 		<button
 			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 		</td>
-		<td nowrap="nowrap">
-    		<button onclick="tiendaSetItemsToOrder(<?php echo count( $rows ); ?>, '<?php echo JText::_( 'Unable to retrieve product selection.' ); ?>');return false;"><?php echo JText::_( 'Add Selected Product(s) to Order' ); ?></button>
-		</td>
+		
 	</tr>
 </table>
 
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>
-			<th width="5"><?php echo JText::_( 'Num' ); ?></th>
-			<th style="width: 20px;"><input type="checkbox" name="toggle"
-				value="" onclick="checkAll(<?php echo count( $rows ); ?>);" /></th>
+			
+			
 			<th width="2%" class="title"><?php echo JHTML::_('grid.sort',   'ID', 'c.product_id', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th style="width:50px;"><?php echo JText::_( 'Image' ); ?></th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Name', 'c.product_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
-			<th class="title"><?php echo JHTML::_('grid.sort',   'Price', 'pp.product_price', @$lists['order_Dir'], @$lists['order'] ); ?>
+			<th class="title"><?php echo JHTML::_('grid.sort',   'Description', 'c.product_description', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
-			<th class="title"><?php echo JText::_( 'Qty' ); ?></th>
+			
 		</tr>
 	</thead>
 	<tfoot>
@@ -113,9 +110,8 @@ class TiendaViewElementProduct extends JView
 					);";
 		?>
 		<tr class="<?php echo "row$k"; ?>">
-			<td><?php echo $page->getRowOffset( $i ); ?></td>
-			<td style="text-align: center;"><?php echo TiendaGrid::checkedout( $row, $i, 'product_id' ); ?>
-			</td>
+			
+			
 			<td style="text-align: center;"><a style="cursor: pointer;"
 				onclick="<?php echo $onclick; ?>"> <?php echo $row->product_id;?> </a>
 			</td>
@@ -134,9 +130,9 @@ class TiendaViewElementProduct extends JView
 				onclick="<?php echo $onclick; ?>"> <?php echo htmlspecialchars($row->product_name, ENT_QUOTES, 'UTF-8'); ?>
 			</a></td>
 			<td style="text-align: center;"><a style="cursor: pointer;"
-				onclick="<?php echo $onclick; ?>"> <?php echo $row->product_price;?>
+				onclick="<?php echo $onclick; ?>"> <?php echo $row->product_description;?>
 			</a></td>
-			<td style="text-align: center;"><input id="<?php echo "qty$i"; ?>" name="<?php echo "qty$i"; ?>" type="text" value="1" style="width: 30px;" /></td>
+			
 		</tr>
 		<?php
 		$k = 1 - $k;
