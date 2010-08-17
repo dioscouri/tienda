@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content" method="upgrade">
+	<name>Tienda Product Content Plugin</name>
+	<version>0.5.3</version>
+	<creationDate>August 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>Shows a product in the content</description>
+	
+	<files>
+		<filename plugin="tienda_content_product">tienda_content_product.php</filename>
+	</files>
+
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_content_tienda_content_product.ini</language>
+    </languages>
+
+	<params>
+	</params>
+			
+</install>
