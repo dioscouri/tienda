@@ -18,14 +18,6 @@ function tiendaGetShippingRates( container, form, msg )
     tiendaGetCheckoutTotals();
 }
 
-function tiendaSetShippingRate(name, price, tax, extra)
-{
-	$('shipping_name').value = name;
-	$('shipping_price').value = price;
-	$('shipping_tax').value = tax;
-	$('shipping_extra').value = extra;
-	tiendaGetCheckoutTotals();
-}
 
 /**
  * Based on the session contents,

@@ -612,15 +612,15 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function productattributeoptionprefix( $selected, $name = 'filter_prefix', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Prefix' )
+    public static function productattributeoptionfield( $selected, $name = 'filter_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Field' )
     {
         $list = array();
         if($allowAny) {
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '+', "+" );
-        $list[] = JHTML::_('select.option',  '-', "-" );
+        $list[] = JHTML::_('select.option',  'price', "price" );
+        $list[] = JHTML::_('select.option',  'name', "name" );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
