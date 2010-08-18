@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="both" type="language" method="upgrade">
+    <name>Spanish Tienda</name>
+    <tag>es-ES</tag>
+    <version>0.5.2 Community</version>
+    <creationDate>August 2010</creationDate>
+    <author>Ricardo Romero</author>
+    <authorEmail>webmaster@joomladevenezuela.com</authorEmail>
+    <authorUrl>joomladevenezuela.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description></description>
+
+	<site>
+		<files folder="site">
+			<filename>es-ES.com_tienda.ini</filename>
+		</files>
+	</site>
+
+    <!-- Application/administrator -->
+    <administration>
+        <files folder="admin">
+            <filename>es-ES.com_tienda.ini</filename>
+        </files>
+    </administration>
+
+</install>
