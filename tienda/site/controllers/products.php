@@ -998,14 +998,11 @@ class TiendaControllerProducts extends TiendaController
             default:
                 // if a base64_encoded url is present as return, use that as the return url
                 // otherwise return == the product view page
+                $returnUrl = base64_encode( $redirect );
                 if ($return_url = JRequest::getVar('return', '', 'method', 'base64')) 
                 {
                     $return_url = base64_decode($return_url);
-                    if (!JURI::isInternal($return_url)) 
-                    {
-                        $returnUrl = base64_encode( $redirect );
-                    }
-                        else
+                    if (JURI::isInternal($return_url)) 
                     {
                         $returnUrl = base64_encode( $return_url );
                     }
@@ -1013,15 +1010,12 @@ class TiendaControllerProducts extends TiendaController
                 
                 // if a base64_encoded url is present as redirect, redirect there,
                 // otherwise redirect to the cart
+                $itemid = $router->findItemid( array('view'=>'checkout') );
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
                 if ($redirect_url = JRequest::getVar('redirect', '', 'method', 'base64')) 
                 {
                     $redirect_url = base64_decode($redirect_url);
-                    if (!JURI::isInternal($redirect_url)) 
-                    {
-                        $itemid = $router->findItemid( array('view'=>'checkout') );
-                        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
-                    }
-                        else
+                    if (JURI::isInternal($redirect_url)) 
                     {
                         $redirect = $redirect_url;
                     }
