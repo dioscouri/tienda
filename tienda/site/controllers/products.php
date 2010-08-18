@@ -987,11 +987,16 @@ class TiendaControllerProducts extends TiendaController
         $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
         
         // get the 'success' redirect url
-        // TODO Enable redirect via base64_encoded urls?
         switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
         {
+            case "0":
+            case "none":
+                // redirects back to product page
+                break;
+            case "lightbox":
             case "redirect":
-                // TODO if a base64_encoded url is present as return, use that as the return url
+            default:
+                // if a base64_encoded url is present as return, use that as the return url
                 // otherwise return == the product view page
                 if ($return_url = JRequest::getVar('return', '', 'method', 'base64')) 
                 {
@@ -1006,7 +1011,7 @@ class TiendaControllerProducts extends TiendaController
                     }
                 }
                 
-                // TODO if a base64_encoded url is present as redirect, redirect there,
+                // if a base64_encoded url is present as redirect, redirect there,
                 // otherwise redirect to the cart
                 if ($redirect_url = JRequest::getVar('redirect', '', 'method', 'base64')) 
                 {
@@ -1027,12 +1032,6 @@ class TiendaControllerProducts extends TiendaController
                 //$redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
                 if (strpos($redirect, '?') === false) { $redirect .= "?return=".$returnUrl; } else { $redirect .= "&return=".$returnUrl; }
                 
-                break;
-            case "0":
-            case "none":
-                break;
-            case "lightbox":
-            default:
                 break;
         }
         
