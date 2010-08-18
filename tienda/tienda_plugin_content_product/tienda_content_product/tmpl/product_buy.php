@@ -11,6 +11,7 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
     
     <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
+	<?php if(@$vars->params['show_price'] == '1'): ?>
     <!--base price-->
     <span id="product_price" class="product_price">
         <?php            
@@ -45,6 +46,7 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
         }
         ?>
     </span>
+    <?php endif; ?>
     
     <!--attribute options-->
     <div id='product_attributeoptions'>
@@ -85,7 +87,7 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
     
     </div>
     
-    <?php if ($item->quantity_restriction) : ?>
+    <?php if ($vars->params['quantity_restriction'] == '1' ) : ?>
         <input type="hidden" name="product_qty" value="1" size="5" />
     <?php else : ?>
     <!--quantity-->

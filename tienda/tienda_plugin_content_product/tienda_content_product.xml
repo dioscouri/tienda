@@ -21,6 +21,62 @@
     </languages>
 
 	<params>
+		<param name="quantity_restriction" type="radio" default="0" label="Quantity Restriction" description="Restrict quantity to 1">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_description" type="radio" default="1" label="Show Product Description">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_name" type="radio" default="1" label="Show Product Name">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_model" type="radio" default="1" label="Show Product Model">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_sku" type="radio" default="1" label="Show Product SKU">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_image" type="radio" default="1" label="Show Product Image">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_price" type="radio" default="1" label="Show Product Price">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_buy" type="radio" default="1" label="Show Product Buy Form">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_children" type="radio" default="1" label="Show Product Children">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_files" type="radio" default="1" label="Show Product Files">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_relations" type="radio" default="1" label="Show Product Relations">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="show_requirements" type="radio" default="1" label="Show Product Requirement">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="layout" type="list" default="view" label="Layout" description="Layout for the product view">
+		  <option value="view">Complete View</option>
+		  <option value="product_children">Children Products</option>
+		  <option value="product_files">Product Files</option>
+		  <option value="product_relations">Product Relations</option>
+		  <option value="product_requirements">Product Requirements</option>
+		  <option value="product_buy">Product Buy</option>
+		</param>
 	</params>
 			
 </install>

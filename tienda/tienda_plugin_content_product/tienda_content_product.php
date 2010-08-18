@@ -135,7 +135,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     		$inline_params = explode(" ", $load);
     		$params = $this->get('params');
     		
-    		$params = $params->renderToArray();
+    		$params = $params->toArray();
     		
     		$params['attributes'] = array();
     		// Merge plugin parameters with tag parameters, overwriting wherever necessary
@@ -169,7 +169,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     	   $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $row->product_id );
            if (!empty($categories))
            {
-                    $filter_category = $categories[0];
+               $filter_category = $categories[0];
            }
             		
     		if (empty($row->product_enabled))
@@ -203,10 +203,50 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     		}
 
     		$files = $this->getFiles( $row->product_id );
-    		$product_buy = $this->getAddToCart( $row->product_id, $params['attributes'] );
+    		$product_buy = $this->getAddToCart( $row->product_id, $params['attributes'], $params );
     		$product_relations = $this->getRelationshipsHtml( $row->product_id, 'relates' );
     		$product_children = $this->getRelationshipsHtml( $row->product_id, 'parent' );
     		$product_requirements = $this->getRelationshipsHtml( $row->product_id, 'requires' );
+    		
+    		// In this case, we need to add some variables to show the price in the normal view
+    		if(@$params['show_price'] == '1' && @$params['show_buy'] == '0')
+    		{
+    			$vars = new JObject();
+	    		$config = TiendaConfig::getInstance();
+	            $show_tax = $config->get('display_prices_with_tax');
+	            $vars->show_tax = $show_tax ;
+	            $vars->tax = 0 ;
+	            $vars->taxtotal = '';
+	            $vars->shipping_cost_link = '';
+	            
+	            if ($show_tax)
+	            {
+	                // finish TiendaHelperUser::getGeoZone -- that's why this isn't working
+	                Tienda::load('TiendaHelperUser', 'helpers.user');
+	                $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+	                if (empty($geozones))
+	                {
+	                    // use the default
+	                    $table = JTable::getInstance('Geozones', 'TiendaTable');
+	                    $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+	                    $geozones = array( $table );
+	                }
+	                
+	                $taxtotal = TiendaHelperProduct::getTaxTotal($product_id, $geozones);
+	                $tax = $taxtotal->tax_total;
+	                $vars->taxtotal = $taxtotal;
+	                $vars->tax = $tax ;
+	            }
+	            
+	            // TODO What about this??
+	            $show_shipping = $config->get('display_prices_with_shipping');
+	            if ($show_shipping)
+	            {
+	                $article_link = $config->get('article_shipping', '');
+	                $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
+	                $vars->shipping_cost_link = $shipping_cost_link ;
+	            }
+    		}
     		
             $dispatcher =& JDispatcher::getInstance();
             
@@ -230,7 +270,26 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     		$return = ob_get_contents();
     		ob_end_clean();
     		
-    		return $return;
+    		
+    		switch($params['layout'])
+    		{
+    			case 'product_buy';
+    				return $product_buy;
+    			case 'product_children';
+    				return $product_children;
+				case 'product_files';
+    				return $product_files;
+				case 'product_relations';
+    				return $product_relations;
+    			case 'product_requirements';
+    				return $product_requirements;
+    				
+    			
+    			case 'view':
+    			default:
+    				return $return;
+    		}
+    		
     		
     	}
     	
@@ -397,7 +456,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
          * @param int $address_id
          * @return string html
          */
-        function getAddToCart( $product_id, $values=array() )
+        function getAddToCart( $product_id, $values=array(), $params = array() )
         {
             $html = '';
     
@@ -408,7 +467,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             
             $vars = new JObject();
             
-            if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
+            if (@$row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
             {
                 return $html;
             }
@@ -417,6 +476,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             $vars->product_id = $product_id;
             $vars->values = $values;
             $vars->validation = "index.php?option=com_tienda&view=products&task=validate&format=raw";
+            $vars->params = $params;
             
             $config = TiendaConfig::getInstance();
             $show_tax = $config->get('display_prices_with_tax');
