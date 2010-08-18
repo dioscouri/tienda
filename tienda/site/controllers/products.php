@@ -991,21 +991,48 @@ class TiendaControllerProducts extends TiendaController
         switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
         {
             case "redirect":
-                $returnUrl = base64_encode( $redirect );
-                $itemid = $router->findItemid( array('view'=>'checkout') );
-                $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
+                // TODO if a base64_encoded url is present as return, use that as the return url
+                // otherwise return == the product view page
+                if ($return_url = JRequest::getVar('return', '', 'method', 'base64')) 
+                {
+                    $return_url = base64_decode($return_url);
+                    if (!JURI::isInternal($return_url)) 
+                    {
+                        $returnUrl = base64_encode( $redirect );
+                    }
+                        else
+                    {
+                        $returnUrl = base64_encode( $return_url );
+                    }
+                }
+                
+                // TODO if a base64_encoded url is present as redirect, redirect there,
+                // otherwise redirect to the cart
+                if ($redirect_url = JRequest::getVar('redirect', '', 'method', 'base64')) 
+                {
+                    $redirect_url = base64_decode($redirect_url);
+                    if (!JURI::isInternal($redirect_url)) 
+                    {
+                        $itemid = $router->findItemid( array('view'=>'checkout') );
+                        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
+                    }
+                        else
+                    {
+                        $redirect = $redirect_url;
+                    }
+                }
+                
+                //$returnUrl = base64_encode( $redirect );
+                //$itemid = $router->findItemid( array('view'=>'checkout') );
+                //$redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$itemid, false );
                 if (strpos($redirect, '?') === false) { $redirect .= "?return=".$returnUrl; } else { $redirect .= "&return=".$returnUrl; }
+                
                 break;
             case "0":
             case "none":
                 break;
             case "lightbox":
             default:
-                // TODO Figure out how to get the lightbox to display even after a redirect
-//                $lightbox_attribs = array(); 
-//                $lightbox['update'] = false; 
-//                if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
-//                echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );
                 break;
         }
         
