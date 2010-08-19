@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="both" type="language" method="upgrade">
+    <name>Italian Tienda</name>
+    <tag>it-IT</tag>
+    <version>0.5.3 Community</version>
+    <creationDate>August 2010</creationDate>
+    <author>Massimo Olivio</author>
+    <authorEmail>massimolivio@gmail.com</authorEmail>
+    <authorUrl>Dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description></description>
+
+	<site>
+		<files folder="site">
+			<filename>it-IT.com_tienda.ini</filename>
+		</files>
+	</site>
+
+    <!-- Application/administrator -->
+    <administration>
+        <files folder="admin">
+            <filename>it-IT.com_tienda.ini</filename>
+        </files>
+    </administration>
+
+</install>
