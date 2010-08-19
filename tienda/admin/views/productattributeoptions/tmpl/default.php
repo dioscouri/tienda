@@ -22,8 +22,8 @@
                 <tr>
                     <th></th>
                     <th><?php echo JText::_( "Name" ); ?></th>
-                    <th style="width: 15px;"><?php echo JText::_( "Field to Modify" ); ?></th>
-                    <th><?php echo JText::_( "New Value" ); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_( "Prefix" ); ?></th>
+                    <th><?php echo JText::_( "Price" ); ?></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -36,10 +36,10 @@
                         <input id="createproductattributeoption_name" name="createproductattributeoption_name" value="" />
                     </td>
                     <td>
-                        <?php echo TiendaSelect::productattributeoptionfield( "price", 'createproductattributeoption_field' ); ?>
+                        <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix' ); ?>
                     </td>
                     <td>
-                        <input id="createproductattributeoption_value" name="createproductattributeoption_value" value="" size="10" />
+                        <input id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
                     </td>
                     <td>
                         <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('Create Option'); ?></button>
@@ -67,10 +67,10 @@
                 	<?php echo TiendaGrid::sort( 'Option', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Field', "paop.productattributeoptionparam_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'Prefix', "tbl.productattributeoption_prefix", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Value', "tbl.productattributeoptionparam_value", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'Price', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
@@ -90,10 +90,10 @@
 					<input type="text" name="name[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_name; ?>" />
 				</td>
                 <td style="text-align: center;">
-                    <?php echo TiendaSelect::productattributeoptionfield( $item->productattributeoption_field, "field[{$item->productattributeoption_id}]" ); ?>
+                    <?php echo TiendaSelect::productattributeoptionprefix( $item->productattributeoption_prefix, "prefix[{$item->productattributeoption_id}]" ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <input type="text" name="value[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_value; ?>" size="10" />
+                    <input type="text" name="price[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_price; ?>" size="10" />
                 </td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />

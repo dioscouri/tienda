@@ -26,7 +26,7 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
             $where = array();
             $where[] = 'LOWER(tbl.productattributeoption_id) LIKE '.$key;
-            $where[] = 'LOWER(paop.productattributeoptionparam_name) LIKE '.$key;
+            $where[] = 'LOWER(tbl.productattributeoption_name) LIKE '.$key;
             $where[] = 'LOWER(tbl.productattribute_id) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
@@ -39,19 +39,4 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
             $query->where('tbl.productattribute_id = '.(int) $filter_attribute);
         }
     }
-    
-	protected function _buildQueryFields(&$query)
-	{
-		$field = array();
-
-		$field[] = " tbl.* ";
-		$field[] = " paop.productattributeoptionparam_name AS productattributeoption_field ";
-		$field[] = " paop.productattributeoptionparam_value AS productattributeoption_value ";
-		$query->select( $field );
-	}
-	
-	protected function _buildQueryJoins(&$query)
-	{
-		$query->join('LEFT', '#__tienda_productattributeoptionparams AS paop ON paop.productattributeoption_id = tbl.productattributeoption_id');
-	}
 }
