@@ -139,7 +139,7 @@
 					<div class="product_categories">
 						<?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
 						<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", "Select Categories", array('update' => true) ); ?>]</span>
+						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_("Select Categories"), array('update' => true) ); ?>]</span>
 						<?php $categories = TiendaHelperProduct::getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
 							<?php $category = $categories[$n]; ?>
@@ -165,7 +165,7 @@
 				<td style="text-align: right;">
 					<?php echo TiendaHelperBase::currency($item->price); ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", "Set Prices", array('update' => true) ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", JText::_("Set Prices"), array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					
@@ -175,7 +175,7 @@
 					} else {
 						echo (int) $item->product_quantity; ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", "Set Quantities", array('update' => true) ); ?>]
+                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", JText::_("Set Quantities"), array('update' => true) ); ?>]
                     
                     <?php } ?>
 				</td>
