@@ -374,7 +374,7 @@ window.addEvent('domready', function(){
                     <td>
                         [
                         <?php
-                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", "View Gallery" ); 
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", JText::_( "View Gallery" ) ); 
                         ?>
                         ]
                         <br/>
