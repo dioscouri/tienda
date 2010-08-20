@@ -95,6 +95,7 @@
         <plugin plugin="tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
 		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
         <plugin plugin="tienda_plugin_checkoutexample" group="tienda" element="checkoutexample" />
+        <plugin plugin="tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
 		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
         <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
         <plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
