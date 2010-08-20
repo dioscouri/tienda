@@ -158,14 +158,14 @@ window.addEvent('domready', function(){
                             <?php echo JText::_( 'Product Attributes' ); ?>:
                         </td>
                         <td>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", "Set Attributes" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ) ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
-                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", "Set Attribute Options" ); ?>]
+                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ) ); ?>]
                                     <?php echo $attribute->productattribute_name; ?>
                                     <?php echo "(".$attribute->option_names_csv.")"; ?>
                                     <br/>
@@ -329,7 +329,7 @@ window.addEvent('domready', function(){
                         <td>
                             <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
                             <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", "Select Categories" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_( "Select Categories" )); ?>]
                             <?php $categories = TiendaHelperProduct::getCategories( $row->product_id ); ?>
                             <div id="current_categories">
                                 <?php foreach (@$categories as $category) : ?>
@@ -449,7 +449,7 @@ window.addEvent('domready', function(){
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", "Manage Files" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", JText::_( "Manage Files" ) ); ?>]
                             <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>
                             <div id="current_files">
                                 <?php foreach (@$files as $file) : ?>
@@ -550,7 +550,7 @@ window.addEvent('domready', function(){
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setprices&id=".$row->product_id."&tmpl=component", "Set Prices" ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setprices&id=".$row->product_id."&tmpl=component", JText::_( "Set Prices" ) ); ?>]
                             <div id="current_prices">
                                 <?php foreach (@$prices as $price) : ?>
                                     [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
