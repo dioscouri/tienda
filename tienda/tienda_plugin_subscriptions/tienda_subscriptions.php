@@ -41,8 +41,10 @@ class plgSystemTienda_Subscriptions extends JPlugin
         {
             $success = true;
             // Check the registry to see if our Tienda class has been overridden
-            if ( !class_exists('Tienda') ) 
+            if ( !class_exists('Tienda') ) { 
                 JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+                JLoader::register( "TiendaConfig", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+            }
         }
         return $success;
     }

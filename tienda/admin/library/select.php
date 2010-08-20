@@ -6,6 +6,9 @@
 * @link 		http://www.dioscouri.com
 */
 
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
 require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
 
 class TiendaSelect extends JHTMLSelect
