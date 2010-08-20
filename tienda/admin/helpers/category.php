@@ -40,8 +40,11 @@ class TiendaHelperCategory extends TiendaHelperBase
         // set the default exclusions array
         $exclusions = array(
             'default.php',
-            'product_files.php',
             'product_buy.php',
+            'product_children.php',
+            'product_files.php',
+            'product_relations.php',
+            'product_requirements.php',
             'quickadd.php',
             'search.php'
         );
