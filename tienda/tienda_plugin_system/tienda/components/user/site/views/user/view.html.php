@@ -16,7 +16,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
-Tienda::load( 'TiendaViewBase', 'views._base' );
 
 /**
  * HTML View class for the Users component

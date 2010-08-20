@@ -35,7 +35,7 @@ if ($controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) ))
 // Create the controller
 $controller_name = $controller;
 $classname    = 'UserController'.$controller;
-$controller   = $classname::getInstance( $classname );
+$controller   = new $classname();
 if (empty($controller_name))
 {
     $controller_name = $controller->get('_defaultView');
