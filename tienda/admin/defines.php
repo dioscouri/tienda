@@ -418,6 +418,7 @@ class TiendaConfig extends JObject
     var $subscriptions_expiring_notice_days = '14';
     var $display_product_quantity           = '1';
     var $enable_reorder_table	            = '1';
+    var $force_ssl_checkout                 = '0';
     	
 	/**
 	 * constructor

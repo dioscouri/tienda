@@ -408,6 +408,17 @@
                     <tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Force SSL on Checkout' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'force_ssl_checkout', 'class="inputbox"', $this->row->get('force_ssl_checkout', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Require Acceptance of Terms on Checkout' ); ?>
                             </th>
                             <td>

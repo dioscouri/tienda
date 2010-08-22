@@ -42,7 +42,23 @@ class TiendaControllerCheckout extends TiendaController
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
             return;
         }
-		
+
+        $uri = JFactory::getURI();
+	    if (TiendaConfig::getInstance()->get('force_ssl_checkout') && $uri->isSSL() == false )
+        {
+            $post = JRequest::get('post');
+            if (is_array($post) && !empty($post)) 
+            {
+                // Don't redirect if this is POST                
+            }
+                else
+            {
+                $uri->setScheme('https');
+                JFactory::getApplication()->redirect( $uri->toString() );
+                return;
+            }
+        }
+        
 		$this->set('suffix', 'checkout');
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
