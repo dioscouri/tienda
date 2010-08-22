@@ -42,9 +42,11 @@ class TiendaHelperCategory extends TiendaHelperBase
             'default.php',
             'product_buy.php',
             'product_children.php',
+            'product_comments.php',
             'product_files.php',
             'product_relations.php',
             'product_requirements.php',
+            'product_reviews.php',
             'quickadd.php',
             'search.php'
         );

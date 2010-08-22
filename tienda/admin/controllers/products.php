@@ -171,6 +171,17 @@ class TiendaControllerProducts extends TiendaController
 					$this->messagetype 	= 'notice';
 					$this->message .= " :: ".$category->getError();
 				}
+				
+				// save default quantity
+                $quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+                $quantity->product_id = $row->id;
+                $quantity->quantity = JRequest::getInt( 'product_quantity' );
+			    if (!$quantity->save())
+                {
+                    $this->messagetype  = 'notice';
+                    $this->message .= " :: ".$quantity->getError();
+                }
+                
 			}
 
             // Multiple images processing

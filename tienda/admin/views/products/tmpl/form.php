@@ -584,7 +584,7 @@ window.addEvent('domready', function(){
                 
                 
                 <?php
-                if (empty($row->product_check_inventory))
+                if (empty($row->product_check_inventory) && !empty($row->product_id))
                 {
                 ?>
                 <tr>
@@ -601,14 +601,14 @@ window.addEvent('domready', function(){
                 {
                     if (empty($row->product_id)) 
                     {
-                        // doing a new product, so display a notice
+                        // doing a new product
                         ?>
                         <tr>
                             <td width="100" align="right" class="key" style="vertical-align: top;">
-                                <?php echo JText::_( 'Product Quantities' ); ?>:
+                                <?php echo JText::_( 'Starting Quantity' ); ?>:
                             </td>
                             <td>
-                                <div class="note"><?php echo JText::_( "Click apply to be able to create product quantities" ); ?></div>
+                                <input type="text" name="product_quantity" value="" size="15" maxlength="11" />
                             </td>
                         </tr>
                         <?php
@@ -628,7 +628,7 @@ window.addEvent('domready', function(){
                                 Tienda::load( 'TiendaUrl', 'library.url' );
                                 $options = array('update' => true ); 
                                 ?>
-                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setquantities&id=".$row->product_id."&tmpl=component", "Set Quantities", $options); ?>]
+                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setquantities&id=".$row->product_id."&tmpl=component", JText::_( "Set Quantities" ), $options); ?>]
                             </td>
                         </tr>
                         <?php
