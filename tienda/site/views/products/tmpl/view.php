@@ -50,7 +50,7 @@ $item = @$this->row;
             <?php
                 if (isset($item->product_full_image))
                 {
-                    echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), "View Larger", array('update' => false, 'img' => true ));
+                    echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), JText::_( 'View Larger' ), array('update' => false, 'img' => true ));
                 }
             ?>
             </div>
