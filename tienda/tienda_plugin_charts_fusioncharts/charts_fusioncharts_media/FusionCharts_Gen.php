@@ -877,7 +877,7 @@ class FusionCharts{
 		$strHTML .= "<div id=\"$chartIdDiv\">\n";
 		$strHTML .=	"\tChart.\n";
 		$strHTML .= "</div>\n";
-		$strHTML .= "<script type=\"text/javascript\" >\n";	
+		$strHTML .= "<script defer=\"defer\" type=\"text/javascript\" >\n";	
 			//Instantiate the Chart	
 		$strHTML .= "\tvar chart_$chartId = new FusionCharts(\"$chartSWF\", \"$chartId\", \"$chartWidth\", \"$chartHeight\", \"$ndebugMode\", \"$nregisterWithJS\", \"" . $this->JSC["bgcolor"] . "\",\"" . $this->JSC["scalemode"] . "\",\"" . $this->JSC["lang"] . "\"); \n";
        
