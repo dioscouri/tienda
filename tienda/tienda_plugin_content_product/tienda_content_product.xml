@@ -14,6 +14,7 @@
 	
 	<files>
 		<filename plugin="tienda_content_product">tienda_content_product.php</filename>
+        <folder>tienda_content_product</folder>
 	</files>
 
     <languages folder="languages">
