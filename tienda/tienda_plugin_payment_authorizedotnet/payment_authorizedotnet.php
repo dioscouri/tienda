@@ -169,7 +169,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                     } 
                   break;
                 case "cardexp":
-                    if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
+                    if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 4) 
                     {
                         $object->error = true;
                         $object->message .= "<li>".JText::_( "Authorizedotnet Card Expiration Date Invalid" )."</li>";
