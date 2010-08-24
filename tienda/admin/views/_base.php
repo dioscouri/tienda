@@ -262,6 +262,7 @@ class TiendaViewBase extends JView
 		}
 			else
 		{
+			JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
 			JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
 		}
 	}

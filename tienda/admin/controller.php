@@ -6,7 +6,7 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
@@ -19,7 +19,7 @@ class TiendaController extends JController
 	 * @var array() instances of Models to be used by the controller
 	 */
 	public $_models = array();
-	
+
 	/**
 	 * string url to perform a redirect with. Useful for child classes.
 	 */
@@ -45,17 +45,18 @@ class TiendaController extends JController
 		$this->registerTask( 'unpublish', 'enable' );
 		$this->registerTask( 'disable', 'enable' );
 		$this->registerTask( 'saveorder', 'ordering' );
-        $this->registerTask( 'prev', 'jump' );
-        $this->registerTask( 'next', 'jump' );
-        $this->registerTask( 'saveprev', 'save' );
-        $this->registerTask( 'savenext', 'save' );
+		$this->registerTask( 'prev', 'jump' );
+		$this->registerTask( 'next', 'jump' );
+		$this->registerTask( 'saveprev', 'save' );
+		$this->registerTask( 'savenext', 'save' );
 		$this->registerTask( 'page_tooltip_enable', 'pagetooltip_switch' );
 		$this->registerTask( 'page_tooltip_disable', 'pagetooltip_switch' );
+		$this->registerTask( 'save_as', 'save' );
 	}
 
 	/**
-	* 	display the view
-	*/
+	 * 	display the view
+	 */
 	function display($cachable=false)
 	{
 		// this sets the default view
@@ -99,54 +100,54 @@ class TiendaController extends JController
 		$this->footer();
 	}
 
-    /**
-     * Gets the view's namespace for state variables
-     * @return string
-     */
-    function getNamespace()
-    {
-    	$app = JFactory::getApplication();
-    	$model = $this->getModel( $this->get('suffix') );
+	/**
+	 * Gets the view's namespace for state variables
+	 * @return string
+	 */
+	function getNamespace()
+	{
+		$app = JFactory::getApplication();
+		$model = $this->getModel( $this->get('suffix') );
 		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
-    	return $ns;
-    }
+		return $ns;
+	}
 
 	/**
 	 * Sets the model's default state based on values in the request
 	 *
 	 * @return array()
 	 */
-    function _setModelState()
-    {
+	function _setModelState()
+	{
 		$app = JFactory::getApplication();
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
 
 		$state = array();
 
-        $state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
-        $state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
-        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.'.$model->getTable()->getKeyName(), 'cmd');
-        $state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
-        $state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
-        $state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
-        $state['id']        = JRequest::getVar('id', JRequest::getVar('id', '', 'get', 'int'), 'post', 'int');
+		$state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
+		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.'.$model->getTable()->getKeyName(), 'cmd');
+		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
+		$state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
+		$state['id']        = JRequest::getVar('id', JRequest::getVar('id', '', 'get', 'int'), 'post', 'int');
 
-        // TODO santize the filter
-        // $state['filter']   	=
+		// TODO santize the filter
+		// $state['filter']   	=
 
-    	foreach (@$state as $key=>$value)
+		foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );
 		}
-  		return $state;
-    }
+		return $state;
+	}
 
-    /**
-     * Gets the model
-     * We override parent::getModel because parent::getModel always creates a new Model instance
-     *
-     */
+	/**
+	 * Gets the model
+	 * We override parent::getModel because parent::getModel always creates a new Model instance
+	 *
+	 */
 	function getModel( $name = '', $prefix = '', $config = array() )
 	{
 		if ( empty( $name ) ) {
@@ -178,7 +179,7 @@ class TiendaController extends JController
 					}
 				}
 			}
-				else
+			else
 			{
 				$model = new JModel();
 			}
@@ -194,23 +195,23 @@ class TiendaController extends JController
 	 */
 	function view()
 	{
-        $model = $this->getModel( $this->get('suffix') );
-        $model->getId();
-        $row = $model->getItem();
-        
-        $view   = $this->getView( $this->get('suffix'), 'html' );
-        $view->setModel( $model, true );
-        $view->assign( 'row', $row );
-        $view->setLayout( 'view' );
-        
-        $model->emptyState();
-        $this->_setModelState();
-        $surrounding = $model->getSurrounding( $model->getId() );
-        $view->assign( 'surrounding', $surrounding );
-        
-        $view->display();
-        $this->footer();
-        return;
+		$model = $this->getModel( $this->get('suffix') );
+		$model->getId();
+		$row = $model->getItem();
+
+		$view   = $this->getView( $this->get('suffix'), 'html' );
+		$view->setModel( $model, true );
+		$view->assign( 'row', $row );
+		$view->setLayout( 'view' );
+
+		$model->emptyState();
+		$this->_setModelState();
+		$surrounding = $model->getSurrounding( $model->getId() );
+		$view->assign( 'surrounding', $surrounding );
+
+		$view->display();
+		$this->footer();
+		return;
 	}
 
 	/**
@@ -221,13 +222,13 @@ class TiendaController extends JController
 	 */
 	function edit()
 	{
-	    $view   = $this->getView( $this->get('suffix'), 'html' );
+		$view   = $this->getView( $this->get('suffix'), 'html' );
 		$model 	= $this->getModel( $this->get('suffix') );
-	    $row = $model->getTable();
-	    $row->load( $model->getId() );
-	    $userid = JFactory::getUser()->id;
+		$row = $model->getTable();
+		$row->load( $model->getId() );
+		$userid = JFactory::getUser()->id;
 
-	    // Checks if item is checkedout, and if so, redirects to view
+		// Checks if item is checkedout, and if so, redirects to view
 		if (!JTable::isCheckedOut($userid, $row->checked_out))
 		{
 			if ($row->checkout( $userid ))
@@ -236,22 +237,22 @@ class TiendaController extends JController
 				$view->setLayout( 'form' );
 			}
 		}
-			else
+		else
 		{
 			$view->setLayout( 'view' );
 		}
 
-        $view->setModel( $model, true );
-        $view->assign( 'row', $row );
-        
-        $model->emptyState();
-        $this->_setModelState();
-        $surrounding = $model->getSurrounding( $model->getId() );
-        $view->assign( 'surrounding', $surrounding );
-        
-        $view->display();
-        $this->footer();
-        return;
+		$view->setModel( $model, true );
+		$view->assign( 'row', $row );
+
+		$model->emptyState();
+		$this->_setModelState();
+		$surrounding = $model->getSurrounding( $model->getId() );
+		$view->assign( 'surrounding', $surrounding );
+
+		$view->display();
+		$this->footer();
+		return;
 	}
 
 	/**
@@ -261,8 +262,8 @@ class TiendaController extends JController
 	function release()
 	{
 		$model 	= $this->getModel( $this->get('suffix') );
-	    $row = $model->getTable();
-	    $row->load( $model->getId() );
+		$row = $model->getTable();
+		$row->load( $model->getId() );
 		if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
 		{
 			if ($row->checkin())
@@ -271,8 +272,8 @@ class TiendaController extends JController
 			}
 		}
 
-    	$redirect = "index.php?option=com_tienda&controller=".$this->get('suffix')."&view=".$this->get('suffix')."&task=view&id=".$model->getId()."&donotcheckout=1";
-    	$redirect = JRoute::_( $redirect, false );
+		$redirect = "index.php?option=com_tienda&controller=".$this->get('suffix')."&view=".$this->get('suffix')."&task=view&id=".$model->getId()."&donotcheckout=1";
+		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
@@ -283,9 +284,9 @@ class TiendaController extends JController
 	 */
 	function cancel()
 	{
-        if (!isset($this->redirect)) {
-            $this->redirect = 'index.php?option=com_tienda&view='.$this->get('suffix');        
-        }
+		if (!isset($this->redirect)) {
+			$this->redirect = 'index.php?option=com_tienda&view='.$this->get('suffix');
+		}
 
 		$task = JRequest::getVar( 'task' );
 		switch (strtolower($task))
@@ -293,22 +294,22 @@ class TiendaController extends JController
 			case "cancel":
 				$msg = JText::_( 'Operation Cancelled' );
 				$type = "notice";
-			  break;
+				break;
 			case "close":
 			default:
 				$model 	= $this->getModel( $this->get('suffix') );
-			    $row = $model->getTable();
-			    $row->load( $model->getId() );
+				$row = $model->getTable();
+				$row->load( $model->getId() );
 				if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
 				{
 					$row->checkin();
 				}
 				$msg = "";
 				$type = "";
-			  break;
+				break;
 		}
 
-	    $this->setRedirect( $this->redirect, $msg, $type );
+		$this->setRedirect( $this->redirect, $msg, $type );
 	}
 
 	/**
@@ -318,9 +319,16 @@ class TiendaController extends JController
 	function save()
 	{
 		$model 	= $this->getModel( $this->get('suffix') );
-	    $row = $model->getTable();
-	    $row->load( $model->getId() );
+		$row = $model->getTable();
+		$row->load( $model->getId() );
 		$row->bind( $_POST );
+		$task = JRequest::getVar('task');
+
+		if($task=="save_as"){
+
+			$pk=$row->getKeyName();
+			$row->$pk= 0;
+		}
 
 		if ( $row->save() )
 		{
@@ -331,52 +339,52 @@ class TiendaController extends JController
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
-			else
+		else
 		{
 			$this->messagetype 	= 'notice';
 			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
 		}
 
-    	$redirect = "index.php?option=com_tienda";
-    	$task = JRequest::getVar('task');
-    	switch ($task)
-    	{
-            case "saveprev":
-                $redirect .= '&view='.$this->get('suffix');
-                // get prev in list
-                $model->emptyState();
-                $this->_setModelState();
-                $surrounding = $model->getSurrounding( $model->getId() );
-                if (!empty($surrounding['prev']))
-                {
-                    $redirect .= '&task=edit&id='.$surrounding['prev'];
-                }
-              break;
-            case "savenext":
-                $redirect .= '&view='.$this->get('suffix');
-                // get next in list
-                $model->emptyState();
-                $this->_setModelState();
-                $surrounding = $model->getSurrounding( $model->getId() );
-                if (!empty($surrounding['next']))
-                {
-                    $redirect .= '&task=edit&id='.$surrounding['next'];
-                }
-              break;
-              
-    		case "savenew":
-    			$redirect .= '&view='.$this->get('suffix').'&task=add';
-    		  break;
-    		case "apply":
-    			$redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$model->getId();
-    		  break;
-    		case "save":
-    		default:
-    			$redirect .= "&view=".$this->get('suffix');
-    		  break;
-    	}
+		$redirect = "index.php?option=com_tienda";
+			
+		switch ($task)
+		{
+			case "saveprev":
+				$redirect .= '&view='.$this->get('suffix');
+				// get prev in list
+				$model->emptyState();
+				$this->_setModelState();
+				$surrounding = $model->getSurrounding( $model->getId() );
+				if (!empty($surrounding['prev']))
+				{
+					$redirect .= '&task=edit&id='.$surrounding['prev'];
+				}
+				break;
+			case "savenext":
+				$redirect .= '&view='.$this->get('suffix');
+				// get next in list
+				$model->emptyState();
+				$this->_setModelState();
+				$surrounding = $model->getSurrounding( $model->getId() );
+				if (!empty($surrounding['next']))
+				{
+					$redirect .= '&task=edit&id='.$surrounding['next'];
+				}
+				break;
 
-    	$redirect = JRoute::_( $redirect, false );
+			case "savenew":
+				$redirect .= '&view='.$this->get('suffix').'&task=add';
+				break;
+			case "apply":
+				$redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$model->getId();
+				break;
+			case "save":
+			default:
+				$redirect .= "&view=".$this->get('suffix');
+				break;
+		}
+
+		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
@@ -388,12 +396,12 @@ class TiendaController extends JController
 		$error = false;
 		$this->messagetype	= '';
 		$this->message 		= '';
-        if (!isset($this->redirect)) {
-            $this->redirect = JRequest::getVar( 'return' )
-                ? base64_decode( JRequest::getVar( 'return' ) )
-                : 'index.php?option=com_tienda&view='.$this->get('suffix');
-            $this->redirect = JRoute::_( $this->redirect, false );
-        }
+		if (!isset($this->redirect)) {
+			$this->redirect = JRequest::getVar( 'return' )
+			? base64_decode( JRequest::getVar( 'return' ) )
+			: 'index.php?option=com_tienda&view='.$this->get('suffix');
+			$this->redirect = JRoute::_( $this->redirect, false );
+		}
 
 		$model = $this->getModel($this->get('suffix'));
 		$row = $model->getTable();
@@ -413,7 +421,7 @@ class TiendaController extends JController
 		{
 			$this->message = JText::_('Error') . " - " . $this->message;
 		}
-			else
+		else
 		{
 			$this->message = JText::_('Items Deleted');
 		}
@@ -484,7 +492,7 @@ class TiendaController extends JController
 		{
 			$this->message = JText::_('Error') . " - " . $this->message;
 		}
-			else
+		else
 		{
 			$this->message = JText::_('Items Ordered');
 		}
@@ -522,21 +530,21 @@ class TiendaController extends JController
 		{
 			case "switch":
 				$switch = '1';
-			  break;
+				break;
 			case "disable":
 				$enable = '0';
 				$switch = '0';
-			  break;
+				break;
 			case "enable":
 				$enable = '1';
 				$switch = '0';
-			  break;
+				break;
 			default:
 				$this->messagetype 	= 'notice';
 				$this->message 		= JText::_( "Invalid Task" );
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
-			  break;
+				break;
 		}
 
 		if ( !in_array( $field, array_keys( $row->getProperties() ) ) )
@@ -557,11 +565,11 @@ class TiendaController extends JController
 			{
 				case "1":
 					$row->$field = $row->$field ? '0' : '1';
-				  break;
+					break;
 				case "0":
 				default:
 					$row->$field = $enable;
-				  break;
+					break;
 			}
 
 			if ( !$row->save() )
@@ -576,7 +584,7 @@ class TiendaController extends JController
 		{
 			$this->message = JText::_('Error') . ": " . $this->message;
 		}
-			else
+		else
 		{
 			$this->message = JText::_('Status Changed');
 		}
@@ -595,73 +603,73 @@ class TiendaController extends JController
 			case "switch_publish":
 				$field = 'published';
 				$action = 'switch';
-			  break;
+				break;
 			case "switch":
 			case "switch_enable":
 				$field = 'enabled';
 				$action = 'switch';
-			  break;
+				break;
 			case "unpublish":
 				$field = 'published';
 				$action = 'disable';
-			  break;
+				break;
 			case "disable":
 				$field = 'enabled';
 				$action = 'disable';
-			  break;
+				break;
 			case "publish":
 				$field = 'published';
 				$action = 'enable';
-			  break;
+				break;
 			case "enable":
 			default:
 				$field = 'enabled';
 				$action = 'enable';
-			  break;
+				break;
 		}
 		JRequest::setVar( 'task', $field.'.'.$action );
 		$this->boolean();
 	}
-	
-    /**
-     * Checks in the current item and displays the previous/next one in the list
-     * @return unknown_type
-     */
-    function jump() 
-    {
-        $model = $this->getModel( $this->get('suffix') );
-        $id = $model->getId();
-        $row = $model->getTable();
-        $row->load( $id );
-        if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
-        {
-            $row->checkin();
-        }
-        $task = JRequest::getVar( "task" );
-        $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
-        
-        $model->emptyState();
-        $this->_setModelState();
-        $surrounding = $model->getSurrounding( $id );
 
-        switch ($task)
-        {
-            case "prev":
-                if (!empty($surrounding['prev']))
-                {
-                    $redirect .= "&task=view&id=".$surrounding['prev'];
-                }
-                break;
-            case "next":
-                if (!empty($surrounding['next']))
-                {
-                    $redirect .= "&task=view&id=".$surrounding['next'];
-                }
-                break;
-        }
-        $redirect = JRoute::_( $redirect, false );
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );        
-    }
+	/**
+	 * Checks in the current item and displays the previous/next one in the list
+	 * @return unknown_type
+	 */
+	function jump()
+	{
+		$model = $this->getModel( $this->get('suffix') );
+		$id = $model->getId();
+		$row = $model->getTable();
+		$row->load( $id );
+		if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
+		{
+			$row->checkin();
+		}
+		$task = JRequest::getVar( "task" );
+		$redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+
+		$model->emptyState();
+		$this->_setModelState();
+		$surrounding = $model->getSurrounding( $id );
+
+		switch ($task)
+		{
+			case "prev":
+				if (!empty($surrounding['prev']))
+				{
+					$redirect .= "&task=view&id=".$surrounding['prev'];
+				}
+				break;
+			case "next":
+				if (!empty($surrounding['next']))
+				{
+					$redirect .= "&task=view&id=".$surrounding['next'];
+				}
+				break;
+		}
+		$redirect = JRoute::_( $redirect, false );
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
 
 	/**
 	 * Hides a tooltip message
@@ -679,13 +687,13 @@ class TiendaController extends JController
 		$constant = 'page_tooltip_'.$key;
 		$config_title = $constant."_disabled";
 
-			$database = &JFactory::getDBO();
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables'.DS );
-			unset($table);
-			$table = JTable::getInstance( 'config', 'TiendaTable' );
-			$table->load( array('config_name'=>$config_title) );
-			$table->config_name = $config_title;
-			$table->value = '1';
+		$database = &JFactory::getDBO();
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables'.DS );
+		unset($table);
+		$table = JTable::getInstance( 'config', 'TiendaTable' );
+		$table->load( array('config_name'=>$config_title) );
+		$table->config_name = $config_title;
+		$table->value = '1';
 
 		if (!$table->save())
 		{
@@ -697,19 +705,19 @@ class TiendaController extends JController
 
 	/**
 	 * Displays the footer
-	 * 
+	 *
 	 * @return unknown_type
 	 */
 	function footer()
 	{
 		$model	= $this->getModel( 'dashboard' );
 		$view	= $this->getView( 'dashboard', 'html' );
-		
+
 		$dispatcher =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( 'onAfterFooter', array() );
-		
+
 		$html = implode('<br />', $results);
-		
+
 		$view->hidemenu = true;
 		$view->hidestats = true;
 		$view->setModel( $model, true );
@@ -746,10 +754,10 @@ class TiendaController extends JController
 		// passing the element name allows the plugin to check if it's being called (protects against same-task-name issues)
 		$result 	= $dispatcher->trigger( $elementTask, array( $element ) );
 		// This should be a concatenated string of all the results,
-			// in case there are many plugins with this eventname
-			// that return null b/c their filename != element)
+		// in case there are many plugins with this eventname
+		// that return null b/c their filename != element)
 		$msg->message = implode( '', $result );
-			// $msg->message = @$result['0'];
+		// $msg->message = @$result['0'];
 
 		echo $msg->message;
 		$success = $msg->message;
@@ -772,35 +780,35 @@ class TiendaController extends JController
 		$msg->message = '';
 
 		// get elements $element and $elementTask in URL
-			$element = JRequest::getVar( 'element', '', 'request', 'string' );
-			$elementTask = JRequest::getVar( 'elementTask', '', 'request', 'string' );
+		$element = JRequest::getVar( 'element', '', 'request', 'string' );
+		$elementTask = JRequest::getVar( 'elementTask', '', 'request', 'string' );
 
 		// get elements from post
-			// $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+		// $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 
 		// for debugging
-			// $msg->message = "element: $element, elementTask: $elementTask";
+		// $msg->message = "element: $element, elementTask: $elementTask";
 
 		// gets the plugin named $element
-			$import 	= JPluginHelper::importPlugin( 'tienda', $element );
-			$dispatcher	=& JDispatcher::getInstance();
+		$import 	= JPluginHelper::importPlugin( 'tienda', $element );
+		$dispatcher	=& JDispatcher::getInstance();
 
 		// executes the event $elementTask for the $element plugin
 		// returns the html from the plugin
 		// passing the element name allows the plugin to check if it's being called (protects against same-task-name issues)
-			$result 	= $dispatcher->trigger( $elementTask, array( $element ) );
+		$result 	= $dispatcher->trigger( $elementTask, array( $element ) );
 		// This should be a concatenated string of all the results,
-			// in case there are many plugins with this eventname
-			// that return null b/c their filename != element)
-			$msg->message = implode( '', $result );
-			// $msg->message = @$result['0'];
+		// in case there are many plugins with this eventname
+		// that return null b/c their filename != element)
+		$msg->message = implode( '', $result );
+		// $msg->message = @$result['0'];
 
 		// set response array
-			$response = array();
-			$response['msg'] = $msg->message;
+		$response = array();
+		$response['msg'] = $msg->message;
 
 		// encode and echo (need to echo to send back to browser)
-			echo ( json_encode( $response ) );
+		echo ( json_encode( $response ) );
 
 		return $success;
 	}
