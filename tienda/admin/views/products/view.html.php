@@ -92,6 +92,9 @@ class TiendaViewProducts extends TiendaViewBase
     	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_( 'Dashboard' ), false);
             JToolBarHelper::divider();	
     	}
+    	if(!$isNew){
+    	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
+    	}
         parent::_formToolbar($isNew);
     }
     
@@ -105,4 +108,7 @@ class TiendaViewProducts extends TiendaViewBase
         JToolBarHelper::divider();
         parent::_viewToolbar($isNew);
 	}
+	
+	
+	
 }

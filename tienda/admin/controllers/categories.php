@@ -80,7 +80,7 @@ class TiendaControllerCategories extends TiendaController
 	{
 		$task = JRequest::getVar('task');
 		$model 	= $this->getModel( $this->get('suffix') );
-
+        $error=false;
 		$row = $model->getTable();
 		$row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
@@ -98,11 +98,6 @@ class TiendaControllerCategories extends TiendaController
 			{
 				$error = true;
 			}
-		}
-		// set the id as 0 for new entry
-		if($task=="save_as"){
-			$pk=$row->getKeyName();
-			$row->$pk= 0;
 		}
 		if ( $row->save() )
 		{

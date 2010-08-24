@@ -48,4 +48,16 @@ class TiendaViewManufacturers extends TiendaViewBase
 		JToolBarHelper::divider();
 		parent::_defaultToolbar();
 	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see tienda/admin/views/TiendaViewBase#_formToolbar($isNew)
+	 */
+    function _formToolbar( $isNew=null )
+    {
+    	if(!$isNew){
+    	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
+    	}
+        parent::_formToolbar($isNew);
+    }	
 }
