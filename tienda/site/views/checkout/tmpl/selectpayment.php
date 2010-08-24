@@ -22,7 +22,7 @@
     <div id='onCheckoutReview_wrapper'>
         <!--    ORDER SUMMARY   -->
         <h3><?php echo JText::_("Order Summary") ?></h3>
-        <div id='onCheckoutReview_wrapper'> 
+        <div id='onCheckoutCart_wrapper'> 
             <?php
                 echo @$this->orderSummary;
             ?>
