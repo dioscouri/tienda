@@ -209,9 +209,12 @@ class TiendaHelperUser extends TiendaHelperBase
             return $success;
         }
 
-        // Send registration confirmation mail
-        TiendaHelperUser::_sendMail( $user, $details, $useractivation, $guest );
-                
+	if(!TiendaConfig::getInstance()->get('disable_guest_signup_email'))
+	{
+        	// Send registration confirmation mail
+        	TiendaHelperUser::_sendMail( $user, $details, $useractivation, $guest );
+	}
+
         return $user;
     }
 

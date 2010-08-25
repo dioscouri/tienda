@@ -424,6 +424,8 @@ class TiendaConfig extends JObject
     var $display_product_quantity           = '1';
     var $enable_reorder_table	            = '1';
     var $force_ssl_checkout                 = '0';
+    // Email Settings
+    var $disable_guest_signup_email         = '0';
     	
 
 	/**

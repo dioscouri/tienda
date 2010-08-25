@@ -893,6 +893,28 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
+						$legend = JText::_( "Email Settings" );
+	                    echo $this->sliders->startPanel( JText::_( $legend ), 'email' );
+	                    ?>
+                    
+					<table class="adminlist">
+					<tbody>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Disable Guest Signup Email' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'disable_guest_signup_email', 'class="inputbox"', $this->row->get('disable_guest_signup_email', '0') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'DISABLE GUEST SIGNUP EMAIL DESC' ); ?>
+                            </td>
+						</tr>
+					</tbody>
+					</table>
+					<?php
+						echo $this->sliders->endPanel();				
+
 						// if there are plugins, display them accordingly
 		                if ($this->items_sliders) 
 		                {               	
