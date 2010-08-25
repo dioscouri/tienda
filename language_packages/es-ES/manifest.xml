@@ -14,7 +14,17 @@
 
 	<site>
 		<files folder="site">
-			<filename>es-ES.com_tienda.ini</filename>
+            <filename>es-ES.com_tienda.ini</filename>
+            <filename>es-ES.mod_tienda_cart.ini</filename>
+            <filename>es-ES.mod_tienda_categories.ini</filename>
+            <filename>es-ES.mod_tienda_currency.ini</filename>
+            <filename>es-ES.mod_tienda_my_orders.ini</filename>
+            <filename>es-ES.mod_tienda_products.ini</filename>
+            <filename>es-ES.mod_tienda_quickicon.ini</filename>
+            <filename>es-ES.mod_tienda_recentorders.ini</filename>
+            <filename>es-ES.mod_tienda_salestatistics.ini</filename>
+            <filename>es-ES.mod_tienda_search.ini</filename>
+            <filename>es-ES.mod_tienda_useraddress.ini</filename>
 		</files>
 	</site>
 
@@ -22,6 +32,25 @@
     <administration>
         <files folder="admin">
             <filename>es-ES.com_tienda.ini</filename>
+            <!-- 
+            <filename>es-ES.plg_search_tienda.ini</filename>
+            <filename>es-ES.plg_tienda_shipping_example.ini</filename>  
+            -->
+            <filename>es-ES.plg_system_tienda.ini</filename>
+            <filename>es-ES.plg_tienda_bug_report.ini</filename>
+            <filename>es-ES.plg_tienda_charts_fusioncharts.ini</filename>
+            <!-- 
+            <filename>es-ES.plg_tienda_payment_2checkout.ini</filename>
+            <filename>es-ES.plg_tienda_payment_authorizedotnet.ini</filename> 
+            -->
+            <filename>es-ES.plg_tienda_payment_offline.ini</filename>
+            <filename>es-ES.plg_tienda_payment_paypal.ini</filename>
+            <filename>es-ES.plg_tienda_report_bestsellers.ini</filename>
+            <filename>es-ES.plg_tienda_tool_virtuemartmigration.ini</filename>
+            <filename>es-ES.plg_tienda_tool_xcartmigration.ini</filename>
+            <!-- 
+            <filename>es-ES.plg_user_tienda.ini</filename>
+            -->
         </files>
     </administration>
 
