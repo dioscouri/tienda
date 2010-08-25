@@ -1434,6 +1434,51 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $items;
     }
 }   
-   
+     /**
+     * returns a product's quantity list for all combination
+     * @return array of the entire Objects; 
+     */
+	public function getProductQuantitiesObjects( $id )
+	{
+      Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+        $query = new TiendaQuery();
+        $select[]="quantities.*";		
+		
+		$query->select( $select );
+        $query->from($tableQuantity->getTableName()." AS quantities");
+		$query->where("quantities.product_id = ".$id );
+	  	
+		$db = JFactory::getDBO();
+		$db->setQuery( (string) $query );
+	    
+	    $results = $db->loadObjectList();
+	    return $results;
+	}  
     
-    
+	 /**
+     * returns a attributes's options list 
+     * @return array of the entire Objects; 
+     */
+	public function getAttributeOptionsObjects( $productAttributeId )
+	{
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $tableQuantity = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+        $query = new TiendaQuery();
+        $select[]="options.*";		
+		
+		$query->select( $select );
+        $query->from($tableQuantity->getTableName()." AS options");
+		$query->where("options.productattribute_id = ".$productAttributeId);
+	  	
+		$db = JFactory::getDBO();
+		$db->setQuery( (string) $query );
+	    
+	    $results = $db->loadObjectList();
+	    return $results;
+	}  
+	
