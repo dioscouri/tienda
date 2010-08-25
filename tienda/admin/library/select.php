@@ -372,7 +372,31 @@ class TiendaSelect extends JHTMLSelect
         }
 
 		return self::genericlist($list, $name, $attribs, 'currency_id', 'currency_code', $selected, $idtag );
- 	} 	
+ 	} 
+ 	/**
+ 	 * 
+ 	 * @param unknown_type $selected
+ 	 * @param unknown_type $name
+ 	 * @param unknown_type $attribs
+ 	 * @param unknown_type $idtag
+ 	 * @param unknown_type $allowAny
+ 	 * @return unknown_type
+ 	 */
+public static function selectsort($selected, $name = 'default_selectsort', $attribs=null , $idtag = null, $allowAny = false)
+{
+	    $attribs= array('class' => 'inputbox', 'size' => '1','onchange'=>'test()');
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'created_date', JText::_( "Date" ) );
+        $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_( "Rating" ) );
+       
+        
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }	
 
  	/**
  	 * TODO Is $type even necessary? 
@@ -802,5 +826,50 @@ class TiendaSelect extends JHTMLSelect
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+    /**
+     * Getting list of products
+     *
+     */
+     
+	public static function product($selected, $name = 'product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select product', $title_none = 'No Parent', $enabled = null )
+ 	{
+		// Build list
+        $list = array();
+		if ($allowAny) {
+			$list[] =  self::option('', "- ".JText::_( $title )." -", 'product_id', 'product_name' );
+		}
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'products', 'TiendaModel' );
+		$items = $model->getList();
+		foreach (@$items as $item)
+        {
+        	$list[] =  self::option( $item->product_id,JText::_($item->product_name), 'product_id', 'product_name' );
+        }
+		return self::genericlist($list, $name, $attribs, 'product_id', 'product_name', $selected, $idtag );
+ 	}
+
+	/*
+	 * getting list of users
+	 */
+ 	public static function users($selected, $name = 'userid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select User', $title_none = 'No Parent', $enabled = null )
+ 	{
+		// Build list
+        $list = array();
+		if ($allowAny) {
+			$list[] =  self::option('', "- ".JText::_( $title )." -", 'id', 'name' );
+		}
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'users', 'TiendaModel' );
+		$items = $model->getList();
+		foreach (@$items as $item)
+        {
+        	$list[] =  self::option( $item->id,JText::_($item->name), 'id', 'name' );
+        }
+		return self::genericlist($list, $name, $attribs, 'id', 'name', $selected, $idtag );
+ 	}
+    
     
 }

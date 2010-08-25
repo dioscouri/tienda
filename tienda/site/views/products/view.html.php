@@ -41,4 +41,6 @@ class TiendaViewProducts extends TiendaViewBase
 		}
 		parent::display($tpl);
 	}
+	
+
 }

@@ -333,3 +333,35 @@ div.productrelation_item {
 	margin: auto;
 	text-align: center;
 }
+
+div.prepayment_message {
+	padding: 10px;
+}
+	
+div.prepayment_action {
+	padding: 10px;
+}
+
+div.productrelation {
+	float: left;
+	display: block;
+	width: 20%;
+	min-height: 150px; 
+}
+
+div.productrelation_item {
+	margin: auto;
+	text-align: center;
+}
+
+
+.rowDiv{float:left; width:100%;}
+.userName{float:left; width:auto; padding-right:10px; font-weight:bold; text-decoration:underline;}
+.dateDiv{float:left; width:auto;}
+.customerRating{float:right; width:auto;}
+.commentsDiv{float:left;width:100%; padding:5px 0 10px 0;}
+.leftAlignDiv{float:left; width:auto;}
+.rightAlignDiv{float:right; width:auto;}
+.rowPaddingDiv{float:left; width:100%; padding:10px 0;}
+.share_review{display:block; float:left;}
+.commentsDiv1{float:left;width:100%; padding:5px 0 10px 0;border-bottom: 1px solid #cccccc;}

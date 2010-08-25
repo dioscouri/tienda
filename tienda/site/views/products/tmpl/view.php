@@ -2,6 +2,7 @@
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'tienda_inventory_check.js', 'media/com_tienda/js/');
+JHTML::_('script', 'tienda_product_comments.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $item = @$this->row;
 ?>  
@@ -127,6 +128,10 @@ $item = @$this->row;
             <?php echo $this->onAfterDisplayProduct; ?>
             </div>
         <?php endif; ?>
+        
+        <div class="product_review" id="product_review">
+            <?php if (!empty($this->product_comments)) { echo $this->product_comments; } ?>
+        </div>
         
     </div>
 </div>

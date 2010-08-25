@@ -31,6 +31,8 @@ drop table if exists `#__tienda_ordervendors`;
 drop table if exists `#__tienda_productattributeoptions`;
 drop table if exists `#__tienda_productattributes`;
 drop table if exists `#__tienda_productcategoryxref`;
+drop table if exists `#__tienda_productcomments`;
+drop table if exists `#__tienda_productcommentshelpfulness`;
 drop table if exists `#__tienda_productdownloadlogs`;
 drop table if exists `#__tienda_productdownloads`;
 drop table if exists `#__tienda_productfiles`;

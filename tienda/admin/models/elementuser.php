@@ -130,7 +130,7 @@ class TiendaModelElementUser extends JModel
 	 * @param object $control_name[optional]
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
-	{
+	{   
 		global $mainframe;
 
 		$db			=& JFactory::getDBO();

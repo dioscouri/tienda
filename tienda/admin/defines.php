@@ -415,11 +415,17 @@ class TiendaConfig extends JObject
     var $display_out_of_stock               = '1';
     var $global_handling                    = '';
     var $default_tax_geozone                = '';
+	var $review_helpfulness_enable			='0';
+	var $share_review_enable				='0';
     var $subscriptions_expiring_notice_days = '14';
+    var $login_review_enable				='1';
+    var $purchase_leave_review_enable		='1';
+    var $use_captcha						='1';
     var $display_product_quantity           = '1';
     var $enable_reorder_table	            = '1';
     var $force_ssl_checkout                 = '0';
     	
+
 	/**
 	 * constructor
 	 * @return void

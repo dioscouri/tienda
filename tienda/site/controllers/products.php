@@ -252,7 +252,7 @@ class TiendaControllerProducts extends TiendaController
 			}
 			$view->assign( 'inventoryList', $inventoryList );
 		}
-
+		$view->assign( 'product_comments', $this->getComments($row->product_id) );
 		$view->assign('product_description', $product_description );
 		$view->assign( 'files', $this->getFiles( $row->product_id ) );
 		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
@@ -1389,6 +1389,185 @@ class TiendaControllerProducts extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;        
     }
+    
+    /**
+     * Gets all the product's user reviews
+     * @param $product_id
+     * @return unknown_type
+     */
+	function getComments( $product_id )
+    {
+        $html = '';
+        $view   =& $this->getView( 'products', 'html' );
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
+        $selectsort = JRequest::getVar('default_selectsort', '');
+        $model->setstate('order', $selectsort );
+        $limitstart = JRequest::getInt('limitstart', 0);
+        $model->setId( $product_id );
+        $model->setstate('limitstart', $limitstart );
+        $model->setstate('filter_product', $product_id );
+        $model->setstate('filter_enabled', '1' );
+        $reviews = $model->getList();
+        
+        $count = count($reviews);
+
+        $view->set( '_controller', 'products' );
+        $view->set( '_view', 'products' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->setLayout( 'product_comments' );
+        $view->assign('product_id', $product_id);
+        $view->assign('count', $count);
+       	$view->assign('reviews', $reviews);
+       	
+       	$user_id = JFactory::getUser()->id;
+       	$productreview = TiendaHelperProduct::getUserAndProductIdForReview($product_id, $user_id);
+       	$purchase_enable = TiendaConfig::getInstance()->get('purchase_leave_review_enable', '0');
+       	$login_enable = TiendaConfig::getInstance()->get('login_review_enable', '0');
+       	
+       	$result = 1;
+       	if (($login_enable == '1'))
+       	{
+       		if ($user_id)
+       		{
+       		    $order_enable = '1';
+           		if ($purchase_enable == '1')
+           		{
+                    $orderexist = TiendaHelperProduct::getOrders($product_id);
+           	 		if (!$orderexist)
+       	 			{	
+       	 				$order_enable = '0';
+       	 				
+       	 			}
+           		}
+
+           		if (($order_enable != '1') || !empty($productreview) )
+           		{
+           			$result = 0;
+           		}
+       		}
+           		else
+       		{
+       			$result = 0;
+       		}
+       	}     
+       
+       	$view->assign('result', $result);
+        $view->assign('click','index.php?option=com_tienda&controller=products&view=products&task=addReview');
+        $view->assign('selectsort', $selectsort);
+        ob_start();
+        $view->display();
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        return $html;
+    }
+    
+    /**
+     * 
+     *
+     */     
+	function addReview()
+	{
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
+		$post = JRequest::get('post');
+		$captcha_enable = TiendaConfig::getInstance()->get('use_captcha', '0');
+		$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
+		$Itemid = $post['Itemid'];
+		$recaptcha_challenge_field = $post['recaptcha_challenge_field'];
+		$recaptcha_response_field = $post['recaptcha_response_field'];
+		
+		$captcha='1';
+        if ($captcha_enable)
+        {
+            $captcha='0';
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS."library".DS."recaptchalib.php");
+			if ($_POST["recaptcha_response_field"]) 
+			{
+                $resp = recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $recaptcha_challenge_field, $recaptcha_response_field);
+                if ($resp->is_valid) 
+                {
+                    $captcha='1';
+                } 
+			}		
+        }
+		
+		$product_id = $post['product_id'];
+ 		$date = JFactory::getDate();
+ 		$productreviews->bind($post);	
+ 		$productreviews->created_date = $date->toMysql();
+ 		$redirect = "index.php?option=com_tienda&view=products&task=view&id=".$product_id."filter_category=".$product_id."&Itemid=".$Itemid;
+ 		if ($captcha == '1')
+ 		{
+     		if (!$productreviews->save())
+     		{
+     			$this->messagetype  = 'message';
+            	$this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();        	
+     		}
+         		else
+     		{
+     			$dispatcher =& JDispatcher::getInstance();
+                $dispatcher->trigger( 'onAfterSaveProductComments', array( $productreviews ) );
+     			$this->messagetype  = 'message';
+            	$this->message      = JText::_( "Successfully Submitted Review" );
+     		}	
+ 		}
+            else
+		{
+    		$this->messagetype  = 'message';
+            $this->message      = JText::_( "Incorrect Captcha" );	
+		}
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+	
+	/**
+	 * Adding helpfulness of review 
+	 *
+	 */
+	function reviewHelpfullness()
+	{		
+		$user_id = JFactory::getUser()->id;
+		$Itemid = JRequest::getInt('Itemid', '');
+		$id = JRequest::getInt('product_id', '');		
+		$url = "index.php?option=com_tienda&view=products&task=view&Itemid=".$Itemid."&id=".$id;
+	
+		if ($user_id)
+		{
+    		$productcomment_id = JRequest::getInt('productcomment_id', '');		
+    		$helpfulness = JRequest::getInt('helpfulness', '');
+    		$report = JRequest::getInt('report', '');
+    		
+    		$help=array();
+    		$help['productcomment_id']=$productcomment_id;
+    		$help['helpful']=$helpfulness;
+    		$help['user_id']=$user_id;
+    		$help['reported']=$report;
+    		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+    		$reviewhelpfulness = JTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
+    		$reviewhelpfulness->bind($help);
+ 			if(!$reviewhelpfulness->save())
+ 			{
+     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'You have already register comments on this review' ));
+     			JFactory::getApplication()->redirect($url);
+ 			}
+     			else
+ 			{
+     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Your comments have been saved' ));
+      			JFactory::getApplication()->redirect($url);
+
+ 			}
+	    }
+    		else
+		{
+    		$redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
+    		$redirect = JRoute::_( $redirect, false );
+            JFactory::getApplication()->redirect( $redirect );
+        }
+	}
 }
 
 ?>

@@ -1378,8 +1378,62 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $item;
         
         
-    }   
+    }
+    /**
+     * Checks orderitem table for provided product id 
+     * @param $product_id
+     * 
+     */
+
+	function getOrders($product_id)
+	{
+		 //Check the registry to see if our Tienda class has been overridden
+        if ( !class_exists('Tienda') ) 
+             JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+                // load the config class
+         Tienda::load( 'TiendaConfig', 'defines' );
+         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+         // get the model
+     	$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+     	$user = JFactory::getUser();
+     	$model->setState( 'filter_userid', $user->id); 
+     	$model->setState( 'filter_productid', $product_id);
+     	$orders = $model->getList();
+    	return $orders;
+		
+		
+	}
+    
+	/**
+     * Gets a product's id and User id from Product comment table
+     * 
+     * @param $id
+     * @return array
+     */
+    function getUserAndProductIdForReview( $product_id ,$user_id)
+    {
+        if (empty($product_id) && empty($user_id))
+        {
+            return array();
+        }
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        $query->select( "tbl.productcomment_id" );
+        $query->from( $table->getTableName()." AS tbl" );
+        //$query->where( "tbl.product_id = ".(int) $id ." AND tbl.user_id= ".(int)$uid);
+        $query->where("tbl.product_id = ".(int)$product_id);
+        $query->where("tbl.user_id = ".(int)$user_id);
+    
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadResultArray();
+        return $items;
+    }
+}   
    
     
     
-}

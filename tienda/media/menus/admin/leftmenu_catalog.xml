@@ -12,4 +12,8 @@
         <name>Manufacturers</name>
         <url>index.php?option=com_tienda&#38;view=manufacturers</url>
    </link>
+   <link>
+        <name>Reviews And Ratings</name>
+        <url>index.php?option=com_tienda&#38;view=productcomments</url>
+   </link>
 </menu>

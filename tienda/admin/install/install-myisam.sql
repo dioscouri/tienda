@@ -966,44 +966,6 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `#__tienda_productreviews`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productreviews` (
-  `review_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `product_id` INT(11) NOT NULL DEFAULT '0' ,
-  `comment` TEXT NOT NULL ,
-  `userid` INT(11) NOT NULL DEFAULT '0' ,
-  `time` INT(11) NOT NULL COMMENT 'GMT Only' ,
-  `user_rating` TINYINT(1) NOT NULL DEFAULT '0' ,
-  `review_ok` INT(11) NOT NULL DEFAULT '0' ,
-  `review_votes` INT(11) NOT NULL DEFAULT '0' ,
-  `published` CHAR(1) NOT NULL DEFAULT 'Y' ,
-  PRIMARY KEY (`review_id`) ,
-  UNIQUE INDEX `product_id` (`product_id` ASC, `userid` ASC) ,
-  INDEX `fk_Product_ProductReview` (`product_id` ASC)
-)
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `#__tienda_productvotes`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productvotes` (
-  `product_vote_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `product_id` INT(11) NOT NULL DEFAULT '0' ,
-  `votes` TEXT NOT NULL ,
-  `allvotes` INT(11) NOT NULL DEFAULT '0' ,
-  `rating` TINYINT(1) NOT NULL DEFAULT '0' ,
-  `lastip` VARCHAR(50) NOT NULL DEFAULT '0' ,
-  INDEX `fk_Product_ProductVotes` (`product_id` ASC) ,
-  PRIMARY KEY (`product_vote_id`)
-)
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `#__tienda_shippingmethods`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `#__tienda_shippingmethods` (
@@ -5010,3 +4972,39 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptionhistory` (
   `comments` text NOT NULL,
   PRIMARY KEY (`subscriptionhistory_id`)
 ) ENGINE=MyISAM ;
+
+
+-- -----------------------------------------------------
+-- DROP EXTRA TABLES
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__tienda_productreviews`;
+DROP TABLE IF EXISTS `#__tienda_productvotes`;
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productcomments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
+  `productcomment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0',
+  `productcomment_text` text NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `created_date` datetime NOT NULL COMMENT 'GMT Only',
+  `productcomment_rating` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User rating for the product on a scale of 1 to 5',
+  `productcomment_enabled` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`productcomment_id`),
+  UNIQUE KEY `product_id` (`product_id`,`user_id`),
+  KEY `fk_Product_ProductReview` (`product_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productcommentshelpfulness`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productcommentshelpfulness` (
+  `productcommentshelpfulness_id` int(11) NOT NULL AUTO_INCREMENT,
+  `productcomment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `helpful` tinyint(1) NOT NULL COMMENT 'Was this review helpful to the user?',
+  `reported` tinyint(1) NOT NULL COMMENT 'Is the user reporting this comment as inappropriate?',
+  PRIMARY KEY (`productcommentshelpfulness_id`),
+  UNIQUE KEY `review_id` (`productcomment_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

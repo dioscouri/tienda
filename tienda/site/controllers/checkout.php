@@ -1619,7 +1619,7 @@ class TiendaControllerCheckout extends TiendaController
 		//TODO: Do Something with Payment Infomation
 		if ( $order->save() )
 		{
-			$model->setId( $order->order_id );
+		 $model->setId( $order->order_id );
 
 			// save the order items
 			if (!$this->saveOrderItems())

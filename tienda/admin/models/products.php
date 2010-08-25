@@ -275,7 +275,7 @@ class TiendaModelProducts extends TiendaModelBase
 	}
 	
 	function getItem()
-	{
+	{   
         if (empty( $this->_item ))
         {
             $item = parent::getItem();

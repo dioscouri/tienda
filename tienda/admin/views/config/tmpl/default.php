@@ -191,6 +191,7 @@
                                 
                             </td>
 						</tr>
+						
 					</tbody>
 					</table>
 					
@@ -685,6 +686,8 @@
                                 </a>                                
                             </td>
                         </tr>
+                        
+						
 					</tbody>
 					</table>
 					<?php
@@ -798,6 +801,73 @@
 					</tbody>
 					</table>
 					<?php
+
+                    echo $this->sliders->endPanel();
+					
+					$legend = JText::_( "Product Reviews" );
+					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
+					?>
+					
+					<table class="adminlist">
+					<tbody>
+					<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Require Login to leave review?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'login_review_enable', 'class="inputbox"', $this->row->get('login_review_enable', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+					 </tr>
+					 <tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Require Purchase to leave review?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'purchase_leave_review_enable', 'class="inputbox"', $this->row->get('purchase_leave_review_enable', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+					 </tr>
+					 <tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Use captcha?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'use_captcha', 'class="inputbox"', $this->row->get('use_captcha', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+					 <tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Review Helpfulness Enable votes?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'review_helpfulness_enable', 'class="inputbox"', $this->row->get('review_helpfulness_enable', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Share this links?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'share_review_enable', 'class="inputbox"', $this->row->get('share_review_enable', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+						</tr>
+						</tbody>
+						</table>
+					<?php
 						echo $this->sliders->endPanel();	
 
 						
@@ -821,8 +891,8 @@
 					</tbody>
 					</table>
 					<?php
-						echo $this->sliders->endPanel();
-						
+						echo $this->sliders->endPanel();				
+
 						// if there are plugins, display them accordingly
 		                if ($this->items_sliders) 
 		                {               	

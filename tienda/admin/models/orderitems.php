@@ -26,8 +26,8 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_datetype    = $this->getState('filter_datetype');
         $filter_recurs  = $this->getState('filter_recurs');
         $filter_productid  = $this->getState('filter_productid');
-        
-       	if ($filter)
+
+        if ($filter)
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
 

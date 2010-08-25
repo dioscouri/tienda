@@ -202,6 +202,10 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
         </copy>
+		<!-- Ambra Point Plugin -->
+		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_ambrapoints" />
+        </copy>
     	<!-- GOOGLE CHECKOUT -->
     	<!-- MONERIS -->
     	<!-- MONEYBOOKERS -->
