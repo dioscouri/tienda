@@ -1433,7 +1433,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $items = $db->loadResultArray();
         return $items;
     }
-}   
+
      /**
      * returns a product's quantity list for all combination
      * @return array of the entire Objects; 
@@ -1480,5 +1480,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 	    
 	    $results = $db->loadObjectList();
 	    return $results;
-	}  
-	
+	}
+	  
+}
