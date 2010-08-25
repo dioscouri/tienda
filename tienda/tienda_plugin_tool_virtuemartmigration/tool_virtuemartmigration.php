@@ -148,6 +148,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $state->vm_prefix = '';
         $state->driver = 'mysql';
         $state->port = '3306';
+        $state->external_site_url = '';
         
         foreach ($state->getProperties() as $key => $value)
         {
@@ -213,15 +214,15 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         
         $queries[0]->title = "CATEGORIES";
         $queries[0] = "
-            INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_enabled )
-            SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
+            INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_full_image, category_enabled )
+            SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
             FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id;
         ";
         
         $queries[1]->title = "PRODUCTS";
         $queries[1] = "
-            INSERT IGNORE INTO #__tienda_products ( product_id, product_sku, product_name, product_weight, product_description, product_width, product_length, product_height, product_enabled )
-            SELECT p.product_id, p.product_sku, p.product_name, p.product_weight, p.product_desc, p.product_width, p.product_length, p.product_height, IF(p.product_publish = 'Y', 1, 0) AS product_enabled
+            INSERT IGNORE INTO #__tienda_products ( product_id, product_sku, product_name, product_weight, product_description, product_width, product_length, product_height, product_full_image, product_enabled )
+            SELECT p.product_id, p.product_sku, p.product_name, p.product_weight, p.product_desc, p.product_width, p.product_length, p.product_height, product_full_image, IF(p.product_publish = 'Y', 1, 0) AS product_enabled
             FROM {$p}product as p;
         ";
         
@@ -298,7 +299,185 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             $n++; 
         }
         
+        $this->_migrateImages($prefix, $vm_prefix, $results);
+        
         return $results;
+    }
+    
+    
+    private function _migrateImages($prefix = 'jos_', $vm_prefix = 'vm_', &$results, $internal = true)
+    {
+    	$p = $prefix.$vm_prefix;
+    	
+    	// Fetch the VM full image
+    	if($internal)
+    		$db = JFactory::getDBO();
+    	else
+    		$db = $this->_verifyDB();
+    		
+    	$query = "SELECT product_id as id, product_full_image as image FROM {$p}product";
+    	$db->setQuery($query);
+    	$products = $db->loadAssocList();
+    	
+    	Tienda::load('TiendaImage', 'library.image');
+    	
+    	if($internal)
+    		$vm_image_path = JPATH_SITE.DS."components".DS."com_virtuemart".DS."shop_image".DS."product".DS;
+    	else
+    	{
+    		$state = $this->_getState();
+    		$url = $state->external_site_url;
+    		$vm_image_path = $url."/components/com_virtuemart/shop_image/product/";
+    	}
+    	
+    	
+    	
+    	$n = count($results);
+    	
+    	$results[$n]->title = 'Product Images';
+        $results[$n]->query = 'Copy Product Images & Resize';
+        $results[$n]->error = '';
+        $results[$n]->affectedRows = 0;
+    	
+    	foreach( $products as $result )
+    	{
+    		$check = false;
+    		if($internal)	
+    		{
+    			$check = JFile::exists($vm_image_path.$result['image']);
+    		}
+    		else
+    		{
+    			$check = $this->url_exists($vm_image_path) && $result['image'];
+    		}
+    		
+    		if($check)
+    		{
+    			if($internal)
+    			{
+	    			$img = new TiendaImage($vm_image_path.$result['image']);
+    			}
+    			else
+    			{
+    				$tmp_path = JFactory::getApplication()->getCfg('tmp_path');
+    				$file = fopen($vm_image_path.$result['image'], 'r');
+    				$file_content = stream_get_contents($file);
+    				fclose($file);
+    				
+    				$file = fopen($tmp_path.DS.$result['image'], 'w');
+    				
+    				fwrite($file, $file_content);
+    				
+    				fclose($file);
+    				 				    				
+    				$img = new TiendaImage($tmp_path.DS.$result['image']);
+    			}
+	    		
+	    		Tienda::load( 'TiendaTableProducts', 'tables.products' );
+	        	$product = JTable::getInstance( 'Products', 'TiendaTable' );
+	        	
+	    		$product->load($result['id']);
+	    		$path = $product->getImagePath();
+	    		$type = $img->getExtension();	    		
+	    		
+	            $img->load();
+	    		// Save full Image
+	    		if(!$img->save($path.$result['image'], $type))
+	    		{
+	    			$results[$n]->error .= '::Could not Save Product Image- From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
+	    		}
+	    		
+	    		// Save Thumb
+	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
+				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+				if (!$imgHelper->resizeImage( $img, 'product'))
+				{
+					$results[$n]->error .= '::Could not Save Product Thumb';
+				}
+				$results[$n]->affectedRows++;
+	    				
+	    	}
+    	}
+    	
+    	$n++;
+    	
+    	// CATEGORIES
+    	
+    	// Fetch the VM full image
+    	$query = "SELECT category_id as id, category_full_image as image FROM {$p}category";
+    	$db->setQuery($query);
+    	$products = $db->loadAssocList();
+    	
+    	Tienda::load('TiendaImage', 'library.image');
+    	
+   		if($internal)
+    		$vm_image_path = JPATH_SITE.DS."components".DS."com_virtuemart".DS."shop_image".DS."category".DS;
+    	else
+    	{
+    		$state = $this->_getState();
+    		$url = $state->external_site_url;
+    		$vm_image_path = $url."/components/com_virtuemart/shop_image/category/";
+    	}
+    	
+    	$results[$n]->title = 'Category Images';
+        $results[$n]->query = 'Copy Category Images & Resize';
+        $results[$n]->error = '';
+        $results[$n]->affectedRows = 0;
+    
+    	foreach( $products as $result )
+    	{
+    		$check = false;
+    		if($internal)	
+    		{
+    			$check = JFile::exists($vm_image_path.$result['image']);
+    		}
+    		else
+    		{
+    			$check = $this->url_exists($vm_image_path) && $result['image'];
+    		}
+    		
+    		if($check)
+    		{
+    			if($internal)
+    			{
+	    			$img = new TiendaImage($vm_image_path.$result['image']);
+    			}
+    			else
+    			{
+    				$tmp_path = JFactory::getApplication()->getCfg('tmp_path');
+    				$file = fopen($vm_image_path.$result['image'], 'r');
+    				$file_content = stream_get_contents($file);
+    				fclose($file);
+    				
+    				$file = fopen($tmp_path.DS.$result['image'], 'w');
+    				
+    				fwrite($file, $file_content);
+    				
+    				fclose($file);
+    				 				    				
+    				$img = new TiendaImage($tmp_path.DS.$result['image']);
+    			}	    		
+	            
+	            $img->load();
+	    		
+	    		// Save full Image
+	    		if(!$img->save($path.$result['image'], $type))
+	    		{
+	    			$results[$n]->error .= '::Could not Save Category Image - From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
+	    		}
+	    		
+	    		// Save Thumb
+	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
+				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+				if (!$imgHelper->resizeImage( $img, 'category'))
+				{
+					$results[$n]->error .= '::Could not Save Category Thumb';
+				}
+		
+				$results[$n]->affectedRows++;
+	    	}
+    	}
+    	
     }
 
     /**
@@ -314,24 +493,24 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $p = $prefix.$vm_prefix;
         
         // migrate categories
-         $queries[0]->title = "CATEGORIES";
+        $queries[0]->title = "CATEGORIES";
         $queries[0]->select = "
-            SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
+            SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, c.category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
             FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id;
         ";
         $queries[0]->insert = "
-            INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_enabled )
+            INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_full_image, category_enabled )
             VALUES ( %s )
         ";
 
         // migrate products
         $queries[1]->title = "PRODUCTS";
         $queries[1]->select = "
-            SELECT p.product_id, p.product_sku, p.product_name, p.product_weight, p.product_desc, p.product_width, p.product_length, p.product_height, IF(p.product_publish = 'Y', 1, 0) AS product_enabled
+            SELECT p.product_id, p.product_sku, p.product_name, p.product_weight, p.product_desc, p.product_width, p.product_length, p.product_height, p.product_full_image, IF(p.product_publish = 'Y', 1, 0) AS product_enabled
             FROM {$p}product as p;
         ";
         $queries[1]->insert = "
-            INSERT IGNORE INTO #__tienda_products ( product_id, product_sku, product_name, product_weight, product_description, product_width, product_length, product_height, product_enabled )
+            INSERT IGNORE INTO #__tienda_products ( product_id, product_sku, product_name, product_weight, product_description, product_width, product_length, product_height, product_full_image, product_enabled )
             VALUES ( %s )
         ";
         
@@ -449,7 +628,28 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             $n++; 
         }
         
+        $this->_migrateImages($prefix, $vm_prefix, $results, false);
+        
         return $results;
+    }
+
+    
+	private function url_exists($url){
+        $url = str_replace("http://", "", $url);
+        if (strstr($url, "/")) {
+            $url = explode("/", $url, 2);
+            $url[1] = "/".$url[1];
+        } else {
+            $url = array($url, "/");
+        }
+
+        $fh = fsockopen($url[0], 80);
+        if ($fh) {
+            fputs($fh,"GET ".$url[1]." HTTP/1.1\nHost:".$url[0]."\n\n");
+            if (fread($fh, 22) == "HTTP/1.1 404 Not Found") { return FALSE; }
+            else { return TRUE;    }
+
+        } else { return FALSE;}
     }
    
 }

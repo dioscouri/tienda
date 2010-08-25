@@ -109,5 +109,18 @@
                     
                     </td>
                 </tr>
-            </table>    
+                 <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'EXTERNAL SITE URL' ); ?>:
+                    </td>
+                    <td>
+                    	<?php echo @$state->external_site_url; ?>
+                        <input type="hidden" name="external_site_url" id="external_site_url" size="48" maxlength="250" value="<?php echo @$state->external_site_url; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr> 
+            </table>   
+           
     </fieldset>
