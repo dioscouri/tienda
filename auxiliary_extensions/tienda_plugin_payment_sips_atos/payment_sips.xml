@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+    <name>Sips Payments</name>
+    <version>0.1.1</version>
+    <creationDate>August 2010</creationDate>
+    <author>Valérie Isaksen</author>
+    <authorEmail>alatak@alatak.net</authorEmail>
+    <authorUrl>http://www.alatak.net</authorUrl>
+    <copyright>2010 alatak.net</copyright>
+    <license>GNU General Public License v2</license>
+    <description>TIENDA_SIPS_PAYMENT_PLUGIN_DESC</description>
+	
+    <files>
+        <filename plugin="payment_sips">payment_sips.php</filename>
+        <folder>payment_sips</folder>
+    </files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_payment_sips.ini</language>
+        <language tag="fr-FR">languages/fr-FR.plg_tienda_payment_sips.ini</language>
+
+    </languages>
+
+    <params addpath="/administrator/components/com_tienda/elements">
+        <param name="payment_solution_name" type="list" default="test" label="TIENDA_SIPS_PAYMENT_SOLUTION_NAME" description="TIENDA_SIPS_PAYMENT_SOLUTION_NAME_DESC">
+            <option value="cyberplus">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_CYBERPLUS</option>
+            <option value="etransaction">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_ETRANSACTION</option>
+            <option value="mercanet">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_MERCANET</option>
+            <option value="sogenactif">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SOGENACTIF</option>
+            <option value="scellius">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SCELLIUS</option>
+            <option value="sherlocks">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SHERLOCKS</option>
+
+        </param>
+        <param name="payment_test" type="list" default="en" label="TIENDA_SIPS_SERVER" description="TIENDA_SIPS_SERVER_DESC">
+            <option value="test">TIENDA_SIPS_SERVER_TEST</option>
+            <option value="production">TIENDA_SIPS_SERVER_PRODUCTION</option>
+        </param>
+        <param name="merchant_id" type="text" size="50" default="" label="TIENDA_SIPS_MERCHANT_ID" description="TIENDA_SIPS_MERCHANT_ID_DESC"/>
+  
+        <param name="cgi_path" type="text" size="50" default="" label="TIENDA_SIPS_CGI" description="TIENDA_SIPS_CGI_DESC"/>
+        <param name="pathfile" type="text" size="50" default="" label="TIENDA_SIPS_PATHFILE" description="TIENDA_SIPS_PATHFILE_DESC"/>
+        <param type="spacer" />
+        <param name="payment_means_sips" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_VISA" description="">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="payment_means_mastercard" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_MASTERCARD" description="">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="payment_means_cb" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_CB" description="">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="payment_means_amex" type="radio" default="0" label="TIENDA_SIPS_PAYMENT_MEANS_AMEX" description="">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param type="spacer" />
+
+        <param name="payment_mode" type="list" default="en" label="TIENDA_SIPS_PAYMENT_MODE" description="TIENDA_SIPS_PAYMENT_MODE_DESC">
+            <option value="capture">TIENDA_SIPS_PAYMENT_MODE_CAPTURE</option>
+            <option value="validation">TIENDA_SIPS_PAYMENT_MODE_VALIDATION</option>
+        </param>
+        <param name="payment_days" type="text" size="5" default="" label="TIENDA_SIPS_PAYMENT_DAYS" description="TIENDA_SIPS_PAYMENT_DAYS_DESC"/>
+        <param type="spacer" />
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="TIENDA_SIPS_FAILED_ORDER_STATE" description="State to put the order in when the payment fails" />
+        <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="TIENDA_SIPS_PAYMENT_RECEIVED_ORDER_STATE" description="TIENDA_SIPS_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+    </params>
+			
+</install>
