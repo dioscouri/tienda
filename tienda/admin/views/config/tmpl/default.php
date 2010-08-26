@@ -812,6 +812,17 @@
 					<tbody>
 					<tr>
 			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Product Reviews?' ); ?>
+							</th>
+			                <td>
+			                	 <?php echo JHTML::_('select.booleanlist', 'product_review_enable', 'class="inputbox"', $this->row->get('product_review_enable', '1') ); ?>
+			                </td>
+                            <td>
+                                
+                            </td>
+					 </tr>
+					<tr>
+			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Require Login to leave review?' ); ?>
 							</th>
 			                <td>

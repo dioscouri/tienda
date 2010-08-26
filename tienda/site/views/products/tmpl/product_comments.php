@@ -12,11 +12,12 @@ $return_url = str_replace($root , '', $url);
 $linkurl=base64_encode( $url );
 $Itemid = JRequest::getVar('Itemid', '');
 $result=@$this->result;
+$review_enable=@$this->review_enable;
 $count=@$this->count;
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
 ?>
-<?php if ($result == 1 || $count > 0 ) { ?>
+<?php if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { ?>
 <div id="product_review_header" class="tienda_header">
     <span><?php echo JText::_("Reviews"); ?></span>
 </div>
@@ -24,14 +25,14 @@ $baseurl=$this->baseurl;
 
  <div>
     <div class="rowDiv" style="padding-top: 5px;">
-        <?php if ($result == 1) { ?>
+        <?php if ($review_enable==1 && $result == 1) { ?>
         	<div class="leftAlignDiv">
         		<input onclick="tiendaShowHideDiv('new_review_form');" value="<?php echo JText::_('Add Review'); ?>" type="button" class="button" />
         	</div>
         <?php } ?>
     
     	<div class="rightAlignDiv">
-    	<?php if ($count > 0) { ?>
+    	<?php if ($review_enable==1 && $count > 0  ) { ?>
     		<form name="sort" method="post" action="<?php echo JRoute::_($url); ?>">
     		<?php echo JText::_('Sort By'); ?>:
     		<?php echo TiendaSelect::selectsort( $this->selectsort, 'default_selectsort' ); ?> 
@@ -74,7 +75,7 @@ $baseurl=$this->baseurl;
             <input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>" />
         </form>
     </div>
-   
+   <?php if($review_enable==1){?>
     <?php foreach ($reviews as $review) : ?>
     <div class="rowPaddingDiv">
         <div class="commentsDiv1">
@@ -136,6 +137,7 @@ $baseurl=$this->baseurl;
         </div>
     </div>
     <?php endforeach; ?>
+    <?php }?>
      
     <div id="products_footer">
         <?php echo @$this->pagination->getPagesLinks(); ?>

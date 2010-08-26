@@ -1035,6 +1035,93 @@ class TiendaControllerProducts extends TiendaController
         return;
         
     }
+
+    /**
+     * Gets all the product's user reviews
+     * @param $product_id
+     * @return unknown_type
+     */
+	function getComments($product_id)
+    {
+        $html = '';
+        $view   =& $this->getView( 'products', 'html' );
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
+        $selectsort = JRequest::getVar('default_selectsort', '');
+        $model->setstate('order', $selectsort );
+        $limitstart = JRequest::getInt('limitstart', 0);
+        $model->setId( $product_id );
+        $model->setstate('limitstart', $limitstart );
+        $model->setstate('filter_product', $product_id );
+        $model->setstate('filter_enabled', '1' );
+        $reviews = $model->getList();
+        
+        $count = count($reviews);
+
+        $view->set( '_controller', 'products' );
+        $view->set( '_view', 'products' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->setLayout( 'product_comments' );
+        $view->assign('product_id', $product_id);
+        $view->assign('count', $count);
+       	$view->assign('reviews', $reviews);
+       	
+       	$user_id = JFactory::getUser()->id;
+       	$productreview = TiendaHelperProduct::getUserAndProductIdForReview($product_id, $user_id);
+       	$purchase_enable = TiendaConfig::getInstance()->get('purchase_leave_review_enable', '0');
+       	$login_enable = TiendaConfig::getInstance()->get('login_review_enable', '0');
+       	$product_review_enable=TiendaConfig::getInstance()->get('product_review_enable', '0');
+       	
+       	$result = 1;
+       	if($product_review_enable=='1')
+       	{
+       		$review_enable=1;
+       	}
+       	else
+       	{
+       		$review_enable=0;
+       	}
+       	if (($login_enable == '1'))
+       	{
+       		if ($user_id)
+       		{
+       		    $order_enable = '1';
+       		   
+           		if ($purchase_enable == '1')
+           		{ 
+                    $orderexist = TiendaHelperProduct::getOrders($product_id);
+           	 		if (!$orderexist)
+       	 			{	
+       	 				$order_enable = '0';
+       	 				
+       	 			}
+           		}
+
+           		if (($order_enable != '1') || !empty($productreview) )
+           		{
+           			$result = 0;
+           		}
+       		}
+           		else
+       		{
+       			$result = 0;
+       		}
+       	}  
+       	
+       	 
+       	$view->assign('review_enable',$review_enable);
+       	$view->assign('result', $result);
+        $view->assign('click','index.php?option=com_tienda&controller=products&view=products&task=addReview');
+        $view->assign('selectsort', $selectsort);
+        ob_start();
+        $view->display();
+        $html = ob_get_contents();
+        ob_end_clean();
+        return $html;
+    }
     
     /**
      * Verifies the fields in a submitted form.  Uses the table's check() method.
