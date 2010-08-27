@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="both" type="language" method="upgrade">
+    <name>Danish Tienda</name>
+    <tag>da-DK</tag>
+    <version>0.5.4 Community</version>
+    <creationDate>August 2010</creationDate>
+    <author>Martin Wessel</author>
+    <authorEmail>indo@dioscouri.com</authorEmail>
+    <authorUrl>Dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description></description>
+
+	<site>
+		<files folder="site">
+			<filename>da-DK.com_tienda.ini</filename>
+		</files>
+	</site>
+
+    <!-- Application/administrator -->
+    <administration>
+        <files folder="admin">
+            <filename>da-DK.com_tienda.ini</filename>
+        </files>
+    </administration>
+
+</install>
