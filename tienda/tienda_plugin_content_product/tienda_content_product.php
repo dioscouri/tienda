@@ -108,6 +108,8 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
        	 */
        	function showProducts( &$row, &$matches, $count, $regex )
        	{
+       	    Tienda::load( 'TiendaSelect', 'library.select' );
+       	    
        		for ( $i=0; $i < $count; $i++ )
     		{
     	 		$load = str_replace( 'tiendaproduct', '', $matches[0][$i] );
