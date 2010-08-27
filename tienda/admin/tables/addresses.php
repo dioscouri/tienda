@@ -79,48 +79,48 @@ class TiendaTableAddresses extends TiendaTable
 			$this->user_id = JFactory::getUser()->id;
 		    if (empty($this->user_id))
 	        {
-	            $this->setError( "User Required" );
+	            $this->setError( JText::_("User Required") );
 	            return false;
 	        }
 		}
 	    if (empty($this->address_name))
         {
-            $this->setError( "Please include an Address Title" );
+            $this->setError( JText::_("Please include an Address Title") );
             return false;
         }
 		if (empty($this->first_name))
 		{
-			$this->setError( "First Name Required" );
+			$this->setError( JText::_("First Name Required") );
 			return false;
 		}
 	    if (empty($this->last_name))
         {
-            $this->setError( "Last Name Required" );
+            $this->setError( JText::_("Last Name Required") );
             return false;
         }
 	    if (empty($this->address_1))
         {
-            $this->setError( "At Least One Address Line is Required" );
+            $this->setError( JText::_("At Least One Address Line is Required") );
             return false;
         }
 	    if (empty($this->city))
         {
-            $this->setError( "City Required" );
+            $this->setError( JText::_("City Required") );
             return false;
         }
 	    if (empty($this->postal_code))
         {
-            $this->setError( "Postal Code Required" );
+            $this->setError( JText::_("Postal Code Required") );
             return false;
         }
 	    if (empty($this->country_id))
         {
-            $this->setError( "Country Required" );
+            $this->setError( JText::_("Country Required") );
             return false;
         }
 	    if (empty($this->zone_id))
         {
-            $this->setError( "Zone Required" );
+            $this->setError( JText::_("Zone Required") );
             return false;
         }
 		return true;
