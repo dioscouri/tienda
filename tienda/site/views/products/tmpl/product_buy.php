@@ -59,16 +59,9 @@ $values = @$this->values;
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
-        if ($item->product_check_inventory == 1) 
-        {
-            // $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"TiendaCheckStock();");
-            $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy', this.form );");
-            echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
-        } 
-            else 
-        {
-            echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key );
-        }   
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy', this.form );");
+        echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
+    
         ?>
         </div>
         <?php

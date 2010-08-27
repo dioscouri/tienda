@@ -397,6 +397,17 @@ class TiendaControllerProducts extends TiendaController
             {
                 $invalidQuantity = '1';
             }
+            
+            // adjust the displayed price based on the selected attributes
+            $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+            foreach ($attributes as $attrib_id)
+            {
+                // load the attrib's object
+                $table->load( $attrib_id );
+                // update the price
+                $row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+            }  
+            $view->assign( 'item', $row );
         }
         
         $view->assign( 'availableQuantity', $availableQuantity );
