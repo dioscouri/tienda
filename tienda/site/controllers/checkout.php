@@ -459,7 +459,7 @@ class TiendaControllerCheckout extends TiendaController
 					if (empty($submitted_values['email_address']) || empty($submitted_values['name']) || empty($submitted_values['username']) || empty($submitted_values['password'] ) || empty ($submitted_values['password2']) )
 					{
 						$response['error'] = '1';
-						$response['msg'] .= $helper->generateMessage(JText::_("All Fields of registreation sections are Mandatory"));
+						$response['msg'] .= $helper->generateMessage(JText::_("All Fields of registration sections are Mandatory"));
 						echo ( json_encode( $response ) );
 						return;
 					}
