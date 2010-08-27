@@ -392,6 +392,7 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 
         $list[] = JHTML::_('select.option',  'created_date', JText::_( "Date" ) );
         $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_( "Rating" ) );
+        $list[] = JHTML::_('select.option',  'helpful_votes_total', JText::_( "Helpfulness" ) );
        
         
 

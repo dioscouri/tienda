@@ -50,7 +50,7 @@ class TiendaModelProductComments extends TiendaModelBase
         {
         	$query->where('tbl.productcomment_enabled = '.$this->_db->Quote($filter_enabled));
        	}
-	    
+       	
 	}
 	/**
 	 * for joining tables products and users
@@ -59,7 +59,8 @@ class TiendaModelProductComments extends TiendaModelBase
 	{
 		
 		$query->join('LEFT', '#__tienda_products AS p ON p.product_id = tbl.product_id');
-		$query->join('LEFT', '#__users AS m ON m.id = tbl.user_id');	
+		$query->join('LEFT', '#__users AS m ON m.id = tbl.user_id');
+		$query->join('LEFT', '#__tienda_productcommentshelpfulness AS h ON h.productcomment_id  = tbl.productcomment_id');	
 		
 	}
 	
@@ -70,13 +71,14 @@ class TiendaModelProductComments extends TiendaModelBase
 		$field[] = " p.product_name AS product_name ";
 		
 		$field[] = " m.name AS user_name ";
-		
+		$field[] = "h.reported  AS reported ";
 		
 		// This subquery returns the default price for the product and allows for sorting by price
 		
 		
 		$query->select( $this->getState( 'select', 'tbl.*' ) );		
 		$query->select( $field );
+		
 	}
 	/**Listing of result
 

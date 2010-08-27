@@ -218,6 +218,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
         }
+    	if (!$this->checkProductcommentshelpful_votes())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
+        }
         
     }
     
@@ -1604,6 +1608,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    /**
+     * checks Productcomment table for helpful_votes and helpful_votes_total
+     */
+     function checkProductcommentshelpful_votes()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsNotForSale', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productcomments';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "helpful_votes";
+            $definitions["helpful_votes"] = "int(11) NOT NULL DEFAULT '0'";
+
+        $fields[] = "helpful_votes_total";
+            $definitions["helpful_votes_total"] = "int(11) NOT NULL DEFAULT '0'";
+
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsNotForSale') );
+            $config->config_name = 'checkProductsNotForSale';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
     
     /**
      * Check if the _subscriptions table is correct

@@ -36,11 +36,19 @@
                 +
                 <?php echo TiendaGrid::sort( 'Comment', "tbl.productcomment_text", @$state->direction, @$state->order ); ?>
 			</th>
-			<th style="text-align: left; width: 150px;">
+			<th style="text-align: left; width: 100px;">
+                <?php echo TiendaGrid::sort( 'Helpful votes', "tbl.helpful_votes", @$state->direction, @$state->order ); ?>
+                +
+                <?php echo TiendaGrid::sort( 'Total votes', "tbl.helpful_votes_total", @$state->direction, @$state->order ); ?>
+			</th>
+			<th style="text-align: left; width: 100px;">
                 <?php echo TiendaGrid::sort( 'User', "m.name", @$state->direction, @$state->order ); ?>
 			</th>
-			<th style="width: 100px;">
+			<th style="width: 150px;">
                 <?php echo TiendaGrid::sort( 'User Rating', "tbl.productcomment_rating", @$state->direction, @$state->order ); ?>
+			</th>
+			<th style="width: 150px;">
+                <?php echo TiendaGrid::sort( 'Reported', "h.reported", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="width: 100px;">
                 <?php echo TiendaGrid::sort( 'Published', "tbl.productcomment_enabled", @$state->direction, @$state->order ); ?>
@@ -102,6 +110,17 @@
                     <?php if (strlen($item->productcomment_text) >= '250' ) { echo "..."; } ?>
     			</div>
 			</td>
+			<td style="text-align: left;">
+    			<a href="<?php echo $item->link; ?>"> 
+    			<?php echo JText::_($item->helpful_votes); ?>
+    			</a>
+    			<div>
+                    <a href="<?php echo $item->link; ?>"> 
+                    <?php echo JText::_($item->helpful_votes_total); ?>
+                    </a>
+    			</div>
+			</td>
+			
 			<td style="text-align: left;"><a href="<?php echo $item->link; ?>"> <?php echo JText::_($item->user_name); ?>
 			</a></td>
 			<td style="text-align: left;"> 
@@ -120,6 +139,8 @@
 			 }
 			}
 			 ?>
+			</td>
+			<td style="text-align: center;"><a href="<?php echo $item->link; ?>"><?php if(($item->reported)>0){ ?><img src="../media/com_tienda/images/required_16.png"><?php }?></a>
 			</td>
 
 			<td style="text-align: center;"><?php echo TiendaGrid::enable($item->productcomment_enabled, $i, 'productcomment_enabled.' ); ?>

@@ -1481,5 +1481,30 @@ class TiendaHelperProduct extends TiendaHelperBase
 	    $results = $db->loadObjectList();
 	    return $results;
 	}
+	
+	/**
+	 * returns productcomment record
+	 * @param unknown_type $productcomment_id
+	 */
+	public function getHelpfulVotes($productcomment_id)
+	{
+	        if (empty($productcomment_id))
+        {
+            return array();
+        }
+		Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
+        $query = new TiendaQuery();
+        $select[]="tbl.*";	
+        $query->select( $select );
+        $query->from( $table->getTableName()." AS tbl" );
+        $query->where("tbl.productcomment_id= ".(int)$productcomment_id);
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadObjectList();
+        return $items[0];
+		
+	}
 	  
 }

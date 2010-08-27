@@ -176,6 +176,7 @@ class TiendaControllerProducts extends TiendaController
 	 * @see tienda/site/TiendaController#view()
 	 */
 	function view()
+	
 	{
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$model  = $this->getModel( $this->get('suffix') );
@@ -1560,9 +1561,26 @@ class TiendaControllerProducts extends TiendaController
 	
 		if ($user_id)
 		{
-    		$productcomment_id = JRequest::getInt('productcomment_id', '');		
+    		$productcomment_id = JRequest::getInt('productcomment_id', '');	
+    		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+            $producthelper = new TiendaHelperProduct();
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+    		$productcomment = JTable::getInstance('productcomments', 'TiendaTable');
+    		$productcomment->load( $productcomment_id,'productcomment_id');
+            $product_helpful = $producthelper->getHelpfulVotes($productcomment_id);
+            $helpful_votes_total=$product_helpful->helpful_votes_total;
+            $helpful_votes_total=$helpful_votes_total+1;
     		$helpfulness = JRequest::getInt('helpfulness', '');
     		$report = JRequest::getInt('report', '');
+    		if($helpfulness==1)
+    		{
+            $helpful_vote=$product_helpful->helpful_votes;
+            $helpful_vote_new=$helpful_vote + 1;
+    		$productcomment->helpful_votes=$helpful_vote_new;
+    		
+    		}
+    		$productcomment->helpful_votes_total=$helpful_votes_total;
+    		
     		
     		$help=array();
     		$help['productcomment_id']=$productcomment_id;
@@ -1579,6 +1597,7 @@ class TiendaControllerProducts extends TiendaController
  			}
      			else
  			{
+ 				$productcomment->save();
      			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Your comments have been saved' ));
       			JFactory::getApplication()->redirect($url);
 
