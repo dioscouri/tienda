@@ -106,7 +106,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
         </tr>
         <tr>
             <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register&return=".base64_encode( $url ) ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
+                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
             </td>
         </tr>
         </table>

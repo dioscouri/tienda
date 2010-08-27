@@ -5,6 +5,7 @@
 	JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/');
 	$form = @$this->form; 
 	$row = @$this->row;
+	$register = @$this->register;
 	$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id="; 
 ?>
 <div class='componentheading'>
@@ -34,10 +35,18 @@
             </div>
         <?php endif; ?>
         
+        <?php if ($register) :?>
+         <h3>
+            <?php echo JText::_("Register Information") ?>
+        </h3>
+       <?php  include 'form_register.php';?>	
+       <?php endif; ?>
+       
+       
         <h3>
             <?php echo JText::_("Set Shipping and Billing Addresses") ?>
         </h3>
-        
+         <?php if (!$register) :?>
         <h4>
             <?php echo JText::_("Your Email Address") ?>
         </h4>
@@ -50,7 +59,7 @@
             </td>
         </tr>
 		</table>
-			
+		<?php endif;?>	
 			
         <table style="clear: both;">
         <tr>
@@ -114,7 +123,11 @@
     		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
     		<input type="hidden" id="step" name="step" value="selectshipping" />
     		<input type="hidden" id="task" name="task" value="" />
+    		<?php  if (!$register) {?>
     		<input type="hidden" id="guest" name="guest" value="1" />
+    		<?php } else {?>
+    		<input type="hidden" id="register" name="register" value="1" />
+    		<?php } ?>
         
         <?php echo $this->form['validate']; ?>
     </form>
