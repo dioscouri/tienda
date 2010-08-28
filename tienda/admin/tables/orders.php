@@ -926,62 +926,70 @@ class TiendaTableOrders extends TiendaTable
     
     function delete( $oid=null )
     {
-        if ( $return = parent::delete( $oid ))
+        $k = $this->_tbl_key;
+        if ($oid) {
+            $this->$k = intval( $oid );
+        }
+        
+        // this should all be a transaction...
+        
+        // Delete all the orderitems, orderpayments, ordershipping, etc)
+        $query = "SELECT `orderitem_id` FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if ($list = $this->_db->loadResultArray())
         {
-            $k = $this->_tbl_key;
-            if ($oid) {
-                $this->$k = intval( $oid );
-            }
-            
-            // TODO Delete all the orderitems, orderpayments, ordershipping, etc)
-            $query = "SELECT `orderitem_id` FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
+            $id_csv = implode("', '", $list);
+            $query = "DELETE FROM #__tienda_orderitemattributes WHERE `orderitem_id` IN ('$id_csv');";
             $this->_db->setQuery( $query );
-            if ($list = $this->_db->loadResultArray())
-            {
-                $id_csv = implode("', '", $list);
-                $query = "DELETE FROM #__tienda_orderitemattributes WHERE `orderitem_id` IN ('$id_csv');";
-                $this->_db->setQuery( $query );
-                if ($this->_db->query())
-                {
-                    // track
-                }
-            }
-            
-            $query = "DELETE FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
-            $this->_db->setQuery( $query );
-            if ($this->_db->query())
+            if (!$this->_db->query())
             {
                 // track
-            }
-            
-            $query = "DELETE FROM #__tienda_orderpayments WHERE `order_id` = '{$this->$k}';";
-            $this->_db->setQuery( $query );
-            if ($this->_db->query())
-            {
-                // track
-            }
-            
-            $query = "DELETE FROM #__tienda_orderinfo WHERE `order_id` = '{$this->$k}';";
-            $this->_db->setQuery( $query );
-            if ($this->_db->query())
-            {
-                // track
-            }
-            
-            $query = "DELETE FROM #__tienda_ordershippings WHERE `order_id` = '{$this->$k}';";
-            $this->_db->setQuery( $query );
-            if ($this->_db->query())
-            {
-                // track
-            }
-            
-            $query = "DELETE FROM #__tienda_orderhistory WHERE `order_id` = '{$this->$k}';";
-            $this->_db->setQuery( $query );
-            if ($this->_db->query())
-            {
-                // track
+                JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
             }
         }
+        
+        $query = "DELETE FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            // track
+            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        }
+        
+        $query = "DELETE FROM #__tienda_orderpayments WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            // track
+            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        }
+        
+        $query = "DELETE FROM #__tienda_orderinfo WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            // track
+            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        }
+        
+        $query = "DELETE FROM #__tienda_ordershippings WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            // track
+            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        }
+        
+        $query = "DELETE FROM #__tienda_orderhistory WHERE `order_id` = '{$this->$k}';";
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            // track
+            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        }
+            
+        $return = parent::delete( $oid );
+        
         return $return;
     }
 }

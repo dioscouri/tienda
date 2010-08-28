@@ -1033,7 +1033,7 @@ class TiendaControllerOrders extends TiendaController
 	}
 
     /**
-     * Displays list of orders to update there status
+     * Displays list of orders to update their status
      * provide diffrent functions like send mail to user update staus etc.
      * @return void
      */
