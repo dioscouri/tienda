@@ -131,13 +131,6 @@
 			</tr>
 			<?php endif; ?>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="20">
-					<?php echo @$this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
 
 	<input type="hidden" name="order_change" value="0" />
