@@ -867,7 +867,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Enable Share this links?' ); ?>
+								<?php echo JText::_( 'Enable Share this link?' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'share_review_enable', 'class="inputbox"', $this->row->get('share_review_enable', '1') ); ?>
