@@ -132,7 +132,7 @@ $baseurl=$this->baseurl;
       			 <a href="http://twitter.com/home?status=<?php echo $linkurl;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/twitter.png"/></a>
       			 <a href="http://www.tumblr.com/login?s=<?php echo $linkurl;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/link-tumblr.PNG"/></a>
       			 <a href="http://www.stumbleupon.com/submit?url=<?php echo $linkurl;?>&title=<?php echo $row->product_name;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/stumbleupon.png"/></a>
-      			 <a href="'http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png"/></a>
+      			 <a href="http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png"/></a>
       			 
       		</div>
        		<?php } ?>
