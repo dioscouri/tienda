@@ -128,11 +128,11 @@ $baseurl=$this->baseurl;
       		<div id="links" class="commentsDiv">
       		<span class="share_review"><?php echo JText::_( "Share this review" ); ?>:</span>
       			
-      			 <a href="http://www.facebook.com/share.php?u=<?php echo $linkurl;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/facebook.png"/></a>
-      			 <a href="http://twitter.com/home?status=<?php echo $linkurl;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/twitter.png"/></a>
-      			 <a href="http://www.tumblr.com/login?s=<?php echo $linkurl;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/link-tumblr.PNG"/></a>
-      			 <a href="http://www.stumbleupon.com/submit?url=<?php echo $linkurl;?>&title=<?php echo $row->product_name;?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/stumbleupon.png"/></a>
-      			 <a href="http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>"> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png"/></a>
+      			 <a href="http://www.facebook.com/share.php?u=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/facebook.png"/></a>
+      			 <a href="http://twitter.com/home?status=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/twitter.png"/></a>
+      			 <a href="http://www.tumblr.com/login?s=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/link-tumblr.PNG"/></a>
+      			 <a href="http://www.stumbleupon.com/submit?url=<?php echo $linkurl;?>&title=<?php echo $row->product_name;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/stumbleupon.png"/></a>
+      			 <a href="http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png"/></a>
       			 
       		</div>
        		<?php } ?>
