@@ -327,6 +327,18 @@
             <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
             </th>
         </tr>
+        
+        <?php if (!empty($row->order_discount)) : ?>
+        <tr>
+            <th colspan="2" style="text-align: right;">
+                <?php echo JText::_( "Discount" ); ?>
+            </th>
+            <td colspan="3" style="text-align: right;">
+                <?php echo TiendaHelperBase::currency($row->order_discount); ?>
+            </td>
+        </tr>
+        <?php endif; ?>
+        
         <?php
         if (TiendaConfig::getInstance()->get('display_taxclass_lineitems') && !empty($row->ordertaxclasses))
         {

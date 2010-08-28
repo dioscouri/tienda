@@ -425,7 +425,10 @@ class TiendaConfig extends JObject
     var $enable_reorder_table	            = '1';
     var $product_review_enable				= '1';
     var $force_ssl_checkout                 = '0';
-
+    var $coupons_enabled                    = '1';
+    var $coupons_before_tax                 = '1';
+    var $multiple_usercoupons_enabled       = '0';
+    
     // Email Settings
     var $disable_guest_signup_email         = '0';
 

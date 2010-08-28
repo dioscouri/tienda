@@ -34,6 +34,25 @@
             </div>
         <?php endif; ?>
         
+        <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled'); ?>
+        <?php if ($coupons_enabled) : ?>
+        <!-- COUPON CODE -->
+        <div id="coupon_code_area">
+            <div id="coupon_code_form">
+            <h3><?php echo JText::_("Coupon Code"); ?></h3>
+            <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
+            <?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
+            <div id="coupon_code_help"><?php echo JText::_($string); ?></div>
+            <div id="coupon_code_message"></div>
+            <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
+            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
+            </div>
+            <div id='coupon_codes' style="display: none;"></div>
+        </div>
+        <?php endif; ?>
+        
+        <div class="reset"></div>
+        
 	   <div id="payment_info" class="address">
 		<h3><?php echo JText::_("Billing Information"); ?></h3>
 		<strong><?php echo JText::_("Total Amount Due"); ?></strong>: <?php echo TiendaHelperBase::currency( $this->order->order_total ); ?><br/>

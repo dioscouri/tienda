@@ -1112,6 +1112,17 @@ class TiendaControllerCheckout extends TiendaController
 			$order->addItem( $item );
 		}
 
+	    // get all coupons and add them to the order
+        if (!empty($values['coupons']))
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+            }
+        }
+		
 		// get the order totals
 		$order->calculateTotals();
 
@@ -1671,6 +1682,25 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			$order->addItem( $reviewitem );
 		}
+		
+	    // get all coupons and add them to the order
+        $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
+        $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
+        if (!empty($values['coupons']) && $coupons_enabled)
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+                if (empty($mult_enabled))
+                {
+                    // this prevents Firebug users from adding multiple coupons to orders
+                    break;
+                }                
+            }
+        }
+		
 		$order->order_state_id = $this->initial_order_state;
 		$order->calculateTotals();
 		$order->getShippingTotal();
@@ -1723,6 +1753,13 @@ class TiendaControllerCheckout extends TiendaController
 				// TODO What to do if saving order shippings fails?
 				$error = true;
 			}
+			
+		    // save the order coupons
+            if (!$this->saveOrderCoupons())
+            {
+                // TODO What to do if saving order coupons fails?
+                $error = true;
+            }
 		}
 
 		if ($error)
@@ -2034,6 +2071,37 @@ class TiendaControllerCheckout extends TiendaController
 
 		return true;
 	}
+	
+    /**
+     * Saves the order coupons to the DB
+     * @return unknown_type
+     */
+    function saveOrderCoupons()
+    {
+        $order =& $this->_order;
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        
+        $error = false;
+        $errorMsg = "";        
+        $ordercoupons = $order->getOrderCoupons();
+        foreach ($ordercoupons as $ordercoupon)
+        {
+            $ordercoupon->order_id = $order->order_id;
+            if (!$ordercoupon->save())
+            {
+                // track error
+                $error = true;
+                $errorMsg .= $ordercoupon->getError();
+            }
+        }
+        
+        if ($error)
+        {
+            $this->setError( $errorMsg );
+            return false;
+        }
+        return true;
+    }
 
 	/**
 	 *
@@ -2064,6 +2132,64 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return $address_input;
 	}
+	
+    /**
+     * Validate Coupon Code
+     *
+     * @return unknown_type
+     */
+    function validateCouponCode()
+    {
+        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );            
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
+        
+        $coupon_code = JRequest::getVar( 'coupon_code', '');
+        
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // check if coupon code is valid
+        $user_id = JFactory::getUser()->id;
+        Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
+        $helper_coupon = new TiendaHelperCoupon();
+        $coupon = $helper_coupon->isValid( $coupon_code, 'code', $user_id );
+        if (!$coupon)
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( $helper_coupon->getError() );
+            echo json_encode($response);
+            return;
+        }
+
+        if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "This Coupon Has Already Been Added to the Order" ) );
+            echo json_encode($response);
+            return;
+        }
+
+        // TODO Check that the user can add this coupon to the order
+        $can_add = true;
+        if (!$can_add)
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "Cannot Add This Coupon to Order" ) );
+            echo json_encode($response);
+            return;
+        }
+        
+        // if valid, return the html for the coupon
+        $response['msg'] = " <input type='hidden' name='coupons[]' value='$coupon->coupon_id'>";
+        echo json_encode($response);
+        return;
+    }
 
 	/**
 	 *

@@ -218,9 +218,15 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
         }
-    	if (!$this->checkProductcommentshelpful_votes())
+    	
+        if (!$this->checkProductcommentshelpful_votes())
         {
-            return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductcommentshelpful_votes FAILED') .' :: '. $this->getError(), 'error' );
+        }
+
+        if (!$this->checkOrderitemsDiscount())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsDiscount FAILED') .' :: '. $this->getError(), 'error' );
         }
         
     }
@@ -1608,41 +1614,6 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
-    /**
-     * checks Productcomment table for helpful_votes and helpful_votes_total
-     */
-     function checkProductcommentshelpful_votes()
-    {
-        // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkProductsNotForSale', '0'))
-        {
-            return true;
-        }
-        
-        $table = '#__tienda_productcomments';
-        $definitions = array();
-        $fields = array();
-        
-        $fields[] = "helpful_votes";
-            $definitions["helpful_votes"] = "int(11) NOT NULL DEFAULT '0'";
-
-        $fields[] = "helpful_votes_total";
-            $definitions["helpful_votes_total"] = "int(11) NOT NULL DEFAULT '0'";
-
-        if ($this->insertTableFields( $table, $fields, $definitions ))
-        {
-            // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkProductsNotForSale') );
-            $config->config_name = 'checkProductsNotForSale';
-            $config->value = '1';
-            $config->save();
-            return true;
-        }
-        return false;        
-    }
-    
     
     /**
      * Check if the _subscriptions table is correct
@@ -1713,5 +1684,75 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+
+    /**
+     * checks Productcomment table for helpful_votes and helpful_votes_total
+     * @return unknown_type
+     */
+    function checkProductcommentshelpful_votes()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductcommentshelpful_votes', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productcomments';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "helpful_votes";
+            $definitions["helpful_votes"] = "int(11) NOT NULL DEFAULT '0'";
+
+        $fields[] = "helpful_votes_total";
+            $definitions["helpful_votes_total"] = "int(11) NOT NULL DEFAULT '0'";
+
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductcommentshelpful_votes') );
+            $config->config_name = 'checkProductcommentshelpful_votes';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
     
+    /**
+     * Checks the orderitems table for the recurring_price field
+     * As of v0.5.3
+     * 
+     * return boolean
+     */
+    function checkOrderitemsDiscount()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderitemsDiscount', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderitems';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "orderitem_discount";
+            $definitions["orderitem_discount"] = "decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Coupon discount applied to each item'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderitemsDiscount') );
+            $config->config_name = 'checkOrderitemsDiscount';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
 }

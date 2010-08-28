@@ -73,6 +73,17 @@ $items = @$this->orderitems;
                         <?php echo TiendaHelperBase::currency($order->order_subtotal); ?>
                     </td>
                 </tr>
+                
+                <?php if (!empty($order->_coupons['order_price'])) : ?>
+                <tr>
+                    <td colspan="2" style="font-weight: bold; white-space: nowrap;">
+                        <?php echo JText::_( "Discount" ); ?>
+                    </td>
+                    <td colspan="3" style="text-align: right;">
+                        <?php echo TiendaHelperBase::currency($order->order_discount); ?>
+                    </td>
+                </tr>
+                <?php endif; ?>
             </tfoot>
         </table>
         <table class="adminlist" style="clear: both;">

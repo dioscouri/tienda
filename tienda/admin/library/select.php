@@ -872,5 +872,24 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 		return self::genericlist($list, $name, $attribs, 'id', 'name', $selected, $idtag );
  	}
     
-    
+    /**
+    * 
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function coupongroup( $selected, $name = 'filter_coupongroup', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Coupon Group' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'price', JText::_( "Price" ) );
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+        
 }

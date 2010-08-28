@@ -720,6 +720,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `orderitem_quantity` INT(11) NULL DEFAULT NULL ,
   `orderitem_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Base price of the item',
   `orderitem_attributes_price` varchar(64) NOT NULL COMMENT 'The increase or decrease in price per item as a result of attributes. Includes + or - sign',
+  `orderitem_discount` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Coupon discount applied to each item',
   `orderitem_final_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Price of item inclusive of quantity, attributes, tax, and shipping',
   `orderitem_tax` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `orderitem_shipping` decimal(12,5) NOT NULL DEFAULT '0.00000',
@@ -856,6 +857,25 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   KEY `idx_order_shipping_order_id` (`order_id`),
   KEY `fk_Orders_OrderShipping` (`order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores each of the shipping records for orders' ;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_ordercoupons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_ordercoupons` (
+  `ordercoupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `ordercoupon_name` varchar(64) DEFAULT NULL,
+  `ordercoupon_code` varchar(64) DEFAULT NULL,
+  `ordercoupon_type` tinyint(1) NOT NULL COMMENT '0=Per Order, 1=Per Product',
+  `ordercoupon_group` varchar(32) NOT NULL COMMENT 'price, tax, shipping',
+  `ordercoupon_automatic` tinyint(1) NOT NULL COMMENT '0=User-Submitted, 1=Automatic',
+  `ordercoupon_value` decimal(12,5) DEFAULT NULL COMMENT 'The coupon face value',
+  `ordercoupon_value_type` tinyint(1) NOT NULL COMMENT '0=Flat-rate, 1=Percentage',
+  `ordercoupon_amount` decimal(12,5) NOT NULL COMMENT 'The total discount amount of this coupon',
+  PRIMARY KEY (`ordercoupon_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -5124,6 +5144,34 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcommentshelpfulness` (
   PRIMARY KEY (`productcommentshelpfulness_id`),
   UNIQUE KEY `review_id` (`productcomment_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_coupons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_coupons` (
+  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_name` varchar(64) DEFAULT NULL,
+  `coupon_code` varchar(64) DEFAULT NULL,
+  `coupon_type` tinyint(1) NOT NULL COMMENT '0=Per Order, 1=Per Product',
+  `coupon_group` varchar(32) NOT NULL COMMENT 'price, tax, shipping',
+  `coupon_automatic` tinyint(1) NOT NULL COMMENT '0=User-Submitted, 1=Automatic',
+  `coupon_value` decimal(12,5) DEFAULT NULL,
+  `coupon_value_type` tinyint(1) NOT NULL COMMENT '0=Flat-rate, 1=Percentage',
+  `currency_id` int(11) DEFAULT NULL,
+  `coupon_description` text,
+  `coupon_params` text NOT NULL,
+  `created_date` datetime NOT NULL COMMENT 'GMT Only',
+  `modified_date` datetime NOT NULL COMMENT 'GMT Only',
+  `start_date` datetime NOT NULL COMMENT 'GMT Only',
+  `expiration_date` datetime DEFAULT NULL COMMENT 'GMT Only',
+  `coupon_enabled` tinyint(1) NOT NULL,
+  `coupon_uses` int(11) NOT NULL COMMENT 'Running count of the number of uses of this coupon',
+  `coupon_max_uses` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
+  `coupon_max_uses_per_user` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

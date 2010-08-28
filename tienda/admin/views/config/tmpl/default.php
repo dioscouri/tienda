@@ -748,6 +748,52 @@
                     <?php
                     echo $this->sliders->endPanel();
 					
+                    
+                    $legend = JText::_( "Coupon Settings" );
+                    echo $this->sliders->startPanel( JText::_( $legend ), 'coupons' );
+                    ?>
+                    
+                    <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Coupons' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'coupons_enabled', 'class="inputbox"', $this->row->get('coupons_enabled', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Multiple User Submitted Coupons Per Order' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'multiple_usercoupons_enabled', 'class="inputbox"', $this->row->get('multiple_usercoupons_enabled', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Apply Coupon Discount Before Tax' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'coupons_before_tax', 'class="inputbox"', $this->row->get('coupons_before_tax', '1') ); ?>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <?php
+                    echo $this->sliders->endPanel();
+                    
+                    
 					$legend = JText::_( "Administrator ToolTips" );
 					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
 					?>
