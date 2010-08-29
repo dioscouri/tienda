@@ -69,7 +69,7 @@ class TiendaHelperCoupon extends TiendaHelperBase
         
         $db = JFactory::getDBO();
         $nullDate = $db->getNullDate();
-        if ($coupon->expiration_date != $nullDate && $date->toMySQL() > $coupon->$coupon->expiration_date)
+        if ($coupon->expiration_date != $nullDate && $date->toMySQL() > $coupon->expiration_date)
         {
             $this->setError( JText::_( "Coupon Has Expired" ) );
             return false;
