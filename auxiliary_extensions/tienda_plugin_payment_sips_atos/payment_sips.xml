@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-    <name>Sips Payments</name>
+    <name>Sips From ATOS Payment</name>
     <version>0.1.1</version>
     <creationDate>August 2010</creationDate>
     <author>Valérie Isaksen</author>
@@ -18,7 +18,6 @@
     <languages>
         <language tag="en-GB">languages/en-GB.plg_tienda_payment_sips.ini</language>
         <language tag="fr-FR">languages/fr-FR.plg_tienda_payment_sips.ini</language>
-
     </languages>
 
     <params addpath="/administrator/components/com_tienda/elements">
@@ -29,17 +28,20 @@
             <option value="sogenactif">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SOGENACTIF</option>
             <option value="scellius">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SCELLIUS</option>
             <option value="sherlocks">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_SHERLOCKS</option>
+            <option value="webaffaires">TIENDA_SIPS_PAYMENT_SOLUTION_NAME_WEBAFFAIRES</option>
 
         </param>
-        <param name="payment_test" type="list" default="en" label="TIENDA_SIPS_SERVER" description="TIENDA_SIPS_SERVER_DESC">
+        <param name="payment_server" type="list" default="en" label="TIENDA_SIPS_SERVER" description="TIENDA_SIPS_SERVER_DESC">
             <option value="test">TIENDA_SIPS_SERVER_TEST</option>
-            <option value="production">TIENDA_SIPS_SERVER_PRODUCTION</option>
+                        <option value="production">TIENDA_SIPS_SERVER_PREPRODUCTION</option>
+            <option value="preproduction">TIENDA_SIPS_SERVER_PRODUCTION</option>
         </param>
         <param name="merchant_id" type="text" size="50" default="" label="TIENDA_SIPS_MERCHANT_ID" description="TIENDA_SIPS_MERCHANT_ID_DESC"/>
   
         <param name="cgi_path" type="text" size="50" default="" label="TIENDA_SIPS_CGI" description="TIENDA_SIPS_CGI_DESC"/>
         <param name="pathfile" type="text" size="50" default="" label="TIENDA_SIPS_PATHFILE" description="TIENDA_SIPS_PATHFILE_DESC"/>
-        <param type="spacer" />
+        
+       <param type="spacer" />
         <param name="payment_means_sips" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_VISA" description="">
             <option value="0">No</option>
             <option value="1">Yes</option>
@@ -66,6 +68,13 @@
         <param type="spacer" />
         <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="TIENDA_SIPS_FAILED_ORDER_STATE" description="State to put the order in when the payment fails" />
         <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="TIENDA_SIPS_PAYMENT_RECEIVED_ORDER_STATE" description="TIENDA_SIPS_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+
+      <param type="spacer" />
+        <param name="payment_sips_debug" type="radio" default="0" label="TIENDA_SIPS_PAYMENT_DEGUG" description="TIENDA_SIPS_PAYMENT_DEGUG_DESC">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+
     </params>
 			
 </install>
