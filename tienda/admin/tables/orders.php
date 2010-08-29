@@ -291,31 +291,8 @@ class TiendaTableOrders extends TiendaTable
      */
     function addCoupon( $coupon )
     {
-        switch ($coupon->coupon_group)
-        {
-            case 'shipping':
-                // TODO Do shipping coupons
-                // may be per order or per product
-                break;
-            case 'tax':
-                // TODO Do tax coupons
-                // may be per order or per product
-                break;                
-            case 'price':
-            default:
-                switch ($coupon->coupon_type)
-                {
-                    case "1":
-                        // TODO per product
-                        // $this->addProductPriceCoupon( $coupon );
-                        break;
-                    case "0":
-                        // per order
-                        $this->addOrderPriceCoupon( $coupon );
-                        break;
-                }
-                break;
-        }
+        // only orderPriceCoupons exist in Community version
+        $this->addOrderPriceCoupon( $coupon );
     }
     
     /**
