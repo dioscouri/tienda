@@ -95,23 +95,90 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		/*
 		* get all necessary data and prepare vars for assigning to the template
 		*/
+		
+		  $vars = new JObject();
+        $vars->order_id = $data['order_id'];
+        $vars->orderpayment_id = $data['orderpayment_id'];
+        $vars->orderpayment_amount = $data['orderpayment_amount'];
+        $vars->orderpayment_type = $this->_element;
+
+        // set paypal checkout type
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $data['order_id'] );
+        $items = $order->getItems();
+        $vars->is_recurring = $order->isRecurring();
+        
+        // if order has both recurring and non-recurring items,
+        if ($vars->is_recurring && count($items) > '1')
+        {
+            $vars->cmd = '_cart';
+            $vars->mixed_cart = true;
+            // Adjust the orderpayment amount since it's a mixed cart
+            // first orderpayment is just the non-recurring items total
+            // then upon return, ask user to checkout again for recurring items
+            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            $orderpayment->load( $vars->orderpayment_id );
+            $vars->amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $vars->amount; 
+            $orderpayment->save();
+            $vars->orderpayment_amount = $orderpayment->orderpayment_amount;
+        }
+            elseif ($vars->is_recurring && count($items) == '1')
+        {
+            // only recurring
+            $vars->cmd = '_xclick-subscriptions';
+            $vars->mixed_cart = false;
+        }
+            else
+        {
+            // do normal cart checkout
+            $vars->cmd = '_cart';
+            $vars->mixed_cart = false;
+        } 
+        $vars->order = $order;
+        $vars->orderitems = $items;
+        
+        // set payment plugin variables        
+        $vars->merchant_email = $this->_getParam( 'merchant_email' );
+        $vars->post_url = $this->_getPostUrl();
+        
+        // are there both recurring and non-recurring items in cart? 
+        // if so, then user must perform two checkouts,
+        // so store a flag in the return_url        
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message&checkout=1";
+        $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
+        $vars->notify_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
+        $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: TiendaConfig::getInstance()->get('currency');
+
+        // set variables for user info
+        $vars->first_name   = $data['orderinfo']->shipping_first_name;
+        $vars->last_name    = $data['orderinfo']->shipping_last_name;
+        $vars->email        = $data['orderinfo']->user_email;
+        $vars->address_1    = $data['orderinfo']->shipping_address_1;
+        $vars->address_2    = $data['orderinfo']->shipping_address_2;
+        $vars->city         = $data['orderinfo']->shipping_city;
+        $vars->country      = $data['orderinfo']->shipping_country_name;
+        $vars->region       = $data['orderinfo']->shipping_zone_name;
+        $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
+		
+		
 		$vars = new JObject();
         
 		$vars->merchant_id = $this->_getParam('merchant_id');
 		$vars->type_id = JRequest::getInt('id');
-		$vars->action_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_payment_type}&paction=proceed&tmpl=component");
+		//$vars->post_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_payment_type}&paction=proceed&tmpl=component");
 		$vars->button_url = $this->_getActionUrl(false);
 		$vars->note = JText::_( 'GoogleCheckout Note Default' );
-
 		$uri =& JFactory::getURI();
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$vars->r = base64_encode($url);
-		
+	
 		$html = $this->_getLayout('prepayment', $vars);
-        $text = array();
-		$text[] = $html;
-		$text[] = $this->params->get( 'title', 'Google Checkout' );
-		return $text;
+		return $html;
+//        $text = array();
+//		$text[] = $html;
+//		$text[] = $this->params->get( 'title', 'Google Checkout' );
+//		return $text;
 
 	}
 
@@ -125,17 +192,8 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$user = JFactory::getUser();
 		$vars = new JObject();
         
-		$vars->merchant_id = $this->_getParam('merchant_id');
-		$vars->type_id = JRequest::getInt('id');
-		$vars->action_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_payment_type}&paction=proceed&tmpl=component");
-		$vars->button_url = $this->_getActionUrl(false);
-		$vars->note = JText::_( 'GoogleCheckout Note Default' );
-
-		$uri =& JFactory::getURI();
-		$url = $uri->toString(array('path', 'query', 'fragment'));
-		$vars->r = base64_encode($url);
-     	$html = $this->_getLayout('form', $vars);
-
+		
+        $html = $this->_getLayout('form', $vars);
 		return $html;
 	}
 

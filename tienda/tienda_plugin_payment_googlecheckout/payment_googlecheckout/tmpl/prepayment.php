@@ -93,7 +93,7 @@
                         <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
                     </div>
                     <div class="prepayment_action">
-                        <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                   	   <div style="float: left; padding: 10px;"><input type="image" src="<?php echo plg_tienda_escape($vars->button_url) ?>/buttons/checkout.gif?merchant_id=<?php echo plg_tienda_escape($vars->merchant_id) ?>&w=160&h=43&style=trans&variant=text&loc=en_US" border="0" name="submit" alt="Pay with Google Checkout" /></div>
                         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                         <div style="clear: both;"></div>
@@ -105,12 +105,16 @@
     }
     ?>
 
-<!--PAYPAL VARIABLES-->
+<!--GOOGLE CHECKOUT VARIABLES-->
 	<input type='hidden' name='cmd' value='<?php echo $vars->cmd; ?>'>
 	<input type="hidden" name="business" value="<?php echo $vars->merchant_email; ?>" />
 	<input type='hidden' name='return' value='<?php echo JRoute::_( $vars->return_url ); ?>'>
 	<input type='hidden' name='cancel_return' value='<?php echo JRoute::_( $vars->cancel_url ); ?>'>
 	<input type="hidden" name="notify_url" value="<?php echo JRoute::_( $vars->notify_url ); ?>" />
 	<input type='hidden' name='currency_code' value='<?php echo $vars->currency_code; ?>'>
+	
+	<input type="hidden" name="type_id" value="<?php echo plg_tienda_escape($vars->type_id) ?>" />
+    <input type="hidden" name="r" value="<?php echo plg_tienda_escape($vars->r) ?>" />
+				
 	<input type='hidden' name='no_note' value='1'>
 </form>
