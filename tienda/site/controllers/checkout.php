@@ -1280,7 +1280,6 @@ class TiendaControllerCheckout extends TiendaController
 		// get all the enabled payment plugins
 		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 		$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
-		var_dump($plugins);
 		$view->assign('plugins', $plugins);
 
 		$dispatcher =& JDispatcher::getInstance();
