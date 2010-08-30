@@ -156,6 +156,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
 				$product->load($table->product_id );       		
        		
        		$product->product_name = $item->name;
+       		$product->product_alias = $item->alias;
        		
        		if( $product->save() )
        		{

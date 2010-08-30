@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<name>Tejidos</name>
+	<group>tejidos</group>
+	<version>2.0.0</version>
+	<creationDate>April 2010</creationDate>
+	<author>YOOtheme</author>
+	<authorEmail>info@yootheme.com</authorEmail>
+	<authorUrl>http://www.yootheme.com</authorUrl>
+    <copyright>Copyright (C) 2007 - 2010 YOOtheme GmbH</copyright>
+    <license><![CDATA[
+			YOOtheme License (<a href="http://www.yootheme.com/license" target="_blank">http://www.yootheme.com/license</a>)
+			]]>
+	</license>
+	<description><![CDATA[
+				This is the product catalog app for ZOO 2.0 developed by YOOtheme.
+				<br /><strong>NOTE:</strong> The icon of this app is copyrighted by YOOtheme. Re-use is strictly prohibited.
+				]]>
+	</description>
+	<params group="application-config">
+		<param name="items_per_page" type="text" size="3" default="15" label="Items Per Page" description="Number of items to show on a page" />
+		<param name="item_order" type="list" default="alpha" label="Item Order" description="ITEM_ORDER">
+			<option value="rdate">Latest first</option>
+			<option value="date">Latest last</option>
+			<option value="alpha">Alphabetical</option>
+			<option value="ralpha">Reverse Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+		</param>
+		<param name="alpha_index" type="list" default="3" label="Alpha Index" description="ALPHA_INDEX_DESCRIPTION">
+			<option value="1">Only Categories</option>
+			<option value="2">Only Items</option>
+			<option value="3">Both</option>
+		</param>
+		<param name="show_feed_link" type="zoofeed" default="0" label="Show Feed Link" description="DISPLAY_FEED_LINKS" />
+	</params>
+	<params group="category-config">
+		<param name="items_per_page" type="textglobal" size="3" default="15" label="Items Per Page" description="Number of items to show on a page" />
+		<param name="item_order" type="listglobal" default="alpha" label="Item Order" description="ITEM_ORDER">
+			<option value="rdate">Latest first</option>
+			<option value="date">Latest last</option>
+			<option value="alpha">Alphabetical</option>
+			<option value="ralpha">Reverse Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+		</param>
+		<param name="show_feed_link" type="zoofeedglobal" default="0" label="Show Feed Link" description="DISPLAY_FEED_LINKS" />
+	</params>
+	<params group="item-config">
+	</params>
+	<params group="application-content">
+		<param name="title" type="text" label="Title" description="Set a frontpage title." />
+		<param name="image" type="zooimage" label="Image" description="Choose a frontpage image." />
+		<param name="categories_title" type="text" label="Categories Title" description="Set a title above the displayed sub categories." />
+		<param name="items_title" type="text" label="Items Title" description="Set a title above the displayed items." />
+	</params>
+	<params group="category-content">
+		<param name="ancho" type="text" default="" label="Ancho Tela" description="Especifica el ancho de la tela." />
+		<param name="composicion_es_ES" type="text" label="Composición Tela ESP" description="Especifica la composición de la tela." />
+		<param name="composicion_en_GB" type="text" label="Composición Tela ING" description="Especifica la composición de la tela." />
+		<param name="normas_lavado_es_ES" type="textarea" label="Normas de lavado ESP" description="Especifica las normas de lavado." />
+		<param name="normas_lavado_en_GB" type="textarea" label="Normas de lavado ING" description="Especifica las normas de lavado." />
+	
+		<param name="teaser_description" type="textarea" label="Teaser Description" description="Set a teaser description for this category. It will be displayed in the parent category." />
+		<param name="teaser_image" type="zooimage" label="Teaser Image" description="Choose a teaser image for this category. It will be displayed in the parent category." />
+		<param name="image" type="zooimage" label="Image" description="Choose a category image." />
+		<param name="categories_title" type="text" label="Categories Title" description="Set a title above the categories." />
+		<param name="items_title" type="text" label="Items Title" description="Set a title above the items." />
+		<param name="title_en_GB" type="text" label="Title ING" description="Set a title for ING." />
+		<param name="title_es_ES" type="text" label="Title ESP" description="Set a title for ESP." />
+	</params>
+	<params group="item-content">
+	</params>
+</application>
