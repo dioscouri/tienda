@@ -237,7 +237,14 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_payson/languages" />
         </copy>	
-    	<!-- PSIGATE -->
+		<!-- GOOGLR CHECKOUT  -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_googlecheckout" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_googlecheckout/languages" />
+        </copy>
+		<!-- PSIGATE -->
     	
     <!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->

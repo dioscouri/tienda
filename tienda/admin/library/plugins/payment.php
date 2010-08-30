@@ -197,8 +197,7 @@ class TiendaPaymentPlugin extends TiendaPluginBase
         {
             return null;
         }
-
-        $html = $this->_renderForm( $data );
+       $html = $this->_renderForm( $data );
 
         return $html;
     }
@@ -255,10 +254,8 @@ class TiendaPaymentPlugin extends TiendaPluginBase
         {
             return null;
         }
-
-        $html = $this->_prePayment( $data );
-
-        return $html;
+       $html = $this->_prePayment( $data );
+       return $html;
     }
 
     /**

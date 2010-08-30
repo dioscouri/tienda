@@ -119,7 +119,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	function hasEvent( $element, $eventName )
 	{
 		$success = false;
-		if (!$element || !is_object($element)) {
+	   if (!$element || !is_object($element)) {
 			return $success;
 		}
 		

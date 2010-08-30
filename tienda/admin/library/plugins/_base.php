@@ -35,7 +35,6 @@ class TiendaPluginBase extends JPlugin
     function _isMe( $row ) 
     {
         $element = $this->_element;
-        
         $success = false;
         if (is_object($row) && !empty($row->element) && $row->element == $element )
         {

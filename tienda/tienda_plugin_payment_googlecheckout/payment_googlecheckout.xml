@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - Payment - Google Checkout</name>
+	<version>0.6.0</version>
+	<creationDate>Aug 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables GoogleCheckout payments</description>
+	
+	<files>
+		<filename plugin="payment_googlecheckout">payment_googlecheckout.php</filename>
+		<folder>payment_googlecheckout</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_googlecheckout.ini</language>
+	</languages>
+
+	<params>
+        <param name="merchant_id" type="text" size="50" default="" label="GoogleCheckout Merchant ID" description="GoogleCheckout Merchant ID Desc"/>
+        <param name="merchant_key" type="text" size="50" default="" label="GoogleCheckout Merchant Key" description="GoogleCheckout Merchant Key Desc"/>
+		<param name="currency" type="text" size="10" default="USD" label="GoogleCheckout Currency" description="GoogleCheckout Currency Desc" />
+		<param type="spacer" />
+		<param name="sandbox" type="radio" default="0" label="GoogleCheckout Use Sandbox" description="GoogleCheckout Use Sandbox Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="sandbox_merchant_id" type="text" size="50" default="" label="GoogleCheckout Sandbox Merchant ID" description="GoogleCheckout Sandbox Merchant ID Desc"/>
+        <param name="sandbox_merchant_key" type="text" size="50" default="" label="GoogleCheckout Sandbox Merchant Key" description="GoogleCheckout Sandbox Merchant Key Desc"/>
+  		<param type="spacer" /> 
+  		<param name="articleid" type="text" size="10" default="" label="GoogleCheckout Article Number" description="GoogleCheckout Article Number Desc" /> 
+		<param name="display_article_title" type="radio" default="0" label="GoogleCheckout Display Article Title" description="GoogleCheckout Display Article Title Desc">
+  			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+  		</param>
+	</params>
+			
+</install>
