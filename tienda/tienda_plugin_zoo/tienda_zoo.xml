@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system" method="upgrade">
+	<name>Tienda Zoo Plugin</name>
+	<version>0.5.4</version>
+	<creationDate>August 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>DESCTIENDAZOO</description>
+	
+	<files>
+		<filename plugin="tienda_zoo">tienda_zoo.php</filename>
+        <folder>tienda_plugin_zoo</folder>
+	</files>
+	
+	 <languages>
+        <language tag="en-GB">languages/en-GB.plg_system_tienda_zoo.ini</language>
+   	 </languages>
+
+	<params>
+		<param name="on_after_save" type="radio" default="1" label="Create After Saving Zoo Item" description="Create the tienda product automatically after saving the Zoo item?">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="on_item_view" type="radio" default="1" label="Create while Viewing Zoo Item" description="Create the tienda product automatically while viewing the zoo item in the fronted?">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+	</params>
+			
+</install>
