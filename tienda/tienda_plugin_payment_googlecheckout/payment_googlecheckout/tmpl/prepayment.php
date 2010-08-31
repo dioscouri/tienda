@@ -44,10 +44,11 @@
             
             <div id="payment_paypal">
                 <div class="prepayment_message">
-                    <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message Recurring Only" ); ?>
+                    <?php echo JText::_( "Tienda Google Check out Standard Preparation Message Recurring Only" ); ?>
                 </div>
                 <div class="prepayment_action">
                     <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but20.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                    <?php echo @$vars->cart->CheckoutButtonCode("SMALL"); ?>
                     <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                     <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                     <div style="clear: both;"></div>
@@ -90,10 +91,11 @@
             <?php } else { ?>
                 <div id="payment_paypal">
                     <div class="prepayment_message">
-                        <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
+                        <?php echo JText::_( "Tienda Google Check Out Preparation Message" ); ?>
                     </div>
                     <div class="prepayment_action">
                    	   <div style="float: left; padding: 10px;"><input type="image" src="<?php echo plg_tienda_escape($vars->button_url) ?>/buttons/checkout.gif?merchant_id=<?php echo plg_tienda_escape($vars->merchant_id) ?>&w=160&h=43&style=trans&variant=text&loc=en_US" border="0" name="submit" alt="Pay with Google Checkout" /></div>
+                       <?php echo @$vars->cart->CheckoutButtonCode("SMALL"); ?>
                         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                         <div style="clear: both;"></div>
