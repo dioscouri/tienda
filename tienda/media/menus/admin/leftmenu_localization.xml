@@ -32,4 +32,8 @@
         <name>Shipping</name>
         <url>index.php?option=com_tienda&#38;view=shipping</url>
     </link>
+	 <link>
+        <name>Payment Plugin</name>
+        <url>index.php?option=com_tienda&#38;view=Payment_plugin</url>
+    </link>
 </menu>

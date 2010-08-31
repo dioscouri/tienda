@@ -79,7 +79,7 @@ class TiendaModelPayment_plugin extends TiendaModelBase
             $query->where('('.implode(' OR ', $where).')');
         }
         
-        // force returned records to only be tienda reports 
+        // force returned records to only be tienda payments
         $query->where("tbl.folder = 'tienda'");
         $query->where("tbl.element LIKE 'payment_%'");
     }

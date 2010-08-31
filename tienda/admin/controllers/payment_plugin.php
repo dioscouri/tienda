@@ -34,16 +34,30 @@ class TiendaControllerPayment_plugin extends TiendaController
         $app = JFactory::getApplication();
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
-
-//        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
-//        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
-//        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-        
         foreach (@$state as $key=>$value)
         {
             $model->setState( $key, $value );   
         }
         return $state;
+    }
+    /**
+     * saves the editing in payment plugin
+     */
+    function save()
+    {
+    	$db   =& JFactory::getDBO();
+		$row  =& JTable::getInstance('plugin');
+    	$posted=JRequest::get('post');
+   		 if (!$row->bind(JRequest::get('post'))) {
+			JError::raiseError(500, $row->getError() );
+		}
+		if (!$row->check()) {
+			JError::raiseError(500, $row->getError() );
+		}
+		if (!$row->store()) {
+			JError::raiseError(500, $row->getError() );
+		}
+		$this->setRedirect( 'index.php?option=com_tienda&view=Payment_plugin' );
     }
     
 	
