@@ -178,6 +178,8 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		require_once dirname(__FILE__) . "/{$this->_payment_type}/library/googletax.php";
 			
 		$user =& JFactory::getUser();
+		$app =& JFactory::getApplication();
+		
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
 			
 		foreach($items as $itemObject){
@@ -191,31 +193,28 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price']); // shipping name and Price as an argument
 		$cart->AddShipping($shipTemp);
 
-		// Add Tax 
-//		$tax_rule = new GoogleDefaultTaxRule(0.15);
-//		$tax_rule->SetWorldArea(true);
-//		$cart->AddDefaultTaxRules($tax_rule);
-		
-		
-//		$checkout_return_url = JURI::root() . "index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_payment_type}&paction=display_message";
+		// Add Tax
+		//		$tax_rule = new GoogleDefaultTaxRule(0.15);
+		//		$tax_rule->SetWorldArea(true);
+		//		$cart->AddDefaultTaxRules($tax_rule);
+
+
+		$checkout_return_url = JURI::root() . "index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
 		$cart->SetContinueShoppingUrl($checkout_return_url);
-		
+     
 		//echo $cart->GetXML();exit;
 
 		// send a server-2-server request
 		// and if it's OK redirect the user to the google checkout page
 		list($status, $error) = $cart->CheckoutServer2Server();
-		
-		// if we reach this point, something went wrong		
-		JError::raiseWarning('', $this->params->get('sandbox') ? $error : JText::_('GOOGLECHECKOUT MESSAGE INVALID ACTION'));			
+
+		// if we reach this point, something went wrong
+		JError::raiseWarning('', $this->params->get('sandbox') ? $error : JText::_('GOOGLECHECKOUT MESSAGE INVALID ACTION'));
 		$app->redirect($return);
-		
+
 		$vars->cart=$cart;
-		
-		
-		var_dump($cart);
-		
-		$html = $this->_getLayout('prepayment', $vars);
+
+    	$html = $this->_getLayout('prepayment', $vars);
 		return $html;
 		//        $text = array();
 		//		$text[] = $html;
@@ -237,6 +236,9 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	{
 		// Process the payment
 		$paction = JRequest::getVar('paction');
+		echo "now I am calling janu ji ";
+		var_dump($_REQUEST);
+		echo "Ynaahs e data";
 
 		$vars = new JObject();
 
@@ -389,6 +391,183 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		return $this->params->get('sandbox') ? 'sandbox' : 'production';
 	}
 
+	function _process()
+	{
+		require_once dirname(__FILE__) . "/{$this->_payment_type}/library/googleresponse.php";
+		require_once dirname(__FILE__) . "/{$this->_payment_type}/library/googleresult.php";
+		require_once dirname(__FILE__) . "/{$this->_payment_type}/library/googlerequest.php";
+
+		$response = new GoogleResponse($this->_getParam('merchant_id'), $this->_getParam('merchant_key'));
+		$request = new GoogleRequest($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
+
+		// setup the log files
+		if ($this->_isLog) {
+			$path = JPATH_ROOT . '/cache';
+				
+			$response->SetLogFiles($path . '/google_error.log', $path . '/google_message.log', L_ALL);
+			$this->_logObj =& $response->log;
+		}
+
+		// retrieve the XML sent in the HTTP POST request to the ResponseHandler
+		$xml_response = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : file_get_contents('php://input');
+
+		if ( ! $xml_response) {
+			echo "No response received', 'error'";
+			die('No response received');
+		}
+
+		if (get_magic_quotes_gpc()) {
+			$xml_response = stripslashes($xml_response);
+		}
+
+		list($root, $data) = $response->GetParsedXML($xml_response);
+
+		// validate the data (comment for testing)
+		$response->SetMerchantAuthentication($this->_getParam('merchant_id'), $this->_getParam('merchant_key'));
+		if ( ! $response->HttpAuthentication()) {
+			$this->_log('Authentication failed', 'error');
+			die('Authentication failed');
+		}
+
+		// prepare the payment data
+  		$data = $data[$root];
+		$payment_details = $this->_getFormattedPaymentDetails($xml_response);
+		
+  		// process the payment
+  		$error = '';		
+  		if ($root == 'new-order-notification') {		
+			$payment_error = $this->_processSale( $data, $error );
+  		}
+	//  		else {
+	//  			$error = $this->_processPaymentUpdate($root, $data, $payment_details);			
+	//  		}
+		$payment_error = $this->_processSale( $data, $error );
+		//$response->SendAck();
+
+		// if here, all went well
+		$error = 'processed';
+		return $error;
+	}
+
+	/**
+     * Processes the sale payment
+     * 
+     * @param array $data IPN data
+     * @return boolean Did the IPN Validate?
+     * @access protected
+     */
+    function _processSale( $data, $error='' )
+    {
+        /*
+         * validate the payment data
+         */
+        $errors = array();
+        
+        if (!empty($error))
+        {
+        	$errors[] = $error;
+        }
+        // load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $data['custom'] );
+        if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
+        {
+            $errors[] = JText::_('GOOGLE CHECKOUT INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        $orderpayment->transaction_details  = $data['transaction_details'];
+        $orderpayment->transaction_id       = $data['txn_id'];
+        $orderpayment->transaction_status   = $data['payment_status'];
+       
+        // check the stored amount against the payment amount
+        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+        if ((float) $stored_amount !== (float) $data['mc_gross']) {
+            $errors[] = JText::_('GOOGLE CHECKOUT AMOUNT INVALID');
+        }
+        
+        // check the payment status
+        if (empty($data['payment_status']) || ($data['payment_status'] != 'Completed' && $data['payment_status'] != 'Pending')) {
+            $errors[] = JText::sprintf('GOOGLE CHECKOUT MESSAGE STATUS INVALID', @$data['payment_status']);
+        }
+        
+        // set the order's new status and update quantities if necessary
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $orderpayment->order_id );
+        if (count($errors)) 
+        {
+            // if an error occurred 
+            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+        }
+            elseif (@$data['payment_status'] == 'Pending') 
+        {
+            // if the transaction has the "pending" status,
+            $order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
+            // Update quantities for echeck payments
+            TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
+            
+            // remove items from cart
+            TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
+        }
+            else 
+        {
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+            
+            // send email
+            $send_email = true;
+        }
+
+        // save the order
+        if (!$order->save())
+        {
+        	$errors[] = $order->getError();
+        }
+        
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+        	$errors[] = $orderpayment->getError(); 
+        }
+        
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
+        }
+
+        return count($errors) ? implode("\n", $errors) : '';        
+    }
+    
+	
+	/**
+	 * Logs to files using GoogleLog class 
+	 * 
+	 * @param $text
+	 * @param $type
+	 * @return unknown_type
+	 */
+	function _log($text, $type = 'message')
+	{
+		if ($this->_logObj !== null) {
+			if ($type == 'error') {
+				$this->_logObj->logError($text);
+			}
+			else {
+				$this->_logObj->LogResponse($text);
+			}
+		}	
+	}
 
 }
 
