@@ -34,6 +34,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 	 */
 	var $_response;
 	
+	
 	/**	 
 	 * @see plugins/tienda/payment_paypalpro/library/plgTiendaPayment_Paypalpro_Processor#validateData()
 	 */

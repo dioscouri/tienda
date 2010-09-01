@@ -400,9 +400,9 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		$keyword = $field_name . " = " . $id; 
 		
 		$q = "SELECT created_by "	
-		   . "FROM #__Tienda_payments "
-		   . "WHERE payment_type = " . $db->quote($this->_plugin_type) . " "
-		   . "AND payment_details LIKE '%" . addcslashes($db->getEscaped($keyword), '%_') . "%'"       
+		   . "FROM #__Tienda_orderpayments "
+		   . "WHERE  orderpayment_type = " . $db->quote($this->_plugin_type) . " "
+		   . "AND transaction_details LIKE '%" . addcslashes($db->getEscaped($keyword), '%_') . "%'"       
 		   ;
 
 		$db->setQuery($q);
@@ -479,10 +479,6 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 				TiendaHelperUser::unblockUser($user->get('id'));
 			}
 
-			// if this is not the first recurring payment we need to deactivate previous user subscriptions
-			if (!empty($payment->payment_plugin_data['is_recurring'])) {
-				$this->_processOldSubscriptions($data->user->get('id'), $data->type_id, $payment->id);
-			}
 		}
 		else {
 			$paymentError = JText::_( 'PAYPALPRO MESSAGE TRANSACTION INVALID' );
@@ -503,56 +499,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		return $paymentError;
 	}
 	
-	/**
-	 * Deactivates old user subscriptions
-	 * 
-	 * @param int $user_id
-	 * @param int $type_id
-	 * @param int $new_payment_id
-	 * @return bool
-	 * @access protected
-	 */
-	function _processOldSubscriptions($user_id, $type_id, $new_payment_id)
-	{
-		$db =& JFactory::getDBO();
-		
-		// get subscriptions to deactivate
-		$q = "		
-			SELECT
-				s.u2tid as id
-			FROM
-				#__Tienda_users2types s
-			INNER JOIN
-				#__Tienda_payments p
-			ON 
-				s.paymentid = p.id
-			WHERE
-				p.id != " . (int) $new_payment_id . "
-			AND
-				s.userid = " . (int) $user_id . " 
-				AND s.typeid = " . (int) $type_id . "
-				AND s.status = 1
-				AND p.payment_type = " . $db->Quote($this->_plugin_type) . "		
-		";
-		$db->setQuery($q);
-		
-		if ($data = $db->loadResultArray()) {
-			$ids = implode (',', $data);
-			
-			$q = "
-				UPDATE
-					#__Tienda_users2types
-				SET
-					`status` = 0
-				WHERE
-					u2tid IN (" . $ids . ")			
-			";
-			$db->setQuery($q);
-			$db->query();
-		}
-		
-		return true;
-	}
+	
 	
 	/**
 	 * Calculates the subscription expiration date

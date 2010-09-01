@@ -34,6 +34,8 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 	 */
 	function renderForm( $row, $prepop = array(), $display_note = '1', $display_typeinfo = '1' ) 
 	{
+		
+
 		$user =& JFactory::getUser();
 		$secure_post = $this->_params->get( 'secure_post', '0' );
 		$config = &TiendaConfig::getInstance();
@@ -43,18 +45,18 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 		 */		
 		$vars = new JObject();
 		
-		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_plugin_type}&paction=process_direct_payment", false, $secure_post );
+		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=checkout&task=confirmPayment&ptype={$this->_plugin_type}&paction=process_direct_payment", false, $secure_post );
 		$vars->prepop = $prepop;
 		$vars->user =& $user;
 		$vars->cctype_input = $this->_getCardTypesInput( 'cardtype', !empty($prepop['cardtype']) ? $prepop['cardtype'] : '' );
 		$vars->country_input = $this->_getCountriesInput( 'country', !empty($prepop['country']) ? $prepop['country'] : '' );
 		$vars->row =& $row;		
 		$vars->token_input = JHTML::_( 'form.token' );
-		
 		$vars->display_note = $display_note;
 		$vars->display_typeinfo = $display_typeinfo;
 		$vars->display_value = $config->get( 'display_value', '1' );
-		$vars->display_period = $config->get( 'display_period', '1' ) && $row->period;
+	
+		$vars->display_period = $config->get( 'display_period', '1' );
 		
 		$vars->currency_preval = $config->get( 'currency_preval', '$' );
 		$vars->currency_postval	= $config->get( 'currency_postval', ' USD' );

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version	1.5
- * @package	Ambrasubs
+ * @package	tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
@@ -14,12 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__) . '/../renderer.php';
 
 /**
- * Ambrasubs PayPalPro Expresscheckout Renderer
+ * tienda PayPalPro Expresscheckout Renderer
  *
  * @package		Joomla 
  * @since 		1.5
  */
-class plgAmbrasubsPayment_Paypalpro_Renderer_Expresscheckout extends plgAmbrasubsPayment_Paypalpro_Renderer
+class plgTiendaPayment_Paypalpro_Renderer_Expresscheckout extends plgTiendaPayment_Paypalpro_Renderer
 {
 	/**
 	 * Renders the ExpressCheckout form
@@ -39,7 +39,7 @@ class plgAmbrasubsPayment_Paypalpro_Renderer_Expresscheckout extends plgAmbrasub
 		 */		
 		$vars = new JObject();
 		
-		$vars->action_url = JRoute::_( "index.php?option=com_ambrasubs&controller=payment&task=process&ptype={$this->_plugin_type}&paction=process_express_checkout", false, $secure_post );
+		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_plugin_type}&paction=process_express_checkout", false, $secure_post );
 		$vars->prepop = $prepop;
 		$vars->user =& $user;
 		$vars->row =& $row;		
