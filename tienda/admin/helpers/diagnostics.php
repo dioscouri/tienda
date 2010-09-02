@@ -229,6 +229,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsDiscount FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+     	if (!$this->checkOrdershippings())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrdershippings FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -1755,4 +1760,43 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+    /**
+     * Checks the ordershippings table for the ordershipping_code and ordershipping_tracking_id fields
+     * As of v0.5.5
+     * 
+     * return boolean
+     */
+    function checkOrdershippings()
+    {
+    	// if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrdershippings', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_ordershippings';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "ordershipping_code";
+            $definitions["ordershipping_code"] = "VARCHAR(255) NOT NULL DEFAULT ''";
+        
+        $fields[] = "ordershipping_tracking_id";
+            $definitions["ordershipping_tracking_id"] = "VARCHAR(255) NOT NULL DEFAULT ''";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrdershippings') );
+            $config->config_name = 'checkOrdershippings';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;     
+    }
+    
 }

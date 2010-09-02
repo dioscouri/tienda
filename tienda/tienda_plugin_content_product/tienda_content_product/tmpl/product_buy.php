@@ -4,6 +4,7 @@ $item = @$vars->item;
 $form = @$vars->form;
 $values = @$vars->values; 
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 ?>
 
 <div>

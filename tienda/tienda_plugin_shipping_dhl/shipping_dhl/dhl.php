@@ -311,6 +311,7 @@ class TiendaDhlShip extends TiendaDhl
                         $this->rate = $rate;
                         $this->rate->summary = array();                        
                         $this->rate->summary['name']    = $this->serviceName;
+                        $this->rate->summary['code']    = $serviceType;
                         $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
                         $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
                         $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;
@@ -328,6 +329,7 @@ class TiendaDhlShip extends TiendaDhl
                     $this->rate = $rate;
                     $this->rate->summary = array();
                     $this->rate->summary['name']    = $this->serviceName;
+                    $this->rate->summary['code']    = $serviceType;
                     $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
                     $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
                     $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;

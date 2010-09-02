@@ -95,6 +95,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         {
         	$vars[$i]['element'] = $this->_element;
         	$vars[$i]['name'] = $rate->shipping_method_name;
+        	$vars[$i]['code'] = $rate->shipping_rate_id;
         	$vars[$i]['price'] = $rate->shipping_rate_price;
         	$vars[$i]['tax'] = $rate->shipping_tax_total;
         	$vars[$i]['extra'] = $rate->shipping_rate_handling;
