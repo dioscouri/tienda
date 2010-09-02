@@ -199,7 +199,7 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
-                        <input type="text" name="product_weight" id="product_weight" value="<?php echo @$row->product_weight; ?>" size="48" maxlength="250" />
+                        <input type="text" name="product_weight" id="product_weight" value="<?php echo @$row->product_weight; ?>" size="30" maxlength="250" />
                     </td>
                 </tr>
                 <tr>
@@ -209,7 +209,7 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
-                        <input type="text" name="product_length" id="product_length" value="<?php echo @$row->product_length; ?>" size="48" maxlength="250" />
+                        <input type="text" name="product_length" id="product_length" value="<?php echo @$row->product_length; ?>" size="30" maxlength="250" />
                     </td>
                 </tr>
 
@@ -220,7 +220,7 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
-                        <input type="text" name="product_width" id="product_width" value="<?php echo @$row->product_width; ?>" size="48" maxlength="250" />
+                        <input type="text" name="product_width" id="product_width" value="<?php echo @$row->product_width; ?>" size="30" maxlength="250" />
                     </td>
                 </tr>
                 <tr>
@@ -230,7 +230,7 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
-                        <input type="text" name="product_height" id="product_height" value="<?php echo @$row->product_height; ?>" size="48" maxlength="250" />
+                        <input type="text" name="product_height" id="product_height" value="<?php echo @$row->product_height; ?>" size="30" maxlength="250" />
                     </td>
                 </tr>
             </table>
