@@ -76,7 +76,39 @@ class TiendaControllerAddresses extends TiendaController
         JRequest::setVar( 'hidemainmenu', '1' );
         JRequest::setVar( 'view', $this->get('suffix') );
         JRequest::setVar( 'layout', 'form' );
+        
+        $view   =& $this->getView( 'addresses', 'html' );
+        $view->assign('form_inner', $this->getInnerAddressForm($row->address_id));
         parent::display();
+    }
+    
+	/**
+	 * 
+	 * @param $address_id
+	 */
+    function getInnerAddressForm($address_id)
+    {
+    	$html = '';
+    	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );		
+		$address_id = JRequest::getVar('address_id');
+		$model->setId($address_id);
+		$item = $model->getItem();
+		
+        $view   = $this->getView( 'addresses', 'html' );
+        $view->set( '_controller', 'addresses' );
+        $view->set( '_view', 'addresses' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->setLayout( 'form_inner' );
+        $view->set('row', $item);
+        
+        ob_start();
+        $view->display();
+        $html = ob_get_contents(); 
+        ob_end_clean();
+      
+        return $html; 
     }
     
     /**

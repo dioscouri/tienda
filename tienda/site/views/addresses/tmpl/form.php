@@ -20,7 +20,7 @@ JFilterOutput::objectHTMLSafe( $row );
     ?>
     
     <div id="validationmessage"></div>
-	<?php JLoader::import( 'com_tienda.views.addresses.tmpl.form_inner', JPATH_SITE.DS.'components' ); ?>
+	<?php echo $this->form_inner; ?>
     <input type="button" onclick="tiendaSubmitForm('save');" value="<?php echo JText::_('Submit'); ?>" />
 
     <input type="hidden" name="id" value="<?php echo @$row->address_id; ?>" />
