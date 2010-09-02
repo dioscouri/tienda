@@ -181,25 +181,28 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$app =& JFactory::getApplication();
 		
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
-			
+		$totalTax=0;
 		foreach($items as $itemObject){
 			$item_temp = new GoogleItem($itemObject->orderitem_name,
 			$itemObject->orderitem_name,$itemObject->orderitem_quantity,$itemObject->orderitem_price);
 			// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
 			$cart->AddItem($item_temp);
-
+			$totalTax=$totalTax+$itemObject->orderitem_tax;
 		}
-		// Add shipping
+	    if (!empty($data['shipping_terms'])){
+	 	// Add shipping
 		$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price']); // shipping name and Price as an argument
 		$cart->AddShipping($shipTemp);
+	 }
+		
 
 		// Add Tax
-		//		$tax_rule = new GoogleDefaultTaxRule(0.15);
-		//		$tax_rule->SetWorldArea(true);
-		//		$cart->AddDefaultTaxRules($tax_rule);
+//				$tax_rule = new GoogleDefaultTaxRule(0.15);
+//				$tax_rule->SetWorldArea(true);
+//				$cart->AddDefaultTaxRules($tax_rule);
 
 
-		$checkout_return_url = JURI::root() . "index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
+		$checkout_return_url = JURI::root() ."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
 		$cart->SetContinueShoppingUrl($checkout_return_url);
      
 		//echo $cart->GetXML();exit;
@@ -399,7 +402,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 
 		$response = new GoogleResponse($this->_getParam('merchant_id'), $this->_getParam('merchant_key'));
 		$request = new GoogleRequest($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
-
+        var_dump($response);
 		// setup the log files
 		if ($this->_isLog) {
 			$path = JPATH_ROOT . '/cache';
