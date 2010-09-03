@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Shipping via Unex</name>
+	<version>0.5.5</version>
+	<creationDate>AUGUST 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin is for Unex</description>
+	
+	<files>
+		<filename plugin="shipping_unex">shipping_unex.php</filename>
+		<folder>shipping_unex</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_shipping_unex.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="username" type="text" size="50" default="" label="Username" description="Username Desc"/>
+		<param name="password" type="text" size="50" default="" label="Password" description="Password Desc"/>
+		<param name="customer_context" type="text" size="50" default="" label="Customer Context" description="Customer Context Desc"/>
+		<param name="url" type="text" size="50" default="http://www.unexws.it/WebServiceProject/services/WSNextShip" label="Url" description=""/>
+		<param name="uri" type="text" size="50" default="http://packageNextShip" label="Uri" description=""/>
+		<param name="services" type="textarea" default="DHL_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
+		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
+			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
+			<option value="DHL_10KG_BOX">DHL_10KG_BOX</option>
+			<option value="DHL_25KG_BOX">DHL_25KG_BOX</option>
+			<option value="DHL_BOX">DHL_BOX</option>
+			<option value="DHL_ENVELOPE">DHL_ENVELOPE</option>
+			<option value="DHL_PAK">DHL_PAK</option>
+			<option value="DHL_TUBE">DHL_TUBE</option>
+		</param>
+		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
+			<option value="KG">KG</option>
+			<option value="LB">LB</option>
+		</param>
+		<param name="dimension_unit" type="list" default="CM" label="Dimension Unit" description="Dimension Unit Desc">
+			<option value="CM">CM</option>
+			<option value="IN">IN</option>
+		</param>
+	</params>
+			
+</install>
+

@@ -1,0 +1,101 @@
+<?php
+/**
+ * @version	1.5
+ * @package	Tienda
+ * @author 	Dioscouri Design
+ * @link 	http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*/
+
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
+Tienda::load( 'TiendaModelBase', 'models._base' );
+
+class TiendaModelUnexServices extends TiendaModelBase 
+{
+    protected function _buildQueryWhere(&$query)
+    {
+       	$filter     = $this->getState('filter');
+        $filter_id_from = $this->getState('filter_id_from');
+        $filter_id_to   = $this->getState('filter_id_to');
+        $filter_name    = $this->getState('filter_name');
+        $filter_code    = $this->getState('filter_code');
+        
+       	if ($filter) 
+       	{
+			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+			$where = array();
+			$where[] = 'LOWER(tbl.service_id) LIKE '.$key;
+			$where[] = 'LOWER(tbl.service_name) LIKE '.$key;
+			$query->where('('.implode(' OR ', $where).')');			
+       	}
+        if (strlen($filter_id_from))
+        {
+            if (strlen($filter_id_to))
+            {
+                $query->where('tbl.service_id >= '.(int) $filter_id_from);
+            }
+                else
+            {
+                $query->where('tbl.service_id = '.(int) $filter_id_from);
+            }
+        }
+        if (strlen($filter_id_to))
+        {
+            $query->where('tbl.service_id <= '.(int) $filter_id_to);
+        }
+        if ($filter_name) 
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_name ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(tbl.service_name) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+   		if ($filter_code) 
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_code ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(tbl.service_code) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+
+    }
+
+    /**
+     * Builds a generic ORDER BY clause based on the model's state
+     */
+    protected function _buildQueryOrder(&$query)
+    {
+        $order      = $this->_db->getEscaped( $this->getState('order') );
+        $direction  = $this->_db->getEscaped( strtoupper( $this->getState('direction') ) );
+
+        if ($order == 'ordering')
+        {
+            $query->order("$order $direction");
+            $query->order('ordering ASC');
+        }
+            elseif (strlen($order))
+        {
+            $query->order("$order $direction");
+        }
+    }
+    
+	public function getList()
+	{
+		$list = parent::getList(); 
+		
+		// If no item in the list, return an array()
+        if( empty( $list ) ){
+        	return array();
+        }
+		
+		foreach($list as $item)
+		{
+			$item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.JRequest::getInt('id').'&shippingTask=edit&sid='.$item->service_id;
+		}
+		return $list;
+	}
+
+}
