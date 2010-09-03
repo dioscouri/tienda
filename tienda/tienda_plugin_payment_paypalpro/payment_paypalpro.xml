@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - Payment - Paypal Pro</name>
+	<version>3.4.0</version>
+	<creationDate>July 2010</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLUGINDESC</description>
+	
+	<files>
+		<filename plugin="payment_paypalpro">payment_paypalpro.php</filename>
+		<folder>payment_paypalpro</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_paypalpro.ini</language>
+	</languages>
+
+	<params>
+		<param name="api_username" type="text" size="50" default="" label="PaypalPro API Username" description="PaypalPro API Username Desc"/>
+		<param name="api_password" type="text" size="50" default="" label="PaypalPro API Password" description="PaypalPro API Password Desc"/>
+		<param name="api_signature" type="text" size="50" default="" label="PaypalPro API Signature" description="PaypalPro API Signature Desc"/>
+		<param name="currency" type="text" size="10" default="USD" label="PaypalPro Currency" description="PaypalPro Currency Desc"/>
+		<param name="secure_post" type="radio" default="0" label="PaypalPro Secure Post" description="PaypalPro Secure Post Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>		
+		<param type="spacer" />
+		<param name="sandbox" type="radio" default="0" label="PaypalPro Use Sandbox" description="PaypalPro Use Sandbox Desc">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="sandbox_api_username" type="text" size="50" default="" label="PaypalPro Sandbox API Username" description="PaypalPro Sandbox API Username Desc"/>
+		<param name="sandbox_api_password" type="text" size="50" default="" label="PaypalPro Sandbox API Password" description="PaypalPro Sandbox API Password Desc"/>
+		<param name="sandbox_api_signature" type="text" size="50" default="" label="PaypalPro Sandbox API Signature" description="PaypalPro Sandbox API Signature Desc"/>
+		<param type="spacer" />
+		<param name="articleid" type="text" size="10" default="" label="PaypalPro Article Number" description="PaypalPro Article Number Desc"/>
+		<param name="display_article_title" type="radio" default="0" label="PaypalPro Display Article Title" description="PaypalPro Display Article Title Desc" >
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+	</params>
+			
+</install>

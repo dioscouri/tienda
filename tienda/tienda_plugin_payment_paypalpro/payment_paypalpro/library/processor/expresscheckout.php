@@ -1,7 +1,7 @@
 <?php
 /**
  * @version	1.5
- * @package	Ambrasubs
+ * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
@@ -30,7 +30,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	 * @see plugins/tienda/payment_paypalpro/library/plgTiendaPayment_Paypalpro_Processor#validateData()
 	 */
 	function validateData($validate_token = true)
-	{ 
+	{ 		
 		/*
 		 * perform initial checks 
 		 */
@@ -39,6 +39,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			return false;
 		}
 		
+		
 		if ($validate_token) {
 			if (!JRequest::checkToken()) {
 				$this->setError(JText::_('Invalid Token'));
@@ -46,16 +47,15 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			}
 		}
 		
-		if (!$this->getSubscrTypeObj()) {
-			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
-			return false;
-		}
+//		if (!$this->getSubscrTypeObj()) {
+//			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
+//			return false;
+//		}
 		
 		if (!$this->_getParam('api_username') || !$this->_getParam('api_password') || !$this->_getParam('api_signature')) {
 			$this->setError(JText::_('PaypalPro Message Merchant Credentials are invalid'));
 			return false;	
-		}
-		
+		}		
 		return true;
 	}
 	
@@ -67,14 +67,15 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	{
 		// clear all possible error settings
 		$this->_errors = array();	
-		
+	
 		$subscr_type_params = $this->getSubscrTypeParams();
+			
 		if ($subscr_type_params->get('is_recurring')) {
 			// process a recurring subscription sign-up
 			$return = $this->_sendSetExpressCheckoutRecurringRequest();
 		}
 		else {
-			// process a one-time (sale) subscription
+		//	 process a one-time (sale) subscription
 			$return = $this->_sendSetExpressCheckoutRequest();
 		}
 				
@@ -126,6 +127,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	 */
 	function _sendSetExpressCheckoutRequest()
 	{
+		
 		// prepare data for the SetExpressCheckout request
 		$action = 'SetExpressCheckout';
 		$amount	= $this->_getFormattedAmount();
@@ -145,10 +147,8 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		
 		$data->L_PAYMENTREQUEST_0_NAME0			= $this->_getItemDesc();
 		$data->L_PAYMENTREQUEST_0_AMT0			= $amount;
-		
 		$this->_response = $this->_request($action, $data);
 		$this->_logResponse();
-		
 		/*
 		 * check the response
 		 */
@@ -661,7 +661,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
     {
     	$secure_post = $this->_params->get('secure_post', '0');
     	
-    	$url  = 'index.php?option=com_tienda&controller=payment&task=process&ptype=' . $this->_plugin_type . '&paction=process_doexpresscheckout';
+    	$url  = 'index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type=' . $this->_plugin_type . '&paction=process_doexpresscheckout';
 		$url .= '&user_id=' . $this->_getUserID() . '&item_number=' . $this->_subscr_type_id;
 		
 		$url = JURI::root() . JRoute::_($url, false, $secure_post);
@@ -677,7 +677,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
      */
     function _getCancelURL()
     {
-    	$url  = 'index.php?option=com_tienda&controller=payment&task=process&ptype=' . $this->_plugin_type . '&paction=cancel';
+    	$url  = 'index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type=' . $this->_plugin_type . '&paction=cancel';
     	
     	$url = JURI::root() . JRoute::_($url, false);
     	return $url;

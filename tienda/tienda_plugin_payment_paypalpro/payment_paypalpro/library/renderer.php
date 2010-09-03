@@ -54,7 +54,7 @@ class plgTiendaPayment_Paypalpro_Renderer extends JObject
 	 * @return string
 	 * @access protected
 	 */
-	function _getLayout($layout, $vars = false, $plugin = '', $group = 'Tienda')
+	function _getLayout($layout, $vars = false, $plugin = '', $group = 'tienda')
 	{
 		if ( ! $plugin) {
 			$plugin = $this->_plugin_type;

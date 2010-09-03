@@ -39,7 +39,7 @@ class plgTiendaPayment_Paypalpro_Renderer_Expresscheckout extends plgTiendaPayme
 		 */		
 		$vars = new JObject();
 		
-		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_plugin_type}&paction=process_express_checkout", false, $secure_post );
+		$vars->action_url = JRoute::_("index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type={$this->_plugin_type}&paction=process_express_checkout", false, $secure_post);
 		$vars->prepop = $prepop;
 		$vars->user =& $user;
 		$vars->row =& $row;		
@@ -49,3 +49,4 @@ class plgTiendaPayment_Paypalpro_Renderer_Expresscheckout extends plgTiendaPayme
 		return $html;
 	}
 }
+

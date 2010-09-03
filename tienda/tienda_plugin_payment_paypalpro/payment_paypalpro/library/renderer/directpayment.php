@@ -34,8 +34,6 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 	 */
 	function renderForm( $row, $prepop = array(), $display_note = '1', $display_typeinfo = '1' ) 
 	{
-		
-
 		$user =& JFactory::getUser();
 		$secure_post = $this->_params->get( 'secure_post', '0' );
 		$config = &TiendaConfig::getInstance();
@@ -44,8 +42,7 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 		 * get all necessary data and prepare vars for assigning to the template
 		 */		
 		$vars = new JObject();
-		
-		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=checkout&task=confirmPayment&ptype={$this->_plugin_type}&paction=process_direct_payment", false, $secure_post );
+		$vars->action_url = JRoute::_( "index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type={$this->_plugin_type}&paction=process_direct_payment", false, $secure_post );
 		$vars->prepop = $prepop;
 		$vars->user =& $user;
 		$vars->cctype_input = $this->_getCardTypesInput( 'cardtype', !empty($prepop['cardtype']) ? $prepop['cardtype'] : '' );

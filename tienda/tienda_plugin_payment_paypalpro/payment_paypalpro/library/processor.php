@@ -141,17 +141,20 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
      */
     function & getSubscrTypeObj()
     {
+    	
     	if ($this->_subscr_type_obj === null) {
-			$type = TiendaHelperPayment::getTable('Type');
-			$type->load($this->_subscr_type_id); 
-		
-			if (!$type->id) {
+//			$type = TiendaHelperPayment::getTable('Type');
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$type = &JTable::getInstance( 'orderpayments', 'TiendaTable' );			
+			
+			$type->load($this->_subscr_type_id); 			
+			if (!$type->id) {				
 				$this->_subscr_type_obj = null;
 			}
 			else {
 				$this->_subscr_type_obj =& $type;
 			}
-    	}
+    	}   	
     	
     	return $this->_subscr_type_obj;
     }
@@ -237,9 +240,8 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
      */
     function _getFormattedAmount()
     {
-    	$subscr_obj = $this->getSubscrTypeObj();
-    	$amount 	= (float) $subscr_obj->get('value');
-    	
+    	$subscr_obj = $this->getSubscrTypeObj();    	
+    	$amount 	= (float) $subscr_obj->orderpayment_amount;    	
     	$amount = sprintf('%01.2f', $amount);
     	return $amount;
     }
@@ -449,25 +451,30 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 			'payment_method_code' => 'paypalpro'
 		);
 		
-		$payment =& new TiendaHelperPayment();
-		$payment->payment_type = $this->_plugin_type; 			// unique identifier, should be the plugin name
-		$payment->created_by = $data->user->get('id');			// user creating the payment record
-		$payment->created_datetime = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
-		$payment->payment_id = $data->transaction_id;			// transaction id from payment method
-		$payment->payment_status = $data->payment_status;		// status of the PAYMENT
-		$payment->payment_amount = $data->payment_amount;		// payment amount
-		$payment->payment_details = $data->payment_details;		// text - any info about payment
-		$payment->payment_datetime = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
-		$payment->userid = $data->user->get('id');				// user to be associated with the subscription
-		$payment->typeid = $data->type_id;						// id value for subscription type
-		$payment->status = $data->subs_status;					// status of the SUBSCRIPTION
-		$payment->paymentid = ''; 								// will be set by save process
-		$payment->expires_datetime = $data->subs_expires;		// if not set, will be set to the correct day in the future by save process - only set this (=NOW) if the payment was invalid
+		//$payment =& new TiendaHelperPayment();
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$payment = &JTable::getInstance( 'orderpayments', 'TiendaTable' );
+		//$payment->orderpayment_type = $this->_plugin_type; 			// unique identifier, should be the plugin name
+		//$payment->created_by = $data->user->get('id');			// user creating the payment record
+		$payment->created_date = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
+		$payment->transaction_id = $data->transaction_id;			// transaction id from payment method
+		$payment->transaction_status = $data->payment_status;		// status of the PAYMENT
+		$payment->orderpayment_amount = $data->payment_amount;		// payment amount
+		$payment->transaction_details = $data->payment_details;		// text - any info about payment
+		//$payment->payment_datetime = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
+		//$payment->userid = $data->user->get('id');				// user to be associated with the subscription
+		//$payment->typeid = $data->type_id;						// id value for subscription type
+		//$payment->status = $data->subs_status;					// status of the SUBSCRIPTION
+		$payment->orderpayment_id = ''; 								// will be set by save process
+		//$payment->expires_datetime = $data->subs_expires;		// if not set, will be set to the correct day in the future by save process - only set this (=NOW) if the payment was invalid
 		
 		// set plugin data for further processing by the AS email system
 		$payment->payment_plugin_data = !empty($data->payment_plugin_data) ? array_merge($data->payment_plugin_data, $paymentPluginData) : $paymentPluginData;
 		
-		if ( ! ($already = TiendaHelperPayment::getInstance( $payment->payment_id, $payment->payment_type, '1', 'payment_id' )) ) { 
+		
+		$already = $payment->load(array('orderpayment_id'=>$payment->orderpayment_id,'orderpayment_type'=>$payment->payment_type ) );	
+		
+		if ( !(is_object ($already)) ){ 
 			if ( ! $payment->save()) {
 				$paymentError = JText::_( 'PAYPALPRO MESSAGE PAYMENT STORE FAILED' );
 			}

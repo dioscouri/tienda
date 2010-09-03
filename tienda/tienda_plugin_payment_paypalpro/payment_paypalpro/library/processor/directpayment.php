@@ -39,7 +39,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 	 * @see plugins/tienda/payment_paypalpro/library/plgTiendaPayment_Paypalpro_Processor#validateData()
 	 */
 	function validateData()
-	{
+	{		
 		/*
 		 * perform initial checks 
 		 */
@@ -53,10 +53,10 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			return false;
 		}
 		
-		if (!$this->getSubscrTypeObj()) {
-			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
-			return false;
-		}
+//		if (!$this->getSubscrTypeObj()) {
+//			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
+//			return false;
+//		}
 		
 		if (!$this->_getParam('api_username') || !$this->_getParam('api_password') || !$this->_getParam('api_signature')) {
 			$this->setError(JText::_('PaypalPro Message Merchant Credentials are invalid'));
@@ -101,7 +101,6 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			$this->setError(JText::_('PayPalPro Message Expiration Date Invalid'));
 			return false;
 		}
-		
 		return true;
 	}
 	
@@ -112,22 +111,26 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 	{
 		// clear all possible error settings
 		$this->_errors = array();		
-		
-		$subscr_type_params = $this->getSubscrTypeParams();
-		if ($subscr_type_params->get('is_recurring')) {
-			// process a recurring subscription sign-up
-			$this->_sendRecurringRequest();
-			$this->_logResponse();
-			
-			$return = $this->_evaluateRecurringResponse();
-		}
-		else {
+//		
+//		$subscr_type_params = $this->getSubscrTypeParams();
+//		
+//			
+//		if ($subscr_type_params->get('is_recurring')) {
+//			// process a recurring subscription sign-up
+//			$this->_sendRecurringRequest();
+//			$this->_logResponse();
+//			
+//			$return = $this->_evaluateRecurringResponse();
+//		}
+//		else {
 			// process a one-time (sale) subscription
+			
 			$this->_sendSaleRequest();
+			
 			$this->_logResponse();
 		
 			$return = $this->_evaluateSaleResponse();
-		}
+		//}
 				
 		return $return;
 	}
@@ -242,16 +245,16 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 				$this->setError($payment_error);
 			}
 			
-			return true; // we return TRUE here to indicate that the subscription was created even with errors/warnings
+			return true; // we return TRUE here to indicate that the oeder was created even with errors/warnings
 		}
 		else {
-			// payment failed, no subscription will be created
+			// payment failed, no order will be created
 			$errors = $this->_getFailedPaymentErrors();
 			foreach ($errors as $error) {
 				$this->setError($error);
 			}
 			
-			return false; // we return FALSE here to indicate that the payment wasn't processed and no subscription was created
+			return false; // we return FALSE here to indicate that the payment wasn't processed and no order  was created
 		}
 	}
 	
