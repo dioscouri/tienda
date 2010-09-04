@@ -89,7 +89,7 @@
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link; ?>">
-						<?php echo JText::_( "View Report" ); ?>
+						<?php echo JText::_( "Load Payment Plugin" ); ?>
 					</a>
 					]
 				</td>
