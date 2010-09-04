@@ -663,8 +663,8 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
     	
     	$url  = 'index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type=' . $this->_plugin_type . '&paction=process_doexpresscheckout';
 		$url .= '&user_id=' . $this->_getUserID() . '&item_number=' . $this->_subscr_type_id;
-		
-		$url = JURI::root() . JRoute::_($url, false, $secure_post);
+		$url = JURI::root() .$url;
+		//$url = JURI::root() . JRoute::_($url, false, $secure_post);
     	return $url;
     }
     
