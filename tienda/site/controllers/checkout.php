@@ -935,11 +935,15 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		// get all the enabled shipping plugins
 		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
-		$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-
+		//$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
+		$model = JModel::getInstance('Shipping', 'TiendaModel');
+		$model->setState('filter_enabled', '1');
+        $plugins = $model->getList();
+        
 		$dispatcher =& JDispatcher::getInstance();
 
 		$rates = array();
+
 		if ($plugins)
 		{
 			foreach ($plugins as $plugin)
@@ -959,7 +963,7 @@ class TiendaControllerCheckout extends TiendaController
 
 			} // endforeach plugins
 		} // endif plugins
-
+		
 		return $rates;
 	}
 
@@ -1096,10 +1100,10 @@ class TiendaControllerCheckout extends TiendaController
 
 		// set the shipping method
 		$order->shipping = new JObject();
-		$order->shipping->shipping_price      = $values['shipping_price'];
-		$order->shipping->shipping_extra   = $values['shipping_extra'];
-		$order->shipping->shipping_name        = $values['shipping_name'];
-		$order->shipping->shipping_tax      = $values['shipping_tax'];
+		$order->shipping->shipping_price      = @$values['shipping_price'];
+		$order->shipping->shipping_extra      = @$values['shipping_extra'];
+		$order->shipping->shipping_name       = @$values['shipping_name'];
+		$order->shipping->shipping_tax        = @$values['shipping_tax'];
 
 		// set the addresses
 		$this->setAddresses( $values );

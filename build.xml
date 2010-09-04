@@ -291,7 +291,14 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginShippingDir}_dhl/languages" />
         </copy>
-
+        <!-- USPS -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginShippingDir}_usps" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginShippingDir}_usps/languages" />
+        </copy>
+            	
     <!-- SYSTEM PLUGINS -->
     	<!-- OVERRIDES -->
         <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">

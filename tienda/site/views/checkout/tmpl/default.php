@@ -99,8 +99,8 @@
 	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '$shipping_rates_text' ); tiendaGetCheckoutTotals(); "
-	                );
+	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '$shipping_rates_text' ); "
+	                ); // tiendaGetCheckoutTotals();
 	                
 	                // display select list of stored addresses
 	                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false );

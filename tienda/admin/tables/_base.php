@@ -174,7 +174,7 @@ class TiendaTable extends JTable
         // allow $oid to be an array of key=>values to use when loading
         $oid = (array) $oid;
 		
-	    if ($reset)
+        if (!empty($reset))
         {
             $this->reset();
         }

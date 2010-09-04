@@ -20,34 +20,22 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
-		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
-		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
-		<param name="meter" type="text" size="50" default="" label="API Meter" description="API Meter Desc"/>
-		<param name="dropoff" type="list" default="0" label="Dropoff Type" description="Dropoff Type Desc">
-		  <option value="0">None</option>
-		  <option value="REGULAR_PICKUP">Regular Pickup</option>
-		  <option value="BUSINESS_SERVICE_CENTER">Business Service Center</option>
-		  <option value="DROP_BOX">Drop Box</option>
-		  <option value="REQUEST_COURIER">Request Courier</option>
-		  <option value="STATION">Station</option>
+		<param name="username" type="text" size="50" default="" label="Web Tools Username" description="Web Tools Username Desc"/>
+		<param name="password" type="text" size="50" default="" label="Web Tools Password" description="Web Tools Password Desc"/>
+        <param name="services" type="textarea" default="PARCEL, PRIORITY" label="Services List" description="Services List Desc" rows="5" cols="30" />
+		<param name="packaging" type="list" default="FLAT RATE BOX" label="Packaging Type" description="Packaging Type Desc">
+			<option value="FLAT RATE BOX">FLAT RATE BOX</option>
+			<option value="FLAT RATE ENVELOPE">FLAT RATE ENVELOPE</option>
+			<option value="SM FLAT RATE BOX">SM FLAT RATE BOX</option>
+			<option value="MD FLAT RATE BOX">MD FLAT RATE BOX</option>
+			<option value="LG FLAT RATE BOX">LG FLAT RATE BOX</option>
+			<option value="RECTANGULAR">RECTANGULAR</option>
+            <option value="NONRECTANGULAR">NONRECTANGULAR</option>
 		</param>
-        <param name="services" type="textarea" default="FEDEX_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
-		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
-			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
-			<option value="FEDEX_10KG_BOX">FEDEX_10KG_BOX</option>
-			<option value="FEDEX_25KG_BOX">FEDEX_25KG_BOX</option>
-			<option value="FEDEX_BOX">FEDEX_BOX</option>
-			<option value="FEDEX_ENVELOPE">FEDEX_ENVELOPE</option>
-			<option value="FEDEX_PAK">FEDEX_PAK</option>
-			<option value="FEDEX_TUBE">FEDEX_TUBE</option>
-		</param>
-		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
-			<option value="KG">KG</option>
+		<param name="weight_unit" type="list" default="LB" label="Weight Unit" description="Weight Unit Desc">
 			<option value="LB">LB</option>
 		</param>
-		<param name="dimension_unit" type="list" default="CM" label="Dimension Unit" description="Dimension Unit Desc">
-			<option value="CM">CM</option>
+		<param name="dimension_unit" type="list" default="IN" label="Dimension Unit" description="Dimension Unit Desc">
 			<option value="IN">IN</option>
 		</param>
 	</params>

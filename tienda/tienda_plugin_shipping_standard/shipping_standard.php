@@ -154,6 +154,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 	protected function getTotal( $shipping_method_id, $geozones, $orderItems )
 	{
         $return = new JObject();
+        $return->shipping_rate_id         = '0';
         $return->shipping_rate_price      = '0.00000';
         $return->shipping_rate_handling   = '0.00000';
         $return->shipping_tax_rate        = '0.00000';
@@ -307,7 +308,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		    $shipping_method_handling += $global_handling; 
 		}
         // return formatted object
-        $return->shipping_rate_price    = $shipping_method_price;
+		$return->shipping_rate_price    = $shipping_method_price;
 		$return->shipping_rate_handling = $shipping_method_handling; 
         $return->shipping_tax_rates     = $shipping_tax_rates;
         $return->shipping_tax_total     = $shipping_method_tax_total;

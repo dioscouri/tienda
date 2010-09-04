@@ -54,6 +54,19 @@ class TiendaShippingPlugin extends TiendaPluginBase
         {
             return null;
         }
+        
+        $rate = array();
+        $rate['name']    = "";
+        $rate['code']    = "";
+        $rate['price']   = "";
+        $rate['extra']   = "";
+        $rate['total']   = "";
+        $rate['tax']     = "";
+        $rate['element'] = $this->_element;
+        
+        $rates[] = $return;
+        
+        return $rates;
     }
     
 	/**
@@ -250,6 +263,10 @@ class TiendaShippingPlugin extends TiendaPluginBase
         return $state;
     }
     
+    /**
+     * Gets the store's address
+     * @return unknown_type
+     */
     function getShopAddress()
     {
         if (empty($this->shopAddress))
@@ -278,6 +295,11 @@ class TiendaShippingPlugin extends TiendaPluginBase
         return $this->shopAddress;
     }
     
+    /**
+     * Adds zone and country codes to teh address object if not present
+     * @param $address
+     * @return unknown_type
+     */
     function checkAddress( $address )
     {
         $this->includeTiendaTables();
@@ -289,10 +311,12 @@ class TiendaShippingPlugin extends TiendaPluginBase
             $address->zone_code = $table->code;
         }
         
-        if (empty($address->country_code))
+        if (empty($address->country_code) || empty($address->country_name) || empty($address->country_isocode_2) || empty($address->country_isocode_3))
         {
             $table = JTable::getInstance('Countries', 'TiendaTable');
             $table->load($address->country_id);
+            $address->country_name = $table->country_name;
+            $address->country_isocode_3 = $table->country_isocode_3;
             $address->country_isocode_2 = $table->country_isocode_2;
             $address->country_code = $table->country_isocode_2;
         }
