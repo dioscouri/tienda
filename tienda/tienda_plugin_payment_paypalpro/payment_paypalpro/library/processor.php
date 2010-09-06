@@ -1,7 +1,7 @@
 <?php
 /**
  * @version	1.5
- * @package	Ambrasubs
+ * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Ambrasubs PayPalPro Base Processor
+ * Tienda PayPalPro Base Processor
  *
  * @package		Joomla 
  * @since 		1.5
@@ -241,7 +241,8 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     function _getFormattedAmount()
     {
     	$subscr_obj = $this->getSubscrTypeObj();    	
-    	$amount 	= (float) $subscr_obj->orderpayment_amount;    	
+    	$amount 	= (float) $subscr_obj->orderpayment_amount; 
+    	
     	$amount = sprintf('%01.2f', $amount);
     	return $amount;
     }
@@ -265,6 +266,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     	}
     	
     	$desc =  $subscr_obj->get('id') . ':' . $subscr_obj->get('title') . (' - [ ' . ($user->get('id') ? $user->get('username') : JText::_('PAYPALPRO NEW USER'))  . ' ]');
+    	
     	return $desc;
     }
     
@@ -433,80 +435,70 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		}
 	}
 	
-	/**
-	 * Creates a new payment entry
-	 * 
-	 * @param array $data
-	 * @return string An error message or empty string
-	 * @access protected
-	 */
-	function _createPayment($data)
-	{
-		$paymentError = '';
-		$errors = $this->getErrors();
-		
-		$paymentPluginData = array(
-			'validation_errors' => $errors,
-			'payment_method_title' => 'PayPal',
-			'payment_method_code' => 'paypalpro'
-		);
-		
-		//$payment =& new TiendaHelperPayment();
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$payment = &JTable::getInstance( 'orderpayments', 'TiendaTable' );
-		//$payment->orderpayment_type = $this->_plugin_type; 			// unique identifier, should be the plugin name
-		//$payment->created_by = $data->user->get('id');			// user creating the payment record
-		$payment->created_date = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
-		$payment->transaction_id = $data->transaction_id;			// transaction id from payment method
-		$payment->transaction_status = $data->payment_status;		// status of the PAYMENT
-		$payment->orderpayment_amount = $data->payment_amount;		// payment amount
-		$payment->transaction_details = $data->payment_details;		// text - any info about payment
-		//$payment->payment_datetime = gmdate( "Y-m-d H:i:s" ); 	// always in GMT
-		//$payment->userid = $data->user->get('id');				// user to be associated with the subscription
-		//$payment->typeid = $data->type_id;						// id value for subscription type
-		//$payment->status = $data->subs_status;					// status of the SUBSCRIPTION
-		$payment->orderpayment_id = ''; 								// will be set by save process
-		//$payment->expires_datetime = $data->subs_expires;		// if not set, will be set to the correct day in the future by save process - only set this (=NOW) if the payment was invalid
-		
-		// set plugin data for further processing by the AS email system
-		$payment->payment_plugin_data = !empty($data->payment_plugin_data) ? array_merge($data->payment_plugin_data, $paymentPluginData) : $paymentPluginData;
-		
-		
-		$already = $payment->load(array('orderpayment_id'=>$payment->orderpayment_id,'orderpayment_type'=>$payment->payment_type ) );	
-		
-		if ( !(is_object ($already)) ){ 
-			if ( ! $payment->save()) {
-				$paymentError = JText::_( 'PAYPALPRO MESSAGE PAYMENT STORE FAILED' );
-			}
-			
-			// if we get to here without errors and a user was blocked
-			// it seems like we can unblock him
-			$user =& $data->user;
-			if ( ! count($errors) && $user->get('automatically_registered') && $user->get('block') ) {
-				TiendaHelperUser::unblockUser($user->get('id'));
-			}
-
-		}
-		else {
-			$paymentError = JText::_( 'PAYPALPRO MESSAGE TRANSACTION INVALID' );
-			$payment->payment_plugin_data['validation_errors'][] = $paymentError;
-
-			// because we don't use the TiendaHelperPayment::save method
-			// we have to trigger the email plugin here manually
-			$import = JPluginHelper::importPlugin( 'Tienda', 'emails' );        
-        	$dispatcher =& JDispatcher::getInstance();
-        	
-        	$emailTypePrefix = !empty($payment->payment_plugin_data['is_recurring']) ? 'recurring' : 'new';
-        	$emailType = $emailTypePrefix . '_failed';
-        	$emailData = get_object_vars($payment);        	
-        	
-        	$dispatcher->trigger( 'sendEmailNotices', array( $emailData, $data->user, $emailType ) );			
-		}
-		
-		return $paymentError;
-	}
 	
-	
+    /**
+     * Processes the sale payment
+     * 
+     * @param array $data
+     * 
+     * @access protected
+     */
+	function _updatePayment($data)
+    {
+        $errors = $this->getErrors();
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = &JTable::getInstance( 'orderpayments', 'TiendaTable' );
+        $orderpayment->load($data->orderpayment_id);
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $data->order_id );
+        // this is updating the order status
+         $order->order_state_id = $this->_params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
+         $this->setOrderPaymentReceived( $data->order_id );
+            // send email
+        $send_email = true;
+        $orderpayment->transaction_id = $data->transaction_id;            // transaction id from payment method
+        $orderpayment->transaction_status = $data->payment_status;        // status of the PAYMENT
+        $orderpayment->orderpayment_amount = $data->payment_amount; 
+        $payment->transaction_details = $data->payment_details;       // payment amount
+       
+       // save the order
+        if (!$order->save())
+        {
+            $errors[] = $order->getError();
+        }
+      
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+            $errors[] = $orderpayment->getError();
+        }
+       
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
+        }
+
+        return count($errors) ? implode("\n", $errors) : '';
+    }
+/**
+     * This method can be executed by a payment plugin after a succesful payment
+     * to perform acts such as enabling file downloads, removing items from cart,
+     * updating product quantities, etc
+     *
+     * @param unknown_type $order_id
+     * @return unknown_type
+     */
+    function setOrderPaymentReceived( $order_id )
+    {
+       Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+       TiendaHelperOrder::setOrderPaymentReceived( $order_id ); 
+    }
 	
 	/**
 	 * Calculates the subscription expiration date

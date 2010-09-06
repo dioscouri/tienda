@@ -386,12 +386,13 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			
 			// prepare a new payment entry for storing
 			$payment_data = new JObject();
-		
 			$payment_data->user =& $user;
+			$payment_data->orderpayment_id= $subsrc_type_obj->orderpayment_id;
+			$payment_data->order_id= $subsrc_type_obj->order_id;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
 			$payment_data->transaction_id = $this->_response['PAYMENTINFO_0_TRANSACTIONID'];
 			$payment_data->payment_amount = $this->_response['PAYMENTINFO_0_AMT'];
-			$payment_data->type_id = $this->_subscr_type_id;
+			//$payment_data->type_id = $this->_subscr_type_id;
 		
 			if(count($this->getErrors())) {
 				// if an error occurred or the transaction has the "pending" status,
@@ -402,7 +403,8 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 				$this->_fillPaymentStatusVars($payment_data, true);			
 			}
 		
-			$payment_error = $this->_createPayment($payment_data);		
+			//$payment_error = $this->_createPayment($payment_data);
+			$payment_error = $this->_updatePayment($payment_data);		
 			if ($payment_error) {
 				$this->setError($payment_error);
 			}

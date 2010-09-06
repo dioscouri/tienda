@@ -226,6 +226,8 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			$payment_data = new JObject();
 		
 			$payment_data->user =& $user;
+			$payment_data->orderpayment_id= $subsrc_type_obj->orderpayment_id;
+			$payment_data->order_id= $subsrc_type_obj->order_id;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
 			$payment_data->transaction_id = $this->_response['TRANSACTIONID'];
 			$payment_data->payment_amount = $this->_response['AMT'];
@@ -240,7 +242,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 				$this->_fillPaymentStatusVars($payment_data, true);			
 			}
 		
-			$payment_error = $this->_createPayment($payment_data);		
+			$payment_error = $this->_updatePayment($payment_data);		
 			if ($payment_error) {
 				$this->setError($payment_error);
 			}

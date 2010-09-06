@@ -67,7 +67,7 @@
 				</tr>
 			</table>
 			<input type="hidden" name="order_id" value="<?php echo plg_tienda_escape($vars->row['order_id']) ?>" />	
-			<input type="hidden" name="item_number" value="<?php echo plg_tienda_escape($vars->row['order_id']) ?>" />						
+			<input type="hidden" name="item_number" value="<?php echo plg_tienda_escape($vars->row['orderpayment_id']) ?>" />						
 			<input type="submit" name="submit" value="<?php echo JText::_( 'PaypalPro Complete Purchase' ) ?>" />
 			<?php echo $vars->token_input ?>
 			</form>
