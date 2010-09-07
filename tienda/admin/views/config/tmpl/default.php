@@ -858,7 +858,7 @@
 					<tbody>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Enable Product Reviews?' ); ?>
+								<?php echo JText::_( 'Enable Product Reviews' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'product_review_enable', 'class="inputbox"', $this->row->get('product_review_enable', '1') ); ?>
@@ -869,7 +869,7 @@
 					 </tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Require Login to leave review?' ); ?>
+								<?php echo JText::_( 'Require Login to leave review' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'login_review_enable', 'class="inputbox"', $this->row->get('login_review_enable', '1') ); ?>
@@ -880,7 +880,7 @@
 					 </tr>
 					 <tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Require Purchase to leave review?' ); ?>
+								<?php echo JText::_( 'Require Purchase to leave review' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'purchase_leave_review_enable', 'class="inputbox"', $this->row->get('purchase_leave_review_enable', '1') ); ?>
@@ -891,7 +891,7 @@
 					 </tr>
 					 <tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Use captcha?' ); ?>
+								<?php echo JText::_( 'Use captcha' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'use_captcha', 'class="inputbox"', $this->row->get('use_captcha', '1') ); ?>
@@ -902,7 +902,7 @@
 						</tr>
 					 <tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Review Helpfulness Enable votes?' ); ?>
+								<?php echo JText::_( 'Enable Review Helpfulness Voting' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'review_helpfulness_enable', 'class="inputbox"', $this->row->get('review_helpfulness_enable', '1') ); ?>
@@ -913,7 +913,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Enable Share this link?' ); ?>
+								<?php echo JText::_( 'Enable Share this link' ); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'share_review_enable', 'class="inputbox"', $this->row->get('share_review_enable', '1') ); ?>

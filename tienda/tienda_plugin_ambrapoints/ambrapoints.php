@@ -13,7 +13,8 @@ jimport('joomla.plugin.plugin');
  * @since 		1.5
  */
 class plgTiendaAmbraPoints extends JPlugin 
-{/**
+{
+    /**
 	 * Constructor
 	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
@@ -61,9 +62,7 @@ class plgTiendaAmbraPoints extends JPlugin
      */
     function onAfterSaveProductComments( $row )
     {
-		
         $success = null;
-
 
 	    if (!$this->_isInstalled())
         {
@@ -79,7 +78,6 @@ class plgTiendaAmbraPoints extends JPlugin
            JFactory::getApplication()->enqueueMessage( $helper->getError() );
         }
         
-        
 		return $success;
 	}
 	
@@ -88,33 +86,31 @@ class plgTiendaAmbraPoints extends JPlugin
 	 * @param unknown_type $row
 	 */
 	function doCompletedOrderTasks($orderid )
-    { 
-	
-    $success = null;
-	$user_id=JFactory::getUser()->id;
+    {
+        $success = null;
+    	$user_id=JFactory::getUser()->id;
 
 	    if (!$this->_isInstalled())
         {
             return $success;    
         }
-		    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
-			$model->setId( $orderid );
-			$item=$model->getItem();
-			$subtotal=$item->order_subtotal;
-			JLoader::register('AmbraConfig', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'defines.php');
-			$min_purchase_points=AmbraConfig::getInstance()->get('min_purchase_points', '');
-			if($subtotal>=$min_purchase_points)
-			{
-			
+        
+	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		$model->setId( $orderid );
+		$item=$model->getItem();
+		$subtotal=$item->order_subtotal;
+		JLoader::register('AmbraConfig', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'defines.php');
+		$min_purchase_points=AmbraConfig::getInstance()->get('min_purchase_points', '');
+		if ($subtotal>=$min_purchase_points)
+		{
         	JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."point.php");
             $helper = Ambra::get( "AmbraHelperPoint", 'helpers.point' );
-			
 			
             if ($helper->createLogEntry( $user_id, 'com_tienda', 'doCompletedOrderTasks' ))
             {
                 JFactory::getApplication()->enqueueMessage( $helper->getError() );
             }
-			}
+		}
         
 		return $success;
 	}
