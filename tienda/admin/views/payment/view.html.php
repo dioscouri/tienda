@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
 
-class TiendaViewPayment_plugin extends TiendaViewBase 
+class TiendaViewPayment extends TiendaViewBase 
 
 {
 	function getLayoutVars($tpl=null) 
@@ -22,6 +22,7 @@ class TiendaViewPayment_plugin extends TiendaViewBase
 		switch(strtolower($layout))
 		{
 			case "view":
+			    $this->set( 'leftMenu', 'leftmenu_localization' );
 				$this->_form($tpl);
 			  break;
 			case "form":
@@ -57,6 +58,41 @@ class TiendaViewPayment_plugin extends TiendaViewBase
     	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('Submit'), false );
     	JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
     }
+    
+    /**
+     * The default toolbar for editing an item
+     * @param $isNew
+     * @return unknown_type
+     */
+    function _formToolbar( $isNew=null )
+    {
+        $divider = false;
+        $surrounding = (!empty($this->surrounding)) ? $this->surrounding : array();
+        if (!empty($surrounding['prev']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
+        }
+        if (!empty($surrounding['next']))
+        {
+            $divider = true;
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);
+        }
+        if ($divider)
+        {
+            JToolBarHelper::divider();
+        }
+
+        JToolBarHelper::save('save');
+        JToolBarHelper::apply('apply');
+
+        if ($isNew)
+        {
+            JToolBarHelper::cancel();
+        }
+            else
+        {
+            JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+        }
+    }
 }
-
-

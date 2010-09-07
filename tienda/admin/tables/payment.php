@@ -13,12 +13,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaTable', 'tables._base' );
 
-class TiendaTablePayment_plugin extends TiendaTable 
+class TiendaTablePayment extends TiendaTable 
 {
-	function TiendaTablePayment_plugin( &$db ) 
+	function TiendaTablePayment( &$db ) 
 	{
 		$tbl_key 	= 'id';
-		$tbl_suffix = 'Payment_plugin';
+		$tbl_suffix = 'payment';
 		$this->set( '_suffix', $tbl_suffix );
 		
 		parent::__construct( "#__plugins", $tbl_key, $db );	

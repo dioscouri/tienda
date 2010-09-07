@@ -13,34 +13,8 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaModelBase', 'models._base' );
 
-class TiendaModelPayment_plugin extends TiendaModelBase 
+class TiendaModelPayment extends TiendaModelBase 
 {
-	/**
-     * Method to get a table object, load it if necessary.
-     *
-     * @access  public
-     * @param   string The table name. Optional.
-     * @param   string The class prefix. Optional.
-     * @param   array   Configuration array for model. Optional.
-     * @return  object  The table
-     * @since   1.5
-     */
-    function &getTable($name='Payment_plugin', $prefix='TiendaTable', $options = array())
-    {
-        if (empty($name)) {
-            $name = $this->getName();
-        }
-        
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        if ($table = $this->_createTable( $name, $prefix, $options ))  {
-            return $table;
-        }
-
-        JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-        $null = null;
-        return $null;
-    }
-    	
     protected function _buildQueryWhere(&$query)
     {
        	$filter     = $this->getState('filter');
@@ -89,7 +63,7 @@ class TiendaModelPayment_plugin extends TiendaModelBase
 		$list = parent::getList();
 		foreach($list as $item)
 		{
-			$item->link = 'index.php?option=com_tienda&view=payment_plugin&task=edit&id='.$item->id;
+			$item->link = 'index.php?option=com_tienda&view=payment&task=edit&id='.$item->id;
 		}
 		return $list;
 	}
