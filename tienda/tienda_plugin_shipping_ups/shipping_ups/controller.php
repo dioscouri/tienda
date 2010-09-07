@@ -12,10 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
 
-class TiendaControllerShippingUps extends TiendaControllerShippingPlugin 
+class TiendaControllerShippingDhl extends TiendaControllerShippingPlugin 
 {
 
-    var $_element   = 'shipping_UPS';
+    var $_element   = 'shipping_DHL';
 		
 	/**
 	 * constructor

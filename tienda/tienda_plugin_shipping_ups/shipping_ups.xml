@@ -2,13 +2,13 @@
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Shipping via UPS</name>
 	<version>0.5.5</version>
-	<creationDate>AUGUST 2010</creationDate>
+	<creationDate>August 2010</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin is for UPS</description>
+	<description>This plugin is for Ups</description>
 	
 	<files>
 		<filename plugin="shipping_ups">shipping_ups.php</filename>
@@ -51,6 +51,4 @@
 			<option value="IN">IN</option>
 		</param>
 	</params>
-			
 </install>
-

@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Base class for Ups Transactions
+ * Base class for UPS Transactions
  * @author Rafael Diaz-Tushman
  * @author Daniele Rosario
  *
@@ -28,7 +28,6 @@ class TiendaUps extends JObject
     var $accountNumber;
     var $meterNumber;
     
-    
     function getClient()
     {
         if (empty($this->client))
@@ -36,6 +35,7 @@ class TiendaUps extends JObject
             @ini_set("soap.wsdl_cache_enabled", "0");
             $this->client = new SoapClient($this->wsdl, array('trace' => 1));
         }
+        
         return $this->client;
     }
     
@@ -45,7 +45,13 @@ class TiendaUps extends JObject
      */
     function createRequest()
     {
+         /* Credentials */
+        $request['UsernameToken'] = array('Username' => $this->accountNumber, 'Password' => $this->password); 
+        $request['ServiceAccessToken'] = array('AccessLicenseNumber' => $this->key); 
         
+        $authvalues = new SoapVar($request, SOAP_ENC_OBJECT,'UPSSecurity',"http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0");
+		$header =  new SoapHeader("http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0","UPSSercurity", $authvalues, true);
+		$this->client->__setSoapHeaders(array($header));        
     }
     
     function getRequest()
@@ -79,12 +85,17 @@ class TiendaUps extends JObject
 }
 
 /**
- * Class for Shipping Rates
+ * Class for Rating  Packages
  * @author Daniele Rosario
  *
  */
-class TiendaUpsRate extends TiendaUps
+class TiendaUpsRate extends TiendaUps 
 {
+	function __construct()
+    {
+        $this->wsdl = dirname( __FILE__ ).DS.'ups_rate.wsdl';        
+    }
+	
     var $rate           = null;
     var $payorType      = "SENDER";
     var $carrierCode    = "FDXG";
@@ -111,11 +122,6 @@ class TiendaUpsRate extends TiendaUps
     var $destStateOrProvinceCode;
     var $destPostalCode;
     var $destCountryCode;
-    
-	function __construct()
-    {
-        $this->wsdl = dirname( __FILE__ ).DS.'ups_rate.wsdl';        
-    }
 
     
     function setRateRequestTypes($type) {
@@ -199,9 +205,9 @@ class TiendaUpsRate extends TiendaUps
     {
         try 
             {
-                $this->response = $this->getClient()->getRates( $this->getRequest() );
-                
-                echo Tienda::dump($this->response);
+                $this->response = $this->getClient()->ProcessRate( $this->getRequest() );
+				
+                return $this->response;
                 
                 if ($this->response->HighestSeverity != 'FAILURE' && $this->response->HighestSeverity != 'ERROR')
                 {
@@ -224,41 +230,55 @@ class TiendaUpsRate extends TiendaUps
     }
     
     /**
-     * Creates the request array for sending to Ups
+     * Creates the request array for sending to dhl
      * @return array
      */
     function createRequest()
     {
-        $request['Request'] = array('RequestOption' => 'Rate');
+		parent::createRequest();
         
-        /* Credentials */	
-        $request['Shipment']['FRSPaymentInformation']['AccountNumber'] = $this->accountNumber;
-       	
+        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v8 using PHP ***');
+        $request['Version'] = array('ServiceId' => 'crs', 'Major' => '8', 'Intermediate' => '0', 'Minor' => '0');
+        $request['ReturnTransitAndCommit'] = false;
+        $request['RequestedShipment']['ShipTimestamp'] = date('c');
+        
+        /* Configurable Values */
+        $request['RequestedShipment']['DropoffType'] = $this->dropoffType; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+        $request['RequestedShipment']['ServiceType'] =  $this->service; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, DHL_GROUND, ...
+        $request['RequestedShipment']['PackagingType'] = $this->packaging; // valid values DHL_BOX, DHL_PAK, DHL_TUBE, YOUR_PACKAGING, ...
+
         /* addresses */
-        $request['Shipment']['Shipper'] = array(
+        $request['RequestedShipment']['Shipper'] = array(
             'Address' => 
                 array (
-                    'AddressLine' => $this->originAddressLines, // Origin details
+                    'StreetLines' => $this->originAddressLines, // Origin details
                     'City' => $this->originCity,
-                    'StateProvinceCode' => $this->originStateOrProvinceCode,
+                    'StateOrProvinceCode' => $this->originStateOrProvinceCode,
                     'PostalCode' => $this->originPostalCode,
                     'CountryCode' => $this->originCountryCode
                 )
-            );   
-            
-         $request['Shipment']['ShipTo'] = array(
+            );        
+        $request['RequestedShipment']['Recipient'] = array(
             'Address' => 
                 array(
-                    'AddressLine' => $this->destAddressLines, // Destination details
+                    'StreetLines' => $this->destAddressLines, // Destination details
                     'City' => $this->destCity,
-                    'StateProvinceCode' => $this->destStateOrProvinceCode,
+                    'StateOrProvinceCode' => $this->destStateOrProvinceCode,
                     'PostalCode' => $this->destPostalCode,
                     'CountryCode' => $this->destCountryCode
                 )
-            );     
-        
-        // Packages
-        $request['Shipment']['Package'] = $this->packageLineItems;    
+            );
+            
+        $request['RequestedShipment']['ShippingChargesPayment'] = array(
+            'PaymentType' => $this->payorType,
+            'Payor' => 
+                array('AccountNumber' => $this->accountNumber, 'CountryCode' => $this->originCountryCode )
+            );
+            
+        $request['RequestedShipment']['RateRequestTypes'] = $this->rateRequestTypes; // 'ACCOUNT'; // or LIST
+        $request['RequestedShipment']['PackageDetail'] = $this->packageDetail; // 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
+        $request['RequestedShipment']['RequestedPackageLineItems'] = $this->packageLineItems;
+        $request['RequestedShipment']['PackageCount'] = $this->packageCount;
         
         $this->request = $request;
     }
@@ -298,7 +318,6 @@ class TiendaUpsRate extends TiendaUps
                         $this->rate = $rate;
                         $this->rate->summary = array();                        
                         $this->rate->summary['name']    = $this->serviceName;
-                        $this->rate->summary['code']    = $serviceType;
                         $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
                         $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
                         $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;
@@ -316,7 +335,6 @@ class TiendaUpsRate extends TiendaUps
                     $this->rate = $rate;
                     $this->rate->summary = array();
                     $this->rate->summary['name']    = $this->serviceName;
-                    $this->rate->summary['code']    = $serviceType;
                     $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
                     $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
                     $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;
@@ -334,21 +352,38 @@ class TiendaUpsRate extends TiendaUps
  * Class for Tracking DHL Pacakges
  * @author Rafael Diaz-Tushman
  *
- */
+ 
 class TiendaDhlTrack extends TiendaDhl 
 {
     
 }
-
+*/
 /**
  * Class for Printing Dhl Labels
  * @author Rafael Diaz-Tushman
  *
- */
+
 class TiendaDhlPrint extends TiendaDhl 
 {
     
 }
+ */
 
+class TiendaUpsHeader
+{
+  var $SessionKey;//string
+  var $SessionRole;//string
+  var $UserType;//string
+  var $UserName;//string
+  
+  function __construct($data)
+  {
+     $this->UPSSecurity  = $LoginResponse->LoginResult->SessionKey;
+     $this->SessionRole = $LoginResponse->LoginResult->SessionRole;
+     $this->UserType    = $LoginResponse->LoginResult->UserType;
+     $this->UserName    = $LoginResponse->LoginResult->UserName;
+
+  }
+}
 ?> 
 

@@ -2,7 +2,6 @@
 /**
  * @package	Tienda
  * @author 	Dioscouri
- * @author 	Daniele Rosario
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -13,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaShippingPlugin', 'library.plugins.shipping');
 
-class plgTiendaShipping_Ups extends TiendaShippingPlugin
+class plgTiendaShipping_ups extends TiendaShippingPlugin
 {
 	/**
 	 * @var $_element  string  Should always correspond with the plugin's filename, 
@@ -130,6 +129,29 @@ class plgTiendaShipping_Ups extends TiendaShippingPlugin
         $vars->services = $this->getServices();
         $html = $this->_getLayout('default', $vars);
 		
+        
+        require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
+        
+        $ups = new TiendaUpsRate();
+         $shipAccount = $this->params->get('account');
+        $meter = $this->params->get('meter');
+        $billAccount = $this->params->get('account');
+        $key = $this->params->get('key');
+        $password = $this->params->get('password');
+        
+        $ups->setKey($key);
+            $ups->setPassword($password);
+            $ups->setAccountNumber($billAccount);
+            $ups->setMeterNumber($meter);
+            $ups->setService($service, $serviceName);
+            $ups->setPayorType("SENDER");
+            $ups->setCarrierCode("FDXE");
+            $ups->setDropoffType("REGULAR_PICKUP");
+            $ups->setPackaging("YOUR_PACKAGING");
+        
+        
+        $html = Tienda::dump($ups->getRate());
+        
         return $html;
     }
     
@@ -160,23 +182,23 @@ class plgTiendaShipping_Ups extends TiendaShippingPlugin
                 $packageCount = $packageCount + 1;
                 $weight = array(
                     'Value' => $product->product_weight,
-                    'UnitOfMeasurement' => array(
-                    						'Code' => $this->params->get('weight_unit', 'KG') 
-                							) // get this from product?
+                    'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
                 );
                 
                 $dimensions = array(
                     'Length' => $product->product_length,
                     'Width' => $product->product_width,
                     'Height' => $product->product_height,
-                    'UnitOfMeasurement' => array( 'Code' => $this->params->get('dimension_unit', 'CM')) // get this from product?
+                    'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
                 );
                 
-                $packages[] = array( 'PackageWeight' => $weight, 'Dimensions' => $dimensions );
+                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
             }            
         }
         
-    		$ups = new TiendaUpsRate;
+        foreach ($services as $service=>$serviceName)
+        {
+            $ups = new TiendaUpsRate;
             
             $ups->setKey($key);
             $ups->setPassword($password);
@@ -205,16 +227,14 @@ class plgTiendaShipping_Ups extends TiendaShippingPlugin
             $ups->setDestPostalCode($address->postal_code);
             $ups->setDestCountryCode($address->country_code);
                         
+            echo Tienda::dump($ups->getRate());die();
+            
             if ($ups->getRate())
             {
-                $ups->rate->summary['element'] = $this->_element;
-                $rates[] = $ups->rate->summary;
+                $dhl->rate->summary['element'] = $this->_element;
+                $rates[] = $dhl->rate->summary;
             }
-        
-        /*foreach ($services as $service=>$serviceName)
-        {
-            
-        }*/
+        }
         
         return $rates;
         
