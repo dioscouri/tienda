@@ -210,3 +210,11 @@ span.relationship_requires_past {
 span.relationship_requires_current {
     color: red;
 }
+
+span.relationship_requires_past_by {
+    color: darkorange;
+}
+
+span.relationship_requires_current_by {
+    color: darkorange;
+}

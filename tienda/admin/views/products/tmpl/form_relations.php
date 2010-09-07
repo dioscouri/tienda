@@ -41,6 +41,16 @@
             {
                 $item->relation_type = 'child';
             }
+
+            if ($item->relation_type == 'requires_past' && $item->product_id_to == $this->product_id)
+            {
+                $item->relation_type = 'requires_past_by';
+            }
+
+            if ($item->relation_type == 'requires_current' && $item->product_id_to == $this->product_id)
+            {
+                $item->relation_type = 'requires_current_by';
+            }
             ?>
         
             <tr class='row<?php echo $k; ?>'>
