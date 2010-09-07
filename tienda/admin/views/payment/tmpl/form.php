@@ -28,7 +28,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 						<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
-						<input name="ordering" id="ordering" value="<?php echo @$row->ordering; ?>" size="48" maxlength="250" type="text" />
+						<input name="ordering" id="ordering" value="<?php echo @$row->ordering; ?>" size="10" maxlength="250" type="text" />
 					</td>
 				</tr>
 				<tr>
