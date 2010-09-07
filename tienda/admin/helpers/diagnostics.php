@@ -234,6 +234,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkOrdershippings FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+        if (!$this->checkProductCommentsReported())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsReported FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -1798,5 +1803,42 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;     
     }
+    
+    /**
+     * Checks the productcomments table for the reported_count fields
+     * As of v0.5.5
+     * 
+     * return boolean
+     */
+    function checkProductCommentsReported()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductCommentsReported', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productcomments';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "reported_count";
+            $definitions["reported_count"] = "int(11) NOT NULL DEFAULT '0'";
+        
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductCommentsReported') );
+            $config->config_name = 'checkProductCommentsReported';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;     
+    }
+    
+    
     
 }

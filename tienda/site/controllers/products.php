@@ -1568,39 +1568,57 @@ class TiendaControllerProducts extends TiendaController
     		$productcomment = JTable::getInstance('productcomments', 'TiendaTable');
     		$productcomment->load( $productcomment_id,'productcomment_id');
             $product_helpful = $producthelper->getHelpfulVotes($productcomment_id);
-            $helpful_votes_total=$product_helpful->helpful_votes_total;
-            $helpful_votes_total=$helpful_votes_total+1;
+            
+            $helpful_votes_total = $product_helpful->helpful_votes_total;
+            $helpful_votes_total = $helpful_votes_total + 1;
     		$helpfulness = JRequest::getInt('helpfulness', '');
-    		$report = JRequest::getInt('report', '');
-    		if($helpfulness==1)
+    		if ($helpfulness == 1)
     		{
-            $helpful_vote=$product_helpful->helpful_votes;
-            $helpful_vote_new=$helpful_vote + 1;
-    		$productcomment->helpful_votes=$helpful_vote_new;
-    		
+                $helpful_vote = $product_helpful->helpful_votes;
+                $helpful_vote_new = $helpful_vote + 1;
+        		$productcomment->helpful_votes = $helpful_vote_new;
     		}
-    		$productcomment->helpful_votes_total=$helpful_votes_total;
+    		$productcomment->helpful_votes_total = $helpful_votes_total;
     		
-    		
-    		$help=array();
-    		$help['productcomment_id']=$productcomment_id;
-    		$help['helpful']=$helpfulness;
-    		$help['user_id']=$user_id;
-    		$help['reported']=$report;
+    		$report = JRequest::getInt('report', '');
+		    if ($report == 1)
+            {
+                $productcomment->reported_count = $productcomment->reported_count + 1;
+            }
+            
+    		$help = array();
+    		$help['productcomment_id'] = $productcomment_id;
+    		$help['helpful'] = $helpfulness;
+    		$help['user_id'] = $user_id;
+    		$help['reported'] = $report;
     		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     		$reviewhelpfulness = JTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
+    		$reviewhelpfulness->load(array('user_id'=>$user_id));
+    		if ($report == 1 && !empty($reviewhelpfulness->productcommentshelpfulness_id) && empty($reviewhelpfulness->reported))
+    		{
+    		    $reviewhelpfulness->reported = 1;
+    		    $reviewhelpfulness->save();
+    		    
+                $productcomment->save();
+                JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Thanks for reporting this comment' ));
+                JFactory::getApplication()->redirect($url);
+                return;
+    		}
+    		
     		$reviewhelpfulness->bind($help);
- 			if(!$reviewhelpfulness->save())
+ 			if (!empty($reviewhelpfulness->productcommentshelpfulness_id))
  			{
-     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'You have already register comments on this review' ));
+     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'You have already commented on this review' ));
      			JFactory::getApplication()->redirect($url);
+     			return;
  			}
      			else
  			{
+ 			    $reviewhelpfulness->save();
  				$productcomment->save();
-     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Your comments have been saved' ));
+     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Thanks for your feedback on this comment' ));
       			JFactory::getApplication()->redirect($url);
-
+      			return;
  			}
 	    }
     		else
@@ -1608,6 +1626,7 @@ class TiendaControllerProducts extends TiendaController
     		$redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
     		$redirect = JRoute::_( $redirect, false );
             JFactory::getApplication()->redirect( $redirect );
+            return;
         }
 	}
 }

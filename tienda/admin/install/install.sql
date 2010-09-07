@@ -5129,6 +5129,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `productcomment_enabled` tinyint(1) NOT NULL DEFAULT '0',
   `helpful_votes` int(11) NOT NULL DEFAULT '0',
   `helpful_votes_total` int(11) NOT NULL DEFAULT '0',
+  `reported_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`productcomment_id`),
   UNIQUE KEY `product_id` (`product_id`,`user_id`),
   KEY `fk_Product_ProductReview` (`product_id`)

@@ -37,43 +37,57 @@
                 <?php echo TiendaGrid::sort( 'Comment', "tbl.productcomment_text", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="text-align: left; width: 100px;">
-                <?php echo TiendaGrid::sort( 'Helpful votes', "tbl.helpful_votes", @$state->direction, @$state->order ); ?>
-                +
-                <?php echo TiendaGrid::sort( 'Total votes', "tbl.helpful_votes_total", @$state->direction, @$state->order ); ?>
-			</th>
-			<th style="text-align: left; width: 100px;">
                 <?php echo TiendaGrid::sort( 'User', "m.name", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="width: 150px;">
                 <?php echo TiendaGrid::sort( 'User Rating', "tbl.productcomment_rating", @$state->direction, @$state->order ); ?>
 			</th>
-			<th style="width: 150px;">
-                <?php echo TiendaGrid::sort( 'Reported', "h.reported", @$state->direction, @$state->order ); ?>
+            <th style="text-align: center; width: 100px;">
+                <?php echo TiendaGrid::sort( 'Helpful Votes', "tbl.helpful_votes", @$state->direction, @$state->order ); ?>
+                <br/>
+                (
+                <?php echo TiendaGrid::sort( 'Total', "tbl.helpful_votes_total", @$state->direction, @$state->order ); ?>
+                )
+            </th>
+			<th style="width: 100px;">
+                <?php echo TiendaGrid::sort( 'Reported', "tbl.reported_count", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="width: 100px;">
                 <?php echo TiendaGrid::sort( 'Published', "tbl.productcomment_enabled", @$state->direction, @$state->order ); ?>
 			</th>
 		</tr>
 		<tr class="filterline">
-			<th colspan="3"><?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-			<div class="range">
-			<div class="rangeline"><span class="label"><?php echo JText::_("From"); ?>:</span>
-			<input id="filter_id_from" name="filter_id_from"
-				value="<?php echo @$state->filter_id_from; ?>" size="5"
-				class="input" /></div>
-			<div class="rangeline"><span class="label"><?php echo JText::_("To"); ?>:</span>
-			<input id="filter_id_to" name="filter_id_to"
-				value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
-			</div>
-			</div>
+			<th colspan="3">
+                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
+                <div class="range">
+                    <div class="rangeline">
+                        <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                    </div>
+                    <div class="rangeline">
+                        <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                    </div>
+                </div>
 			</th>
-			<th></th>
-			<th style="text-align: left;"><input id="filter_name"
-				name="filter_name" value="<?php echo @$state->filter_name; ?>"
-				size="25" /></th>
-			<th></th>
-			<th></th>
-			<th><?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
+            <th>
+            
+            </th>
+			<th style="text-align: left;">
+                <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25" />
+            </th>
+			<th>
+			
+			</th>
+			<th>
+			
+			</th>
+			<th>
+			
+			</th>
+            <th>
+                <?php echo TiendaSelect::booleans( @$state->filter_reported, 'filter_reported', $attribs, 'filter_reported', true, 'Reported', 'Yes', 'No' ); ?>
+            </th>
+			<th>
+                <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
 			</th>
 		</tr>
 		<tr>
@@ -112,38 +126,54 @@
 			</td>
 			<td style="text-align: left;">
     			<a href="<?php echo $item->link; ?>"> 
-    			<?php echo JText::_($item->helpful_votes); ?>
+    			<?php echo JText::_($item->user_name); ?>
     			</a>
-    			<div>
-                    <a href="<?php echo $item->link; ?>"> 
-                    <?php echo JText::_($item->helpful_votes_total); ?>
-                    </a>
-    			</div>
 			</td>
-			
-			<td style="text-align: left;"><a href="<?php echo $item->link; ?>"> <?php echo JText::_($item->user_name); ?>
-			</a></td>
-			<td style="text-align: left;"> 
-			<?php $rate=$item->productcomment_rating ;
-			for($count=1;$count<=5;$count++)
-			{
-			 if($count<=$rate)
-			 {?>
-				<img src="../media/com_tienda/images/star_10.png">	
-			 <?php 
-			 }
-			 else
-			 {?>
-				<img src="../media/com_tienda/images/star_00.png">	
-			<?php 
-			 }
-			}
-			 ?>
+			<td style="text-align: center;"> 
+                <?php 
+                $rate = $item->productcomment_rating ;
+                for ($count=1; $count<=5; $count++)
+                {
+                    if ($count<=$rate)
+                    {
+                        ?>
+                        <img src="../media/com_tienda/images/star_10.png">	
+                        <?php 
+                    }
+                        else
+                    {
+                        ?>
+                        <img src="../media/com_tienda/images/star_00.png">	
+                        <?php 
+                    }
+                }
+                ?>
 			</td>
-			<td style="text-align: center;"><a href="<?php echo $item->link; ?>"><?php if(($item->reported)>0){ ?><img src="../media/com_tienda/images/required_16.png"><?php }?></a>
+            <td style="text-align: center;">
+                <a href="<?php echo $item->link; ?>"> 
+                    <?php echo JText::_($item->helpful_votes); ?>
+                </a>
+                (
+                <a href="<?php echo $item->link; ?>"> 
+                <?php echo JText::_($item->helpful_votes_total); ?>
+                </a>
+                )
+            </td>
+			<td style="text-align: center;">
+    			<?php 
+    			if ( ($item->reported_count) > 0) 
+    			{ 
+        			?>
+        			<a href="<?php echo $item->link; ?>">
+        			<img src="../media/com_tienda/images/required_16.png">
+        			</a>
+                    <?php 
+    			}
+    			?>
 			</td>
 
-			<td style="text-align: center;"><?php echo TiendaGrid::enable($item->productcomment_enabled, $i, 'productcomment_enabled.' ); ?>
+			<td style="text-align: center;">
+    			<?php echo TiendaGrid::enable($item->productcomment_enabled, $i, 'productcomment_enabled.' ); ?>
 			</td>
 		</tr>
 		<?php $i=$i+1; $k = (1 - $k); ?>
@@ -151,7 +181,8 @@
 
 		<?php if (!count(@$items)) : ?>
 		<tr>
-			<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+			<td colspan="10" align="center">
+                <?php echo JText::_('No items found'); ?>
 			</td>
 		</tr>
 		<?php endif; ?>
