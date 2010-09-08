@@ -43,8 +43,8 @@
 			<option value="DHL_TUBE">DHL_TUBE</option>
 		</param>
 		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
-			<option value="KG">KG</option>
-			<option value="LB">LB</option>
+			<option value="KGS">KGS</option>
+			<option value="LBS">LBS</option>
 		</param>
 		<param name="dimension_unit" type="list" default="CM" label="Dimension Unit" description="Dimension Unit Desc">
 			<option value="CM">CM</option>

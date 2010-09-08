@@ -129,29 +129,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         $vars->services = $this->getServices();
         $html = $this->_getLayout('default', $vars);
 		
-        
-        require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
-        
-        $ups = new TiendaUpsRate();
-         $shipAccount = $this->params->get('account');
-        $meter = $this->params->get('meter');
-        $billAccount = $this->params->get('account');
-        $key = $this->params->get('key');
-        $password = $this->params->get('password');
-        
-        $ups->setKey($key);
-            $ups->setPassword($password);
-            $ups->setAccountNumber($billAccount);
-            $ups->setMeterNumber($meter);
-            $ups->setService($service, $serviceName);
-            $ups->setPayorType("SENDER");
-            $ups->setCarrierCode("FDXE");
-            $ups->setDropoffType("REGULAR_PICKUP");
-            $ups->setPackaging("YOUR_PACKAGING");
-        
-        
-        $html = Tienda::dump($ups->getRate());
-        
         return $html;
     }
     
@@ -181,61 +158,56 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
             {
                 $packageCount = $packageCount + 1;
                 $weight = array(
-                    'Value' => $product->product_weight,
-                    'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
+                    'Weight' => (int)$product->product_weight,
+                    'UnitOfMeasurement' => array('Code' => $this->params->get('weight_unit', 'KGS') ) // get this from product?
                 );
                 
                 $dimensions = array(
-                    'Length' => $product->product_length,
-                    'Width' => $product->product_width,
-                    'Height' => $product->product_height,
-                    'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
+                    'Length' => (int)$product->product_length,
+                    'Width' => (int)$product->product_width,
+                    'Height' => (int)$product->product_height,
+                    'UnitOfMeasurement' => array('Code' => $this->params->get('dimension_unit', 'CM') ) // get this from product?
                 );
                 
-                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
+                $packages[] = array( 'PackageWeight' => $weight, 'Dimensions' => $dimensions, 'PackagingType' => array('Code' => '02') );
             }            
         }
         
-        foreach ($services as $service=>$serviceName)
-        {
-            $ups = new TiendaUpsRate;
+        $ups = new TiendaUpsRate;
             
-            $ups->setKey($key);
-            $ups->setPassword($password);
-            $ups->setAccountNumber($billAccount);
-            $ups->setMeterNumber($meter);
-            $ups->setService($service, $serviceName);
-            $ups->setPayorType("SENDER");
-            $ups->setCarrierCode("FDXE");
-            $ups->setDropoffType("REGULAR_PICKUP");
-            $ups->setPackaging("YOUR_PACKAGING");
+        $ups->setKey($key);
+        $ups->setPassword($password);
+        $ups->setAccountNumber($billAccount);
             
-            $ups->packageLineItems = $packages;
-            $ups->setPackageCount($packageCount);
-                        
-            $ups->setOriginAddressLine($this->shopAddress->address_1);
-            $ups->setOriginAddressLine($this->shopAddress->address_2);
-            $ups->setOriginCity($this->shopAddress->city);
-            $ups->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
-            $ups->setOriginPostalCode($this->shopAddress->zip);
-            $ups->setOriginCountryCode($this->shopAddress->country_isocode_2);
+        $ups->packageLineItems = $packages;
+        $ups->setPackageCount($packageCount);
             
-            $ups->setDestAddressLine($address->address_1);
-            $ups->setDestAddressLine($address->address_2);
-            $ups->setDestCity($address->city);
-            $ups->setDestStateOrProvinceCode($address->zone_code);
-            $ups->setDestPostalCode($address->postal_code);
-            $ups->setDestCountryCode($address->country_code);
-                        
-            echo Tienda::dump($ups->getRate());die();
+	    $ups->setOriginAddressLine($this->shopAddress->address_1);
+	    $ups->setOriginAddressLine($this->shopAddress->address_2);
+        $ups->setOriginCity($this->shopAddress->city);
+        $ups->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
+        $ups->setOriginPostalCode($this->shopAddress->zip);
+        $ups->setOriginCountryCode($this->shopAddress->country_isocode_2);
             
-            if ($ups->getRate())
-            {
-                $dhl->rate->summary['element'] = $this->_element;
-                $rates[] = $dhl->rate->summary;
-            }
-        }
+        $ups->setDestAddressLine($address->address_1);
+        $ups->setDestAddressLine($address->address_2);
+        $ups->setDestCity($address->city);
+        $ups->setDestStateOrProvinceCode($address->zone_code);
+        $ups->setDestPostalCode($address->postal_code);
+        $ups->setDestCountryCode($address->country_code);
         
+            
+        if ($ups->getRate())
+        {
+        		$rate = $ups->rate;
+        	   	$rate->summary['element'] = $this->_element;
+            	$rates[] = $rate->summary;
+        }
+        else
+        {
+        	echo Tienda::dump($ups->getError());
+        }
+
         return $rates;
         
     }

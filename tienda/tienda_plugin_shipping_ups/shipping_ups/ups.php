@@ -49,9 +49,18 @@ class TiendaUps extends JObject
         $request['UsernameToken'] = array('Username' => $this->accountNumber, 'Password' => $this->password); 
         $request['ServiceAccessToken'] = array('AccessLicenseNumber' => $this->key); 
         
-        $authvalues = new SoapVar($request, SOAP_ENC_OBJECT,'UPSSecurity',"http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0");
-		$header =  new SoapHeader("http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0","UPSSercurity", $authvalues, true);
-		$this->client->__setSoapHeaders(array($header));        
+        $ns = 'http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0'; //Namespace of the WS. 
+
+		//Body of the Soap Header. 
+		$headerbody = array('ServiceAccessToken'=> array('AccessLicenseNumber' => $this->key), 
+		                      'UsernameToken'=>array('Username'=>$this->accountNumber, 
+		                                             'Password'=>$this->password)); 
+		
+		//Create Soap Header.        
+		$header = new SOAPHeader($ns, 'UPSSecurity', $headerbody);        
+		        
+		//set the Headers of Soap Client. 
+		$this->getClient()->__setSoapHeaders($header);        
     }
     
     function getRequest()
@@ -206,17 +215,15 @@ class TiendaUpsRate extends TiendaUps
         try 
             {
                 $this->response = $this->getClient()->ProcessRate( $this->getRequest() );
-				
-                return $this->response;
                 
-                if ($this->response->HighestSeverity != 'FAILURE' && $this->response->HighestSeverity != 'ERROR')
+                if ($this->response->Response->ResponseStatus->Code != '0')
                 {
                     $this->processResponse($this->response);
                     return true;
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('DHL_ERRORCODE1') );
+                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
                     return false;
                 } 
                 
@@ -224,127 +231,72 @@ class TiendaUpsRate extends TiendaUps
             
             } catch (SoapFault $exception) {
                 $this->response = array();
-                $this->setError( 'E2', (string) $exception );
+                $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
                 return false; 
             }        
     }
     
     /**
-     * Creates the request array for sending to dhl
+     * Creates the request array for sending to ups
      * @return array
      */
     function createRequest()
     {
 		parent::createRequest();
         
-        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v8 using PHP ***');
-        $request['Version'] = array('ServiceId' => 'crs', 'Major' => '8', 'Intermediate' => '0', 'Minor' => '0');
-        $request['ReturnTransitAndCommit'] = false;
-        $request['RequestedShipment']['ShipTimestamp'] = date('c');
+        $request['Request']['RequestOption'] = 'Rate';
         
-        /* Configurable Values */
-        $request['RequestedShipment']['DropoffType'] = $this->dropoffType; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
-        $request['RequestedShipment']['ServiceType'] =  $this->service; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, DHL_GROUND, ...
-        $request['RequestedShipment']['PackagingType'] = $this->packaging; // valid values DHL_BOX, DHL_PAK, DHL_TUBE, YOUR_PACKAGING, ...
+        $request['Shipment']['Service']['Code'] = '11';
 
         /* addresses */
-        $request['RequestedShipment']['Shipper'] = array(
+        $request['Shipment']['Shipper'] = array(
             'Address' => 
                 array (
-                    'StreetLines' => $this->originAddressLines, // Origin details
+                    'AddressLine' => $this->originAddressLines, // Origin details
                     'City' => $this->originCity,
-                    'StateOrProvinceCode' => $this->originStateOrProvinceCode,
+                    'StateProvinceCode' => $this->originStateOrProvinceCode,
                     'PostalCode' => $this->originPostalCode,
                     'CountryCode' => $this->originCountryCode
                 )
             );        
-        $request['RequestedShipment']['Recipient'] = array(
+        $request['Shipment']['ShipTo'] = array(
             'Address' => 
                 array(
-                    'StreetLines' => $this->destAddressLines, // Destination details
+                    'AddressLine' => $this->destAddressLines, // Destination details
                     'City' => $this->destCity,
-                    'StateOrProvinceCode' => $this->destStateOrProvinceCode,
+                    'StateProvinceCode' => $this->destStateOrProvinceCode,
                     'PostalCode' => $this->destPostalCode,
                     'CountryCode' => $this->destCountryCode
                 )
             );
             
-        $request['RequestedShipment']['ShippingChargesPayment'] = array(
-            'PaymentType' => $this->payorType,
-            'Payor' => 
-                array('AccountNumber' => $this->accountNumber, 'CountryCode' => $this->originCountryCode )
-            );
-            
-        $request['RequestedShipment']['RateRequestTypes'] = $this->rateRequestTypes; // 'ACCOUNT'; // or LIST
-        $request['RequestedShipment']['PackageDetail'] = $this->packageDetail; // 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
-        $request['RequestedShipment']['RequestedPackageLineItems'] = $this->packageLineItems;
-        $request['RequestedShipment']['PackageCount'] = $this->packageCount;
+        $request['Shipment']['Package'] = $this->packageLineItems;
         
         $this->request = $request;
     }
 
     /**
-     * Processes the response frm dhl
+     * Processes the response from ups
      * @param $response
      * @return boolean 
      */
     protected function processResponse( $response )
-    {
-        if( property_exists( $response, 'RateReplyDetails' ) )
-            $reply_details = $response->RateReplyDetails;
+    {    	
+        if( property_exists( $response, 'RatedShipment' ) )
+            $rate = $response->RatedShipment;
         else
             return false;
         
-        if(!is_array($reply_details))
-        {
-            $temp = $reply_details;
-            $reply_details = array();
-            $reply_details[] = $temp;
-        }
-        
-        $i = 0;
-        foreach($reply_details as $details)
-        {
-            $serviceType = $details->ServiceType;            
-            $rate_details = $details->RatedShipmentDetails;
-                    
-            if (is_array($rate_details))
-            {
-                foreach($rate_details as $rate)
-                {
-                    $rate = $rate->ShipmentRateDetail;
-                    if ( $rate->RateType == $details->ActualRateType )
-                    {
-                        $this->rate = $rate;
-                        $this->rate->summary = array();                        
-                        $this->rate->summary['name']    = $this->serviceName;
-                        $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
-                        $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
-                        $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;
-                        $this->rate->summary['tax']     = $rate->TotalTaxes->Amount;
+		$this->rate = $rate;
+		$this->rate->summary = array();                        
+        $this->rate->summary['name']    = $rate->Service->Code;
+        $this->rate->summary['code']    = $rate->Service->Code;
+        $this->rate->summary['price']   = $rate->TransportationCharges->MonetaryValue;
+        $this->rate->summary['extra']   = $rate->ServiceOptionsCharges->MonetaryValue;
+        $this->rate->summary['total']   = $rate->TotalCharges->MonetaryValue;
+        $this->rate->summary['tax']     = 0;
                         
-                        return true;
-                    }
-                }
-            }
-                elseif (is_object($rate_details))
-            {
-                $rate = $rate_details->ShipmentRateDetail;
-                if ( $rate->RateType == $details->ActualRateType )
-                {
-                    $this->rate = $rate;
-                    $this->rate->summary = array();
-                    $this->rate->summary['name']    = $this->serviceName;
-                    $this->rate->summary['price']   = $rate->TotalBaseCharge->Amount;
-                    $this->rate->summary['extra']   = $rate->TotalSurcharges->Amount;
-                    $this->rate->summary['total']   = $rate->TotalNetDhlCharge->Amount;
-                    $this->rate->summary['tax']     = $rate->TotalTaxes->Amount;
-                    
-                    return true;
-                }
-            }
-        }
-        return false;
+        return true;
     }
 }
 
@@ -371,10 +323,6 @@ class TiendaDhlPrint extends TiendaDhl
 
 class TiendaUpsHeader
 {
-  var $SessionKey;//string
-  var $SessionRole;//string
-  var $UserType;//string
-  var $UserName;//string
   
   function __construct($data)
   {
