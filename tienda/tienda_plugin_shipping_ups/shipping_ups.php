@@ -55,30 +55,20 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         
     }
     
-    function getDhlServices()
+    function getUpsServices()
     {
-        $dhlService['EUROPE_FIRST_INTERNATIONAL_PRIORITY'] = JText::_( 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' );
-        $dhlService['FEDEX_1_DAY_FREIGHT']    = JText::_( 'FEDEX_1_DAY_FREIGHT' );
-        $fedexService['FEDEX_2_DAY']            = JText::_( 'FEDEX_2_DAY' );
-        $fedexService['FEDEX_2_DAY_FREIGHT']    = JText::_( 'FEDEX_2_DAY_FREIGHT' );
-        $fedexService['FEDEX_3_DAY_FREIGHT']    = JText::_( 'FEDEX_3_DAY_FREIGHT' );
-        $fedexService['FEDEX_EXPRESS_SAVER']    = JText::_( 'FEDEX_EXPRESS_SAVER' );
-        $fedexService['FEDEX_GROUND']           = JText::_( 'FEDEX_GROUND' );
-        $fedexService['FIRST_OVERNIGHT']        = JText::_( 'FIRST_OVERNIGHT' );
-        $fedexService['GROUND_HOME_DELIVERY']   = JText::_( 'GROUND_HOME_DELIVERY' );
-        $fedexService['INTERNATIONAL_ECONOMY']  = JText::_( 'INTERNATIONAL_ECONOMY' );
-        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT'] = JText::_( 'INTERNATIONAL_ECONOMY_FREIGHT' );
-        $fedexService['INTERNATIONAL_FIRST']    = JText::_( 'INTERNATIONAL_FIRST' );
-        $fedexService['INTERNATIONAL_PRIORITY'] = JText::_( 'INTERNATIONAL_PRIORITY' );
-        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT'] = JText::_( 'INTERNATIONAL_PRIORITY_FREIGHT' );
-        $fedexService['PRIORITY_OVERNIGHT']     = JText::_( 'PRIORITY_OVERNIGHT' );
-        $fedexService['SMART_POST']             = JText::_( 'SMART_POST' );
-        $fedexService['STANDARD_OVERNIGHT']     = JText::_( 'STANDARD_OVERNIGHT' );
-        $fedexService['FEDEX_FREIGHT']          = JText::_( 'FEDEX_FREIGHT' );
-        $fedexService['FEDEX_NATIONAL_FREIGHT'] = JText::_( 'FEDEX_NATIONAL_FREIGHT' );
-        $fedexService['INTERNATIONAL_GROUND']   = JText::_( 'INTERNATIONAL_GROUND' );
-        
-        return $dhlService;
+        $services["14"]= JText::_('Next Day Air Early AM');
+        $services["59"]= JText::_('Next Day Air Saver');
+        $services["04"]= JText::_('2nd Day Air AM');
+        $services["12"]= JText::_('3 Day Select');
+        $services["03"]= JText::_('Ground');
+        $services["11"]= JText::_('Standard');
+        $services["07"]= JText::_('Worldwide Express');
+        $services["08"]= JText::_('Worldwide Expedited');
+        $services["54"]= JText::_('Worldwide Express Plus');
+        $services["65"]= JText::_('UPS Saver');
+
+        return $services;
     }
 
     /**
@@ -86,15 +76,14 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
      */
     function getServices()
     {
-        $dhlServices = $this->getDhlServices();
-        $services = array();
-        $services_list = @preg_replace( '/\s/', '', $this->params->get( 'services' ) );
-        $services_array = explode( ',', $services_list );
-        foreach ($services_array as $service)
+        $upsServices = $this->getUpsServices();
+        $services = array(); 
+        $services_list = $this->params->get( 'services' );
+        foreach ($services_list as $service)
         {
-            if (array_key_exists($service, $dhlServices))
+            if (array_key_exists($service, $upsServices))
             {
-                $services[$service] = $dhlServices[$service];
+                $services[$service] = $upsServices[$service];
             }
         }
         return $services;
@@ -169,43 +158,44 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
                     'UnitOfMeasurement' => array('Code' => $this->params->get('dimension_unit', 'CM') ) // get this from product?
                 );
                 
-                $packages[] = array( 'PackageWeight' => $weight, 'Dimensions' => $dimensions, 'PackagingType' => array('Code' => '02') );
-            }            
+                $packages[] = array( 'PackageWeight' => $weight, 'Dimensions' => $dimensions, 'PackagingType' => array('Code' => $this->params->get('packaging', '02')) );            }            
         }
         
-        $ups = new TiendaUpsRate;
-            
-        $ups->setKey($key);
-        $ups->setPassword($password);
-        $ups->setAccountNumber($billAccount);
-            
-        $ups->packageLineItems = $packages;
-        $ups->setPackageCount($packageCount);
-            
-	    $ups->setOriginAddressLine($this->shopAddress->address_1);
-	    $ups->setOriginAddressLine($this->shopAddress->address_2);
-        $ups->setOriginCity($this->shopAddress->city);
-        $ups->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
-        $ups->setOriginPostalCode($this->shopAddress->zip);
-        $ups->setOriginCountryCode($this->shopAddress->country_isocode_2);
-            
-        $ups->setDestAddressLine($address->address_1);
-        $ups->setDestAddressLine($address->address_2);
-        $ups->setDestCity($address->city);
-        $ups->setDestStateOrProvinceCode($address->zone_code);
-        $ups->setDestPostalCode($address->postal_code);
-        $ups->setDestCountryCode($address->country_code);
-        
-            
-        if ($ups->getRate())
+        foreach($services as $service => $name)
         {
-        		$rate = $ups->rate;
-        	   	$rate->summary['element'] = $this->_element;
-            	$rates[] = $rate->summary;
-        }
-        else
-        {
-        	echo Tienda::dump($ups->getError());
+	        $ups = new TiendaUpsRate;
+	            
+	        $ups->setKey($key);
+	        $ups->setPassword($password);
+	        $ups->setAccountNumber($billAccount);
+	            
+	        $ups->packageLineItems = $packages;
+	        $ups->setPackageCount($packageCount);
+	        $ups->setService($service, $name);
+	        $ups->setPackaging($this->params->get('packaging', '02'));
+	            
+		    $ups->setOriginAddressLine($this->shopAddress->address_1);
+		    $ups->setOriginAddressLine($this->shopAddress->address_2);
+	        $ups->setOriginCity($this->shopAddress->city);
+	        $ups->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
+	        $ups->setOriginPostalCode($this->shopAddress->zip);
+	        $ups->setOriginCountryCode($this->shopAddress->country_isocode_2);
+	            
+	        $ups->setDestAddressLine($address->address_1);
+	        $ups->setDestAddressLine($address->address_2);
+	        $ups->setDestCity($address->city);
+	        $ups->setDestStateOrProvinceCode($address->zone_code);
+	        $ups->setDestPostalCode($address->postal_code);
+	        $ups->setDestCountryCode($address->country_code);
+	        
+	            
+	        if ($ups->getRate())
+	        {
+	        		$rate = $ups->rate;
+	        	   	$rate->summary['element'] = $this->_element;
+	            	$rates[] = $rate->summary;
+	        }
+	        
         }
 
         return $rates;

@@ -23,24 +23,31 @@
 		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
 		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
 		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
-		<param name="meter" type="text" size="50" default="" label="API Meter" description="API Meter Desc"/>
-		<param name="dropoff" type="list" default="0" label="Dropoff Type" description="Dropoff Type Desc">
-		  <option value="0">None</option>
-		  <option value="REGULAR_PICKUP">Regular Pickup</option>
-		  <option value="BUSINESS_SERVICE_CENTER">Business Service Center</option>
-		  <option value="DROP_BOX">Drop Box</option>
-		  <option value="REQUEST_COURIER">Request Courier</option>
-		  <option value="STATION">Station</option>
+        <param name="services" type="multilist" multiple="multiple" default="11" label="Services" description="Services Desc">
+			<option value="11">Standard</option>
+			<option value="14">Next Day Air Early AM</option>
+			<option value="59">Next Day Air Saver</option>
+			<option value="04">2nd Day Air AM</option>
+			<option value="12">3 Day Select</option>
+			<option value="03">Ground</option>
+			<option value="07">Worldwide Express</option>
+			<option value="08">Worldwide Expedited</option>
+			<option value="54">Worldwide Express Plus</option>
+			<option value="65">UPS Saver</option>
 		</param>
-        <param name="services" type="textarea" default="DHL_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
-		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
-			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
-			<option value="DHL_10KG_BOX">DHL_10KG_BOX</option>
-			<option value="DHL_25KG_BOX">DHL_25KG_BOX</option>
-			<option value="DHL_BOX">DHL_BOX</option>
-			<option value="DHL_ENVELOPE">DHL_ENVELOPE</option>
-			<option value="DHL_PAK">DHL_PAK</option>
-			<option value="DHL_TUBE">DHL_TUBE</option>
+		<param name="packaging" type="list" default="02" label="Packaging Type" description="Packaging Type Desc">
+			<option value="00">Unknown</option>
+			<option value="01">Ups Letter</option>
+			<option value="02">Package/customer supplied</option>
+			<option value="03">UPS Tube</option>
+			<option value="04">UPS Pak</option>
+			<option value="21">Express Box</option>
+			<option value="24">25KG Box</option>
+			<option value="25">10KG Box</option>
+			<option value="30">Pallet</option>
+			<option value="2a">Small Express Box</option>
+			<option value="2b">Medium Express Box</option>
+			<option value="2c">Large Express Box</option>
 		</param>
 		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
 			<option value="KGS">KGS</option>

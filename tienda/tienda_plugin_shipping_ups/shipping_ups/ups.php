@@ -246,7 +246,7 @@ class TiendaUpsRate extends TiendaUps
         
         $request['Request']['RequestOption'] = 'Rate';
         
-        $request['Shipment']['Service']['Code'] = '11';
+        $request['Shipment']['Service']['Code'] = $this->service;
 
         /* addresses */
         $request['Shipment']['Shipper'] = array(
@@ -289,8 +289,8 @@ class TiendaUpsRate extends TiendaUps
         
 		$this->rate = $rate;
 		$this->rate->summary = array();                        
-        $this->rate->summary['name']    = $rate->Service->Code;
-        $this->rate->summary['code']    = $rate->Service->Code;
+        $this->rate->summary['name']    = $this->serviceName;
+        $this->rate->summary['code']    = $rate->service;
         $this->rate->summary['price']   = $rate->TransportationCharges->MonetaryValue;
         $this->rate->summary['extra']   = $rate->ServiceOptionsCharges->MonetaryValue;
         $this->rate->summary['total']   = $rate->TotalCharges->MonetaryValue;
