@@ -114,7 +114,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         $vars = new JObject();
         $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
         $vars->id = $plugin_id;
-        $vars->list = $this->getDhlServices();
+        $vars->list = $this->getUPSServices();
         $vars->services = $this->getServices();
         $html = $this->_getLayout('default', $vars);
 		
