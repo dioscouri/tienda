@@ -16,7 +16,7 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">languages/en-GB.plg_ambrasubs_payment_moneris.ini</language>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_moneris.ini</language>
 	</languages>
 	
 	<params addpath="/administrator/components/com_tienda/elements">
