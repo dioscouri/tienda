@@ -270,7 +270,7 @@ class TiendaDhlShip extends TiendaDhl
             
         $request['RequestedShipment']['RateRequestTypes'] = $this->rateRequestTypes; // 'ACCOUNT'; // or LIST
         $request['RequestedShipment']['PackageDetail'] = $this->packageDetail; // 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
-        $request['RequestedShipment']['RequestedPackageLineItems'] = $this->packageLineItems;
+        
         $request['RequestedShipment']['PackageCount'] = $this->packageCount;
         
         $this->request = $request;

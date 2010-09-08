@@ -91,49 +91,8 @@ class TiendaUps extends JObject
     function setKey($key) {
         $this->key = $key;
     }
-}
-
-/**
- * Class for Rating  Packages
- * @author Daniele Rosario
- *
- */
-class TiendaUpsRate extends TiendaUps 
-{
-	function __construct()
-    {
-        $this->wsdl = dirname( __FILE__ ).DS.'ups_rate.wsdl';        
-    }
-	
-    var $rate           = null;
-    var $payorType      = "SENDER";
-    var $carrierCode    = "FDXG";
-    var $dropoffType    = "REGULARPICKUP";
-    var $service;
-    var $serviceName;
-    var $packaging      = "YOURPACKAGING";
-    var $weightUnits    = "LBS";
-    var $weight;
-    var $rateRequestTypes = 'ACCOUNT'; // or LIST
-    var $packageDetail  = 'INDIVIDUAL_PACKAGES'; // Or  PACKAGE_SUMMARY
-    var $packageCount   = '1';
-    var $packageLineItems = array();
     
-    // Origin Address
-    var $tin            = null; // Tax ID necessary when shipping internationally
-    var $originAddressLines = array();
-    var $originStateOrProvinceCode;
-    var $originPostalCode;
-    var $originCountryCode;
-    
-    // Destination Address
-    var $destAddressLines = array();
-    var $destStateOrProvinceCode;
-    var $destPostalCode;
-    var $destCountryCode;
-
-    
-    function setRateRequestTypes($type) {
+ function setRateRequestTypes($type) {
         $this->rateRequestTypes = $type;
     }
     
@@ -209,6 +168,49 @@ class TiendaUpsRate extends TiendaUps
     function setPayorType($type) {
         $this->payorType = $type;
     }
+}
+
+/**
+ * Class for Rating  Packages
+ * @author Daniele Rosario
+ *
+ */
+class TiendaUpsRate extends TiendaUps 
+{
+	function __construct()
+    {
+        $this->wsdl = dirname( __FILE__ ).DS.'ups_rate.wsdl';        
+    }
+	
+    var $rate           = null;
+    var $payorType      = "SENDER";
+    var $carrierCode    = "FDXG";
+    var $dropoffType    = "REGULARPICKUP";
+    var $service;
+    var $serviceName;
+    var $packaging      = "YOURPACKAGING";
+    var $weightUnits    = "LBS";
+    var $weight;
+    var $rateRequestTypes = 'ACCOUNT'; // or LIST
+    var $packageDetail  = 'INDIVIDUAL_PACKAGES'; // Or  PACKAGE_SUMMARY
+    var $packageCount   = '1';
+    var $packageLineItems = array();
+    
+    // Origin Address
+    var $tin            = null; // Tax ID necessary when shipping internationally
+    var $originAddressLines = array();
+    var $originStateOrProvinceCode;
+    var $originPostalCode;
+    var $originCountryCode;
+    
+    // Destination Address
+    var $destAddressLines = array();
+    var $destStateOrProvinceCode;
+    var $destPostalCode;
+    var $destCountryCode;
+
+    
+   
     
     function getRate() 
     {
@@ -290,7 +292,7 @@ class TiendaUpsRate extends TiendaUps
 		$this->rate = $rate;
 		$this->rate->summary = array();                        
         $this->rate->summary['name']    = $this->serviceName;
-        $this->rate->summary['code']    = $rate->service;
+        $this->rate->summary['code']    = $this->service;
         $this->rate->summary['price']   = $rate->TransportationCharges->MonetaryValue;
         $this->rate->summary['extra']   = $rate->ServiceOptionsCharges->MonetaryValue;
         $this->rate->summary['total']   = $rate->TotalCharges->MonetaryValue;
@@ -301,37 +303,164 @@ class TiendaUpsRate extends TiendaUps
 }
 
 /**
- * Class for Tracking DHL Pacakges
- * @author Rafael Diaz-Tushman
+ * Class for Shipping UPS Packages
+ * @author Daniele Rosario
  *
- 
-class TiendaDhlTrack extends TiendaDhl 
+*/ 
+class TiendaUpsShipment extends TiendaUps
 {
+	
+	function __construct()
+    {
+        $this->wsdl = dirname( __FILE__ ).DS.'ups_ship.wsdl';        
+    }
     
-}
-*/
-/**
- * Class for Printing Dhl Labels
- * @author Rafael Diaz-Tushman
- *
-
-class TiendaDhlPrint extends TiendaDhl 
-{
+    function setShipperNumber($number)
+    {
+    	$this->shipperNumber = $number;
+    }
+ 	function setOriginName($name)
+    {
+    	$this->originName = $name;
+    }
+	function setDestName($name)
+    {
+    	$this->destName = $name;
+    }
     
-}
- */
+	/**
+     * Creates the request array for sending to ups
+     * @return array
+     */
+    function createRequest()
+    {
+		parent::createRequest();
+        
+        $request['Request']['RequestOption'] = 'validate';
+        
+        $request['Shipment']['Service']['Code'] = $this->service;
+        
+        /* addresses */
+        $request['Shipment']['Shipper'] = array(
+            'Address' => 
+                array (
+                    'AddressLine' => $this->originAddressLines, // Origin details
+                    'City' => $this->originCity,
+                    'StateProvinceCode' => $this->originStateOrProvinceCode,
+                    'PostalCode' => $this->originPostalCode,
+                    'CountryCode' => $this->originCountryCode
+                )
+            );        
+        $request['Shipment']['ShipTo'] = array(
+            'Address' => 
+                array(
+                    'AddressLine' => $this->destAddressLines, // Destination details
+                    'City' => $this->destCity,
+                    'StateProvinceCode' => $this->destStateOrProvinceCode,
+                    'PostalCode' => $this->destPostalCode,
+                    'CountryCode' => $this->destCountryCode
+                )
+            );
+            
+        $request['Shipment']['Shipper']['Name'] = $this->originName;
+        $request['Shipment']['Shipper']['ShipperNumber'] = $this->shipperNumber;
+        $request['Shipment']['ShipTo']['Name'] = $this->destName;
+            
+        $request['Shipment']['PaymentInformation']['ShipmentCharge']['Type'] = '01';
+        $request['Shipment']['PaymentInformation']['ShipmentCharge']['BillShipper']['AccountNumber'] = $this->shipperNumber;    
+        
+        $request['LabelSpecification']['LabelImageFormat']['Code'] = 'GIF';
+        
+        $request['Shipment']['Package'] = $this->packageLineItems;
+        
+        
+        $this->request = $request;
+    }
+    
+	function sendShipment($ordershipping_id) 
+    {
+    	
+        try 
+            {
+                $this->response = $this->getClient()->ProcessShipment( $this->getRequest() );
+                
+                if ($this->response->Response->ResponseStatus->Code != '0')
+                {                    
+                	$results = $this->processResponse($this->response);
+                	
+                    // Save Tracking Numbers & Images
+                    if($results)
+                    {
+                    	$row = JTable::getInstance('OrderShippings', 'TiendaTable');
+                    	$row->load($ordershipping_id);
+                    	
+                    	// Structure: Shipment_id\nTracking_id_1\nTracking_id_2\n....
+                    	$row->ordershipping_tracking_id = $row->ordershipping_tracking_id . $results['shipment_id'] . "\n";
+                    	
+                    	
+                    	
+                    	foreach($results['tracking_numbers'] as $t => $image)
+                    	{
+                    		$row->ordershipping_tracking_id = $row->ordershipping_tracking_id . $t . "\n";
+                    		$row->save();
+							
+      
+                  			JFile::write(Tienda::getPath('order_files').DS.$row->order_id.DS.$t.'.gif', $image);
 
-class TiendaUpsHeader
-{
-  
-  function __construct($data)
-  {
-     $this->UPSSecurity  = $LoginResponse->LoginResult->SessionKey;
-     $this->SessionRole = $LoginResponse->LoginResult->SessionRole;
-     $this->UserType    = $LoginResponse->LoginResult->UserType;
-     $this->UserName    = $LoginResponse->LoginResult->UserName;
+                    	}
+                    }
+                    else
+                    	return false;
+	                    	
+                    return true;
+                }
+                    else
+                {
+                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
+                    return false;
+                } 
+                
+                // $this->writeToLog($client);    // Write to log file   
+            
+            } catch (SoapFault $exception) {
+                $this->response = array();
+                $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
+                return false; 
+            }        
+    }
+    
+	/**
+     * Processes the response from UPS
+     * @param $response
+     * @return boolean 
+     */
+    protected function processResponse( $response )
+    {
+        if( property_exists( $response, 'ShipmentResults' ) )
+        {
+        	$results = array();
 
-  }
+        	$shipment_id = $response->ShipmentResults->ShipmentIdentificationNumber;
+        	$results['shipment_id'] = $shipment_id;
+        	$results['tracking_numbers'] = array();
+        	
+        	if(!is_array($response->ShipmentResults->PackageResults))
+        		$response->ShipmentResults->PackageResults = array($response->ShipmentResults->PackageResults);
+        		
+        	foreach($response->ShipmentResults->PackageResults as $res)
+            {
+            	$results['tracking_numbers'][$res->TrackingNumber] = base64_decode($res->ShippingLabel->GraphicImage);
+            }
+        
+        }
+        else
+            return false;
+        
+            
+        return $results;
+    }
 }
+
+
 ?> 
 

@@ -158,6 +158,7 @@
     <input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo @$values['shipping_price']; ?>" />
 	<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo @$values['shipping_tax']; ?>" />
 	<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo @$values['shipping_name']; ?>" />
+	<input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo @$values['shipping_code']; ?>" />
 	<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo @$values['shipping_extra']; ?>" />
     <input type="hidden" id="customer_note" name="customer_note" value="<?php echo (!empty($values['customer_note'])) ? $values['customer_note'] : ''; ?>" />
 	<input type="hidden" id="task" name="task" value="" />

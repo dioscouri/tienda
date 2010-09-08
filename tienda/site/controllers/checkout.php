@@ -2050,6 +2050,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		$shipping_plugin = JRequest::getVar('shipping_plugin', '');
 		$shipping_name = JRequest::getVar('shipping_name', '');
+		$shipping_code = JRequest::getVar('shipping_code', '');
 		$shipping_price = JRequest::getVar('shipping_price', '');
 		$shipping_tax = JRequest::getVar('shipping_tax', '');
 		$shipping_extra = JRequest::getVar('shipping_extra', '');
@@ -2060,6 +2061,7 @@ class TiendaControllerCheckout extends TiendaController
 		$row->ordershipping_type = $shipping_plugin;
 		$row->ordershipping_price = $shipping_price;
 		$row->ordershipping_name = $shipping_name;
+		$row->ordershipping_code = $shipping_code;
 		$row->ordershipping_tax = $shipping_tax;
 		$row->ordershipping_extra = $shipping_extra;
 			
