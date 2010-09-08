@@ -116,8 +116,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     	$model->setId( JRequest::getInt('order_id') );
     	$order = $model->getItem();
     	
-    	echo Tienda::dump($this->sendShipment($order));die();
-    	
  		if($this->sendShipment($order))
  		{
  			return JText::_('Shipment Sent');
@@ -177,7 +175,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         $ups->setShipperNumber($shipperNumber);
             
         $ups->packageLineItems = $packages;
-        $ups->setService($service, $name);
         $ups->setPackaging($this->params->get('packaging', '02'));
             
         $ups->setOriginName(TiendaConfig::getInstance()->get('shop_name'));
