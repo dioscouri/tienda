@@ -285,7 +285,6 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleresult.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googlerequest.php";
 
-
 		$response = new GoogleResponse($this->_getParam('merchant_id'), $this->_getParam('merchant_key'));
 		
 		// setup the log files
@@ -336,7 +335,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		{	// it's amount charged
 			if( $data ['new-financial-order-state']['VALUE']=='CHARGED')
 			{
-				$payment_error = $this->_processSale( $data, $error );
+				$payment_error = $this->_processSale( $data, $error,$payment_details );
 				$response->SendAck();
 			}
 
@@ -410,7 +409,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		 * @return boolean Did the Response Validate ?
 		 * @access protected
 		 */
-		function _processSale( $data, $error='' )
+		function _processSale( $data, $error='' , $payment_details)
 		{
 			/*
 			 * validate the payment data
@@ -438,10 +437,10 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			}
 				
 			//	Svaing Financial order state
-			$orderpayment->transaction_details  = $data['new-financial-order-state']['VALUE'];
+			$orderpayment->transaction_details  = $payment_details;
 		
 			// Svaing payment status Completed
-			$orderpayment->transaction_status   = 17;
+			$orderpayment->transaction_status   = "Completed";
 		
 			// set the order's new status and update quantities if necessary
 			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );

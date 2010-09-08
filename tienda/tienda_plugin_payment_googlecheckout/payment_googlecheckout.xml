@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Tienda - Payment - Google Checkout</name>
+	<name>Google Checkout</name>
 	<version>0.6.0</version>
 	<creationDate>Aug 2010</creationDate>
 	<author>Dioscouri</author>
@@ -19,7 +19,7 @@
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_googlecheckout.ini</language>
 	</languages>
 
-	<params>
+	<params addpath="/administrator/components/com_tienda/elements">
         <param name="merchant_id" type="text" size="50" default="" label="GoogleCheckout Merchant ID" description="GoogleCheckout Merchant ID Desc"/>
         <param name="merchant_key" type="text" size="50" default="" label="GoogleCheckout Merchant Key" description="GoogleCheckout Merchant Key Desc"/>
 		<param name="currency" type="text" size="10" default="USD" label="GoogleCheckout Currency" description="GoogleCheckout Currency Desc" />
@@ -36,6 +36,8 @@
   			<option value="0">No</option> 
 			<option value="1">Yes</option> 
   		</param>
-	</params>
-			
+		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	
+		</params>	
 </install>
