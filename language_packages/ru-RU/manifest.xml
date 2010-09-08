@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="language" version="1.5.0" method="upgrade">
+    <name>Russian (CIS) Translation for Tienda</name>
+    <tag>ru-RU</tag>
+    <version>0.4.4</version>
+    <creationDate>May 2010</creationDate>
+    <author>Pavel Savushkin</author>
+    <authoremail>pavel@savushkin.spb.ru</authoremail>
+    <authorurl>savushkin.spb.ru</authorurl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description>Russian translation for Tienda</description>
+
+    <site>
+        <files folder="site">
+            <filename>ru-RU.com_tienda.ini</filename>
+            <filename>ru-RU.mod_tienda_cart.ini</filename>
+            <filename>ru-RU.mod_tienda_categories.ini</filename>
+            <filename>ru-RU.mod_tienda_products.ini</filename>
+            <filename>ru-RU.mod_tienda_search.ini</filename>
+        </files>
+    </site>
+	
+	<!-- Application/administrator -->
+	<administration>
+		<files folder="admin">
+            <filename>ru-RU.com_tienda.ini</filename>
+            <filename>ru-RU.mod_tienda_quickicon.ini</filename>
+            <filename>ru-RU.mod_tienda_recentorders.ini</filename>
+            <filename>ru-RU.mod_tienda_salestatistics.ini</filename>
+            <filename>ru-RU.mod_tienda_useraddress.ini</filename>
+            <filename>ru-RU.plg_search_tienda.ini</filename>
+            <filename>ru-RU.plg_system_tienda.ini</filename>
+            <filename>ru-RU.plg_tienda_bug_report.ini</filename>
+            <filename>ru-RU.plg_tienda_charts_fusioncharts.ini</filename>
+            <filename>ru-RU.plg_tienda_payment_2checkout.ini</filename>
+            <filename>ru-RU.plg_tienda_payment_authorizedotnet.ini</filename>
+            <filename>ru-RU.plg_tienda_payment_offline.ini</filename>
+            <filename>ru-RU.plg_tienda_payment_paypal.ini</filename>
+            <filename>ru-RU.plg_tienda_report_bestsellers.ini</filename>
+            <filename>ru-RU.plg_tienda_tool_virtuemartmigration.ini</filename>
+            <filename>ru-RU.plg_tienda_tool_xcartmigration.ini</filename>
+            <filename>ru-RU.plg_user_tienda.ini</filename>
+		</files>
+	</administration>
+
+</install>
