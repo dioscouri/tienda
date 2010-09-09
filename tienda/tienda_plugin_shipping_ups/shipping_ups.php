@@ -122,7 +122,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
  		}	
  		else
  		{
- 			return JText::_('Shipment Failed!');
+ 			return JText::_('Shipment Failed!').'<br />'.$this->getError();
  		}
     }
     
@@ -206,7 +206,13 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	
 		$ups->setService($code, $code);
 		
-		return $ups->sendShipment($ordershipping_id);
+		if($ups->sendShipment($ordershipping_id))
+			return true;
+		else
+		{
+			$this->setError($ups->getError());
+			return false;
+		}
         
 	        
 	        

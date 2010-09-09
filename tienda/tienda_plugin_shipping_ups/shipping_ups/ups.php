@@ -410,7 +410,11 @@ class TiendaUpsShipment extends TiendaUps
                     	}
                     }
                     else
+                    {
+                    	$this->setError( JText::_('UPS_ERRORCODE2') );
                     	return false;
+                    }
+                    	
 	                    	
                     return true;
                 }
