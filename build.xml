@@ -203,12 +203,17 @@
             <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
         </copy>
 		<!-- Ambra Point Plugin -->
-		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+		  <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_ambrapoints" />
         </copy>
     	<!-- GOOGLE CHECKOUT -->
     	<!-- MONERIS -->
-    	<!-- MONEYBOOKERS -->
+		
+		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+        <fileset dir="${cfg.aux}/tienda_plugin_payment_moneris" />
+		</copy>
+    	
+		<!-- MONEYBOOKERS -->
     	<!-- OFFLINE -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_offline" />

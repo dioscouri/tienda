@@ -44,5 +44,17 @@
     <input type='hidden' name='task' value='confirmPayment'>
     <input type='hidden' name='paction' value='process'>
     
+     <input type='hidden' name='first_name' value='<?php echo @$vars->data['first_name']; ?>'>
+     <input type='hidden' name='last_name' value='<?php echo @$vars->data['last_name']?>'>
+     <input type='hidden' name='address_line_1' value='<?php echo @$vars->data['address_line_1']; ?>'>
+     <input type='hidden' name='address_line_2' value='<?php echo @$vars->data['address_line_2']; ?>'>
+     <input type='hidden' name='city' value='<?php echo @$vars->data['city']; ?>'>
+     <input type='hidden' name='state' value='<?php echo @$vars->data['state']; ?>'>
+     <input type='hidden' name='postal_code' value='<?php echo @$vars->data['postal_code']; ?>'>
+     <input type='hidden' name='country' value='<?php echo @$vars->data['country']; ?>'>
+     <input type='hidden' name='orderpayment_amount' value='<?php echo @$vars->data['orderpayment_amount']; ?>'>
+     <input type='hidden' name='expiration_month' value='<?php echo @$vars->data['expiration_month']; ?>'>
+     <input type='hidden' name='expiration_year' value='<?php echo @$vars->data['expiration_year']; ?>'>
+    
     <?php echo JHTML::_( 'form.token' ); ?>
 </form>

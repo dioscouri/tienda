@@ -104,6 +104,8 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	{
 		// prepare the payment form
 
+		var_dump($data);
+
 		$vars = new JObject();
 		$vars->url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
 		$vars->form = new JObject();
@@ -112,29 +114,30 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$vars->order_id = $data['order_id'];
 		$vars->orderpayment_id = $data['orderpayment_id'];
 		$vars->orderpayment_amount = $data['orderpayment_amount'];
+
 		$vars->orderpayment_type = $this->_element;
 		$vars->cardtype =JRequest::getVar("card_type");
 		$vars->cardnum = JRequest::getVar("card_number");
 
-		// converting dat in the MMYY format 
-		
+		// converting dat in the MMYY format
+
 		if( strlen(JRequest::getVar("expiration_month"))==1)
 		{
 			$date="0".(String)JRequest::getVar("expiration_month");
 		}
-		else 
+		else
 		{
 			$date=JRequest::getVar("expiration_month");
 		}
-		
+
 		if( strlen(JRequest::getVar("expiration_year"))==4)
 		{
-		$date = $date . substr(JRequest::getVar("expiration_year"),0,2);
-		} 
+			$date = $date . substr(JRequest::getVar("expiration_year"),0,2);
+		}
 		else {
 			$date = $date .JRequest::getVar("expiration_year");
 		}
-				
+
 		$expire_date=$this->_getFormattedCardExprDate('my',$date);
 
 		$vars->cardexp =$expire_date;
@@ -142,6 +145,8 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 
 		$vars->cardcvv = JRequest::getVar("cvv_number");
 		$vars->cardnum_last4 = substr( JRequest::getVar("card_number"), -4 );
+		$vars->data =$data;
+	  
 
 		$html = $this->_getLayout('prepayment', $vars);
 		return $html;
@@ -434,884 +439,420 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	 */
 	function _process()
 	{
-		echo "I am calling Jnau ji ";
-		die();
-		
+
+
 		$data = JRequest::get('post');
 
-		// validate the IPN info
-		$error = $this->_validateIPN($data);
-		if (!empty($error))
+		 
+		//    	$item_number = JRequest::getVar( 'item_number', '', 'post', 'int' );
+		//        $subtype = AmbrasubsHelperPayment::getTable( 'Type' );
+		//        $subtype->load( $item_number );
+		//        $subtypeParams = $this->_getSubscriptionParams( $subtype->params );
+		 
+		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order->load( $data['order_id'] );
+		$items = $order->getItems();
+		$orderpayment_id = $data['orderpayment_id'];
+		$orderpayment_amount = $data['orderpayment_amount'];
+
+		/************************ Request Variables ***************************/
+
+		$store_id = $this->_store_id;
+		$api_token = $this->_api_token;
+
+		/********************* Transactional Variables ************************/
+
+		$type = 'purchase';
+		$order_id = $data['order_id'];
+		$cust_id = JFactory::getUser()->id;
+		$amount = $orderpayment_amount;
+		$pan = $data['cardnum']; // '4242424242424242';
+		$expiry_date = $data['expiration_year'] . $data['expiration_month'];        // YYMM, so 0812 = December 2008
+		$crypt = '7'; // SSL-enabled merchant
+		$commcard_invoice = '';
+		$commcard_tax_amount = '';
+
+		/******************* Customer Information Variables ********************/
+
+		$first_name = $data['first_name'];
+		$last_name = $data['last_name'];
+		$company_name = '';
+		$address = $data['address_line_1'];
+		if ($data['address_line_2']){
+			$address .= ", " . $data['address_line_2'];
+		}
+		$city = $data['city'];
+		$province = $data['state'];
+		$postal_code = $data['postal_code'];
+		$country = @$data['country'];
+		$phone_number = '';
+		$fax = '';
+		$tax1 = '';
+		$tax2 = '';
+		$tax3 = '';
+		$shipping_cost = '';
+		$email = JFactory::getUser()->email;
+		$instructions = '';
+
+		/*********************** Line Item Variables **************************/
+		//
+		//		$item_name[0] = $subtype->title;
+		//		$item_quantity[0] = '1';
+		//		$item_product_code[0] = $subtype->title;
+		//		$item_extended_amount[0] = $subtype->value;
+
+		/************************** Recur Variables *****************************/
+		//        if ($subtypeParams->get('is_recurring'))
+		//        {
+		//	        $recurUnit = $subtypeParams->get('recurring_period_unit'); // (day | week | month)
+		//	        $recurInterval = $subtypeParams->get('recurring_period'); // '10';
+		//            $numRecurs = $subtypeParams->get('moneris_recurring_times'); //'4';
+		//	        $recurAmount = $subtype->value;
+		//	        $startNow = 'true';
+		//            $startDate = date("Y/m/d"); // '2006/11/30'; //yyyy/mm/dd
+		//
+		//	        /****************************** Recur Array **************************/
+		//	        $recurArray = array(
+		//	                            'recur_unit'=>$recurUnit,
+		//	                            'start_date'=>$startDate,
+		//	                            'num_recurs'=>$numRecurs,
+		//	                            'start_now'=>$startNow,
+		//	                            'period' => $recurInterval,
+		//	                            'recur_amount'=> $recurAmount
+		//	        );
+		//	        /****************************** Recur Object **************************/
+		//	        $mpgRecur = new mpgRecur($recurArray);
+		//        }
+
+		/************************** AVS Variables *****************************/
+
+		$avs_street_number = intval( $address );
+		$avs_street_name = $address;
+		$avs_zipcode = $postal_code;
+
+		/************************** CVD Variables *****************************/
+
+		$cvd_indicator = '1'; // yes, we're using CVD
+		$cvd_value = $data['cardcvv'];
+
+		/********************** AVS Associative Array *************************/
+
+		$avsTemplate = array(
+		                     'avs_street_number'=>$avs_street_number,
+		                     'avs_street_name' =>$avs_street_name,
+		                     'avs_zipcode' => $avs_zipcode
+		);
+
+		/********************** CVD Associative Array *************************/
+
+		$cvdTemplate = array(
+		                     'cvd_indicator' => $cvd_indicator,
+		                     'cvd_value' => $cvd_value
+		);
+
+		/************************** AVS Object ********************************/
+
+		$mpgAvsInfo = new mpgAvsInfo ($avsTemplate);
+
+		/************************** CVD Object ********************************/
+
+		$mpgCvdInfo = new mpgCvdInfo ($cvdTemplate);
+
+		/******************** Customer Information Object *********************/
+
+		$mpgCustInfo = new mpgCustInfo();
+
+		/********************** Set Customer Information **********************/
+
+		$billing = array(
+		                 'first_name' => $first_name,
+		                 'last_name' => $last_name,
+		                 'company_name' => $company_name,
+		                 'address' => $address,
+		                 'city' => $city,
+		                 'province' => $province,
+		                 'postal_code' => $postal_code,
+		                 'country' => $country,
+		                 'phone_number' => $phone_number,
+		                 'fax' => $fax,
+		                 'tax1' => $tax1,
+		                 'tax2' => $tax2,
+		                 'tax3' => $tax3,
+		                 'shipping_cost' => $shipping_cost
+		);
+
+		$mpgCustInfo->setBilling($billing);
+
+		$shipping = array(
+		                 'first_name' => $first_name,
+		                 'last_name' => $last_name,
+		                 'company_name' => $company_name,
+		                 'address' => $address,
+		                 'city' => $city,
+		                 'province' => $province,
+		                 'postal_code' => $postal_code,
+		                 'country' => $country,
+		                 'phone_number' => $phone_number,
+		                 'fax' => $fax,
+		                 'tax1' => $tax1,
+		                 'tax2' => $tax2,
+		                 'tax3' => $tax3,
+		                 'shipping_cost' => $shipping_cost
+		);
+
+		$mpgCustInfo->setShipping($shipping);
+
+		$mpgCustInfo->setEmail($email);
+		$mpgCustInfo->setInstructions($instructions);
+
+		/*********************** Set Line Item Information *********************/
+
+
+		foreach($items as $itemObject)
 		{
-			// ipn Validation failed
-			$data['ipn_validation_results'] = $error;
+			$items_temp[0] = array(
+		               'name'=>$itemObject->orderitem_name,
+		               'quantity'=>$itemObject->orderitem_quantity,
+		               'product_code'=>$itemObject->orderitem_name,   // NEED TO CONFIRM orderitem_sku
+		               'extended_amount'=>$itemObject->orderitem_price
+			);
+			$mpgCustInfo->setItems($items_temp[0]);
 		}
 
-		// prepare some data
-		$order_id           = (int) @$data['item_number_1'];
-		$orderpayment_id    = (int) @$data['custom'];
-		$data['transaction_details'] = $this->_getFormattedTransactionDetails( $data );
 
-		// process the payment based on its type
-		if ( !empty($data['txn_type']) )
-		{
-			$payment_error = '';
 
-			if ($data['txn_type'] == 'cart') {
-				// Payment received for multiple items; source is Express Checkout or the PayPal Shopping Cart.
-				$payment_error = $this->_processSale( $data, $error );
-			}
-			elseif (strpos($data['txn_type'], 'subscr_') === 0) {
-				$payment_error = $this->_processSubscription( $data, $error );
-			}
-			else {
-				// other methods not supported right now
-				$payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE" ).": ".$data['txn_type'];
-			}
 
-			if ($payment_error) {
-				// it seems like an error has occurred during the payment process
-				$error .= $error ? "\n" . $payment_error : $payment_error;
-			}
+		/***************** Transactional Associative Array ********************/
+
+		$txnArray=array(
+		                'type'=>$type,
+		                'order_id'=>$orderpayment_id,  // Set the $orderpayment_id since we will get back $order_id with it
+		                'cust_id'=>$cust_id,
+		                'amount'=>$amount,
+		                'pan'=>$pan,
+		                'expdate'=>$expiry_date,
+		                'crypt_type'=>$crypt,
+		                'commcard_invoice'=>$commcard_invoice,
+		                'commcard_tax_amount'=>$commcard_tax_amount
+		);
+
+		/********************** Transaction Object ****************************/
+
+		$mpgTxn = new mpgTransaction($txnArray);
+
+		/******************** Set Customer Information ************************/
+
+		$mpgTxn->setCustInfo($mpgCustInfo);
+
+		/************************ Set AVS and CVD *****************************/
+
+		$mpgTxn->setAvsInfo($mpgAvsInfo);
+		$mpgTxn->setCvdInfo($mpgCvdInfo);
+
+		/************************* Request Object *****************************/
+
+		$mpgRequest = new mpgRequest($mpgTxn);
+
+		/************************ HTTPS Post Object ***************************/
+
+		$mpgHttpPost = new mpgHttpsPost( $store_id, $api_token, $mpgRequest);
+
+		/****************8********** Response *********************************/
+
+		$mpgResponse = $mpgHttpPost->getMpgResponse();
+
+		return $this->_evaluateResponse( $mpgResponse );
+
 		}
+		/**
+		 * Evaluates the response from the payment processor
+		 * and returns html
+		 *
+		 * @param $response
+		 * @return html
+		 */
+		function _evaluateResponse( $response )
+		{
+			$responseCode = $response->getResponseCode();
+			 
+			if (is_null($responseCode))
+			{
+				// not sent
+				// invalid
+				$error = JText::_( "Payment Request Not Sent" );
+			}
+			elseif ($responseCode < '50')
+			{
+				// approved
+				$data = new JObject();
+				$this->_fillPaymentStatusVars( $data, true );
 
-		if ($error) {
-			// send an emails to site's administrators with error messages
-			$this->_sendErrorEmails($error, $data['transaction_details']);
+				$data->user = JFactory::getUser();
+				
+				$data->transaction_id = $response->getTxnNumber();
+				$data->payment_details = $this->_convertResponseToText( $response );
+				
+				// TODO 
+				// Find out the Order payment Id
+				$data->$orderpayment_id = 1111;
+	    
+				$error = $this->_processSale( $data, array() );
+				if (empty($error))
+				{
+					// payment processed successfully
+					$error = JText::_( " Processed Successfully" );
+					$error .= $this->_displayArticle();
+				}
+
+			}
+			elseif ($responseCode >= '50')
+			{
+				// declined
+				$data = new JObject();
+				$this->_fillPaymentStatusVars( $data, false );
+				$data->user = JFactory::getUser();
+				$data->transaction_id = $response->getTxnNumber();
+				$data->payment_details = $this->_convertResponseToText( $response );
+				
+				// TODO 
+				// Find out the Order payment Id
+				$data->$orderpayment_id = 1111;
+				$error = $this->_saveTransaction( $data, array(JText::_( "Payment Declined" )) );
+				$error = JText::_( "Payment Declined" );
+			}
+			else
+			{
+				// should never end up here,
+				// but is invalid if it does
+				$error = JText::_( "Payment Invalid" );
+			}
+			 
 			return $error;
 		}
 
-		// if here, all went well
-		$error = 'processed';
-		return $error;
-	}
-
-	/**
-	 * Processes the sale payment
-	 *
-	 * @param array $data IPN data
-	 * @return boolean Did the IPN Validate?
-	 * @access protected
-	 */
-	function _processSale( $data, $ipnValidationFailed='' )
-	{
 		/*
-		 * validate the payment data
+		 * Process to complete the sale 
+		 * It will update the Oreder and order payment on the basis of the response 
+		 * @param  data Array of response 
+		 * @param  error 
 		 */
-		$errors = array();
-
-		if (!empty($ipnValidationFailed))
+		function _processSale( $data, $error='')
 		{
-			$errors[] = $ipnValidationFailed;
-		}
+			/*
+			 * validate the payment data
+			 */
+			$errors = array();
 
-		// is the recipient correct?
-		if (empty($data['receiver_email']) || $data['receiver_email'] != $this->_getParam( 'merchant_email' )) {
-			$errors[] = JText::_('PAYPAL MESSAGE RECEIVER INVALID');
-		}
-
-		if (empty($data['custom']))
-		{
-			$errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-			return count($errors) ? implode("\n", $errors) : '';
-		}
-
-		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-		$orderpayment->load( $data['custom'] );
-		if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
-		{
-			$errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
-			return count($errors) ? implode("\n", $errors) : '';
-		}
-		$orderpayment->transaction_details  = $data['transaction_details'];
-		$orderpayment->transaction_id       = $data['txn_id'];
-		$orderpayment->transaction_status   = $data['payment_status'];
-			
-		// check the stored amount against the payment amount
-		$stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-		if ((float) $stored_amount !== (float) $data['mc_gross']) {
-			$errors[] = JText::_('PAYPAL MESSAGE AMOUNT INVALID');
-		}
-
-		// check the payment status
-		if (empty($data['payment_status']) || ($data['payment_status'] != 'Completed' && $data['payment_status'] != 'Pending')) {
-			$errors[] = JText::sprintf('PAYPAL MESSAGE STATUS INVALID', @$data['payment_status']);
-		}
-
-		// set the order's new status and update quantities if necessary
-		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $orderpayment->order_id );
-		if (count($errors))
-		{
-			// if an error occurred
-			$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
-		}
-		elseif (@$data['payment_status'] == 'Pending')
-		{
-			// if the transaction has the "pending" status,
-			$order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
-			// Update quantities for echeck payments
-			TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
-
-			// remove items from cart
-			TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
-
-			// send email
-			$send_email = true;
-		}
-		else
-		{
-			$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-			$this->setOrderPaymentReceived( $orderpayment->order_id );
-
-			// send email
-			$send_email = true;
-		}
-
-		// save the order
-		if (!$order->save())
-		{
-			$errors[] = $order->getError();
-		}
-
-		// save the orderpayment
-		if (!$orderpayment->save())
-		{
-			$errors[] = $orderpayment->getError();
-		}
-
-		if ($send_email)
-		{
-			// send notice of new order
-			Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			$helper = TiendaHelperBase::getInstance('Email');
-			$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-			$model->setId( $orderpayment->order_id );
-			$order = $model->getItem();
-			$helper->sendEmailNotices($order, 'new_order');
-		}
-
-		return count($errors) ? implode("\n", $errors) : '';
-	}
-
-	/**
-	 * Processes the subscription payment
-	 *
-	 * @param array $data IPN data
-	 * @return boolean Did the IPN Validate?
-	 * @access protected
-	 */
-	function _processSubscription( $data, $ipnValidationFailed='' )
-	{
-		/*
-		 * validate the payment data
-		 */
-		$errors = array();
-
-		if (!empty($ipnValidationFailed))
-		{
-			$errors[] = $ipnValidationFailed;
-		}
-
-		// is the recipient correct?
-		if (empty($data['receiver_email']) || $data['receiver_email'] != $this->_getParam( 'merchant_email' )) {
-			$errors[] = JText::_('PAYPAL MESSAGE RECEIVER INVALID');
-		}
-
-		// Evaluate the payment based on txn_type, mc_gross, subscr_id
-		switch ($data['txn_type'])
-		{
-			case 'subscr_signup':
-				if (!$this->_processSubscriptionSignup( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			case 'subscr_payment':
-				if (!$this->_processSubscriptionPayment( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			case 'subscr_eot':
-				if (!$this->_processSubscriptionEndOfTerm( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			case 'subscr_cancel':
-				if (!$this->_processSubscriptionCancel( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			case 'subscr_modify':
-				if (!$this->_processSubscriptionModify( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			case 'subscr_failed':
-				if (!$this->_processSubscriptionFailed( $data ))
-				{
-					$errors[] = $this->getError();
-				}
-				break;
-			default:
-				$errors[] = JText::_('PAYPAL MESSAGE INVALID TRANSACTION TYPE');
-				break;
-		}
-
-		return count($errors) ? implode("\n", $errors) : '';
-
-		/** TODO Remove the rest of this **/
-			
-		// check the stored amount against the payment amount
-		$stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-		if ((float) $stored_amount !== (float) $data['mc_gross']) {
-			$errors[] = JText::_('PAYPAL MESSAGE AMOUNT INVALID');
-		}
-
-		// check the payment status
-		if (empty($data['payment_status']) || ($data['payment_status'] != 'Completed' && $data['payment_status'] != 'Pending')) {
-			$errors[] = JText::sprintf('PAYPAL MESSAGE STATUS INVALID', @$data['payment_status']);
-		}
-
-		// set the order's new status and update quantities if necessary
-		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $orderpayment->order_id );
-		if (count($errors))
-		{
-			// if an error occurred
-			$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
-		}
-		elseif (@$data['payment_status'] == 'Pending')
-		{
-			// if the transaction has the "pending" status,
-			$order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
-			// Update quantities for echeck payments
-			TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
-
-			// remove items from cart
-			TiendaHelperCarts::removeOrderItems( $orderpayment->order_id );
-
-			// send email
-			$send_email = true;
-		}
-		else
-		{
-			$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-			$this->setOrderPaymentReceived( $orderpayment->order_id );
-
-			// send email
-			$send_email = true;
-		}
-
-		// save the order
-		if (!$order->save())
-		{
-			$errors[] = $order->getError();
-		}
-
-		// save the orderpayment
-		if (!$orderpayment->save())
-		{
-			$errors[] = $orderpayment->getError();
-		}
-
-		if ($send_email)
-		{
-			// send notice of new order
-			Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			$helper = TiendaHelperBase::getInstance('Email');
-			$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-			$model->setId( $orderpayment->order_id );
-			$order = $model->getItem();
-			$helper->sendEmailNotices($order, 'new_order');
-		}
-
-		return count($errors) ? implode("\n", $errors) : '';
-	}
-
-	/**
-	 * Formatts the payment data for storing
-	 *
-	 * @param array $data
-	 * @return string
-	 */
-	function _getFormattedTransactionDetails( $data )
-	{
-		$separator = "\n";
-		$formatted = array();
-
-		foreach ($data as $key => $value)
-		{
-			if ($key != 'view' && $key != 'layout')
+			if (!empty($error))
 			{
-				$formatted[] = $key . ' = ' . $value;
+				$errors[] = $error;
 			}
-		}
+			// load the orderpayment record and set some values
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 
-		return count($formatted) ? implode("\n", $formatted) : '';
-	}
+			$orderpayment->load($data->$orderpayment_id );
 
-	/**
-	 * Sends error messages to site administrators
-	 *
-	 * @param string $message
-	 * @param string $paymentData
-	 * @return boolean
-	 * @access protected
-	 */
-	function _sendErrorEmails($message, $paymentData)
-	{
-		$mainframe =& JFactory::getApplication();
+			//	Svaing Financial order state
+			$orderpayment->transaction_details  = $data->payment_details;
 
-		// grab config settings for sender name and email
-		$config     = &TiendaConfig::getInstance();
-		$mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
-		$fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
-		$sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
-		$siteurl    = $config->get( 'siteurl', JURI::root() );
+			// Svaing payment status Completed
+			$orderpayment->transaction_status   = "Completed";
 
-		$recipients = $this->_getAdmins();
-		$mailer =& JFactory::getMailer();
-
-		$subject = JText::sprintf('PAYPAL EMAIL PAYMENT NOT VALIDATED SUBJECT', $sitename);
-
-		foreach ($recipients as $recipient)
-		{
-			$mailer = JFactory::getMailer();
-			$mailer->addRecipient( $recipient->email );
-
-			$mailer->setSubject( $subject );
-			$mailer->setBody( JText::sprintf('PAYPAL EMAIL PAYMENT FAILED BODY', $recipient->name, $sitename, $siteurl, $message, $paymentData) );
-			$mailer->setSender(array( $mailfrom, $fromname ));
-			$sent = $mailer->send();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Gets admins data
-	 *
-	 * @return array|boolean
-	 * @access protected
-	 */
-	function _getAdmins()
-	{
-		$db =& JFactory::getDBO();
-		$q = "SELECT name, email FROM #__users "
-		. "WHERE LOWER(usertype) = \"super administrator\" "
-		. "AND sendEmail = 1 "
-		;
-		$db->setQuery($q);
-		$admins = $db->loadObjectList();
-
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseError(500, $error);
-			return false;
-		}
-
-		return $admins;
-	}
-
-	/**
-	 *
-	 * Enter description here ...
-	 * @param $data
-	 * @return unknown_type
-	 */
-	function _processSubscriptionSignup( $data )
-	{
-		// the user has created a new subscription profile.
-		// these are IMMEDIATELY followed by a subscr_payment IPN notification,
-		// EXCEPT if the subscription has a FREE trial.
-		// In the case of a FREE trial, ONLY a subscr_signup IPN is sent,
-		// so code accordingly
-
-		$errors = array();
-		// Check that custom (orderpayment_id) is present, we need it for payment amount verification
-		if (empty($data['custom']))
-		{
-			$this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
-			return false;
-		}
-		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-		$orderpayment->load( $data['custom'] );
-		if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
-		{
-			$this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
-			return false;
-		}
-
-		// if the payment amount is FREE
-		// create new subscription for the user
-		// for the order's recurring_trial_period_interval
-		// using it's recurring_trial_period_unit
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $data['item_number'] );
-		$items = $order->getItems();
-		if (!empty($order->recurring_trial) && (float) $order->recurring_trial_price == (float) '0.00' )
-		{
-			$orderpayment->transaction_details  = $data['transaction_details'];
-			$orderpayment->transaction_id       = $data['subscr_id'];
-			$orderpayment->transaction_status   = JText::_( "Created" );
-			if (!$orderpayment->save())
+			// set the order's new status and update quantities if necessary
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order->load( $orderpayment->order_id );
+			if (count($errors))
 			{
-				$errors[] = $orderpayment->getError();
+				// if an error occurred
+				$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
 			}
-
-			if (count($items) == '1')
+			else
 			{
-				// update order status
-				Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-				Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 				$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
 				$this->setOrderPaymentReceived( $orderpayment->order_id );
 
 				// send email
 				$send_email = true;
-
-				// save the order
-				if (!$order->save())
-				{
-					$errors[] = $order->getError();
-				}
-
-				if ($send_email)
-				{
-					// send notice of new order
-					Tienda::load( "TiendaHelperBase", 'helpers._base' );
-					$helper = TiendaHelperBase::getInstance('Email');
-					$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-					$model->setId( $orderpayment->order_id );
-					$order = $model->getItem();
-					$helper->sendEmailNotices($order, 'new_order');
-				}
 			}
 
-			// Update orderitem_status
-			$order_item = $order->getRecurringItem();
-			$orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
-			$orderitem->orderitem_id = $order_item->orderitem_id;
-			$orderitem->orderitem_status = '1';
-			$orderitem->save();
-
-			$date = JFactory::getDate();
-			// create free subscription
-			$subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
-			$subscription->user_id = $order->user_id;
-			$subscription->order_id = $order->order_id;
-			$subscription->product_id = $orderitem->product_id;
-			$subscription->orderitem_id = $orderitem->orderitem_id;
-			$subscription->transaction_id = $data['subscr_id'];
-			$subscription->created_datetime = $date->toMySQL();
-			$subscription->subscription_enabled = '1';
-
-			switch($order->recurring_trial_period_unit)
-			{
-				case "Y":
-					$period_unit = "YEAR";
-					break;
-				case "M":
-					$period_unit = "MONTH";
-					break;
-				case "W":
-					$period_unit = "WEEK";
-					break;
-				case "D":
-				default:
-					$period_unit = "DAY";
-					break;
-			}
-			$database = JFactory::getDBO();
-			$query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$order->recurring_trial_period_interval} $period_unit ) ";
-			$database->setQuery( $query );
-			$subscription->expires_datetime = $database->loadResult();
-
-			if (!$subscription->save())
-			{
-				$this->setError( $subscription->getError() );
-				return false;
-			}
-
-			// add a sub history entry, email the user?
-			$subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
-			$subscriptionhistory->subscription_id = $subscription->subscription_id;
-			$subscriptionhistory->subscriptionhistory_type = 'creation';
-			$subscriptionhistory->created_datetime = $date->toMySQL();
-			$subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-			$subscriptionhistory->comments = JText::_( 'NEW TRIAL SUBSCRIPTION CREATED' );
-			$subscriptionhistory->save();
-		}
-
-		$error = count($errors) ? implode("\n", $errors) : '';
-		if (!empty($error))
-		{
-			$this->setError( $error );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 *
-	 * Enter description here ...
-	 * @param $data
-	 * @return unknown_type
-	 */
-	function _processSubscriptionPayment( $data )
-	{
-		// if we're here, a successful payment has been made.
-		// the normal notice that requires action.
-		// create a subscription_id if no subscr_id record exists
-		// set expiration dates
-		// add a sub history entry, email the user?
-
-		$errors = array();
-		// Check that custom (orderpayment_id) is present, we need it for payment amount verification
-		if (empty($data['custom']))
-		{
-			$this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
-			return false;
-		}
-		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-		$orderpayment->load( $data['custom'] );
-		if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
-		{
-			$this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
-			return false;
-		}
-		$orderpayment->transaction_details  = $data['transaction_details'];
-		$orderpayment->transaction_id       = $data['txn_id'];
-		$orderpayment->transaction_status   = $data['payment_status'];
-		if (!$orderpayment->save())
-		{
-			$errors[] = $orderpayment->getError();
-		}
-
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $data['item_number'] );
-		$items = $order->getItems();
-
-		// Update orderitem_status
-		$order_item = $order->getRecurringItem();
-		$orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
-		$orderitem->orderitem_id = $order_item->orderitem_id;
-		$orderitem->orderitem_status = '1';
-		$orderitem->save();
-
-		// TODO Here we need to verify the payment amount
-
-		// if no subscription exists for this subscr_id,
-		// create new subscription for the user
-		$subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
-		$subscription->load( array('transaction_id'=>$data['subscr_id']));
-		if (empty($subscription->subscription_id))
-		{
-			$date = JFactory::getDate();
-			// create new subscription
-			// if recurring trial, set it
-			// for the order's recurring_trial_period_interval
-			// using its recurring_trial_period_unit
-			// otherwise, do the normal recurring_period_interval
-			// and the recurring_period_unit
-			$recurring_period_unit = $order->recurring_period_unit;
-			$recurring_period_interval = $order->recurring_period_interval;
-			if (!empty($order->recurring_trial))
-			{
-				$recurring_period_unit = $order->recurring_trial_period_unit;
-				$recurring_period_interval = $order->recurring_trial_period_interval;
-			}
-
-			$subscription->user_id = $order->user_id;
-			$subscription->order_id = $order->order_id;
-			$subscription->product_id = $orderitem->product_id;
-			$subscription->orderitem_id = $orderitem->orderitem_id;
-			$subscription->transaction_id = $data['subscr_id'];
-			$subscription->created_datetime = $date->toMySQL();
-			$subscription->subscription_enabled = '1';
-			switch($recurring_period_unit)
-			{
-				case "Y":
-					$period_unit = "YEAR";
-					break;
-				case "M":
-					$period_unit = "MONTH";
-					break;
-				case "W":
-					$period_unit = "WEEK";
-					break;
-				case "D":
-				default:
-					$period_unit = "DAY";
-					break;
-			}
-			$database = JFactory::getDBO();
-			$query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$recurring_period_interval} $period_unit ) ";
-			$database->setQuery( $query );
-			$subscription->expires_datetime = $database->loadResult();
-
-			if (!$subscription->save())
-			{
-				$this->setError( $subscription->getError() );
-				return false;
-			}
-
-			// add a sub history entry, email the user?
-			$subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
-			$subscriptionhistory->subscription_id = $subscription->subscription_id;
-			$subscriptionhistory->subscriptionhistory_type = 'creation';
-			$subscriptionhistory->created_datetime = $date->toMySQL();
-			$subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-			$subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION CREATED' );
-			$subscriptionhistory->save();
-		}
-		else
-		{
-			// subscription exists, just update its expiration date
-			// based on normal interval and period
-			switch($order->recurring_period_unit)
-			{
-				case "Y":
-					$period_unit = "YEAR";
-					break;
-				case "M":
-					$period_unit = "MONTH";
-					break;
-				case "W":
-					$period_unit = "WEEK";
-					break;
-				case "D":
-				default:
-					$period_unit = "DAY";
-					break;
-			}
-			$database = JFactory::getDBO();
-			$today = $date = JFactory::getDate();
-			$query = " SELECT DATE_ADD('{$today}', INTERVAL {$order->recurring_period_interval} $period_unit ) ";
-			$database->setQuery( $query );
-			$subscription->expires_datetime = $database->loadResult();
-
-			if (!$subscription->save())
-			{
-				$this->setError( $subscription->getError() );
-				return false;
-			}
-
-			// add a sub history entry, email the user?
-			$subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
-			$subscriptionhistory->subscription_id = $subscription->subscription_id;
-			$subscriptionhistory->subscriptionhistory_type = 'payment';
-			$subscriptionhistory->created_datetime = $date->toMySQL();
-			$subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-			$subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION PAYMENT RECEIVED' );
-			$subscriptionhistory->save();
-		}
-
-		if (count($items) == '1')
-		{
-			// update order status
-			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-			$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-			$this->setOrderPaymentReceived( $orderpayment->order_id );
-
-			// send email
-			$send_email = true;
-
-			// save the order
+			// update the order
 			if (!$order->save())
 			{
 				$errors[] = $order->getError();
 			}
 
-			if ($send_email)
+			// update the orderpayment
+			if (!$orderpayment->save())
 			{
-				// send notice of new order
-				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$helper = TiendaHelperBase::getInstance('Email');
-				$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-				$model->setId( $orderpayment->order_id );
-				$order = $model->getItem();
-				$helper->sendEmailNotices($order, 'new_order');
+				$errors[] = $orderpayment->getError();
 			}
-		}
 
-		$error = count($errors) ? implode("\n", $errors) : '';
-		if (!empty($error))
-		{
-			$this->setError( $error );
-			return false;
-		}
-		return true;
+			// TODO Send mail on payment charged
+			//	if ($send_email)
+			//	{
+			//		// send notice of new order
+			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			//		$helper = TiendaHelperBase::getInstance('Email');
+			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+			//		$model->setId( $orderpayment->order_id );
+			//		$order = $model->getItem();
+			//		$helper->sendEmailNotices($order, 'new_order');
+			//	}
+
+			return count($errors) ? implode("\n", $errors) : '';
 	}
-
-	/**
-	 *
-	 * Enter description here ...
-	 * @param $data
-	 * @return unknown_type
-	 */
-	function _processSubscriptionEndOfTerm( $data )
-	{
-		// $data['custom'] is available
-
-		$substr = substr($data['subscr_id'], 0, 2);
-		switch($substr)
+	
+		/**
+		 *  this is updating the transaction id and staus in case of not completed state
+		 *	@param  data Array of response 
+		 *	@param  error
+		 */
+		function _saveTransaction($data, $error='')
 		{
-			case "S-":
-				//If your profile ID starts with S- then your EOT IPN works as follows:
-				//If the profile is canceled then you get an EOT at the end of the time that the buyer paid for.
-				//If the profile naturally ends then you get an EOT at the end of the time that the buyer paid for.
-				break;
-			case "I-":
-				//If your profile ID starts with I- then your EOT IPN works as follows:
-				//If the profile is canceled then you never get an EOT IPN.
-				//If the profile naturally ends then you will get an EOT IPN right when the final payment is made.
-				//You will not get an IPN when the time paid for is completed.
-				//You will need to calculate that time period on your own
-				//and then when the time the customer paid is up you no longer give them access to your service.
-				break;
+		
+			$errors = array();
 
-				// either way, Tienda does nothing
-				// the sub's expires_datetime is already set from the last payment instance,
-				// and Tienda will deactivate subscriptions in the system plugin
+			if (!empty($error))
+			{
+				$errors[] = $error;
+			}
+			// load the orderpayment record and set some values
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+
+			$orderpayment->load($data->$orderpayment_id );
+
+			//	Svaing Financial order state
+			$orderpayment->transaction_details  = $data->payment_details;
+
+			// Svaing payment status Completed
+			$orderpayment->transaction_status   = "Payment Declined";
+
+			
+			// update the orderpayment
+			if (!$orderpayment->save())
+			{
+				$errors[] = $orderpayment->getError();
+			}
+
+			// TODO Send mail on payment charged
+			//	if ($send_email)
+			//	{
+			//		// send notice of new order
+			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			//		$helper = TiendaHelperBase::getInstance('Email');
+			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+			//		$model->setId( $orderpayment->order_id );
+			//		$order = $model->getItem();
+			//		$helper->sendEmailNotices($order, 'new_order');
+			//	}
+		
+			return count($errors) ? implode("\n", $errors) : '';
 		}
-	}
-
-	/**
-	 *
-	 * Enter description here ...
-	 * @param $data
-	 * @return unknown_type
-	 */
-	function _processSubscriptionCancel( $data )
-	{
-		// do nothing.  user may be cancelling mid-period.
-		// the sub's expires_datetime is already set from the last payment instance,
-		// and Tienda will deactivate subscriptions in the system plugin
-
-		// sample code for deactivating a subscription:
-		//        // get the subscription_id based on the orderpayment_id=>order_id=>orderitem_id=>subscription_id
-		//        $model = Tienda::getClass("TiendaModelSubscriptions", "models.subscriptions");
-		//        $model->setState( 'filter_orderid', $data['item_number'] );
-		//        $model->setState( 'filter_transactionid', $data['subscr_id'] );
-		//        if (!$subscriptions = $model->getList())
-		//        {
-		//            // return some error
-		//            $return = JText::_('PAYPAL MESSAGE NO RECURRING ITEM FOUND');
-		//            return $return;
-		//        }
-		//        $subscription = $subscriptions[0];
-		//
-		//        // Cancel the subscription using the Subscription Helper and the subscription_id
-		//        Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		//        $helper = TiendaHelperBase::getInstance('Subscription');
-		//        if (!$helper->cancel( $subscription->subscription_id ))
-		//        {
-		//            $this->setError( $helper->getError() );
-		//            return false;
-		//        }
-		//        return true;
-}
-
-/**
- *
- * Enter description here ...
- * @param $data
- * @return unknown_type
- */
-function _processSubscriptionModify( $data )
-{
-	// we don't really do anything with this transaction type
-}
-
-/**
- * When one of the recurring payments for a subscription has failed
- * this method will be triggered
- *
- * @param $data
- * @return unknown_type
- */
-function _processSubscriptionFailed( $data )
-{
-	// don't cancel the subscription.  an EOT will be triggered if all the payment retry attempts fail,
-	// so cancel the subscription only in _processSubscriptionEndOfTerm (EOT)
-	// TODO perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
-}
-
-
-/* TYPICAL RESPONSE FROM PAYPAL INCLUDES:
- * mc_gross=49.99
- * &protection_eligibility=Eligible
- * &address_status=confirmed
- * &payer_id=Q5HTJ93G8FQKC
- * &tax=0.00
- * &address_street=10101+Some+Street
- * &payment_date=12%3A13%3A19+Dec+05%2C+2008+PST
- * &payment_status=Completed
- * &charset=windows-1252
- * &address_zip=11259
- * &first_name=John
- * &mc_fee=1.75
- * &address_country_code=US
- * &address_name=John+Doe
- * &custom=some+custom+value
- * &payer_status=verified
- * &business=receiver%40domain.com
- * &address_country=United+States
- * &address_city=Some+City
- * &quantity=1
- * &payer_email=sender%40emaildomain.com
- * &txn_id=3JK16594EX581780W
- * &payment_type=instant
- * &payer_business_name=John+Doe
- * &last_name=Doe
- * &address_state=CA
- * &receiver_email=receiver%40domain.com
- * &payment_fee=1.75
- * &receiver_id=YG9UDRP6DE45G
- * &txn_type=web_accept
- * &item_name=Name+of+item
- * &mc_currency=USD
- * &item_number=Number+of+Item
- * &residence_country=US
- * &handling_amount=0.00
- * &transaction_subject=Subject+of+Transaction
- * &payment_gross=49.99
- * &shipping=0.00
- * &=
- */
-
-/**
- * VALID PAYMENT_STATUS VALUES returned from Paypal
- *
- * Canceled_Reversal: A reversal has been canceled. For example, you won a dispute with the customer, and the funds for the transaction that was reversed have been returned to you.
- * Completed: The payment has been completed, and the funds have been added successfully to your account balance.
- * Created: A German ELV payment is made using Express Checkout.
- * Denied: You denied the payment. This happens only if the payment was previously pending because of possible reasons described for the pending_reason variable or the Fraud_Management_Filters_x variable.
- * Expired: This authorization has expired and cannot be captured.
- * Failed: The payment has failed. This happens only if the payment was made from your customer’s bank account.
- * Pending: The payment is pending. See pending_reason for more information.
- * Refunded: You refunded the payment.
- * Reversed: A payment was reversed due to a chargeback or other type of reversal. The funds have been removed from your account balance and returned to the buyer. The reason for the reversal is specified in the ReasonCode element.
- * Processed: A payment has been accepted.
- * Voided: This authorization has been voided.
- */
+	
+	
 
 }
