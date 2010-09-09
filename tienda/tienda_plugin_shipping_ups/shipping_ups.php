@@ -210,7 +210,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 			return true;
 		else
 		{
-			$this->setError($ups->getError());
+			$this->setError($ups->getError().$ups->getClient()->__getLastRequest());
 			return false;
 		}
         
@@ -368,17 +368,102 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     function downloadLabel()
     {
     	$order_id = JRequest::getInt('order_id');
-    	$label = JRequest::getVar('label');
+    	$file = JRequest::getVar('label');
     	
-    	$file = JTable::getInstance('ProductFiles', 'TiendaTable');
-    	$file->productfile_path = Tienda::getPath('order_files').DS.$order_id.DS.$label;
-    	$file->productfile_extension = 'gif';
-    	$file->productfile_name = $label;
+    	$path = Tienda::getPath('order_files').DS.$order_id;
     	
-    	Tienda::load('TiendaFile', 'library.file');
-    	TiendaFile::download($file);
+    	$this->download($file, $path);
     }
     
+/**
+     * Downloads file
+     * 
+     * @param object Valid productfile object
+     * @param mixed Boolean
+     * @return array
+     */
+    function download( $file, $path ) 
+    {
+        $success = false;
+        
+        //$file->productfile_path = JPath::clean($file->productfile_path);
+        
+        $ext = substr($file, strlen($file) - 3);
+        
+        // This will set the Content-Type to the appropriate setting for the file
+        switch( $ext ) {
+             case "pdf": $ctype="application/pdf"; break;
+             case "exe": $ctype="application/octet-stream"; break;
+             case "zip": $ctype="application/zip"; break;
+             case "doc": $ctype="application/msword"; break;
+             case "xls": $ctype="application/vnd.ms-excel"; break;
+             case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
+             case "gif": $ctype="image/gif"; break;
+             case "png": $ctype="image/png"; break;
+             case "jpeg":
+             case "jpg": $ctype="image/jpg"; break;
+             case "mp3": $ctype="audio/mpeg"; break;
+             case "wav": $ctype="audio/x-wav"; break;
+             case "mpeg":
+             case "mpg":
+             case "mpe": $ctype="video/mpeg"; break;
+             case "mov": $ctype="video/quicktime"; break;
+             case "avi": $ctype="video/x-msvideo"; break;
+        
+             // The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+             case "php":
+             case "htm":
+             case "html": if ($path) die("<b>Cannot be used for ". $ext ." files!</b>");
+        
+             default: $ctype="application/octet-stream";
+        }
+        
+        // If requested file exists
+        if (JFile::exists($path.DS.$file)) {
+        
+            
+            
+            // Fix IE bugs
+            if (isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+                $header_file = preg_replace('/\./', '%2e', $file, substr_count($file, '.') - 1);
+                
+                if (ini_get('zlib.output_compression'))  {
+                    ini_set('zlib.output_compression', 'Off');
+                }               
+            }
+            else {
+                $header_file = $file;
+            }
+            
+			while(@ob_end_clean());
+            
+            // Prepare headers
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public", false);
+            
+            header("Content-Description: File Transfer");
+            header("Content-Type: $ctype" );
+            header("Accept-Ranges: bytes");
+            header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: " . filesize($path.DS.$file));
+            
+            // Output file by chunks
+            error_reporting(0);
+            if ( ! ini_get('safe_mode') ) {
+                set_time_limit(0);
+            }
+            
+            readfile($path.DS.$file);
+            
+            $success = true;            
+            exit;
+        }
+        
+        return $success;        
+    }
     
 	protected function writeToLog($client)
 	{  
