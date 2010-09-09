@@ -72,7 +72,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         
         if($row->ordershipping_tracking_id)
         {
-        	//$tracking_numbers = explode("\n", $row->ordershipping_tracking_id);
         	$path = Tienda::getPath('order_files').DS.$order->order_id;
         	
         	$helper = Tienda::getClass('TiendaHelperProduct', 'helpers.product');
@@ -87,6 +86,21 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	        $vars->labels = $labels;
 	        $vars->order_id = $order->order_id;
 	        $html = $this->_getLayout('labels', $vars);
+	        
+	        // Tracking
+	        // Last one is empty. Skip!
+	        $tracking_numbers = explode("\n", $row->ordershipping_tracking_id, -1);
+	        // The first one is the shipment id
+	        if(is_array($tracking_numbers) && count($tracking_numbers))
+	        	$shipping_id = array_shift($tracking_numbers);	        
+	        
+	        $vars = new JObject();
+	        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+	        $vars->id = $plugin_id;
+	        $vars->shipping_id = $shipping_id;
+	        $vars->tracking_numbers = $tracking_numbers;
+	        $vars->order_id = $order->order_id;
+	        $html .= $this->_getLayout('tracking', $vars);
         }
 		else
 		{
@@ -110,6 +124,46 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         echo $html;
     }
     
+    function tracking()
+    {
+    	$tracking_id = JRequest::getVar('tracking_id');
+    	$tracking_id = '3251026119';
+    	
+    	require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
+
+        $shipAccount = $this->params->get('account');
+        $key = $this->params->get('key');
+        $password = $this->params->get('password');
+        
+        
+        $ups = new TiendaUpsTracking;
+            
+        $ups->setKey($key);
+        $ups->setPassword($password);
+        $ups->setAccountNumber($shipAccount);
+        
+        $ups->setTrack($tracking_id);
+        $results = $ups->track();
+    	
+    	$vars = new JObject();
+        $vars->state = $this->_getState();
+        $id = JRequest::getInt('id', '0');
+        $form = array();
+        $form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
+        $vars->form = $form;
+        
+        $plugin = $this->_getMe(); 
+        $plugin_id = $plugin->id;
+        
+        $vars = new JObject();
+        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+        $vars->id = $plugin_id;
+        $vars->results = $results;
+        $html = $this->_getLayout('do_tracking', $vars);
+        
+        echo $html;
+    }
+    
     function sendShipmentAjax()
     {
     	$model = JModel::getInstance('Orders', 'TiendaModel');
@@ -118,7 +172,22 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     	
  		if($this->sendShipment($order))
  		{
- 			return JText::_('Shipment Sent');
+ 			$html = JText::_('Shipment Sent').'<br />';
+ 			$path = Tienda::getPath('order_files').DS.$order->order_id;
+        	
+        	$helper = Tienda::getClass('TiendaHelperProduct', 'helpers.product');
+        	$labels = $helper->getServerFiles($path);
+        	 
+        	$plugin = $this->_getMe(); 
+	        $plugin_id = $plugin->id;
+	        
+        	$vars = new JObject();
+	        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+	        $vars->id = $plugin_id;
+	        $vars->labels = $labels;
+	        $vars->order_id = $order->order_id;
+	        $html .= $this->_getLayout('labels', $vars);
+	        return $html;
  		}	
  		else
  		{

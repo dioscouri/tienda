@@ -430,7 +430,9 @@ class TiendaUpsShipment extends TiendaUps
                 $this->response = array();
                 $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
                 return false; 
-            }        
+            }      
+
+         return true;
     }
     
 	/**
@@ -465,6 +467,104 @@ class TiendaUpsShipment extends TiendaUps
     }
 }
 
+/**
+ * Class for Tracking UPS Packages
+ * @author Daniele Rosario
+ *
+*/ 
+class TiendaUpsTracking extends TiendaUps
+{
+	
+	function __construct()
+    {
+        $this->wsdl = dirname( __FILE__ ).DS.'ups_track.wsdl';        
+    }
+    
+ 	function setTrack($track)
+    {
+    	$this->track = $track;
+    }
+    
+	/**
+     * Creates the request array for sending to ups
+     * @return array
+     */
+    function createRequest()
+    {
+		parent::createRequest();
+        
+        $request['Request']['RequestOption'] = '1';
+        
+        $request['InquiryNumber'] = $this->track;
+        
+        
+        $this->request = $request;
+    }
+    
+	function track() 
+    {
+    	
+        try 
+            {
+                $this->response = $this->getClient()->ProcessTrack( $this->getRequest() );
+                
+                if ($this->response->Response->ResponseStatus->Code != '0')
+                {                    
+                	$results = $this->processResponse($this->response->Shipment);
+                	
+                    return $results;
+
+                }
+                    else
+                {
+                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
+                    return false;
+                } 
+                
+                // $this->writeToLog($client);    // Write to log file   
+            
+            } catch (SoapFault $exception) {
+                $this->response = array();
+                $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
+                return false; 
+            }      
+
+         return true;
+    }
+    
+	/**
+     * Processes the response from UPS
+     * @param $response
+     * @return boolean 
+     */
+    protected function processResponse( $response )
+    {
+        if( property_exists( $response, 'Activity' ) )
+        {
+        	$results = array();
+
+        	$activities = $response->Activity;
+        	if(!is_array($activities))
+        		$activities = array($activities);
+        		
+        	$i = 0;
+        	foreach($activities as $activity)
+        	{
+        		$results[$i]['date'] = $activity->Date;
+        		$results[$i]['time'] = $activity->Time;
+        		$results[$i]['description'] = $activity->Description;
+        		$results[$i]['location'] = $activity->ActivityLocation->City .', '.$activity->ActivityLocation->StateProvinceCode.' ( '.$activity->ActivityLocation->CountryCode.' )';
+        		
+        		$i++;
+        	}
+        	
+        } else
+        	return false;
+        
+            
+        return $results;
+    }
+}
 
 ?> 
 
