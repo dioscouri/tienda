@@ -117,7 +117,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$vars->cardtype =JRequest::getVar("card_type");
 		$vars->cardnum = JRequest::getVar("card_number");
 
-		// converting dat in the MMYY format
+		// converting date in the MMYY format
 
 		if( strlen(JRequest::getVar("expiration_month"))==1)
 		{
@@ -139,17 +139,15 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$expire_date=$this->_getFormattedCardExprDate('my',$date);
 
 		$vars->cardexp =$expire_date;
-
-
 		$vars->cardcvv = JRequest::getVar("cvv_number");
 		$vars->cardnum_last4 = substr( JRequest::getVar("card_number"), -4 );
 		$vars->data =$data;
 			
-		 // saving the productpayment_id which will use to update the Transaction fail condition 
-        $session =& JFactory::getSession();
-        
-        // After getiing the response if the transaction will fail it will used
-    	$session->set( 'orderpayment_id', $data['orderpayment_id'] );
+		// saving the productpayment_id which will use to update the Transaction fail condition
+		$session =& JFactory::getSession();
+
+		// After getiing the response if the transaction will fail it will used
+		$session->set( 'orderpayment_id', $data['orderpayment_id'] );
 
 		$html = $this->_getLayout('prepayment', $vars);
 		return $html;
@@ -339,188 +337,138 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$items = $order->getItems();
 		$orderpayment_id = $data['orderpayment_id'];
 		$orderpayment_amount = $data['orderpayment_amount'];
-
+		$amount=$data['orderpayment_amount'];
 		/************************ Request Variables ***************************/
 
 		$store_id = $this->_store_id;
 		$api_token = $this->_api_token;
 
-		/********************* Transactional Variables ************************/
-
-		$type = 'purchase';
-			
-		// genrate the unique Order Id to preserve the payment Id also
-		$orderid ='ord-'.$orderpayment_id.'-'.date("dmy-G:i:s");
-
-		$amount=$data['orderpayment_amount'];
-
-		//Check decimal (.) exist or not
-		$temp_amount =explode ('.',$amount);
-		if( count($temp_amount) <= 1){
-			$amount=$amount.".0";
-		}
-
-		$cust_id = JFactory::getUser()->id;
-		$pan = $data['cardnum']; // '4242424242424242';
-		$expiry_date =  $data['cardexp']; // YYMM, so 0812 = December 2008
-		$crypt = '7'; // SSL-enabled merchant
-		$commcard_invoice = '';
-		$commcard_tax_amount = '';
-
-		/******************* Customer Information Variables ********************/
-
-		//		$first_name = $data['first_name'];
-		//		$last_name = $data['last_name'];
-		//		$company_name = '';
-		//		$address = $data['address_line_1'];
-		//		if ($data['address_line_2']){
-		//			$address .= ", " . $data['address_line_2'];
-		//		}
-		//		$city = $data['city'];
-		//		$province = $data['state'];
-		//		$postal_code = $data['postal_code'];
-		//		$country = @$data['country'];
-		//		$phone_number = '';
-		//		$fax = '';
-		//		$tax1 = '';
-		//		$tax2 = '';
-		//		$tax3 = '';
-		//		$shipping_cost = '';
-		//		$email = JFactory::getUser()->email;
-		$instructions = '';
-		$billing = $this->_getBillingAddress($data) ;
-		/*********************** Line Item Variables **************************/
-		//
-		//		$item_name[0] = $subtype->title;
-		//		$item_quantity[0] = '1';
-		//		$item_product_code[0] = $subtype->title;
-		//		$item_extended_amount[0] = $subtype->value;
-
 		/************************** Recur Variables *****************************/
-		//        if ($subtypeParams->get('is_recurring'))
-		//        {
-		//	        $recurUnit = $subtypeParams->get('recurring_period_unit'); // (day | week | month)
-		//	        $recurInterval = $subtypeParams->get('recurring_period'); // '10';
-		//            $numRecurs = $subtypeParams->get('moneris_recurring_times'); //'4';
-		//	        $recurAmount = $subtype->value;
-		//	        $startNow = 'true';
-		//            $startDate = date("Y/m/d"); // '2006/11/30'; //yyyy/mm/dd
-		//
-		//	        /****************************** Recur Array **************************/
-		//	        $recurArray = array(
-		//	                            'recur_unit'=>$recurUnit,
-		//	                            'start_date'=>$startDate,
-		//	                            'num_recurs'=>$numRecurs,
-		//	                            'start_now'=>$startNow,
-		//	                            'period' => $recurInterval,
-		//	                            'recur_amount'=> $recurAmount
-		//	        );
-		//	        /****************************** Recur Object **************************/
-		//	        $mpgRecur = new mpgRecur($recurArray);
-		//        }
-		
-		
-		
 
-		/************************** AVS Variables *****************************/
+		$is_recurring = $order->isRecurring();
 
-		$avs_street_number = intval( $billing['address'] );
-		$avs_street_name = $billing['address'];
-		$avs_zipcode = $billing['postal_code'];
+		// Check recurring items are present or not
 
-		/************************** CVD Variables *****************************/
+		if ($is_recurring)
+		{
+			$vars->cmd = '_cart';
+			$vars->mixed_cart = true;
+			// Adjust the orderpayment amount since it's a mixed cart
+			// first orderpayment is just the non-recurring items total
+			// then upon return, ask user to checkout again for recurring items
+			$recurAmount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+			$recurInterval = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval; // '10';
+			$numRecurs = recurring_payments; //'4';
+			$recurUnit = $order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit;// (day | week | month)
+			$orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $recurAmount;
+			$orderpayment->save();
+			$amount = $orderpayment->orderpayment_amount;
+			$startNow = 'true';
+			$startDate = date("Y/m/d"); // '2006/11/30'; //yyyy/mm/dd
 
-		$cvd_indicator = '1'; // yes, we're using CVD
-		$cvd_value = $data['cardcvv'];
+			/****************************** Recur Array **************************/
+			$recurArray = array(
+			                    'recur_unit'=>$recurUnit,
+			                    'start_date'=>$startDate,
+			                    'num_recurs'=>$numRecurs,
+			                    'start_now'=>$startNow,
+			                    'period' => $recurInterval,
+			                    'recur_amount'=> $recurAmount
+			);
+		  /****************************** Recur Object **************************/
+			$mpgRecur = new mpgRecur($recurArray);
+		   }
 
-		/********************** AVS Associative Array *************************/
+			/****************** Transactional Variables ************************/
 
-		$avsTemplate = array(
+			$type = 'purchase';
+				
+			// genrate the unique Order Id to preserve the payment Id also
+			$orderid ='ord-'.$orderpayment_id.'-'.date("dmy-G:i:s");
+
+
+
+			//Check decimal (.) exist or not
+			$temp_amount =explode ('.',$amount);
+			if( count($temp_amount) <= 1){
+				$amount=$amount.".0";
+			}
+
+			$cust_id = JFactory::getUser()->id;
+			$pan = $data['cardnum']; // '4242424242424242';
+			$expiry_date =  $data['cardexp']; // YYMM, so 0812 = December 2008
+			$crypt = '7'; // SSL-enabled merchant
+			$commcard_invoice = '';
+			$commcard_tax_amount = '';
+
+			/******************* Customer Information Variables ********************/
+			$instructions = '';
+			$billing = $this->_getBillingAddress($data) ;
+			
+			/************************** AVS Variables *****************************/
+
+			$avs_street_number = intval( $billing['address'] );
+			$avs_street_name = $billing['address'];
+			$avs_zipcode = $billing['postal_code'];
+
+			/************************** CVD Variables *****************************/
+
+			$cvd_indicator = '1'; // yes, we're using CVD
+			$cvd_value = $data['cardcvv'];
+
+			/********************** AVS Associative Array *************************/
+
+			$avsTemplate = array(
 		                     'avs_street_number'=>$avs_street_number,
 		                     'avs_street_name' =>$avs_street_name,
 		                     'avs_zipcode' => $avs_zipcode
-		);
+			);
 
-		/********************** CVD Associative Array *************************/
+			/********************** CVD Associative Array *************************/
 
-		$cvdTemplate = array(
+			$cvdTemplate = array(
 		                     'cvd_indicator' => $cvd_indicator,
 		                     'cvd_value' => $cvd_value
-		);
+			);
 
-		/************************** AVS Object ********************************/
+			/************************** AVS Object ********************************/
 
-		$mpgAvsInfo = new mpgAvsInfo ($avsTemplate);
+			$mpgAvsInfo = new mpgAvsInfo ($avsTemplate);
 
-		/************************** CVD Object ********************************/
+			/************************** CVD Object ********************************/
 
-		$mpgCvdInfo = new mpgCvdInfo ($cvdTemplate);
+			$mpgCvdInfo = new mpgCvdInfo ($cvdTemplate);
 
-		/******************** Customer Information Object *********************/
+			/******************** Customer Information Object *********************/
 
-		$mpgCustInfo = new mpgCustInfo();
+			$mpgCustInfo = new mpgCustInfo();
 
-		/********************** Set Customer Information **********************/
-		//		$billing = array(
-		//		                 'first_name' => $first_name,
-		//		                 'last_name' => $last_name,
-		//		                 'company_name' => $company_name,
-		//		                 'address' => $address,
-		//		                 'city' => $city,
-		//		                 'province' => $province,
-		//		                 'postal_code' => $postal_code,
-		//		                 'country' => $country,
-		//		                 'phone_number' => $phone_number,
-		//		                 'fax' => $fax,
-		//		                 'tax1' => $tax1,
-		//		                 'tax2' => $tax2,
-		//		                 'tax3' => $tax3,
-		//		                 'shipping_cost' => $shipping_cost
-		//		);
+			/********************** Set Customer Information **********************/
+			$mpgCustInfo->setBilling($billing);
+			$shipping = $this->_getShippingAddress($data);
+			$mpgCustInfo->setShipping($shipping);
 
-		$mpgCustInfo->setBilling($billing);
-		//
-		//		$shipping = array(
-		//		                 'first_name' => $first_name,
-		//		                 'last_name' => $last_name,
-		//		                 'company_name' => $company_name,
-		//		                 'address' => $address,
-		//		                 'city' => $city,
-		//		                 'province' => $province,
-		//		                 'postal_code' => $postal_code,
-		//		                 'country' => $country,
-		//		                 'phone_number' => $phone_number,
-		//		                 'fax' => $fax,
-		//		                 'tax1' => $tax1,
-		//		                 'tax2' => $tax2,
-		//		                 'tax3' => $tax3,
-		//		                 'shipping_cost' => $shipping_cost
-		//		);
+			$email = JFactory::getUser()->email;
+			$mpgCustInfo->setEmail($email);
+			$mpgCustInfo->setInstructions($instructions);
 
-		$shipping = $this->_getShippingAddress($data);
-		$mpgCustInfo->setShipping($shipping);
-
-		$email = JFactory::getUser()->email;
-		$mpgCustInfo->setEmail($email);
-		$mpgCustInfo->setInstructions($instructions);
-
-		/*********************** Set Line Item Information *********************/
+			/*********************** Set Line Item Information *********************/
 
 
-		foreach($items as $itemObject)
-		{
-			$items_temp[0] = array(
+			foreach($items as $itemObject)
+			{
+				$items_temp[0] = array(
 		               'name'=>$itemObject->orderitem_name,
 		               'quantity'=>$itemObject->orderitem_quantity,
 		               'product_code'=>$itemObject->orderitem_name,   // NEED TO CONFIRM orderitem_sku
 		               'extended_amount'=>$itemObject->orderitem_price
-			);
-			$mpgCustInfo->setItems($items_temp[0]);
-		}
+				);
+				$mpgCustInfo->setItems($items_temp[0]);
+			}
 
-	/***************** Transactional Associative Array ********************/
+			/***************** Transactional Associative Array ********************/
 
-		$txnArray=array(
+			$txnArray=array(
 		         'type'=>$type,
                  'order_id'=>$orderid,  // Set the $orderpayment_id since we will get back $order_id with it
 				 'cust_id'=>$cust_id,
@@ -558,281 +506,281 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				 $mpgResponse = $mpgHttpPost->getMpgResponse();
 
 				 return $this->_evaluateResponse( $mpgResponse );
-	}
-
-	/**
-	 * Evaluates the response from the payment processor
-	 * and returns html
-	 *
-	 * @param $response
-	 * @return html
-	 */
-	function _evaluateResponse( $response )
-	{
-		$responseCode = $response->getResponseCode();
-
-		if (is_null($responseCode))
-		{
-			// not sent
-			// invalid
-			$error = JText::_( "Payment Request Not Sent" );
-		}
-		elseif ($responseCode < '50')
-		{
-			// approved
-			$data = new JObject();
-			$data->user = JFactory::getUser();
-
-			$data->transaction_id = $response->getTxnNumber();
-			$data->payment_details = $this->_convertResponseToText( $response );
-			$data->transactionId = $response->getTxnNumber();
-
-
-			// Find out the Order payment Id
-			$reciptId= $response->getReceiptId();
-			$temp_reciptid=explode("-",$reciptId);
-			$data->orderpayment_id = $temp_reciptid[1];  // it was created as required at sending time
-
-
-			$error = $this->_processSale( $data, array() );
-			if (empty($error))
-			{
-				// payment processed successfully
-				$error = JText::_( " Processed Successfully" );
-				$error .= $this->_displayArticle();
-			}
-
-		}
-		elseif ($responseCode >= '50')
-		{
-			// declined
-			$data = new JObject();
-			$data->user = JFactory::getUser();
-			$data->transaction_id = $response->getTxnNumber();
-			$data->payment_details = $this->_convertResponseToText( $response );
-			$data->transactionId = $response->getTxnNumber();
-            
-			
-			// Find out the Order payment Id
-			$reciptId= $response->getReceiptId();
-		
-			// since when the transaction fails it return null
-			if($reciptId != "null")
-			{
-			$temp_reciptid=explode("-",$reciptId);
-			$data->orderpayment_id = $temp_reciptid[1];  // it was created as required at sending time
-			}
-			else {
-				// TODO when the response is comming null 
-				
-				 $error = JText::_( "Payment Declined Recipit could not recived or null  " );
-				 // saving the orderpayment_id which will use to update the Transaction fail condition 
-//                $session =& JFactory::getSession();
-//                var_dump($session); 
-//				$data->orderpayment_id=; // Set the order pament Id from session which saved at the time of payment creation 
-                return $error ;
-			}
-			$error = $this->_saveTransaction( $data, array(JText::_( "Payment Declined" )) );
-			$error = JText::_( "Payment Declined" );
-		}
-		else
-		{
-			// should never end up here,
-			// but is invalid if it does
-			$error = JText::_( "Payment Invalid" );
 		}
 
-		return $error;
-	}
-
-
-
-
-	/*
-	 * Process to complete the sale
-	 * It will update the Oreder and order payment on the basis of the response
-	 * @param  data Array of response
-	 * @param  error
-	 */
-	function _processSale( $data, $error='')
-	{
-		/*
-		 * validate the payment data
+		/**
+		 * Evaluates the response from the payment processor
+		 * and returns html
+		 *
+		 * @param $response
+		 * @return html
 		 */
-		$errors = array();
-
-		if (!empty($error))
+		function _evaluateResponse( $response )
 		{
-			$errors[] = $error;
+			$responseCode = $response->getResponseCode();
+
+			if (is_null($responseCode))
+			{
+				// not sent
+				// invalid
+				$error = JText::_( "Payment Request Not Sent" );
+			}
+			elseif ($responseCode < '50')
+			{
+				// approved
+				$data = new JObject();
+				$data->user = JFactory::getUser();
+
+				$data->transaction_id = $response->getTxnNumber();
+				$data->payment_details = $this->_convertResponseToText( $response );
+				$data->transactionId = $response->getTxnNumber();
+
+
+				// Find out the Order payment Id
+				$reciptId= $response->getReceiptId();
+				$temp_reciptid=explode("-",$reciptId);
+				$data->orderpayment_id = $temp_reciptid[1];  // it was created as required at sending time
+
+
+				$error = $this->_processSale( $data, array() );
+				if (empty($error))
+				{
+					// payment processed successfully
+					$error = JText::_( " Processed Successfully" );
+					$error .= $this->_displayArticle();
+				}
+
+			}
+			elseif ($responseCode >= '50')
+			{
+				// declined
+				$data = new JObject();
+				$data->user = JFactory::getUser();
+				$data->transaction_id = $response->getTxnNumber();
+				$data->payment_details = $this->_convertResponseToText( $response );
+				$data->transactionId = $response->getTxnNumber();
+
+					
+				// Find out the Order payment Id
+				$reciptId= $response->getReceiptId();
+
+				// since when the transaction fails it return null
+				if($reciptId != "null")
+				{
+					$temp_reciptid=explode("-",$reciptId);
+					$data->orderpayment_id = $temp_reciptid[1];  // it was created as required at sending time
+				}
+				else {
+					// TODO when the response is comming null
+
+				 $error = JText::_( "Payment Declined Recipit could not recived or null  " );
+				 // saving the orderpayment_id which will use to update the Transaction fail condition
+				 //                $session =& JFactory::getSession();
+				 //                var_dump($session);
+				 //				$data->orderpayment_id=; // Set the order pament Id from session which saved at the time of payment creation
+				 return $error ;
+				}
+				$error = $this->_saveTransaction( $data, array(JText::_( "Payment Declined" )) );
+				$error = JText::_( "Payment Declined" );
+			}
+			else
+			{
+				// should never end up here,
+				// but is invalid if it does
+				$error = JText::_( "Payment Invalid" );
+			}
+
+			return $error;
 		}
-		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-
-		$orderpayment->load($data->orderpayment_id );
-
-		//	Svaing Financial order state
-		$orderpayment->transaction_details  = $data->payment_details;
-
-		// Svaing payment status Completed
-		$orderpayment->transaction_status   = $data->transactionId;
 
 
-		// Svaing payment transaction_id as TXN number
-		$orderpayment->transaction_id   = "Completed";
 
-		// set the order's new status and update quantities if necessary
-		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $orderpayment->order_id );
-		if (count($errors))
+
+		/*
+		 * Process to complete the sale
+		 * It will update the Oreder and order payment on the basis of the response
+		 * @param  data Array of response
+		 * @param  error
+		 */
+		function _processSale( $data, $error='')
 		{
-			// if an error occurred
-			$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+			/*
+			 * validate the payment data
+			 */
+			$errors = array();
+
+			if (!empty($error))
+			{
+				$errors[] = $error;
+			}
+			// load the orderpayment record and set some values
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+
+			$orderpayment->load($data->orderpayment_id );
+
+			//	Svaing Financial order state
+			$orderpayment->transaction_details  = $data->payment_details;
+
+			// Svaing payment status Completed
+			$orderpayment->transaction_status   = $data->transactionId;
+
+
+			// Svaing payment transaction_id as TXN number
+			$orderpayment->transaction_id   = "Completed";
+
+			// set the order's new status and update quantities if necessary
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order->load( $orderpayment->order_id );
+			if (count($errors))
+			{
+				// if an error occurred
+				$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+			}
+			else
+			{
+				$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+				$this->setOrderPaymentReceived( $orderpayment->order_id );
+
+				// send email
+				$send_email = true;
+			}
+
+			// update the order
+			if (!$order->save())
+			{
+				$errors[] = $order->getError();
+			}
+
+			// update the orderpayment
+			if (!$orderpayment->save())
+			{
+				$errors[] = $orderpayment->getError();
+			}
+
+			// TODO Send mail on payment charged
+			//	if ($send_email)
+			//	{
+			//		// send notice of new order
+			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			//		$helper = TiendaHelperBase::getInstance('Email');
+			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+			//		$model->setId( $orderpayment->order_id );
+			//		$order = $model->getItem();
+			//		$helper->sendEmailNotices($order, 'new_order');
+			//	}
+
+			return count($errors) ? implode("\n", $errors) : '';
 		}
-		else
+
+		/**
+		 *  this is updating the transaction id and staus in case of not completed state
+		 *	@param  data Array of response
+		 *	@param  error
+		 */
+		function _saveTransaction($data, $error='')
 		{
-			$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-			$this->setOrderPaymentReceived( $orderpayment->order_id );
 
-			// send email
-			$send_email = true;
+			$errors = array();
+			if (!empty($error))
+			{
+				$errors[] = $error;
+			}
+
+			// load the orderpayment record and set some values
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+
+			$orderpayment->load($data->orderpayment_id );
+
+			//	Svaing Financial order state
+			$orderpayment->transaction_details  = $data->payment_details;
+
+			// Svaing payment status Completed
+			$orderpayment->transaction_status   = "Payment Declined";
+
+			// Svaing payment status Completed
+			$orderpayment->transaction_status   = $data->transactionId;
+			;
+
+			// update the orderpayment
+			if (!$orderpayment->save())
+			{
+				$errors[] = $orderpayment->getError();
+			}
+
+			// TODO Send mail on payment charged
+			//	if ($send_email)
+			//	{
+			//		// send notice of new order
+			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			//		$helper = TiendaHelperBase::getInstance('Email');
+			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+			//		$model->setId( $orderpayment->order_id );
+			//		$order = $model->getItem();
+			//		$helper->sendEmailNotices($order, 'new_order');
+			//	}
+
+			return count($errors) ? implode("\n", $errors) : '';
 		}
 
-		// update the order
-		if (!$order->save())
+		/**
+		 *
+		 * @param $response
+		 * @return unknown_type
+		 */
+		function _convertResponseToText( $response )
 		{
-			$errors[] = $order->getError();
+			$string = "";
+			$string .= "\nCardType = " . $response->getCardType() ;
+			$string .= "\nTransAmount = " . $response->getTransAmount();
+			$string .= "\nTxnNumber = " . $response->getTxnNumber();
+			$string .= "\nReceiptId = " . $response->getReceiptId();
+			$string .= "\nTransType = " . $response->getTransType();
+			$string .= "\nReferenceNum = " . $response->getReferenceNum();
+			$string .= "\nResponseCode = " . $response->getResponseCode();
+			$string .= "\nISO = " . $response->getISO();
+			$string .= "\nMessage = " . $response->getMessage();
+			$string .= "\nAuthCode = " . $response->getAuthCode();
+			$string .= "\nComplete = " . $response->getComplete();
+			$string .= "\nTransDate = " . $response->getTransDate();
+			$string .= "\nTransTime = " . $response->getTransTime();
+			$string .= "\nTicket = " . $response->getTicket();
+			$string .= "\nTimedOut = " . $response->getTimedOut();
+			$string .= "\nRecurSuccess = " . $response->getRecurSuccess();
+			return $string;
 		}
 
-		// update the orderpayment
-		if (!$orderpayment->save())
+		/*
+		 * Get the Billing Array from the Order info
+		 */
+
+		function _getBillingAddress($data)
 		{
-			$errors[] = $orderpayment->getError();
-		}
+			// order info
+			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-		// TODO Send mail on payment charged
-		//	if ($send_email)
-		//	{
-		//		// send notice of new order
-		//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		//		$helper = TiendaHelperBase::getInstance('Email');
-		//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-		//		$model->setId( $orderpayment->order_id );
-		//		$order = $model->getItem();
-		//		$helper->sendEmailNotices($order, 'new_order');
-		//	}
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order->load( $data['order_id'] );
 
-		return count($errors) ? implode("\n", $errors) : '';
-	}
+			$address = $orderinfo->billing_address_1;
+			if ($orderinfo->billing_address_2){
+				$address .= ", " . $orderinfo->billing_address_1;
+			}
+			$phone_number = '';
+			$fax = '';
+			$tax1 = '';
+			$tax2 = '';
+			$tax3 = '';
+			$shipping_cost = $order->order_shipping;
+			$email = JFactory::getUser()->email;
+			$instructions = '';
 
-	/**
-	 *  this is updating the transaction id and staus in case of not completed state
-	 *	@param  data Array of response
-	 *	@param  error
-	 */
-	function _saveTransaction($data, $error='')
-	{
-
-		$errors = array();
-		if (!empty($error))
-		{
-			$errors[] = $error;
-		}
-		
-		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-
-		$orderpayment->load($data->orderpayment_id );
-
-		//	Svaing Financial order state
-		$orderpayment->transaction_details  = $data->payment_details;
-
-		// Svaing payment status Completed
-		$orderpayment->transaction_status   = "Payment Declined";
-
-		// Svaing payment status Completed
-		$orderpayment->transaction_status   = $data->transactionId;
-		;
-
-		// update the orderpayment
-		if (!$orderpayment->save())
-		{
-			$errors[] = $orderpayment->getError();
-		}
-
-		// TODO Send mail on payment charged
-		//	if ($send_email)
-		//	{
-		//		// send notice of new order
-		//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		//		$helper = TiendaHelperBase::getInstance('Email');
-		//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-		//		$model->setId( $orderpayment->order_id );
-		//		$order = $model->getItem();
-		//		$helper->sendEmailNotices($order, 'new_order');
-		//	}
-
-		return count($errors) ? implode("\n", $errors) : '';
-	}
-
-	/**
-	 *
-	 * @param $response
-	 * @return unknown_type
-	 */
-	function _convertResponseToText( $response )
-	{
-		$string = "";
-		$string .= "\nCardType = " . $response->getCardType() ;
-		$string .= "\nTransAmount = " . $response->getTransAmount();
-		$string .= "\nTxnNumber = " . $response->getTxnNumber();
-		$string .= "\nReceiptId = " . $response->getReceiptId();
-		$string .= "\nTransType = " . $response->getTransType();
-		$string .= "\nReferenceNum = " . $response->getReferenceNum();
-		$string .= "\nResponseCode = " . $response->getResponseCode();
-		$string .= "\nISO = " . $response->getISO();
-		$string .= "\nMessage = " . $response->getMessage();
-		$string .= "\nAuthCode = " . $response->getAuthCode();
-		$string .= "\nComplete = " . $response->getComplete();
-		$string .= "\nTransDate = " . $response->getTransDate();
-		$string .= "\nTransTime = " . $response->getTransTime();
-		$string .= "\nTicket = " . $response->getTicket();
-		$string .= "\nTimedOut = " . $response->getTimedOut();
-		$string .= "\nRecurSuccess = " . $response->getRecurSuccess();
-		return $string;
-	}
-
-	/*
-	 * Get the Billing Array from the Order info
-	 */
-
-	function _getBillingAddress($data)
-	{
-		// order info
-		$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
-		$orderinfo->load( array( 'order_id'=>$data['order_id']) );
-
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $data['order_id'] );
-
-		$address = $orderinfo->billing_address_1;
-		if ($orderinfo->billing_address_2){
-			$address .= ", " . $orderinfo->billing_address_1;
-		}
-		$phone_number = '';
-		$fax = '';
-		$tax1 = '';
-		$tax2 = '';
-		$tax3 = '';
-		$shipping_cost = $order->order_shipping;
-		$email = JFactory::getUser()->email;
-		$instructions = '';
-
-		$billing = array(
+			$billing = array(
 			                 'first_name' => $orderinfo->billing_first_name,
 			                 'last_name' =>$orderinfo->billing_last_name,
 			                 'company_name' =>$orderinfo->billing_company,
@@ -847,49 +795,49 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			                 'tax2' => $tax2,
 			                 'tax3' => $tax3,
 			                 'shipping_cost' => $shipping_cost
-		);// "5424000000000015";
+			);// "5424000000000015";
 
 
-		return $billing;
-	}
-
-
-	/*
-	 * Get the Shiiping Array from the Order info
-	 */
-
-	function _getShippingAddress($data)
-	{
-		/// order info
-		$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
-		$orderinfo->load( array( 'order_id'=>$data['order_id']) );
-
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $data['order_id'] );
-
-		$address = $orderinfo->shipping_address_1;
-		if ($orderinfo->shipping_address_2){
-			$address .= ", " . $orderinfo->shipping_address_1;
+			return $billing;
 		}
-		$phone_number = '';
-		$fax = '';
-		$tax1 = '';
-		$tax2 = '';
-		$tax3 = '';
-		$shipping_cost = $order->order_shipping;
-		$email = JFactory::getUser()->email;
-		$instructions = '';
 
-		$shipping =array();
-		// Check shipping Address is present or not
-		if ($orderinfo->shipping_first_name == null){
 
-			$shipping = $this->_getBillingAddress($data);
-		}
-		else {
+		/*
+		 * Get the Shiiping Array from the Order info
+		 */
 
-			$shipping = array(
+		function _getShippingAddress($data)
+		{
+			/// order info
+			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
+
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order->load( $data['order_id'] );
+
+			$address = $orderinfo->shipping_address_1;
+			if ($orderinfo->shipping_address_2){
+				$address .= ", " . $orderinfo->shipping_address_1;
+			}
+			$phone_number = '';
+			$fax = '';
+			$tax1 = '';
+			$tax2 = '';
+			$tax3 = '';
+			$shipping_cost = $order->order_shipping;
+			$email = JFactory::getUser()->email;
+			$instructions = '';
+
+			$shipping =array();
+			// Check shipping Address is present or not
+			if ($orderinfo->shipping_first_name == null){
+
+				$shipping = $this->_getBillingAddress($data);
+			}
+			else {
+
+				$shipping = array(
 			                'first_name' => $orderinfo->shipping_first_name,
 			                 'last_name' =>$orderinfo->shipping_last_name,
 			                 'company_name' =>$orderinfo->shipping_company,
@@ -904,10 +852,10 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			                 'tax2' => $tax2,
 			                 'tax3' => $tax3,
 			                 'shipping_cost' => $shipping_cost
-			);// "5424000000000015";
+				);// "5424000000000015";
 
+			}
+			return $shipping;
 		}
-		return $shipping;
-	}
 
-}
+	}
