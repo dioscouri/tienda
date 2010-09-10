@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Tienda Example Plugin for Modifying Checkout Workflow</name>
+	<name>Tienda Plugin for Requiring Phone Numbers During Checkout</name>
 	<version>0.5.5</version>
 	<creationDate>August 2010</creationDate>
 	<author>Dioscouri</author>
@@ -8,15 +8,14 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This Plugin demonstrates how to modify the checkout workflow</description>
+	<description>This Plugin forces phone numbers to be required during checkout</description>
 	
 	<files>
-		<filename plugin="checkoutexample">checkoutexample.php</filename>
-		<folder>checkoutexample</folder>	
+		<filename plugin="requirephonenumber">requirephonenumber.php</filename>
 	</files>
 
     <languages>
-        <language tag="en-GB">languages/en-GB.plg_tienda_checkoutexample.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_tienda_requirephonenumber.ini</language>
     </languages>
     
 	<params>

@@ -280,6 +280,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		else
 		{
 			$this->setError($ups->getError().$ups->getClient()->__getLastRequest());
+			//$this->setError( $ups->getError(). " <br/>REQUEST:<br/> " .Tienda::dump( $ups->getClient()->__getLastRequest() ));
 			return false;
 		}
         

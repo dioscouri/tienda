@@ -187,6 +187,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_checkoutexample/languages" />
         </copy>
+        <!-- REQUIRE PHONE NUMBER -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber/languages" />
+        </copy>
     <!-- PAYMENT PLUGINS -->
     	<!-- 2CHECKOUT -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -206,13 +213,10 @@
 		  <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_ambrapoints" />
         </copy>
-    	<!-- GOOGLE CHECKOUT -->
     	<!-- MONERIS -->
-		
 		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
         <fileset dir="${cfg.aux}/tienda_plugin_payment_moneris" />
 		</copy>
-    	
 		<!-- MONEYBOOKERS -->
     	<!-- OFFLINE -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -249,7 +253,7 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_payson/languages" />
         </copy>	
-		<!-- GOOGLR CHECKOUT  -->
+		<!-- GOOGLE CHECKOUT  -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_googlecheckout" />
         </copy>
