@@ -145,6 +145,11 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$vars->cardnum_last4 = substr( JRequest::getVar("card_number"), -4 );
 		$vars->data =$data;
 			
+		 // saving the productpayment_id which will use to update the Transaction fail condition 
+        $session =& JFactory::getSession();
+        
+        // After getiing the response if the transaction will fail it will used
+    	$session->set( 'orderpayment_id', $data['orderpayment_id'] );
 
 		$html = $this->_getLayout('prepayment', $vars);
 		return $html;
@@ -413,6 +418,9 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		//	        /****************************** Recur Object **************************/
 		//	        $mpgRecur = new mpgRecur($recurArray);
 		//        }
+		
+		
+		
 
 		/************************** AVS Variables *****************************/
 
@@ -603,12 +611,27 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			$data->transaction_id = $response->getTxnNumber();
 			$data->payment_details = $this->_convertResponseToText( $response );
 			$data->transactionId = $response->getTxnNumber();
-
+            
+			
 			// Find out the Order payment Id
 			$reciptId= $response->getReceiptId();
+		
+			// since when the transaction fails it return null
+			if($reciptId != "null")
+			{
 			$temp_reciptid=explode("-",$reciptId);
 			$data->orderpayment_id = $temp_reciptid[1];  // it was created as required at sending time
-
+			}
+			else {
+				// TODO when the response is comming null 
+				
+				 $error = JText::_( "Payment Declined Recipit could not recived or null  " );
+				 // saving the orderpayment_id which will use to update the Transaction fail condition 
+//                $session =& JFactory::getSession();
+//                var_dump($session); 
+//				$data->orderpayment_id=; // Set the order pament Id from session which saved at the time of payment creation 
+                return $error ;
+			}
 			$error = $this->_saveTransaction( $data, array(JText::_( "Payment Declined" )) );
 			$error = JText::_( "Payment Declined" );
 		}
@@ -713,11 +736,11 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	{
 
 		$errors = array();
-
 		if (!empty($error))
 		{
 			$errors[] = $error;
 		}
+		
 		// load the orderpayment record and set some values
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
