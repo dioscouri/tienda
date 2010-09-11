@@ -17,6 +17,7 @@ drop table if exists `#__tienda_currencies`;
 drop table if exists `#__tienda_geozones`;
 drop table if exists `#__tienda_geozonetypes`;
 drop table if exists `#__tienda_manufacturers`;
+drop table if exists `#__tienda_ordercoupons`;
 drop table if exists `#__tienda_orderhistory`;
 drop table if exists `#__tienda_orderinfo`;
 drop table if exists `#__tienda_orderitems`;
