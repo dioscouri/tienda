@@ -97,6 +97,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
+      
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
@@ -120,7 +121,13 @@ class TiendaHelperOrder extends TiendaHelperBase
                     $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
                     $productDownload->product_id = $orderitem->product_id;
                     $productDownload->productfile_id = $item->productfile_id;
-                    $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
+                    // Applied the Product Max download for the product download
+                      
+                     $producTables = JTable::getInstance('Products', 'TiendaTable');
+                     $producTables->load($orderitem->product_id);
+                     $productDownload->productdownload_max = $producTables->productdownload_max;
+                     // $productDownload->productdownload_max = '-1';
+                    // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
                     $productDownload->order_id = $order->order_id;
                     $productDownload->user_id = $order->user_id;
                     if (!$productDownload->save())

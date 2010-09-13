@@ -24,6 +24,7 @@
     		<th><?php echo JText::_( "Purchase Required" ); ?></th>
     		<th><?php echo JText::_( "Enabled" ); ?></th>
     		<th></th>
+    		<th><?php echo JText::_( "Max number of Downloads" ); ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -40,6 +41,10 @@
             <td style="text-align: center;">
                 <input name="createproductfile_file" type="file" size="40" />
             </td>
+           <td>
+            <input type="text" name="max_download" id="max_download" value="-1" size="30" maxlength="250" />
+           </td>
+            
     	</tr>
     	</tbody>
     </table>
@@ -60,6 +65,7 @@
     		<th><?php echo JText::_( "Purchase Required" ); ?></th>
     		<th><?php echo JText::_( "Enabled" ); ?></th>
     		<th></th>
+    		<th><?php echo JText::_( "Max number of Downloads" ); ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -87,6 +93,10 @@
 					echo JHTMLSelect::genericlist($list, 'createproductfile_file');
                 ?>
             </td>
+             <td>
+            <input type="text" name="max_download" id="max_download" value="-1" size="30" maxlength="250" />
+           </td>
+            
     	</tr>
     	</tbody>
     </table>
@@ -118,6 +128,13 @@
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Enabled', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                  <!-- // TODO make it  sortable  --> 
+                     <?php
+                      //TODO for sorting 
+                     //echo TiendaGrid::sort( 'Max download', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo JText::_( 'Max Download'); ?>
+                </th>
 				<th style="width: 100px;">
 				</th>
             </tr>
@@ -140,6 +157,9 @@
 				</td>
                 <td style="text-align: center;">
                     <?php echo JHTML::_('select.booleanlist', "enabled[".$item->productfile_id."]", '', $item->productfile_enabled ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <input type="text" name="max_download[<?php echo $item->productfile_id; ?>]" value="<?php echo $item->max_download; ?>" size="10" />
                 </td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=<?php echo $item->productfile_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component"); ?>">

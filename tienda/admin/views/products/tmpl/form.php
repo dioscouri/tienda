@@ -421,6 +421,7 @@ window.addEvent('domready', function(){
             <fieldset>
             <legend><?php echo JText::_( "Files" ); ?></legend>
             <table class="admintable" style="width: 100%;">
+             
                 <?php 
                 if (empty($row->product_id)) 
                 {

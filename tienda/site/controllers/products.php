@@ -643,7 +643,6 @@ class TiendaControllerProducts extends TiendaController
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}
-
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
 		$productfile->load( $productfile_id );
@@ -659,10 +658,26 @@ class TiendaControllerProducts extends TiendaController
 		Tienda::load( 'TiendaFile', 'library.file' );
 		// Log the download
 		$productfile->logDownload( $user->id );
-		if ($downloadFile = TiendaFile::download( $productfile ))
+		
+		// After download complete it will update the productdownloads on the basis of the user 
+		
+       // geting the ProductDownloadId to updated for which productdownload_max  is greater then 0
+	    $productToDownload = $helper->getProductDownloadInfo($productfile->productfile_id, $user->id);;
+        
+        if(!empty($productToDownload))
+        {
+         $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+         $productDownload->load($productToDownload->productdownload_id);
+         $productDownload->productdownload_max = $productDownload->productdownload_max-1;
+         if(!$productDownload->save()) 
+         {
+           // TODO in case product Download is not updating properly .
+         }
+        }
+     if ($downloadFile = TiendaFile::download( $productfile ))
 		{
 			$link = JRoute::_( $link, false );
-			$this->setRedirect( $link );
+			 $this->setRedirect( $link );
 		}
 	}
 

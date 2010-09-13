@@ -63,4 +63,5 @@ class TiendaTableProductDownloads extends TiendaTable
         // if the enddate is 0000-00-00 then the download never expires
 		return true;
 	}
+	
 }

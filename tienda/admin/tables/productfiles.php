@@ -85,19 +85,28 @@ class TiendaTableProductFiles extends TiendaTable
         {
             return true;
         }
+ // or because they have purchased it and the num_downloads is < max (or max == -1)
+//        $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
+//        $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
         
-        // or because they have purchased it and the num_downloads is < max (or max == -1)
-        $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
-        $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
+//        no need of logs 
+//        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+//        $model = JModel::getInstance( 'ProductDownloadLogs', 'TiendaModel' );
+//        $model->setState('filter_productfile', $this->productfile_id);
+//        $model->setState('filter_user', $user_id);
+//        $items = $model->getList();
+//        $num_downloads = count( $items );
         
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductDownloadLogs', 'TiendaModel' );
-        $model->setState('filter_productfile', $this->productfile_id);
-        $model->setState('filter_user', $user_id);
-        $items = $model->getList();
-        $num_downloads = count( $items );
-        
-        if (!empty($productdownloads->productdownload_id) && ( $productdownloads->productdownload_max == '-1' || $num_downloads < $productdownloads->productdownload_max) )
+//        if (!empty($productdownloads->productdownload_id) && ( $productdownloads->productdownload_max == '-1' || $num_downloads < $productdownloads->productdownload_max) )
+//        {
+//            return true;
+//        }
+
+        // Check the is it unlimited numbers of downloads 
+         $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
+	     $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
+         
+         if ( $productdownloads->productdownload_max == '-1')
         {
             return true;
         }
