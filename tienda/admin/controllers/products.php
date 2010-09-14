@@ -1246,6 +1246,7 @@ class TiendaControllerProducts extends TiendaController
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
 		$enabled = JRequest::getVar('enabled', array(0), 'request', 'array');
 		$purchaserequired = JRequest::getVar('purchaserequired', array(0), 'request', 'array');
+		$max_download = JRequest::getVar('max_download', array(0), 'request', 'array');
 
 		foreach (@$cids as $cid)
 		{
@@ -1254,8 +1255,8 @@ class TiendaControllerProducts extends TiendaController
 			$row->ordering = $ordering[$cid];
 			$row->productfile_enabled = $enabled[$cid];
 			$row->purchase_required = $purchaserequired[$cid];
-
-			if (!$row->check() || !$row->store())
+			$row->max_download = $max_download[$cid];
+     		if (!$row->check() || !$row->store())
 			{
 				$this->message .= $row->getError();
 				$this->messagetype = 'notice';

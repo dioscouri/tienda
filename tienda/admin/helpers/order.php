@@ -105,7 +105,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         {
             foreach ($order->orderitems as $orderitem)
             {
-                // if this orderItem product has productfiles that are enabled and only available when product is purchased
+            	// if this orderItem product has productfiles that are enabled and only available when product is purchased
                 $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
                 $model->setState( 'filter_product', $orderitem->product_id );
                 $model->setState( 'filter_enabled', 1 );
@@ -114,18 +114,14 @@ class TiendaHelperOrder extends TiendaHelperBase
                 {
                     continue;
                 }
-                
                 // then add them to the order as a productdownloads table object
                 foreach ($items as $item)
                 {
                     $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
                     $productDownload->product_id = $orderitem->product_id;
                     $productDownload->productfile_id = $item->productfile_id;
-                    // Applied the Product Max download for the product download
-                      
-                     $producTables = JTable::getInstance('Products', 'TiendaTable');
-                     $producTables->load($orderitem->product_id);
-                     $productDownload->productdownload_max = $producTables->productdownload_max;
+                    // Applied the file's Max download for the product download max
+                    $productDownload->productdownload_max = ($item->max_download) * ($orderitem->orderitem_quantity);
                      // $productDownload->productdownload_max = '-1';
                     // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
                     $productDownload->order_id = $order->order_id;
