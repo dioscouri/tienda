@@ -239,6 +239,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsReported FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	 if (!$this->checkProductFilesMaxDownload())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductFilesMaxDownload FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -1839,6 +1843,39 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;     
     }
     
-    
+ 	/**
+     * Checks the productfiles table for the max_download field
+     * As of v0.5.2
+     * 
+     * return boolean
+     */
+    function checkProductFilesMaxDownload()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductFilesMaxDownload', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productfiles';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "max_download";
+            $definitions["max_download"] = "INT NULL DEFAULT '-1'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductFilesMaxDownload') );
+            $config->config_name = 'checkProductFilesMaxDownload';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
     
 }

@@ -24,7 +24,7 @@
     		<th><?php echo JText::_( "Purchase Required" ); ?></th>
     		<th><?php echo JText::_( "Enabled" ); ?></th>
     		<th></th>
-    		<th><?php echo JText::_( "Max number of Downloads" ); ?></th>
+    		<th><?php echo JText::_( "Max number of Downloads" ); ?><br><?php echo "(".JText::_( "Use -1 for unlimted downloading " ).")" ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -65,7 +65,9 @@
     		<th><?php echo JText::_( "Purchase Required" ); ?></th>
     		<th><?php echo JText::_( "Enabled" ); ?></th>
     		<th></th>
-    		<th><?php echo JText::_( "Max number of Downloads" ); ?></th>
+    		<th><?php echo JText::_( "Max number of Downloads" ); ?>
+    		<br><?php echo "(".JText::_( "Use -1 for unlimted downloading " ).")" ?>
+    		</th>
     	</tr>
     	</thead>
     	<tbody>
@@ -133,7 +135,8 @@
                      <?php
                       //TODO for sorting 
                      //echo TiendaGrid::sort( 'Max download', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
-                    <?php echo JText::_( 'Max Download'); ?>
+                    <?php echo JText::_( 'Max Download');  ?>
+                    <br><?php echo "(".JText::_( "Use -1 for unlimted downloading " ).")" ?>
                 </th>
 				<th style="width: 100px;">
 				</th>
