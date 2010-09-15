@@ -37,8 +37,10 @@ class TiendaModelProducts extends TiendaModelBase
         $filter_published   = $this->getState('filter_published');
         $filter_published_date  = $this->getState('filter_published_date');
 		$filter_manufacturer = $this->getState('filter_manufacturer');
+		$filter_multicategory = $this->getState('filter_multicategory');
+	    $filter_description = $this->getState('filter_description');
         
-       	if ($filter) 
+	    if ($filter) 
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
 
@@ -168,10 +170,11 @@ class TiendaModelProducts extends TiendaModelBase
                   break;
             }
         }
-        
-		if (strlen($filter_manufacturer))
+       	if (strlen($filter_manufacturer))
 		{
-			$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
+			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer ) ) ).'%');
+        	$query->where('LOWER(tbl.manufacturer_id) LIKE '.$key);
+			//$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
 		}
 		
         if (strlen($filter_published))
@@ -180,7 +183,27 @@ class TiendaModelProducts extends TiendaModelBase
         	$query->where("(tbl.publish_date <= '".$filter_published_date."' AND (tbl.unpublish_date > '".$filter_published_date."' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
         }
         
-    }
+        // Creating the in clause for the case of the multiple category filter
+        $in_category_clause= "";	
+		foreach (((array)$filter_multicategory)as $category)
+		{
+			if (strlen($category))
+		       	{
+		       		$in_category_clause= $in_category_clause.$category.",";
+		       		
+		       	}
+		}
+		if($in_category_clause !="")
+		{
+			$in_category_clause=substr($in_category_clause,0,-1);
+            $query->where('p2c.category_id IN('.$in_category_clause.')' );
+		}
+    	 if (strlen($filter_description))
+        {
+        	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_description ) ) ).'%');
+        	$query->where('LOWER(tbl.product_description) LIKE '.$key);
+       	} 
+     }
     
 	protected function _buildQueryJoins(&$query)
 	{
