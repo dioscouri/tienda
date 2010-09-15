@@ -37,16 +37,15 @@ class TiendaControllerSearch extends TiendaController
 		$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
 		$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
 		$state['filter_name'] 		= $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-		$state['filter_enabled'] 	= 1; // Show only enable products 
+		$state['filter_enabled'] 	= 1; 
 		$state['filter_category'] 	= $app->getUserStateFromRequest($ns.'filter_category', 'filter_category', '', ''); 
-		
-		// seting the from quantity more then 1
-		if( ! empty($_POST['filter_stock']))
+	    $state['filter_stock'] = $app->getUserStateFromRequest($ns.'filter_stock', 'filter_stock', '', '');
+                
+		if (!empty($state['filter_stock']))
 		{ 
 			$state['filter_quantity_from'] 	= 1;
-			
 		}
-		else 
+    		else 
 		{   
 			$state['filter_quantity_from'] 	= $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
 		}

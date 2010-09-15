@@ -27,13 +27,8 @@
                 	
                 	
                 	<div class="filtershipping" >
-                    <span class="label"><?php echo JText::_("Shipping Require"); ?>: </span> 
-                    
-                     <span class="label"><?php echo JText::_("Yes"); ?>: </span> <input type="radio" name="filter_ships" id="filter_ships" value="1"  <?php echo @$state->filter_ships== 1? 'checked' : ''; ?>/>
-                     <span class="label"><?php echo JText::_("No"); ?>: </span> <input type="radio" name="filter_ships" id="filter_ships" value="0" <?php echo @$state->filter_ships== 0? 'checked' : ''; ?>  />
-                     <span class="label"><?php echo JText::_("All"); ?>: </span> <input type="radio" name="filter_ships" id="filter_ships" value="" <?php echo @$state->filter_ships== "" ? 'checked' : ''; ?> />
-                    
-                	<?php // echo TiendaSelect::booleans( @$state->filter_ships, 'filter_ships', $attribs, 'ships', true, 'Requires Shipping', 'Yes', 'No' ); ?>
+                        <span class="label"><?php echo JText::_("Requires Shipping"); ?>: </span> 
+                        <?php echo TiendaSelect::booleans( @$state->filter_ships, 'filter_ships', '', 'ships', true, "Doesn't Matter", 'Yes', 'No' ); ?>
                 	 </div>
                 	
                 	 <div class="filtersku" >   
@@ -49,11 +44,9 @@
 	                	</div>
                 	</div>
                 
-                	<div class="quantitty">
-                	
-	                	<span class="label"><?php echo JText::_("Avialble in Stock"); ?>: </span> 
-	                	<input type="checkbox" name="filter_stock" id="filter_stock" />
-	                    	
+                	<div class="quantity">
+	                	<span class="label"><?php echo JText::_("Show only Items that are in Stock"); ?>: </span>
+	                	<?php echo TiendaSelect::booleanlist( 'filter_stock', '', @$state->filter_stock ); ?> 
                 	</div>
                 	
                 	<div class="filterdescription" >   
