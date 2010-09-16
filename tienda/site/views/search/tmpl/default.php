@@ -74,7 +74,6 @@
                     
                     <div class="row submit" >   
                 	 <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_("Search") ?>"/>
-                	  <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_("Search") ?>"/>
                     </div>
             </div>
 	<hr width="100%"> 
