@@ -176,7 +176,6 @@ class TiendaControllerProducts extends TiendaController
 	 * @see tienda/site/TiendaController#view()
 	 */
 	function view()
-	
 	{
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$model  = $this->getModel( $this->get('suffix') );

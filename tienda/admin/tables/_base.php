@@ -228,6 +228,13 @@ class TiendaTable extends JTable
 	 */
 	function save()
 	{
+	    $this->_isNew = false;
+	    $key = $this->getKeyName();
+	    if (empty($this->$key))
+        {
+            $this->_isNew = true;
+        }
+        
 		if ( !$this->check() )
 		{
 			return false;
