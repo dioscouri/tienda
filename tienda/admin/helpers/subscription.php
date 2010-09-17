@@ -101,7 +101,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $model->setState("filter_datetype", 'expires' );
-        $model->setState("filter_date_from", $today );
+        $model->setState("filter_date_to", $today );
         $model->setState("filter_enabled", '1' );
         if ($list = $model->getList())
         {
