@@ -24,7 +24,7 @@ $url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search' , fals
             <input type="hidden" name="filter_category" value="1" />    
         <?php endif; ?>
         <input type="text" name="filter" value="<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>" onclick="this.value='';"/> 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="<?php echo JText::_( "Submit" ); ?>" />
         <input type="hidden" name="task" value="search" />
         <input type="hidden" name="search" value="1" />
     </form>

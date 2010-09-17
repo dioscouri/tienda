@@ -68,7 +68,7 @@
 				</td>
 				<td style="text-align: left;">
 					<input type="text" name="name[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->productattribute_name; ?>" />
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", "Set Attribute Options" ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />

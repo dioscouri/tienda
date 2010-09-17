@@ -68,7 +68,7 @@ $baseurl=$this->baseurl;
             } 
             ?>
             
-            <input type="submit" name="review" id="review"  value="Submit Comment" />
+            <input type="submit" name="review" id="review"  value="<?php echo JText::_( "Submit Comment" ); ?>" />
             <input type="hidden" name="product_id"   value="<?php echo $row->product_id;?>" />
             <input type="hidden" name="user_id" value="<?php echo JFactory::getUser()->id; ?>" />
             <input type="hidden" name="productcomment_rating" id="productcomment_rating" value="" />
