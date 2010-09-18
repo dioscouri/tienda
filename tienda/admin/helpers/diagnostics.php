@@ -11,6 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+jimport( 'joomla.application.component.model' );
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaHelperDiagnostics extends TiendaHelperBase 
@@ -248,7 +249,22 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductsProductListprice FAILED') .' :: '. $this->getError(), 'error' );
         }
+
+        if (!$this->checkProductCommentsRatingUpdated())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsRatingUpdated FAILED') .' :: '. $this->getError(), 'error' );
+        }
+
+        if (!$this->checkProductsOverallRating())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsOverallRating FAILED') .' :: '. $this->getError(), 'error' );
+        }
         
+        if (!$this->updateOverallRatings())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC updateOverallRatings FAILED') .' :: '. $this->getError(), 'error' );
+        }
+
     }
     
     /**
@@ -1915,6 +1931,110 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkProductsProductListprice') );
             $config->config_name = 'checkProductsProductListprice';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the productcomments table for the rating_updated field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductCommentsRatingUpdated()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductCommentsRatingUpdated', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productcomments';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "rating_updated";
+            $definitions["rating_updated"] = "tinyint(1) NOT NULL COMMENT 'Was the product overall rating updated?' ";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductCommentsRatingUpdated') );
+            $config->config_name = 'checkProductCommentsRatingUpdated';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the products table for the product_ratings fields
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductsOverallRating()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsOverallRating', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_rating";
+            $definitions["product_rating"] = "decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'The overall rating for the product. Is x out of 5'";
+
+        $fields[] = "product_comments";
+            $definitions["product_comments"] = "int(11) NOT NULL DEFAULT '0' COMMENT 'The number of enabled comments the product has'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsOverallRating') );
+            $config->config_name = 'checkProductsOverallRating';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * for every product that has received a comment, update its overall rating fields
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function updateOverallRatings()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('updateOverallRatings', '0'))
+        {
+            return true;
+        }
+        
+        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+        $helper = new TiendaHelperProduct();
+            
+        if ($helper->updateOverallRatings())
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'updateOverallRatings') );
+            $config->config_name = 'updateOverallRatings';
             $config->value = '1';
             $config->save();
             return true;

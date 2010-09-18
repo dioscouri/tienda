@@ -675,7 +675,9 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `product_sql` text NOT NULL COMMENT 'SQL queries to be executed after the product is purchased',
   `product_listprice` decimal(15,5) NOT NULL DEFAULT '0.00000',
-  `product_listprice_enabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Display the product_listprice field?',  
+  `product_listprice_enabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Display the product_listprice field?',
+  `product_rating` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'The overall rating for the product. Is x out of 5',
+  `product_comments` int(11) NOT NULL DEFAULT '0' COMMENT 'The number of enabled comments the product has',
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,
@@ -5132,6 +5134,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `helpful_votes` int(11) NOT NULL DEFAULT '0',
   `helpful_votes_total` int(11) NOT NULL DEFAULT '0',
   `reported_count` int(11) NOT NULL DEFAULT '0',
+  `rating_updated` tinyint(1) NOT NULL COMMENT 'Was the product overall rating updated?',
   PRIMARY KEY (`productcomment_id`),
   UNIQUE KEY `product_id` (`product_id`,`user_id`),
   KEY `fk_Product_ProductReview` (`product_id`)

@@ -147,4 +147,36 @@ class TiendaTableProducts extends TiendaTable
 		return $url;
 	}
 
+	/**
+	 * Recalculates the product's overall rating
+	 * 
+	 * @param $save    boolean
+	 * @return unknown_type
+	 */
+	function updateOverallRating( $save=false )
+	{
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
+        $model->setState( 'filter_product', $this->product_id );
+        $model->setState( 'filter_enabled', '1' );
+        
+        // get the count of all enabled comments             
+        $count = $model->getResult( true );
+        
+        // get the sum product rating of all enabled comments
+        $model->setState( 'select', 'SUM(productcomment_rating)' );
+        $sum = $model->getResult( true );
+        
+        // get the avg product rating of all enabled comments
+        $avg = $count ? $sum / $count : 0; 
+        
+        // update the product row
+        $this->product_rating = $avg; 
+        $this->product_comments = $count;
+
+        if ($save)
+        {
+            $this->save();
+        }
+	}
 }

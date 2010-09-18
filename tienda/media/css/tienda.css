@@ -149,6 +149,10 @@ div.product_listprice span.title {
     font-weight: bold;
 }
 
+div.product_rating, div.product_rating img {
+	vertical-align: middle;
+}
+
 /** SHARED **/
 
 table.adminlist {

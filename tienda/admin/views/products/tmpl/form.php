@@ -89,6 +89,26 @@ window.addEvent('domready', function(){
             </tr>
         </table>
         </div>
+        <div style="float: left;">
+        <table class="admintable">
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Overall Rating' ); ?>:
+                </td>
+                <td>
+                    <?php echo TiendaHelperProduct::getRatingImage( @$row->product_rating ); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; text-align: right;" class="key">
+                    <?php echo JText::_( 'Comments' ); ?>:
+                </td>
+                <td>
+                    <?php echo @$row->product_comments; ?>
+                </td>
+            </tr>
+        </table>
+        </div>
         <div id="default_image" style="float: right; padding: 0px 5px 5px 0px;">
             <?php
             jimport('joomla.filesystem.file');

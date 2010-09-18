@@ -33,7 +33,7 @@ $router = new TiendaHelperRoute();
                     <th style="width: 20px;">
                 	   <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
-                    <th style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
+                    <th colspan="2" style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
                 </tr>
@@ -44,6 +44,9 @@ $router = new TiendaHelperRoute();
                 <tr class="row<?php echo $k; ?>">
                     <td style="width: 20px; text-align: center;">
                         <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_id; ?>" onclick="isChecked(this.checked);" />
+                    </td>
+                    <td style="text-align: center; width: 50px;">
+                        <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
                     </td>
                     <td>
                         <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=products&task=view&id=".$item->product_id); ?>">
@@ -89,7 +92,7 @@ $router = new TiendaHelperRoute();
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="2" style="text-align: left;">
+                    <td colspan="3" style="text-align: left;">
                         <input type="submit" class="button" value="<?php echo JText::_('Remove Selected'); ?>" name="remove" />
                     </td>
                     <td colspan="2">
@@ -97,7 +100,7 @@ $router = new TiendaHelperRoute();
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="font-weight: bold;">
+                    <td colspan="4" style="font-weight: bold;">
                         <?php echo JText::_( "Subtotal" ); ?>
                     </td>
                     <td style="text-align: right;">
@@ -105,7 +108,7 @@ $router = new TiendaHelperRoute();
                     </td>
                 </tr>
                 <tr>
-                	<td colspan="4" style="white-space: nowrap;">
+                	<td colspan="5" style="white-space: nowrap;">
                         <b><?php echo JText::_( "Tax and Shipping Totals" ); ?></b>
                         <br/>
                         <?php
@@ -114,7 +117,7 @@ $router = new TiendaHelperRoute();
               	 	</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <?php if (!empty($this->return)) { ?>
                         [<a href="<?php echo $this->return; ?>">
                             <?php echo JText::_( "Continue Shopping" ); ?>

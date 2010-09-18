@@ -15,7 +15,6 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableProductComments extends TiendaTable 
 {
-
 	function TiendaTableProductComments( &$db ) 
 	{
 		$tbl_key 	= 'productcomment_id';
@@ -25,5 +24,58 @@ class TiendaTableProductComments extends TiendaTable
 		
 		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );	
 	}
-	
+
+	function save()
+	{
+	    $isNew = false;
+        if (empty($this->productcomment_id))
+        {
+            $isNew = true;
+        }
+        
+        if ($save = parent::save())
+        {
+            if ($this->productcomment_enabled && empty($this->rating_updated))
+            {
+                // get the product row
+                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product->load( $this->product_id );
+                
+                $product->updateOverallRating();
+                
+                if (!$product->save())
+                {
+                    $this->setError( $product->getError() );
+                }
+                    else
+                {
+                    $this->rating_updated = '1';
+                    parent::store();
+                }
+            }
+                elseif (!$this->productcomment_enabled && !empty($this->rating_updated) )
+            {
+                // comment has been disabled after it already updated the overall rating
+                // so remove it from the overall rating
+                
+                // get the product row
+                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product->load( $this->product_id );
+                
+                $product->updateOverallRating();
+                                                
+                if (!$product->save())
+                {
+                    $this->setError( $product->getError() );
+                }
+                    else
+                {
+                    $this->rating_updated = '0';
+                    parent::store();
+                }
+            }
+        }
+        
+        return $save;
+    }
 }

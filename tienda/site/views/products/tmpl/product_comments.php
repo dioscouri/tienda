@@ -93,18 +93,7 @@ $baseurl=$this->baseurl;
                 
                 <div class="customerRating">
                     <span>
-                        <?php echo JText::_("Overall Rating"); ?>:
-                        <?php 
-                        $rate = $review->productcomment_rating ;
-                        $left = 5 - $rate;
-                        
-                        for ($count=1; $count<=$rate; $count++) { ?>
-                            <img src="media/com_tienda/images/star_10.png"/>
-                        <?php } 
-                        
-                        for ($count=1; $count<=$left; $count++) { ?>
-                            <img  src="media/com_tienda/images/star_00.png"/>
-                        <?php } ?>
+                        <?php echo TiendaHelperProduct::getRatingImage( $review->productcomment_rating ); ?>
                 	</span>
                 </div>
             </div>

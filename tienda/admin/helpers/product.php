@@ -1482,29 +1482,73 @@ class TiendaHelperProduct extends TiendaHelperBase
 	    return $results;
 	}
 	
-	/**
-	 * returns productcomment record
-	 * @param unknown_type $productcomment_id
-	 */
-	public function getHelpfulVotes($productcomment_id)
+    /**
+     * 
+     * Enter description here ...
+     * @param $product_id
+     * @return unknown_type
+     */
+	public function updateOverallRatings()
 	{
-	        if (empty($productcomment_id))
+	    $success = true;
+	    
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
+        $model->setState( 'filter_enabled', '1' );
+        $model->setState( 'select', 'tbl.product_id' );
+        $query = $model->getQuery();
+        $query->select( 'tbl.productcomment_id');
+        $query->group( 'tbl.product_id');
+        $model->setQuery( $query );
+        if ($items = $model->getList())
         {
-            return array();
+            foreach ($items as $item)
+            {
+                // get the product row
+                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product->load( $item->product_id );
+                $product->updateOverallRating( true );
+            }
         }
-		Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
-        $query = new TiendaQuery();
-        $select[]="tbl.*";	
-        $query->select( $select );
-        $query->from( $table->getTableName()." AS tbl" );
-        $query->where("tbl.productcomment_id= ".(int)$productcomment_id);
-        $db = JFactory::getDBO();
-        $db->setQuery( (string) $query );
-        $items = $db->loadObjectList();
-        return $items[0];
-		
+
+        return $success;
 	}
-	  
+
+    /**
+     * Returns a rating image
+     * @param mixed Boolean
+     * @return array
+     */
+    function getRatingImage( $num ) 
+    {
+        if ($num <= '0')                     { $id = "0"; }
+        elseif ($num > '0' && $num <= '0.5') { $id = "0.5"; }
+        elseif ($num > '0.5' && $num <= '1') { $id = "1"; }
+        elseif ($num > '1' && $num <= '1.5') { $id = "1.5"; }
+        elseif ($num > '1.5' && $num <= '2') { $id = "2"; }
+        elseif ($num > '2' && $num <= '2.5') { $id = "2.5"; }
+        elseif ($num > '2.5' && $num <= '3') { $id = "3"; }
+        elseif ($num > '3' && $num <= '3.5') { $id = "3.5"; }
+        elseif ($num > '3.5' && $num <= '4') { $id = "4"; }
+        elseif ($num > '4' && $num <= '4.5') { $id = "4.5"; }
+        elseif ($num > '4.5' && $num <= '5') { $id = "5"; }
+    
+        
+        switch ($id) 
+        {
+          case "5":   $return = "<img src='".Tienda::getURL('ratings')."five.png' alt='".JText::_( 'Great' )."' title='".JText::_( 'Great' )."' name='".JText::_( 'Great' )."' align='center' border='0'>"; break;
+          case "4.5": $return = "<img src='".Tienda::getURL('ratings')."four_half.png' alt='".JText::_( 'Great' )."' title='".JText::_( 'Great' )."' name='".JText::_( 'Great' )."' align='center' border='0'>"; break;
+          case "4":   $return = "<img src='".Tienda::getURL('ratings')."four.png' alt='".JText::_( 'Good' )."' title='".JText::_( 'Good' )."' name='".JText::_( 'Good' )."' align='center' border='0'>"; break;
+          case "3.5": $return = "<img src='".Tienda::getURL('ratings')."three_half.png' alt='".JText::_( 'Good' )."' title='".JText::_( 'Good' )."' name='".JText::_( 'Good' )."' align='center' border='0'>"; break;
+          case "3":   $return = "<img src='".Tienda::getURL('ratings')."three.png' alt='".JText::_( 'Average' )."' title='".JText::_( 'Average' )."' name='".JText::_( 'Average' )."' align='center' border='0'>"; break;
+          case "2.5": $return = "<img src='".Tienda::getURL('ratings')."two_half.png' alt='".JText::_( 'Average' )."' title='".JText::_( 'Average' )."' name='".JText::_( 'Average' )."' align='center' border='0'>"; break;
+          case "2":   $return = "<img src='".Tienda::getURL('ratings')."two.png' alt='".JText::_( 'Poor' )."' title='".JText::_( 'Poor' )."' name='".JText::_( 'Poor' )."' align='center' border='0'>"; break;
+          case "1.5": $return = "<img src='".Tienda::getURL('ratings')."one_half.png' alt='".JText::_( 'Poor' )."' title='".JText::_( 'Poor' )."' name='".JText::_( 'Poor' )."' align='center' border='0'>"; break;
+          case "1":   $return = "<img src='".Tienda::getURL('ratings')."one.png' alt='".JText::_( 'Unsatisfactory' )."' title='".JText::_( 'Unsatisfactory' )."' name='".JText::_( 'Unsatisfactory' )."' align='center' border='0'>"; break;
+          case "0.5": $return = "<img src='".Tienda::getURL('ratings')."zero_half.png' alt='".JText::_( 'Unsatisfactory' )."' title='".JText::_( 'Unsatisfactory' )."' name='".JText::_( 'Unsatisfactory' )."' align='center' border='0'>"; break;
+          default:    $return = "<img src='".Tienda::getURL('ratings')."zero.png' alt='".JText::_( 'Unrated' )."' title='".JText::_( 'Unrated' )."' name='".JText::_( 'Unrated' )."' align='center' border='0'>"; break;
+        }
+        
+        return $return;
+    }
 }

@@ -98,6 +98,9 @@ class Tienda extends JObject
     		case 'images' :
     			$url = JURI::root(true).'/media/com_tienda/images/';
     			break;
+            case 'ratings' :
+                $url = JURI::root(true).'/media/com_tienda/images/ratings/';
+                break;
     		case 'js' :
     			$url = JURI::root(true).'/media/com_tienda/js/';
     			break;
@@ -151,6 +154,9 @@ class Tienda extends JObject
     		case 'images' :
     			$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images';
     			break;
+            case 'ratings' :
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images'.DS.'ratings';
+                break;
     		case 'js' :
     			$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'js';
     			break;

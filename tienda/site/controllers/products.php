@@ -1580,15 +1580,14 @@ class TiendaControllerProducts extends TiendaController
             $producthelper = new TiendaHelperProduct();
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     		$productcomment = JTable::getInstance('productcomments', 'TiendaTable');
-    		$productcomment->load( $productcomment_id,'productcomment_id');
-            $product_helpful = $producthelper->getHelpfulVotes($productcomment_id);
+    		$productcomment->load( $productcomment_id );
             
-            $helpful_votes_total = $product_helpful->helpful_votes_total;
+            $helpful_votes_total = $productcomment->helpful_votes_total;
             $helpful_votes_total = $helpful_votes_total + 1;
     		$helpfulness = JRequest::getInt('helpfulness', '');
     		if ($helpfulness == 1)
     		{
-                $helpful_vote = $product_helpful->helpful_votes;
+                $helpful_vote = $productcomment->helpful_votes;
                 $helpful_vote_new = $helpful_vote + 1;
         		$productcomment->helpful_votes = $helpful_vote_new;
     		}

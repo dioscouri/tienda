@@ -34,6 +34,10 @@
                 </th>
                 <th style="text-align: left;" colspan="2">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?>
+                	+
+                	<?php echo TiendaGrid::sort( 'Rating', "tbl.product_rating", @$state->direction, @$state->order ); ?>
+                	+
+                	<?php echo TiendaGrid::sort( 'Reviews', "tbl.product_comments", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 70px;">
                 	<?php echo TiendaGrid::sort( 'SKU', "tbl.product_sku", @$state->direction, @$state->order ); ?>
@@ -136,6 +140,14 @@
 					<a href="<?php echo $item->link_edit; ?>">
 						<?php echo JText::_($item->product_name); ?>
 					</a>
+					
+					<div class="product_rating">
+					   <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
+					   <?php if (!empty($item->product_comments)) : ?>
+					   <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
+					   <?php endif; ?>
+					</div>
+					
 					<div class="product_categories">
 						<?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
 						<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>

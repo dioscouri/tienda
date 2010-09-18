@@ -218,3 +218,7 @@ span.relationship_requires_past_by {
 span.relationship_requires_current_by {
     color: darkorange;
 }
+
+div.product_rating, div.product_rating img {
+    vertical-align: middle;
+}

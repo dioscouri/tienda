@@ -2,8 +2,8 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$this->state; ?>
 <?php  $form = @$this->form; ?>
-<?php $items = @$this->items;
-?>
+<?php $items = @$this->items; ?>
+<?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -130,24 +130,7 @@
     			</a>
 			</td>
 			<td style="text-align: center;"> 
-                <?php 
-                $rate = $item->productcomment_rating ;
-                for ($count=1; $count<=5; $count++)
-                {
-                    if ($count<=$rate)
-                    {
-                        ?>
-                        <img src="../media/com_tienda/images/star_10.png">	
-                        <?php 
-                    }
-                        else
-                    {
-                        ?>
-                        <img src="../media/com_tienda/images/star_00.png">	
-                        <?php 
-                    }
-                }
-                ?>
+                <?php echo TiendaHelperProduct::getRatingImage( $item->productcomment_rating ); ?>
 			</td>
             <td style="text-align: center;">
                 <a href="<?php echo $item->link; ?>"> 

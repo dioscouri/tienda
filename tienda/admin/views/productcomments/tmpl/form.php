@@ -43,23 +43,8 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_( 'User Rating' ); ?>:
 					</td>
 					<td>
-					<?php
-					$rate=@$row->productcomment_rating; 
-					
-					for($count=1;$count<=5;$count++){
-					if($count<=$rate){?>
-                            <span id="rating_<?php echo $count; ?>">
-                            <img id="rate_<?php echo $count; ?>" src="../media/com_tienda/images/star_10.png">
-                            </span>
-                          <?php    }
-                      else{?>
-                     	 <span id="rating_<?php echo $count; ?>">
-                            <img id="rate_<?php echo $count; ?>" src="../media/com_tienda/images/star_00.png">
-                         </span>
-                             
-                    <?php } 
-                      }?>
-						
+                        <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
+                        <?php echo TiendaHelperProduct::getRatingImage( @$row->productcomment_rating ); ?>
 						<input type="hidden" id="productcomment_rating" name="productcomment_rating" value="<?php echo @$row->productcomment_rating; ?>" size="10" />
 					</td>
 				</tr>
