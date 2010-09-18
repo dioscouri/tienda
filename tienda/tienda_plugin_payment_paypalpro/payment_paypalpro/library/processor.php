@@ -452,10 +452,14 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data->order_id );
         // this is updating the order status
-         $order->order_state_id = $this->_params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
-         $this->setOrderPaymentReceived( $data->order_id );
-            // send email
+        $order->order_state_id = $this->_params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
+        
+        // do post payment actions
+        $setOrderPaymentReceived = true;
+        
+        // send email
         $send_email = true;
+        
         $orderpayment->transaction_id = $data->transaction_id;            // transaction id from payment method
         $orderpayment->transaction_status = $data->payment_status;        // status of the PAYMENT
         $orderpayment->orderpayment_amount = $data->payment_amount; 
@@ -472,7 +476,12 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
         {
             $errors[] = $orderpayment->getError();
         }
-       
+
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+        }
+        
         if ($send_email)
         {
             // send notice of new order

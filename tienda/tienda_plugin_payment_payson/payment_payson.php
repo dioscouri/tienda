@@ -252,6 +252,8 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
      */
     function _processSale( $data, $error='' )
     {
+        $send_email = false;
+        
         /*
          * validate the payment data
          */
@@ -281,7 +283,12 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
             else 
         {
             $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-            $this->setOrderPaymentReceived( $orderpayment->order_id );
+
+            // do post payment actions
+            $setOrderPaymentReceived = true;
+            
+            // send email
+            $send_email = true;
         }
 
         // save the order
@@ -294,6 +301,22 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         if (!$orderpayment->save())
         {
         	$errors[] = $orderpayment->getError();
+        }
+        
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+        }
+        
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
         }
 
         // Send emails if error

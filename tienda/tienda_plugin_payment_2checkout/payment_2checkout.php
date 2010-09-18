@@ -228,7 +228,9 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
             else 
         {
             $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
-            $this->setOrderPaymentReceived( $orderpayment->order_id );
+            
+            // do post payment actions
+            $setOrderPaymentReceived = true;
             
             // send email
             $send_email = true;
@@ -245,6 +247,11 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         if (!$orderpayment->save())
         {
         	$errors[] = $orderpayment->getError(); 
+        }
+        
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
         }
         
         if ($send_email)

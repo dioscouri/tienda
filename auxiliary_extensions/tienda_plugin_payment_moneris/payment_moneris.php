@@ -642,7 +642,9 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			else
 			{
 				$order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
-				$this->setOrderPaymentReceived( $orderpayment->order_id );
+				
+                // do post payment actions
+                $setOrderPaymentReceived = true;
 
 				// send email
 				$send_email = true;
@@ -660,18 +662,22 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				$errors[] = $orderpayment->getError();
 			}
 
-			// TODO Send mail on payment charged
-			//	if ($send_email)
-			//	{
-			//		// send notice of new order
-			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			//		$helper = TiendaHelperBase::getInstance('Email');
-			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-			//		$model->setId( $orderpayment->order_id );
-			//		$order = $model->getItem();
-			//		$helper->sendEmailNotices($order, 'new_order');
-			//	}
-
+            if (!empty($setOrderPaymentReceived))
+            {
+                $this->setOrderPaymentReceived( $orderpayment->order_id );
+            }
+			
+		    if ($send_email)
+            {
+                // send notice of new order
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Email');
+                $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                $model->setId( $orderpayment->order_id );
+                $order = $model->getItem();
+                $helper->sendEmailNotices($order, 'new_order');
+            }
+            
 			return count($errors) ? implode("\n", $errors) : '';
 		}
 
@@ -682,7 +688,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		 */
 		function _saveTransaction($data, $error='')
 		{
-
+            $send_email = false;
 			$errors = array();
 			if (!empty($error))
 			{
@@ -711,17 +717,16 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				$errors[] = $orderpayment->getError();
 			}
 
-			// TODO Send mail on payment charged
-			//	if ($send_email)
-			//	{
-			//		// send notice of new order
-			//		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			//		$helper = TiendaHelperBase::getInstance('Email');
-			//		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-			//		$model->setId( $orderpayment->order_id );
-			//		$order = $model->getItem();
-			//		$helper->sendEmailNotices($order, 'new_order');
-			//	}
+		    if ($send_email)
+            {
+                // send notice of new order
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Email');
+                $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                $model->setId( $orderpayment->order_id );
+                $order = $model->getItem();
+                $helper->sendEmailNotices($order, 'new_order');
+            }
 
 			return count($errors) ? implode("\n", $errors) : '';
 		}
