@@ -1,14 +1,17 @@
 <?php
 
 /**
+ * @Id          $Id$
+ * @Revision    $revision$
+ * @Date        $Date$
  * @version	1.5
  * @package	Tienda
- * @author 	Valérie Isaksen
+ * @author 	$Author$
  * @link 	http://www.alatak.net
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
-/** ensure this file is being included by a parent file */
+
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaPaymentPlugin', 'library.plugins.payment');
@@ -136,7 +139,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
                 break;
             default:
                 $vars->message = JText::_('sips Message Invalid Action');
-               // $html = $this->_getLayout('message', $vars);
+                // $html = $this->_getLayout('message', $vars);
                 break;
         }
 
@@ -161,7 +164,6 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
 // should not be removed        
 //$data = '2020333732603028502c2360532d5328532d2360522d4360502c4360502c3334502c3330512d2324562d5334592c3324512c33242a2c2360532c2360502d2324502c23602a2c2360552c2360502d433c552e3328572c4048512c2334502c23605435444533303048502c2338502c2324542c4360512c2360582c4344502e3334582d233c2a2c3360532c2360502d4324512d3344502c5048512c2330502c2360582c4360512c2360582c43442a2c3360512c2360502c4360505c224324502c4360502c3360512c4340532c233c552e3330535c224324502c2360502c2338502d5334592d232c2a2c2328582c2360502c4639525c224360522e3360502c2329463c4048502c2340502c2360532e333c585c224324502d4360502c233c512c3324512b4360505c224324512d2360502c2338522c2324522c23242a2c2360592c2360502c4639525c224360532c2360502c4321413b26255438364c512c232160383651413d26254b2b4659453d6048502c3338502c23605334552d2c5c224360502d5360502c2328502c4048502c5340502c2360522e33382a2c2330502c2360512d2425353524412f34455d2330352134353529255c224360532e3360502c2324505c224324502e3360502c23292e335048512c3360502c236051334048512c3324502c2360522c23602a2c2328562c2360502d5344572d3344522d53282adc970880f8cf2717';
 //
- 
         // Récupération de la variable cryptée DATA
         $message = "message=" . $data;
         $pathfile.=" pathfile=" . $this->_getPathfileFileName($this->params->get('pathfile'));
@@ -226,7 +228,8 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
             }
         }
         if (count($errors)) {
-            echo $errors;print_r($errors);
+            echo $errors;
+            print_r($errors);
 
             $this->_sendErrorEmail($errors, $sips_response_array);
             return false;
@@ -248,9 +251,9 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
             if ($response_code != '00') {
                 $orderpayment->transaction_details = JText::_('TIENDA_SIPS_RESPONSE_CODE') .
                         $response_code .
-                        "\n".JText::_('TIENDA_SIPS_RESPONSE_CODE_SIPS_ERROR') .
+                        "\n" . JText::_('TIENDA_SIPS_RESPONSE_CODE_SIPS_ERROR') .
                         constant('TIENDA_SIPS_RESPONSE_' . $response['response_code']) .
-                        "\n".JText::_('TIENDA_SIPS_READ_SIPS_DOCUMENTATION');
+                        "\n" . JText::_('TIENDA_SIPS_READ_SIPS_DOCUMENTATION');
             } else {
                 $orderpayment->transaction_details = implode(" ", $errors);
             }
@@ -266,13 +269,13 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
             $credit_card_number = $credit_card[0] . ' #### #### ##' . $credit_card[1];
 // TO DO: DECODE TIME AND DATE
             $orderpayment->transaction_details = JText::_('TIENDA_SIPS_TRANSMISSION_DATE') . $transmission_date .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_TIME') ." : ". $payment_time .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_DATE')  ." : ". $payment_date .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_CERTIFICATE')." : " . $payment_certificate .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_AUTHORIZATION_ID') . $authorisation_id .
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_TIME') . " : " . $payment_time .
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_DATE') . " : " . $payment_date .
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_PAYMENT_CERTIFICATE') . " : " . $payment_certificate .
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_AUTHORIZATION_ID') . $authorisation_id .
                     //"\n".JText::_('TIENDA_SIPS_PAYMENT_MEANS') ." : ". $payment_means .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_CREDIT_CARD_TYPE') ." : ". constant($credit_card_type) .
-                    "\n".JText::_('TIENDA_SIPS_RESPONSE_CREDIT_CARD_NUMBER') ." : ". $credit_card_number;
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_CREDIT_CARD_TYPE') . " : " . constant($credit_card_type) .
+                    "\n" . JText::_('TIENDA_SIPS_RESPONSE_CREDIT_CARD_NUMBER') . " : " . $credit_card_number;
 
 
             $orderpayment->transaction_id = $transaction_id;
@@ -299,10 +302,10 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
 
         if ($send_email) {
             // send notice of new order
-            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            Tienda::load("TiendaHelperBase", 'helpers._base');
             $helper = TiendaHelperBase::getInstance('Email');
             $model = Tienda::getClass("TiendaModelOrders", "models.orders");
-            $model->setId( $orderpayment->order_id );
+            $model->setId($orderpayment->order_id);
             $order = $model->getItem();
             $helper->sendEmailNotices($order, 'new_order');
         }
