@@ -145,6 +145,10 @@ div#product_recurs span.title {
 	font-weight: bold;
 }
 
+div.product_listprice span.title {
+    font-weight: bold;
+}
+
 /** SHARED **/
 
 table.adminlist {

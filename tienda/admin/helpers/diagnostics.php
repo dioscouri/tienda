@@ -239,10 +239,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsReported FAILED') .' :: '. $this->getError(), 'error' );
         }
         
-    	 if (!$this->checkProductFilesMaxDownload())
+    	if (!$this->checkProductFilesMaxDownload())
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductFilesMaxDownload FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->checkProductsProductListprice())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsProductListprice FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -1877,5 +1883,42 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
-    
+
+    /**
+     * Checks the products table for the product_cost field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductsProductListprice()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsProductListprice', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_listprice";
+            $definitions["product_listprice"] = "decimal(15,5) NOT NULL DEFAULT '0.00000' ";
+
+        $fields[] = "product_listprice_enabled";
+            $definitions["product_listprice_enabled"] = "tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Display the product_listprice field?'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsProductListprice') );
+            $config->config_name = 'checkProductsProductListprice';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
 }

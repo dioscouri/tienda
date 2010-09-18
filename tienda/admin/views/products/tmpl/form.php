@@ -513,7 +513,6 @@ window.addEvent('domready', function(){
                         <?php echo JText::_( 'Item for Sale' ); ?>
                     </td>
                     <td>
-                        <?php echo ''; ?>
                         <?php echo JHTML::_('select.booleanlist', 'product_notforsale', '', @$row->product_notforsale, 'no', 'yes' ); ?>
                     </td>
                 </tr>
@@ -644,6 +643,29 @@ window.addEvent('domready', function(){
                         <?php echo JHTML::_('select.booleanlist', 'quantity_restriction', '', @$row->quantity_restriction ); ?>
                     </td>
                 </tr>
+            </table>
+            </fieldset>
+            
+            <fieldset>
+            <legend><?php echo JText::_( "Product List Price" ); ?></legend>
+            <table class="admintable">
+                <tr>
+                    <td title="<?php echo JText::_("Display Product List Price").'::'.JText::_( "Display Product List Price Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Display Product List Price' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td title="<?php echo JText::_("Product List Price").'::'.JText::_( "Product List Price Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_( 'Product List Price' ); ?>
+                    </td>
+                    <td>
+                        <input type="text" name="product_listprice" value="<?php echo @$row->product_listprice; ?>" size="15" maxlength="11" />
+                    </td>
+                </tr>
+
             </table>
             </fieldset>
         </div>

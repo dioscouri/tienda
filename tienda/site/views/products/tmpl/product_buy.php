@@ -9,7 +9,7 @@ $values = @$this->values;
     <div id="validationmessage"></div>
     
     <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
-
+    
     <!--base price-->
     <span id="product_price" class="product_price">
         <?php            
@@ -44,6 +44,13 @@ $values = @$this->values;
         }
         ?>
     </span>
+
+    <?php if (!empty($item->product_listprice_enabled)) : ?>
+        <div class="product_listprice">
+        <span class="title"><?php echo JText::_( "List Price" ); ?>:</span>
+        <del><?php echo TiendaHelperBase::currency($item->product_listprice); ?></del>
+        </div>                                
+    <?php endif; ?>
     
     <!--attribute options-->
     <div id='product_attributeoptions'>
