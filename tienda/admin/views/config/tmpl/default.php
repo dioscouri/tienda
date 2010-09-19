@@ -945,6 +945,17 @@
                                 <?php echo JText::_( 'ENABLE AUTOMATIC TABLE REORDERING DESC' ); ?>
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Default User Group' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::groups($this->row->get('default_user_group', '1')); ?>
+							</td>
+                            <td>
+                                &nbsp;
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

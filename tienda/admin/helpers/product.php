@@ -698,7 +698,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             
         // does user_group_id?
         (int) $user_group_id;
-        $default_user_group = '0'; /* TODO Use a default $user_group_id */
+        $default_user_group = '1'; /* TODO Use a default $user_group_id */
         if ($user_group_id <= '0') { $user_group_id = $default_user_group; }
             // using ->getPrices(), do a getColumn() on the array for the user_group_id column
             $user_group_ids = TiendaHelperBase::getColumn($prices, 'user_group_id');

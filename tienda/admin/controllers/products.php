@@ -757,7 +757,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->product_price_enddate = JRequest::getVar( 'createprice_date_end' );
 		$row->price_quantity_start = JRequest::getVar( 'createprice_quantity_start' );
 		$row->price_quantity_end = JRequest::getVar( 'createprice_quantity_end' );
-
+		$row->user_group_id = JRequest::getVar( 'createprice_user_group_id' );
+		
 		if ( $row->save() )
 		{
 			$dispatcher = JDispatcher::getInstance();
@@ -795,7 +796,8 @@ class TiendaControllerProducts extends TiendaController
 		$date_ends = JRequest::getVar('date_end', array(0), 'request', 'array');
 		$quantity_starts = JRequest::getVar('quantity_start', array(0), 'request', 'array');
 		$quantity_ends = JRequest::getVar('quantity_end', array(0), 'request', 'array');
-
+		$user_groups = JRequest::getVar('price_user_group_id', array(0), 'request', 'array');
+		
 		foreach (@$cids as $cid)
 		{
 			$row->load( $cid );
@@ -804,6 +806,7 @@ class TiendaControllerProducts extends TiendaController
 			$row->product_price_enddate = $date_ends[$cid];
 			$row->price_quantity_start = $quantity_starts[$cid];
 			$row->price_quantity_end = $quantity_ends[$cid];
+			$row->user_group_id = $user_groups[$cid];
 
 			if (!$row->save())
 			{

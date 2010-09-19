@@ -22,6 +22,7 @@
         	<tr>
         		<th><?php echo JText::_( "Date Range" ); ?></th>
         		<th><?php echo JText::_( "Quantity Range" ); ?></th>
+        		<th><?php echo JText::_( "Group" ); ?></th>
         		<th><?php echo JText::_( "Price" ); ?></th>
         	</tr>
         	</thead>
@@ -37,6 +38,9 @@
         			<?php echo JText::_("to"); ?>
             		<input id="createprice_quantity_end" name="createprice_quantity_end" value="" size="5" />
             	</td>
+            	<td style="text-align: center;">
+        			<?php echo TiendaSelect::groups('', 'createprice_user_group_id'); ?>
+        		</td>
         		<td style="text-align: center;">
         			<input id="createprice_price" name="createprice_price" value="" />
         		</td>
@@ -66,6 +70,9 @@
                 <th style="text-align: center;">
                 	<?php echo TiendaGrid::sort( 'Quantity Range', "tbl.price_quantity_start", @$state->direction, @$state->order ); ?>
                 </th>
+                <th>
+                	<?php echo TiendaGrid::sort( 'Group', "tbl.user_group_id", @$state->direction, @$state->order ); ?>
+				</th>
 				<th>
 				</th>
             </tr>
@@ -89,6 +96,9 @@
 					<input type="text" name="quantity_start[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_start; ?>" size="5" />
 					<?php echo JText::_("to"); ?>
 					<input type="text" name="quantity_end[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_end; ?>" size="5" />
+				</td>
+				<td style="text-align: center;">
+					<?php echo TiendaSelect::groups($item->user_group_id, "price_user_group_id[{$item->product_price_id}]"); ?>
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productprices&task=delete&cid[]=<?php echo $item->product_price_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setprices&id={$row->product_id}&tmpl=component"); ?>">

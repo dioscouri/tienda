@@ -13,8 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
 
-class TiendaViewUsers extends TiendaViewBase 
+class TiendaViewGroups extends TiendaViewBase 
 {
+	
 	/**
      * 
      * @param $tpl
@@ -25,6 +26,9 @@ class TiendaViewUsers extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+        	case "selectusers":
+                $this->_default($tpl);
+              break;
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
@@ -36,14 +40,4 @@ class TiendaViewUsers extends TiendaViewBase
               break;
         }
     }
-    
-	function _default($tpl=null)
-	{
-		Tienda::load( 'TiendaUrl', 'library.url' );
-		parent::_default($tpl);
-	}
-	
-	function _defaultToolbar()
-	{
-	}
 }

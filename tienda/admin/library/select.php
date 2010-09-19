@@ -872,6 +872,27 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 		return self::genericlist($list, $name, $attribs, 'id', 'name', $selected, $idtag );
  	}
     
+ 	/*
+	 * getting list of groups
+	 */
+ 	public static function groups($selected, $name = 'user_group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Group', $title_none = 'No Group', $enabled = null )
+ 	{
+		// Build list
+        $list = array();
+		if ($allowAny) {
+			$list[] =  self::option('', "- ".JText::_( $title )." -", 'group_id', 'group_name' );
+		}
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'Groups', 'TiendaModel' );
+		$items = $model->getList();
+		foreach (@$items as $item)
+        {
+        	$list[] =  self::option( $item->group_id,JText::_($item->group_name), 'group_id', 'group_name' );
+        }
+		return self::genericlist($list, $name, $attribs, 'group_id', 'group_name', $selected, $idtag );
+ 	}
+    
     /**
     * 
     *

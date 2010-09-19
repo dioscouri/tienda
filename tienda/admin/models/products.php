@@ -224,7 +224,12 @@ class TiendaModelProducts extends TiendaModelBase
 		
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
-		$default_group = '0'; // TODO Use default user_group_id
+		
+		Tienda::load('TiendaHelperUser', 'helpers.user');
+		
+		$user_id = JFactory::getUser()->id;
+		$group_id = TiendaHelperUser::getUserGroup($user_id);
+		
 		$field[] = "
 			(
 			SELECT 
@@ -233,7 +238,7 @@ class TiendaModelProducts extends TiendaModelBase
 				#__tienda_productprices AS prices 
 			WHERE 
 				prices.product_id = tbl.product_id 
-				AND prices.user_group_id = '$default_group'
+				AND prices.user_group_id = '$group_id'
 				AND prices.product_price_startdate <= '$date' 
 				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
 				ORDER BY prices.price_quantity_start ASC
@@ -275,7 +280,7 @@ class TiendaModelProducts extends TiendaModelBase
             }
             
             foreach($list as $item)
-            {
+            {            	
                 if ($item->product_recurs)
                 {
                     $item->recurring_price = $item->price;

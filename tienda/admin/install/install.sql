@@ -857,7 +857,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   `ordershipping_code` varchar(255) NOT NULL DEFAULT '',
   `ordershipping_tax` decimal(15,5) DEFAULT '0.00000',
   `ordershipping_extra` decimal(15,5) DEFAULT '0.00000',
-  `ordershipping_tracking_id` varchar(255) NOT NULL DEFAULT '',
+  `ordershipping_tracking_id` mediumtext NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT',
   PRIMARY KEY (`ordershipping_id`),
   KEY `idx_order_shipping_order_id` (`order_id`),
@@ -953,6 +953,37 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
   CONSTRAINT `fk_Category_ProductCategory`
     FOREIGN KEY (`category_id` )
     REFERENCES `#__tienda_categories` (`category_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_groups`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `#__tienda_groups` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(255) NOT NULL,
+  `group_description` text NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_usergroupxref`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_usergroupxref` (
+  `group_id` INT(11) NOT NULL DEFAULT '0' ,
+  `user_id` INT(11) NOT NULL DEFAULT '0' ,
+  INDEX `idx_user_group_xref_group_id` (`group_id` ASC) ,
+  INDEX `idx_user_group_xref_product_id` (`product_id` ASC) ,
+  INDEX `fk_Group_UserGroup` (`group_id` ASC) ,
+  CONSTRAINT `fk_Group_UserGroup`
+    FOREIGN KEY (`groupid` )
+    REFERENCES `#__tienda_groups` (`group_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -1208,6 +1239,13 @@ CREATE TABLE IF NOT EXISTS `#__tienda_zones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+-- Dumping data for table `#__tienda_groups`
+-- --------------------------------------------------------
+
+INSERT IGNORE INTO `#__tienda_groups` (`group_id`, `group_name`, `group_description`, `created_date`, `modified_date`) VALUES
+(1, 'Default', '<p>Default</p>', '2010-09-19 10:27:00', '2010-09-19 10:27:03');
 
 -- --------------------------------------------------------
 -- Dumping data for table `#__tienda_zones`

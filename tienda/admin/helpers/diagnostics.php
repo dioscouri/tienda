@@ -1814,7 +1814,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $definitions["ordershipping_code"] = "VARCHAR(255) NOT NULL DEFAULT ''";
         
         $fields[] = "ordershipping_tracking_id";
-            $definitions["ordershipping_tracking_id"] = "VARCHAR(255) NOT NULL DEFAULT ''";
+            $definitions["ordershipping_tracking_id"] = "mediumtext NOT NULL";
             
         if ($this->insertTableFields( $table, $fields, $definitions ))
         {
