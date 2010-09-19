@@ -964,7 +964,6 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `#__tienda_groups`
 -- -----------------------------------------------------
-
 CREATE TABLE IF NOT EXISTS `#__tienda_groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) NOT NULL,
@@ -981,10 +980,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_usergroupxref` (
   `group_id` INT(11) NOT NULL DEFAULT '0' ,
   `user_id` INT(11) NOT NULL DEFAULT '0' ,
   INDEX `idx_user_group_xref_group_id` (`group_id` ASC) ,
-  INDEX `idx_user_group_xref_product_id` (`product_id` ASC) ,
+  INDEX `idx_user_group_xref_user_id` (`user_id` ASC) ,
   INDEX `fk_Group_UserGroup` (`group_id` ASC) ,
   CONSTRAINT `fk_Group_UserGroup`
-    FOREIGN KEY (`groupid` )
+    FOREIGN KEY (`group_id` )
     REFERENCES `#__tienda_groups` (`group_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)

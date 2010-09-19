@@ -1551,4 +1551,23 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         return $return;
     }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
+    function updatePriceUserGroups()
+    {
+        $success = true;
+        
+        $db = JFactory::getDBO();
+        $db->setQuery("UPDATE #__tienda_productprices SET `user_group_id` = '1' WHERE `user_group_id` = '0'; ");
+        if (!$db->query())
+        {
+            $this->setError( $db->getErrorMsg() );
+            $success = false;
+        }
+        return $success;
+    }
 }

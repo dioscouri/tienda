@@ -274,6 +274,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemParams FAILED') .' :: '. $this->getError(), 'error' );
         }
+        
+        if (!$this->updatePriceUserGroups())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC updatePriceUserGroups FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -2118,6 +2123,38 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config->save();
             return true;
         }
+        return false;        
+    }
+    
+    /**
+     * update the productprices default user group
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function updatePriceUserGroups()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('updatePriceUserGroups', '0'))
+        {
+            return true;
+        }
+        
+        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+        $helper = new TiendaHelperProduct();
+            
+        if ($helper->updatePriceUserGroups())
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'updatePriceUserGroups') );
+            $config->config_name = 'updatePriceUserGroups';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        
         return false;        
     }
 }

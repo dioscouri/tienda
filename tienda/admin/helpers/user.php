@@ -476,19 +476,28 @@ class TiendaHelperUser extends TiendaHelperBase
         }
     }
     
-    function getUserGroup($user_id)
+    /**
+     * Gets a user's user group used for pricing
+     * 
+     * @param $user_id
+     * @return unknown_type
+     */
+    function getUserGroup( $user_id='' )
     {
-    	if($user_id)
+        $user_id = (int) $user_id;
+        
+    	if (!empty($user_id))
     	{
-	    	// get the order
+	    	// get the usergroup
+	    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 	        $table = JTable::getInstance( 'UserGroups', 'TiendaTable' );
-	        if($table->load( (int)$user_id 	))
+	        $table->load( array( 'user_id'=>$user_id ) );
+	        if (!empty($table->group_id))
+	        {
 	        	return $table->group_id;
+	        }
     	}
     	
-		return TiendaConfig::getInstance()->get('default_user_group');
-        	
+		return TiendaConfig::getInstance()->get('default_user_group', '1');
     }
-    
-    
 }
