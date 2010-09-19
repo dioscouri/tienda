@@ -40,6 +40,7 @@ class TiendaViewShipping extends TiendaViewBase
               break;
         }
     }
+
     
 	function _form($tpl=null)
 	{
@@ -74,7 +75,12 @@ class TiendaViewShipping extends TiendaViewBase
 			$view = strtolower( JRequest::getVar('view') );
 			$this->displayTitle( 'Edit '.$view );
 		}
-
+		
+        // load the plugin
+        $row = $this->getModel()->getItem();
+        $params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+        $this->assignRef('params',$params);
+        
 		$this->assign('row', $model->getItem() );
 
 		// load the plugin

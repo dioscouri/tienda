@@ -45,6 +45,80 @@ class TiendaControllerShipping extends TiendaController
         }
         return $state;
     }
+
+    /**
+     * saves the editing in payment plugin
+     */
+    function save()
+    {
+        $model  = $this->getModel( $this->get('suffix') );
+        $row  =& JTable::getInstance('plugin');
+        $row->bind( $_POST );
+        $task = JRequest::getVar('task');
+
+        if ($task == "save_as")
+        {
+            $pk = $row->getKeyName();
+            $row->$pk = 0;
+        }
+
+        if ( $row->store() )
+        {
+            $model->setId( $row->id );
+            $this->messagetype  = 'message';
+            $this->message      = JText::_( 'Saved' );
+
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+        }
+        else
+        {
+            $this->messagetype  = 'notice';
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+
+        $redirect = "index.php?option=com_tienda";
+            
+        switch ($task)
+        {
+            case "saveprev":
+                $redirect .= '&view='.$this->get('suffix');
+                // get prev in list
+                $model->emptyState();
+                $this->_setModelState();
+                $surrounding = $model->getSurrounding( $model->getId() );
+                if (!empty($surrounding['prev']))
+                {
+                    $redirect .= '&task=edit&id='.$surrounding['prev'];
+                }
+                break;
+            case "savenext":
+                $redirect .= '&view='.$this->get('suffix');
+                // get next in list
+                $model->emptyState();
+                $this->_setModelState();
+                $surrounding = $model->getSurrounding( $model->getId() );
+                if (!empty($surrounding['next']))
+                {
+                    $redirect .= '&task=edit&id='.$surrounding['next'];
+                }
+                break;
+
+            case "savenew":
+                $redirect .= '&view='.$this->get('suffix').'&task=add';
+                break;
+            case "apply":
+                $redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$model->getId();
+                break;
+            case "save":
+            default:
+                $redirect .= "&view=".$this->get('suffix');
+                break;
+        }
+
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
     
     /**
      * Will execute a task within a shipping plugin

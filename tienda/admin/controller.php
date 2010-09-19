@@ -52,6 +52,8 @@ class TiendaController extends JController
 		$this->registerTask( 'page_tooltip_enable', 'pagetooltip_switch' );
 		$this->registerTask( 'page_tooltip_disable', 'pagetooltip_switch' );
 		$this->registerTask( 'save_as', 'save' );
+		$this->registerTask( 'published.enable', 'boolean' );
+		$this->registerTask( 'published.disable', 'boolean' );
 	}
 
 	/**

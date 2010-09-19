@@ -69,6 +69,7 @@ class TiendaModelShipping extends TiendaModelBase
 		foreach(@$list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.$item->id;
+			$item->link_edit = 'index.php?option=com_tienda&view=shipping&task=edit&id='.$item->id;
 		}
 		return $list;
 	}

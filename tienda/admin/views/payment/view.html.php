@@ -36,9 +36,7 @@ class TiendaViewPayment extends TiendaViewBase
 			  break;
 		}
 	}
-	/**
-	 *
-	 */
+	
 	function _form($tpl=null)
 	{
         parent::_form($tpl);

@@ -32,8 +32,13 @@
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
-				<th>
-				</th>
+                <th style="width: 150px;">
+                </th>
+                <th style="width: 150px;">
+                </th>
+                <th style="text-align: center; width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.published", @$state->direction, @$state->order ); ?>
+                </th>
             </tr>
             <tr class="filterline">
                 <th colspan="2">
@@ -49,6 +54,10 @@
                 </th>
                 <th style="text-align: left;">
                     <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                </th>
+                <th>
+                </th>
+                <th>
                 </th>
                 <th>
                 </th>
@@ -74,6 +83,9 @@
             <tr class='row<?php echo $k; ?>'>
 				<td align="center">
 					<?php echo $i + 1; ?>
+                    <div style="display: none;">
+                    <input type="checkbox" onclick="isChecked(this.checked);" value="<?php echo $item->id; ?>" name="cid[]" id="cb<?php echo $i; ?>">
+                    </div>
 				</td>
 				<td style="text-align: center;">
 					<a href="<?php echo $item->link; ?>">
@@ -84,14 +96,24 @@
 					<a href="<?php echo $item->link; ?>">
 						<?php echo $item->name; ?>
 					</a>
-				</td>	
+                </td>
+                <td style="text-align: center;">
+                    [
+                    <a href="<?php echo $item->link; ?>">
+                        <?php echo JText::_( "View Plugin Options" ); ?>
+                    </a>
+                    ]
+				</td>
 				<td style="text-align: center;">
 					[
-					<a href="<?php echo $item->link; ?>">
-						<?php echo JText::_( "Load Shipping Plugin" ); ?>
+					<a href="<?php echo $item->link_edit; ?>">
+						<?php echo JText::_( "Edit Plugin Parameters" ); ?>
 					</a>
 					]
 				</td>
+                <td style="text-align: center;">
+                    <?php echo TiendaGrid::enable($item->published, $i, 'published.' ); ?>
+                </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
 			<?php endforeach; ?>

@@ -21,7 +21,8 @@ class TiendaModelPayment extends TiendaModelBase
         $filter_id_from = $this->getState('filter_id_from');
         $filter_id_to   = $this->getState('filter_id_to');
         $filter_name    = $this->getState('filter_name');
-        
+        $filter_enabled    = $this->getState('filter_enabled');
+                
        	if ($filter) 
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
@@ -44,6 +45,10 @@ class TiendaModelPayment extends TiendaModelBase
         if (strlen($filter_id_to))
         {
             $query->where('tbl.id <= '.(int) $filter_id_to);
+        }
+        if (strlen($filter_enabled))
+        {
+            $query->where('tbl.published = 1');
         }
         if ($filter_name) 
         {
