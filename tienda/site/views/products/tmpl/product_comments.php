@@ -47,7 +47,7 @@ $baseurl=$this->baseurl;
             <div><?php echo JText::_('Rating'); ?>: *</div>
             <?php for ($count=1; $count<=5; $count++) { ?>
                 <span id="rating_<?php echo $count; ?>">
-                <a href="javascript:void(0);" onclick="javascript:rating(<?php echo $count; ?>)">
+                <a href="javascript:void(0);" onclick="javascript:TiendaRating(<?php echo $count; ?>)">
                 <img id="rate_<?php echo $count; ?>" src="media/com_tienda/images/star_00.png">
                 </a>
                 </span>

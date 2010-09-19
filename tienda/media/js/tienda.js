@@ -466,3 +466,18 @@ function tiendaRemoveRelationship(id, container, msg) {
     var url = 'index.php?option=com_tienda&view=products&task=removeRelationship&format=raw&productrelation_id=' + id;
     tiendaDoTask( url, container, document.adminForm, msg, true );
 }
+
+function tiendaRating(id) 
+{
+    var count;  
+    document.getElementById('productcomment_rating').value=id;
+    for (count=1;count<=id;count++)
+    {
+        document.getElementById('rating_'+count).getElementsByTagName("img")[0].src=window.com_tienda.jbase + "media/com_tienda/images/star_10.png";
+    }
+    
+    for (count=id+1;count<=5;count++)
+    {
+        document.getElementById('rating_'+count).getElementsByTagName("img")[0].src=window.com_tienda.jbase + "media/com_tienda/images/star_00.png";
+    }
+}

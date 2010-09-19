@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda_product_comments.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
