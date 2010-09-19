@@ -1523,10 +1523,12 @@ class TiendaControllerProducts extends TiendaController
         if ($captcha_enable)
         {
             $captcha='0';
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS."library".DS."recaptchalib.php");
+
+            Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );
+            $recaptcha = new TiendaRecaptcha();
 			if ($_POST["recaptcha_response_field"]) 
 			{
-                $resp = recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $recaptcha_challenge_field, $recaptcha_response_field);
+                $resp = $recaptcha->recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $recaptcha_challenge_field, $recaptcha_response_field);
                 if ($resp->is_valid) 
                 {
                     $captcha='1';
@@ -1539,6 +1541,8 @@ class TiendaControllerProducts extends TiendaController
  		$productreviews->bind($post);	
  		$productreviews->created_date = $date->toMysql();
  		$redirect = "index.php?option=com_tienda&view=products&task=view&id=".$product_id."filter_category=".$product_id."&Itemid=".$Itemid;
+ 		$redirect = JRoute::_( $redirect );
+ 		
  		if ($captcha == '1')
  		{
      		if (!$productreviews->save())

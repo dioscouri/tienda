@@ -47,7 +47,7 @@ $baseurl=$this->baseurl;
             <div><?php echo JText::_('Rating'); ?>: *</div>
             <?php for ($count=1; $count<=5; $count++) { ?>
                 <span id="rating_<?php echo $count; ?>">
-                <a href="javascript:void(0);" onclick="javascript:TiendaRating(<?php echo $count; ?>)">
+                <a href="javascript:void(0);" onclick="javascript:tiendaRating(<?php echo $count; ?>);">
                 <img id="rate_<?php echo $count; ?>" src="media/com_tienda/images/star_00.png">
                 </a>
                 </span>
@@ -60,9 +60,10 @@ $baseurl=$this->baseurl;
             <?php 
             if (TiendaConfig::getInstance()->get('use_captcha', '0') == 1 ) 
             {
-                require_once(JPATH_COMPONENT_ADMINISTRATOR.DS."library".DS."recaptchalib.php"); ?>
+                Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );
+                $recaptcha = new TiendaRecaptcha(); ?>
                 <div>
-                <?php echo recaptcha_get_html($publickey); ?>
+                <?php echo $recaptcha->recaptcha_get_html($publickey); ?>
                 </div>
                 <?php
             } 
