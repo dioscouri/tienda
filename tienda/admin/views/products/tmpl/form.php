@@ -963,6 +963,29 @@ window.addEvent('domready', function(){
                             <textarea name="juga_group_csv_remove" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove'); ?></textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="width: 125px; text-align: right;" class="key" >
+                        </td>
+                        <td>
+                            <?php echo JText::_( "Actions for When Subscription Expires" ); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("JUGA Group IDs EXPIRATION").'::'.JText::_( "JUGA Group IDs EXPIRATION Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'JUGA Group IDs EXPIRATION' ); ?>:
+                        </td>
+                        <td>
+                            <textarea name="juga_group_csv_add_expiration" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_add_expiration'); ?></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("JUGA Group IDs REMOVE EXPIRATION").'::'.JText::_( "JUGA Group IDs REMOVE EXPIRATION Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'JUGA Group IDs REMOVE EXPIRATION' ); ?>:
+                        </td>
+                        <td>
+                            <textarea name="juga_group_csv_remove_expiration" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove_expiration'); ?></textarea>
+                        </td>
+                    </tr>
                 </table>
             <?php else : ?>
                 <div class="note">

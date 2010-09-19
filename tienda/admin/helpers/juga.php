@@ -88,6 +88,61 @@ class TiendaHelperJuga extends TiendaHelperBase
     }
     
     /**
+     * 
+     * Enter description here ...
+     * @param $subscription     mixed  TiendaTableSubscriptions object or a subscription_id
+     * @return unknown_type
+     */
+    function doExpiredSubscription( $subscription )
+    {
+        if (is_numeric($subscription))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance( 'Subscriptions', 'TiendaTable' );
+            $table->load( array( 'subscription_id' => $subscription ) );
+            $subscription = $table;
+        }
+        
+        if (empty($subscription->subscription_id) || !is_object($subscription))
+        {
+            $this->setError( JText::_( 'Invalid Subscription' ) );
+            return false;
+        }
+        
+
+        if (!empty($subscription->product_id))
+        {
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            $model->setId( $subscription->product_id );
+            $product = $model->getItem();
+            
+            $juga_group_csv_add = $product->product_parameters->get('juga_group_csv_add_expiration');
+            $juga_group_csv_remove = $product->product_parameters->get('juga_group_csv_remove_expiration');
+            
+            $ids_remove = explode( ',', $juga_group_csv_remove );
+            if (!empty($ids_remove))
+            {
+                foreach ($ids_remove as $id)
+                {
+                    $this->remove($subscription->user_id, $id);
+                }
+            }
+            
+            $ids_add = explode( ',', $juga_group_csv_add );
+            if ( !empty($ids_add) )
+            {
+                foreach ($ids_add as $id)
+                {
+                    $this->add($subscription->user_id, $id);
+                }
+            }
+        }
+        
+        return true;        
+    }
+    
+    /**
      * Checks if user is in a group
      * 
      * @param $userid

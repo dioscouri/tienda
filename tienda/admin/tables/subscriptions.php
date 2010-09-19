@@ -36,4 +36,23 @@ class TiendaTableSubscriptions extends TiendaTable
         }       
         return true;
     }
+    
+    function save()
+    {
+        $prev = clone( $this );
+        if (!empty($this->id)) { $prev->load( $this->id ); }
+        
+        if ($save = parent::save())
+        {
+            if ($prev->subscription_enabled && empty($this->subscription_enabled))
+            {
+                // if it was previously enabled and now is disabled
+                Tienda::load( 'TiendaHelperJuga', 'helpers.juga' );
+                $helper = new TiendaHelperJuga();
+                $helper->doExpiredSubscription( $this );
+            }
+        }
+        
+        return $save;
+    }
 }
