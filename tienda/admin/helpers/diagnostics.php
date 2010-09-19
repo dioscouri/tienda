@@ -265,6 +265,15 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC updateOverallRatings FAILED') .' :: '. $this->getError(), 'error' );
         }
 
+        if (!$this->checkCartParams())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkCartParams FAILED') .' :: '. $this->getError(), 'error' );
+        }
+
+        if (!$this->checkOrderitemParams())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemParams FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -2035,6 +2044,76 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'updateOverallRatings') );
             $config->config_name = 'updateOverallRatings';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the carts table for the params field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkCartParams()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCartParams', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_carts';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "cartitem_params";
+            $definitions["cartitem_params"] = "TEXT COMMENT 'Params for the cart item'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCartParams') );
+            $config->config_name = 'checkCartParams';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * Checks the orderitems table for the params field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkOrderitemParams()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderitemParams', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderitems';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "orderitem_params";
+            $definitions["orderitem_params"] = "TEXT COMMENT 'Params for the orderitem'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderitemParams') );
+            $config->config_name = 'checkOrderitemParams';
             $config->value = '1';
             $config->save();
             return true;

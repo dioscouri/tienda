@@ -394,6 +394,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
   `product_qty` INT(11) NOT NULL DEFAULT '1' ,
   `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `cartitem_params` text COMMENT 'Params for the cart item',
   INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) ,
   CONSTRAINT `fk_carts_products`
     FOREIGN KEY (`product_id`)
@@ -744,6 +745,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
   `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
   `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
+  `orderitem_params` text COMMENT 'Params for the orderitem',
   PRIMARY KEY (`orderitem_id`) ,
   INDEX `idx_order_item_order_id` (`order_id` ASC) ,
   INDEX `idx_order_item_vendor_id` (`vendor_id` ASC) ,
