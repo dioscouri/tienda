@@ -668,11 +668,11 @@ class TiendaHelperProduct extends TiendaHelperBase
      * 
      * @param int $id
      * @param unknown_type $quantity
-     * @param unknown_type $user_group_id
+     * @param unknown_type $group_id
      * @param unknown_type $date
      * @return unknown_type
      */
-    function getPrice( $id, $quantity='1', $user_group_id='', $date='' )
+    function getPrice( $id, $quantity='1', $group_id='', $date='' )
     {
         $price = null;
         if (empty($id))
@@ -696,20 +696,20 @@ class TiendaHelperProduct extends TiendaHelperBase
             //where product_price_startdate <= $date
             //where product_price_enddate >= $date OR product_price_enddate == nullDate 
             
-        // does user_group_id?
-        (int) $user_group_id;
-        $default_user_group = '1'; /* TODO Use a default $user_group_id */
-        if ($user_group_id <= '0') { $user_group_id = $default_user_group; }
-            // using ->getPrices(), do a getColumn() on the array for the user_group_id column
-            $user_group_ids = TiendaHelperBase::getColumn($prices, 'user_group_id');
-            if (in_array($user_group_id, $user_group_ids))
+        // does group_id?
+        (int) $group_id;
+        $default_user_group = '1'; /* TODO Use a default $group_id */
+        if ($group_id <= '0') { $group_id = $default_user_group; }
+            // using ->getPrices(), do a getColumn() on the array for the group_id column
+            $group_ids = TiendaHelperBase::getColumn($prices, 'group_id');
+            if (in_array($group_id, $group_ids))
             {
-                // if $user_group_id is in the column, then set the query to pull an exact match on it,
-                $model->setState( 'filter_user_group', $user_group_id ); 
+                // if $group_id is in the column, then set the query to pull an exact match on it,
+                $model->setState( 'filter_user_group', $group_id ); 
             } 
                 else
             {
-                // otherwise, $user_group_id_determined = the default $user_group_id
+                // otherwise, $group_id_determined = the default $group_id
                 $model->setState( 'filter_user_group', $default_user_group );               
             }
         
@@ -1562,7 +1562,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $success = true;
         
         $db = JFactory::getDBO();
-        $db->setQuery("UPDATE #__tienda_productprices SET `user_group_id` = '1' WHERE `user_group_id` = '0'; ");
+        $db->setQuery("UPDATE #__tienda_productprices SET `group_id` = '1' WHERE `group_id` = '0'; ");
         if (!$db->query())
         {
             $this->setError( $db->getErrorMsg() );

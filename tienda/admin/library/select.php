@@ -875,7 +875,7 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
  	/*
 	 * getting list of groups
 	 */
- 	public static function groups($selected, $name = 'user_group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Group', $title_none = 'No Group', $enabled = null )
+ 	public static function groups($selected, $name = 'group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Group', $title_none = 'No Group', $enabled = null )
  	{
 		// Build list
         $list = array();

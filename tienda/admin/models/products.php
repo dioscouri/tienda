@@ -238,7 +238,7 @@ class TiendaModelProducts extends TiendaModelBase
 				#__tienda_productprices AS prices 
 			WHERE 
 				prices.product_id = tbl.product_id 
-				AND prices.user_group_id = '$group_id'
+				AND prices.group_id = '$group_id'
 				AND prices.product_price_startdate <= '$date' 
 				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
 				ORDER BY prices.price_quantity_start ASC

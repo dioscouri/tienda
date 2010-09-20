@@ -999,12 +999,12 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productprices` (
   `product_price_enddate` DATETIME NOT NULL COMMENT 'GMT Only',
   `created_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
-  `user_group_id` INT(11) NULL DEFAULT '0' ,
+  `group_id` INT(11) NULL DEFAULT '0' ,
   `price_quantity_start` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `price_quantity_end` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`product_price_id`) ,
   INDEX `idx_product_price_product_id` (`product_id` ASC) ,
-  INDEX `idx_product_price_user_group_id` (`user_group_id` ASC) ,
+  INDEX `idx_product_price_group_id` (`group_id` ASC) ,
   INDEX `fk_Product_ProductPrice` (`product_id` ASC) ,
   CONSTRAINT `fk_Product_ProductPrices`
     FOREIGN KEY (`product_id` )

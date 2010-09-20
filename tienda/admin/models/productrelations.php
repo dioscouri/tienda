@@ -66,7 +66,7 @@ class TiendaModelProductRelations extends TiendaModelBase
     protected function _buildQueryFields(&$query)
     {
         $date = JFactory::getDate()->toMysql();
-        $default_group = '0'; // TODO Use default user_group_id
+        $default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
         
         $fields = array();
         $fields[] = " p_from.product_name as product_name_from ";
@@ -80,7 +80,7 @@ class TiendaModelProductRelations extends TiendaModelBase
                 #__tienda_productprices AS prices 
             WHERE 
                 prices.product_id = tbl.product_id_from 
-                AND prices.user_group_id = '$default_group'
+                AND prices.group_id = '$default_group'
                 AND prices.product_price_startdate <= '$date' 
                 AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
                 ORDER BY prices.price_quantity_start ASC
@@ -99,7 +99,7 @@ class TiendaModelProductRelations extends TiendaModelBase
                 #__tienda_productprices AS prices 
             WHERE 
                 prices.product_id = tbl.product_id_to 
-                AND prices.user_group_id = '$default_group'
+                AND prices.group_id = '$default_group'
                 AND prices.product_price_startdate <= '$date' 
                 AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
                 ORDER BY prices.price_quantity_start ASC

@@ -34,7 +34,7 @@ class TiendaModelShippingRates extends TiendaModelBase
         }
     	if (strlen($filter_user_group))
         {
-            $query->where('tbl.user_group_id = '.(int) $filter_user_group);
+            $query->where('tbl.group_id = '.(int) $filter_user_group);
        	}
     	if (strlen($filter_weight))
         {
