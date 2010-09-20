@@ -225,10 +225,12 @@ class TiendaModelProducts extends TiendaModelBase
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		
-		Tienda::load('TiendaHelperUser', 'helpers.user');
-		
-		$user_id = JFactory::getUser()->id;
-		$group_id = TiendaHelperUser::getUserGroup($user_id);
+		$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+		$filter_group = (int) $this->getState('filter_group');
+		if (empty($filter_group))
+		{
+		    $filter_group = $default_group;
+		}
 		
 		$field[] = "
 			(
@@ -238,7 +240,7 @@ class TiendaModelProducts extends TiendaModelBase
 				#__tienda_productprices AS prices 
 			WHERE 
 				prices.product_id = tbl.product_id 
-				AND prices.group_id = '$group_id'
+				AND prices.group_id = '$filter_group'
 				AND prices.product_price_startdate <= '$date' 
 				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
 				ORDER BY prices.price_quantity_start ASC
@@ -302,11 +304,11 @@ class TiendaModelProducts extends TiendaModelBase
         return $this->_list;
 	}
 	
-	function getItem()
+	function getItem( $emptyState=true )
 	{   
         if (empty( $this->_item ))
         {
-            $item = parent::getItem();
+            $item = parent::getItem( $emptyState );
             if (empty($item))
             {
                 return $item;

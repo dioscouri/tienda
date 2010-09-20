@@ -139,11 +139,14 @@ class TiendaModelBase extends JModel
 	 *
 	 * @return database->loadObject() record
 	 */
-	public function getItem()
+	public function getItem( $emptyState=true )
 	{
 		if (empty( $this->_item ))
 		{
-			$this->emptyState();
+		    if ($emptyState)
+		    {
+		        $this->emptyState();
+		    }
 			$query = $this->getQuery();
 			// TODO Make this respond to the model's state, so other table keys can be used
 			// perhaps depend entirely on the _buildQueryWhere() clause?
