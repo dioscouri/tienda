@@ -12,21 +12,7 @@
     <?php echo JText::_( "For Checked Items" ); ?>:
     <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "Change Status" ); ?></button>
 
-    <table>
-        <tr>
-            <td align="left" width="100%">
-                <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
-            </td>
-            <td nowrap="nowrap">
-                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                <?php //echo TiendaSelect::group( @$state->filter_parentid, 'filter_parentid', $attribs, 'parentid', true, true ); ?>
-            </td>
-        </tr>
-    </table>
-
-	<table class="adminlist" style="clear: both;">
+    <table class="adminlist" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">
@@ -42,10 +28,57 @@
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
+                	<?php echo TiendaGrid::sort( 'Username', "tbl.username", @$state->direction, @$state->order ); ?>
+                </th>
+				<th>
+					<?php echo TiendaGrid::sort( 'Email', 'tbl.email', @$state->direction, @$state->order); ?>
+				</th>
+				<th>
+				</th>
+            </tr>
+            <tr class="filterline">
+                <th colspan="3">
+                    <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
+                    <div class="range">
+                        <div class="rangeline">
+                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                        </div>
+                        <div class="rangeline">
+                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                        </div>
+                    </div>
+                </th>
+                <th style="text-align: left;">
+                    <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                </th>
+                <th>
+                    <input id="filter_username" name="filter_username" value="<?php echo @$state->filter_username; ?>" size="25"/>
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                </th>
+                <th>
+                    <input id="filter_email" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                </th>
+                 <th>
 	                <?php echo JText::_( 'Status' ); ?>
                 </th>
             </tr>
-		</thead>
+            <tr>
+                <th colspan="20" style="font-weight: normal;">
+                    <div style="float: right; padding: 5px;"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+                    <div style="float: left;"><?php echo @$this->pagination->getListFooter(); ?></div>
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="20">
+                    <div style="float: right; padding: 5px;"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+                    <?php echo @$this->pagination->getPagesLinks(); ?>
+                </td>
+            </tr>
+        </tfoot>
         <tbody>
 		<?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
@@ -57,10 +90,20 @@
 					<?php echo TiendaGrid::checkedout( $item, $i, 'id' ); ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo $item->id; ?>
+					<a href="<?php echo $item->link; ?>">
+						<?php echo $item->id; ?>
+					</a>
 				</td>	
 				<td style="text-align: left;">
-					<?php echo $item->name; ?>
+					<a href="<?php echo $item->link; ?>">
+						<?php echo $item->name; ?>
+					</a>
+				</td>	
+				<td style="text-align: center;">
+					<?php echo $item->username; ?>
+				</td>
+				<td style="text-align: center;">
+					<?php echo $item->email; ?>
 				</td>
 				<td style="text-align: center;">
 					<?php $table = JTable::getInstance('UserGroups', 'TiendaTable'); ?>
@@ -84,14 +127,8 @@
 			</tr>
 			<?php endif; ?>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="20">
-					<?php echo @$this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
+	
 
 	<input type="hidden" name="task" id="task" value="selectusers" />
 	<input type="hidden" name="boxchecked" value="" />

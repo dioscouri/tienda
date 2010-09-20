@@ -49,6 +49,32 @@ class TiendaControllerGroups extends TiendaController
 	}
 	
 	/**
+	 * Sets the model's state
+	 *
+	 * @return array()
+	 */
+	function _setModelStateUsers()
+	{
+		$this->set('suffix', 'users');
+		$state = parent::_setModelState();
+		$app = JFactory::getApplication();
+		$model = $this->getModel( $this->get('suffix') );
+		$ns = $this->getNamespace();
+
+		$state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
+        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
+        $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', '');
+        $state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', '');
+			
+		foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
+		return $state;
+	}	
+	
+	/**
 	 * Loads view for assigning users to groups
 	 *
 	 * @return unknown_type
@@ -56,7 +82,7 @@ class TiendaControllerGroups extends TiendaController
 	function selectusers()
 	{
 		$this->set('suffix', 'users');
-		$state = parent::_setModelState();
+		$state = $this->_setModelStateUsers();
 		$app = JFactory::getApplication();
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
