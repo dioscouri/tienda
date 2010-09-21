@@ -67,6 +67,36 @@ class TiendaControllerSearch extends TiendaController
 		return $state;
 	}
 	
-	
+	/**
+     * Displays search results
+     *
+     * (non-PHPdoc)
+     * @see tienda/admin/TiendaController#display($cachable)
+     */
+    function display()
+    {
+        JRequest::setVar( 'view', $this->get('suffix') );
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $model  = $this->getModel( $this->get('suffix') );
+        $this->_setModelState();
+
+        if ($items = $model->getList())
+        {
+            foreach ($items as $row)
+            {
+                $row->category_id = 0; 
+                $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $row->product_id );
+                if (!empty($categories))
+                {
+                    $row->category_id = $categories[0];
+                }
+                
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $row->product_id, $row->category_id, true );
+                $row->itemid = empty($itemid) ? JRequest::getInt('Itemid') : $itemid;
+            }
+        }
+        
+        parent::display();
+    }	
 	
 }

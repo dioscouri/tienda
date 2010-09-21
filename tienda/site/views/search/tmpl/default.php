@@ -82,7 +82,7 @@
             <?php foreach (@$items as $item) : ?>
             <div class="product_item">
                 <div class="product_thumb">
-                    <a href="<?php echo JRoute::_( $item->link."&Itemid=".@$item->itemid ); ?>">
+                    <a href="<?php echo JRoute::_( $item->link."&filter_category=".$item->category_id."&Itemid=".@$item->itemid ); ?>">
                         <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
                     </a>
                 </div>
@@ -159,7 +159,7 @@
                 <div class="product_info">
                     <div class="product_name">
                         <span>
-                            <a href="<?php echo JRoute::_($item->link."&filter_category=".$this->cat->category_id."&Itemid=".$item->itemid ); ?>">
+                            <a href="<?php echo JRoute::_($item->link."&filter_category=".$item->category_id."&Itemid=".$item->itemid ); ?>">
                             <?php echo $item->product_name; ?>
                             </a>
                         </span>
