@@ -326,8 +326,8 @@ class TiendaController extends JController
 		$row->bind( $_POST );
 		$task = JRequest::getVar('task');
 
-		if($task=="save_as"){
-
+		if ($task=="save_as")
+		{
 			$pk=$row->getKeyName();
 			$row->$pk= 0;
 		}

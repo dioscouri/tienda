@@ -77,10 +77,12 @@ class TiendaControllerManufacturers extends TiendaController
 		}
 
 		// set the id as 0 for new entry
-		if($task=="save_as"){
+		if ($task=="save_as")
+		{
 			$pk=$row->getKeyName();
 			$row->$pk= 0;
 		}
+		
 		if ( $row->save() )
 		{
 			$model->setId( $row->id );

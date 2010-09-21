@@ -73,8 +73,9 @@ class TiendaViewCategories extends TiendaViewBase
 	 */
     function _formToolbar( $isNew=null )
     {
-    	if(!$isNew){
-    	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
+    	if (!$isNew)
+    	{
+        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
     	}
         parent::_formToolbar($isNew);
     }

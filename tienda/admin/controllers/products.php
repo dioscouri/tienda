@@ -131,7 +131,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// set the id as 0 for new entry
-		if($task=="save_as"){
+		if ($task=="save_as")
+		{
 			$pk=$row->getKeyName();
 			$oldPk=$row->$pk;
 			$row->$pk= 0;
