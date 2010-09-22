@@ -133,10 +133,16 @@ class TiendaControllerProducts extends TiendaController
 		// set the id as 0 for new entry
 		if ($task == "save_as")
 		{
-			$pk=$row->getKeyName();
-			$oldPk=$row->$pk;
-			$row->$pk= 0;
-			$isSaveAs = true ;
+		    $isSaveAs = true;
+			$pk = $row->getKeyName();
+			$oldPk = $row->$pk;
+			
+            // these get reset
+			$row->$pk = 0;
+			$row->product_images_path = '';
+			$row->product_rating = '';
+			$row->product_comments = '';
+			
 		}
 		$row->_isNew = empty($row->product_id);
 
