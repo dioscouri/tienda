@@ -387,8 +387,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	*/
 	function &getElement ($name)
 	{
-	var_dump($name)	;
-		if (MINIXML_DEBUG > 0)
+    	if (MINIXML_DEBUG > 0)
 		{
 			$elname = $this->name();
 			_MiniXMLLog("MiniXMLElement::getElement() called for $name on $elname.");
@@ -519,19 +518,15 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	function &getElementByPath($path)
 	{
 		$names = explode ("/", $path);
-		
-		$element = $this;$counter=1;
+		$element=$this;
 		foreach ($names as $elementName)
-		{   
-			var_dump($element);
-		var_dump($elementName);
+		{ 
 			if ($element && $elementName) /* Make sure we didn't hit a dead end and that we have a name*/
 			{
-				echo $counter; $counter ++;
 				/* Ask this element to get the next child in path */
 				$element = $element->getElement($elementName);
-				var_dump($element);
-			}
+				
+     		}
 		}
 		
 		return $element;

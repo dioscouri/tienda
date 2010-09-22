@@ -52,7 +52,7 @@ Class CanadaPost {
 	function	getQuote( $city, $provstate, $country, $postal_code ){
 		$this->_shipTo( $city, $provstate, $country, $postal_code ) ;
 		$this->_sendRequestXML();
-		$this->_getResponseXML();
+		$this->_getResponseXML(); 
 		$this->_xmlToQuote() ;
 	}
 
@@ -109,7 +109,6 @@ Class CanadaPost {
 	function	_xmlToQuote(){
 		$startTag = 'eparcel/ratesAndServicesResponse/' ;
 		$xd = new MiniXMLDoc( $this->xml_response );
-		echo Tienda::dump($xd);
 		$this->statusCode = $this->fetchValue( $xd, $startTag . 'statusCode' ) ;
 		$this->statusMessage = $this->fetchValue( $xd, $startTag . 'statusMessage' ) ;
 
@@ -126,12 +125,8 @@ Class CanadaPost {
 	/*
 	 * 
 	 */
-	function	fetchValue( &$xmldoc, $path ){
-		echo "mnmnm";var_dump($xmldoc);
-		echo "till";
+	function fetchValue( &$xmldoc, $path ){
 		$e = $xmldoc->getElementByPath( $path );
-		var_dump($e);
-		die();
 		return $e->getValue();
 	}
 	
@@ -143,8 +138,6 @@ Class CanadaPost {
 	if( ! is_object($response) ) return array() ;
 	
 	$children =& $response->getAllChildren();
-	var_dump($children);
-	die();
 	$count = 0 ;
 	$array = array();
 	for( $i = 0; $i < $response->numChildren(); $i++){

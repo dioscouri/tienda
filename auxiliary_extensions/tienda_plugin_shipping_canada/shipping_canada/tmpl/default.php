@@ -4,7 +4,7 @@
 <?php $form = @$vars->form; ?>
 <?php $items = @$vars->list; ?>
 
-<p><?php echo sprintf( JText::_('SHIPPING_PLUGIN_FEDEX_CONFIG_HELP'), $vars->link ); ?></p>
+<p><?php echo sprintf( JText::_('SHIPPING_PLUGIN_CANADA_CONFIG_HELP'), $vars->link ); ?></p>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>

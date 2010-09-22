@@ -66,9 +66,10 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
         {
         	$product = JTable::getInstance('Products', 'TiendaTable');
             $product->load($item->product_id);
+            $description=strip_tags($product->product_description);
             if ($product->product_ships)
             {
-               $canadaPost->addItem( $item->orderitem_quantity, $product->product_weight , $product->product_length, $product->product_width, $product->product_height, $product->product_description );
+               $canadaPost->addItem( $item->orderitem_quantity, $product->product_weight , $product->product_length, $product->product_width, $product->product_height, $description );
                 
             }            
         }
@@ -80,47 +81,25 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 	  $address->country_name="India";
 	   $address->postal_code ="11002";
         $canadaPost->getQuote($address->city, $address->zone_id, $address->country_name, $address->postal_code);
+
+        $rates = $canadaPost->shipping_methods;
         
-//        foreach ($services as $service=>$serviceName)
-//        {
-//            $fedex = new TiendaFedexShip;
-//            
-//            $fedex->setKey($key);
-//            $fedex->setPassword($password);
-//            $fedex->setAccountNumber($billAccount);
-//            $fedex->setMeterNumber($meter);
-//            $fedex->setService($service, $serviceName);
-//            $fedex->setPayorType("SENDER");
-//            $fedex->setCarrierCode("FDXE");
-//            $fedex->setDropoffType("REGULAR_PICKUP");
-//            $fedex->setPackaging("YOUR_PACKAGING");
-//            
-//            $fedex->packageLineItems = $packages;
-//            $fedex->setPackageCount($packageCount);
-//                        
-//            $fedex->setOriginAddressLine($this->shopAddress->address_1);
-//            $fedex->setOriginAddressLine($this->shopAddress->address_2);
-//            $fedex->setOriginCity($this->shopAddress->city);
-//            $fedex->setOriginStateOrProvinceCode($this->shopAddress->zone_code);
-//            $fedex->setOriginPostalCode($this->shopAddress->zip);
-//            $fedex->setOriginCountryCode($this->shopAddress->country_isocode_2);
-//            
-//            $fedex->setDestAddressLine($address->address_1);
-//            $fedex->setDestAddressLine($address->address_2);
-//            $fedex->setDestCity($address->city);
-//            $fedex->setDestStateOrProvinceCode($address->zone_code);
-//            $fedex->setDestPostalCode($address->postal_code);
-//            $fedex->setDestCountryCode($address->country_code);
-//                        
-//            if ($fedex->getRate())
-//            {
-//                $fedex->rate->summary['element'] = $this->_element;
-//                $rates[] = $fedex->rate->summary;
-//            }
-//        }
-        var_dump($canadaPost);
-        die();
-        return $rates;
+         $i = 0;
+        foreach( $rates as $rate )
+        {
+        	$vars[$i]['element'] = $this->_element;
+        	$vars[$i]['name'] = $rate['name'];
+          	$vars[$i]['price'] = $rate['rate'];
+	// TODO  
+          	$vars[$i]['code'] = $rate['packingID'];
+        	$vars[$i]['tax'] = 0;
+        	$vars[$i]['extra'] = 0;
+        	$vars[$i]['total'] =  $rate['rate'];
+          	
+           	$i++;
+        }
+      	return $vars;
+       
         
     }
     
