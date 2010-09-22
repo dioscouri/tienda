@@ -8,14 +8,14 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 ?>
 
-<div>
-    <div id="validationmessage"></div>
+<div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
+    <div id="validationmessage_<?php echo $item->product_id; ?>"></div>
     
     <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="<?php echo $formName; ?>" enctype="multipart/form-data" >
 
 	<?php if(@$vars->params['show_price'] == '1'): ?>
     <!--base price-->
-    <span id="product_price" class="product_price">
+    <span id="product_price_<?php echo $item->product_id; ?>" class="product_price">
         <?php            
         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
         if (!empty($vars->show_tax))
@@ -51,7 +51,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     <?php endif; ?>
     
     <!--attribute options-->
-    <div id='product_attributeoptions'>
+    <div id='product_attributeoptions_<?php echo $item->product_id; ?>' class="product_attributeoptions">
     <?php
     $attributes = TiendaHelperProduct::getAttributes( $item->product_id );
     foreach ($attributes as $attribute)
@@ -64,17 +64,10 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
-        if ($item->product_check_inventory == 1) 
-        {
-        	Tienda::load('TiendaSelect', 'library.select');
-            // $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"TiendaCheckStock();");
-            $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy', this.form );");
-            echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
-        } 
-            else 
-        {
-            echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key );
-        }   
+        Tienda::load('TiendaSelect', 'library.select');
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy_".$item->product_id."', document.".$formName." );");
+        echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
+    
         ?>
         </div>
         <?php
@@ -82,7 +75,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     ?>
     
     <?php if (!empty($vars->onDisplayProductAttributeOptions)) : ?>
-        <div id='onDisplayProductAttributeOptions_wrapper'>
+        <div class='onDisplayProductAttributeOptions_wrapper'>
         <?php echo $vars->onDisplayProductAttributeOptions; ?>
         </div>
     <?php endif; ?>
@@ -93,20 +86,20 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         <input type="hidden" name="product_qty" value="1" size="5" />
     <?php else : ?>
     <!--quantity-->
-    <div id='product_quantity_input'>
+    <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
         <input type="text" name="product_qty" value="1" size="5" />
     </div>
     <?php endif; ?>
     
     <!-- Add to cart button ---> 
-    <div id='add_to_cart' style="display: block;"> 
+    <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
         <input type="hidden" name="filter_category" value="<?php echo $vars->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
-        <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage', 'addtocart', document.".$formName." );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($vars->invalidQuantity)) ) :
@@ -129,9 +122,9 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     </div>
     
     <?php if (!empty($item->product_recurs)) : ?> 
-        <div id='product_recurs'> 
+        <div id='product_recurs_<?php echo $item->product_id; ?>' class="product_recurs"> 
             <span class="title"><?php echo JText::_("THIS PRODUCTS CHARGES RECUR"); ?></span>
-            <div id="product_recurs_prices"> 
+            <div id="product_recurs_prices_<?php echo $item->product_id; ?>" class="product_recurs_prices">
             <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
             (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
             <?php if ($item->recurring_trial) : ?>
@@ -145,19 +138,18 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     
     <?php if (!empty($item->product_check_inventory)) : ?>
         <?php if (TiendaConfig::getInstance()->get('display_product_quantity', '1')) : ?> 
-        <div id='available_stock'> 
-          <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock"><?php echo (int) $vars->availableQuantity->quantity; ?></label> 
+        <div id='available_stock_<?php echo $item->product_id; ?>' class="available_stock"> 
+          <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $vars->availableQuantity->quantity; ?></label> 
         </div>
         <?php endif; ?>
     <?php endif; ?>
     
     <?php if (!empty($item->product_check_inventory) && !empty($vars->invalidQuantity) ) : ?>
         <!-- Not avilable in stock  --->  
-        <div id='out_of_stock'> 
+        <div id='out_of_stock_<?php echo $item->product_id; ?>'> 
           <?php echo JText::_("OUT_OF_STOCK"); ?> 
         </div>
     <?php endif; ?>
     
     </form>
 </div>
-

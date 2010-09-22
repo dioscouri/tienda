@@ -31,6 +31,11 @@ $citems = @$this->citems;
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php foreach ($citems as $citem) : ?>
                     <div class="subcategory">
+                        <div class="subcategory_name">
+                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
+                            <?php echo $citem->category_name; ?>
+                            </a>
+                        </div>
                         <?php if (!empty($citem->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
                             <div class="subcategory_thumb">
                                 <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
@@ -38,11 +43,6 @@ $citems = @$this->citems;
                                 </a>
                             </div>
                         <?php endif; ?>
-                        <div class="subcategory_name">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
-                            <?php echo $citem->category_name; ?>
-                            </a>
-                        </div>
                     </div>
                 <?php endforeach; ?>
                 <div class="reset"></div>
@@ -52,84 +52,20 @@ $citems = @$this->citems;
     </div>
     
     <?php if (!empty($items)) : ?>
-    <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
-    
         <div id="tienda_products">
             <?php foreach ($items as $item) : ?>
             <div class="product_item">
                 <div class="product_thumb">
-                    <div class="product_buy">
+                    <div class="product_listimage">
                         <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ."&Itemid=".$item->itemid ); ?>">
                             <?php echo TiendaHelperProduct::getImage($item->product_id); ?>
                         </a>
-                        
-                        <?php if (empty($item->product_notforsale)) : ?>
-
-                            <?php if (!empty($item->product_listprice_enabled)) : ?>
-                                <div class="product_listprice">
-                                <span class="title"><?php echo JText::_( "List Price" ); ?>:</span>
-                                <del><?php echo TiendaHelperBase::currency($item->product_listprice); ?></del>
-                                </div>                                
-                            <?php endif; ?>
-                            
-                            <div class="product_price">
-                            <?php
-                            // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-                            $config = TiendaConfig::getInstance();
-                            $show_tax = $config->get('display_prices_with_tax');
-                            
-                            $article_link = $config->get('article_shipping', '');
-                            $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
-                            
-					        if (!empty($show_tax))
-					        {
-                                Tienda::load('TiendaHelperUser', 'helpers.user');
-                                $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
-					            if (empty($geozones))
-                                {
-                                    // use the default
-                                    $table = JTable::getInstance('Geozones', 'TiendaTable');
-                                    $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
-                                    $geozones = array( $table );
-                                }
-                                $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
-                                $tax = $taxtotal->tax_total;
-                                if (!empty($tax))
-                                {
-                                    if ($show_tax == '2')
-                                    {
-                                        // sum
-                                        echo TiendaHelperBase::currency($item->price + $tax);
-                                    }
-                                        else
-                                    {
-                                        echo TiendaHelperBase::currency($item->price);
-                                        echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($tax));
-                                    }    
-                                }
-                                    else
-                                {
-                                    echo TiendaHelperBase::currency($item->price); 
-                                }
-					        }
-					           else
-					        {
-					            echo TiendaHelperBase::currency($item->price); 
-					        }
-
-					        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
-                            {
-                                echo '<br /><a href="'.$shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $shipping_cost_link).'</a>' ;
-                            }
-                            ?>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <?php // TODO Make this display the "quickAdd" layout in a lightbox ?>
-                        <?php // $url = "index.php?option=com_tienda&format=raw&controller=carts&task=addToCart&productid=".$item->product_id; ?>
-                        <?php // $onclick = 'tiendaDoTask(\''.$url.'\', \'tiendaUserShoppingCart\', \'\');' ?>
-                        <?php // <img class="addcart" src="media/com_tienda/images/addcart.png" alt="" onclick="<?php echo $onclick; " /> ?>
                     </div>
+                    <div class="reset"></div>
+                </div>
+
+                <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
+                    <?php echo $item->product_buy; ?>
                 </div>
                 
                 <div class="product_info">
@@ -183,19 +119,22 @@ $citems = @$this->citems;
                         }
                     ?>
                     </div>
+                    <div class="reset"></div>
                 </div>
+                <div class="reset"></div>
             </div>
             <div class="reset"></div>
             <?php endforeach; ?>
-        
-            <div id="products_footer">
-                <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
-                <?php echo @$this->pagination->getListFooter(); ?>
-            </div>
         </div>
         
-    <?php echo $this->form['validate']; ?>
-    </form>
+        <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">        
+        <div id="products_footer">
+            <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+            <?php echo @$this->pagination->getListFooter(); ?>
+        </div>
+        <?php echo $this->form['validate']; ?>
+        </form>
+
     <?php endif; ?>
     
 </div>

@@ -153,7 +153,9 @@ class TiendaControllerProducts extends TiendaController
 		    foreach ($items as $item)
 		    {
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
-                $item->itemid = JRequest::getInt('Itemid', $itemid);		        
+                $item->itemid = JRequest::getInt('Itemid', $itemid);
+
+                $item->product_buy = $this->getAddToCart($item->product_id);
 		    }
 		}
 
@@ -307,8 +309,9 @@ class TiendaControllerProducts extends TiendaController
     {
         $html = '';
 
-        $view   =& $this->getView( 'products', 'html' );
-        $model  = $this->getModel( $this->get('suffix') );
+        $view   = $this->getView( 'products', 'html' );
+        //$model  = $this->getModel( $this->get('suffix') );
+        $model = JModel::getInstance('Products', 'TiendaModel');
         $model->setId( $product_id );
         
         Tienda::load('TiendaHelperUser', 'helpers.user');       
@@ -316,7 +319,8 @@ class TiendaControllerProducts extends TiendaController
         $filter_group = TiendaHelperUser::getUserGroup($user_id);
         $model->setState('filter_group', $filter_group);
         
-        $row = $model->getItem();
+        //$model->_item = '';
+        $row = $model->getItem( false );
         
         if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
         {
