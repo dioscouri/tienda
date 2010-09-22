@@ -135,7 +135,7 @@ class TiendaHelperImage extends TiendaHelperBase
 			
 		$dest_path = $dest_dir.DS.$img->getPhysicalName();
 		
-		$img->save($dest_path);
+		$img->save( $dest_path );
 		
 		return $dest_path;
 	}

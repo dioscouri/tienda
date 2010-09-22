@@ -382,7 +382,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 	    		
 	            $img->load();
 	    		// Save full Image
-	    		if(!$img->save($path.$result['image'], $type))
+	    		if(!$img->save($path.$result['image']))
 	    		{
 	    			$results[$n]->error .= '::Could not Save Product Image- From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
 	    		}
@@ -461,7 +461,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 	            $img->load();
 	    		
 	    		// Save full Image
-	    		if(!$img->save($path.$result['image'], $type))
+	    		if(!$img->save($path.$result['image']))
 	    		{
 	    			$results[$n]->error .= '::Could not Save Category Image - From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
 	    		}

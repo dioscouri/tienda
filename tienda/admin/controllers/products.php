@@ -131,7 +131,7 @@ class TiendaControllerProducts extends TiendaController
 		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// set the id as 0 for new entry
-		if ($task=="save_as")
+		if ($task == "save_as")
 		{
 			$pk=$row->getKeyName();
 			$oldPk=$row->$pk;
@@ -149,15 +149,16 @@ class TiendaControllerProducts extends TiendaController
 		//check if normal price exists
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		
-        if($isSaveAs){
+        if ($isSaveAs)
+        {
         	$prices = TiendaHelperProduct::getPrices($oldPk );
         }
-        else {
+            else 
+        {
         	$prices = TiendaHelperProduct::getPrices( $row->product_id );
-        	 }
+        }
 		
-		if ( $row->save() )
-		
+		if ( $row->save() )		
 		{
 			$row->product_id = $row->id;
 			$model->setId( $row->id );
@@ -204,8 +205,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 			
 			// old category, price  and quantity will enter with 
-			if($isSaveAs){
-			   
+			if ($isSaveAs)
+			{
 				// set price to whome doing the cloning
 				$priceTable = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				foreach($prices as $price){
@@ -228,17 +229,16 @@ class TiendaControllerProducts extends TiendaController
 			    // set category
 			    $categoryTable = JTable::getInstance( 'Productcategories', 'TiendaTable' );
 			    $categories = TiendaHelperProduct::getCategories($oldPk );
-			    foreach ($categories as $category){
-			   	$categoryTable->product_id = $row->id;
-				$categoryTable->category_id = $category;
-			    if (!$categoryTable->save())
-				{
-					$this->messagetype 	= 'notice';
-					$this->message .= " :: ".$categoryTable->getError();
-				}
+			    foreach ($categories as $category)
+			    {
+    			   	$categoryTable->product_id = $row->id;
+    				$categoryTable->category_id = $category;
+    			    if (!$categoryTable->save())
+    				{
+    					$this->messagetype 	= 'notice';
+    					$this->message .= " :: ".$categoryTable->getError();
+    				}
      		    }
-
-     		   
     		    
 			   	// set Attribute 
 				
@@ -247,69 +247,77 @@ class TiendaControllerProducts extends TiendaController
 				
 				$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
 			    $attributes  = TiendaHelperProduct::getAttributes($oldPk );
-			    foreach ($attributes as $attribute){
-			    $attributeTable->productattribute_id =0;
-			   	$attributeTable->productattribute_name = $attribute->productattribute_name;
-			   	$attributeTable->product_id =$row->id;
-			   	$attributeTable->ordering = $attribute->ordering;
-			   
-			    if($attributeTable->save()){
-			    	 	$attrbuteMappingArray[$attribute->productattribute_id]=$attributeTable->productattribute_id;
-			    }
-			    else {
-			    	$this->messagetype 	= 'notice';
-					$this->message .= " :: ".$attributeTable->getError();
-			    }
+			    foreach ($attributes as $attribute)
+			    {
+    			    $attributeTable->productattribute_id =0;
+    			   	$attributeTable->productattribute_name = $attribute->productattribute_name;
+    			   	$attributeTable->product_id =$row->id;
+    			   	$attributeTable->ordering = $attribute->ordering;
+    			   
+    			    if ($attributeTable->save())
+    			    {
+    			    	 	$attrbuteMappingArray[$attribute->productattribute_id]=$attributeTable->productattribute_id;
+    			    }
+    			    else 
+    			    {
+    			    	$this->messagetype 	= 'notice';
+    					$this->message .= " :: ".$attributeTable->getError();
+    			    }
 			    }
 				
 			    // set Attribute options
 				
 				$attrbuteOptionsMappingArray = array();
-				foreach($attrbuteMappingArray as $oldAttrbuteId => $newAttributeId) {
-				$options  = TiendaHelperProduct::getAttributeOptionsObjects($oldAttrbuteId);
-				foreach ($options as $option){
-					$attributeOptionsTable = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
-					$attributeOptionsTable->productattribute_id   = $newAttributeId ;
-			    	$attributeOptionsTable->productattributeoption_name   = $option->productattributeoption_name ; 
-			    	$attributeOptionsTable->productattributeoption_price   = $option->productattributeoption_price ;
-			    	$attributeOptionsTable->productattributeoption_prefix   = $option->productattributeoption_prefix ;
-			    	$attributeOptionsTable->ordering   = $option->ordering ; 
-			    			    	
-			    if($attributeOptionsTable->save())
-			    	{
-			    		$attrbuteOptionsMappingArray[$option->productattributeoption_id]=$attributeOptionsTable->productattributeoption_id;
-			    	}
-			    else{
-			       	$this->messagetype 	= 'notice';
-					$this->message .= " :: ".$attributeOptionsTable->getError();
-					}
-			    }
+				foreach ($attrbuteMappingArray as $oldAttrbuteId => $newAttributeId) 
+				{
+    				$options  = TiendaHelperProduct::getAttributeOptionsObjects($oldAttrbuteId);
+    				foreach ($options as $option)
+    				{
+    					$attributeOptionsTable = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+    					$attributeOptionsTable->productattribute_id   = $newAttributeId ;
+    			    	$attributeOptionsTable->productattributeoption_name   = $option->productattributeoption_name ; 
+    			    	$attributeOptionsTable->productattributeoption_price   = $option->productattributeoption_price ;
+    			    	$attributeOptionsTable->productattributeoption_prefix   = $option->productattributeoption_prefix ;
+    			    	$attributeOptionsTable->ordering   = $option->ordering ; 
+    			    			    	
+        			    if($attributeOptionsTable->save())
+    			    	{
+    			    		$attrbuteOptionsMappingArray[$option->productattributeoption_id]=$attributeOptionsTable->productattributeoption_id;
+    			    	}
+        			    else
+        			    {
+        			       	$this->messagetype 	= 'notice';
+        					$this->message .= " :: ".$attributeOptionsTable->getError();
+        				}
+    			    }
 				}
 
 				// set quantity
 			    $quantityTable = JTable::getInstance( 'Productquantities', 'TiendaTable' );
 			    $quantities  = TiendaHelperProduct::getProductQuantitiesObjects($oldPk );
-			    foreach ($quantities as $quantity){
-			   	$quantityTable->product_attributes = $quantity->product_attributes ;
-			   	$quantityTable->product_id= $row->id;
-			   	$quantityTable->vendor_id = $quantity->vendor_id ;
-			   	$quantityTable->quantity = $quantity->quantity ;
-			   	
-			   	$optionsCSV=$quantity->product_attributes;
-			   	
-			   	$options= explode(",",$optionsCSV);
-			   	$newOptions=array();
-			   	foreach($options as $option){
-			   		$newOptions[]=$attrbuteOptionsMappingArray[$option];
-			   	} 
-			    $optionsCSV =implode(",",$newOptions);
-			    $quantityTable->product_attributes=$optionsCSV;
-			   	
-			    if (!$quantityTable->save())
-				{
-					$this->messagetype 	= 'notice';
-					$this->message .= " :: ".$quantityTable->getError();
-				}
+			    foreach ($quantities as $quantity)
+			    {
+    			   	$quantityTable->product_attributes = $quantity->product_attributes ;
+    			   	$quantityTable->product_id= $row->id;
+    			   	$quantityTable->vendor_id = $quantity->vendor_id ;
+    			   	$quantityTable->quantity = $quantity->quantity ;
+    			   	
+    			   	$optionsCSV=$quantity->product_attributes;
+    			   	
+    			   	$options= explode(",",$optionsCSV);
+    			   	$newOptions=array();
+    			   	foreach ($options as $option)
+    			   	{
+    			   		$newOptions[]=$attrbuteOptionsMappingArray[$option];
+    			   	} 
+    			    $optionsCSV =implode(",",$newOptions);
+    			    $quantityTable->product_attributes=$optionsCSV;
+    			   	
+    			    if (!$quantityTable->save())
+    				{
+    					$this->messagetype 	= 'notice';
+    					$this->message .= " :: ".$quantityTable->getError();
+    				}
 		      
 				}
 			 }
