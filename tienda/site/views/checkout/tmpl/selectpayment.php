@@ -35,7 +35,7 @@
         <?php endif; ?>
         
         <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled'); ?>
-        <?php if ($coupons_enabled) : ?>
+        <?php if ($coupons_enabled && $this->coupons_present) : ?>
         <!-- COUPON CODE -->
         <div id="coupon_code_area">
             <div id="coupon_code_form">
