@@ -40,6 +40,7 @@ class TiendaControllerUsers extends TiendaController
         $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         $state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', '');
         $state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', '');
+        $state['filter_group']         = $app->getUserStateFromRequest($ns.'filter_group', 'filter_group', '', '');
         
         foreach (@$state as $key=>$value)
         {

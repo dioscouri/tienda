@@ -35,12 +35,15 @@
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
-                <th>
+                <th style="text-align: center;">
                 	<?php echo TiendaGrid::sort( 'Username', "tbl.username", @$state->direction, @$state->order ); ?>
                 </th>
-				<th>
+				<th style="text-align: center;">
 					<?php echo TiendaGrid::sort( 'Email', 'tbl.email', @$state->direction, @$state->order); ?>
 				</th>
+                <th>
+                    <?php echo TiendaGrid::sort( 'Group', 'group.group_name', @$state->direction, @$state->order); ?>
+                </th>
 				<th>
 				</th>
 				<th>
@@ -66,6 +69,9 @@
                 </th>
                 <th>
                     <input id="filter_email" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
+                </th>
+                <th>
+                    <?php echo TiendaSelect::groups(@$state->filter_group, 'filter_group', $attribs, 'filter_group', true ); ?>
                 </th>
                 <th>
                 </th>
@@ -110,6 +116,9 @@
 				<td style="text-align: center;">
 					<?php echo $item->email; ?>
 				</td>
+                <td style="text-align: center;">
+                    <?php echo $item->group_name; ?>
+                </td>
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link; ?>">
