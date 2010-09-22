@@ -98,6 +98,7 @@
         <plugin plugin="tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
 		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
         <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
+        <plugin plugin="tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
         <plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
         <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
         <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
@@ -106,10 +107,11 @@
         <plugin plugin="tienda_plugin_shipping_standard" publish="true" group="tienda" element="shipping_standard" />
         <plugin plugin="tienda_plugin_shipping_ups" group="tienda" element="shipping_ups" />
         <plugin plugin="tienda_plugin_shipping_usps" group="tienda" element="shipping_usps" />
-        <plugin plugin="tienda_plugin_system" group="system" element="tienda" />
         <plugin plugin="tienda_plugin_subscriptions" group="system" element="tienda_subscriptions" />
+        <plugin plugin="tienda_plugin_system" group="system" element="tienda" />
         <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
+        <plugin plugin="tienda_plugin_zoo" group="system" element="tienda_zoo" />
 	</plugins>
 </install>
