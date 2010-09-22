@@ -2,7 +2,8 @@
 defined('_JEXEC') or die('Restricted access');
 $item = @$vars->item;
 $form = @$vars->form;
-$values = @$vars->values; 
+$values = @$vars->values;
+$formName = 'adminForm_'.$item->product_id; 
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 ?>
@@ -10,7 +11,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 <div>
     <div id="validationmessage"></div>
     
-    <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+    <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="<?php echo $formName; ?>" enctype="multipart/form-data" >
 
 	<?php if(@$vars->params['show_price'] == '1'): ?>
     <!--base price-->
@@ -105,7 +106,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
-        <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage', 'addtocart', document.adminForm );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage', 'addtocart', document.".$formName." );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($vars->invalidQuantity)) ) :
