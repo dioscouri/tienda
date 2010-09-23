@@ -211,7 +211,7 @@
         </copy>
 		<!-- Ambra Point Plugin -->
 		  <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/tienda_plugin_ambrapoints" />
+            <fileset dir="${cfg.aux}/tienda_plugin_ambrapoints" />
         </copy>
     	<!-- MONERIS -->
 		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
@@ -227,10 +227,10 @@
         </copy>
     	<!-- PAGSEGURO -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_pagseguro" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_pagseguro" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_pagseguro/languages" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_pagseguro/languages" />
         </copy>
     	<!-- PAYPAL -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -248,10 +248,10 @@
         </copy>
     	<!-- PAYSON -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_payson" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_payson" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_payson/languages" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_payson/languages" />
         </copy>	
 		<!-- GOOGLE CHECKOUT  -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
