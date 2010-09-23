@@ -94,26 +94,26 @@ class TiendaImage extends TiendaFile
 	 * @param $permissions
 	 */
 	function save($filename, $compression=75, $permissions=null) 
-	{		
+	{
         $success = true;
         $image_type = $this->type;
         
         ob_start();     
-        $mime = image_type_to_mime_type( $image_type );
-        header("Content-type: $mime");
+        //$mime = image_type_to_mime_type( $image_type );
+        //header("Content-type: $mime");
         
         if( $image_type == IMAGETYPE_JPEG ) {
-            if (!$success = imagejpeg($this->image, ''))
+            if (!$success = imagejpeg($this->image, null ))
             {
                 $this->setError( "TiendaImage::save( 'jpeg' ) Failed" );
             }
         } elseif( $image_type == IMAGETYPE_GIF ) {
-            if (!$success = imagegif($this->image, '' ))
+            if (!$success = imagegif($this->image, null ))
             {
                 $this->setError( "TiendaImage::save( 'gif' ) Failed" );
             }
         } elseif( $image_type == IMAGETYPE_PNG ) {
-            if (!$success = imagepng($this->image, '' ))
+            if (!$success = imagepng($this->image, null ))
             {
                 $this->setError( "TiendaImage::save( 'png' ) Failed" );
             }

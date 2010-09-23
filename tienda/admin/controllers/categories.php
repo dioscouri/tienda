@@ -219,7 +219,10 @@ class TiendaControllerCategories extends TiendaController
 		// Thumb
 		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-		$imgHelper->resizeImage( $upload, 'category');
+		if (!$imgHelper->resizeImage( $upload, 'category'))
+		{
+		    JFactory::getApplication()->enqueueMessage( $imgHelper->getError(), 'notice' );
+		}
 
 		return $upload;
 	}

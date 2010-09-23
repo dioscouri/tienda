@@ -450,7 +450,7 @@ class TiendaControllerProducts extends TiendaController
 		$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
 		if (!$imgHelper->resizeImage( $upload, 'product'))
 		{
-			JFactory::getApplication()->enqueueMessage( JText::_("Could Not Create Thumb"), 'notice' );
+			JFactory::getApplication()->enqueueMessage( $imgHelper->getError(), 'notice' );
 		}
 
 		return $upload;
