@@ -87,9 +87,10 @@ class plgUserTienda extends JPlugin
          $user = JFactory::getUser();
          JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		 $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
-		 $user_groups->load($user->id);
+		 $user_groups->load(array('user_id'=>$user->id));
+		 
 		 if($user_groups->groupid == null){
-		 	$user_groups->group_id = 1 ; // If there is no user selected then it will consider as default user group 
+		 	$user_groups->group_id = TiendaConfig::getInstance()->get('default_user_group', '1'); ; // If there is no user selected then it will consider as default user group 
 		 	$user_groups->user_id = $user->id;
 		 	if(!$user_groups->save()){
 		 		// TODO if data does not save in the mapping table 
