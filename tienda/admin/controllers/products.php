@@ -178,6 +178,7 @@ class TiendaControllerProducts extends TiendaController
 				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				$price->product_id = $row->id;
 				$price->product_price = JRequest::getVar( 'product_price' );
+				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
 				if (!$price->save())
 				{
 					$this->messagetype 	= 'notice';
@@ -215,21 +216,22 @@ class TiendaControllerProducts extends TiendaController
 			{
 				// set price to whome doing the cloning
 				$priceTable = JTable::getInstance( 'Productprices', 'TiendaTable' );
-				foreach($prices as $price){
-				$priceTable->product_id = $row->id;
-				$priceTable->product_price = $price->product_price;
-				$priceTable->product_price_startdate = $price->product_price_startdate;
-				$priceTable->product_price_enddate = $price->product_price_enddate;
-				$priceTable->created_date = $price->created_date;
-				$priceTable->modified_date = $price->modified_date;
-				$priceTable->group_id = $price->group_id;
-				$priceTable->price_quantity_start = $price->price_quantity_start;
-				$priceTable->price_quantity_end = $price->price_quantity_end;
-				if (!$priceTable->save())
+				foreach($prices as $price)
 				{
-					$this->messagetype 	= 'notice';
-					$this->message .= " :: ".$priceTable->getError();
-				}
+    				$priceTable->product_id = $row->id;
+    				$priceTable->product_price = $price->product_price;
+    				$priceTable->product_price_startdate = $price->product_price_startdate;
+    				$priceTable->product_price_enddate = $price->product_price_enddate;
+    				$priceTable->created_date = $price->created_date;
+    				$priceTable->modified_date = $price->modified_date;
+    				$priceTable->group_id = $price->group_id;
+    				$priceTable->price_quantity_start = $price->price_quantity_start;
+    				$priceTable->price_quantity_end = $price->price_quantity_end;
+    				if (!$priceTable->save())
+    				{
+    					$this->messagetype 	= 'notice';
+    					$this->message .= " :: ".$priceTable->getError();
+    				}
 				}
 				
 			    // set category
@@ -343,6 +345,7 @@ class TiendaControllerProducts extends TiendaController
 					{
 						$row->product_full_image = $upload->getPhysicalName();
 						// need to re-save in this instance
+						// should we be storing or saving?
 						$row->save();
 					}
 				}
