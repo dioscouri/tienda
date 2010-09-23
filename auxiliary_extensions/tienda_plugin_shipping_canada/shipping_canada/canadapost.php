@@ -8,7 +8,7 @@ Class CanadaPost {
 
 	var $server = "sellonline.canadapost.ca";
 	var $port = 30000;
-	var $merchant_cpcid = "CPC_DT_DESIGN_INC";
+	var $merchant_cpcid = "CPC_DEMO_XML";
 
 	var $error = false;
 	var $err_msg = "";
@@ -26,10 +26,11 @@ Class CanadaPost {
 	var $to_postal_code = "" ;
 	 
 
-	function CanadaPost() {
+	function CanadaPost($key) {
 		//		if( defined(CP_SERVER) ) $this->server = CP_SERVER ;
 		//		if( defined( CP_PORT ) ) $this->port = CP_PORT ;
 		//		if( defined( MERCHANT_CPCID ) ) $this->merchant_cpcid = MERCHANT_CPCID ;
+		if(!empty($key)) $this->merchant_cpcid = $key ;
 		$this->_initRequestXML();
 	}
 

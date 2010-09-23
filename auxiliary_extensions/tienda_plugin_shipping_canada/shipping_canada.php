@@ -37,7 +37,9 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 
         return $html;
     }
-    
+    /*
+     * it will call from the check out and send the request to calculate rates 
+     */
     function onGetShippingRates($element, $order)
     {    	
     	// Check if this is the right plugin
@@ -53,15 +55,17 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 		return $rates;
         
     }
-    
+    /*
+     * this method will send the request to the Canada Shipping 
+     */
   
     function sendRequest( $address, $orderItems )
     {
         $rates = array();
         
         require_once( dirname( __FILE__ ).DS.'shipping_canada'.DS."canadapost.php" );
- 	    $canadaPost= new CanadaPost () ;
-       
+         $key = $this->params->get('key');
+         $canadaPost= new CanadaPost ($key) ;
         foreach ( $orderItems as $item )
         {
         	$product = JTable::getInstance('Products', 'TiendaTable');
@@ -76,31 +80,50 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 		//  $city, $provstate, $country, $postal_code
 		// $address->city $address->zone_id $address->country_name $address->postal_code
 		//
-	   $address->city="Delhi";
-	 $address->zone_id ="Delhi";
-	  $address->country_name="India";
-	   $address->postal_code ="11002";
-        $canadaPost->getQuote($address->city, $address->zone_id, $address->country_name, $address->postal_code);
+	  // $address->city="Delhi";
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone->load($address->zone_id);
+		$canadaPost->getQuote($address->city, $zone->zone_name, $address->country_name, $address->postal_code);
 
-        $rates = $canadaPost->shipping_methods;
-        
-         $i = 0;
+       $rates = $canadaPost->shipping_methods;
+       $i = 0;
         foreach( $rates as $rate )
         {
         	$vars[$i]['element'] = $this->_element;
         	$vars[$i]['name'] = $rate['name'];
           	$vars[$i]['price'] = $rate['rate'];
-	// TODO  
+	        // TODO  
           	$vars[$i]['code'] = $rate['packingID'];
         	$vars[$i]['tax'] = 0;
         	$vars[$i]['extra'] = 0;
         	$vars[$i]['total'] =  $rate['rate'];
-          	
-           	$i++;
+          	$i++;
         }
       	return $vars;
-       
+     }
+     
+     /**
+     * Displays the admin-side configuration form for the plugin
+     * 
+     */
+    function viewConfig()
+    {
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        // TODO Finish this
+        //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
+        //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
+        TiendaToolBarHelper::cancel( 'close', 'Close' );
         
+        $vars = new JObject();
+        $vars->state = $this->_getState();
+        $plugin = $this->_getMe(); 
+        $plugin_id = $plugin->id;
+        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+        $html = $this->_getLayout('default', $vars);
+		
+        return $html;
     }
+    
     
 }
