@@ -4,7 +4,7 @@
 <?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">'.JText::_( "System Information" ).'</a>'; ?>
 
 <div class="note">
-	<?php echo JText::_("Warning! Along with the bug details, this form will also send all the information gathered from {$link}" ); ?>
+	<?php echo sprintf( JText::_('SUBMIT BUG TIP'), $link); ?>
 </div>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&task=doTask&element=bug_report&elementTask=sendBug' ) ?>" method="post" class="adminform" name="adminForm" >
