@@ -240,8 +240,8 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
 
-        $this->getChartHourly( $data, 'Today (Hourly), UTC', 'graph' );
-        $this->getChartHourly( $data, 'Today (Hourly), UTC', 'graphSum', 'sumdata', 'Line' );
+        $this->getChartHourly( $data, JText::_('Today (Hourly), UTC'), 'graph' );
+        $this->getChartHourly( $data, JText::_('Today (Hourly), UTC'), 'graphSum', 'sumdata', 'Line' );
 
         $this->assign( 'graphData', $data );
         
@@ -312,8 +312,10 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
 
-        $this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graph' );
-        $this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graphSum', 'sumdata', 'Line' );
+        //$this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graph' );
+        //$this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graphSum', 'sumdata', 'Line' );
+        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday), 'graph' );
+        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday), 'graphSum', 'sumdata', 'Line' );
 
         $this->assign( 'graphData', $data );
         
