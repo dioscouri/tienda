@@ -82,7 +82,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     
     </div>
     
-    <?php if ($vars->params['quantity_restriction'] == '1' ) : ?>
+    <?php if (!empty($vars->params['quantity_restriction']) && $vars->params['quantity_restriction'] == '1' ) : ?>
         <input type="hidden" name="product_qty" value="1" size="5" />
     <?php else : ?>
     <!--quantity-->
@@ -95,7 +95,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     <!-- Add to cart button ---> 
     <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
-        <input type="hidden" name="filter_category" value="<?php echo $vars->filter_category; ?>" />
+        <input type="hidden" name="filter_category" value="<?php echo @$vars->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
