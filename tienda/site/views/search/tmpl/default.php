@@ -74,6 +74,8 @@
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?></div>
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'SKU', "tbl.product_sku", @$state->direction, @$state->order ); ?></div>
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'Price', "price", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Rating', "tbl.product_rating", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Reviews', "tbl.product_comments", @$state->direction, @$state->order ); ?></div>
             <div class="reset"></div>
         </div>
         
