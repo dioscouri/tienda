@@ -88,7 +88,8 @@ $baseurl=$this->baseurl;
                 <div class="dateDiv" >
                     <?php echo "(".JHTML::_('date', $review->created_date,'').")";?>
                     <?php if($review->helpful_votes_total!=0 ){?>
-                    <?php echo "( ".$review->helpful_votes ." ".JText::_("of")." ".$review->helpful_votes_total ." ".JText::_("people found this review helpful")." )";?>
+                    <!--<?php #echo "( ".$review->helpful_votes ." ".JText::_("of")." ".$review->helpful_votes_total ." ".JText::_("people found this review helpful")." )";?>-->
+                    <?php echo sprintf( JText::_('X of X found this helpful'), $review->helpful_votes, $review->helpful_votes_total); ?>
                     <?php }?>
                 </div>
                 
