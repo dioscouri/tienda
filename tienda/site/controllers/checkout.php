@@ -932,7 +932,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @return array
 	 */
 	function getShippingRates()
-	{
+	{  
 		// get all the enabled shipping plugins
 		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 		//$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
@@ -949,8 +949,7 @@ class TiendaControllerCheckout extends TiendaController
 			foreach ($plugins as $plugin)
 			{
 				$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
-
-				foreach ($results as $result)
+               foreach ($results as $result)
 				{
 					if(is_array($result))
 					{
@@ -1149,7 +1148,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @return unknown_type
 	 */
 	function selectPayment()
-	{
+	{  
 		$this->current_step = 1;
 
 		// get the posted values
