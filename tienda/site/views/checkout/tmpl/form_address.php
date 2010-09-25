@@ -19,7 +19,7 @@
 	</tr>
 	<?php } 
 			else
-				echo '<input value="Temporary" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+				echo '<input value="'.JText::_( 'Temporary' ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
 	?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">
