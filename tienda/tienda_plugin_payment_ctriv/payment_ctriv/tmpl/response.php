@@ -5,7 +5,7 @@ define( 'DS', DIRECTORY_SEPARATOR );
 define( 'JPATH_BASE', '..'.DS.'..'.DS.'..'.DS.'..'.DS );
 
 // Is the user using HTTPS?
-$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 // Complete the URL
 $url .= $_SERVER['HTTP_HOST'];
 //list of dirs
