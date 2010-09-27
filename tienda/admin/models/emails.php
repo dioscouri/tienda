@@ -38,7 +38,7 @@ class TiendaModelEmails extends TiendaModelBase
 			foreach($l as $k => $v){
 				$item->$k = $v; 
 			}
-			$result[] = &$item;			
+			$result[] = $item;			
 		}
 		
 		return $result;
