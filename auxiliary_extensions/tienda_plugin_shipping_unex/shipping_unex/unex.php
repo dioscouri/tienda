@@ -525,7 +525,89 @@ class TiendaUnexShipment extends TiendaUnex
  */
 class TiendaUnexLabel extends TiendaUnex
 {
+	
+	function setTrackingNumber($track)
+	{
+		$this->track = $track;	
+	}
+	
+	function setPath($path)
+	{
+		$this->path = $path;	
+	}
+	
+	function createRequest()
+    {
+    	$arrayXml['AccessRequest']['UserId'] = $this->username;
+		$arrayXml['AccessRequest']['Password'] = $this->password;
+		
+		$arrayXml['TrackingNumber'] = $this->track;
+				
+		$xml = trim(TiendaArrayToXML::toXml($arrayXml, 'DocumentRequest'));
+		
+		$this->request = $xml;
+    }
     
+	function sendRequest() 
+    {
+        try 
+            {
+                $this->response = @simplexml_load_string( $this->getClient()->ElaboraRequestXML( $this->getRequest() ) );
+                
+                if($this->response)
+                {
+	                if (!@$this->response->Error) 
+	                {
+	                    $files = $this->processResponse($this->response);
+	                    
+	                    return $files;
+	                }
+	                    else
+	                {
+	                    $this->setError( $this->response->Error);
+	                    return false;
+	                }
+                } 
+                
+                // $this->writeToLog($client);    // Write to log file   
+            
+            } catch (SoapFault $exception) {
+                $this->response = array();
+                $this->setError( 'ERROR', (string) $exception );
+                return false; 
+            }        
+    }
+
+    /**
+     * Processes the response from Unex
+     * @param $response
+     * @return boolean 
+     */
+    protected function processResponse( $response )
+    {    	
+        if( property_exists( $response, 'Document' ) )
+        {
+        	if( !is_array($response->Document) )
+				$doc[] = $response->Document;
+			else
+				$doc = $response->Document;
+			
+			foreach($doc as $d)
+			{
+				$document = base64_decode( $d->DataDocument );
+				
+				$filename = strtolower( $d->Type.'.'.$d->FileType );
+				JFile::write( $this->path.DS.$filename, $document );
+				$files[] = $filename;
+			}
+			
+			return $files;
+        
+        }
+        else
+            return false;
+
+    }
 }
 
 ?> 

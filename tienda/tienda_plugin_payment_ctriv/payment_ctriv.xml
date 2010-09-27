@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Consorzio Triveneto</name>
+	<version>0.5.4</version>
+	<creationDate>August 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Consorzio Triveneto payments</description>
+	
+	<files>
+		<filename plugin="payment_ctriv">payment_ctriv.php</filename>
+		<folder>payment_ctriv</folder>	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_ctriv.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="account_id" type="text"  size ="10" default="" label="Account ID (Production)" description="Your Ctriv vendor account id ( production )" />
+		<param name="account_id_demo" type="text"  size ="10" default="" label="Account ID (Demo)" description="Your Ctriv vendor account id ( demo )" />
+		<param name="password" type="text"  size ="10" default="" label="Password (Production)" description="Your Ctriv password (production)" />
+		<param name="password_demo" type="text"  size ="10" default="" label="Password (Demo)" description="Your Ctriv password (demo)" />
+		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not enable for live sales">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="action" type="radio" default="4" label="Contabilizzazione" description="Tipo di Contabilizzazione">
+		  <option value="1">Immediata</option>
+		  <option value="4">Differita</option>
+		</param>
+		<param name="language" type="list" default="en" label="Language" description="Language (Leave Auto to let Joomla! Choose)">
+		  <option value="auto">Auto</option>
+		  <option value="ENG">English</option>
+		  <option value="USA">American</option>
+		  <option value="FRA">French</option>
+		  <option value="DEU">German</option>
+		  <option value="ITA">Italian</option>
+		  <option value="ESP">Spanish</option>
+		</param>
+		<param name="currency" type="list" default="CC" label="Currency" description="Currency">
+		  <option value="978">Euro</option>
+		  <option value="998">Dollars</option>
+		</param>
+  		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+
+		
+	</params>
+			
+</install>

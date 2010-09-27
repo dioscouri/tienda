@@ -128,9 +128,20 @@ class TiendaModelCarts extends TiendaModelBase
             	$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
             	$table->load( $attrib_id );
             	// update the price
-            	$item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-            	// store the attribute's price impact
-            	$item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+            	// + or -
+            	if($table->productattributeoption_prefix != '=')
+            	{
+            		$item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+            		// store the attribute's price impact
+            		$item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+            	}
+            	// only if prefix is =
+            	else
+            	{
+            		$item->product_price = $table->productattributeoption_price;
+            		// store the attribute's price impact
+            		$item->orderitem_attributes_price = $table->productattributeoption_price;
+            	}
             	$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
             	// store a csv of the attrib names
                 $attributes_names[] = JText::_( $table->productattributeoption_name ); 

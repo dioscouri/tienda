@@ -183,6 +183,8 @@
 	                    {
 	                        // TODO Make these link to view them
 	                        echo JText::_( "Payment ID" ).": ".$orderpayment->orderpayment_id."<br/>";
+	                        echo JText::_( "Payment Type" ).": ".JText::_($orderpayment->orderpayment_type)."<br/>";
+	                        echo JText::_( "Details" ).": ".JText::_($orderpayment->transaction_details)."<br/>";
 	                    }
 	                } 
 	                ?>

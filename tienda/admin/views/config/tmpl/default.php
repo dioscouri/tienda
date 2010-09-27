@@ -597,6 +597,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Number of Subcategories per Line' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="subcategories_per_line" id="subcategories_per_line" value="<?php echo $this->row->get('subcategories_per_line', 5); ?>" />
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Number of Subcategories per Line Desc' ); ?>            
+                            </td>
+                        </tr>      
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Default Tax Geozone' ); ?>
                             </th>
                             <td>

@@ -67,24 +67,261 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
      */
     function onAfterDisplayOrderViewOrderHistory( $order )
     {
-    	$vars = new JObject();
-        $vars->state = $this->_getState();
-        $id = JRequest::getInt('id', '0');
-        $form = array();
-        $form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
-        $vars->form = $form;
+    	if( !$this->wasShipped($order) )
+    	{
+    		if( $this->isToShip($order) )
+    		{    		
+		    	$vars = new JObject();
+		        $vars->state = $this->_getState();
+		        $id = JRequest::getInt('id', '0');
+		        $form = array();
+		        $form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
+		        $vars->form = $form;
+		        
+		        $plugin = $this->_getMe(); 
+		        $plugin_id = $plugin->id;
+		        
+		        $vars = new JObject();
+		        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+		        $vars->id = $plugin_id;
+		        $vars->order = $order;
+		        $html = $this->_getLayout('ship_it', $vars);
+    		}
+    		else
+    		{
+    			$html = "";
+    		}
+    	}
+    	else
+    	{
+    		$vars = new JObject();
+	        $vars->state = $this->_getState();
+	        $id = JRequest::getInt('id', '0');
+	        $form = array();
+	        $form['action'] = "index.php?option=com_tienda&view=shipping&task=view&id={$id}";
+	        $vars->form = $form;
+	        
+	        $plugin = $this->_getMe(); 
+	        $plugin_id = $plugin->id;
+	        
+	        $labels = $this->getStickersFiles($order->order_id);
+	        
+	        $vars = new JObject();
+	        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
+	        $vars->id = $plugin_id;
+	        $vars->order = $order;
+	        $html = $this->_getLayout('labels', $vars);
+    	}
         
-        $plugin = $this->_getMe(); 
-        $plugin_id = $plugin->id;
-        
-        $vars = new JObject();
-        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
-        $vars->id = $plugin_id;
-        $vars->order = $order;
-        $html = $this->_getLayout('ship_it', $vars);
-		
         echo $html;
+        
     }
+    
+    private function wasShipped($order)
+    {
+    	if($order->ordershippings)
+    	{
+    		foreach($order->ordershippings as $ship)
+    		{
+    			if($ship->ordershipping_tracking_id != "")
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+ 	private function isToShip($order)
+    {
+    	if($order->ordershippings)
+    	{
+    		foreach($order->ordershippings as $ship)
+    		{
+    			if($ship->ordershipping_type == $this->_element)
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+    function fetchStickersAjax()
+    {
+    	$order_id = JRequest::getInt('order_id');
+    	$model = JModel::getInstance('Orders', 'TiendaModel');
+    	$model->setId($order_id);
+    	
+    	$order = $model->getItem();
+    	$stickers = array();
+    	
+    	foreach(@$order->ordershippings as $ship)
+    	{
+    		if($ship->ordershipping_tracking_id)
+    		{
+    			$tracking_numbers = explode("\n", $ship->ordershipping_tracking_id);
+    			foreach($tracking_numbers as $number)
+    			{
+    				if($number)
+    				{
+		    			$fetched = $this->fetchStickers($number, $this->getStickerPath($order_id, true) );
+		    			if(is_array($fetched))
+		    				$stickers = array_merge( $stickers, $fetched );
+    				}
+    			}
+    		}
+    	}
+    	
+    	$vars = new JObject();
+        $vars->labels = $stickers;
+        $vars->debug = $fetched;
+        $html = $this->_getLayout('stickers', $vars);
+        
+        return $html;
+    	
+    }
+    
+	function fetchStickers($tracking_number, $path)
+	{
+		require_once( dirname( __FILE__ ).DS.'shipping_unex'.DS."unex.php" );
+
+        $username = $this->params->get('username');
+        $customerContext = $this->params->get('customer_context');
+        $password = $this->params->get('password');
+        $url = $this->params->get('url');
+        $uri = $this->params->get('uri');
+        
+        $unex = new TiendaUnexLabel();
+        $unex->setUsername($username);
+        $unex->setPassword($password);
+        $unex->setCustomerContext($customerContext);
+        $unex->setUrl($url);
+        $unex->setUri($uri);
+        
+        $unex->setTrackingNumber($tracking_number);
+		$unex->setPath($path);       
+
+		$files = $unex->sendRequest();
+		
+		return $files;
+		
+	}
+	
+	/**
+	 * Returns array of filenames
+	 * Array
+     * (
+     *     [0] => airmac.png
+     *     [1] => airportdisk.png
+     *     [2] => applepowerbook.png
+     *     [3] => cdr.png
+     *     [4] => cdrw.png
+     *     [5] => cinemadisplay.png
+     *     [6] => floppy.png
+     *     [7] => macmini.png
+     *     [8] => shirt1.jpg
+     * )
+	 * @param $folder
+	 * @return array
+	 */
+	
+	protected function getStickersFiles($id)
+	{
+		$images = array();
+		
+		$folder = $this->getStickerPath($id, true);
+		
+        if (JFolder::exists( $folder ))
+        {
+        	$extensions = array( 'png', 'gif', 'jpg', 'jpeg', 'pdf' );
+        	
+        	$files = JFolder::files( $folder );
+        	foreach ($files as $file)
+        	{
+	            $namebits = explode('.', $file);
+	            $extension = $namebits[count($namebits)-1];
+	            if (in_array($extension, $extensions))
+	            {
+                        $images[] = $file;
+	            }
+        	}
+        }
+        
+       	return $images;
+	}
+	
+	/**
+	 * Returns the full path to the order sticker file
+	 * 
+	 * @param int $id
+	 * @return string
+	 */
+	function getStickerPath( $id, $check )
+	{
+		static $paths;
+		
+		$id = (int) $id;
+		
+		if (!is_array($paths)) { $paths = array(); }
+		
+		if (empty($paths[$id]))
+		{
+			// Check where we should upload the file
+			// This is the default one
+			$dir = Tienda::getPath( 'orders_files' );
+			
+			$helper = TiendaHelperBase::getInstance();
+			
+		
+			// try with the product id
+			if($helper->checkDirectory($dir.DS.$id, $check))
+			{
+				$dir = $dir.DS.$id.DS;
+			}
+			
+			return $dir;
+		}
+		
+		return $paths[$id];
+	}
+	
+    /**
+	 * Returns the full path to the order sticker file path
+	 * 
+	 * @param int $id
+	 * @return string
+	 
+	function getStickerUrl( $id )
+	{
+		static $urls;
+		
+		$id = (int) $id;
+		
+		if (!is_array($urls)) { $urls = array(); }
+		
+		if (empty($urls[$id]))
+		{
+			$urls[$id] = '';
+			
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $row = JTable::getInstance('Products', 'TiendaTable');
+            $row->load( (int) $id );
+			if (empty($row->product_id))
+			{
+				// TODO figure out what to do if the id is invalid 
+				return null;
+			}
+
+			$urls[$id] = $row->getImageUrl();
+		}
+		
+		return $urls[$id];
+	}
+    */
+    
     
     function sendShipmentAjax()
     {

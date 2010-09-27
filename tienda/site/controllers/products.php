@@ -424,7 +424,15 @@ class TiendaControllerProducts extends TiendaController
                 // load the attrib's object
                 $table->load( $attrib_id );
                 // update the price
-                $row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                // + or -
+                if($table->productattributeoption_prefix != '=')
+                {
+                	$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                }
+                else
+                {
+                	$row->price = $table->productattributeoption_price;
+                }
             }  
             $view->assign( 'item', $row );
         }

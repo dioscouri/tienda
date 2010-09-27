@@ -649,6 +649,7 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 
         $list[] = JHTML::_('select.option',  '+', "+" );
         $list[] = JHTML::_('select.option',  '-', "-" );
+        $list[] = JHTML::_('select.option',  '=', "=" );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

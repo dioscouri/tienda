@@ -27,9 +27,13 @@ $citems = @$this->citems;
         </div>
         
         <?php if (!empty($citems)) : ?>
-            <div id="tienda_subcategories">
+            <div id="tienda_subcategories" ">
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
-                <?php foreach ($citems as $citem) : ?>
+                <?php
+                $i = 0;
+                $subcategories_per_line = TiendaConfig::getInstance()->get('subcategories_per_line', '5'); 
+                foreach ($citems as $citem) : 
+                ?>
                     <div class="subcategory">
                         <div class="subcategory_name">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
@@ -44,7 +48,19 @@ $citems = @$this->citems;
                             </div>
                         <?php endif; ?>
                     </div>
-                <?php endforeach; ?>
+                <?php
+                if(($i+1) >= $subcategories_per_line)
+                {
+                ?>
+                <div class="reset"></div>
+                <?php
+                $i = 0; 
+                } 
+                else {
+                	$i++;
+                }
+                endforeach; 
+                ?>
                 <div class="reset"></div>
             </div>
         <?php endif; ?>

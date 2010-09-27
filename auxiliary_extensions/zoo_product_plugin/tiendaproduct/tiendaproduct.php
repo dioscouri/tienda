@@ -25,7 +25,6 @@ class ElementTiendaProduct extends Element {
 	*/
 	public function render($params = array()) 
 	{
-		
 		$value   = $this->_data->get('value', '1');
 		
 		if($value == "1")
