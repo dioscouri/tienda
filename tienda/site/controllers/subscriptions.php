@@ -43,7 +43,7 @@ class TiendaControllerSubscriptions extends TiendaController
         $state['filter_type']       = $app->getUserStateFromRequest($ns.'filter_type', 'filter_type', '', '');
         $state['filter_transaction']    = $app->getUserStateFromRequest($ns.'filter_transaction', 'filter_transaction', '', '');
         $state['filter_user']         = $app->getUserStateFromRequest($ns.'filter_user', 'filter_user', '', '');
-        $state['filter_userid']         = $app->getUserStateFromRequest($ns.'filter_userid', 'filter_userid', '', '');
+        $state['filter_userid']         = $user_id=JFactory::getUser()->id;
         $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
@@ -66,12 +66,12 @@ class TiendaControllerSubscriptions extends TiendaController
      * Adds a subscription history entry to a subscription
      * @return unknown_type
      */
-    function update()
+    function unsubscribe()
     {  
-        $row = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
-        $post = JRequest::get('post', '4');
-        $row->bind( $post );
-        $row->subscription_id = JRequest::getInt('id');
+        $row = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $id=JRequest::getInt('id');
+        $row->load($id);
+        $row->subscription_enabled="0";
         if ($row->save())
         {
             $dispatcher = JDispatcher::getInstance();

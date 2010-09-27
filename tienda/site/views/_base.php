@@ -69,8 +69,10 @@ class TiendaViewBase extends JView
 			    $menu->addEntry(JText::_('Dashboard'), 'index.php?option=com_tienda&view=dashboard', $view == 'dashboard' ? true : false );
 	            $menu->addEntry(JText::_('Profile'), 'index.php?option=com_tienda&view=accounts', $view == 'accounts' ? true : false );
                 $menu->addEntry(JText::_('Order History'), 'index.php?option=com_tienda&view=orders', $view == 'orders' ? true : false);
+                $menu->addEntry(JText::_('Subscription'), 'index.php?option=com_tienda&view=subscriptions', $view == 'orders' ? true : false);
 			}
 			$menu->addEntry(JText::_('Shopping Cart'), 'index.php?option=com_tienda&view=carts', $view == 'carts' ? true : false);
+			
 		}
 	}
 

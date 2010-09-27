@@ -120,18 +120,22 @@ class TiendaGrid extends JHTMLGrid
 		return $href;
 	}
 	
-	public static function enable( $enable, $i, $prefix = '', $imgY = 'tick.png', $imgX = 'publish_x.png' )
+	public static function enable( $enable, $i, $prefix = '', $imgY = 'tick.png', $imgX = 'publish_x.png',$requireAction=true )
 	{
 		$img 	= $enable ? $imgY : $imgX;
 		$task 	= $enable ? 'disable' : 'enable';
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$action = $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-
-		$href = '
+        if($requireAction){
+        	$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
+        }else {
+        $href = '<img src="images/'. $img .'" border="0" alt="'. $alt .'" />';	
+        }
+		
 
 		return $href;
 	}
