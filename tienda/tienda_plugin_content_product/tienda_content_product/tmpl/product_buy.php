@@ -83,9 +83,6 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     </div>
     
     <?php if (!empty($vars->params['quantity_restriction']) && $vars->params['quantity_restriction'] == '1' ) : ?>
-        <input type="hidden" name="product_qty" value="1" size="5" />
-    <?php else : ?>
-    <!--quantity-->
     <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
         <input type="text" name="product_qty" value="1" size="5" />

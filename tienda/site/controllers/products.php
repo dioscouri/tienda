@@ -845,12 +845,39 @@ class TiendaControllerProducts extends TiendaController
         
         $cartitem = JTable::getInstance( 'Carts', 'TiendaTable' );
         $cartitem->load($keynames);
-        if ($product->quantity_restriction && $cartitem->product_qty > '1')
+        if ($product->quantity_restriction)
         {
-            $response['msg'] = $helper->generateMessage( "Item Already in Cart" );
-            $response['error'] = '1';
-            echo ( json_encode( $response ) );
-            return false;
+        	if( $product->quantity_restriction )
+               {
+               		$error = false;
+                    $min = $product->quantity_min;
+                    $max = $product->quantity_max;
+                    
+                    if( $max )
+                    {
+                    	$remaining = $max - $cartitem->product_qty;
+                    	if ($product_qty > $remaining )
+                    	{
+                    		$error = true;
+                    		$msg = $helper->generateMessage( "You have reached the maximum quanitity for this item. You can order another ".$remaining );
+                    	}
+                    }
+                    if( $min )
+                    {
+                    	if ($product_qty < $min )
+                    	{
+                    		$error = true;
+                    		$msg = $helper->generateMessage( "You have not reached the miminum quanitity for this item. You have to order at least ".$min );
+                    	}
+                    }
+                }
+                if($error)
+                {
+		            $response['msg'] = $msg;
+		            $response['error'] = '1';
+		            echo ( json_encode( $response ) );
+		            return false;
+                }
         }
     
         

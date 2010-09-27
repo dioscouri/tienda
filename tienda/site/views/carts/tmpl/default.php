@@ -74,12 +74,7 @@ $router = new TiendaHelperRoute();
                         <?php endif; ?> 
                     </td>
                     <td style="width: 50px; text-align: center;">
-                        <?php if ($item->quantity_restriction) : ?>
-                            <?php echo "1"; ?>
-                            <input name="quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="hidden" size="3" maxlength="3" value="1" />
-                        <?php else : ?>
                             <input name="quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="text" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
-                        <?php endif; ?>
                     </td>
                     <td style="text-align: right;">
                         <?php $itemsubtotal = $item->product_price * $item->product_qty; ?>

@@ -261,8 +261,25 @@ class TiendaHelperCarts extends TiendaHelperBase
                     $keynames['product_attributes'] = $cartitem->product_attributes;
                     
 				    $tableProduct->load( $cartitem->product_id );
-				    if ($tableProduct->quantity_restriction && $cartitem->product_qty > '1' )
+				    if ($tableProduct->quantity_restriction )
                     {
+                    	$min = $tableProduct->quantity_min;
+                    	$max = $tableProduct->quantity_max;
+                    	
+                    	if( $max )
+                    	{
+                    		if ($cartitem->product_qty > $max )
+                    		{
+                    			$quantity = $max;
+                    		}
+                    	}
+                    	if( $min )
+                    	{
+                    		if ($cartitem->product_qty < $min )
+                    		{
+                    			$quantity = $min;
+                    		}
+                    	}
                         // load table to adjust quantity in cart
                         $table = JTable::getInstance( 'Carts', 'TiendaTable' );
                         $table->load($keynames);
@@ -271,7 +288,7 @@ class TiendaHelperCarts extends TiendaHelperBase
                         $table->user_id = $cartitem->user_id;
                         $table->session_id = $cartitem->session_id;                        
                         // adjust the cart quantity
-                        $table->product_qty = '1';
+                        $table->product_qty = $quantity;
                         $table->save();
                     }
 				    

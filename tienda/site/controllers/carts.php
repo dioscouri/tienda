@@ -243,6 +243,8 @@ class TiendaControllerCarts extends TiendaController
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
         $quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
 
+        $msg = JText::_('Quantities Updated');
+        
         $remove = JRequest::getVar('remove');
         if ($remove) 
         {
@@ -291,7 +293,29 @@ class TiendaControllerCarts extends TiendaController
                 {
                     $product = JTable::getInstance( 'Products', 'TiendaTable' );
                     $product->load( array( 'product_id'=>$product_id) );
-                    if ($product->product_recurs || $product->quantity_restriction)
+                    if( $product->quantity_restriction )
+                    {
+                    	$min = $product->quantity_min;
+                    	$max = $product->quantity_max;
+                    	
+                    	if( $max )
+                    	{
+                    		if ($value > $max )
+                    		{
+                    			$msg = JText::_('You have reached the maximum quantity for this object: ').$max;
+                    			$value = $max;
+                    		}
+                    	}
+                    	if( $min )
+                    	{
+                    		if ($value < $min )
+                    		{
+                    			$msg = JText::_('You have reached the minimum quantity for this object: ').$min;
+                    			$value = $min;
+                    		}
+                    	}
+                    }
+                    if ($product->product_recurs)
                     {
                         $value = 1;
                     }
@@ -338,7 +362,7 @@ class TiendaControllerCarts extends TiendaController
         $router = new TiendaHelperRoute();
         
         $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
-        $this->setRedirect( $redirect );
+        $this->setRedirect( $redirect, $msg );
     }
     
     /*

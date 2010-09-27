@@ -285,6 +285,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC updatePriceUserGroups FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkProductQuantityLimits())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductQuantityLimits FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2196,6 +2201,45 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
         
+        return false;        
+    }
+    
+ 	/**
+     * update the products table for quantity min, max & step
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductQuantityLimits()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductQuantityLimits', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "quantity_min";
+            $definitions["quantity_min"] = "INT(11) DEFAULT NULL";
+        $fields[] = "quantity_max";
+            $definitions["quantity_max"] = "INT(11) DEFAULT NULL";
+        $fields[] = "quantity_step";
+            $definitions["quantity_step"] = "INT(11) DEFAULT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductQuantityLimits') );
+            $config->config_name = 'checkProductQuantityLimits';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
         return false;        
     }
 }

@@ -660,7 +660,44 @@ window.addEvent('domready', function(){
                         <?php echo JText::_( 'Purchase Quantity Restriction' ); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'quantity_restriction', '', @$row->quantity_restriction ); ?>
+                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_("No"); ?></label>
+                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_("Yes"); ?></label>
+                        	 <?php // Only display if quantity restriction ?>
+                <div id="quantity_restrictions" style='float: right; width: 50%; <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
+                <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="quantity_min">
+                        <?php echo JText::_( 'Minimum Quantity' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="quantity_min" id="quantity_min" value="<?php echo @$row->quantity_min; ?>" size="30" maxlength="250" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="quantity_max">
+                        <?php echo JText::_( 'Maxium Quantity' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="quantity_max" id="quantity_max" value="<?php echo @$row->quantity_max; ?>" size="30" maxlength="250" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <label for="quantity_step">
+                        <?php echo JText::_( 'Step Quantity' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="quantity_step" id="quantity_step" value="<?php echo @$row->quantity_step; ?>" size="30" maxlength="250" />
+                    </td>
+                </tr>
+            </table>
+                        </div>
                     </td>
                 </tr>
             </table>
