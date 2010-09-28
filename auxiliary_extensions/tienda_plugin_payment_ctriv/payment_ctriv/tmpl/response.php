@@ -18,12 +18,6 @@ for($i = 0; $i < 4; $i++)
 $path = implode("/", $dirs);
 $url .= $path;
 
-// echo the URL
-echo $url;
-
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
-
 $PayID= $_POST["paymentid"];
 $TransID=$_POST["tranid"];
 $ResCode=$_POST["result"];
@@ -41,7 +35,8 @@ else
 	$error = "1";
 }
 
-//Nell URL seguente inserire l'indirizzo corretto del proprio server
-$ReceiptURL="REDIRECT=".$base."index.php?option=com_tienda&view=checkout&task=confirmPayment&error=".$error."&orderpayment_type=payment_ctriv&PaymentID=".$PayID."&TransID=".$TransID."&TrackID=".$TrckID."&postdate=".$PosDate."&resultcode=".$ResCode."&auth=".$AutCode."&udf1=".$udf1."&ErrorText=".$_POST['ErrorText'];
-echo $ReceiptURL;
+echo "REDIRECT=";
+echo $url;
+echo "/index.php?option=com_tienda&view=checkout&task=confirmPayment&error=".$error."&orderpayment_type=payment_ctriv&PaymentID=".$PayID."&TransID=".$TransID."&TrackID=".$TrckID."&postdate=".$PosDate."&resultcode=".$ResCode."&auth=".$AutCode."&udf1=".$udf1."&ErrorText=".$_POST['ErrorText'];
+
 ?>
