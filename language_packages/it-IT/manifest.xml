@@ -4,8 +4,8 @@
     <tag>it-IT</tag>
     <version>0.5.5 Community</version>
     <creationDate>August 2010</creationDate>
-    <author>Massimo Olivio</author>
-    <authorEmail>massimolivio@gmail.com</authorEmail>
+    <author>Massimo Olivio, Giovanni Gresele, Daniele Rosario</author>
+    <authorEmail>massimolivio@gmail.com, supporto@ideazioni.it, daniele@weble.it</authorEmail>
     <authorUrl>Dioscouri.com</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
@@ -15,6 +15,12 @@
 	<site>
 		<files folder="site">
 			<filename>it-IT.com_tienda.ini</filename>
+			<filename>it-IT.mod_tienda_cart.ini</filename>
+			<filename>it-IT.mod_tienda_categories.ini</filename>
+			<filename>it-IT.mod_tienda_currency.ini</filename>
+			<filename>it-IT.mod_tienda_my_orders.ini</filename>
+			<filename>it-IT.mod_tienda_products.ini</filename>
+			<filename>it-IT.mod_tienda_search.ini</filename>
 		</files>
 	</site>
 
@@ -22,6 +28,21 @@
     <administration>
         <files folder="admin">
             <filename>it-IT.com_tienda.ini</filename>
+            <filename>it-IT.mod_tienda_quickicon.ini</filename>
+			<filename>it-IT.mod_tienda_recentorders.ini</filename>
+			<filename>it-IT.mod_tienda_salestatistics.ini</filename>
+			<filename>it-IT.mod_tienda_useraddress.ini</filename>
+			<filename>it-IT.plg_search_tienda.ini</filename>
+			<filename>it-IT.plg_search_tienda.ini</filename>
+			<filename>it-IT.plg_system_tienda_subscriptions.ini</filename>
+			<filename>it-IT.plg_tienda_bug_report.ini</filename>
+			<filename>it-IT.plg_tienda_charts_fusioncharts.ini</filename>
+			<filename>it-IT.plg_tienda_payment_2checkout.ini</filename>
+			<filename>it-IT.plg_tienda_payment_authorizedotnet.ini</filename>
+			<filename>it-IT.plg_tienda_payment_offline.ini</filename>
+			<filename>it-IT.plg_tienda_payment_paypal.ini</filename>
+			<filename>it-IT.plg_tienda_report_bestsellers.ini</filename>
+			<filename>it-IT.plg_tienda_shipping_fedex.ini</filename>
         </files>
     </administration>
 
