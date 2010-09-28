@@ -290,6 +290,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkProductQuantityLimits FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkProductAttributeOptionCode())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionCode FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
+    	if (!$this->checkOrderItemAttributeCode())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemAttributeCode FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2236,6 +2246,76 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkProductQuantityLimits') );
             $config->config_name = 'checkProductQuantityLimits';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+	/**
+     * update the orderitemattributes for the "code" field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkOrderItemAttributeCode()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkOrderItemAttributeCode', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_orderitemattributes';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "orderitemattribute_code";
+            $definitions["orderitemattribute_code"] = "VARCHAR(255) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkOrderItemAttributeCode') );
+            $config->config_name = 'checkOrderItemAttributeCode';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+	/**
+     * update the product attribute option for the "code" field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductAttributeOptionCode()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductAttributeOptionCode', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_productattributeoptions';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "productattributeoption_code";
+            $definitions["productattributeoption_code"] = "VARCHAR(255) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductAttributeOptionCode') );
+            $config->config_name = 'checkProductAttributeOptionCode';
             $config->value = '1';
             $config->save();
             return true;

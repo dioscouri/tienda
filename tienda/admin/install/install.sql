@@ -706,7 +706,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_orderitemattributes` (
   `productattributeoption_id` int(11) NOT NULL,
   `orderitemattribute_name` varchar(255) NOT NULL,
   `orderitemattribute_price` decimal(12,5) NOT NULL,
-  `orderitemattribute_name` varchar(255) NOT NULL,
+  `orderitemattribute_code` varchar(255) NOT NULL,
   `orderitemattribute_prefix` varchar(1) NOT NULL,
   PRIMARY KEY (`orderitemattribute_id`),
   KEY `productattribute_id` (`productattributeoption_id`)
