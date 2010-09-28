@@ -24,6 +24,7 @@
                     <th><?php echo JText::_( "Name" ); ?></th>
                     <th style="width: 15px;"><?php echo JText::_( "Prefix" ); ?></th>
                     <th><?php echo JText::_( "Price" ); ?></th>
+                    <th><?php echo JText::_( "Code" ); ?></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -40,6 +41,9 @@
                     </td>
                     <td>
                         <input id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
+                    </td>
+                    <td>
+                        <input id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
                     </td>
                     <td>
                         <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('Create Option'); ?></button>
@@ -72,6 +76,9 @@
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Price', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="text-align: center;">
+                    <?php echo TiendaGrid::sort( 'Code', "tbl.productattributeoption_code", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
@@ -94,6 +101,9 @@
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="price[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_price; ?>" size="10" />
+                </td>
+                <td style="text-align: center;">
+                    <input type="text" name="code[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_code; ?>" size="10" />
                 </td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />

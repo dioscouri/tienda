@@ -1889,6 +1889,7 @@ class TiendaControllerCheckout extends TiendaController
 						$orderitemattribute->productattributeoption_id = $productattribute->productattributeoption_id;
 						$orderitemattribute->orderitemattribute_name = $productattribute->productattributeoption_name;
 						$orderitemattribute->orderitemattribute_price = $productattribute->productattributeoption_price;
+						$orderitemattribute->orderitemattribute_code = $productattribute->productattributeoption_code;
 						$orderitemattribute->orderitemattribute_prefix = $productattribute->productattributeoption_prefix;
 						if (!$orderitemattribute->save())
 						{

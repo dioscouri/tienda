@@ -433,6 +433,7 @@ class TiendaControllerProducts extends TiendaController
                 {
                 	$row->price = $table->productattributeoption_price;
                 }
+                $row->sku .=  $table->productattributeoption_code;
             }  
             $view->assign( 'item', $row );
         }

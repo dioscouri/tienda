@@ -146,6 +146,7 @@ class TiendaModelCarts extends TiendaModelBase
             		$item->orderitem_attributes_price = $table->productattributeoption_price;
             	}
             	$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
+            	$item->product_sku .= $table->productattributeoption_code;
             	// store a csv of the attrib names
                 $attributes_names[] = JText::_( $table->productattributeoption_name ); 
             }

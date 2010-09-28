@@ -236,7 +236,10 @@
                         <br/>
                         
                         <?php if (!empty($item->attributes_names)) : ?>
-                            <?php echo $item->attributes_names; ?>
+                            <?php echo $item->attributes_names; ?>&nbsp;
+                            <?php if (!empty($item->attributes_codes)) : ?>
+                            	(<?php echo $item->attributes_codes; ?>)
+                            <?php endif; ?>
                             <br/>
                         <?php endif; ?>
 

@@ -287,12 +287,16 @@ class TiendaModelOrders extends TiendaModelBase
 	        	$model->setState( 'filter_orderitemid', $orderitem->orderitem_id);
 	        	$attributes = $model->getList();
 	            $attributes_names = array();
+	            $attributes_codes = array();
 	            foreach ($attributes as $attribute)
 	            {
 	                // store a csv of the attrib names
-	                $attributes_names[] = JText::_( $attribute->orderitemattribute_name ); 
+	                $attributes_names[] = JText::_( $attribute->orderitemattribute_name );
+	                if($attribute->orderitemattribute_code) 
+	                	$attributes_codes[] = JText::_( $attribute->orderitemattribute_code );
 	            }
 	            $orderitem->attributes_names = implode(', ', $attributes_names);
+	            $orderitem->attributes_codes = implode(', ', $attributes_codes);
 	            
 	            // adjust the price
 	            $orderitem->orderitem_price = $orderitem->orderitem_price + floatval($orderitem->orderitem_attributes_price);
