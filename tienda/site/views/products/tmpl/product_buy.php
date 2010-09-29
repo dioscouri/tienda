@@ -84,13 +84,11 @@ $formName = 'adminForm_'.$item->product_id;
     
     </div>
     
-    <?php if ($item->quantity_restriction) : ?>
     <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
         <input type="text" name="product_qty" value="1" size="5" />
     </div>
-    <?php endif; ?>
-    
+ 
     <!-- Add to cart button ---> 
     <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
