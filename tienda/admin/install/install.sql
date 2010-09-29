@@ -5101,7 +5101,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (3839, 239, 'MN', 'Matabeleland North'),
 (3840, 239, 'MS', 'Matabeleland South'),
 (3841, 239, 'MD', 'Midlands');
-INSERT INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
+INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
 (3842, 105, 'AG', 'Agrigento'),
 (3843, 105, 'AL', 'Alessandria'),
 (3844, 105, 'AN', 'Ancona'),
