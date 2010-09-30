@@ -263,6 +263,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				    $tableProduct->load( $cartitem->product_id );
 				    if ($tableProduct->quantity_restriction )
                     {
+                        $quantity = $cartitem->product_qty;
                     	$min = $tableProduct->quantity_min;
                     	$max = $tableProduct->quantity_max;
                     	
