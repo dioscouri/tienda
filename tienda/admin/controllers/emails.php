@@ -23,9 +23,44 @@ class TiendaControllerEmails extends TiendaController
 		$this->set('suffix', 'emails');
 				
 	}
+
+	/**
+	 * Overriding the method because we use a slightly diff getItem in the emails model
+	 * (non-PHPdoc)
+	 * @see tienda/admin/TiendaController::edit()
+	 */
+	function edit()
+	{
+        $id = JRequest::getVar('id', 'en-GB');
+        
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $model  = $this->getModel( $this->get('suffix') );
+        
+        $model->setId( $id );
+        $row = $model->getItem( $id );
+        
+        JRequest::setVar( 'hidemainmenu', '1' );
+        $view->setLayout( 'form' );
+        $view->setModel( $model, true );
+        $view->assign( 'row', $row );
+
+        $model->emptyState();
+        $this->_setModelState();
+        $surrounding = $model->getSurrounding( $model->getId() );
+        $view->assign( 'surrounding', $surrounding );
+
+        $view->display();
+        $this->footer();
+        return;
+	}
 	
-	function save(){
-		
+	/**
+	 * Save method is diff here because we're writing to a file
+	 * (non-PHPdoc)
+	 * @see tienda/admin/TiendaController::save()
+	 */
+	function save()
+	{
 		$id = JRequest::getVar('id', 'en-GB');
 		$temp_values = JRequest::get('post');
 		
@@ -40,7 +75,7 @@ class TiendaControllerEmails extends TiendaController
 		}
 		
 		
-		$lang = $model->getItem();
+		$lang = $model->getItem( $id );
 		$path = $lang->path;
 		
 		$msg = JText::_('Saved');
@@ -68,8 +103,23 @@ class TiendaControllerEmails extends TiendaController
 				$msg = JText::_('Error Saving the new Language File');
 				
 		}
-			
-		$this->setRedirect( 'index.php?option=com_tienda&view=emails', $msg, 'message' );
+
+		$task = JRequest::getVar('task');
+        $redirect = "index.php?option=com_tienda";
+            
+        switch ($task)
+        {
+            case "apply":
+                $redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$id;
+                break;
+            case "save":
+            default:
+                $redirect .= "&view=".$this->get('suffix');
+                break;
+        }
+
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
     

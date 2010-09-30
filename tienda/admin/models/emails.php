@@ -44,40 +44,47 @@ class TiendaModelEmails extends TiendaModelBase
 		return $result;
 	}
 	
-	public function getItem( $id = 'en-GB') {
-		$lang = JLanguage::getInstance($id);
-		// Load only site language (Email language costants should be only there)
-		$lang->load('com_tienda', JPATH_ADMINISTRATOR, $id, true);
+	public function getItem( $id = 'en-GB') 
+	{
+        if (empty( $this->_item ))
+        {
+	    
+    		$lang = JLanguage::getInstance($id);
+    		// Load only site language (Email language costants should be only there)
+    		$lang->load('com_tienda', JPATH_ADMINISTRATOR, $id, true);
+    		
+    		$temp_paths = $lang->getPaths('com_tienda');
+    		foreach($temp_paths as $p => $k){
+    			$path = $p;
+    		}
+    		
+    		$result = new JObject();
+    		$result->name = $lang->getName();
+    		$result->code = $lang->getTag();
+    		$result->path = $path;
+    		
+    		$result->strings = array();
+    		
+    		// Load File and Take only the constants that contains "EMAIL_"
+    		$file = new JRegistry();
+    		$file->loadFile($path);
+    		$strings = $file->toArray();
+    		$result_strings = array();
+    		foreach($strings as $k =>$v){
+    			// Only if it is a prefix!
+    			if(stripos( $k, 'EMAIL_') === 0)
+    				$result_strings[$k] = $v;
+    		}
+    		$result->strings = array('file' => $path,
+    								   'strings' => $result_strings);
+    		
+    		$dispatcher = JDispatcher::getInstance();
+    		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$result ) );
+    		
+    		$this->_item = $result;
+        }
 		
-		$temp_paths = $lang->getPaths('com_tienda');
-		foreach($temp_paths as $p => $k){
-			$path = $p;
-		}
-		
-		$result = new JObject();
-		$result->name = $lang->getName();
-		$result->code = $lang->getTag();
-		$result->path = $path;
-		
-		$result->strings = array();
-		
-		// Load File and Take only the constants that contains "EMAIL_"
-		$file = new JRegistry();
-		$file->loadFile($path);
-		$strings = $file->toArray();
-		$result_strings = array();
-		foreach($strings as $k =>$v){
-			// Only if it is a prefix!
-			if(stripos( $k, 'EMAIL_') === 0)
-				$result_strings[$k] = $v;
-		}
-		$result->strings = array('file' => $path,
-								   'strings' => $result_strings);
-		
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$result ) );
-		
-		return $result;
+		return $this->_item;
 		
 	}
 }
