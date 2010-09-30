@@ -621,7 +621,15 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
         $items = $model->getList();
         foreach (@$items as $item)
         {
-        	$display_suffix = ($item->productattributeoption_price > '0') ? ": ".$item->productattributeoption_prefix.TiendaHelperBase::currency($item->productattributeoption_price) : '';
+        	// Do not display the prefix if it is "=" (it's not good to see =€13, better €13)
+        	if($item->productattributeoption_prefix != '=')
+        	{
+        		$display_suffix = ($item->productattributeoption_price > '0') ? ": ".$item->productattributeoption_prefix.TiendaHelperBase::currency($item->productattributeoption_price) : '';
+        	}
+        	else
+        	{
+        		$display_suffix = ($item->productattributeoption_price > '0') ? ": ".TiendaHelperBase::currency($item->productattributeoption_price) : '';
+        	}
         	$display_name = JText::_($item->productattributeoption_name).$display_suffix;
             $list[] =  self::option( $item->productattributeoption_id, $display_name );
         }
