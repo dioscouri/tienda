@@ -104,12 +104,20 @@ class TiendaControllerCheckout extends TiendaController
 		else
 		$guest = false;
 
-		$register =JRequest::getVar( 'register', '0' );
-
-		if($register == '1')
-		$register = true;
+		$register = JRequest::getVar( 'register', '0' );
+        $form_register = '';
+        
+		if ($register == '1')
+		{
+            $register = true;
+            // get form_register layout
+            $form_register = $this->getRegisterForm();    
+		}
 		else
-		$register = false;
+		{
+		    $register = false;
+		}
+		
 		// determine layout based on login status
 		// Login / Register / Checkout as a guest
 		if (empty($user->id) && !($guest || $register))
@@ -171,9 +179,8 @@ class TiendaControllerCheckout extends TiendaController
 			$view = $this->getView( 'checkout', 'html' );
 			$view->set( 'hidemenu', false);
 			$view->assign( 'order', $order );
-			if($register){
-				$view->assign( 'register', $register );
-			}
+			$view->assign( 'register', $register );
+			$view->assign( 'form_register', $form_register );
 			$view->assign( 'billing_address_form', $billing_address_form );
 			$view->assign( 'shipping_address_form', $shipping_address_form );
 			$view->assign( 'orderSummary', $html );
@@ -433,7 +440,7 @@ class TiendaControllerCheckout extends TiendaController
 		$step = (!empty($submitted_values['step'])) ? strtolower($submitted_values['step']) : '';
 		switch ($step)
 		{
-			case "selectshipping": {
+			case "selectshipping":
 				// Validate the email address if it is a guest checkout!
 				if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1')) && !empty($submitted_values['guest']) )
 				{
@@ -504,7 +511,7 @@ class TiendaControllerCheckout extends TiendaController
 				{
 					$this->registerNewUser($submitted_values);
 				}
-				break; }
+				break;
 			case "selectpayment":
 				$this->validateSelectPayment( $submitted_values );
 				break;
@@ -925,6 +932,31 @@ class TiendaControllerCheckout extends TiendaController
 
 		return $html;
 	}
+	
+    /**
+     * Gets the Register Form
+     *
+     * @param $shipping_method_id
+     * @return unknown_type
+     */
+    function getRegisterForm( $layout='form_register' )
+    {
+        $html = '';
+        $model = $this->getModel( 'Checkout', 'TiendaModel' );
+        $view   = $this->getView( 'checkout', 'html' );
+        $view->set( '_controller', 'checkout' );
+        $view->set( '_view', 'checkout' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->setLayout( $layout );
+        ob_start();
+        $view->display();
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        return $html;
+    }
 
 	/**
 	 * Gets the applicable rates

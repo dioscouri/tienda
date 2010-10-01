@@ -1,7 +1,9 @@
+<?php defined('_JEXEC') or die('Restricted access'); ?>
+
 <table style="clear: both;">
 	<tr>
 		<td>
-		<h4><?php echo JText::_("Your Email Address") ?></h4>
+		<h4><?php echo JText::_("Email") ?></h4>
 		</td>
 		<td style="text-align: left;">
 		<!--    Email Address   --> 
@@ -16,7 +18,7 @@
 			class="inputbox required" maxlength="250" /> *</td>
 	</tr>
 	<tr>
-		<td><h4><?php echo JText::_( 'User name' ); ?>:
+		<td><h4><?php echo JText::_( 'Username' ); ?>:
 		</h4></td>
 		<td><input type="text" id="username" name="username" size="48"
 			value="" class="inputbox required validate-username" maxlength="25" />

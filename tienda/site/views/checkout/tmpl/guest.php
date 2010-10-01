@@ -35,13 +35,12 @@
             </div>
         <?php endif; ?>
         
-        <?php if ($register) :?>
-         <h3>
-            <?php echo JText::_("Register Information") ?>
+        <?php if ($register) : ?>
+        <h3>
+            <?php echo JText::_("Registration") ?>
         </h3>
-       <?php  include 'form_register.php';?>	
-       <?php endif; ?>
-       
+        <?php echo $this->form_register; ?>	
+        <?php endif; ?>
        
         <h3>
             <?php echo JText::_("Set Shipping and Billing Addresses") ?>

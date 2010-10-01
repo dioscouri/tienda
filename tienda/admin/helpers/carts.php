@@ -41,7 +41,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param boolean
 	 * @param string
 	 */
-	function updateCart($cart = array(), $sync = false, $old_sessionid='' )
+	function updateCart($cart = array(), $sync = false, $old_sessionid='', $new_userid='' )
 	{
 		$session =& JFactory::getSession();
 		$user =& JFactory::getUser();
@@ -49,13 +49,17 @@ class TiendaHelperCarts extends TiendaHelperBase
 		if ($sync)
 		{
 			// get the cart based on session id
-			$session_id2use = $old_sessionid;
-			if (empty($old_sessionid))
+			if (!empty($old_sessionid))
 			{
-			    $session_id2use = $session->getId(); 
+			    $session_id2use = $old_sessionid;
 			}
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-			$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+                else
+            {
+                $session_id2use = $session->getId();
+            }
+			
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'Carts', 'TiendaModel' );
 			$model->setState( 'filter_user', '0' );
 			$model->setState( 'filter_session', $session_id2use );
 			$cart = $model->getList();
@@ -68,7 +72,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 			$table = JTable::getInstance( 'Carts', 'TiendaTable' );
 			foreach ($cart as $item)
 			{
-				$item->user_id = (empty($item->user_id)) ? JFactory::getUser()->id : $item->user_id;
+			    $user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
+				$item->user_id = (empty($item->user_id)) ? $user_id : $item->user_id;
 				 
 				$keynames = array();
 				$keynames['user_id'] = $item->user_id;
