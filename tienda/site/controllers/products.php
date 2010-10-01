@@ -321,7 +321,6 @@ class TiendaControllerProducts extends TiendaController
         
         //$model->_item = '';
         $row = $model->getItem( false );
-        
         if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
         {
             return $html;
@@ -424,14 +423,16 @@ class TiendaControllerProducts extends TiendaController
                 // load the attrib's object
                 $table->load( $attrib_id );
                 // update the price
-                // + or -
-                if($table->productattributeoption_prefix != '=')
+                //$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                
+                // is not + or -
+                if($table->productattributeoption_prefix == '=')
                 {
-                	$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+                	$row->price = floatval( $table->productattributeoption_price );
                 }
                 else
                 {
-                	$row->price = $table->productattributeoption_price;
+                    $row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
                 }
                 $row->sku .=  $table->productattributeoption_code;
             }  

@@ -64,7 +64,7 @@ $item = @$this->row;
         </div>
         
         <?php if (TiendaConfig::getInstance()->get('shop_enabled', '1')) : ?>
-            <div class="product_buy" id="product_buy">
+            <div class="product_buy" id="product_buy_<?php echo $item->product_id; ?>">
                 <?php if (!empty($this->product_buy)) { echo $this->product_buy; } ?>
             </div>
         <?php endif; ?>
