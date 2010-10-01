@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="search" method="upgrade">
     <name>Search - Tienda</name>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
     <creationDate>August 2010</creationDate>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
