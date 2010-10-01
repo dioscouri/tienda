@@ -260,6 +260,14 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_googlecheckout/languages" />
         </copy>
+		<!-- LINKPOINT / FIRSTDATA  -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_firstdata" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_firstdata/languages" />
+        </copy>
+    	    	
 		<!-- PSIGATE -->
     	
     <!-- REPORT PLUGINS -->
