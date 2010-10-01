@@ -17,7 +17,6 @@ class TiendaTableProductFiles extends TiendaTable
 {
 	function TiendaTableProductFiles ( &$db ) 
 	{
-		
 		$tbl_key 	= 'productfile_id';
 		$tbl_suffix = 'productfiles';
 		$this->set( '_suffix', $tbl_suffix );
@@ -85,13 +84,14 @@ class TiendaTableProductFiles extends TiendaTable
         {
             return true;
         }
- // or because they have purchased it and the num_downloads is < max (or max == -1)
 
-        // Check the is it unlimited numbers of downloads 
-         $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
-	     $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
+        // or because they have purchased it and the num_downloads is < max (or max == -1)
+
+        // Check if they have an unlimited number of downloads 
+        $productdownloads = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
+	    $productdownloads->load( array( 'productfile_id'=>$this->productfile_id, 'user_id'=>$user_id) );
          
-         if ( $productdownloads->productdownload_max == '-1')
+        if ( $productdownloads->productdownload_max == '-1' || $productdownloads->productdownload_max > '0' )
         {
             return true;
         }

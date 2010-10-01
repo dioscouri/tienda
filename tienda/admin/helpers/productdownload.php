@@ -76,15 +76,14 @@ class TiendaHelperProductDownload extends TiendaHelperBase
         return false;
     }
     
-    /*
+    /**
      *  Given the user id and the file id will return the row id on which entry is greate then 0
      *  
      *  @param user id
      *  @param productfile id
      *  @return productdown load id
      */
-    
-    function  getProductDownloadInfo($productfile_id, $user_id)
+    function getProductDownloadInfo( $productfile_id, $user_id )
     {
     	Tienda::load( 'TiendaQuery', 'library.query' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -111,7 +110,6 @@ class TiendaHelperProductDownload extends TiendaHelperBase
         $db->setQuery( (string) $query );
         $item = $db->loadObject();
         return $item;
-        
     }
     
  }

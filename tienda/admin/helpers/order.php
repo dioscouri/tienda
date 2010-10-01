@@ -114,16 +114,15 @@ class TiendaHelperOrder extends TiendaHelperBase
                 {
                     continue;
                 }
-                // then add them to the order as a productdownloads table object
+                
+                // then create a productdownloads table object
                 foreach ($items as $item)
                 {
                     $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
                     $productDownload->product_id = $orderitem->product_id;
                     $productDownload->productfile_id = $item->productfile_id;
-                    // Applied the file's Max download for the product download max
+                    // Download Maximum Number is respective of the quantity purchased
                     $productDownload->productdownload_max = ($item->max_download) * ($orderitem->orderitem_quantity);
-                     // $productDownload->productdownload_max = '-1';
-                    // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
                     $productDownload->order_id = $order->order_id;
                     $productDownload->user_id = $order->user_id;
                     if (!$productDownload->save())

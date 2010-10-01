@@ -684,59 +684,32 @@ class TiendaControllerProducts extends TiendaController
 
 		// log and download
 		Tienda::load( 'TiendaFile', 'library.file' );
+		
 		// Log the download
 		$productfile->logDownload( $user->id );
 		
 		// After download complete it will update the productdownloads on the basis of the user 
 		
-       // geting the ProductDownloadId to updated for which productdownload_max  is greater then 0
+        // geting the ProductDownloadId to updated for which productdownload_max  is greater then 0
 	    $productToDownload = $helper->getProductDownloadInfo($productfile->productfile_id, $user->id);;
         
-        if(!empty($productToDownload))
+        if (!empty($productToDownload))
         {
-         $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
-         $productDownload->load($productToDownload->productdownload_id);
-         $productDownload->productdownload_max = $productDownload->productdownload_max-1;
-         if(!$productDownload->save()) 
-         {
-           // TODO in case product Download is not updating properly .
-         }
+            $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+            $productDownload->load($productToDownload->productdownload_id);
+            $productDownload->productdownload_max = $productDownload->productdownload_max-1;
+            if (!$productDownload->save()) 
+            {
+                // TODO in case product Download is not updating properly .
+            }
         }
-     if ($downloadFile = TiendaFile::download( $productfile ))
+     
+        if ($downloadFile = TiendaFile::download( $productfile ))
 		{
 			$link = JRoute::_( $link, false );
-			 $this->setRedirect( $link );
+			$this->setRedirect( $link );
 		}
 	}
-
-	//  /**
-	//   *
-	//   * @return unknown_type
-	//   */
-	//    function quickadd()
-	//    {
-	//        $model  = $this->getModel( $this->get('suffix') );
-	//        $model->getId();
-	//        $row = $model->getItem();
-	//        if (empty($row->product_enabled))
-	//        {
-	//            $redirect = "index.php?option=com_tienda&view=products";
-	//            $redirect = JRoute::_( $redirect, false );
-	//            $this->message = JText::_( "Invalid Product" );
-	//            $this->messagetype = 'notice';
-	//            JFactory::getApplication()->redirect( $redirect, $this->message, $this->messagetype );
-	//            return;
-	//        }
-	//
-	//        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-	//        $view->set('hidemenu', true);
-	//        $view->set('_doTask', true);
-	//        $view->setModel( $model, true );
-	//        $view->setLayout('quickadd');
-	//        $view->display();
-	//        $this->footer();
-	//        return;
-	//    }
 
 	/**
 	 *

@@ -41,10 +41,9 @@
             <td style="text-align: center;">
                 <input name="createproductfile_file" type="file" size="40" />
             </td>
-           <td>
-            <input type="text" name="max_download" id="max_download" value="-1" size="30" maxlength="250" />
-           </td>
-            
+            <td style="text-align: center;">
+                <input type="text" name="max_download" id="max_download" value="-1" size="10" maxlength="250" />
+            </td>
     	</tr>
     	</tbody>
     </table>
@@ -95,9 +94,9 @@
 					echo JHTMLSelect::genericlist($list, 'createproductfile_file');
                 ?>
             </td>
-             <td>
-            <input type="text" name="max_download" id="max_download" value="-1" size="30" maxlength="250" />
-           </td>
+            <td style="text-align: center;">
+                <input type="text" name="max_download" id="max_download" value="-1" size="10" maxlength="250" />
+            </td>
             
     	</tr>
     	</tbody>
