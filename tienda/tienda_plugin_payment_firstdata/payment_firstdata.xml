@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>LinkPoint / First data</name>
+	<version>0.5.7</version>
+	<creationDate>September 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables LinkPoint / FirstData payments</description>
+	
+	<files>
+		<filename plugin="payment_firstdata">payment_firstdata.php</filename>
+		<folder>payment_firstdata</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_payment_firstdata.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+        <param name="store_number" type="text" size="50" default="" label="TIENDA LINKPOINT FIRSTDATA STORE NUMBER" description="TIENDA LINKPOINT FIRSTDATA STORE NUMBER DESC"/>
+        <param name="key_file" type="text" size="150" default="" label="TIENDA LINKPOINT FIRSTDATA KEY FILE" description="TIENDA LINKPOINT FIRSTDATA KEY FILE DESC"/>
+        <param type="spacer" />
+        <param name="sandbox" type="radio" default="0" label="TIENDA LINKPOINT FIRSTDATA USE SANDBOX" description="TIENDA LINKPOINT FIRSTDATA USE SANDBOX DESC">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="debug" type="radio" default="0" label="TIENDA LINKPOINT FIRSTDATA DEBUG" description="TIENDA LINKPOINT FIRSTDATA DEBUG DESC">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>        
+        <param name="sandbox_store_number" type="text" size="50" default="" label="TIENDA LINKPOINT FIRSTDATA SANDBOX STORE NUMBER" description="TIENDA LINKPOINT FIRSTDATA SANDBOX STORE NUMBER DESC"/>
+        <param name="sandbox_key_file" type="text" size="150" default="" label="TIENDA LINKPOINT FIRSTDATA SANDBOX KEY FILE" description="TIENDA LINKPOINT FIRSTDATA SANDBOX KEY FILE DESC"/>
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	</params>
+</install>
