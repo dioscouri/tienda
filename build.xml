@@ -35,6 +35,10 @@
     <property name="cfg.comName" value="${cfg.name}" />
     <property name="cfg.comDir" value="${basedir}/${cfg.comName}" />
     <property name="cfg.buildVersionDir" value="${cfg.buildDir}" />
+	<property name="cfg.plgPrefix" value="tienda_plugin_" />
+	<property name="cfg.modPrefix" value="mod_tienda_" />
+	<property name="cfg.langPrefix" value="tienda_translation_" />
+	<property name="cfg.langDir" value="${basedir}/language_packages" />
     <property name="cfg.adminFilesDir" location="${cfg.comDir}/admin" />
     <property name="cfg.siteFilesDir" location="${cfg.comDir}/site" />
     <property name="cfg.extensionsDir" location="${basedir}/extensions" />
@@ -372,51 +376,92 @@
     <!-- AUXILIARY EXTENSIONS -->
     </target>
 	
-    <target name="init" description="creates nessecary directory to build with">
-        <mkdir dir="${cfg.buildVersionDir}" />
-        <mkdir dir="${cfg.buildVersionDir}/plugins" />
-        <mkdir dir="${cfg.buildVersionDir}/modules" />
-        <mkdir dir="${cfg.buildVersionDir}/components" />
-        <mkdir dir="${cfg.extensionsDir}" />
+    <target name="init" description="creates necessary directory to build with">
+        <mkdir dir="${cfg.buildDir}" />
+        <mkdir dir="${cfg.buildDir}/plugins" />
+        <mkdir dir="${cfg.buildDir}/modules" />
+        <mkdir dir="${cfg.buildDir}/components" />
+    	<mkdir dir="${cfg.buildDir}/languages" />
     </target>
 
-    <target name="build_component" depends="update_extensions" description="packages the final component file">
-        <zip destfile="${cfg.buildVersionDir}/components/${cfg.comName}.zip" basedir="${cfg.comDir}" />
+	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages" />
+	
+    <target name="build_component" depends="init" description="packages the final component file">
+        <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
     </target>
 
-    <target name="build_plugins" description="packages any plugins">
-        <!-- add all plugin directories here -->
-        <!-- EX: <zip destfile="${cfg.buildVersionDir}/plugins/aplugin.zip" basedir="${cfg.versionDir}/aplugin" /> -->
-        <!--zip destfile="${cfg.buildVersionDir}/plugins/tienda_plugin_content_product.zip" basedir="${cfg.comDir}/tienda_plugin_content_product" />--> 
+    <target name="build_plugins" depends="init" description="packages any plugins">
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrapoints" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}bug_report.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}bug_report" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}charts_fusioncharts" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}checkoutexample.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}checkoutexample" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}content_product.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}content_product" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_2checkout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_2checkout" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_authorizedotnet.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_authorizedotnet" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cmcic_v30.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cmcic_v30" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_firstdata" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_googlecheckout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_googlecheckout" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_offline.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_offline" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_moneris.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneris" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_pagseguro.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_pagseguro" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_payson.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_payson" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sips_atos.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sips_atos" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypal.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypal" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />
+        <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requirephonenumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requirephonenumber" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}search.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}search" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_canada.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_canada" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_dhl.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_dhl" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_fedex.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_fedex" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_standard.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_standard" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_unex.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_unex" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_ups.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_ups" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_usps.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_usps" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}subscriptions" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}system.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}system" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_virtuemartmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_virtuemartmigration" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_xcartmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_xcartmigration" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}user.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}user" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}zoo.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}zoo" />
+    	<zip destfile="${cfg.buildDir}/plugins/zoo_product_plugin.zip" basedir="${cfg.aux}/zoo_product_plugin" />
     </target>
 
-    <target name="build_modules" description="packages any modules">
-        <!-- add all module directories here -->
-        <!-- EX: <zip destfile="${cfg.buildVersionDir}/modules/amodule.zip" basedir="${cfg.versionDir}/amodule" /> -->
+    <target name="build_modules" depends="init" description="packages any modules">
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cart.zip" basedir="${cfg.comDir}/${cfg.modPrefix}cart" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}categories.zip" basedir="${cfg.comDir}/${cfg.modPrefix}categories" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}currency.zip" basedir="${cfg.comDir}/${cfg.modPrefix}currency" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}my_orderitems.zip" basedir="${cfg.comDir}/${cfg.modPrefix}my_orderitems" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}my_orders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}my_orders" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}popular_products.zip" basedir="${cfg.comDir}/${cfg.modPrefix}popular_products" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}products.zip" basedir="${cfg.comDir}/${cfg.modPrefix}products" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}quickicon.zip" basedir="${cfg.comDir}/${cfg.modPrefix}quickicon" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}recentorders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}recentorders" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}salestatistics.zip" basedir="${cfg.comDir}/${cfg.modPrefix}salestatistics" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}search.zip" basedir="${cfg.comDir}/${cfg.modPrefix}search" />
+		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}useraddress.zip" basedir="${cfg.comDir}/${cfg.modPrefix}useraddress" />
+    </target>
+	
+    <target name="build_languages" depends="init" description="packages any languages">
+        <zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}cs-CZ.zip" basedir="${cfg.langDir}/cs-CZ" />
+    	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}da-DK.zip" basedir="${cfg.langDir}/da-DK" />
+    	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}de-DE.zip" basedir="${cfg.langDir}/de-DE" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}es-ES.zip" basedir="${cfg.langDir}/es-ES" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}fr-FR.zip" basedir="${cfg.langDir}/fr-FR" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}it-IT.zip" basedir="${cfg.langDir}/it-IT" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}nl-NL.zip" basedir="${cfg.langDir}/nl-NL" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}ru-RU.zip" basedir="${cfg.langDir}/ru-RU" />
+		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sv-SE.zip" basedir="${cfg.langDir}/sv-SE" />
     </target>
 
-    <target name="update_extensions" depends="build_plugins, build_modules" description="copies fresh builds of plugins and extensions to the admin/extensions folder">
-        <copy todir="${cfg.extensionsDir}" overwrite="true">
-            <fileset dir="${cfg.buildVersionDir}/plugins" />
-        </copy>
-        <copy todir="${cfg.extensionsDir}" overwrite="true">
-            <fileset dir="${cfg.buildVersionDir}/modules" />
-        </copy>
+    <target name="build_extensions" depends="clean, init, build_plugins, build_modules" description="builds installable packages of both modules and plugins">
     </target>
 
-    <target name="info" description="prints information">
-        <echo message="Project:            ${cfg.name}" />
-        <tstamp>
-            <format property="buildtime" pattern="yyyy-MM-dd'T'HH:mm:ss" />
-        </tstamp>
-        <echo message="Buildtime:    ${buildtime}" />
-    </target>
-
-    <target name="clean" description="Destroys all generated files and dirs.">
-        <delete dir="${cfg.buildVersionDir}" />
-        <delete dir="packages" />
-        <delete dir="${cfg.extensionsDir}" />
-        <delete file="${cfg.xmlfile}" />
+    <target name="clean" description="Destroys all generated files and dirs">
+        <delete dir="${cfg.buildDir}/plugins" />
+        <delete dir="${cfg.buildDir}/modules" />
+        <delete dir="${cfg.buildDir}/components" />
+        <delete dir="${cfg.buildDir}/languages" />
     </target>
 
     <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">
@@ -445,21 +490,6 @@
         <ftp server="${ftp.server}" userid="${ftp.user}" password="${ftp.password}" action="put" remotedir="${ftp.dir}">
             <fileset refid="ftp.upload.fileset" />
         </ftp>
-    </target>
-
-    <target name="build_xml" description="builds an xml listing of all the files in the working copy">
-        <fileset id="site" dir="${cfg.siteFilesDir}" />
-        <echo message="${line.separator}&lt;files folder=&quot;site&quot;&gt;${line.separator}&lt;filename&gt;" file="${cfg.xmlfile}" append="false" />
-        <echo-fileset filesetref="site" />
-        <echo message="&lt;/filename&gt;${line.separator}&lt;/files&gt;${line.separator}" file="${cfg.xmlfile}" append="true" />
-
-        <fileset id="admin" dir="${cfg.adminFilesDir}" />
-        <echo message="${line.separator}&lt;files folder=&quot;admin&quot;&gt;${line.separator}&lt;filename&gt;" file="${cfg.xmlfile}" append="true" />
-        <echo-fileset filesetref="admin" />
-        <echo message="&lt;/filename&gt;${line.separator}&lt;/files&gt;${line.separator}" file="${cfg.xmlfile}" append="true" />
-
-        <replace file="${cfg.xmlfile}" token="${cfg.siteFilesDir}/" value="" />
-        <replace file="${cfg.xmlfile}" token="${cfg.adminFilesDir}/" value="" />
     </target>
 
     <macrodef name="echo-fileset" description="creates a printable directory listing">

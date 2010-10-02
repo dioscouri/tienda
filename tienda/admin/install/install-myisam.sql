@@ -379,6 +379,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
   `product_qty` INT(11) NOT NULL DEFAULT '1' ,
   `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `cartitem_params` text COMMENT 'Params for the cart item',
   INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC)
 )
 ENGINE = MyISAM
@@ -468,8 +469,8 @@ INSERT IGNORE INTO `#__tienda_orderstates` (`order_state_id`, `order_state_name`
 (1, 'Pending'),
 (2, 'Processing'),
 (3, 'Shipped'),
-(7, 'Canceled'),
 (5, 'Complete'),
+(7, 'Canceled'),
 (8, 'Denied'),
 (9, 'Canceled Reversal'),
 (10, 'Failed'),
@@ -611,8 +612,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_url` varchar(255) DEFAULT NULL,
   `product_sku` varchar(64) DEFAULT NULL,
   `product_model` varchar(255) DEFAULT NULL,
-  `product_check_inventory` tinyint(1) DEFAULT '1' COMMENT 'Check Inventory for this Product?',
-  `product_ships` tinyint(1) DEFAULT '1' COMMENT 'Product Requires Shipping?',
+  `product_check_inventory` tinyint(1) DEFAULT '0' COMMENT 'Check Inventory for this Product?',
+  `product_ships` tinyint(1) DEFAULT '0' COMMENT 'Product Requires Shipping?',
   `ordering` int(11) NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
@@ -644,6 +645,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
   `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `product_sql` text NOT NULL COMMENT 'SQL queries to be executed after the product is purchased',
+  `product_listprice` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `product_listprice_enabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Display the product_listprice field?',
+  `product_rating` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'The overall rating for the product. Is x out of 5',
+  `product_comments` int(11) NOT NULL DEFAULT '0' COMMENT 'The number of enabled comments the product has',
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,
@@ -687,6 +692,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `orderitem_quantity` INT(11) NULL DEFAULT NULL ,
   `orderitem_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Base price of the item',
   `orderitem_attributes_price` varchar(64) NOT NULL COMMENT 'The increase or decrease in price per item as a result of attributes. Includes + or - sign',
+  `orderitem_discount` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Coupon discount applied to each item',
   `orderitem_final_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Price of item inclusive of quantity, attributes, tax, and shipping',
   `orderitem_tax` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `orderitem_shipping` decimal(12,5) NOT NULL DEFAULT '0.00000',
@@ -694,6 +700,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `orderitem_status` CHAR(1) NULL DEFAULT NULL ,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT' ,
   `orderitem_recurs` tinyint(1) NOT NULL COMMENT 'Do any payments for this orderitem recur?',
+  `recurring_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Recurring price of the item',
   `recurring_payments` int(11) NOT NULL COMMENT 'How many recurring payments?',
   `recurring_period_interval` int(3) NOT NULL COMMENT 'How many period-units between payments?',
   `recurring_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
@@ -705,6 +712,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
   `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
   `subscription_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
+  `orderitem_params` text COMMENT 'Params for the orderitem',
   PRIMARY KEY (`orderitem_id`) ,
   INDEX `idx_order_item_order_id` (`order_id` ASC) ,
   INDEX `idx_order_item_vendor_id` (`vendor_id` ASC) ,
@@ -802,8 +810,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   `ordershipping_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'Element name of shipping plugin',
   `ordershipping_price` decimal(15,5) DEFAULT '0.00000',
   `ordershipping_name` varchar(255) NOT NULL DEFAULT '',
+  `ordershipping_code` varchar(255) NOT NULL DEFAULT '',
   `ordershipping_tax` decimal(15,5) DEFAULT '0.00000',
   `ordershipping_extra` decimal(15,5) DEFAULT '0.00000',
+  `ordershipping_tracking_id` mediumtext NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT',
   PRIMARY KEY (`ordershipping_id`),
   KEY `idx_order_shipping_order_id` (`order_id`),
@@ -812,6 +822,25 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
 ENGINE=MyISAM 
 DEFAULT CHARSET=utf8 
 COMMENT='Stores each of the shipping records for orders' ;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_ordercoupons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_ordercoupons` (
+  `ordercoupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `ordercoupon_name` varchar(64) DEFAULT NULL,
+  `ordercoupon_code` varchar(64) DEFAULT NULL,
+  `ordercoupon_type` tinyint(1) NOT NULL COMMENT '0=Per Order, 1=Per Product',
+  `ordercoupon_group` varchar(32) NOT NULL COMMENT 'price, tax, shipping',
+  `ordercoupon_automatic` tinyint(1) NOT NULL COMMENT '0=User-Submitted, 1=Automatic',
+  `ordercoupon_value` decimal(12,5) DEFAULT NULL COMMENT 'The coupon face value',
+  `ordercoupon_value_type` tinyint(1) NOT NULL COMMENT '0=Flat-rate, 1=Percentage',
+  `ordercoupon_amount` decimal(12,5) NOT NULL COMMENT 'The total discount amount of this coupon',
+  PRIMARY KEY (`ordercoupon_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -874,6 +903,33 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
 )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_groups` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(255) NOT NULL,
+  `group_description` text NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_usergroupxref`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_usergroupxref` (
+  `group_id` INT(11) NOT NULL DEFAULT '0' ,
+  `user_id` INT(11) NOT NULL DEFAULT '0' ,
+  INDEX `idx_user_group_xref_group_id` (`group_id` ASC) ,
+  INDEX `idx_user_group_xref_user_id` (`user_id` ASC)
+)
+ENGINE = MyISAM
+DEFAULT CHARSET=utf8;
+
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productdownloads`
@@ -1080,6 +1136,13 @@ CREATE TABLE IF NOT EXISTS `#__tienda_zones` (
 )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+-- Dumping data for table `#__tienda_groups`
+-- --------------------------------------------------------
+
+INSERT IGNORE INTO `#__tienda_groups` (`group_id`, `group_name`, `group_description`, `created_date`, `modified_date`) VALUES
+(1, 'Default', '<p>Default</p>', '2010-09-19 10:27:00', '2010-09-19 10:27:03');
 
 -- --------------------------------------------------------
 -- Dumping data for table `#__tienda_zones`
@@ -5109,6 +5172,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `helpful_votes` int(11) NOT NULL DEFAULT '0',
   `helpful_votes_total` int(11) NOT NULL DEFAULT '0',
   `reported_count` int(11) NOT NULL DEFAULT '0',
+  `rating_updated` tinyint(1) NOT NULL COMMENT 'Was the product overall rating updated?',
   PRIMARY KEY (`productcomment_id`),
   UNIQUE KEY `product_id` (`product_id`,`user_id`),
   KEY `fk_Product_ProductReview` (`product_id`)
@@ -5126,3 +5190,31 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcommentshelpfulness` (
   PRIMARY KEY (`productcommentshelpfulness_id`),
   UNIQUE KEY `review_id` (`productcomment_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_coupons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_coupons` (
+  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_name` varchar(64) DEFAULT NULL,
+  `coupon_code` varchar(64) DEFAULT NULL,
+  `coupon_type` tinyint(1) NOT NULL COMMENT '0=Per Order, 1=Per Product',
+  `coupon_group` varchar(32) NOT NULL COMMENT 'price, tax, shipping',
+  `coupon_automatic` tinyint(1) NOT NULL COMMENT '0=User-Submitted, 1=Automatic',
+  `coupon_value` decimal(12,5) DEFAULT NULL,
+  `coupon_value_type` tinyint(1) NOT NULL COMMENT '0=Flat-rate, 1=Percentage',
+  `currency_id` int(11) DEFAULT NULL,
+  `coupon_description` text,
+  `coupon_params` text NOT NULL,
+  `created_date` datetime NOT NULL COMMENT 'GMT Only',
+  `modified_date` datetime NOT NULL COMMENT 'GMT Only',
+  `start_date` datetime NOT NULL COMMENT 'GMT Only',
+  `expiration_date` datetime DEFAULT NULL COMMENT 'GMT Only',
+  `coupon_enabled` tinyint(1) NOT NULL,
+  `coupon_uses` int(11) NOT NULL COMMENT 'Running count of the number of uses of this coupon',
+  `coupon_max_uses` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
+  `coupon_max_uses_per_user` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
