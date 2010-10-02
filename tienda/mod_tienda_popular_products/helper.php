@@ -46,7 +46,7 @@ class modTiendaPopularProductsHelper extends JObject
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 
         // get the model
-    	$model = JModel::getInstance( 'orderitems', 'TiendaModel' );
+    	$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
         $model->setState( 'limit', $this->params->get( 'max_number', '5') );
     	
         $query = $model->getQuery();
