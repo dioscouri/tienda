@@ -1,30 +1,24 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<style type="text/css">
-    #firstdata_form { width: 100%; }
-    #firstdata_form td { padding: 5px; }
-    #firstdata_form .field_name { font-weight: bold; }
-</style>
-
 <div class="note">
-    <?php echo JText::_( "Tienda Authorizedotnet Payment Message" ); ?>
+    <?php echo JText::_( "TIENDA LINKPOINT FIRSTDATA PAYMENT MESSAGE" ); ?>
 </div>
 
 <table id="firstdata_form">            
     <tr>
-        <td class="field_name"><?php echo JText::_( 'Credit Card Type' ) ?></td>
-        <td><?php echo $vars->cctype_input ?></td>
-    </tr>
-    <tr>
-        <td class="field_name"><?php echo JText::_( 'Card Number' ) ?></td>
+        <td class="field_name"><?php echo JText::_( 'CARD NUMBER' ) ?></td>
         <td><input type="text" name="cardnum" size="35" value="<?php echo !empty($vars->prepop['x_card_num']) ? ($vars->prepop['x_card_num']) : '' ?>" /></td>
     </tr>
     <tr>
-        <td class="field_name"><?php echo JText::_( 'Expiration Date' ) ?></td>
-        <td><input type="text" name="cardexp" size="10" value="<?php echo !empty($vars->prepop['x_exp_date']) ? ($vars->prepop['x_exp_date']) : '' ?>" /></td>
+        <td class="field_name"><?php echo JText::_( 'EXPIRATION MONTH' ) ?></td>
+        <td><input type="text" name="cardexpmonth" size="2" value="<?php echo !empty($vars->prepop['x_exp_month']) ? ($vars->prepop['x_exp_month']) : '' ?>" /></td>
     </tr>
     <tr>
-        <td class="field_name"><?php echo JText::_( 'Card CVV Number' ) ?></td>
+        <td class="field_name"><?php echo JText::_( 'EXPIRATION YEAR' ) ?></td>
+        <td><input type="text" name="cardexpyear" size="2" value="<?php echo !empty($vars->prepop['x_exp_year']) ? ($vars->prepop['x_exp_year']) : '' ?>" /></td>
+    </tr>    
+    <tr>
+        <td class="field_name"><?php echo JText::_( 'CARD CVV NUMBER' ) ?></td>
         <td><input type="text" name="cardcvv" size="10" value="" /></td>
     </tr>
 </table>

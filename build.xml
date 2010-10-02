@@ -266,10 +266,10 @@
         </copy>
 		<!-- LINKPOINT / FIRSTDATA  -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_firstdata" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginPaymentDir}_firstdata/languages" />
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata/languages" />
         </copy>
     	    	
 		<!-- PSIGATE -->
@@ -399,7 +399,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_2checkout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_2checkout" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_authorizedotnet.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_authorizedotnet" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cmcic_v30.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cmcic_v30" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_firstdata" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_firstdata" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_googlecheckout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_googlecheckout" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_offline.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_offline" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_moneris.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneris" />
