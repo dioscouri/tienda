@@ -50,6 +50,11 @@ class TiendaHelperShipping extends TiendaHelperBase
             $object->id = '3';
             $object->title = JText::_( "Flat Rate Per Order" );
             $instance[$object->id] = $object;
+            
+            $object = new JObject();
+            $object->id = '4';
+            $object->title = JText::_( "Price Based Per Item" );
+            $instance[$object->id] = $object;
 		}
 		
 		return $instance;

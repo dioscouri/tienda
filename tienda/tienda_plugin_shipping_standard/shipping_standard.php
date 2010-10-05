@@ -240,10 +240,12 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				    }
 				}
                 break;
+            case "4":
             case "1":
             case "0":
             	// 0 = per item - flat rate
             	// 1 = per item - weight based
+                // 4 = per item - price based, a percentage of the product's price
             	$rates = array();
                 foreach ($orderItems as $item)
                 {
@@ -261,9 +263,22 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         // $geozone_rates[$geozone_id][$pid] contains the shipping rate object for ONE product_id at this geozone.  
                         // You need to multiply by the quantity later
                         $rate = $this->getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
-                        $geozone_rates[$geozone_id][$pid] = $rate; 
-                        $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
-                        $geozone_rates[$geozone_id][$pid]->qty = $qty;
+                        
+                        if ($shippingmethod->shipping_method_type == '4')
+                        {
+                            // the rate is a percentage of the product's price
+                            $rate->shipping_rate_price = ($rate->shipping_rate_price/100) * $item->orderitem_final_price;
+                            
+                            $geozone_rates[$geozone_id][$pid] = $rate; 
+                            $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
+                            $geozone_rates[$geozone_id][$pid]->qty = '1'; // If the method_type == 4, qty should be 1 (we don't need to multiply later, line 314, since this is a percentage of the orderitem_final_price)
+                        } 
+                            else
+                        {
+                            $geozone_rates[$geozone_id][$pid] = $rate; 
+                            $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
+                            $geozone_rates[$geozone_id][$pid]->qty = $qty;                            
+                        }
                         
                         // if $rate->shipping_rate_id is empty, then no real rate was found 
                         if (!empty($rate->shipping_rate_id))
@@ -379,7 +394,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             return JTable::getInstance('ShippingRates', 'TiendaTable');
         }
       
-        if ($use_weight)
+        if (!empty($use_weight) && $use_weight == '1')
         {
             if(!empty($weight))
             {
