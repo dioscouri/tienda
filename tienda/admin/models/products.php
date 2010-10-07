@@ -122,7 +122,11 @@ class TiendaModelProducts extends TiendaModelBase
         	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_sku ) ) ).'%');
         	$query->where('LOWER(tbl.product_sku) LIKE '.$key);
        	}
-       	if (strlen($filter_category))
+       	if ($filter_category == 'none')
+       	{
+       		$query->where("NOT EXISTS (SELECT * FROM #__tienda_productcategoryxref AS p2c WHERE tbl.product_id = p2c.product_id)");
+       	}
+       	else if (strlen($filter_category))
        	{
        		$query->where('p2c.category_id = '.(int) $filter_category);
        	}

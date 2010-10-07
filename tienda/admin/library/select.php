@@ -120,6 +120,7 @@ class TiendaSelect extends JHTMLSelect
         $list = array();
 		if ($allowAny) {
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'category_id', 'category_name' );
+			$list[] =  self::option('none', "- ".JText::_( 'Orphan products' )." -", 'category_id', 'category_name' );
 		}
  	 	if ($allowNone) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
