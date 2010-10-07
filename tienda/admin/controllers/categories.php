@@ -405,10 +405,11 @@ class TiendaControllerCategories extends TiendaController
 		foreach($categories as $p){
 			$i++;
 			$image = $p->category_full_image;
+			$path = Tienda::getPath('categories_images');
 
 			if($image != ''){
 					
-				$img = new TiendaImage($image, 'category');
+				$img = new TiendaImage($path.'/'.$image);
 				$img->setDirectory( Tienda::getPath('categories_images'));
 
 				// Thumb
