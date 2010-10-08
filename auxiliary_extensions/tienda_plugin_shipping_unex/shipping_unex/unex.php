@@ -585,14 +585,12 @@ class TiendaUnexLabel extends TiendaUnex
      */
     protected function processResponse( $response )
     {    	
+    	
+    	$response = @$response->Response;
+
         if( property_exists( $response, 'Document' ) )
         {
-        	if( !is_array($response->Document) )
-				$doc[] = $response->Document;
-			else
-				$doc = $response->Document;
-			
-			foreach($doc as $d)
+			foreach($response->Document as $d)
 			{
 				$document = base64_decode( $d->DataDocument );
 				

@@ -94,6 +94,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     	}
     	else
     	{
+    		$labels = $this->getStickersFiles($order->order_id);
+    		
     		$vars = new JObject();
 	        $vars->state = $this->_getState();
 	        $id = JRequest::getInt('id', '0');
@@ -104,12 +106,12 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 	        $plugin = $this->_getMe(); 
 	        $plugin_id = $plugin->id;
 	        
-	        $labels = $this->getStickersFiles($order->order_id);
-	        
 	        $vars = new JObject();
 	        $vars->link = "index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]={$plugin_id}";
 	        $vars->id = $plugin_id;
 	        $vars->order = $order;
+	        $vars->order_id = $order->order_id;
+	        $vars->labels = $labels;
 	        $html = $this->_getLayout('labels', $vars);
     	}
         
@@ -156,28 +158,32 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     	$model->setId($order_id);
     	
     	$order = $model->getItem();
-    	$stickers = array();
+    	$stickers = $this->getStickersFiles($order_id);
     	
-    	foreach(@$order->ordershippings as $ship)
+    	if(!count($stickers))
     	{
-    		if($ship->ordershipping_tracking_id)
-    		{
-    			$tracking_numbers = explode("\n", $ship->ordershipping_tracking_id);
-    			foreach($tracking_numbers as $number)
-    			{
-    				if($number)
-    				{
-		    			$fetched = $this->fetchStickers($number, $this->getStickerPath($order_id, true) );
-		    			if(is_array($fetched))
-		    				$stickers = array_merge( $stickers, $fetched );
-    				}
-    			}
-    		}
+	    	foreach(@$order->ordershippings as $ship)
+	    	{
+	    		if($ship->ordershipping_tracking_id)
+	    		{
+	    			$tracking_numbers = explode("\n", $ship->ordershipping_tracking_id);
+	    			foreach($tracking_numbers as $number)
+	    			{
+	    				if($number)
+	    				{
+			    			$fetched = $this->fetchStickers($number, $this->getStickerPath($order_id, true) );
+			    			if(is_array($fetched))
+			    				$stickers = array_merge( $stickers, $fetched );
+	    				}
+	    			}
+	    		}
+	    	}
     	}
     	
     	$vars = new JObject();
         $vars->labels = $stickers;
-        $vars->debug = $fetched;
+        $vars->debug = $this->getError();
+        $vars->order_id = $order_id;
         $html = $this->_getLayout('stickers', $vars);
         
         return $html;
@@ -205,6 +211,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		$unex->setPath($path);       
 
 		$files = $unex->sendRequest();
+		
+		$this->setError($unex->getError());
 		
 		return $files;
 		
@@ -271,7 +279,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		{
 			// Check where we should upload the file
 			// This is the default one
-			$dir = Tienda::getPath( 'orders_files' );
+			$dir = Tienda::getPath( 'order_files' );
 			
 			$helper = TiendaHelperBase::getInstance();
 			
@@ -287,6 +295,151 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		
 		return $paths[$id];
 	}
+	
+	/**
+     * downloads a file
+     * 
+     * @return void
+     */
+    function downloadFile() 
+    {
+        $user =& JFactory::getUser();
+        $order_id = intval( JRequest::getvar( 'id', '', 'request', 'int' ) );
+        $filename = JRequest::getvar( 'filename', '', 'request', 'string' );
+        $path = $this->getStickerPath($order_id, false);
+        
+        // log and download
+        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
+        if ($downloadFile = $this->download( $filename, $path )) 
+        {
+           	echo '<h3>'.JText::_('Download Ok').'</h3>';  
+        }
+        echo '<h3>'.JText::_('Download Failed').'</h3>';
+        return;
+    }
+    
+/**
+     * Downloads file
+     * 
+     * @param object Valid productfile object
+     * @param mixed Boolean
+     * @return array
+     */
+    function download( $file, $path ) 
+    {
+        $success = false;
+        
+        //$file->productfile_path = JPath::clean($file->productfile_path);
+        
+        $ext = substr($file, strlen($file) - 3);
+        
+        // This will set the Content-Type to the appropriate setting for the file
+        switch( $ext ) {
+             case "pdf": $ctype="application/pdf"; break;
+             case "exe": $ctype="application/octet-stream"; break;
+             case "zip": $ctype="application/zip"; break;
+             case "doc": $ctype="application/msword"; break;
+             case "xls": $ctype="application/vnd.ms-excel"; break;
+             case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
+             case "gif": $ctype="image/gif"; break;
+             case "png": $ctype="image/png"; break;
+             case "jpeg":
+             case "jpg": $ctype="image/jpg"; break;
+             case "mp3": $ctype="audio/mpeg"; break;
+             case "wav": $ctype="audio/x-wav"; break;
+             case "mpeg":
+             case "mpg":
+             case "mpe": $ctype="video/mpeg"; break;
+             case "mov": $ctype="video/quicktime"; break;
+             case "avi": $ctype="video/x-msvideo"; break;
+        
+             // The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+             case "php":
+             case "htm":
+             case "html": if ($path) die("<b>Cannot be used for ". $ext ." files!</b>");
+        
+             default: $ctype="application/octet-stream";
+        }
+        
+        // If requested file exists
+        if (JFile::exists($path.DS.$file)) {
+        
+            
+            
+            // Fix IE bugs
+            if (isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+                $header_file = preg_replace('/\./', '%2e', $file, substr_count($file, '.') - 1);
+                
+                if (ini_get('zlib.output_compression'))  {
+                    ini_set('zlib.output_compression', 'Off');
+                }               
+            }
+            else {
+                $header_file = $file;
+            }
+            
+			while(@ob_end_clean());
+            
+            // Prepare headers
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public", false);
+            
+            header("Content-Description: File Transfer");
+            header("Content-Type: $ctype" );
+            header("Accept-Ranges: bytes");
+            header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: " . filesize($path.DS.$file));
+            
+            // Output file by chunks
+            error_reporting(0);
+            if ( ! ini_get('safe_mode') ) {
+                set_time_limit(0);
+            }
+            
+            readfile($path.DS.$file);
+            
+            $success = true;            
+            exit;
+        }
+        
+        return $success;        
+    }
+    
+    /**
+     * Reads the file by chunks
+     * 
+     * @param string $filename
+     * @param int $chunksize
+     * @param boolean $retbytes 
+     * @access public
+     * @return boolean|int Depending on the $retbytes param returns either the the bytes delivered or boolean status
+     */ 
+    function readfileChunked($filename, $chunksize = 1024, $retbytes = true)
+    {
+        $buffer = '';
+        $cnt =0;
+        $handle = fopen($filename, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+        while (!feof($handle)) {
+            $buffer = fread($handle, $chunksize);
+            echo $buffer;
+            @ob_flush();
+            flush();
+            if ($retbytes) {
+                $cnt += strlen($buffer);
+            }
+        }
+       $status = fclose($handle);
+       if ($retbytes && $status) {
+            return $cnt; // return num. bytes delivered like readfile() does.
+        }
+        return $status;
+    }
 	
     /**
 	 * Returns the full path to the order sticker file path
@@ -335,7 +488,9 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
  		}	
  		else
  		{
- 			return JText::_('Shipment Failed!');
+ 			$html  = JText::_('Shipment Failed!');
+ 			$html .= '<br />'.$this->getError(); 
+ 			return $html;
  		}
     }
     
@@ -348,6 +503,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $password = $this->params->get('password');
         $url = $this->params->get('url');
         $uri = $this->params->get('uri');
+        $packaging = $this->params->get('packaging');
         
         $packageCount = 0;
         $packages = array();
@@ -355,27 +511,50 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $orderItems = $order->orderitems;
         $orderinfo = $order->orderinfo;
         
-        foreach ( $orderItems as $item )
+        // one package per each orderitem
+        if($packaging == 'per_item')
         {
-            $product = JTable::getInstance('Products', 'TiendaTable');
-            $product->load($item->product_id);
-            if ($product->product_ships)
-            {
-                $packageCount = $packageCount + 1;
+        
+	        foreach ( $orderItems as $item )
+	        {
+	            $product = JTable::getInstance('Products', 'TiendaTable');
+	            $product->load($item->product_id);
+	            if ($product->product_ships)
+	            {
+	                $packageCount = $packageCount + 1;
+	                $weight = array(
+	                    'Value' => $product->product_weight,
+	                    'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
+	                );
+	                
+	                $dimensions = array(
+	                    'Length' => $product->product_length,
+	                    'Width' => $product->product_width,
+	                    'Height' => $product->product_height,
+	                    'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
+	                );
+	                
+	                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
+	            }            
+	        }
+        }
+   	    // one package for the whole order
+        else
+        {
+        		$packageCount = 1;
                 $weight = array(
-                    'Value' => $product->product_weight,
+                    'Value' => $this->params->get('weight', '1'),
                     'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
                 );
                 
                 $dimensions = array(
-                    'Length' => $product->product_length,
-                    'Width' => $product->product_width,
-                    'Height' => $product->product_height,
+                    'Length' => $this->params->get('length', '1'),
+                    'Width' => $this->params->get('width', '1'),
+                    'Height' => $this->params->get('height', '1'),
                     'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
                 );
                 
                 $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
-            }            
         }
         
 		$unex = new TiendaUnexShipment();
@@ -412,7 +591,12 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		$unex->setDestAddressLine($orderinfo->shipping_address_1);
 		$unex->setDestAddressLine($orderinfo->shipping_address_2);
 		$unex->setDestCity($orderinfo->shipping_city);
-		$unex->setDestStateOrProvinceCode($orderinfo->shipping_zone_code);
+		
+		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone->load($orderinfo->shipping_zone_id);
+		
+		
+		$unex->setDestStateOrProvinceCode($zone->code);
 		$unex->setDestPostalCode($orderinfo->shipping_postal_code);
 		
 		$country = JTable::getInstance('Countries', 'TiendaTable');
@@ -437,8 +621,15 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		$unex->setService($code);
 		
 		$unex->createRequest();
+		
+		$result = $unex->sendRequest($ordershipping_id);
+		
+		if(!$result)
+		{
+			$this->setError($unex->getError());
+		}
             
-        return $unex->sendRequest($ordershipping_id);   
+        return $result;   
     }
     
     function getServices()
@@ -501,31 +692,55 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $password = $this->params->get('password');
         $url = $this->params->get('url');
         $uri = $this->params->get('uri');
+        $packaging = $this->params->get('packaging');
         
         $packageCount = 0;
         $packages = array();
         
-        foreach ( $orderItems as $item )
+        // one package per each orderitem
+        if($packaging == 'per_item')
         {
-            $product = JTable::getInstance('Products', 'TiendaTable');
-            $product->load($item->product_id);
-            if ($product->product_ships)
-            {
-                $packageCount = $packageCount + 1;
+        
+	        foreach ( $orderItems as $item )
+	        {
+	            $product = JTable::getInstance('Products', 'TiendaTable');
+	            $product->load($item->product_id);
+	            if ($product->product_ships)
+	            {
+	                $packageCount = $packageCount + 1;
+	                $weight = array(
+	                    'Value' => $product->product_weight,
+	                    'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
+	                );
+	                
+	                $dimensions = array(
+	                    'Length' => $product->product_length,
+	                    'Width' => $product->product_width,
+	                    'Height' => $product->product_height,
+	                    'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
+	                );
+	                
+	                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
+	            }            
+	        }
+        }
+        // one package for the whole order
+        else
+        {
+        		$packageCount = 1;
                 $weight = array(
-                    'Value' => $product->product_weight,
+                    'Value' => $this->params->get('weight', '1'),
                     'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
                 );
                 
                 $dimensions = array(
-                    'Length' => $product->product_length,
-                    'Width' => $product->product_width,
-                    'Height' => $product->product_height,
+                    'Length' => $this->params->get('length', '1'),
+                    'Width' => $this->params->get('width', '1'),
+                    'Height' => $this->params->get('height', '1'),
                     'Units' => $this->params->get('dimension_unit', 'CM') // get this from product?
                 );
                 
                 $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
-            }            
         }
         
         

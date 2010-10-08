@@ -25,16 +25,14 @@
 		<param name="customer_context" type="text" size="50" default="" label="Customer Context" description="Customer Context Desc"/>
 		<param name="url" type="text" size="50" default="http://www.unexws.it/WebServiceProject/services/WSNextShip" label="Url" description=""/>
 		<param name="uri" type="text" size="50" default="http://packageNextShip" label="Uri" description=""/>
-		<param name="services" type="textarea" default="DHL_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
-		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
-			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
-			<option value="DHL_10KG_BOX">DHL_10KG_BOX</option>
-			<option value="DHL_25KG_BOX">DHL_25KG_BOX</option>
-			<option value="DHL_BOX">DHL_BOX</option>
-			<option value="DHL_ENVELOPE">DHL_ENVELOPE</option>
-			<option value="DHL_PAK">DHL_PAK</option>
-			<option value="DHL_TUBE">DHL_TUBE</option>
+		<param name="packaging" type="list" default="per_item" label="Type of Packaging" description="Type of Packaging Desc">
+			<option value="per_item">Per Item</option>
+			<option value="per_order">Per Order</option>
 		</param>
+		<param name="width" type="text" default="1" label="Width (only for per_order)" description="" />
+		<param name="length" type="text" default="1" label="Length (only for per_order)" description="" />
+		<param name="height" type="text" default="1" label="Height (only for per_order)" description="" />
+		<param name="weight" type="text" default="1" label="Weight (only for per_order)" description="" />
 		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
 			<option value="KG">KG</option>
 			<option value="LB">LB</option>
