@@ -82,12 +82,12 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     
     </div>
     
-    <?php if (!empty($vars->params['quantity_restriction']) && $vars->params['quantity_restriction'] == '1' ) : ?>
+    <?php // if (!empty($vars->params['quantity_restriction']) && $vars->params['quantity_restriction'] == '1' ) : ?>
     <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
         <input type="text" name="product_qty" value="1" size="5" />
     </div>
-    <?php endif; ?>
+    <?php // endif; ?>
     
     <!-- Add to cart button ---> 
     <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 

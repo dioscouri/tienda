@@ -398,7 +398,7 @@ class TiendaHelperUser extends TiendaHelperBase
      */
     function updateUserEmail( $userid, $email )
     {
-        $user =& JFactory::getUser();
+        $user =& JFactory::getUser( $userid );
         $user->set('email', $email);
         
         if ( !$user->save() ) 
