@@ -107,6 +107,7 @@
 
 <!--PAYPAL VARIABLES-->
 	<input type='hidden' name='cmd' value='<?php echo $vars->cmd; ?>'>
+	<input type='hidden' name='rm' value='2'>
 	<input type="hidden" name="business" value="<?php echo $vars->merchant_email; ?>" />
 	<input type='hidden' name='return' value='<?php echo JRoute::_( $vars->return_url ); ?>'>
 	<input type='hidden' name='cancel_return' value='<?php echo JRoute::_( $vars->cancel_url ); ?>'>
