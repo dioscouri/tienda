@@ -234,6 +234,37 @@ class TiendaHelperRoute extends TiendaHelperBase
         return $link;
     }
     
+ 	/**
+     * Generates the routed url for a manufacturer 
+     * and attaches the itemid if possible
+     *  
+     * @param   int $manufacturer_id    The id of the manufacturer
+     *
+     * @return  string  The routed link
+     */
+    public static function manufacturer($manufacturer_id, $itemid_only=false)
+    {
+        $needles = array(
+            'view' => 'products' ,
+            'filter_manufacturer' => (int) $manufacturer_id
+        );
+
+        if ($itemid_only)
+        {
+            return self::findItemid($needles);
+        }
+        
+        // create the link
+        $link = 'index.php?option=com_tienda&view=products&task=manufacturers&filter_manufacturer='. $category_id;
+
+        if ($itemid = self::findItemid($needles)) 
+        {
+            $link .= '&Itemid=' . $itemid;
+        }
+
+        return $link;
+    }
+    
     /**
      * Build the route
      *

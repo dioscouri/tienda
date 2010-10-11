@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA MANUFACTURER DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA MANUFACTURER DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA MANUFACTURER DEFAULT LAYOUT</name>
+		<description>TIENDA MANUFACTURER DEFAULT LAYOUT DESC</description>
+        <url addpath="/administrator/components/com_tienda/elements">
+            <param name="filter_manufacturer" type="tiendamanufacturer" section="com_tienda" default="" label="Select Manufacturer" description="A Tienda Manufaturer ID" />
+        </url>
+	</state>
+</metadata>
