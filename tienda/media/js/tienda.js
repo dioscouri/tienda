@@ -481,3 +481,22 @@ function tiendaRating(id)
         document.getElementById('rating_'+count).getElementsByTagName("img")[0].src=window.com_tienda.jbase + "media/com_tienda/images/star_00.png";
     }
 }
+
+function tiendaCheckUpdateCartQuantities(form, text)
+{
+	
+	var quantities = form.getElements('input[name^=quantities]');
+	var original_quantities = form.getElements('input[name^=original_quantities]');
+	
+	var returned = true;
+	
+	quantities.each(function(item, index){
+		if(item.value != original_quantities[index].value)
+		{
+			returned = confirm(text);
+		}
+	});
+	
+	return returned;
+
+}

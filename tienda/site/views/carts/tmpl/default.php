@@ -9,6 +9,7 @@ $items = @$this->items;
 $state = @$this->state;
 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 $router = new TiendaHelperRoute();
+$quantities = array();
 ?>
 
 <div class='componentheading'>
@@ -75,6 +76,8 @@ $router = new TiendaHelperRoute();
                     </td>
                     <td style="width: 50px; text-align: center;">
                             <input name="quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="text" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
+                            <!-- Keep Original quantity to check any update to it when going to checkout -->
+                            <input name="original_quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
                     </td>
                     <td style="text-align: right;">
                         <?php $itemsubtotal = $item->product_price * $item->product_qty; ?>
@@ -121,7 +124,7 @@ $router = new TiendaHelperRoute();
                     </td>
                     <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
-				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>">
+				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('CHECK_CART_UPDATE'); ?>');">
 				            <?php echo JText::_( "Begin Checkout" ); ?>
 				        </a>]
 				        </div>
