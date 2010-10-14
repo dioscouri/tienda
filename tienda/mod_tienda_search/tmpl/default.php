@@ -12,15 +12,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaSelect', 'library.select' );
-$item_id = JRequest::getVar('Itemid', 0)
-if($item_id)
+$item_id = JRequest::getVar('Itemid', 0);
+$append = '';
+if (!empty($item_id))
 {
 	$append = '&Itemid='.$item_id; 
 }
-else
-{
-	$append = '';
-}
+
 $url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search'.$append , false);
 ?>
 
