@@ -12,6 +12,7 @@
 	
 	<files>
 		<filename plugin="requiretaxnumber">requiretaxnumber.php</filename>
+		<folder>requiretaxnumber</folder>  	
 	</files>
 
     <languages>

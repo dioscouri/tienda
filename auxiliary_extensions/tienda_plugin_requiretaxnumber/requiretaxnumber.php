@@ -25,6 +25,15 @@ class plgTiendaRequireTaxNumber extends TiendaPluginBase
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
+	
+	function onAfterDisplayAddressDetails($state, $prefix)
+	{
+		 $vars = new JObject();
+		 $vars->state = $state;
+		 $vars->prefix = $prefix;
+		 $html = $this->_getLayout('default', $vars);
+		 echo $html;
+	}
     
     /**
      * 

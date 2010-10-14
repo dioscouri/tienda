@@ -173,5 +173,9 @@
 			value="<?php echo @$row->fax; ?>" />
 		</td>
 	</tr>
+	<?php 
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onAfterDisplayAddressDetails', array($row, '') );
+	?>
 	</tbody>
 </table>

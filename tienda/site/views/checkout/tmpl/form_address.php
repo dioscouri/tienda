@@ -128,6 +128,11 @@
 			type="text" size="25" maxlength="250" />
 		</td>
 	</tr>
+	<?php 
+		$data = new JObject();
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onAfterDisplayAddressDetails', array($data, $this->form_prefix) );
+	?>
 	</tbody>
 </table>
 </fieldset>
