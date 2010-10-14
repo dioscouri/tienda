@@ -124,6 +124,10 @@ class TiendaHelperEmail extends TiendaHelperBase
               break;
         }
         
+        // allow plugins to modify the order email recipient list
+        $dispatcher = JDispatcher::getInstance();
+        $dispatcher->trigger( 'onGetEmailRecipients', array( $id, $type, &$recipients ) );
+        
         return $recipients;
     }
 
@@ -143,8 +147,6 @@ class TiendaHelperEmail extends TiendaHelperBase
         $lang = &JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
         
-        $return = array();
-        
         $return = new stdClass();
         $return->body = '';
         $return->subject = '';
@@ -154,9 +156,6 @@ class TiendaHelperEmail extends TiendaHelperBase
         
         $sitename = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl = $config->get( 'siteurl', JURI::root() );
-
-        $lang = JFactory::getLanguage();
-        $lang->load('com_tienda', JPATH_ADMINISTRATOR);
         
         switch ($type) 
         {
