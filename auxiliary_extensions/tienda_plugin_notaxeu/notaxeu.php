@@ -28,10 +28,10 @@ class plgTiendaNoTaxEu extends TiendaPluginBase
     
     /**
      * 
-     * @param array $order     The order table object
+     * @param	TiendaTableOrders $order     The order table object
      * @return unknown_type
      */
-    function onCalculateTaxTotals( $order )
+    function onCalculateTaxTotals( &$order )
     {
         $params = $this->params;
         $geozone = $params->get('geozone_id');
@@ -44,9 +44,11 @@ class plgTiendaNoTaxEu extends TiendaPluginBase
         }
         
         // Is in in the geozone, and is it a company?
-        if(in_array($geozone, $geozones) && !empty($order->getBillingAddress()->company));
+        $is_company = strlen($order->getBillingAddress()->tax_number) > 0;
+        if(in_array($geozone, $geozones) && ($is_company))
         {
-        	$order->tax_total = 0;
+        	echo 'here'.strlen($order->getBillingAddress()->tax_number).'here';
+        	$order->order_tax = 0;
         }
     }
 }
