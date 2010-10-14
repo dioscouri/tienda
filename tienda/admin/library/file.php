@@ -101,6 +101,7 @@ class TiendaFile extends JObject
 		//$this->proper_name = basename($userfile['name']);
 		$userFileName = basename($userfile['name']);
 		$this->proper_name = TiendaFile::getProperName($userFileName);
+		
 		if ($userfile['size'] == 0) {
 			$this->setError( JText::_( 'Invalid File' ) );
 			return $success;

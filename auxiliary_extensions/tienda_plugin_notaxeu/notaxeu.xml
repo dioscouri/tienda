@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Plugin - No Tax on EU Companies</name>
+	<version>0.5.7</version>
+	<creationDate>October 2010</creationDate>
+	<author>Weble</author>
+	<authorEmail>info@weble.it</authorEmail>
+	<authorUrl>http://www.weble.it</authorUrl>
+	<copyright>2010 Weble Snc</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This Plugin let the EU Companies not pay the Taxes</description>
+	
+	<files>
+		<filename plugin="notaxeu">notaxeu.php</filename>
+	</files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_notaxeu.ini</language>
+    </languages>
+    
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="geozone_id" type="tiendageozone" default="" label="Geozone to Exclude From Taxes" description="GeoZone to Exclude from Taxes if Company"/>
+	</params>
+			
+</install>

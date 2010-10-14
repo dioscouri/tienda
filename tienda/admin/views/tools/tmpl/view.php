@@ -2,7 +2,7 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
 	<h3>
 	    <?php echo @$row->name ?>

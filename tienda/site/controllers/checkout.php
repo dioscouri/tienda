@@ -685,10 +685,11 @@ class TiendaControllerCheckout extends TiendaController
 		$table = $model->getTable();
 		$addressArray = $this->getAddress( $address_id, $prefix, $values );
 
-		// IS Guest Checkout?
+		// IS Guest Checkout or register??
 		$user_id = JFactory::getUser()->id;
-		if(TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0)
-		$addressArray['user_id'] = 9999; // Fake id for the checkout process
+		$register = $values['register'];
+		if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0) || $register)
+			$addressArray['user_id'] = 9999; // Fake id for the checkout process
 			
 		$table->bind( $addressArray );
 		if (!$table->check())

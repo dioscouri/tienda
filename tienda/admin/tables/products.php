@@ -179,4 +179,61 @@ class TiendaTableProducts extends TiendaTable
             $this->save();
         }
 	}
+	
+	/**
+	 * Creates a product and its related informations (price, quantity
+	 * The price will be created from the $this->product_price property
+	 * The quantity will be created from the $this->product_quantity property
+	 */
+	function create()
+	{
+		// If this product is already stored, we shouldn't create the product!
+		if($this->product_id)
+		{
+			$this->setError( JText::_('You cannot create an already existing product') );
+			return false;
+		}
+		
+		// Save the product First
+		$success = $this->save();
+		
+		if($success)
+		{
+			// now the price
+			if($this->product_price)
+			{
+				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
+				$price->product_id = $this->product_id;
+				$price->product_price = $this->product_price;
+				$success = $price->save();
+				
+				if(!$success)
+				{
+					$this->setError($price->getError());
+					return false;
+				}
+			}
+			
+			// now the quantities
+			if($this->product_quantity)
+			{
+				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
+				$quantity->product_id = $this->product_id;
+				$quantity->quantity = $this->product_quantity;
+				$success = $quantity->save();
+				
+				if(!$success)
+				{
+					$this->setError($quantity->getError());
+					return false;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }

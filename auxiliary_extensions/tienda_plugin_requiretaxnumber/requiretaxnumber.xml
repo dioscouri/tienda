@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Plugin for Requiring Tax Number During Checkout</name>
+	<version>0.5.7</version>
+	<creationDate>October 2010</creationDate>
+	<author>Weble</author>
+	<authorEmail>info@weble.it</authorEmail>
+	<authorUrl>http://www.weble.it</authorUrl>
+	<copyright>2010 Weble Snc</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This Plugin forces tax number to be required during checkout</description>
+	
+	<files>
+		<filename plugin="requiretaxnumber">requiretaxnumber.php</filename>
+	</files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_requiretaxnumber.ini</language>
+        <language tag="it-IT">languages/it-IT.plg_tienda_requiretaxnumber.ini</language>
+    </languages>
+    
+	<params>
+	</params>
+			
+</install>

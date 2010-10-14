@@ -773,9 +773,17 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		$unex->setShipmentType("E");
             
         $unex->getRates();
-        foreach( $unex->rates as &$rate )
+        
+        if($unex->rates)
         {
-            $rate['element'] = $this->_element;
+	        foreach( $unex->rates as &$rate )
+	        {
+	            $rate['element'] = $this->_element;
+	        }
+        }
+        else
+        {
+        	return array();
         }
         
         
