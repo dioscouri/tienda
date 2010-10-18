@@ -177,6 +177,11 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                 $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
             }            
         }
+        
+        //tienda bug 3207: the USPS API v2 only takes whole figures for the pounds field.
+        // fix: calculate the pounds and ounces based on the total weight in pounds (LB)
+        $totalPounds = floor($totalWeight);
+        $totalOunces = ceil(($totalWeight-$totalPounds)*16);
                                     
         foreach ($services as $service=>$serviceName)
         {
@@ -188,7 +193,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $usps->setService($service);
             $usps->setDestZip($address->postal_code);
             $usps->setOrigZip($origin_zip);
-            $usps->setWeight($totalWeight);
+            $usps->setWeight($totalPounds, $totalOunces);
             $usps->setContainer($container);
             $usps->setCountry($country);
             $price = $usps->getPrice();
