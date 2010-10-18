@@ -99,7 +99,27 @@ class TiendaModelAddresses extends TiendaModelBase
         foreach($list as $item)
         {
             $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
+            $extra_fields = new JParameter(trim($item->extra_fields));
+            $extra_fields = $extra_fields->toArray();
+            foreach($extra_fields as $k => $v)
+            {
+            	$item->$k = $v;
+            }
         }
         return $list;
+    }
+    
+    public function getItem()
+    {
+    	$item = parent::getItem();
+    	
+    	$extra_fields = new JParameter(trim($item->extra_fields));
+        $extra_fields = $extra_fields->toArray();
+        foreach($extra_fields as $k => $v)
+        {
+            $item->$k = $v;
+        }
+        
+        return $item;
     }
 }
