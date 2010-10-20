@@ -130,6 +130,8 @@ img.addcart {
                 	$image = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::getPath('images'));
                     ?> 
                     <img class='addcart' src='<?php echo Tienda::getUrl('images').$image; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
+                     <?php
+                    break;
             }
         endif; 
         ?>
