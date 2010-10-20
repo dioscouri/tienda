@@ -143,4 +143,42 @@ class TiendaHelperImage extends TiendaHelperBase
 		
 		return $dest_path;
 	}
+	
+	/**
+	 * getLocalizedname
+	 * 
+	 * get a localized version of an image name (addtocart_it-IT.png)
+	 * if path is specified, checks also if that image exists, and if not, 
+	 * returns the orginal name
+	 * 
+	 * @param string $image
+	 * @param string $path
+	 * @param string $lang (auto or language tag)
+	 */
+	
+	public static function getLocalizedName($image, $path = '', $lang = 'auto')
+	{
+		if( $lang == 'auto' )
+		{
+			$lang = JFactory::getLanguage();
+			$lang = $lang->getTag();			
+		}
+		
+		$name = JFile::stripExt($image);
+		$ext = JFile::getExt($image);
+		
+		// append language tag
+		$new_image = $name.'_'.$lang.'.'.$ext;
+
+		// checks image existance
+		if($path)
+		{
+			if( !JFile::exists($path.DS.$new_image) )
+			{
+				$new_image = $image;
+			}
+		}
+		
+		return $new_image;
+	}
 }
