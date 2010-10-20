@@ -125,10 +125,11 @@ img.addcart {
                     break;
                 case "image":
                 default:
+                    // Search for localized version of the image
+                	Tienda::load('TiendaHelperImage', 'helpers.image');
+                	$image = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::getPath('images'));
                     ?> 
-                    <img class='addcart' src='<?php echo Tienda::getUrl('images')."addcart.png"; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
-                    <?php
-                    break;
+                    <img class='addcart' src='<?php echo Tienda::getUrl('images').$image; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
             }
         endif; 
         ?>
