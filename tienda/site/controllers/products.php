@@ -46,10 +46,32 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_published_date'] = $date->toMySQL();
 		$state['filter_enabled']  = 1;
 		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
+		$state['search_type']          = $app->getUserStateFromRequest($ns.'.search_type', 'search_type', '', '');
 		$state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
 
-		if ($state['search']) {
-			$state['filter']      = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+		if ($state['search']) 
+		{
+		    $state['filter'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+		    
+		    // apply additional 'AND' filter if requested by module
+    		switch ($state['search_type'])
+            {
+                case "4":
+                    $state['filter_name'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    break;
+                case "3":
+                    $state['filter_namedescription'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    break;
+                case "2":
+                    $state['filter_sku'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    break;
+                case "1":
+                    $state['filter_model'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    break;
+                case "0":
+                default:
+                    break;
+            }
 		} else {
 			$state['filter']      = '';
 		}

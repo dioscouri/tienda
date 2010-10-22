@@ -39,6 +39,7 @@ class TiendaModelProducts extends TiendaModelBase
 		$filter_manufacturer = $this->getState('filter_manufacturer');
 		$filter_multicategory = $this->getState('filter_multicategory');
 	    $filter_description = $this->getState('filter_description');
+        $filter_namedescription = $this->getState('filter_namedescription');
         
 	    if ($filter) 
        	{
@@ -55,6 +56,16 @@ class TiendaModelProducts extends TiendaModelBase
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
+
+       	if ($filter_namedescription) 
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_namedescription ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(tbl.product_name) LIKE '.$key;
+            $where[] = 'LOWER(tbl.product_description) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+        
 		if (strlen($enabled))
         {
         	$query->where('tbl.product_enabled = '.$this->_db->Quote($enabled));
@@ -176,8 +187,6 @@ class TiendaModelProducts extends TiendaModelBase
         }
        	if (strlen($filter_manufacturer))
 		{
-//			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer ) ) ).'%');
-//        	$query->where('LOWER(tbl.manufacturer_id) LIKE '.$key);
 			$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
 		}
 		

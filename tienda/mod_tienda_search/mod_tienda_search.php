@@ -22,6 +22,7 @@ $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $category_filter = $params->get('category_filter', '1');
+$filter_text = $params->get('filter_text');
 
 $active = JFactory::getApplication()->getMenu()->getActive();
 if (!empty($active))
