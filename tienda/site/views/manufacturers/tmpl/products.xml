@@ -10,6 +10,7 @@
 		<description>TIENDA MANUFACTURER DEFAULT LAYOUT DESC</description>
         <url addpath="/administrator/components/com_tienda/elements">
             <param name="filter_manufacturer" type="tiendamanufacturer" section="com_tienda" default="" label="Select Manufacturer" description="A Tienda Manufaturer ID" />
+            <param name="task" type="hidden" default="products" />
         </url>
 	</state>
 </metadata>

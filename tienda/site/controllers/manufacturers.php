@@ -64,7 +64,7 @@ class TiendaControllerManufacturers extends TiendaController
      * (non-PHPdoc)
      * @see tienda/admin/TiendaController#display($cachable)
      */
-	function display()
+	function products()
 	{
 		JRequest::setVar( 'view', $this->get('suffix') );
 		JRequest::setVar( 'search', false );
