@@ -164,7 +164,10 @@ class TiendaHelperEmail extends TiendaHelperBase
             case "subscription_expiring":
                 $return->subject    = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_SUBJECT' );
                 $return->body       = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_BODY' );
-                
+                if ($this->use_html)
+                {
+                    $return->body = nl2br( $return->body );
+                }
                 $placeholders['user.name'] = $data->user_name;
                 $placeholders['product.name'] = $data->product_name;
               break;
@@ -172,7 +175,11 @@ class TiendaHelperEmail extends TiendaHelperBase
             case "subscription_expired":
                 $return->subject    = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_SUBJECT');
                 $return->body       = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_BODY' );
-                
+                if ($this->use_html)
+                {
+                    $return->body = nl2br( $return->body );
+                }
+                                
                 $placeholders['user.name'] = $data->user_name;
                 $placeholders['product.name'] = $data->product_name;
               break;
