@@ -34,6 +34,7 @@ class TiendaControllerSearch extends TiendaController
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
 		
+		$state['filter']      = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
 		$state['filter_id_from'] 	= $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
 		$state['filter_id_to'] 		= $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
 		$state['filter_name'] 		= $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');

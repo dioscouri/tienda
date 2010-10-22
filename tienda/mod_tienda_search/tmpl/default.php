@@ -12,18 +12,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaSelect', 'library.select' );
-$item_id = JRequest::getVar('Itemid', 0);
-$append = '';
-if (!empty($item_id))
-{
-	$append = '&Itemid='.$item_id; 
-}
-
-$url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search'.$append , false);
 ?>
 
 <div id="productSearch">
-    <form action="<?php echo $url; ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>') this.elements['filter'].value = '';">
+    <form action="<?php echo JRoute::_( 'index.php', false); ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>') this.elements['filter'].value = '';">
         <?php echo JText::_('Search').': '; ?>
         <?php if ($category_filter != '0') : ?>
             <?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?>
@@ -32,8 +24,10 @@ $url = JRoute::_( 'index.php?option=com_tienda&view=products&task=search'.$appen
         <?php endif; ?>
         <input type="text" name="filter" value="<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>" onclick="this.value='';"/> 
         <input type="submit" value="<?php echo JText::_( "Submit" ); ?>" />
+        <input type="hidden" name="option" value="com_tienda" />
+        <input type="hidden" name="view" value="products" />
         <input type="hidden" name="task" value="search" />
         <input type="hidden" name="search" value="1" />
+        <input type="hidden" name="Itemid" value="<?php echo $item_id; ?>" />
     </form>
 </div>
-  

@@ -721,6 +721,32 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'layout', 'search' );
 		JRequest::setVar( 'search', true );
 		parent::display();
+        
+		// TODO In the future, make "Redirect to Advanced Search from Search Module?" an option in Tienda Config
+		
+        //        $query = array();
+        //        // now that we have it, let's clean the post and redirect to the advanced search page
+        //        // use the itemid from the request, so the user stays on the same menu item as they previously were on
+        //
+        //        $query['Itemid'] = JRequest::getInt('Itemid');
+        //        if (empty($query['Itemid'])) 
+        //        {
+        //            // TODO Use Tienda Router to get the item_id for a tienda shop link
+        //            //$item_id = 0;
+        //            //$query['Itemid'] = $item_id;
+        //        }
+        //
+        //        $badchars = array('#','>','<','\\'); 
+        //        $filter = trim(str_replace($badchars, '', JRequest::getString('filter', null, 'post')));
+        //        $query['filter'] = $filter;        
+        //        
+        //        $query['view'] = 'search'; 
+        //        
+        //	    $uri = JURI::getInstance();
+        //        $uri->setQuery($query);
+        //        $uri->setVar('option', 'com_tienda');
+        //
+        //        $this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
 	
     /**

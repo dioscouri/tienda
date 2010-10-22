@@ -23,4 +23,14 @@ $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $category_filter = $params->get('category_filter', '1');
 
+$active = JFactory::getApplication()->getMenu()->getActive();
+if (!empty($active))
+{
+    $item_id = $active->id;
+}
+    else
+{
+    $item_id = JRequest::getInt('Itemid');
+}
+
 require( JModuleHelper::getLayoutPath( 'mod_tienda_search' ) );
