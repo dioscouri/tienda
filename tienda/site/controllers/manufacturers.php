@@ -28,24 +28,28 @@ class TiendaControllerManufacturers extends TiendaController
 	 *
 	 * @return array()
 	 */
-	function _setModelState()
+	function _setModelState( $model_name='' )
 	{
 		$state = parent::_setModelState();
 		$app = JFactory::getApplication();
-		$model = $this->getModel( $this->get('suffix') );
+		if (empty($model_name)) { $model_name = $this->get('suffix'); } 
+		$model = $this->getModel( $model_name );
 		$ns = $this->getNamespace();
-
+        
+		$date = JFactory::getDate();
+        
 		$state['order'] = 'tbl.ordering';
 		$state['direction'] = 'ASC';
 		$state['filter_enabled']  = 1;
-		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
+        $state['filter_published'] = 1;
+        $state['filter_published_date'] = $date->toMySQL();
+        $state['filter_manufacturer'] = JRequest::getInt('filter_manufacturer');
 
-		if ($state['search']) {
-			$state['filter']      = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
-		} else {
-			$state['filter']      = '';
-		}
-
+        if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
+        {
+           $state['filter_quantity_from'] = '1';
+        }
+        
 		foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );
@@ -54,54 +58,27 @@ class TiendaControllerManufacturers extends TiendaController
 		return $state;
 	}
 
-	/**
-	 * Displays a product category
-	 *
-	 * (non-PHPdoc)
-	 * @see tienda/admin/TiendaController#display($cachable)
-	 */
+    /**
+     * Displays products by manufacturer
+     *
+     * (non-PHPdoc)
+     * @see tienda/admin/TiendaController#display($cachable)
+     */
 	function display()
-	{
-	}
-	
-	/**
-	 * Displays products by manufacturer
-	 *
-	 * (non-PHPdoc)
-	 * @see tienda/admin/TiendaController#display($cachable)
-	 */
-	function products()
 	{
 		JRequest::setVar( 'view', $this->get('suffix') );
 		JRequest::setVar( 'search', false );
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
 		$model  = $this->getModel( 'products' );
+		$state = $this->_setModelState( 'products' );
 		
-		$date = JFactory::getDate();
-		$state['order'] = 'tbl.ordering';
-		$state['direction'] = 'ASC';
-		$state['filter_published'] = 1;
-		$state['filter_published_date'] = $date->toMySQL();
-		$state['filter_enabled']  = 1;
-		
-
-		if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
-		{
-		   $state['filter_quantity_from'] = '1';
-		}
-		
-		$filter_manufacturer = $state['filter_manufacturer'] = JRequest::getVar('filter_manufacturer');
-		
-		foreach(@$state as $k => $v)
-		{
-			$model->setState($k, $v);
-		}
+		$filter_manufacturer = $model->getState( 'filter_manufacturer' ); 
 		
 		// get the manufacturer we're looking at
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$cmodel = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
 		$cat = $cmodel->getTable();
-		$cat->load( $state['filter_manufacturer'] );
+		$cat->load( $filter_manufacturer );
 
 		// set the title based on the selected manufacturer
 		$title = (empty($cat->manufacturer_name)) ? JText::_( "All Manufacturers" ) : JText::_($cat->manufacturer_name);
@@ -116,14 +93,13 @@ class TiendaControllerManufacturers extends TiendaController
 		{
 		    foreach ($items as $item)
 		    {
-                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
+                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, null, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);
 
                 $item->product_buy = $this->getAddToCart($item->product_id);
 		    }
 		}
 
-		$view->assign( 'level', $level);
 		$view->assign( 'title', $title );
 		$view->assign( 'cat', $cat );
 		$view->assign( 'items', $items );

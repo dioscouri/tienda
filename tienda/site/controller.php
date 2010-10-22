@@ -54,7 +54,6 @@ class TiendaController extends JController
 		$state['limitstart'] = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
         $state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
         $state['filter_enabled'] = 1;
-        $state['filter_category'] = '0';
         $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.'.$model->getTable()->getKeyName(), 'cmd');
         $state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
         $state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');

@@ -126,7 +126,7 @@ class TiendaModelProducts extends TiendaModelBase
        	{
        		$query->where("NOT EXISTS (SELECT * FROM #__tienda_productcategoryxref AS p2c WHERE tbl.product_id = p2c.product_id)");
        	}
-       	else if (strlen($filter_category))
+       	elseif (strlen($filter_category))
        	{
        		$query->where('p2c.category_id = '.(int) $filter_category);
        	}
@@ -176,9 +176,9 @@ class TiendaModelProducts extends TiendaModelBase
         }
        	if (strlen($filter_manufacturer))
 		{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer ) ) ).'%');
-        	$query->where('LOWER(tbl.manufacturer_id) LIKE '.$key);
-			//$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
+//			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer ) ) ).'%');
+//        	$query->where('LOWER(tbl.manufacturer_id) LIKE '.$key);
+			$query->where("tbl.manufacturer_id = '".$filter_manufacturer."'");
 		}
 		
         if (strlen($filter_published))

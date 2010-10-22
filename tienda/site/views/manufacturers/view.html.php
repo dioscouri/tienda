@@ -40,6 +40,4 @@ class TiendaViewManufacturers extends TiendaViewBase
 		}
 		parent::display($tpl);
 	}
-	
-
 }
