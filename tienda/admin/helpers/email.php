@@ -153,12 +153,30 @@ class TiendaHelperEmail extends TiendaHelperBase
 
         // get config settings
         $config = &TiendaConfig::getInstance();
-        
         $sitename = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl = $config->get( 'siteurl', JURI::root() );
         
+        // get the placeholders array here so the switch statement can add to it
+        $placeholders = $this->getPlaceholderDefaults();
+        
         switch ($type) 
         {
+            case "subscription_expiring":
+                $return->subject    = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_SUBJECT' );
+                $return->body       = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_BODY' );
+                
+                $placeholders['user.name'] = $data->user_name;
+                $placeholders['product.name'] = $data->product_name;
+              break;
+
+            case "subscription_expired":
+                $return->subject    = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_SUBJECT');
+                $return->body       = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_BODY' );
+                
+                $placeholders['user.name'] = $data->user_name;
+                $placeholders['product.name'] = $data->product_name;
+              break;
+            
             case "subscription_new":
             case "new_subscription":
             case "subscription":
@@ -206,7 +224,11 @@ class TiendaHelperEmail extends TiendaHelperBase
                 }
                 
                 $return->body = $text;
+                
+                $placeholders['user.name'] = $user->get('name');
+                
                 break;
+                
             case "new_order":
             case "order":
             default:
@@ -255,8 +277,14 @@ class TiendaHelperEmail extends TiendaHelperBase
                 }
                 
                 $return->body = $text;
+                
+                $placeholders['user.name'] = $user->get('name');
               break;
         }
+        
+        // replace placeholders in language strings - great idea, Oleg
+        $return->subject = $this->replacePlaceholders($return->subject, $placeholders);
+        $return->body = $this->replacePlaceholders($return->body, $placeholders);
         
         return $return;
 
@@ -323,5 +351,54 @@ class TiendaHelperEmail extends TiendaHelperBase
             return array();
         }
         return $items;
+    }
+    
+    /**
+     * Creates the placeholder array with the default site values
+     * 
+     * @return unknown_type
+     */
+    function getPlaceholderDefaults()
+    {
+        $mainframe = JFactory::getApplication();
+        $config = &TiendaConfig::getInstance();
+        $site_name              = $config->get( 'sitename', $mainframe->getCfg('sitename') );
+        $site_url               = $config->get( 'siteurl', JURI::root() );
+        $link_my_subscriptions  = $config->get( 'link_my_subscriptions', JURI::root()."/index.php?option=com_tienda&view=subscriptions" );
+        $user_name              = JText::_( $config->get( 'default_email_user_name', 'Valued Customer' ) );
+        
+        // default placeholders
+        $placeholders = array(
+            'site.name'                 => $site_name,
+            'site.url'                  => $site_url,
+            'user.name'                 => $user_name,
+            'link.my_subscriptions'     => $link_my_subscriptions
+        );
+        
+        return $placeholders;
+    }
+    
+    /**
+     * Replaces placeholders with their values
+     * 
+     * @param string $text
+     * @param array $placeholders
+     * @return string
+     * @access public
+     */
+    function replacePlaceholders($text, $placeholders)
+    {
+        $plPattern = '{%key%}';
+        
+        $plKeys = array();
+        $plValues = array();
+        
+        foreach ($placeholders as $placeholder => $value) {
+            $plKeys[] = str_replace('key', $placeholder, $plPattern);
+            $plValues[] = $value;
+        }
+        
+        $text = str_replace($plKeys, $plValues, $text);     
+        return $text;
     }
 }

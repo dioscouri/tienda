@@ -107,7 +107,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         {
             foreach ($list as $item)
             {
-                $this->setExpired( $item->subscription_id );
+                $this->setExpired( $item->subscription_id, $item );
             }
         }
         
@@ -127,9 +127,10 @@ class TiendaHelperSubscription extends TiendaHelperBase
      * and sends the expired email to the user
      * 
      * @param $subscription_id
+     * @param object $item Single item from the Subscriptions model 
      * @return unknown_type
      */
-    function setExpired( $subscription_id )
+    function setExpired( $subscription_id, $item='' )
     {
         // change status = '0'
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -147,7 +148,21 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $dispatcher =& JDispatcher::getInstance();
         $dispatcher->trigger( 'onAfterExpiredSubscription', array( $subscription ) );
         
-        // TODO Email user that their subs expired
+        if (empty($item))
+        {
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+            $model->setId( $subscription_id );
+            $item = $model->getItem();
+        }
+
+        // Email user that their subs expired
+        if (!empty($item))
+        {
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $helper->sendEmailNotices($item, 'subscription_expired');
+        }
 
         return true;
     }
@@ -185,9 +200,12 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $model->setState("filter_enabled", '1' );
         if ($list = $model->getList())
         {
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
             foreach ($list as $item)
             {
-                // TODO Send expiring email for $item->subscription_id
+                // Send expiring email for $item
+                $helper->sendEmailNotices($item, 'subscription_expiring');
             }
         }
     }
