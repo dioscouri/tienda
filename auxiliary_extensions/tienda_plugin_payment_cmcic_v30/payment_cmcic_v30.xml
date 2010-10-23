@@ -11,57 +11,56 @@
     <description>TIENDA_CMCIC_PAYMENT_PLUGIN_DESC</description>
 	
     <files>
-        <filename plugin="payment_cmcic">payment_cmcic.php</filename>
-        <folder>payment_cmcic</folder>
+        <filename plugin="payment_cmcic_v30">payment_cmcic_v30.php</filename>
+        <folder>payment_cmcic_v30</folder>
+        <folder>payment_cmcic_v30_library</folder>
     </files>
 
-   <languages folder="language">        
-   <language tag="en-GB">en-GB/en-GB.plg_tienda_payment_cmcic.ini</language>
-        <language tag="fr-FR">fr-FR/fr-FR.plg_tienda_payment_cmcic.ini</language>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_tienda_payment_cmcic_v30.ini</language>
+        <language tag="fr-FR">fr-FR/fr-FR.plg_tienda_payment_cmcic_v30.ini</language>
     </languages>
 
     <params addpath="/administrator/components/com_tienda/elements">
-        
+        <param name="payment_bank" type="list" default="en" label="TIENDA_CMCIC_BANK" description="TIENDA_CMCIC_BANK_DESC">
+            <option value="obc">TIENDA_CMCIC_BANK_OBC</option>
+            <option value="cic">TIENDA_CMCIC_BANK_CIC</option>
+            <option value="cm">TIENDA_CMCIC_BANK_CM</option>
+
+        </param>
         <param name="payment_server" type="list" default="en" label="TIENDA_CMCIC_SERVER" description="TIENDA_CMCIC_SERVER_DESC">
             <option value="test">TIENDA_CMCIC_SERVER_TEST</option>
-                        <option value="production">TIENDA_CMCIC_SERVER_PREPRODUCTION</option>
             <option value="preproduction">TIENDA_CMCIC_SERVER_PRODUCTION</option>
         </param>
-        <param name="merchant_id" type="text" size="50" default="" label="TIENDA_CMCIC_MERCHANT_ID" description="TIENDA_CMCIC_MERCHANT_ID_DESC"/>
+        <param name="TPE" type="text" size="15" default="" label="TIENDA_CMCIC_TPE" description="TIENDA_CMCIC_TPE_DESC"/>
   
-        <param name="cgi_path" type="text" size="50" default="" label="TIENDA_CMCIC_CGI" description="TIENDA_CMCIC_CGI_DESC"/>
-        <param name="pathfile" type="text" size="50" default="" label="TIENDA_CMCIC_PATHFILE" description="TIENDA_CMCIC_PATHFILE_DESC"/>
-        
-       <param type="spacer" />
-        <param name="payment_means_cmcic" type="radio" default="1" label="TIENDA_CMCIC_PAYMENT_MEANS_VISA" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </param>
-        <param name="payment_means_mastercard" type="radio" default="1" label="TIENDA_CMCIC_PAYMENT_MEANS_MASTERCARD" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </param>
-        <param name="payment_means_cb" type="radio" default="1" label="TIENDA_CMCIC_PAYMENT_MEANS_CB" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </param>
-        <param name="payment_means_amex" type="radio" default="0" label="TIENDA_CMCIC_PAYMENT_MEANS_AMEX" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </param>
+        <param name="key" type="text" size="50" default="" label="TIENDA_CMCIC_KEY" description="TIENDA_CMCIC_KEY_DESC"/>
+        <param name="societe" type="text" size="20" default="" label="TIENDA_CMCIC_CODE_SOCIETE" description="TIENDA_CMCIC_CODE_SOCIETE_DESC"/>
+
+       
+
         <param type="spacer" />
 
         <param name="payment_mode" type="list" default="en" label="TIENDA_CMCIC_PAYMENT_MODE" description="TIENDA_CMCIC_PAYMENT_MODE_DESC">
-            <option value="capture">TIENDA_CMCIC_PAYMENT_MODE_CAPTURE</option>
-            <option value="validation">TIENDA_CMCIC_PAYMENT_MODE_VALIDATION</option>
+            <option value="immediate">TIENDA_CMCIC_PAYMENT_MODE_IMMEDIATE</option>
+            <option value="differed">TIENDA_CMCIC_PAYMENT_MODE_DIFFERED</option>
+            <option value="partial">TIENDA_CMCIC_PAYMENT_MODE_PARTIAL</option>
+            <option value="subscription">TIENDA_CMCIC_PAYMENT_MODE_SUBSCRIPTION</option>
+            <option value="split">TIENDA_CMCIC_PAYMENT_MODE_SPLIT</option>
         </param>
-        <param name="payment_days" type="text" size="5" default="" label="TIENDA_CMCIC_PAYMENT_DAYS" description="TIENDA_CMCIC_PAYMENT_DAYS_DESC"/>
-        <param type="spacer" />
-        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="TIENDA_CMCIC_FAILED_ORDER_STATE" description="State to put the order in when the payment fails" />
-        <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="TIENDA_CMCIC_PAYMENT_RECEIVED_ORDER_STATE" description="TIENDA_CMCIC_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+        <param name="payment_differed_days" type="text" size="5" default="" label="TIENDA_CMCIC_PAYMENT_DIFFERED_DAYS" description="TIENDA_CMCIC_PAYMENT_DIFFERED_DAYS_DESC"/>
 
-      <param type="spacer" />
-        <param name="payment_cmcic_debug" type="radio" default="0" label="TIENDA_CMCIC_PAYMENT_DEGUG" description="TIENDA_CMCIC_PAYMENT_DEGUG_DESC">
+         <param name="payment_split_mode" type="list" default="en" label="TIENDA_CMCIC_PAYMENT_SPLIT_MODE" description="TIENDA_CMCIC_PAYMENT_SPLIT_MODE_DESC">
+            <option value="2">TIENDA_CMCIC_PAYMENT_SPLIT_MODE_2</option>
+            <option value="3">TIENDA_CMCIC_PAYMENT_SPLIT_MODE_3</option>
+            <option value="4">TIENDA_CMCIC_PAYMENT_SPLIT_MODE_4</option>
+                </param>
+        <param type="spacer" />
+        <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="TIENDA_CMCIC_PAYMENT_RECEIVED_ORDER_STATE" description="TIENDA_CMCIC_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="TIENDA_CMCIC_FAILED_ORDER_STATE" description="State to put the order in when the payment fails" />
+
+        <param type="spacer" />
+        <param name="payment_cmcic_debug" type="radio" default="0" label="TIENDA_CMCIC_DEGUG" description="TIENDA_CMCIC_PAYMENT_DEGUG_DESC">
             <option value="0">No</option>
             <option value="1">Yes</option>
         </param>
