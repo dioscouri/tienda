@@ -24,6 +24,13 @@ $item = @$this->row;
                 <?php echo $item->product_name; ?>
             </span>
       
+            <div class="product_rating">
+                <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
+                <?php if (!empty($item->product_comments)) : ?>
+                <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
+                <?php endif; ?>
+            </div>
+            
             <div class="product_numbers">
                 <?php if (!empty($item->product_model)) : ?>
                     <span class="model">
