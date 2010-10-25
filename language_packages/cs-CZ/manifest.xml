@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <install type="language" version="1.5.0" method="upgrade">
     <name>Czech Tienda</name>
-    <version>0.4.3 Community</version>
-    <creationDate>May 2010</creationDate>
-    <author>Marek Liolias</author>
-    <authorEmail>marek.liolias@gmail.com</authorEmail>
-    <authorUrl></authorUrl>
+    <version>0.5.6 Community</version>
+    <creationDate>October 2010</creationDate>
+    <author>Fenris</author>
+    <authorEmail>fenris@fenris.cz</authorEmail>
+    <authorUrl>www,fenris.cz</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
     <license>GNU General Public License v2</license>
