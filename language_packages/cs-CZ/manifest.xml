@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="language" version="1.5.0" method="upgrade">
+	<install method="upgrade" version="1.5" client="both" type="language">
     <name>Czech Tienda</name>
+    <tag>cs-CZ</tag>
     <version>0.5.6 Community</version>
-    <creationDate>October 2010</creationDate>
+    <creationDate>25/10/2010</creationDate>
     <author>Fenris</author>
     <authorEmail>fenris@fenris.cz</authorEmail>
     <authorUrl>www,fenris.cz</authorUrl>
@@ -11,15 +12,50 @@
     <license>GNU General Public License v2</license>
     <description>Czech translation for Tienda</description>
 
-    <languages folder="site">
-        <language tag="cs-CZ">cs-CZ.com_tienda.ini</language>
-    </languages>
-    
-    <!-- Application/administrator -->
-    <administration>
-        <languages folder="admin">
-            <language tag="cs-CZ">cs-CZ.com_tienda.ini</language>
-        </languages>
-    </administration>
+  <administration>
+    <files folder="admin">
+        <filename>cs-CZ.com_tienda.ini</filename>
+        <filename>cs-CZ.mod_tienda_quickicon.ini</filename>
+        <filename>cs-CZ.mod_tienda_recentorders.ini</filename>
+        <filename>cs-CZ.mod_tienda_salestatistics.ini</filename>
+        <filename>cs-CZ.mod_tienda_useraddress.ini</filename>
+        <filename>cs-CZ.plg_content_tienda_content_product.ini</filename>
+        <filename>cs-CZ.plg_search_tienda.ini</filename>
+        <filename>cs-CZ.plg_system_tienda.ini</filename>
+        <filename>cs-CZ.plg_system_tienda_subscriptions.ini</filename>
+        <filename>cs-CZ.plg_system_tienda_zoo.ini</filename>
+        <filename>cs-CZ.plg_tienda_bug_report.ini</filename>
+        <filename>cs-CZ.plg_tienda_charts_fusioncharts.ini</filename>
+        <filename>cs-CZ.plg_tienda_checkoutexample.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_2checkout.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_authorizedotnet.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_firstdata.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_googlecheckout.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_offline.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_paypal.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_bestsellers.ini</filename>
+        <filename>cs-CZ.plg_tienda_shipping_fedex.ini</filename>
+        <filename>cs-CZ.plg_tienda_shipping_standard.ini</filename>
+        <filename>cs-CZ.plg_tienda_shipping_ups.ini</filename>
+        <filename>cs-CZ.plg_tienda_shipping_usps.ini</filename>
+        <filename>cs-CZ.plg_tienda_tool_virtuemartmigration.ini</filename>
+        <filename>cs-CZ.plg_tienda_tool_xcartmigration.ini</filename>
+        <filename>cs-CZ.plg_user_tienda.ini</filename>
+    </files>
+  </administration>
+
+  <site>
+    <files folder="site">
+        <filename>cs-CZ.com_tienda.ini</filename>
+        <filename>cs-CZ.mod_tienda_cart.ini</filename>
+        <filename>cs-CZ.mod_tienda_categories.ini</filename>
+        <filename>cs-CZ.mod_tienda_currency.ini</filename>
+        <filename>cs-CZ.mod_tienda_my_orderitems.ini</filename>
+        <filename>cs-CZ.mod_tienda_my_orders.ini</filename>
+        <filename>cs-CZ.mod_tienda_products.ini</filename>
+        <filename>cs-CZ.mod_tienda_popular_products.ini</filename>
+        <filename>cs-CZ.mod_tienda_search.ini</filename>
+    </files>
+  </site>
 
 </install>
