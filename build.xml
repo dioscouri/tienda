@@ -16,10 +16,8 @@
 
     <!--config file values
     cfg.name=paket
-    cfg.versionDir=v1_50
     cfg.buildDir=packages
-    cfg.localhostRoot=../../www
-    cfg.xmlfile=files.txt
+    cfg.localhostRoot=c:/www
 
     ftp.server=
     ftp.user=
