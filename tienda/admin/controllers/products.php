@@ -157,7 +157,7 @@ class TiendaControllerProducts extends TiendaController
 		
         if ($isSaveAs)
         {
-        	$prices = TiendaHelperProduct::getPrices($oldPk );
+        	$prices = TiendaHelperProduct::getPrices($oldPk);
         }
             else 
         {
@@ -210,11 +210,10 @@ class TiendaControllerProducts extends TiendaController
 				}
 
 			}
-			
-			// old category, price  and quantity will enter with 
+			 
 			if ($isSaveAs)
 			{
-				// set price to whome doing the cloning
+				// set price when cloning
 				$priceTable = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				foreach($prices as $price)
 				{
@@ -236,7 +235,7 @@ class TiendaControllerProducts extends TiendaController
 				
 			    // set category
 			    $categoryTable = JTable::getInstance( 'Productcategories', 'TiendaTable' );
-			    $categories = TiendaHelperProduct::getCategories($oldPk );
+			    $categories = TiendaHelperProduct::getCategories($oldPk);
 			    foreach ($categories as $category)
 			    {
     			   	$categoryTable->product_id = $row->id;
@@ -248,25 +247,23 @@ class TiendaControllerProducts extends TiendaController
     				}
      		    }
     		    
-			   	// set Attribute 
+			   	// TODO Save Attributes
 				
 				// An array to map attribute id  old attribute id  are as key and new attribute id are as value
 				$attrbuteMappingArray = array();
-				
 				$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
-			    $attributes  = TiendaHelperProduct::getAttributes($oldPk );
+			    $attributes  = TiendaHelperProduct::getAttributes($oldPk);
 			    foreach ($attributes as $attribute)
 			    {
-    			    $attributeTable->productattribute_id =0;
     			   	$attributeTable->productattribute_name = $attribute->productattribute_name;
-    			   	$attributeTable->product_id =$row->id;
+    			   	$attributeTable->product_id = $row->id;
     			   	$attributeTable->ordering = $attribute->ordering;
     			   
     			    if ($attributeTable->save())
     			    {
-    			    	 	$attrbuteMappingArray[$attribute->productattribute_id]=$attributeTable->productattribute_id;
+                        $attrbuteMappingArray[$attribute->productattribute_id] = $attributeTable->productattribute_id;
     			    }
-    			    else 
+        			    else 
     			    {
     			    	$this->messagetype 	= 'notice';
     					$this->message .= " :: ".$attributeTable->getError();
@@ -286,11 +283,12 @@ class TiendaControllerProducts extends TiendaController
     			    	$attributeOptionsTable->productattributeoption_name   = $option->productattributeoption_name ; 
     			    	$attributeOptionsTable->productattributeoption_price   = $option->productattributeoption_price ;
     			    	$attributeOptionsTable->productattributeoption_prefix   = $option->productattributeoption_prefix ;
+    			    	$attributeOptionsTable->productattributeoption_code   = $option->productattributeoption_code ;
     			    	$attributeOptionsTable->ordering   = $option->ordering ; 
     			    			    	
-        			    if($attributeOptionsTable->save())
+        			    if ($attributeOptionsTable->save())
     			    	{
-    			    		$attrbuteOptionsMappingArray[$option->productattributeoption_id]=$attributeOptionsTable->productattributeoption_id;
+    			    		$attrbuteOptionsMappingArray[$option->productattributeoption_id] = $attributeOptionsTable->productattributeoption_id;
     			    	}
         			    else
         			    {

@@ -848,6 +848,8 @@ class TiendaHelperProduct extends TiendaHelperBase
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
+        $model->setState( 'order', 'tbl.ordering' );
+        $model->setState( 'direction', 'ASC' );
         $items = $model->getList();
         return $items;
     }
@@ -1462,24 +1464,20 @@ class TiendaHelperProduct extends TiendaHelperBase
      * returns a attributes's options list 
      * @return array of the entire Objects; 
      */
-	public function getAttributeOptionsObjects( $productAttributeId )
+	public function getAttributeOptionsObjects( $id )
 	{
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        if (empty($id))
+        {
+            return array();
+        }
         
-        $tableQuantity = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
-        $query = new TiendaQuery();
-        $select[]="options.*";		
-		
-		$query->select( $select );
-        $query->from($tableQuantity->getTableName()." AS options");
-		$query->where("options.productattribute_id = ".$productAttributeId);
-	  	
-		$db = JFactory::getDBO();
-		$db->setQuery( (string) $query );
-	    
-	    $results = $db->loadObjectList();
-	    return $results;
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+        $model->setState( 'filter_attribute', $id );
+        $model->setState( 'order', 'tbl.ordering' );
+        $model->setState( 'direction', 'ASC' );
+        $items = $model->getList();
+        return $items;
 	}
 	
     /**
