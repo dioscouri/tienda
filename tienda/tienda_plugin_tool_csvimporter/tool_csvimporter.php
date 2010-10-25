@@ -35,21 +35,24 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 		
 		$this->_keys = array(
-							'id',
-							'name',
-							'categories',
-							'manufacturer',
-							'short_description',
-							'long_description',
-							'images',
-							'ship',
-							'height',
-							'width',
-							'length',
-							'weight',
-							'price',
-							'quantity',
-							'attributes'						
+							'product_id',
+							'product_name',
+							'product_categories',
+							'manufacturer_id',
+							'product_description_short',
+							'product_description',
+							'product_full_image',
+							'product_images',
+							'product_ships',
+							'product_height',
+							'product_width',
+							'product_length',
+							'product_weight',
+							'product_price',
+							'product_quantity',
+							'product_attributes',
+							'product_sku',
+							'product_model',						
 						);
 	}
 	
@@ -263,13 +266,13 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 					// explore possible multiple subfields
 
 					// Categories
-					$fields['categories'] = explode( @$state->subfield_separator, $fields['categories'] );
+					$fields['product_categories'] = explode( @$state->subfield_separator, $fields['product_categories'] );
 
 					// Images
-					$fields['images'] = explode( @$state->subfield_separator, $fields['images'] );
+					$fields['product_images'] = explode( @$state->subfield_separator, $fields['product_images'] );
 					
 					// Attributes
-					$attributes = explode( @$state->subfield_separator, $fields['attributes'] );
+					$attributes = explode( @$state->subfield_separator, $fields['product_attributes'] );
 					
 					// Explode the Attribute options!
 					$real_attributes = array();
@@ -285,7 +288,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 					}
 
 					// Assign the parsed version!
-					$fields['attributes'] = $real_attributes;
+					$fields['product_attributes'] = $real_attributes;
 					
 					$records[] = $fields;
 					
@@ -304,6 +307,12 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 		return false;
     }
     
+    /**
+     * Maps the parsed array to an associative array
+     * using the _keys var, for better usability
+     * 
+     * @param array $fields
+     */
     function _mapFields($fields)
     {
     	$mapped = array();
@@ -320,7 +329,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
     /**
      * Gets the appropriate values from the request
      * 
-     * @return unknown_type
+     * @return JObject
      */
     function _getState()
     {
@@ -374,153 +383,105 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
         return $html;
     }
     
-    private function _migrateImages($data, &$results)
+    /**
+     * Migrate the images
+     * 
+     * @param int $product_id
+     * @param array $images
+     * @param array $images
+     */
+    private function _migrateImages($product_id, $images, $results)
     {    	
-    	$n = count($results);
-    	
-    	$results[$n]->title = 'Product Images';
-        $results[$n]->query = 'Copy Product Images & Resize';
-        $results[$n]->error = '';
-        $results[$n]->affectedRows = 0;
-    	
-    	foreach( $data as $result )
-    	{
-    		$check = false;
-    		if($internal)	
-    		{
-    			$check = JFile::exists($vm_image_path.$result['image']);
-    		}
-    		else
-    		{
-    			$check = $this->url_exists($vm_image_path) && $result['image'];
-    		}
-    		
-    		if($check)
-    		{
-    			if($internal)
-    			{
-	    			$img = new TiendaImage($vm_image_path.$result['image']);
-    			}
-    			else
-    			{
-    				$tmp_path = JFactory::getApplication()->getCfg('tmp_path');
-    				$file = fopen($vm_image_path.$result['image'], 'r');
-    				$file_content = stream_get_contents($file);
-    				fclose($file);
-    				
-    				$file = fopen($tmp_path.DS.$result['image'], 'w');
-    				
-    				fwrite($file, $file_content);
-    				
-    				fclose($file);
-    				 				    				
-    				$img = new TiendaImage($tmp_path.DS.$result['image']);
-    			}
-	    		
-	    		Tienda::load( 'TiendaTableProducts', 'tables.products' );
-	        	$product = JTable::getInstance( 'Products', 'TiendaTable' );
-	        	
-	    		$product->load($result['id']);
-	    		$path = $product->getImagePath();
-	    		$type = $img->getExtension();	    		
-	    		
-	            $img->load();
-	    		// Save full Image
-	    		if(!$img->save($path.$result['image']))
-	    		{
-	    			$results[$n]->error .= '::Could not Save Product Image- From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
-	    		}
-	    		
-	    		// Save Thumb
-	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
-				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-				if (!$imgHelper->resizeImage( $img, 'product'))
-				{
-					$results[$n]->error .= '::Could not Save Product Thumb';
-				}
-				$results[$n]->affectedRows++;
-	    				
-	    	}
-    	}
-    	
-    	$n++;
-    	
-    	// CATEGORIES
-    	
-    	// Fetch the VM full image
-    	$query = "SELECT category_id as id, category_full_image as image FROM {$p}category";
-    	$db->setQuery($query);
-    	$products = $db->loadAssocList();
-    	
     	Tienda::load('TiendaImage', 'library.image');
     	
-   		if($internal)
-    		$vm_image_path = JPATH_SITE.DS."components".DS."com_virtuemart".DS."shop_image".DS."category".DS;
-    	else
-    	{
-    		$state = $this->_getState();
-    		$url = $state->external_site_url;
-    		$vm_image_path = $url."/components/com_virtuemart/shop_image/category/";
-    	}
-    	
-    	$results[$n]->title = 'Category Images';
-        $results[$n]->query = 'Copy Category Images & Resize';
-        $results[$n]->error = '';
-        $results[$n]->affectedRows = 0;
-    
-    	foreach( $products as $result )
+    	foreach( $images as $image )
     	{
     		$check = false;
-    		if($internal)	
-    		{
-    			$check = JFile::exists($vm_image_path.$result['image']);
-    		}
-    		else
-    		{
-    			$check = $this->url_exists($vm_image_path) && $result['image'];
-    		}
+    		$multiple = false;
     		
-    		if($check)
+    		if(JURI::isInternal($image))
     		{
-    			if($internal)
+    			$internal = true;
+    			$image = JPATH_SITE.DS.$image;
+    			if(is_dir($image))
     			{
-	    			$img = new TiendaImage($vm_image_path.$result['image']);
+    				
+    				$check = JFolder::exists($image);
+    				$multiple = true;
     			}
     			else
     			{
-    				$tmp_path = JFactory::getApplication()->getCfg('tmp_path');
-    				$file = fopen($vm_image_path.$result['image'], 'r');
-    				$file_content = stream_get_contents($file);
-    				fclose($file);
+    				$check = JFile::exists($image);
     				
-    				$file = fopen($tmp_path.DS.$result['image'], 'w');
-    				
-    				fwrite($file, $file_content);
-    				
-    				fclose($file);
-    				 				    				
-    				$img = new TiendaImage($tmp_path.DS.$result['image']);
-    			}	    		
-	            
-	            $img->load();
-	    		
-	    		// Save full Image
-	    		if(!$img->save($path.$result['image']))
-	    		{
-	    			$results[$n]->error .= '::Could not Save Category Image - From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
-	    		}
-	    		
-	    		// Save Thumb
-	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
-				$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
-				if (!$imgHelper->resizeImage( $img, 'category'))
-				{
-					$results[$n]->error .= '::Could not Save Category Thumb';
-				}
-		
-				$results[$n]->affectedRows++;
-	    	}
+    			}
+    		}
+    		else
+    		{
+    			$internal = false;
+    			$check = $this->url_exists($image);
+    		}
+    		
+    		// Add a single image
+    		if(!$multiple)
+    		{
+    			$images_to_copy = array($image);
+    		}
+    		else
+    		{
+    			// Fetch the images from the folder and add them
+    			$images_to_copy = TiendaHelperProduct::getGalleryImages($image);
+    			foreach($images_to_copy as &$i)
+    			{
+    				$i = $image.DS.$i;
+    			}
+    		}
+    		
+    		
+    		if($check)
+    		{
+    			foreach($images_to_copy as $image_to_copy)
+    			{
+	    			if($internal)
+	    			{
+		    			$img = new TiendaImage($image_to_copy);
+	    			}
+	    			else
+	    			{
+	    				$tmp_path = JFactory::getApplication()->getCfg('tmp_path');
+	    				$file = fopen($image_to_copy, 'r');
+	    				$file_content = stream_get_contents($file);
+	    				fclose($file);
+	    				
+	    				$file = fopen($tmp_path.DS.$image_to_copy, 'w');
+	    				
+	    				fwrite($file, $file_content);
+	    				
+	    				fclose($file);
+	    				 				    				
+	    				$img = new TiendaImage($tmp_path.DS.$image_to_copy);
+	    			}
+		    		
+		    		Tienda::load( 'TiendaTableProducts', 'tables.products' );
+		        	$product = JTable::getInstance( 'Products', 'TiendaTable' );
+		        	
+		    		$product->load($product_id);
+		    		$path = $product->getImagePath();
+		    		$type = $img->getExtension();	    		
+		    		
+		            $img->load();
+		            $img->setDirectory($path);
+		    		// Save full Image
+		    		$img->save($path.$img->getPhysicalName());
+		    		
+		    		// Save Thumb
+		    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
+					$imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+					$imgHelper->resizeImage( $img, 'product');
+		    				
+		    	}
+    		}
     	}
+    	
     	
     }
 
@@ -533,71 +494,153 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
     {
         $queries = array();
         
+        $results = array();        
+	    $n=0;
+	    
+	    // Loop though the rows
         foreach($datas as $data)
-        {
-			foreach($data as &$field)
-			{
-				$field = $jDBO->Quote( $field );
-			}
-	        
-	        if(!$data['id'])
-	        {
-		        // migrate products
-		        $query->title = "PRODUCT";
-		        $query->insert = "
-		            INSERT IGNORE INTO #__tienda_products ( product_name, product_weight, product_description, product_width, product_length, product_height, product_full_image, product_enabled, manufacturer_id = {$data["manufacturer"]} )
-		            VALUES ";
-		        $query->type = "insert";
-		       	$query->insert .= "('{$data["name"]}', '{$data["weight"]}', '{$data["long_description"]}', '{$data["width"]}', '{$data["length"]}', '{$data["height"]}', '{$data["full_image"]}', 1 ), ";
-
-	        }
-	        else
-	        {
-	        	// migrate products
-		        $query->title = "PRODUCT";
-		        $query->insert = "";
-		        $query->type = "update";
+        {		
+        	// Check for product_name. Explode() could have generated an empty row
+        	if($data['product_name'])
+        	{	
+				$isNew = false;
+				
+				if(!$data['product_id'])
+				{
+					$data['product_id'] = 0;
+					$isNew = true;
+				}
 		        
-		        $query->insert .= "UPDATE #__tienda_products SET product_name = '{$data["name"]}', product_weight = '{$data["weight"]}', product_description = '{$data["long_description"]}', product_width = '{$data["width"]}', product_length = '{$data["length"]}', product_height = '{$data["height"]}', '{$data["full_image"]}', product_enabled = 1 WHERE product_id = '{$data["id"]}' ;";
-	        }
-	                
-	        $results = array();        
-	        $n=0;
-	        
-	        $errors = array();
+				JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+				$product = JTable::getInstance('Products', 'TiendaTable');
+				
+				if(!$isNew)
+				{
+					if(!$product->load($data['product_id']))
+					{
+						$isNew = true;
+						$data['product_id'] = 0;	
+					}
+				}
+		                
+		    	// If is a new product, use product->create()
+				if($isNew)
+				{
+					$product->product_price = 0;
+					$product->product_quantity = 0;
+					$product->bind($data);
+					$product->create();			
+					
+					$this->_migrateAttributes($product->product_id, $data['product_attributes']);
+				}
+				// else use the save() method
+		        else
+		        {
+		        	$product->bind($data);
+		        	
+			        //check if normal price exists
+					Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+			        $prices = TiendaHelperProduct::getPrices( $product->product_id );
+			        $quantities = TiendaHelperProduct::getProductQuantities( $product->product_id );
+					
+					if ( $product->save() )		
+					{
+						$product->product_id = $product->id;
+						
+						// New price?
+						if ( empty($prices) )
+						{   
+							// set price if new or no prices set
+							$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
+							$price->product_id = $product->id;
+							$price->product_price = $data['product_price'];
+							$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
+							$price->save();
+						}
+						// Overwrite price
+						else
+						{
+							// set price if new or no prices set
+							$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
+							$price->load($prices[0]->product_price_id);
+							$price->product_price = $data['product_price'];
+							$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
+							$price->save();
+						}
+						
+						// New quantity?
+						if ( empty($quantities) )
+						{  
+							// save default quantity
+							$quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+							$quantity->product_id = $product->id;
+							$quantity->quantity = $data['product_quantity'];
+							$quantity->save();
+						}
+						// Overwrite Quantity
+						else
+						{
+							// save default quantity
+							$quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+							$quantity->load($quantities[0]->productquantity_id);
+							$quantity->product_id = $product->id;
+							$quantity->quantity = $data['product_quantity'];
+							$quantity->save();
+						}			
+								
+		       		}
+		       		
+		        }
+		        
 	
-            $jDBO->setQuery( $query->insert );
-            if (!$jDBO->query())
-            {
-            	$errors[] = $jDBO->getErrorMsg();
-            }
-            else
-            {
-            	// add the product id
-                if($query->type == "insert")
-                {
-                	$jDBO->setQuery("SELECT LAST_INSERT_ID();");
-                    $data["id"] = $jDBO->loadResult();
-                }
-             }
-
-            $results[$n]->title = $query->title;
-            $results[$n]->query = $query->insert;
-            $results[$n]->error = implode('\n', $errors);
-            $results[$n]->affectedRows = count( $rows );
-            $n++; 
-            
-            // Now that we have the product id, we can also add quantities, prices and categories
+				$results[$n]->title = "Product Creation ".$n;
+	            $results[$n]->query = "";
+	            $results[$n]->error = implode('\n', $product->getErrors());
+	            $results[$n]->affectedRows = 1;
+	            
+	            $n++; 
+	            
+	            $this->_migrateImages($product->product_id, $data['product_images'], $results);
+	            
+        	}            
             
         }
-
-        
-        //$this->_migrateImages($data, $results);
         
         return $results;
     }
-
     
+    /**
+     * Migrate a single product attributes
+     * 
+     * @param TiendaTableProduct $product
+     * @param array $data
+     */
+    private function _migrateAttributes($product_id, $attributes)
+    {
+    	foreach($attributes as $attribute_name => $options)
+    	{
+    		// Add the Attribute
+    		$table = JTable::getInstance('ProductAttributes', 'TiendaTable');
+    		$table->product_id = $product_id;
+    		$table->productattribute_name = $attribute_name;
+    		$table->save();
+    		
+    		// Add the Options for this attribute
+    		$id = $table->productattribute_id;
+    		foreach($options as $option)
+    		{
+    			$otable = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+    			$otable->productattribute_id = $id;
+    			$otable->productattributeoption_name = $option;
+    			$otable->save();
+    		}
+    	}
+    }
+    
+    /**
+     * Checks if the URL exists
+     * @param string $url
+     */
 	private function url_exists($url){
         $url = str_replace("http://", "", $url);
         if (strstr($url, "/")) {

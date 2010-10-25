@@ -194,17 +194,24 @@ class TiendaTableProducts extends TiendaTable
 			return false;
 		}
 		
+		$product_price = @$this->product_price;
+		$product_quantity = @$this->product_quantity;
+		
+		unset($this->product_price);
+		unset($this->product_quantity);
+		
 		// Save the product First
 		$success = $this->save();
 		
 		if($success)
 		{
 			// now the price
-			if($this->product_price)
+			if($product_price)
 			{
 				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
 				$price->product_id = $this->product_id;
-				$price->product_price = $this->product_price;
+				$price->product_price = $product_price;
+				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
 				$success = $price->save();
 				
 				if(!$success)
@@ -215,11 +222,11 @@ class TiendaTableProducts extends TiendaTable
 			}
 			
 			// now the quantities
-			if($this->product_quantity)
+			if($product_quantity)
 			{
 				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
 				$quantity->product_id = $this->product_id;
-				$quantity->quantity = $this->product_quantity;
+				$quantity->quantity = $product_quantity;
 				$success = $quantity->save();
 				
 				if(!$success)

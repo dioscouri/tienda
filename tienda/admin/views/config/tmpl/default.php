@@ -961,7 +961,7 @@
 								<?php echo JText::_( 'Default User Group' ); ?>
 							</th>
 							<td style="width: 150px;">
-		                        <?php echo TiendaSelect::groups($this->row->get('default_user_group', '1')); ?>
+		                        <?php echo TiendaSelect::groups($this->row->get('default_user_group', '1'), 'default_user_group'); ?>
 							</td>
                             <td>
                                 &nbsp;

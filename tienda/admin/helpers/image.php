@@ -121,7 +121,7 @@ class TiendaHelperImage extends TiendaHelperBase
 			$height= $this->$img_height;
 		
 		// Default thumb path or options thumb path?
-		if(!empty($options['thumb_path']) && is_numeric($options['thumb_path']))
+		if(!empty($options['thumb_path']))
 			$dest_dir = $options['thumb_path'];
 		else	
 			$dest_dir = $thumb_path;

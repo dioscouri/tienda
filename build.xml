@@ -363,7 +363,7 @@
             <fileset dir="${cfg.pluginToolDir}_csvimporter" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
+            <fileset dir="${cfg.pluginToolDir}_csvimporter/languages" />
         </copy>
         <!-- USER PLUGINS -->
         <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
