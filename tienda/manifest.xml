@@ -109,6 +109,7 @@
         <plugin plugin="tienda_plugin_shipping_usps" group="tienda" element="shipping_usps" />
         <plugin plugin="tienda_plugin_subscriptions" group="system" element="tienda_subscriptions" />
         <plugin plugin="tienda_plugin_system" group="system" element="tienda" />
+        <plugin plugin="tienda_plugin_tool_csvimporter" publish="true" group="tienda" element="tool_csvimporter" />
         <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
