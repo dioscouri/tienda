@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Report - Best Selling Products</name>
+	<name>Report - Low Stock Products</name>
 	<version>0.5.6</version>
 	<creationDate>August 2010</creationDate>
 	<author>Dioscouri</author>
@@ -8,18 +8,18 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This reports on best selling products</description>
-	
+	<description>This reports on low stock products</description>
+
 	<files>
-		<filename plugin="report_bestsellers">report_bestsellers.php</filename>
-		<folder>report_bestsellers</folder>	
+		<filename plugin="report_lowstock">report_lowstock.php</filename>
+		<folder>report_lowstock</folder>
 	</files>
 
 	<languages>
-		<language tag="en-GB">languages/en-GB.plg_tienda_report_bestsellers.ini</language>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_lowstock.ini</language>
 	</languages>
 
 	<params>
 	</params>
-			
+
 </install>
