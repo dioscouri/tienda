@@ -3,11 +3,11 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_( "THIS TOOL IMPORT DATA FROM A CSV FILE TO TIENDA" ); ?></p>
+    <p><?php echo JText::_( "THIS TOOL IMPORTS DATA FROM A CSV FILE TO TIENDA" ); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP ONE OF THREE" ); ?></span>
-        <p><?php echo JText::_( "PLEASE PROVIDE THE REQUESTED INFORMATION" ); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP TWO OF THREE" ); ?></span>
+        <p><?php echo JText::_( "PLEASE REVIEW THE FOLLOWING INFORMATION" ); ?></p>
     </div>
     
     <fieldset>

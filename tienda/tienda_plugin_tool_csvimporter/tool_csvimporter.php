@@ -283,7 +283,11 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 						
 						$att_name = $att[0];
 						
-						$att_options = explode( "|", $att[1] );
+						$att_options = array();
+						if (!empty($att[1]))
+						{
+                            $att_options = explode( "|", $att[1] );						    
+						}
 						$real_attributes[$att_name] = $att_options;
 					}
 

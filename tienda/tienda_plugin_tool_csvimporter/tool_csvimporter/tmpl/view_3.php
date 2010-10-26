@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = @$vars->results; ?>
 
-<p><?php echo JText::_( "THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA" ); ?></p>
+<p><?php echo JText::_( "THIS TOOL IMPORTS DATA FROM A CSV FILE TO TIENDA" ); ?></p>
 
     <div class="note">
         <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "FINAL" ); ?></span>
