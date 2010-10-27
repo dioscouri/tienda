@@ -280,6 +280,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
         </copy>
+        <!-- LOW QUANTITIES -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_lowstock" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_lowstock/languages" />
+        </copy>    	
     	<!-- NEW SUBSCRIPTIONS USERS -->
     	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.pluginReportDir}_subscriptions" />
@@ -287,7 +294,8 @@
     	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.pluginReportDir}_subscriptions/languages" />
     	</copy>
-        <!-- SEARCH -->
+    	
+    <!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
         </copy>
@@ -422,6 +430,7 @@
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_subscriptions" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requirephonenumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requirephonenumber" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}search.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}search" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_canada.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_canada" />
