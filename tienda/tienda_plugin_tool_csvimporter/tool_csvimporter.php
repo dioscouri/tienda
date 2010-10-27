@@ -505,7 +505,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
         foreach($datas as $data)
         {		
         	// Check for product_name. Explode() could have generated an empty row
-        	if($data['product_name'])
+        	if(!empty($data['product_name']))
         	{	
 				$isNew = false;
 				
@@ -596,8 +596,22 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 		       		
 		        }
 		        
+		        // at this point, the product is saved, so now do additional relationships
+		        
+		        // such as categories
+		        if (!empty($product->product_id) && !empty($data['product_categories']))
+		        {
+		            foreach ($data['product_categories'] as $category_id)
+		            {
+                        // save xref
+                        $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+                        $xref->product_id = $product->product_id;
+                        $xref->category_id = $category_id;
+                        $xref->save();
+		            }
+		        }
 	
-				$results[$n]->title = "Product Creation ".$n;
+				$results[$n]->title = $product->product_name;
 	            $results[$n]->query = "";
 	            $results[$n]->error = implode('\n', $product->getErrors());
 	            $results[$n]->affectedRows = 1;
