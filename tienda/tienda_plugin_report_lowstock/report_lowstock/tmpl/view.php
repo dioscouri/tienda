@@ -22,7 +22,7 @@
                     <?php echo JText::_("SKU"); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("Sales"); ?>
+                    <?php echo JText::_("Quantity"); ?>
                 </th>
             </tr>
         </thead>
@@ -44,7 +44,9 @@
                         <?php echo $item->product_id; ?>
                 </td>
                 <td style="text-align: left;">
+                	<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $item->product_id; ?>">
                         <?php echo JText::_($item->product_name); ?>
+                    </a>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->product_model; ?>
@@ -53,7 +55,7 @@
                     <?php echo $item->product_sku; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo $item->total_sales; ?>
+                    <?php echo $item->product_quantity; ?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>

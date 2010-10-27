@@ -24,7 +24,7 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
     /**
      * @var $default_model  string  Default model used by report
      */
-    var $default_model    = 'orderitems';
+    var $default_model    = 'products';
 
 	/**
 	 * Constructor
@@ -44,9 +44,9 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
 	}
 
     /**
-     * Override parent::_getData() to insert groupBy and orderBy clauses into query
+     * Override parent::_getData() to insert orderBy clauses into query
      *
-     * @return unknown_type
+     * @return objectlist
      */
     function _getData()
     {
@@ -54,21 +54,41 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
         $model = $this->_getModel();
 
         $query = $model->getQuery();
-
-        // group results by product ID
-        $query->group('tbl.product_id');
-
-        // select the total number of sales for each product
-        $field = array();
-        $field[] = " SUM(tbl.orderitem_quantity) AS total_sales ";
-        $query->select( $field );
-
-        // order results by the total sales
-        $query->order('total_sales DESC');
+             
+        //order results by the quantity
+        $query->order('product_quantity DESC');
 
         $model->setQuery( $query );
+        
         $data = $model->getList();
 
         return $data;
+    }
+    
+    /**
+     * Override parent::_getState() to do the filtering
+     *
+     * @return object
+     */
+    function _getState()
+    {
+    	$app = JFactory::getApplication();
+        $model = $this->_getModel( 'products' );
+        $ns = $this->_getNamespace();
+
+        $state = array();        
+       	$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_quantity_from'] = $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
+        $state['filter_quantity_to'] = $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', '');      
+    	$state['filter_category'] = $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
+        $state = $this->_handleRangePresets( $state );
+        
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+
+        return $state;
+    
     }
 }
