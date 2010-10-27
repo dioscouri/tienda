@@ -280,14 +280,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers/languages" />
         </copy>
-        <!-- BEST SELLERS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginReportDir}_lowstock" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginReportDir}_lowstock/languages" />
-        </copy>
-    	
+    	<!-- NEW SUBSCRIPTIONS USERS -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.pluginReportDir}_subscriptions" />
+    	</copy>
+    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.pluginReportDir}_subscriptions/languages" />
+    	</copy>
         <!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
