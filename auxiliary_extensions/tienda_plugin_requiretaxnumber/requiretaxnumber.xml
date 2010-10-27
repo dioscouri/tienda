@@ -21,6 +21,14 @@
     </languages>
     
 	<params>
+		<param name="require_personal_id" type="list" default="1" label="Require Personal Id Number" description="Require Personal Id Number Desc">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="require_tax" type="list" default="1" label="Require Personal Tax Number" description="Require Personal Tax Number Desc">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 			
 </install>

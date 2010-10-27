@@ -603,7 +603,45 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 		        {
 		            foreach ($data['product_categories'] as $category_id)
 		            {
-                        // save xref
+		            	// This is probably not the best way to do it
+		            	// Numeric = id, string = category name
+		            	if(!is_numeric($category_id))
+		            	{
+		            	 	// check for existance
+		            	 	JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
+		            		$model = JModel::getInstance('Categories', 'TiendaModel');
+		            		$model->setState('filter_name', $category_id);
+		            		$matches = $model->getList();
+		            		$matched = false;
+		            		
+		            		if($matches)
+		            		{
+			            		foreach($matches as $match)
+			            		{
+			            			// is a perfect match?
+			            			if(strtolower($category_id) == strtolower($match->category_name))
+			            			{
+			            				$category_id = $match->category_id;
+			            				$matched = true;
+			            			}	
+			            		}
+		            		}
+		            		
+		            		// Not matched, create category
+		            		if(!$matched)
+		            		{
+		            			$category = JTable::getInstance('Categories', 'TiendaTable');
+		            			$category->category_name = $category_id;
+		            			$category->parent_id = 1;
+		            			$category->category_enabled = 1;
+		            			$category->save();
+		            			
+		            			$category_id = $category->category_id;
+		            		}
+		            		
+		            	}
+		            	
+		            	// save xref in every case
                         $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
                         $xref->product_id = $product->product_id;
                         $xref->category_id = $category_id;

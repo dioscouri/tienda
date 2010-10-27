@@ -45,14 +45,16 @@ class plgTiendaRequireTaxNumber extends TiendaPluginBase
         $return = new JObject();
         $return->error = null; // boolean
         $return->message = null; // string
+        
+        $params = $this->params;
        
-        if (!empty($values['billing_input_company']) &&  empty($values['billing_input_tax_number']))
+        if (!empty($values['billing_input_company']) &&  empty($values['billing_input_tax_number']) && $params->get('require_tax', 0))
         {
             $return->error = true; // boolean
             $return->message = JText::_( "INCLUDE_BILLING_TAX_NUMBER" ); // string
         }
         
-   		if (!empty($values['billing_input_company']) &&  empty($values['billing_input_personal_id_number']))
+   		if ( empty($values['billing_input_personal_id_number']) && $params->get('require_personal_id', 0))
         {
             $return->error = true; // boolean
             $return->message = JText::_( "INCLUDE_BILLING_PERSONAL_ID" ); // string
@@ -65,12 +67,18 @@ class plgTiendaRequireTaxNumber extends TiendaPluginBase
             $model->setId( $values['billing_address_id'] );
             $address = $model->getItem();
             
-            // Does the address have a phone number associated with it?
             // if not, what do you want to do?
-            if (!empty($address->company) &&  (empty($address->personal_id_number) || ($address->tax_number) ))
+            if (!empty($address->company) &&  empty($address->tax_number)  && $params->get('require_tax', 0))
             {
                 $return->error = true; // boolean
                 $return->message = JText::_( "Stored Address Missing Tax Number" ); // string                
+            }
+            
+        	// if not, what do you want to do?
+            if (empty($address->personal_id_number)  && $params->get('require_personal_id', 0))
+            {
+                $return->error = true; // boolean
+                $return->message = JText::_( "Stored Address Missing Personal Id Number" ); // string                
             }
 
         }
