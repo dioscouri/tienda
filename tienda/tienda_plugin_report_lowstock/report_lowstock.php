@@ -53,6 +53,10 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
         $state = $this->_getState();
         $model = $this->_getModel();
 
+        // TODO Instead of getting, modifying, and setting the query, just use:
+        // $model->setState( 'order', 'product_quantity' );
+        // $model->setState( 'direction', 'DESC' );
+         
         $query = $model->getQuery();
              
         //order results by the quantity
