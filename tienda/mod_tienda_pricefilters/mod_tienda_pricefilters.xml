@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="left" method="upgrade">
+    <name>Product Price Filters</name>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.0.1</version>
+    <creationDate>October 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>Filter the category listing based on the selected price range.</description>
+    
+    <files>
+        <filename module="mod_tienda_pricefilters">mod_tienda_pricefilters.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+    <languages>
+		<language tag="en-GB">languages/en-GB.mod_tienda_pricefilters.ini</language>
+	</languages>
+	
+    <params>    
+        <param name="filter_upper_limit" type="text" default="1000" label="UPPER LIMIT FILTER" description="UPPER LIMIT FILTER DESC" />
+    	 <param name="round_digit" type="list" default="100" label="Round Prices By" description="To round the prices either by 10s, 100s, or 1000s.">
+            <option value="10">10</option>
+            <option value="100">100</option>
+            <option value="1000">1000</option>            
+        </param>
+    </params>
+    
+    <params group="advanced">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+</install>

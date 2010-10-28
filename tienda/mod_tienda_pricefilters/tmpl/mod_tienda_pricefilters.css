@@ -1,0 +1,12 @@
+#tienda_pricefilter_mod div.range {
+	padding: 2px 5px;	
+}
+#tienda_pricefilter_mod div.range span.arrow {	
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+#tienda_pricefilter_mod div.selected a{
+	font-weight:bold;
+	text-decoration: underline;
+}
