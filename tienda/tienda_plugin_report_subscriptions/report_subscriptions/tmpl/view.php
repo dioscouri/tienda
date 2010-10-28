@@ -50,24 +50,28 @@
                     <?php echo $item->subscription_id; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php // TODO JHTML created date ?>
+                	<?php // JHTML created date ?>
+                    <?php echo JHTML::_($item->history->created_datetime); ?>
                 </td>
                 <td style="text-align: left;">
-                    <?php echo JText::_($item->product_name); ?>
-                    <?php // TODO Also product ID, [in brackets] ?>
+                	<?php // Also product ID, [in brackets] ?>
+                    <?php echo "[" . $item->product_id . "] " . JText::_($item->product_name); ?>                    
                 </td>
                 <td style="text-align: left;">
-                    <?php echo $item->user_username; ?>
-                    <?php // TODO Also more details on user, such as email and full name ?>
+                	<?php // Also more details on user, such as email and full name ?>
+                    <?php echo $item->user_name . ", " . $item->user_username . ", " . "<a href=\"mailto:" . $item->email . "\">" . $item->email . "</a>"; ?>                    
                 </td>
                 <td style="text-align: center;">
-                    <?php // TODO JHTML expires date ?>
+                    <?php // JHTML expires date ?>
+                    <?php echo JHTML::_($item->expires_datetime); ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php // TODO Price of subscription ?>
+                    <?php // Price of subscription ?>
+                    <?php echo JHTML::_();?>
                 </td>
                 <td style="text-align: center;">
-                    <?php // TODO Order number of subscription ?>
+                    <?php // Order number of subscription ?>
+                    <?php echo TiendaSelect::order($item->user_id) ?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>
