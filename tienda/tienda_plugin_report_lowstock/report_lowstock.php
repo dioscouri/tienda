@@ -44,7 +44,7 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
 	}
 
     /**
-     * Override parent::_getData() to insert orderBy clauses into query
+     * Override parent::_getData() to set the direction of the product quantity
      *
      * @return objectlist
      */
@@ -53,17 +53,10 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
         $state = $this->_getState();
         $model = $this->_getModel();
 
-        // TODO Instead of getting, modifying, and setting the query, just use:
-        // $model->setState( 'order', 'product_quantity' );
-        // $model->setState( 'direction', 'DESC' );
-         
-        $query = $model->getQuery();
-             
-        //order results by the quantity
-        $query->order('product_quantity DESC');
-
-        $model->setQuery( $query );
-        
+		//set the direction of the quantity to asc to show the product with lowest quantity
+        $model->setState( 'order', 'product_quantity' );
+        $model->setState( 'direction', 'ASC' );
+            
         $data = $model->getList();
 
         return $data;

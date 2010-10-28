@@ -45,8 +45,9 @@
                 </td>
                 <td style="text-align: left;">
                 	<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $item->product_id; ?>">
-                        <?php echo JText::_($item->product_name); ?>
+                        <?php echo JText::_($item->product_name); ?>                      
                     </a>
+                      <?php if($item->product_quantity < 1) echo '<span style="color: #F00; font-style: italic; margin-left: 40px;">'.JText::_("Out of stock!").'</span>';?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->product_model; ?>
