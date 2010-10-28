@@ -79,6 +79,7 @@
         <module module="mod_tienda_my_orders" client="site" position="left" />
         <module module="mod_tienda_popular_products" client="site" position="left" />
         <module module="mod_tienda_products" client="site" position="left" />
+        <!-- <module module="mod_tienda_pricefilters" client="site" position="left" /> -->
         <module module="mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
         <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
