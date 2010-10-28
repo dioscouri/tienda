@@ -67,11 +67,11 @@
                 </td>
                 <td style="text-align: center;">
                     <?php // Price of subscription ?>
-                    <?php echo $item->orderitem_final_price;?>
+                    <?php echo TiendaHelperBase::currency( $item->orderitem_final_price ); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php // Order number of subscription ?>
-                    <?php echo $item->order_number; ?>
+                    <?php echo $item->order_id; ?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>
