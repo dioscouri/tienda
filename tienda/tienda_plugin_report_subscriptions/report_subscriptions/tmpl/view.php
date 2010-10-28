@@ -42,6 +42,7 @@
         <tbody>
         <?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
+<?php echo Tienda::dump( $item ); ?>
             <tr class='row<?php echo $k; ?>'>
                 <td align="center">
                     <?php echo $i + 1; ?>
