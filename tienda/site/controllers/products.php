@@ -48,6 +48,8 @@ class TiendaControllerProducts extends TiendaController
 		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
 		$state['search_type']          = $app->getUserStateFromRequest($ns.'.search_type', 'search_type', '', '');
 		$state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
+        $state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '', '');
+        $state['filter_price_to']       = $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
 
 		if ($state['search']) 
 		{
