@@ -117,6 +117,13 @@
         <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_products/languages" />
         </copy>
+        <!-- PRICE FILTERS -->
+        <copy todir="${destdir}/modules/mod_${cfg.comName}_pricefilters" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_pricefilters" />
+        </copy>
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_pricefilters/languages" />
+        </copy>
         <!-- QUICKICON -->
         <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_quickicon" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_quickicon" />
@@ -460,6 +467,7 @@
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}my_orders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}my_orders" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}popular_products.zip" basedir="${cfg.comDir}/${cfg.modPrefix}popular_products" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}products.zip" basedir="${cfg.comDir}/${cfg.modPrefix}products" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}pricefilters.zip" basedir="${cfg.comDir}/${cfg.modPrefix}pricefilters" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}quickicon.zip" basedir="${cfg.comDir}/${cfg.modPrefix}quickicon" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}recentorders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}recentorders" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}salestatistics.zip" basedir="${cfg.comDir}/${cfg.modPrefix}salestatistics" />
