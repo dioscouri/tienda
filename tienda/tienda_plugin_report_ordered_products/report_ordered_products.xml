@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Report - Subscriptions</name>
+	<name>Report - Ordered Products</name>
 	<version>0.6.1</version>
 	<creationDate>October 2010</creationDate>
 	<author>Dioscouri</author>
@@ -8,15 +8,15 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This report lists all users who opened a new subscription during the selected time period.</description>
+	<description>This report displays the quantity of each product that was ordered during a selected time period.</description>
 	
 	<files>
-		<filename plugin="report_subscriptions">report_subscriptions.php</filename>
-		<folder>report_subscriptions</folder>	
+		<filename plugin="report_ordered_products">report_ordered_products.php</filename>
+		<folder>report_ordered_products</folder>	
 	</files>
 
 	<languages>
-		<language tag="en-GB">languages/en-GB.plg_tienda_report_subscriptions.ini</language>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_ordered_products.ini</language>
 	</languages>
 
 	<params>

@@ -301,7 +301,13 @@
     	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.pluginReportDir}_subscriptions/languages" />
     	</copy>
-    	
+    	<!-- ORDERED PRODUCTS -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    	   	<fileset dir="${cfg.pluginReportDir}_ordered_products" />
+    	</copy>
+    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.pluginReportDir}_ordered_products/languages" />
+    	</copy>    	
     <!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
