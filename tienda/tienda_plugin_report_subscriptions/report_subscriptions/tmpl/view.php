@@ -42,7 +42,6 @@
         <tbody>
         <?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
-<?php echo Tienda::dump( $item ); ?>
             <tr class='row<?php echo $k; ?>'>
                 <td align="center">
                     <?php echo $i + 1; ?>
@@ -52,7 +51,7 @@
                 </td>
                 <td style="text-align: center;">
                 	<?php // JHTML created date ?>
-                    <?php echo JHTML::_($item->history->created_datetime); ?>
+                    <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: left;">
                 	<?php // Also product ID, [in brackets] ?>
@@ -64,15 +63,15 @@
                 </td>
                 <td style="text-align: center;">
                     <?php // JHTML expires date ?>
-                    <?php echo JHTML::_($item->expires_datetime); ?>
+                    <?php echo JHTML::_('date', $item->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php // Price of subscription ?>
-                    <?php echo JHTML::_();?>
+                    <?php echo $item->orderitem_final_price;?>
                 </td>
                 <td style="text-align: center;">
                     <?php // Order number of subscription ?>
-                    <?php echo TiendaSelect::order($item->user_id) ?>
+                    <?php echo $item->order_number; ?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>
