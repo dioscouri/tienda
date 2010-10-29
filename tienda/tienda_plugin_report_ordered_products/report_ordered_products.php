@@ -82,11 +82,7 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
 
         // then add your own custom ones just for this report
         // $state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-        //$state['filter_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_name', '', '');
-        /*$state['filter_date_from'] = $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
-        $state['filter_date_to'] = $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', ''); */     
-    	//$state['filter_total_quantity'] = $app->getUserStateFromRequest($ns.'total_quantity', 'filter_total_quantity', '', '');
-        //$state = $this->_handleRangePresets( $state );
+        $state['filter_product_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_product_name', '', '');
 
         // then apply the states to the model
         foreach (@$state as $key=>$value)
