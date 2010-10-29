@@ -66,4 +66,28 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
 				
 		return $data;
     }
+    
+    /**
+     * Override parent::_getState() to do the filtering
+     *
+     * @return object
+     */
+    function _getState()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->_getModel( $this->get('default_model') );
+        $ns = $this->_getNamespace();
+
+        $state = parent::_getState(); // get the basic state values from the parent method
+
+        // then add your own custom ones just for this report
+        // $state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+
+        // then apply the states to the model
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+        return $state;    
+    }
 }

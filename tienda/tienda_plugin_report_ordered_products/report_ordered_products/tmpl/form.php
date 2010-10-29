@@ -5,6 +5,9 @@
 <p><?php echo JText::_( "This report displays the quantity of each product that was ordered during a selected time period." ); ?></p>
 
 <div class="note">
+    <?php // Many stores will have 1,000+ items, which is too many for a selectlist
+    // TODO Convert this to just a text input box so the admin can filter by product_name 
+    ?>
 	<?php echo JText::_("Select Product"); ?>:
 	<?php echo TiendaSelect::product(@$state->filter_productid ? $state->filter_productid : 'product_name', 'product_name', $attribs, $idtag, $allowAny, $allowNone, $title = 'Select Product', $title_none = 'No Parent', $enabled = null ); ?>
 	<br/><br/>
