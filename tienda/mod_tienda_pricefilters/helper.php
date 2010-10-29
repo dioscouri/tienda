@@ -46,24 +46,42 @@ class modTiendaPriceFiltersHelper extends JObject
         // get the model
     	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
     	
+    	//check if we are in the manufacturer view
+    	$view = JRequest::getWord('view');
     	
-		//get the current category
-		$category = JRequest::getInt('filter_category');
+    	if($view == 'manufacturers')
+    	{
+    		//get the current category
+			$manufacturer = JRequest::getInt('filter_manufacturer');
 			
-		if ( empty($category) )	return '';
-						
-		$model->setState( 'filter_category', $category ); 
+			if ( empty($manufacturer) )	return '';
 			
-		//create link to be concatinated 
-		$link = '&filter_category='.$category;
-	   	   	
-        
+			$model->setState( 'filter_category', $category ); 
+			
+			//create link to be concatinated 
+			$link = '&view=manufacturers&layout=products&task=products&filter_manufacturer='.$manufacturer;
+			
+    	}
+    	else 
+    	{
+    		//get the current category
+			$category = JRequest::getInt('filter_category');
+			
+			if ( empty($category) )	return '';
+			
+			$model->setState( 'filter_category', $category ); 
+			
+			//create link to be concatinated 
+			$link = '&filter_category='.$category;
+    		
+    	}    	
+	  
 		//set the direction of the price
         $model->setState( 'order', 'price' );
         $model->setState( 'direction', 'DESC' );            
         
         //get items
-        $items = $model->getList();
+        $items = $model->getList();      
         
     	//check if we dont have product in the category	
 		if ( empty($items) )

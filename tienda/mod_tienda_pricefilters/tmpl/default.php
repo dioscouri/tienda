@@ -6,7 +6,7 @@
 	
 <?php if (empty($priceRanges)) { ?>
     <li class="emptyfilter">
-    	<?php echo JText::_('NO CATEGORY FOUND'); ?>
+    	<?php echo JText::_('NO CATEGORY/MANUFACTURER FOUND'); ?>
     </li>
 <?php }else{?>	
 

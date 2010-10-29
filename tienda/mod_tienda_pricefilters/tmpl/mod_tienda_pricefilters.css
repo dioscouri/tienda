@@ -34,3 +34,7 @@
 #tienda_pricefilter_mod li.range span {			
 	font-weight: normal;
 }
+
+#tienda_pricefilter_mod li.emptyfilter {
+	text-indent: 5px;
+}
