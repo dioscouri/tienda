@@ -5,11 +5,8 @@
 <p><?php echo JText::_( "This report displays the quantity of each product that was ordered during a selected time period." ); ?></p>
 
 <div class="note">
-    <?php // Many stores will have 1,000+ items, which is too many for a selectlist
-    // TODO Convert this to just a text input box so the admin can filter by product_name 
-    ?>
 	<?php echo JText::_("Enter Product Name"); ?>:
-	<input type="text" name="filter_product_name" id="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" style="width: 50px;" />
+	<input type="text" name="filter_product_name" id="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" style="width: 250px;" />
 	<br/><br/>
 	<?php echo JText::_("Select Date Range"); ?>:	
 	<?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>	

@@ -53,13 +53,16 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
         $state = $this->_getState();
 		$model = $this->_getModel();
 
+        $model->setState( 'order', 'total_quantity' );
+        $model->setState( 'direction', 'DESC' );
+        
 		$query = $model->getQuery();
 				
 		// select the total quantity
         $field = array();
         $field[] = " SUM(tbl.orderitem_quantity) AS total_quantity ";
+        $query->group( 'product_id' );
         $query->select( $field );
-        
         $model->setQuery( $query );
         
 		$data = $model->getList();	

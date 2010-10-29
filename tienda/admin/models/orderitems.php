@@ -26,6 +26,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_datetype    = $this->getState('filter_datetype');
         $filter_recurs  = $this->getState('filter_recurs');
         $filter_productid  = $this->getState('filter_productid');
+        $filter_productname  = $this->getState('filter_product_name');
 
         if ($filter)
        	{
@@ -36,6 +37,14 @@ class TiendaModelOrderItems extends TiendaModelBase
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
+
+       	if ($filter_productname)
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(tbl.orderitem_name) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
 
        	if ($filter_orderid)
        	{
