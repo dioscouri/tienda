@@ -392,13 +392,13 @@ class TiendaHelperOrder extends TiendaHelperBase
         $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
         
         // Require specific controller if requested
-        Tienda::load( 'TiendaController', "controller", $options );
+        Tienda::load( 'TiendaControllerOrders', "controllers.orders", $options );
         
         // load the plugins
         JPluginHelper::importPlugin( 'tienda' );
         
         // Create the controller
-        $classname = 'TiendaController';
+        $classname = 'TiendaControllerOrders';
         $controller = Tienda::getClass( $classname );      
         
         $view = $controller->getView( 'orders', 'html' );
