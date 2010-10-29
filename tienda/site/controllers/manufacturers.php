@@ -44,6 +44,21 @@ class TiendaControllerManufacturers extends TiendaController
         $state['filter_published'] = 1;
         $state['filter_published_date'] = $date->toMySQL();
         $state['filter_manufacturer'] = JRequest::getInt('filter_manufacturer');
+        
+        //NOTE: check if filter_price_from and filter_price_to are empty since product will not show even if there is a product if its empty
+        //check the filter price from
+        $priceFrm = JRequest::getInt('filter_price_from');
+       	if( !empty( $priceFrm ) )
+        {
+        	  $state['filter_price_from'] = $priceFrm; 
+        }
+      
+	 	//check the filter price from
+        $priceTo = JRequest::getInt('filter_price_to');
+       	if( !empty( $priceTo ) )
+        {
+        	  $state['filter_price_to'] = $priceTo; 
+        }
 
         if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
         {
