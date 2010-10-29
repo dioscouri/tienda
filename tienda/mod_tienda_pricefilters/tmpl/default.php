@@ -2,16 +2,26 @@
 <?php $document = JFactory::getDocument(); ?>
 <?php $document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_pricefilters/tmpl/mod_tienda_pricefilters.css'); ?>
 
-<div id="tienda_pricefilter_mod">
-<?php $i = 1;?>
-<?php foreach ($priceRanges as $link => $range ) : ?>
-	<?php $selected = JRequest::getInt('rangeselected') ?>
-	<?php $class = $selected == $i ? 'range selected' : 'range';?>
+<ul id="tienda_pricefilter_mod">
 	
-	<div class="<?php echo $class;?>" >
-		<span class="arrow">&#187</span><a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products".$link."&rangeselected=".$i ); ?>"><?php echo $range; ?></a>
-	</div>
+<?php if (empty($priceRanges)) { ?>
+    <li class="emptyfilter">
+    	<?php echo JText::_('NO CATEGORY FOUND'); ?>
+    </li>
+<?php }else{?>	
+
+	<?php $i = 1;?>
+	<?php foreach ($priceRanges as $link => $range ) : ?>
+		<?php $selected = JRequest::getInt('rangeselected') ?>
+		<?php $class = $selected == $i ? 'range selected' : 'range';?>	
+		<li class="<?php echo $class;?>" >
+			<a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products".$link."&rangeselected=".$i ); ?>">
+				<span><?php echo $range; ?></span>
+			</a>
+		</li>	
+	<?php $i++;?>
+	<?php endforeach; ?>
 	
-<?php $i++;?>
-<?php endforeach; ?>	
-</div>
+<?php }?>
+
+</ul>

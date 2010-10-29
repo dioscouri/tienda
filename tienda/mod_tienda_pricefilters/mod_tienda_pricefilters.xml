@@ -23,7 +23,7 @@
 	
     <params>    
         <param name="filter_upper_limit" type="text" default="1000" label="UPPER LIMIT FILTER" description="UPPER LIMIT FILTER DESC" />
-    	 <param name="round_digit" type="list" default="100" label="Round Prices By" description="To round the prices either by 10s, 100s, or 1000s.">
+    	 <param name="round_digit" type="list" default="100" label="ROUND PRICE BY" description="ROUND PRICE DESC">
             <option value="10">10</option>
             <option value="100">100</option>
             <option value="1000">1000</option>            

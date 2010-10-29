@@ -39,39 +39,62 @@ class modTiendaPriceFiltersHelper extends JObject
                 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-
-    	//get the current category
-		$currentcat = JRequest::getInt('filter_category');
-    	   	
+    						
+		$ranges = array();    	
+    	$link = '';
+    	
         // get the model
-    	$model = JModel::getInstance( 'Products', 'TiendaModel' );    
-        $model->setState( 'filter_category', $currentcat );    
+    	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
+    	
+    	
+		//get the current category
+		$category = JRequest::getInt('filter_category');
+			
+		if ( empty($category) )	return '';
+						
+		$model->setState( 'filter_category', $category ); 
+			
+		//create link to be concatinated 
+		$link = '&filter_category='.$category;
+	   	   	
+        
+		//set the direction of the price
         $model->setState( 'order', 'price' );
         $model->setState( 'direction', 'DESC' );            
-         
+        
+        //get items
         $items = $model->getList();
         
+    	//check if we dont have product in the category	
+		if ( empty($items) )
+		{	
+			$ranges[$link] = JText::_("NO AVAILABLE PRODUCT");		
+			return $ranges;			
+		}
+		
         //get the highest price
         $priceHigh = abs( $items['0']->price );
-		
-        //get the lowes price 
-        $priceLow = abs( $items[count( $items ) - 1]->price );
-   
+     
+      	//get the lowest price
+        $priceLow = ( count($items) == 1 ) ? 0 : abs( $items[count( $items ) - 1]->price );
+        	
         $range = ( abs( $priceHigh ) - abs( $priceLow ) )/4;        
-        
+
         //rounding
     	$roundRange = $this->_priceRound($range, $this->params->get( 'round_digit' ), true);
 		$roundPriceLow = $this->_priceRound( $priceLow, $this->params->get( 'round_digit' ) );
-    	
+  	
 		$upperPrice = $this->params->get( 'filter_upper_limit' );
 		
-		$ranges = array();    	
-    	$ranges['&filter_category='.$currentcat.'&filter_price_from='.$roundPriceLow.'&filter_price_to='.$roundRange] = TiendaHelperBase::currency($roundPriceLow).' - '.TiendaHelperBase::currency($roundRange);
-    	$ranges['&filter_category='.$currentcat.'&filter_price_from='.$roundRange.'&filter_price_to='.($roundRange*2)] = TiendaHelperBase::currency($roundRange).' - '.TiendaHelperBase::currency( ( $roundRange*2 ) );
-    	$ranges['&filter_category='.$currentcat.'&filter_price_from='.($roundRange*2).'&filter_price_to='.($roundRange*3)] = TiendaHelperBase::currency( ( $roundRange*2 ) ).' - '.TiendaHelperBase::currency( ( $roundRange*3 ) );
-    	$ranges['&filter_category='.$currentcat.'&filter_price_from='.($roundRange*3).'&filter_price_to='.($roundRange*4)] = TiendaHelperBase::currency( ( $roundRange*3 ) ).' - '.TiendaHelperBase::currency( $upperPrice );
-    	$ranges['&filter_category='.$currentcat.'&filter_price_from='.$upperPrice] = JText::_("more than ").TiendaHelperBase::currency( $upperPrice );
-    	      
+		//load the helper base class
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );		
+	
+    	$ranges[$link.'&filter_price_from='.$roundPriceLow.'&filter_price_to='.$roundRange] = TiendaHelperBase::currency($roundPriceLow).' - '.TiendaHelperBase::currency($roundRange);
+    	$ranges[$link.'&filter_price_from='.$roundRange.'&filter_price_to='.($roundRange*2)] = TiendaHelperBase::currency($roundRange).' - '.TiendaHelperBase::currency( ( $roundRange*2 ) );
+    	$ranges[$link.'&filter_price_from='.($roundRange*2).'&filter_price_to='.($roundRange*3)] = TiendaHelperBase::currency( ( $roundRange*2 ) ).' - '.TiendaHelperBase::currency( ( $roundRange*3 ) );
+    	$ranges[$link.'&filter_price_from='.($roundRange*3).'&filter_price_to='.($roundRange*4)] = TiendaHelperBase::currency( ( $roundRange*3 ) ).' - '.TiendaHelperBase::currency( $upperPrice );
+    	$ranges[$link.'&filter_price_from='.$upperPrice] = JText::_("more than ").TiendaHelperBase::currency( $upperPrice );
+      
     	return $ranges;
     }
     
