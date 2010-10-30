@@ -352,6 +352,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginShippingDir}_usps/languages" />
         </copy>
+    	<!-- EDELIVER -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_shipping_edeliver" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_shipping_edeliver/languages" />
+        </copy>
             	
     <!-- SYSTEM PLUGINS -->
     	<!-- OVERRIDES -->
@@ -464,6 +471,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/zoo_product_plugin.zip" basedir="${cfg.aux}/zoo_product_plugin" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requiretaxnumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requiretaxnumber" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />
     </target>
 
     <target name="build_modules" depends="init" description="packages any modules">

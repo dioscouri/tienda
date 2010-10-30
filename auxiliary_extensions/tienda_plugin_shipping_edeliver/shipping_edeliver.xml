@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Shipping via eDeliver</name>
+	<version>0.5.7</version>
+	<creationDate>October 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin is for eDeliver</description>
+	
+	<files>
+		<filename plugin="shipping_edeliver">shipping_edeliver.php</filename>
+		<folder>shipping_edeliver</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_shipping_edeliver.ini</language>
+	</languages>
+
+	<params>
+		<param type="list" name="service_type" default="STANDARD" label="Service Type" description="Service Type">
+			<option value="STANDARD">Standard</option>
+			<option value="EXPRESS">Express</option>
+			<option value="AIR">Air</option>
+			<option value="SEA">Sea</option>
+			<option value="ECONOMY">Economy</option>
+		</param>
+		<param type="text" name="rate_name" default="eDeliver" label="Rate Name" description="Rate Name" />
+	</params>
+			
+</install>
