@@ -272,7 +272,7 @@ class TiendaTable extends JTable
 	function store( $updateNulls=false )
 	{
 		$dispatcher = JDispatcher::getInstance();
-		$before = $dispatcher->trigger( 'onBeforeStore'.$this->get('_suffix'), array( $this ) );
+		$before = $dispatcher->trigger( 'onBeforeStore'.$this->get('_suffix'), array( &$this ) );
 		if (in_array(false, $before, true))
 		{
 			return false;
