@@ -44,7 +44,7 @@ $quantities = array();
             <?php foreach ($items as $item) : ?>
                 <tr class="row<?php echo $k; ?>">
                     <td style="width: 20px; text-align: center;">
-                        <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_id; ?>" onclick="isChecked(this.checked);" />
+                        <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->product_id.".".$item->product_attributes.".".$i; ?>]" value="<?php echo $item->product_id; ?>" onclick="isChecked(this.checked);" />
                     </td>
                     <td style="text-align: center; width: 50px;">
                         <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
@@ -59,8 +59,8 @@ $quantities = array();
 	                        <?php echo $item->attributes_names; ?>
 	                        <br/>
 	                    <?php endif; ?>
-	                    <input name="product_attributes[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />
-                        
+	                    <input name="product_attributes[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />                       
+                      
                         <?php if ($item->product_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
                             <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
@@ -73,11 +73,17 @@ $quantities = array();
                         <?php else : ?>
                             <?php echo JText::_( "Price" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?>                         
                         <?php endif; ?> 
+                        
+					    <?php if (!empty($this->onDisplayCartItem) && (!empty($this->onDisplayCartItem[$i]))) : ?>
+					        <div class='onDisplayCartItem_wrapper_<?php echo $i?>'>
+					        <?php echo $this->onDisplayCartItem[$i]; ?>
+					        </div>
+					    <?php endif; ?>                        
                     </td>
                     <td style="width: 50px; text-align: center;">
-                            <input name="quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="text" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
+                            <input name="quantities[<?php echo $item->product_id.".".$item->product_attributes.".".$i; ?>]" type="text" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
                             <!-- Keep Original quantity to check any update to it when going to checkout -->
-                            <input name="original_quantities[<?php echo $item->product_id.".".$item->product_attributes; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
+                            <input name="original_quantities[<?php echo $item->product_id.".".$item->product_attributes.".".$i; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
                     </td>
                     <td style="text-align: right;">
                         <?php $itemsubtotal = $item->product_price * $item->product_qty; ?>

@@ -133,7 +133,18 @@ class TiendaControllerOrders extends TiendaController
         $view->set( 'hidemenu', false);
         $view->setModel( $model, true );
         $view->assign( 'order', $order );
-        
+
+        //START onDisplayOrderItem: trigger plugins for extra orderitem information
+        $orderitems = (empty($row)) ? null : $row->orderitems;
+        if (!empty($orderitems))
+        {
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
+        		
+	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+        }
+        //END onDisplayOrderItem
+                
         $view->setLayout( 'view' );
         $view->display();
         $this->footer();
@@ -166,8 +177,27 @@ class TiendaControllerOrders extends TiendaController
             return;
         }
         Tienda::load( 'TiendaUrl', 'library.url' );
-        JRequest::setVar( 'view', $this->get('suffix') );
-        JRequest::setVar( 'layout', 'print' );   
-        parent::display();
+        
+        $view = $this->getView( 'orders', 'html' );
+        $view->set( '_controller', 'orders' );
+        $view->set( '_view', 'orders' );
+        $view->set( '_doTask', true);
+        $view->set( 'hidemenu', true);
+        $view->setModel( $model, true );
+        $view->assign( 'order', $order );
+
+        //START onDisplayOrderItem: trigger plugins for extra orderitem information
+        $orderitems = (empty($row)) ? null : $row->orderitems;
+        if (!empty($orderitems))
+        {
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
+        		
+	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+        }
+        //END onDisplayOrderItem
+                
+        $view->setLayout( 'print' );
+        $view->display();
     }
 }

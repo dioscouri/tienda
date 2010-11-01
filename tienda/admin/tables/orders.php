@@ -209,6 +209,17 @@ class TiendaTableOrders extends TiendaTable
         // Use hash to separate items when customer is buying the same product from multiple vendors
         // and with different attribs
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
+
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeys", array( $orderItem ) );
+        foreach ($results as $result)
+        {
+            foreach($result as $key=>$value)
+            {
+            	$hash = $hash.".".$value; 
+            }
+        }	        
+        
         if (!empty($this->_items[$hash]))
         {
             // merely update quantity if item already in list
@@ -656,6 +667,7 @@ class TiendaTableOrders extends TiendaTable
         // so we grab all the orderitems from the db  
         if (empty($this->_items) && !empty($this->order_id))
         {
+        	echo 'loading from orderitems table';
             // TODO Do this?  How will this impact Site::TiendaControllerCheckout->saveOrderItems()?
             //retrieve the order's items
             $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
@@ -717,7 +729,6 @@ class TiendaTableOrders extends TiendaTable
             }
             $this->_itemschecked = true;            
         }
-        
         $this->_items = $items;
         return $this->_items;
     }

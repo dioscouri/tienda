@@ -73,8 +73,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 			foreach ($cart as $item)
 			{
 			    $user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
-				$item->user_id = (empty($item->user_id)) ? $user_id : $item->user_id;
-				 
+				$item->user_id = (empty($item->user_id)) ? $user_id : $item->user_id;				
+	 
 				$keynames = array();
 				$keynames['user_id'] = $item->user_id;
 				if (empty($item->user_id))
@@ -83,6 +83,16 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				$keynames['product_id'] = $item->product_id;
 				$keynames['product_attributes'] = $item->product_attributes;
+				
+		        // fire plugin event: onGetAdditionalCartKeyValues
+		        //this event allows plugins to extend the multiple-column primary key of the carts table
+		        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( $item, null, null );
+		        if (!empty($additionalKeyValues))
+		        {
+		        	$keynames = array_merge($keynames, $additionalKeyValues);
+		        }
+		        
+		        $table->setKeyNames($keynames);
 				if ($table->load($keynames))
 				{
 					if ($sync)
@@ -97,12 +107,17 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				else
 				{
-					$table->product_qty = $item->product_qty;
-					$table->product_id = $item->product_id;
-					$table->product_attributes = $item->product_attributes;
-					$table->user_id = $item->user_id;
-					$table->session_id = $session->getId();
+					foreach($item as $key=>$value)
+					{
+						$table->set($key, $value);
+					}
+//					$table->product_qty = $item->product_qty;
+//					$table->product_id = $item->product_id;
+//					$table->product_attributes = $item->product_attributes;
+//					$table->user_id = $item->user_id;
+					$table->session_id = $session->getId();				
 				}
+
 				$date = JFactory::getDate();
 				$table->last_updated = $date->toMysql();
 				if (!$table->save())
@@ -402,6 +417,17 @@ class TiendaHelperCarts extends TiendaHelperBase
     			$orderItem->orderitem_attribute_names     = $product->attributes_names;
     			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
     			$orderItem->orderitem_final_price         = ($productItem->product_price + floatval( $orderItem->orderitem_attributes_price )) * $orderItem->orderitem_quantity;
+    			
+		        $dispatcher =& JDispatcher::getInstance();
+		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $product ) );
+		        foreach ($results as $result)
+		        {
+		            foreach($result as $key=>$value)
+		            {
+		            	$orderItem->set($key,$value);
+		            }
+		        }	    			
+    			
     			// TODO When do attributes for selected item get set during admin-side order creation?
     			array_push($productitems, $orderItem);
             }
@@ -618,6 +644,23 @@ class TiendaHelperCarts extends TiendaHelperBase
             }            
         }
         return true;
-    }
-  
+    }    
+    
+	function getAdditionalKeyValues( $item, $posted_values, $index )
+    {
+       	$keynames = array();
+        $dispatcher = JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onGetAdditionalCartKeyValues", array( $item, $posted_values, $index ) );
+        if (!empty($results))
+        {
+        	foreach($results as $additionalKeyValues)
+        	{
+	        	foreach($additionalKeyValues as $key=>$value)
+	        	{
+					$keynames[$key] = $value;
+		        }
+        	}
+		}
+		return $keynames;
+    }    
 }

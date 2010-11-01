@@ -203,6 +203,15 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber/languages" />
         </copy>
+    	
+		<!-- CUSTOM FIELDS  -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_product_customfields" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_product_customfields/languages" />
+        </copy>    	
+    	
     <!-- PAYMENT PLUGINS -->
     	<!-- 2CHECKOUT -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">

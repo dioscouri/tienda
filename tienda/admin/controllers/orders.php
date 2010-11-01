@@ -137,6 +137,17 @@ class TiendaControllerOrders extends TiendaController
         $this->_setModelState();
         $surrounding = $model->getSurrounding( $model->getId() );
         $view->assign( 'surrounding', $surrounding );
+        
+        //START onDisplayOrderItem: trigger plugins for extra orderitem information
+        $orderitems = (empty($row)) ? null : $row->orderitems;
+        if (!empty($orderitems))
+        {
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
+        		
+	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+        }
+        //END onDisplayOrderItem
 		
 		$view->display();
 	}

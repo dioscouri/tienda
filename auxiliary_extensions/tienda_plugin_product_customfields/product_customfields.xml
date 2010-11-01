@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Plugin - Product Custom Fields</name>
+	<version>0.4.4</version>
+	<creationDate>October 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin facilitates the use of custom fields for products</description>
+	
+	<files>
+		<filename plugin="product_customfields">product_customfields.php</filename>
+		<folder>product_customfields</folder>	
+	</files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_product_customfields.ini</language>
+    </languages>
+
+	<params>
+	</params>
+			
+</install>

@@ -49,7 +49,11 @@ $items = @$this->orderitems;
                             <?php echo TiendaHelperBase::currency($price); ?>                         
                         <?php endif; ?> 
                         
-
+					    <?php if (!empty($this->onDisplayOrderItem) && (!empty($this->onDisplayOrderItem[$i]))) : ?>
+					        <div class='onDisplayOrderItem_wrapper_<?php echo $i?>'>
+					        <?php echo $this->onDisplayOrderItem[$i]; ?>
+					        </div>
+					    <?php endif; ?>  
 
                     </td>
                     <td style="width: 50px; text-align: center;">

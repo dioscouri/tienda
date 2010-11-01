@@ -295,7 +295,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'product_children', $this->getRelationshipsHtml( $row->product_id, 'parent' ) );
 		$view->assign( 'product_requirements', $this->getRelationshipsHtml( $row->product_id, 'requires' ) );
 		$view->setModel( $model, true );
-
+		
 		// using a helper file, we determine the product's layout
 		$layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
 		$view->setLayout($layout);
@@ -988,7 +988,7 @@ class TiendaControllerProducts extends TiendaController
         }
         sort($attributes);
         $attributes_csv = implode( ',', $attributes );
-        
+
         // Integrity checks on quantity being added
         if ($product_qty < 0) { $product_qty = '1'; } 
 
@@ -1049,6 +1049,18 @@ class TiendaControllerProducts extends TiendaController
         $item->product_qty = (int) $product_qty;
         $item->product_attributes = $attributes_csv;
         $item->vendor_id   = '0'; // vendors only in enterprise version
+        
+		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
+        // once the extra field(s) have been set, they will get automatically saved
+        $dispatcher =& JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array( $item, $values ) );
+        foreach ($results as $result)
+        {
+            foreach($result as $key=>$value)
+            {
+            	$item->set($key,$value);
+            }
+        }	        
 
         // does the user/cart match all dependencies?
         $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
@@ -1082,15 +1094,15 @@ class TiendaControllerProducts extends TiendaController
         // After login, session_id is changed by Joomla, so store this for reference
         $session =& JFactory::getSession(); 
         $session->set( 'old_sessionid', $session->getId() );
-        
+
         // add the item to the cart
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         TiendaHelperCarts::updateCart( array( $item ) );
-        
+
         // fire plugin event
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
-        
+
         // get the 'success' redirect url
         switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
         {

@@ -26,6 +26,21 @@ class TiendaTableCarts extends TiendaTableXref
         $keynames['session_id'] = 'session_id';
         $keynames['product_id'] = 'product_id';
         $keynames['product_attributes'] = 'product_attributes';
+        
+        //trigger: onGetAdditionalCartKeys
+        $dispatcher = JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onGetAdditionalCartKeys");
+        if (!empty($results))
+        {
+        	foreach($results as $additionalKeys)
+        	{
+	        	foreach($additionalKeys as $key=>$value)
+	        	{
+					$keynames[$key] = $value;
+		        }
+        	}
+		}
+        
         $this->setKeyNames( $keynames );
     	
         $tbl_key      = 'user_id';

@@ -469,4 +469,26 @@ class TiendaHelperOrder extends TiendaHelperBase
         }
     }
     
+    function onDisplayOrderItems($orderitems)
+    {
+        //trigger the onDisplayOrderItem for each orderitem
+        $dispatcher =& JDispatcher::getInstance();
+
+        $onDisplayOrderItem = array();
+        $index = 0;
+        foreach( $orderitems as $orderitem)
+        {        	
+	        ob_start();
+	        $dispatcher->trigger( 'onDisplayOrderItem', array( $index, $orderitem ) );
+	        $orderItemContents = ob_get_contents();		        
+	        ob_end_clean();
+	        if (!empty($orderItemContents))
+	        {
+	        	$onDisplayOrderItem[$index] = $orderItemContents;
+	        }
+	        $index++;
+        }
+        
+        return $onDisplayOrderItem;
+    }
 }

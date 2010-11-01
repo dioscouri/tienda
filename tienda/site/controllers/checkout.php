@@ -382,7 +382,8 @@ class TiendaControllerCheckout extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'order', $order );
-		$view->assign( 'orderitems', $order->getItems() );
+		$orderitems = $order->getItems();
+		$view->assign( 'orderitems', $orderitems );
 
 		// Checking whether shipping is required
 		$showShipping = false;
@@ -393,7 +394,17 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'shipping_total', $order->getShippingTotal() );
 		}
 		$view->assign( 'showShipping', $showShipping );
-
+		
+        //START onDisplayOrderItem: trigger plugins for extra orderitem information
+        if (!empty($orderitems))
+        {
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
+        	
+	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+        }
+        //END onDisplayOrderItem
+        
 		$view->setLayout( 'cart' );
 
 		ob_start();
@@ -1757,7 +1768,7 @@ class TiendaControllerCheckout extends TiendaController
 		//TODO: Do Something with Payment Infomation
 		if ( $order->save() )
 		{
-		 $model->setId( $order->order_id );
+		 	$model->setId( $order->order_id );
 
 			// save the order items
 			if (!$this->saveOrderItems())
@@ -1806,13 +1817,16 @@ class TiendaControllerCheckout extends TiendaController
             {
                 // TODO What to do if saving order coupons fails?
                 $error = true;
-            }
+            }            
 		}
 
 		if ($error)
 		{
 			return false;
 		}
+		
+		
+		
 		return true;
 	}
 
@@ -1848,6 +1862,10 @@ class TiendaControllerCheckout extends TiendaController
 			}
 			else
 			{
+				//fire onAfterSaveOrderItem
+        		$dispatcher = JDispatcher::getInstance();
+        		$dispatcher->trigger( 'onAfterSaveOrderItem', array( $item ) );				
+				
 				// does the orderitem create a subscription?
 				if (!empty($item->orderitem_subscription))
 				{
