@@ -39,6 +39,7 @@ class TiendaModelProducts extends TiendaModelBase
 		$filter_manufacturer = $this->getState('filter_manufacturer');
 		$filter_multicategory = $this->getState('filter_multicategory');
 	    $filter_description = $this->getState('filter_description');
+	    $filter_description_short = $this->getState('filter_description_short');
         $filter_namedescription = $this->getState('filter_namedescription');
         
 	    if ($filter) 
@@ -49,6 +50,7 @@ class TiendaModelProducts extends TiendaModelBase
 			$where[] = 'LOWER(tbl.product_id) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_name) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_description) LIKE '.$key;
+			$where[] = 'LOWER(tbl.product_description_short) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_sku) LIKE '.$key;
 			$where[] = 'LOWER(tbl.product_model) LIKE '.$key;
 			$where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
@@ -63,6 +65,7 @@ class TiendaModelProducts extends TiendaModelBase
             $where = array();
             $where[] = 'LOWER(tbl.product_name) LIKE '.$key;
             $where[] = 'LOWER(tbl.product_description) LIKE '.$key;
+            $where[] = 'LOWER(tbl.product_description_short) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
         
