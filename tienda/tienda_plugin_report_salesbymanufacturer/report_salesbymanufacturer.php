@@ -61,6 +61,7 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
 		// select the total quantity
         $field = array();
         $field[] = " SUM(tbl.orderitem_final_price) AS total_sales ";
+        $field[] = " SUM(tbl.orderitem_quantity) AS sales_count ";
         $query->select( $field );
         $model->setQuery( $query );
         
@@ -73,7 +74,7 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
      * Override parent::_getState() to do the filtering
      *
      * @return object
-     */
+     */ 
     function _getState()
     {
         $app = JFactory::getApplication();
