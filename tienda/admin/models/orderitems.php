@@ -130,7 +130,7 @@ class TiendaModelOrderItems extends TiendaModelBase
     	$query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');
         $query->join('LEFT', '#__tienda_orders AS o ON tbl.order_id = o.order_id');
         $query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = o.order_state_id');
-        $query->join('LEFT', '#__tienda_manufacturers AS m ON p.manufacturer_id = m.manufacturer_id');
+        $query->join('LEFT', '#__tienda_manufacturers AS m ON  m.manufacturer_id = p.manufacturer_id');
     }
     
 	public function getList()
