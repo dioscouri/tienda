@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Report - Sales by Manufacturer</name>
+	<version>0.6.1</version>
+	<creationDate>November 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This report displays the sales by each manufacturer during a selected time period.</description>
+	
+	<files>
+		<filename plugin="report_salesbymanufacturer">report_salesbymanufacturer.php</filename>
+		<folder>report_salesbymanufacturer</folder>	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_salesbymanufacturer.ini</language>
+	</languages>
+
+	<params>
+	</params>			
+</install>

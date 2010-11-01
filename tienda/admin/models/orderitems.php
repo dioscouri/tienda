@@ -27,6 +27,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_recurs  = $this->getState('filter_recurs');
         $filter_productid  = $this->getState('filter_productid');
         $filter_productname  = $this->getState('filter_product_name');
+        $filter_manufacturer_name  = $this->getState('filter_manufacturer_name');
 
         if ($filter)
        	{
@@ -43,6 +44,14 @@ class TiendaModelOrderItems extends TiendaModelBase
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productname ) ) ).'%');
             $where = array();
             $where[] = 'LOWER(tbl.orderitem_name) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+        
+    	if ($filter_manufacturer_name)
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer_name ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
 
@@ -109,6 +118,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $field[] = " p.product_sku ";
         $field[] = " p.product_model ";
         $field[] = " p.product_params ";
+        $field[] = " m.manufacturer_name ";
         $field[] = " o.* ";
         $field[] = " s.* ";
 
@@ -120,6 +130,7 @@ class TiendaModelOrderItems extends TiendaModelBase
     	$query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');
         $query->join('LEFT', '#__tienda_orders AS o ON tbl.order_id = o.order_id');
         $query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = o.order_state_id');
+        $query->join('LEFT', '#__tienda_manufacturers AS m ON p.manufacturer_id = m.manufacturer_id');
     }
     
 	public function getList()
