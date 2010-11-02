@@ -85,6 +85,10 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
 
         // then add your own custom ones just for this report       
         $state['filter_manufacturer_name'] = $app->getUserStateFromRequest($ns.'manufacturer_name', 'filter_manufacturer_name', '', '');
+        $state['filter_productattribute_name'] = $app->getUserStateFromRequest($ns.'productattribute_name', 'filter_productattribute_name', '', '');
+        $state['filter_productattributeoption_name'] = $app->getUserStateFromRequest($ns.'productattributeoption_name', 'filter_productattributeoption_name', '', '');
+      
+        //$state = $this->_handleRangePresets( $state );
         
         // then apply the states to the model
         foreach (@$state as $key=>$value)

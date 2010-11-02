@@ -28,6 +28,11 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_productid  = $this->getState('filter_productid');
         $filter_productname  = $this->getState('filter_product_name');
         $filter_manufacturer_name  = $this->getState('filter_manufacturer_name');
+        $filter_productattribute_name  = $this->getState('filter_productattribute_name');
+        $filter_productattributeoption_name  = $this->getState('filter_productattributeoption_name');
+        $filter_subscriptions_date_from = $this->getState('filter_subscriptions_date_from');
+        $filter_subscriptions_date_to = $this->getState('filter_subscriptions_date_to');
+        $filter_subscriptions_datetype = $this->getState('filter_subscriptions_datetype');
 
         if ($filter)
        	{
@@ -52,6 +57,22 @@ class TiendaModelOrderItems extends TiendaModelBase
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_manufacturer_name ) ) ).'%');
             $where = array();
             $where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+        
+    	if ($filter_productattribute_name)
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productattribute_name ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(a.productattribute_name) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
+        }
+        
+    	if ($filter_productattributeoption_name)
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_productattributeoption_name ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(ao.productattributeoption_name) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
 
@@ -98,6 +119,33 @@ class TiendaModelOrderItems extends TiendaModelBase
             }
         }
         
+    	if (strlen($filter_subscriptions_date_from))
+        {
+            switch ($filter_subscriptions_datetype)
+            {               
+                case "expires":
+                    $query->where("sb.expires_datetime >= '".$filter_subscriptions_date_from."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("sb.created_datetime >= '".$filter_subscriptions_date_from."'");
+                  break;
+            }
+        }
+        if (strlen($filter_subscriptions_date_to))
+        {
+            switch ($filter_subscriptions_datetype)
+            {
+                case "expires":
+                    $query->where("sb.expires_datetime <= '".$filter_subscriptions_date_to."'");
+                  break;
+                case "created":
+                default:
+                    $query->where("sb.created_datetime <= '".$filter_subscriptions_date_to."'");
+                  break;
+            }
+        }
+        
         if (strlen($filter_userid))
         {
             $query->where('o.user_id = '.$this->_db->Quote($filter_userid));
@@ -118,9 +166,13 @@ class TiendaModelOrderItems extends TiendaModelBase
         $field[] = " p.product_sku ";
         $field[] = " p.product_model ";
         $field[] = " p.product_params ";
-        $field[] = " m.manufacturer_name ";
         $field[] = " o.* ";
-        $field[] = " s.* ";
+        $field[] = " s.* ";        
+        $field[] = " m.manufacturer_name ";
+        $field[] = " a.productattribute_name ";
+        $field[] = " ao.productattributeoption_name ";
+        $field[] = " sb.created_datetime ";
+        $field[] = " sb.expires_datetime ";
 
         $query->select( $field );
     }
@@ -130,7 +182,10 @@ class TiendaModelOrderItems extends TiendaModelBase
     	$query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');
         $query->join('LEFT', '#__tienda_orders AS o ON tbl.order_id = o.order_id');
         $query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = o.order_state_id');
-        $query->join('LEFT', '#__tienda_manufacturers AS m ON  m.manufacturer_id = p.manufacturer_id');
+        $query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = p.manufacturer_id');
+        $query->join('LEFT', '#__tienda_productattributes AS a ON a.product_id = p.product_id');
+        $query->join('LEFT', '#__tienda_productattributeoptions AS ao ON ao.productattribute_id = a.productattribute_id');
+        $query->join('LEFT', '#__tienda_subscriptions AS sb ON sb.order_id = o.order_id');
     }
     
 	public function getList()
