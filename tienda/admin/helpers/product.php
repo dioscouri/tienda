@@ -1435,6 +1435,33 @@ class TiendaHelperProduct extends TiendaHelperBase
         $items = $db->loadResultArray();
         return $items;
     }
+	/**
+     * Gets user's id from Product comment table
+     * 
+     * @param $product_id
+     * @return array
+     */
+    function getUserIdForReview( $product_id )
+    {
+        if (empty($product_id))
+        {
+            return array();
+        }
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        $query->select( "tbl.user_id" );
+        $query->from( $table->getTableName()." AS tbl" );      
+        $query->where("tbl.product_id = ".(int)$product_id);
+          
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadResultArray();
+        return $items;
+    }
+    
 
      /**
      * returns a product's quantity list for all combination
