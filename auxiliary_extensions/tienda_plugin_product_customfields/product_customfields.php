@@ -43,7 +43,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 	    $custom_fields = $this->getCustomFields( $product_id );
 	    
 	    $vars->custom_fields =  $custom_fields;
-		
+		$vars->product_id = $product_id;
 		echo $this->_getLayout( 'product_customfields_form', $vars );		
 	}
 
