@@ -922,5 +922,25 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+
+    /**
+    * Generates a created/modified select list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function subdatetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'created', JText::_( "Created" ) );
+        $list[] = JHTML::_('select.option',  'expires', JText::_( "Expires" ) );
         
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

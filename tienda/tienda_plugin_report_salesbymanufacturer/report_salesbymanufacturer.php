@@ -85,8 +85,9 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
 
         // then add your own custom ones just for this report       
         $state['filter_manufacturer_name'] = $app->getUserStateFromRequest($ns.'manufacturer_name', 'filter_manufacturer_name', '', '');
-        $state['filter_productattribute_name'] = $app->getUserStateFromRequest($ns.'productattribute_name', 'filter_productattribute_name', '', '');
-        $state['filter_productattributeoption_name'] = $app->getUserStateFromRequest($ns.'productattributeoption_name', 'filter_productattributeoption_name', '', '');
+        $state['filter_subscriptions_date_from'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_date_from', 'filter_subscriptions_date_from', '', '');
+        $state['filter_subscriptions_date_to'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_date_to', 'filter_subscriptions_date_to', '', '');
+        $state['filter_subscriptions_datetype'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_datetype', 'filter_subscriptions_datetype', '', '');
       
         //$state = $this->_handleRangePresets( $state );
         

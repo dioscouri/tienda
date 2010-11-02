@@ -3,6 +3,8 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
+<h2><?php echo JText::_( "Results"); ?></h2>
+
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
