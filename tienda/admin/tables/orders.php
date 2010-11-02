@@ -667,7 +667,6 @@ class TiendaTableOrders extends TiendaTable
         // so we grab all the orderitems from the db  
         if (empty($this->_items) && !empty($this->order_id))
         {
-        	echo 'loading from orderitems table';
             // TODO Do this?  How will this impact Site::TiendaControllerCheckout->saveOrderItems()?
             //retrieve the order's items
             $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );

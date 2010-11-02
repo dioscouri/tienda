@@ -90,9 +90,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 		        if (!empty($additionalKeyValues))
 		        {
 		        	$keynames = array_merge($keynames, $additionalKeyValues);
+		        	$table->setKeyNames($keynames);
 		        }
 		        
-		        $table->setKeyNames($keynames);
 				if ($table->load($keynames))
 				{
 					if ($sync)
