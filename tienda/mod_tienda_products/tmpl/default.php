@@ -30,9 +30,9 @@ if ($num > 0 && @$products)
 	echo '<div class="tienda_products_'.$params->get('display_style','flat').'">';
     // Loop through the products to display
     foreach (@$products as $product) : ?>
-		<div class="tienda_product_item<?php if ($params->get('display_style','flat') == 'grid') echo ' grid' .$params->get('display_grid_items' ,'3'); ?>">
-        <h4 class="product_title"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>"><?php echo $product->product_name; ?></a></h4>
-		
+		<div class="tienda_product_item <?php echo $params->get('moduleclass_sfx');?><?php if ($params->get('display_style','flat') == 'grid') echo ' grid' .$params->get('display_grid_items' ,'3'); ?>">
+        <?php if ($params->get('display_title','1') != '0') : ?><h4 class="product_title"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>"><?php echo $product->product_name; ?></a></h4>
+		<?php endif; ?>
 		<?php if ($params->get('display_image','1') != '0') : ?>
 			<?php if ($params->get('display_image_link','1') != '0') : ?>
 				<p class="product_image"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>">
@@ -50,8 +50,8 @@ if ($num > 0 && @$products)
 		<?php  endforeach;
 	echo '</div>';
 
-}  
-    elseif ($display_null == '1') 
+}
+    elseif ($display_null == '1')
 {
     $text = JText::_( $null_text );
     echo $text;
