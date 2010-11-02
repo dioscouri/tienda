@@ -36,4 +36,9 @@ class TiendaTableZonerelations extends TiendaTable
 		}
 		return true;
 	}
+	
+	function reorder()
+	{
+		return true;
+	}
 }

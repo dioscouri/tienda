@@ -81,7 +81,7 @@ class TiendaHelperUser extends TiendaHelperBase
             return array();
         }
         
-        $geozones = TiendaHelperShipping::getGeoZones( $address->zone_id, '1' );
+        $geozones = TiendaHelperShipping::getGeoZones( $address->zone_id, '1', $address->postal_code );
         return $geozones;
     }
     

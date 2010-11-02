@@ -80,9 +80,40 @@ class TiendaModelZonerelations extends TiendaModelBase
         if( empty( $list ) ){
         	return array();
         }
+        
+        $filter_zip    		  = $this->getState('filter_zip');
 		
-		foreach($list as $item)
+		foreach($list as $key => $item)
 		{
+			// Check the zip range
+			if(strlen($filter_zip))
+			{
+				$in_range = false;
+				$ranges = explode(";", $item->zip_range);
+				foreach($ranges as $range)
+				{
+					if(strlen($range))
+					{
+						$temp = explode("-", $range);
+						$start = $temp[0];
+						$end = $temp[1];
+	
+						// check that it is in range
+						if($filter_zip <= $end && $filter_zip >= $start)
+						{
+							$in_range = true;
+						}
+						
+					}
+				}
+				
+				// in not in the ranges, unset it
+				if(!$in_range)
+				{
+					unset($list[$key]);
+				}
+			}
+			
             $item->link = "index.php?option=com_tienda&controller=zonerelations&view=zonerelations&tmpl=component&task=edit&geozoneid=$item->geozone_id&id=$item->zonerelation_id";
 		}
 		return $list;

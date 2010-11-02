@@ -300,6 +300,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemAttributeCode FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkZoneRelationsZipRange())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkZoneRelationsZipRange FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2322,4 +2327,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+	/**
+     * update the zonerelations table for the "zip_range" field
+     * As of v0.5.7
+     * 
+     * return boolean
+     */
+    function checkZoneRelationsZipRange()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkZoneRelationsZipRange', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_zonerelations';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "zip_range";
+            $definitions["zip_range"] = "VARCHAR(255) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkZoneRelationsZipRange') );
+            $config->config_name = 'checkZoneRelationsZipRange';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
 }

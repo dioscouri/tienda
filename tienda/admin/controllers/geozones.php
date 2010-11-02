@@ -205,6 +205,57 @@ class TiendaControllerGeozones extends TiendaController
         
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
+    
+    /**
+	 * Saves the zip code ranges for all the enabled zones in the list 
+	 *
+	 * @return unknown_type
+	 */
+	function savezipranges()
+	{
+		$error = false;
+		$this->messagetype  = '';
+		$this->message      = '';
+		$model = $this->getModel('zonerelations');
+		$row = $model->getTable();
+
+		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
+		$ranges = JRequest::getVar('zip_range', array(0), 'request', 'array');
+
+		foreach($cids as $cid)
+		{
+			$keynames["geozone_id"] = $id;
+            $keynames["zone_id"] = $cid;
+            $row->load( $keynames );
+            
+                if (!empty($row->zone_id)) 
+                {
+                	$row->zip_range = $ranges[$cid];
+                    if (!$row->save())
+                    {
+                        $this->message .= $cid.': '.$row->getError().'<br/>';
+                        $this->messagetype = 'notice';
+                        $error = true;
+                    }
+                } 
+		}     
+		
+		if ($error)
+		{
+			$this->message = JText::_('Error') . " - " . $this->message;
+		}
+		else
+		{
+			$this->message = "";
+		}
+
+		$redirect = "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+    
 }
 
 ?>

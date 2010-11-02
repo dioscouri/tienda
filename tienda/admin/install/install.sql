@@ -5219,6 +5219,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_zonerelations` (
   `zonerelation_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `zone_id` INT(11) NULL ,
   `geozone_id` INT(11) NULL ,
+  `zip_range` VARCHAR(255) NOT NULL ,
   `created_date` DATETIME NULL ,
   `modified_date` DATETIME NULL ,
   PRIMARY KEY (`zonerelation_id`) ,

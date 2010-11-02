@@ -158,13 +158,13 @@ class TiendaHelperShipping extends TiendaHelperBase
 	}
 	
 	/**
-     * Gets geozones associated with a zone id
+     * Gets geozones associated with a zone id and a zip code, optionally
      * 
      * @param $zone_id
      * @param $geozonetype
      * @return array
      */
-    public function getGeoZones( $zone_id, $geozonetype='2' )
+    public function getGeoZones( $zone_id, $geozonetype='2', $zip_code = null )
     {
     	$return = array();
     	if (empty($zone_id))
@@ -176,6 +176,12 @@ class TiendaHelperShipping extends TiendaHelperBase
     	$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
         $model->setState( 'filter_zone', $zone_id );
         $model->setState( 'filter_geozonetype', $geozonetype );
+        
+        if($zip_code)
+        {
+        	$model->setState( 'filter_zip', $zip_code );
+        }
+        
         $items = $model->getList();
 
         if (!empty($items))

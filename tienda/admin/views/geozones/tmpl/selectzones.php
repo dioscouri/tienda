@@ -9,7 +9,9 @@
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_( "For Checked Items" ); ?>:
-	<button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "Change Status" ); ?></button>
+	<button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "Change Status" ); ?></button><br />
+	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='savezipranges'; document.adminForm.submit();"> <?php echo JText::_( "Save All Changes to Zip Ranges" ); ?></button>
+
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -50,6 +52,9 @@
                 <th>
 	                <?php echo JText::_( 'Status' ); ?>
                 </th>
+                <th style="width: 150px;">
+	                <?php echo JText::_( 'Postal Code Range' ); ?>
+                </th>
             </tr>
 		</thead>
         <tbody>
@@ -77,6 +82,11 @@
 					?>
 					<?php $table->load( $keynames ); ?>
 					<?php echo TiendaGrid::enable(isset($table->geozone_id), $i, 'selected_'); ?>
+				</td>
+				<td style="text-align: center;">
+					<?php if(isset($table->geozone_id)): ?>
+					<input type="text" name="zip_range[<?php echo $table->zone_id;?>]" value="<?php echo @$table->zip_range;?>" />
+					<?php endif; ?>
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
