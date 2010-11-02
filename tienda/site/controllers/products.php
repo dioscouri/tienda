@@ -48,7 +48,7 @@ class TiendaControllerProducts extends TiendaController
 		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
 		$state['search_type']          = $app->getUserStateFromRequest($ns.'.search_type', 'search_type', '', '');
 		$state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
-        $state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '', '');
+        $state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
         $state['filter_price_to']       = $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
 
 		if ($state['search']) 
@@ -181,6 +181,17 @@ class TiendaControllerProducts extends TiendaController
 
                 $item->product_buy = $this->getAddToCart($item->product_id);
 		    }
+		}
+		
+		if (($model->getState('filter_price_from') > '0') || ($model->getState('filter_price_to') > '0'))
+		{
+            $url = "index.php?option=com_tienda&view=products&filter_category=$filter_category&filter_price_from=&filter_price_to=";
+            $from = TiendaHelperBase::currency( $model->getState('filter_price_from') );  
+            $to = ($model->getState('filter_price_to') > 0) ? TiendaHelperBase::currency( $model->getState('filter_price_to') ) : JText::_( 'MAXIMUM PRICE' );
+            $view->assign( 'remove_pricefilter_url', $url);
+            $view->assign( 'pricefilter_applied', true);
+            $view->assign( 'filterprice_from', $from);
+            $view->assign( 'filterprice_to', $to);
 		}
 
 		$view->assign( 'level', $level);

@@ -25,4 +25,18 @@ $lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
 $helper = new modTiendaPriceFiltersHelper( $params ); 
 $priceRanges = $helper->getPriceRange();
 
+$show_remove = false;
+
+$app = JFactory::getApplication();
+$model = JModel::getInstance( 'Products', 'TiendaModel' );
+$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
+$filter_price_from = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
+$filter_price_to = $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
+$filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
+if (!empty($filter_price_from) || !empty($filter_price_to))
+{
+    $show_remove = true;
+}
+$remove_pricefilter_url = "index.php?option=com_tienda&view=products&filter_category=$filter_category&filter_price_from=&filter_price_to=";
+
 require( JModuleHelper::getLayoutPath( 'mod_tienda_pricefilters' ) );

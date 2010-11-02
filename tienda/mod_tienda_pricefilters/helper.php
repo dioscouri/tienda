@@ -24,7 +24,7 @@ class modTiendaPriceFiltersHelper extends JObject
         $this->params = $params;
     }
     
-  /**
+    /**
      * Get the price range based on the Highest and lowest prices   
      * @return array
      */
@@ -45,34 +45,36 @@ class modTiendaPriceFiltersHelper extends JObject
     	
         // get the model
     	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
-    	
+        $app = JFactory::getApplication();
+        $ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
+        
     	//check if we are in the manufacturer view
     	$view = JRequest::getWord('view');
     	
-    	if($view == 'manufacturers')
+    	if ($view == 'manufacturers')
     	{
-    		//get the current category
-			$manufacturer = JRequest::getInt('filter_manufacturer');
+    		//get the current manufacturer
+			$filter_manufacturer = $app->getUserStateFromRequest($ns.'.manufacturer', 'filter_manufacturer', '', 'int');
 			
-			if ( empty($manufacturer) )	return '';
+			if ( empty($filter_manufacturer) )	return '';
 			
-			$model->setState( 'filter_category', $category ); 
+			$model->setState( 'filter_manufacturer', $filter_manufacturer ); 
 			
 			//create link to be concatinated 
-			$link = '&view=manufacturers&layout=products&task=products&filter_manufacturer='.$manufacturer;
+			$link = '&view=manufacturers&layout=products&task=products&filter_manufacturer='.$filter_manufacturer;
 			
     	}
     	else 
     	{
     		//get the current category
-			$category = JRequest::getInt('filter_category');
+			$filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
 			
-			if ( empty($category) )	return '';
+			if ( empty($filter_category) )	return '';
 			
-			$model->setState( 'filter_category', $category ); 
+			$model->setState( 'filter_category', $filter_category ); 
 			
 			//create link to be concatinated 
-			$link = '&filter_category='.$category;
+			$link = '&filter_category='.$filter_category;
     		
     	}    	
 	  
@@ -110,7 +112,7 @@ class modTiendaPriceFiltersHelper extends JObject
     	$ranges[$link.'&filter_price_from='.$roundPriceLow.'&filter_price_to='.$roundRange] = TiendaHelperBase::currency($roundPriceLow).' - '.TiendaHelperBase::currency($roundRange);
     	$ranges[$link.'&filter_price_from='.$roundRange.'&filter_price_to='.($roundRange*2)] = TiendaHelperBase::currency($roundRange).' - '.TiendaHelperBase::currency( ( $roundRange*2 ) );
     	$ranges[$link.'&filter_price_from='.($roundRange*2).'&filter_price_to='.($roundRange*3)] = TiendaHelperBase::currency( ( $roundRange*2 ) ).' - '.TiendaHelperBase::currency( ( $roundRange*3 ) );
-    	$ranges[$link.'&filter_price_from='.($roundRange*3).'&filter_price_to='.($roundRange*4)] = TiendaHelperBase::currency( ( $roundRange*3 ) ).' - '.TiendaHelperBase::currency( $upperPrice );
+    	$ranges[$link.'&filter_price_from='.($roundRange*3).'&filter_price_to='.($upperPrice)] = TiendaHelperBase::currency( ( $roundRange*3 ) ).' - '.TiendaHelperBase::currency( $upperPrice );
     	$ranges[$link.'&filter_price_from='.$upperPrice] = JText::_("more than ").TiendaHelperBase::currency( $upperPrice );
       
     	return $ranges;

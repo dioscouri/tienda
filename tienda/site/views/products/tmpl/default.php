@@ -14,6 +14,14 @@ $citems = @$this->citems;
         </div>
     <?php endif; ?>
 
+    <?php if (!empty($this->pricefilter_applied)) : ?>
+        <div id='tienda_pricefilter'>
+            <b><?php echo JText::_( "Displaying Price Range" ) . ": "; ?></b>
+            <?php echo $this->filterprice_from .  " - " . $this->filterprice_to; ?>
+            <a href="<?php echo JRoute::_( $this->remove_pricefilter_url ); ?>"><?php echo JText::_( "Remove Filter" ) ?></a>
+        </div>
+    <?php endif; ?>
+
     <div id="tienda_categories">    
         <div id='tienda_category_header'>
             <?php if (isset($state->category_name)) : ?>
@@ -30,8 +38,6 @@ $citems = @$this->citems;
             <div id="tienda_subcategories">
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php
-               // $i = 0;
-                //$subcategories_per_line = TiendaConfig::getInstance()->get('subcategories_per_line', '5'); 
                 foreach ($citems as $citem) : 
                 ?>
                     <div class="subcategory">
@@ -49,16 +55,6 @@ $citems = @$this->citems;
                         <?php endif; ?>
                     </div>
                 <?php
-               /* if(($i+1) >= $subcategories_per_line)
-                {
-                ?>
-                <div class="reset"></div>
-                <?php
-                $i = 0; 
-                } 
-                else {
-                	$i++;
-                }*/
                 endforeach; 
                 ?>
                 <div class="reset"></div>

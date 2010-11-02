@@ -6,6 +6,11 @@ div.reset {
 div#tienda_breadcrumb {
     margin-bottom: 15px;
 }
+
+div#tienda_pricefilter {
+    margin-bottom: 15px;
+}
+
 /** PRODUCT BROWSING **/
 div#tienda_category_header {
 	padding-top: 5px;

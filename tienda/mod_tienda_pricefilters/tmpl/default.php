@@ -13,7 +13,7 @@
 	<?php $i = 1;?>
 	<?php foreach ($priceRanges as $link => $range ) : ?>
 		<?php $selected = JRequest::getInt('rangeselected') ?>
-		<?php $class = $selected == $i ? 'range selected' : 'range';?>	
+		<?php $class = ($selected == $i) ? 'range selected' : 'range';?>	
 		<li class="<?php echo $class;?>" >
 			<a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products".$link."&rangeselected=".$i ); ?>">
 				<span><?php echo $range; ?></span>
@@ -25,3 +25,9 @@
 <?php }?>
 
 </ul>
+
+<div style="float: right;">
+<?php if (!empty($show_remove)) : ?>
+    <a href="<?php echo JRoute::_( $remove_pricefilter_url ); ?>"><?php echo JText::_( "Remove Filter" ) ?></a>
+<?php endif; ?>
+</div>
