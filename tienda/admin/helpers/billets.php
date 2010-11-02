@@ -67,6 +67,8 @@ class TiendaHelperBillets extends TiendaHelperBase
             
             $billets_ticket_limit_increase = $product->product_parameters->get('billets_ticket_limit_increase');
             $billets_ticket_limit_exclusion = $product->product_parameters->get('billets_ticket_limit_exclusion');
+            $billets_hour_limit_increase = $product->product_parameters->get('billets_hour_limit_increase');
+            $billets_hour_limit_exclusion = $product->product_parameters->get('billets_hour_limit_exclusion');
             
             // does this product impact ticket limits?
             if ( $billets_ticket_limit_increase > '0' || $billets_ticket_limit_exclusion == '1' )
@@ -80,6 +82,22 @@ class TiendaHelperBillets extends TiendaHelperBase
                 if ($billets_ticket_limit_exclusion == '1')
                 {
                     $userdata->limit_tickets_exclusion = $billets_ticket_limit_exclusion; 
+                }
+                $userdata->save();
+            }
+            
+        	// does this product impact hour limits?
+            if ( $billets_hour_limit_increase > '0' || $billets_hour_limit_exclusion == '1' )
+            {
+                // update userdata
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_billets'.DS.'tables' );
+                $userdata = JTable::getInstance('Userdata', 'BilletsTable');
+                $userdata->load( array('user_id'=>$order->user_id) );
+                $userdata->user_id = $order->user_id;
+                $userdata->hour_max = $userdata->hour_max + $billets_hour_limit_increase;
+                if ($billets_hour_limit_exclusion == '1')
+                {
+                    $userdata->limit_hours_exclusion = $billets_hour_limit_exclusion; 
                 }
                 $userdata->save();
             }

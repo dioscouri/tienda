@@ -969,6 +969,22 @@ window.addEvent('domready', function(){
                             <?php echo JHTML::_('select.booleanlist', 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
                         </td>
                     </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("Hour Limit Increase").'::'.JText::_( "Hour Limit Increase Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Hour Limit Increase' ); ?>:
+                        </td>
+                        <td>
+                            <input name="billets_hour_limit_increase" value="<?php echo @$row->product_parameters->get('billets_hour_limit_increase'); ?>" size="10" maxlength="10" type="text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="<?php echo JText::_("Excludes User From Hour Limits").'::'.JText::_( "Excludes User From Hour Limits Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Excludes User From Hour Limits' ); ?>:
+                        </td>
+                        <td>
+                            <?php echo JHTML::_('select.booleanlist', 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
+                        </td>
+                    </tr>
                 </table>
             <?php else : ?>
                 <div class="note">

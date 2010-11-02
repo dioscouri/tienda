@@ -421,6 +421,8 @@ class TiendaControllerProducts extends TiendaController
 		$params->set( 'amigos_commission_override', JRequest::getVar('amigos_commission_override') );
 		$params->set( 'billets_ticket_limit_increase', JRequest::getVar('billets_ticket_limit_increase') );
 		$params->set( 'billets_ticket_limit_exclusion', JRequest::getVar('billets_ticket_limit_exclusion') );
+		$params->set( 'billets_hour_limit_increase', JRequest::getVar('billets_hour_limit_increase') );
+		$params->set( 'billets_hour_limit_exclusion', JRequest::getVar('billets_hour_limit_exclusion') );
 		$params->set( 'juga_group_csv_add', JRequest::getVar('juga_group_csv_add') );
 		$params->set( 'juga_group_csv_remove', JRequest::getVar('juga_group_csv_remove') );
 		$params->set( 'core_user_change_gid', JRequest::getVar('core_user_change_gid') );

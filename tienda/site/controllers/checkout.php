@@ -516,7 +516,12 @@ class TiendaControllerCheckout extends TiendaController
 					}
 
 				}
-				$this->validateSelectShipping( $submitted_values );
+				
+				// Check if there are errors in the Shipping area. If yes, return without going on
+				if( !$this->validateSelectShipping( $submitted_values ) )
+				{
+					return;
+				}
 
 				if(!empty($submitted_values['register']) )
 				{
@@ -557,7 +562,7 @@ class TiendaControllerCheckout extends TiendaController
 				$response['msg'] = $helper->generateMessage( JText::_('Please select shipping method') );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
-				return;
+				return false;
 			}
 		}
 
@@ -567,7 +572,7 @@ class TiendaControllerCheckout extends TiendaController
 			$response['msg'] = $helper->generateMessage( JText::_( "BILLING ADDRESS ERROR" )." :: ".$this->getError() );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
-			return;
+			return false;
 		}
 
 		// fail if shipping address is invalid
@@ -580,7 +585,7 @@ class TiendaControllerCheckout extends TiendaController
 				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError() );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
-				return;
+				return false;
 			}
 		}
 
@@ -596,6 +601,8 @@ class TiendaControllerCheckout extends TiendaController
 			{
 				$response['msg'] = $helper->generateMessage( $result->message );
 				$response['error'] = '1';
+				echo ( json_encode( $response ) );
+				return false;
 			}
 			else
 			{
@@ -605,7 +612,14 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		echo ( json_encode( $response ) );
-		return;
+		
+		// Return to Parent function the result!
+		if($response['error'] == '1')
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
