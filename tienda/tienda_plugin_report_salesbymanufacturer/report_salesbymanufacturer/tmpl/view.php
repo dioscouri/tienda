@@ -12,7 +12,10 @@
                     <?php echo JText::_("Num"); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo JText::_("Date"); ?>
+                    <?php echo JText::_("Created Date"); ?>
+                </th>
+                <th style="text-align: center;">
+                    <?php echo JText::_("Expiration Date"); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_("Manufacturer Name"); ?>
@@ -40,8 +43,10 @@
                     <?php echo $i + 1; ?>
                 </td>
                 <td style="text-align: center;">
-                	<?php // JHTML created date ?>
-                    <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+                    <?php echo JHTML::_('date', $item->subscription_created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                </td>
+                <td style="text-align: center;">
+                    <?php echo JHTML::_('date', $item->subscription_expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: left;">
                     <?php echo JText::_($item->manufacturer_name); ?>                    
