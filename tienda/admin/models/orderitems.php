@@ -151,8 +151,8 @@ class TiendaModelOrderItems extends TiendaModelBase
         $field[] = " o.* ";
         $field[] = " s.* ";        
         $field[] = " m.manufacturer_name ";
-        $field[] = " sb.created_datetime ";
-        $field[] = " sb.expires_datetime ";
+        $field[] = " sb.created_datetime AS subscription_created_datetime";
+        $field[] = " sb.expires_datetime AS subscription_expires_datetime";
 
         $query->select( $field );
     }
