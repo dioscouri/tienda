@@ -96,6 +96,8 @@ class EDeliver
 			$rate[$key] = $value;
 		}
 		
+		$rate['service_type'] = ucfirst(strtolower($this->serviceType));
+		
 		return $rate;
 		
 	}

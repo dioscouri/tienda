@@ -102,27 +102,31 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
 		$edeliver->setDestPostalCode($address->postal_code);
 		$edeliver->setOriginPostalCode($this->shopAddress->zip);
 		
+		$vars = array();
 		$i = 0;
 		foreach($service_types as $service_type)
 		{
 			$edeliver->setServiceType($service_type);
 	       	$rate = $edeliver->sendRequest();
 	       	
-	       	$vars = array();
-	       	$vars[$i]['element'] = $this->_element;
-	        $vars[$i]['name'] = $this->params->get('rate_name');
-	
-	       	foreach( $rate as $key => $value )
-	        {
-	        	switch($key)
-	        	{
-	        		case 'charge':  $vars[$i]['price'] = $value;
-	        						$vars[$i]['total'] =  $value;
-	        						break;
-	        	}
-	        }
-	        
-	        $i++;
+	       	if(strpos($rate['err_msg'] , 'OK') !== false)
+	       	{
+		       	$vars[$i]['element'] = $this->_element;
+		        $vars[$i]['name'] = $this->params->get('rate_name'). ' - '. $rate['service_type'];
+		
+		       	foreach( $rate as $key => $value )
+		        {
+		        	switch($key)
+		        	{
+		        		case 'charge':  $vars[$i]['price'] = $value;
+		        						$vars[$i]['total'] =  $value;
+		        						break;
+		        	}
+		        }
+		        
+		        $i++;
+	       	}
+	       
 		}
 		        
         return $vars;
