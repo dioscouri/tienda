@@ -128,6 +128,12 @@ class Tienda extends JObject
     		case 'manufacturers_thumbs' :
     			$url = JURI::root(true).'/images/com_tienda/manufacturers/thumbs/';
     			break;
+    		case 'cartitems_files':
+                $url = JURI::root(true).'/media/com_tienda/images/cartitems/';
+                break;
+    		case 'orderitems_files':
+                $url = JURI::root(true).'/media/com_tienda/images/orderitems/';
+                break;                
     	}
 
     	return $url;
@@ -184,6 +190,12 @@ class Tienda extends JObject
     		case 'order_files' :
                 $path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'orders';
                 break;
+    		case 'cartitems_files':
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images'.DS.'cartitems';
+                break;
+    		case 'orderitems_files':
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images'.DS.'orderitems';
+                break;                
     	}
 
     	return $path;

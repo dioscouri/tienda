@@ -988,7 +988,8 @@ class TiendaControllerProducts extends TiendaController
             
         // convert elements to array that can be binded             
         $values = JRequest::get('post');
-        
+        $files = JRequest::get('files');
+
         $attributes = array();
         foreach ($values as $key=>$value)
         {
@@ -1064,7 +1065,7 @@ class TiendaControllerProducts extends TiendaController
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
         // once the extra field(s) have been set, they will get automatically saved
         $dispatcher =& JDispatcher::getInstance();
-        $results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array( $item, $values ) );
+        $results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array( $item, $values, $files ) );
         foreach ($results as $result)
         {
             foreach($result as $key=>$value)

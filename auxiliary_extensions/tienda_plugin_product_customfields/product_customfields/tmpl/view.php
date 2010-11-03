@@ -17,7 +17,17 @@
 						<?php echo JText::_( $custom_field->title ); ?>:
 					</td>
 					<td>
-						<?php echo JText::_( $custom_field->value ); ?>
+						<?php 
+						switch($custom_field->datatype)
+						{
+							case 'file':
+								echo '<a href="'.$custom_field->value.'" target="_blank">'.basename($custom_field->value).'</a>';
+								break;
+							default:
+								echo JText::_( $custom_field->value );
+								break;
+						} 
+						?>
 		    		</td>
 		    	</tr>        
 		<?php	endforeach;?>

@@ -20,6 +20,9 @@
 	    		case 'text':
 	    			echo '<input id="'.$custom_field->id.'" name="'.$custom_field->id.'" type="text" />';
 	    			break;
+	    		case 'file':
+	    			echo '<input id="'.$custom_field->id.'" name="'.$custom_field->id.'" type="file" />';
+	    			break;					    			
 	    		case 'textarea':
 	    			echo '<textarea id="'.$custom_field->id.'" name="'.$custom_field->id.'"></textarea>';
 	    			break;

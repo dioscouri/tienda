@@ -43,7 +43,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 	    $custom_fields = $this->getCustomFields( $product_id );
 	    
 	    $vars->custom_fields =  $custom_fields;
-		$vars->product_id = $product_id;
+		
 		echo $this->_getLayout( 'product_customfields_form', $vars );		
 	}
 
@@ -113,24 +113,55 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
     }
 
     function onAfterSaveOrderItem( $item )
-    { 	
-       	//load order item
+    {
+    	if (empty($item))
+    	{
+    		JError::raiseNotice('onAfterSaveOrderItem', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_UPDATEORDERITEM_FAILED').'(No item)');
+    	}
+    	
 		$orderitem = JTable::getInstance( 'OrderItems', 'TiendaTable' );
 		$orderitem->load( $item->orderitem_id );
-		if (empty($orderitem))
+		if (empty($orderitem) || empty($item))
     	{
     		JError::raiseNotice('onAfterSaveOrderItem', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_UPDATEORDERITEM_FAILED').'(No orderitem)');
     	}
-
-    	//save the custom fields + values to the order item
-    	$orderitem->orderitem_customfields = $item->cartitem_customfields;
     	
-    	$date = JFactory::getDate();
-    	$orderitem->modified_date = $date->toMysql();
-		if (!$orderitem->save())
-		{
-			JError::raiseNotice('saveOrderItem', $orderitem->getError());
-		}    	
+    	$custom_fields = $this->getCustomFields( $item->product_id );
+    	if (!empty($custom_fields))
+    	{
+	    	$orderitem_param = new JParameter( trim( $item->orderitem_customfields ) );
+	    	$orderitem_cf_values = $orderitem_param->toArray();
+
+	    	foreach($custom_fields as $custom_field)
+	    	{
+	    		if ($custom_field->datatype == 'file')
+	    		{
+	    			$file_name = basename($orderitem_cf_values[$custom_field->id]); 
+	    			$source = Tienda::getPath('cartitems_files').DS.$item->orderitem_customfields_id.DS.$file_name;
+
+            		$destination_webfolder = Tienda::getUrl('orderitems_files').$orderitem->orderitem_id.'/';
+					$destination_folder = Tienda::getPath('orderitems_files').DS.$orderitem->orderitem_id.DS;		
+					if (!JFolder::exists($destination_folder)) JFolder::create($destination_folder);
+	    			
+					if (!JFile::move($source, $destination_folder.$file_name))
+					{
+			    		JError::raiseNotice('onAfterSaveOrderItem', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_UPDATEORDERITEM_FAILED').'(Unable to copy file to orderitem)');
+					}
+	    			//set the new location to cartitem_customfields
+	    			$orderitem_param->set($custom_field->id, $destination_webfolder.$file_name);
+	    		}
+	    	}
+	    	
+	    	//save the custom fields + values to the order item
+	    	$orderitem->orderitem_customfields = $orderitem_param->toString();
+	    	
+	    	$date = JFactory::getDate();
+	    	$orderitem->modified_date = $date->toMysql();
+			if (!$orderitem->save())
+			{
+				JError::raiseNotice('saveOrderItem', $orderitem->getError());
+			}
+        }   
     }
     
     function onGetAdditionalCartKeys()
@@ -166,24 +197,49 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 						'orderitem_customfields'=>$item->cartitem_customfields);    	
     }
     
-    function onAfterCreateItemForAddToCart($item, $values)
+    function onAfterCreateItemForAddToCart($item, $values, $files)
     {
 		if (empty($values["hasCustomFields"])) return;
-		    	
+
+		//generate a new custom fields id
+		$newCustomFieldsID = $this->getNewCustomFieldsID();
+		if ($newCustomFieldsID == false)
+		{
+    		JError::raiseNotice('onAfterCreateItemForAddToCart', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_AFTER_CREATE_ITEM_FAILED').'(No max custom_fields_id retrieved)');			
+		}		
+		
     	//get custom field values
         $params = new JParameter('');       
         foreach ($values as $key=>$value)
         {
             if (substr($key, 0, 13) == 'custom_field_')
-                $params->set($key,$value);
+            {
+            	$params->set($key,$value);
+            }
         }
         
-        //generate a new custom fields id
-		$newCustomFieldsID = $this->getNewCustomFieldsID();
-		if ($newCustomFieldsID == false)
+        //custom fields of type 'file': files being uploaded
+		if (!empty($files))
 		{
-    		JError::raiseNotice('onAfterCreateItemForAddToCart', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_AFTER_CREATE_ITEM_FAILED').'(No max custom_fields_id retrieved)');			
-		}
+			jimport( 'joomla.filesystem.file' );
+	        foreach($files as $key=>$file)
+	        {
+            	if (substr($key, 0, 13) == 'custom_field_')
+            	{	        	
+            		$destination_webfolder = Tienda::getUrl('cartitems_files').$newCustomFieldsID.'/'; 
+					$destination_folder = Tienda::getPath('cartitems_files').DS.$newCustomFieldsID.DS;		
+					if (!JFolder::exists($destination_folder)) JFolder::create($destination_folder);
+	
+					$dest_file = $file['name'];
+					if (!JFile::upload($file['tmp_name'], $destination_folder.$dest_file))
+					{
+			    		JError::raiseNotice('onAfterCreateItemForAddToCart', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_AFTER_CREATE_ITEM_FAILED').'(unable to upload)');
+					}
+					$params->set($key, $destination_webfolder.$dest_file);
+            	}
+	        }				
+		}       		 
+
         return array( 	'cartitem_customfields_id' => $newCustomFieldsID, 
         				'cartitem_customfields' => trim( $params->toString() ) );
     }    
