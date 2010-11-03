@@ -19,8 +19,8 @@
 		<language tag="en-GB">en-GB.plg_tienda_shipping_edeliver.ini</language>
 	</languages>
 
-	<params>
-		<param type="list" name="service_type" default="STANDARD" label="Service Type" description="Service Type">
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param type="multilist" multiple="multiple" name="service_type" default="STANDARD" label="Service Type" description="Service Type">
 			<option value="STANDARD">Standard</option>
 			<option value="EXPRESS">Express</option>
 			<option value="AIR">Air</option>

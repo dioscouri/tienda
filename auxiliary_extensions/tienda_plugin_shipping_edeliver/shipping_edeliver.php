@@ -65,11 +65,9 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
         
         require_once( dirname( __FILE__ ).DS.'shipping_edeliver'.DS."edeliver.php" );
         
-        $service_type = $this->params->get('service_type');
+        $service_types = $this->params->get('service_type');
         
         $edeliver= new EDeliver () ;
-        
-        $edeliver->setServiceType($service_type);
         
         $weight = 0; 
         $total_volume = 0;
@@ -104,22 +102,29 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
 		$edeliver->setDestPostalCode($address->postal_code);
 		$edeliver->setOriginPostalCode($this->shopAddress->zip);
 		
-       	$rate = $edeliver->sendRequest();
-       	
-       	$vars = array();
-       	$vars[0]['element'] = $this->_element;
-        $vars[0]['name'] = $this->params->get('rate_name');
-
-       	foreach( $rate as $key => $value )
-        {
-        	switch($key)
-        	{
-        		case 'charge':  $vars[0]['price'] = $value;
-        						$vars[0]['total'] =  $value;
-        						break;
-        	}
-        }
-        
+		$i = 0;
+		foreach($service_types as $service_type)
+		{
+			$edeliver->setServiceType($service_type);
+	       	$rate = $edeliver->sendRequest();
+	       	
+	       	$vars = array();
+	       	$vars[$i]['element'] = $this->_element;
+	        $vars[$i]['name'] = $this->params->get('rate_name');
+	
+	       	foreach( $rate as $key => $value )
+	        {
+	        	switch($key)
+	        	{
+	        		case 'charge':  $vars[$i]['price'] = $value;
+	        						$vars[$i]['total'] =  $value;
+	        						break;
+	        	}
+	        }
+	        
+	        $i++;
+		}
+		        
         return $vars;
      }
      
