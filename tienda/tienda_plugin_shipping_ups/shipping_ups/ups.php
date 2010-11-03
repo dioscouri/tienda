@@ -52,9 +52,13 @@ class TiendaUps extends JObject
         $ns = 'http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0'; //Namespace of the WS. 
 
 		//Body of the Soap Header. 
-		$headerbody = array('ServiceAccessToken'=> array('AccessLicenseNumber' => $this->key), 
-		                      'UsernameToken'=>array('Username'=>$this->accountNumber, 
-		                                             'Password'=>$this->password)); 
+		$headerbody = array(
+		'ServiceAccessToken'=> array('AccessLicenseNumber' => $this->key), 
+        'UsernameToken'=>array(
+            'Username'=>$this->accountNumber, 
+            'Password'=>$this->password
+            )
+        ); 
 		
 		//Create Soap Header.        
 		$header = new SOAPHeader($ns, 'UPSSecurity', $headerbody);        
@@ -192,7 +196,7 @@ class TiendaUpsRate extends TiendaUps
     var $weightUnits    = "LBS";
     var $weight;
     var $rateRequestTypes = 'ACCOUNT'; // or LIST
-    var $packageDetail  = 'INDIVIDUAL_PACKAGES'; // Or  PACKAGE_SUMMARY
+    var $packageDetail  = 'INDIVIDUAL_PACKAGES'; // Or = 'PACKAGE_SUMMARY';
     var $packageCount   = '1';
     var $packageLineItems = array();
     
@@ -225,14 +229,14 @@ class TiendaUpsRate extends TiendaUps
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
+                    $this->setError( JText::_('UPS_ERRORCODE1') );
                     return false;
                 } 
-                
-                // $this->writeToLog($client);    // Write to log file   
+  
             
             } catch (SoapFault $exception) {
-                $this->response = array();
+                
+                $this->response = $this->getClient()->__getLastResponse();
                 $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
                 return false; 
             }        
@@ -284,10 +288,15 @@ class TiendaUpsRate extends TiendaUps
      */
     protected function processResponse( $response )
     {    	
-        if( property_exists( $response, 'RatedShipment' ) )
+        if ( property_exists( $response, 'RatedShipment' ) )
+        {
             $rate = $response->RatedShipment;
-        else
+        }
+            else 
+        {
+            $this->setError( JText::_('UPS_ERRORCODE_NOT_RATEDSHIPMENT') );
             return false;
+        }
         
 		$this->rate = $rate;
 		$this->rate->summary = array();                        

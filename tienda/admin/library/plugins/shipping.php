@@ -63,6 +63,9 @@ class TiendaShippingPlugin extends TiendaPluginBase
         $rate['total']   = "";
         $rate['tax']     = "";
         $rate['element'] = $this->_element;
+        $rate['error'] = false;
+        $rate['errorMsg'] = "";
+        $rate['debug'] = "";
         
         $rates[] = $return;
         

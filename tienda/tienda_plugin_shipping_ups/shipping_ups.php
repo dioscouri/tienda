@@ -38,6 +38,10 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         return $html;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/library/plugins/TiendaShippingPlugin::onGetShippingRates()
+     */
     function onGetShippingRates($element, $order)
     {    	
     	// Check if this is the right plugin
@@ -61,7 +65,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
      */
     function onAfterDisplayOrderViewOrderHistory( $order )
     {
-    	
     	foreach($order->ordershippings as $ship)
 		{
 			$ordershipping_id = $ship->ordershipping_id;
@@ -124,6 +127,11 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         echo $html;
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
     function tracking()
     {
     	$tracking_id = JRequest::getVar('tracking_id');
@@ -164,6 +172,11 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         echo $html;
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
     function sendShipmentAjax()
     {
     	$model = JModel::getInstance('Orders', 'TiendaModel');
@@ -195,6 +208,12 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
  		}
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @param $order
+     * @return unknown_type
+     */
     function sendShipment( $order )
     {        
         require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
@@ -275,19 +294,22 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	
 		$ups->setService($code, $code);
 		
-		if($ups->sendShipment($ordershipping_id))
+		if ($ups->sendShipment($ordershipping_id))
+		{
 			return true;
-		else
+		}
+            else
 		{
 			$this->setError($ups->getError().$ups->getClient()->__getLastRequest());
-			//$this->setError( $ups->getError(). " <br/>REQUEST:<br/> " .Tienda::dump( $ups->getClient()->__getLastRequest() ));
 			return false;
 		}
-        
-	        
-	        
     }
-    
+
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
     function getUpsServices()
     {
         $services["14"]= JText::_('Next Day Air Early AM');
@@ -329,9 +351,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     function viewConfig()
     {
         JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-        // TODO Finish this
-        //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
-        //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
         TiendaToolBarHelper::cancel( 'close', 'Close' );
         
         $vars = new JObject();
@@ -353,7 +372,14 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		
         return $html;
     }
-    
+
+    /**
+     * 
+     * Enter description here ...
+     * @param $address
+     * @param $orderItems
+     * @return unknown_type
+     */
     function sendRequest( $address, $orderItems )
     {
         $rates = array();
@@ -424,9 +450,28 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	            
 	        if ($ups->getRate())
 	        {
-	        		$rate = $ups->rate;
-	        	   	$rate->summary['element'] = $this->_element;
-	            	$rates[] = $rate->summary;
+        		$rate = $ups->rate;
+        	   	$rate->summary['element'] = $this->_element;
+            	$rates[] = $rate->summary;
+	        }
+    	        else
+	        {
+	            //$this->writeToLog($ups);
+
+	            // useful for debugging
+                //$rate = array();
+                //$rate['name']    = "Error";
+                //$rate['code']    = "ERROR";
+                //$rate['price']   = "999.99";
+                //$rate['extra']   = "0.00";
+                //$rate['total']   = "999.99";
+                //$rate['tax']     = "0.00";
+                //$rate['error'] = true;
+                //$rate['errorMsg'] = $ups->getError();
+                //$rate['debug'] = Tienda::dump( $ups );
+                //$rate['debug_response'] = Tienda::dump( $ups->response );
+                //
+                //$rates[] = $rate;
 	        }
 	        
         }
@@ -445,7 +490,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     	$this->download($file, $path);
     }
     
-/**
+    /**
      * Downloads file
      * 
      * @param object Valid productfile object
