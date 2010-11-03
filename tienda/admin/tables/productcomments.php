@@ -25,6 +25,18 @@ class TiendaTableProductComments extends TiendaTable
 		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );	
 	}
 
+	function check()
+	{
+		$nullDate	= $this->_db->getNullDate();
+
+		if (empty($this->created_date) || $this->created_date == $nullDate)
+		{
+			$date = JFactory::getDate();
+			$this->created_date = $date->toMysql();
+		}		
+		return true;
+	}
+	
 	function save()
 	{
 	    $isNew = false;
