@@ -1608,65 +1608,98 @@ class TiendaControllerProducts extends TiendaController
     
      
     /**
-     * 
+     * Add review
      *
      */     
 	function addReview()
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
-		$post = JRequest::get('post');
-		$captcha_enable = TiendaConfig::getInstance()->get('use_captcha', '0');
-		$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
+		$post = JRequest::get('post');		
+		$product_id = $post['product_id'];
 		$Itemid = $post['Itemid'];
-		$recaptcha_challenge_field = $post['recaptcha_challenge_field'];
-		$recaptcha_response_field = $post['recaptcha_response_field'];
+		$user = & JFactory::getUser();	
+		$valid = true;			
+		$linkAdd = '';	
+		$this->messagetype  = 'message';
+		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+		if ($user->guest || !$user->id) 
+		{			
+			jimport('joomla.mail.helper');
+			if(!JMailHelper::isEmailAddress($post['user_email']) && $valid)
+			{
+				$valid = false;				
+            	$this->message = JText::_( "Please enter a correct email address." ); 
+			}			
+			
+			if( in_array( $post['user_email'],TiendaHelperProduct::getUserEmailForReview( $post['product_id'] ) ) && $valid )
+			{
+				$valid = false;				
+            	$this->message = JText::_( "You already submitted a review. You can only submit a review once." );	
+			}	
+		}
+		else 
+		{
+			if( in_array( $user->email,TiendaHelperProduct::getUserEmailForReview( $post['product_id'] ) ) && $valid )
+			{
+				$valid = false;				
+            	$this->message = JText::_( "You already submitted a review. You can only submit a review once." );	
+       	
+			}
+		}
 		
-		$captcha='1';
-        if ($captcha_enable)
+		if(empty($post['productcomment_text']) && $valid) 
+		{
+			$valid = false;		
+            $this->message      = JText::_( "Comment field is required." );	
+            $linkAdd .= '&rc='.base64_encode($post['productcomment_text']);
+		}
+	
+		$captcha=true;
+		if (TiendaConfig::getInstance()->get('use_captcha', '0') && $valid)
         {
-            $captcha='0';
-
-            Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );
-            $recaptcha = new TiendaRecaptcha();
+        	$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
+        	$captcha=false;          
+           
 			if ($_POST["recaptcha_response_field"]) 
 			{
-                $resp = $recaptcha->recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $recaptcha_challenge_field, $recaptcha_response_field);
+				Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );
+           		$recaptcha = new TiendaRecaptcha();
+                $resp = $recaptcha->recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $post['recaptcha_challenge_field'], $post['recaptcha_response_field']);
                 if ($resp->is_valid) 
                 {
-                    $captcha='1';
+                    $captcha=true;
                 } 
 			}		
         }
-		
-		$product_id = $post['product_id'];
- 		$date = JFactory::getDate();
- 		$productreviews->bind($post);	
- 		$productreviews->created_date = $date->toMysql();
- 		$redirect = "index.php?option=com_tienda&view=products&task=view&id=".$product_id."filter_category=".$product_id."&Itemid=".$Itemid;
- 		$redirect = JRoute::_( $redirect );
- 		
- 		if ($captcha == '1')
- 		{
-     		if (!$productreviews->save())
-     		{
-     			$this->messagetype  = 'message';
-            	$this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();        	
-     		}
-         		else
-     		{
-     			$dispatcher =& JDispatcher::getInstance();
-                $dispatcher->trigger( 'onAfterSaveProductComments', array( $productreviews ) );
-     			$this->messagetype  = 'message';
-            	$this->message      = JText::_( "Successfully Submitted Review" );
-     		}	
- 		}
-            else
+       	 		
+		if (!$captcha && $valid)
 		{
-    		$this->messagetype  = 'message';
-            $this->message      = JText::_( "Incorrect Captcha" );	
+			$valid = false;			
+            $this->message      = JText::_( "Incorrect Captcha" );
+            $linkAdd .= '&re='.base64_encode($post['user_email']);
+            $linkAdd .= '&rc='.base64_encode($post['productcomment_text']);
 		}
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+		 		     	 		
+		if($valid)
+		{
+			$date = JFactory::getDate();
+ 			$productreviews->bind($post);	
+ 			$productreviews->created_date = $date->toMysql(); 
+ 			if (!$productreviews->save())
+	     	{	     	
+	            $this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();        	
+	     	}
+	        else
+	     	{
+	     		$dispatcher =& JDispatcher::getInstance();
+	            $dispatcher->trigger( 'onAfterSaveProductComments', array( $productreviews ) );	     		
+	            $this->message      = JText::_( "Successfully Submitted Review" );
+	     	}	
+		}					
+			$redirect = 'index.php?option=com_tienda&view=products&task=view&id='.$product_id.$linkAdd.'&Itemid='.$Itemid;
+ 			$redirect = JRoute::_( $redirect );
+ 			$this->setRedirect( $redirect, $this->message, $this->messagetype ); 		
 	}
 	
 	/**
