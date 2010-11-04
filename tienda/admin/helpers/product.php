@@ -1436,12 +1436,12 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $items;
     }
 	/**
-     * Gets user's id from Product comment table
+     * Gets user's emails from Product comment table
      * 
-     * @param $product_id
+     * @param int $product_id    
      * @return array
      */
-    function getUserIdForReview( $product_id )
+    function getUserEmailForReview( $product_id )
     {
         if (empty($product_id))
         {
@@ -1452,13 +1452,14 @@ class TiendaHelperProduct extends TiendaHelperBase
         $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
         
         $query = new TiendaQuery();
-        $query->select( "tbl.user_id" );
+        $query->select( "tbl.user_email" ) ;
         $query->from( $table->getTableName()." AS tbl" );      
         $query->where("tbl.product_id = ".(int)$product_id);
           
         $db = JFactory::getDBO();
         $db->setQuery( (string) $query );
         $items = $db->loadResultArray();
+
         return $items;
     }
     
