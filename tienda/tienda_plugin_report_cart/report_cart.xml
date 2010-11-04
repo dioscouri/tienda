@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Report - Products in User's Cart</name>
+	<version>0.6.2</version>
+	<creationDate>November 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This reports the number of carts in each added to cart products</description>
+
+	<files>
+		<filename plugin="report_cart">report_cart.php</filename>
+		<folder>report_cart</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_cart.ini</language>
+	</languages>
+
+	<params>
+	</params>
+
+</install>
