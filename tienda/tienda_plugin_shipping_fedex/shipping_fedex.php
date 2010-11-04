@@ -214,11 +214,25 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
         return $rates;
         
     }
-    
+
+    /**
+     * 
+     * Writes to the log file
+     * @param unknown_type $client
+     * @return unknown_type
+     */
 	protected function writeToLog($client)
 	{  
-		$file = '';
-		JFile::write( $file,  sprintf("\r%s:- %s",date("D M j G:i:s T Y"), $client->__getLastRequest(). "\n\n" . $client->__getLastResponse()) );
+		$file = $this->_element . '.txt';
+		
+		$text = '';
+		if (JFile::exists($file))
+		{
+		    $text = JFile::read( $file );
+		}
+		
+		$text .= sprintf("\r%s:- %s",date("D M j G:i:s T Y") , $client->__getLastRequest(). "\n\n" . $client->__getLastResponse());
+		JFile::write( $file, $text );
 	}
     
 }
