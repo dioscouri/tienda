@@ -159,6 +159,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress/languages" />
         </copy>
+    	<!-- MANUFACTURERS -->
+    	<copy todir="${destdir}/modules/mod_tienda_manufacturers" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_manufacturers" />
+    	</copy>
+        <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_manufacturers/languages" />
+        </copy>
     	<!-- MY ORDERS -->
     	<copy todir="${destdir}/modules/mod_tienda_my_orders" preservelastmodified="true" overwrite="true">
     		<fileset dir="${cfg.comDir}/mod_tienda_my_orders" />
