@@ -90,6 +90,12 @@ class TiendaModelZonerelations extends TiendaModelBase
 			{
 				$in_range = false;
 				$ranges = explode(";", $item->zip_range);
+				if (empty($item->zip_range))
+				{
+				    // no zip range defined, so assume the geozone covers all of them
+				    $in_range = true;
+				}
+				
 				foreach($ranges as $range)
 				{
 					if(strlen($range))

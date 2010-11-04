@@ -180,12 +180,17 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		
 		switch($shippingmethod->shipping_method_type)
 		{
+		    case "5":
+		        // 5 = per order - quantity based
+		        // first, get the total quantity of shippable items for the entire order
+		        // then, figure out the rate for this number of items (use the weight range field) + geozone
 		    case "3":
 			case "2":
 				// 2 = per order - weight based
                 // 3 = per order - flat rate
 				// if any of the products in the order require shipping
 				$sum_weight = 0;
+				$count_shipped_items = 0;
 				$order_ships = false;
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
 				foreach ($orderItems as $item)
@@ -200,6 +205,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		                $product_id = $item->product_id;
 		                $order_ships = true;
 		                $sum_weight += ($product->product_weight * $item->orderitem_quantity);
+		                $count_shipped_items += $item->orderitem_quantity;
 		            }
 				}
 				
@@ -215,19 +221,23 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                             $geozone_rates[$geozone_id] = array();
                         }
                         
-                        if ($shippingmethod->shipping_method_type == '3')
+                        switch( $shippingmethod->shipping_method_type )
                         {
-                            // don't use weight, just do flat rate for entire order
-                            // regardless of weight and regardless of the number of items
-                            $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
-                            $geozone_rates[$geozone_id]['0'] = $rate;
+                            case "3":
+                                // don't use weight, just do flat rate for entire order
+                                // regardless of weight and regardless of the number of items
+                                $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id );
+                                break;
+                            case "5":
+                                // get the shipping rate for the entire order using the count of all products in the order that ship
+                                $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $count_shipped_items );
+                                break;
+                            default:
+                                // get the shipping rate for the entire order using the sum weight of all products in the order that ship
+                                $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $sum_weight );
+                                break;
                         }
-                            else
-                        {
-                            // get the shipping rate for the entire order using the sum weight of all products in the order that ship
-                            $rate = $this->getRate( $shipping_method_id, $geozone_id, $product_id, '1', $sum_weight );
-                            $geozone_rates[$geozone_id]['0'] = $rate;
-                        }
+                        $geozone_rates[$geozone_id]['0'] = $rate;
                         
 				        // if $rate->shipping_rate_id is empty, then no real rate was found 
                         if (!empty($rate->shipping_rate_id))
@@ -271,7 +281,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                             
                             $geozone_rates[$geozone_id][$pid] = $rate; 
                             $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
-                            $geozone_rates[$geozone_id][$pid]->qty = '1'; // If the method_type == 4, qty should be 1 (we don't need to multiply later, line 314, since this is a percentage of the orderitem_final_price)
+                            $geozone_rates[$geozone_id][$pid]->qty = '1'; // If the method_type == 4, qty should be 1 (we don't need to multiply later, in the "calc for the entire method", since this is a percentage of the orderitem_final_price)
                         } 
                             else
                         {
@@ -322,6 +332,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		{
 		    $shipping_method_handling += $global_handling; 
 		}
+		
         // return formatted object
 		$return->shipping_rate_price    = $shipping_method_price;
 		$return->shipping_rate_handling = $shipping_method_handling; 
