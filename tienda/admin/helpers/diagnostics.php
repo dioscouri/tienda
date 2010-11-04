@@ -305,6 +305,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkZoneRelationsZipRange FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkProductCommentsUserEmail())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsUserEmail FAILED') .' :: '. $this->getError(), 'error' );
+        }
+     
+        
     }
     
     /**
@@ -2362,5 +2368,60 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;        
     }
+    
+	/**
+     * update #__tienda_productcomments table for the "user_email" field
+     * As of v0.5.6
+     * 
+     * return boolean
+     */
+    function checkProductCommentsUserEmail()
+    {
+        //if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductCommentsUserEmail', '0'))
+        {
+            return true;
+        }
+      
+        $database =& JFactory::getDBO();
+        $table = '#__tienda_productcomments';  
+        $fieldEmail = "user_email";
+        $fieldUserId = "user_id";
+        $fieldProductid = "product_id";
+        $definition= "VARCHAR( 255 ) NULL DEFAULT NULL";
+    		
+        //check if user_email column already exist       
+        $database->setQuery( " SHOW COLUMNS FROM {$table} LIKE '{$fieldEmail}' " );
+        $rows = $database->loadObjectList();
+        
+        $errors = '';
+        if (!$rows && !$database->getErrorNum()) 
+        { 
+	        $query = "";
+	        $query .= "ALTER TABLE `{$table}` DROP INDEX `{$fieldProductid}`, ";        
+	        $query .= "ADD `{$fieldEmail}` {$definition} AFTER `{$fieldUserId}`,";
+	        $query .= "ADD UNIQUE (`{$fieldEmail}`), ";
+	        $query .= "ADD INDEX `{$fieldUserId}` ( `{$fieldUserId}` )";     
+	        $database->setQuery( $query );     
+
+        	if (!$database->query()) $errors = $database->getErrorMsg();
+        }
+      
+           
+        if (!empty($errors))
+        {
+            $this->setError( implode('<br/>', $errors) );
+            return false;
+        }
+               
+        // Update config to say this has been done already
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        $config->load( array( 'config_name'=>'checkProductCommentsUserEmail') );
+        $config->config_name = 'checkProductCommentsUserEmail';
+        $config->value = '1';
+        $config->save();
+        return true;      
+    }   
     
 }
