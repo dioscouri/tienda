@@ -19,29 +19,48 @@ class TiendaModelCarts extends TiendaModelBase
         $filter_user     = $this->getState('filter_user');
         $filter_session  = $this->getState('filter_session');
         $filter_product  = $this->getState('filter_product');
+		$filter_date_from	= $this->getState('filter_date_from');
+        $filter_date_to		= $this->getState('filter_date_to');
+		$filter_name	= $this->getState('filter_name');
 
         if (strlen($filter_user))
         {
             $query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
         }
-        
+
         if (strlen($filter_session))
         {
             $query->where( "tbl.session_id = ".$this->_db->Quote($filter_session));
         }
-        
-        if (!empty($filter_product)) 
+
+        if (!empty($filter_product))
         {
             $query->where('tbl.product_id = '.(int) $filter_product);
             $this->setState('limit', 1);
        	}
+
+       	if (strlen($filter_date_from))
+        {
+        	$query->where("tbl.last_updated >= '".$filter_date_from."'");
+       	}
+
+		if (strlen($filter_date_to))
+        {
+   			$query->where("tbl.last_updated <= '".$filter_date_to."'");
+       	}
+
+       	if (strlen($filter_name))
+        {
+        	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_name ) ) ).'%');
+        	$query->where('LOWER(p.product_name) LIKE '.$key);
+       	}
     }
-    
+
     protected function _buildQueryJoins(&$query)
     {
-        $query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');	
+        $query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');
 	}
-	
+
 	protected function _buildQueryFields(&$query)
 	{
        	$field = array();
@@ -68,59 +87,59 @@ class TiendaModelCarts extends TiendaModelBase
         $field[] = " p.recurring_trial_period_interval ";
         $field[] = " p.recurring_trial_period_unit ";
         $field[] = " p.recurring_trial_price ";
-        
+
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		$default_group = '0'; // TODO Use default group_id
 		$field[] = "
 			(
-			SELECT 
+			SELECT
 				prices.product_price
 			FROM
-				#__tienda_productprices AS prices 
-			WHERE 
-				prices.product_id = tbl.product_id 
+				#__tienda_productprices AS prices
+			WHERE
+				prices.product_id = tbl.product_id
 				AND prices.group_id = '$default_group'
-				AND prices.product_price_startdate <= '$date' 
+				AND prices.product_price_startdate <= '$date'
 				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
 				ORDER BY prices.price_quantity_start ASC
 			LIMIT 1
-			) 
+			)
 		AS product_price ";
-		
+
         $query->select( $this->getState( 'select', 'tbl.*' ) );
         $query->select( $field );
 	}
-	
+
     public function getList()
     {
     	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $list = parent::getList();
-        
+
     	// If no item in the list, return an array()
         if( empty( $list ) ){
         	return array();
         }
-        
+
         foreach($list as $item)
         {
-            // at this point, ->product_price holds the default price for the product, 
-            // but the user may qualify for a discount based on volume or date, so let's get that price override 
+            // at this point, ->product_price holds the default price for the product,
+            // but the user may qualify for a discount based on volume or date, so let's get that price override
             $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, '0', JFactory::getDate()->toMySQL() );
             if (!empty($item->product_price_override))
             {
                 $item->product_price = $item->product_price_override->product_price;
             }
-            
+
             if ($item->product_recurs)
             {
                 $item->recurring_price = $item->product_price;
                 if ($item->recurring_trial)
                 {
-                    $item->product_price = $item->recurring_trial_price; 
+                    $item->product_price = $item->recurring_trial_price;
                 }
             }
-            
+
         	$item->orderitem_attributes_price = '0.00000';
             $item->attributes = array(); // array of each selected attribute's object
             $attributes_names = array();
@@ -148,27 +167,27 @@ class TiendaModelCarts extends TiendaModelBase
             	$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
             	$item->product_sku .= $table->productattributeoption_code;
             	// store a csv of the attrib names
-                $attributes_names[] = JText::_( $table->productattributeoption_name ); 
+                $attributes_names[] = JText::_( $table->productattributeoption_name );
             }
 
             // Could someone explain to me why this is necessary?
             if ($item->orderitem_attributes_price >= 0)
             {
             	// formatted for storage in the DB
-                $item->orderitem_attributes_price = "+$item->orderitem_attributes_price";	
+                $item->orderitem_attributes_price = "+$item->orderitem_attributes_price";
             }
-            
+
             $item->attributes_names = implode(', ', $attributes_names);
         }
         return $list;
     }
-    
-    
+
+
     /*
      * It will check that is there any item in the cart list for which shipping is require
-     * will return true  
-     * Other wise will return false 
-     *    
+     * will return true
+     * Other wise will return false
+     *
      *  @return Boolean
      */
     public function getShippingIsEnabled()
@@ -176,17 +195,17 @@ class TiendaModelCarts extends TiendaModelBase
     	$suffix = strtolower(TiendaHelperCarts::getSuffix());
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 	   	$model = JModel::getInstance($suffix, 'TiendaModel');
-     	
+
         $session =& JFactory::getSession();
-        $user =& JFactory::getUser();        
+        $user =& JFactory::getUser();
         $model->setState('filter_user', $user->id );
         if (empty($user->id))
         {
             $model->setState('filter_session', $session->getId() );
         }
-     	
+
 		$list = $model->getList();
-				
+
     	// If no item in the list, return false
         if( empty( $list ) ){
           	return false;
@@ -199,5 +218,5 @@ class TiendaModelCarts extends TiendaModelBase
         }
         return false;
     }
-    
+
 }
