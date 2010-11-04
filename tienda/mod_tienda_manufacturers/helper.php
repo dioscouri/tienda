@@ -58,7 +58,8 @@ class modTiendaManufacturersHelper extends JObject
     	{
     	    foreach ($items as $item)
     	    {
-    	        $item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->manufacturer($item->manufacturer_id, false);
+    	    // this gives error
+    	       $item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->manufacturer($item->manufacturer_id, false);
     	        if (empty($item->itemid))
     	        {
                     $item->itemid = $this->params->get('itemid');    

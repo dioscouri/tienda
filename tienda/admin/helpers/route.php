@@ -255,7 +255,7 @@ class TiendaHelperRoute extends TiendaHelperBase
         }
         
         // create the link
-        $link = 'index.php?option=com_tienda&view=products&task=manufacturers&filter_manufacturer='. $category_id;
+        $link = 'index.php?option=com_tienda&view=manufacturers&layout=products&filter_manufacturer='.$manufacturer_id.'&task=products';
 
         if ($itemid = self::findItemid($needles)) 
         {
