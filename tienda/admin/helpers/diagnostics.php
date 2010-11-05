@@ -2399,8 +2399,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         { 
 	        $query = "";
 	        $query .= "ALTER TABLE `{$table}` DROP INDEX `{$fieldProductid}`, ";        
-	        $query .= "ADD `{$fieldEmail}` {$definition} AFTER `{$fieldUserId}`,";
-	        $query .= "ADD UNIQUE (`{$fieldEmail}`), ";
+	        $query .= "ADD `{$fieldEmail}` {$definition} AFTER `{$fieldUserId}`,";	    
 	        $query .= "ADD INDEX `{$fieldUserId}` ( `{$fieldUserId}` )";     
 	        $database->setQuery( $query );     
 
