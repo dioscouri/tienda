@@ -49,7 +49,7 @@
 	<property name="cfg.pluginShippingDir" location="${cfg.comDir}/${cfg.comName}_plugin_shipping" />
     <property name="cfg.pluginToolDir" location="${cfg.comDir}/${cfg.comName}_plugin_tool" />
 	<property name="cfg.aux" value="${basedir}/auxiliary_extensions" />
-	
+
     <!-- some settings that are currently unused -->
     <property name="cfg.addversion" value="true" />
     <property name="cfg.versionprefix" value="v" />
@@ -63,7 +63,7 @@
         <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
             <available file="${tmpdir}" type="dir" />
         </condition>
-    	<!-- MAIN COMPONENT -->	
+    	<!-- MAIN COMPONENT -->
         <copy todir="${destdir}/administrator/components/com_${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.adminFilesDir}" />
         </copy>
@@ -180,7 +180,7 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_my_orderitems/languages" />
         </copy>
-    	
+
     <!-- PLUGINS -->
         <!-- BUG REPORT -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
@@ -210,15 +210,15 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber/languages" />
         </copy>
-    	
+
 		<!-- CUSTOM FIELDS  -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_product_customfields" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_product_customfields/languages" />
-        </copy>    	
-    	
+        </copy>
+
     <!-- PAYMENT PLUGINS -->
     	<!-- 2CHECKOUT -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -277,7 +277,7 @@
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_payment_payson/languages" />
-        </copy>	
+        </copy>
 		<!-- GOOGLE CHECKOUT  -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_googlecheckout" />
@@ -292,9 +292,9 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata/languages" />
         </copy>
-    	    	
+
 		<!-- PSIGATE -->
-    	
+
     <!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -309,7 +309,14 @@
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_lowstock/languages" />
-        </copy>    	
+        </copy>
+    	<!-- PRODUCT CART -->
+		<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_cart" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_cart/languages" />
+        </copy>
     	<!-- NEW SUBSCRIPTIONS USERS -->
     	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.pluginReportDir}_subscriptions" />
@@ -345,7 +352,7 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
         </copy>
-    	
+
     <!-- SHIPPING PLUGINS -->
     	<!-- STANDARD -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -389,7 +396,7 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_shipping_edeliver/languages" />
         </copy>
-            	
+
     <!-- SYSTEM PLUGINS -->
     	<!-- OVERRIDES -->
         <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
@@ -412,7 +419,7 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_cpanelredirect/languages" />
         </copy>
-    	
+
     <!-- TOOL PLUGINS -->
     	<!-- VIRTUEMART MIGRATION-->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -449,10 +456,10 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_content_product/languages" />
         </copy>
-    	
+
     <!-- AUXILIARY EXTENSIONS -->
     </target>
-	
+
     <target name="init" description="creates necessary directory to build with">
         <mkdir dir="${cfg.buildDir}" />
         <mkdir dir="${cfg.buildDir}/plugins" />
@@ -462,7 +469,7 @@
     </target>
 
 	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages" />
-	
+
     <target name="build_component" depends="init" description="packages the final component file">
         <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
     </target>
@@ -488,6 +495,7 @@
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_cart" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_ordered_products.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_ordered_products" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_subscriptions" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_sales.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_sales" />
@@ -528,7 +536,7 @@
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}search.zip" basedir="${cfg.comDir}/${cfg.modPrefix}search" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}useraddress.zip" basedir="${cfg.comDir}/${cfg.modPrefix}useraddress" />
     </target>
-	
+
     <target name="build_languages" depends="init" description="packages any languages">
         <zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}cs-CZ.zip" basedir="${cfg.langDir}/cs-CZ" />
     	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}da-DK.zip" basedir="${cfg.langDir}/da-DK" />
