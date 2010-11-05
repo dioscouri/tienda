@@ -5292,7 +5292,6 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `reported_count` int(11) NOT NULL DEFAULT '0',
   `rating_updated` tinyint(1) NOT NULL COMMENT 'Was the product overall rating updated?',
   PRIMARY KEY (`productcomment_id`),  
-  UNIQUE KEY `user_email` (`user_email`),
   KEY `fk_Product_ProductReview` (`product_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
