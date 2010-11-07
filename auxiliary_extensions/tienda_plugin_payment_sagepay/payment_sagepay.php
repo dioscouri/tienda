@@ -209,12 +209,17 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
     function _cardTypesField( $field='cardtype', $default='', $options='' )
     {       
         $types = array();
-        $types[] = JHTML::_('select.option', 'Visa', JText::_( "Visa" ) );
-        $types[] = JHTML::_('select.option', 'Mastercard', JText::_( "Mastercard" ) );
-        $types[] = JHTML::_('select.option', 'AmericanExpress', JText::_( "AmericanExpress" ) );
-        $types[] = JHTML::_('select.option', 'Discover', JText::_( "Discover" ) );
-        $types[] = JHTML::_('select.option', 'DinersClub', JText::_( "DinersClub" ) );
+        $types[] = JHTML::_('select.option', 'VISA', JText::_( "Visa" ) );
+        $types[] = JHTML::_('select.option', 'DELTA', JText::_( "Visa Delta" ) );
+        $types[] = JHTML::_('select.option', 'UKE', JText::_( "Visa Electron" ) );
+        $types[] = JHTML::_('select.option', 'MC', JText::_( "Mastercard" ) );
+        $types[] = JHTML::_('select.option', 'SWITCH', JText::_( "UK Maestro" ) );
+        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_( "International Maestro" ) );
+        $types[] = JHTML::_('select.option', 'SOLO', JText::_( "Solo" ) );
+        $types[] = JHTML::_('select.option', 'Amex', JText::_( "American Express" ) );
+        $types[] = JHTML::_('select.option', 'DINERS', JText::_( "DinersClub" ) );
         $types[] = JHTML::_('select.option', 'JCB', JText::_( "JCB" ) );
+        $types[] = JHTML::_('select.option', 'LASER', JText::_( "Laser" ) );
         
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
