@@ -27,9 +27,12 @@ if ($params->get('display_image_height', '') != '')
 
 if ($num > 0 && @$products)
 {
+	$k = 0;
 	echo '<div class="tienda_products_'.$params->get('display_style','flat').'">';
     // Loop through the products to display
-    foreach (@$products as $product) : ?>
+    foreach (@$products as $product) : 
+    	$k++;
+    ?>
 		<div class="tienda_product_item <?php echo $params->get('moduleclass_sfx');?><?php if ($params->get('display_style','flat') == 'grid') echo ' grid' .$params->get('display_grid_items' ,'3'); ?>">
         <?php if ($params->get('display_title','1') != '0') : ?><h4 class="product_title"><a href="<?php echo JRoute::_( $product->link."&Itemid=".$product->itemid ); ?>"><?php echo $product->product_name; ?></a></h4>
 		<?php endif; ?>
@@ -47,6 +50,7 @@ if ($num > 0 && @$products)
 
 		<?php if ($params->get('display_description','1') != '0' && $product->product_description_short != null) : ?><p class="product_description"><?php echo $product->product_description_short ?></p><?php endif; ?>
 		</div>
+		<?php if ($params->get('display_style','flat') == 'grid' && $params->get('display_grid_items' ,'3') == $k): ?><div style="clear:both;"></div><?php $k = 0; endif; ?>
 		<?php  endforeach;
 	echo '</div>';
 
