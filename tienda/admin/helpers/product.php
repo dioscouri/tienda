@@ -1463,6 +1463,32 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $items;
     }
     
+    /**
+     * 
+     * Check if the current user already given a feedback to a review
+     * @param $uid - the id of the user
+     * @param $cid - comment id
+     * @return boolean
+     */
+    function isFeedbackAlready($uid, $cid)
+    {
+		
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'productcommentshelpfulness', 'TiendaTable' );
+        
+        $query = new TiendaQuery();
+        $query->select( "tbl.productcommentshelpfulness_id" ) ;
+        $query->from( $table->getTableName()." AS tbl" );      
+        $query->where("tbl.user_id = ".(int)$uid);
+        $query->where("tbl.productcomment_id = ".(int)$cid);
+          
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadResultArray();
+    	
+		return !empty($items) ? true : false;
+    }
 
      /**
      * returns a product's quantity list for all combination
