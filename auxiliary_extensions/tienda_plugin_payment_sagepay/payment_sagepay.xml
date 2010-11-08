@@ -26,7 +26,7 @@
           <option value="1">Yes</option>
         </param>        
         <param type="spacer" />
-        <param name="sandbox" type="radio" default="0" label="AuthorizeDotNet Use Sandbox" description="AuthorizeDotNet Use Sandbox Desc">
+        <param name="sandbox" type="radio" default="0" label="Sagepay Use Sandbox" description="Sagepay Use Sandbox Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>

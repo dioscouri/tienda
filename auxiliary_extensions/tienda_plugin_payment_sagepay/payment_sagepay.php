@@ -154,39 +154,76 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         {
             switch ($key) 
             {
-                case "cardtype":
+            	case "cardtype":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Type Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_( "Sagepay Card Type Invalid" )."</li>";
+                    }
+                  break;
+            	case "cardholder":
+            		$len = JString::strlen($submitted_values[$key]);
+                    if ($submitted_values['cardtype'] != 'PAYPAL' &&
+                    	(!isset($submitted_values[$key]) || !$len || $len > 50))
+                    {
+                        $object->error = true;
+                        $object->message .= "<li>".JText::_( "Sagepay Card Holder Invalid" )."</li>";
                     }
                   break;
                 case "cardnum":
-                    if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
+            		$len = JString::strlen($submitted_values[$key]);
+                	if ($submitted_values['cardtype'] != 'PAYPAL' && (!isset($submitted_values[$key]) || 
+                	!$len || $len > 20))
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Number Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_( "Sagepay Card Number Invalid" )."</li>";
+                    }
+                  break;
+                case "cardst":
+            		$len = JString::strlen($submitted_values[$key]);
+                	if ($submitted_values['cardtype'] != 'PAYPAL' && ($len && $len != 4))
+                    {
+                        $object->error = true;
+                        $object->message .= "<li>".JText::_( "Sagepay Card Start Date Invalid" )."</li>";
                     } 
                   break;
                 case "cardexp":
-                    if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 4) 
-                    {
+            		$len = JString::strlen($submitted_values[$key]);
+                	if ($submitted_values['cardtype'] != 'PAYPAL')
+                	{
+                		if($len && $len != 4)
+	                	{
+	                        $object->error = true;
+	                        $object->message .= "<li>".JText::_( "Sagepay Card Expiration Date Invalid" )."</li>";
+	                    }
+                    	else if (!$this->_checkExpDate($submitted_values[$key]))
+                    	{
+	                        $object->error = true;
+	                        $object->message .= "<li>".JText::_( "Sagepay Card Expiration Date Invalid Card" )."</li>";
+                    	}
+                	}
+                  break;
+                case "cardissuenum":
+            		$len = JString::strlen($submitted_values[$key]);
+                	if ($submitted_values['cardtype'] != 'PAYPAL' && ($len && ((int)$submitted_values[$key] < 0 || $len > 2)))
+                	{
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Expiration Date Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_( "Sagepay Card Issue Number Invalid" )."</li>";
                     } 
                   break;
-                case "cardcvv":
-                    if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
-                    {
+                case "cardcv2":
+            		$len = JString::strlen($submitted_values[$key]);
+            		if ($submitted_values['cardtype'] != 'PAYPAL' && ($len && ((int)$submitted_values[$key] < 0 || $len > 2)))
+            		{
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card CVV Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_( "Sagepay Card CV2 Invalid" )."</li>";
                     } 
                   break;
+                  
                 default:
                   break;
             }
         }   
-            
         return $object;
     }
 	
@@ -198,6 +235,27 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
      * specific to this payment plugin
      * 
      ************************************/
+
+    /**
+     * Checks Expiration Date of a card if the card is still valid
+     * @param $value
+     * @return True or False
+     */
+    function _checkExpDate( $value )
+    {       
+        // we assume we received a $value in the format MMYY
+        $month = substr($value, 0, 2);
+        $year = substr($value, 2);
+        
+        if (empty($month) || empty($year) || strlen($year) != 2 || (int)$month > 12 || (int)$month < 1) {
+            return false;
+        }
+        
+        $act = date('ym'); // get actual date
+        if($act > $year.$month) // see if the expiration date isn't smaller than the actual date
+        	return false; // the card is no longer valid
+        return true; // everything is ok
+    }
     
     /**
      * Generates a dropdown list of valid CC types
@@ -213,13 +271,14 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $types[] = JHTML::_('select.option', 'DELTA', JText::_( "Visa Delta" ) );
         $types[] = JHTML::_('select.option', 'UKE', JText::_( "Visa Electron" ) );
         $types[] = JHTML::_('select.option', 'MC', JText::_( "Mastercard" ) );
-        $types[] = JHTML::_('select.option', 'SWITCH', JText::_( "UK Maestro" ) );
+        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_( "UK Maestro" ) );
         $types[] = JHTML::_('select.option', 'MAESTRO', JText::_( "International Maestro" ) );
         $types[] = JHTML::_('select.option', 'SOLO', JText::_( "Solo" ) );
         $types[] = JHTML::_('select.option', 'Amex', JText::_( "American Express" ) );
         $types[] = JHTML::_('select.option', 'DINERS', JText::_( "DinersClub" ) );
         $types[] = JHTML::_('select.option', 'JCB', JText::_( "JCB" ) );
         $types[] = JHTML::_('select.option', 'LASER', JText::_( "Laser" ) );
+        $types[] = JHTML::_('select.option', 'PAYPAL', JText::_( "Paypal" ) );
         
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
@@ -239,12 +298,14 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $month = substr($value, 0, 2);
         $year = substr($value, 2);
         
-        if (strlen($value) != 4 || empty($month) || empty($year) || strlen($year) != 2) {
+        if (empty($month) || empty($year) || strlen($year) != 2 || (int)$month > 12 || (int)$month < 1) {
             return false;
         }
         
-        $date = date($format, mktime(0, 0, 0, $month, 1, $year));
-        return $date;
+        $act = date('ym'); // get actual date
+        if($act > $year.$month) // see if the expiration date isn't smaller than the actual date
+        	return false; // the card is no longer valid
+        return true; // everything is ok
     }
 
     /**
