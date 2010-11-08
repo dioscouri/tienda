@@ -836,7 +836,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     /**
      * Returns a list of a product's attributes
      * 
-     * @param unknown_type $id
+     * @param int $id
      * @return unknown_type
      */
     function getAttributes( $id )

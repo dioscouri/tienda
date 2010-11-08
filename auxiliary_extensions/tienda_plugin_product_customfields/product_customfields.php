@@ -132,15 +132,17 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 	    	$orderitem_param = new JParameter( trim( $item->orderitem_customfields ) );
 	    	$orderitem_cf_values = $orderitem_param->toArray();
 
+	    	$user_id = JFactory::getUser()->id;
+	    	
 	    	foreach($custom_fields as $custom_field)
 	    	{
 	    		if ($custom_field->datatype == 'file')
 	    		{
 	    			$file_name = basename($orderitem_cf_values[$custom_field->id]); 
-	    			$source = Tienda::getPath('cartitems_files').DS.$item->orderitem_customfields_id.DS.$file_name;
+	    			$source = Tienda::getPath('cartitems_files').DS.$user_id.DS.$item->orderitem_customfields_id.DS.$file_name;
 
-            		$destination_webfolder = Tienda::getUrl('orderitems_files').$orderitem->orderitem_id.'/';
-					$destination_folder = Tienda::getPath('orderitems_files').DS.$orderitem->orderitem_id.DS;		
+            		$destination_webfolder = Tienda::getUrl('orderitems_files').$user_id.'/'.$orderitem->orderitem_id.'/';
+					$destination_folder = Tienda::getPath('orderitems_files').DS.$user_id.DS.$orderitem->orderitem_id.DS;		
 					if (!JFolder::exists($destination_folder)) JFolder::create($destination_folder);
 	    			
 					if (!JFile::move($source, $destination_folder.$file_name))
@@ -199,7 +201,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
     
     function onAfterCreateItemForAddToCart($item, $values, $files)
     {
-		if (empty($values["hasCustomFields"])) return;
+		if (empty($values["hasCustomFields"])) return array();
 
 		//generate a new custom fields id
 		$newCustomFieldsID = $this->getNewCustomFieldsID();
@@ -221,13 +223,14 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
         //custom fields of type 'file': files being uploaded
 		if (!empty($files))
 		{
+			$user_id = JFactory::getUser()->id;
 			jimport( 'joomla.filesystem.file' );
 	        foreach($files as $key=>$file)
 	        {
             	if (substr($key, 0, 13) == 'custom_field_')
             	{	        	
-            		$destination_webfolder = Tienda::getUrl('cartitems_files').$newCustomFieldsID.'/'; 
-					$destination_folder = Tienda::getPath('cartitems_files').DS.$newCustomFieldsID.DS;		
+            		$destination_webfolder = Tienda::getUrl('cartitems_files').$user_id.'/'.$newCustomFieldsID.'/'; 
+					$destination_folder = Tienda::getPath('cartitems_files').DS.$user_id.DS.$newCustomFieldsID.DS;		
 					if (!JFolder::exists($destination_folder)) JFolder::create($destination_folder);
 	
 					$dest_file = $file['name'];

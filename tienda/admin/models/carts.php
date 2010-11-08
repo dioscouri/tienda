@@ -166,8 +166,13 @@ class TiendaModelCarts extends TiendaModelBase
             	}
             	$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
             	$item->product_sku .= $table->productattributeoption_code;
-            	// store a csv of the attrib names
-                $attributes_names[] = JText::_( $table->productattributeoption_name );
+            	
+            	// store a csv of the attrib names, built by Attribute name + Attribute option name
+            	$atable = JTable::getInstance('ProductAttributes', 'TiendaTable');
+            	$atable->load( $table->productattribute_id );
+            	$name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
+                $attributes_names[] = $name; 
+
             }
 
             // Could someone explain to me why this is necessary?
