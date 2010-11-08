@@ -1746,31 +1746,40 @@ class TiendaControllerProducts extends TiendaController
     		$help['reported'] = $report;
     		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     		$reviewhelpfulness = JTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
-    		$reviewhelpfulness->load(array('user_id'=>$user_id));
+    		$reviewhelpfulness->load(array('user_id'=>$user_id, 'productcomment_id'=>$productcomment_id));
+ 		
+			$application =& JFactory::getApplication();
     		if ($report == 1 && !empty($reviewhelpfulness->productcommentshelpfulness_id) && empty($reviewhelpfulness->reported))
     		{
     		    $reviewhelpfulness->reported = 1;
     		    $reviewhelpfulness->save();
     		    
                 $productcomment->save();
-                JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Thanks for reporting this comment' ));
-                JFactory::getApplication()->redirect($url);
+                $application->enqueueMessage( JText::sprintf( 'Thanks for reporting this review.' ));
+                $application->redirect($url);
                 return;
     		}
+    			
+    		if($report)
+    		{
+    			$application->enqueueMessage( JText::sprintf( 'You already reported this review.' ));
+                $application->redirect($url);
+    		}
+           
     		
     		$reviewhelpfulness->bind($help);
  			if (!empty($reviewhelpfulness->productcommentshelpfulness_id))
  			{
-     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'You have already commented on this review' ));
-     			JFactory::getApplication()->redirect($url);
+     			$application->enqueueMessage( JText::sprintf( 'You have already given your feedback on this review.' ));
+     			$application->redirect($url);
      			return;
  			}
-     			else
+     		else
  			{
  			    $reviewhelpfulness->save();
  				$productcomment->save();
-     			JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Thanks for your feedback on this comment' ));
-      			JFactory::getApplication()->redirect($url);
+     			$application->enqueueMessage( JText::sprintf( 'Thanks for your feedback on this comment.' ));
+      			$application->redirect($url);
       			return;
  			}
 	    }
