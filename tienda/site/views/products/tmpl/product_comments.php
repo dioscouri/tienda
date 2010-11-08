@@ -1,5 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
+
 $item = @$this->item;
 $form = @$this->form;
 $values = @$this->values;
@@ -16,8 +17,12 @@ $review_enable=@$this->review_enable;
 $count=@$this->count;
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
+
+
+if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { 
+	$user = & JFactory::getUser();	
+	$emails = TiendaHelperProduct::getUserEmailForReview( $row->product_id );
 ?>
-<?php if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { ?>
 <div id="product_review_header" class="tienda_header">
     <span><?php echo JText::_("Reviews"); ?></span>
 </div>
@@ -52,9 +57,14 @@ $baseurl=$this->baseurl;
                 </a>
                 </span>
             <?php } ?>
-            
+            <?php if ($user->guest || !$user->id) {?>
+            <div><?php echo JText::_( 'Email' ); ?>: *</div>
+            <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('re', ''));?>" size="40" name="user_email" id="user_email"/></div>
+        	<?php }else{?>
+        	<input type="hidden" maxlength="100" class="inputbox" value="<?php echo $user->email;?>" size="40" name="user_email" id="user_email"/>
+        	<?php }?>
             <div><?php echo JText::_( 'Comment' ); ?>: *</div>
-            <div><textarea name="productcomment_text" id="productcomment_text" rows="10" style="width: 99%;" ></textarea></div>
+            <div><textarea name="productcomment_text" id="productcomment_text" rows="10" style="width: 99%;" ><?php echo base64_decode(JRequest::getVar('rc', ''));?></textarea></div>
         
             
             <?php 
@@ -82,7 +92,7 @@ $baseurl=$this->baseurl;
         <div class="commentsDiv1">
 			<div class="rowDiv">
                 <div class="userName">
-                   <span> <?php echo $review->user_name;?></span> 
+                   <span><?php echo empty($review->user_name) ? $review->user_email : $review->user_name;?></span> 
                 </div>
                 
                 <div class="dateDiv" >
@@ -103,8 +113,11 @@ $baseurl=$this->baseurl;
                 <?php echo $review->productcomment_text; ?>
             </div>
             
-       		<?php $helpfuness_enable = TiendaConfig::getInstance()->get('review_helpfulness_enable', '0');
-            if ($helpfuness_enable) { ?>
+       		<?php 
+			$isFeedback = TiendaHelperProduct::isFeedbackAlready( $user->id, $review->productcomment_id );    		
+       		$helpfuness_enable = TiendaConfig::getInstance()->get('review_helpfulness_enable', '0');
+       		
+            if ($helpfuness_enable && $user->id != $review->user_id && !$isFeedback) { ?>
        		<div id="helpful" class="commentsDiv">
       			 <?php echo JText::_( "Was this review helpful to you" ); ?>?
       			 <a href="index.php?option=com_tienda&view=products&task=reviewHelpfullness&helpfulness=1&productcomment_id=<?php echo $review->productcomment_id; ?>&product_id=<?php echo $review->product_id; ?>"><?php echo JText::_( "Yes" ); ?></a> 
