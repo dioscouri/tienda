@@ -786,7 +786,7 @@ class TiendaControllerManufacturers extends TiendaController
                     	if ($product_qty > $remaining )
                     	{
                     		$error = true;
-                    		$msg = $helper->generateMessage( "You have reached the maximum quanitity for this item. You can order another ".$remaining );
+                    		$msg = $helper->generateMessage( "You have reached the maximum quantity for this item. You can order another ".$remaining );
                     	}
                     }
                     if( $min )
@@ -794,7 +794,7 @@ class TiendaControllerManufacturers extends TiendaController
                     	if ($product_qty < $min )
                     	{
                     		$error = true;
-                    		$msg = $helper->generateMessage( "You have not reached the miminum quanitity for this item. You have to order at least ".$min );
+                    		$msg = $helper->generateMessage( "You have not reached the miminum quantity for this item. You have to order at least ".$min );
                     	}
                     }
                 }
