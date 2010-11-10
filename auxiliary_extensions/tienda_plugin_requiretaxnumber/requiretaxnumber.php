@@ -47,18 +47,6 @@ class plgTiendaRequireTaxNumber extends TiendaPluginBase
         $return->message = null; // string
         
         $params = $this->params;
-       
-        if (!empty($values['billing_input_company']) &&  empty($values['billing_input_tax_number']) && $params->get('require_tax', 0))
-        {
-            $return->error = true; // boolean
-            $return->message = JText::_( "INCLUDE_BILLING_TAX_NUMBER" ); // string
-        }
-        
-   		if ( empty($values['billing_input_personal_id_number']) && $params->get('require_personal_id', 0))
-        {
-            $return->error = true; // boolean
-            $return->message = JText::_( "INCLUDE_BILLING_PERSONAL_ID" ); // string
-        }
         
         if (!empty($values['billing_address_id']))
         {
@@ -81,6 +69,20 @@ class plgTiendaRequireTaxNumber extends TiendaPluginBase
                 $return->message = JText::_( "Stored Address Missing Personal Id Number" ); // string                
             }
 
+        }
+        else
+        {
+	        if (!empty($values['billing_input_company']) &&  empty($values['billing_input_tax_number']) && $params->get('require_tax', 0))
+	        {
+	            $return->error = true; // boolean
+	            $return->message = JText::_( "INCLUDE_BILLING_TAX_NUMBER" ); // string
+	        }
+	        
+	   		if ( empty($values['billing_input_personal_id_number']) && $params->get('require_personal_id', 0))
+	        {
+	            $return->error = true; // boolean
+	            $return->message = JText::_( "INCLUDE_BILLING_PERSONAL_ID" ); // string
+	        }
         }
         
         return $return;

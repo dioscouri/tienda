@@ -326,12 +326,6 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                 $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($geozone_rate->shipping_rate_price + $geozone_rate->shipping_rate_handling); 
 		    }
 		}
-
-		// here is where a global handling rate would be added
-		if ($global_handling = TiendaConfig::getInstance()->get( 'global_handling' ))
-		{
-		    $shipping_method_handling += $global_handling; 
-		}
 		
         // return formatted object
 		$return->shipping_rate_price    = $shipping_method_price;

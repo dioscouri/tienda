@@ -1013,6 +1013,14 @@ class TiendaControllerCheckout extends TiendaController
 					{
 						foreach( $result as $r )
 						{
+							$extra = 0;
+							// here is where a global handling rate would be added
+							if ($global_handling = TiendaConfig::getInstance()->get( 'global_handling' ))
+							{
+							    $extra = $global_handling; 
+							}
+							$r['extra'] += $extra;
+							$r['total'] += $extra;
 							$rates[] = $r;
 						}
 					}
