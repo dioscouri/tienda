@@ -49,6 +49,7 @@
 	<property name="cfg.pluginShippingDir" location="${cfg.comDir}/${cfg.comName}_plugin_shipping" />
     <property name="cfg.pluginToolDir" location="${cfg.comDir}/${cfg.comName}_plugin_tool" />
 	<property name="cfg.aux" value="${basedir}/auxiliary_extensions" />
+	<property name="cfg.apps" value="${basedir}/apps" />
 
     <!-- some settings that are currently unused -->
     <property name="cfg.addversion" value="true" />
@@ -458,6 +459,12 @@
         </copy>
 
     <!-- AUXILIARY EXTENSIONS -->
+    	
+    	
+    <!-- APPS -->
+    	 <!-- Example: <copy todir="${destdir}" preservelastmodified="true" overwrite="true">
+           <fileset dir="${cfg.apps}/app" />
+        </copy>-->
     </target>
 
     <target name="init" description="creates necessary directory to build with">
@@ -466,9 +473,10 @@
         <mkdir dir="${cfg.buildDir}/modules" />
         <mkdir dir="${cfg.buildDir}/components" />
     	<mkdir dir="${cfg.buildDir}/languages" />
+    	<mkdir dir="${cfg.buildDir}/apps" />
     </target>
 
-	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages" />
+	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages, build_apps" />
 
     <target name="build_component" depends="init" description="packages the final component file">
         <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
@@ -519,6 +527,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requiretaxnumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requiretaxnumber" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}product_customfields.zip" basedir="${cfg.aux}/${cfg.plgPrefix}product_customfields" />
     </target>
 
     <target name="build_modules" depends="init" description="packages any modules">
@@ -548,6 +557,11 @@
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}ru-RU.zip" basedir="${cfg.langDir}/ru-RU" />
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sv-SE.zip" basedir="${cfg.langDir}/sv-SE" />
     </target>
+	
+	<!-- BUILD EXTRA APPS -->
+	<target name="build_apps" depends="init" description="packages any apps">
+	    	<!-- Example: <zip destfile="${cfg.buildDir}/apps/app.zip" basedir="${cfg.apps}/app" />-->
+	</target>
 
     <target name="build_extensions" depends="clean, init, build_plugins, build_modules" description="builds installable packages of both modules and plugins">
     </target>
