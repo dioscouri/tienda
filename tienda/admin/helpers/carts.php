@@ -416,7 +416,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     			$orderItem->orderitem_attributes          = $product->product_attributes;
     			$orderItem->orderitem_attribute_names     = $product->attributes_names;
     			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
-    			$orderItem->orderitem_final_price         = ($productItem->product_price + floatval( $orderItem->orderitem_attributes_price )) * $orderItem->orderitem_quantity;
+    			$orderItem->orderitem_final_price         = ($product->product_price) * $orderItem->orderitem_quantity;
     			
 		        $dispatcher =& JDispatcher::getInstance();
 		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $product ) );
