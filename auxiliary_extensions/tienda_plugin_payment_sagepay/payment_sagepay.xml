@@ -20,7 +20,7 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-        <param name="vendor_code" type="text" size="50" default="" label="Sagepay Vendor Code" description="Sagepay Vendor Code Desc"/>
+        <param name="vendor_name" type="text" size="50" default="" label="Sagepay Vendor Name" description="Sagepay Vendor Name Desc"/>
         <param name="secure_post" type="radio" default="0" label="Sagepay 3D Signature" description="Sagepay 3D Signature Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
@@ -30,7 +30,7 @@
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>
-        <param name="sandbox_vendor_code" type="text" size="50" default="" label="Sagepay Vendor Code" description="Sagepay Vendor Code Desc"/>
+        <param name="sandbox_vendor_name" type="text" size="50" default="" label="Sagepay Vendor Name" description="Sagepay Vendor Name Desc"/>
         <param name="sandbox_secure_post" type="radio" default="0" label="Sagepay 3D Signature" description="Sagepay 3D Signature Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
