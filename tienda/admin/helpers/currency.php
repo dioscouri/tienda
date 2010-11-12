@@ -168,7 +168,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $database = JFactory::getDBO();
         $database->setQuery( "SELECT DATE_SUB( '$now', INTERVAL 1 HOUR )" );
         $expire_datetime = $database->loadResult();
-        
+
         if ($currencyTo == 'USD')
         {
             // get from DB table
@@ -176,21 +176,26 @@ class TiendaHelperCurrency extends TiendaHelperBase
             $tableFrom->load( array('currency_code'=>$currencyFrom) );
             if (!empty($tableFrom->currency_id))
             {
-                // refresh if it's too old or refresh forced
-                if ($tableFrom->updated_date < $expire_datetime || $refresh)
-                {
-                    if ($currencyFrom == "USD")
-                    {
-                        $tableFrom->exchange_rate = (float) 1.0;
-                    }
-                        else
-                    {
-                        $tableFrom->exchange_rate = TiendaHelperCurrency::getExchangeRateYahoo( $currencyFrom, $currencyTo );    
-                    }
-                    $tableFrom->updated_date = $now;
-                    $tableFrom->save();
-                }
-                return (float) $tableFrom->exchange_rate * 1.0;
+            	// Auto Update Enabled?
+            	if(TiendaConfig::getInstance()->get('currency_exchange_autoupdate', 1))
+            	{
+	                // refresh if it's too old or refresh forced
+	                if ($tableFrom->updated_date < $expire_datetime || $refresh)
+	                {
+	                    if ($currencyFrom == "USD")
+	                    {
+	                        $tableFrom->exchange_rate = (float) 1.0;
+	                    }
+	                        else
+	                    {
+	                        $tableFrom->exchange_rate = TiendaHelperCurrency::getExchangeRateYahoo( $currencyFrom, $currencyTo );    
+	                    }
+	                    $tableFrom->updated_date = $now;
+	                    $tableFrom->save();
+	                }
+            	}
+               	return (float) $tableFrom->exchange_rate * 1.0;
+            	
             }
                 else
             {
@@ -200,7 +205,36 @@ class TiendaHelperCurrency extends TiendaHelperBase
             }
         }
         
-        $exchange_rate = TiendaHelperCurrency::getExchangeRateYahoo( $currencyFrom, $currencyTo );
+        // Auto Update Enabled?
+        if(TiendaConfig::getInstance()->get('currency_exchange_autoupdate', 1))
+        {
+        	$exchange_rate = TiendaHelperCurrency::getExchangeRateYahoo( $currencyFrom, $currencyTo );
+        }
+        else
+        {
+        	// get from DB table
+            $tableFrom = JTable::getInstance('Currencies', 'TiendaTable');
+            $tableTo = JTable::getInstance('Currencies', 'TiendaTable');
+            $tableFrom->load( array('currency_code'=>$currencyFrom) );
+            $tableTo->load( array('currency_code'=>$currencyTo) );
+            
+            if(!empty($tableFrom->currency_id) && !empty($tableTo->currency_id))
+            {
+            	// Get the exchange rate manually
+            	// All Values are USD based, so if (1$ = 1,3Û) and (1$ = 1,6£), we have that (1Û = 1,23£)
+            	// so if we want to the exchange rate Û => £ is 1,23            	
+            	$exchange_rate = $tableFrom->exchange_rate / $tableTo->exchange_rate;
+            }
+       		else
+            {
+                // invalid currency, fail
+                JError::raiseError('1', JText::_("Invalid Currency Type"));
+                return;                
+            }
+        }
+        
+        echo '<h5>'.(float) $exchange_rate * 1.0.'</h5>';
+        
         return (float) $exchange_rate * 1.0;
     }
 

@@ -388,6 +388,7 @@ class TiendaConfig extends JObject
 	var $currency_symbol_pre				= '$';
 	var $currency_symbol_post				= null;
 	var $default_currencyid					= '1'; // USD
+	var $currency_exchange_autoupdate		= '1'; // yes
 	var $login_url_redirect					= 'index.php';
 	var $logout_url_redirect				= 'index.php';
 	var $login_redirect						= '1';

@@ -376,6 +376,17 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Auto Update Exchange Rates' ); ?>
+							</th>
+			                <td>
+				                <?php echo JHTML::_('select.booleanlist', 'currency_exchange_autoupdate', 'class="inputbox"', $this->row->get('currency_exchange_autoupdate', '1') ); ?>
+			                </td>
+                            <td>
+                                <?php echo JText::_( 'Auto Update Exchange Rates Desc' ); ?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Dimensions Measure Unit' ); ?>
 							</th>
 			                <td>

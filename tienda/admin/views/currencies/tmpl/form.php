@@ -79,6 +79,21 @@ JFilterOutput::objectHTMLSafe( $row );
                         <input type="text" name="thousands_separator" id="thousands_separator" size="10" maxlength="250" value="<?php echo @$row->thousands_separator; ?>" />
                     </td>
                 </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <label for="exchange_rate">
+                        <?php echo JText::_( 'Exchange Rate' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                    	<?php if( TiendaConfig::getInstance()->get('currency_exchange_autoupdate', '1') ): ?>
+                    		<div class="note">
+                    			<?php echo JText::_('WARNING AUTOEXCHANGE ENABLED'); ?>
+                    		</div>
+                    	<?php endif;?>
+                        <input type="text" name="exchange_rate" id="exchange_rate" size="10" maxlength="250" value="<?php echo @$row->exchange_rate; ?>" />
+                    </td>
+                </tr>
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_enabled">
