@@ -1,4 +1,6 @@
 <?php
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
 
 /* This little test demonstrates the use of fromFile() 
 ** mainly so you can play with the MINIXML_USEFROMFILECACHING

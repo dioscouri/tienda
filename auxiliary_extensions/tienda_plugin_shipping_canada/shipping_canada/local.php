@@ -1,4 +1,7 @@
 <?
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 function	common_header( $title = "" ){
 	/* Can't open socket on sourceforge.net, I have to point the demo to my site */

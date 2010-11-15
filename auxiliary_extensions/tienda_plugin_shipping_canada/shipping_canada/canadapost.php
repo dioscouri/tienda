@@ -1,5 +1,6 @@
 <?php
-
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
 
 require_once( dirname( __FILE__ ).DS.'minixml'.DS.'classes'.DS."doc.inc.php" );
 Class CanadaPost {
