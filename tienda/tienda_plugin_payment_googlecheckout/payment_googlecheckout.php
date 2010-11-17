@@ -118,9 +118,38 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleitem.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleshipping.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googletax.php";
-			
+	
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
 		$totalTax=0;
+		
+		//check if coupons is not empty
+		//if not empty then we process the coupon name and value and add to the $items having negative value
+		if(!empty($data['coupons']))
+		{	
+			$couponIds = array();
+			$couponIds = $data['coupons'];
+			
+			//NOTE: checking the coupon if its valid for the user is already done in the controller
+       		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+       		$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+			$model->setState( 'filter_ids', $couponIds );
+        	$coupons = $model->getList();
+        	
+			if(!empty($coupons))
+			{
+				foreach($coupons as $coupon)
+				{
+					$couponObj = new stdClass();
+					$couponObj->orderitem_name = $coupon->coupon_code." ".JText::_( "(Discount)" );
+					$couponObj->orderitem_quantity = (int)1;
+					$couponObj->orderitem_price = "-".$coupon->coupon_value;
+					
+					$items[] = $couponObj;
+				}
+			}
+
+		}			
+
 		foreach($items as $itemObject)
 		{
 			$item_temp = new GoogleItem($itemObject->orderitem_name,
