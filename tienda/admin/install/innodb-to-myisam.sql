@@ -25,8 +25,6 @@ ALTER TABLE #__tienda_productdownloadlogs DROP FOREIGN KEY `fk_ProductFile_Produ
 ALTER TABLE #__tienda_productprices DROP FOREIGN KEY `fk_Product_ProductPrices`;
 ALTER TABLE #__tienda_productrelations DROP FOREIGN KEY `fk_Product_ProductRelationsA`;
 ALTER TABLE #__tienda_productrelations DROP FOREIGN KEY `fk_Product_ProductRelationsB`;
-ALTER TABLE #__tienda_productreviews DROP FOREIGN KEY `fk_Product_ProductReview`;
-ALTER TABLE #__tienda_productvotes DROP FOREIGN KEY `fk_Product_ProductVotes`;
 ALTER TABLE #__tienda_shippingmethods DROP FOREIGN KEY `fk_taxclass_shippingmethods`;
 ALTER TABLE #__tienda_shippingrates DROP FOREIGN KEY `fk_geozone_shippingrates`;
 ALTER TABLE #__tienda_addresses DROP FOREIGN KEY `fk_addresses_countries`;
@@ -64,9 +62,7 @@ alter table `#__tienda_productfiles` ENGINE=MYISAM;
 alter table `#__tienda_productprices` ENGINE=MYISAM;
 alter table `#__tienda_productquantities` ENGINE=MYISAM;
 alter table `#__tienda_productrelations` ENGINE=MYISAM;
-alter table `#__tienda_productreviews` ENGINE=MYISAM;
 alter table `#__tienda_products` ENGINE=MYISAM;
-alter table `#__tienda_productvotes` ENGINE=MYISAM;
 alter table `#__tienda_shippingmethods` ENGINE=MYISAM;
 alter table `#__tienda_shippingrates` ENGINE=MYISAM;
 alter table `#__tienda_taxclasses` ENGINE=MYISAM;

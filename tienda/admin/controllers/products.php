@@ -425,6 +425,8 @@ class TiendaControllerProducts extends TiendaController
 		$params->set( 'billets_hour_limit_exclusion', JRequest::getVar('billets_hour_limit_exclusion') );
 		$params->set( 'juga_group_csv_add', JRequest::getVar('juga_group_csv_add') );
 		$params->set( 'juga_group_csv_remove', JRequest::getVar('juga_group_csv_remove') );
+        $params->set( 'juga_group_csv_add_expiration', JRequest::getVar('juga_group_csv_add_expiration') );
+        $params->set( 'juga_group_csv_remove_expiration', JRequest::getVar('juga_group_csv_remove_expiration') );
 		$params->set( 'core_user_change_gid', JRequest::getVar('core_user_change_gid') );
 		$params->set( 'core_user_new_gid', JRequest::getVar('core_user_new_gid') );
 

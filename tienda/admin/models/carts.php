@@ -170,9 +170,11 @@ class TiendaModelCarts extends TiendaModelBase
             	// store a csv of the attrib names, built by Attribute name + Attribute option name
             	$atable = JTable::getInstance('ProductAttributes', 'TiendaTable');
             	$atable->load( $table->productattribute_id );
-            	$name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
-                $attributes_names[] = $name; 
-
+            	if (!empty($atable->id))
+            	{
+                    $name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
+                    $attributes_names[] = $name;
+            	}
             }
 
             // Could someone explain to me why this is necessary?
