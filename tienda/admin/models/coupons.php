@@ -28,6 +28,7 @@ class TiendaModelCoupons extends TiendaModelBase
         $filter_type    = $this->getState('filter_type');
        	$filter_group    = $this->getState('filter_group');
        	$filter_automatic    = $this->getState('filter_automatic');
+       	$filter_ids = $this->getState('filter_ids');
         
        	if ($filter) 
        	{
@@ -88,6 +89,11 @@ class TiendaModelCoupons extends TiendaModelBase
         if (strlen($filter_automatic))
         {
             $query->where('tbl.coupon_automatic = '.$filter_automatic);
+        }
+        
+        if(is_array($filter_ids) && !empty($filter_ids))
+        {
+        	$query->where('tbl.coupon_id IN('.implode(",", $filter_ids).')' );
         }
     }
         	
