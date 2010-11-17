@@ -752,7 +752,6 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
             				{
             					$posted = true;
 		            			$errors[] = JText::_('Tienda Sagepay Message Payment Already Occured');
-		            			echo '333';
             					break;
             				}
             			default : // if something went wrong
