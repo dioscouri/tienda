@@ -98,4 +98,21 @@ class TiendaHelperCoupon extends TiendaHelperBase
         // all ok
         return $coupon;
     }
+    
+    /*
+     * Get the coupons
+     * @param array $ids - coupon ids
+     * @return array
+     */
+    function getCoupons($ids)
+    {
+		if (empty($ids)) return array();
+       
+		$query = "SELECT `coupon_code`, `coupon_value` FROM `#__tienda_coupons` ";    
+		$query .= "WHERE `coupon_id` IN (".implode(",", $ids).")";      
+        $db = JFactory::getDBO();
+        $db->setQuery( (string) $query );
+        $items = $db->loadObjectlist();
+        return $items;
+    }
 }
