@@ -89,7 +89,7 @@ class MiniXMLTreeComponent {
 	}
 	
 	/* Function to fetch an element */
-	function & getElement ($name)
+	function  getElement ($name)
 	{
 		return NULL;
 	}

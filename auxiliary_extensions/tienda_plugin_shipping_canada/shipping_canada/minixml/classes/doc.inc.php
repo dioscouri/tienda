@@ -1,5 +1,4 @@
 <?php
-
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
@@ -54,7 +53,8 @@ define("MINIXML_SIMPLE_REGEX",
 
 
 
-require_once(MINIXML_CLASSDIR . "/element.inc.php");
+require_once( "element.inc.php"); 
+require_once( "minixml.inc.php"); 
 
 /***************************************************************************************************
 ****************************************************************************************************
@@ -258,7 +258,6 @@ class MiniXMLDoc {
 		{
 			_MiniXMLLog("Returning element $element");
 		}
-		
 		return $element;
 		
 	}

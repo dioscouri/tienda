@@ -1,7 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
-
 /***************************************************************************************************
 ****************************************************************************************************
 *****
@@ -389,8 +388,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	*/
 	function &getElement ($name)
 	{
-		
-		if (MINIXML_DEBUG > 0)
+    	if (MINIXML_DEBUG > 0)
 		{
 			$elname = $this->name();
 			_MiniXMLLog("MiniXMLElement::getElement() called for $name on $elname.");
@@ -520,16 +518,16 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	*/
 	function &getElementByPath($path)
 	{
-		$names = split ("/", $path);
-		
-		$element = $this;
+		$names = explode ("/", $path);
+		$element=$this;
 		foreach ($names as $elementName)
-		{
+		{ 
 			if ($element && $elementName) /* Make sure we didn't hit a dead end and that we have a name*/
 			{
 				/* Ask this element to get the next child in path */
 				$element = $element->getElement($elementName);
-			}
+				
+     		}
 		}
 		
 		return $element;
