@@ -2265,19 +2265,7 @@ class TiendaControllerCheckout extends TiendaController
             echo json_encode($response);
             return;
         }
-
-      	//check that the total value of added coupon is not greater than the total order to avoid having negative value;
-      	$couponIds = empty($values['coupons']) ? array($coupon->coupon_id) : array_merge($values['coupons'], array($coupon->coupon_id));
-      	$coupon_total = $helper_coupon->getCouponSum( $couponIds );
-      	
-        if($coupon_total > $values['order_total'])
-        {        	
-        	$response['error'] = '1';
-            $response['msg'] = $helper->generateMessage( JText::_( "Cannot Add This Coupon to Order. Your Total Coupon Value is Greater Than Your Total Order." ) ) ;
-            echo json_encode($response);
-            return;
-        }
-        
+     	        
         // TODO Check that the user can add this coupon to the order
         $can_add = true;
         if (!$can_add)
