@@ -98,39 +98,5 @@ class TiendaHelperCoupon extends TiendaHelperBase
         // all ok
         return $coupon;
     }  
-    
-    /**
-     * Get total value of the coupon based on the given coupon ids
-     * @param array $couponIds
-     * @return decimal
-     */
-    function getCouponSum($couponIds)
-    {    	    	
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );		
-       	$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
-		$model->setState( 'filter_ids', $couponIds );
-        $couponObjects = $model->getList();
-		
-        foreach($couponObjects as $couponObject)
-        {
-        	 if (empty($couponObject->coupon_type))
-            {
-                // get the value
-                switch ($couponObject->coupon_value_type)
-                {
-                    case "1": // percentage
-                        $amount = ($couponObject->coupon_value/100) * ($values['order_total']);
-                        break;
-                    case "0": // flat-rate
-                        $amount = $couponObject->coupon_value;
-                        break;
-                }
-            }
-            
-            // update the total amount of the discount
-            $coupon_total += $amount;
-        }
-        
-        return $coupon_total;
-    }
+      
 }
