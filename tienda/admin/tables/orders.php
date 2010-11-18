@@ -596,8 +596,9 @@ class TiendaTableOrders extends TiendaTable
             $this->_ordercoupons[] = $oc;
         }
         
-        // store the total amount of the discount        
-        $this->order_discount = $total;
+        // store the total amount of the discount  
+        //set the total as equal to the order_subtotal + order_tax if its greater than the sum of the two
+        $this->order_discount = $total > ($this->order_subtotal + $this->order_tax) ? $this->order_subtotal + $this->order_tax : $total;
 
         // Allow this to be modified via plugins
         $dispatcher    =& JDispatcher::getInstance();
