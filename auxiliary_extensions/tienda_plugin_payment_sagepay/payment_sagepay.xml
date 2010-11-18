@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Sagepay.com Payments</name>
+	<name>Sagepay Payments</name>
 	<version>0.5.6</version>
 	<creationDate>November 2010</creationDate>
 	<author>Dioscouri</author>

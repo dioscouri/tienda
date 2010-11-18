@@ -293,8 +293,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata/languages" />
         </copy>
-
-		<!-- PSIGATE -->
+        <!-- SAGEPAY -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_sagepay" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_payment_sagepay/languages" />
+        </copy>
 
     <!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->
@@ -498,6 +503,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_moneris.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneris" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_pagseguro.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_pagseguro" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_payson.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_payson" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sagepay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sagepay" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sips_atos.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sips_atos" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypal.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypal" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />

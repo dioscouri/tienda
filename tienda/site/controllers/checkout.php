@@ -131,7 +131,8 @@ class TiendaControllerCheckout extends TiendaController
 			parent::display();
 			return;
 		}
-		elseif (($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')) || $register)
+		
+		if (($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')) || $register)
 		{
 			// Checkout as a Guest
 			$order =& $this->_order;

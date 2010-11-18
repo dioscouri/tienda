@@ -247,8 +247,8 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
             		$len = JString::strlen($submitted_values[$key]);
             		if ($submitted_values['cardtype'] != 'PAYPAL' && $len) // not a required field for paypal
             		{
-            			if(($submitted_values['card_type'] == 'AMEX' && $len != 4) ||
-            			   ($submitted_values['card_type'] != 'AMEX' && $len != 3))
+            			if(($submitted_values['cardtype'] == 'AMEX' && $len != 4) ||
+            			   ($submitted_values['cardtype'] != 'AMEX' && $len != 3))
             			{            			
 	                        $object->error = true;
 	                        $object->message .= "<li>".JText::_( "Sagepay Card CV2 Invalid" )."</li>";
@@ -546,6 +546,8 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $orderpayment->load( $data['orderpayment_id'] );
         $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
+        $billingzone = JTable::getInstance('Zones', 'TiendaTable');
+        $billingzone->load( $orderinfo->billing_zone_id );
 		$currency = JTable::getInstance('Currencies', 'TiendaTable');
 		$currency->load( array( 'currency_id'=>$order->currency_id) );
 		$country = JTable::getInstance('Countries', 'TiendaTable');
@@ -566,7 +568,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $sagepay_zip                   = $orderinfo->billing_postal_code;
         $sagepay_country               = $country->country_isocode_2;
         if($sagepay_country == 'US')
-	        $sagepay_state                 = $orderinfo->billing_zone_name;
+	        $sagepay_state                 = $billingzone->code;
 	    else
 			$sagepay_state = '';	    
         $sagepay_card_num              = str_replace(" ", "", str_replace("-", "", $data['cardnum'] ) ); 
@@ -661,7 +663,8 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
      */
     function _log($text, $type = 'message')
     {
-        if ($this->_isLog) {
+        if (!empty($this->_isLog)) 
+        {
             $file = JPATH_ROOT . "/cache/{$this->_element}.log";
             $date = JFactory::getDate();
             
@@ -732,9 +735,15 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         
         // Evaluate a typical response from sagepay.com
         $exploded = explode( $sagepay_del_line, $resp );
+
         for ($i=0; $i<count($exploded); $i++)
         {
-            list($key, $value) = explode($sagepay_del_val,$exploded[$i]); // parse key and value
+            if (empty($exploded[$i]))
+            {
+                continue;
+            }
+            
+            list($key, $value) = explode($sagepay_del_val, $exploded[$i]); // parse key and value
             if ($value == "") {
                 $value = "NO VALUE RETURNED";
             }
@@ -788,7 +797,6 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
                         case "OK":
                         // Approved
                             $payment_status = '1';
-                            $subs_status = '1';
                            break;
                         default:
                           break;
@@ -844,6 +852,11 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
 		{
 			$errors[] = $orderpayment->getError(); 
 		}
+		
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+        }
 		            
 		if ($send_email)
 		{
