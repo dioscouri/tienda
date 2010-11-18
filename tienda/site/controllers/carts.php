@@ -279,7 +279,7 @@ class TiendaControllerCarts extends TiendaController
         $cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
         $quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');        
-		$post = JRequest::get('post');
+        $post = JRequest::get('post');
 		
         $msg = JText::_('Quantities Updated');
         
@@ -288,9 +288,9 @@ class TiendaControllerCarts extends TiendaController
         {
             foreach ($cids as $key=>$product_id)
             {
-				$keynames = explode('.', $key);
-				$attributekey = $keynames[0].'.'.$keynames[1];
-            	$index = $keynames[2];
+            		$keynames = explode('.', $key);
+            		$attributekey = $keynames[0].'.'.$keynames[1];
+            		$index = $keynames[2];
                 $row = $model->getTable();
                 
                 //main cartitem keys
@@ -298,116 +298,121 @@ class TiendaControllerCarts extends TiendaController
                 				'product_attributes'=>$product_attributes[$attributekey]);
 
                 // fire plugin event: onGetAdditionalCartKeyValues
-		        //this event allows plugins to extend the multiple-column primary key of the carts table
-		        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
-		        if (!empty($additionalKeyValues))
-		        {
-		        	$ids = array_merge($ids, $additionalKeyValues);
-		        }
-
-		        if (empty($user->id))
-                {
-                    $ids['session_id'] = $session->getId();
-                }
-
-                if ($return = $row->delete($ids))
-                {
-	                $item = new JObject;
-	                $item->product_id = $product_id;
-	                $item->product_attributes = $product_attributes[$attributekey];
-	                $item->vendor_id = '0'; // vendors only in enterprise version
-	               
-	                // fire plugin event
-	                $dispatcher = JDispatcher::getInstance();
-	                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
-                }
-			}
+				        //this event allows plugins to extend the multiple-column primary key of the carts table
+				        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
+				        if (!empty($additionalKeyValues))
+				        {
+				        	$ids = array_merge($ids, $additionalKeyValues);
+				        }
+		
+				        if (empty($user->id))
+		                {
+		                    $ids['session_id'] = $session->getId();
+		                }
+		
+		                if ($return = $row->delete($ids))
+		                {
+			                $item = new JObject;
+			                $item->product_id = $product_id;
+			                $item->product_attributes = $product_attributes[$attributekey];
+			                $item->vendor_id = '0'; // vendors only in enterprise version
+			               
+			                // fire plugin event
+			                $dispatcher = JDispatcher::getInstance();
+			                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+		                }
+            }
         } 
-            else 
+        else 
         {          
             foreach($quantities as $key=>$value) 
             {          	
             	$keynames = explode('.', $key);
             	$product_id = $keynames[0];
-				$attributekey = $product_id.'.'.$keynames[1];
+            	$attributekey = $product_id.'.'.$keynames[1];
             	$index = $keynames[2];
 
             	$vals = array();
-                $vals['user_id'] = $user->id;
-                $vals['session_id'] = $session->getId();
-                $vals['product_id'] = $product_id;
+              $vals['user_id'] = $user->id;
+              $vals['session_id'] = $session->getId();
+              $vals['product_id'] = $product_id;
 
-                // fire plugin event: onGetAdditionalCartKeyValues
-		        //this event allows plugins to extend the multiple-column primary key of the carts table
-		        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
-		        if (!empty($additionalKeyValues))
-		        {
-		        	$vals = array_merge($vals, $additionalKeyValues);
-		        }
+              // fire plugin event: onGetAdditionalCartKeyValues
+		        	//this event allows plugins to extend the multiple-column primary key of the carts table
+		        	$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
+		        	if (!empty($additionalKeyValues))
+		        	{
+		        		$vals = array_merge($vals, $additionalKeyValues);
+		        	}
 
-                // using a helper file,To determine the product's information related to inventory     
-                $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$attributekey] );	
-                if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
-                {
-                	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
-                    continue;
-                }
+              // using a helper file,To determine the product's information related to inventory     
+              $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$attributekey] );	
+              if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
+              {
+              	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
+                continue;
+              }
                 
-                if ($value > 1)
-                {
-                    $product = JTable::getInstance( 'Products', 'TiendaTable' );
-                    $product->load( array( 'product_id'=>$product_id) );
-                    if( $product->quantity_restriction )
-                    {
-                    	$min = $product->quantity_min;
-                    	$max = $product->quantity_max;
+              if ($value > 1)
+              {
+	              $product = JTable::getInstance( 'Products', 'TiendaTable' );
+	              $product->load( array( 'product_id'=>$product_id) );
+	              if( $product->quantity_restriction )
+	              {
+              		$min = $product->quantity_min;
+              		$max = $product->quantity_max;
                     	
-                    	if( $max )
-                    	{
-                    		if ($value > $max )
-                    		{
-                    			$msg = JText::_('You have reached the maximum quantity for this object: ').$max;
-                    			$value = $max;
-                    		}
-                    	}
-                    	if( $min )
-                    	{
-                    		if ($value < $min )
-                    		{
-                    			$msg = JText::_('You have reached the minimum quantity for this object: ').$min;
-                    			$value = $min;
-                    		}
-                    	}
-                    }
-                    if ($product->product_recurs)
-                    {
-                        $value = 1;
-                    }
-                }
-
-                $row = $model->getTable();
-                $vals['product_attributes'] = $product_attributes[$attributekey];
-                $vals['product_qty'] = $value;
-                if (empty($vals['product_qty']))
-                {
-                    // remove it
-                    if ($return = $row->delete($vals))
-                    {
-                        $item = new JObject;
-                        $item->product_id = $product_id;
-                        $item->product_attributes = $product_attributes[$attributekey];
-                        $item->vendor_id = '0'; // vendors only in enterprise version
+                  if( $max )
+                  {
+                  	if ($value > $max )
+                  	{
+                  		$msg = JText::_('You have reached the maximum quantity for this object: ').$max;
+                  		$value = $max;
+                  	}
+                  }
+                  if( $min )
+                  {
+                  	if ($value < $min )
+                  	{
+                  		$msg = JText::_('You have reached the minimum quantity for this object: ').$min;
+                  		$value = $min;
+                  	}
+                  }
+	              }
+	              if ($product->product_recurs)
+	              {
+	              	$value = 1;
+	              }
+              }
+                	
+              $row = $model->getTable();
+              $vals['product_attributes'] = $product_attributes[$attributekey];
+              $vals['product_qty'] = $value;
+              if (empty($vals['product_qty']) || $vals['product_qty'] < 1)
+              {
+              	unset($vals['product_qty']);
+                $vals['user_id'] = $user->id;
+              	if(empty($user->id))
+              		$vals['session_id'] = $session->getId();              	
+              	
+              	// remove it
+              	if ($return = $row->delete($vals))
+              	{
+              		$item = new JObject;
+              		$item->product_id = $product_id;
+                  $item->product_attributes = $product_attributes[$attributekey];
+                  $item->vendor_id = '0'; // vendors only in enterprise version
                        
-                        // fire plugin event
-                        $dispatcher = JDispatcher::getInstance();
-                        $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
-                    }
-                }
-                else
-                {
-                    $row->bind($vals);
-                    $row->save();                    
-                }
+                  // fire plugin event
+                  $dispatcher = JDispatcher::getInstance();
+                  $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+              	}
+              }
+              else
+              {
+              	$row->bind($vals);
+              	$row->save();                    
+              }
             }
         }
 
@@ -415,18 +420,18 @@ class TiendaControllerCarts extends TiendaController
         $carthelper->fixQuantities();
         if (empty($user->id))
         {
-			$carthelper->checkIntegrity($session->getId(), 'session_id');
+        	$carthelper->checkIntegrity($session->getId(), 'session_id');
         }
-		else
+        else
         {
-			$carthelper->checkIntegrity($user->id);
+        		$carthelper->checkIntegrity($user->id);
         }
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute();
  
-		$redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
-		$this->setRedirect( $redirect, $msg );
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
+       	$this->setRedirect( $redirect, $msg);
     }
     
     /*
