@@ -64,6 +64,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
             return true;
         }
         return false;
+        
     }
     
     /**

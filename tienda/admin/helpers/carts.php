@@ -107,9 +107,15 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				else
 				{
+					
+	
+					
 					foreach($item as $key=>$value)
 					{
-						$table->set($key, $value);
+						if(property_exists($table, $key))
+						{
+							$table->set($key, $value);
+						}
 					}
 //					$table->product_qty = $item->product_qty;
 //					$table->product_id = $item->product_id;
