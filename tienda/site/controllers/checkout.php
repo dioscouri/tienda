@@ -2425,7 +2425,7 @@ class TiendaControllerCheckout extends TiendaController
 			);
 			// create the new user
 			$msg = $this->getError();
-			$user = $userHelper->createNewUser($details, true);
+			$user = $userHelper->createNewUser($details, isset($values['guest']));
 
 			if (empty($user->id))
 			{
