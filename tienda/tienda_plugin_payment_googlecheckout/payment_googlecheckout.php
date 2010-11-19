@@ -91,7 +91,6 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	 */
 	function _prePayment( $data )
 	{
-
 		/*
 		 * get all necessary data and prepare vars for assigning to the template
 		 */
@@ -159,12 +158,14 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$totalTax=$totalTax+$itemObject->orderitem_tax;
 		}
 		
-		if (!empty($data['shipping_terms']))
+		if ( !empty($data['shipping_plugin']) && ($data['shipping_price'] > 0) )
 		{
 	 	// Add shipping
 			$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price']); // shipping name and Price as an argument
 			$cart->AddShipping($shipTemp);
 		}
+		
+		
 		$checkout_return_url = JURI::root() ."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
 		$cart->SetContinueShoppingUrl($checkout_return_url);
 
