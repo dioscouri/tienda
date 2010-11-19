@@ -297,7 +297,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		parent::display();
 	}
-
+	
 	/**
 	 * Populate the order object with items and addresses, and calculate the order Totals
 	 * @param $guest	guest mode?
@@ -407,6 +407,39 @@ class TiendaControllerCheckout extends TiendaController
         //END onDisplayOrderItem
         
 		$view->setLayout( 'cart' );
+
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
+	}
+	
+	/**
+	 * Prepares data for and returns the html of the total amount
+	 * This assumes that $this->_order has already had its properties set
+	 *
+	 * @return unknown_type
+	 */
+	function getTotalAmountDue()
+	{
+		// get the order object
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		$model = $this->getModel('carts');
+		$view = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'order', $order );
+		$orderitems = $order->order_total;
+		$view->assign( 'orderitems', $orderitems );
+        
+		$view->setLayout( 'total' );
 
 		ob_start();
 		$view->display();
@@ -1209,6 +1242,67 @@ class TiendaControllerCheckout extends TiendaController
 		return;
 	}
 
+	/**
+	 * Returning total amount value
+	 *
+	 * @return unknown_type
+	 */
+	function totalAmountDue()
+	{
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+		// convert elements to array that can be binded
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		$values = $helper->elementsToArray( $elements );
+
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+
+		// get the order object so we can populate it
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		// bind what you can from the post
+		$order->bind( $values );
+
+		// set the currency
+		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+
+		// get the items and add them to the order
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+		$items = TiendaHelperCarts::getProductsInfo();
+		foreach ($items as $item)
+		{
+			$order->addItem( $item );
+		}
+
+	    // get all coupons and add them to the order
+        if (!empty($values['coupons']))
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+            }
+        }
+		
+		// get the order totals
+		$order->calculateTotals();
+
+		// now get the summary
+		$html = $this->getTotalAmountDue();
+
+		$response = array();
+		$response['msg'] = $html;
+		$response['error'] = '';
+
+		// encode and echo (need to echo to send back to browser)
+		echo json_encode($response);
+	}
+	
+	
 	/**
 	 * Prepare the review tmpl
 	 *
@@ -2191,6 +2285,7 @@ class TiendaControllerCheckout extends TiendaController
             $this->setError( $errorMsg );
             return false;
         }
+                
         return true;
     }
 
@@ -2357,6 +2452,4 @@ class TiendaControllerCheckout extends TiendaController
 		
 		}
 	}
-
-
 }

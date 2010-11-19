@@ -70,6 +70,7 @@ function tiendaAddCoupon( form, mult_enabled )
                 
                 // Update the summary
                 tiendaGetCheckoutTotals();
+                tiendaRefreshTotalAmountDue();
                 
                 if (mult_enabled != 1)
                 {
@@ -105,6 +106,19 @@ function tiendaGetCurrencyTotals()
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=setCurrency&format=raw';
     tiendaDoTask( url, 'onCheckoutReview_wrapper', document.adminForm );    
+}
+
+/**
+ * Based on the session contents,
+ * calculates the order total
+ * and returns HTML
+ * 
+ * @return
+ */
+function tiendaRefreshTotalAmountDue()
+{
+	var url = 'index.php?option=com_tienda&view=checkout&task=totalAmountDue&format=raw';
+    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false );
 }
 
 /**
