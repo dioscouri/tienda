@@ -146,7 +146,6 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 					$items[] = $couponObj;
 				}
 			}
-
 		}			
 
 		foreach($items as $itemObject)
@@ -157,11 +156,11 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$cart->AddItem($item_temp);
 			$totalTax=$totalTax+$itemObject->orderitem_tax;
 		}
-		
-		if ( !empty($data['shipping_plugin']) && ($data['shipping_price'] > 0) )
+
+		if ( !empty($data['shipping_plugin'] ) && ( $data['shipping_price'] > 0 || $data['shipping_extra'] > 0 ) )
 		{
 	 	// Add shipping
-			$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price']); // shipping name and Price as an argument
+			$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price'] + $data['shipping_extra']); // shipping name and Price as an argument
 			$cart->AddShipping($shipTemp);
 		}
 		
