@@ -156,9 +156,11 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
             $product->load($item->product_id);
             if ($product->product_ships)
             {
+                $product_totalWeight = $product->product_weight * $item->orderitem_quantity;
                 $packageCount = $packageCount + 1;
+                
                 $weight = array(
-                    'Value' => $product->product_weight,
+                    'Value' => (int) $product_totalWeight ,
                     'Units' => $this->params->get('weight_unit', 'KG') // get this from product?
                 );
                 

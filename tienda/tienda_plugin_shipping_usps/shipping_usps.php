@@ -160,21 +160,8 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $product->load($item->product_id);
             if ($product->product_ships)
             {
-                $totalWeight = $totalWeight + $product->product_weight;
-                $packageCount = $packageCount + 1;
-                $weight = array(
-                    'Value' => $product->product_weight,
-                    'Units' => $this->params->get('weight_unit', 'LB') // get this from product?
-                );
-                
-                $dimensions = array(
-                    'Length' => $product->product_length,
-                    'Width' => $product->product_width,
-                    'Height' => $product->product_height,
-                    'Units' => $this->params->get('dimension_unit', 'IN') // get this from product?
-                );
-                
-                $packages[] = array( 'Weight' => $weight, 'Dimensions' => $dimensions );
+                $totalWeight = $totalWeight + ( $product->product_weight * $item->orderitem_quantity );
+                $packageCount = $packageCount + ( 1 * $item->orderitem_quantity );
             }            
         }
         

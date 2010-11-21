@@ -404,16 +404,18 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
             $product->load($item->product_id);
             if ($product->product_ships)
             {
+                $product_totalWeight = $product->product_weight * $item->orderitem_quantity;               
                 $packageCount = $packageCount + 1;
+                
                 $weight = array(
-                    'Weight' => (int)$product->product_weight,
+                    'Weight' => (int) $product_totalWeight,
                     'UnitOfMeasurement' => array('Code' => $this->params->get('weight_unit', 'KGS') ) // get this from product?
                 );
                 
                 $dimensions = array(
-                    'Length' => (int)$product->product_length,
-                    'Width' => (int)$product->product_width,
-                    'Height' => (int)$product->product_height,
+                    'Length' => (int) $product->product_length,
+                    'Width' => (int) $product->product_width,
+                    'Height' => (int) $product->product_height,
                     'UnitOfMeasurement' => array('Code' => $this->params->get('dimension_unit', 'CM') ) // get this from product?
                 );
                 
