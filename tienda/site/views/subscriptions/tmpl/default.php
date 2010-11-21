@@ -94,7 +94,7 @@
                     </a>
                 </td>
                 <td style="text-align: center;">
-                       <?php echo TiendaGrid::enable($item->subscription_enabled, $i, 'subscription_enabled.','tick.png', 'publish_x.png',false ); ?>
+                       <?php echo TiendaGrid::boolean( $item->subscription_enabled ); ?>
                 </td>
             </tr>
             <?php $i=$i+1; $k = (1 - $k); ?>

@@ -102,7 +102,7 @@ class TiendaGrid extends JHTMLGrid
 		$true_text 	= $true_text 	? $true_text 	: 'Yes';
 		$false_text = $false_text 	? $false_text 	: 'No';
 		
-		return '<img src="images/'. ($bool ? $true_img : $false_img) .'" border="0" alt="'. JText::_($bool ? $true_text : $false_text) .'" />';
+		return '<img src="' . Tienda::getUrl("images") . ($bool ? $true_img : $false_img) .'" border="0" alt="'. JText::_($bool ? $true_text : $false_text) .'" />';
 	}
 	
 	function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
@@ -114,29 +114,24 @@ class TiendaGrid extends JHTMLGrid
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
+		<img src="' . Tienda::getUrl("images") . $img .'" border="0" alt="'. $alt .'" /></a>'
 		;
 
 		return $href;
 	}
 	
-	public static function enable( $enable, $i, $prefix = '', $imgY = 'tick.png', $imgX = 'publish_x.png',$requireAction=true )
+	public static function enable( $enable, $i, $prefix = '', $imgY = 'tick.png', $imgX = 'publish_x.png' )
 	{
 		$img 	= $enable ? $imgY : $imgX;
 		$task 	= $enable ? 'disable' : 'enable';
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$action = $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-        if($requireAction){
-        	$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
-		;
-        }else {
-        $href = '<img src="images/'. $img .'" border="0" alt="'. $alt .'" />';	
-        }
 		
-
+        $href = '
+        <a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
+        <img src="' . Tienda::getUrl("images") . $img .'" border="0" alt="'. $alt .'" />
+        </a>';
+        
 		return $href;
 	}
 	
