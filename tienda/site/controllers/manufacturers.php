@@ -683,34 +683,26 @@ class TiendaControllerManufacturers extends TiendaController
      */
     function validate()
     {
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = new TiendaHelperBase();
+        
         $response = array();
         $response['msg'] = '';
         $response['error'] = '';
             
         // get elements from post
-            $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 
-            // validate it using table's ->check() method
-            if (empty($elements))
-            {
-                // if it fails check, return message
-                $response['error'] = '1';
-                $response['msg'] = '
-                    <dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px;">'.
-                        JText::_("Could not process form")                        
-                        .'</ul>
-                    </dd>
-                    </dl>
-                    ';
-                echo ( json_encode( $response ) );
-                return;
-            }
+        // validate it using table's ->check() method
+        if (empty($elements))
+        {
+            // if it fails check, return message
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage(JText::_("Could not process form"));
+            echo ( json_encode( $response ) );
+            return;
+        }
 
-        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $helper = TiendaHelperBase::getInstance();
         if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
         {
             $response['msg'] = $helper->generateMessage( "Shop Disabled" );

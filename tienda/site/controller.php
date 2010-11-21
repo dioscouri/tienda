@@ -218,6 +218,9 @@ class TiendaController extends JController
      */
     function validate()
     {
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = new TiendaHelperBase();
+            
         $response = array();
         $response['msg'] = '';
         $response['error'] = '';
@@ -230,23 +233,14 @@ class TiendaController extends JController
             {
                 // if it fails check, return message
                 $response['error'] = '1';
-                $response['msg'] = '
-                    <dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px;">'.
-                        JText::_("Could not process form")                        
-                        .'</ul>
-                    </dd>
-                    </dl>
-                    ';
+                $response['msg'] = $helper->generateMessage(JText::_("Could not process form"));
                 echo ( json_encode( $response ) );
                 return;
             }
             
         // convert elements to array that can be binded             
-            Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-            $values = TiendaHelperBase::elementsToArray( $elements );
+            $values = $helper->elementsToArray( $elements );
+            
 
         // get table object
             $table = $this->getModel( $this->get('suffix') )->getTable();
@@ -259,16 +253,7 @@ class TiendaController extends JController
             {
                 // if it fails check, return message
                 $response['error'] = '1';
-                $response['msg'] = '
-                    <dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px;">'.
-                        $table->getError()                      
-                        .'</ul>
-                    </dd>
-                    </dl>
-                    ';
+                $response['msg'] = $helper->generateMessage($table->getError());
             }
 
         echo ( json_encode( $response ) );

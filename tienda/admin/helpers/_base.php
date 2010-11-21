@@ -624,18 +624,24 @@ class TiendaHelperBase extends JObject
 	 * @param string message
 	 * @return html message
 	 */
-	function generateMessage($msg)
+	function generateMessage($msg, $include_li=true )
 	{
-		$html = '<dl id="system-message">
-                    <dt class="notice">notice</dt>
-                    <dd class="notice message fade">
-                        <ul style="padding: 10px 10px 10px 25px;">';
-		
-        $html .= $msg;
-        
-		$html .= "</ul>
-                    </dd>
-                    </dl>";
+		$html = '
+		<dl id="system-message">
+            <dt class="notice">'.JText::_( "Notice" ).'</dt>
+            <dd class="notice message fade">
+                <ul>';
+				
+                if ($include_li) {
+                    $html .= "<li>".$msg."</li>";
+                } else {
+                    $html .= $msg;
+                }
+                
+                $html .= "
+                </ul>
+            </dd>
+        </dl>";
 		
 		return $html;
 	}
