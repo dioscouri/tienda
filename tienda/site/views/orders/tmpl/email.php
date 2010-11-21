@@ -114,6 +114,20 @@
                 <td>
                     <?php echo JText::_( $item->orderitem_name ); ?>
                     <br/>
+                    
+                    <?php if (!empty($item->attributes_names)) : ?>
+                        <?php echo $item->attributes_names; ?>
+                        <br/>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($item->orderitem_sku)) : ?>
+                        <b><?php echo JText::_( "SKU" ); ?>:</b>
+                        <?php echo $item->orderitem_sku; ?>
+                        <?php if (!empty($item->attributes_codes)) : ?>
+                            <?php echo $item->attributes_codes; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    
                     <b><?php echo JText::_( "Price" ); ?>:</b>
                     <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
                     
