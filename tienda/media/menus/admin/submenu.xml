@@ -25,12 +25,8 @@
        <url>index.php?option=com_tienda&#38;view=localization</url>
    </link>
    <link>
-       <name>Reports</name>
+       <name>Tools and Reports</name>
        <url>index.php?option=com_tienda&#38;view=reports</url>
-   </link>
-   <link>
-       <name>Tools</name>
-       <url>index.php?option=com_tienda&#38;view=tools</url>
    </link>
    <link>
        <name>Configuration</name>

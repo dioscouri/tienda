@@ -15,6 +15,23 @@ Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewReports extends TiendaViewBase 
 {
+    function getLayoutVars($tpl=null) 
+    {
+        $layout = $this->getLayout();
+        switch(strtolower($layout))
+        {
+            case "form":
+                JRequest::setVar('hidemainmenu', '1');
+                $this->_form($tpl);
+              break;
+            case "default":
+            default:
+                $this->set( 'leftMenu', 'leftmenu_tools' );
+                $this->_default($tpl);
+              break;
+        }
+    }
+    
 	function _form($tpl=null)
 	{
         parent::_form($tpl);
