@@ -219,48 +219,54 @@ class TiendaModelOrders extends TiendaModelBase
 	
 	public function getList()
 	{
-		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-		$list = parent::getList();
-		
-		// If no item in the list, return an array()
-        if( empty( $list ) ){
-        	return array();
-        }
-		
-        $amigos = TiendaHelperBase::getInstance( 'Amigos' );
-		foreach(@$list as $item)
-		{
-			$item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
-			$item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
-			
-			// retrieve the order's currency
-			// this loads the currency, using the FK is it is the same of the
-    		// currency used in the order, or the JParameter currency of the order otherwise
-    		$order_currency = new JParameter($item->order_currency);
-    		$order_currency = $order_currency->toArray();
-    		
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-    		$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
-            $cmodel->setId($item->currency_id);
-            $item->currency = $cmodel->getItem();
+	    if (empty( $this->_list ))
+	    {
+	        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+            $list = parent::getList();
             
-    		// if the order currency is not the same as it was during the order
-    		if (!empty($item->currency) && !empty($order_currency['currency_code']) && $item->currency->currency_code != $order_currency['currency_code'])
-    		{
-    			// overwrite it with the original one
-    			foreach(@$order_currency as $k => $v)
-    			{
-    				$item->currency->$k = $v;
-    			}
-    		}
-    		
-    		// has a commission?
-    		if ($amigos->isInstalled())
-    		{
-    		    $item->commissions = $amigos->getCommissions( $item->order_id );
-    		}
-		}
-		return $list;
+            // If no item in the list, return an array()
+            if( empty( $list ) ){
+                return array();
+            }
+            
+            $amigos = TiendaHelperBase::getInstance( 'Amigos' );
+            foreach(@$list as $item)
+            {
+                $item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
+                $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
+                
+                // retrieve the order's currency
+                // this loads the currency, using the FK is it is the same of the
+                // currency used in the order, or the JParameter currency of the order otherwise
+                $order_currency = new JParameter($item->order_currency);
+                $order_currency = $order_currency->toArray();
+                
+                JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                $cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
+                $cmodel->setId($item->currency_id);
+                $item->currency = $cmodel->getItem();
+                
+                // if the order currency is not the same as it was during the order
+                if (!empty($item->currency) && !empty($order_currency['currency_code']) && $item->currency->currency_code != $order_currency['currency_code'])
+                {
+                    // overwrite it with the original one
+                    foreach(@$order_currency as $k => $v)
+                    {
+                        $item->currency->$k = $v;
+                    }
+                }
+                
+                // has a commission?
+                if ($amigos->isInstalled())
+                {
+                    $item->commissions = $amigos->getCommissions( $item->order_id );
+                }
+            }
+
+            $this->_list = $list;
+	    }
+
+		return $this->_list;
 	}
 	
 	public function getItem()

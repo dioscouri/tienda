@@ -415,7 +415,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     			// TODO Push this into the orders object->addItem() method?
     			$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
     			$orderItem->product_id                    = $productItem->product_id;
-    			$orderItem->orderitem_sku                 = $productItem->product_sku;
+    			$orderItem->orderitem_sku                 = $product->product_sku;
     			$orderItem->orderitem_name                = $productItem->product_name;
     			$orderItem->orderitem_quantity            = $product->product_qty;
     			$orderItem->orderitem_price               = $productItem->product_price;

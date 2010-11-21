@@ -61,6 +61,12 @@ $quantities = array();
 	                    <?php endif; ?>
 	                    <input name="product_attributes[<?php echo $item->product_id.".".$item->product_attributes; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />                       
                       
+                        <?php if (!empty($item->product_sku)) : ?>
+                            <b><?php echo JText::_( "SKU" ); ?>:</b>
+                            <?php echo $item->product_sku; ?>
+                            <br/>
+                        <?php endif; ?>
+                      
                         <?php if ($item->product_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
                             <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>

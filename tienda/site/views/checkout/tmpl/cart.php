@@ -33,6 +33,12 @@ $items = @$this->orderitems;
                             <?php echo $item->orderitem_attribute_names; ?>
                             <br/>
                         <?php endif; ?>
+                        
+                        <?php if (!empty($item->orderitem_sku)) : ?>
+                            <b><?php echo JText::_( "SKU" ); ?>:</b>
+                            <?php echo $item->orderitem_sku; ?>
+                            <br/>
+                        <?php endif; ?>
 
                         <?php if ($item->orderitem_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
