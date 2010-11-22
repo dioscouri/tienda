@@ -1056,4 +1056,91 @@ class TiendaTableNested extends TiendaTable
 		$database->setQuery( $query );		
 		$database->query();
     }
+    
+    /**
+     * Compacts the ordering sequence of the selected records
+     *
+     * @access public
+     * @param string Additional where query to limit ordering to a particular subset of records
+     */
+    function reorder( $parent=null, $where='' )
+    {
+        if (!in_array( 'ordering', array_keys($this->getProperties() ) ))
+        {
+            $this->setError( get_class( $this ).' does not support ordering');
+            return false;
+        }
+        
+        $key = $this->getKeyName();
+        $database = JFactory::getDBO();
+                
+        if ($parent === null)
+        {
+            $root = $this->getRoot();
+            if ($root === false) 
+            {
+                return false;
+            }
+            $parent = $root->$key;
+        }
+        
+        // get all children of this node
+        $query = "
+            SELECT 
+                tbl.{$key}
+            FROM 
+                {$this->_tbl} AS tbl 
+            WHERE 
+                tbl.parent_id = '{$parent}'
+            ORDER BY
+                tbl.lft ASC
+        ";
+        $database->setQuery( $query );
+        $children = $database->loadObjectList();
+        for ($i=0; $i<count($children); $i++) 
+        {
+            $child = $children[$i];
+            // recursive execution of this function for each
+            // child of this node
+            $this->reorder( $child->$key );
+        }
+                
+        $k = $this->_tbl_key;
+
+        $query = 'SELECT '.$this->_tbl_key.', ordering'
+        . ' FROM '. $this->_tbl
+        . ' WHERE ordering >= 0' . ( $where ? ' AND '. $where : '' )
+        . " AND parent_id = '{$parent}' "
+        . ' ORDER BY ordering, lft ASC'
+        ;
+        $this->_db->setQuery( $query );
+        if (!($orders = $this->_db->loadObjectList()))
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+        
+        // compact the ordering numbers
+        for ($i=0, $n=count( $orders ); $i < $n; $i++)
+        {
+            if ($orders[$i]->ordering >= 0)
+            {
+                if ($orders[$i]->ordering != $i+1)
+                {
+                    $orders[$i]->ordering = $i+1;
+                    $query = 'UPDATE '.$this->_tbl
+                    . ' SET ordering = '. (int) $orders[$i]->ordering
+                    . ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
+                    ;
+                    $this->_db->setQuery( $query);
+                    if (!$this->_db->query())
+                    {
+                        $this->setError($this->_db->getErrorMsg());
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
 }

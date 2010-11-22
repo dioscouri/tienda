@@ -55,6 +55,16 @@ class TiendaControllerCategories extends TiendaController
 		return $state;
 	}
 
+    /**
+     * Reorders multiple items (based on form input from list) and redirects to default layout
+     * @return void
+     */
+    function ordering()
+    {
+        parent::ordering();
+        $this->rebuild();
+    }
+	
 	/**
 	 * Rebuilds the tree using a recursive loop on the parent_id
 	 * Useful after importing categories (from other shopping carts)

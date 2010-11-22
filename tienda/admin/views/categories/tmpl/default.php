@@ -42,6 +42,7 @@
                 </th>
                 <th style="width: 100px;">
     	            <?php echo TiendaGrid::sort( 'Order', "tbl.lft", @$state->direction, @$state->order ); ?>
+    	            <?php echo JHTML::_('grid.order', @$items ); ?>
                 </th>
                 <th style="width: 100px;">
     	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.category_enabled", @$state->direction, @$state->order ); ?>
@@ -128,6 +129,7 @@
                 </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::order($item->category_id); ?>
+					<?php echo TiendaGrid::ordering($item->category_id, $item->ordering ); ?>
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->category_enabled, $i, 'category_enabled.' ); ?>

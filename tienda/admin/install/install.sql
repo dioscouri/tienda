@@ -419,6 +419,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `lft` int(11) NOT NULL,
   `rgt` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL,
   `category_enabled` tinyint(1) NOT NULL,
   `isroot` tinyint(1) NOT NULL,
   `category_params` text,
