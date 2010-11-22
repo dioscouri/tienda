@@ -52,7 +52,9 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 							'product_quantity',
 							'product_attributes',
 							'product_sku',
-							'product_model',						
+							'product_model',
+							'product_listprice',	
+							'product_listprice_enabled',						
 						);
 	}
 	
@@ -416,7 +418,6 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
     			else
     			{
     				$check = JFile::exists($image);
-    				
     			}
     		}
     		else
@@ -439,7 +440,6 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
     				$i = $image.DS.$i;
     			}
     		}
-    		
     		
     		if($check)
     		{
@@ -533,6 +533,17 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 					$product->product_price = 0;
 					$product->product_quantity = 0;
 					$product->bind($data);
+					
+					if($product->product_full_image)
+					{
+						Tienda::load('TiendaFile', 'library.file');
+						// Do the same cleaning to the image title that the image helper does
+						$name = explode('.', $product->product_full_image);
+						$name = TiendaFile::cleanTitle( $name[0] ).'.'.$name[count($name)-1];
+						
+						$product->product_full_image = $name;
+					}
+					
 					$product->create();			
 					
 					$this->_migrateAttributes($product->product_id, $data['product_attributes']);
