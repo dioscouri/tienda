@@ -11,6 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+jimport( 'joomla.filter.filteroutput' );
 jimport( 'joomla.application.component.view' );
 
 class TiendaViewBase extends JView
@@ -128,7 +129,9 @@ class TiendaViewBase extends JView
 		$model = $this->getModel();
 
 		// set the model state
-			$this->assign( 'state', $model->getState() );
+            $state = $model->getState();
+            JFilterOutput::objectHTMLSafe( $state );
+            $this->assign( 'state', $state );
 
 		// page-navigation
 			$this->assign( 'pagination', $model->getPagination() );
@@ -156,7 +159,9 @@ class TiendaViewBase extends JView
 		$model = $this->getModel();
 
 		// get the data
-			$this->assign('row', $model->getItem() );
+		    $row = $model->getItem();
+		    JFilterOutput::objectHTMLSafe( $row );
+			$this->assign('row', $row );
 
 		// form
 			$form = array();

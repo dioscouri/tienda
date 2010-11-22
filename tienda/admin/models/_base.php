@@ -11,11 +11,20 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+jimport( 'joomla.filter.filterinput' );
 jimport( 'joomla.application.component.model' );
 Tienda::load( 'TiendaQuery', 'library.query' );
 
 class TiendaModelBase extends JModel
 {
+    var $_filterinput = null; // instance of JFilterInput
+    
+    function __construct($config = array())
+    {
+        parent::__construct($config);
+        $this->_filterinput = &JFilterInput::getInstance();
+    }
+    
     /**
      * Method to get a table object, load it if necessary.
      *
@@ -64,11 +73,14 @@ class TiendaModelBase extends JModel
 	 * Gets a property from the model's state, or the entire state if no property specified
 	 * @param $property
 	 * @param $default
+	 * @param string The variable type {@see JFilterInput::clean()}.
+	 * 
 	 * @return unknown_type
 	 */
-	public function getState( $property=null, $default=null )
+	public function getState( $property=null, $default=null, $return_type='default' )
 	{
-		return $property === null ? $this->_state : $this->_state->get($property, $default);
+        $return = ($property === null) ? $this->_state : $this->_state->get($property, $default);
+		return $this->_filterinput->clean( $return, $return_type );
 	}
 
 	/**

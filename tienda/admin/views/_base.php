@@ -11,6 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+jimport( 'joomla.filter.filteroutput' );
 jimport( 'joomla.application.component.view' );
 
 class TiendaViewBase extends JView
@@ -133,7 +134,9 @@ class TiendaViewBase extends JView
 		$model = $this->getModel();
 
 		// set the model state
-			$this->assign( 'state', $model->getState() );
+            $state = $model->getState();
+            JFilterOutput::objectHTMLSafe( $state );
+			$this->assign( 'state', $state );
 
 		if (empty($this->hidemenu))
 		{
@@ -168,7 +171,9 @@ class TiendaViewBase extends JView
 		$model = $this->getModel();
 
 		// set the model state
-			$this->assign( 'state', $model->getState() );
+            $state = $model->getState();
+            JFilterOutput::objectHTMLSafe( $state );
+            $this->assign( 'state', $state );
 
 		// get the data
 			// not using getItem here to enable ->checkout (which requires JTable object)

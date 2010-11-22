@@ -17,30 +17,30 @@ class TiendaModelProducts extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
-       	$filter     = $this->getState('filter');
-        $filter_id_from	= $this->getState('filter_id_from');
-        $filter_id_to	= $this->getState('filter_id_to');
-		$filter_id_set = $this->getState('filter_id_set');
-        $filter_name	= $this->getState('filter_name');
-       	$enabled		= $this->getState('filter_enabled');
-        $filter_quantity_from	= $this->getState('filter_quantity_from');
-        $filter_quantity_to	= $this->getState('filter_quantity_to');
-        $filter_category	= $this->getState('filter_category');
-        $filter_sku	= $this->getState('filter_sku');
-		$filter_price_from	= $this->getState('filter_price_from');
-        $filter_price_to	= $this->getState('filter_price_to');
-        $filter_taxclass = $this->getState('filter_taxclass');
-        $filter_ships = $this->getState('filter_ships');
+       	$filter             = $this->getState('filter');
+        $filter_id_from	    = $this->getState('filter_id_from' );
+        $filter_id_to	    = $this->getState('filter_id_to' );
+		$filter_id_set      = $this->getState('filter_id_set');
+        $filter_name	    = $this->getState('filter_name', '', 'string' );
+       	$filter_enabled         = $this->getState('filter_enabled' );
+        $filter_quantity_from	= $this->getState('filter_quantity_from' );
+        $filter_quantity_to	= $this->getState('filter_quantity_to' );
+        $filter_category	= $this->getState('filter_category' );
+        $filter_sku	        = $this->getState('filter_sku', '', 'string' );
+		$filter_price_from	= $this->getState('filter_price_from' );
+        $filter_price_to	= $this->getState('filter_price_to' );
+        $filter_taxclass    = $this->getState('filter_taxclass' );
+        $filter_ships       = $this->getState('filter_ships' );
         $filter_date_from   = $this->getState('filter_date_from');
         $filter_date_to     = $this->getState('filter_date_to');
-        $filter_datetype    = $this->getState('filter_datetype');
-        $filter_published   = $this->getState('filter_published');
-        $filter_published_date  = $this->getState('filter_published_date');
-		$filter_manufacturer = $this->getState('filter_manufacturer');
-		$filter_multicategory = $this->getState('filter_multicategory');
-	    $filter_description = $this->getState('filter_description');
+        $filter_datetype    = $this->getState('filter_datetype', '', 'word' );
+        $filter_published   = $this->getState('filter_published' );
+        $filter_published_date    = $this->getState('filter_published_date');
+		$filter_manufacturer      = $this->getState('filter_manufacturer' );
+		$filter_multicategory     = $this->getState('filter_multicategory');
+	    $filter_description       = $this->getState('filter_description');
 	    $filter_description_short = $this->getState('filter_description_short');
-        $filter_namedescription = $this->getState('filter_namedescription');
+        $filter_namedescription   = $this->getState('filter_namedescription');
         
 	    if ($filter) 
        	{
@@ -69,9 +69,9 @@ class TiendaModelProducts extends TiendaModelBase
             $query->where('('.implode(' OR ', $where).')');
         }
         
-		if (strlen($enabled))
+		if (strlen($filter_enabled))
         {
-        	$query->where('tbl.product_enabled = '.$this->_db->Quote($enabled));
+        	$query->where('tbl.product_enabled = '.$this->_db->Quote($filter_enabled));
        	}
 		if (strlen($filter_id_from))
         {
@@ -147,11 +147,11 @@ class TiendaModelProducts extends TiendaModelBase
        	       	
     	if (strlen($filter_price_from))
         {
-            $query->having("price >= '". $filter_price_from ."'");
+            $query->having("price >= '". (int) $filter_price_from ."'");
        	}
 		if (strlen($filter_price_to))
         {
-        	$query->having("price <= '". $filter_price_to ."'");
+        	$query->having("price <= '". (int) $filter_price_to ."'");
        	}
         if (strlen($filter_taxclass))
         {
@@ -291,7 +291,7 @@ class TiendaModelProducts extends TiendaModelBase
         {
             Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             $list = parent::getList(); 
-            
+
             // If no item in the list, return an array()
             if ( empty( $list ) ) {
                 return array();
