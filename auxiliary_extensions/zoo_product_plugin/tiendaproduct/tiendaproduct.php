@@ -187,7 +187,7 @@ class ElementTiendaProduct extends Element {
 			$this->_data->set('default_price', $default_price);
 		}
 
-		$html[] = JText::_('Price').': '.JHTML::_('control.text', 'elements[' . $this->identifier . '][default_price]', $this->_data->get('default_price'), 'size="60" maxlength="255"');		
+		$html[] = JHTML::_('control.text', 'elements[' . $this->identifier . '][default_price]', $this->_data->get('default_price'), 'size="60" maxlength="255"')." &euro;";		
 		
 		if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php') && $this->_item != null) 
 		{
@@ -210,7 +210,16 @@ class ElementTiendaProduct extends Element {
 		
 		}
 		
-		return implode("<br />", $html);
+		$id = 'elements['.$this->identifier.']';
+		
+		$return = '<div id="'.$id.'">';
+		foreach($html as $row)
+		{
+			$return .= '<div class="row">'.$row.'</div>'; 
+		}
+		$return .= '</div>';
+		
+		return $return;
 		
 	}
 	
