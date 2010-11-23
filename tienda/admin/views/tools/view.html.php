@@ -24,6 +24,9 @@ class TiendaViewTools extends TiendaViewBase
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
               break;
+            case "view":
+            	$this->_viewToolbar();
+                $this->_default($tpl);
             case "default":
             default:
                 $this->set( 'leftMenu', 'leftmenu_tools' );
