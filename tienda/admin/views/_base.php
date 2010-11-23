@@ -168,6 +168,8 @@ class TiendaViewBase extends JView
 	 */
 	function _form($tpl='')
 	{
+	    $model = $this->getModel();
+	    
 		// set the model state
             $state = $model->getState();
             JFilterOutput::objectHTMLSafe( $state );
