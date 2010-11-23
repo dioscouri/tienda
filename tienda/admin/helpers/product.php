@@ -518,6 +518,17 @@ class TiendaHelperProduct extends TiendaHelperBase
         $style = "";
         $height_style = "";
         $width_style = "";
+        
+        $dimensions = "";
+		if($options['width'])
+		{
+			$dimensions .= "width=\"".$options['width']."\" ";
+		}
+        if($options['height'])
+		{
+			$dimensions .= "height=\"".$options['height']."\" ";
+		}
+        
         if (!empty($options['height'])) { $height_style = "max-height: ".$options['height']."px;"; }
         if (!empty($options['width'])) { $width_style = "max-width: ".$options['width']."px;"; }
         if (!empty($height_style) || !empty($width_style))
@@ -545,7 +556,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             
             // if url is true, just return the url of the file and not the whole img tag
             $tmpl = ($url)
-                ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' ".$style." />";
+                ? $src : "<img ".$dimensions." src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' ".$style." />";
 
         }
             else
@@ -638,7 +649,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     ? $id : JURI::root(true).'/media/com_tienda/images/noimage.png';
 
                 $tmpl = ($url)
-                    ? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' ".$style." />";
+                    ? $src : "<img ".$dimensions." src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' ".$style." />";
             }           
         }
         return $tmpl;
