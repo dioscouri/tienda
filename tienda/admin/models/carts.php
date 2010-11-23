@@ -90,7 +90,15 @@ class TiendaModelCarts extends TiendaModelBase
 
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
-		$default_group = '0'; // TODO Use default group_id
+		
+		$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+		$filter_group = (int) $this->getState('filter_group');
+		
+		if (empty($filter_group))
+		{
+		    $filter_group = $default_group;
+		}
+		
 		$field[] = "
 			(
 			SELECT
@@ -99,7 +107,7 @@ class TiendaModelCarts extends TiendaModelBase
 				#__tienda_productprices AS prices
 			WHERE
 				prices.product_id = tbl.product_id
-				AND prices.group_id = '$default_group'
+				AND prices.group_id = '$filter_group'
 				AND prices.product_price_startdate <= '$date'
 				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
 				ORDER BY prices.price_quantity_start ASC
@@ -127,7 +135,7 @@ class TiendaModelCarts extends TiendaModelBase
             {
                 // at this point, ->product_price holds the default price for the product,
                 // but the user may qualify for a discount based on volume or date, so let's get that price override
-                $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, '0', JFactory::getDate()->toMySQL() );
+                $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, $this->getState('filter_group') , JFactory::getDate()->toMySQL() );
                 if (!empty($item->product_price_override))
                 {
                     $item->product_price = $item->product_price_override->product_price;

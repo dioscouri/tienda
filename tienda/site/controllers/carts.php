@@ -46,7 +46,11 @@ class TiendaControllerCarts extends TiendaController
         if (empty($user->id))
         {
             $state['filter_session'] = $session->getId();
-        }       
+        }
+
+        Tienda::load('TiendaHelperUser', 'helpers.user');       
+        $filter_group = TiendaHelperUser::getUserGroup($user->id);
+        $state['filter_group'] = $filter_group;
 
         foreach (@$state as $key=>$value)
         {
@@ -93,9 +97,10 @@ class TiendaControllerCarts extends TiendaController
         $view->setLayout('default');
         $view->assign( 'return', $redirect );
         $view->assign( 'checkout_itemid', $checkout_itemid );
-
+        
         //get cartitem information from plugins
         $list = $model->getList();
+        
         if (!empty($list))
         {
 	        //trigger the onDisplayCartItem for each cartitem

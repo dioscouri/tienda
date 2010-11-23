@@ -87,11 +87,11 @@ class TiendaModelBase extends JModel
 	 * Gets the model's query, building it if it doesn't exist
 	 * @return valid query object
 	 */
-	public function getQuery()
+	public function getQuery($refresh = false)
 	{
-		if (empty( $this->_query ) )
+		if (empty( $this->_query ) || $refresh)
 		{
-			$this->_query = $this->_buildQuery();
+			$this->_query = $this->_buildQuery($refresh);
 		}
 		return $this->_query;
 	}
@@ -135,11 +135,11 @@ class TiendaModelBase extends JModel
 	 * Retrieves the data for a paginated list
 	 * @return array Array of objects containing the data from the database
 	 */
-	public function getList()
+	public function getList($refresh = false)
 	{
-		if (empty( $this->_list ))
+		if (empty( $this->_list ) || $refresh)
 		{
-			$query = $this->getQuery();
+			$query = $this->getQuery($refresh);
 			$this->_list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
 		}
 		return $this->_list;
