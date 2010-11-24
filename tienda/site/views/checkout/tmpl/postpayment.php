@@ -28,6 +28,9 @@
 	</a>
 </div>
 
+<?php foreach ($this->articles as $article) : ?>
+<?php endforeach; ?>
+
 <?php if (!empty($this->onAfterDisplayPostPayment)) : ?>
     <div id='onAfterDisplayPostPayment_wrapper'>
     <?php echo $this->onAfterDisplayPostPayment; ?>

@@ -1807,6 +1807,9 @@ class TiendaControllerCheckout extends TiendaController
 			$model = $this->getModel('checkout');
 			$view->setModel( $model, true );
 
+			$articles = $this->getOrderArticles( $order_id );
+			$view->assign( 'articles', $articles );
+			
 			ob_start();
 			$dispatcher->trigger( 'onBeforeDisplayPostPayment', array( $order_id ) );
 			$view->assign( 'onBeforeDisplayPostPayment', ob_get_contents() );
@@ -2451,5 +2454,20 @@ class TiendaControllerCheckout extends TiendaController
 			);
 		
 		}
+	}
+	
+	/**
+	 * Returns an array of objects, 
+	 * each containing the parsed html of all articles that should be displayed
+	 * after an order is completed,
+	 * based on the defined global article and any product-, shippingmethod-, and paymentmethod-specific articles
+	 * 
+	 * @param $order_id
+	 * @return array
+	 */
+	function getOrderArticles( $order_id )
+	{
+	    $articles = array();
+	    return $articles;
 	}
 }
