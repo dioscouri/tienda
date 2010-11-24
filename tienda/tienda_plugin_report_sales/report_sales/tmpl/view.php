@@ -14,7 +14,7 @@
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_("Billing Address"); ?>
-                </th>Billing Address                
+                </th>                
                 <th style="width: 150px;">
                     <?php echo JText::_("Email"); ?>
                 </th>
