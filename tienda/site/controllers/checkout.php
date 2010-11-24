@@ -2484,6 +2484,9 @@ class TiendaControllerCheckout extends TiendaController
 	        $articles[] = TiendaArticle::display( $article_id );
 	    }
 	    
+	    $dispatcher =& JDispatcher::getInstance();
+	    $dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
+	    
 	    return $articles;
 	}
 }
