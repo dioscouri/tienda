@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'JOOMLA! TABLE PREFIX' ); ?>:
+                        <?php echo JText::_( 'JOOMLA! TABLE PREFIX' ); ?>: *
                     </td>
                     <td>
                         <input type="text" name="prefix" id="prefix" size="48" maxlength="250" value="<?php echo @$state->prefix; ?>" />
@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'VIRTUEMART TABLE PREFIX' ); ?>:
+                        <?php echo JText::_( 'VIRTUEMART TABLE PREFIX' ); ?>: *
                     </td>
                     <td>
                         <input type="text" name="vm_prefix" id="vm_prefix" size="48" maxlength="250" value="<?php echo @$state->vm_prefix; ?>" />

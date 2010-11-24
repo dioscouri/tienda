@@ -144,8 +144,8 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $state->user = '';
         $state->password = '';
         $state->database = '';
-        $state->prefix = '';
-        $state->vm_prefix = '';
+        $state->prefix = 'jos_';
+        $state->vm_prefix = 'vm_';
         $state->driver = 'mysql';
         $state->port = '3306';
         $state->external_site_url = '';
