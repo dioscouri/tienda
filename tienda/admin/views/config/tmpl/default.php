@@ -540,6 +540,18 @@
                                 <?php echo JText::_( 'Global Handling Cost Desc' ); ?>
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Article to Display After Successful Checkout' ); ?>
+                            </th>
+                            <td style="width: 280px;">
+                                <?php echo $this->elementArticleModel->_fetchElement( 'article_checkout', $this->row->get('article_checkout') ); ?>
+                                <?php echo $this->elementArticleModel->_clearElement( 'article_checkout', '0' ); ?>              
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Article to Display After Successful Checkout Desc' ); ?>
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
 

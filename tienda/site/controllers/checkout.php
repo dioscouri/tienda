@@ -1807,7 +1807,14 @@ class TiendaControllerCheckout extends TiendaController
 			$model = $this->getModel('checkout');
 			$view->setModel( $model, true );
 
-			$articles = $this->getOrderArticles( $order_id );
+			// get the articles to display after checkout
+			$articles = array();
+			switch ($order->order_state_id)
+			{
+			    case "17":
+			        $articles = $this->getOrderArticles( $order_id );
+			        break;
+			}
 			$view->assign( 'articles', $articles );
 			
 			ob_start();
@@ -2467,7 +2474,16 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function getOrderArticles( $order_id )
 	{
+        Tienda::load( 'TiendaArticle', 'library.article' );
+        
 	    $articles = array();
+	    
+	    $article_id = TiendaConfig::getInstance()->get( 'article_checkout' );
+	    if (!empty($article_id))
+	    {
+	        $articles[] = TiendaArticle::display( $article_id );
+	    }
+	    
 	    return $articles;
 	}
 }

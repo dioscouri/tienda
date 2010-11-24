@@ -458,10 +458,10 @@ class TiendaConfig extends JObject
     
     // Email Settings
     var $disable_guest_signup_email         = '0';
-    var $currency_preval				= '$';
-	var $currency_postval				= 'USD';
-	var $display_period					= '1';
-
+    var $currency_preval				    = '$';
+	var $currency_postval				    = 'USD';
+	var $display_period					    = '1';
+	var $article_checkout                   = '';
 
 	/**
 	 * constructor

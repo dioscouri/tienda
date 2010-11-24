@@ -29,6 +29,9 @@
 </div>
 
 <?php foreach ($this->articles as $article) : ?>
+    <div class="postpayment_article">
+        <?php echo $article; ?>
+    </div>    
 <?php endforeach; ?>
 
 <?php if (!empty($this->onAfterDisplayPostPayment)) : ?>

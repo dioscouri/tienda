@@ -87,6 +87,8 @@ class TiendaViewConfig extends TiendaViewBase
 			
 		// Elements
 		$elementArticleModel 	= JModel::getInstance( 'ElementArticle', 'TiendaModel' );
+		$this->assign( 'elementArticleModel', $elementArticleModel );
+		
 			// terms
 			$elementArticle_terms 		= $elementArticleModel->_fetchElement( 'article_terms', @$row->get('article_terms') );
 			$resetArticle_terms			= $elementArticleModel->_clearElement( 'article_terms', '0' );
