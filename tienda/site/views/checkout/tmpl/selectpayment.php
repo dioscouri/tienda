@@ -118,22 +118,48 @@
             <h3><?php echo JText::_("Payment Method") ?></h3>
             <p><?php echo JText::_("Please select your preferred payment method below"); ?>:</p>
             <div id='onCheckoutPayment_wrapper'>
-                <?php
+                <?php        
                     if ($this->plugins) 
-                    {                  
+                    {                          	                  	
+                    	$checkInputPlg = '';
+                    	if(count($this->plugins) == 1)
+                    	{
+                    		$checkInputPlg = "checked";
+                    		$values = JRequest::get('post');  
+                    		$dispatcher    =& JDispatcher::getInstance();                       	            		
+                    	}               
+           				
                         foreach ($this->plugins as $plugin) 
                         {
                             ?>
-                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" />
+                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo $checkInputPlg;?> />
                             <?php echo JText::_( $plugin->name ); ?>
                             <br/>
                             <?php
-                        }
-                    }
+                            if(count($this->plugins) == 1)
+                            {                            	
+                            	 $results = $dispatcher->trigger( "onGetPaymentForm", array( $plugin->element, $values) );
+                            }
+                           
+                        }                   
+                ?>              
+		                <div id='payment_form_div' style="padding-top: 10px;">
+		                <?php 		         
+		                if(isset($results))
+		                {
+			                for ($i=0; $i<count($results); $i++)
+							{
+								$result = $results[$i];
+								$text .= $result;
+							}		                	
+		                	
+		                	echo $text;
+		                }		                
+		                ?>		                
+		                </div>
+	                <?php 
+                     }
                 ?>
-                
-                <div id='payment_form_div' style="padding-top: 10px;"></div>
-                
                 <div id="validationmessage" style="padding-top: 10px;"></div>
             </div>
         <?php } ?>
