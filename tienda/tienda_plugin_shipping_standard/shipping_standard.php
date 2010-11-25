@@ -79,23 +79,23 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                 $ratemodel->setState('filter_geozones', $gz_array);
                 if ($ratesexist = $ratemodel->getList())
                 {
-                    $total = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );
+                    $total = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );                  
                     if ($total)
                     {
+                    	$total->shipping_method_type = $method->shipping_method_type;
                         $rates[] = $total;
                     }
                 }
             }
         }
-
-//        echo Tienda::dump($rates);
         
         $i = 0;
         foreach( $rates as $rate )
         {
         	$vars[$i]['element'] = $this->_element;
-        	$vars[$i]['name'] = $rate->shipping_method_name;
-        	$vars[$i]['code'] = $rate->shipping_rate_id;
+        	$vars[$i]['name'] = $rate->shipping_method_name;      
+        	$vars[$i]['type'] = $rate->shipping_method_type;  
+        	$vars[$i]['code'] = $rate->shipping_rate_id;        	
         	$vars[$i]['price'] = $rate->shipping_rate_price;
         	$vars[$i]['tax'] = $rate->shipping_tax_total;
         	$vars[$i]['extra'] = $rate->shipping_rate_handling;
