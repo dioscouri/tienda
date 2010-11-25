@@ -439,6 +439,7 @@ class TiendaConfig extends JObject
     var $display_tienda_pathway             = '1';
     var $display_out_of_stock               = '1';
     var $global_handling                    = '';
+    var $shipping_tax_class                 = '';
     var $default_tax_geozone                = '';
 	var $review_helpfulness_enable			='0';
 	var $share_review_enable				='0';
