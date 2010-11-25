@@ -47,8 +47,11 @@ class plgTiendaNoTaxEu extends TiendaPluginBase
         $is_company = strlen($order->getBillingAddress()->tax_number) > 0;
         if(in_array($geozone, $geozones) && ($is_company))
         {
-        	echo 'here'.strlen($order->getBillingAddress()->tax_number).'here';
-        	$order->order_tax = 0;
+        	if(strlen($order->getBillingAddress()->tax_number))
+        	{
+        		$order->order_tax = 0;
+        		$order->save();
+        	}
         }
     }
 }

@@ -161,6 +161,12 @@ class TiendaUnex extends JObject
  */
 class TiendaUnexPrice extends TiendaUnex 
 {
+	
+	function setGeozoneId($geozone_id)
+	{
+		$this->geozone_id = $geozone_id;
+	}
+	
     function createRequest()
     {
     	
@@ -271,15 +277,34 @@ class TiendaUnexPrice extends TiendaUnex
             $service = $service[0];
                     
             $rateName = JText::_($service->service_name);
-                    	
-                    
+
+            // Tax rate
+            $tax_class_id = TiendaConfig::getInstance()->get('shipping_tax_class', '1');
+            $geozone_id = $this->geozone_id;
+	        Tienda::load( 'TiendaQuery', 'library.query' );
+	            
+	        $taxrate = "0.00000";
+	        $db = JFactory::getDBO();
+	        
+	        $query = new TiendaQuery();
+	        $query->select( 'tbl.*' );
+	        $query->from('#__tienda_taxrates AS tbl');
+	        $query->where("tbl.tax_class_id = '".$tax_class_id."'");
+	        $query->where("tbl.geozone_id = '".$geozone_id."'");
+	        
+	        $db->setQuery( (string) $query );
+	        if ($data = $db->loadObject())
+	        {
+	            $taxrate = $data->tax_rate;
+	        }
+            
 			$summary = array();                        
 			$summary['name']    =  $rateName;
 			$summary['code']    =  $serviceType;
 			$summary['price']   = (double)$rate_details->BaseCharge;
 			$summary['extra']   = (double)$rate_details->OptionsCharges + (double)$rate_details->SupplementsCharges;
-			$summary['total']   = (double)$rate_details->TotalCharges;
-			$summary['tax']     = 0;
+			$summary['tax']     = (double)$rate_details->TotalCharges * ($taxrate / 100);
+			$summary['total']   = (double)$rate_details->TotalCharges + $summary['tax'];
 			$this->rates[] = $summary;
         }
         

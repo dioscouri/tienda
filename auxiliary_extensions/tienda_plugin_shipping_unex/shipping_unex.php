@@ -19,6 +19,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 	 *                         forcing it to be unique 
 	 */
     var $_element   = 'shipping_unex'; 
+    
+    var $_order = null;
 	
     function __construct(& $subject, $config)
     {
@@ -55,6 +57,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 	    $address = $order->getShippingAddress();
 	    $address = $this->checkAddress( $address );
 	    $orderItems = $order->getItems();
+	    
+	    $this->_order = $order;
 	    
         $rates = $this->sendRequest($address, $orderItems);
 		return $rates;
@@ -694,6 +698,16 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $uri = $this->params->get('uri');
         $packaging = $this->params->get('packaging');
         
+        $geozones = $this->_order->getBillingGeoZones();
+        if($geozones)
+        {
+        	$geozone_id = $geozones[0]->geozone_id;
+        }
+        else
+        {
+        	$geozone_id = 0;
+        }
+        
         $packageCount = 0;
         $packages = array();
         
@@ -750,6 +764,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $unex->setCustomerContext($customerContext);
         $unex->setUrl($url);
         $unex->setUri($uri);
+        $unex->setGeozoneId($geozone_id);
         
         $unex->setPackaging("01");
        	$unex->packageLineItems = $packages;
