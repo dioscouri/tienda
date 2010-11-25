@@ -9,11 +9,21 @@
 
 <?php
     if (!empty($this->rates)) 
-    {                  
+    {                 
+
+		$dfltShippingMethod = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+		$checkAlready = false;
+		
         foreach ($this->rates as $rate) 
-        {
+        {        	        		
+        		$methodChecked = '';
+        		if( !$checkAlready )
+        		{
+        			if(($dfltShippingMethod == $rate['type'] )) $methodChecked = "checked";
+        			$checkAlready = true;
+        		}	
             ?>
-            <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
+            <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $methodChecked;?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
             <br/>
             <?php
         }
