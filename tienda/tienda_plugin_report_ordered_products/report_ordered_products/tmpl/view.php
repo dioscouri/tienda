@@ -12,6 +12,9 @@
                 <th style="text-align: left;">
                     <?php echo JText::_("Product Name"); ?>
                 </th>
+                <th style="text-align: left;">
+                    <?php echo JText::_("Attributes"); ?>
+                </th>
                 <th style="width: 100px;">
                     <?php echo JText::_("Quantity"); ?>
                 </th>               
@@ -33,9 +36,12 @@
                 </td>
                 <td style="text-align: left;">
                     <?php echo "[" . $item->product_id . "] " . JText::_($item->product_name); ?>                    
-                </td>             
+                </td>     
+                <td style="text-align: left;">
+                    <?php echo JText::_($item->orderitem_attribute_names); ?>                    
+                </td>        
                 <td style="text-align: center;">
-                    <?php echo $item->total_quantity;?>
+                    <?php echo $item->orderitem_quantity;?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>

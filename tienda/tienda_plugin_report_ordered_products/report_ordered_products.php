@@ -53,15 +53,15 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
         $state = $this->_getState();
 		$model = $this->_getModel();
 
-        $model->setState( 'order', 'total_quantity' );
+        $model->setState( 'order', 'orderitem_id' );
         $model->setState( 'direction', 'DESC' );
         
 		$query = $model->getQuery();
 				
-		// select the total quantity
+		// select the quantity
         $field = array();
-        $field[] = " SUM(tbl.orderitem_quantity) AS total_quantity ";
-        $query->group( 'product_id' );
+        $field[] = " tbl.orderitem_quantity ";
+        $query->group( 'orderitem_id' );
         $query->select( $field );
         $model->setQuery( $query );
         
@@ -87,7 +87,7 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
         // $state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         //$state['filter_product_id'] = $app->getUserStateFromRequest($ns.'product_id', 'filter_product_id', '', '');
         $state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
-        
+       
         // then apply the states to the model
         foreach (@$state as $key=>$value)
         {
