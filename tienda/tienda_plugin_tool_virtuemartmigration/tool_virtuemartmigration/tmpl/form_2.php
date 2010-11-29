@@ -3,7 +3,7 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_( "THIS TOOL IMPORT DATA FROM A CSV FILE TO TIENDA" ); ?></p>
+    <p><?php echo JText::_( "THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA" ); ?></p>
 
     <div class="note">
         <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP TWO OF THREE" ); ?></span>
@@ -11,27 +11,15 @@
     </div>
 
     <fieldset>
-        <legend><?php echo JText::_('CSV INFORMATION'); ?></legend>
+        <legend><?php echo JText::_('DATABASE CONNECTION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'File' ); ?>:
+                        <?php echo JText::_( 'HOST' ); ?>:
                     </td>
                     <td>
-                        <?php echo @$state->file; ?>
-                        <input type="hidden" name="file" id="file" size="48" maxlength="250" value="<?php echo @$state->file; ?>" />
-                    </td>
-                    <td>
-                    
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Field Separator' ); ?>:
-                    </td>
-                    <td>
-                        <?php echo @$state->field_separator; ?>
-                        <input type="hidden" name="field_separator" id="field_separator" size="48" maxlength="250" value="<?php echo @$state->field_separator; ?>" />
+                        <?php echo @$state->host; ?>
+                        <input type="hidden" name="host" id="host" size="48" maxlength="250" value="<?php echo @$state->host; ?>" />
                     </td>
                     <td>
                     
@@ -39,11 +27,11 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Subfield Separator' ); ?>:
+                        <?php echo JText::_( 'USERNAME' ); ?>:
                     </td>
                     <td>
-                       	<?php echo @$state->subfield_separator; ?>
-                        <input type="hidden" name="subfield_separator" id="subfield_separator" size="48" maxlength="250" value="<?php echo @$state->subfield_separator; ?>" />
+                        <?php echo @$state->user; ?>
+                        <input type="hidden" name="user" id="user" size="48" maxlength="250" value="<?php echo @$state->user; ?>" />
                     </td>
                     <td>
                     
@@ -51,16 +39,88 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Skip First Row' ); ?>?:
+                        <?php echo JText::_( 'PASSWORD' ); ?>:
                     </td>
                     <td>
-                        <?php echo @$state->skip_first; ?>
-                        <input type="hidden" name="skip_first" id="skip_first" size="48" maxlength="250" value="<?php echo @$state->skip_first; ?>" />
+                       *****
+                        <input type="hidden" name="password" id="password" size="48" maxlength="250" value="<?php echo @$state->password; ?>" />
                     </td>
                     <td>
                     
                     </td>
                 </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'DATABASE NAME' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo @$state->database; ?>
+                        <input type="hidden" name="database" id="database" size="48" maxlength="250" value="<?php echo @$state->database; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'JOOMLA! TABLE PREFIX' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo @$state->prefix; ?>
+                        <input type="hidden" name="prefix" id="prefix" size="48" maxlength="250" value="<?php echo @$state->prefix; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'VIRTUEMART TABLE PREFIX' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo @$state->vm_prefix; ?>
+                        <input type="hidden" name="vm_prefix" id="vm_prefix" size="48" maxlength="250" value="<?php echo @$state->vm_prefix; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'DATABASE TYPE' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo @$state->driver; ?>
+                        <input type="hidden" name="driver" id="driver" size="48" maxlength="250" value="<?php echo @$state->driver; ?>" />
+                    </td>
+                    <td>
+                     
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'DATABASE PORT' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo @$state->port; ?>
+                        <input type="hidden" name="port" id="port" size="48" maxlength="250" value="<?php echo @$state->port; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+                 <tr>
+                    <td width="100" align="right" class="key">
+                        <?php echo JText::_( 'EXTERNAL SITE URL' ); ?>:
+                    </td>
+                    <td>
+                    	<?php echo @$state->external_site_url; ?>
+                        <input type="hidden" name="external_site_url" id="external_site_url" size="48" maxlength="250" value="<?php echo @$state->external_site_url; ?>" />
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr> 
             </table>   
            
     </fieldset>
