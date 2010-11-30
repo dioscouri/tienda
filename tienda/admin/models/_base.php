@@ -336,7 +336,7 @@ class TiendaModelBase extends JModel
         // Allow plugins to edit the query object
         $suffix = ucfirst( $this->getName() );
         $dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onAfterBuildQuery'.$suffix, array( &$query ) );
+		$dispatcher->trigger( 'onAfterBuildQuery'.$suffix, array( &$query, $this->getState() ) );
 
 		return $query;
     }
