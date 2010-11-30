@@ -314,6 +314,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkCategoriesOrdering FAILED') .' :: '. $this->getError(), 'error' );
         }
+
+        if (!$this->checkProductsArticle())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductsArticle FAILED') .' :: '. $this->getError(), 'error' );
+        }        
+        
     }
     
     /**

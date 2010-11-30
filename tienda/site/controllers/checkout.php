@@ -1788,6 +1788,9 @@ class TiendaControllerCheckout extends TiendaController
 			{
 				$html .= $results[$i];
 			}
+			
+			// re-load the order in case the payment plugin updated it
+			$order->load( array('order_id'=>$order_id) );
 		}
 
 		// $order_id would be empty on posts back from Paypal, for example
@@ -1811,6 +1814,9 @@ class TiendaControllerCheckout extends TiendaController
 			$articles = array();
 			switch ($order->order_state_id)
 			{
+			    case "2":
+			    case "3":
+			    case "5":
 			    case "17":
 			        $articles = $this->getOrderArticles( $order_id );
 			        break;
@@ -2483,6 +2489,18 @@ class TiendaControllerCheckout extends TiendaController
 	    {
 	        $articles[] = TiendaArticle::display( $article_id );
 	    }
+	    
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+        $model->setState( 'filter_orderid', $order_id);
+        $orderitems = $model->getList();
+        foreach ($orderitems as $item)
+        {
+            if (!empty($item->product_article))
+            {
+                $articles[] = TiendaArticle::display( $item->product_article );
+            }            
+        }
 	    
 	    $dispatcher =& JDispatcher::getInstance();
 	    $dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
