@@ -25,8 +25,8 @@ class TiendaViewTools extends TiendaViewBase
                 $this->_form($tpl);
               break;
             case "view":
-            	$this->_viewToolbar();
-                $this->_default($tpl);
+                $this->_form($tpl);
+                break;
             case "default":
             default:
                 $this->set( 'leftMenu', 'leftmenu_tools' );
