@@ -38,6 +38,13 @@ $doc->addScriptDeclaration($js);
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
+// Check Json Class Existance
+if ( !function_exists('json_decode') ) 
+{
+	// This should load not only the class, but also json_encode / json_decode
+	Tienda::load('Services_JSON', 'library.json');
+}
+
 // Create the controller
 $classname = 'TiendaController'.$controller;
 $controller = Tienda::getClass( $classname );
