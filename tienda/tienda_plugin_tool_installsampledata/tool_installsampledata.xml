@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tool - Install Sample Data</name>
+	<version>0.6.0</version>
+	<creationDate>November 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This tool install sample data on Tienda</description>
+	
+	<files>
+		<filename plugin="tool_installsampledata">tool_installsampledata.php</filename>
+		<folder>tool_installsampledata</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_tool_installsampledata.ini</language>
+	</languages>
+
+	<params>
+	</params>
+			
+</install>
