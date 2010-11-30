@@ -892,7 +892,7 @@ window.addEvent('domready', function(){
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Display" ); ?></legend>
+            <legend><?php echo JText::_( "Template" ); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
@@ -903,6 +903,23 @@ window.addEvent('domready', function(){
                         <div class="note">
                             <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
                         </div>                        
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+        </div>
+        
+        <div style="float: right; width: 50%;">
+            <fieldset>
+            <legend><?php echo JText::_( "Post Purchase Article" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Select an Article to Display After Purchase' ); ?>:
+                    </td>
+                    <td>
+                        <?php echo $this->elementArticleModel->_fetchElement( 'product_article', @$row->product_article ); ?>
+                        <?php echo $this->elementArticleModel->_clearElement( 'product_article', 0 ); ?>
                     </td>
                 </tr>
             </table>

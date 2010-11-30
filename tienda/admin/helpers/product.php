@@ -520,11 +520,12 @@ class TiendaHelperProduct extends TiendaHelperBase
         $width_style = "";
         
         $dimensions = "";
-		if($options['width'])
+		if (!empty($options['width']))
 		{
 			$dimensions .= "width=\"".$options['width']."\" ";
 		}
-        if($options['height'])
+		
+        if (!empty($options['height']))
 		{
 			$dimensions .= "height=\"".$options['height']."\" ";
 		}

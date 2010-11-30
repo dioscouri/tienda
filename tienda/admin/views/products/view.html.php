@@ -66,6 +66,9 @@ class TiendaViewProducts extends TiendaViewBase
 		$shippingHtml = implode('<hr />', $results);
         
 		$this->assign('shippingHtml', $shippingHtml);
+		
+		$elementArticleModel = JModel::getInstance( 'ElementArticle', 'TiendaModel' );
+		$this->assign( 'elementArticleModel', $elementArticleModel );
 	}
 	
 	/**

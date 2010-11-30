@@ -2339,7 +2339,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     
 	/**
      * update the zonerelations table for the "zip_range" field
-     * As of v0.5.7
+     * As of v0.6.0
      * 
      * return boolean
      */
@@ -2428,7 +2428,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 
     /**
      * update the categories table for the "ordering" field
-     * As of v0.5.7
+     * As of v0.6.0
      * 
      * return boolean
      */
@@ -2454,6 +2454,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkCategoriesOrdering') );
             $config->config_name = 'checkCategoriesOrdering';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * update the products table for the "product_article" field
+     * As of v0.6.1
+     * 
+     * return boolean
+     */
+    function checkProductsArticle()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductsArticle', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_products';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "product_article";
+            $definitions["product_article"] = "INT(11) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductsArticle') );
+            $config->config_name = 'checkProductsArticle';
             $config->value = '1';
             $config->save();
             return true;
