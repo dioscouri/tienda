@@ -113,9 +113,6 @@ class TiendaHelperAmigos extends TiendaHelperBase
         $model->setId( $order_id );
         $order = $model->getItem();
         
-//        $order = JTable::getInstance( 'Orders', 'TiendaTable' );
-//        $order->load( array( 'order_id'=>$order_id ) );
-        
         $referral = $this->getReferralStatus($order->user_id);
         if (empty($order->user_id) || empty($referral))
         {
@@ -135,12 +132,28 @@ class TiendaHelperAmigos extends TiendaHelperBase
         {
             $config =& AmigosConfig::getInstance();
             $date =& JFactory::getDate();
-            // get the account
-            $account = JTable::getInstance('Accounts', 'Table');
+            
+            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            {
+                $account = JTable::getInstance('Accounts', 'Table');
+            } 
+                else
+            {
+                $account = JTable::getInstance('Accounts', 'AmigosTable');
+            }
+            
             $account->load( $referral->accountid );
             
             // get payout type and value
-            $payout = JTable::getInstance('Payouts', 'Table');
+            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            {
+                $payout = JTable::getInstance('Payouts', 'Table');
+            } 
+                else
+            {
+                $payout = JTable::getInstance('Payouts', 'AmigosTable');
+            }
+            
             $payout->load( $account->payoutid );
             $payout_type = $payout->payouttype ? $payout->payouttype : $config->get('default_payouttype', 'PPSP');
             $payout_value = $payout->value ? $payout->value : $config->get('default_payout_value', '10%');
@@ -168,7 +181,15 @@ class TiendaHelperAmigos extends TiendaHelperBase
             }
             
             // create commission record
-            $commission = JTable::getInstance('Commissions', 'Table');
+            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            {
+                $commission = JTable::getInstance('Commissions', 'Table');
+            } 
+                else
+            {
+                $commission = JTable::getInstance('Commissions', 'AmigosTable');
+            }
+            
             $commission->accountid          = $account->id;
             $commission->orderid            = $order_id;
             $commission->order_type         = 'com_tienda';
