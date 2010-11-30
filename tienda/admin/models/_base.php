@@ -332,6 +332,11 @@ class TiendaModelBase extends JModel
         $this->_buildQueryGroup($query);
         $this->_buildQueryHaving($query);
         $this->_buildQueryOrder($query);
+        
+        // Allow plugins to edit the query object
+        $suffix = ucfirst( $this->getName() );
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onAfterBuildQuery'.$suffix, array( &$query ) );
 
 		return $query;
     }
@@ -349,6 +354,11 @@ class TiendaModelBase extends JModel
         $this->_buildQueryWhere($query);
         $this->_buildQueryGroup($query);
         $this->_buildQueryHaving($query);
+        
+        // Allow plugins to edit the query object
+        $suffix = ucfirst( $this->getName() );
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onAfterBuildResultQuery'.$suffix, array( &$query ) );
 
         return $query;
     }
