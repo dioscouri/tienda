@@ -15,10 +15,10 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableEavAttributes extends TiendaTable
 {
-	function __construct($table, $key, $db)
+	function TiendaTableEavAttributes( &$db)
 	{
-		$tbl_key 	= 'address_id';
-		$tbl_suffix = 'addresses';
+		$tbl_key 	= 'eavattribute_id';
+		$tbl_suffix = 'eavattributes';
 		$this->set( '_suffix', $tbl_suffix );
 		$name 		= 'tienda';
 		

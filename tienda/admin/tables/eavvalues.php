@@ -69,7 +69,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::store( $updateNulls );
@@ -81,7 +81,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::load( $oid, $reset );
@@ -93,7 +93,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::save();
@@ -105,7 +105,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::reset();
@@ -117,7 +117,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::check();
@@ -129,7 +129,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::delete( $oid );
@@ -141,7 +141,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::move( $change, $where );
@@ -153,7 +153,7 @@ class TiendaTableEavValues extends TiendaTable
 		if(!$this->active)
 		{
 			// Activate it with a default value
-			$this->setState('');
+			$this->setType('');
 		}
 		
 		parent::bind( $from, $ignore );
