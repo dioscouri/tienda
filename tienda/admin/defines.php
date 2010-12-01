@@ -463,6 +463,7 @@ class TiendaConfig extends JObject
 	var $currency_postval				    = 'USD';
 	var $display_period					    = '1';
 	var $article_checkout                   = '';
+	var $autonotify_onSetOrderPaymentReceived = '0';
 
 	/**
 	 * constructor

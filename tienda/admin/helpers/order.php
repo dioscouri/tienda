@@ -42,11 +42,11 @@ class TiendaHelperOrder extends TiendaHelperBase
             return false;
         }
         
-        // email the user
+        // optionally email the user
         $row = JTable::getInstance('OrderHistory', 'TiendaTable');
         $row->order_id = $order_id;
         $row->order_state_id = $order->order_state_id;
-        $row->notify_customer = '1';
+        $row->notify_customer = TiendaConfig::getInstance()->get( 'autonotify_onSetOrderPaymentReceived', '0');
         $row->comments = JText::_( "Payment Received" );
         if (!$row->save())
         {

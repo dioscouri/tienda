@@ -552,6 +552,18 @@
                                 <?php echo JText::_( 'Article to Display After Successful Checkout Desc' ); ?>
                             </td>
                         </tr>
+                        
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Order Status Update Email to User When Order Payment is Received' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'autonotify_onSetOrderPaymentReceived', 'class="inputbox"', $this->row->get('autonotify_onSetOrderPaymentReceived', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
 
