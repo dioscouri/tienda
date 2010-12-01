@@ -117,8 +117,8 @@
                     </a>
                     <br/>
                     
-                    <?php if (!empty($item->attributes_names)) : ?>
-                        <?php echo $item->attributes_names; ?>
+                    <?php if (!empty($item->orderitem_attribute_names)) : ?>
+                        <?php echo $item->orderitem_attribute_names; ?>
                         <br/>
                     <?php endif; ?>
                     
