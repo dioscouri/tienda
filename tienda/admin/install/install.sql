@@ -276,6 +276,155 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 (239, 'Zimbabwe', 'ZW', 'ZWE');
 
 -- -----------------------------------------------------
+-- Table `#__tienda_eavattributes`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
+`eavattribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'Suffix of the Table we are extending',
+`eaventity_id` INT NOT NULL COMMENT  'PK of the entity we are extending',
+`eavattribute_type` VARCHAR( 255 ) NOT NULL COMMENT  'type of the variable (int, varchar, etc)',
+`enum_type` VARCHAR( 255 ) NOT NULL COMMENT  'If it is a list, what type of list',
+`is_multiple` BOOL NOT NULL COMMENT  'If it is a list, are multiple choices allowed?',
+`eavattribute_label` VARCHAR( 255 ) NOT NULL ,
+`ordering` INT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+`enabled` BOOL NOT NULL ,
+INDEX (  `eaventity_id` )
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavattributeoptions`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributeoptions` (
+`eavattributeoption_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL COMMENT  'FK to eavattributes',
+`eavattributeoption_label` VARCHAR( 255 ) NOT NULL ,
+`eavattributeoption_value` VARCHAR( 255 ) NOT NULL ,
+`ordering` INT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+`enabled` BOOL NOT NULL ,
+INDEX (  `eavattribute_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesvarchar`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesvarchar` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` VARCHAR( 255 ) NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesint`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesint` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` INT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluestext`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestext` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` TEXT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesdatetime`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdatetime` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` DATETIME NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesdecimal`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdecimal` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` DECIMAL( 10,2 ) NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
 -- Table `#__tienda_geozones`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_geozones` (
