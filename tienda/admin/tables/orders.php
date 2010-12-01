@@ -1006,16 +1006,32 @@ class TiendaTableOrders extends TiendaTable
      * 
      * @return unknown_type
      */
-    function setGeozones()
+    function setGeozones( $geozones=null, $type='billing' )
     {
-        Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
-        if (!empty($this->_billing_address))
-        { 
-            $this->_billing_geozones = TiendaHelperShipping::getGeoZones( $this->_billing_address->zone_id, '1', $this->_billing_address->postal_code  ); 
-        }
-        if (!empty($this->_shipping_address))
+        if (!empty($geozones))
         {
-            $this->_shipping_geozones = TiendaHelperShipping::getGeoZones( $this->_shipping_address->zone_id, '2', $this->_shipping_address->postal_code );   
+            switch ($type)
+            {
+                case "shipping":
+                    $this->_shipping_geozones = $geozones;
+                    break;
+                case "billing":
+                default:
+                     $this->_billing_geozones = $geozones;
+                    break;
+            }
+        }
+            else
+        {
+            Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+            if (!empty($this->_billing_address))
+            { 
+                $this->_billing_geozones = TiendaHelperShipping::getGeoZones( $this->_billing_address->zone_id, '1', $this->_billing_address->postal_code  ); 
+            }
+            if (!empty($this->_shipping_address))
+            {
+                $this->_shipping_geozones = TiendaHelperShipping::getGeoZones( $this->_shipping_address->zone_id, '2', $this->_shipping_address->postal_code );   
+            }            
         }
     }
     

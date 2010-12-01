@@ -37,7 +37,6 @@ Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 $items = TiendaHelperCarts::getProductsInfo();
 $num = count($items);
 
-
 // Convert the cart to a "fake" order, to show totals and others things
 JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 $orderTable = &JTable::getInstance('Orders', 'TiendaTable');
@@ -45,6 +44,24 @@ foreach($items as $item)
 {
     $orderTable->addItem($item);
 }
+
+Tienda::load( 'TiendaConfig', 'defines' );
+$config = TiendaConfig::getInstance();
+$show_tax = $config->get('display_prices_with_tax');
+if ($show_tax)
+{
+    Tienda::load('TiendaHelperUser', 'helpers.user');
+    $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+    if (empty($geozones))
+    {
+        // use the default
+        $table = JTable::getInstance('Geozones', 'TiendaTable');
+        $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+        $geozones = array( $table );
+    }
+    $orderTable->setGeozones( $geozones );
+}
+
 // order calculation can happen after all items are added to order object
 $orderTable->calculateTotals();
 

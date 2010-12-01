@@ -99,7 +99,34 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'checkout_itemid', $checkout_itemid );
         
         //get cartitem information from plugins
-        $list = $model->getList();
+        $list =& $model->getList();
+        
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        $view->assign( 'show_tax', $show_tax );
+        $view->assign( 'using_default_geozone', false );
+
+        if ($show_tax)
+        {
+            Tienda::load('TiendaHelperUser', 'helpers.user');
+            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+            if (empty($geozones))
+            {
+                // use the default
+                $view->assign( 'using_default_geozone', true );
+                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                $geozones = array( $table );
+            }
+            
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            foreach ($list as &$item)
+            {
+                $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+                $item->product_price = $item->product_price + $taxtotal->tax_total;
+                $item->taxtotal = $taxtotal;
+            }
+        }
         
         if (!empty($list))
         {

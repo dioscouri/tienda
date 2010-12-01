@@ -33,8 +33,36 @@ class modTiendaCartHelper
             $model->setState('filter_session', $session->getId() );
         }
     	
-    	$cart = $model->getList();
-    	return $cart;
+    	$list = $model->getList();
+    	
+    	Tienda::load( 'TiendaConfig', 'defines' );
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        $this->using_default_geozone = false;
+        
+        if ($show_tax)
+        {
+            Tienda::load('TiendaHelperUser', 'helpers.user');
+            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+            if (empty($geozones))
+            {
+                // use the default
+                $this->using_default_geozone = true;
+                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                $geozones = array( $table );
+            }
+            
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            foreach ($list as &$item)
+            {
+                $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+                $item->product_price = $item->product_price + $taxtotal->tax_total;
+                $item->taxtotal = $taxtotal;
+            }
+        }
+    	
+    	return $list;
     }
 }
 ?>
