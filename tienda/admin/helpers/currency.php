@@ -232,9 +232,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
                 return;                
             }
         }
-        
-        echo '<h5>'.(float) $exchange_rate * 1.0.'</h5>';
-        
+             
         return (float) $exchange_rate * 1.0;
     }
 
