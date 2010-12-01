@@ -56,7 +56,8 @@ class plgUserTienda extends JPlugin
         }
 
         TiendaHelperCarts::cleanCart();
-        $this->_isInGroup();
+        
+        $this->checkUserGroup();
 
        return true;
     }
@@ -78,26 +79,28 @@ class plgUserTienda extends JPlugin
         return $success;
     }
     
-    /*
-     * check where user belongs to a group or not in case not then It will create the entry in the mapping tbl
+    /**
+     * check whether user belongs to a group or not 
+     * in case not then add them to the default group
      *
      * @return unknown type
      */
-    
-    function _isInGroup(){
-    	 
-         $user = JFactory::getUser();
-         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		 $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
-		 $user_groups->load(array('user_id'=>$user->id));
-		 
-		 if($user_groups->groupid == null){
-		 	$user_groups->group_id = TiendaConfig::getInstance()->get('default_user_group', '1'); ; // If there is no user selected then it will consider as default user group 
-		 	$user_groups->user_id = $user->id;
-		 	if(!$user_groups->save()){
-		 		// TODO if data does not save in the mapping table 
-		 	}
-		 }
-       }
+    function checkUserGroup()
+    {
+        $user = JFactory::getUser();
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
+        $user_groups->load(array('user_id'=>$user->id));
+        
+        if (empty($user_groups->groupid))
+        {
+            $user_groups->group_id = TiendaConfig::getInstance()->get('default_user_group', '1'); ; // If there is no user selected then it will consider as default user group 
+            $user_groups->user_id = $user->id;
+            if (!$user_groups->save())
+            {
+            	// TODO if data does not save in the mapping table, what to do? 
+            }
+        }
+    }
 }
 ?>
