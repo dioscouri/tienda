@@ -310,7 +310,7 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributeoptions` (
 `modified_date` DATETIME NOT NULL ,
 `enabled` BOOL NOT NULL ,
 INDEX (  `eavattribute_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavattributeoptions_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE
@@ -331,11 +331,11 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesvarchar` (
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
 INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavvaluesvarchar_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
 ) ENGINE = INNODB 
 DEFAULT CHARACTER SET = utf8 
 COLLATE = utf8_general_ci;
@@ -352,11 +352,11 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesint` (
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
 INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavvaluesint_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE
 ) ENGINE = INNODB 
 DEFAULT CHARACTER SET = utf8 
 COLLATE = utf8_general_ci;
@@ -373,7 +373,7 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestext` (
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
 INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavvaluestext_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE
@@ -394,7 +394,7 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdatetime` (
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
 INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavvaluesdatetime_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE
@@ -415,7 +415,7 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdecimal` (
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
 INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-CONSTRAINT `fk_eavattribute`
+CONSTRAINT `fk_eavvaluesdecimal_eavattribute`
     FOREIGN KEY (`eavattribute_id` )
     REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
     ON DELETE CASCADE

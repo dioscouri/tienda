@@ -25,10 +25,6 @@
        <url>index.php?option=com_tienda&#38;view=localization</url>
    </link>
    <link>
-       <name>Custom Fields</name>
-       <url>index.php?option=com_tienda&#38;view=eavattributes</url>
-   </link>
-   <link>
        <name>Tools and Reports</name>
        <url>index.php?option=com_tienda&#38;view=reports</url>
    </link>

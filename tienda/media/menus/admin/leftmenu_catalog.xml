@@ -16,4 +16,8 @@
         <name>Reviews And Ratings</name>
         <url>index.php?option=com_tienda&#38;view=productcomments</url>
    </link>
+   <link>
+       <name>Custom Fields</name>
+       <url>index.php?option=com_tienda&#38;view=eavattributes</url>
+   </link>
 </menu>
