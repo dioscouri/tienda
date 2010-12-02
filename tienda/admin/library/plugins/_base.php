@@ -30,14 +30,51 @@ class TiendaPluginBase extends JPlugin
      * (we have custom language file for that)
      * @see JPlugin::loadLanguage()
      */
-	function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	function loadLanguage($extension = '', $basePath = JPATH_BASE, $overwrite = false)
 	{
-		if(empty($extension)) {
+		if(empty($extension)) 
+		{
 			$extension = 'plg_'.$this->_type.'_'.$this->_name;
 		}
 
-		$lang =& JFactory::getLanguage();
-		return $lang->_load( strtolower($extension), $basePath, false);
+		$language =& JFactory::getLanguage();
+		$lang = $lang->_lang;
+
+		$path = JLanguage::getLanguagePath( $basePath, $lang);
+
+		if ( !strlen( $extension ) ) {
+			$extension = 'joomla';
+		}
+		
+		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
+		$filename = $path.DS.$filename.'.ini';
+
+		$result = false;
+		if (isset( $language->_paths[$extension][$filename] ))
+		{
+			// Strings for this file have already been loaded
+			$result = true;
+		}
+		else
+		{
+			// Load the language file
+			$result = $language->_load( $filename, $extension, $overwrite );
+
+			// Check if there was a problem with loading the file
+			if ( $result === false )
+			{
+				// No strings, which probably means that the language file does not exist
+				$path		= JLanguage::getLanguagePath( $basePath, $language->_default);
+				$filename	= ( $extension == 'joomla' ) ?  $language->_default : $language->_default . '.' . $extension ;
+				$filename	= $path.DS.$filename.'.ini';
+
+				$result = $language->_load( $filename, $extension, $overwrite );
+			}
+
+		}
+
+		return $result;
+		
 	}
     
     /**
