@@ -457,15 +457,14 @@ class TiendaConfig extends JObject
     var $default_user_group			 	    = '1';
     var $subcategories_per_line				= '5';
     var $custom_language_file				= '0';
-    
-    // Email Settings
     var $disable_guest_signup_email         = '0';
     var $currency_preval				    = '$';
 	var $currency_postval				    = 'USD';
 	var $display_period					    = '1';
 	var $article_checkout                   = '';
 	var $autonotify_onSetOrderPaymentReceived = '0';
-
+    var $display_category_cartbuttons       = '1';
+	
 	/**
 	 * constructor
 	 * @return void

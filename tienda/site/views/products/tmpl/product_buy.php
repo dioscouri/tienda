@@ -21,12 +21,12 @@ $formName = 'adminForm_'.$item->product_id;
             {
                 if ($this->show_tax == '2')
                 {
-                    echo TiendaHelperBase::currency($item->price + $this->tax);
+                    echo TiendaHelperBase::currency($item->price + $item->tax);
                 }
                     else
                 {
                     echo TiendaHelperBase::currency($item->price);
-                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($this->tax));
+                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($item->tax));
                 }
             }
                 else
@@ -52,6 +52,8 @@ $formName = 'adminForm_'.$item->product_id;
         <del><?php echo TiendaHelperBase::currency($item->product_listprice); ?></del>
         </div>                                
     <?php endif; ?>
+    
+    <?php if (!empty($this->display_cartbutton)) : ?>
     
     <!--attribute options-->
     <div id='product_attributeoptions_<?php echo $item->product_id; ?>' class="product_attributeoptions">
@@ -149,6 +151,8 @@ $formName = 'adminForm_'.$item->product_id;
         <div id='out_of_stock_<?php echo $item->product_id; ?>' class="out_of_stock"> 
           <?php echo JText::_("OUT_OF_STOCK"); ?> 
         </div>
+    <?php endif; ?>
+    
     <?php endif; ?>
     
     </form>

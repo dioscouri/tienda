@@ -676,6 +676,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Add to Cart Button in Category Listings' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_category_cartbuttons', 'class="inputbox"', $this->row->get('display_category_cartbuttons', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Select Cart Button Type' ); ?>
                             </th>
                             <td>

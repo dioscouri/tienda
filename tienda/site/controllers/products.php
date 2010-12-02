@@ -174,6 +174,7 @@ class TiendaControllerProducts extends TiendaController
 		// get the products to be displayed in this category
 		if ($items =& $model->getList())
 		{
+		    $this->display_cartbutton = TiendaConfig::getInstance()->get('display_category_cartbuttons', '1');
 		    foreach ($items as $item)
 		    {
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
@@ -218,6 +219,8 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function view()
 	{
+	    $this->display_cartbutton = true;
+	    
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$model  = $this->getModel( $this->get('suffix') );
 		$model->getId();
@@ -367,7 +370,6 @@ class TiendaControllerProducts extends TiendaController
         $view->set( 'hidemenu', true);
         $view->setModel( $model, true );
         $view->setLayout( 'product_buy' );        
-        $view->assign( 'item', $row );
         $view->assign('product_id', $product_id);
         $view->assign('values', $values);
         $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category', (int) @$values['filter_category'] ));
@@ -396,6 +398,10 @@ class TiendaControllerProducts extends TiendaController
             
             $taxtotal = TiendaHelperProduct::getTaxTotal($product_id, $geozones);
             $tax = $taxtotal->tax_total;
+            $row->taxtotal = $taxtotal;
+            $row->tax = $tax;
+            // @v0.6.1, we're leaving these here for 2 more versions, so as not to break existing templates
+            // @v0.8.0, these are gone
             $view->assign( 'taxtotal', $taxtotal );
             $view->assign( 'tax', $tax );
         }
@@ -470,12 +476,13 @@ class TiendaControllerProducts extends TiendaController
                     $row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
                 }
                 $row->sku .=  $table->productattributeoption_code;
-            }  
-            $view->assign( 'item', $row );
+            }
         }
         
+        $view->assign( 'display_cartbutton', $this->display_cartbutton );
         $view->assign( 'availableQuantity', $availableQuantity );
         $view->assign( 'invalidQuantity', $invalidQuantity );
+        $view->assign( 'item', $row );
         
         $dispatcher =& JDispatcher::getInstance();
         
@@ -493,7 +500,10 @@ class TiendaControllerProducts extends TiendaController
     }
 
     /**
+     * Used whenever an attribute selection is changed,
+     * to update the price and/or attribute selectlists
      * 
+     * @return unknown_type
      */
     function updateAddToCart()
     {
@@ -509,6 +519,7 @@ class TiendaControllerProducts extends TiendaController
         $values = TiendaHelperBase::elementsToArray( $elements );
         
         // now get the summary
+        $this->display_cartbutton = true;
         $html = $this->getAddToCart( $values['product_id'], $values );
         
         $response['msg'] = $html;
