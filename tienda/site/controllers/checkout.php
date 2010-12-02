@@ -384,8 +384,40 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'order', $order );
 		$orderitems = $order->getItems();
-		$view->assign( 'orderitems', $orderitems );
-
+        foreach ($orderitems as &$item)
+        {
+            $item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
+        }
+		
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        $view->assign( 'show_tax', $show_tax );
+        $view->assign( 'using_default_geozone', false );
+        
+	    if ($show_tax)
+        {
+            $geozones = $order->getBillingGeoZones();
+            if (empty($geozones))
+            {
+                // use the default
+                $view->assign( 'using_default_geozone', true );
+                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+                $geozones = array( $table );
+            }
+            
+            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            foreach ($orderitems as &$item)
+            {
+                $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+                $item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal->tax_total;
+                $item->orderitem_final_price = $item->price * $item->orderitem_quantity;
+                $item->taxtotal = $taxtotal;
+                $order->order_subtotal += ($taxtotal->tax_total * $item->orderitem_quantity);
+            }
+        }
+        $view->assign( 'orderitems', $orderitems );
+		
 		// Checking whether shipping is required
 		$showShipping = false;
 		$cartsModel = $this->getModel('carts');

@@ -51,8 +51,7 @@ $items = @$this->orderitems;
                             <?php endif; ?>    
                         <?php else : ?>
                             <?php echo JText::_( "Price" ); ?>:
-                            <?php $price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ); ?> 
-                            <?php echo TiendaHelperBase::currency($price); ?>                         
+                            <?php echo TiendaHelperBase::currency($item->price); ?>                         
                         <?php endif; ?> 
                         
 					    <?php if (!empty($this->onDisplayOrderItem) && (!empty($this->onDisplayOrderItem[$i]))) : ?>
