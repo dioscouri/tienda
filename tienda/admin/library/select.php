@@ -788,9 +788,10 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "Remain on Product Page" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_( "Redirect to Product Page" ) );
         // $list[] = JHTML::_('select.option',  'lightbox', JText::_( "Display Minicart in Lightbox" ) );
         $list[] = JHTML::_('select.option',  'redirect', JText::_( "Redirect to Cart" ) );
+        $list[] = JHTML::_('select.option',  'samepage', JText::_( "Return on the same page" ) );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

@@ -1114,6 +1114,13 @@ class TiendaControllerProducts extends TiendaController
             case "none":
                 // redirects back to product page
                 break;
+            case "samepage":
+                // redirects back to the page it came from (category, content, etc)
+                // Take only the url without the base domain (index.php?option.....)
+                $uri = JURI::getInstance();
+                $redirect = $uri->toString( array('path', 'query', 'fragment') );
+                $redirect = JRoute::_( $redirect, false );
+                break;
             case "lightbox":
             case "redirect":
             default:
