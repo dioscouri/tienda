@@ -32,11 +32,6 @@ class TiendaTableEavAttributes extends TiendaTable
             $this->setError( JText::_( "Entity Type Required" ) );
             return false;
         }
-        if (empty($this->eaventity_id))
-        {
-            $this->setError( JText::_( "Entity Id Required" ) );
-            return false;
-        }
     	if (empty($this->eavattribute_type))
         {
             $this->setError( JText::_( "Type Required" ) );

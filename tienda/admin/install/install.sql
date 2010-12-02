@@ -282,16 +282,34 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
 `eavattribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'Suffix of the Table we are extending',
-`eaventity_id` INT NOT NULL COMMENT  'PK of the entity we are extending',
 `eavattribute_type` VARCHAR( 255 ) NOT NULL COMMENT  'type of the variable (int, varchar, etc)',
 `enum_type` VARCHAR( 255 ) NOT NULL COMMENT  'If it is a list, what type of list',
 `is_multiple` BOOL NOT NULL COMMENT  'If it is a list, are multiple choices allowed?',
 `eavattribute_label` VARCHAR( 255 ) NOT NULL ,
+`eavattribute_alias` VARCHAR( 255 ) NOT NULL ,
 `ordering` INT NOT NULL ,
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
-`enabled` BOOL NOT NULL ,
-INDEX (  `eaventity_id` )
+`enabled` BOOL NOT NULL 
+) ENGINE = INNODB 
+DEFAULT CHARACTER SET = utf8 
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavattributeentityxref`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributeentityxref` (
+`eavattribute_id` INT NOT NULL,
+`eaventity_id` INT NOT NULL,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'For example: if eavattribute is for products, this could be product, category, etc',
+  INDEX `fk_EavAttribute_EavAttributes` (`eavattribute_id` ASC) ,
+  INDEX `fk_entity_entities` (`eaventity_id` ASC) ,
+  CONSTRAINT `fk_EavAttribute_EavAttributes`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE = INNODB 
 DEFAULT CHARACTER SET = utf8 
 COLLATE = utf8_general_ci;

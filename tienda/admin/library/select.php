@@ -944,4 +944,50 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+	/**
+    * Generates an entity type list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function entitytype( $selected, $name = 'filter_entitytype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'products', JText::_( "Products" ) );
+        $list[] = JHTML::_('select.option',  'addresses', JText::_( "Addresses" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
+	/**
+    * Generates a data type list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function attributetype( $selected, $name = 'filter_attributetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'int', JText::_( "Int" ) );
+        $list[] = JHTML::_('select.option',  'varchar', JText::_( "String" ) );
+        $list[] = JHTML::_('select.option',  'text', JText::_( "Textarea" ) );
+        $list[] = JHTML::_('select.option',  'decimal', JText::_( "Decimal" ) );
+        $list[] = JHTML::_('select.option',  'datetime', JText::_( "Date / Time" ) );
+        $list[] = JHTML::_('select.option',  'bool', JText::_( "Boolean" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

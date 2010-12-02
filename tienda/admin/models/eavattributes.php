@@ -22,6 +22,7 @@ class TiendaModelEavAttributes extends TiendaModelBase
         $filter_id_to   = $this->getState('filter_id_to');
         $filter_name    = $this->getState('filter_name');
         $filter_enabled  = $this->getState('filter_enabled');
+        $filter_entitytype  = $this->getState('filter_entitytype');
        	
        	if ($filter) 
        	{
@@ -52,6 +53,11 @@ class TiendaModelEavAttributes extends TiendaModelBase
             $where = array();
             $where[] = 'LOWER(tbl.eavattribute_label) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
+        }
+    	if ($filter_entitytype) 
+        {
+            $key    = $this->_db->Quote($this->_db->getEscaped( trim( strtolower( $filter_entitytype ) ) ));
+            $query->where('LOWER(tbl.eaventity_type) LIKE '.$key);
         }
         if (strlen($filter_enabled))
         {

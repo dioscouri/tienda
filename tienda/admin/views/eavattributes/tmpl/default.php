@@ -35,6 +35,9 @@
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Label', "tbl.eavattribute_label", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="text-align: left;">
+                	<?php echo TiendaGrid::sort( 'Label', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
                     <?php echo JHTML::_('grid.order', @$items ); ?>
@@ -57,6 +60,9 @@
                 </th>
                 <th style="text-align: left;">
                     <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                </th>
+                <th style="text-align: left;">
+                    <?php echo TiendaSelect::entitytype(@$state->filter_entitytype, 'filter_entitytype', $attribs, 'filter_entitytype', true); ?>
                 </th>
                 <th>
                     
@@ -100,12 +106,15 @@
 						<?php echo JText::_($item->eavattribute_label); ?>
 					</a>
 				</td>
+				<td style="text-align: left;">
+						<?php echo JText::_($item->eaventity_type); ?>
+				</td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::order($item->eavattribute_id); ?>
                     <?php echo TiendaGrid::ordering($item->eavattribute_id, $item->ordering ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo TiendaGrid::enable($item->eavattribute_enabled, $i, 'eavattribute_enabled.' ); ?>
+                    <?php echo TiendaGrid::enable($item->enabled, $i, 'enabled.' ); ?>
                 </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

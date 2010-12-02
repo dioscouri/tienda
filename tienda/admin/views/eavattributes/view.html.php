@@ -34,7 +34,7 @@ class TiendaViewEavAttributes extends TiendaViewBase
               break;
             case "default":
             default:
-                $this->set( 'leftMenu', 'leftmenu_catalog' );
+                $this->set( 'leftMenu', 'leftmenu_customfields' );
                 $this->_default($tpl);
               break;
         }

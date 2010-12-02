@@ -21,8 +21,8 @@ class TiendaControllerEavAttributes extends TiendaController
 		parent::__construct();
 		
 		$this->set('suffix', 'EavAttributes');
-        $this->registerTask( 'eavattribute_enabled.enable', 'boolean' );
-        $this->registerTask( 'eavattribute_enabled.disable', 'boolean' );
+        $this->registerTask( 'enabled.enable', 'boolean' );
+        $this->registerTask( 'enabled.disable', 'boolean' );
 	}
 
     /**
@@ -40,6 +40,7 @@ class TiendaControllerEavAttributes extends TiendaController
         $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_entitytype']         = $app->getUserStateFromRequest($ns.'entitytype', 'filter_entitytype', '', '');
         
         foreach (@$state as $key=>$value)
         {
