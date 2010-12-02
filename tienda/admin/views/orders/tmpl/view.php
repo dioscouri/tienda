@@ -3,8 +3,8 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 <?php $order = @$this->order; ?>
+<?php $items = @$order->getItems(); ?>
 <?php $surrounding = @$this->surrounding; ?>
-<?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
@@ -291,7 +291,7 @@
                 <?php echo JText::_( "Subtotal" ); ?>
                 </th>
                 <th style="text-align: right;">
-                <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
+                <?php echo TiendaHelperBase::currency($order->order_subtotal, $row->currency); ?>
                 </th>
             </tr>
             
@@ -328,7 +328,10 @@
                 ?>
                 <tr>
                     <th colspan="2" style="text-align: right;">
-                    <?php echo JText::_( "Tax" ); ?>
+                    <?php
+                    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included"); } 
+                    else { echo JText::_("Product Tax"); }
+                    ?>
                     </th>
                     <th style="text-align: right;">
                     <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>

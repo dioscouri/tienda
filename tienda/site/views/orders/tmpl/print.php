@@ -6,7 +6,8 @@
 <?php $row = @$this->row; ?>
 <?php $shop_info = @$this->shop_info; ?>
 <?php $surrounding = @$this->surrounding; ?>
-<?php $items = @$row->orderitems ? @$row->orderitems : array(); ?>
+<?php $order = @$this->order; ?>
+<?php $items = @$order->getItems(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
 
@@ -176,7 +177,7 @@
             <?php echo JText::_( "Subtotal" ); ?>
             </th>
             <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_subtotal, $row->currency); ?>
+            <?php echo TiendaHelperBase::currency($order->order_subtotal, $row->currency); ?>
             </th>
         </tr>
         
@@ -213,7 +214,10 @@
             ?>
             <tr>
                 <th colspan="2" style="text-align: right;">
-                <?php echo JText::_( "Tax" ); ?>
+                    <?php
+                    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included"); } 
+                    else { echo JText::_("Product Tax"); }
+                    ?>
                 </th>
                 <th style="text-align: right;">
                 <?php echo TiendaHelperBase::currency($row->order_tax, $row->currency); ?>

@@ -116,7 +116,8 @@ $items = @$this->orderitems;
                     	}
                     	    else
                     	{
-                    	    echo JText::_("Product Tax").":<br>";    
+                    	    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; } 
+                    	    else { echo JText::_("Product Tax").":<br>"; }    
                     	}
    						
                     	if (!empty($this->showShipping))
