@@ -98,24 +98,21 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		$user = JFactory::getUser();
 		JRequest::setVar( 'view', $this->get('suffix') );
-		$guest = JRequest::getVar( 'guest', '0' );
-		if($guest == '1')
-		$guest = true;
-		else
+		
+		$guest_var = JRequest::getInt( 'guest', '0' );
 		$guest = false;
+		if ($guest_var == '1')
+		{
+		    $guest = true;
+		}
 
-		$register = JRequest::getVar( 'register', '0' );
+		$register_var = JRequest::getInt( 'register', '0' );
         $form_register = '';
-        
-		if ($register == '1')
+        $register = false;
+		if ($register_var == '1')
 		{
             $register = true;
-            // get form_register layout
             $form_register = $this->getRegisterForm();    
-		}
-		else
-		{
-		    $register = false;
 		}
 		
 		// determine layout based on login status
@@ -407,6 +404,7 @@ class TiendaControllerCheckout extends TiendaController
             }
             
             Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+            $tax_sum = 0;
             foreach ($orderitems as &$item)
             {
                 $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
@@ -414,6 +412,13 @@ class TiendaControllerCheckout extends TiendaController
                 $item->orderitem_final_price = $item->price * $item->orderitem_quantity;
                 $item->taxtotal = $taxtotal;
                 $order->order_subtotal += ($taxtotal->tax_total * $item->orderitem_quantity);
+                $tax_sum += ($taxtotal->tax_total * $item->orderitem_quantity);
+            }
+            
+            if (empty($order->user_id))
+            {
+                $order->order_total += $tax_sum;
+                $order->order_tax += $tax_sum;
             }
         }
         $view->assign( 'orderitems', $orderitems );
