@@ -89,7 +89,7 @@ $formName = 'adminForm_'.$item->product_id;
         <input type="text" name="product_qty" value="1" size="5" />
     </div>
  
-    <!-- Add to cart button ---> 
+    <!-- Add to cart button --> 
     <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
         <input type="hidden" name="filter_category" value="<?php echo $this->filter_category; ?>" />
