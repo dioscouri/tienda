@@ -990,6 +990,17 @@
                                 &nbsp;
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Load Custom Language File?' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'custom_language_file', 'class="inputbox"', $this->row->get('custom_language_file', '0') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'TIENDA CUSTOM LANGUAGE FILE DESC'); ?>
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

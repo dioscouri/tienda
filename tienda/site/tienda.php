@@ -24,6 +24,15 @@ $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
 // Require the base controller
 Tienda::load( 'TiendaController', 'controller', $options );
 
+// Load Custom Language File if needed (com_tienda_custom)
+if(TiendaConfig::getInstance()->get('custom_language_file', '0'))
+{
+	$lang =& JFactory::getLanguage();
+	$extension = 'com_tienda_custom';
+	$base_dir = JPATH_SITE;
+	$lang->load($extension, $base_dir, null, true);
+}
+
 // Require specific controller if requested
 $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
 if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller", $options ))

@@ -456,6 +456,7 @@ class TiendaConfig extends JObject
     var $multiple_usercoupons_enabled       = '0';
     var $default_user_group			 	    = '1';
     var $subcategories_per_line				= '5';
+    var $custom_language_file				= '0';
     
     // Email Settings
     var $disable_guest_signup_email         = '0';

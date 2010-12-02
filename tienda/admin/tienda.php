@@ -18,6 +18,15 @@ if ( !class_exists('Tienda') )
 // load the config class
 Tienda::load( 'TiendaConfig', 'defines' );
 
+// Load Custom Language File if needed (com_tienda_custom)
+if(TiendaConfig::getInstance()->get('custom_language_file', '0'))
+{
+	$lang =& JFactory::getLanguage();
+	$extension = 'com_tienda_custom';
+	$base_dir = JPATH_ADMINISTRATOR;
+	$lang->load($extension, $base_dir, null, true);
+}
+
 // before executing any tasks, check the integrity of the installation
 Tienda::getClass( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInstallation();
 
