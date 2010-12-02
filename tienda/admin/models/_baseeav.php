@@ -21,15 +21,15 @@ class TiendaModelEav extends TiendaModelBase
 		if (array_key_exists('state', $config))  
 		{
 			// Search for eav special states
-			if (!array_key_exists('_eav', $config['state']))  
+			if (!property_exists($config['state'], '_eav'))  
 			{
-				$config['state']['_eav'] = new JObject();
+				$config['state']->_eav = new JObject();
 			}
 		}
 		else
 		{
 			// Add the _eav state
-			$config['state']['_eav'] = new JObject();
+			$config['state']->_eav = new JObject();
 		}
         parent::__construct($config);
     }
@@ -49,9 +49,10 @@ class TiendaModelEav extends TiendaModelBase
      * Gets a Eav special state
      * @param $property
      */
-    public function getEavState($property = null)
+    public function getEavState($property = null, $default=null, $return_type='default' )
     {
-    	return $property === null ? $this->getState('_eav') : $this->getState('_eav')->get($property);
+    	$return = $property === null ? $this->_state->_eav : $this->_state->_eav->get($property, $default);
+    	return $this->_filterinput->clean( $return, $return_type );
     }
     
     public function getItem( $emptyState = true, $getEav = true )
@@ -64,7 +65,6 @@ class TiendaModelEav extends TiendaModelBase
                 return $item;
             }
 	
-            // load extra fields?
 	    	if($getEav)
 	    	{
 	    		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
