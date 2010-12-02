@@ -38,7 +38,7 @@ class TiendaPluginBase extends JPlugin
 		}
 
 		$language =& JFactory::getLanguage();
-		$lang = $lang->_lang;
+		$lang = $language->_lang;
 
 		$path = JLanguage::getLanguagePath( $basePath, $lang);
 
