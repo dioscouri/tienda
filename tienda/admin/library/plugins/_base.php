@@ -26,6 +26,21 @@ class TiendaPluginBase extends JPlugin
     var $_element    = '';
     
     /**
+     * Override this to avoid overwriting of other constants
+     * (we have custom language file for that)
+     * @see JPlugin::loadLanguage()
+     */
+	function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	{
+		if(empty($extension)) {
+			$extension = 'plg_'.$this->_type.'_'.$this->_name;
+		}
+
+		$lang =& JFactory::getLanguage();
+		return $lang->_load( strtolower($extension), $basePath, false);
+	}
+    
+    /**
      * Checks to make sure that this plugin is the one being triggered by the extension
      *
      * @access public
