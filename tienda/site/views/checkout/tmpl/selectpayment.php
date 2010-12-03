@@ -121,41 +121,23 @@
                 <?php        
                     if ($this->plugins) 
                     {                          	                  	
-                    	$checkInputPlg = '';
-                    	if(count($this->plugins) == 1)
-                    	{
-                    		$checkInputPlg = "checked";
-                    		$values = JRequest::get('post');  
-                    		$dispatcher    =& JDispatcher::getInstance();                       	            		
-                    	}               
-           				
                         foreach ($this->plugins as $plugin) 
                         {
                             ?>
-                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo $checkInputPlg;?> />
+                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
                             <?php echo JText::_( $plugin->name ); ?>
                             <br/>
                             <?php
-                            if(count($this->plugins) == 1)
-                            {                            	
-                            	 $results = $dispatcher->trigger( "onGetPaymentForm", array( $plugin->element, $values) );
-                            }
-                           
                         }                   
-                ?>              
+                        ?>
+                                      
 		                <div id='payment_form_div' style="padding-top: 10px;">
-		                <?php 		         
-		                if(isset($results))
+		                <?php
+		                if (!empty($this->payment_form_div))
 		                {
-			                for ($i=0; $i<count($results); $i++)
-							{
-								$result = $results[$i];
-								$text .= $result;
-							}		                	
-		                	
-		                	echo $text;
-		                }		                
-		                ?>		                
+		                	echo $this->payment_form_div;
+		                }
+		                ?>
 		                </div>
 	                <?php 
                      }

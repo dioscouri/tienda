@@ -1492,6 +1492,15 @@ class TiendaControllerCheckout extends TiendaController
 		// get all the enabled payment plugins
 		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 		$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
+        if (count($plugins) == 1)
+        {
+            $plugins[0]->checked = true;
+            ob_start();
+            $this->getPaymentForm( $plugins[0]->element );
+            $html = json_decode( ob_get_contents() );
+            ob_end_clean();
+            $view->assign( 'payment_form_div', $html->msg );                                               
+        }               
 		$view->assign('plugins', $plugins);
 
 		$dispatcher =& JDispatcher::getInstance();
@@ -1517,7 +1526,7 @@ class TiendaControllerCheckout extends TiendaController
 	 *
 	 * @return unknown_type
 	 */
-	function getPaymentForm()
+	function getPaymentForm( $element='' )
 	{
 		// Use AJAX to show plugins that are available
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
@@ -1525,7 +1534,7 @@ class TiendaControllerCheckout extends TiendaController
 		$html = '';
 		$text = "";
 		$user = JFactory::getUser();
-		$element = JRequest::getVar( 'payment_element' );
+		if (empty($element)) { $element = JRequest::getVar( 'payment_element' ); }
 		$results = array();
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onGetPaymentForm", array( $element, $values ) );
