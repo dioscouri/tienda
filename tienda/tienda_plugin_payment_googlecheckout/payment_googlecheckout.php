@@ -62,7 +62,6 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	{
 		$vars = new JObject();
 		$vars->message = $message;
-
 		$html = $this->_getLayout('message', $vars);
 
 		return $html;
@@ -109,7 +108,9 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$vars->button_url = $this->_getPostUrl(false);
 		$vars->note = JText::_( 'GoogleCheckout Note Default' );
 		$uri =& JFactory::getURI();
+
 		$url = $uri->toString(array('path', 'query', 'fragment'));
+
 		$vars->r = base64_encode($url);
 
 		// Include all the required files
@@ -117,6 +118,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleitem.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleshipping.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googletax.php";
+		//require_once dirname(__FILE__) . "/{$this->_element}/library/googlemerchantcalculations.php";
 	
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
 		$totalTax=0;
@@ -155,24 +157,43 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
 			$cart->AddItem($item_temp);
 			$totalTax=$totalTax+$itemObject->orderitem_tax;
-		}
-
+		}	
+	
+		
+		$testURL = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_element}&paction=process&tmpl=component");
+		// Add merchant calculations options
+   		 $cart->SetMerchantCalculations(
+        $testURL, // merchant-calculations-url
+        "true", // merchant-calculated tax
+        "false", // accept-merchant-coupons
+        "false"); // accept-merchant-gift-certificates
+		
+		
+		
 		if ( !empty($data['shipping_plugin'] ) && ( $data['shipping_price'] > 0 || $data['shipping_extra'] > 0 ) )
 		{
 	 	// Add shipping
 			$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price'] + $data['shipping_extra']); // shipping name and Price as an argument
 			$cart->AddShipping($shipTemp);
 		}
-		
+	
 		
 		$checkout_return_url = JURI::root() ."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
 		$cart->SetContinueShoppingUrl($checkout_return_url);
 
+		 // Set default tax options
+	    $tax_rule = new GoogleDefaultTaxRule(0.15);
+	    $tax_rule->SetWorldArea(true);
+	    $cart->AddDefaultTaxRules($tax_rule);
+	    	
+	    $cart->AddRoundingPolicy("UP", "TOTAL");	
+		
 		// set oredr id and the Data
 		$mcprivatedata= new MerchantPrivateData();
 		$mcprivatedata->data= array("orderPaymentId"=>$data['orderpayment_id']);
 		$cart->SetMerchantPrivateData($mcprivatedata);
 		$vars->cart=$cart;
+
 		$html = $this->_getLayout('prepayment', $vars);
 		return $html;
 	}
@@ -199,6 +220,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$html .= $this->_displayArticle();
 				break;
 			case "process":
+debug(99988899,'iamhere');
 				$vars->message = $this->_process();
 				$html = $this->_getLayout('message', $vars);
 				echo $html; // TODO Remove this
@@ -225,6 +247,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	 */
 	function _renderForm( $data )
 	{
+
 		$user = JFactory::getUser();
 		$vars = new JObject();
 		$html = $this->_getLayout('form', $vars);
@@ -311,6 +334,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	function _process()
 	{
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleresponse.php";
+		require_once dirname(__FILE__) . "/{$this->_element}/library/googlemerchantcalculations.php";		
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleresult.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googlerequest.php";
 
@@ -354,7 +378,101 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 
 		// process the payment
 		$error = '';
-		// svae the goggole orderid in the transaction id
+		
+		switch($root)
+		{
+			case 'new-order-notification':				
+				$payment_error = $this->_saveTransaction( $data, $error );
+				break;
+			case 'order-state-change-notification':
+				if( $data ['new-financial-order-state']['VALUE']=='CHARGED')
+				{
+					$payment_error = $this->_processSale( $data, $error,$payment_details );
+					$response->SendAck();
+				}
+				break;
+			case 'merchant-calculation-callback':
+				// Create the results and send it
+      			$merchant_calc = new GoogleMerchantCalculations($currency);
+
+      			// Loop through the list of address ids from the callback
+      			$addresses = get_arr_result($data[$root]['calculate']['addresses']['anonymous-address']);
+      			
+      			foreach($addresses as $curr_address) 
+      			{
+			        $curr_id = $curr_address['id'];
+			        $country = $curr_address['country-code']['VALUE'];
+			        $city = $curr_address['city']['VALUE'];
+			        $region = $curr_address['region']['VALUE'];
+			        $postal_code = $curr_address['postal-code']['VALUE'];
+
+        			// Loop through each shipping method if merchant-calculated shipping
+        			// support is to be provided
+        			if(isset($data[$root]['calculate']['shipping'])) 
+        			{
+          				$shipping = get_arr_result($data[$root]['calculate']['shipping']['method']);
+				        
+          				foreach($shipping as $curr_ship) 
+          				{
+				            $name = $curr_ship['name'];
+				            //Compute the price for this shipping method and address id
+				            $price = 12; // Modify this to get the actual price
+				            $shippable = "true"; // Modify this as required
+				            $merchant_result = new GoogleResult($curr_id);
+				            $merchant_result->SetShippingDetails($name, $price, $shippable);
+				
+				            if($data[$root]['calculate']['tax']['VALUE'] == "true") 
+				            {
+				              //Compute tax for this address id and shipping type
+				              $amount = 15; // Modify this to the actual tax value
+				              $merchant_result->SetTaxDetails($amount);
+				            }
+				
+				            if(isset($data[$root]['calculate']['merchant-code-strings']['merchant-code-string'])) 
+				            {
+				            	$codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']['merchant-code-string']);
+
+					              foreach($codes as $curr_code) 
+					              {
+					                //Update this data as required to set whether the coupon is valid, the code and the amount
+					                $coupons = new GoogleGiftcerts("true", $curr_code['code'], 10, "debugtest");
+					                $merchant_result->AddGiftCertificates($coupons);
+					              }
+				             }
+				             $merchant_calc->AddResult($merchant_result);
+				          }
+					} 
+					else 
+					{
+			          $merchant_result = new GoogleResult($curr_id);
+			          if($data[$root]['calculate']['tax']['VALUE'] == "true") 
+			          {
+			            //Compute tax for this address id and shipping type
+			            $amount = 15; // Modify this to the actual tax value
+			            $merchant_result->SetTaxDetails($amount);
+			          }
+			          $codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']
+			              ['merchant-code-string']);
+			          foreach($codes as $curr_code) 
+			          {
+			            //Update this data as required to set whether the coupon is valid, the code and the amount
+			            $coupons = new GoogleGiftcerts("true", $curr_code['code'], 10, "debugtest");
+			            $merchant_result->AddGiftCertificates($coupons);
+			          }
+			          $merchant_calc->AddResult($merchant_result);
+			        }
+      			}
+      			
+     			$response->ProcessMerchantCalculations($merchant_calc);
+     					
+				break;
+			default:				  
+    			$Gresponse->SendBadRequestStatus("Invalid or not supported Message");
+     			break;	
+		}
+		
+		
+		/*// svae the goggole orderid in the transaction id
 		if ($root == 'new-order-notification')
 		{
 			$payment_error = $this->_saveTransaction( $data, $error );
@@ -368,7 +486,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$response->SendAck();
 			}
 
-		}
+		}*/
 
 		$error = 'processed';
 		return $error;
