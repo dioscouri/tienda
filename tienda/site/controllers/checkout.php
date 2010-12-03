@@ -1018,7 +1018,13 @@ class TiendaControllerCheckout extends TiendaController
 			case "shipping_yes":
 			default:
 				$rates = $this->getShippingRates();
+		        $default_rate = array();
+                if (count($rates) == 1)
+                {
+                    $default_rate = $rates[0];
+                }
 				$view->assign( 'rates', $rates );
+				$view->assign( 'default_rate', $default_rate );
 				break;
 		}
 
@@ -1179,6 +1185,11 @@ class TiendaControllerCheckout extends TiendaController
 		$user = JFactory::getUser();
 
 		$rates = $this->getShippingRates();
+		$default_rate = array();
+		if (count($rates) == 1)
+		{
+		    $default_rate = $rates[0];
+		}
 
 		//Set display
 		$view = $this->getView( 'checkout', 'html' );
@@ -1191,7 +1202,8 @@ class TiendaControllerCheckout extends TiendaController
 
 		$view->set( 'hidemenu', false);
 		$view->assign( 'rates', $rates );
-
+        $view->assign( 'default_rate', $default_rate );
+        
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();

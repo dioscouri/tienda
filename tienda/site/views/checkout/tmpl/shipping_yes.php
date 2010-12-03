@@ -14,15 +14,14 @@
         //$checkAlready = false;
 		
         foreach ($this->rates as $rate) 
-        {        	        		
-        		$methodChecked = '';
-                //if( !$checkAlready )
-                //{
-                //	if(($dfltShippingMethod == $rate['type'] )) $methodChecked = "checked";
-                //	$checkAlready = true;
-                //}	
+        {
+            $checked = "";
+            if (!empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
+            {
+                $checked = "checked";
+            }        	        		
             ?>
-            <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $methodChecked;?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
+            <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $checked; ?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
             <br/>
             <?php
         }
@@ -50,4 +49,9 @@
 <br/>
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 
-
+<?php if (!empty($this->default_rate)) : ?>
+    <?php $default_rate = $this->default_rate; ?>
+    <script type="text/javascript">
+        window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');
+    </script>
+<?php endif; ?>
