@@ -134,7 +134,12 @@ class TiendaModelProducts extends TiendaModelBase
         if (strlen($filter_sku))
         {
         	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_sku ) ) ).'%');
-        	$query->where('LOWER(tbl.product_sku) LIKE '.$key);
+
+    		// Check also the pao for codes
+    		$where = array();
+            $where[] = 'LOWER(tbl.product_sku) LIKE '.$key;
+            $where[] = 'LOWER(pao.productattributeoption_code) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
        	}
        	if ($filter_category == 'none')
        	{
@@ -226,6 +231,16 @@ class TiendaModelProducts extends TiendaModelBase
 		$query->join('LEFT', '#__tienda_productcategoryxref AS p2c ON tbl.product_id = p2c.product_id');	
 		$query->join('LEFT', '#__tienda_categories AS c ON p2c.category_id = c.category_id');
 		$query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id');
+		
+		$filter_sku	= $this->getState('filter_sku', '', 'string' );
+		
+		if (strlen($filter_sku))
+        {
+			// Check also the pao for codes
+        	$query->join('LEFT', '#__tienda_productattributes AS pa ON pa.product_id = tbl.product_id');
+    		$query->join('LEFT', '#__tienda_productattributeoptions AS pao ON pa.productattribute_id = pao.productattribute_id');
+        }
+    		
 	}
 
 	protected function _buildQueryFields(&$query)
@@ -287,6 +302,7 @@ class TiendaModelProducts extends TiendaModelBase
         	
 	public function getList()
 	{
+		
         if (empty( $this->_list ))
         {
             Tienda::load( "TiendaHelperProduct", 'helpers.product' );

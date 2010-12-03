@@ -53,22 +53,26 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($state['search']) 
 		{
-		    $state['filter'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+		    $filter = $state['filter'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
 		    
-		    // apply additional 'AND' filter if requested by module
+		    // apply additional 'AND' filter if requested by module and unset filter state
     		switch ($state['search_type'])
             {
                 case "4":
                     $state['filter_name'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    $state['filter'] = '';
                     break;
                 case "3":
                     $state['filter_namedescription'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    $state['filter'] = '';
                     break;
                 case "2":
                     $state['filter_sku'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    $state['filter'] = '';
                     break;
                 case "1":
                     $state['filter_model'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+                    $state['filter'] = '';
                     break;
                 case "0":
                 default:
@@ -898,7 +902,7 @@ class TiendaControllerProducts extends TiendaController
                     	if ($product_qty > $remaining )
                     	{
                     		$error = true;
-                    		$msg = $helper->generateMessage( "You have reached the maximum quantity for this item. You can order another ".$remaining );
+                    		$msg = $helper->generateMessage( JText::_("You have reached the maximum quantity for this item. You can order another")." ".$remaining );
                     	}
                     }
                     if( $min )
@@ -906,7 +910,7 @@ class TiendaControllerProducts extends TiendaController
                     	if ($product_qty < $min )
                     	{
                     		$error = true;
-                    		$msg = $helper->generateMessage( "You have not reached the miminum quantity for this item. You have to order at least ".$min );
+                    		$msg = $helper->generateMessage( JText::_("You have not reached the miminum quantity for this item. You have to order at least")." ".$min );
                     	}
                     }
                 }

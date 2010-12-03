@@ -89,6 +89,23 @@ class TiendaHelperEmail extends TiendaHelperBase
                         $recipients[] = $r->email;    
                     }
                 }
+                
+                $model = Tienda::getClass('TiendaModelOrders', 'models.orders');
+                $model->setId( $id );
+                $order = $model->getItem();
+                jimport('joomla.mail.helper');
+                
+                // add the userinfo user_email to the list of recipients
+                if (!in_array($order->userinfo_email, $recipients) && JMailHelper::isEmailAddress($order->userinfo_email))
+                {
+					$recipients[] = $order->userinfo_email;    
+                }
+                
+                // add the order user_email to the list of recipients
+                if (!in_array($order->user_email, $recipients) && JMailHelper::isEmailAddress($order->user_email))
+                {
+                    $recipients[] = $order->user_email;    
+                }
             case 'order':
             default:                
                 $model = Tienda::getClass('TiendaModelOrders', 'models.orders');

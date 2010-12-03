@@ -217,4 +217,39 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
     }
+    
+    /**
+     * Displays the article with payment info on the order page & email if the order is yet to pay
+     *
+     * @param TiendaModelOrders $order
+     */
+    function onBeforeDisplayOrderView($order)
+    {
+    	$orderpayments = $order->orderpayments;
+    	$is_me = false;
+    	
+    	foreach($orderpayments as $p)
+    	{
+	    	if ($this->_isMe($p->orderpayment_type)) 
+	        {
+	            $is_me = true;
+	        }
+    	}
+        
+    	if($is_me)
+    	{
+    		
+	    	$initial = TiendaConfig::getInstance()->get('initial_order_state', '1');
+	    	$pending = TiendaConfig::getInstance()->get('pending_order_state', '1');
+	    	
+	    	if($order->order_state_id == $pending || $order->order_state_id == $initial)
+	    	{
+	    		echo '<div style="clear:both;">';
+	    		echo $this->_displayArticle();
+	    		echo '</div>';
+	    	}
+	    	
+    	}
+    	
+    }
 }
