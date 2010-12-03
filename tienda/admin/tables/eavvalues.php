@@ -21,7 +21,7 @@ class TiendaTableEavValues extends TiendaTable
 	// Allowed table types
 	private $allowed_types = array();
 	
-	function __construct( $tbl_name, $tbl_key, &$db )
+	function TiendaTableEavValues( &$db )
 	{
 		
 		$this->allowed_types = array('int', 'varchar', 'decimal', 'text', 'datetime');		
