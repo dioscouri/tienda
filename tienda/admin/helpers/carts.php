@@ -364,6 +364,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$session =& JFactory::getSession();
 		$user =& JFactory::getUser();
 		$model->setState('filter_user', $user->id );
+		
+        Tienda::load('TiendaHelperUser', 'helpers.user');       
+        $filter_group = TiendaHelperUser::getUserGroup($user->id);
+        
 		if (empty($user->id))
 		{
 			$model->setState('filter_session', $session->getId() );
@@ -382,7 +386,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$productItem->product_price = $productItem->price;
 				// at this point, ->product_price holds the default price for the product,
 				// but the user may qualify for a discount based on volume or date, so let's get that price override
-				$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, '0', JFactory::getDate()->toMySQL() );
+				$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
 				if (!empty($productItem->product_price_override))
 				{
 					$productItem->product_price = $productItem->product_price_override->product_price;
@@ -422,7 +426,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     			$orderItem->orderitem_attributes          = $product->product_attributes;
     			$orderItem->orderitem_attribute_names     = $product->attributes_names;
     			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
-    			$orderItem->orderitem_final_price         = ($product->product_price) * $orderItem->orderitem_quantity;
+    			$orderItem->orderitem_final_price         = $orderItem->orderitem_price * $orderItem->orderitem_quantity;
     			
 		        $dispatcher =& JDispatcher::getInstance();
 		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $product ) );
