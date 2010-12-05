@@ -5,7 +5,7 @@
 <?php $shop_info = @$this->shop_info; ?>
 <?php $surrounding = @$this->surrounding; ?>
 <?php $order = @$this->order; ?>
-<?php $items = @$order->getItems(); ?>
+<?php $items = @$order->orderitems; ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
 
