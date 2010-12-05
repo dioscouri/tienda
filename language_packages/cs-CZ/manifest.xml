@@ -33,11 +33,20 @@
         <filename>cs-CZ.plg_tienda_payment_googlecheckout.ini</filename>
         <filename>cs-CZ.plg_tienda_payment_offline.ini</filename>
         <filename>cs-CZ.plg_tienda_payment_paypal.ini</filename>
+        <filename>cs-CZ.plg_tienda_payment_paypalpro.ini</filename>
         <filename>cs-CZ.plg_tienda_report_bestsellers.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_cart.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_lowstock.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_ordered_products.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_sales.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_salesbymanufacturer.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_subscriptions.ini</filename>
+        <filename>cs-CZ.plg_tienda_shipping_dhl.ini</filename>
         <filename>cs-CZ.plg_tienda_shipping_fedex.ini</filename>
         <filename>cs-CZ.plg_tienda_shipping_standard.ini</filename>
         <filename>cs-CZ.plg_tienda_shipping_ups.ini</filename>
         <filename>cs-CZ.plg_tienda_shipping_usps.ini</filename>
+        <filename>cs-CZ.plg_tienda_tool_csvimporter.ini</filename>
         <filename>cs-CZ.plg_tienda_tool_virtuemartmigration.ini</filename>
         <filename>cs-CZ.plg_tienda_tool_xcartmigration.ini</filename>
         <filename>cs-CZ.plg_user_tienda.ini</filename>
@@ -50,10 +59,12 @@
         <filename>cs-CZ.mod_tienda_cart.ini</filename>
         <filename>cs-CZ.mod_tienda_categories.ini</filename>
         <filename>cs-CZ.mod_tienda_currency.ini</filename>
+        <filename>cs-CZ.mod_tienda_manufacturers.ini</filename>
         <filename>cs-CZ.mod_tienda_my_orderitems.ini</filename>
         <filename>cs-CZ.mod_tienda_my_orders.ini</filename>
-        <filename>cs-CZ.mod_tienda_products.ini</filename>
         <filename>cs-CZ.mod_tienda_popular_products.ini</filename>
+        <filename>cs-CZ.mod_tienda_pricefilters.ini</filename>
+        <filename>cs-CZ.mod_tienda_products.ini</filename>
         <filename>cs-CZ.mod_tienda_search.ini</filename>
     </files>
   </site>
