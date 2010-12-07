@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="k2" method="upgrade">
+	<name>K2 - Tienda</name>
+	<author>JoomlaWorks</author>
+	<creationDate>May 2010</creationDate>
+	<copyright>Copyright (c) 2006 - 2009 JoomlaWorks Ltd. All rights reserved.</copyright>
+	<authorEmail>contact@joomlaworks.gr</authorEmail>
+	<authorUrl>www.joomlaworks.gr</authorUrl>
+	<version>1.0</version>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Integration of Tienda shopping cart with K2.</description>
+    
+	<files>
+		<filename plugin="tienda">tienda.php</filename>
+		<folder>tienda</folder>
+	</files>
+    
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_k2_tienda.ini</language>
+	</languages>
+    
+	<params addpath="/plugins/k2/tienda/elements">
+		<param name="categories" default="0" type="categories" label="K2 Categories"/>
+	</params>
+    
+	<params group="item-content" addpath="/plugins/k2/tienda/elements">
+		<param name="productName" type="text" label="Product Name"/>
+		<param name="productSKU" type="text" label="Product SKU"/>
+		<param name="productPrice" type="price" label="Product Price"/>
+		<param name="productTax" type="tax" label="Product Tax Class"/>
+		<param name="productManufacturer" type="manufacturer" label="Product Manufacturer"/>
+		<param name="productWeight" type="text" label="Product Weight"/>
+		<param name="productLength" type="text" label="Product Length"/>
+		<param name="productWidth" type="text" label="Product Width"/>
+		<param name="productHeight" type="text" label="Product Height"/>
+		<param name="productAttributes" type="attribute" label="Product Attributes"/>
+		<param name="productQuantities" type="quantity" label="Product Quantities"/>
+		<param name="productShipping" default="0" type="radio" label="Product Shipping">
+			<option value="0">No</option>
+      		<option value="1">Yes</option>
+		</param>
+		<param name="productEnabled" default="1" type="radio" label="Product Enabled">
+			<option value="0">No</option>
+      		<option value="1">Yes</option>
+		</param>
+		<param name="tools" type="tools" label="Tools"/>
+		<param name="productID" type="hidden" label="Product ID"/>
+	</params>
+</install>
