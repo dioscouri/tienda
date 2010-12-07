@@ -196,9 +196,11 @@ class TiendaTableProducts extends TiendaTable
 		
 		$product_price = @$this->product_price;
 		$product_quantity = @$this->product_quantity;
+		$product_category = @$this->product_category;
 		
 		unset($this->product_price);
 		unset($this->product_quantity);
+		unset($this->product_category);
 		
 		// Save the product First
 		$success = $this->save();
@@ -235,6 +237,54 @@ class TiendaTableProducts extends TiendaTable
 					return false;
 				}
 			}
+			
+			// now the category
+			if($product_category)
+			{
+						// This is probably not the best way to do it
+		            	// Numeric = id, string = category name
+		            	if(!is_numeric($product_category))
+		            	{
+		            	 	// check for existance
+		            	 	JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
+		            		$model = JModel::getInstance('Categories', 'TiendaModel');
+		            		$model->setState('filter_name', $product_category);
+		            		$matches = $model->getList();
+		            		$matched = false;
+		            		
+		            		if($matches)
+		            		{
+			            		foreach($matches as $match)
+			            		{
+			            			// is a perfect match?
+			            			if(strtolower($product_category) == strtolower($match->category_name))
+			            			{
+			            				$product_category = $match->category_id;
+			            				$matched = true;
+			            			}	
+			            		}
+		            		}
+		            		
+		            		// Not matched, create category
+		            		if(!$matched)
+		            		{
+		            			$category = JTable::getInstance('Categories', 'TiendaTable');
+		            			$category->category_name = $product_category;
+		            			$category->parent_id = 1;
+		            			$category->category_enabled = 1;
+		            			$category->save();
+		            			
+		            			$product_category = $category->category_id;
+		            		}
+		            		
+		            	}
+		            	
+		            	// save xref in every case
+                        $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+                        $xref->product_id = $this->product_id;
+                        $xref->category_id = $product_category;
+                        $xref->save();
+		            }
 		}
 		else
 		{
