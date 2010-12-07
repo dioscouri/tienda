@@ -1820,6 +1820,7 @@ class TiendaControllerCheckout extends TiendaController
 		$html = "";
 		$order =& $this->_order;
 		$order->load( array('order_id'=>$order_id) );
+
 		if ( (!empty($order_id)) && (float) $order->order_total == (float)'0.00' )
 		{
 			$order->order_state_id = '17'; // PAYMENT RECEIVED
@@ -1880,7 +1881,7 @@ class TiendaControllerCheckout extends TiendaController
 			        break;
 			}
 			$view->assign( 'articles', $articles );
-			
+		
 			ob_start();
 			$dispatcher->trigger( 'onBeforeDisplayPostPayment', array( $order_id ) );
 			$view->assign( 'onBeforeDisplayPostPayment', ob_get_contents() );

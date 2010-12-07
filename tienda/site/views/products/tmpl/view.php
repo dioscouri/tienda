@@ -24,7 +24,7 @@ $item = @$this->row;
     
         <div id='tienda_product_header'>
             <span class="product_name">
-                <?php echo $item->product_name; ?>
+                <?php echo htmlspecialchars_decode( $item->product_name ); ?>
             </span>
             <?php if ( TiendaConfig::getInstance()->get('product_review_enable', '0') ) { ?>
             <div class="product_rating">

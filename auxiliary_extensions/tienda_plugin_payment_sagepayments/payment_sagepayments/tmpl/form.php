@@ -7,8 +7,8 @@
 </style>
 
 <div class="note">
-    <?php echo JText::_( "Tienda Sagepay Payment Message" ); ?><br />
-    <?php echo JText::_( "Tienda Sagepay Payment PayPal Note" ); ?>
+    <?php echo JText::_( "Tienda Sagepayments Payment Message" ); ?><br />
+    <?php echo JText::_( "Tienda Sagepayments Payment PayPal Note" ); ?>
 </div>
 
 <table id="sagepayments_form">            
@@ -25,19 +25,11 @@
         <td><input type="text" name="cardnum" size="20" value="<?php echo !empty($vars->prepop['x_card_num']) ? ($vars->prepop['x_card_num']) : '' ?>" /></td>
     </tr>
     <tr>
-        <td class="field_name"><?php echo JText::_( 'Start Date' ) ?></td>
-        <td><input type="text" name="cardst" size="10" value="<?php echo !empty($vars->prepop['x_start_date']) ? ($vars->prepop['x_start_date']) : '' ?>" /></td>
-    </tr>
-    <tr>
         <td class="field_name"><?php echo JText::_( 'Expiration Date' ) ?></td>
         <td><input type="text" name="cardexp" size="10" value="<?php echo !empty($vars->prepop['x_exp_date']) ? ($vars->prepop['x_exp_date']) : '' ?>" /></td>
     </tr>
     <tr>
-        <td class="field_name"><?php echo JText::_( 'Issue Number' ) ?></td>
-        <td><input type="text" name="cardissuenum" size="10" value="" /></td>
-    </tr>
-    <tr>
-        <td class="field_name"><?php echo JText::_( 'CV2' ) ?></td>
+        <td class="field_name"><?php echo JText::_( 'CVV' ) ?></td>
         <td><input type="text" name="cardcv2" size="10" value="" /></td>
     </tr>
 </table>

@@ -325,7 +325,7 @@ class TiendaModelProducts extends TiendaModelBase
                 }
                 
                 $item->product_parameters = new JParameter( $item->product_params );
-                
+
                 $item->slug = $item->product_alias ? ":$item->product_alias" : "";
                 $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
                 $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
@@ -356,16 +356,15 @@ class TiendaModelProducts extends TiendaModelBase
             }
             
             $item->product_parameters = new JParameter( $item->product_params );
-
             $item->slug = $item->product_alias ? ":$item->product_alias" : "";
             $item->link = 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id;
             $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id='.$item->product_id;
             
             $this->_item = $item;
+            
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
         }
-        
-        $dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
         
         return $this->_item;
 	}

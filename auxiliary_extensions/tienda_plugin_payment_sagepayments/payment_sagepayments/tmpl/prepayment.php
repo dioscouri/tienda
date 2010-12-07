@@ -24,22 +24,12 @@
                 <td class="field_name"><?php echo JText::_( 'Card Number' ) ?></td>
                 <td>************<?php echo $vars->cardnum_last4; ?></td>
             </tr>
-            <?php if(isset($vars->cardst)) {?>
-		    <tr>
-		        <td class="field_name"><?php echo JText::_( 'Start Date' ) ?></td>
-		        <td><?php echo $vars->cardst;?></td>
-		    </tr>
-		    <?php } ?>
             <tr>
                 <td class="field_name"><?php echo JText::_( 'Expiration Date' ) ?></td>
                 <td><?php echo $vars->cardexp; ?></td>
             </tr>
 		    <tr>
-		        <td class="field_name"><?php echo JText::_( 'Issue Number' ) ?></td>
-		        <td><?php echo $vars->cardissuenum_asterix;?></td>
-		    </tr>
-		    <tr>
-		        <td class="field_name"><?php echo JText::_( 'CV2' ) ?></td>
+		        <td class="field_name"><?php echo JText::_( 'CVV' ) ?></td>
 		        <td><?php echo $vars->cardcv2_asterix;?></td>
 		    </tr>
         </table>
@@ -48,12 +38,8 @@
     <input type='hidden' name='cardholder' value='<?php echo @$vars->cardholder; ?>' />
     <input type='hidden' name='cardtype' value='<?php echo @$vars->cardtype; ?>' />
     <input type='hidden' name='cardnum' value='<?php echo @$vars->cardnum; ?>' />
-    <?php if(isset($vars->cardst)) {?>
-    <input type='hidden' name='cardst' value='<?php echo @$vars->cardst; ?>' />
-    <?php }?>
     <input type='hidden' name='cardexp' value='<?php echo @$vars->cardexp; ?>' />
     <input type='hidden' name='cardcv2' value='<?php echo @$vars->cardcv2; ?>' />
-    <input type='hidden' name='cardissuenum' value='<?php echo @$vars->cardissuenum;?>' />
 
     <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />
 

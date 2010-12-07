@@ -84,7 +84,7 @@ $citems = @$this->citems;
                     <div class="product_name">
                         <span>
                             <a href="<?php echo JRoute::_($item->link."&filter_category=".$this->cat->category_id."&Itemid=".$item->itemid ); ?>">
-                            <?php echo $item->product_name; ?>
+                            <?php echo htmlspecialchars_decode( $item->product_name ); ?>
                             </a>
                         </span>
                     </div>
