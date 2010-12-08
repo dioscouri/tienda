@@ -62,7 +62,7 @@ class TiendaControllerEmails extends TiendaController
 	function save()
 	{
 		$id = JRequest::getVar('id', 'en-GB');
-		$temp_values = JRequest::get('post');
+		$temp_values = JRequest::get('post', '4');
 		
 		$model = $this->getModel('Emails', 'TiendaModel');
 		

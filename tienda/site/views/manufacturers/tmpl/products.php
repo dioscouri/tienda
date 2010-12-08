@@ -10,9 +10,9 @@ $citems = @$this->citems;
 <div id="tienda" class="products default">
 
 	<div id='tienda_category_header'>
-            <span><?php echo @$this->title; ?></span>
-            <div class='category_description'><?php echo $this->cat->manufacturer_description; ?></div>
-        </div>
+        <span><?php echo @$this->title; ?></span>
+        <div class='category_description'><?php echo $this->cat->manufacturer_description; ?></div>
+    </div>
 
     <?php if (!empty($items)) : ?>
         <div id="tienda_products">
