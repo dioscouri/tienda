@@ -66,7 +66,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
             case"2":
                 if (count($state->sampledata) < 1)
                 {
-                    JError::raiseNotice('_verifyDB', JText::_('Please select at least one data set.'));
+                    JError::raiseNotice('_verifyDB', JText::_('PLEASE SELECT AT LEAST ONE DATA SET'));
                     $html .= $this->_renderForm( '1' );
                 }
                 else
@@ -78,7 +78,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
             case"1":
                 if (empty($state->sampledata))
                 {
-                     JError::raiseNotice('_verifyDB', JText::_('Please select at least one data set.'));
+                     JError::raiseNotice('_verifyDB', JText::_('PLEASE SELECT AT LEAST ONE DATA SET'));
                     $html .= $this->_renderForm( '1' );
                 }
                 else
@@ -137,17 +137,8 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     function _getState()
     {    	
         $state = new JObject();
-        $state->sampledata = '';        
-        
-        foreach ($state->getProperties() as $key => $value)
-        {
-            $new_value = JRequest::getVar( $key );
-            $value_exists = array_key_exists( $key, $_POST );
-            if ( $value_exists && !empty($key) )
-            {
-                $state->$key = $new_value;
-            }
-        }
+        $state->sampledata = JRequest::getVar('sampledata');        
+ 
         return $state;
     }
 
@@ -161,9 +152,10 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         $html = "";
         $vars = new JObject();
         $errors = null;                    
-            
-        $results = "";
-        
+
+        static $installURL;
+        $results = array();
+                
         if(!empty($state->sampledata))
         {
         	$database = JFactory::getDBO();
@@ -171,12 +163,11 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         	
         	foreach( $state->sampledata as $sample)
         	{        		
-        		$sqlfile = $installURL.$sample.".sql";
-        		$results = $this->_populateDatabase( $database, $sqlfile, $errors);    
+        		$sqlfile = $installURL.$sample.".sql";        		
+        		$results[ucfirst($sample)] = $this->_populateDatabase( $database, $sqlfile, $errors);    
         	}
         	           
         }         
-
 		//if errors not empty
 		if(!empty($errors))
 		{
@@ -198,34 +189,49 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     }
     
 	private function _populateDatabase (& $database, $sqlfile, & $errors)
-	{
+	{					
 		if( !($buffer = file_get_contents($sqlfile)) )
 		{
 			return -1;
 		}
 
 		$queries = $this->_splitSql($buffer);
-
+	
+		$results = array();
+		$n=0;
 		foreach ($queries as $query)
 		{
 			$query = trim($query);
 			if ($query != '' && $query {0} != '#')
 			{
-				$database->setQuery($query);			
-				if(!$database->query())
+				$database->setQuery($query);		
+				if($n == '0')
 				{
-					$errors[] = array('msg' => $database->getErrorMsg(), 'sql' => $database->_sql);
+					$results[$n]->table = JText::_("Manufacturers");
 				}
-
-				if ($database->getErrorNum() > 0)
+				elseif( $n == '1')
 				{
-					$errors[] = array('msg' => $database->getErrorMsg(), 'sql' => $database->_sql);
+					$results[$n]->table = JText::_("Categories");
 				}
-			
+				else 
+				{
+					$results[$n]->table = JText::_("Products");
+				}
+				
+            	$results[$n]->query = $database->getQuery();
+            	$results[$n]->error = '';	
+				
+            	if (!$database->query())
+            	{
+                	$results[$n]->error = $database->getErrorMsg();
+            	}
+            	
+            	$results[$n]->affectedRows = $database->getAffectedRows();
+				
+				$n++;
 			}
-		}
-
-		return count($errors);
+		}	
+		return $results;
 	}
         
 	/**
@@ -268,9 +274,6 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 			$ret[] = $sql;
 		}
 		return ($ret);
-	}
-   
-    
-    
-   
+	}      
+       
 }

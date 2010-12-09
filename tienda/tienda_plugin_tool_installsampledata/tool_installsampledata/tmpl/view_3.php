@@ -5,7 +5,7 @@
 
     <div class="note">
         <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "FINAL" ); ?></span>
-        <p><?php echo JText::_( "MIGRATION RESULTS"); ?></p>
+        <p><?php echo JText::_( "INSTALLATION RESULTS"); ?></p>
     </div>
 
     <table class="adminlist" style="clear: both;">
@@ -15,7 +15,7 @@
                     <?php echo JText::_("NUM"); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("TITLE"); ?>
+                    <?php echo JText::_("DATA"); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo JText::_("AFFECTED ROWS"); ?>
@@ -34,32 +34,32 @@
         </tfoot>
         <tbody>
         <?php $i=0; $k=0; ?>
-        <?php foreach (@$items as $item) : ?>
+        <?php $data = array('Manufacturer', 'Category', 'Product');?>
+        <?php foreach (@$items as $item=>$results) : ?>             
+			<?php foreach (@$results as $result) : ?>
             <tr class='row<?php echo $k; ?>'>
                 <td align="center">
                     <?php echo $i + 1; ?>
                 </td>
                 <td style="text-align: left;">
-                        <?php echo JText::_($item->title); ?>
+                        <?php echo $data[$i]?> (<?php echo JText::_($item); ?>)
                 </td>
                 <td style="text-align: center;">
-                    <?php echo $item->affectedRows; ?>
+                    <?php echo $result->affectedRows; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo $item->error ? $item->error : "-"; ?>
+                    <?php echo $result->error ? $result->error : "-"; ?>
                 </td>
             </tr>
-            <?php ++$i; $k = (1 - $k); ?>
-            <?php endforeach; ?>
-
+			<?php ++$i; $k = (1 - $k); ?>
+            <?php endforeach; ?>           
+        <?php endforeach; ?>
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('NO ITEMS FOUND'); ?>
+                    <?php echo JText::_("NO ITEMS FOUND"); ?>
                 </td>
             </tr>
             <?php endif; ?>
         </tbody>
     </table>
-
-
