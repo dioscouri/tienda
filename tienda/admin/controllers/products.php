@@ -360,6 +360,9 @@ class TiendaControllerProducts extends TiendaController
 				$this->message .= " :: ".$this->getError();
 			}
 
+			$helper = new TiendaHelperProduct();
+			$helper->onAfterSaveProducts( $row );
+			
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -429,7 +432,8 @@ class TiendaControllerProducts extends TiendaController
         $params->set( 'juga_group_csv_remove_expiration', JRequest::getVar('juga_group_csv_remove_expiration') );
 		$params->set( 'core_user_change_gid', JRequest::getVar('core_user_change_gid') );
 		$params->set( 'core_user_new_gid', JRequest::getVar('core_user_new_gid') );
-
+        $params->set( 'ambrasubs_type_id', JRequest::getVar('ambrasubs_type_id') );
+        
 		$row->product_params = trim( $params->toString() );
 		return $row;
 	}

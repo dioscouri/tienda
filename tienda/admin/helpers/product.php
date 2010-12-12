@@ -1634,4 +1634,19 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         return $success;
     }
+    
+    /**
+     * Function executes after a product is saved
+     * and is used for triggering native integrations
+     * (rather than encurring the overhead of a plugin)
+     * 
+     * @param $product
+     * @return unknown_type
+     */
+    function onAfterSaveProducts( $product )
+    {
+        // add params to Ambrasubs types
+        $helper = TiendaHelperBase::getInstance( 'Ambrasubs' );
+        $helper->onAfterSaveProducts( $product );
+    }
 }

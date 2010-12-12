@@ -1067,6 +1067,28 @@ window.addEvent('domready', function(){
         
         <div style="float: left; width: 50%;">
             <fieldset>
+            <legend><?php echo JText::_( "AmbraSubscriptions Integration" ); ?></legend>
+            <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
+                <table class="admintable" style="width: 100%;">
+                    <tr>
+                        <td title="<?php echo JText::_("Associated Ambrasubs Subscription Type").'::'.JText::_( "Associated Ambrasubs Subscription Type Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Associated Ambrasubs Subscription Type' ); ?>:
+                        </td>
+                        <td>
+                            <?php echo TiendaHelperAmbrasubs::selectTypes( $row->product_parameters->get('ambrasubs_type_id'), 'ambrasubs_type_id' ); ?>
+                        </td>
+                    </tr>
+                </table>
+            <?php else : ?>
+                <div class="note">
+                    <?php echo JText::_( "Ambrasubs Installation Notice" ); ?>
+                </div>
+            <?php endif; ?>
+            </fieldset>
+        </div>
+
+        <div style="float: left; width: 50%;">
+            <fieldset>
             <legend><?php echo JText::_( "Core Joomla User Integration" ); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
@@ -1090,9 +1112,9 @@ window.addEvent('domready', function(){
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </fieldset>        
         </div>
-
+        
         <?php
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onDisplayProductFormIntegrations', array( $row ) );                    

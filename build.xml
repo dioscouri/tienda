@@ -183,6 +183,20 @@
         </copy>
 
     <!-- PLUGINS -->
+        <!-- AMBRA POINTS -->
+         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+             <fileset dir="${cfg.aux}/tienda_plugin_ambrapoints" />
+         </copy>
+         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+             <fileset dir="${cfg.aux}/tienda_plugin_ambrapoints/languages" />
+         </copy>
+        <!-- AMBRASUBS -->
+         <copy todir="${destdir}/plugins/ambrasubs" preservelastmodified="true" overwrite="true">
+             <fileset dir="${cfg.aux}/tienda_plugin_ambrasubs" />
+         </copy>
+         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+             <fileset dir="${cfg.aux}/tienda_plugin_ambrasubs/languages" />
+         </copy>
         <!-- BUG REPORT -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_bug_report" />
@@ -496,6 +510,7 @@
 
     <target name="build_plugins" depends="init" description="packages any plugins">
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrapoints" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}ambrasubs.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrasubs" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}bug_report.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}bug_report" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}charts_fusioncharts" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}checkoutexample.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}checkoutexample" />
