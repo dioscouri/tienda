@@ -54,8 +54,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     <?php else : ?>
     <!--quantity-->
     <div id='product_quantity_input'>
-        <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-        <input type="text" name="product_qty" value="1" size="5" />
+        <input type="hidden" name="product_qty" value="1" size="5" />
     </div>
     <?php endif; ?>
     
