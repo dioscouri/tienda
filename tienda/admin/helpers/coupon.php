@@ -75,7 +75,7 @@ class TiendaHelperCoupon extends TiendaHelperBase
             return false;
         }
         
-        if ($coupon->coupon_max_uses > '-1' && $coupon->coupon_max_uses >= $coupon->coupon_uses)
+        if ($coupon->coupon_max_uses > '-1' && $coupon->coupon_uses >= $coupon->coupon_max_uses)
         {
             $this->setError( JText::_( "Coupon Maximum Uses Reached" ) );
             return false;
