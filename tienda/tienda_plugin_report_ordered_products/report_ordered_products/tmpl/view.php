@@ -41,7 +41,7 @@
                     <?php echo JText::_($item->orderitem_attribute_names); ?>                    
                 </td>        
                 <td style="text-align: center;">
-                    <?php echo $item->orderitem_quantity;?>
+                    <?php echo $item->total_quantity;?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>
