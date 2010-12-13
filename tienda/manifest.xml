@@ -85,6 +85,7 @@
         <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_search" client="site" position="left" />
+        <module module="mod_tienda_search_admin" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_useraddress" position="tienda_user_main" publish="true" client="administrator"/>
 	</modules> 
 

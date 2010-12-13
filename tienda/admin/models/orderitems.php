@@ -38,6 +38,7 @@ class TiendaModelOrderItems extends TiendaModelBase
 
 			$where = array();
 			$where[] = 'LOWER(tbl.orderitem_id) LIKE '.$key;
+			$where[] = 'LOWER(tbl.orderitem_name) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}

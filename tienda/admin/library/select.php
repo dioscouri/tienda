@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
 
 class TiendaSelect extends JHTMLSelect
-{
+{   
 	/**
 	* Generates a yes/no radio list
 	*
@@ -990,4 +990,34 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+    /**
+     * 
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @param unknown_type $title
+     * @return unknown_type
+     */
+    public static function view( $selected, $name = 'filter_view', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select View' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'orders', JText::_( "Orders" ) );
+        $list[] = JHTML::_('select.option',  'orderitems', JText::_( "Ordered Items" ) );
+        $list[] = JHTML::_('select.option',  'products', JText::_( "Products" ) );
+        $list[] = JHTML::_('select.option',  'orderpayments', JText::_( "Payments" ) );
+        $list[] = JHTML::_('select.option',  'subscriptions', JText::_( "Subscriptions" ) );
+        $list[] = JHTML::_('select.option',  'coupons', JText::_( "Coupons" ) );
+        $list[] = JHTML::_('select.option',  'users', JText::_( "Users" ) );
+        $list[] = JHTML::_('select.option',  'categories', JText::_( "Categories" ) );
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
 }

@@ -153,6 +153,13 @@
         <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search/languages" />
         </copy>
+        <!-- SEARCH ADMIN -->
+        <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_search_admin" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search_admin" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_${cfg.comName}_search_admin/languages" />
+        </copy>
     	<!-- USER ADDRESS -->
         <copy todir="${destdir}/administrator/modules/mod_${cfg.comName}_useraddress" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_useraddress" />
@@ -572,6 +579,7 @@
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}recentorders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}recentorders" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}salestatistics.zip" basedir="${cfg.comDir}/${cfg.modPrefix}salestatistics" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}search.zip" basedir="${cfg.comDir}/${cfg.modPrefix}search" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}search_admin.zip" basedir="${cfg.comDir}/${cfg.modPrefix}search_admin" />
 		<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}useraddress.zip" basedir="${cfg.comDir}/${cfg.modPrefix}useraddress" />
     </target>
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="tienda_dashboard_right" client="administrator" method="upgrade">
+    <name>Tienda - Admin Search</name>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.6.0</version>
+    <creationDate>August 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>Displays a quick search module for Tienda on your admin-side</description>
+    
+    <files>
+        <filename module="mod_tienda_search_admin">mod_tienda_search_admin.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.mod_tienda_search_admin.ini</language>
+	</languages>
+	
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param type="spacer" />
+        <param name="display_link" type="radio" default="0" label="Display Dashboard Link" description="">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="text" type="text" size="50" default="Tienda Dashboard" label="Text link" description="Text of the link in the dashboard"></param>
+    </params>
+</install>

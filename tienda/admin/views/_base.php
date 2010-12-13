@@ -44,7 +44,7 @@ class TiendaViewBase extends JView
 		$modules = JModuleHelper::getModules("tienda_left");
 		if ($modules && !JRequest::getInt('hidemainmenu') || !empty($this->leftMenu))
 		{
-			$this->displayWithLeftMenu($tpl=null, $this->leftMenu);
+			$this->displayWithLeftMenu($tpl=null, @$this->leftMenu);
 		}
 			else
 		{
@@ -69,7 +69,7 @@ class TiendaViewBase extends JView
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-    public function displayWithLeftMenu($tpl=null, $menuname)
+    public function displayWithLeftMenu($tpl=null, $menuname=null)
     {
     	// TODO This is an ugly, quick hack - fix it
     	echo "<table width='100%'>";
