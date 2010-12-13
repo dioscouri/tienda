@@ -171,7 +171,7 @@ class TiendaControllerProducts extends TiendaController
 		    foreach ($citems as $item)
             {
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
-                $item->itemid = JRequest::getInt('Itemid', $itemid);
+                $item->itemid = (!empty($itemid)) ? $itemid : JRequest::getInt('Itemid', $itemid);
             }
 		}
 
