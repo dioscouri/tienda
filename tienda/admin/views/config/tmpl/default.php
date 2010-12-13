@@ -911,7 +911,18 @@
                             <td>
                                 
                             </td>
-					 </tr>
+					</tr>
+                    <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Automatically Approve Reviews' ); ?>
+                            </th>
+                            <td>
+                                 <?php echo JHTML::_('select.booleanlist', 'product_reviews_autoapprove', 'class="inputbox"', $this->row->get('product_reviews_autoapprove', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                    </tr>
 					<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Require Login to leave review' ); ?>
@@ -922,8 +933,8 @@
                             <td>
                                 
                             </td>
-					 </tr>
-					 <tr>
+                    </tr>
+					<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Require Purchase to leave review' ); ?>
 							</th>
@@ -933,8 +944,8 @@
                             <td>
                                 
                             </td>
-					 </tr>
-					 <tr>
+					</tr>
+					<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Use captcha' ); ?>
 							</th>
@@ -944,8 +955,8 @@
                             <td>
                                 
                             </td>
-						</tr>
-					 <tr>
+					</tr>
+					<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Enable Review Helpfulness Voting' ); ?>
 							</th>
@@ -955,8 +966,8 @@
                             <td>
                                 
                             </td>
-						</tr>
-						<tr>
+					</tr>
+					<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Enable Share this link' ); ?>
 							</th>
@@ -966,9 +977,9 @@
                             <td>
                                 
                             </td>
-						</tr>
-						</tbody>
-						</table>
+					</tr>
+					</tbody>
+					</table>
 					<?php
 						echo $this->sliders->endPanel();	
 

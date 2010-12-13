@@ -1699,7 +1699,9 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$date = JFactory::getDate();
  			$productreviews->bind($post);	
- 			$productreviews->created_date = $date->toMysql(); 
+ 			$productreviews->created_date = $date->toMysql();
+            $productreviews->productcomment_enabled = TiendaConfig::getInstance()->get('product_reviews_autoapprove', '0');
+ 			
  			if (!$productreviews->save())
 	     	{	     	
 	            $this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();        	

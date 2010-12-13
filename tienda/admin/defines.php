@@ -464,6 +464,7 @@ class TiendaConfig extends JObject
 	var $article_checkout                   = '';
 	var $autonotify_onSetOrderPaymentReceived = '0';
     var $display_category_cartbuttons       = '1';
+    var $product_reviews_autoapprove        = '0';
 	
 	/**
 	 * constructor
