@@ -24,7 +24,7 @@ if (!empty($update_parent))
 			foreach($images as $i){ 
 				?>
 				<td>
-				<?php echo TiendaUrl::popup( $path.$i, '<img src="'.$path."thumbs/".$i.'" style="vertical-aling: bottom;" />', array('update' => false, 'img' => true));?>
+				<?php echo TiendaUrl::popup( $path.$i, '<img src="'.$path."thumbs/".$i.'" style="vertical-align: bottom;" />', array('update' => false, 'img' => true));?>
 				</td>
 				<?php 
 			}
