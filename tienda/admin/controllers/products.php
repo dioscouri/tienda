@@ -904,7 +904,8 @@ class TiendaControllerProducts extends TiendaController
 		$row = $model->getTable();
 		$row->product_id = JRequest::getVar( 'id' );
 		$row->productattribute_name = JRequest::getVar( 'createproductattribute_name' );
-
+        $row->ordering = '99';
+        
 		if ( $row->save() )
 		{
 			$dispatcher = JDispatcher::getInstance();
@@ -1021,7 +1022,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->productattributeoption_price = JRequest::getVar( 'createproductattributeoption_price' );
 		$row->productattributeoption_code = JRequest::getVar( 'createproductattributeoption_code' );
 		$row->productattributeoption_prefix = JRequest::getVar( 'createproductattributeoption_prefix' );
-
+        $row->ordering = '99';
+        
 		if ( $row->save() )
 		{
 			$dispatcher = JDispatcher::getInstance();
