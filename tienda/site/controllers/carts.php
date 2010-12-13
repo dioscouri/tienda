@@ -98,6 +98,10 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'return', $redirect );
         $view->assign( 'checkout_itemid', $checkout_itemid );
         
+        $submenu = "submenu";
+        if (empty(JFactory::getUser()->id)) { $submenu = "submenu_visitor"; }  
+        $view->assign( 'submenu', $submenu );
+        
         //get cartitem information from plugins
         $list =& $model->getList();
         

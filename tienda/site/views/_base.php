@@ -60,20 +60,7 @@ class TiendaViewBase extends JView
 	{
 		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 		{
-			jimport('joomla.html.toolbar');
-			require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php' );
-			$view = strtolower( JRequest::getVar('view') );
-
 			$menu =& TiendaMenu::getInstance();
-			if (!empty(JFactory::getUser()->id))
-			{
-			    $menu->addEntry(JText::_('Dashboard'), 'index.php?option=com_tienda&view=dashboard', $view == 'dashboard' ? true : false );
-	            $menu->addEntry(JText::_('Profile'), 'index.php?option=com_tienda&view=accounts', $view == 'accounts' ? true : false );
-                $menu->addEntry(JText::_('Order History'), 'index.php?option=com_tienda&view=orders', $view == 'orders' ? true : false);
-                $menu->addEntry(JText::_('Subscriptions'), 'index.php?option=com_tienda&view=subscriptions', $view == 'subscriptions' ? true : false);
-			}
-			$menu->addEntry(JText::_('Shopping Cart'), 'index.php?option=com_tienda&view=carts', $view == 'carts' ? true : false);
-			
 		}
 	}
 

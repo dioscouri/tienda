@@ -16,7 +16,7 @@ $quantities = array();
     <span><?php echo JText::_( "My Shopping Cart" ); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+    <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
     
 <div class="cartitems">
     <?php if (!empty($items)) { ?>
