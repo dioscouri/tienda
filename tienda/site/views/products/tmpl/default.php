@@ -38,6 +38,8 @@ $citems = @$this->citems;
             <div id="tienda_subcategories">
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php
+                $i = 0;
+                $subcategories_per_line = TiendaConfig::getInstance()->get('subcategories_per_line', '5'); 
                 foreach ($citems as $citem) : 
                 ?>
                     <div class="subcategory">
@@ -54,7 +56,17 @@ $citems = @$this->citems;
                             </div>
                         <?php endif; ?>
                     </div>
-                <?php
+                    <?php
+                    if ( ($i+1) >= $subcategories_per_line) 
+                    { 
+                        ?>
+                        <div class="reset"></div>
+                        <?php $i = 0; 
+                    }
+                        else 
+                    {
+                        $i++;
+                    }
                 endforeach; 
                 ?>
                 <div class="reset"></div>
