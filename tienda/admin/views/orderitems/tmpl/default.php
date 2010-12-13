@@ -80,7 +80,7 @@
                     <input name="filter_orderid" value="<?php echo @$state->filter_orderid; ?>" size="15"/>
                 </th>
                 <th style="text-align: left;">
-                	<input name="filter_productid" value="<?php echo @$state->filter_productid; ?>" size="15"/>
+                	<input name="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" size="15"/>
                 </th>
                 <th>
                 <!--

@@ -38,7 +38,7 @@ class TiendaControllerOrderItems extends TiendaController
         $state['filter_orderid']       = $app->getUserStateFromRequest($ns.'filter_orderid', 'filter_orderid', '', '');
         $state['filter_type']       = $app->getUserStateFromRequest($ns.'filter_type', 'filter_type', '', '');
         $state['filter_transaction']    = $app->getUserStateFromRequest($ns.'filter_transaction', 'filter_transaction', '', '');
-        $state['filter_productid']         = $app->getUserStateFromRequest($ns.'filter_productid', 'filter_productid', '', '');
+        $state['filter_product_name']         = $app->getUserStateFromRequest($ns.'filter_product_name', 'filter_product_name', '', '');
         $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
