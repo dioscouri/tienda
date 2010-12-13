@@ -53,7 +53,7 @@
                     <?php echo JFactory::getUser()->email; ?>
                 </td>
                 <td>
-                    <a href="<?php echo JRoute::_("index.php?option=com_user&view=user&task=edit"); ?>">
+                    <a href="<?php echo JRoute::_( $this->url_profile ); ?>">
                         <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
@@ -66,7 +66,7 @@
                     **********
                 </td>
                 <td>
-                    <a href="<?php echo JRoute::_("index.php?option=com_user&view=user&task=edit"); ?>">
+                    <a href="<?php echo JRoute::_( $this->url_profile ); ?>">
                         <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>

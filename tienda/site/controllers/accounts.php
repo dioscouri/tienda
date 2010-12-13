@@ -50,6 +50,27 @@ class TiendaControllerAccounts extends TiendaController
         }
         return $state;
     }
+    
+    function display()
+    {
+        $uri = JURI::getInstance();
+        
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setLayout('default');
+        
+        $url = "index.php?option=com_user&view=user&task=edit";
+        
+        $helper = TiendaHelperBase::getInstance( 'Ambra' );
+        if ($helper->isInstalled())
+        {
+            $url = "index.php?option=com_ambra&view=users&task=edit&return=" . base64_encode( $uri->toString() );
+        }
+        $view->assign( 'url_profile', $url );
+        
+        parent::display();
+    }
         
     /**
      * @return void
