@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="editors-xtd" method="upgrade">
+    <name>Editor Button - Tienda Products</name>
+    <version>0.6.1</version>
+    <creationDate>December 2010</creationDate>
+    <author>Dioscouri Design</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>Enables easily inserting Tienda products into content</description>
+    
+    <files>
+        <filename plugin="tienda">tienda.php</filename>
+        <folder>tienda</folder>
+    </files>
+
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_editors-xtd_tienda.ini</language>
+    </languages>
+        
+</install>

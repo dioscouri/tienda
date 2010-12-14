@@ -225,6 +225,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_checkoutexample/languages" />
         </copy>
+        <!-- EDITORS-XTD -->
+        <copy todir="${destdir}/plugins/editors-xtd" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_editorsxtd" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_editorsxtd/languages" />
+        </copy>
         <!-- REQUIRE PHONE NUMBER -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber" />
@@ -522,6 +529,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}charts_fusioncharts" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}checkoutexample.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}checkoutexample" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}content_product.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}content_product" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}editorsxtd.zip" basedir="${cfg.aux}/${cfg.plgPrefix}editorsxtd" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}cpanelredirect.zip" basedir="${cfg.aux}/${cfg.plgPrefix}cpanelredirect" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_2checkout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_2checkout" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_authorizedotnet.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_authorizedotnet" />
