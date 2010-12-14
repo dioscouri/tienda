@@ -62,6 +62,7 @@ class TiendaControllerAccounts extends TiendaController
         
         $url = "index.php?option=com_user&view=user&task=edit";
         
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
         $helper = TiendaHelperBase::getInstance( 'Ambra' );
         if ($helper->isInstalled())
         {
