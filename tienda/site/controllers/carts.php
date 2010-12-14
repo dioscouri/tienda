@@ -324,9 +324,9 @@ class TiendaControllerCarts extends TiendaController
         {
             foreach ($cids as $key=>$product_id)
             {
-            		$keynames = explode('.', $key);
-            		$attributekey = $keynames[0].'.'.$keynames[1];
-            		$index = $keynames[2];
+            	$keynames = explode('.', $key);
+            	$attributekey = $keynames[0].'.'.$keynames[1];
+            	$index = $keynames[2];
                 $row = $model->getTable();
                 
                 //main cartitem keys

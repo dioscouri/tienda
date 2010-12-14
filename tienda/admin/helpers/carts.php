@@ -90,7 +90,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		        if (!empty($additionalKeyValues))
 		        {
 		        	$keynames = array_merge($keynames, $additionalKeyValues);
-		        	$table->setKeyNames($keynames);
+		        	//$table->setKeyNames($keynames); // not necessary
 		        }
 		        
 				if ($table->load($keynames))
@@ -105,11 +105,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 						$table->product_qty = $table->product_qty + $item->product_qty;
 					}
 				}
-				else
+				    else
 				{
-					
-	
-					
 					foreach($item as $key=>$value)
 					{
 						if(property_exists($table, $key))
@@ -117,10 +114,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 							$table->set($key, $value);
 						}
 					}
-//					$table->product_qty = $item->product_qty;
-//					$table->product_id = $item->product_id;
-//					$table->product_attributes = $item->product_attributes;
-//					$table->user_id = $item->user_id;
 					$table->session_id = $session->getId();				
 				}
 
@@ -132,7 +125,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 			}
 		}
-		
+
 		TiendaHelperCarts::fixQuantities();
 		
 		return true;

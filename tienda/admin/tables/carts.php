@@ -26,6 +26,9 @@ class TiendaTableCarts extends TiendaTableXref
         $keynames['session_id'] = 'session_id';
         $keynames['product_id'] = 'product_id';
         $keynames['product_attributes'] = 'product_attributes';
+
+        // load the plugins (when loading this table outside of tienda, this is necessary)
+        JPluginHelper::importPlugin( 'tienda' );
         
         //trigger: onGetAdditionalCartKeys
         $dispatcher = JDispatcher::getInstance();
