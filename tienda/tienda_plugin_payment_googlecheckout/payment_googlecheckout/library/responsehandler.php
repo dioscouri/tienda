@@ -1,6 +1,7 @@
 <?php 
 
-	define( '_JEXEC', 1 );
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');	
 	define('TPATH_BASE', dirname(__FILE__) );
 	define( 'DS', DIRECTORY_SEPARATOR );
 	$pathXplode = explode(DS."plugins", TPATH_BASE);
@@ -17,8 +18,9 @@
   	require_once(dirname(__FILE__).'/googleresult.php');
   	require_once(dirname(__FILE__).'/googlerequest.php');  	
   	
-  	define('RESPONSE_HANDLER_ERROR_LOG_FILE', 'googleerror.log');
-  	define('RESPONSE_HANDLER_LOG_FILE', 'googlemessage.log');
+  	$path = JPATH_ROOT . '/cache';
+  	define('RESPONSE_HANDLER_ERROR_LOG_FILE', $path.'/googleerror.log');
+  	define('RESPONSE_HANDLER_LOG_FILE', $path.'/googlemessage.log');
   		
   	$server_type 	= $params->get('sandbox') ? "sandbox" : "production";  // change this to go live
 	$merchant_id 	= $params->get('sandbox') ? $params->get('sandbox_merchant_id') : $params->get('merchant_id');  // Your Merchant ID
@@ -30,6 +32,10 @@
 
   	$Grequest = new GoogleRequest($merchant_id, $merchant_key, $server_type, $currency);
 
+  	
+
+	//$response->SetLogFiles($path . '/google_error.log', $path . '/google_message.log', L_ALL);
+  	
   	//Setup the log file
  	$Gresponse->SetLogFiles(RESPONSE_HANDLER_ERROR_LOG_FILE, RESPONSE_HANDLER_LOG_FILE, L_ALL);
 
@@ -109,7 +115,8 @@
 		              $amount = $orderData->order_shipping_tax; // Modify this to the actual tax value
 		              $merchant_result->SetTaxDetails($amount);
 		            }
-		
+					
+		            //TODO: Implement the coupon merchant calculation
 		            if(isset($data[$root]['calculate']['merchant-code-strings']['merchant-code-string'])) 
 		            {
 		            	$codes = get_arr_result($data[$root]['calculate']['merchant-code-strings']

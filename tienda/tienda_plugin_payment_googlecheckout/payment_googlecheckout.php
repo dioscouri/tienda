@@ -98,6 +98,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$vars = new JObject();
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $data['order_id'] );
+
 		$items = $order->getItems();
 		$vars->orderpayment_id = $data['orderpayment_id'];
 		$vars->orderpayment_amount = $data['orderpayment_amount'];
@@ -119,7 +120,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
 		$totalTax=0;
-	
+
 		//check if coupons is not empty
 		//if not empty then we process the coupon name and value and add to the $items having negative value
 		if(!empty($data['coupons']))
@@ -132,7 +133,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
        		$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
 			$model->setState( 'filter_ids', $couponIds );
         	$coupons = $model->getList();
-        	
+      	
 			if(!empty($coupons))
 			{
 				foreach($coupons as $coupon)
@@ -146,8 +147,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				}
 			}
 		}			
-		
-		
+				
 		foreach($items as $itemObject)
 		{
 			$item_temp = new GoogleItem($itemObject->orderitem_name,
@@ -157,19 +157,27 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$totalTax=$totalTax+$itemObject->orderitem_tax;
 		}
 		
-		if ( !empty($data['shipping_plugin'] ) && ( $data['shipping_price'] > 0 || $data['shipping_extra'] > 0 ) )
+		if ( !empty($data['shipping_plugin'] ) && ( $order->order_shipping > 0 ) )
 		{
-	 		// Add shipping
-			$shipTemp = new GooglePickup($data['shipping_name'], $data['shipping_price'] + $data['shipping_extra']); // shipping name and Price as an argument
+			// Add shipping
+			$shipTemp = new GooglePickup($data['shipping_name'], $order->order_shipping + $order->order_shipping_tax); // shipping name and Price as an argument
 			$cart->AddShipping($shipTemp);
 		}
 		
+		//compute the tax rate for default tax
+		$totalOrder = $order->order_total - ($order->order_shipping + $order->order_shipping_tax) + $order->order_discount;
+		$taxRate = $this->calcDefaultTaxRate($totalOrder, $order->order_subtotal);
+				     
+	    // Set default tax options
+	    $tax_rule = new GoogleDefaultTaxRule($taxRate);
+	    $tax_rule->SetWorldArea(true);
+	    $cart->AddDefaultTaxRules($tax_rule);
+		
 		$reponseURL = JURI::root() ."plugins/tienda/{$this->_element}/library/responsehandler.php";		
-		//$reponseURL = JURI::root() ."index.php?option=com_tienda&view=carts&task=googleCheckoutResponseHandler&orderpayment_type=".$this->_element;
 		
 		// Add merchant calculations options
     	$cart->SetMerchantCalculations(
-        "{$reponseURL}", // merchant-calculations-url
+		"{$reponseURL}", // merchant-calculations-url
         "true", // merchant-calculated tax
         "false", // accept-merchant-coupons
         "false"); // accept-merchant-gift-certificates
@@ -186,7 +194,20 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$html = $this->_getLayout('prepayment', $vars);
 		return $html;
 	}
-
+	
+	/**
+	 * 
+	 * Method to calculate the default tax rate
+	 * @param float $totalPrice
+	 * @param float $netPrice
+	 * @return float
+	 */
+	function calcDefaultTaxRate($totalPrice, $netPrice)
+	{
+		$taxRate = ($totalPrice/$netPrice) -1; 
+		
+		return $taxRate;
+	}
 
 	/**
 	 * Processes the payment form
