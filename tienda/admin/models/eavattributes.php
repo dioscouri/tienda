@@ -23,6 +23,7 @@ class TiendaModelEavAttributes extends TiendaModelBase
         $filter_name    = $this->getState('filter_name');
         $filter_enabled  = $this->getState('filter_enabled');
         $filter_entitytype  = $this->getState('filter_entitytype');
+        $filter_entityid  = $this->getState('filter_entityid');
        	
        	if ($filter) 
        	{
@@ -58,6 +59,10 @@ class TiendaModelEavAttributes extends TiendaModelBase
         {
             $key    = $this->_db->Quote($this->_db->getEscaped( trim( strtolower( $filter_entitytype ) ) ));
             $query->where('LOWER(tbl.eaventity_type) LIKE '.$key);
+        }
+    	if (strlen($filter_entityid))
+        {
+            $query->where('tbl.eaventity_id = '.$this->_db->Quote($filter_entityid));
         }
         if (strlen($filter_enabled))
         {
