@@ -1,6 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = @$vars->results; ?>
-
 <p><?php echo JText::_( "THIS TOOL INSTALL SAMPLE DATA TO TIENDA" ); ?></p>
 
     <div class="note">
@@ -14,7 +13,7 @@
                 <th style="width: 5px;">
                     <?php echo JText::_("NUM"); ?>
                 </th>
-                <th style="text-align: left;">
+                <th style="text-align: center;">
                     <?php echo JText::_("DATA"); ?>
                 </th>
                 <th style="width: 50px;">
@@ -24,14 +23,7 @@
                     <?php echo JText::_("ERRORS"); ?>
                 </th>
             </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <td colspan="20">
-
-                </td>
-            </tr>
-        </tfoot>
+        </thead>      
         <tbody>
         <?php $i=0; $k=0; ?>
         <?php $data = array('Manufacturer', 'Category', 'Product');?>
@@ -41,8 +33,8 @@
                 <td align="center">
                     <?php echo $i + 1; ?>
                 </td>
-                <td style="text-align: left;">
-                        <?php echo $data[$i]?> (<?php echo JText::_($item); ?>)
+                <td style="text-align: center; width:50px;">
+                        <?php echo JText::_("Table "); ?> <?php echo $i + 1; ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $result->affectedRows; ?>

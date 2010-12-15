@@ -21,6 +21,9 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 	 */
     var $_element   = 'tool_installsampledata';   
     
+    var $_uploaded_file		= '';
+    var $_uploaded_filename		= '';
+    
 	function plgTiendaTool_InstallSampleData(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
@@ -58,36 +61,63 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     function _processSuffix( $suffix='' )
     {
         $html = "";
-        
-    	$state = $this->_getState();
+        static $checkdb=true;; 
 
+        //check if tienda tables have data and show warning
+        if(!$checkdb = $this->_checkTiendaDb())
+        {
+        	JError::raiseNotice('_verifyDB', JText::_('TIENDATABLENOTEMPTY'));
+        }
+        
+    	$state = $this->_getState();    
         switch($suffix)
         {
-            case"2":
-                if (count($state->sampledata) < 1)
-                {
-                    JError::raiseNotice('_verifyDB', JText::_('PLEASE SELECT AT LEAST ONE DATA SET'));
-                    $html .= $this->_renderForm( '1' );
-                }
-                else
-                {
-                    // migrate the data and output the results
-                    $html .= $this->_doInstallSampleData($state);
-                }
+            case"2":        	
+            	$verify = true;
+            	if($state->install_default == '0' || empty($state->install_default))            		
+            	{
+            		$verify = $this->_verifyFile();
+            	}            		           		
+            		
+	            if (!$verify)
+	            {
+	               JError::raiseNotice('_verifyDB', $this->getError());
+	               $html .= $this->_renderForm( '1' );
+	            }
+	            else
+	            {
+	                // migrate the data and output the results
+	                $html .= $this->_doInstallSampleData($this->_getState());                   
+	            }
                 break;
             case"1":
-                if (empty($state->sampledata))
+            	
+            	$verify = true;
+            	if($state->install_default == '0' || empty($state->install_default))            		
+            	{         
+            		$verify = $this->_verifyFile();
+            	}    
+                if (!$verify)
                 {
-                     JError::raiseNotice('_verifyDB', JText::_('PLEASE SELECT AT LEAST ONE DATA SET'));
+                    JError::raiseNotice('_verifyDB', $this->getError());
                     $html .= $this->_renderForm( '1' );
                 }
                 else
                 {
-                    $suffix++;
-                    // display a 'connection verified' message
-                    // and request confirmation before migrating data
-                    $html .= $this->_renderForm( $suffix );
-                    $html .= $this->_renderView( $suffix );                    
+                	 $suffix++;
+                	$vars = new JObject();                  
+                    $vars->state = $this->_getState();
+                    $vars->state->uploaded_file = $this->_uploaded_file;       
+                    if($state->install_default == '0' || empty($state->install_default))    
+                    {
+                    	$vars->state->sampledata = $this->_uploaded_filename;
+                    }       
+                    
+                    $vars->setError($this->getError());
+
+                    //display sample data information
+                    $html .= $this->_renderForm( $suffix, $vars );                    
+                    $html .= $this->_renderView( $suffix, $vars );                      
                 }
                 break;
             default:
@@ -96,15 +126,19 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         }
         
         return $html;
-    }
-	
+    }   
+    
     /**
      * Prepares the 'view' tmpl layout
      *  
      * @return unknown_type
      */
-    function _renderView( $suffix='' )
+    function _renderView( $suffix='', $vars = 0 )
     {
+    	if(!$vars)
+    	{
+        	$vars = new JObject();
+    	}
         $vars = new JObject();
         $layout = 'view_'.$suffix;
         $html = $this->_getLayout($layout, $vars);
@@ -117,11 +151,15 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
      * 
      * @return unknown_type
      */
-    function _renderForm( $suffix='' )
+    function _renderForm( $suffix='', $vars = 0  )
     {
-        $vars = new JObject();
-        $vars->token = $this->_getToken( $suffix );
-        $vars->state = $this->_getState();
+    	if(!$vars)
+    	{
+        	$vars = new JObject();
+        	$vars->state = $this->_getState();
+    	}
+        
+        $vars->token = $this->_getToken( $suffix );       
         
         $layout = 'form_'.$suffix;
         $html = $this->_getLayout($layout, $vars);
@@ -137,37 +175,179 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     function _getState()
     {    	
         $state = new JObject();
-        $state->sampledata = JRequest::getVar('sampledata');        
- 
+        $state->file = '';
+        $state->uploaded_file = '';
+        $state->sampledata = '';    
+        $state->install_default = '0';      
+        
+        foreach ($state->getProperties() as $key => $value)
+        {
+            $new_value = JRequest::getVar( $key );
+            $value_exists = array_key_exists( $key, $_POST );
+            if ( $value_exists && !empty($key) )
+            {
+                $state->$key = $new_value;
+            }
+        }
+        
         return $state;
     }
+    
+ /**
+     * 
+     * Method to check tienda tables such us tienda_products, tienda_categories, and tienda_manufactures
+     */
+	function _checkTiendaDb()
+	{
+		$empty = true;
+		
+		// Check the registry to see if our Tienda class has been overridden
+        if ( !class_exists('Tienda') ) 
+            JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+        
+        // load the config class
+        Tienda::load( 'TiendaConfig', 'defines' );
+                
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+
+		if($empty)
+    	{
+	        // get the manufacturer model
+	    	$categoryM = JModel::getInstance( 'Categories', 'TiendaModel' );
+			
+	    	$categoryTotal = $categoryM->getTotal();
+	    	if( $categoryTotal > 1 ) $empty = false;
+    	}
+    	
+    	if($empty)
+    	{
+	        // get the manufacturer model
+	    	$manufacturerM = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+			
+	    	$manufacturerTotal = $manufacturerM->getTotal();
+	    	if( $manufacturerTotal > 0 ) $empty = false;
+    	}
+    	
+		if($empty)
+    	{
+	        // get the manufacturer model
+	    	$productM = JModel::getInstance( 'Products', 'TiendaModel' );
+			
+	    	$productTotal = $productM->getTotal();
+	    	if( $productTotal > 0 ) $empty = false;
+    	}
+    	
+    	return $empty;
+    	
+	}
+	
+	/**
+	 * 
+	 * Method to upload and verify file if uploaded
+	 * @return boolean
+	 */
+	function _verifyFile()
+	{
+	    $state = $this->_getState();
+	    $success = false;
+    	
+    	// Uploads the file
+		Tienda::load( 'TiendaFile', 'library.file' );
+		$upload = new TiendaFile();
+		
+		// we have to upload the file
+    	if(@$state->uploaded_file == '')
+    	{
+			// handle upload creates upload object properties
+			$success = $upload->handleUpload( 'file' );
+			
+			if($success)
+			{
+	    		if( strtolower($upload->getExtension()) != 'sql' )
+				{
+					$this->setError(JText::_('This is not a SQL file'));
+					return false;
+				}
+				
+				// Move the file to let us reuse it 
+				$upload->setDirectory(JFactory::getConfig()->get('tmp_path', JPATH_SITE.DS.'tmp'));
+				$success = $upload->upload();
+			
+				if(!$success)
+				{
+					$this->setError($upload->getError());
+					return false;
+				}
+				
+				$upload->file_path = $upload->getFullPath();
+			}
+	    	else
+			{
+				$this->setError(JText::_('Could Not Upload SQL File: '.$upload->getError()));
+				$success = false;
+			}
+    	}
+    	// File already uploaded
+    	else
+    	{
+    		$upload->full_path = $upload->file_path = @$state->uploaded_file;
+    		$upload->proper_name = TiendaFile::getProperName(@$state->uploaded_file);
+    		$success = true;
+    	}
+
+		if( $success )
+		{			
+			// Set the uploaded file as the file to use during the real import
+			$this->_uploaded_file = $upload->getFullPath();
+			$this->_uploaded_filename = str_replace( ".sql", "", $upload->physicalname );
+		}
+
+    	return $success;
+	
+	}
 
     /**
      * Perform the sample data installation
      * 
      * @return html
      */
-    private function _doInstallSampleData($state)
+    function _doInstallSampleData($state)
     {
+    	
+    	//check db
+    	if(!$this->_checkTiendaDb())
+    	{
+    		JError::raiseNotice('_verifyDB', JText::_('INSTALLATION FAILED. PLEASE REMOVE PRODUCTS, CATEGORIES AND MANUFACTURERS'));
+    		return $this->_renderForm( '1' );
+    	}
+ 
         $html = "";
         $vars = new JObject();
         $errors = null;                    
 
-        static $installURL;
+       	$installURL = '';
         $results = array();
-                
-        if(!empty($state->sampledata))
+
+        if($state->install_default == '0' || empty($state->install_default))
         {
         	$database = JFactory::getDBO();
+        	$results[ucfirst($sample)] = $this->_populateDatabase( $database, $state->uploaded_file, $errors);    
+        }
+        else 
+        {
+          if(!empty($state->sampledata))
+        	{
+        	$database = JFactory::getDBO();
         	$installURL = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_tienda'.DS.'install'.DS.'sampledata'.DS;
-        	
-        	foreach( $state->sampledata as $sample)
-        	{        		
-        		$sqlfile = $installURL.$sample.".sql";        		
-        		$results[ucfirst($sample)] = $this->_populateDatabase( $database, $sqlfile, $errors);    
+        	        	       		
+        	$sqlfile = $installURL.$state->sampledata.".sql";        		
+        	$results[ucfirst($state->sampledata)] = $this->_populateDatabase( $database, $sqlfile, $errors);    
+        	          
         	}
-        	           
-        }         
+        
+        }
+                
 		//if errors not empty
 		if(!empty($errors))
 		{
@@ -188,36 +368,27 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         return $html;
     }
     
-	private function _populateDatabase (& $database, $sqlfile, & $errors)
-	{					
+	function _populateDatabase (& $database, $sqlfile, & $errors)
+	{			
+
 		if( !($buffer = file_get_contents($sqlfile)) )
 		{
-			return -1;
+			$vars = new JObject();                  
+            $vars->state = $this->_getState();
+            $vars->setError($this->getError());
+			return $this->_getLayout("view_2", $vars);;
 		}
 
 		$queries = $this->_splitSql($buffer);
-	
+
 		$results = array();
-		$n=0;
+		$n=0;		
 		foreach ($queries as $query)
 		{
 			$query = trim($query);
 			if ($query != '' && $query {0} != '#')
 			{
-				$database->setQuery($query);		
-				if($n == '0')
-				{
-					$results[$n]->table = JText::_("Manufacturers");
-				}
-				elseif( $n == '1')
-				{
-					$results[$n]->table = JText::_("Categories");
-				}
-				else 
-				{
-					$results[$n]->table = JText::_("Products");
-				}
-				
+				$database->setQuery($query);						
             	$results[$n]->query = $database->getQuery();
             	$results[$n]->error = '';	
 				
@@ -227,10 +398,12 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
             	}
             	
             	$results[$n]->affectedRows = $database->getAffectedRows();
-				
+			
 				$n++;
+				$i++;
 			}
 		}	
+
 		return $results;
 	}
         
@@ -238,7 +411,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 	 * @param string - $sql
 	 * @return array
 	 */
-	private function _splitSql($sql)
+	function _splitSql($sql)
 	{
 		$sql = trim($sql);
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
