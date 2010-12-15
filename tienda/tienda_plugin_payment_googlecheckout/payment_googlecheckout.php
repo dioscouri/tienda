@@ -164,10 +164,20 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$cart->AddShipping($shipTemp);
 		}
 		
-		//compute the tax rate for default tax
-		$totalOrder = $order->order_total - ($order->order_shipping + $order->order_shipping_tax) + $order->order_discount;
-		$taxRate = $this->calcDefaultTaxRate($totalOrder, $order->order_subtotal);
-				     
+		
+		
+		//adjust the tax rate if discount is available
+		if($order->order_discount > 0 )
+		{
+			$taxRate = $this->taxRateAdjustment( $order->order_subtotal, $order->order_discount, $order->order_tax);
+		}
+		else 
+		{
+			//compute the tax rate for default tax
+			$totalOrder = $order->order_total - ($order->order_shipping + $order->order_shipping_tax);
+			$taxRate = $this->calcDefaultTaxRate($totalOrder, $order->order_subtotal);
+		}
+					     
 	    // Set default tax options
 	    $tax_rule = new GoogleDefaultTaxRule($taxRate);
 	    $tax_rule->SetWorldArea(true);
@@ -209,6 +219,29 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		return $taxRate;
 	}
 
+	/**
+	 * 
+	 * Method to calculate the tax rate if coupon is available
+	 * Since we passed the coupon as item with negative value so google also calculate the tax 
+	 * googtax = ItemsNetPrice - CouponValue
+	 * 
+	 * @param float $itemNetPrice
+	 * @param float $couponValue
+	 * @param float $taxRateSite
+	 * @return float
+	 */
+	function taxRateAdjustment($itemNetPrice, $couponValue, $taxRateSite)
+	{
+		//check if coupon value is greater than the items net price to avoid having negative tax on google
+		//supposedly we will not end up here since the order becomes free
+		if($couponValue > $itemNetPrice) return 0;
+		
+		$taxRate = $taxRateSite / ($itemNetPrice - $couponValue);
+		
+		return $taxRate;
+	}
+	
+	
 	/**
 	 * Processes the payment form
 	 * and returns HTML to be displayed to the user
