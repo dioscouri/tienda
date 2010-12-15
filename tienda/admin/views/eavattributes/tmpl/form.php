@@ -47,6 +47,34 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
+						<label for="eaventity_id">
+						<?php echo JText::_( 'Entity' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php 
+							if(@$row->eaventity_type)
+							{
+								switch(@$row->eaventity_type)
+								{
+									case 'products':
+										echo $this->elementproduct.$this->resetproduct;
+										break;
+								}	
+							}
+							else
+							{
+						?>
+							<div class="note">
+								<?php echo JText::_('Click apply to add a link to an entity for this product'); ?>
+							</div>
+						<?php 
+							}
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td width="100" align="right" class="key">
 						<label for="eavattribute_type">
 						<?php echo JText::_( 'Data Type' ); ?>:
 						</label>
@@ -55,6 +83,7 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo TiendaSelect::attributetype(@$row->eavattribute_type, 'eavattribute_type'); ?>
 					</td>
 				</tr>
+				
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->eaventity_type; ?>" />
 			<input type="hidden" name="task" value="" />
