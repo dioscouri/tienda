@@ -6,7 +6,7 @@
 	<copyright>Copyright (C) 2010 Dioscouri Design</copyright>
 	<authorEmail>info@diosocuri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>
-	<version>1.0.0</version>
+	<version>0.6.1</version>
 	<description>Tienda Product</description>
 	<params>
 		<param name="name" type="text" default="Add to Cart" label="Name" description="Name used in item editor" />
