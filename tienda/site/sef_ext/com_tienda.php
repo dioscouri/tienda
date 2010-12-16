@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * <p>sh404SEF support for com_tienda component.</p>
  * 
