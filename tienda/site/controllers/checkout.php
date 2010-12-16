@@ -124,7 +124,12 @@ class TiendaControllerCheckout extends TiendaController
 			Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 			$helper = new TiendaHelperRoute();
 			$view = $this->getView( 'checkout', 'html' );
-			$view->assign('checkout_itemid', $helper->findItemid( array('view'=>'checkout') ) );
+			$checkout_itemid = $helper->findItemid( array('view'=>'checkout') );
+			if (empty($checkout_itemid))
+			{
+			    $checkout_itemid = JRequest::getInt('Itemid');
+			}
+			$view->assign('checkout_itemid', $checkout_itemid );
 			parent::display();
 			return;
 		}
