@@ -64,8 +64,6 @@ div#tienda_products div.product_thumb {
     margin: 0px 5px 5px 0px; 
     float: left; 
     min-width: 15%; 
-    max-width: 15%; 
-    width: 15%; 
     text-align: center;
 }
 
