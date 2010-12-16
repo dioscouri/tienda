@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - Custom Fields</name>
+	<version>0.6.1</version>
+	<creationDate>October 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin shows Custom Fields in the "Edit View" of the extended entity</description>
+	
+	<files>
+		<filename plugin="customfields">customfields.php</filename>
+		<filename>customfields.xml</filename>
+		<folder>customfields</folder>	
+	</files>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+	</params>
+			
+</install>

@@ -48,12 +48,30 @@ class TiendaTableEav extends TiendaTable
 			{
 				$key = $eav->eavattribute_alias;
 				
-				// Fetch the value from the post
-				$value = JRequest::getVar($key, null, 'post');
-				if($value !== null)
+				// Check if the key exists in this object (could be a ->load() ->set() ->store() workflow)
+				if( property_exists($this, $key))
 				{
+					// Fetch the value from the post (if any) and overwrite the object value if it exists
+					$value = JRequest::getVar($key, null, 'post');
+					if($value === null)
+					{
+						// If not, use the object value
+						$value = $this->$key;
+					}
+					
 					// Store it into the array for eav values
-					$custom_fields[] = array('eav' => $eav, 'value' => $value);
+					$custom_fields[] = array('eav' => $eav, 'value' => $this->$key);
+				}
+				// It wasn't in the object, but is it in the post? (new value)
+				else
+				{
+					// Fetch the value from the post (if any)
+					$value = JRequest::getVar($key, null, 'post');
+					if($value !== null)
+					{
+						// Store it into the array for eav values
+						$custom_fields[] = array('eav' => $eav, 'value' => $value);
+					}
 				}
 			}
 		}
@@ -112,23 +130,6 @@ class TiendaTableEav extends TiendaTable
 	 */
 	function delete( $oid='' )
 	{
-	    if (empty($oid))
-        {
-            // if empty, use the values of the current keys
-            $keynames = $this->getKeyNames();
-            foreach ($keynames as $key=>$value)
-            {
-                $oid[$key] = $this->$key; 
-            }
-            if (empty($oid))
-            {
-                // if still empty, fail
-                $this->setError( JText::_( "Cannot delete with empty key" ) );
-                return false;
-            }
-        }
-        $oid = (array) $oid;
-
 	    $dispatcher = JDispatcher::getInstance();
         $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this, $oid ) );
         if (in_array(false, $before, true))
@@ -136,38 +137,210 @@ class TiendaTableEav extends TiendaTable
             return false;
         }
         
-	    $db = $this->getDBO();
+		if ( $return = parent::delete( $oid ))
+		{
+			// Delete also the values for that product in EAV tables
+			$key = $this->_tbl_key;
+			$id = $this->$key;
+			
+			// Get the custom fields for this entities
+			Tienda::load('TiendaHelperEav', 'helpers.eav');
+			$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+			
+			$error = false;
+			$msg = '';
+			
+			foreach(@$eavs as $eav)
+			{
+				// get the value table
+	    		$table = JTable::getInstance('EavValues', 'TiendaTable');
+	    		// set the type based on the attribute
+	    		$table->setType($eav->eavattribute_type);
+	    		
+	    		// load the value based on the entity id
+	    		$keynames = array();
+	    		$keynames['eavattribute_id'] = $eav->eavattribute_id; 
+	    		$keynames['eaventity_id'] = $id;
+	    		
+	    		// If the value exists for this entity
+	    		if($table->load($keynames))
+	    		{
+	    			// delete the value
+	    			$result = $table->delete();
+	    			if(!$result)
+	    			{
+	    				$error = true;
+	    				$msg = $table->getError();
+	    			}
+	    		}
+			}
+			
+			// log eav errors
+			if($error)
+			{
+				$this->setError(JText::_('EAV Delete failed: ') . $msg);
+				return false;
+			}
+				
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $oid ) );
+		}
+		return $return;
+	}
+	
+	/**
+	 * Loads a row from the database and binds the fields to the object properties
+	 * If $load_eav is true, binds also the eav fields linked to this entity
+	 *
+	 * @access	public
+	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	 * @param	bool	reset the object values?
+	 * @param	bool	load the eav values for this object
+	 * 
+	 * @return	boolean	True if successful
+	 */
+	function load( $oid=null, $reset=true, $load_eav = true )
+	{	
+		if (!is_array($oid))
+		{
+			// load by primary key if not array
+			$keyName = $this->getKeyName();
+			$oid = array( $keyName => $oid );
+		}
+		
+		if (empty($oid))
+		{
+			// if empty, use the value of the current key
+			$keyName = $this->getKeyName();
+			$oid = $this->$keyName;
+			if (empty($oid))
+			{
+				// if still empty, fail
+				$this->setError( JText::_( "Cannot load with empty key" ) );
+                return false;
+			}
+		}
+
+        // allow $oid to be an array of key=>values to use when loading
+        $oid = (array) $oid;
+		
+        if (!empty($reset))
+        {
+            $this->reset();
+        }
+
+        $db = $this->getDBO();
         
         // initialize the query
         $query = new TiendaQuery();
-        $query->delete();
+        $query->select( '*' );
         $query->from( $this->getTableName() );
         
-        foreach ($oid as $key=>$value)
-        {
+		foreach ($oid as $key=>$value)
+		{
             // Check that $key is field in table
             if ( !in_array( $key, array_keys( $this->getProperties() ) ) )
             {
-                $this->setError( get_class( $this ).' does not have the field '.$key );
-                return false;
+            	// Check if it is a eav field
+            	if($load_eav)
+            	{
+            		$k = $this->_tbl_key;
+					$id = $this->$k;
+					
+					// Get the custom fields for this entities
+					Tienda::load('TiendaHelperEav', 'helpers.eav');
+					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+					
+					// loop through until the key is found or the eav are finished
+					$found = false;
+					$i = 0;
+					while(!$found && ($i < count($eavs)))
+					{
+						// Does the key exists?
+						if( $key == $eav[$i]->eavattribute_alias)
+						{
+							$found = true;
+						}
+						
+						$i++;
+					}
+					
+					// Was the key found?
+					if(!$found)
+					{
+						// IF not return an error
+						$this->setError( get_class( $this ).' does not have the field '.$key );
+                		return false;	
+					}
+					
+					// else let the store() method worry over this
+            	}
+                else
+                {
+                	$this->setError( get_class( $this ).' does not have the field '.$key );
+                	return false;	
+                }
             }
             // add the key=>value pair to the query
             $value = $db->Quote( $db->getEscaped( trim( strtolower( $value ) ) ) );
             $query->where( $key.' = '.$value);
+		}
+		
+		$db->setQuery( (string) $query );
+		
+	    if ( $result = $db->loadAssoc() )
+        {
+        	$result = $this->bind($result);
+        	
+        	if( $result )
+        	{
+        		// Only now load the eav, in necessary
+        		// Check if it is a eav field
+            	if($load_eav)
+            	{
+            		$k = $this->_tbl_key;
+					$id = $this->$k;
+					
+					// Get the custom fields for this entities
+					Tienda::load('TiendaHelperEav', 'helpers.eav');
+					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+					
+					if(count($eavs))
+					{
+		            	foreach($eavs as $eav)
+			    		{
+			    			$key = $eav->eavattribute_alias;
+			    			
+			    			// get the value table
+			    			$table = JTable::getInstance('EavValues', 'TiendaTable');
+			    			// set the type based on the attribute
+			    			$table->setType($eav->eavattribute_type);
+			    			
+			    			// load the value based on the entity id
+			    			$keynames = array();
+			    			$keynames['eavattribute_id'] = $eav->eavattribute_id; 
+			    			$keynames['eaventity_id'] = $id;
+			    			$table->load($keynames);
+			    			
+			    			$value = $table->eavvalue_value;
+			    			
+		    				// use JObject set() method
+		    				$item->{$key} = $v;
+			    		}
+					}
+            	}
+        		
+        		$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger( 'onLoad'.$this->get('_suffix'), array( &$this ) );	
+        	}
+            
+			return $result;
         }
-
-        $db->setQuery( (string) $query );
-
-		if ($db->query())
-		{
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $oid ) );
-			return true;
-		}
-		else
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+        else
+        {
+            $this->setError( $db->getErrorMsg() );
+            return false;
+        }
 	}
+	
 }
