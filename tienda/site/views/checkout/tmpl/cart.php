@@ -116,7 +116,8 @@ $items = @$this->orderitems;
                     	}
                     	    else
                     	{
-                    	    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; } 
+                    	    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
+                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
                     	    else { echo JText::_("Product Tax").":<br>"; }    
                     	}
    						
