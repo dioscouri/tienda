@@ -1061,6 +1061,104 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
+						$legend = JText::_( "sh404sef Support" );
+	                    echo $this->sliders->startPanel( JText::_( $legend ), 'email' );
+	                 ?>
+	                <table class="adminlist">
+					<tbody>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Insert Shop Name' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'insert_shop_name', 'class="inputbox"', $this->row->get('insert_shop_name', '1') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, shop name (as define in the Shop Information config) will always be prepended to SEF URL.' ); ?>
+                            </td>
+						</tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Product Name' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_product_name', 'class="inputbox"', $this->row->get('insert_product_name', '1') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, product alias will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Product ID' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_product_id', 'class="inputbox"', $this->row->get('insert_product_id', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, product alias will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Product SKU' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_product_sku', 'class="inputbox"', $this->row->get('insert_product_sku', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, product SKU will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Manufacturer Name' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_manufacturer_name', 'class="inputbox"', $this->row->get('insert_manufacturer_name', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, manufacturer name will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Manufacturer ID' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_manufacturer_id', 'class="inputbox"', $this->row->get('insert_manufacturer_id', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, manufacturer id will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Category Name' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_categories', 'class="inputbox"', $this->row->get('insert_categories', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, category name will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Insert Category ID' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'insert_category_id', 'class="inputbox"', $this->row->get('insert_category_id', '0') ); ?>
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, category id will be prepended to SEF URL.' ); ?>
+                            </td>
+                        </tr>
+					</tbody>
+					</table>
+					<?php
+						echo $this->sliders->endPanel();				
+
 						// if there are plugins, display them accordingly
 		                if ($this->items_sliders) 
 		                {               	
