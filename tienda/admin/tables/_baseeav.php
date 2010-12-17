@@ -325,7 +325,7 @@ class TiendaTableEav extends TiendaTable
 			    			$value = $table->eavvalue_value;
 			    			
 		    				// use JObject set() method
-		    				$item->{$key} = $v;
+		    				$item->{$key} = $value;
 			    		}
 					}
             	}

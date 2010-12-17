@@ -53,6 +53,28 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	}
 	
 	/**
+	 * Displays the custom fields on the site product view
+	 * @param int $product_id
+	 */
+	function onAfterDisplayProduct( $product_id )
+	{
+		$vars = new JObject();
+		
+        // Get extra fields for products
+        $fields = $this->getCustomFields('products', $product_id);
+        
+        echo 'here';
+        
+        // If there are any extra fields, show them as an extra tab
+        if(count($fields))
+        {
+        	$vars->fields = $fields;
+        	$html = $this->_getLayout('product_site', $vars);
+        	echo $html;
+        }
+	}
+	
+	/**
 	 * Get the custom fields for the given entity
 	 * @param string $entity
 	 * @param int $id
