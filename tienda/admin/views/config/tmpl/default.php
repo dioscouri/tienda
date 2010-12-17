@@ -1065,7 +1065,7 @@
 	                    echo $this->sliders->startPanel( JText::_( $legend ), 'email' );
 	                 ?>
 	                <table class="adminlist">
-					<tbody>
+					<tbody>					
 						<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Insert Shop Name' ); ?>
@@ -1154,6 +1154,17 @@
                                 <?php echo JText::_( 'If set to YES, category id will be prepended to SEF URL.' ); ?>
                             </td>
                         </tr>
+                        <tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Insert Menu Title' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'insert_menu_title', 'class="inputbox"', $this->row->get('insert_menu_title', '1') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'If set to YES, menu title/name will always be prepended to SEF URL.' ); ?>
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php
