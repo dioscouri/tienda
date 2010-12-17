@@ -475,6 +475,7 @@ class TiendaConfig extends JObject
     var $insert_manufacturer_id				= '0';
     var $insert_categories					= '1';
     var $insert_category_id					= '0';
+    var $insert_menu_title					= '1';
 	
 	/**
 	 * constructor
