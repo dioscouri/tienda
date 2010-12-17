@@ -13,8 +13,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-######################################################################################
-#---------------= standard plugin initialize function - don't change =---------------#
+########################################################################################
+ #---------------= standard plugin initialize function - don't change =---------------#
 global $sh_LANG, $sefConfig;
 $shLangName = '';
 $shLangIso = '';
@@ -22,8 +22,8 @@ $title = array();
 $shItemidString = '';
 $dosef = shInitializePlugin( $lang, $shLangName, $shLangIso, $option);
 if ($dosef == false) return;
-#---------------=  standard plugin initialize function - don't change =---------------#
-######################################################################################
+ #---------------=  standard plugin initialize function - don't change =---------------#
+#########################################################################################
 
 //load our own lang iso since we dont user sh404sef translation
 $langJoomla =& JFactory::getLanguage();
@@ -55,22 +55,18 @@ if (!function_exists( 'shSefGetTiendaProductName')) {
 	function shSefGetTiendaProductName($id, $option, $shLangName, $shLangIso, $tiendaConfig) {
 		if (empty($id)) return null;
     
-    	$sefConfig = & shRouter::shGetConfig();    	   	
-    	// get DB
-    	static $result = null;
+    	$sefConfig = & shRouter::shGetConfig();     	
     	
-    	if(is_null($result)) {
-	    	$database =& JFactory::getDBO();
-	    	$query = "SELECT `product_id`, `product_sku`, `product_alias` FROM `#__tienda_products`";
-	   	 	$query .= "\n WHERE `product_id` = ".$database->Quote( $id);
-	    	$database->setQuery( $query );
+	    $database =& JFactory::getDBO();
+	    $query = "SELECT `product_id`, `product_sku`, `product_alias` FROM `#__tienda_products`";
+	   	$query .= "\n WHERE `product_id` = ".$database->Quote( $id);
+	    $database->setQuery( $query );
 	
-	    	if (!shTranslateUrl($option, $shLangName)) {
-		    	$result = $database->loadObject( false );
-		    }else{
-		    	$result = $database->loadObject();
-		    }
-    	}
+	    if (!shTranslateUrl($option, $shLangName)) {
+		    $result = $database->loadObject( false );
+		}else{
+		    $result = $database->loadObject();
+		}    	
     	
 		//product not available
 	    if(empty($result)) return JText::_('product').$sefConfig->replacement.$id;
@@ -79,15 +75,15 @@ if (!function_exists( 'shSefGetTiendaProductName')) {
 	    if ( $tiendaConfig->get('insert_product_id') ) {
 	    	$shName .= $result->product_id;
 	    }
-    
+	    
+    	if ($tiendaConfig->get('insert_product_name') ) {
+	    	 $shName .= (empty($shName) ? '':$sefConfig->replacement).$result->product_alias;  
+	    }   
+	    
 	    if ( $tiendaConfig->get('insert_product_sku') ) {
-	    	$shName .= (empty($shName) ? '':$sefConfig->replacement).$result->product_sku;
+	    	$product_sku = str_replace(" ","", trim($result->product_sku));
+	    	$shName .= (empty($shName) ? '':$sefConfig->replacement).$product_sku;	    	
 	    }
-    
-	    if ($tiendaConfig->get('insert_product_name') ) {
-	    	 $shName .= (empty($shName) ? '':$sefConfig->replacement).$row->product_alias;	    	 
-	    	 if (empty($shName))  $shName = $row->product_name;	    	
-	    }    
 
     	return $shName;
 	}
@@ -99,19 +95,18 @@ if (!function_exists( 'shSefGetTiendaCategoryName')) {
 		static $cat = null;
 		$shName = '';
 	    $sefConfig = & shRouter::shGetConfig();
-	    if (is_null( $cat)) {
-	      	$database =& JFactory::getDBO();
+	  
+	    $database =& JFactory::getDBO();
 	      
-	      	$query = "SELECT `category_id`, `category_name` FROM #__tienda_categories";
-	       	$query .= "\n WHERE `category_id` = ".$database->Quote( $filter_category );
-	      	$database->setQuery( $query);
-	      	if (!shTranslateUrl($option, $shLangName)) {
-	       		$cat = $database->loadObject(false);
-	      	} else {
-	        	$cat = $database->loadObject();
-	      	}         		    
-	    }
-	    
+	    $query = "SELECT `category_id`, `category_name` FROM #__tienda_categories";
+	    $query .= "\n WHERE `category_id` = ".$database->Quote( $filter_category );
+	    $database->setQuery( $query);
+	    if (!shTranslateUrl($option, $shLangName)) {
+	       $cat = $database->loadObject(false);
+	    } else {
+	       $cat = $database->loadObject();
+	    }         		    
+	  	    
 		$tiendaConfigCat = $tiendaConfig->get('insert_categories');
 	    $tiendaConfigCatInsertid =$tiendaConfig->get('insert_category_id');
 
@@ -123,7 +118,7 @@ if (!function_exists( 'shSefGetTiendaCategoryName')) {
 	    	$shName .= (empty($shName) ? '':$sefConfig->replacement).$cat->category_name;	    	
 	    }
 	    //TODO: need to add category name of parent categories
-	    	       
+   	       
 	    return $shName;    	
 	}	
 }
@@ -164,10 +159,14 @@ if (!function_exists( 'shSefGetTiendaManufactureryName')) {
 
 $task = isset($task) ? @$task : null;
 $Itemid = isset($Itemid) ? @$Itemid : null;
-$shTiendaName = shGetComponentPrefix($option);
-$shTiendaName = empty($shTiendaName) ?
-		getMenuTitle($option, $task, $Itemid, null, $shTiendaName) : $shTiendaName;
-$shTiendaName = (empty($shTiendaName) || $shTiendaName == '/') ? 'SHOP':$shTiendaName;
+
+if($tiendaConfig->get('insert_menu_title')) {
+	$shTiendaName = shGetComponentPrefix($option);
+	$shTiendaName = empty($shTiendaName) ?
+			getMenuTitle($option, $task, $Itemid, null, $shTiendaName) : $shTiendaName;
+	$shTiendaName = (empty($shTiendaName) || $shTiendaName == '/') ? 'SHOP':$shTiendaName;
+	$title[] = $shTiendaName;
+}
 
 if($tiendaConfig->get('insert_shop_name')) {
 	$shopname = $tiendaConfig->get('shop_name');
@@ -204,7 +203,7 @@ switch($view):
 	case 'dashboard':		
 		$title[] = JText::_('dashboard');		
 		break;	
-	case 'accounts':		
+	case 'accounts':
 		$title[] = JText::_('accounts');		
 		break;
 	case 'orders':		
@@ -217,7 +216,7 @@ switch($view):
 		$title[] = JText::_('carts');		
 		break;
 	case 'check':		
-		$title[] = JText::_('carts');		
+		$title[] = JText::_('checks');		
 		break;
 	case 'addresses':		
 		$title[] = JText::_('addresses');		
@@ -227,21 +226,33 @@ switch($view):
 		break;
 endswitch;
 
-if(!empty($task)) {
+if(!empty($task) && $task != 'validate' && $task !='reviewHelpfullness') {
   	shRemoveFromGETVarsList('task');
-}
-if(!empty($id)) {
-  	shRemoveFromGETVarsList('id');
-}
-if(isset($Itemid)) {
-  	shRemoveFromGETVarsList('Itemid');
 }
 if(!empty($layout)) {
 	shRemoveFromGETVarsList('layout');
 }
+if(isset($Itemid)) {
+  	shRemoveFromGETVarsList('Itemid');
+}
+if(!empty($id)) {
+  	shRemoveFromGETVarsList('id');
+}
+if(!empty($rangeselected)) {
+	shRemoveFromGETVarsList('rangeselected');
+}
+if(!empty($filter_price_from)) {
+	shRemoveFromGETVarsList('filter_price_from');
+}
+if(!empty($filter_price_to)) {
+	shRemoveFromGETVarsList('filter_price_to');
+}
+if(!empty($filter_category)) {
+	shRemoveFromGETVarsList('filter_category');
+}
 
 ######################################################################################
-#---------------= standard plugin finalize function - don't change =---------------#
+ #---------------= standard plugin finalize function - don't change =---------------#
 if ($dosef)
 {
    $string = shFinalizePlugin( $string, $title, $shAppendString, $shItemidString, 
