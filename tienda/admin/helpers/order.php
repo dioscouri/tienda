@@ -389,20 +389,12 @@ class TiendaHelperOrder extends TiendaHelperBase
      */
     function getOrderHtmlForEmail( $order_id )
     {
-        $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
-        
-        // Require specific controller if requested
-        Tienda::load( 'TiendaControllerOrders', "controllers.orders", $options );
-        
-        // load the plugins
         JPluginHelper::importPlugin( 'tienda' );
         
-        // Create the controller
-        $classname = 'TiendaControllerOrders';
-        $controller = Tienda::getClass( $classname );      
+        JLoader::register( "TiendaViewOrders", JPATH_SITE."/components/com_tienda/views/orders/view.html.php" );        
+        $view = new TiendaViewOrders();
         
-        $view = $controller->getView( 'orders', 'html' );
-        $model  = $controller->getModel( 'orders' );
+        $model = Tienda::getClass("TiendaModelOrders", "models.orders");
         $model->setId( $order_id );
         $order =& $model->getItem();
         
