@@ -28,20 +28,22 @@
         </div>
     <?php endif; ?>
 	
-    <div id="payment_info" class="address">
-        <h3><?php echo JText::_("Billing Information"); ?></h3>
-        <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
-        <?php
-        echo $billing_info['first_name']." ". $billing_info['last_name']."<br/>";
-        echo $billing_info['address_1'].", ";
-        echo $billing_info['address_2'] ? $billing_info['address_2'] .", " : "";
-        echo $billing_info['city'] .", ";
-        echo $billing_info['zone_name'] ." ";
-        echo $billing_info['postal_code'] ." ";
-        echo $billing_info['country_name'];
-        ?>
-    </div>
-
+	<?php if (!empty($this->showBilling)) { ?>
+        <div id="payment_info" class="address">
+            <h3><?php echo JText::_("Billing Information"); ?></h3>
+            <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
+            <?php
+            echo $billing_info['first_name']." ". $billing_info['last_name']."<br/>";
+            echo $billing_info['address_1'].", ";
+            echo $billing_info['address_2'] ? $billing_info['address_2'] .", " : "";
+            echo $billing_info['city'] .", ";
+            echo $billing_info['zone_name'] ." ";
+            echo $billing_info['postal_code'] ." ";
+            echo $billing_info['country_name'];
+            ?>
+        </div>
+    <?php } ?>
+    
     <?php if (!empty($this->showShipping)) { ?>
         <div id="shipping_info" class="address">
             <h3><?php echo JText::_("Shipping Information"); ?></h3>

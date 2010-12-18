@@ -272,7 +272,9 @@ class TiendaController extends JController
         if ($show_linkback == '1' && $format != 'raw') 
         {
         	// show a generous linkback, TIA
-	        $model  = $this->getModel( 'dashboard' );
+            Tienda::load( "TiendaModelDashboard", "models.dashboard" );
+            $model  = new TiendaModelDashboard();
+
 	        $view   = $this->getView( 'dashboard', 'html' );
 	        $view->hidemenu = true;
 	        $view->setTask('footer');

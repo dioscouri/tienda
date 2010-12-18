@@ -712,7 +712,8 @@ class TiendaController extends JController
 	 */
 	function footer()
 	{
-		$model	= $this->getModel( 'dashboard' );
+	    Tienda::load( "TiendaModelDashboard", "models.dashboard" );
+		$model	= new TiendaModelDashboard();
 		$view	= $this->getView( 'dashboard', 'html' );
 
 		$dispatcher =& JDispatcher::getInstance();

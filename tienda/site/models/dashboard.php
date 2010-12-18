@@ -11,14 +11,4 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaModelBase', 'models._base' );
-
-class TiendaModelDashboard extends TiendaModelBase 
-{
-	function getTable()
-	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'Config', 'TiendaTable' );
-		return $table;
-	}
-}
+Tienda::load( 'TiendaModelDashboard', 'models.dashboard' );

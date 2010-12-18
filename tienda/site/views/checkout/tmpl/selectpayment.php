@@ -56,6 +56,7 @@
 	   <div id="payment_info" class="address">
 		<h3><?php echo JText::_("Billing Information"); ?></h3>
 		<strong><?php echo JText::_("Total Amount Due"); ?></strong>:<span id='totalAmountDue'><?php echo TiendaHelperBase::currency( @$this->order->order_total ); ?></span><br/>
+		<?php if (!empty($this->showBilling)) { ?>
         <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
                     <?php
                     echo $billing_info['first_name']." ". $billing_info['last_name']."<br/>";
@@ -67,6 +68,7 @@
                     echo $billing_info['country_name'];
                     ?>
             <br/>
+        <?php } ?>
 	   </div>
 
         <div id="shipping_info" class="address">

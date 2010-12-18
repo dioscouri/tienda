@@ -599,11 +599,6 @@ class TiendaControllerCheckout extends TiendaController
 				{
 					return;
 				}
-
-				if(!empty($submitted_values['register']) )
-				{
-					$this->registerNewUser($submitted_values);
-				}
 				break;
 			case "selectpayment":
 				$this->validateSelectPayment( $submitted_values );
@@ -642,6 +637,22 @@ class TiendaControllerCheckout extends TiendaController
 				return false;
 			}
 		}
+
+		$order =& $this->_order;
+        // get the items and add them to the order
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $items = TiendaHelperCarts::getProductsInfo();
+        foreach ($items as $item)
+        {
+            $order->addItem( $item );
+        }
+        $order->calculateTotals();		
+        if ( (float) $order->order_total == (float) '0.00' )
+        {
+            $response['error'] = '0';
+            echo ( json_encode( $response ) );
+            return false;
+        }
 
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
@@ -1374,9 +1385,15 @@ class TiendaControllerCheckout extends TiendaController
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
 		$user_id = JFactory::getUser()->id;
+        if ( !empty($values['register']) && empty($user_id) )
+        {
+            $this->registerNewUser($values);
+            $user_id = JFactory::getUser()->id;
+        }
+		
 		// Guest Checkout
 		$guest = false;
-		if ($user_id == 0 && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1'))
+		if ( empty($user_id) && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') )
 		{
 			$email_address = $values['email_address'];
 			$guest = true;
@@ -1455,6 +1472,13 @@ class TiendaControllerCheckout extends TiendaController
 		$billingAddress->bind( $billingAddressArray );
 		$billingAddress->user_id = $user_id;
 		$billingAddress->save();
+		
+        $showBilling = true;
+        if (empty($billingAddress->address_id))
+        {
+            $showBilling = false;
+        }
+        $view->assign( 'showBilling', $showBilling );
 
 		$values['billing_address_id'] = $billingAddress->address_id;
 		if ($same_as_billing)
@@ -1532,7 +1556,6 @@ class TiendaControllerCheckout extends TiendaController
 		$dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
 		$view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
 		ob_end_clean();
-
 
 		$view->display();
 		$this->footer();
