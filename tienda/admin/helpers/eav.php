@@ -24,6 +24,7 @@ class TiendaHelperEav extends TiendaHelperBase
 	 */
     function getAttributes( $entity, $id )
     {
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
     	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
     	$model->setState('filter_entitytype', $entity);
     	$model->setState('filter_entityid', $id);
