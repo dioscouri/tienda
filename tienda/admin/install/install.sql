@@ -292,7 +292,6 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
   `created_date` DATETIME NOT NULL ,
   `modified_date` DATETIME NOT NULL ,
   `enabled` BOOL NOT NULL ,
-  PRIMARY KEY (`eavattribute_id`),
   KEY `eaventity_id` (`eaventity_id`)
 ) ENGINE = INNODB 
 DEFAULT CHARACTER SET = utf8 
