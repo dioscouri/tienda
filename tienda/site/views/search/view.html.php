@@ -11,10 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.views._base', JPATH_SITE.DS.'components' );
+Tienda::load( 'TiendaViewBase', 'views._base', array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' ) );
 
 class TiendaViewSearch extends TiendaViewBase
 {
-	
-
 }

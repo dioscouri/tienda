@@ -51,6 +51,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         $dispatcher=& JDispatcher::getInstance(); 
         $dispatcher->trigger('onAfterGetEmailContent', array( $data, &$content) ); 
                 
+        //$this->results = array();
         for ($i=0; $i<count($recipients); $i++) 
         {
             $recipient = $recipients[$i];
@@ -60,9 +61,13 @@ class TiendaHelperEmail extends TiendaHelperBase
                 {
                     $success = true;
                     $done[$recipient] = $recipient;
-                }   
+                }
+                //$this->results[$recipient] = $send;
             }
-        }       
+        }
+        
+        //$this->recipients = $recipients;
+        //$this->content = $content;
         
         return $success;
     }
