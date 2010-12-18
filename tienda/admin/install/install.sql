@@ -282,6 +282,7 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
 `eavattribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'Suffix of the Table we are extending',
+`eaventity_id` int(11) NOT NULL COMMENT 'PK of the entity we are extending',
 `eavattribute_type` VARCHAR( 255 ) NOT NULL COMMENT  'type of the variable (int, varchar, etc)',
 `enum_type` VARCHAR( 255 ) NOT NULL COMMENT  'If it is a list, what type of list',
 `is_multiple` BOOL NOT NULL COMMENT  'If it is a list, are multiple choices allowed?',
@@ -290,7 +291,7 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
 `ordering` INT NOT NULL ,
 `created_date` DATETIME NOT NULL ,
 `modified_date` DATETIME NOT NULL ,
-`enabled` BOOL NOT NULL 
+`enabled` BOOL NOT NULL ,
 ) ENGINE = INNODB 
 DEFAULT CHARACTER SET = utf8 
 COLLATE = utf8_general_ci;
@@ -628,9 +629,9 @@ DEFAULT CHARACTER SET = utf8;
 
 INSERT IGNORE INTO `#__tienda_currencies` (`currency_id`, `currency_name`, `currency_code`, `symbol_left`, `symbol_right`, `currency_decimals`, `decimal_separator`, `thousands_separator`, `created_date`, `modified_date`, `currency_enabled`) VALUES
 (1, 'US Dollar', 'USD', '$', '', 2, '.', ',', NOW(), NOW(), 1),
-(2, 'Japanese Yen', 'JPY', '¥', '', 3, '.', ',', NOW(), NOW(), 1),
-(3, 'Euro', 'EUR', '€', '', 2, '.', ',', NOW(), NOW(), 1),
-(4, 'British Pound', 'GBP', '£', '', 2, '.', ',', NOW(), NOW(), 1);
+(2, 'Japanese Yen', 'JPY', 'ï¿½', '', 3, '.', ',', NOW(), NOW(), 1),
+(3, 'Euro', 'EUR', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1),
+(4, 'British Pound', 'GBP', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1);
 
 
 -- -----------------------------------------------------
