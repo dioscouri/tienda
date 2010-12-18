@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA DASHBOARD DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA DOWNLOAD DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA DOWNLOAD DEFAULT LAYOUT</name>
+		<description>TIENDA DOWNLOAD DEFAULT LAYOUT DESC</description>
+	</state>
+</metadata>

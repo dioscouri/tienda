@@ -17,6 +17,10 @@
        <url>index.php?option=com_tienda&#38;view=subscriptions</url>
    </link>
    <link>
+       <name>My Downloads</name>
+       <url>index.php?option=com_tienda&#38;view=productdownloads</url>
+   </link>
+   <link>
        <name>Shopping Cart</name>
        <url>index.php?option=com_tienda&#38;view=carts</url>
    </link>
