@@ -50,10 +50,10 @@ class TiendaControllerProductDownloads extends TiendaController
 			$state['limitstart'] = '0';
 		}
 		
-		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.created_date', 'cmd');
+		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.productdownload_startdate', 'cmd');
 		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'DESC', 'word');        
 		$state['filter_product_id'] = $app->getUserStateFromRequest($ns.'product_id', 'filter_product_id', '', 'integer');
-		$state['filter_userid']     = JFactory::getUser()->id;
+		$state['filter_user']     = JFactory::getUser()->id;
 		$state['filter']      = $app->getUserStateFromRequest($ns.'filter', 'filter', '', 'word');        
 		
 		foreach (@$state as $key=>$value)

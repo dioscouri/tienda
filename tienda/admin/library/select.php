@@ -373,7 +373,8 @@ class TiendaSelect extends JHTMLSelect
         }
 
 		return self::genericlist($list, $name, $attribs, 'currency_id', 'currency_code', $selected, $idtag );
- 	} 
+ 	}
+ 	 
  	/**
  	 * 
  	 * @param unknown_type $selected
@@ -383,8 +384,8 @@ class TiendaSelect extends JHTMLSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-public static function selectsort($selected, $name = 'default_selectsort', $attribs=null , $idtag = null, $allowAny = false)
-{
+    public static function selectsort($selected, $name = 'default_selectsort', $attribs=null , $idtag = null, $allowAny = false)
+    {
 	    $attribs= array('class' => 'inputbox', 'size' => '1','onchange'=>'test()');
         $list = array();
         if($allowAny) {
@@ -622,7 +623,7 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
         $items = $model->getList();
         foreach (@$items as $item)
         {
-        	// Do not display the prefix if it is "=" (it's not good to see =€13, better €13)
+        	// Do not display the prefix if it is "=" (it's not good to see =ï¿½13, better ï¿½13)
         	if($item->productattributeoption_prefix != '=')
         	{
         		$display_suffix = ($item->productattributeoption_price > '0') ? ": ".$item->productattributeoption_prefix.TiendaHelperBase::currency($item->productattributeoption_price) : '';
@@ -1019,5 +1020,35 @@ public static function selectsort($selected, $name = 'default_selectsort', $attr
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
-    
+
+    /**
+     * 
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @return unknown_type
+     */
+    public static function downloadableproduct($user_id, $selected, $name = 'filter_product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title = 'Select Product')
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductDownloads', 'TiendaModel' );
+        $model->setState('filter_user', $user_id);
+        $query = $model->getQuery();
+        $query->group( 'tbl.product_id' );
+        $model->setQuery( $query );
+        $items = $model->getList();
+        foreach (@$items as $item)
+        {
+            $list[] =  self::option( $item->product_id, JText::_( $item->product_name ) );
+        }
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }
