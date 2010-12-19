@@ -25,6 +25,10 @@ class TiendaViewEavAttributes extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+        	 case "selectproducts":
+        	 	JRequest::setVar('hidemainmenu', '1');
+                $this->_default($tpl);
+              break;
             case "view":
                 $this->_form($tpl);
               break;

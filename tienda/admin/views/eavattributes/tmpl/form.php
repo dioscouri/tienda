@@ -55,12 +55,12 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php 
 							if(@$row->eaventity_type)
 							{
-								switch(@$row->eaventity_type)
+								$allowed_types = array('products');
+								if(in_array(@$row->eaventity_type, $allowed_types))
 								{
-									case 'products':
-										echo $this->elementproduct.$this->resetproduct;
-										break;
-								}	
+									$url = JRoute::_("index.php?option=com_tienda&controller=eavattributes&task=selectentities&tmpl=component&eaventity_type=".@$row->eaventity_type."&id=".@$row->eavattribute_id);
+									echo TiendaUrl::popup($url, JText::_('Select Entities')); 
+								}
 							}
 							else
 							{

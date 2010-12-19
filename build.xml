@@ -497,7 +497,11 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_content_product/languages" />
         </copy>
-
+    	<!-- CUSTOM FIELDS -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_customfields" />
+        </copy>
+    	
     <!-- AUXILIARY EXTENSIONS -->
     	
     	
@@ -572,6 +576,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}product_customfields.zip" basedir="${cfg.aux}/${cfg.plgPrefix}product_customfields" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}customfields.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}customfields" />
     </target>
 
     <target name="build_modules" depends="init" description="packages any modules">

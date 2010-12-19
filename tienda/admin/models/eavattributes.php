@@ -58,17 +58,26 @@ class TiendaModelEavAttributes extends TiendaModelBase
     	if ($filter_entitytype) 
         {
             $key    = $this->_db->Quote($this->_db->getEscaped( trim( strtolower( $filter_entitytype ) ) ));
-            $query->where('LOWER(tbl.eaventity_type) LIKE '.$key);
+            $where = array();
+            $where[] = 'LOWER(tbl.eaventity_type) LIKE '.$key;
+            $where[] = 'LOWER(a2e.eaventity_type) LIKE '.$key;
         }
     	if (strlen($filter_entityid))
         {
-            $query->where('tbl.eaventity_id = '.$this->_db->Quote($filter_entityid));
+        	$where = array();
+            $where[] = 'tbl.eaventity_id = '.$this->_db->Quote($filter_entityid);
+            $where[] = 'a2e.eaventity_id = '.(int) $filter_entityid;
         }
         if (strlen($filter_enabled))
         {
             $query->where('tbl.eavattribute_enabled = '.$this->_db->Quote($filter_enabled));
         }
     
+    }
+    
+    protected function _buildQueryJoins(&$query)
+    {
+    	$query->join('LEFT', '#__tienda_eavattributeentityxref AS a2e ON tbl.eavattribute_id = a2e.eavattribute_id');
     }
     
 	public function getList($refresh = false)
