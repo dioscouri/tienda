@@ -100,11 +100,11 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
         $ns = $this->_getNamespace();
 
         $state = array();        
-       	//$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-        //$state['filter_quantity_from'] = $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
-        //$state['filter_quantity_to'] = $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', '');      
-    	//$state['filter_category'] = $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
-        //$state = $this->_handleRangePresets( $state );
+       	$state['filter'] = $app->getUserStateFromRequest($ns, 'filter', '', '');
+        $state['filter_download_from'] = $app->getUserStateFromRequest($ns.'download_from', 'filter_download_from', '', '');
+        $state['filter_download_to'] = $app->getUserStateFromRequest($ns.'download_from', 'filter_download_to', '', '');      
+    	$state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
+        $state = $this->_handleRangePresets( $state );
         
         foreach (@$state as $key=>$value)
         {
@@ -114,4 +114,25 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
         return $state;
     
     }
+    
+ 	/**
+     * Prepares the 'view' tmpl layout
+     * when viewing a report
+     *  
+     * @return unknown_type
+     */
+    function _renderView()
+    {
+        // TODO Load the report, get the data, and render the report html using the form inputs & data
+        
+        $vars = new JObject();
+        $vars->items = $this->_getData();
+        $vars->state = $this->_getModel()->getState();
+        $vars->pagination = $this->_getModel()->getPagination();
+        
+        $html = $this->_getLayout('view', $vars);
+        
+        return $html;
+    }
+    
 }

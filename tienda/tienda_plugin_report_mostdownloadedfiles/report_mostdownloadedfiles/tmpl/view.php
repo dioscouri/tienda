@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
-
+<?php $pagination = @$vars->pagination; ?>
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
@@ -13,15 +13,15 @@
                     <?php echo JText::_("ID"); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("FILE NAME"); ?>
+                    <?php echo JText::_("FILE NAME & PATH"); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 75px;">
                     <?php echo JText::_("FILE EXTENSION"); ?>
                 </th>
                 <th style="width: 150px;">
                     <?php echo JText::_("ASSOCIATED PRODUCT"); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 75px;">
                     <?php echo JText::_("PURCHASE REQUIRED"); ?>
                 </th>
                 <th style="width: 50px;">
@@ -30,15 +30,15 @@
                 <th style="width: 50px;">
                     <?php echo JText::_("DOWNLOADS"); ?>
                 </th>
-            </tr>
+            </tr>           
         </thead>
         <tfoot>
-            <tr>
-                <td colspan="20">
-
-                </td>
-            </tr>
-        </tfoot>
+			<tr>
+				<td colspan="20">
+					<div style="float: right; padding: 5px;"><?php echo @$pagination->getResultsCounter(); ?></div>					
+				</td>
+			</tr>
+		</tfoot>
         <tbody>
         <?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
@@ -50,7 +50,8 @@
                         <?php echo $item->productfile_id; ?>
                 </td>
                 <td style="text-align: left;">                	
-                        <?php echo $item->productfile_name; ?>                     
+                         <span style="font-weight:bold;"><?php echo $item->productfile_name; ?></span><br/>
+                        <span style="font-style:italic;"><?php echo JText::_("File Path")?>: </span><?php echo $item->productfile_path; ?>                    
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->productfile_extension; ?>
