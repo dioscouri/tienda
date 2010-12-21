@@ -63,8 +63,6 @@ class plgTiendaCustomFields extends TiendaPluginBase
         // Get extra fields for products
         $fields = $this->getCustomFields('products', $product_id);
         
-        echo 'here';
-        
         // If there are any extra fields, show them as an extra tab
         if(count($fields))
         {
@@ -81,6 +79,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function getCustomFields($entity, $id)
 	{
+		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 		$model = JModel::getInstance('EavAttributes', 'TiendaModel');
     	$model->setState('filter_entitytype', $entity);
     	$model->setState('filter_entityid', $id);
@@ -106,7 +105,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
     		
     		$value = $table->eavvalue_value;
    			
-   			$fields[] = array('alias' => $key, 'value' => $value, 'label' => $eav->eavattribute_label);
+   			$fields[] = array('attribute' => $eav, 'value' => $value);
    		}
    		
    		return $fields;

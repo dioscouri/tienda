@@ -992,6 +992,28 @@ class TiendaSelect extends JHTMLSelect
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
     
+	/**
+    * Generates a data editableby list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function editableby( $selected, $name = 'filter_editable', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Editable' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  0, JText::_( "None" ) );
+        $list[] = JHTML::_('select.option',  1, JText::_( "Admin" ) );
+        $list[] = JHTML::_('select.option',  2, JText::_( "User" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
     /**
      * 
      * @param unknown_type $selected

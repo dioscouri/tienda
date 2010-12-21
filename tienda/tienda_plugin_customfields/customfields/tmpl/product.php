@@ -15,10 +15,13 @@
 	            <?php foreach (@$vars->fields as $field): ?>
 	                <tr>
 	                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-	                        <?php echo JText::_( $field['label'] ); ?>:
+	                        <?php echo JText::_( $field['attribute']->eavattribute_label ); ?>:
 	                    </td>
 	                    <td>
-	                        <input type="text" name="<?php echo $field['alias']; ?>" id="<?php echo $field['alias'] ?>" value="<?php echo $field['value'] ?>" />
+	                    	<?php
+	                    		Tienda::load('TiendaHelperEav', 'helpers.eav');
+	                    		echo TiendaHelperEav::showField($field['attribute'], $field['value']);
+	                    	?>
 	                    </td>
 	                </tr>
 	            <?php endforeach; ?>    

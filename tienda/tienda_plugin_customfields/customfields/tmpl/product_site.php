@@ -10,10 +10,13 @@
 	            
 	                <tr>
 	                    <td style="vertical-align: top; width: 100px; text-align: left;" class="key">
-	                        <?php echo JText::_( $field['label'] ); ?>:
+	                        <?php echo JText::_( $field['attribute']->eavattribute_label ); ?>:
 	                    </td>
 	                    <td>
-	                        <?php echo $field['value'] ?>
+	                        <?php
+	                    		Tienda::load('TiendaHelperEav', 'helpers.eav');
+	                    		echo TiendaHelperEav::showField($field['attribute'], $field['value']);
+	                    	?>
 	                    </td>
 	                </tr>
 	            <?php endforeach; ?>    

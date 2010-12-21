@@ -83,7 +83,16 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo TiendaSelect::attributetype(@$row->eavattribute_type, 'eavattribute_type'); ?>
 					</td>
 				</tr>
-				
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="editable_by">
+						<?php echo JText::_( 'Editable By' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo TiendaSelect::editableby(@$row->editable_by, 'editable_by'); ?>
+					</td>
+				</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->eaventity_type; ?>" />
 			<input type="hidden" name="task" value="" />
