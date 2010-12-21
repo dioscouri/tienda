@@ -323,7 +323,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         if (!$this->checkEavEntityID())
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityID FAILED') .' :: '. $this->getError(), 'error' );
-        }        
+        } 
+
+    	if (!$this->checkEavEditableBy())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkEavEditableBy FAILED') .' :: '. $this->getError(), 'error' );
+        }
         
     }
     
@@ -2534,6 +2539,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkEavEntityID') );
             $config->config_name = 'checkEavEntityID';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+	/**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
+    function checkEavEditableBy()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkEavEditableBy', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_eavattributes';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "editable_by";
+            $definitions["editable_by"] = "tinyint(1) NOT NULL COMMENT '0=no one, 1=admin, 2=user'";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkEavEditableBy') );
+            $config->config_name = 'checkEavEditableBy';
             $config->value = '1';
             $config->save();
             return true;
