@@ -56,7 +56,7 @@ class TiendaControllerAccounts extends TiendaController
         $uri = JURI::getInstance();
         
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-        $view->set('hidemenu', true);
+        $view->set('hidemenu', false);
         $view->set('_doTask', true);
         $view->setLayout('default');
         
