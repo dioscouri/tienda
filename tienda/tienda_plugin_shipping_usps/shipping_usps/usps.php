@@ -100,10 +100,16 @@ class TiendaUSPS extends JObject
             // may need to urlencode xml portion
             $str = $this->server. "?API=RateV2&XML=<RateV2Request%20USERID=\"";
             $str .= $this->user . "\"%20PASSWORD=\"" . $this->pass . "\"><Package%20ID=\"0\"><Service>";
-            $str .= $this->service . "</Service>";
+
             if (strtolower($this->service) == 'first class')
             {
+                $str .= "ONLINE</Service>";
                 $str .= "<FirstClassMailType>" . $this->fcmailtype . "</FirstClassMailType>";
+                $myFirstClass=1;
+            }
+                else 
+            {
+                $str .= $this->service . "</Service>";
             }
             $str .= "<ZipOrigination>" . $this->orig_zip . "</ZipOrigination>";
             $str .= "<ZipDestination>" . $this->dest_zip . "</ZipDestination>";
@@ -167,10 +173,12 @@ class TiendaUSPS extends JObject
         } else if(!empty($array['RATEV2RESPONSE'])){ // if everything OK
             $this->zone = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ZONE'][0]['VALUE'];
             foreach ($array['RATEV2RESPONSE'][0]['PACKAGE'][0]['POSTAGE'] as $value){
-                $price = new TiendaUSPSPrice();
-                $price->mailservice = $value['MAILSERVICE'][0]['VALUE'];
-                $price->rate = $value['RATE'][0]['VALUE'];
-                $this->list[] = $price;
+                if (empty($myFirstClass) || $value['MAILSERVICE'][0]['VALUE'] == "First-Class Mail Parcel"){
+                    $price = new TiendaUSPSPrice();
+                    $price->mailservice = $value['MAILSERVICE'][0]['VALUE'];
+                    $price->rate = $value['RATE'][0]['VALUE'];
+                    $this->list[] = $price;                    
+                }
             }
         } else if (!empty($array['INTLRATERESPONSE'][0]['PACKAGE'][0]['SERVICE'])) { // if it is international shipping and it is OK
             foreach($array['INTLRATERESPONSE'][0]['PACKAGE'][0]['SERVICE'] as $value) {
