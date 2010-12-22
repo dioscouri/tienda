@@ -109,6 +109,10 @@ class TiendaModelZonerelations extends TiendaModelBase
 						{
 							$in_range = true;
 						}
+    						elseif ($filter_zip == $start)
+						{
+						    $in_range = true;
+						}
 						
 					}
 				}
