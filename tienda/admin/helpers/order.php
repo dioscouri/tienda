@@ -368,6 +368,10 @@ class TiendaHelperOrder extends TiendaHelperBase
         // change core ACL if set
         $helper = TiendaHelperBase::getInstance( 'User' );
         $helper->processOrder( $order_id );
+
+        // do Ambra Subscriptions Integration processes
+        $helper = TiendaHelperBase::getInstance( 'Ambrasubs' );
+        $helper->processOrder( $order_id );
         
         if ($error)
         {
