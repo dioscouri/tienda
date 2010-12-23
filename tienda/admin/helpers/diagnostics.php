@@ -2607,7 +2607,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	        $fields = array();
 	        
 	        $fields[] = "eaventity_type";
-	            $definitions["eaventity_type"] = "VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',";
+	            $definitions["eaventity_type"] = "VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity'";
 	            
 	        if (!$this->insertTableFields( $table, $fields, $definitions ))
 	        {
