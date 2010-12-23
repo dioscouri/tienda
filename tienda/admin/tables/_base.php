@@ -409,6 +409,27 @@ class TiendaTable extends JTable
 			$this->$fieldname = $filter->clean( $this->$fieldname );
 		}
 	}
+	
+	/**
+	 * Same as JFilterOutput::stringURLSafe, but allowing _ character
+	 * 
+	 * @param unknown_type $string
+	 */
+	public function stringDBSafe($string)
+	{
+		//remove any '-' from the string they will be used as concatonater
+		$str = str_replace('-', ' ', $string);
+
+		$lang =& JFactory::getLanguage();
+		$str = $lang->transliterate($str);
+
+		// remove any duplicate whitespace, and ensure all characters are alphanumeric
+		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9_\-]/'), array('-',''), $str);
+
+		// lowercase and trim
+		$str = trim(strtolower($str));
+		return $str;
+	}
 
 	/**
      * Retrieve row field value

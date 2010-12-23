@@ -26,7 +26,12 @@ class TiendaTableEavAttributes extends TiendaTable
 	}
 	
     function check()
-    {        
+    {      
+    	if (empty($this->eavattribute_label))
+        {
+            $this->setError( JText::_( "Label Required" ) );
+            return false;
+        }  
         if (empty($this->eaventity_type))
         {
             $this->setError( JText::_( "Entity Type Required" ) );
@@ -37,6 +42,11 @@ class TiendaTableEavAttributes extends TiendaTable
             $this->setError( JText::_( "Type Required" ) );
             return false;
         }
+        if (empty($this->eavattribute_alias)) 
+        {
+            $this->eavattribute_alias = $this->eavattribute_label;
+        }
+        $this->eavattribute_alias = $this->stringDBSafe($this->eavattribute_alias);
         
         return true;
     }
