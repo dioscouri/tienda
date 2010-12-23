@@ -1,6 +1,5 @@
 <?php
 /**
-* @version		0.1.0
 * @package		Tienda
 * @copyright	Copyright (C) 2009 DT Design Inc. All rights reserved.
 * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -12,8 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 
 class Tienda extends JObject
 {
-    static $_version 		= '0.6.1';
-    static $_build          = 'r1193';
+    static $_version 		= '0.6.2';
+    static $_build          = 'r1234';
     static $_versiontype    = 'community';
     static $_copyrightyear 	= '2010';
     static $_name 			= 'tienda';

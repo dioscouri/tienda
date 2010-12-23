@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda - Payment - Paypal Pro</name>
-	<version>0.6.1</version>
+	<version>0.6.2</version>
 	<creationDate>July 2010</creationDate>
 	<author>Dioscouri Design</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
