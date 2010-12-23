@@ -98,7 +98,7 @@ class TiendaUSPS extends JObject
         if (in_array($this->country, $countries))
         {
             // may need to urlencode xml portion
-            $str = $this->server. "?API=RateV2&XML=<RateV2Request%20USERID=\"";
+            $str = $this->server. "?API=RateV3&XML=<RateV3Request%20USERID=\"";
             $str .= $this->user . "\"%20PASSWORD=\"" . $this->pass . "\"><Package%20ID=\"0\"><Service>";
 
             if (strtolower($this->service) == 'first class')
@@ -115,7 +115,7 @@ class TiendaUSPS extends JObject
             $str .= "<ZipDestination>" . $this->dest_zip . "</ZipDestination>";
             $str .= "<Pounds>" . $this->pounds . "</Pounds><Ounces>" . $this->ounces . "</Ounces>";
             $str .= "<Container>" . urlencode($this->container) . "</Container><Size>" . $this->size . "</Size>";
-            $str .= "<Machinable>" . $this->machinable . "</Machinable></Package></RateV2Request>";
+            $str .= "<Machinable>" . $this->machinable . "</Machinable></Package></RateV3Request>";
         }
         else 
         {
@@ -150,15 +150,15 @@ class TiendaUSPS extends JObject
             $error->helpcontext = $array['ERROR'][0]['HELPCONTEXT'][0]['VALUE'];
             $error->helpfile = $array['ERROR'][0]['HELPFILE'][0]['VALUE'];
             $this->error = $error;
-        } else if(!empty($array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'])) {
+        } else if(!empty($array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'])) {
             $error = new TiendaUSPSError();
             $error->str = $str;
             $error->level = "2";
-            $error->number = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['NUMBER'][0]['VALUE'];
-            $error->source = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['SOURCE'][0]['VALUE'];
-            $error->description = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['DESCRIPTION'][0]['VALUE'];
-            $error->helpcontext = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPCONTEXT'][0]['VALUE'];
-            $error->helpfile = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPFILE'][0]['VALUE'];
+            $error->number = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['NUMBER'][0]['VALUE'];
+            $error->source = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['SOURCE'][0]['VALUE'];
+            $error->description = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['DESCRIPTION'][0]['VALUE'];
+            $error->helpcontext = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPCONTEXT'][0]['VALUE'];
+            $error->helpfile = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPFILE'][0]['VALUE'];
             $this->error = $error;        
         } else if(!empty($array['INTLRATERESPONSE'][0]['PACKAGE'][0]['ERROR'])){ //if it is international shipping error
             $error = new TiendaUSPSError();
@@ -170,9 +170,9 @@ class TiendaUSPS extends JObject
             $error->helpcontext = $array['INTLRATERESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPCONTEXT'][0]['VALUE'];
             $error->helpfile = $array['INTLRATERESPONSE'][0]['PACKAGE'][0]['ERROR'][0]['HELPFILE'][0]['VALUE'];
             $this->error = $error;
-        } else if(!empty($array['RATEV2RESPONSE'])){ // if everything OK
-            $this->zone = $array['RATEV2RESPONSE'][0]['PACKAGE'][0]['ZONE'][0]['VALUE'];
-            foreach ($array['RATEV2RESPONSE'][0]['PACKAGE'][0]['POSTAGE'] as $value){
+        } else if(!empty($array['RATEV3RESPONSE'])){ // if everything OK
+            $this->zone = $array['RATEV3RESPONSE'][0]['PACKAGE'][0]['ZONE'][0]['VALUE'];
+            foreach ($array['RATEV3RESPONSE'][0]['PACKAGE'][0]['POSTAGE'] as $value){
                 if (empty($myFirstClass) || $value['MAILSERVICE'][0]['VALUE'] == "First-Class Mail Parcel"){
                     $price = new TiendaUSPSPrice();
                     $price->mailservice = $value['MAILSERVICE'][0]['VALUE'];
