@@ -679,4 +679,16 @@ class TiendaHelperBase extends JObject
         }
         return $sessionvalue;
     }
+    
+    /**
+     * Set the document format
+     */
+    function setFOrmat( $format = 'html' )
+    {
+    	// 	Default to raw output
+		$doc = &JFactory::getDocument();
+		$document = &JDocument::getInstance($format);
+		
+		$doc = $document;
+    }
 }

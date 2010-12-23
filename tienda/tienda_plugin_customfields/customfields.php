@@ -80,6 +80,8 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function getCustomFields($entity, $id)
 	{
 		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
+		Tienda::load('TiendaHelperEav', 'helpers.eav');
+		
 		$model = JModel::getInstance('EavAttributes', 'TiendaModel');
     	$model->setState('filter_entitytype', $entity);
     	$model->setState('filter_entityid', $id);

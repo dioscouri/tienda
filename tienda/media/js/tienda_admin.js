@@ -1,6 +1,6 @@
 
 function tiendaUpdateParentDefaultImage(id) {
-    var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&format=raw&product_id=' + id;
+    var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&protocol=json&product_id=' + id;
     var form = document.adminForm;
     // default_image
     // default_image_name

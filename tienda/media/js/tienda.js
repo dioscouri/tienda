@@ -457,13 +457,13 @@ function tiendaUpdateAddToCart( container, form )
 }
 
 function tiendaAddRelationship(container, msg) {
-    var url = 'index.php?option=com_tienda&view=products&task=addRelationship&format=raw';
+    var url = 'index.php?option=com_tienda&view=products&task=addRelationship&protocol=json';
     tiendaDoTask( url, container, document.adminForm, msg, true );
     document.adminForm.new_relationship_productid_to.value = '';
 }
 
 function tiendaRemoveRelationship(id, container, msg) {
-    var url = 'index.php?option=com_tienda&view=products&task=removeRelationship&format=raw&productrelation_id=' + id;
+    var url = 'index.php?option=com_tienda&view=products&task=removeRelationship&protocol=json&productrelation_id=' + id;
     tiendaDoTask( url, container, document.adminForm, msg, true );
 }
 
