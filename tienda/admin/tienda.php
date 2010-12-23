@@ -33,10 +33,24 @@ Tienda::getClass( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInsta
 // Require the base controller
 Tienda::load( 'TiendaController', 'controller' );
 
+// Check if protocol is specified
+$protocol = JRequest::getWord('protocol', '');
+
 // Require specific controller if requested
 $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
-if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
-    $controller = '';
+
+// if protocol is specified, try to load the specific controller
+if(strlen($protocol))
+{
+	// file syntax: controller_json.php
+	if (Tienda::load( 'TiendaController'.$controller.$protocol, "controllers.".$controller."_".$protocol ))
+    	$controller .=  $protocol;
+}
+else
+{
+	if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
+    	$controller = '';
+}
 
 $doc = JFactory::getDocument();
 $uri = JURI::getInstance();
