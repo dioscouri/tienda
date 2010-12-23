@@ -106,6 +106,7 @@
         <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
         <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
         <plugin plugin="tienda_plugin_report_lowstock" publish="true" group="tienda" element="report_lowstock" />
+        <plugin plugin="tienda_plugin_report_mostdownloadedfiles" publish="true" group="tienda" element="report_mostdownloadedfiles" />
         <plugin plugin="tienda_plugin_report_ordered_products" publish="true" group="tienda" element="report_ordered_products" />
         <plugin plugin="tienda_plugin_report_salesbymanufacturer" publish="true" group="tienda" element="report_salesbymanufacturer" />
         <plugin plugin="tienda_plugin_report_subscriptions" publish="true" group="tienda" element="report_subscriptions" />

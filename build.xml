@@ -386,6 +386,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_sales/languages" />
         </copy>
+        <!-- MOST DOWNLOADS -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_mostdownloadedfiles" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_mostdownloadedfiles/languages" />
+        </copy>
     <!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
