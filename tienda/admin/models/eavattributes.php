@@ -61,12 +61,14 @@ class TiendaModelEavAttributes extends TiendaModelBase
             $where = array();
             $where[] = 'LOWER(tbl.eaventity_type) LIKE '.$key;
             $where[] = 'LOWER(a2e.eaventity_type) LIKE '.$key;
+            $query->where('('.implode(' OR ', $where).')');
         }
     	if (strlen($filter_entityid))
         {
         	$where = array();
             $where[] = 'tbl.eaventity_id = '.$this->_db->Quote($filter_entityid);
             $where[] = 'a2e.eaventity_id = '.(int) $filter_entityid;
+            $query->where('('.implode(' OR ', $where).')');
         }
         if (strlen($filter_enabled))
         {

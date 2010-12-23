@@ -36,6 +36,41 @@ class TiendaHelperEav extends TiendaHelperBase
     }
     
     /**
+     * Get the value of an attribute
+     * @param EavAttribute $eav
+     * @param string $entity_type
+     * @param string $entity_id
+     */
+    function getAttributeValue($eav, $entity_type, $entity_id )
+    {
+    		Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
+    		
+    		// get the value table
+    		$table = JTable::getInstance('EavValues', 'TiendaTable');
+    		// set the type based on the attribute
+    		$table->setType($eav->eavattribute_type);
+    		// load the value based on the entity id
+    		$keynames = array();
+    		$keynames['eavattribute_id'] = $eav->eavattribute_id; 
+    		$keynames['eaventity_id'] = $entity_id;
+    		$keynames['eaventity_type'] = $entity_type;
+    		
+    		$loaded = $table->load($keynames);
+    		
+    		if($loaded)
+    		{
+				// Fetch the value from the value tables
+				$value = $table->eavvalue_value;
+    		}
+    		else
+    		{
+    			$value = null;
+    		}
+    		
+    		return $value;
+    }
+    
+    /**
      * Show the correct edit field based on the eav type
      * @param EavAttribute $eav
      * @param unknown_type $value

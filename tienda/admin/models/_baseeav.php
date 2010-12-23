@@ -198,7 +198,7 @@ class TiendaModelEav extends TiendaModelBase
 	    	if($getEav)
 	    	{
 	    		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
-	    		Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
+	    		Tienda::load('TiendaHelperEav', 'helpers.eav');
 	    		
 	    		$entity = $this->getTable()->get('_suffix');
 	    		
@@ -213,24 +213,13 @@ class TiendaModelEav extends TiendaModelBase
 	    		{
 	    			$key = $eav->eavattribute_alias;
 	    			
-	    			// get the value table
-	    			$table = JTable::getInstance('EavValues', 'TiendaTable');
-	    			// set the type based on the attribute
-	    			$table->setType($eav->eavattribute_type);
-	    			
-	    			// load the value based on the entity id
-	    			$keynames = array();
-	    			$keynames['eavattribute_id'] = $eav->eavattribute_id; 
-	    			$keynames['eaventity_id'] = $this->getId();
-	    			$table->load($keynames);
-	    			
-	    			$value = $table->eavvalue_value;
+	    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $this->getId());
 	    			
 	    			// Do NOT ovveride properties
 	    			if(!property_exists($item, $key))
 	    			{
 	    				// use JObject set() method
-	    				$item->{$key} = $v;
+	    				$item->{$key} = $value;
 	    			}
 	    		}
 	    	}
@@ -263,7 +252,7 @@ class TiendaModelEav extends TiendaModelBase
             if($getEav || ($eavStates > 0))
             {
             	Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
-		    	Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
+            	Tienda::load('TiendaHelperEav', 'helpers.eav');
 	            
 		    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
 	    		$model->setState('filter_entitytype', $entity);
@@ -315,23 +304,11 @@ class TiendaModelEav extends TiendaModelBase
 		    			// TODO Check that the excluded fields are not required by eavfiltering
 		    			if($add)
 		    			{
-			    			// get the value table
-			    			$table = JTable::getInstance('EavValues', 'TiendaTable');
-			    			// set the type based on the attribute
-			    			$table->setType($eav->eavattribute_type);
-			    			
-			    			// load the value based on the entity id
-			    			$keynames = array();
-			    			$keynames['eavattribute_id'] = $eav->eavattribute_id; 
-			    			$keynames['eaventity_id'] = $item->$tbl_key;
-			    			$table->load($keynames);
-
-			    			$value = $table->eavvalue_value;
+			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $item->$tbl_key);
 			    			
 		    				// Do NOT ovveride properties
 			    			if(!property_exists($item, $key))
 			    			{
-			    				// use JObject set() method
 			    				$item->$key = $value;
 			    			}
 		    			}

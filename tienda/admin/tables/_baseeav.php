@@ -16,6 +16,20 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 class TiendaTableEav extends TiendaTable
 {
 	/**
+	 * If this "mirrors" another table (ex orderitems => products), put the mirrored table suffix here
+	 * On save the system will also mirror the eav values for the saved item
+	 * @var string
+	 */
+	protected $linked_table = '';
+	
+	/**
+	 * If this "mirrors" another table (ex orderitems => products), put the mirrored table key here
+	 * (ex: the product_id)
+	 * @var int
+	 */
+	protected $linked_table_key = 0;
+	
+	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 * Check for custom fields and store them in the right table
 	 * Can be overloaded/supplemented by the child class
@@ -76,11 +90,40 @@ class TiendaTableEav extends TiendaTable
 			}
 		}
 		
+		// Is this a mirrored table (see decription at the beginning of this file)
+    	if(strlen($this->linked_table) && $this->linked_table_key)
+    	{
+    		// Copy the custom field value to this table
+    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->linked_table, $this->linked_table_key );
+    		
+	    	// If there are Custom Fields for the linked key
+			if(count($mirrored_eavs))
+			{
+				foreach($mirrored_eavs as $eav)
+				{
+					$key = $eav->eavattribute_alias;
+					
+					// Check if the key exists in this object (already mirrored)
+					if( !property_exists($this, $key))
+					{
+						// Get the value
+						$value = TiendaHelperEav::getAttributeValue($eav, $this->linked_table, $this->linked_table_key);
+						
+						// Store it into the array for eav values
+						$custom_fields[] = array('eav' => $eav, 'value' => $value);
+					}
+				}
+			}
+    		
+    	}
+		
 		if ( $return = parent::store( $updateNulls ))
 		{	
 			// Store custom fields if needed
 			if(count($custom_fields))
 			{
+				$key = $this->_tbl_key;
+				$id = $this->$key;
 				foreach($custom_fields as $cf)
 				{
 					// get the value table
@@ -103,6 +146,7 @@ class TiendaTableEav extends TiendaTable
 		    		
 		    		// Store the value
 		    		$table->eavvalue_value = $cf['value'];
+		    		$table->eaventity_type = $this->get('_suffix');
 		    		$stored = $table->store();
 		    		
 		    		// Log the errors
@@ -111,7 +155,6 @@ class TiendaTableEav extends TiendaTable
 		    			if(strlen($this->getError()))
 		    			{
 			    			$this->setError($this->getError());
-			    			return false;
 		    			}
 		    		}
 		    		
@@ -251,6 +294,14 @@ class TiendaTableEav extends TiendaTable
 					Tienda::load('TiendaHelperEav', 'helpers.eav');
 					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
 					
+					// Is this a mirrored table (see decription at the beginning of this file)
+			    	if(strlen($this->linked_table) && $this->linked_table_key)
+			    	{
+			    		// Copy the custom field value to this table
+			    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->linked_table, $this->linked_table_key );
+			    		$eavs = array_merge($eavs, $mirrored_eavs);
+			    	}
+					
 					// loop through until the key is found or the eav are finished
 					$found = false;
 					$i = 0;
@@ -311,18 +362,7 @@ class TiendaTableEav extends TiendaTable
 			    		{
 			    			$key = $eav->eavattribute_alias;
 			    			
-			    			// get the value table
-			    			$table = JTable::getInstance('EavValues', 'TiendaTable');
-			    			// set the type based on the attribute
-			    			$table->setType($eav->eavattribute_type);
-			    			
-			    			// load the value based on the entity id
-			    			$keynames = array();
-			    			$keynames['eavattribute_id'] = $eav->eavattribute_id; 
-			    			$keynames['eaventity_id'] = $id;
-			    			$table->load($keynames);
-			    			
-			    			$value = $table->eavvalue_value;
+			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $id);
 			    			
 		    				$item->{$key} = $value;
 			    		}

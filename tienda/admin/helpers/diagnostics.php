@@ -330,6 +330,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkEavEditableBy FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkEavEntityType())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityType FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2578,6 +2583,51 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         }
         return false;        
+    }
+    
+	/**
+     * 
+     * @return unknown_type
+     */
+    function checkEavEntityType()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkEavEntityType', '0'))
+        {
+            return true;
+        }
+        
+        $tables = array('varchar', 'text', 'int', 'decimal', 'datetime');
+        
+        $error = false;
+        foreach($tables as $t)
+        {
+	        $table = '#__tienda_eavvalues' . $t;
+	        $definitions = array();
+	        $fields = array();
+	        
+	        $fields[] = "eaventity_type";
+	            $definitions["eaventity_type"] = "VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',";
+	            
+	        if (!$this->insertTableFields( $table, $fields, $definitions ))
+	        {
+	            $error = true;
+	        }
+        }
+        
+        if(!$error)
+        {
+        	// Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkEavEntityType') );
+            $config->config_name = 'checkEavEntityType';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        
+       	return false;        
     }
     
 }

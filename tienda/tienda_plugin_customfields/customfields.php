@@ -92,18 +92,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
     	{
     		$key = $eav->eavattribute_alias;
     		
-    		// get the value table
-    		$table = JTable::getInstance('EavValues', 'TiendaTable');
-    		// set the type based on the attribute
-    		$table->setType($eav->eavattribute_type);
-    	
-    		// load the value based on the entity id
-    		$keynames = array();
-    		$keynames['eavattribute_id'] = $eav->eavattribute_id; 
-    		$keynames['eaventity_id'] = $id;
-    		$table->load($keynames);
-    		
-    		$value = $table->eavvalue_value;
+    		$value = TiendaHelperEav::getAttributeValue($eav, $entity, $id);
    			
    			$fields[] = array('attribute' => $eav, 'value' => $value);
    		}

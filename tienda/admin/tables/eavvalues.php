@@ -72,7 +72,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::store( $updateNulls );
+		return parent::store( $updateNulls );
 	}
 	
 	public function load( $oid=null, $reset=true)
@@ -84,7 +84,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::load( $oid, $reset );
+		return parent::load( $oid, $reset );
 	}
 	
 	public function save()
@@ -96,7 +96,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::save();
+		return parent::save();
 	}
 	
 	public function reset()
@@ -108,7 +108,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::reset();
+		return parent::reset();
 	}
 	
 	public function check()
@@ -120,7 +120,19 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::check();
+		$nullDate	= $this->_db->getNullDate();
+		if (empty($this->modified_date) || $this->modified_date == $nullDate)
+		{
+			$date = JFactory::getDate();
+			$this->modified_date = $date->toMysql();
+		}
+		if (empty($this->created_date) || $this->created_date == $nullDate)
+		{
+			$date = JFactory::getDate();
+			$this->created_date = $date->toMysql();
+		}
+		
+		return true;
 	}
 	
 	public function delete( $oid = null )
@@ -132,7 +144,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::delete( $oid );
+		return parent::delete( $oid );
 	}
 	
 	public function move( $change, $where = '' )
@@ -144,7 +156,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::move( $change, $where );
+		return parent::move( $change, $where );
 	}
 	
 	public function bind( $from, $ignore=array() )
@@ -156,7 +168,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		parent::bind( $from, $ignore );
+		return parent::bind( $from, $ignore );
 	}
 	
 	public function getAllowedTypes()

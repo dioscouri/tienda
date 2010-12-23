@@ -346,6 +346,7 @@ COLLATE = utf8_general_ci;
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesvarchar` (
 `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
 `eaventity_id` INT NOT NULL ,
 `eavvalue_value` VARCHAR( 255 ) NOT NULL ,
 `created_date` DATETIME NOT NULL ,
@@ -367,6 +368,7 @@ COLLATE = utf8_general_ci;
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesint` (
 `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
 `eaventity_id` INT NOT NULL ,
 `eavvalue_value` INT NOT NULL ,
 `created_date` DATETIME NOT NULL ,
@@ -388,6 +390,7 @@ COLLATE = utf8_general_ci;
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestext` (
 `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
 `eaventity_id` INT NOT NULL ,
 `eavvalue_value` TEXT NOT NULL ,
 `created_date` DATETIME NOT NULL ,
@@ -409,6 +412,7 @@ COLLATE = utf8_general_ci;
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdatetime` (
 `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
 `eaventity_id` INT NOT NULL ,
 `eavvalue_value` DATETIME NOT NULL ,
 `created_date` DATETIME NOT NULL ,
@@ -430,6 +434,7 @@ COLLATE = utf8_general_ci;
 CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdecimal` (
 `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
 `eaventity_id` INT NOT NULL ,
 `eavvalue_value` DECIMAL( 10,2 ) NOT NULL ,
 `created_date` DATETIME NOT NULL ,
