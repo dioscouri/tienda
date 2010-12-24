@@ -310,7 +310,7 @@ class TiendaCSV extends JObject
 	 * 
 	 * @return 									CSV string
 	 */
-	function fromArray($content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
+	function fromArray( $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
 	{
 		if( !is_array( $content ) )
 			return false;
@@ -383,6 +383,51 @@ class TiendaCSV extends JObject
 				$result .= $field_deliminer.'"'.$fields[$i].'"';
 		}
 		return substr($result, strlen( $field_deliminer ) ); // cut off the first deliminer
+	}
+
+	/*
+	 * Creates a CSV string from an array and saves it to a file
+	 * 
+	 * @param $file_path				Path to file to save the CSV data
+	 * @param $content 					Array of records (in case it's not an array => return FALSE)
+	 * @param $header 					Array of header fields
+	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
+	 * @param $field_deliminer 	Field deliminer
+	 * @param $rec_deliminer 		Record deliminer
+	 * @param $escaped 					Do you want to escape text in fields?
+	 * 
+	 * @return 									True on success
+	 */
+	function fromArrayToFile( $file_path, $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
+	{
+		jimport( 'joomla.filesystem.file' );
+		
+		$buffer = TiendaCSV::fromArray( $content, $header, $use_fields, $field_deliminer, $rec_deliminer, $escaped ); // prepare CSV data
+
+		return JFile::write( $file_path, $buffer ); // save the file
+	}
+
+	/*
+	 * Parses content from a file into an array
+	 * A field containing integer or fload doesnt need to be escaped in double-qoutes
+	 * 
+	 * @param $file_path					Path to read the file from
+	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
+	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
+	 * @param $method 						Method to use to parse the data (1 - explode, 2 - our own (more complex and slower) method)
+	 * @param $preserve_header 		Preserve header as a firt row of the result array
+	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
+	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
+	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * 
+	 * @return Returns array of arrays representing records
+	 */
+	function fromFileToArray( $file_path, $fields = array(), $num_fields = 0, $method = 1, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
+	{
+		$buffer = file_get_contents( $file_path );// read the file
+		return TiendaCSV::toArray( $buffer, $fields, $num_fields, $method, $preserve_header, $skip_first, $rec_deliminer, $field_deliminer, $clear_fields, $preserve_indexes ); // parse data
 	}
 }
 ?>
