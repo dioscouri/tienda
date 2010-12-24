@@ -78,7 +78,7 @@ class TiendaCSV extends JObject
 		{
 			$tmp_head = array_shift( $tmp );
 			if( $preserve_header ) // we want to preserve header
-				$result[] = explode( $field_deliminer, $tmp_head );
+				$result[] = TiendaCSV::processFields( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
 
 			$c--; // adjust number of records
 		}
@@ -110,37 +110,37 @@ class TiendaCSV extends JObject
 	function toArrayOur( $content, $fields = array(), $num_fields = 0, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
 	{
 		$result = array();
-		$tmp = explode( $rec_deliminer, $content );
+		$tmp_lines = explode( $rec_deliminer, $content );
 		
-		if( !tmp || ( !($c = count( $tmp )) ) ) // no results or a deliminer is empty => empty array
+		if( !$tmp_lines || ( !($c = count( $tmp_lines )) ) ) // no results or a deliminer is empty => empty array
 			return $result;
 		
 		if( !$num_fields ) // number of fields is not set => get it from header (firt line)
-			$num_fields = count( explode( $field_deliminer, $tmp[0] ) );
-		$c = count( $tmp ); // number of records
+			$num_fields = count( explode( $field_deliminer, $tmp_lines[0] ) );
+		$c = count( $tmp_lines ); // number of records
 
 		if( $skip_first ) // skip first line
 		{
-			$tmp_head = array_shift( $tmp );
+			$tmp_head = array_shift( $tmp_lines );
 			if( $preserve_header ) // we want to preserve header
-				$result[] = explode( $field_deliminer, $tmp_head );
+				$result[] = TiendaCSV::processFields( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
 
 			$c--; // adjust number of records
 		}
 
+		$record = 0;
 		for( $i = 0; $i < $c; $i++ )
 		{
-			if( !strlen( $lines[$i] ) ) // skip empty lines between records
+			if( !strlen( $tmp_lines[$i] ) ) // skip empty lines between records
 				continue;
 			
-			$record = '';
 			$last_unclosed = false;
 			$tmp_arr1 = array();
 			$tmp_arr2 = array();
 			$c_act = 0;
 			while($i < $c)
 			{
-				$tmp_arr2 = explode( $field_separator, $lines[$i] );
+				$tmp_arr2 = explode( $field_deliminer, $tmp_lines[$i] );
 				$c2 = count( $tmp_arr2 );
 				$j = 0;
 			
@@ -180,7 +180,7 @@ class TiendaCSV extends JObject
 						if( @strlen($tmp_arr1[$c_act]) ) // add this part to the rest of the current field
 							$tmp_arr1[$c_act] .= $row_deliminer.implode($field_deliminer, $tmp); // add the result to the current field
 						else
-							$tmp_arr1[$c_act] = implode(',', $tmp); // add the result to the current field
+							$tmp_arr1[$c_act] = implode($field_deliminer, $tmp); // add the result to the current field
 			
 						if( $j == $c2 ) // if we havent find any unclosed field until the end of this line, continue to the next line
 							continue;
@@ -212,6 +212,7 @@ class TiendaCSV extends JObject
 			}
 			
 			$result[] = TiendaCSV::processFields( $fields, $tmp_arr1, $clear_fields, $preserve_indexes );
+			$record++;
 		}
 
 		return $result;
@@ -251,9 +252,14 @@ class TiendaCSV extends JObject
 						$row[$i] = substr( $data[$i], 1, strlen( $data[$i] )-2 );
 					else // otherwise the value is float/integer
 					{
-						$row[$i] = ( float )@$data[$i];
-						if( ( int ) $row[$i] == $row[$i] ) // the number is integer and not float
-							$row[$i] = ( int )$row[$i];
+						if( !isset( $data[$i] ) || !strlen($data[$i]) ) // the field is empty so empty it
+							$row[$i] = '';
+						else // otherwise it must be float or integer
+						{
+							$row[$i] = ( float )@$data[$i];
+							if( ( int ) $row[$i] == $row[$i] ) // the number is integer and not float
+								$row[$i] = ( int )$row[$i];
+						}
 					}
 				}
 			}
@@ -272,9 +278,14 @@ class TiendaCSV extends JObject
 						else // otherwise the value is float/integer
 						{
 							$idx = $preserve_indexes ? $fields[$i] : $i; // index in the result array 
-							$row[$idx] = ( float )@$data[$fields[$i]];
-							if( ( int ) $row[$idx] == $row[$idx] ) // the number is integer and not float
-								$row[$idx] = ( int )$row[$idx];
+							if( !isset( $data[$fields[$i]] ) || !strlen($data[$fields[$i]]) ) // the field is empty so empty it
+								$row[$idx] = '';
+							else // otherwise it must be float or integer
+							{
+								$row[$idx] = ( float )@$data[$idx];
+								if( ( int ) $row[$idx] == $row[$idx] ) // the number is integer and not float
+									$row[$idx] = ( int )$row[$idx];
+							}
 						}
 				}
 			}
