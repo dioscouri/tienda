@@ -18,16 +18,16 @@ class TiendaCSV extends JObject
 	 * Parses content from a file into an array
 	 * A field containing integer or fload doesnt need to be escaped in double-qoutes
 	 * 
-	 * @param $content String to be translated
-	 * @param $fields Array of indexes fields which we want to process (an empty array means we want to process all fields)
-	 * @param $num_fields Number of fields in a row (0 means that it'll be calculated from the first row -> header)
-	 * @param $method Method to use to parse the data (1 - explode, 2 - our own (more complex and slower) method)
-	 * @param $preserve_header Preserve header as a firt row of the result array
-	 * @param $skip_first If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer Deliminer distinguishing fields in a record
-	 * @param $clear_fields If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes If we want to have the same field indexes in result array as in the CSV file
+	 * @param $content 						String to be translated
+	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
+	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
+	 * @param $method 						Method to use to parse the data (1 - explode, 2 - our own (more complex and slower) method)
+	 * @param $preserve_header 		Preserve header as a firt row of the result array
+	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
+	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
+	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
 	 * 
 	 * @return Returns array of arrays representing records
 	 */
@@ -50,15 +50,15 @@ class TiendaCSV extends JObject
 	 * Parses content from a file into an array using explode function
 	 * A field containing integer or fload doesnt need to be escaped in double-qoutes
 	 * 
-	 * @param $content String to be translated
-	 * @param $num_fields Number of fields in a row (0 means that it'll be calculated from the first row -> header)
-	 * @param $fields Array of indexes fields which we want to process (an empty array means we want to process all fields)
-	 * @param $preserve_header Preserve header as a firt row of the result array
-	 * @param $skip_first If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer Deliminer distinguishing fields in a record
-	 * @param $clear_fields If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes If we want to have the same field indexes in result array as in the CSV file
+	 * @param $content 						String to be translated
+	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
+	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
+	 * @param $preserve_header 		Preserve header as a firt row of the result array
+	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
+	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
+	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
 	 * 
 	 * @return Returns array of arrays representing records
 	 */
@@ -78,7 +78,7 @@ class TiendaCSV extends JObject
 		{
 			$tmp_head = array_shift( $tmp );
 			if( $preserve_header ) // we want to preserve header
-				$result[] = TiendaCSV::processFields( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
+				$result[] = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
 
 			$c--; // adjust number of records
 		}
@@ -86,7 +86,7 @@ class TiendaCSV extends JObject
 		for( $i = 0; $i < $c; $i++ )
 		{
 			if( strlen( $tmp[$i] ) ) // process the line (skip all empty lines)
-				$result[] = TiendaCSV::processFields( $fields, explode( $field_deliminer, $tmp[$i] ), $clear_fields, $preserve_indexes );
+				$result[] = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $tmp[$i] ), $clear_fields, $preserve_indexes );
 		}
 		return $result;
 	}
@@ -95,15 +95,15 @@ class TiendaCSV extends JObject
 	 * Parses content from a file into an array using our own function
 	 * A field containing integer or fload doesnt need to be escaped in double-qoutes
 	 * 
-	 * @param $content String to be translated
-	 * @param $num_fields Number of fields in a row (0 means that it'll be calculated from the first row -> header)
-	 * @param $fields Array of indexes fields which we want to process (an empty array means we want to process all fields)
-	 * @param $rec_deliminer Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $preserve_header Preserve header as a firt row of the result array
-	 * @param $skip_first If first line of the content should be skipped (not parsed as a record)
-	 * @param $field_deliminer Deliminer distinguishing fields in a record
-	 * @param $clear_fields If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes If we want to have the same field indexes in result array as in the CSV file
+	 * @param $content 						String to be translated
+	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
+	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
+	 * @param $preserve_header 		Preserve header as a firt row of the result array
+	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
+	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
+	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
 	 * 
 	 * @return Returns array of arrays representing records
 	 */
@@ -123,7 +123,7 @@ class TiendaCSV extends JObject
 		{
 			$tmp_head = array_shift( $tmp_lines );
 			if( $preserve_header ) // we want to preserve header
-				$result[] = TiendaCSV::processFields( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
+				$result[] = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
 
 			$c--; // adjust number of records
 		}
@@ -211,7 +211,7 @@ class TiendaCSV extends JObject
 				$i++; // otherwise, start parsing another line
 			}
 			
-			$result[] = TiendaCSV::processFields( $fields, $tmp_arr1, $clear_fields, $preserve_indexes );
+			$result[] = TiendaCSV::processFieldsToArray( $fields, $tmp_arr1, $clear_fields, $preserve_indexes );
 			$record++;
 		}
 
@@ -219,7 +219,7 @@ class TiendaCSV extends JObject
 	}
 
 	/*
-	 * Process fields:
+	 * Process fields while parsing CSV data:
 	 * Cut out only fields we want to use
 	 * Clear string-containing fields if we want so
 	 * 
@@ -230,7 +230,7 @@ class TiendaCSV extends JObject
 	 * 
 	 * @return Array With cleaned up fields
 	 */
-	function processFields( &$fields, $data, $clear_fields, $preserve_indexes )
+	function processFieldsToArray( &$fields, $data, $clear_fields, $preserve_indexes )
 	{
 		$row = array();
 		$c = count( $fields );
@@ -257,7 +257,7 @@ class TiendaCSV extends JObject
 						else // otherwise it must be float or integer
 						{
 							$row[$i] = ( float )@$data[$i];
-							if( ( int ) $row[$i] == $row[$i] ) // the number is integer and not float
+							if( !strcmp( ( int ) $row[$i], $row[$i] ) ) // the number is integer and not float
 								$row[$i] = ( int )$row[$i];
 						}
 					}
@@ -283,7 +283,7 @@ class TiendaCSV extends JObject
 							else // otherwise it must be float or integer
 							{
 								$row[$idx] = ( float )@$data[$idx];
-								if( ( int ) $row[$idx] == $row[$idx] ) // the number is integer and not float
+								if( !strcmp( ( int ) $row[$i], $row[$i] ) ) // the number is integer and not float
 									$row[$idx] = ( int )$row[$idx];
 							}
 						}
@@ -296,6 +296,93 @@ class TiendaCSV extends JObject
 			}
 		}
 		return $row;
+	}
+
+	/*
+	 * Creates a CSV string from an array
+	 * 
+	 * @param $content 					Array of records (in case it's not an array => return FALSE)
+	 * @param $header 					Array of header fields
+	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
+	 * @param $field_deliminer 	Field deliminer
+	 * @param $rec_deliminer 		Record deliminer
+	 * @param $escaped 					Do you want to escape text in fields?
+	 * 
+	 * @return 									CSV string
+	 */
+	function fromArray($content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
+	{
+		if( !is_array( $content ) )
+			return false;
+			
+		$result = '';
+		if( count( $header ) ) // we want to export header too
+			$result = TiendaCSV::processFieldsFromArray( $header, $use_fields, $field_deliminer, $escaped ).$rec_deliminer;
+		
+		for( $i = 0, $c = count( $content ); $i < $c; $i++ ) // export all other records
+			$result.= TiendaCSV::processFieldsFromArray( $content[$i], $use_fields, $field_deliminer, $escaped ).$rec_deliminer;
+
+		return $result;
+	}
+	
+	/*
+	 * Processes fields to export to CSV format
+	 * 
+	 * @param $fields 					Array of fields
+	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
+	 * @param $field_deliminer 	Field deliminer
+	 * @param $escaped 					Do you want to escape text in fields?
+	 * 
+	 * @return 									CSV string
+	 */
+	function processFieldsFromArray( &$fields, $use_fields = array(), $field_deliminer = ',', $escaped = true )
+	{
+		$result = '';
+		
+		$c = count($use_fields);
+		if( $c ) // we specified fields to export
+		{
+			// get only wanted fields
+			$wanted = array();
+			for( $i = 0; $i < $c; $i++ )
+				$wanted[] = $fields[$use_fields[$i]];
+
+			$fields = $wanted;
+		}
+		else // all fields are processed
+			$c = count( $fields );
+		
+		$db = &JFactory::getDbo();
+		// go through all fields and process them
+		for($i = 0; $i < $c; $i++ )
+		{
+			if( !isset( $fields[$i] ) || !strlen( $fields[$i] ) ) // first of all, check if this property isnt empty
+			{
+				$result .= $field_deliminer;
+				continue; // go to another field
+			}
+			
+			// second step -> check, if the content is float/integer
+			if( !strcmp( $fields[$i], ( int )$fields[$i] ) ) // the content is integer?
+			{
+				$result .= $field_deliminer.( int )$fields[$i];
+				continue; // go to another field
+			}
+			else
+				if( !strcmp( $fields[$i], ( float )$fields[$i] ) ) // the content is float?
+				{
+					$result .= $field_deliminer.( float )$fields[$i];
+					continue; // go to another field
+				}
+			// as the last possibility -> it's a string
+			if( $escaped )
+			{
+				$result .= $field_deliminer.'"'.$db->getEscaped( $fields[$i] ).'"'; // escape the field
+			}
+			else
+				$result .= $field_deliminer.'"'.$fields[$i].'"';
+		}
+		return substr($result, strlen( $field_deliminer ) ); // cut off the first deliminer
 	}
 }
 ?>
