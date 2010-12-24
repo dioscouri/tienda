@@ -4,13 +4,13 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
-
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 
 	<table style="width: 100%;">
 	<tr>
 		<td style="width: 70%; max-width: 70%; vertical-align: top; padding: 0px 5px 0px 5px;">
+		
+		    <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 			<table class="adminlist" style="margin-bottom: 5px;">
 			<thead>
@@ -50,6 +50,9 @@
 			echo $tabs->endPane();
 			?>
 
+            <?php echo $this->form['validate']; ?>
+            </form>
+            
 			<?php
 			$modules = JModuleHelper::getModules("tienda_dashboard_main");
 			$document	= &JFactory::getDocument();
@@ -80,6 +83,3 @@
 		</td>
 	</tr>
 	</table>
-
-	<?php echo $this->form['validate']; ?>
-</form>

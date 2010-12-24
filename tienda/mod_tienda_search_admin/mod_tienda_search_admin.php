@@ -16,7 +16,6 @@ $mainframe =& JFactory::getApplication();
 $document =& JFactory::getDocument();
 
 $option = JRequest::getCmd( 'option' );
-$display_outside = ($option == 'com_tienda') ? false : true;
 $class_suffix = $params->get('moduleclass_sfx', '');
 
 // Check the registry to see if our Tienda class has been overridden
