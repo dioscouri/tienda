@@ -20,14 +20,14 @@ class TiendaTableEav extends TiendaTable
 	 * On save the system will also mirror the eav values for the saved item
 	 * @var string
 	 */
-	protected $linked_table = '';
+	protected $_linked_table = '';
 	
 	/**
 	 * If this "mirrors" another table (ex orderitems => products), put the mirrored table key here
 	 * (ex: the product_id)
 	 * @var int
 	 */
-	protected $linked_table_key = 0;
+	protected $_linked_table_key = 0;
 	
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
@@ -91,10 +91,10 @@ class TiendaTableEav extends TiendaTable
 		}
 		
 		// Is this a mirrored table (see decription at the beginning of this file)
-    	if(strlen($this->linked_table) && $this->linked_table_key)
+    	if(strlen($this->_linked_table) && $this->_linked_table_key)
     	{
     		// Copy the custom field value to this table
-    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->linked_table, $this->linked_table_key );
+    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
     		
 	    	// If there are Custom Fields for the linked key
 			if(count($mirrored_eavs))
@@ -107,7 +107,7 @@ class TiendaTableEav extends TiendaTable
 					if( !property_exists($this, $key))
 					{
 						// Get the value
-						$value = TiendaHelperEav::getAttributeValue($eav, $this->linked_table, $this->linked_table_key);
+						$value = TiendaHelperEav::getAttributeValue($eav, $this->_linked_table, $this->_linked_table_key);
 						
 						// Store it into the array for eav values
 						$custom_fields[] = array('eav' => $eav, 'value' => $value);
@@ -295,10 +295,10 @@ class TiendaTableEav extends TiendaTable
 					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
 					
 					// Is this a mirrored table (see decription at the beginning of this file)
-			    	if(strlen($this->linked_table) && $this->linked_table_key)
+			    	if(strlen($this->_linked_table) && $this->_linked_table_key)
 			    	{
 			    		// Copy the custom field value to this table
-			    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->linked_table, $this->linked_table_key );
+			    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
 			    		$eavs = array_merge($eavs, $mirrored_eavs);
 			    	}
 					

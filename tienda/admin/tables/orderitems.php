@@ -23,7 +23,7 @@ class TiendaTableOrderItems extends TiendaTable
 		$this->set( '_suffix', $tbl_suffix );
 		$name 		= 'tienda';
 		
-		$this->linked_table = 'products';
+		$this->_linked_table = 'products';
 		
 		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );	
 	}
@@ -49,7 +49,7 @@ class TiendaTableOrderItems extends TiendaTable
 	
 	function store()
 	{
-		$this->linked_table_key = $this->product_id;
+		$this->_linked_table_key = $this->product_id;
 		return parent::store();
 	}
 }
