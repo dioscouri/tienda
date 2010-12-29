@@ -3,7 +3,7 @@
     <name>Czech Tienda</name>
     <tag>cs-CZ</tag>
     <version>0.6.2 Community</version>
-    <creationDate>25/10/2010</creationDate>
+    <creationDate>29/12/2010</creationDate>
     <author>Fenris</author>
     <authorEmail>fenris@fenris.cz</authorEmail>
     <authorUrl>www,fenris.cz</authorUrl>
@@ -18,6 +18,7 @@
         <filename>cs-CZ.mod_tienda_quickicon.ini</filename>
         <filename>cs-CZ.mod_tienda_recentorders.ini</filename>
         <filename>cs-CZ.mod_tienda_salestatistics.ini</filename>
+        <filename>cs-CZ.mod_tienda_search_admin.ini</filename>
         <filename>cs-CZ.mod_tienda_useraddress.ini</filename>
         <filename>cs-CZ.plg_content_tienda_content_product.ini</filename>
         <filename>cs-CZ.plg_search_tienda.ini</filename>
@@ -37,6 +38,7 @@
         <filename>cs-CZ.plg_tienda_report_bestsellers.ini</filename>
         <filename>cs-CZ.plg_tienda_report_cart.ini</filename>
         <filename>cs-CZ.plg_tienda_report_lowstock.ini</filename>
+        <filename>cs-CZ.plg_tienda_report_mostdownloadedfiles.ini</filename>
         <filename>cs-CZ.plg_tienda_report_ordered_products.ini</filename>
         <filename>cs-CZ.plg_tienda_report_sales.ini</filename>
         <filename>cs-CZ.plg_tienda_report_salesbymanufacturer.ini</filename>
