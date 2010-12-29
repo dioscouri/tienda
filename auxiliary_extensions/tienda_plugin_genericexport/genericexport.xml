@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+    <name>Tienda - Generic Data Export</name>
+    <version>0.6.2</version>
+    <creationDate>December 2010</creationDate>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>Generic Data Export</description>
+
+		<files>
+			<filename plugin="genericexport">genericexport.php</filename>
+		</files>
+	
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_tienda_genericexport.ini</language>
+    </languages>
+	
+	<params>
+	</params>
+</install>

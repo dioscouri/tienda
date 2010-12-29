@@ -112,7 +112,7 @@ class TiendaCSV extends JObject
 		$result = array();
 		$tmp_lines = explode( $rec_deliminer, $content );
 		
-		if( !$tmp_lines || ( !($c = count( $tmp_lines )) ) ) // no results or a deliminer is empty => empty array
+		if( !$tmp_lines || ( !($c = count( $tmp_lines ) )) ) // no results or a deliminer is empty => empty array
 			return $result;
 		
 		if( !$num_fields ) // number of fields is not set => get it from header (firt line)
@@ -182,7 +182,7 @@ class TiendaCSV extends JObject
 						else
 							$tmp_arr1[$c_act] = implode($field_deliminer, $tmp); // add the result to the current field
 			
-						if( $j == $c2 ) // if we havent find any unclosed field until the end of this line, continue to the next line
+						if( $j == $c2 ) // if we havent found any unclosed field until the end of this line, continue to the next line
 							continue;
 						
 						// we found another unclosed field and matched it with the first one
@@ -249,7 +249,10 @@ class TiendaCSV extends JObject
 				{
 					// cut off double quotation marks if there are any
 					if( isset( $data[$i] ) && strlen( $data[$i ]) && ( $data[$i][0]	 == '"' ) )
+					{
 						$row[$i] = substr( $data[$i], 1, strlen( $data[$i] )-2 );
+						$row[$i] = str_replace( '""', '"', $row[$i] ); // replace double double-quotes with only one double-quote
+					}
 					else // otherwise the value is float/integer
 					{
 						if( !isset( $data[$i] ) || !strlen($data[$i]) ) // the field is empty so empty it
@@ -274,7 +277,10 @@ class TiendaCSV extends JObject
 				{
 						// cut off double quotation marks if there are any
 						if( isset( $data[$fields[$i]] ) && strlen( $data[$fields[$i]] ) && ( $data[$fields[$i]][0]	 == '"' ) )
+						{
 							$row[$fields[$i]] = substr( $data[$fields[$i]], 1, strlen( $data[$fields[$i]] )-2 );
+							$row[$fields[$i]] = str_replace( '""', '"', $row[$fields[$i]] ); // replace double double-quotes with only one double-quote
+						}						
 						else // otherwise the value is float/integer
 						{
 							$idx = $preserve_indexes ? $fields[$i] : $i; // index in the result array 
@@ -306,21 +312,20 @@ class TiendaCSV extends JObject
 	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
 	 * @param $field_deliminer 	Field deliminer
 	 * @param $rec_deliminer 		Record deliminer
-	 * @param $escaped 					Do you want to escape text in fields?
 	 * 
 	 * @return 									CSV string
 	 */
-	function fromArray( $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
+	function fromArray( $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n" )
 	{
 		if( !is_array( $content ) )
 			return false;
 			
 		$result = '';
 		if( count( $header ) ) // we want to export header too
-			$result = TiendaCSV::processFieldsFromArray( $header, $use_fields, $field_deliminer, $escaped ).$rec_deliminer;
+			$result = TiendaCSV::processFieldsFromArray( $header, $use_fields, $field_deliminer ).$rec_deliminer;
 		
 		for( $i = 0, $c = count( $content ); $i < $c; $i++ ) // export all other records
-			$result.= TiendaCSV::processFieldsFromArray( $content[$i], $use_fields, $field_deliminer, $escaped ).$rec_deliminer;
+			$result.= TiendaCSV::processFieldsFromArray( $content[$i], $use_fields, $field_deliminer ).$rec_deliminer;
 
 		return $result;
 	}
@@ -331,11 +336,10 @@ class TiendaCSV extends JObject
 	 * @param $fields 					Array of fields
 	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
 	 * @param $field_deliminer 	Field deliminer
-	 * @param $escaped 					Do you want to escape text in fields?
 	 * 
 	 * @return 									CSV string
 	 */
-	function processFieldsFromArray( &$fields, $use_fields = array(), $field_deliminer = ',', $escaped = true )
+	function processFieldsFromArray( &$fields, $use_fields = array(), $field_deliminer = ',' )
 	{
 		$result = '';
 		
@@ -375,12 +379,9 @@ class TiendaCSV extends JObject
 					continue; // go to another field
 				}
 			// as the last possibility -> it's a string
-			if( $escaped )
-			{
-				$result .= $field_deliminer.'"'.$db->getEscaped( $fields[$i] ).'"'; // escape the field
-			}
-			else
-				$result .= $field_deliminer.'"'.$fields[$i].'"';
+			// first of all -> double any double-quotes you find
+			$fields[$i] = str_replace( '"','""', $fields[$i] );
+			$result .= $field_deliminer.'"'.$fields[$i].'"';
 		}
 		return substr($result, strlen( $field_deliminer ) ); // cut off the first deliminer
 	}
@@ -394,16 +395,15 @@ class TiendaCSV extends JObject
 	 * @param $use_fields				Array of indexes of fields we want to export to CSV (an empty array means all fields)
 	 * @param $field_deliminer 	Field deliminer
 	 * @param $rec_deliminer 		Record deliminer
-	 * @param $escaped 					Do you want to escape text in fields?
 	 * 
 	 * @return 									True on success
 	 */
-	function fromArrayToFile( $file_path, $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n", $escaped = true )
+	function fromArrayToFile( $file_path, $content, $header = array(), $use_fields = array(), $field_deliminer = ",", $rec_deliminer = "\n" )
 	{
 		jimport( 'joomla.filesystem.file' );
 		
-		$buffer = TiendaCSV::fromArray( $content, $header, $use_fields, $field_deliminer, $rec_deliminer, $escaped ); // prepare CSV data
-
+		$buffer = TiendaCSV::fromArray( $content, $header, $use_fields, $field_deliminer, $rec_deliminer ); // prepare CSV data
+		
 		return JFile::write( $file_path, $buffer ); // save the file
 	}
 
