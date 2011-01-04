@@ -32,6 +32,7 @@ class TiendaControllerOrders extends TiendaController
 		$this->registerTask( 'new', 'selectUser' );
 		$this->registerTask( 'add', 'selectUser' );
 		$this->registerTask( 'update_status', 'updateStatus' );
+		$this->registerTask( 'resend_email', 'resendEmail' );
 
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -1208,6 +1209,33 @@ class TiendaControllerOrders extends TiendaController
 		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 
+	}
+
+	/**
+	 * 
+	 * Enter description here ...
+	 * @return unknown_type
+	 */
+	function resendEmail()
+	{
+        Tienda::load( 'TiendaUrl', 'library.url' );
+
+        $model = $this->getModel( $this->get('suffix') );
+        $order = $model->getTable( 'orders' );
+        $order->load( $model->getId() );
+        $orderitems = &$order->getItems();
+        $row = $model->getItem();
+        
+        // send notice of new order
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance('Email');
+        $helper->sendEmailNotices($row, 'new_order');
+                
+        // track message      
+        $redirect = "index.php?option=com_tienda&view=orders";
+        $redirect .= "&task=view&id=".$model->getId();
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
 }

@@ -16,12 +16,15 @@
 			    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=orders")."'>".JText::_( 'Return to List' )."</a>";
 			    ?>
             </td>
-            <td nowrap="nowrap" style="text-align: right;">
+            <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
 		        [<?php
 		        $url = "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id;
 		        $text = JText::_( "Print Invoice" );
 		        echo TiendaUrl::popup( $url, $text );
 		        ?>]
+            </td>
+            <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
+                <input value="<?php echo JText::_( "Resend Email Invoice" ); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
             </td>
         </tr>
     </table>
@@ -478,9 +481,8 @@
     	    </td>
     	</tr>
     	</table>
-    	
     	</fieldset>
-
+    	
         <?php
             // fire plugin event here to enable extending the form
             JDispatcher::getInstance()->trigger('onAfterDisplayOrderViewOrderHistory', array( $row ) );                    
