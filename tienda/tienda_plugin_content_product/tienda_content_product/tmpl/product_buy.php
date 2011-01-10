@@ -96,6 +96,14 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     <!-- Add to cart button ---> 
     <div id='add_to_cart_<?php echo $item->product_id; ?>' class="add_to_cart" style="display: block;"> 
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
+        
+        <?php 
+        	// Custom Redirect URL
+        	$uri = JURI::getInstance();
+        	$url = $uri->toString( array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
+        ?>
+        
+        <input type="hidden" name="product_url" value="<?php echo $url; ?>" />
         <input type="hidden" name="filter_category" value="<?php echo @$vars->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>

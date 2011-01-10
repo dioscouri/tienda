@@ -42,6 +42,13 @@ $quantities = array();
             <tbody>
             <?php $i=0; $k=0; $subtotal = 0; ?> 
             <?php foreach ($items as $item) : ?>
+            	
+            	<?php 
+            		$params = new JParameter( trim(@$item->cartitem_params) );
+            		$link = $params->get('product_url', "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id);
+            		$link = JRoute::_($link);
+            	?>
+            
                 <tr class="row<?php echo $k; ?>">
                     <td style="width: 20px; text-align: center;">
                         <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->product_id.".".$item->product_attributes.".".$i; ?>]" value="<?php echo $item->product_id; ?>" onclick="isChecked(this.checked);" />
@@ -50,7 +57,7 @@ $quantities = array();
                         <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
                     </td>
                     <td>
-                        <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=products&task=view&id=".$item->product_id); ?>">
+                        <a href="<?php echo $link; ?>">
                             <?php echo $item->product_name; ?>
                         </a>
                         <br/>

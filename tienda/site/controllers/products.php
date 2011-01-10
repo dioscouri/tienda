@@ -1069,6 +1069,14 @@ class TiendaControllerProducts extends TiendaController
         $item->product_attributes = $attributes_csv;
         $item->vendor_id   = '0'; // vendors only in enterprise version
         
+        // if ther is another product_url, put it into the cartitem_params, to allow custom redirect
+       	if(array_key_exists('product_url', $values))
+       	{
+       		$params = new JParameter('');
+       		$params->set('product_url', $values['product_url']);
+       		$item->cartitem_params = trim( $params->toString() );
+       	}
+        
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
         // once the extra field(s) have been set, they will get automatically saved
         $dispatcher =& JDispatcher::getInstance();
