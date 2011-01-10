@@ -43,12 +43,12 @@ $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
 if(strlen($protocol))
 {
 	// file syntax: controller_json.php
-	if (Tienda::load( 'TiendaController'.$controller.$protocol, "controllers.".$controller."_".$protocol ))
+	if (Tienda::load( 'TiendaController'.$controller.$protocol, "controllers.".$controller."_".$protocol, $options ))
     	$controller .=  $protocol;
 }
 else
 {
-	if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
+	if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller", $options ))
     	$controller = '';
 }
 

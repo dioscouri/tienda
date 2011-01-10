@@ -181,9 +181,10 @@ class TiendaTableProducts extends TiendaTable
 	}
 	
 	/**
-	 * Creates a product and its related informations (price, quantity
+	 * Creates a product and its related informations (price, quantity & categories)
 	 * The price will be created from the $this->product_price property
 	 * The quantity will be created from the $this->product_quantity property
+	 * The categories will be created from the $this->product_category property
 	 */
 	function create()
 	{
@@ -196,7 +197,12 @@ class TiendaTableProducts extends TiendaTable
 		
 		$product_price = @$this->product_price;
 		$product_quantity = @$this->product_quantity;
-		$product_category = @$this->product_category;
+		$product_categories = @$this->product_category;
+		
+		if(!is_array($product_categories))
+		{
+			$product_categories = array($product_categories);
+		}
 		
 		unset($this->product_price);
 		unset($this->product_quantity);
@@ -210,6 +216,7 @@ class TiendaTableProducts extends TiendaTable
 			// now the price
 			if($product_price)
 			{
+				Tienda::load('TiendaTableProductPrices', 'tables.productprices');
 				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
@@ -226,6 +233,7 @@ class TiendaTableProducts extends TiendaTable
 			// now the quantities
 			if($product_quantity)
 			{
+				Tienda::load('TiendaTableProductQuantities', 'tables.productquantities');
 				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
 				$quantity->product_id = $this->product_id;
 				$quantity->quantity = $product_quantity;
@@ -238,9 +246,11 @@ class TiendaTableProducts extends TiendaTable
 				}
 			}
 			
-			// now the category
-			if($product_category)
+			// now the categories
+			if($product_categories)
 			{
+				foreach($product_categories as $product_category)
+				{
 						// This is probably not the best way to do it
 		            	// Numeric = id, string = category name
 		            	if(!is_numeric($product_category))
@@ -268,6 +278,7 @@ class TiendaTableProducts extends TiendaTable
 		            		// Not matched, create category
 		            		if(!$matched)
 		            		{
+		            			Tienda::load('TiendaTableCategories', 'tables.categories');
 		            			$category = JTable::getInstance('Categories', 'TiendaTable');
 		            			$category->category_name = $product_category;
 		            			$category->parent_id = 1;
@@ -280,11 +291,178 @@ class TiendaTableProducts extends TiendaTable
 		            	}
 		            	
 		            	// save xref in every case
+		            	Tienda::load('TiendaTableProductCategories', 'tables.productcategories');
                         $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
                         $xref->product_id = $this->product_id;
                         $xref->category_id = $product_category;
                         $xref->save();
 		            }
+			}
+		}
+		else
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Updates a product and its related informations (price, quantity & categories)
+	 * The price will be created from the $this->product_price property
+	 * The quantity will be created from the $this->product_quantity property
+	 * The categories will be created from the $this->product_category property
+	 */
+	function update()
+	{
+		// If this product is already stored, we shouldn't create the product!
+		if(!$this->product_id)
+		{
+			$this->setError( JText::_('You cannot update a non existing product') );
+			return false;
+		}
+		
+		$product_price = @$this->product_price;
+		$product_quantity = @$this->product_quantity;
+		$product_categories = @$this->product_category;
+		
+		if(!is_array($product_categories))
+		{
+			$product_categories = array($product_categories);
+		}
+		
+		unset($this->product_price);
+		unset($this->product_quantity);
+		unset($this->product_category);
+		
+		// Save the product First
+		$success = $this->save();
+		
+		if($success)
+		{
+			// now the price
+			if($product_price)
+			{
+				// Load the default price
+				Tienda::load('TiendaHelperProduct', 'helpers.product');
+				$prices = TiendaHelperProduct::getPrices($this->product_id);
+				
+				if(count($prices))
+				{
+					$price_id = $prices[0]->productprice_id;
+				}
+				else
+				{
+					$price_id = 0;
+				}
+				
+				Tienda::load('TiendaTableProductPrices', 'tables.productprices');
+				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
+				// load the price if it does exist
+				if($price_id)
+				{
+					$price->load($price_id);
+				}
+				// else just save it as a new price
+				$price->product_id = $this->product_id;
+				$price->product_price = $product_price;
+				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
+				$success = $price->save();
+				
+				if(!$success)
+				{
+					$this->setError($price->getError());
+					return false;
+				}
+			}
+			
+			// now the quantities
+			if($product_quantity)
+			{
+				// Load the default quantity
+				Tienda::load('TiendaHelperProduct', 'helpers.product');
+				$quantities = TiendaHelperProduct::getProductQuantities($this->product_id);
+				
+				if(count($quantities))
+				{
+					$quantity_id = $quantities[0]->productquantity_id;
+				}
+				else
+				{
+					$quantity_id = 0;
+				}
+				
+				Tienda::load('TiendaTableProductQuantities', 'tables.productquantities');
+				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
+				// load the quantity if it does exist
+				if($quantity_id)
+				{
+					$quantity->load($quantity_id);
+				}
+				// else just save it as a new quantity
+				$quantity->product_id = $this->product_id;
+				$quantity->quantity = $product_quantity;
+				$success = $quantity->save();
+				
+				if(!$success)
+				{
+					$this->setError($quantity->getError());
+					return false;
+				}
+			}
+			
+			// now the categories
+			if($product_categories)
+			{
+				foreach($product_categories as $product_category)
+				{
+						// This is probably not the best way to do it
+		            	// Numeric = id, string = category name
+		            	if(!is_numeric($product_category))
+		            	{
+		            	 	// check for existance
+		            	 	JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
+		            		$model = JModel::getInstance('Categories', 'TiendaModel');
+		            		$model->setState('filter_name', $product_category);
+		            		$matches = $model->getList();
+		            		$matched = false;
+		            		
+		            		if($matches)
+		            		{
+			            		foreach($matches as $match)
+			            		{
+			            			// is a perfect match?
+			            			if(strtolower($product_category) == strtolower($match->category_name))
+			            			{
+			            				$product_category = $match->category_id;
+			            				$matched = true;
+			            			}	
+			            		}
+		            		}
+		            		
+		            		// Not matched, create category
+		            		if(!$matched)
+		            		{
+		            			Tienda::load('TiendaTableCategories', 'tables.categories');
+		            			$category = JTable::getInstance('Categories', 'TiendaTable');
+		            			$category->category_name = $product_category;
+		            			$category->parent_id = 1;
+		            			$category->category_enabled = 1;
+		            			$category->save();
+		            			
+		            			$product_category = $category->category_id;
+		            		}
+		            		
+		            	}
+		            	
+		            	// save xref in every case
+		            	Tienda::load('TiendaTableProductCategories', 'tables.productcategories');
+                        $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+                        $xref->product_id = $this->product_id;
+                        $xref->category_id = $product_category;
+                        $xref->save();
+		            }
+			}
 		}
 		else
 		{
