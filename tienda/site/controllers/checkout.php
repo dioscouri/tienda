@@ -322,6 +322,9 @@ class TiendaControllerCheckout extends TiendaController
 			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
 			$order->setAddress( $billingAddress, 'billing' );
 			$order->setAddress( $shippingAddress, 'shipping' );
+			
+			// set userid
+			if(!$order->user_id) $order->user_id = JFactory::getUser()->id;
 		}
 
 		// get the items and add them to the order
