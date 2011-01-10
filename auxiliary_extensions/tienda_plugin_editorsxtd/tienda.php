@@ -39,7 +39,8 @@ class plgButtonTienda extends JPlugin
 
         $js = "
 		function jSelectProducts(id, title, object) {
-			jInsertEditorText('{tiendaproduct id='+id+'}', '".$name."');
+			var layout = $('product_layout').value;
+			jInsertEditorText('{tiendaproduct id='+id+' layout='+layout+'}', '".$name."');
 			document.getElementById('sbox-window').close();
 		}";
 		
@@ -49,13 +50,27 @@ class plgButtonTienda extends JPlugin
         $getContent = $this->_subject->getContent($name);   
         $link = 'index.php?option=com_tienda&amp;task=elementproduct&amp;tmpl=component&amp;e_name='.$name;        
         JHTML::_('behavior.modal');
+        
+        $layout_html = '<select name="product_layout" id="product_layout" style="margin-left:5px;">';
+        $layouts = array( 
+        				'View' => 'view',
+        				'Add to Cart' => 'product_buy',
+        		         );
+        foreach($layouts as $k => $l)
+        {
+        	$layout_html .= '<option value="'.$l.'">'.$k.'</option>';
+        }
+        $layout_html .= '</select>';
+        
+        // Trick for showing extra html
+        $extrahtml = '{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('Tienda Product').$layout_html.'<a style="display:none;';
 
         $button = new JObject();
         $button->set('modal', true);
         $button->set('link', $link);
         $button->set('text', JText::_('Tienda Product'));
         $button->set('name', 'tiendaproduct');
-        $button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
+        $button->set('options', $extrahtml );
         return $button;
     }
 }
