@@ -37,6 +37,14 @@ class plgButtonTienda extends JPlugin
         $doc =& JFactory::getDocument();
         $doc->addStyleSheet( JURI::root(true).'/plugins/editors-xtd/tienda/css/stylesheet.css');
 
+        $js = "
+		function jSelectProducts(id, title, object) {
+			jInsertEditorText('{tiendaproduct id='+id+'}', '".$name."');
+			document.getElementById('sbox-window').close();
+		}";
+		
+		$doc->addScriptDeclaration($js);
+        
         $form_id = JRequest::getVar('id');
         $getContent = $this->_subject->getContent($name);   
         $link = 'index.php?option=com_tienda&amp;task=elementproduct&amp;tmpl=component&amp;e_name='.$name;        
