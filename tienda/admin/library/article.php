@@ -70,9 +70,8 @@ class TiendaArticle
 	 */
 	function display( $articleid )
 	{
+		global $mainframe;
 		$html = '';
-		
-		$mainframe = JFactory::getApplication();
 		
 		$dispatcher	   =& JDispatcher::getInstance();
 			
@@ -86,9 +85,22 @@ class TiendaArticle
 		$article->text = $article->introtext . chr(13).chr(13) . $article->fulltext;
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$params		=& $mainframe->getParams('com_content');
+		
+		//get the com_content application param
+		if($mainframe->isAdmin())
+		{
+			 jimport( 'joomla.application.component.helper' );
+			 $params = JComponentHelper::getParams("com_content");
+		}
+		else 
+		{
+			$application = JFactory::getApplication();
+			$params		=& $application->getParams('com_content');
+		}
+		
 		$aparams	=& $article->attribs;
-		$params->merge($aparams);
+		$params->merge($aparams);		
+	
 		// merge isn't overwriting the global component params, so using this
 		$article_params = new JParameter( $article->attribs );
 
