@@ -418,11 +418,14 @@ class TiendaControllerProducts extends TiendaController
             $shipping_cost_link = JRoute::_('index.php?option=com_content&view=article&id='.$article_link);
             $view->assign( 'shipping_cost_link', $shipping_cost_link );
         }
+
+        $quantity_min = 1;
+        if ($row->quantity_restriction) { $quantity_min = $row->quantity_min; }
         
         $invalidQuantity = '0';
         if (empty($values))
         {
-            $product_qty = '1';
+            $product_qty = $quantity_min;
             // get the default set of attribute_csv
             $default_attributes = TiendaHelperProduct::getDefaultAttributes( $product_id );
             sort($default_attributes);
@@ -437,7 +440,7 @@ class TiendaControllerProducts extends TiendaController
         if (!empty($values))
         {
             $product_id = !empty( $values['product_id'] ) ? (int) $values['product_id'] : JRequest::getInt( 'product_id' );
-            $product_qty = !empty( $values['product_qty'] ) ? (int) $values['product_qty'] : '1';
+            $product_qty = !empty( $values['product_qty'] ) ? (int) $values['product_qty'] : $quantity_min;
             
             // TODO only display attributes available based on the first selected attribute?
             $attributes = array();
@@ -482,6 +485,8 @@ class TiendaControllerProducts extends TiendaController
                 $row->sku .=  $table->productattributeoption_code;
             }
         }
+        
+        $row->_product_quantity = $product_qty;
         
         $view->assign( 'display_cartbutton', $this->display_cartbutton );
         $view->assign( 'availableQuantity', $availableQuantity );

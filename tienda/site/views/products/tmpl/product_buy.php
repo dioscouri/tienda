@@ -87,8 +87,12 @@ $formName = 'adminForm_'.$item->product_id;
     </div>
     
     <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
+        <?php if ($item->quantity_restriction && $item->quantity_min == $item->quantity_max) { ?>
+            <input type="hidden" name="product_qty" value="<?php echo $item->quantity_min; ?>" />
+        <?php } else { ?>
         <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
-        <input type="text" name="product_qty" value="1" size="5" />
+        <input type="text" name="product_qty" value="<?php echo $item->_product_quantity; ?>" size="5" />
+        <?php } ?>
     </div>
  
     <!-- Add to cart button --> 
