@@ -63,6 +63,10 @@ class TiendaControllerCheckout extends TiendaController
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
+	
+		// set userid
+		if( !$this->_order->user_id && !(JFactory::getUser()->guest) ) $this->_order->user_id = JFactory::getUser()->id;
+	
 		$this->defaultShippingMethod = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
 		$this->initial_order_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
 		// Default Steps
@@ -221,7 +225,7 @@ class TiendaControllerCheckout extends TiendaController
 			// Already Logged in, a traditional checkout
 			$order =& $this->_order;
 			$order = $this->populateOrder(false);
-
+						
 			// now that the order object is set, get the orderSummary html
 			$html = $this->getOrderSummary();
 
@@ -321,10 +325,7 @@ class TiendaControllerCheckout extends TiendaController
 			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
 			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
 			$order->setAddress( $billingAddress, 'billing' );
-			$order->setAddress( $shippingAddress, 'shipping' );
-			
-			// set userid
-			if(!$order->user_id) $order->user_id = JFactory::getUser()->id;
+			$order->setAddress( $shippingAddress, 'shipping' );			
 		}
 
 		// get the items and add them to the order
