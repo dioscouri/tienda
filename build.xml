@@ -90,6 +90,9 @@
         <copy todir="${destdir}/modules/mod_tienda_popular_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_popular_products" />
         </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_popular_products/languages" />
+        </copy>
         <!-- CART -->
         <copy todir="${destdir}/modules/mod_${cfg.comName}_cart" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_${cfg.comName}_cart" />
