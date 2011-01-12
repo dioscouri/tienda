@@ -5,15 +5,16 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+<?php $tmpl = @$this->tmpl; ?>
 
 <div class='componentheading'>
     <span><?php echo JText::_( "Manage Your Addresses" ); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+    <?php if ($menu =& TiendaMenu::getInstance() && $tmpl == '') { $menu->display(); } ?>
 
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'].$tmpl )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
     
@@ -24,7 +25,7 @@
                 <?php echo TiendaSelect::addressaction( '', 'apply_action', $attribs, 'apply_action', true, false, 'Select Action' ); ?>
             </td>
             <td nowrap="nowrap">
-                <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=add"); ?>">
+                <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=add".$tmpl); ?>">
                     <?php echo JText::_( "Enter a New Address" ); ?>
                 </a>
             </td>
@@ -55,7 +56,7 @@
                     <?php echo TiendaGrid::checkedout( $item, $i, 'address_id' ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <a href="<?php echo JRoute::_( $item->link ); ?>">
+                    <a href="<?php echo JRoute::_( $item->link.$tmpl ); ?>">
                         <?php echo $item->address_name; ?>
                     </a>
                 </td>

@@ -125,6 +125,10 @@ class TiendaControllerAddresses extends TiendaController
         $row->_isNew = empty($row->address_id);
 
         $redirect = "index.php?option=com_tienda&view=addresses";
+    	if (JRequest::getVar('tmpl') == 'component')
+    	{
+        	$redirect .= "&tmpl=component";
+        }
         $redirect = JRoute::_( $redirect, false );
         
         if ($row->_isNew)
@@ -193,6 +197,10 @@ class TiendaControllerAddresses extends TiendaController
         $this->messagetype  = '';
         $this->message      = '';
         $redirect = 'index.php?option=com_tienda&view=addresses';
+    	if (JRequest::getVar('tmpl') == 'component')
+    	{
+        	$redirect .= "&tmpl=component";
+        }
                 
         $model = $this->getModel($this->get('suffix'));
         $row = $model->getTable();
