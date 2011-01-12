@@ -114,7 +114,7 @@
 
                 <?php if (empty($this->addresses)) : ?>
                     <div>
-                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaDisableShippingAddressControls(this);" />&nbsp;
+                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaDisableShippingAddressControls(this,this.form);" />&nbsp;
                         <?php echo JText::_( 'Same As Billing Address' ); ?>:
                     </div>
 				<?php endif; ?>
