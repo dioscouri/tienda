@@ -178,6 +178,23 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		echo ( json_encode( $response ) );
 		return;
 	}
+	
+	/**
+	 * Get a json list of products
+	 * @api
+	 */
+	function getList()
+	{
+		$response = array();
+		
+		$model 	= $this->getModel( $this->get('suffix') );
+		parent::_setModelState();
+		$products = $model->getList();
+		
+		echo json_encode($products);
+		
+		return;
+	}
 
 }
 
