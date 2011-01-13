@@ -268,72 +268,75 @@ class TiendaHelperCarts extends TiendaHelperBase
                 }
 			    
 				$cart = $model->getList();
-				foreach ($cart as $cartitem)
-				{
-                    $keynames = array();
-                    $keynames['user_id'] = $cartitem->user_id;
-                    if (empty($cartitem->user_id))
-                    {
-                        $keynames['session_id'] = $cartitem->session_id;
-                    }
-                    $keynames['product_id'] = $cartitem->product_id;
-                    $keynames['product_attributes'] = $cartitem->product_attributes;
-                    
-				    $tableProduct->load( $cartitem->product_id );
-				    if ($tableProduct->quantity_restriction )
-                    {
-                        $quantity = $cartitem->product_qty;
-                    	$min = $tableProduct->quantity_min;
-                    	$max = $tableProduct->quantity_max;
-                    	
-                    	if( $max )
-                    	{
-                    		if ($cartitem->product_qty > $max )
-                    		{
-                    			$quantity = $max;
-                    		}
-                    	}
-                    	if( $min )
-                    	{
-                    		if ($cartitem->product_qty < $min )
-                    		{
-                    			$quantity = $min;
-                    		}
-                    	}
-                        // load table to adjust quantity in cart
-                        $table = JTable::getInstance( 'Carts', 'TiendaTable' );
-                        $table->load($keynames);
-                        $table->product_id = $cartitem->product_id;
-                        $table->product_attributes = $cartitem->product_attributes;
-                        $table->user_id = $cartitem->user_id;
-                        $table->session_id = $cartitem->session_id;                        
-                        // adjust the cart quantity
-                        $table->product_qty = $quantity;
-                        $table->save();
-                    }
-				    
-                    if (empty($tableProduct->product_check_inventory))
-                    {
-                        // if this item doesn't check inventory, skip it
-                        continue;
-                    }
-
-					$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
-					if ($cartitem->product_qty > $product->quantity )
+				// Fix Bug 4281 Crash with Php 5.3.4 & eAccelerator when no cart available.
+				if ( !empty( $cart ) ) {
+					foreach ($cart as $cartitem)
 					{
-                        // enqueu a system message
-                        JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
-                        
-						// load table to adjust quantity in cart
-                        $table = JTable::getInstance( 'Carts', 'TiendaTable' );
-                        $table->load($keynames);
-                        $table->product_id = $cartitem->product_id;
-                        $table->product_attributes = $cartitem->product_attributes;
-                        $table->user_id = $cartitem->user_id;
-                        $table->session_id = $cartitem->session_id;                        
-    					// adjust the cart quantity
-                        $table->product_qty = $product->quantity;
-                        $table->save();
+        	            $keynames = array();
+            	        $keynames['user_id'] = $cartitem->user_id;
+                	    if (empty($cartitem->user_id))
+                    	{
+                        	$keynames['session_id'] = $cartitem->session_id;
+                    	}
+						$keynames['product_id'] = $cartitem->product_id;
+						$keynames['product_attributes'] = $cartitem->product_attributes;
+						
+						$tableProduct->load( $cartitem->product_id );
+						if ($tableProduct->quantity_restriction )
+						{
+							$quantity = $cartitem->product_qty;
+							$min = $tableProduct->quantity_min;
+							$max = $tableProduct->quantity_max;
+							
+							if( $max )
+							{
+								if ($cartitem->product_qty > $max )
+								{
+									$quantity = $max;
+								}
+							}
+							if( $min )
+							{
+								if ($cartitem->product_qty < $min )
+								{
+									$quantity = $min;
+								}
+							}
+							// load table to adjust quantity in cart
+							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+							$table->load($keynames);
+							$table->product_id = $cartitem->product_id;
+							$table->product_attributes = $cartitem->product_attributes;
+							$table->user_id = $cartitem->user_id;
+							$table->session_id = $cartitem->session_id;                        
+							// adjust the cart quantity
+							$table->product_qty = $quantity;
+							$table->save();
+						}
+						
+						if (empty($tableProduct->product_check_inventory))
+						{
+							// if this item doesn't check inventory, skip it
+							continue;
+						}
+
+						$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
+						if ($cartitem->product_qty > $product->quantity )
+						{
+							// enqueu a system message
+							JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
+							
+							// load table to adjust quantity in cart
+							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+							$table->load($keynames);
+							$table->product_id = $cartitem->product_id;
+							$table->product_attributes = $cartitem->product_attributes;
+							$table->user_id = $cartitem->user_id;
+							$table->session_id = $cartitem->session_id;                        
+							// adjust the cart quantity
+							$table->product_qty = $product->quantity;
+							$table->save();
+						}
 					}
 				}
 
