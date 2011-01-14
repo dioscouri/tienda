@@ -67,6 +67,18 @@ class TiendaUps extends JObject
 		$this->getClient()->__setSoapHeaders($header);        
     }
     
+    function writeLog($response)
+    {
+    	$log_file = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'logs'.DS.'ups.log';
+    	
+    	$request = $this->getRequest();
+    	
+    	$log = JFile::read($log_file);
+    	$log .= Tienda::dump($request);
+    	$log .= Tienda::dump($response);
+    	JFile::write($log_file, $log);
+    }
+    
     function getRequest()
     {
         if (empty($this->request))
@@ -221,6 +233,8 @@ class TiendaUpsRate extends TiendaUps
         try 
             {
                 $this->response = $this->getClient()->ProcessRate( $this->getRequest() );
+                
+                $this->writeLog($this->response);
                 
                 if ($this->response->Response->ResponseStatus->Code != '0')
                 {
