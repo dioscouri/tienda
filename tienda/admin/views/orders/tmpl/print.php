@@ -427,6 +427,6 @@
     window.onload = tiendaPrintPage();
     function tiendaPrintPage()
     {
-        window.print();
+        self.print();
     }
 </script>
