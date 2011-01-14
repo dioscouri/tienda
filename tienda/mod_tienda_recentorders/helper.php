@@ -63,6 +63,15 @@ class modTiendaRecentOrdersHelper extends TiendaHelperBase
         $model->setState( 'direction', 'DESC' );
         $model->setState( 'limit', $this->_params->get('num_orders', '5') );
         $model->setState( 'limitstart', '0' );
+        
+        $csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+        $array = explode(',', $csv);
+        $this->_statesCSV = "'".implode("','", $array)."'";
+        // set query for orderstate range
+        $ordersQuery = $model->getQuery();
+        $ordersQuery->where("tbl.order_state_id IN (".$this->_statesCSV.")");
+        $model->setQuery($ordersQuery);
+            
         $return = $model->getList();
         return $return;
     }
