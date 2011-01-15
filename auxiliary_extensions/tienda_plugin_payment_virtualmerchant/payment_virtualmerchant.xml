@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+    <name>Tienda - VirtualMerchant Payment</name>
+    <version>0.6.3</version>
+    <creationDate>January 2011</creationDate>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2011 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLUGINDESC</description>
+
+    <files>
+        <filename plugin="payment_virtualmerchant">payment_virtualmerchant.php</filename>
+        <folder>payment_virtualmerchant</folder>
+    </files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_payment_virtualmerchant.ini</language>
+    </languages>
+
+    <params addpath="/administrator/components/com_tienda/elements">
+        <param name="ssl_merchant_id" type="text" size="50" default="" label="Merchant Id" description="Merchant Id Desc"/>
+        <param name="ssl_pin" type="text" size="50" default="" label="Pin" description="Pin Desc"/>
+        <param name="test_mode" type="radio" default="0" label="Test Mode" description="Test Mode Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param type="spacer" />
+        <param name="articleid" type="text" size="10" default="" label="Article Number" description="Article Number Desc"/>
+        <param name="display_article_title" type="radio" default="0" label="Display Article Title" description="Display Article Title Desc" >
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+        <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+    </params>
+
+</install>
