@@ -251,10 +251,12 @@ class TiendaControllerProducts extends TiendaController
 				
 				// An array to map attribute id  old attribute id  are as key and new attribute id are as value
 				$attrbuteMappingArray = array();
-				$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
-			    $attributes  = TiendaHelperProduct::getAttributes($oldPk);
+				
+			    $attributes  = TiendaHelperProduct::getAttributes($oldPk);			 
+			   
 			    foreach ($attributes as $attribute)
 			    {
+			    	$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
     			   	$attributeTable->productattribute_name = $attribute->productattribute_name;
     			   	$attributeTable->product_id = $row->id;
     			   	$attributeTable->ordering = $attribute->ordering;
