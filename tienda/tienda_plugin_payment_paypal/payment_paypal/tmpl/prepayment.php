@@ -62,10 +62,27 @@
             <!--CART INFO AGGREGATED-->
             <!--ORDER INFO-->
             <?php // for cart Paypal payments, custom is the orderpayment_id ?>
-            <input type='hidden' name='custom' value='<?php echo @$vars->orderpayment_id; ?>'>
-            <input type='hidden' name='amount_1' value='<?php echo TiendaHelperBase::number( @$vars->orderpayment_amount, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
-            <input type='hidden' name='item_name_1' value='<?php echo JText::_( "Order Number" ).": ".$vars->order_id; ?>'>
-            <input type='hidden' name='item_number_1' value='<?php echo $vars->order_id; ?>'>
+            <input type='hidden' name='custom' value='<?php echo @$vars->orderpayment_id; ?>'>     
+            <?php 
+            $product = JTable::getInstance('Products', 'TiendaTable');
+            $i =1;
+            foreach($vars->orderitems as $item):
+            $desc = $item->orderitem_name;   
+			$product->load( array('product_id'=>$item->product_id) );	
+            $desc .= ' ('.JText::_('Model').': '.$product->product_model;
+            $desc .= '|'.JText::_('SKU').': '.$item->orderitem_sku.')';
+            ?>
+            <input type='hidden' name='amount_<?php echo $i;?>' value='<?php echo TiendaHelperBase::number( @$item->orderitem_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
+            <input type='hidden' name='item_name_<?php echo $i;?>' value='<?php echo $desc;?>'>
+            <input type='hidden' name='item_number_<?php echo $i;?>' value='<?php echo $vars->order_id; ?>'>
+            <input type='hidden' name='quantity_<?php echo $i;?>' value='<?php echo $item->orderitem_quantity; ?>'>                   
+            <?php 
+            $i++;
+            endforeach;            
+            ?>                    
+            <input type='hidden' name='tax_cart' value='<?php echo @$vars->order->order_tax; ?>'>        
+            <input type='hidden' name='handling_cart' value='<?php echo @$vars->order->order_shipping + @$vars->order->order_shipping_tax; ?>'>
+            <input type='hidden' name='discount_amount_cart' value='<?php echo @$vars->order->order_discount;?>'>    
             <input type="hidden" name="upload" value="1">
             <input type='hidden' name='invoice' value='<?php echo @$vars->orderpayment_id; ?>'>
 
