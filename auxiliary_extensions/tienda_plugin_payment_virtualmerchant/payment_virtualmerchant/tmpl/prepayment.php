@@ -1,5 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
+<div class="note">
+<?php echo JText::_('TIENDA VIRTUALMERCHANT PAYMENT PREPARATION MESSAGE');?>
+</div>
+
 <form action="<?php echo @$vars->payment_url; ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <input type='hidden' name='ssl_merchant_id' value='<?php echo @$vars->ssl_merchant_id; ?>' />
@@ -14,13 +18,10 @@
     <?php endif;?>
 
     <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />
-
-    <input type='hidden' name='order_id' value='<?php echo @$vars->order_id; ?>' />
-    <input type='hidden' name='orderpayment_id' value='<?php echo @$vars->orderpayment_id; ?>' />
-    <input type='hidden' name='orderpayment_type' value='<?php echo @$vars->orderpayment_type; ?>' />
     
     <input type='hidden' name='ssl_receipt_link_method' value='GET' />
     <input type='hidden' name='ssl_receipt_link_url' value='<?php echo JRoute::_(@$vars->receipt_url); ?>' />
+    <input type='hidden' name='ssl_result_format' value="ASCII" />
     
     <?php echo JHTML::_( 'form.token' ); ?>
 </form>

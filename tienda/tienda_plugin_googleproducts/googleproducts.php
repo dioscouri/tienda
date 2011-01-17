@@ -22,12 +22,26 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
     
     var $account_id = '';
     
+    var $helper = null;
+    
 	function plgTiendaGoogleProducts(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 		
 		$this->account_id = $this->params->get('account_id', '');
+		
+		// Load helper
+		$this->helper = Tienda::getClass( 'TiendaHelperGoogle', 'googleproducts.helper', array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ) );
+		
+		// Params
+		$this->helper->setUsername($this->params->get('username', ''));
+		$this->helper->setPassword($this->params->get('password', ''));
+		$this->helper->service = 'structuredcontent';
+		$this->helper->source = JURI::base();
+		
+		
+		$this->helper->source = 'http://www.weble.it';
 	}
     
 	/**
@@ -126,19 +140,32 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Google API url
 		$url = $this->getAPIUrl('insert');
 		
+		// Header with authentication
+		$header = $this->getHeader();
+		
+		// Error
+		if(!$header)
+		{
+			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			return false;
+		}
+		
+		echo Tienda::dump($xml);
+		
 		// Send the request
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POST, true);
-		curl_setopt($curl, CURLOPT_FAILONERROR, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($curl, CURLOPT_POST, true);;
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
 		
 		$result = curl_exec($curl);
+		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 		
 		// Parse the result
 		$errors = array();
-		if($this->parseErrors($result, $errors))
+		if($this->parseErrors($code, $result, $errors))
 		{
 			// Error!
 			$this->setError(implode("\n", $errors));
@@ -163,15 +190,19 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		// Title, id and description
 		$xml['title'] = $product->product_name;
-		$xml['content'] = $product->product_description;
 		$xml['content']['attributes']['type'] = 'text/html';
+		$xml['content'] = $product->product_description;
 		$xml['sc:id'] = $product->product_id;
 		
 		// Link to the product
 		Tienda::load('TiendaHelperRoute', 'helpers.route');
 		$xml['link']['attributes']['rel'] = 'alternate';
-		$xml['link']['attributes']['type'] = 'xhtml';
-		$xml['link']['attributes']['href'] = TiendaHelperRoute::product($product->product_id);
+		$xml['link']['attributes']['type'] = 'text/html';
+		//$xml['link']['attributes']['href'] = TiendaHelperRoute::product($product->product_id);
+		$xml['link']['attributes']['href'] = 'http://www.weble.it/products/'.$product->product_id;
+		
+		// Condition
+		$xml['scp:condition'] = 'new';
 		
 		// Price
 		$currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
@@ -179,8 +210,8 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
         $currency = JTable::getInstance('Currencies', 'TiendaTable');
         $currency->load( (int) $currency_id );
         
-		$xml['scp:price']['attributes']['unit'] = strtolower($currency->currency_code);
-		$xml['scp:price'] = TiendaHelperProduct::getPrice($product->product_id)->product_price;
+		$xml['scp:price']['attributes']['unit'] = trim(strtoupper($currency->currency_code));
+		$xml['scp:price']['@value'] = TiendaHelperBase::number(TiendaHelperProduct::getPrice($product->product_id)->product_price, array('num_decimals', '0'));
 		
 		// Manufacturer
 		Tienda::load('TiendaTableManufacturers', 'tables.manufacturers');
@@ -192,8 +223,9 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		// Create the request
 		$null = null;
-		$attributes = 'xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app" xmlns:gd="http://schemas.google.com/g/2005" xmlns:sc="http://schemas.google.com/structuredcontent/2009" xmlns:scp="http://schemas.google.com/structuredcontent/2009/products"';
-		$xml = TiendaArrayToXML::toXml($xml, 'entry', $null, $attributes );
+		$helper = new TiendaArrayToXML();
+		$ns = array( array('name' => 'app', 'url' => "http://www.w3.org/2007/app"), array('name' =>'gd', 'url' => "http://schemas.google.com/g/2005"), array('name' => 'sc', 'url' => "http://schemas.google.com/structuredcontent/2009"), array( 'name' => 'scp', 'url' => "http://schemas.google.com/structuredcontent/2009/products"));
+		$xml = $helper->toXml($xml, 'entry', $null, $ns, "http://www.w3.org/2005/Atom" );
 		
 		return $xml;
 	}
@@ -250,8 +282,43 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		}
 	}
 	
-	protected function parseErrors($response, &$errors)
+	/**
+	 * Get the header data for a request
+	 * @param string $type
+	 */
+	protected function getHeader()
 	{
-		echo Tienda::dump($response);die();
+		// Auth Token
+		$auth = $this->helper->authenticate();
+		
+		// Error?
+		if(!$auth)
+		{
+			$this->setError($this->helper->getError());
+			return false;
+		}
+		
+		$header = Array("Content-Type: application/atom+xml", "Authorization:GoogleLogin Auth=".$auth);
+		
+		return $header;
+	}
+	
+	protected function parseErrors($code, $response, &$errors)
+	{
+		// Error!
+		if($code != '200' || $code != '201')
+		{
+			$result = simplexml_load_string($response);
+			
+			foreach($result as $r)
+			{
+				$errors[] = $r->internalReason . ' (' . $r->code.' : ' . $r->location . ' )';
+			}
+			
+			echo Tienda::dump($errors);die();
+			return false;
+		}
+		
+		return true;
 	}
 }

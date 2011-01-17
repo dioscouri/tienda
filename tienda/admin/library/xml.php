@@ -13,75 +13,131 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * Class to translate PHP Array element into XML and vice versa.
- * Adepted for Joomla & Tienda
  *
- * @author    Marco Vito Moscaritolo
  * @author	  Daniele Rosario
  * @copyright GPL 3
- * @tutorial  http://mavimo.org/varie/array_xml_php
  * @example   index.php
  * @version   0.8
  */
 
 class TiendaArrayToXML {
-  /**
-   * @staticvar string - String to use as key for node attributes into array
-   * @todo      Convert this into a value settable from user
-   */
-  const attr_arr_string = 'attributes';
-  /**
-   * The main function for converting to an XML document.
-   * Pass in a multi dimensional array and this recrusively loops through and builds up an XML document.
-   *
-   * @static
-   * @param  array $data
-   * @param  string $rootNodeName - what you want the root node to be - defaultsto data.
-   * @param  SimpleXMLElement $xml - should only be used recursively
-   * @return string XML
-   */
-  public static function toXml($data, $rootNodeName = 'data', &$xml = NULL, $root_attributes = null) {
-    if (is_null($xml)) {
-      $xml = new SimpleXMLElement('<' . $rootNodeName . ' '.$root_attributes.' />');
-      
-    }
-
-    // loop through the data passed in.
-    foreach($data as $key => $value) {
-      // if numeric key, assume array of rootNodeName elements
-      if (is_numeric($key)) {
-        $key = $rootNodeName;
-      }
-      // Check if is attribute
-      if($key == TiendaArrayToXML::attr_arr_string) {
-        // Add attributes to node
-        foreach($value as $attr_name => $attr_value) {
-          $xml->addAttribute($attr_name, $attr_value);
-        }
-      } else {
-        // delete any char not allowed in XML element names
-        $key = preg_replace('/[^a-z0-9\-\_\.\:]/i', '', $key);
-
-        // if there is another array found recrusively call this function
-        if (is_array($value)) {
-
-          // create a new node unless this is an array of elements
-          $node = TiendaArrayToXML::isAssoc($value) ? $xml->addChild($key) : $xml;
-
-          // recrusive call - pass $key as the new rootNodeName
-          TiendaArrayToXML::toXml($value, $key, $node);
-        } else {
-          // add single node.
-          $value = htmlentities($value);
-          $xml->addChild($key,$value);
-        }
-      }
-    }
-    // pass back as string. or simple xml object if you want!
-    $dom = dom_import_simplexml($xml)->ownerDocument; 
-	$dom->formatOutput = true; 
-    return $dom->saveXML();
-  }
-
+	
+	/**
+	 * @var string - String to use as key for node attributes into array
+	 */
+		
+	var $attr_arr_string = 'attributes';
+	
+	var $value_string = '@value';
+	
+	var $doc = null;
+	  
+	/**
+	 * The main function for converting to an XML document.
+	 * Pass in a multi dimensional array and this recrusively loops through and builds up an XML document.
+	 *
+	 * @param  array $data
+	 * @param  string $rootNodeName - what you want the root node to be - defaultsto data.
+	 * @param  SimpleXMLElement $xml - should only be used recursively
+	 * @param  array $namespaces - the namespaces (like $namespace[] = array('url' => 'http://....', 'name' => 'xmlns:g')
+	 */
+	public function toXml($data, $rootNodeName = 'data', &$xml = null, $namespaces = null, $root_ns = null)
+	{
+		// First call: create document and root node
+		if (is_null($xml)) 
+		{
+			$this->doc = new DOMDocument('1.0', 'utf8');
+			
+			// Root namespace
+			if($root_ns)
+			{
+				$root = $this->doc->createElementNS($root_ns, $rootNodeName);
+			}
+			$xml = &$root;
+			
+			$this->doc->appendChild($root);
+			
+			// Namespaces
+			foreach(@$namespaces as $ns)
+			{
+				$root->setAttributeNS('http://www.w3.org/2000/xmlns/' ,'xmlns:'.$ns['name'], $ns['url']);
+			}
+		}
+		
+		// loop though the array
+		foreach($data as $key => $value)
+		{
+			// normal list of nodes
+			if(is_numeric($key))
+			{
+				$key = $rootNodeName;
+			}
+			
+			// Attributes support
+			if($key == $this->attr_arr_string) 
+			{
+        		// Add attributes to node
+        		foreach($value as $attr_name => $attr_value) 
+        		{
+        			$att = $this->doc->createAttribute($attr_name);
+        			$xml->appendChild($att);
+        			$att->appendChild($this->doc->createTextNode($attr_value));
+        		}
+        		
+        		
+			}
+			else
+			{
+				// Add the value if there was a value together with the att
+				if($key == $this->value_string)
+				{
+					// Add value to node
+        			$xml->appendChild($this->doc->createTextNode($value));
+				}
+				else
+				{
+				
+					// delete any char not allowed in XML element names
+	        		$key = preg_replace('/[^a-z0-9\-\_\.\:]/i', '', $key);
+	        		
+	        		// if there is another array found recrusively call this function
+	        		if (is_array($value)) 
+	        		{
+	        			// create a new node unless this is an array of elements
+	         			if($this->isAssoc($value))
+	         			{
+	         				$node = $this->doc->createElement($key);
+	         				$xml->appendChild($node);
+	         			}
+	         			else
+	         			{
+	         				$node = $xml;
+	         			}
+	          
+				        // recrusive call - pass $key as the new rootNodeName
+				        $this->toXml($value, $key, $node);
+	        		}
+	        		else
+	        		{
+	        			// Add a single value
+	        			$value = htmlentities($value);
+	          			$t = $this->doc->createElement($key);
+	         			$xml->appendChild($t);
+	         			
+	         			$v = $this->doc->createTextNode($value);
+	         			$t->appendChild($v);
+	        		}
+				}
+			}
+			
+		}
+		
+		$this->doc->formatOutput = true;
+		echo Tienda::dump($this->doc->saveXML());
+		return $this->doc->saveXML();
+	     
+	}
+  
   /**
    * The main function for converting to an array.
    * Pass in a XML document and this recrusively loops through and builds up an array.

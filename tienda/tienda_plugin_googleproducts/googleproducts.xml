@@ -19,6 +19,8 @@
     </languages>
     
 	<params>
+		<param type="text" name="username" label="Google Account Username" description="The Google Products Account ID" default="" />
+		<param type="text" name="password" label="Google Account Password" description="The Google Products Password" default="" />
 		<param type="text" name="account_id" label="Account ID" description="The Google Products Account ID" default="" />
 		<param name="taxonomy" type="radio" default="tienda" label="Taxonomy (category) System" description="What Taxonomy (category) system should this plugin use when sending products to google?">
 		  <option value="tienda">Tienda</option>
