@@ -1647,30 +1647,45 @@ class TiendaControllerProducts extends TiendaController
      *
      */     
 	function addReview()
-	{
+	{		
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
 		$post = JRequest::get('post');		
 		$product_id = $post['product_id'];
-		$Itemid = $post['Itemid'];
+		$Itemid= $post['Itemid'];
 		$user = & JFactory::getUser();	
-		$valid = true;			
+		$valid = true;	
+		$this->messagetype  = 'message';	
+		
+		//set encase validation fails
 		$linkAdd = '';	
-		$this->messagetype  = 'message';
-		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-		if ($user->guest || !$user->id) 
+		$linkAdd .= '&rn='.base64_encode($post['user_name']);
+		$linkAdd .= '&re='.base64_encode($post['user_email']);
+        $linkAdd .= '&rc='.base64_encode($post['productcomment_text']);       
+        
+		if (!$user->id) 
 		{			
+			if(empty($post['user_name']) && $valid)
+			{
+				$valid = false;
+				$this->message = JText::_( "Name field is required." ); 				
+				$this->messagetype = 'notice';
+			}
+		
 			jimport('joomla.mail.helper');
 			if(!JMailHelper::isEmailAddress($post['user_email']) && $valid)
 			{
 				$valid = false;				
             	$this->message = JText::_( "Please enter a correct email address." ); 
+            	$this->messagetype = 'notice';
 			}			
 			
 			if( in_array( $post['user_email'],TiendaHelperProduct::getUserEmailForReview( $post['product_id'] ) ) && $valid )
 			{
 				$valid = false;				
             	$this->message = JText::_( "You already submitted a review. You can only submit a review once." );	
+            	$this->messagetype = 'notice';
 			}	
 		}
 		else 
@@ -1678,16 +1693,16 @@ class TiendaControllerProducts extends TiendaController
 			if( in_array( $user->email,TiendaHelperProduct::getUserEmailForReview( $post['product_id'] ) ) && $valid )
 			{
 				$valid = false;				
-            	$this->message = JText::_( "You already submitted a review. You can only submit a review once." );	
-       	
+            	$this->message = JText::_( "You already submitted a review. You can only submit a review once." );
+            	$this->messagetype = 'notice';
 			}
 		}
 		
 		if(empty($post['productcomment_text']) && $valid) 
 		{
 			$valid = false;		
-            $this->message      = JText::_( "Comment field is required." );	
-            $linkAdd .= '&rc='.base64_encode($post['productcomment_text']);
+            $this->message = JText::_( "Comment field is required." );	   
+            $this->messagetype = 'notice';         
 		}
 	
 		$captcha=true;
@@ -1711,9 +1726,8 @@ class TiendaControllerProducts extends TiendaController
 		if (!$captcha && $valid)
 		{
 			$valid = false;			
-            $this->message      = JText::_( "Incorrect Captcha" );
-            $linkAdd .= '&re='.base64_encode($post['user_email']);
-            $linkAdd .= '&rc='.base64_encode($post['productcomment_text']);
+            $this->message = JText::_( "Incorrect Captcha" );     
+            $this->messagetype = 'notice';      
 		}
 		 		     	 		
 		if($valid)
@@ -1725,16 +1739,20 @@ class TiendaControllerProducts extends TiendaController
  			
  			if (!$productreviews->save())
 	     	{	     	
-	            $this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();        	
+	            $this->message      = JText::_( "Unable to Save Review" )." :: ".$productreviews->getError();  
+	            $this->messagetype = 'notice';      	
 	     	}
 	        else
 	     	{
 	     		$dispatcher =& JDispatcher::getInstance();
 	            $dispatcher->trigger( 'onAfterSaveProductComments', array( $productreviews ) );	     		
 	            $this->message      = JText::_( "Successfully Submitted Review" );
+	            
+	            //successful
+	            $linkAdd = '';
 	     	}	
 		}					
-			$redirect = 'index.php?option=com_tienda&view=products&task=view&id='.$product_id.$linkAdd.'&Itemid='.$Itemid;
+			$redirect = "index.php?option=com_tienda&view=products&task=view&id=".$product_id.$linkAdd."&Itemid=".$Itemid;
  			$redirect = JRoute::_( $redirect );
  			$this->setRedirect( $redirect, $this->message, $this->messagetype ); 		
 	}
