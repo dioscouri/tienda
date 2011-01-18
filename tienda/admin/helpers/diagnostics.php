@@ -2630,4 +2630,34 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
        	return false;        
     }
     
+    /**
+     * update #__tienda_productcomments table for the "user_name" field
+     * As of v0.6.2
+     * 
+     * return boolean
+     */
+    function checkProductCommentsUserName()
+    {
+     	//if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkProductCommentsUserName', '0')) return true;
+                       	       
+        $table = '#__tienda_productcomments';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "user_name";
+            $definitions["user_name"] = "VARCHAR(255) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions )):       
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkProductCommentsUserName') );
+            $config->config_name = 'checkProductCommentsUserName';
+            $config->value = '1';
+            $config->save();
+            return true;
+        endif;
+        return false;         
+    }       
 }
