@@ -775,6 +775,14 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'view', $this->get('suffix') );
 		JRequest::setVar( 'layout', 'search' );
 		JRequest::setVar( 'search', true );
+		
+		$model  = $this->getModel( $this->get('suffix') );
+		$this->_setModelState();
+
+		if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
+		{
+		    $model->setState('filter_quantity_from', '1');
+		}
 		parent::display();
         
 		// TODO In the future, make "Redirect to Advanced Search from Search Module?" an option in Tienda Config
