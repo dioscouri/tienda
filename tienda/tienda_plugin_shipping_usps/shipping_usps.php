@@ -200,7 +200,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                             if ($totalWeight < $p->maxweight)
                             {
                                 $rate = array();
-                                $rate['name']    = $p->svcdescription . " (" . $p->svccommitments . ")";
+                                $rate['name']    = htmlspecialchars_decode( $p->svcdescription . " (" . $p->svccommitments . ")" );
                                 $rate['code']    = $service;
                                 $rate['price']   = $p->rate;
                                 $rate['extra']   = "0.00";
@@ -213,7 +213,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                             else
                         {
                             $rate = array();
-                            $rate['name']    = $p->mailservice;
+                            $rate['name']    = htmlspecialchars_decode( $p->mailservice );
                             $rate['code']    = $service;
                             $rate['price']   = $p->rate;
                             $rate['extra']   = "0.00";
