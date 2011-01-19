@@ -420,11 +420,11 @@ class TiendaModelBase extends JModel
         {
             $query->order("$order $direction");
         }
-       	
+    	
        	// TODO Find an abstract way to determine if order is a valid field in query
     	// if (in_array($order, $this->getTable()->getColumns())) does not work
     	// because you could be ordering by a field from one of the JOINed tables
-		if (in_array('ordering', $this->getTable()->getColumns()))
+		if (in_array('ordering', array_keys($this->getTable()->getColumns())))
 		{
     		$query->order('ordering ASC');
     	}
