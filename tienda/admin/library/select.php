@@ -309,6 +309,15 @@ class TiendaSelect extends JHTMLSelect
 			$model->setState( 'filter_countryid', $countryid );
 		}
 		$items = $model->getList();
+		
+		if(!$items)//empty
+		{
+			$txt = '<span style="color: #FF0000;">';
+			$txt .= JText::_('No available zones for the selected country.');
+			$txt .= '</span>';			
+			return $txt;
+		}
+		
         foreach (@$items as $item)
         {
         	$list[] =  self::option( $item->zone_id, JText::_($item->zone_name), 'zone_id', 'zone_name' );
