@@ -768,6 +768,11 @@ class TiendaTableNested extends TiendaTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
+		
+		if( TiendaConfig::get('enable_reorder_table', '1') )
+		{			
+			$this->reorder($sibling->parent_id);
+		}
 
 		return true;
 	}
@@ -813,7 +818,7 @@ class TiendaTableNested extends TiendaTable
             $this->_unlock();
             return false;
         }
-        
+   
 		// Get the primary keys of child nodes.
 		$this->_db->setQuery(
 			'SELECT `'.$this->_tbl_key.'`' .
@@ -865,6 +870,10 @@ class TiendaTableNested extends TiendaTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
+		if( TiendaConfig::get('enable_reorder_table', '1') )
+		{
+			$this->reorder($sibling->parent_id);
+		}
 
 		return true;
 	}
@@ -1095,11 +1104,15 @@ class TiendaTableNested extends TiendaTable
             ORDER BY
                 tbl.lft ASC
         ";
+
         $database->setQuery( $query );
         $children = $database->loadObjectList();
+        
+
         for ($i=0; $i<count($children); $i++) 
         {
             $child = $children[$i];
+            
             // recursive execution of this function for each
             // child of this node
             $this->reorder( $child->$key );
@@ -1111,7 +1124,8 @@ class TiendaTableNested extends TiendaTable
         . ' FROM '. $this->_tbl
         . ' WHERE ordering >= 0' . ( $where ? ' AND '. $where : '' )
         . " AND parent_id = '{$parent}' "
-        . ' ORDER BY ordering, lft ASC'
+        . ' ORDER BY lft ASC'
+        //. ' ORDER BY ordering, lft ASC'
         ;
         $this->_db->setQuery( $query );
         if (!($orders = $this->_db->loadObjectList()))
@@ -1119,10 +1133,10 @@ class TiendaTableNested extends TiendaTable
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
-        
+
         // compact the ordering numbers
         for ($i=0, $n=count( $orders ); $i < $n; $i++)
-        {
+        {         	
             if ($orders[$i]->ordering >= 0)
             {
                 if ($orders[$i]->ordering != $i+1)
