@@ -39,7 +39,7 @@ class TiendaControllerConfig extends TiendaController
         {
             unset($row);
             $row = $model->getTable( 'config' );
-            $newvalue = JRequest::getVar( $key );
+            $newvalue = JRequest::getVar( $key,'','post','string',JREQUEST_ALLOWRAW);
             $value_exists = array_key_exists( $key, $_POST );
             if ( $value_exists && !empty($key) ) 
             { 
