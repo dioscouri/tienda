@@ -156,8 +156,8 @@
         <?php endif; ?>
 
     <p>
-        <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>'" value="<?php echo JText::_('Return to Shopping Cart'); ?>" />
         <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm )" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
+        <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a>
     </p>
         
     <input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total; ?>" />
