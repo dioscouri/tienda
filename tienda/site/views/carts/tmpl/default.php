@@ -23,7 +23,7 @@ $quantities = array();
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update&Itemid='.$router->findItemid( array('view'=>'carts') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>">
+        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('CHECK_CART_UPDATE'); ?>');">
             <?php echo JText::_( "Begin Checkout" ); ?>
         </a>]
         </div>
