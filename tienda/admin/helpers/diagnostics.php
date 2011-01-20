@@ -335,6 +335,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityType FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkProductCommentsUserName())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsUserName FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
