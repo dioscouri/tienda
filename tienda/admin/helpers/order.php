@@ -393,22 +393,24 @@ class TiendaHelperOrder extends TiendaHelperBase
      */
     function getOrderHtmlForEmail( $order_id )
     {
+        $app = JFactory::getApplication();
         JPluginHelper::importPlugin( 'tienda' );
 
-        // finds the default Site template
-        $db = JFactory::getDBO();
-        $query = "SELECT template FROM #__templates_menu WHERE `client_id` = '0' AND `menuid` = '0';";
-        $db->setQuery( $query );
-        $template = $db->loadResult();
-        
         JLoader::register( "TiendaViewOrders", JPATH_SITE."/components/com_tienda/views/orders/view.html.php" );
         
         // tells JView to load the front-end view, and enable template overrides
-        // (have to do this because we load the same view from the admin-side Orders view, and conflicts arise)
-        $config = array( 
-            'base_path' => JPATH_SITE."/components/com_tienda",
-            'template_path' => JPATH_SITE.'/templates/'.$template.'/html/com_tienda/orders' 
-        );        
+        $config = array();
+        $config['base_path'] = JPATH_SITE."/components/com_tienda";  
+        if ($app->isAdmin())
+        {
+            // finds the default Site template
+            $db = JFactory::getDBO();
+            $query = "SELECT template FROM #__templates_menu WHERE `client_id` = '0' AND `menuid` = '0';";
+            $db->setQuery( $query );
+            $template = $db->loadResult();
+            // (have to do this because we load the same view from the admin-side Orders view, and conflicts arise)            
+            $config['template_path'] = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/orders';
+        }
         $view = new TiendaViewOrders( $config );
         
         $model = Tienda::getClass("TiendaModelOrders", "models.orders");
