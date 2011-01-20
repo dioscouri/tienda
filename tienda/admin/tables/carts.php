@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaTableXref', 'tables._basexref' );
+Tienda::load( 'TiendaTable', 'tables._base' );
 
-class TiendaTableCarts extends TiendaTableXref 
+class TiendaTableCarts extends TiendaTable 
 {
     /**
      * @param $db
@@ -46,7 +46,7 @@ class TiendaTableCarts extends TiendaTableXref
         
         $this->setKeyNames( $keynames );
     	
-        $tbl_key      = 'user_id';
+        $tbl_key      = 'cart_id';
         $tbl_suffix   = 'carts';
         $name         = 'tienda';
         
@@ -77,5 +77,78 @@ class TiendaTableCarts extends TiendaTableXref
         }
         
         return true;
+    }
+    
+    
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/tables/TiendaTable#delete($oid)
+     */
+    function delete( $oid='' )
+    {
+        if (empty($oid))
+        {
+            // if empty, use the values of the current keys
+            $keynames = $this->getKeyNames();
+            foreach ($keynames as $key=>$value)
+            {
+                $oid[$key] = $this->$key; 
+            }
+            if (empty($oid))
+            {
+                // if still empty, fail
+                $this->setError( JText::_( "Cannot delete with empty key" ) );
+                return false;
+            }
+        }
+        
+        if (!is_array($oid))
+        {
+            $keyName = $this->getKeyName();
+            $arr = array();
+            $arr[$keyName] = $oid; 
+            $oid = $arr;
+        }
+
+        $dispatcher = JDispatcher::getInstance();
+        $before = $dispatcher->trigger( 'onBeforeDelete'.$this->get('_suffix'), array( $this, $oid ) );
+        if (in_array(false, $before, true))
+        {
+            return false;
+        }
+        
+        $db = $this->getDBO();
+        
+        // initialize the query
+        $query = new TiendaQuery();
+        $query->delete();
+        $query->from( $this->getTableName() );
+        
+        foreach ($oid as $key=>$value)
+        {
+            // Check that $key is field in table
+            if ( !in_array( $key, array_keys( $this->getProperties() ) ) )
+            {
+                $this->setError( get_class( $this ).' does not have the field '.$key );
+                return false;
+            }
+            // add the key=>value pair to the query
+            $value = $db->Quote( $db->getEscaped( trim( strtolower( $value ) ) ) );
+            $query->where( $key.' = '.$value);
+        }
+
+        $db->setQuery( (string) $query );
+
+        if ($db->query())
+        {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterDelete'.$this->get('_suffix'), array( $this, $oid ) );
+            return true;
+        }
+        else
+        {
+            $this->setError($db->getErrorMsg());
+            return false;
+        }
     }
 }

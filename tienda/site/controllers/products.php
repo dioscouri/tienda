@@ -1137,11 +1137,12 @@ class TiendaControllerProducts extends TiendaController
 
         // add the item to the cart
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        TiendaHelperCarts::updateCart( array( $item ) );
+        $cart_helper = new TiendaHelperCarts();
+        $cartitem = $cart_helper->addItem( $item );
 
         // fire plugin event
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
+        $dispatcher->trigger( 'onAfterAddToCart', array( $cartitem, $values ) );
 
         // get the 'success' redirect url
         switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 

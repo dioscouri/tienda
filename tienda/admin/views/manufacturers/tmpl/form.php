@@ -50,6 +50,23 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<input name="manufacturer_image_new" type="file" size="40" />
 					</td>
 				</tr>
+                <tr>
+                    <td style="width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Description' ); ?>:
+                    </td>
+                    <td>
+                        <?php $editor = &JFactory::getEditor(); ?>
+                        <?php echo $editor->display( 'manufacturer_description',  @$row->manufacturer_description, '100%', '450', '100', '20' ) ; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Parameters' ); ?>:
+                    </td>
+                    <td>
+                        <textarea name="manufacturer_params" id="manufacturer_params" rows="10" cols="35"><?php echo @$row->manufacturer_params; ?></textarea>
+                    </td>
+                </tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->manufacturer_id; ?>" />
 			<input type="hidden" name="task" value="" />

@@ -61,6 +61,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$row = $model->getTable();
 		$row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
+		$row->manufacturer_description = JRequest::getVar( 'manufacturer_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$fieldname = 'manufacturer_image_new';
 		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );

@@ -326,6 +326,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_manufacturers` (
   `manufacturer_enabled` TINYINT(1) NOT NULL ,
   `created_date` datetime NOT NULL COMMENT 'GMT',
   `modified_date` datetime NOT NULL COMMENT 'GMT',
+  `manufacturer_description` text,
+  `manufacturer_params` text,
   PRIMARY KEY (`manufacturer_id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -387,6 +389,7 @@ COLLATE = utf8_general_ci;
 -- Table `#__tienda_carts`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
+  `cart_id` int(11) NOT NULL auto_increment,
   `user_id` INT(11) NOT NULL ,
   `session_id` VARCHAR(200) NOT NULL ,
   `product_id` INT(11) NOT NULL ,
@@ -395,6 +398,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   `product_qty` INT(11) NOT NULL DEFAULT '1' ,
   `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `cartitem_params` text COMMENT 'Params for the cart item',
+  PRIMARY KEY  (`cart_id`),
   INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) ,
   CONSTRAINT `fk_carts_products`
     FOREIGN KEY (`product_id`)

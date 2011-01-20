@@ -211,7 +211,7 @@ class TiendaTableOrders extends TiendaTable
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
 
         $dispatcher =& JDispatcher::getInstance();
-        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeys", array( $orderItem ) );
+        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
         foreach ($results as $result)
         {
             foreach($result as $key=>$value)

@@ -991,11 +991,12 @@ class TiendaControllerManufacturers extends TiendaController
         
         // add the item to the cart
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        TiendaHelperCarts::updateCart( array( $item ) );
-        
+        $cart_helper = new TiendaHelperCarts();
+        $cartitem = $cart_helper->addItem( $item );
+
         // fire plugin event
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
+        $dispatcher->trigger( 'onAfterAddToCart', array( $cartitem, $values ) );
         
         // get the 'success' redirect url
         switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
@@ -1449,13 +1450,17 @@ class TiendaControllerManufacturers extends TiendaController
         
         if (!empty($items))
         {
-            // add the items to the cart
             Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-            TiendaHelperCarts::updateCart( $items );
-            
-            // fire plugin event
-            $dispatcher = JDispatcher::getInstance();
-            $dispatcher->trigger( 'onAfterAddToCart', array( $items, $values ) );
+            foreach ($items as $item)
+            {
+                // add the item to the cart
+                $cart_helper = new TiendaHelperCarts();
+                $cartitem = $cart_helper->addItem( $item );
+                
+                // fire plugin event
+                $dispatcher = JDispatcher::getInstance();
+                $dispatcher->trigger( 'onAfterAddToCart', array( $cartitem, $values ) );
+            }
             
             $this->messagetype  = 'message';
             $this->message      = JText::_( "Items Added to Your Cart" );                

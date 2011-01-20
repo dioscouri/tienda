@@ -334,12 +334,21 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityType FAILED') .' :: '. $this->getError(), 'error' );
         }
-        
-    	if (!$this->checkProductCommentsUserName())
+
+        if (!$this->checkProductCommentsUserName())
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsUserName FAILED') .' :: '. $this->getError(), 'error' );
         }
+
+        if (!$this->checkCartsCartId())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkCartsCartId FAILED') .' :: '. $this->getError(), 'error' );
+        }
         
+        if (!$this->checkManufacturersDescParams())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkManufacturersDescParams FAILED') .' :: '. $this->getError(), 'error' );
+        }
     }
     
     /**
@@ -2634,10 +2643,45 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         
        	return false;        
     }
+
+    /**
+     * update the carts table for the "cart_id" field
+     * As of v0.6.3
+     * 
+     * return boolean
+     */
+    function checkCartsCartId()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkCartsCartId', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_carts';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "cart_id";
+            $definitions["cart_id"] = "INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkCartsCartId') );
+            $config->config_name = 'checkCartsCartId';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
     
     /**
      * update #__tienda_productcomments table for the "user_name" field
-     * As of v0.6.2
+     * As of v0.6.3
      * 
      * return boolean
      */
@@ -2664,5 +2708,43 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return true;
         endif;
         return false;         
-    }       
+    }
+
+    /**
+     * update the manufacturers table for the "description" and "params" fields
+     * As of v0.6.3
+     * 
+     * return boolean
+     */
+    function checkManufacturersDescParams()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkManufacturersDescParams', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_manufacturers';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "manufacturer_params";
+            $definitions["manufacturer_params"] = "text";
+            
+        $fields[] = "manufacturer_description";
+            $definitions["manufacturer_description"] = "text";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkManufacturersDescParams') );
+            $config->config_name = 'checkManufacturersDescParams';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
 }

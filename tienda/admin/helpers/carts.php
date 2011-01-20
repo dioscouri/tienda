@@ -15,21 +15,201 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaHelperCarts extends TiendaHelperBase
 {
+    /**
+     * Adds an item to the cart
+     * 
+     * @param $item
+     * @return unknown_type
+     */
+    public function addItem( $item )
+    {
+        $session =& JFactory::getSession();
+        $user =& JFactory::getUser();
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $table = JTable::getInstance( 'Carts', 'TiendaTable' );
+
+        // first, determine if this product+attribute+vendor(+additonal_keys) exists in the cart
+        // if so, update quantity
+        // otherwise, add as new item
+        // return the cart object with cart_id (to be used by plugins, etc)
+        
+        $keynames = array();
+        $item->user_id = (empty($item->user_id)) ? $user->id : $item->user_id;
+        $keynames['user_id'] = $item->user_id;
+        if (empty($item->user_id))
+        {
+            $keynames['session_id'] = $session->getId();
+        }
+        $keynames['product_id'] = $item->product_id;
+        $keynames['product_attributes'] = $item->product_attributes;
+
+        // fire plugin event: onGetAdditionalCartKeyValues
+        // this event allows plugins to extend the multiple-column primary key of the carts table
+        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( $item, null, null );
+        if (!empty($additionalKeyValues))
+        {
+            $keynames = array_merge($keynames, $additionalKeyValues);
+        }
+
+        if ($table->load($keynames))
+        {
+            $table->product_qty = $table->product_qty + $item->product_qty;
+        }
+            else
+        {
+            foreach($item as $key=>$value)
+            {
+                if(property_exists($table, $key))
+                {
+                    $table->set($key, $value);
+                }
+            }
+        }
+
+        $date = JFactory::getDate();
+        $table->last_updated = $date->toMysql();
+        $table->session_id = $session->getId();
+        
+        if (!$table->save())
+        {
+            JError::raiseNotice('updateCart', $table->getError());
+        }
+            else
+        {
+            TiendaHelperCarts::fixQuantities();
+        }
+
+        return $table;
+    }
+    
 	/**
 	 * TODO Remove this and all references to it
 	 * because all carts now use the one carts model
-	 *
+	 * 
+     * @deprecated as of version 6.3, will be removed in v6.4
+     * 
 	 * Fetches the name of the cart model to use
 	 * @return string
 	 */
 	public function getSuffix()
 	{
 		return 'Carts';
+	}
+	
+	/**
+	 * 
+	 * @param unknown_type $user_id
+	 * @param unknown_type $session_id
+	 * @return unknown_type
+	 */
+	function updateUserCartItemsSessionId( $user_id, $session_id )
+	{
+        $db = JFactory::getDBO();
 
-		// TODO Remove this
-		$user =& JFactory::getUser();
-		$suffix = (empty($user->id)) ? 'Sessioncarts' : 'Carts';
-		return $suffix;
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $query = new TiendaQuery();
+        
+        $query->update( "#__tienda_carts" );
+        $query->set( "`session_id` = '$session_id' " );
+        $query->where( "`user_id` = '$user_id'" );
+        $db->setQuery( (string) $query );
+        if (!$db->query())
+        {
+            $this->setError( $db->getErrorMsg() );
+            return false;
+        }
+        return true;
+	}
+	
+	/**
+	 * 
+	 * @param $session_id
+	 * @return unknown_type
+	 */
+	function deleteSessionCartItems( $session_id )
+	{
+        $db = JFactory::getDBO();
+
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $query = new TiendaQuery();
+        
+        $query->delete();
+        $query->from( "#__tienda_carts" );
+        $query->where( "`session_id` = '$session_id' " );
+        $query->where( "`user_id` = '0'" );
+        $db->setQuery( (string) $query );
+        if (!$db->query())
+        {
+            $this->setError( $db->getErrorMsg() );
+            return false;
+        }
+        return true;
+	}
+	
+	/**
+	 * 
+	 * @param $session_id
+	 * @param $user_id
+	 * @return unknown_type
+	 */
+	function mergeSessionCartWithUserCart( $session_id, $user_id )
+	{
+	    $date = JFactory::getDate();
+	    $session =& JFactory::getSession();
+	    
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'Carts', 'TiendaModel' );
+        $model->setState( 'filter_user', '0' );
+        $model->setState( 'filter_session', $session_id );
+        $session_cartitems = $model->getList();
+        $this->deleteSessionCartItems( $session_id );
+        
+        if (!empty($session_cartitems))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance( 'Carts', 'TiendaTable' );
+            foreach ($session_cartitems as $session_cartitem)
+            {
+                $keynames = array();
+                $keynames['user_id'] = $user_id;
+                $keynames['product_id'] = $session_cartitem->product_id;
+                $keynames['product_attributes'] = $session_cartitem->product_attributes;
+                
+                // fire plugin event: onGetAdditionalCartKeyValues
+                //this event allows plugins to extend the multiple-column primary key of the carts table
+                $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( $session_cartitem, null, null );
+                if (!empty($additionalKeyValues))
+                {
+                    $keynames = array_merge($keynames, $additionalKeyValues);
+                }
+                
+                if ($table->load($keynames))
+                {
+                    // the quantity as set in the session takes precedence
+                    $table->product_qty = $session_cartitem->product_qty;
+                }
+                    else
+                {
+                    foreach($session_cartitem as $key=>$value)
+                    {
+                        if(property_exists($table, $key))
+                        {
+                            $table->set($key, $value);
+                        }
+                    }
+                }
+                
+                $table->user_id = $user_id;
+                $table->session_id = $session->getId();
+                $table->last_updated = $date->toMysql();
+                
+                if (!$table->save())
+                {
+                    JError::raiseNotice('updateCart', $table->getError());
+                }
+            }
+        }
 	}
 
 	/**
@@ -37,6 +217,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * updating quantity if a product_id+product_attributes entry exists for the user
 	 * otherwise creating a new entry
 	 *
+     * @deprecated as of version 6.3, will be removed in v6.4.0
+     * 
 	 * @param array
 	 * @param boolean
 	 * @param string
@@ -63,7 +245,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 			$model->setState( 'filter_user', '0' );
 			$model->setState( 'filter_session', $session_id2use );
 			$cart = $model->getList();
-			TiendaHelperCarts::cleanCart($session_id2use);
+			$user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
+			TiendaHelperCarts::updateUserCartItemsSessionId( $user_id, $session_id );
 		}
 
 		if (!empty($cart))
@@ -129,50 +312,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 		TiendaHelperCarts::fixQuantities();
 		
 		return true;
-	}
-
-	/**
-	 * Given a session id, removes the entries from the carts db where user_id = 0
-	 * If no session_id, then updates session_id value in cart for current user
-	 * @return null
-	 */
-	function cleanCart( $session_id='' )
-	{
-		$db = JFactory::getDBO();
-
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
-		
-		if (!empty($session_id))
-		{
-            $query->delete();
-            $query->from( "#__tienda_carts" );
-            $query->where( "`session_id` = '$session_id' " );
-            $query->where( "`user_id` = '0'" );
-            $db->setQuery( (string) $query );
-                // TODO Make this report errors and return boolean
-                $db->query();
-		}
-		  else
-		{
-		    $user =& JFactory::getUser();
-		    if (!empty($user->id))
-		    {
-		        $user_id = $user->id;
-                $session =& JFactory::getSession();
-                $session_id = $session->getId();
-                
-                $query->update( "#__tienda_carts" );
-                $query->set( "`session_id` = '$session_id' " );
-                $query->where( "`user_id` = '$user_id'" );
-                $db->setQuery( (string) $query );
-                // TODO Make this report errors and return boolean
-                $db->query();
-		    }
-
-		}
-
-     	return null;
 	}
 
 	/**
@@ -249,7 +388,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	    $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 
 		$suffix = strtolower( TiendaHelperCarts::getSuffix() );
-		$model = JModel::getInstance( $suffix, 'TiendaModel' );
+		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($suffix)
 		{
@@ -268,76 +407,77 @@ class TiendaHelperCarts extends TiendaHelperBase
                 }
 			    
 				$cart = $model->getList();
-				// Fix Bug 4281 Crash with Php 5.3.4 & eAccelerator when no cart available.
-				if ( !empty( $cart ) ) {
-					foreach ($cart as $cartitem)
-					{
-        	            $keynames = array();
-            	        $keynames['user_id'] = $cartitem->user_id;
-                	    if (empty($cartitem->user_id))
-                    	{
-                        	$keynames['session_id'] = $cartitem->session_id;
-                    	}
-						$keynames['product_id'] = $cartitem->product_id;
-						$keynames['product_attributes'] = $cartitem->product_attributes;
-						
-						$tableProduct->load( $cartitem->product_id );
-						if ($tableProduct->quantity_restriction )
-						{
-							$quantity = $cartitem->product_qty;
-							$min = $tableProduct->quantity_min;
-							$max = $tableProduct->quantity_max;
-							
-							if( $max )
-							{
-								if ($cartitem->product_qty > $max )
-								{
-									$quantity = $max;
-								}
-							}
-							if( $min )
-							{
-								if ($cartitem->product_qty < $min )
-								{
-									$quantity = $min;
-								}
-							}
-							// load table to adjust quantity in cart
-							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
-							$table->load($keynames);
-							$table->product_id = $cartitem->product_id;
-							$table->product_attributes = $cartitem->product_attributes;
-							$table->user_id = $cartitem->user_id;
-							$table->session_id = $cartitem->session_id;                        
-							// adjust the cart quantity
-							$table->product_qty = $quantity;
-							$table->save();
-						}
-						
-						if (empty($tableProduct->product_check_inventory))
-						{
-							// if this item doesn't check inventory, skip it
-							continue;
-						}
-
-						$product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
-						if ($cartitem->product_qty > $product->quantity )
-						{
-							// enqueu a system message
-							JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
-							
-							// load table to adjust quantity in cart
-							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
-							$table->load($keynames);
-							$table->product_id = $cartitem->product_id;
-							$table->product_attributes = $cartitem->product_attributes;
-							$table->user_id = $cartitem->user_id;
-							$table->session_id = $cartitem->session_id;                        
-							// adjust the cart quantity
-							$table->product_qty = $product->quantity;
-							$table->save();
-						}
-					}
+				if (!empty($cart))
+				{
+				    foreach ($cart as $cartitem)
+                    {
+                        $keynames = array();
+                        $keynames['user_id'] = $cartitem->user_id;
+                        if (empty($cartitem->user_id))
+                        {
+                            $keynames['session_id'] = $cartitem->session_id;
+                        }
+                        $keynames['product_id'] = $cartitem->product_id;
+                        $keynames['product_attributes'] = $cartitem->product_attributes;
+                        
+                        $tableProduct->load( $cartitem->product_id );
+                        if ($tableProduct->quantity_restriction )
+                        {
+                            $quantity = $cartitem->product_qty;
+                            $min = $tableProduct->quantity_min;
+                            $max = $tableProduct->quantity_max;
+                            
+                            if( $max )
+                            {
+                                if ($cartitem->product_qty > $max )
+                                {
+                                    $quantity = $max;
+                                }
+                            }
+                            if( $min )
+                            {
+                                if ($cartitem->product_qty < $min )
+                                {
+                                    $quantity = $min;
+                                }
+                            }
+                            // load table to adjust quantity in cart
+                            $table = JTable::getInstance( 'Carts', 'TiendaTable' );
+                            //$table->load($keynames);
+                            $table->load( array('cart_id' => $cartitem->cart_id ) );
+                            $table->product_id = $cartitem->product_id;
+                            $table->product_attributes = $cartitem->product_attributes;
+                            $table->user_id = $cartitem->user_id;
+                            $table->session_id = $cartitem->session_id;                        
+                            // adjust the cart quantity
+                            $table->product_qty = $quantity;
+                            $table->save();
+                        }
+                        
+                        if (empty($tableProduct->product_check_inventory))
+                        {
+                            // if this item doesn't check inventory, skip it
+                            continue;
+                        }
+    
+                        $product->load( array('product_id'=>$cartitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$cartitem->product_attributes));
+                        if ($cartitem->product_qty > $product->quantity )
+                        {
+                            // enqueu a system message
+                            JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
+                            
+                            // load table to adjust quantity in cart
+                            $table = JTable::getInstance( 'Carts', 'TiendaTable' );
+                            $table->load($keynames);
+                            $table->product_id = $cartitem->product_id;
+                            $table->product_attributes = $cartitem->product_attributes;
+                            $table->user_id = $cartitem->user_id;
+                            $table->session_id = $cartitem->session_id;                        
+                            // adjust the cart quantity
+                            $table->product_qty = $product->quantity;
+                            $table->save();
+                        }
+                    }
 				}
 
 				break;
@@ -652,6 +792,14 @@ class TiendaHelperCarts extends TiendaHelperBase
         return true;
     }    
     
+    /**
+     * 
+     * Enter description here ...
+     * @param $item
+     * @param $posted_values
+     * @param $index
+     * @return unknown_type
+     */
 	function getAdditionalKeyValues( $item, $posted_values, $index )
     {
        	$keynames = array();

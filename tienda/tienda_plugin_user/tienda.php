@@ -46,16 +46,15 @@ class plgUserTienda extends JPlugin
         }
 
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $helper = new TiendaHelperCarts();
         if (!empty($old_sessionid))
         {
-            TiendaHelperCarts::updateCart('', true, $old_sessionid, $user['id']);
+            $helper->mergeSessionCartWithUserCart( $old_sessionid, $user['id'] );
         }
             else
         {
-            TiendaHelperCarts::updateCart( '', true );
+            $helper->updateUserCartItemsSessionId( $user['id'], $session->getId() );
         }
-
-        TiendaHelperCarts::cleanCart();
         
         $this->checkUserGroup();
 

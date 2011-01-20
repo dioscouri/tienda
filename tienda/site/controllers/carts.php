@@ -256,11 +256,13 @@ class TiendaControllerCarts extends TiendaController
         }
         
         // add the item to the cart
-        TiendaHelperCarts::updateCart( array( $item ) );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $cart_helper = new TiendaHelperCarts();
+        $cartitem = $cart_helper->addItem( $item );
 
         // fire plugin event
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onAfterAddToCart', array( $item, $values ) );
+        $dispatcher->trigger( 'onAfterAddToCart', array( $cartitem, $values ) );
         
         // update the cart module, if it is enabled
         $this->displayCart();
@@ -299,7 +301,7 @@ class TiendaControllerCarts extends TiendaController
         echo ( json_encode( array('msg'=>'') ) );
         return;
     }
-
+    
     /**
      * 
      * @return unknown_type
@@ -322,16 +324,15 @@ class TiendaControllerCarts extends TiendaController
         $remove = JRequest::getVar('remove');
         if ($remove) 
         {
-            foreach ($cids as $key=>$product_id)
+            foreach ($cids as $cart_id=>$product_id)
             {
-            	$keynames = explode('.', $key);
-            	$attributekey = $keynames[0].'.'.$keynames[1];
-            	$index = $keynames[2];
+//            	$keynames = explode('.', $key);
+//            	$attributekey = $keynames[0].'.'.$keynames[1];
+//            	$index = $keynames[2];
                 $row = $model->getTable();
                 
                 //main cartitem keys
-                $ids = array('user_id'=>$user->id, 'product_id'=>$product_id, 
-                				'product_attributes'=>$product_attributes[$attributekey]);
+                $ids = array('user_id'=>$user->id, 'cart_id'=>$cart_id);
 
                 // fire plugin event: onGetAdditionalCartKeyValues
 				        //this event allows plugins to extend the multiple-column primary key of the carts table
@@ -345,14 +346,14 @@ class TiendaControllerCarts extends TiendaController
 		                {
 		                    $ids['session_id'] = $session->getId();
 		                }
-		
-		                if ($return = $row->delete($ids))
+
+		                if ($return = $row->delete(array('cart_id'=>$cart_id)))
 		                {
-			                $item = new JObject;
-			                $item->product_id = $product_id;
-			                $item->product_attributes = $product_attributes[$attributekey];
-			                $item->vendor_id = '0'; // vendors only in enterprise version
-			               
+                            $item = new JObject;
+                            $item->product_id = $product_id;
+                            $item->product_attributes = $product_attributes[$cart_id];
+                            $item->vendor_id = '0'; // vendors only in enterprise version
+                            
 			                // fire plugin event
 			                $dispatcher = JDispatcher::getInstance();
 			                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
@@ -361,28 +362,33 @@ class TiendaControllerCarts extends TiendaController
         } 
         else 
         {          
-            foreach($quantities as $key=>$value) 
-            {          	
-            	$keynames = explode('.', $key);
-            	$product_id = $keynames[0];
-            	$attributekey = $product_id.'.'.$keynames[1];
-            	$index = $keynames[2];
+            foreach ($quantities as $cart_id=>$value) 
+            {
+                $carts = JTable::getInstance( 'Carts', 'TiendaTable' );
+                $carts->load( array( 'cart_id'=>$cart_id) );
+                $product_id = $carts->product_id;
+                $value = (int) $value;
+                                
+//            	$keynames = explode('.', $key);
+//            	$product_id = $keynames[0];
+//            	$attributekey = $product_id.'.'.$keynames[1];
+//            	$index = $keynames[2];
 
             	$vals = array();
-              $vals['user_id'] = $user->id;
-              $vals['session_id'] = $session->getId();
-              $vals['product_id'] = $product_id;
+                $vals['user_id'] = $user->id;
+                $vals['session_id'] = $session->getId();
+                $vals['product_id'] = $product_id;
 
               // fire plugin event: onGetAdditionalCartKeyValues
 		        	//this event allows plugins to extend the multiple-column primary key of the carts table
-		        	$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
-		        	if (!empty($additionalKeyValues))
-		        	{
-		        		$vals = array_merge($vals, $additionalKeyValues);
-		        	}
+//		        	$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
+//		        	if (!empty($additionalKeyValues))
+//		        	{
+//		        		$vals = array_merge($vals, $additionalKeyValues);
+//		        	}
 
               // using a helper file,To determine the product's information related to inventory     
-              $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$attributekey] );	
+              $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$cart_id] );	
               if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
               {
               	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
@@ -422,31 +428,27 @@ class TiendaControllerCarts extends TiendaController
               }
                 	
               $row = $model->getTable();
-              $vals['product_attributes'] = $product_attributes[$attributekey];
+              $vals['product_attributes'] = $product_attributes[$cart_id];
               $vals['product_qty'] = $value;
               if (empty($vals['product_qty']) || $vals['product_qty'] < 1)
               {
-              	unset($vals['product_qty']);
-                $vals['user_id'] = $user->id;
-              	if(empty($user->id))
-              		$vals['session_id'] = $session->getId();              	
-              	
               	// remove it
-              	if ($return = $row->delete($vals))
+              	if ($return = $row->delete($cart_id))
               	{
               		$item = new JObject;
               		$item->product_id = $product_id;
-                  $item->product_attributes = $product_attributes[$attributekey];
-                  $item->vendor_id = '0'; // vendors only in enterprise version
+                    $item->product_attributes = $product_attributes[$cart_id];
+                    $item->vendor_id = '0'; // vendors only in enterprise version
                        
-                  // fire plugin event
-                  $dispatcher = JDispatcher::getInstance();
-                  $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+                    // fire plugin event
+                    $dispatcher = JDispatcher::getInstance();
+                    $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
               	}
               }
               else
               {
-              	$row->bind($vals);
+                $row->load($cart_id);
+              	$row->product_qty = $vals['product_qty'];
               	$row->save();                    
               }
             }
@@ -460,7 +462,7 @@ class TiendaControllerCarts extends TiendaController
         }
         else
         {
-        		$carthelper->checkIntegrity($user->id);
+        	$carthelper->checkIntegrity($user->id);
         }
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );

@@ -30,6 +30,7 @@ class TiendaModelManufacturers extends TiendaModelBase
 			$where = array();
 			$where[] = 'LOWER(tbl.manufacturer_id) LIKE '.$key;
 			$where[] = 'LOWER(tbl.manufacturer_name) LIKE '.$key;
+			$where[] = 'LOWER(tbl.manufacturer_description) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
