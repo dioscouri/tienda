@@ -408,8 +408,13 @@ class TiendaHelperOrder extends TiendaHelperBase
             $query = "SELECT template FROM #__templates_menu WHERE `client_id` = '0' AND `menuid` = '0';";
             $db->setQuery( $query );
             $template = $db->loadResult();
-            // (have to do this because we load the same view from the admin-side Orders view, and conflicts arise)            
-            $config['template_path'] = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/orders';
+            
+            jimport('joomla.filesystem.file');
+            if (JFile::exists(JPATH_SITE.'/templates/'.$template.'/html/com_tienda/orders/email.php'))
+            {
+                // (have to do this because we load the same view from the admin-side Orders view, and conflicts arise)            
+                $config['template_path'] = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/orders';                
+            }
         }
         $view = new TiendaViewOrders( $config );
         
