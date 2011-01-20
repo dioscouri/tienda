@@ -29,7 +29,8 @@ class TiendaFedex extends JObject
     
     function __construct()
     {
-        $this->wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';        
+        //$this->wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';  
+        $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9.wsdl';         
     }
     
     function getClient()
@@ -231,8 +232,8 @@ class TiendaFedexShip extends TiendaFedex
             'UserCredential' => array('Key' => $this->key, 'Password' => $this->password)
         ); 
         $request['ClientDetail'] = array('AccountNumber' => $this->accountNumber, 'MeterNumber' => $this->meterNumber);
-        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v8 using PHP ***');
-        $request['Version'] = array('ServiceId' => 'crs', 'Major' => '8', 'Intermediate' => '0', 'Minor' => '0');
+        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
+        $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
         $request['ReturnTransitAndCommit'] = false;
         $request['RequestedShipment']['ShipTimestamp'] = date('c');
         
