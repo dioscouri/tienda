@@ -21,6 +21,7 @@
 
     <params addpath="/administrator/components/com_tienda/elements">
         <param name="ssl_merchant_id" type="text" size="50" default="" label="Merchant Id" description="Merchant Id Desc"/>
+        <param name="ssl_user_id" type="text" size="50" default="" label="User Id" description="User Id Desc"/>
         <param name="ssl_pin" type="text" size="50" default="" label="Pin" description="Pin Desc"/>
         <param name="test_mode" type="radio" default="0" label="Test Mode" description="Test Mode Desc">
           <option value="0">No</option>

@@ -66,8 +66,27 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         $vars = new JObject();
         
         $vars->ssl_merchant_id = $this->params->get('ssl_merchant_id', '');
+        $vars->ssl_user_id = $this->params->get('ssl_user_id', '');
         $vars->ssl_pin = $this->params->get('ssl_pin', '');
         $vars->test_mode = $this->params->get('test_mode', '0');
+        
+        $vars->ssl_customer_code = JFactory::getUser()->id;
+        $vars->ssl_invoice_number = $data['order_id'];
+        $vars->ssl_description = JText::_('Order Number: ').$data['order_id'];
+        
+        // Billing Info
+        $vars->first_name   = $data['orderinfo']->billing_first_name;
+        $vars->last_name    = $data['orderinfo']->billing_last_name;
+        $vars->email        = $data['orderinfo']->user_email;
+        $vars->address_1    = $data['orderinfo']->billing_address_1;
+        $vars->address_2    = $data['orderinfo']->billing_address_2;
+        $vars->city         = $data['orderinfo']->billing_city;
+        $vars->country      = $data['orderinfo']->billing_country_name;
+        $vars->state        = $data['orderinfo']->billing_zone_name;
+        $vars->zip  		= $data['orderinfo']->billing_postal_code;
+        
+        $vars->amount = @$data['order_total'];
+        $vars->amount = @$data['order_tax'];
 
         $vars->payment_url = "https://www.myvirtualmerchant.com/VirtualMerchant/process.do";
         $vars->receipt_url = JURI::base()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;

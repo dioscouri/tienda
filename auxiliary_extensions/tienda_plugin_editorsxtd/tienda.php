@@ -51,7 +51,7 @@ class plgButtonTienda extends JPlugin
         $link = 'index.php?option=com_tienda&amp;task=elementproduct&amp;tmpl=component&amp;e_name='.$name;        
         JHTML::_('behavior.modal');
         
-        $layout_html = '<select name="product_layout" id="product_layout" style="margin-left:5px;">';
+        $layout_html = '</a><select name="product_layout" id="product_layout" style="margin-left:5px;">';
         $layouts = array( 
         				'View' => 'view',
         				'Add to Cart' => 'product_buy',

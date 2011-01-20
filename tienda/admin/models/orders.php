@@ -74,10 +74,21 @@ class TiendaModelOrders extends TiendaModelBase
 			$where[] = 'LOWER(u.id) LIKE '.$key;
 			$query->where('('.implode(' OR ', $where).')');
        	}
-       	
-        if (strlen($orderstate))
-        {
-        	$query->where('tbl.order_state_id = '.$this->_db->Quote($orderstate));
+       	if(is_array($orderstate))
+       	{
+       		foreach($orderstate as &$os)
+       		{
+       			$os = $this->_db->Quote($os);
+       		}
+       		$orderstate = explode(",", $orderstate);
+       		$query->where('tbl.order_state_id IN ( '.$orderstate.')');
+       	}
+       	else
+       	{
+	        if (strlen($orderstate))
+	        {
+	        	$query->where('tbl.order_state_id = '.$this->_db->Quote($orderstate));
+	       	}
        	}
         if (strlen($filter_userid))
         {
