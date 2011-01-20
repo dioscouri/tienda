@@ -418,7 +418,6 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `lft` int(11) NOT NULL,
   `rgt` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
-  `ordering` int(11) NOT NULL,
   `category_enabled` tinyint(1) NOT NULL,
   `isroot` tinyint(1) NOT NULL,
   `category_params` text,
@@ -460,9 +459,9 @@ DEFAULT CHARACTER SET = utf8;
 
 INSERT IGNORE INTO `#__tienda_currencies` (`currency_id`, `currency_name`, `currency_code`, `symbol_left`, `symbol_right`, `currency_decimals`, `decimal_separator`, `thousands_separator`, `created_date`, `modified_date`, `currency_enabled`) VALUES
 (1, 'US Dollar', 'USD', '$', '', 2, '.', ',', NOW(), NOW(), 1),
-(2, 'Japanese Yen', 'JPY', '¥', '', 3, '.', ',', NOW(), NOW(), 1),
-(3, 'Euro', 'EUR', '€', '', 2, '.', ',', NOW(), NOW(), 1),
-(4, 'British Pound', 'GBP', '£', '', 2, '.', ',', NOW(), NOW(), 1);
+(2, 'Japanese Yen', 'JPY', 'ï¿½', '', 3, '.', ',', NOW(), NOW(), 1),
+(3, 'Euro', 'EUR', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1),
+(4, 'British Pound', 'GBP', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1);
 
 
 -- -----------------------------------------------------
@@ -5219,6 +5218,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `product_id` int(11) NOT NULL DEFAULT '0',
   `productcomment_text` text NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
+  `user_name` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(255) NULL DEFAULT NULL ,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `productcomment_rating` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User rating for the product on a scale of 1 to 5',
@@ -5226,7 +5226,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `helpful_votes` int(11) NOT NULL DEFAULT '0',
   `helpful_votes_total` int(11) NOT NULL DEFAULT '0',
   `reported_count` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`productcomment_id`), 
+  PRIMARY KEY (`productcomment_id`),  
+  UNIQUE KEY `user_email` (`user_email`),
   KEY `fk_Product_ProductReview` (`product_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
