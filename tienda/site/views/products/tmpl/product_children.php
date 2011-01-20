@@ -18,6 +18,9 @@ $form = @$this->form;
         <table class="adminlist">
         <thead>
         <tr>
+        	<th>
+               
+            </th>
             <th style="text-align: left;">
                 <?php echo JText::_("Product Name"); ?>
             </th>
@@ -37,6 +40,9 @@ $form = @$this->form;
         $k = 0;         
         foreach ($items as $item): ?>
         <tr>
+        	<td style="text-align: center; width: 50px;">
+        		<?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'thumb', false, false, array( 'width'=>64 )); ?>
+             </td>
             <td style="text-align: left;">
                 <?php echo $item->product_name; ?>
             </td>
