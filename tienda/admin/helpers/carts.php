@@ -491,38 +491,38 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function getProductsInfo()
 	{
-		$suffix = strtolower(TiendaHelperCarts::getSuffix());
 		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$model = JModel::getInstance($suffix, 'TiendaModel');
+		$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
 		$session =& JFactory::getSession();
 		$user =& JFactory::getUser();
 		$model->setState('filter_user', $user->id );
-		
-        Tienda::load('TiendaHelperUser', 'helpers.user');       
-        $filter_group = TiendaHelperUser::getUserGroup($user->id);
-        
 		if (empty($user->id))
 		{
 			$model->setState('filter_session', $session->getId() );
 		}
+        Tienda::load('TiendaHelperUser', 'helpers.user');       
+        $filter_group = TiendaHelperUser::getUserGroup($user->id);
+        $model->setState('filter_group', $filter_group );
 
-		$productcart = $model->getList();
+		$cartitems = $model->getList();
 
 		$productitems = array();
-		foreach ($productcart as $product)
+		foreach ($cartitems as $cartitem)
 		{
+		    //echo Tienda::dump($cartitem);
 			unset($productModel);
 			$productModel = JModel::getInstance('Products', 'TiendaModel');
-			$productModel->setId($product->product_id);
+			$productModel->setId($cartitem->product_id);
 			if ($productItem = $productModel->getItem())
 			{
 				$productItem->product_price = $productItem->price;
 				// at this point, ->product_price holds the default price for the product,
 				// but the user may qualify for a discount based on volume or date, so let's get that price override
-				$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $product->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
+				// TODO Shouldn't we remove this?  Is it necessary?  $cartitem has already done this in the carts model!
+				$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $cartitem->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
 				if (!empty($productItem->product_price_override))
 				{
 					$productItem->product_price = $productItem->product_price_override->product_price;
@@ -531,23 +531,24 @@ class TiendaHelperCarts extends TiendaHelperBase
 				if($productItem->product_check_inventory)
 				{
 					// using a helper file,To determine the product's information related to inventory
-					$availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $productItem->product_id, $product->product_attributes );
-					if( $availableQuantity->product_check_inventory && $product->product_qty >$availableQuantity->quantity && $availableQuantity->quantity >=1) {
-						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'CART_QUANTITY_ADJUSTED',$productItem->product_name, $product->product_qty, $availableQuantity-> quantity ));
-						$product->product_qty=$availableQuantity-> quantity;
+					$availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $productItem->product_id, $cartitem->product_attributes );
+					if( $availableQuantity->product_check_inventory && $cartitem->product_qty >$availableQuantity->quantity && $availableQuantity->quantity >=1) {
+						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'CART_QUANTITY_ADJUSTED',$productItem->product_name, $cartitem->product_qty, $availableQuantity-> quantity ));
+						$cartitem->product_qty = $availableQuantity->quantity;
 					}
 
-					// removing the product from the cart if it's not avilable
-					if($availableQuantity->quantity==0)
+					// removing the product from the cart if it's not available
+					if ($availableQuantity->quantity == 0)
 					{
-						 
-						if($product->user_id==0){
-							TiendaHelperCarts::removeCartItem( $session_id, $product->user_id, $product->product_id );
+						if (empty($cartitem->user_id))
+						{
+							TiendaHelperCarts::removeCartItem( $session_id, $cartitem->user_id, $cartitem->product_id );
 						}
-						else{
-							TiendaHelperCarts::removeCartItem( $product->session_id, $product->user_id, $product->product_id );
+    						else
+						{
+							TiendaHelperCarts::removeCartItem( $cartitem->session_id, $cartitem->user_id, $cartitem->product_id );
 						}
-						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'Not avilable').$productItem->product_name);
+						JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Not available') . " " .$productItem->product_name );
 						continue;
 					}
                 }
@@ -555,17 +556,17 @@ class TiendaHelperCarts extends TiendaHelperBase
     			// TODO Push this into the orders object->addItem() method?
     			$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
     			$orderItem->product_id                    = $productItem->product_id;
-    			$orderItem->orderitem_sku                 = $product->product_sku;
+    			$orderItem->orderitem_sku                 = $cartitem->product_sku;
     			$orderItem->orderitem_name                = $productItem->product_name;
-    			$orderItem->orderitem_quantity            = $product->product_qty;
+    			$orderItem->orderitem_quantity            = $cartitem->product_qty;
     			$orderItem->orderitem_price               = $productItem->product_price;
-    			$orderItem->orderitem_attributes          = $product->product_attributes;
-    			$orderItem->orderitem_attribute_names     = $product->attributes_names;
-    			$orderItem->orderitem_attributes_price    = $product->orderitem_attributes_price;
-    			$orderItem->orderitem_final_price         = $orderItem->orderitem_price * $orderItem->orderitem_quantity;
+    			$orderItem->orderitem_attributes          = $cartitem->product_attributes;
+    			$orderItem->orderitem_attribute_names     = $cartitem->attributes_names;
+    			$orderItem->orderitem_attributes_price    = $cartitem->orderitem_attributes_price;
+    			$orderItem->orderitem_final_price         = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
     			
 		        $dispatcher =& JDispatcher::getInstance();
-		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $product ) );
+		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $cartitem ) );
 		        foreach ($results as $result)
 		        {
 		            foreach($result as $key=>$value)
