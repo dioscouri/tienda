@@ -646,7 +646,9 @@ class TiendaControllerProducts extends TiendaController
                     $filter_category = $categories[0];
                 }
             }
-        
+            $userId = JFactory::getUser()->id;
+        	$config = TiendaConfig::getInstance();
+        	$show_tax = $config->get('display_prices_with_tax'); 
             foreach ($items as $key=>$item)
             {
                 if ($check_quantity)
@@ -678,6 +680,23 @@ class TiendaControllerProducts extends TiendaController
                 
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);
+             	if ($show_tax)
+		        {		           
+		            Tienda::load('TiendaHelperUser', 'helpers.user');
+		            $geozones = TiendaHelperUser::getGeoZones( $userId );
+		            if (empty($geozones))
+		            {
+		                // use the default
+		                $table = JTable::getInstance('Geozones', 'TiendaTable');
+		                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+		                $geozones = array( $table );
+		            }
+		            
+		            $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+		            $tax = $taxtotal->tax_total;
+		            $item->taxtotal = $taxtotal;
+		            $item->tax = $tax;		            
+		        }
             }
         }
 
