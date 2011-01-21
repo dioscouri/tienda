@@ -94,7 +94,7 @@ class TiendaUSPS extends JObject
             'United States',
             'United States Minor Outlying Islands'
         );
-        
+      
         if (in_array($this->country, $countries))
         {
             // may need to urlencode xml portion
@@ -125,6 +125,11 @@ class TiendaUSPS extends JObject
             $str .= "<MailType>Package</MailType><Country>".urlencode($this->country)."</Country></Package></IntlRateRequest>";
         }
 
+
+		/* USPS TEST ALERT */
+		/*echo "<script language=javascript>alert('".$str."')</script>";*/
+		
+		
         $ch = curl_init();
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_URL, $str);
@@ -138,7 +143,8 @@ class TiendaUSPS extends JObject
         curl_close($ch);
         $xmlParser = new TiendaUSPSXmlParser();
         $array = $xmlParser->GetXMLTree($ats);
-
+//debug(222222, $array);
+        //$xmlParser->printa($array);
         if (!empty($array['ERROR'])) { // If it is error
             $error = new TiendaUSPSError();
             $error->str = $str;
@@ -172,6 +178,10 @@ class TiendaUSPS extends JObject
         } else if(!empty($array['RATEV4RESPONSE'])){ // if everything OK
             $this->zone = $array['RATEV4RESPONSE'][0]['PACKAGE'][0]['ZONE'][0]['VALUE'];
             foreach ($array['RATEV4RESPONSE'][0]['PACKAGE'][0]['POSTAGE'] as $value){
+//debug(99999992, $value);
+/*					$curMailSvc = $value['MAILSERVICE'][0]['VALUE'];
+					echo "<script language=javascript>alert('".$curMailSvc."')</script>";*/
+
 				if (empty($myFirstClass) || $value['MAILSERVICE'][0]['VALUE'] == "First-Class Mail&lt;sup&gt;&amp;reg;&lt;/sup&gt; Package"){					
                     $price = new TiendaUSPSPrice();
                     $price->mailservice = $value['MAILSERVICE'][0]['VALUE'];
@@ -195,8 +205,16 @@ class TiendaUSPS extends JObject
                 $this->list[] = $price;
             }
         
-        }       
-	
+        }
+        
+		
+        		/* USPS TEST ALERT */
+		//$myBad = $error->description;	
+		//$myType =$price->mailservice;
+		//$myCost =$price->rate;
+				
+				
+		//echo "<script language=javascript>alert('".$myType." - ".$myCost."')</script>";
         return $this;
     }
 }

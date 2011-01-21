@@ -184,7 +184,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $usps->setContainer($container);
             $usps->setCountry($country);
             $price = $usps->getPrice();
-                        
+//debug(55555, $price);                       
             if (!empty($price->error) && is_object($price->error))
             {
                 // return a nulled array
