@@ -13,32 +13,10 @@ $formName = 'adminForm_'.$item->product_id;
     
     <!--base price-->
     <span id="product_price_<?php echo $item->product_id; ?>" class="product_price">
+    	<?php  echo TiendaHelperProduct::dispayPriceWithTax($item->price, $item->tax, $this->show_tax); ?>
         <?php            
         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-        if (!empty($this->show_tax))
-        {
-            if (!empty($this->tax))
-            {
-                if ($this->show_tax == '2')
-                {
-                    echo TiendaHelperBase::currency($item->price + $item->tax);
-                }
-                    else
-                {
-                    echo TiendaHelperBase::currency($item->price);
-                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($item->tax));
-                }
-            }
-                else
-            {
-                echo TiendaHelperBase::currency($item->price);
-            }
-        }
-            else
-        {
-            echo TiendaHelperBase::currency($item->price);
-        }
-        
+               
         if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
         {
             echo '<br /><a href="'.$this->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $this->shipping_cost_link).'</a>' ;
