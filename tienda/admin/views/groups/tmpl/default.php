@@ -35,6 +35,10 @@
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.group_name", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo JHTML::_('grid.order', @$items ); ?>
+                </th>
             </tr>
             <tr class="filterline">
                 <th colspan="3">
@@ -51,6 +55,8 @@
                 <th style="text-align: left;">
                 	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>     
+                <th>
+                </th>
             </tr>
 			<tr>
 				<th colspan="20" style="font-weight: normal;">
@@ -81,6 +87,10 @@
 					<?php $select_url = "index.php?option=com_tienda&controller=groups&task=selectusers&id=".$item->group_id."&tmpl=component"; ?>
                     <span style="float:right">[<?php echo TiendaUrl::popup( $select_url, JText::_( "Select Users") ); ?>]</span>
 				</td>
+				<td style="text-align: center;">
+                    <?php echo TiendaGrid::order($item->group_id); ?>
+                    <?php echo TiendaGrid::ordering($item->group_id, $item->ordering ); ?>
+                </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
 			<?php endforeach; ?>
