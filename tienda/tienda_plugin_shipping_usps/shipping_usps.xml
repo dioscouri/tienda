@@ -29,9 +29,7 @@
 			<option value="SM FLAT RATE BOX">SM FLAT RATE BOX</option>
 			<option value="MD FLAT RATE BOX">MD FLAT RATE BOX</option>
 			<option value="LG FLAT RATE BOX">LG FLAT RATE BOX</option>
-			<option value="RECTANGULAR">RECTANGULAR</option>
-            <option value="NONRECTANGULAR">NONRECTANGULAR</option>
-			<option value="">NONE</option>
+			<option value="VARIABLE">Standard Box</option>
 		</param>
 		<param name="weight_unit" type="list" default="LB" label="Weight Unit" description="Weight Unit Desc">
 			<option value="LB">LB</option>
@@ -39,5 +37,6 @@
 		<param name="dimension_unit" type="list" default="IN" label="Dimension Unit" description="Dimension Unit Desc">
 			<option value="IN">IN</option>
 		</param>
-	</params>			
+	</params>
+			
 </install>
