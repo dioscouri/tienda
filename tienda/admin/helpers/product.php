@@ -1649,4 +1649,34 @@ class TiendaHelperProduct extends TiendaHelperBase
         $helper = TiendaHelperBase::getInstance( 'Ambrasubs' );
         $helper->onAfterSaveProducts( $product );
     }
+    
+    /**
+     * Function to display price with tax base on the configuration
+     * @param float $price - item price
+     * @param float $tax -  product price
+     * @param int $show - to show price with tax
+     * @return string
+     */
+    function dispayPriceWithTax($price='0', $tax='0', $show='0')
+    {
+     	$txt = '';
+     	if($show || !$tax)
+     	{
+     		if ($show == '2')
+     		{
+     			$txt .= TiendaHelperBase::currency($price + $tax);
+			}
+			else
+			{
+				$txt .= TiendaHelperBase::currency($price);
+				$txt .= sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($tax));
+			}     		
+     	}
+     	else 
+     	{
+     		$txt .= TiendaHelperBase::currency($price);
+     	}
+
+     	return $txt;
+    }
 }
