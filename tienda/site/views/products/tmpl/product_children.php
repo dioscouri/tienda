@@ -50,34 +50,7 @@ $form = @$this->form;
                 <?php echo $item->product_sku; ?>
             </td>
             <td style="text-align: center;">
-                <?php 
-                $txt = '';
-                if ($this->show_tax)
-			    {
-			    	if ($item->tax)
-			        {			        	
-			            if ($this->show_tax == '2')
-			            {
-			           		$txt .= TiendaHelperBase::currency($item->product_price + $item->tax);
-			            }
-			            else
-			            {
-			            	$txt .= TiendaHelperBase::currency($item->product_price);
-			            	$txt .= sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($item->tax));
-			            }
-			         }
-			         else
-			         {
-			         	$txt .= TiendaHelperBase::currency($item->product_price);
-			         }
-				}
-			    else
-			    {
-			    	$txt .= TiendaHelperBase::currency($item->product_price);
-			    }
-			    
-			    echo $txt;
-                ?>
+               <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->show_tax); ?>
             </td>
             <td style="text-align: center;">
                 <input type="text" name="quantities[<?php echo $item->product_id; ?>]" value="1" size="5" />
