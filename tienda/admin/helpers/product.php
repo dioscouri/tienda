@@ -1658,9 +1658,9 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @return string
      */
     function dispayPriceWithTax($price='0', $tax='0', $show='0')
-    {
+    {    
      	$txt = '';
-     	if($show || !$tax)
+     	if($show && $tax)
      	{
      		if ($show == '2')
      		{
