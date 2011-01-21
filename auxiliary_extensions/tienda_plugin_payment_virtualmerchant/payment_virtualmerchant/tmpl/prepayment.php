@@ -40,9 +40,11 @@
 
     <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />
     
-    <input type='hidden' name='ssl_receipt_link_method' value='GET' />
-    <input type='hidden' name='ssl_receipt_link_url' value='<?php echo JRoute::_(@$vars->receipt_url); ?>' />
-    <input type='hidden' name='ssl_result_format' value="ASCII" />
+    <input type='hidden' name='ssl_receipt_apprvl_method' value='POST' />
+    <input type='hidden' name='ssl_receipt_apprvl_post_url' value='<?php echo JRoute::_(@$vars->receipt_url); ?>' />
+    <input type='hidden' name='ssl_receipt_decl_method' value='POST' />
+    <input type='hidden' name='ssl_receipt_decl_post_url' value='<?php echo JRoute::_(@$vars->failed_url); ?>' />
+    <input type='hidden' name='ssl_result_format' value="HTML" />
     
     <?php echo JHTML::_( 'form.token' ); ?>
 </form>

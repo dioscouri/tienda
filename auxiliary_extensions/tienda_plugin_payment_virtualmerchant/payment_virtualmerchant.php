@@ -71,7 +71,7 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         $vars->test_mode = $this->params->get('test_mode', '0');
         
         $vars->ssl_customer_code = JFactory::getUser()->id;
-        $vars->ssl_invoice_number = $data['order_id'];
+        $vars->ssl_invoice_number = $data['orderpayment_id'];
         $vars->ssl_description = JText::_('Order Number: ').$data['order_id'];
         
         // Billing Info
@@ -85,11 +85,12 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         $vars->state        = $data['orderinfo']->billing_zone_name;
         $vars->zip  		= $data['orderinfo']->billing_postal_code;
         
+        
         $vars->amount = @$data['order_total'];
-        $vars->amount = @$data['order_tax'];
 
         $vars->payment_url = "https://www.myvirtualmerchant.com/VirtualMerchant/process.do";
-        $vars->receipt_url = JURI::base()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+        $vars->receipt_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+        $vars->failed_url  = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
 
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -106,31 +107,35 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
     function _postPayment( $data )
     {
         // Process the payment
-        $paction = JRequest::getVar('paction');
+        $result = JRequest::getVar('ssl_result');
 
         $vars = new JObject();
 
-        switch ($paction)
+        switch ($result)
         {
-            case "display_message":
-                $vars->message = JText::_('PAYPAL MESSAGE PAYMENT ACCEPTED FOR VALIDATION');
-                $html = $this->_getLayout('message', $vars);
-                $html .= $this->_displayArticle();
-              break;
-            case "process":
-                $vars->message = $this->_process();
-                $html = $this->_getLayout('message', $vars);
-                echo $html; // TODO Remove this
-                $app =& JFactory::getApplication();
-                $app->close();
-              break;
-            case "cancel":
-                $vars->message = JText::_( 'Paypal Message Cancel' );
-                $html = $this->_getLayout('message', $vars);
+            case "0":
+            	$errors = $this->_process( $data );
+            	
+            	// No errors
+            	if($errors == '')
+            	{
+	                $vars->message = JText::_('VIRTUALMERCHANT PAYMENT OK');
+	                $html = $this->_getLayout('message', $vars);
+	                $html .= $this->_displayArticle();
+            	}
+            	// Errors
+            	else
+            	{
+            		$vars->message = $errors;
+	                $html = $this->_getLayout('message', $vars);
+	                $html .= $this->_displayArticle();
+            	}
               break;
             default:
-                $vars->message = JText::_( 'Paypal Message Invalid Action' );
+            case "1":
+                $vars->message = JText::_('VIRTUALMERCHANT PAYMENT FAILED').': '.$data['ssl_result_message'];
                 $html = $this->_getLayout('message', $vars);
+                $html .= $this->_displayArticle();
               break;
         }
 
@@ -160,6 +165,88 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
      * specific to this payment plugin
      *
      ************************************/
+    
+    function _process($data)
+    {
+    	$post = JRequest::get('post');
+    	
+    	$orderpayment_id = @$data['ssl_invoice_number'];
+    	
+    	$errors = array();
+    	$send_email = false;
+    	
+    	// load the orderpayment record and set some values
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $orderpayment_id );
+        if (empty($orderpayment_id) || empty($orderpayment->orderpayment_id))
+        {
+            $errors[] = JText::_('VIRTUALMERCHANT MESSAGE INVALID ORDERPAYMENTID');
+            return count($errors) ? implode("\n", $errors) : '';
+        }
+        $orderpayment->transaction_details  = $data['ssl_result_message'];
+        $orderpayment->transaction_id       = $data['ssl_txn_id'];
+        $orderpayment->transaction_status   = $data['ssl_result'];
+       
+        // check the stored amount against the payment amount
+        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+        if ((float) $stored_amount !== (float) $data['ssl_amount']) {
+            $errors[] = JText::_('VIRTUALMERCHANT MESSAGE AMOUNT INVALID');
+        }
+        
+        // set the order's new status and update quantities if necessary
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $orderpayment->order_id );
+        if (count($errors)) 
+        {
+            // if an error occurred 
+            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+        }
+		else
+        {
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+
+            // do post payment actions
+            $setOrderPaymentReceived = true;
+            
+            // send email
+            $send_email = true;
+        }
+
+        // save the order
+        if (!$order->save())
+        {
+        	$errors[] = $order->getError();
+        }
+        
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+        	$errors[] = $orderpayment->getError(); 
+        }
+        
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+        }
+        
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
+        }
+
+        return count($errors) ? implode("\n", $errors) : '';    
+
+    	return true;
+    }
 
 }
 
