@@ -745,9 +745,12 @@ class TiendaHelperProduct extends TiendaHelperBase
     {
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model  = JModel::getInstance( 'Products', 'TiendaModel' );
+        Tienda::load('TiendaHelperUser', 'helpers.user');       
+        $user_id = JFactory::getUser()->id;
+        $filter_group = TiendaHelperUser::getUserGroup($user_id);
+        $model->setState('filter_group', $filter_group);
         $model->setId( $product_id );
-        $row = $model->getItem();
-        
+        $row = $model->getItem( false );     
         $orderitem_tax = 0;
         $tax_rates = array();
         $tax_amounts = array();
