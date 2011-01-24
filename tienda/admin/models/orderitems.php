@@ -140,9 +140,9 @@ class TiendaModelOrderItems extends TiendaModelBase
             $query->where('tbl.product_id = '.$this->_db->Quote($filter_productid));
         }
         
-    	if (strlen($filter_orderstates))
+    	if (is_array($filter_orderstates) && !empty($filter_orderstates))
         {
-            $query->where('s.order_state_id = '.$this->_db->Quote($filter_orderstates));
+            $query->where('s.order_state_id IN('.implode(",", $filter_orderstates).')' );
         }
     }
 

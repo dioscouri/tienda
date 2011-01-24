@@ -53,8 +53,9 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
         $state = $this->_getState();
 		$model = $this->_getModel();
 
-		// filter orders whith received payments ( 17 - Payment Received )
-		$model->setState( 'filter_orderstates', '17' );
+		// filter only complete orders ( 3 - Shipped, 5 - Complete, 17 - Payment Orders )
+        $order_states = array ( '3', '5', '17');
+        $model->setState( 'filter_orderstates', $order_states );
         
 		$model->setState( 'order', 'total_quantity' );
         $model->setState( 'direction', 'DESC' );

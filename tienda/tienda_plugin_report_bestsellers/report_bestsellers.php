@@ -53,8 +53,9 @@ class plgTiendaReport_bestsellers extends TiendaReportPlugin
         $state = $this->_getState();
         $model = $this->_getModel();
         
-        // filter only complete orders ( 5 - Complete )
-        $model->setState( 'filter_orderstates', '5' );
+        // filter only complete orders ( 3 - Shipped, 5 - Complete, 17 - Payment Orders )
+        $order_states = array ( '3', '5', '17');
+        $model->setState( 'filter_orderstates', $order_states );
         
         $query = $model->getQuery();
         
