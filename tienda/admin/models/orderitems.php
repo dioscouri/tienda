@@ -31,6 +31,7 @@ class TiendaModelOrderItems extends TiendaModelBase
         $filter_subscriptions_date_from = $this->getState('filter_subscriptions_date_from');
         $filter_subscriptions_date_to = $this->getState('filter_subscriptions_date_to');
         $filter_subscriptions_datetype = $this->getState('filter_subscriptions_datetype');
+        $filter_orderstates = $this->getState('filter_orderstates');
 
         if ($filter)
        	{
@@ -137,6 +138,11 @@ class TiendaModelOrderItems extends TiendaModelBase
         if (strlen($filter_productid))
         {
             $query->where('tbl.product_id = '.$this->_db->Quote($filter_productid));
+        }
+        
+    	if (strlen($filter_orderstates))
+        {
+            $query->where('s.order_state_id = '.$this->_db->Quote($filter_orderstates));
         }
     }
 

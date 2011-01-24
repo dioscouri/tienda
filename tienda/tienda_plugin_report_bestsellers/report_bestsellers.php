@@ -45,13 +45,16 @@ class plgTiendaReport_bestsellers extends TiendaReportPlugin
 	
     /**
      * Override parent::_getData() to insert groupBy and orderBy clauses into query
-     *  
+     *  setState
      * @return unknown_type
      */
     function _getData()
     {
         $state = $this->_getState();
         $model = $this->_getModel();
+        
+        // filter only complete orders ( 5 - Complete )
+        $model->setState( 'filter_orderstates', '5' );
         
         $query = $model->getQuery();
         
