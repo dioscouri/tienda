@@ -747,7 +747,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $model  = JModel::getInstance( 'Products', 'TiendaModel' );
         Tienda::load('TiendaHelperUser', 'helpers.user');       
         $user_id = JFactory::getUser()->id;
-        $filter_group = TiendaHelperUser::getUserGroup($user_id);
+        $filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
         $model->setState('filter_group', $filter_group);
         $model->setId( $product_id );
         $row = $model->getItem( false );     
