@@ -834,7 +834,7 @@ class TiendaControllerCheckout extends TiendaController
 		$html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id );
 			
 		$response = array();
-		$response['msg'] = $html;
+		$response['msg'] = $html . " *";
 		$response['error'] = '';
 
 		// encode and echo (need to echo to send back to browser)

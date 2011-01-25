@@ -9,7 +9,7 @@
 		<!--    Email Address   --> 
 		<input
 			name="email_address" id="email_address" type="text" size="48"
-			maxlength="250" class="inputbox required" /></td>
+			maxlength="250" class="inputbox required" /> *</td>
 	</tr>
 	<tr>
 		<td> <h4> <?php echo JText::_( 'Name' ); ?>: </h4>
@@ -28,7 +28,8 @@
 		<td><h4><?php echo JText::_( 'Password' ); ?>:
 		</h4></td>
 		<td><input class="inputbox required validate-password" type="password"
-			id="password" name="password" size="48" value="" /> *</td>
+			id="password" name="password" size="48" value="" /> 
+		*</td>
 	</tr>
 	<tr>
 		<td><h4><?php echo JText::_( 'Verify Password' ); ?>:

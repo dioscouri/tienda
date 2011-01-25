@@ -27,7 +27,7 @@
         </th>
         <td>
             <input name="<?php echo $this->form_prefix; ?>first_name" id="<?php echo $this->form_prefix; ?>first_name" 
-            type="text" size="35" maxlength="250" />
+            type="text" size="35" maxlength="250" /> *
         </td>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
         </th>
         <td>
            <input type="text" name="<?php echo $this->form_prefix; ?>last_name"
-            id="<?php echo $this->form_prefix; ?>last_name" size="45" maxlength="250" />
+            id="<?php echo $this->form_prefix; ?>last_name" size="45" maxlength="250" /> *
         </td>
     </tr>
     <tr>
@@ -63,7 +63,7 @@
         </th>
         <td>
             <input type="text" name="<?php echo $this->form_prefix; ?>address_1"
-            id="<?php echo $this->form_prefix; ?>address_1" size="48" maxlength="250" />
+            id="<?php echo $this->form_prefix; ?>address_1" size="48" maxlength="250" /> *
         </td>
     </tr>
     <tr>
@@ -81,7 +81,7 @@
 		</th>
 		<td>
 			<input type="text" name="<?php echo $this->form_prefix; ?>city" 
-			id="<?php echo $this->form_prefix; ?>city" size="48" maxlength="250" />
+			id="<?php echo $this->form_prefix; ?>city" size="48" maxlength="250" /> *
 		</td>
 	</tr>
 	<tr>
@@ -93,7 +93,7 @@
 			$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
 			$attribs = array('class' => 'inputbox','size' => '1','onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\');' );
 			echo TiendaSelect::country( '', $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', true, true );
-			?>
+			?> *
         </td>
 	</tr>
 	<tr>
@@ -104,7 +104,7 @@
             <div id="<?php echo $this->form_prefix; ?>zones_wrapper">
             <?php 
                 echo JText::_( "Select Country First" );
-            ?>
+            ?> *
             </div>
 		</td>
 	</tr>
@@ -116,7 +116,7 @@
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code"
 			id="<?php echo $this->form_prefix; ?>postal_code" size="25" maxlength="250" 
 			<?php if (!empty($this->showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" <?php } ?> 
-			/>
+			/> *
 		</td>
 	</tr>
 	<tr>
