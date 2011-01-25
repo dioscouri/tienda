@@ -608,6 +608,9 @@ class TiendaControllerProducts extends TiendaController
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_relation', $relation_type );
+        $user =& JFactory::getUser();
+        $filter_group = TiendaHelperUser::getUserGroup($user->id, $product_id);
+        $model->setState( 'filter_group', $relation_type );
         
         switch ($relation_type)
         {
@@ -676,7 +679,11 @@ class TiendaControllerProducts extends TiendaController
                     $item->product_sku = $item->product_sku_from;
                     $item->product_price = $item->product_price_from;
                 }
-                
+               	//get the right price base on the $filter_group
+        		$filter_group = TiendaHelperUser::getUserGroup($user->id, $item->product_id);  
+        		$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);        												
+				$item->product_price = $priceObj->product_price;
+				
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);
              	if ($show_tax)
