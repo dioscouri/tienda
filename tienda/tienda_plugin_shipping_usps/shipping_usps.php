@@ -134,9 +134,10 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
      * @return unknown_type
      */
     function getRates( $address, $orderItems )
-    {
+    {    	    	
+    	if(empty($address->postal_code)) return '';
         $rates = array();
-        
+  
         require_once( dirname( __FILE__ ).DS.'shipping_usps'.DS."usps.php" );
 
         // Use params to determine which of these is enabled
@@ -232,7 +233,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                 }
             }
         }
-                                    
+    debug(4444, $rates);                             
         return $rates;
         
     }
