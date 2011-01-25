@@ -5,7 +5,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $items = @$this->items;
 $form = @$this->form;
 ?>
-
+<?php if($items):?>
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminFormChildren" enctype="multipart/form-data" >
     
     <div class="reset"></div>
@@ -94,3 +94,4 @@ $form = @$this->form;
 <div class="reset"></div>
 
 </form>
+<?php endif;?>
