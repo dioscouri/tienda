@@ -31,6 +31,20 @@ class TiendaModelUserGroups extends TiendaModelBase
         }
     }
     
+	protected function _buildQueryFields(&$query)
+	{
+		$field = array();
+		$field[] = " tbl.* ";		
+		$field[] = " g.ordering as ordering ";
+		
+		$query->select( $field );
+	}    
+    
+	protected function _buildQueryJoins(&$query)
+	{		
+		$query->join('LEFT', '#__tienda_groups AS g ON g.group_id = tbl.group_id');    		
+	}
+    
 	public function getList()
 	{
 		$list = parent::getList(); 
