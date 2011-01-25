@@ -739,7 +739,7 @@ class TiendaControllerProducts extends TiendaController
 		$user =& JFactory::getUser();
 		$productfile_id = intval( JRequest::getvar( 'id', '', 'request', 'int' ) );
 		$product_id = intval( JRequest::getvar( 'product_id', '', 'request', 'int' ) );
-		$link = 'index.php?option=c	om_tienda&controller=products&view=products&task=view&id='.$product_id;
+		$link = 'index.php?option=com_tienda&controller=products&view=products&task=view&id='.$product_id;
 
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );

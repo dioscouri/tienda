@@ -301,7 +301,7 @@ window.addEvent('domready', function(){
                         <?php echo JText::_( 'Publish Up' ); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                        <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S', array('size'=>25) ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -309,7 +309,7 @@ window.addEvent('domready', function(){
                         <?php echo JText::_( 'Publish Down' ); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S' ); ?>
+                        <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S', array('size'=>25) ); ?>
                     </td>
                 </tr>
             </table>
