@@ -58,9 +58,24 @@ class TiendaViewCarts extends TiendaViewBase
 
 		// page-navigation
 			$this->assign( 'pagination', $model->getPagination() );
-			
+		
+		$items = $model->getList();		
+		$user =& JFactory::getUser();
+		
+		//overide items price since we cant set exact user_group in the cart model with the getList()
+		//TODO: Find a way to get the specific usergroup per product in the model _buildQueryFields function
+		for($i=0; $i<count($items); $i++):	
+			unset($productModel);
+			$productModel = JModel::getInstance('Products', 'TiendaModel');
+			$filter_group = TiendaHelperUser::getUserGroup($user->id, $items[$i]->product_id);  			
+        	$productModel->setState('filter_group', $filter_group);
+			$productModel->setId($items[$i]->product_id);		
+			if($productItem = $productModel->getItem(false)):
+				$items[$i]->product_price = $productItem->price;
+			endif;					
+		endfor;
 		// list of items
-			$this->assign('items', $model->getList());
+			$this->assign('items', $items);
 			
 		// form
 			$validate = JUtility::getToken();
