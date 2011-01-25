@@ -135,9 +135,8 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
      */
     function getRates( $address, $orderItems )
     {    	    	
-    	if(empty($address->postal_code)) return '';
-        $rates = array();
-  
+    	$rates = array();
+  		if(empty($address->postal_code)) return $rates;
         require_once( dirname( __FILE__ ).DS.'shipping_usps'.DS."usps.php" );
 
         // Use params to determine which of these is enabled
@@ -186,7 +185,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $usps->setCountry($country);
             $usps->setDebug($this->params->get( 'show_debug' ));
             $price = $usps->getPrice();
-//debug(55555, $price);                       
+                  
             if (!empty($price->error) && is_object($price->error))
             {
             	if($this->params->get( 'show_debug' ))
@@ -233,7 +232,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                 }
             }
         }
-    debug(4444, $rates);                             
+                        
         return $rates;
         
     }
