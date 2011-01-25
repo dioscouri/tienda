@@ -228,13 +228,13 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$model  = $this->getModel( $this->get('suffix') );
 		$model->getId();
-        
+  
 		Tienda::load('TiendaHelperUser', 'helpers.user');       
         $user_id = JFactory::getUser()->id;
-        $filter_group = TiendaHelperUser::getUserGroup($user_id);
+        $filter_group = TiendaHelperUser::getUserGroup($user_id, $model->getId());
         $model->setState('filter_group', $filter_group);
 		$row = $model->getItem( false ); // use the state
-		
+
 		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
 	    if (empty($filter_category)) 
         { 
@@ -358,7 +358,7 @@ class TiendaControllerProducts extends TiendaController
         
         Tienda::load('TiendaHelperUser', 'helpers.user');       
         $user_id = JFactory::getUser()->id;
-        $filter_group = TiendaHelperUser::getUserGroup($user_id);
+        $filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
         $model->setState('filter_group', $filter_group);
         
         //$model->_item = '';
