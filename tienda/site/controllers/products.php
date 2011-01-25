@@ -360,8 +360,7 @@ class TiendaControllerProducts extends TiendaController
         $user_id = JFactory::getUser()->id;
         $filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
         $model->setState('filter_group', $filter_group);
-        
-        //$model->_item = '';
+             
         $row = $model->getItem( false );
         if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
         {
