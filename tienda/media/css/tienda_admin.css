@@ -222,3 +222,40 @@ span.relationship_requires_current_by {
 div.product_rating, div.product_rating img {
     vertical-align: middle;
 }
+
+ul.submenu_dropdown {
+	list-style: none outside none;
+	margin: 0;
+	padding: 0;
+}
+
+ul#submenu ul.submenu_dropdown {
+	display: none;
+}
+
+ul#submenu li:hover ul.submenu_dropdown, ul#submenu a:hover ul {
+	display: block;
+}
+
+ul#submenu ul.submenu_dropdown {
+	position: absolute;
+	top: 14px;
+	left: auto;
+	margin-bottom: 10px;
+	background: #F6F6F6;
+	border: 1px solid #CCCCCC;
+}
+
+ul#submenu ul.submenu_dropdown li {
+	clear: both;
+	width: 200px;
+}
+
+ul#submenu ul.submenu_dropdown a {
+	padding: 5px 15px;
+	display: block;
+}
+
+ul#submenu ul.submenu_dropdown li span {
+	display: block;
+}
