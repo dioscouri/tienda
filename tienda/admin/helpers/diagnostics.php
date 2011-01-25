@@ -2763,7 +2763,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     function checkGroupsOrdering()
     {
      	//if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkProductCommentsUserName', '0')) return true;
+        if (TiendaConfig::getInstance()->get('checkGroupsOrdering', '0')) return true;
                        	       
         $table = '#__tienda_groups';
         $definitions = array();
@@ -2772,16 +2772,17 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         $fields[] = "ordering";
             $definitions["ordering"] = "INT( 11 ) NOT NULL";
             
-        if ($this->insertTableFields( $table, $fields, $definitions )):       
+        if ($this->insertTableFields( $table, $fields, $definitions )) 
+        {       
             // Update config to say this has been done already
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
-            $config->load( array( 'config_name'=>'checkProductCommentsUserName') );
-            $config->config_name = 'checkProductCommentsUserName';
+            $config->load( array( 'config_name'=>'checkGroupsOrdering') );
+            $config->config_name = 'checkGroupsOrdering';
             $config->value = '1';
             $config->save();
             return true;
-        endif;
+        }
         return false;         
     }
 }
