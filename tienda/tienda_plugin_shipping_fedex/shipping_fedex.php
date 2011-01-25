@@ -135,6 +135,11 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
     function sendRequest( $address, $orderItems )
     {
         $rates = array();
+
+        if (empty($address->postal_code)) 
+        {
+            return $rates;
+        }
         
         require_once( dirname( __FILE__ ).DS.'shipping_fedex'.DS."fedex.php" );
 

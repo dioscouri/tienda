@@ -384,6 +384,11 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     {
         $rates = array();
         
+        if (empty($address->postal_code)) 
+        {
+            return $rates;
+        }
+        
         require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
 
         // Use params to determine which of these is enabled

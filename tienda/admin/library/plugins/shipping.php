@@ -309,19 +309,25 @@ class TiendaShippingPlugin extends TiendaPluginBase
         
         if (empty($address->zone_code))
         {
-            $table = JTable::getInstance('Zones', 'TiendaTable');
-            $table->load($address->zone_id);
-            $address->zone_code = $table->code;
+            if (!empty($address->zone_id))
+            {
+                $table = JTable::getInstance('Zones', 'TiendaTable');
+                $table->load( $address->zone_id );
+                $address->zone_code = $table->code;
+            }
         }
         
         if (empty($address->country_code) || empty($address->country_name) || empty($address->country_isocode_2) || empty($address->country_isocode_3))
         {
-            $table = JTable::getInstance('Countries', 'TiendaTable');
-            $table->load($address->country_id);
-            $address->country_name = $table->country_name;
-            $address->country_isocode_3 = $table->country_isocode_3;
-            $address->country_isocode_2 = $table->country_isocode_2;
-            $address->country_code = $table->country_isocode_2;
+            if (!empty($address->country_id))
+            {
+                $table = JTable::getInstance('Countries', 'TiendaTable');
+                $table->load($address->country_id);
+                $address->country_name = $table->country_name;
+                $address->country_isocode_3 = $table->country_isocode_3;
+                $address->country_isocode_2 = $table->country_isocode_2;
+                $address->country_code = $table->country_isocode_2;                
+            }
         }
         
         return $address;

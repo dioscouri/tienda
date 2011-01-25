@@ -1105,7 +1105,7 @@ class TiendaControllerCheckout extends TiendaController
 			foreach ($plugins as $plugin)
 			{
 				$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
-               foreach ($results as $result)
+                foreach ($results as $result)
 				{
 					if(is_array($result))
 					{
