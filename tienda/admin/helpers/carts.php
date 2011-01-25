@@ -514,9 +514,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 		{
 		    //echo Tienda::dump($cartitem);
 			unset($productModel);
-			$productModel = JModel::getInstance('Products', 'TiendaModel');
+			$productModel = JModel::getInstance('Products', 'TiendaModel');			
+        	$filter_group = TiendaHelperUser::getUserGroup($user->id, $cartitem->product_id);
+        	$productModel->setState('filter_group', $filter_group );
 			$productModel->setId($cartitem->product_id);
-			if ($productItem = $productModel->getItem())
+			if ($productItem = $productModel->getItem(false))
 			{
 				$productItem->product_price = $productItem->price;
 				// at this point, ->product_price holds the default price for the product,
