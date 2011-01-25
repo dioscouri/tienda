@@ -33,6 +33,7 @@ class TiendaUSPS extends JObject
     var $country = "USA";
     var $fcmailtype = "PACKAGE";
     var $error = null;
+    var $show_debug = "false";
     
     function setServer($server) {
         $this->server = $server;
@@ -88,6 +89,10 @@ class TiendaUSPS extends JObject
         $this->country = $country;
     }
     
+	function setDebug($debug) {
+        $this->show_debug = $debug;
+    }
+    
     function getPrice() {
         $countries = array(
             'USA',
@@ -124,12 +129,12 @@ class TiendaUSPS extends JObject
             $str .= "<Pounds>" . $this->pounds . "</Pounds><Ounces>" . $this->ounces . "</Ounces>";
             $str .= "<MailType>Package</MailType><Country>".urlencode($this->country)."</Country></Package></IntlRateRequest>";
         }
-
-
-		/* USPS TEST ALERT */
-		/*echo "<script language=javascript>alert('".$str."')</script>";*/
 		
-		
+   		if ($this->show_debug):
+			$sendStr = JText::_("Sent Request").": ";
+			echo Tienda::dump($sendStr.$str);			
+		endif;
+        
         $ch = curl_init();
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_URL, $str);
@@ -206,15 +211,18 @@ class TiendaUSPS extends JObject
             }
         
         }
-        
+            	
+     	if ($this->show_debug)
+     	{
+     		$msg = JText::_("Result").": ";
+     		$msg .= $price->mailservice;
+     		$msg .= " - ";
+     		$msg .= $price->rate;
+     		$msg .= $error->description;     		
+     				
+			echo $price || $error ? Tienda::dump($msg) : Tienda::dump(JText::_("No Result"));	
+		}
 		
-        		/* USPS TEST ALERT */
-		//$myBad = $error->description;	
-		//$myType =$price->mailservice;
-		//$myCost =$price->rate;
-				
-				
-		//echo "<script language=javascript>alert('".$myType." - ".$myCost."')</script>";
         return $this;
     }
 }

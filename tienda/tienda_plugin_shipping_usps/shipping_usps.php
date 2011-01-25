@@ -183,11 +183,15 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $usps->setWeight($totalPounds, $totalOunces);
             $usps->setContainer($container);
             $usps->setCountry($country);
+            $usps->setDebug($this->params->get( 'show_debug' ));
             $price = $usps->getPrice();
 //debug(55555, $price);                       
             if (!empty($price->error) && is_object($price->error))
             {
-                // return a nulled array
+            	if($this->params->get( 'show_debug' ))
+            	{
+            		echo Tienda::dump($price->error);          
+            	}            	    
             }
                 else
             {
