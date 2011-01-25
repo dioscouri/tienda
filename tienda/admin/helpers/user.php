@@ -480,22 +480,38 @@ class TiendaHelperUser extends TiendaHelperBase
      * Gets a user's user group used for pricing
      * 
      * @param $user_id
-     * @return unknown_type
+     * @return mixed
      */
-    function getUserGroup( $user_id='' )
-    {
+    function getUserGroup( $user_id='', $product_id='')
+    {    	
         $user_id = (int) $user_id;
+        $product_id = (int) $product_id;
         
-    	if (!empty($user_id))
-    	{
-	    	// get the usergroup
-	    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-	        $table = JTable::getInstance( 'UserGroups', 'TiendaTable' );
-	        $table->load( array( 'user_id'=>$user_id ) );
-	        if (!empty($table->group_id))
-	        {
-	        	return $table->group_id;
-	        }
+    	if (!empty($user_id) && !empty($product_id))
+    	{	    	
+    		// get the model    
+    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );        
+			$model = JModel::getInstance('UserGroups', 'TiendaModel');
+			$model->setState( 'filter_user', $user_id );
+			//order to get the upper group
+			$model->setState('order', 'g.ordering');
+			$model->setState( 'direction', 'ASC' );
+			$items = $model->getList(); 
+		
+        	$modelPrice  = JModel::getInstance( 'ProductPrices', 'TiendaModel' );	
+			$modelPrice->setState('filter_id', $product_id);
+			$prices = $modelPrice->getList(); // use the state
+			$groupIds = array();
+			foreach($prices as $price):
+				$groupIds[]=$price->group_id;		
+			endforeach;
+
+ 			foreach($items as $item):
+ 				if(in_array($item->group_id, $groupIds)): 			
+ 					return $item->group_id;
+ 					break;
+ 				endif;
+ 			endforeach;
     	}
     	
 		return TiendaConfig::getInstance()->get('default_user_group', '1');
