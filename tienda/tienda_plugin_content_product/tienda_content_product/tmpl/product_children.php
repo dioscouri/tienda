@@ -44,7 +44,7 @@ $form = @$this->form;
                 <?php echo $item->product_sku; ?>
             </td>
             <td style="text-align: center;">
-                <?php echo TiendaHelperBase::currency($item->product_price); ?>
+                <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $item->showtax); ?>
             </td>
             <td style="text-align: center;">
                 <input type="text" name="quantities[<?php echo $item->product_id; ?>]" value="1" size="5" />

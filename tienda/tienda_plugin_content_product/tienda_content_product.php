@@ -29,6 +29,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
         
     	function plgContentTienda_Content_Product(& $subject, $config) 
     	{
+    		 $current_error_reporting =error_reporting(E_ALL);  
     		parent::__construct($subject, $config);
     		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
     		$this->loadLanguage('com_tienda');
@@ -65,7 +66,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
        	{
        		if( !$this->isInstalled() )
        			return true;
-       		
+      		
     	   	// simple performance check to determine whether bot should process further
     		if ( JString::strpos( $row->text, 'tiendaproduct' ) === false ) {
     			return true;
@@ -87,7 +88,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     	
     	 	// find all instances of plugin and put in $matches
     		preg_match_all( $regex, $row->text, $matches );
-    	
+   
     		// Number of plugins
     	 	$count = count( $matches[0] );
     	
@@ -311,7 +312,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
             $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
             $model->setState( 'filter_relation', $relation_type );
-            
+          
             switch ($relation_type)
             {
                 case "requires":
@@ -348,7 +349,9 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
                         $filter_category = $categories[0];
                     }
                 }
-            
+            	$user = JFactory::getUser();
+            	$config = TiendaConfig::getInstance();
+        		$show_tax = $config->get('display_prices_with_tax'); 
                 foreach ($items as $key=>$item)
                 {
                     if ($check_quantity)
@@ -378,11 +381,35 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
                         $item->product_price = $item->product_price_from;
                     }
                     
+                    //get the right price base on the $filter_group
+        			$filter_group = TiendaHelperUser::getUserGroup($user->id, $item->product_id);  
+        			$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);        												
+					$item->product_price = $priceObj->product_price;
+                    
                     $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                     $item->itemid = JRequest::getInt('Itemid', $itemid);
+                    
+                	if ($show_tax)
+		        	{		           
+			            Tienda::load('TiendaHelperUser', 'helpers.user');
+			            $geozones = TiendaHelperUser::getGeoZones( $user->id );
+			            if (empty($geozones))
+			            {
+			                // use the default
+			                $table = JTable::getInstance('Geozones', 'TiendaTable');
+			                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+			                $geozones = array( $table );
+			            }
+			            
+			            $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+			            $tax = $taxtotal->tax_total;
+			            $item->taxtotal = $taxtotal;
+			            $item->tax = $tax;	
+			            $item->showtax = $show_tax;	            
+		        	}
                 }
             }
-    
+
             if (!empty($items))
             {
             	$vars = new JObject();
@@ -464,8 +491,14 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     
             Tienda::load('TiendaModelProducts', 'models.products');
             $model  = JModel::getInstance('Products', 'TiendaModel');
+            
+            $user = JFactory::getUser();
+            Tienda::load('TiendaHelperUser', 'helpers.user');  
+        	$filter_group = TiendaHelperUser::getUserGroup($user->id, $product_id);
+        	
+        	$model->setState('filter_group', $filter_group);
             $model->setId( $product_id );
-            $row = $model->getItem();
+            $row = $model->getItem(false);
             
             $vars = new JObject();
             

@@ -32,7 +32,7 @@ $items = @$vars->items;
                     </a>
                 </div>
                 <div class="productrelation_price" style="vertical-align: middle;" >
-                    <?php echo TiendaHelperBase::currency($item->product_price); ?>
+                    <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $item->showtax); ?>
                 </div>
             </div>
         </div>

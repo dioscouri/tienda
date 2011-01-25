@@ -16,32 +16,8 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 	<?php if(@$vars->params['show_price'] == '1'): ?>
     <!--base price-->
     <span id="product_price_<?php echo $item->product_id; ?>" class="product_price">
-        <?php            
-        // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-        if (!empty($vars->show_tax))
-        {
-            if (!empty($vars->tax))
-            {
-                if ($vars->show_tax == '2')
-                {
-                    echo TiendaHelperBase::currency($item->price + $vars->tax);
-                }
-                    else
-                {
-                    echo TiendaHelperBase::currency($item->price);
-                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($vars->tax));
-                }
-            }
-                else
-            {
-                echo TiendaHelperBase::currency($item->price);
-            }
-        }
-            else
-        {
-            echo TiendaHelperBase::currency($item->price);
-        }
-        
+    	<?php  echo TiendaHelperProduct::dispayPriceWithTax($item->price, $vars->tax, $vars->show_tax); ?>
+       <?php         
         if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
         {
             echo '<br /><a href="'.$vars->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $vars->shipping_cost_link).'</a>' ;
