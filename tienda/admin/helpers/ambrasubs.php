@@ -149,9 +149,35 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
         // set plugin data for further processing by the AS email system
         $payment->payment_plugin_data = '';
         
-        if ( ! ($already = AmbrasubsHelperPayment::getInstance( $payment->payment_id, $payment->payment_type, '1', 'payment_id' )) ) { 
+        if ( ! ($already = AmbrasubsHelperPayment::getInstance( $payment->payment_id, $payment->payment_type, '1', 'payment_id' )) ) 
+        { 
             if ( ! $payment->save()) {
-                $paymentError = JText::_( 'Ambrasubs Message Payment Save Failed' );                             
+                $paymentError = JText::_( 'Ambrasubs Message Payment Save Failed' );
+            }
+        } 
+            else
+        {
+            // simply create a subscription using $already->id
+            
+            // type info
+            $table_type = $payment->getTable( 'Type' );
+            $table_type->load( $payment->typeid );
+            
+            // baased on payment_datetime, find expiration date 'period' days in future
+            $database = JFactory::getDBO();
+            $query = " SELECT DATE_ADD('{$payment->payment_datetime}', INTERVAL {$table_type->period} DAY ) ";
+            $database->setQuery( $query );
+            $expires_datetime = $database->loadResult();
+
+            // store the association between user, subscription type, and payment
+            $table_u2t = $payment->getTable( 'Users2types' );
+            $table_u2t->bind( $payment->getProperties() );
+            $table_u2t->paymentid = $already->id;
+            $table_u2t->expires_datetime = empty($payment->expires_datetime) ? $expires_datetime : $payment->expires_datetime;
+            
+            if ( !$result_u2t = $table_u2t->store() ) 
+            {
+                $paymentError = $table_u2t->getError();
             }
         }
         

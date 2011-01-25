@@ -386,6 +386,7 @@ class TiendaControllerProducts extends TiendaController
         $view->assign( 'taxtotal', '' );
         $view->assign( 'shipping_cost_link', '' );
         
+        $row->tax = '0';
         if ($show_tax)
         {
             // finish TiendaHelperUser::getGeoZone -- that's why this isn't working
