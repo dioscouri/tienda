@@ -1,3 +1,7 @@
 .button2-left .tiendaproduct {
     background: url("../../../../plugins/editors-xtd/tienda/images/tienda.png") no-repeat scroll 100% 0 transparent;
 }
+
+.tiendaproduct select#product_layout {
+	margin: 2px 25px 2px -20px;
+}
