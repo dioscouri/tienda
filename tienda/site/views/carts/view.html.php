@@ -61,13 +61,15 @@ class TiendaViewCarts extends TiendaViewBase
 		
 		$items = $model->getList();		
 		$user =& JFactory::getUser();
-		
+
 		//overide items price since we cant set exact user_group in the cart model with the getList()
 		//TODO: Find a way to get the specific usergroup in the getList per product	
 		foreach($items as $item):
-			$filter_group = TiendaHelperUser::getUserGroup($user->id, $item->product_id);
-			$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
-			$item->product_price = $priceObj->product_price;
+			if(!$item->product_recurs)://do not override the price if product recurs
+				$filter_group = TiendaHelperUser::getUserGroup($user->id, $item->product_id);
+				$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
+				$item->product_price = $priceObj->product_price;
+			endif;
 		endforeach;
 
 		// list of items
