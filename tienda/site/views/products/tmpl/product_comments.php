@@ -17,6 +17,7 @@ $review_enable=@$this->review_enable;
 $count=@$this->count;
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
+$user = JFactory::getUser();
 
 if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { 	
 	$emails = TiendaHelperProduct::getUserEmailForReview( $row->product_id );
