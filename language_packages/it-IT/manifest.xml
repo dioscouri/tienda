@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>Italian Tienda</name>
     <tag>it-IT</tag>
-    <version>0.6.2 Community</version>
+    <version>0.6.3 Community</version>
     <creationDate>August 2010</creationDate>
     <author>Massimo Olivio, Giovanni Gresele, Daniele Rosario</author>
     <authorEmail>massimolivio@gmail.com, supporto@ideazioni.it, daniele@weble.it</authorEmail>
