@@ -223,6 +223,14 @@ div.product_rating, div.product_rating img {
     vertical-align: middle;
 }
 
+ul.submenu {
+    position: relative;
+}
+
+ul#submenu li a {
+    padding-bottom: 5px;
+}
+
 ul.submenu_dropdown {
 	list-style: none outside none;
 	margin: 0;
@@ -239,7 +247,7 @@ ul#submenu li:hover ul.submenu_dropdown, ul#submenu a:hover ul {
 
 ul#submenu ul.submenu_dropdown {
 	position: absolute;
-	top: 14px;
+	top: 19px;
 	left: auto;
 	margin-bottom: 10px;
 	background: #F6F6F6;
@@ -249,6 +257,7 @@ ul#submenu ul.submenu_dropdown {
 ul#submenu ul.submenu_dropdown li {
 	clear: both;
 	width: 200px;
+	border-bottom: thin solid #CCCCCC;
 }
 
 ul#submenu ul.submenu_dropdown a {

@@ -72,7 +72,8 @@
 	<!-- Modules -->	
 	<modules>
 		<!-- <module module="mod_whatever" publish="true" client="site"/> -->
-		<module module="mod_tienda_cart" client="site" position="left" />
+		<module module="mod_tienda_admin_submenu" position="submenu" publish="true" client="administrator"/>
+        <module module="mod_tienda_cart" client="site" position="left" />
 		<module module="mod_tienda_categories" client="site" position="left" />
         <module module="mod_tienda_currency" client="site" position="left" />
         <module module="mod_tienda_manufacturers" client="site" position="left" />

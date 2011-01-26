@@ -37,7 +37,9 @@ class TiendaViewBase extends JView
 
 		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 		{
-            $menu =& TiendaMenu::getInstance();
+		    Tienda::load( 'TiendaHelperMenu', 'helpers.menu' );
+		    $helper = new TiendaHelperMenu();
+		    $helper->display( 'submenu' );
 		}
         
         jimport( 'joomla.application.module.helper' );		

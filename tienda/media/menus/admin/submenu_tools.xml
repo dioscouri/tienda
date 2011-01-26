@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+        <name>Reports</name>
+        <url>index.php?option=com_tienda&#38;view=reports</url>
+   </link>
+   <link>
+        <name>Tools</name>
+        <url>index.php?option=com_tienda&#38;view=tools</url>
+   </link>
+</menu>

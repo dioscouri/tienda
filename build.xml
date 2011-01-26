@@ -86,6 +86,13 @@
             <fileset dir="${cfg.siteLangDir}" />
         </copy>
     <!-- MODULES -->
+        <!-- ADMIN SUBMENU -->
+        <copy todir="${destdir}/administrator/modules/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_admin_submenu" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_admin_submenu/languages" />
+        </copy>
         <!-- POPULAR PRODUCTS -->
         <copy todir="${destdir}/modules/mod_tienda_popular_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_popular_products" />

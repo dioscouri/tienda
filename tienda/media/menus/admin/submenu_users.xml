@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+        <name>Groups</name>
+        <url>index.php?option=com_tienda&#38;view=groups</url>
+   </link>
+</menu>

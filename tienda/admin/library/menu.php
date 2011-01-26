@@ -16,8 +16,8 @@ require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php' );
 
 class TiendaMenu extends JObject
 {
-    private $_name = array();
-    private $_menu;
+    public $_name;
+    public $_menu;
     
     function __construct($name = 'submenu')
     {
@@ -71,7 +71,6 @@ class TiendaMenu extends JObject
                 }
             }
         }
-
     }
     
     /**
