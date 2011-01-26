@@ -224,7 +224,7 @@ class TiendaControllerProducts extends TiendaController
 	function view()
 	{
 	    $this->display_cartbutton = true;
-	    
+  
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$model  = $this->getModel( $this->get('suffix') );
 		$model->getId();
@@ -687,6 +687,7 @@ class TiendaControllerProducts extends TiendaController
 				
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);
+                $item->tax = 0;
              	if ($show_tax)
 		        {		           
 		            Tienda::load('TiendaHelperUser', 'helpers.user');
@@ -716,10 +717,12 @@ class TiendaControllerProducts extends TiendaController
             $view->set( 'hidemenu', true);
             $view->setModel( $model, true );
             $view->setLayout( $layout );
-            $view->set('items', $items);
+            $view->set('items', $items);         
             $view->set('product_id', $product_id);
+            $view->set('show', $product_id);
             $view->assign('filter_category', $filter_category);
             $view->assign('validation', $validation );
+            $view->assign('show_tax', $show_tax);
 
             ob_start();
             $view->display();
