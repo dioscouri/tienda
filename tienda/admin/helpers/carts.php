@@ -519,15 +519,19 @@ class TiendaHelperCarts extends TiendaHelperBase
         	$productModel->setState('filter_group', $filter_group );
 			$productModel->setId($cartitem->product_id);
 			if ($productItem = $productModel->getItem(false))
-			{
-				$productItem->product_price = $productItem->price;
-				// at this point, ->product_price holds the default price for the product,
-				// but the user may qualify for a discount based on volume or date, so let's get that price override
-				// TODO Shouldn't we remove this?  Is it necessary?  $cartitem has already done this in the carts model!
-				$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $cartitem->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
-				if (!empty($productItem->product_price_override))
+			{								
+				$productItem->product_price = $productItem->price;	
+				//we are not overriding the price if its a recurring				
+				if(!$productItem->product_recurs)
 				{
-					$productItem->product_price = $productItem->product_price_override->product_price;
+					// at this point, ->product_price holds the default price for the product,
+					// but the user may qualify for a discount based on volume or date, so let's get that price override
+					// TODO Shouldn't we remove this?  Is it necessary?  $cartitem has already done this in the carts model!
+					$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $cartitem->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
+					if (!empty($productItem->product_price_override))
+					{
+						$productItem->product_price = $productItem->product_price_override->product_price;
+					}
 				}
 
 				if($productItem->product_check_inventory)
@@ -554,7 +558,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 						continue;
 					}
                 }
-
+                
     			// TODO Push this into the orders object->addItem() method?
     			$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
     			$orderItem->product_id                    = $productItem->product_id;
@@ -566,8 +570,8 @@ class TiendaHelperCarts extends TiendaHelperBase
     			$orderItem->orderitem_attribute_names     = $cartitem->attributes_names;
     			$orderItem->orderitem_attributes_price    = $cartitem->orderitem_attributes_price;
     			$orderItem->orderitem_final_price         = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
-    			
-		        $dispatcher =& JDispatcher::getInstance();
+    		
+    			$dispatcher =& JDispatcher::getInstance();
 		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $cartitem ) );
 		        foreach ($results as $result)
 		        {
@@ -580,7 +584,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     			// TODO When do attributes for selected item get set during admin-side order creation?
     			array_push($productitems, $orderItem);
             }
-	   }
+	   }	
 	   return $productitems;
     }
   
