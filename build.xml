@@ -604,6 +604,7 @@
     </target>
 
     <target name="build_modules" depends="init" description="packages any modules">
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}admin_submenu.zip" basedir="${cfg.comDir}/${cfg.modPrefix}admin_submenu" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cart.zip" basedir="${cfg.comDir}/${cfg.modPrefix}cart" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}categories.zip" basedir="${cfg.comDir}/${cfg.modPrefix}categories" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}currency.zip" basedir="${cfg.comDir}/${cfg.modPrefix}currency" />

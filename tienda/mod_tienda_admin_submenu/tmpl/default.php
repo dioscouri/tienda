@@ -13,7 +13,6 @@ foreach ($menu->_menu->_bar as $item)
     <?php
     if ($hide) 
     {
-        
         if ($item[2] == 1) {
         ?>  <span class="nolink active"><?php echo $item[0]; ?></span> <?php
         } else {
@@ -23,7 +22,6 @@ foreach ($menu->_menu->_bar as $item)
     } 
         else 
     {
-        
         if ($item[2] == 1) {
         ?> <a class="active" href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php
         } else {

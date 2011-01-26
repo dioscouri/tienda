@@ -10,17 +10,18 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-// Check the registry to see if our Tienda class has been overridden
-if ( !class_exists('Tienda') ) 
+$option = JRequest::getVar('option');
+if (JRequest::getInt('tienda_display_submenu') == '1' || $option == 'com_tienda')
 {
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
-}
-        
-if (JRequest::getInt('tienda_display_submenu') == '1')
-{
+    // Check the registry to see if our Tienda class has been overridden
+    if ( !class_exists('Tienda') ) 
+    {
+        JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    }
+    Tienda::load( 'TiendaMenu', 'library.menu' );
+    
     $hide = JRequest::getInt('hidemainmenu');
-    $menu =& TiendaMenu::getInstance( 'mainmenu' );
-    //$menu->display('mainmenu');
+    $menu =& TiendaMenu::getInstance( 'submenu' );
     
     $app =& JFactory::getApplication();
     $document =& JFactory::getDocument();
