@@ -90,7 +90,24 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             // do normal cart checkout
             $vars->cmd = '_cart';
             $vars->mixed_cart = false;
-        } 
+        }
+        
+        $product = JTable::getInstance('Products', 'TiendaTable');
+        foreach ($items as $item)
+        {
+            $desc = $item->orderitem_name;   
+            $product->load( array('product_id'=>$item->product_id) );
+            if (!empty($product->product_model))
+            {
+                $desc .= ' | ('.JText::_('Model').': '.$product->product_model;
+            }
+            if (!empty($item->orderitem_sku))
+            {
+                $desc .= ' |'.JText::_('SKU').': '.$item->orderitem_sku.')';
+            }
+            $item->_description = $desc;        
+        }
+        
         $vars->order = $order;
         $vars->orderitems = $items;
         
@@ -1278,7 +1295,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      * Created: A German ELV payment is made using Express Checkout.
      * Denied: You denied the payment. This happens only if the payment was previously pending because of possible reasons described for the pending_reason variable or the Fraud_Management_Filters_x variable.
      * Expired: This authorization has expired and cannot be captured.
-     * Failed: The payment has failed. This happens only if the payment was made from your customer’s bank account.
+     * Failed: The payment has failed. This happens only if the payment was made from your customerï¿½s bank account.
      * Pending: The payment is pending. See pending_reason for more information.
      * Refunded: You refunded the payment.
      * Reversed: A payment was reversed due to a chargeback or other type of reversal. The funds have been removed from your account balance and returned to the buyer. The reason for the reversal is specified in the ReasonCode element.
