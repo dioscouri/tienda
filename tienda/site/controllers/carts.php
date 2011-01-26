@@ -73,73 +73,33 @@ class TiendaControllerCarts extends TiendaController
             }
         }
         
-        if ($return)
-        {
-            $redirect = $return;
-        }
-            else 
-        {
-            $redirect = JRoute::_( "index.php?option=com_tienda&view=products" ); 
-        }
-
+        $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );       		
+       
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute();
         $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
         if (empty($checkout_itemid)) { $checkout_itemid = JRequest::getInt('Itemid'); }
-        
+       
+        $submenu = "submenu";
+        if (empty(JFactory::getUser()->id)) { $submenu = "submenu_visitor"; }         
+      
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
+		
+        $items =& $model->getList();        
+        $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
+       	$items = $this->checkItems($items, $show_tax);
 
-        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-        $view->set('hidemenu', true);
-        $view->set('_doTask', true);
-        $view->setModel( $model, true );
-        $view->setLayout('default');
-        $view->assign( 'return', $redirect );
-        $view->assign( 'checkout_itemid', $checkout_itemid );
-        
-        $submenu = "submenu";
-        if (empty(JFactory::getUser()->id)) { $submenu = "submenu_visitor"; }  
-        $view->assign( 'submenu', $submenu );
-        
-        //get cartitem information from plugins
-        $list =& $model->getList();
-        
-        $config = TiendaConfig::getInstance();
-        $show_tax = $config->get('display_prices_with_tax');
-        $view->assign( 'show_tax', $show_tax );
-        $view->assign( 'using_default_geozone', false );
-
-        if ($show_tax)
-        {
-            Tienda::load('TiendaHelperUser', 'helpers.user');
-            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
-            if (empty($geozones))
-            {
-                // use the default
-                $view->assign( 'using_default_geozone', true );
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
-                $geozones = array( $table );
-            }
-            
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            foreach ($list as &$item)
-            {
-                $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
-                $item->product_price = $item->product_price + $taxtotal->tax_total;
-                $item->taxtotal = $taxtotal;
-            }
-        }
-        
-        if (!empty($list))
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
+		
+        if (!empty($items))
         {
 	        //trigger the onDisplayCartItem for each cartitem
 	        $dispatcher =& JDispatcher::getInstance();
         
 	        $i=0;
 	        $onDisplayCartItem = array();
-	        foreach( $list as $item)
+	        foreach( $items as $item)
 	        {
 		        ob_start();
 		        $dispatcher->trigger( 'onDisplayCartItem', array( $i, $item ) );
@@ -153,8 +113,17 @@ class TiendaControllerCarts extends TiendaController
 	        }
 	        $view->assign( 'onDisplayCartItem', $onDisplayCartItem );
         }
-        
-        $view->display();
+        $view->assign( 'return', $redirect );
+        $view->assign( 'checkout_itemid', $checkout_itemid );
+        $view->assign( 'submenu', $submenu );
+        $view->assign( 'show_tax', $show_tax );
+        $view->assign( 'using_default_geozone', false );
+      	$view->assign('items', $items);
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('default');
+        $view->display();        
         $this->footer();
         return;
     }
@@ -479,8 +448,12 @@ class TiendaControllerCarts extends TiendaController
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
-
+		$items =& $model->getList();	
+		$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
+		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $view->assign('items', 	$this->checkItems($items, $show_tax));
+        $view->assign( 'show_tax', $show_tax );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
@@ -488,5 +461,53 @@ class TiendaControllerCarts extends TiendaController
         $view->display();
         $this->footer();
         return;
+    }
+    
+    /**
+     * 
+     * Method to check config, user group and product state (if recurs).
+     * Then get right values accordingly
+     * @param array $items - cart items
+     * @param boolean - config to show tax or not
+     * @return array
+     */
+    function checkItems($items= array(), $show_tax=false)
+    {    	
+    	if(empty($items)) return $items;
+    	
+      	Tienda::load('TiendaHelperUser', 'helpers.user');
+      	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+         	
+        if ($show_tax)
+        {            
+            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+            if (empty($geozones))
+            {
+                // use the default
+                $view->assign( 'using_default_geozone', true );
+                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                $geozones = array( $table );
+            }          
+        }        
+      	
+        foreach ($items as $item)
+        {
+        	if(!$item->product_recurs)
+        	{
+				$filter_group = TiendaHelperUser::getUserGroup(JFactory::getUser()->id, $item->product_id);
+				$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
+				$item->product_price = $priceObj->product_price;
+        	}  
+        	
+        	if($show_tax)
+        	{
+        		$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+           	 	$item->product_price = $item->product_price + $taxtotal->tax_total;
+            	$item->taxtotal = $taxtotal;
+        	}        	
+        }
+    	
+        return $items;
     }
 }

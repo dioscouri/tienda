@@ -48,33 +48,7 @@ class TiendaViewCarts extends TiendaViewBase
 	{
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
-		$model = $this->getModel();
-
-		// set the model state
-            $state = $model->getState();
-            
-            JFilterOutput::objectHTMLSafe( $state );
-            $this->assign( 'state', $state );
-
-		// page-navigation
-			$this->assign( 'pagination', $model->getPagination() );
-		
-		$items = $model->getList();		
-		$user =& JFactory::getUser();
-
-		//overide items price since we cant set exact user_group in the cart model with the getList()
-		//TODO: Find a way to get the specific usergroup in the getList per product	
-		foreach($items as $item):
-			if(!$item->product_recurs)://do not override the price if product recurs
-				$filter_group = TiendaHelperUser::getUserGroup($user->id, $item->product_id);
-				$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
-				$item->product_price = $priceObj->product_price;
-			endif;
-		endforeach;
-
-		// list of items
-			$this->assign('items', $items);
-			
+				
 		// form
 			$validate = JUtility::getToken();
 			$form = array();
