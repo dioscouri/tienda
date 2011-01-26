@@ -393,9 +393,8 @@ class TiendaSelect extends JHTMLSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-    public static function selectsort($selected, $name = 'default_selectsort', $attribs=null , $idtag = null, $allowAny = false)
+    public static function selectsort($selected, $name = 'default_selectsort', $attribs = array('class' => 'inputbox', 'size' => '1') , $idtag = null, $allowAny = false)
     {
-	    $attribs= array('class' => 'inputbox', 'size' => '1','onchange'=>'test()');
         $list = array();
         if($allowAny) {
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
@@ -404,8 +403,6 @@ class TiendaSelect extends JHTMLSelect
         $list[] = JHTML::_('select.option',  'created_date', JText::_( "Date" ) );
         $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_( "Rating" ) );
         $list[] = JHTML::_('select.option',  'helpful_votes_total', JText::_( "Helpfulness" ) );
-       
-        
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }	

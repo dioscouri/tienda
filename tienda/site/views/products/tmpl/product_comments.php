@@ -35,9 +35,9 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
         <?php endif;?>    
     	<div class="rightAlignDiv">
     	<?php if ($review_enable==1 && $count > 0  ): ?>
-    		<form name="sort" method="post" action="<?php echo JRoute::_($url); ?>">
+    		<form name="sortForm" method="post" action="<?php echo JRoute::_($url); ?>">
     		<?php echo JText::_('Sort By'); ?>:
-    		<?php echo TiendaSelect::selectsort( $this->selectsort, 'default_selectsort' ); ?> 
+    		<?php echo TiendaSelect::selectsort( $this->selectsort, 'default_selectsort', array('class' => 'inputbox', 'size' => '1','onchange'=>'document.sortForm.submit();') ); ?> 
     		</form>
     	<?php endif;?>
     	</div>
