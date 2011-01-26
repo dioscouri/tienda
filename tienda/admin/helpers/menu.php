@@ -16,6 +16,10 @@ jimport('joomla.filesystem.folder');
 
 class TiendaHelperMenu extends TiendaHelperBase
 {
+    /**
+     * Determines if the Tienda admin-side submenu module is enabled 
+     * @return unknown_type
+     */
     function isSubmenuEnabled()
     {
         $query = "SELECT `published` FROM #__modules WHERE `module` = 'mod_tienda_admin_submenu';";
@@ -25,6 +29,13 @@ class TiendaHelperMenu extends TiendaHelperBase
         return $result;
     }
     
+    /**
+     * Whether using the admin-side submenu module or just using the menu tmpl (from the dashboard view),
+     * tells Tienda to display the submenu
+     * 
+     * @param $menu
+     * @return unknown_type
+     */
     function display( $menu='submenu' )
     {
         if (!$this->isSubmenuEnabled())
