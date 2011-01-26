@@ -57,9 +57,9 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->orderpayment_type = $this->_element;
-        $vars->amount_currency = $data['orderpayment_amount'];        
+        $vars->orderpayment_amount = $data['orderpayment_amount'];        
         $vars->points_rate = $this->_getParam('exchange_rate');
-        $vars->amount_points = round( $vars->amount_currency * $vars->points_rate );
+        $vars->amount_points = round( $vars->orderpayment_amount * $vars->points_rate );
                
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -81,36 +81,25 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     function _postPayment( $data )
     {
         // Process the payment
-        
-    	$data['amount_points'] = JRequest::getVar( 'amount_points' );
+           	
+    	$success = $this->_process( $data );   	
     	
-    	$this->_process( $data );   	
-    	
-        $vars = new JObject();
-        $vars->message = "Payment processed successfully.  Hooray!";
-        
-        $html = $this->_getLayout('postpayment', $vars);
-        return $html;
-    }
-    
-	/**
-     * Prepares the 'view' tmpl layout
-     * when viewing a payment record
-     *
-     * @param $orderPayment     object       a valid TableOrderPayment object
-     * @return string   HTML to display
-     */
-    function _renderView( $orderPayment )
-    {
-        // Load the payment from _orderpayments and render its html
-        
-        $vars = new JObject();
-        $vars->full_name        = "";
-        $vars->email            = "";
-        $vars->payment_method   = $this->_paymentMethods();
-        
-        $html = $this->_getLayout('view', $vars);
-        return $html;
+    	if( $success != '' )
+    	{
+	        $vars = new JObject();
+	        $vars->message = "Payment processed successfully.  Hooray!";
+	        
+	        $html = $this->_getLayout('postpayment', $vars);
+	        return $html;
+    	}
+    	else
+    	{
+    		$object = new JObject();
+    		$object->error = true;
+        	$object->message = $success;
+        	
+        	return $object;
+    	}
     }
     
     /**
@@ -145,6 +134,20 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $object = new JObject();
         $object->error = false;
         $object->message = '';
+        
+        $amount_points = JRequest::getVar( 'amount_points' );
+    	$user = JFactory::getUser();
+        JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
+        $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
+        $usertotalpoints = $helper->getTotalPoints( $user->id );
+
+        // we'll check again if user have enough points
+        if( $amount_points > $usertotalpoints )
+        {
+        	$object->error = true;
+        	$object->message = 'Insufficient number of points';
+        }
+                
         return $object;
     }
     
@@ -157,18 +160,31 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
      ************************************/  
     
     function _process( $data )
-    {   	
-    	// we'll check again if user have enough points
+    {  
+    	$amount_points = JRequest::getVar( 'amount_points' );
     	$user = JFactory::getUser();
         JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
         $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
         $usertotalpoints = $helper->getTotalPoints( $user->id );
-        
-        if( $data['amount_points'] <= $usertotalpoints )
+
+        // we'll check again if user have enough points
+        if( $amount_points <= $usertotalpoints )
         {
-        	// substract spent points from user's ambra total points
-        	
-        	
+        	// load the orderpayment record and set some values
+	        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	        $orderpayment_id = JRequest::getVar('orderpayment_id');
+	        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	        $orderpayment->load( $orderpayment_id );
+	        $orderpayment->transaction_details  = $data['transaction_details'];
+	        $orderpayment->transaction_id       = $data['transaction_id'];
+	        $orderpayment->transaction_status   = $data['transaction_status'];
+	       	        
+	        // check the stored amount against the payment amount
+	        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+	        if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	            $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
+	        }
+	        
 	        // set the order's new status and update quantities if necessary
 	        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
@@ -220,9 +236,53 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	        }
 
         
+        	
+        	// substract spent points from user's ambra total points
+        	// successful payment
+	        // if here, all OK
+	        // create a pointhistory table object
+	        $pointhistory = JTable::getInstance('PointHistory', 'AmbraTable');
+	        // set properties
+	        $pointhistory->user_id = $user->id;
+	        $pointhistory->points = "-".$data['amount_points'];
+	        $pointhistory->points_updated = 0;
+	        $pointhistory->pointhistory_enabled = 1;
+	        $pointhistory->pointhistory_name = JText::_( "For making purchase in Tienda" );
+	        $pointhistory->pointhistory_description = 
+	        JText::_( "Payment ID" ) . ": " . $orderpayment_id . "\n" .
+	        JText::_( "Transaction ID" ) . ": " . $orderpayment->transaction_id;
+	            
+	        // save it and move on
+	        if (!$pointhistory->save())
+	        {
+	            // if saving the record failed, disable sub?
+	        }	
         }
         
-        return count($errors) ? implode("\n", $errors) : '';
+        return count($errors) ? implode("\n", $errors) : ''; 
         
+    }
+    
+	/**
+     * Gets a value of the plugin parameter
+     * 
+     * @param string $name
+     * @param string $default
+     * @return string
+     * @access protected
+     */
+    function _getParam($name, $default = '') 
+    {
+        $sandbox_param = "sandbox_$name";
+        $sb_value = $this->params->get($sandbox_param);
+        
+        if ($this->params->get('sandbox') && !empty($sb_value)) {
+            $param = $this->params->get($sandbox_param, $default);
+        }
+        else {
+            $param = $this->params->get($name, $default);
+        }
+        
+        return $param;
     }
 }
