@@ -93,12 +93,8 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	        return $html;
     	}
     	else
-    	{
-    		$object = new JObject();
-    		$object->error = true;
-        	$object->message = $success;
-        	
-        	return $object;
+    	{       	
+        	return "Success";
     	}
     }
     
@@ -160,7 +156,9 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
      ************************************/  
     
     function _process( $data )
-    {  
+    {
+        $errors = array();
+          
     	$amount_points = JRequest::getVar( 'amount_points' );
     	$user = JFactory::getUser();
         JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
