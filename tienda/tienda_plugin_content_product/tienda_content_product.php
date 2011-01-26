@@ -28,8 +28,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
         var $_element    = 'tienda_content_product';
         
     	function plgContentTienda_Content_Product(& $subject, $config) 
-    	{
-    		 $current_error_reporting =error_reporting(E_ALL);  
+    	{    		 
     		parent::__construct($subject, $config);
     		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
     		$this->loadLanguage('com_tienda');
