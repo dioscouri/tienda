@@ -135,12 +135,13 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         
        	$amount_points = round( $submitted_values['order_total'] * $this->_getParam('exchange_rate') );
        	
-        $usercurrentpoints = $this->getCurrentPoints();
+        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+		$current_points = AmbraHelperUser::getPoints( JFactory::getUser()->id ); 
 
-        if( $amount_points > $usercurrentpoints )
+        if( $amount_points > $current_points )
         {
         	$object->error = true;
-        	$object->message = 'Insufficient number of points: '.$usercurrentpoints.' points';
+        	$object->message = 'Insufficient number of points: '.$current_points.' points';
         }
                 
         return $object;
@@ -160,99 +161,92 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         
         $user = JFactory::getUser();
        
-        $usercurrentpoints = $this->getCurrentPoints();
-
-        // we'll check again if user have enough points
-        if( $data['amount_points'] <= $usercurrentpoints )
-        {
-        	// load the orderpayment record and set some values
-	        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-	        $orderpayment_id = $data['orderpayment_id'];
-	        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-	        $orderpayment->load( $orderpayment_id );
-	        $orderpayment->transaction_details  = $data['orderpayment_type'];
-	        $orderpayment->transaction_id       = $data['orderpayment_id'];
-	        $orderpayment->transaction_status   = "Payment Received";
+        // load the orderpayment record and set some values
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    $orderpayment_id = $data['orderpayment_id'];
+	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	    $orderpayment->load( $orderpayment_id );
+	    $orderpayment->transaction_details  = $data['orderpayment_type'];
+	    $orderpayment->transaction_id       = $data['orderpayment_id'];
+	    $orderpayment->transaction_status   = "Payment Received";
 	       	        
-	        // check the stored amount against the payment amount
-	        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-	        if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
-	            $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
-	        }
+	    // check the stored amount against the payment amount
+	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	    	$errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
+	    }
 	        
-	        // set the order's new status and update quantities if necessary
-	        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-	        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-	        $order = JTable::getInstance('Orders', 'TiendaTable');
-	        $order->load( $orderpayment->order_id );
-	        if (count($errors)) 
-	        {
-	            // if an error occurred 
-	            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
-	        }
-	            else 
-	        {
-	            $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
+	    // set the order's new status and update quantities if necessary
+	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+	    $order = JTable::getInstance('Orders', 'TiendaTable');
+	    $order->load( $orderpayment->order_id );
+	    if (count($errors)) 
+	    {
+	    	// if an error occurred 
+	        $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+	   	}
+	        else 
+	    {
+	        $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
 	            
-	            // do post payment actions
-	            $setOrderPaymentReceived = true;
+	        // do post payment actions
+	        $setOrderPaymentReceived = true;
 	            
-	            // send email
-	            $send_email = true;
-	        
-	        }
+	        // send email
+	        $send_email = true;    
+	    }
 	
-	        // save the order
-	        if (!$order->save())
-	        {
-	        	$errors[] = $order->getError();
-	        }
+	    // save the order
+	    if (!$order->save())
+	    {
+	       	$errors[] = $order->getError();
+	    }
 	        
-	        // save the orderpayment
-	        if (!$orderpayment->save())
-	        {
-	        	$errors[] = $orderpayment->getError(); 
-	        }
+	    // save the orderpayment
+	    if (!$orderpayment->save())
+	    {
+	      	$errors[] = $orderpayment->getError(); 
+	    }
 	        
-	        if (!empty($setOrderPaymentReceived))
-	        {
-	            $this->setOrderPaymentReceived( $orderpayment->order_id );
-	        }
+	    if (!empty($setOrderPaymentReceived))
+	    {
+	        $this->setOrderPaymentReceived( $orderpayment->order_id );
+	    }
 	        
-	        if ($send_email)
-	        {
-	            // send notice of new order
-	            Tienda::load( "TiendaHelperBase", 'helpers._base' );
-	            $helper = TiendaHelperBase::getInstance('Email');
-	            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
-	            $model->setId( $orderpayment->order_id );
-	            $order = $model->getItem();
-	            $helper->sendEmailNotices($order, 'new_order');
-	        }
+	    if ($send_email)
+	    {
+	    	// send notice of new order
+	    	Tienda::load( "TiendaHelperBase", 'helpers._base' );
+	    	$helper = TiendaHelperBase::getInstance('Email');
+	    	$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+	    	$model->setId( $orderpayment->order_id );
+	   		$order = $model->getItem();
+	    	$helper->sendEmailNotices($order, 'new_order');
+	    }
         	
-        	// substract spent points from user's ambra total points
-        	// successful payment
-	        // if here, all OK
-	        // create a pointhistory table object
-	        $pointhistory = JTable::getInstance('PointHistory', 'AmbraTable');
-	        // set properties
-	        $pointhistory->user_id = $user->id;
-	        $pointhistory->points = "-".$data['amount_points'];
-	        $pointhistory->points_updated = 0;
-	        $pointhistory->pointhistory_enabled = 1;
-	        $pointhistory->pointhistory_name = JText::_( "For making purchase in Tienda" );
-	        $pointhistory->pointhistory_description = 
-	        JText::_( "Payment ID" ) . ": " . $orderpayment_id . "\n" .
-	        JText::_( "Transaction ID" ) . ": " . $orderpayment->transaction_id;
+    	// substract spent points from user's ambra total points
+     	// successful payment
+	 	// if here, all OK
+		// create a pointhistory table object
+	   	$pointhistory = JTable::getInstance('PointHistory', 'AmbraTable');
+		// set properties
+		$pointhistory->user_id = $user->id;
+	  	$pointhistory->points = "-".$data['amount_points'];
+	 	$pointhistory->points_updated = 0;
+		$pointhistory->pointhistory_enabled = 1;
+	 	$pointhistory->pointhistory_name = JText::_( "For making purchase in Tienda" );
+		$pointhistory->pointhistory_description = 
+		JText::_( "Payment ID" ) . ": " . $orderpayment_id . "\n" .
+		JText::_( "Transaction ID" ) . ": " . $orderpayment->transaction_id;
 	            
-	        // save it and move on
-	        if (!$pointhistory->save())
-	        {
-	        	$errors[] = $pointhistory->getError();
+		// save it and move on
+		if (!$pointhistory->save())
+		{
+			$errors[] = $pointhistory->getError();
 	        	
-	            // if saving the record failed, disable sub?
-	        }	
-        }
+			// if saving the record failed, disable sub?
+		}
         
         return count($errors) ? implode("\n", $errors) : ''; 
         
@@ -279,20 +273,5 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         }
         
         return $param;
-    }
-    
-    /**
-     * Gets the current points for a user from Ambra
-     *
-     * @param $user_id
-     * @return unknown_type
-     */
-    function getCurrentPoints()
-    {
-    	$user = JFactory::getUser();
-        JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
-        $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
-        
-        return $helper->getCurrentPoints( $user->id );
     }
 }
