@@ -13,7 +13,7 @@ $formName = 'adminForm_'.$item->product_id;
     
     <!--base price-->
     <span id="product_price_<?php echo $item->product_id; ?>" class="product_price">
-    	<?php  echo @TiendaHelperProduct::dispayPriceWithTax($item->price, $item->tax, $this->show_tax); ?>
+    	<?php  echo TiendaHelperProduct::dispayPriceWithTax($item->price, $item->tax, $this->show_tax); ?>
         <?php            
         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
                
