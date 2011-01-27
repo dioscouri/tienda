@@ -273,10 +273,6 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_authorizedotnet/languages" />
         </copy>
-		<!-- Ambra Point Plugin -->
-		  <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.aux}/tienda_plugin_ambrapoints" />
-        </copy>
     	<!-- MONERIS -->
 		<copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
         <fileset dir="${cfg.aux}/tienda_plugin_payment_moneris" />
@@ -560,6 +556,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}editorsxtd.zip" basedir="${cfg.aux}/${cfg.plgPrefix}editorsxtd" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}cpanelredirect.zip" basedir="${cfg.aux}/${cfg.plgPrefix}cpanelredirect" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_2checkout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_2checkout" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ambrapoints" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_authorizedotnet.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_authorizedotnet" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cmcic_v30.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cmcic_v30" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_firstdata" />
