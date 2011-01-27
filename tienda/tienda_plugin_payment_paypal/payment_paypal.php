@@ -130,7 +130,13 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->address_1    = $data['orderinfo']->shipping_address_1;
         $vars->address_2    = $data['orderinfo']->shipping_address_2;
         $vars->city         = $data['orderinfo']->shipping_city;
-        $vars->country      = $data['orderinfo']->shipping_country_name;
+        
+        //get 2-character IS0-3166-1 country code
+        $countryTable = JTable::getInstance('Countries', 'TiendaTable');       
+        $countryTable->load( $data['orderinfo']->shipping_country_id );     
+       
+        $vars->country      = $countryTable->country_isocode_2;        
+        //$vars->country      = $data['orderinfo']->shipping_country_name;
         $vars->region       = $data['orderinfo']->shipping_zone_name;
         $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
         
@@ -205,7 +211,13 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->address_1    = $data['orderinfo']->shipping_address_1;
         $vars->address_2    = $data['orderinfo']->shipping_address_2;
         $vars->city         = $data['orderinfo']->shipping_city;
-        $vars->country      = $data['orderinfo']->shipping_country_name;
+        
+         //get 2-character IS0-3166-1 country code
+        $countryTable = JTable::getInstance('Countries', 'TiendaTable');       
+        $countryTable->load( $data['orderinfo']->shipping_country_id );     
+       
+        $vars->country      = $countryTable->country_isocode_2; 
+        //$vars->country      = $data['orderinfo']->shipping_country_name;
         $vars->region       = $data['orderinfo']->shipping_zone_name;
         $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
         
