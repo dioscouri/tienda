@@ -355,6 +355,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkManufacturersDescParams FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+    	if (!$this->checkParentAttributeOption())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkParentAttributeOption FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2754,7 +2759,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;        
     }
     
- /**
+ 	/**
      * update #__tienda_groups table for the "ordering" field
      * As of v0.6.3
      * 
@@ -2785,4 +2790,37 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         }
         return false;         
     }
+    
+	/**
+     * update #__tienda_productattributes table for the "parent_productattributeoption_id" field
+     * As of v0.6.5
+     * 
+     * return boolean
+     */
+    function checkParentAttributeOption()
+    {
+     	//if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkParentAttributeOption', '0')) return true;
+                       	       
+        $table = '#__tienda_productattributes';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "parent_productattributeoption_id";
+            $definitions["parent_productattributeoption_id"] = "INT( 11 ) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions )) 
+        {       
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkParentAttributeOption') );
+            $config->config_name = 'checkParentAttributeOption';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;         
+    }
+    
 }

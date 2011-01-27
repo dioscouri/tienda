@@ -777,6 +777,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `#__tienda_productattributes` (
   `productattribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `productattribute_name` varchar(255) NOT NULL,
+  `parent_productattributeoption_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`productattribute_id`),
