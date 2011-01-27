@@ -336,8 +336,16 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     function getServices()
     {
         $upsServices = $this->getUpsServices();
-        $services = array(); 
+        $services = array();        
         $services_list = $this->params->get( 'services' );
+        //check if array
+        if(!is_array($services_list))
+        {
+        	//convert to array
+        	//it happens when only 1 service is selected
+        	$services_list = array($services_list);
+        }
+        
         foreach ($services_list as $service)
         {
             if (array_key_exists($service, $upsServices))
