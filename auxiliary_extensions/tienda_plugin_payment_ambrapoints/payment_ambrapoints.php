@@ -134,20 +134,17 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $object->message = '';
         
        	$amount_points = round( $submitted_values['order_total'] * $this->_getParam('exchange_rate') );
-    	$user = JFactory::getUser();
-        JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
-        $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
-        $usertotalpoints = $helper->getTotalPoints( $user->id ); //THIS DOESN'T WORK, IT DOESN'T RETURN USER POINTS, FIND OTHER SOLUTION
+       	
+        $usercurrentpoints = $this->getCurrentPoints();
 
-        // we'll check if user have enough points
-        if( $amount_points > $usertotalpoints )
+        if( $amount_points > $usercurrentpoints )
         {
         	$object->error = true;
-        	$object->message = 'Insufficient number of points';
+        	$object->message = 'Insufficient number of points: '.$usercurrentpoints.' points';
         }
                 
         return $object;
-    }
+    }                        
     
     /************************************
      * Note to 3pd: 
@@ -161,13 +158,12 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     {
         $errors = array();
         
-    	$user = JFactory::getUser();
-        JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
-        $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
-        $usertotalpoints = $helper->getTotalPoints( $user->id );
+        $user = JFactory::getUser();
+       
+        $usercurrentpoints = $this->getCurrentPoints();
 
         // we'll check again if user have enough points
-        if( $data['amount_points'] <= $usertotalpoints )
+        if( $data['amount_points'] <= $usercurrentpoints )
         {
         	// load the orderpayment record and set some values
 	        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -233,8 +229,6 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	            $order = $model->getItem();
 	            $helper->sendEmailNotices($order, 'new_order');
 	        }
-
-        
         	
         	// substract spent points from user's ambra total points
         	// successful payment
@@ -254,6 +248,8 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	        // save it and move on
 	        if (!$pointhistory->save())
 	        {
+	        	$errors[] = $pointhistory->getError();
+	        	
 	            // if saving the record failed, disable sub?
 	        }	
         }
@@ -283,5 +279,20 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         }
         
         return $param;
+    }
+    
+    /**
+     * Gets the current points for a user from Ambra
+     *
+     * @param $user_id
+     * @return unknown_type
+     */
+    function getCurrentPoints()
+    {
+    	$user = JFactory::getUser();
+        JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
+        $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
+        
+        return $helper->getCurrentPoints( $user->id );
     }
 }
