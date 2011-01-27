@@ -6,7 +6,7 @@ $items = @$vars->items;
 $form = @$this->form;
 ?>
 <?php if($items):?>
-<form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminFormChildren" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="adminFormChildren" enctype="multipart/form-data" >
     
     <div class="reset"></div>
 
@@ -61,12 +61,12 @@ $form = @$this->form;
         
         <!-- Add to cart button ---> 
         <div id='add_to_cart_children' style="display: block; float: right;">
-            <input type="hidden" name="product_id" value="<?php echo $this->product_id; ?>" />
-            <input type="hidden" name="filter_category" value="<?php echo $this->filter_category; ?>" />
+            <input type="hidden" name="product_id" value="<?php echo $vars->product_id; ?>" />
+            <input type="hidden" name="filter_category" value="<?php echo $vars->filter_category; ?>" />
             <input type="hidden" id="task" name="task" value="" />
             <?php echo JHTML::_( 'form.token' ); ?>
             
-            <?php $onclick = "tiendaFormValidation( '".@$this->validation."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
+            <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
             
             <?php 
             if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
