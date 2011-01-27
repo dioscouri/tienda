@@ -84,17 +84,19 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
            	
     	$success = $this->_process( $data );   	
     	
-    	if( $success != '' )
+    	if( $success == '' )
     	{
 	        $vars = new JObject();
-	        $vars->message = "Payment processed successfully.  Hooray!";
+	        $vars->message = JText::_( 'Tienda Ambrapoints Payment Successful' );
 	        
 	        $html = $this->_getLayout('postpayment', $vars);
 	        return $html;
     	}
     	else
     	{       	
-        	return "Success";
+        	$vars->message = JText::_( 'Ambrapoints Payment Error Message' );
+			$html = $this->_getLayout('message', $vars);
+			return $html;
     	}
     }
     
@@ -131,13 +133,13 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $object->error = false;
         $object->message = '';
         
-        $amount_points = JRequest::getVar( 'amount_points' );
+       	$amount_points = round( $submitted_values['order_total'] * $this->_getParam('exchange_rate') );
     	$user = JFactory::getUser();
         JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
         $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
-        $usertotalpoints = $helper->getTotalPoints( $user->id );
+        $usertotalpoints = $helper->getTotalPoints( $user->id ); //THIS DOESN'T WORK, IT DOESN'T RETURN USER POINTS, FIND OTHER SOLUTION
 
-        // we'll check again if user have enough points
+        // we'll check if user have enough points
         if( $amount_points > $usertotalpoints )
         {
         	$object->error = true;
@@ -158,24 +160,23 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     function _process( $data )
     {
         $errors = array();
-          
-    	$amount_points = JRequest::getVar( 'amount_points' );
+        
     	$user = JFactory::getUser();
         JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."user.php");
         $helper = Ambra::get( "AmbraHelperUser", 'helpers.user' );
         $usertotalpoints = $helper->getTotalPoints( $user->id );
 
         // we'll check again if user have enough points
-        if( $amount_points <= $usertotalpoints )
+        if( $data['amount_points'] <= $usertotalpoints )
         {
         	// load the orderpayment record and set some values
 	        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-	        $orderpayment_id = JRequest::getVar('orderpayment_id');
+	        $orderpayment_id = $data['orderpayment_id'];
 	        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 	        $orderpayment->load( $orderpayment_id );
-	        $orderpayment->transaction_details  = $data['transaction_details'];
-	        $orderpayment->transaction_id       = $data['transaction_id'];
-	        $orderpayment->transaction_status   = $data['transaction_status'];
+	        $orderpayment->transaction_details  = $data['orderpayment_type'];
+	        $orderpayment->transaction_id       = $data['orderpayment_id'];
+	        $orderpayment->transaction_status   = "Payment Received";
 	       	        
 	        // check the stored amount against the payment amount
 	        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
