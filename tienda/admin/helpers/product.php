@@ -852,9 +852,10 @@ class TiendaHelperProduct extends TiendaHelperBase
      * Returns a list of a product's attributes
      * 
      * @param int $id
+     * @param int $parent_option the id of the parent option. Use -1 for "all"
      * @return unknown_type
      */
-    function getAttributes( $id )
+    function getAttributes( $id, $parent_option = 0 )
     {
         if (empty($id))
         {
@@ -863,6 +864,12 @@ class TiendaHelperProduct extends TiendaHelperBase
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
+        
+        if($parent_option != '-1')
+        {
+        	$model->setState( 'filter_parent_option', $parent_option );
+        }
+        
         $model->setState( 'order', 'tbl.ordering' );
         $model->setState( 'direction', 'ASC' );
         $items = $model->getList();

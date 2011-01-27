@@ -500,3 +500,17 @@ function tiendaCheckUpdateCartQuantities(form, text)
 	return returned;
 
 }
+
+function tiendaPopulateAttributeOptions(select, target, opt_name, opt_id)
+{
+	// Selected option
+	var attribute_id = select.getSelected().getLast().value;
+	
+	tiendaGetAttributeOptions(attribute_id, target, opt_name, opt_id);
+}
+
+function tiendaGetAttributeOptions(attribute_id, container, opt_name, opt_id)
+{
+	var url = 'index.php?option=com_tienda&controller=productattributeoptions&task=getProductAttributeOptions&attribute_id='+attribute_id+'&select_name='+opt_name+'&select_id='+opt_id+'&format=raw';
+	tiendaDoTask(url, container);
+}

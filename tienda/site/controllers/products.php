@@ -437,13 +437,13 @@ class TiendaControllerProducts extends TiendaController
             }
         }
         
+        $attributes = array();
         if (!empty($values))
         {
             $product_id = !empty( $values['product_id'] ) ? (int) $values['product_id'] : JRequest::getInt( 'product_id' );
             $product_qty = !empty( $values['product_qty'] ) ? (int) $values['product_qty'] : $quantity_min;
             
             // TODO only display attributes available based on the first selected attribute?
-            $attributes = array();
             foreach ($values as $key=>$value)
             {
                 if (substr($key, 0, 10) == 'attribute_')
@@ -451,7 +451,12 @@ class TiendaControllerProducts extends TiendaController
                     $attributes[] = $value;
                 }
             }
-            sort($attributes);
+            // Add 0 to attributes to include all the root attributes
+        	$attributes[] = 0;
+            
+            // For getting child opts
+            $view->assign( 'selected_opts', json_encode($attributes) );
+            
             $attributes_csv = implode( ',', $attributes );
             
             // Integrity checks on quantity being added
@@ -464,7 +469,9 @@ class TiendaControllerProducts extends TiendaController
                 $invalidQuantity = '1';
             }
             
-            // adjust the displayed price based on the selected attributes
+            sort($attributes);
+            
+            // adjust the displayed price based on the selected or default attributes
             $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
             foreach ($attributes as $attrib_id)
             {
@@ -526,6 +533,11 @@ class TiendaControllerProducts extends TiendaController
         // convert elements to array that can be binded
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );             
         $values = TiendaHelperBase::elementsToArray( $elements );
+        
+        if(empty($values['product_id']))
+        {
+        	$values['product_id'] = JRequest::getInt('product_id', 0);
+        }
         
         // now get the summary
         $this->display_cartbutton = true;
@@ -1876,6 +1888,7 @@ class TiendaControllerProducts extends TiendaController
             return;
         }
 	}
+
 }
 
 ?>

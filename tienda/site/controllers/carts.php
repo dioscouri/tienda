@@ -484,7 +484,6 @@ class TiendaControllerCarts extends TiendaController
             if (empty($geozones))
             {
                 // use the default
-                $view->assign( 'using_default_geozone', true );
                 $table = JTable::getInstance('Geozones', 'TiendaTable');
                 $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
                 $geozones = array( $table );
@@ -493,12 +492,13 @@ class TiendaControllerCarts extends TiendaController
       	
         foreach ($items as $item)
         {
+        	/* This is not necessary! already done in the model! 
         	if(!$item->product_recurs)
         	{
 				$filter_group = TiendaHelperUser::getUserGroup(JFactory::getUser()->id, $item->product_id);
 				$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
 				$item->product_price = $priceObj->product_price;
-        	}  
+        	}  */
         	
         	if($show_tax)
         	{

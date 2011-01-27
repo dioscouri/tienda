@@ -643,6 +643,35 @@ class TiendaSelect extends JHTMLSelect
         }
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag  );
     }	
+    
+    /**
+	 * Generates a selectlist of Product Attributes 
+	 */
+    public static function productattributes( $selected, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'No Parent')
+    {
+        $list = array();
+        
+    	if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+        
+        $name = "attribute_parent[".$id."]";
+        
+        $opt_name = "parent";
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+        $model->setState('order', 'tbl.ordering');
+        $items = $model->getList();
+        foreach (@$items as $item)
+        {
+            $list[] =  self::option( $item->productattribute_id, $item->productattribute_name );
+        }
+        
+        $attribs["onchange"] = "tiendaPopulateAttributeOptions( this, 'parent_option_select_".$id."', '".$opt_name."', '".$id."');";
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag  );
+    }	
 	
     
      /**

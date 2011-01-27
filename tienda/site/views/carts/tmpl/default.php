@@ -43,7 +43,8 @@ $quantities = array();
             <?php $i=0; $k=0; $subtotal = 0; ?> 
             <?php foreach ($items as $item) : ?>
             	
-            	<?php 
+            	<?php
+            	
             		$params = new JParameter( trim(@$item->cartitem_params) );
             		$link = $params->get('product_url', "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id);
             		$link = JRoute::_($link);

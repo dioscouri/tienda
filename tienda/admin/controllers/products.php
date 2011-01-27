@@ -941,12 +941,14 @@ class TiendaControllerProducts extends TiendaController
 
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 		$name = JRequest::getVar('name', array(0), 'request', 'array');
+		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
 
 		foreach (@$cids as $cid)
 		{
 			$row->load( $cid );
 			$row->productattribute_name = $name[$cid];
+			$row->parent_productattributeoption_id = $parent[$cid];
 			$row->ordering = $ordering[$cid];
 
 			if (!$row->check() || !$row->store())

@@ -61,6 +61,32 @@ class TiendaControllerProductAttributeOptions extends TiendaController
 		// delete the option itself
 		parent::delete();
 	}
+	
+	/**
+	 * Expected to be called from ajax
+	 */
+	public function getProductAttributeOptions()
+	{
+		$attribute_id = JRequest::getInt('attribute_id', 0);
+		$name = JRequest::getVar('select_name', 'parent');
+		$id = JRequest::getVar('select_id', '0');
+		
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+		
+		if($attribute_id)
+		{
+			Tienda::load('TiendaSelect', 'library.select');
+			$response['msg']  = TiendaSelect::productattributeoptions($attribute_id, 0, $name."[".$id."]");
+		}
+		else
+		{
+			$response['msg']  = '<input type="hidden" name="'.$name."[".$id."]".'" />';
+		}
+		
+		echo json_encode($response);
+	}
 }
 
 ?>

@@ -36,7 +36,15 @@ $formName = 'adminForm_'.$item->product_id;
     <!--attribute options-->
     <div id='product_attributeoptions_<?php echo $item->product_id; ?>' class="product_attributeoptions">
     <?php
-    $attributes = TiendaHelperProduct::getAttributes( $item->product_id );
+    // Selected attribute options (for child attributes)
+    $selected_opts = (!empty($this->selected_opts)) ? json_decode($this->selected_opts) : 0; 
+    
+    if(!count($selected_opts))
+    {
+    	$selected_opts = 0;
+    }
+    
+    $attributes = TiendaHelperProduct::getAttributes( $item->product_id, $selected_opts );
     foreach ($attributes as $attribute)
     {
         ?>
@@ -51,6 +59,7 @@ $formName = 'adminForm_'.$item->product_id;
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>
+        
         </div>
         <?php
     }
