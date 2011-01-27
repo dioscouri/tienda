@@ -387,7 +387,8 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
                     
                     $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                     $item->itemid = JRequest::getInt('Itemid', $itemid);
-                    
+                    $item->tax = 0;
+                    $item->showtax = $show_tax;
                 	if ($show_tax)
 		        	{		           
 			            Tienda::load('TiendaHelperUser', 'helpers.user');
@@ -403,8 +404,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
 			            $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
 			            $tax = $taxtotal->tax_total;
 			            $item->taxtotal = $taxtotal;
-			            $item->tax = $tax;	
-			            $item->showtax = $show_tax;	            
+			            $item->tax = $tax;				                
 		        	}
                 }
             }
