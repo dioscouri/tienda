@@ -135,7 +135,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     function tracking()
     {
     	$tracking_id = JRequest::getVar('tracking_id');
-    	$tracking_id = '3251026119';
+    	//$tracking_id = '3251026119'; <-- ?
     	
     	require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
 
@@ -239,7 +239,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
             {
                 $packageCount = $packageCount + 1;
                 $weight = array(
-                    'Weight' => (int)$product->product_weight,
+                    'Weight' => round($product->product_weight, 1),
                     'UnitOfMeasurement' => array('Code' => $this->params->get('weight_unit', 'KGS') ) // get this from product?
                 );
                 
@@ -312,16 +312,20 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
      */
     function getUpsServices()
     {
-        $services["14"]= JText::_('Next Day Air Early AM');
-        $services["59"]= JText::_('Next Day Air Saver');
-        $services["04"]= JText::_('2nd Day Air AM');
-        $services["12"]= JText::_('3 Day Select');
-        $services["03"]= JText::_('Ground');
-        $services["11"]= JText::_('Standard');
-        $services["07"]= JText::_('Worldwide Express');
-        $services["08"]= JText::_('Worldwide Expedited');
-        $services["54"]= JText::_('Worldwide Express Plus');
-        $services["65"]= JText::_('UPS Saver');
+		$services = array(
+			'01' => JText::_('UPS Next Day Air'),
+			'02' => JText::_('UPS Second Day Air'),
+			'03' => JText::_('UPS Ground'),
+			'07' => JText::_('UPS Worldwide Express'),
+			'08' => JText::_('UPS Worldwide Expedited'),
+			'11' => JText::_('UPS Standard'),
+			'12' => JText::_('UPS Three-Day Select'),
+			'13' => JText::_('UPS Next Day Air Saver'),
+			'14' => JText::_('UPS Next Day Air Early AM'),
+			'54' => JText::_('UPS Worldwide Express Plus'),
+			'59' => JText::_('UPS Second Day Air AM'),
+			'65' => JText::_('UPS Saver'),
+		);
 
         return $services;
     }
@@ -384,11 +388,6 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     {
         $rates = array();
         
-        if (empty($address->postal_code)) 
-        {
-            return $rates;
-        }
-        
         require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
 
         // Use params to determine which of these is enabled
@@ -413,20 +412,36 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
                 $packageCount = $packageCount + 1;
                 
                 $weight = array(
-                    'Weight' => (int) $product_totalWeight,
+                    'Weight' => round($product_totalWeight, 1),
                     'UnitOfMeasurement' => array('Code' => $this->params->get('weight_unit', 'KGS') ) // get this from product?
                 );
                 
                 $dimensions = array(
-                    'Length' => (int) $product->product_length,
-                    'Width' => (int) $product->product_width,
-                    'Height' => (int) $product->product_height,
+                    'Length' => round($product->product_length, 2),
+                    'Width' => round($product->product_width, 2),
+                    'Height' => round($product->product_height, 2),
                     'UnitOfMeasurement' => array('Code' => $this->params->get('dimension_unit', 'CM') ) // get this from product?
                 );
                 
-                $packages[] = array( 'PackageWeight' => $weight, 'Dimensions' => $dimensions, 'PackagingType' => array('Code' => $this->params->get('packaging', '02')) );            }            
+                $package = array( 
+					'PackageWeight' => $weight, 
+					'Dimensions' => $dimensions, 
+					'PackagingType' => array(
+						'Code' => $this->params->get('packaging', '02')
+					),
+				);
+
+				if($this->params->get('declare_value', 1)) {
+					$package['PackageServiceOptions']['DeclaredValue'] = array(
+						'CurrencyCode' => $this->params->get('currency_code', 'USD'),
+						'MonetaryValue' => $item->orderitem_final_price,
+					);
+				}
+
+				$packages[] = $package;
+			}            
         }
-        
+
         foreach($services as $service => $name)
         {
 	        $ups = new TiendaUpsRate;
@@ -453,7 +468,9 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	        $ups->setDestStateOrProvinceCode($address->zone_code);
 	        $ups->setDestPostalCode($address->postal_code);
 	        $ups->setDestCountryCode($address->country_code);
-	        
+
+			$ups->setPickupType($this->params->get('pickup_type', '01'));
+			$ups->setCustomerClassification($this->params->get('customer_classification', ''));
 	            
 	        if ($ups->getRate())
 	        {

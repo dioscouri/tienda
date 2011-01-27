@@ -67,18 +67,6 @@ class TiendaUps extends JObject
 		$this->getClient()->__setSoapHeaders($header);        
     }
     
-    function writeLog($response)
-    {
-    	$log_file = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'logs'.DS.'ups.log';
-    	
-    	$request = $this->getRequest();
-    	
-    	$log = JFile::read($log_file);
-    	$log .= Tienda::dump($request);
-    	$log .= Tienda::dump($response);
-    	JFile::write($log_file, $log);
-    }
-    
     function getRequest()
     {
         if (empty($this->request))
@@ -184,6 +172,14 @@ class TiendaUps extends JObject
     function setPayorType($type) {
         $this->payorType = $type;
     }
+
+	function setPickupType($type) {
+		$this->pickupType = $type;
+	}
+
+	function setCustomerClassification($code) {
+		$this->customerClassification = $code;
+	}
 }
 
 /**
@@ -225,6 +221,10 @@ class TiendaUpsRate extends TiendaUps
     var $destPostalCode;
     var $destCountryCode;
 
+	// Request Options
+	var $pickupType = '01';
+	var $customerClassification = '';
+
     
    
     
@@ -233,8 +233,6 @@ class TiendaUpsRate extends TiendaUps
         try 
             {
                 $this->response = $this->getClient()->ProcessRate( $this->getRequest() );
-                
-                $this->writeLog($this->response);
                 
                 if ($this->response->Response->ResponseStatus->Code != '0')
                 {
@@ -246,8 +244,7 @@ class TiendaUpsRate extends TiendaUps
                     $this->setError( JText::_('UPS_ERRORCODE1') );
                     return false;
                 } 
-  
-            
+
             } catch (SoapFault $exception) {
                 
                 $this->response = $this->getClient()->__getLastResponse();
@@ -264,21 +261,30 @@ class TiendaUpsRate extends TiendaUps
     {
 		parent::createRequest();
         
+        $request['Request']['RequestAction'] = 'rate';
         $request['Request']['RequestOption'] = 'Rate';
+
+		if(!empty($this->pickupType)) {
+			$request['PickupType']['Code'] = $this->pickupType;
+		}
+
+		if(!empty($this->customerClassification)) {
+			$request['CustomerClassification']['Code'] = $this->customerClassification;
+		}
         
         $request['Shipment']['Service']['Code'] = $this->service;
 
         /* addresses */
         $request['Shipment']['Shipper'] = array(
-            'Address' => 
-                array (
+            'Address' => array (
                     'AddressLine' => $this->originAddressLines, // Origin details
                     'City' => $this->originCity,
-                    'StateProvinceCode' => $this->originStateOrProvinceCode,
+                    'StateProvinceCode' => $this->originStateOrProvinceCode, 
                     'PostalCode' => $this->originPostalCode,
-                    'CountryCode' => $this->originCountryCode
-                )
-            );        
+                    'CountryCode' => $this->originCountryCode,
+			),
+			'ShipperNumber' => 'V3443E',
+		);        
         $request['Shipment']['ShipTo'] = array(
             'Address' => 
                 array(
@@ -286,7 +292,7 @@ class TiendaUpsRate extends TiendaUps
                     'City' => $this->destCity,
                     'StateProvinceCode' => $this->destStateOrProvinceCode,
                     'PostalCode' => $this->destPostalCode,
-                    'CountryCode' => $this->destCountryCode
+                    'CountryCode' => $this->destCountryCode,
                 )
             );
             
@@ -590,4 +596,3 @@ class TiendaUpsTracking extends TiendaUps
 }
 
 ?> 
-

@@ -25,15 +25,17 @@
 		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
 		<param name="shipper_number" type="text" size="50" default="" label="API Shipper Number" description="API Shipper Number Desc"/>
         <param name="services" type="multilist" multiple="multiple" default="11" label="Services" description="Services Desc">
-			<option value="11">Standard</option>
-			<option value="14">Next Day Air Early AM</option>
-			<option value="59">Next Day Air Saver</option>
-			<option value="04">2nd Day Air AM</option>
-			<option value="12">3 Day Select</option>
-			<option value="03">Ground</option>
-			<option value="07">Worldwide Express</option>
-			<option value="08">Worldwide Expedited</option>
-			<option value="54">Worldwide Express Plus</option>
+			<option value="01">UPS Next Day Air</option>
+			<option value="02">UPS Second Day Air</option>
+			<option value="03">UPS Ground</option>
+			<option value="07">UPS Worldwide Express</option>
+			<option value="08">UPS Worldwide Expedited</option>
+			<option value="11">UPS Standard</option>
+			<option value="12">UPS Three-Day Select</option>
+			<option value="13">UPS Next Day Air Saver</option>
+			<option value="14">UPS Next Day Air Early AM</option>
+			<option value="54">UPS Worldwide Express Plus</option>
+			<option value="59">UPS Second Day Air AM</option>
 			<option value="65">UPS Saver</option>
 		</param>
 		<param name="packaging" type="list" default="02" label="Packaging Type" description="Packaging Type Desc">
@@ -58,5 +60,25 @@
 			<option value="CM">CM</option>
 			<option value="IN">IN</option>
 		</param>
+		<param name="pickup_type" type="list" default="01" label="Pickup Type" description="Pickup Type Desc">
+			<option value="01">Daily Pickup</option>
+			<option value="03">Customer Counter</option>
+			<option value="06">One Time Pickup</option>
+			<option value="07">On Call Air</option>
+			<option value="11">Suggested Retail Rates</option>
+			<option value="19">Letter Center</option>
+			<option value="20">Air Service Center</option>
+		</param>
+		<param name="customer_classification" type="list" default="" label="Customer Classification" description="Customer Classification Desc">
+			<option value="">-- Default --</option>
+			<option value="01">Wholesale</option>
+			<option value="03">Occasional</option>
+			<option value="04">Retail</option>
+		</param>
+		<param name="declare_value" type="radio" default="1" label="Declare Value" description="Declare Value Desc">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="currency_code" type="text" default="USD" label="Currency Code" description="Currency Code Desc" />
 	</params>
 </install>
