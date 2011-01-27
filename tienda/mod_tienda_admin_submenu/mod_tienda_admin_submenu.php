@@ -10,8 +10,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getVar('option');
-if (JRequest::getInt('tienda_display_submenu') == '1' || $option == 'com_tienda')
+if (JRequest::getInt('tienda_display_submenu') == '1')
 {
     // Check the registry to see if our Tienda class has been overridden
     if ( !class_exists('Tienda') ) 
