@@ -163,6 +163,7 @@ class TiendaHelperCarts extends TiendaHelperBase
         $model->setState( 'filter_user', '0' );
         $model->setState( 'filter_session', $session_id );
         $session_cartitems = $model->getList();
+
         $this->deleteSessionCartItems( $session_id );
         
         if (!empty($session_cartitems))
@@ -198,6 +199,8 @@ class TiendaHelperCarts extends TiendaHelperBase
                             $table->set($key, $value);
                         }
                     }
+                    // this is a new cartitem, so set cart_id = 0
+                    $table->cart_id = '0';
                 }
                 
                 $table->user_id = $user_id;
