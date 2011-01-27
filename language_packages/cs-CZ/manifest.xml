@@ -2,7 +2,7 @@
 	<install method="upgrade" version="1.5" client="both" type="language">
     <name>Czech Tienda</name>
     <tag>cs-CZ</tag>
-    <version>0.6.3 Community</version>
+    <version>0.6.4 Community</version>
     <creationDate>29/12/2010</creationDate>
     <author>Fenris</author>
     <authorEmail>fenris@fenris.cz</authorEmail>

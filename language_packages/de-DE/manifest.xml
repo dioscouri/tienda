@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>German Tienda</name>
     <tag>de-DE</tag>
-    <version>0.6.3 Community</version>
+    <version>0.6.4 Community</version>
     <creationDate>May 2010</creationDate>
     <author>Norbert Graup and Roger Perren</author>
     <authorEmail></authorEmail>
