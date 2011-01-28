@@ -12,12 +12,19 @@
     <license>GNU General Public License v2</license>
     <description>Slovak translation for Tienda</description>
 
-	<languages folder="site">
-		<language tag="sk-SK">sk-SK.com_tienda.ini</language>
-	</languages>
+      <files folder="site">
+		    <filename>sk-SK.com_tienda.ini</filename>
+        <filename>sk-SK.mod_tienda_cart.ini</filename>
+        <filename>sk-SK.mod_tienda_categories.ini</filename>
+        <filename>sk-SK.mod_tienda_currency.ini</filename>
+        <filename>sk-SK.mod_tienda_manufacturers.ini</filename>
+        <filename>sk-SK.mod_tienda_my_orderitems.ini</filename>
+        <filename>sk-SK.mod_tienda_my_orders.ini</filename>
+        <filename>sk-SK.mod_tienda_popular_products.ini</filename>
+        <filename>sk-SK.mod_tienda_pricefilters.ini</filename>
+        <filename>sk-SK.mod_tienda_products.ini</filename>
+        <filename>sk-SK.mod_tienda_search.ini</filename>
+      </files>
 	
-	<!-- Application/administrator -->
-	<administration>
-	</administration>
-
+	<params />
 </install>
