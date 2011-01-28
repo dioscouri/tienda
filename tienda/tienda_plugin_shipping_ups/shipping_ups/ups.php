@@ -283,7 +283,8 @@ class TiendaUpsRate extends TiendaUps
                     'PostalCode' => $this->originPostalCode,
                     'CountryCode' => $this->originCountryCode,
 			),
-			'ShipperNumber' => 'V3443E',
+			//'ShipperNumber' => 'V3443E',
+			'ShipperNumber' => $this->shipperNumber,
 		);        
         $request['Shipment']['ShipTo'] = array(
             'Address' => 
