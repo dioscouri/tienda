@@ -131,9 +131,10 @@ class TiendaControllerProducts extends TiendaController
 		$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// set the id as 0 for new entry
-		if ($task == "save_as")
+		if ( $task == "save_as" )
 		{
-		    $isSaveAs = true;
+		  $isSaveAs = true;
+			$oldProductImagePath = $row->getImagePath();
 			$pk = $row->getKeyName();
 			$oldPk = $row->$pk;
 			
@@ -327,6 +328,41 @@ class TiendaControllerProducts extends TiendaController
     					$this->message .= " :: ".$quantityTable->getError();
     				}
 		      
+				}
+				
+				// copy all gallery files
+				jimport( 'joomla.filesystem.folder' );
+				jimport( 'joomla.filesystem.file' );
+				$galleryFiles = JFolder::files( $oldProductImagePath ); // get all gallery images
+				if( count( $galleryFiles ) )// if there are any
+				{
+					JFolder::create( $row->getImagePath() ); // create folder for images
+					JFolder::create( $row->getImagePath().'thumbs' ); // create folder for thumbnails images
+					for( $i = 0, $c = count( $galleryFiles ); $i < $c; $i++ )
+					{
+						// copy only images with both original file and a corresponding thumbnail
+						if( JFile::exists( $oldProductImagePath.'thumbs'.DS.$galleryFiles[$i] ) && JFile::exists( $oldProductImagePath.$galleryFiles[$i] ) )
+						{
+							JFile::copy( $oldProductImagePath.$galleryFiles[$i], $row->getImagePath().DS.$galleryFiles[$i] );
+							JFile::copy( $oldProductImagePath.'thumbs'.DS.$galleryFiles[$i], $row->getImagePath().DS.'thumbs'.DS.$galleryFiles[$i] );
+						}
+					}
+				}
+				
+				// duplicate product files (only in db)
+				$modelFiles = $this->getModel( 'productfiles' );
+				$modelFiles->setState( 'filter_product', $oldPk );
+				$listFiles = $modelFiles->getList();
+				if( count( $listFiles ) ) // if there are files attached to the first product, we should duplicate the record in db
+				{
+					$row_file = JTable::getInstance( 'Productfiles', 'TiendaTable' );
+					for( $i = 0, $c = count( $listFiles ); $i < $c; $i++ )
+					{
+						$row_file->bind( $listFiles[$i] ); // bind old data
+						$row_file->productfile_id = 0; // will be set
+						$row_file->product_id = $row->product_id; // use clone's ID 
+						$row_file->save(); // save the data
+					}
 				}
 			 }
 			 
