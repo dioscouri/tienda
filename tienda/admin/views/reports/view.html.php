@@ -20,6 +20,7 @@ class TiendaViewReports extends TiendaViewBase
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {
+        	case "view":
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
