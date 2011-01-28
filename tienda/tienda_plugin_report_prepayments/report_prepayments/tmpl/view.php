@@ -2,6 +2,9 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
+
+<h2><?php echo JText::_( "Results"); ?></h2>
+
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
@@ -19,9 +22,6 @@
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_("Total"); ?>
-                </th>
-                <th style="width: 150px;">
-                    <?php echo JText::_("State"); ?>
                 </th>
             </tr>
         </thead>
@@ -85,9 +85,6 @@
                             <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_( "Order Has a Commission" ); ?>::<?php echo JText::_( "View Commission Records" ); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
-				</td>
-                <td style="text-align: center;">
-					<?php echo $item->order_state_name; ?>
 				</td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>

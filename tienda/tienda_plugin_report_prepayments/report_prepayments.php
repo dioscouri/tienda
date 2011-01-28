@@ -53,8 +53,7 @@ class plgTiendaReport_prepayments extends TiendaReportPlugin
         $state = $this->_getState();
         $model = $this->_getModel();
 
-		//set the direction of the quantity to asc to show the product with lowest quantity
-        $model->setState( 'order', 'order_id' );
+		$model->setState( 'order', 'order_id' );
         $model->setState( 'direction', 'ASC' );
         $model->setState( 'filter_orderstate', '15' );    
         $data = $model->getList();
@@ -70,22 +69,28 @@ class plgTiendaReport_prepayments extends TiendaReportPlugin
     function _getState()
     {
     	$app = JFactory::getApplication();
-        $model = $this->_getModel( 'products' );
+        $model = $this->_getModel( 'orders' );
         $ns = $this->_getNamespace();
 
-        $state = array();        
-       	$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-        $state['filter_quantity_from'] = $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
-        $state['filter_quantity_to'] = $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', '');      
-    	$state['filter_category'] = $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
-        $state = $this->_handleRangePresets( $state );
+        $state = array();
         
+        $state['filter_userid'] = $app->getUserStateFromRequest($ns.'userid', 'filter_userid');
+        $state['filter_id_from'] = $app->getUserStateFromRequest($ns.'filter_id_from','filter_id_from');
+		$state['filter_id_to'] = $app->getUserStateFromRequest($ns.'filter_id_to','filter_id_to');
+		$state['filter_date_from'] = $app->getUserStateFromRequest($ns.'filter_date_from','filter_date_from');
+		$state['filter_date_to'] = $app->getUserStateFromRequest($ns.'filter_date_to','filter_date_to');
+		$state['filter_total_from'] = $app->getUserStateFromRequest($ns.'filter_total_from','filter_total_from');
+		$state['filter_total_to'] = $app->getUserStateFromRequest($ns.'filter_total_to','filter_total_to');
+		$state['filter_datetype']=$app->getUserStateFromRequest($ns.'filter_datetype','filter_datetype');
+
+        $state = $this->_handleRangePresets( $state );
+
         foreach (@$state as $key=>$value)
         {
             $model->setState( $key, $value );
         }
 
         return $state;
-    
+
     }
 }
