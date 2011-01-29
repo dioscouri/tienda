@@ -22,7 +22,7 @@ class TiendaViewPayment extends TiendaViewBase
 		switch(strtolower($layout))
 		{
 			case "view":
-			    $this->set( 'leftMenu', 'leftmenu_localization' );
+			    $this->set( 'leftMenu', 'leftmenu_configuration' );
 				$this->_form($tpl);
 			  break;
 			case "form":
@@ -31,7 +31,7 @@ class TiendaViewPayment extends TiendaViewBase
 			  break;
 			case "default":
 			default:
-				$this->set( 'leftMenu', 'leftmenu_localization' );
+				$this->set( 'leftMenu', 'leftmenu_configuration' );
 				$this->_default($tpl);
 			  break;
 		}

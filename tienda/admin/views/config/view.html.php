@@ -27,6 +27,7 @@ class TiendaViewConfig extends TiendaViewBase
 		{
 			case "default":
 			default:
+			    $this->set( 'leftMenu', 'leftmenu_configuration' );
 				$this->_default($tpl);
 			  break;
 		}

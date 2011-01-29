@@ -7,6 +7,8 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
+        <?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
+
 		<div id='onBeforeDisplay_wrapper'>
 			<?php 
 				$dispatcher = JDispatcher::getInstance();
@@ -1198,9 +1200,7 @@
 					?>
 					</td>
 					<td style="vertical-align: top; max-width: 30%;">
-						
-						<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
-						
+					
 						<div id='onDisplayRightColumn_wrapper'>
 							<?php
 								$dispatcher = JDispatcher::getInstance();

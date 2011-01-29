@@ -28,12 +28,4 @@
         <name>Tax Classes</name>
         <url>index.php?option=com_tienda&#38;view=taxclasses</url>
     </link>
-    <link>
-        <name>Shipping Methods</name>
-        <url>index.php?option=com_tienda&#38;view=shipping</url>
-    </link>
-	 <link>
-        <name>Payment Methods</name>
-        <url>index.php?option=com_tienda&#38;view=payment</url>
-    </link>
 </menu>

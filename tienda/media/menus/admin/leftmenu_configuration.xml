@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+    <link>
+       <name>Basic Configuration</name>
+       <url>index.php?option=com_tienda&#38;view=config</url>
+    </link>
+    <link>
+        <name>Shipping Methods</name>
+        <url>index.php?option=com_tienda&#38;view=shipping</url>
+    </link>
+	 <link>
+        <name>Payment Methods</name>
+        <url>index.php?option=com_tienda&#38;view=payment</url>
+    </link>
+</menu>
