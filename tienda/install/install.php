@@ -260,3 +260,13 @@ if (count($status->templates)) : ?>
 endif; ?>
 	</tbody>
 </table>
+
+<?php if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+
+// load the config class
+Tienda::load( 'TiendaConfig', 'defines' );
+
+// before executing any tasks, check the integrity of the installation
+Tienda::getClass( 'TiendaHelperDiagnostics', 'helpers.diagnostics' )->checkInstallation();
+?>
