@@ -185,6 +185,28 @@ class TiendaPaymentPlugin extends TiendaPluginBase
     }
     
     /**
+     * Determines if this payment option is valid for this order
+     * 
+     * @param $element
+     * @param $order
+     * @return unknown_type
+     */
+    function onGetPaymentOptions($element, $order)
+    {       
+        // Check if this is the right plugin
+        if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+        
+        // if this payment method should be available for this order, return true
+        // if not, return false.
+        // by default, all enabled payment methods are valid, so return true here,
+        // but plugins may override this         
+        return true;
+    }
+    
+    /**
      * Wrapper for the internal _renderForm method
      * 
      * @param $element  string      a valid payment plugin element 
