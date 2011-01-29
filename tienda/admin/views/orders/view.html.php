@@ -44,6 +44,10 @@ class TiendaViewOrders extends TiendaViewBase
             case "view":
                 $this->_form($tpl);
               break;
+            case "form_addresses":
+                JRequest::setVar('hidemainmenu', '1');
+                $this->_formAddresses($tpl);
+              break;
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
@@ -114,7 +118,37 @@ class TiendaViewOrders extends TiendaViewBase
 		JToolBarHelper::cancel();
 	}
     
-    
+    function _formAddresses( $tpl=null )
+    {
+        $model = $this->getModel();
+        
+        // set the model state
+            $state = $model->getState();
+            JFilterOutput::objectHTMLSafe( $state );
+            $this->assign( 'state', $state );
+
+        // get the data
+            // not using getItem here to enable ->checkout (which requires JTable object)
+            $row = $model->getTable();
+            $row->load( (int) $model->getId() );
+            // TODO Check if the item is checked out and if so, setlayout to view
+
+            $this->displayTitle( 'Edit Addresses' );
+            JToolBarHelper::save( 'saveAddresses' );
+            JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+
+        // form
+            $validate = JUtility::getToken();
+            $form = array();
+            $controller = strtolower( $this->get( '_controller', JRequest::getVar('controller', JRequest::getVar('view') ) ) );
+            $view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
+            $action = $this->get( '_action', "index.php?option=com_tienda&controller={$controller}&view={$view}&layout=form&id=".$model->getId() );
+            $form['action'] = $action;
+            $form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
+            $form['id'] = $model->getId();
+            $this->assign( 'form', $form );
+            $this->assign('row', $model->getItem() );
+    }
     
     
     

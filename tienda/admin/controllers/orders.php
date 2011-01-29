@@ -1238,5 +1238,26 @@ class TiendaControllerOrders extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
+	/**
+	 * 
+	 * Enter description here ...
+	 * @return unknown_type
+	 */
+	function editAddresses()
+	{
+        JRequest::setVar('layout', 'form_addresses' );
+        parent::display();        
+	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @return unknown_type
+	 */
+	function saveAddresses()
+	{
+	    $post = JRequest::get('post');
+	    echo Tienda::dump($post);
+	}
 }
 ?>

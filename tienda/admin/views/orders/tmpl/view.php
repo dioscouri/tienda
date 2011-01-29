@@ -17,15 +17,19 @@
 			    ?>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-		        [<?php
-		        $url = "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id;
-		        $text = JText::_( "Print Invoice" );
-		        echo TiendaUrl::popup( $url, $text );
-		        ?>]
+                <input type="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=orders&task=editaddresses&id=" . @$row->order_id ); ?>'" value="<?php echo JText::_( "Edit Addresses" ); ?>"/>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
                 <input value="<?php echo JText::_( "Resend Email Invoice" ); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
             </td>
+            <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
+                [<?php
+                $url = "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id;
+                $text = JText::_( "Print Invoice" );
+                echo TiendaUrl::popup( $url, $text );
+                ?>]
+            </td>
+
         </tr>
     </table>
 
