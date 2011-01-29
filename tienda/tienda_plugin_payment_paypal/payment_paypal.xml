@@ -33,10 +33,6 @@
         </param>
         <param name="sandbox_merchant_email" type="text" size="50" default="" label="Paypal Sandbox Merchant Email" description="Paypal Sandbox Merchant Email Desc"/>
         <param name="sandbox_customer_email" type="text" size="50" default="" label="Paypal Sandbox Customer Email" description="Paypal Sandbox Customer Email Desc"/>
-        <!--
-        <param type="spacer" />
-        <param name="auth_token" type="textarea" default="" label="Paypal Auth Token" description="Paypal Auth Token Desc" rows="5" cols="30" />
-        -->
 		<param type="spacer" />
 		<param name="articleid" type="text" size="10" default="" label="Paypal Article Number" description="Paypal Article Number Desc"/>
 		<param name="display_article_title" type="radio" default="0" label="Paypal Display Article Title" description="Paypal Display Article Title Desc" >
