@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>French Tienda</name>
     <tag>fr-FR</tag>
-    <version>0.6.4 Community</version>
+    <version>0.6.5 Community</version>
     <creationDate>May 2010</creationDate>
     <author>JC Richard</author>
     <authorEmail>djanubis03@gmail.com</authorEmail>

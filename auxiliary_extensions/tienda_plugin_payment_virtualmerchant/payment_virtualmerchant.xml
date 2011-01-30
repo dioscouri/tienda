@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
     <name>Tienda - VirtualMerchant Payment</name>
-    <version>0.6.4</version>
+    <version>0.6.5</version>
     <creationDate>January 2011</creationDate>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda Plugin - No Tax on EU Companies</name>
-	<version>0.6.4</version>
+	<version>0.6.5</version>
 	<creationDate>October 2010</creationDate>
 	<author>Weble</author>
 	<authorEmail>info@weble.it</authorEmail>

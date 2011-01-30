@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>Dutch Tienda</name>
     <tag>nl-NL</tag>
-    <version>0.6.4 Community</version>
+    <version>0.6.5 Community</version>
     <creationDate>May 2010</creationDate>
     <author>Martijn Maandag and Ruud van Zuidam</author>
     <authorEmail>taal@joomlacommunity.eu</authorEmail>
