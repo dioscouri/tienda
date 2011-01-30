@@ -109,7 +109,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     function _renderForm( $data )
     {
         // Render the form for collecting payment info
-        
+        // TODO correct this
         $user = JFactory::getUser();    
         $vars = new JObject();
         

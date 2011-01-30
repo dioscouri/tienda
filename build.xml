@@ -348,6 +348,13 @@
     	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.aux}/tienda_plugin_payment_ambrapoints/languages" />
     	</copy>
+    	<!-- MONEYBOOKERS -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.aux}/tienda_plugin_payment_moneybookers" />
+    	</copy>
+    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.aux}/tienda_plugin_payment_moneybookers/languages" />
+    	</copy>
 
     <!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->

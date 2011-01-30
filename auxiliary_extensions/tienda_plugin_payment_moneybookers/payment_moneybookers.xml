@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Moneybookers Payments</name>
+	<version>0.7.0</version>
+	<creationDate>January 2011</creationDate>
+	<author>Dioscouri Design</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This Plugin enables Moneybookers payments for Tienda</description>
+	
+	<files>
+		<filename plugin="payment_moneybookers">payment_moneybookers.php</filename>
+		<folder>payment_moneybookers</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_moneybookers.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="receiver_email" type="text" size="50" default="" label="Tienda Moneybookers Email" description="Tienda Moneybookers Email Desc"/>
+		<param name="customer_id" type="text" size="50" default="" label="Tienda Moneybookers Customer ID" description="Tienda Moneybookers Customer ID Desc" />
+		<param name="secret_word" type="text" size="50" default="" label="Tienda Moneybookers Secret Word" description="Tienda Moneybookers Secret Word Desc" />
+		<param name="currency" type="text" size="10" default="USD" label="Tienda Moneybookers Currency" description="Tienda Moneybookers Currency Desc"/>
+		<param name="language" type="list" default="EN" label="Tienda Moneybookers Language" description="Tienda Moneybookers Language Desc" >
+			<option value="EN">EN</option>
+			<option value="DE">DE</option>
+			<option value="ES">ES</option>
+			<option value="FR">FR</option>
+			<option value="IT">IT</option>
+			<option value="PL">PL</option>
+			<option value="GR">GR</option>
+			<option value="RO">RO</option>
+			<option value="RU">RU</option>
+			<option value="TR">TR</option>
+			<option value="CN">CN</option>
+			<option value="CZ">CZ</option>
+			<option value="NL">NL</option>
+			<option value="DA">DA</option>
+			<option value="SV">SV</option>
+			<option value="FI">FI</option>		  
+		</param>
+		
+		<param name="include_logo" type="radio" default="0" label="Tienda Moneybookers Include Logo" description="Tienda Moneybookers Include Logo Desc" >
+			<option value="0">No</option>	
+			<option value="1">Yes</option>							  
+		</param>
+		<param name="logo_image" type="text" size="50" default="" label="Tienda Moneybookers Logo Image" description="Tienda Moneybookers Logo Image Desc"/>
+		<param type="spacer" />
+        <param name="sandbox" type="radio" default="0" label="Moneybookers Use Sandbox" description="Moneybookers Use Sandbox Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
+        <param name="sendbox_receiver_email" type="text" size="50" default="" label="Moneybookers Sandbox Email" description="Moneybookers Sandbox Email Desc"/>
+		<param name="sendbox_customer_id" type="text" size="50" default="" label="Moneybookers Sandbox Customer ID" description="Moneybookers Sandbox Customer ID Desc" />
+		<param name="sendbox_secret_word" type="text" size="50" default="" label="Moneybookers Sandbox Secret Word" description="Moneybookers Sandbox Secret Word Desc" />		
+		<param type="spacer" />
+		<param name="articleid" type="text" size="10" default="" label="Tienda Moneybookers Article Number" description="Tienda Moneybookers Article Number Desc"/>
+		<param name="display_article_title" type="radio" default="0" label="Tienda Moneybookers Display Article Title" description="Tienda Moneybookers Display Article Title Desc" >
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+        <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	</params>
+			
+</install>
