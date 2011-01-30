@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Report - Pre-Payments Products</name>
+	<name>Report - Pre-Payment Orders</name>
 	<version>0.6.4</version>
 	<creationDate>January 2011</creationDate>
 	<author>Dioscouri</author>
@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This reports on pre-payments products</description>
+	<description>This reports on pre-payment orders</description>
 
 	<files>
 		<filename plugin="report_prepayments">report_prepayments.php</filename>

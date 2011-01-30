@@ -406,6 +406,14 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_mostdownloadedfiles/languages" />
         </copy>
+        <!-- PREPAYMENT -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_prepayments" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginReportDir}_prepayments/languages" />
+        </copy>    	
+    	
     <!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
@@ -574,6 +582,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_cart" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_ordered_products.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_ordered_products" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_prepayments.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_prepayments" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_subscriptions" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_sales.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_sales" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requirephonenumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requirephonenumber" />

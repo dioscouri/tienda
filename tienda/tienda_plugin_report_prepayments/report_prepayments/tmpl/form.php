@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-    <p><?php echo JText::_( "THIS REPORTS ON PRE-PAYMENTS PRODUCTS" ); ?></p>
+    <p><?php echo JText::_( "THIS REPORTS ON PRE-PAYMENT ORDERS" ); ?></p>
 <div>
 <table class="adminlist">
 	<thead>
