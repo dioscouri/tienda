@@ -135,7 +135,7 @@ class TiendaViewOrders extends TiendaViewBase
 
             $this->displayTitle( 'Edit Addresses' );
             JToolBarHelper::save( 'saveAddresses' );
-            JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+            JToolBarHelper::cancel( 'closeEditAddresses', JText::_( 'Close' ) );
 
         // form
             $validate = JUtility::getToken();

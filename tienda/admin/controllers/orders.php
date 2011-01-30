@@ -1254,10 +1254,69 @@ class TiendaControllerOrders extends TiendaController
 	 * Enter description here ...
 	 * @return unknown_type
 	 */
+	function closeEditAddresses()
+	{
+	    $order_id = JRequest::getInt('id');
+	    $redirect = "index.php?option=com_tienda&view=orders";
+        $redirect .= "&task=view&id=" . $order_id;
+	    $this->redirect = $redirect;
+	    parent::cancel(); 
+	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @return unknown_type
+	 */
 	function saveAddresses()
 	{
-	    $post = JRequest::get('post');
-	    echo Tienda::dump($post);
+        $redirect = "index.php?option=com_tienda&view=orders";
+	    $order_id = JRequest::getInt('id');
+	    
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+        $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+	    $orderinfo->load( array('order_id'=>$order_id) );
+	    if (empty($order_id) || empty($orderinfo->order_id))
+        {
+            $this->message = JText::_( "Invalid Order" );
+            $this->messagetype = 'notice';
+            $redirect = JRoute::_( $redirect, false );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+        
+        $post = JRequest::get('post');
+        $orderinfo->bind($post);
+        
+        // do the countries and zones names
+        $country = JTable::getInstance('Countries', 'TiendaTable');
+        $country->load( $post['billing_country_id'] );
+        $orderinfo->billing_country_name = $country->country_name;
+         
+        $zone = JTable::getInstance('Zones', 'TiendaTable');
+        $zone->load( $post['billing_zone_id'] );
+        $orderinfo->billing_zone_name = $zone->zone_name;
+        
+        $country->load( $post['shipping_country_id'] );
+        $orderinfo->shipping_country_name = $country->country_name;
+        
+        $zone->load( $post['shipping_zone_id'] );
+        $orderinfo->shipping_zone_name = $zone->zone_name;
+                
+        if (!$orderinfo->save())
+        {
+            $this->message = JText::_( "Save Failed" ) . " - " . $orderinfo->getError();
+            $this->messagetype = 'notice';
+            $redirect = JRoute::_( $redirect, false );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+        
+        $redirect .= "&task=view&id=" . $order_id;
+        $this->message = JText::_( "Address Changes Saved" );
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;
 	}
 }
 ?>
