@@ -1,0 +1,60 @@
+	<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tatrapay Payments</name>
+	<version>0.6.4</version>
+	<creationDate>January 2011</creationDate>
+	<author>Lukas Pokak</author>
+	<authorEmail>polak.lukas90@gmail.com</authorEmail>
+	<authorUrl>http://www.lukaspolak.net</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Tatrapay payments</description>
+	
+	<files>
+		<filename plugin="payment_tatrapay">payment_tatrapay.php</filename>
+		<folder>payment_tatrapay</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="sk-SK">sk-SK.plg_tienda_payment_tatrapay.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+      <param name="mid" type="text" size="50" default="" label="Tatrapay MID" description="Tatrapay MID Desc"/>
+      <param name="secure_key" type="text" size="50" default="" label="Tatrapay Secure Key" description="Tatrapay Secure Key Desc"/>
+      <param name="currency" type="text" size="50" default="" label="Tatrapay Currency" description="Tatrapay Currency Desc" />
+      <param name="constant_symbol" type="text" size="50" default="" label="Tatrapay Constant Symbol" description="Tatrapay Constant Symbol Desc"/>
+      <param name="special_symbol" type="text" size="50" default="" label="Tatrapay Special Symbol" description="Tatrapay Special Symbol Desc" />
+      <param name="rsms" type="text" size="50" default="" label="Tatrapay Return SMS" description="Tatrapay Return SMS Desc"/>
+      <param name="rem" type="text" size="50" default="" label="Tatrapay Return E-mail" description="Tatrapay Return E-mail Desc"/>
+      <param name="lang" type="radio" default="sk" label="Tatrapay Language" description="Tatrapay Language Desc">
+        <option value="sk">Slovak</option>
+        <option value="en">English</option>
+        <option value="de">Germany</option>
+        <option value="hu">Hungary</option>
+      </param>
+      <param type="spacer" />
+      <param name="sandbox" type="radio" default="0" label="Tatrapay Use Sandbox" description="Tatrapay Use Sandbox Desc">
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </param>
+      <param name="sandbox_mid" type="text" size="50" default="" label="Tatrapay MID" description="Tatrapay MID Desc"/>
+      <param name="sandbox_secure_key" type="text" size="50" default="" label="Tatrapay Secure Key" description="Tatrapay Secure Key Desc"/>
+      <param name="sandbox_currency" type="text" size="50" default="" label="Tatrapay Currency" description="Tatrapay Currency Desc" />
+      <param name="sandbox_constant_symbol" type="text" size="50" default="" label="Tatrapay Constant Symbol" description="Tatrapay Constant Symbol Desc"/>
+      <param name="sandbox_special_symbol" type="text" size="50" default="" label="Tatrapay Special Symbol" description="Tatrapay Special Symbol Desc" />
+      <param name="sandbox_rsms" type="text" size="50" default="" label="Tatrapay Return SMS" description="Tatrapay Return SMS Desc"/>
+      <param name="sandbox_rem" type="text" size="50" default="" label="Tatrapay Return E-mail" description="Tatrapay Return E-mail Desc"/>
+      <param name="sandbox_lang" type="radio" default="sk" label="Tatrapay Language" description="Tatrapay Language Desc">
+        <option value="sk">Slovak</option>
+        <option value="en">English</option>
+        <option value="de">Germany</option>
+        <option value="hu">Hungary</option>
+      </param>
+
+      <param type="spacer" />
+      <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	</params>
+			
+</install>
