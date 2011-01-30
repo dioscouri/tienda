@@ -173,6 +173,7 @@ class plgSystemTienda extends JPlugin
         if ($last_run < $three_hours_ago)
         {
             // run it
+            jimport( 'joomla.application.component.model' );
             JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'Carts', 'TiendaModel');
             $model->deleteExpiredSessionCarts();
