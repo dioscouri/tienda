@@ -461,10 +461,14 @@ class TiendaHelperBase extends JObject
 	 * @param $date
 	 * @return unknown_type
 	 */
-	function getOffsetDate( $date )
+	function getOffsetDate( $date, $offset='' )
 	{
-		$config = JFactory::getConfig();
-		$offset = $config->getValue('config.offset');
+	    if (empty($offset))
+	    {
+            $config = JFactory::getConfig();
+            $offset = $config->getValue('config.offset');
+	    }
+
 		if ($offset > 0) {
 			$command = 'DATE_ADD';
 		} elseif ($offset < 0) {
@@ -472,8 +476,11 @@ class TiendaHelperBase extends JObject
 		} else {
 			$command = '';
 		}
+		
 		if ($command)
 		{
+		    $offset = abs($offset);
+		    
 			$database = JFactory::getDBO();
 			$query = "
 				SELECT

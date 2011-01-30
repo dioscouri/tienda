@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="system" method="upgrade">
-    <name>System - Tienda Component Overrides</name>
+    <name>System - Tienda</name>
     <version>0.6.4</version>
     <creationDate>August 2010</creationDate>
     <author>Dioscouri</author>
@@ -8,7 +8,7 @@
     <authorUrl>http://www.dioscouri.com</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>Handles system overrides for Tienda</description>
+    <description>Handles system events and overrides for Tienda</description>
     
     <files>
         <filename plugin="tienda">tienda.php</filename>

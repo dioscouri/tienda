@@ -47,9 +47,12 @@ class plgSystemTienda extends JPlugin
             return $success;
         }
         
+        // clean expired session carts
+        $this->deleteExpiredSessionCarts();
+        
         // get the option variable
         // and get rid of the com_
-        $option = JRequest::getVar( 'option' );
+        $option = JRequest::getCmd( 'option' );
         $name = str_replace("com_", "", $option);
 
         // does an override exist for this component?
@@ -145,5 +148,37 @@ class plgSystemTienda extends JPlugin
             }
         }
         return $success;
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
+    function deleteExpiredSessionCarts()
+    {
+        $config = TiendaConfig::getInstance();
+        $last_run = $config->get('last_deleted_expired_sessioncarts');
+        
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $helper = new TiendaHelperBase();
+        
+        $date = JFactory::getDate();
+        $now = $date->toMySQL();
+        
+        $three_hours_ago = $helper->getOffsetDate($now, '-3');
+        
+        // when was this last run?
+        // if it was run more than 3 hours ago, run again
+        if ($last_run < $three_hours_ago)
+        {
+            // run it
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = JModel::getInstance( 'Carts', 'TiendaModel');
+            $model->deleteExpiredSessionCarts();
+        } 
+
+        return;
+        
     }
 }

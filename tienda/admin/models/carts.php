@@ -209,18 +209,14 @@ class TiendaModelCarts extends TiendaModelBase
     }
 
 
-    /*
-     * It will check that is there any item in the cart list for which shipping is require
-     * will return true
-     * Other wise will return false
+    /**
+     * Will check if there are any items in the cart for which shipping is required
      *
      *  @return Boolean
      */
     public function getShippingIsEnabled()
     {
-    	$suffix = strtolower(TiendaHelperCarts::getSuffix());
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-	   	$model = JModel::getInstance($suffix, 'TiendaModel');
+	   	$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
         $session =& JFactory::getSession();
         $user =& JFactory::getUser();
@@ -233,16 +229,67 @@ class TiendaModelCarts extends TiendaModelBase
 		$list = $model->getList();
 
     	// If no item in the list, return false
-        if( empty( $list ) ){
+        if ( empty( $list ) )
+        {
           	return false;
         }
+        
         foreach ($list as $item)
         {
            	$shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
         	if ($shipping)
-        	return true;
+        	{
+        	    return true;
+        	}
         }
+        
         return false;
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
+    public function deleteExpiredSessionCarts()
+    {
+        $db = JFactory::getDBO();
+
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $helper = new TiendaHelperBase();                
+        $query = new TiendaQuery();
+        
+        $query->select( "tbl.session_id" );
+        $query->from( "#__session AS tbl" );
+        $db->setQuery( (string) $query );
+        $results = $db->loadAssocList();
+        $session_ids = $helper->getColumn($results, 'session_id');        
+        
+        $query = new TiendaQuery();        
+        $query->delete();
+        $query->from( "#__tienda_carts" );
+        $query->where( "`user_id` = '0'" );
+        $query->where( "`session_id` NOT IN('" . implode( "', '", $session_ids) . "')" );
+
+        $db->setQuery( (string) $query );
+        if (!$db->query())
+        {
+            $this->setError( $db->getErrorMsg() );
+            return false;
+        }
+        
+        $date = JFactory::getDate();
+        $now = $date->toMySQL();
+        
+        // Update config to say this has been done already
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        $config->load( array( 'config_name'=>'last_deleted_expired_sessioncarts') );
+        $config->config_name = 'last_deleted_expired_sessioncarts';
+        $config->value = $now;
+        $config->save();
+        return true;
     }
 
 }
