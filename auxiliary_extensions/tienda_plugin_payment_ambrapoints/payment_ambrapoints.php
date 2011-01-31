@@ -282,4 +282,39 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         
         return $param;
     }
+    
+	/**
+     * Determines if this payment option is valid for this order
+     * 
+     * @param $element
+     * @param $order
+     * @return unknown_type
+     */
+    function onGetPaymentOptions($element, $order)
+    {       
+        // Check if this is the right plugin
+        if (!$this->_isMe($element)) 
+        {
+            return null;
+        }
+        
+        // if this payment method should be available for this order, return true
+        // if not, return false.
+        // by default, all enabled payment methods are valid, so return true here,
+        // but plugins may override this
+    	
+        $amount_points = round( $order->order_total * $this->_getParam('exchange_rate') );
+       	
+        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
+
+        if( $amount_points > $current_points )
+        {
+        	return false;
+        }
+        else 
+        {
+        	return true;
+        }      
+    }
 }
