@@ -212,8 +212,8 @@ switch($view):
 	case 'subscriptions':		
 		$title[] = JText::_('subscriptions');		
 		break;
-	case 'carts':		
-		$title[] = JText::_('carts');		
+	case 'carts':	
+		$title[] = JText::_('carts');
 		break;
 	case 'check':		
 		$title[] = JText::_('checks');		
@@ -226,7 +226,7 @@ switch($view):
 		break;
 endswitch;
 
-if(!empty($task) && $task != 'validate' && $task !='reviewHelpfullness') {
+if(!empty($task) && $task != 'validate' && $task != 'validateChildren' && $task !='reviewHelpfullness' && $view != 'carts') {
   	shRemoveFromGETVarsList('task');
 }
 if(!empty($layout)) {
