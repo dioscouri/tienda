@@ -7,6 +7,7 @@ JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->items;
 $state = @$this->state;
+$subtotal = @$this->subtotal;
 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 $router = new TiendaHelperRoute();
 $quantities = array();
@@ -40,11 +41,10 @@ $quantities = array();
                 </tr>
             </thead>
             <tbody>
-            <?php $i=0; $k=0; $subtotal = 0; ?> 
+            <?php $i=0; $k=0;?> 
             <?php foreach ($items as $item) : ?>
             	
-            	<?php
-            	
+            	<?php            	
             		$params = new JParameter( trim(@$item->cartitem_params) );
             		$link = $params->get('product_url', "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id);
             		$link = JRoute::_($link);
@@ -99,10 +99,8 @@ $quantities = array();
                             <!-- Keep Original quantity to check any update to it when going to checkout -->
                             <input name="original_quantities[<?php echo $item->cart_id; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
                     </td>
-                    <td style="text-align: right;">
-                        <?php $itemsubtotal = $item->product_price * $item->product_qty; ?>
-                        <?php $subtotal = $subtotal + $itemsubtotal; ?>
-                        <?php echo TiendaHelperBase::currency($itemsubtotal); ?>
+                    <td style="text-align: right;">                       
+                        <?php echo TiendaHelperBase::currency($item->subtotal); ?>
                     </td>
                 </tr>
             <?php ++$i; $k = (1 - $k); ?>

@@ -72,7 +72,7 @@ class TiendaControllerCarts extends TiendaController
                 $return = '';
             }
         }
-        
+     
         $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );       		
        
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
@@ -89,6 +89,13 @@ class TiendaControllerCarts extends TiendaController
         $items =& $model->getList();        
         $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
        	$items = $this->checkItems($items, $show_tax);
+ 
+		$subtotal = 0;
+		foreach($items as $item)
+		{
+			$item->subtotal = $item->product_price * $item->product_qty;
+			$subtotal = $subtotal + $item->subtotal;
+		}
 
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
 		
@@ -119,6 +126,7 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
       	$view->assign('items', $items);
+      	$view->assign('subtotal', $subtotal);
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
