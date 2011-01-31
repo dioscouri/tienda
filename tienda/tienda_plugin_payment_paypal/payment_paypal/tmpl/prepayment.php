@@ -68,7 +68,7 @@
             foreach ($vars->orderitems as $item) 
             {
                 ?>
-                <input type='hidden' name='amount_<?php echo $i;?>' value='<?php echo TiendaHelperBase::number( @$item->orderitem_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
+                <input type='hidden' name='amount_<?php echo $i;?>' value='<?php echo TiendaHelperBase::number( @$item->orderitem_final_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
                 <input type='hidden' name='item_name_<?php echo $i;?>' value='<?php echo $item->_description;?>'>
                 <input type='hidden' name='item_number_<?php echo $i;?>' value='<?php echo $item->product_id; ?>'>
                 <input type='hidden' name='quantity_<?php echo $i;?>' value='<?php echo $item->orderitem_quantity; ?>'>                   
