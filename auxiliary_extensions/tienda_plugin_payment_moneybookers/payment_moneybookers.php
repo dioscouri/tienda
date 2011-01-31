@@ -52,29 +52,32 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     {
         // Process the payment
         
-    	$user = JFactory::getUser();
-    	
-        $vars = new JObject();
-        $vars->order_id = $data['order_id'];
+    	$vars = new JObject();        
+        
+        $vars->action_url = $this->_getActionUrl();        
+
+        // properties as specified in moneybookers gateway manual
+        $vars->pay_to_email = $this->params->get( 'receiver_email' );
+        $vars->transaction_id = $data['orderpayment_id'];
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=display_message";
+        $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
+        $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
+        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
+        $vars->status_url2 = $this->params->get( 'receiver_email' );
+        $vars->language = $this->params->get( 'language', 'EN' );
+        $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
+        $vars->logo_url = JURI::root().$this->params->get( 'logo_image' );
+        $vars->user_id = JFactory::getUser()->id;
+		$vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
-        $vars->orderpayment_amount = $data['orderpayment_amount'];
-        $vars->orderpayment_type = $this->_element;
-        
-      /*  $vars->action_url = $this->_getActionUrl();
-		$vars->pay_to_email = $this->params->get( 'receiver_email' );
-		$vars->return_url = JURI::root()."index.php?option=com_ambrasubs&controller=payment&task=process&ptype={$this->_payment_type}&paction=display_message";
-		$vars->cancel_url = JURI::root()."index.php?option=com_ambrasubs&controller=payment&task=process&ptype={$this->_payment_type}&paction=cancel";
-		$vars->status_url = JURI::root()."index.php?option=com_ambrasubs&controller=payment&task=process&ptype={$this->_payment_type}&paction=process&tmpl=component";
-		$vars->status_url2 = $this->params->get( 'receiver_email' );
-		$vars->language = $this->params->get( 'language', 'EN' );
-		$vars->user_id = $user->get('id');
-		$vars->type_id = $row->get('id');			
-		$vars->currency = $this->params->get( 'currency', 'USD' );*/
-        
-        
-        
-        $vars->message = "Preprocessing successful. Double-check your entries.  Then, to complete your order, click Complete Order!";
-        
+	    $vars->orderpayment_type = $this->_element;	
+	    $vars->amount = $data['orderpayment_amount'];
+	    $vars->currency = $this->params->get( 'currency', 'USD' );
+	    $vars->detail1_description = $data['order_id'];
+     	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
+     	$vars->detail2_description = $this->params->get( 'receiver_email' );
+     	$vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
+	    
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
     } 
@@ -96,27 +99,32 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     {
         // Process the payment        
         
-    	$vars = new JObject();
+    	$vars = new JObject();   
         
-        $app =& JFactory::getApplication();
-        $paction = JRequest::getVar( 'paction' );
-        
-        switch ($paction)
-        {
-            case 'process_recurring':
-                // TODO Complete this
-                // $this->_processRecurringPayment();
-                $app->close();                  
-              break;
-            case 'process':
-                $vars->message = $this->_process();
-                $html = $this->_getLayout('message', $vars);
-              break;
-            default:
-                $vars->message = JText::_( 'Invalid Action' );
-                $html = $this->_getLayout('message', $vars);
-              break;
-        }
+        $paction 	= JRequest::getVar( 'paction' );
+		$html = "";
+			
+		switch ($paction) {
+			case "display_message":					
+ 				$html .= $this->_renderHtml( JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT ACCEPTED FOR VALIDATION') ); 
+				$html .= $this->_displayArticle();					
+			  break;
+			case "process":
+				$html .= $this->_process();					
+				echo $html;
+				
+				$app =& JFactory::getApplication();
+				$app->close();
+			  break;
+			case "cancel":
+				$text = JText::_( 'Moneybookers Message Cancel' );
+				$html .= $this->_renderHtml( $text );
+			  break;				
+			default:
+				$text = JText::_( 'Moneybookers Message Invalid Action' );
+				$html .= $this->_renderHtml( $text );
+			  break;
+		}
         
         return $html;
     }
@@ -146,36 +154,33 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     /**
      * Processes the payment
      * 
-     * This method process only real time (simple and subscription create) payments
+     * This method process only real time (simple) payments
      * The scheduled recurring payments are processed by the corresponding method
+     * 
+     * - Merchant creates a pending transaction or order for X amount in their system.
+	 * - Merchant redirects the customer to the Moneybookers Payment Gateway where the customer completes the transaction.
+     * - Moneybookers posts the confirmation for a transaction to the status_url, which includes the 'mb_amount' parameter.
+     * - The Merchant's application at 'status_url' first validates the parameters by calculating the md5sig (see Annex III – MD5 Signature) and if successful, it should compare the value from the confirmation post (amount parameter) to the one from the pending transaction/order in their system. Merchants may also wish to compare other parameters such as transaction id and pay_from_email. Once everything is correct the Merchant can process the transaction in their system, crediting the money to their customer's account or dispatching the goods ordered.
      * 
      * @return string
      * @access protected
      */
     function _process()
     {
-    	$data = JRequest::get('post');
-        
-    	// ajust this and _processSimplePayment() function to the moneybookers
-        // get order information
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
-        $order->load( $data['order_id'] );
-        if ( empty($order->order_id) ) {
-            return JText::_( 'Moneybookers Message Invalid Order' );
-        }
-         
-        if ( empty($this->login_id)) {
-            return JText::_( 'Moneybookers Message Missing Merchant Login ID' );
-        }
-        if ( empty($this->tran_key)) {
-            return JText::_( 'Moneybookers Message Missing Transaction Key' );
-        }
-        
-        // prepare the form for submission to auth.net
-        $process_vars = $this->_getProcessVars($data);
-        
-        return $this->_processSimplePayment($process_vars);
+    	// load the orderpayment record and set some values
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    $orderpayment_id = $data['orderpayment_id'];
+	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	    $orderpayment->load( $orderpayment_id );
+	    $orderpayment->transaction_details  = $data['orderpayment_type'];
+	    $orderpayment->transaction_id       = $data['orderpayment_id'];
+	    $orderpayment->transaction_status   = "Pending";
+	    
+    	// check the stored amount against the payment amount
+	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	    	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE AMOUNT INVALID');
+	    }
     }  
     
 	/**

@@ -179,7 +179,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    // check the stored amount against the payment amount
 	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
 	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
-	    	$errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
+	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
 	    }
 	        
 	    // set the order's new status and update quantities if necessary
