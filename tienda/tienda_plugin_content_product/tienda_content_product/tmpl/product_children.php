@@ -66,7 +66,7 @@ $form = @$this->form;
             <input type="hidden" id="task" name="task" value="" />
             <?php echo JHTML::_( 'form.token' ); ?>
             
-            <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
+            <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
             
             <?php 
             if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :

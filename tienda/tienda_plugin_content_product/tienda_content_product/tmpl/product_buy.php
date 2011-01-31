@@ -84,7 +84,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
-        <?php $onclick = "tiendaFormValidation( '".@$vars->validation."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($vars->invalidQuantity)) ) :
