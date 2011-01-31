@@ -5,9 +5,9 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
-$items = @$this->items;
+$items = @$this->cartobj->items;
+$subtotal = @$this->cartobj->subtotal;
 $state = @$this->state;
-$subtotal = @$this->subtotal;
 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 $router = new TiendaHelperRoute();
 $quantities = array();
@@ -41,7 +41,7 @@ $quantities = array();
                 </tr>
             </thead>
             <tbody>
-            <?php $i=0; $k=0;?> 
+            <?php $i=0; $k=0; $subtotal = 0;?> 
             <?php foreach ($items as $item) : ?>
             	
             	<?php            	
@@ -100,6 +100,7 @@ $quantities = array();
                             <input name="original_quantities[<?php echo $item->cart_id; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
                     </td>
                     <td style="text-align: right;">                       
+                        <?php $subtotal = $subtotal + $item->subtotal; ?>
                         <?php echo TiendaHelperBase::currency($item->subtotal); ?>
                     </td>
                 </tr>

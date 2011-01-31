@@ -2,7 +2,8 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
-$items = @$this->items;
+$items = @$this->cartobj->items;
+$subtotal = @$this->cartobj->subtotal;
 $state = @$this->state;
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 ?>
@@ -47,10 +48,9 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
                     <td style="width: 50px; text-align: center;">
                         <?php echo $item->product_qty; ?>
                     </td>
-                    <td style="text-align: right;">
-                        <?php $itemsubtotal = $item->product_price * $item->product_qty; ?>
-                        <?php $subtotal = $subtotal + $itemsubtotal; ?>
-                        <?php echo TiendaHelperBase::currency($itemsubtotal); ?>
+                    <td style="text-align: right;">                      
+                        <?php $subtotal = $subtotal + $item->subtotal; ?>
+                        <?php echo TiendaHelperBase::currency($item->subtotal); ?>
                     </td>
                 </tr>
             <?php ++$i; $k = (1 - $k); ?>

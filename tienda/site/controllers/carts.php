@@ -87,16 +87,7 @@ class TiendaControllerCarts extends TiendaController
         $this->_setModelState();
 		
         $items =& $model->getList();        
-        $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
-       	$items = $this->checkItems($items, $show_tax);
- 
-		$subtotal = 0;
-		foreach($items as $item)
-		{
-			$item->subtotal = $item->product_price * $item->product_qty;
-			$subtotal = $subtotal + $item->subtotal;
-		}
-
+        $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
 		
         if (!empty($items))
@@ -125,8 +116,7 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'submenu', $submenu );
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-      	$view->assign('items', $items);
-      	$view->assign('subtotal', $subtotal);
+      	$view->assign('cartobj', $this->checkItems($items, $show_tax));      
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
@@ -460,7 +450,7 @@ class TiendaControllerCarts extends TiendaController
 		$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
 		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-        $view->assign('items', 	$this->checkItems($items, $show_tax));
+        $view->assign('cartobj', 	$this->checkItems($items, $show_tax));
         $view->assign( 'show_tax', $show_tax );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
@@ -477,7 +467,7 @@ class TiendaControllerCarts extends TiendaController
      * Then get right values accordingly
      * @param array $items - cart items
      * @param boolean - config to show tax or not
-     * @return array
+     * @return object
      */
     function checkItems($items= array(), $show_tax=false)
     {    	
@@ -497,7 +487,7 @@ class TiendaControllerCarts extends TiendaController
                 $geozones = array( $table );
             }          
         }        
-      	
+      	$subtotal = 0;
         foreach ($items as $item)
         {
         	/* This is not necessary! already done in the model! 
@@ -514,8 +504,13 @@ class TiendaControllerCarts extends TiendaController
            	 	$item->product_price = $item->product_price + $taxtotal->tax_total;
             	$item->taxtotal = $taxtotal;
         	}        	
+        	
+        	$item->subtotal = $item->product_price * $item->product_qty;	
+        	$subtotal = $subtotal + $item->subtotal;		
         }
-    	
-        return $items;
+        $cartObj = new JObject();
+        $cartObj->items = $items;
+    	$cartObj->subtotal = $subtotal;
+        return $cartObj;
     }
 }
