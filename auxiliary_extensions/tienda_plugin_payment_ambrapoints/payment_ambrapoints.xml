@@ -22,6 +22,11 @@
 	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="exchange_rate" type="text" size="10" label="Exchange Rate for Points" description="Value of 1 point in dollars" />
         <param type="spacer" />
+        <param name="articleid" type="text" size="10" default="" label="Tienda Ambrapoints Payment Article Number" description="Tienda Ambrapoints Payment Article Number Desc" /> 
+		<param name="display_article_title" type="radio" default="0" label="Tienda Ambrapoints Payment Display Article Title" description="Tienda Ambrapoints Payment Display Article Title Desc">
+  			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+  		</param>
         <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
    		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
 	</params>

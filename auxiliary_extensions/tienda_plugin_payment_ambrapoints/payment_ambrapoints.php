@@ -82,19 +82,25 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     {
         // Process the payment
            	
-    	$success = $this->_process( $data );   	
+    	$success = $this->_process( $data ); 
+    	$display_article = $this->params->get('display_article_title');  	
     	
     	if( $success == '' )
     	{
-	        $vars = new JObject();
-	        $vars->message = JText::_( 'Tienda Ambrapoints Payment Successful' );
-	        
-	        $html = $this->_getLayout('postpayment', $vars);
+    		if( $display_article )
+    		{
+    			$html = $this->_displayArticle();
+    		}
+    		else
+      		{ 			
+	        	$html = $this->_getLayout('postpayment');
+    		}
+    			        
 	        return $html;
     	}
     	else
     	{       	
-        	$vars->message = JText::_( 'Ambrapoints Payment Error Message' );
+        	$vars->message = JText::_( 'Tienda Ambrapoints Payment Error Message' );
 			$html = $this->_getLayout('message', $vars);
 			return $html;
     	}
@@ -185,6 +191,8 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    {
 	    	// if an error occurred 
 	        $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+	        
+	        $send_email = false;
 	   	}
 	        else 
 	    {
