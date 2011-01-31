@@ -307,7 +307,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
        	
         JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
 		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
-
+		
         if( $amount_points > $current_points )
         {
         	return false;
@@ -315,6 +315,6 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         else 
         {
         	return true;
-        }      
+        }              
     }
 }

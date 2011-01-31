@@ -20,7 +20,7 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="exchange_rate" type="text" size="10" label="Exchange Rate for Points" description="Value of 1 point in dollars" />
+		<param name="exchange_rate" type="text" size="10" default="1" label="TIENDA AMBRAPOINTS PAYMENT EXSCHANGE RATE" description="TIENDA AMBRAPOINTS PAYMENT EXSCHANGE RATE DESC" />
         <param type="spacer" />
         <param name="articleid" type="text" size="10" default="" label="Tienda Ambrapoints Payment Article Number" description="Tienda Ambrapoints Payment Article Number Desc" /> 
 		<param name="display_article_title" type="radio" default="0" label="Tienda Ambrapoints Payment Display Article Title" description="Tienda Ambrapoints Payment Display Article Title Desc">
