@@ -36,10 +36,11 @@
       <param type="spacer" />
       <param name="sandbox" type="radio" default="0" label="Tatrapay Use Sandbox" description="Tatrapay Use Sandbox Desc">
         <option value="0">No</option>
-        <option value="1">Yes</option>
+        <option value="1">Yes - Tatrabanka</option>
+        <option value="2">Yes - Monogram</option>
       </param>
-      <param name="sandbox_mid" type="text" size="50" default="aoj" label="Tatrapay MID" description="Tatrapay MID Desc"/>
-      <param name="sandbox_secure_key" type="text" size="50" default="87651234" label="Tatrapay Secure Key" description="Tatrapay Secure Key Desc"/>
+      <param name="sandbox_mid" type="text" size="50" default="aoj" label="Tatrapay MID" description="Tatrapay MID Desc Sandbox"/>
+      <param name="sandbox_secure_key" type="text" size="50" default="87651234" label="Tatrapay Secure Key" description="Tatrapay Secure Key Desc Sandbox"/>
       <param name="sandbox_currency" type="text" size="50" default="978" label="Tatrapay Currency" description="Tatrapay Currency Desc" />
       <param name="sandbox_constant_symbol" type="text" size="50" default="" label="Tatrapay Constant Symbol" description="Tatrapay Constant Symbol Desc"/>
       <param name="sandbox_special_symbol" type="text" size="50" default="" label="Tatrapay Special Symbol" description="Tatrapay Special Symbol Desc" />

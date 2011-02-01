@@ -347,8 +347,10 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
     				
     	$url[] = 'RURL='.urlencode( JRoute::_( $data['rurl'] ) );
     	$url[] = 'SIGN='.$this->_generateSignature( $data, 1 );
-    	$url[] = 'RSMS='.$data['rsms'];
-    	$url[] = 'REM='.$data['rem'];
+    	if( strlen( $data['rsms'] ) )
+    		$url[] = 'RSMS='.$data['rsms'];
+    	if( strlen( $data['rem'] ) )
+    		$url[] = 'REM='.$data['rem'];
     	$url[] = 'DESC='.JText::sprintf( 'DESC_OUTCOMING_MESSAGE', $data['order_id'] );
     	$url[] = 'AREDIR=1';
     	$url[] = 'LANG='.$this->_getParam( 'lang' );
@@ -361,10 +363,15 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
      */
     function _getIbUri()
     {
-    	if( $this->params->get( 'sandbox' ) ) // if sandbox mode
-    		return 'http://epaymentsimulator.monogram.sk/TB_TatraPay.aspx';
-    	else // real-life mode
-    		return 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/e-commerce.jsp';
+    	switch( $this->params->get( 'sandbox' ) )
+    	{
+    		case 0 : // real-life mode
+    			return 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/e-commerce.jsp';
+    		case 1 : // tatrabanka sandbox
+    			return 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
+    		case 2 : // monogram sandbox
+    			return 'http://epaymentsimulator.monogram.sk/TB_TatraPay.aspx';
+    	}
     }
 
     /*
