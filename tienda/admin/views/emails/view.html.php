@@ -39,6 +39,15 @@ class TiendaViewEmails extends TiendaViewBase
 			  break;
 		}
 	}
+	
+	/**
+	 * The default toolbar for a list
+	 * @return unknown_type
+	 */
+	function _defaultToolbar()
+	{
+		
+	}
     
 	function _formToolbar( $isNew = false )
 	{
