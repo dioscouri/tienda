@@ -1565,7 +1565,7 @@ class TiendaControllerCheckout extends TiendaController
         }               
 		$view->assign('plugins', $plugins);
 
-		$dispatcher =& JDispatcher::getInstance();
+		//$dispatcher =& JDispatcher::getInstance();
 
 		ob_start();
 		$dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
