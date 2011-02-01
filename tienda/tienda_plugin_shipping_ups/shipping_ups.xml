@@ -22,7 +22,7 @@
 	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
 		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
-		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
+		<param name="account" type="text" size="50" default="" label="API Username" description="API Username Desc"/>
 		<param name="shipper_number" type="text" size="50" default="" label="API Shipper Number" description="API Shipper Number Desc"/>
         <param name="services" type="multilist" multiple="multiple" default="11" label="Services" description="Services Desc">
 			<option value="01">UPS Next Day Air</option>
