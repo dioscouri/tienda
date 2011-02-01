@@ -336,16 +336,8 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     function getServices()
     {
         $upsServices = $this->getUpsServices();
-        $services = array();        
+        $services = array(); 
         $services_list = $this->params->get( 'services' );
-        //check if array
-        if(!is_array($services_list))
-        {
-        	//convert to array
-        	//it happens when only 1 service is selected
-        	$services_list = array($services_list);
-        }
-        
         foreach ($services_list as $service)
         {
             if (array_key_exists($service, $upsServices))
@@ -612,10 +604,23 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
         return $success;        
     }
     
-	protected function writeToLog($client)
-	{  
-		$file = '';
-		JFile::write( $file,  sprintf("\r%s:- %s",date("D M j G:i:s T Y"), $client->__getLastRequest(). "\n\n" . $client->__getLastResponse()) );
-	}
-    
+    protected  function writeToLog( $text )
+    {
+    	static $first = true;
+    	jimport( 'joomla.filesystem.file' );
+    	$path_file = JPATH_BASE.'/images/com_tienda/ups_log.txt';
+    	$dump = '';
+    	if( JFile::exists( $path_file ) )
+    		$dump = JFile::read( $path_file );
+    	
+    	if( $first )
+    	{
+    		$dump = "\n\n".Date('d.n.Y - H:i.s ', time()).$text;
+    		$first = false;
+    	}
+    	else
+    		$dump .= "\n\n".Date('d.n.Y - H:i.s ', time()).$text;
+    	JFile::write( $path_file, $dump );
+    }
+        
 }

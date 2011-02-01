@@ -27,6 +27,25 @@ class TiendaUps extends JObject
     var $wsdl       = null;
     var $accountNumber;
     var $meterNumber;
+
+    protected  function writeToLog( $text )
+    {
+    	static $first = true;
+    	jimport( 'joomla.filesystem.file' );
+    	$path_file = JPATH_BASE.'/images/com_tienda/ups_log.txt';
+    	$dump = '';
+    	if( JFile::exists( $path_file ) )
+    		$dump = JFile::read( $path_file );
+    	
+    	if( $first )
+    	{
+    		$dump = "\n\n".Date('d.n.Y - H:i.s ', time()).$text;
+    		$first = false;
+    	}
+    	else
+    		$dump .= "\n\n".Date('d.n.Y - H:i.s ', time()).$text;
+    	JFile::write( $path_file, $dump );
+    }
     
     function getClient()
     {
@@ -248,6 +267,7 @@ class TiendaUpsRate extends TiendaUps
             } catch (SoapFault $exception) {
                 
                 $this->response = $this->getClient()->__getLastResponse();
+                //$this->writeToLog( $this->response );
                 $this->setError(  (string) $exception.$this->getClient()->__getLastRequest() );
                 return false; 
             }        
@@ -283,8 +303,7 @@ class TiendaUpsRate extends TiendaUps
                     'PostalCode' => $this->originPostalCode,
                     'CountryCode' => $this->originCountryCode,
 			),
-			//'ShipperNumber' => 'V3443E', ???????????
-			//'ShipperNumber' => $this->shipperNumber,
+			'ShipperNumber' => 'V3443E',
 		);        
         $request['Shipment']['ShipTo'] = array(
             'Address' => 
@@ -597,3 +616,4 @@ class TiendaUpsTracking extends TiendaUps
 }
 
 ?> 
+
