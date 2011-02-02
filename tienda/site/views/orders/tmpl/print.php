@@ -143,7 +143,7 @@
                         <?php endif; ?>    
                     <?php else : ?>
                         <b><?php echo JText::_( "Price" ); ?>:</b>
-                        <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>                         
+                        <?php echo TiendaHelperBase::currency( $item->orderitem_final_price, $row->currency ); ?>                         
                     <?php endif; ?>
                     
                     <!-- onDisplayOrderItem event: plugins can extend order item information -->

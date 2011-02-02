@@ -95,7 +95,7 @@
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onBeforeDisplayOrderViewOrderItems', array( $row ) );                    
     ?>
-    
+   
 	<div id="items_info">
 		<h3><?php echo JText::_("Items in Order"); ?></h3>
 		
@@ -110,6 +110,7 @@
 		<tbody>
 		<?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) : ?>
+
 			<tr class='row<?php echo $k; ?>'>
                 <td>
                     <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id ); ?>">
@@ -139,7 +140,7 @@
                         <?php endif; ?>    
                     <?php else : ?>
                         <b><?php echo JText::_( "Price" ); ?>:</b>
-                        <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>                         
+                        <?php echo TiendaHelperBase::currency( $item->orderitem_final_price, $row->currency ); ?>                         
                     <?php endif; ?> 
                     
                     <!-- onDisplayOrderItem event: plugins can extend order item information -->
