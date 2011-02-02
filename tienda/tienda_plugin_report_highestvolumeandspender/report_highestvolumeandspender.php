@@ -24,7 +24,7 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	/**
 	 * @var $default_model  string  Default model used by report
 	 */
-	var $default_model    = 'users';
+	var $default_model    = 'orders';
 
 	/**
 	 * Constructor
@@ -37,7 +37,7 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgTiendaReport_lowstock(& $subject, $config)
+	function plgTiendaReport_highestvolumeandspender(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
@@ -52,22 +52,11 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	{
 		$state = $this->_getState();
 		$model = $this->_getModel();
-
+		$model->setState( 'order', 'spent');
+		$model->setState( 'direction', 'DESC');
 		$query = $model->getQuery();
-
 		$field = array();
-
-		$queryStr = "";
-        if(!empty($state['filter_date_from']))
-        {
-        	$queryStr .= " AND o.created_date >= '{$state['filter_date_from']}' ";
-        }
-        
-		if(!empty($state['filter_date_to']))
-        {
-        	$queryStr .= " AND o.created_date <= '{$state['filter_date_to']}' ";  		
-        }            	
-		
+		$field[] = " tbl.* ";
 		$field[] = "
             (
             SELECT 
@@ -79,14 +68,12 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
             							SELECT o.order_id 
             							FROM #__tienda_orders as o 
             							WHERE 
-            								o.user_id = tbl.id 
+            								o.order_state_id IN ('2', '3', '5', '17' )
             							AND 
-            								o.order_state_id = '17'
-            								
-										{$queryStr}
-            							)     
-            ) 
-        AS volume ";
+            								 o.user_id = tbl.user_id
+										
+            							) )
+        		AS volume ";
 		$field[] = "
             (
             SELECT 
@@ -94,13 +81,32 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
             FROM
                 #__tienda_orders AS o
             WHERE 
-            	o.user_id = tbl.id
+            	o.order_state_id IN ('2', '3', '5', '17' )
             AND 
-            	o.order_state_id = '17' 	
+            	o.user_id = tbl.user_id
             ) 
-        AS spent ";
-		$query->order("spent DESC");
+        AS spent ";		
 		$query->select( $field );
+		if (strlen($state['filter_totalpurchase_from']))
+		{
+			$query->having('volume >= '.(int) $state['filter_totalpurchase_from']);
+		}
+		if (strlen($state['filter_totalpurchase_to']))
+		{
+			$query->having('volume <= '.(int) $state['filter_totalpurchase_to']);
+		}
+
+		if (strlen($state['filter_totalspent_from']))
+		{
+			$query->having('spent >= '.(int) $state['filter_totalspent_from']);
+		}
+		if (strlen($state['filter_totalspent_to']))
+		{
+			$query->having('spent <= '.(int) $state['filter_totalspent_to']);
+		}
+
+		$query->group('tbl.user_id');
+		$model->setQuery( $query );
 		$data = $model->getList();
 
 		return $data;
@@ -114,12 +120,17 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	function _getState()
 	{
 		$app = JFactory::getApplication();
-		$model = $this->_getModel( 'users');
+		$model = $this->_getModel( 'orders');
 		$ns = $this->_getNamespace();
 
 		$state = array();
 		$state['filter_date_from'] = $app->getUserStateFromRequest($ns.'filter_date_from', 'filter_date_from', '', '');
 		$state['filter_date_to'] = $app->getUserStateFromRequest($ns.'filter_date_to', 'filter_date_to', '', '');
+		$state['filter_totalpurchase_from'] = $app->getUserStateFromRequest($ns.'filter_totalpurchase_from', 'filter_totalpurchase_from', '', '');
+		$state['filter_totalpurchase_to'] = $app->getUserStateFromRequest($ns.'filter_totalpurchase_to', 'filter_totalpurchase_to', '', '');
+		$state['filter_totalspent_from'] = $app->getUserStateFromRequest($ns.'filter_totalspent_from', 'filter_totalspent_from', '', '');
+		$state['filter_totalspent_to'] = $app->getUserStateFromRequest($ns.'filter_totalspent_to', 'filter_totalspent_to', '', '');
+		
 
 		foreach (@$state as $key=>$value)
 		{

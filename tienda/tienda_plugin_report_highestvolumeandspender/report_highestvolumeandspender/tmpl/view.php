@@ -34,8 +34,8 @@
 				<?php echo $i + 1; ?>
 			</td>
 			<td style="text-align: left;">
-				<a href="index.php?option=com_tienda&controller=users&view=users&task=view&id=<?php echo $item->id?> target=_blank">
-					<?php echo $item->username .' [ '.$item->id.' ]'; ?>
+				<a href="index.php?option=com_tienda&controller=users&view=users&task=view&id=<?php echo $item->id?>" target="_blank">
+					<?php echo $item->user_username .' [ '.$item->user_id.']'; ?>
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email; ?>
 				</a>
 			</td>
