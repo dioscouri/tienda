@@ -133,9 +133,10 @@ class TiendaModelCarts extends TiendaModelBase
     
             foreach($list as $item)
             {
+            	$filter_group = Tienda::getClass( "TiendaHelperUser", 'helpers.user' )->getUserGroup(JFactory::getUser()->id, $item->product_id);
                 // at this point, ->product_price holds the default price for the product,
                 // but the user may qualify for a discount based on volume or date, so let's get that price override
-                $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, $this->getState('filter_group') , JFactory::getDate()->toMySQL() );
+                $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, $filter_group , JFactory::getDate()->toMySQL() );
                 if (!empty($item->product_price_override))
                 {
                     $item->product_price = $item->product_price_override->product_price;
