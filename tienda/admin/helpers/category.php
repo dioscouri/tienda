@@ -85,6 +85,30 @@ class TiendaHelperCategory extends TiendaHelperBase
                 }
             }
         }
+
+        // now do the media templates folder
+        $folder = Tienda::getPath( 'categories_templates' );
+
+        if (JFolder::exists( $folder ))
+        {
+            $extensions = array( 'php' );
+            
+            $files = JFolder::files( $folder );
+            foreach ($files as $file)
+            {
+                $namebits = explode('.', $file);
+                $extension = $namebits[count($namebits)-1];
+                if (in_array($extension, $extensions))
+                {
+                    if (!in_array($file, $exclusions) && !in_array($file, $layouts))
+                    {
+                        $layouts[] = $file;
+                    }
+                }
+            }
+        }
+        
+        sort( $layouts );
         
         return $layouts;    
     }
@@ -113,13 +137,20 @@ class TiendaHelperCategory extends TiendaHelperBase
             $template = $app->getTemplate();
         }
         $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
-
+        $mediaPath = Tienda::getPath( 'categories_templates' ) . DS . '%s'.'.php';
+        
         Tienda::load( 'TiendaTableCategories', 'tables.categories' );
         $category = JTable::getInstance( 'Categories', 'TiendaTable' );
         $category->load( $category_id );
 
         // if the $category->category_layout file exists in the template, use it
         if (!empty($category->category_layout) && JFile::exists( sprintf($templatePath, $category->category_layout) ))
+        {
+            return $category->category_layout;
+        }
+        
+        // if the $category->category_layout file exists in the media folder, use it
+        if (!empty($category->category_layout) && JFile::exists( sprintf($mediaPath, $category->category_layout) ))
         {
             return $category->category_layout;
         }

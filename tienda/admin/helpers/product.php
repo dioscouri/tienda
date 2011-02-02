@@ -110,6 +110,30 @@ class TiendaHelperProduct extends TiendaHelperBase
             }
         }
         
+        // now do the media templates folder
+        $folder = Tienda::getPath( 'products_templates' );
+
+        if (JFolder::exists( $folder ))
+        {
+            $extensions = array( 'php' );
+            
+            $files = JFolder::files( $folder );
+            foreach ($files as $file)
+            {
+                $namebits = explode('.', $file);
+                $extension = $namebits[count($namebits)-1];
+                if (in_array($extension, $extensions))
+                {
+                    if (!in_array($file, $exclusions) && !in_array($file, $layouts))
+                    {
+                        $layouts[] = $file;
+                    }
+                }
+            }
+        }
+        
+        sort( $layouts );
+        
         return $layouts;    
     }
     
@@ -141,7 +165,8 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
         $extensionPath = JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'views'.DS.'products'.DS.'tmpl'.DS.'%s'.'.php';
-
+        $mediaPath = Tienda::getPath( 'products_templates' ) . DS . '%s'.'.php';
+        
         Tienda::load( 'TiendaTableProducts', 'tables.products' );
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
         $product->load( $product_id );
@@ -149,7 +174,10 @@ class TiendaHelperProduct extends TiendaHelperBase
         // if the product->product_layout file exists in the template, use it
         if (
             !empty($product->product_layout) && 
-            (JFile::exists( sprintf($templatePath, $product->product_layout) ) || JFile::exists( sprintf($extensionPath, $product->product_layout) )) 
+            (JFile::exists( sprintf($templatePath, $product->product_layout) ) 
+            || JFile::exists( sprintf($extensionPath, $product->product_layout) )
+            || JFile::exists( sprintf($mediaPath, $product->product_layout) )
+            ) 
         )
         {
             return $product->product_layout;

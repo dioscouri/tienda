@@ -165,6 +165,12 @@ class Tienda extends JObject
     		case 'js' :
     			$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'js';
     			break;
+            case 'products_templates' :
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'products';
+                break;
+            case 'categories_templates' :
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'categories';
+                break;
     		case 'categories_images' :
     			$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'categories';
     			break;

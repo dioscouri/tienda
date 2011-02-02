@@ -207,6 +207,12 @@ class TiendaControllerProducts extends TiendaController
 		$view->set('_doTask', true);
 		$view->setModel( $model, true );
 
+		// add the media/templates folder as a valid path for templates
+        $view->addTemplatePath( Tienda::getPath( 'categories_templates' ) );
+        // but add back the template overrides folder to give it priority
+        $template_overrides = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'com_tienda'.DS.$view->getName();
+        $view->addTemplatePath( $template_overrides );
+				
 		// using a helper file, we determine the category's layout
 		$layout = Tienda::getClass( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $cat->category_id );
 		$view->setLayout($layout);
@@ -314,6 +320,12 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'product_requirements', $this->getRelationshipsHtml( $row->product_id, 'requires' ) );
 		$view->setModel( $model, true );
 		
+        // add the media/templates folder as a valid path for templates
+        $view->addTemplatePath( Tienda::getPath( 'products_templates' ) );
+        // but add back the template overrides folder to give it priority
+        $template_overrides = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'com_tienda'.DS.$view->getName();
+        $view->addTemplatePath( $template_overrides );
+        
 		// using a helper file, we determine the product's layout
 		$layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id'=>$cat->category_id ) );
 		$view->setLayout($layout);

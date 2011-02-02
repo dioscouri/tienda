@@ -109,6 +109,7 @@ class TiendaControllerCategories extends TiendaController
 				$error = true;
 			}
 		}
+		
 		if ( $row->save() )
 		{
 			$model->setId( $row->id );
