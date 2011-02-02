@@ -397,6 +397,10 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
     {
         $rates = array();
         
+        //return if empty address to remove error notice 
+        //and avoid additional request to ups that will also return empty rates
+        if(empty($address)) return $rates;
+        
         require_once( dirname( __FILE__ ).DS.'shipping_ups'.DS."ups.php" );
 
         // Use params to determine which of these is enabled
