@@ -387,8 +387,7 @@ class TiendaControllerCheckout extends TiendaController
 		$view->set( '_doTask', true);
 		$view->set( 'hidemenu', true);
 		$view->setModel( $model, true );
-		$view->assign( 'state', $model->getState() );
-		$view->assign( 'order', $order );
+		$view->assign( 'state', $model->getState() );		
 		$orderitems = $order->getItems();
         foreach ($orderitems as &$item)
         {
@@ -400,7 +399,12 @@ class TiendaControllerCheckout extends TiendaController
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
 
-        $geozones = $order->getBillingGeoZones();
+        if($show_tax)
+        {
+        	$order->order_subtotal = $order->order_subtotal + $order->order_tax;    
+        }        
+        $view->assign( 'order', $order );
+        /*$geozones = $order->getBillingGeoZones();
         if (empty($geozones))
         {
             // use the default
@@ -408,28 +412,30 @@ class TiendaControllerCheckout extends TiendaController
             $table = JTable::getInstance('Geozones', 'TiendaTable');
             $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
             $geozones = array( $table );
-        }
+        }*/
 
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $tax_sum = 0;
         foreach ($orderitems as &$item)
         {
-            $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+            //$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
             if ($show_tax)
             {
-                $item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal->tax_total;
+            	$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + ($item->orderitem_tax/$item->orderitem_quantity);
                 $item->orderitem_final_price = $item->price * $item->orderitem_quantity;
-                $item->taxtotal = $taxtotal;
-                $order->order_subtotal += ($taxtotal->tax_total * $item->orderitem_quantity);    
+                //$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal->tax_total;
+                //$item->orderitem_final_price = $item->price * $item->orderitem_quantity;
+                //$item->taxtotal = $taxtotal;
+                //$order->order_subtotal += ($taxtotal->tax_total * $item->orderitem_quantity);    
             }
-            $tax_sum += ($taxtotal->tax_total * $item->orderitem_quantity);
+            //$tax_sum += ($taxtotal->tax_total * $item->orderitem_quantity);
         }
         
-        if (empty($order->user_id))
-        {
-            $order->order_total += $tax_sum;
-            $order->order_tax += $tax_sum;
-        }
+        //if (empty($order->user_id))
+       // {
+        //    $order->order_total += $tax_sum;
+        //    $order->order_tax += $tax_sum;
+        //}
         
         $view->assign( 'orderitems', $orderitems );
 		
