@@ -85,11 +85,11 @@ class TiendaControllerCarts extends TiendaController
       
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
-		
+
         $items =& $model->getList();        
         $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
-		
+			
         if (!empty($items))
         {
 	        //trigger the onDisplayCartItem for each cartitem
@@ -500,9 +500,18 @@ class TiendaControllerCarts extends TiendaController
         	
         	if($show_tax)
         	{
-        		$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
-           	 	$item->product_price = $item->product_price + $taxtotal->tax_total;
-            	$item->taxtotal = $taxtotal;
+        		$cartitem_tax = 0;
+		        foreach ($geozones as $geozone)
+		        {		           
+		            $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone->geozone_id, true );
+		            $product_tax_rate = $taxrate->tax_rate;
+		            
+		            // track the total tax for this item
+		            $cartitem_tax += ($product_tax_rate/100) * $item->product_price;		            
+		        }		               		
+        		//$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);        	
+           	 	$item->product_price = $item->product_price + $cartitem_tax;
+            	$item->taxtotal = $cartitem_tax;
         	}        	
         	
         	$item->subtotal = $item->product_price * $item->product_qty;	
