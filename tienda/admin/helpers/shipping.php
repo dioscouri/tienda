@@ -60,6 +60,11 @@ class TiendaHelperShipping extends TiendaHelperBase
             $object->id = '5';
             $object->title = JText::_( "Quantity Based Per Order" );
             $instance[$object->id] = $object;
+            
+            $object = new JObject();
+            $object->id = '6';
+            $object->title = JText::_( "Price Based Per Order" );
+            $instance[$object->id] = $object;
 		}
 		
 		return $instance;

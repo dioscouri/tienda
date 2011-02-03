@@ -145,7 +145,12 @@ class TiendaSelect extends JHTMLSelect
 
         foreach (@$items as $item)
         {
-        	$list[] =  self::option( $item->category_id, str_repeat( '.&nbsp;', $item->level-1 ).JText::_($item->name), 'category_id', 'category_name' );
+        	$level = $item->level;
+        	if($level == 0)
+        	{
+        		$level = 1;
+        	}
+        	$list[] =  self::option( $item->category_id, str_repeat( '.&nbsp;', $level-1 ).JText::_($item->name), 'category_id', 'category_name' );
         }
 		return self::genericlist($list, $name, $attribs, 'category_id', 'category_name', $selected, $idtag );
  	}

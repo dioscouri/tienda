@@ -150,6 +150,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
      * @param unknown_type $shipping_method_id
      * @param array $geozones
      * @param unknown_type $orderItems
+     * @param unknown_type $order_id
      */
 	protected function getTotal( $shipping_method_id, $geozones, $orderItems )
 	{
@@ -180,6 +181,52 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		
 		switch($shippingmethod->shipping_method_type)
 		{
+			case "6":
+		        // 5 = per order - price based
+		        // Get the total of the order, and find the rate for that
+		        $total = 0;
+				foreach ($orderItems as $item)
+                {
+                	$total += $item->orderitem_final_price;
+                }
+		       
+		 	   foreach ($geozones as $geozone)
+				    {
+				        unset($rate);
+				        
+				        $geozone_id = $geozone->geozone_id;
+				        if (empty($geozone_rates[$geozone_id]) || !is_array($geozone_rates[$geozone_id]))
+                        {
+                            $geozone_rates[$geozone_id] = array();
+                        }
+
+                        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+				        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
+				        $model->setState('filter_shippingmethod', $shipping_method_id);
+				        $model->setState('filter_geozone', $geozone_id);
+				        $model->setState('filter_weight', $total); // Use weight as total
+				        
+				        $items = $model->getList();
+				        
+				        if (empty($items))
+				        {
+				            return JTable::getInstance('ShippingRates', 'TiendaTable');           
+				        }
+				        
+				        $rate = $items[0];
+                       
+                        $geozone_rates[$geozone_id]['0'] = $rate;
+                        
+				        // if $rate->shipping_rate_id is empty, then no real rate was found 
+                        if (!empty($rate->shipping_rate_id))
+                        {
+                            $rate_exists = true;
+                        }
+                            
+				        $geozone_rates[$geozone_id]['0']->qty = '1';  
+				        $geozone_rates[$geozone_id]['0']->shipping_method_type = $shippingmethod->shipping_method_type;   
+				    }
+		       
 		    case "5":
 		        // 5 = per order - quantity based
 		        // first, get the total quantity of shippable items for the entire order

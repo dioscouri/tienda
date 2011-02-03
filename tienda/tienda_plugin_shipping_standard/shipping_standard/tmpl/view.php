@@ -74,6 +74,7 @@ JFilterOutput::objectHTMLSafe( $row );
             <li><?php echo JText::_( "Weight-Based Per Order HELP TEXT" ); ?></li>
             <li><?php echo JText::_( "Price-Based Per Item HELP TEXT" ); ?></li>
             <li><?php echo JText::_( "Quantity-Based Per Order HELP TEXT" ); ?></li>
+            <li><?php echo JText::_( "Price-Based Per Order HELP TEXT" ); ?></li>
         </ul>
     </div>    						
     

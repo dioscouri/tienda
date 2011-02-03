@@ -267,7 +267,7 @@ class TiendaTableProducts extends TiendaTable
 			            		foreach($matches as $match)
 			            		{
 			            			// is a perfect match?
-			            			if(strtolower($product_category) == strtolower($match->category_name))
+			            			if(trim(strtolower($product_category)) == trim(strtolower($match->category_name)))
 			            			{
 			            				$product_category = $match->category_id;
 			            				$matched = true;

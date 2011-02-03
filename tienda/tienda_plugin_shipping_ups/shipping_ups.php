@@ -55,6 +55,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	    $orderItems = $order->getItems();
 	    
         $rates = $this->sendRequest($address, $orderItems);
+        
 		return $rates;
         
     }
@@ -510,6 +511,8 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
                 //
                 //$rates[] = $rate;
 	        }
+	        
+	        JFile::write(JPATH_SITE.DS.'tmp'.DS.'test.txt', Tienda::dump($ups));
 	        
         }
 
