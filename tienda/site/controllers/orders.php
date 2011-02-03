@@ -147,29 +147,19 @@ class TiendaControllerOrders extends TiendaController
         $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-        
-        if ($show_tax)
+        foreach ($orderitems as &$item)
         {
-            $geozones = $order->getBillingGeoZones();
-            if (empty($geozones))
+      		$item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );       		
+        	$taxtotal = 0;
+            if($show_tax)
             {
-                // use the default
-                $view->assign( 'using_default_geozone', true );
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-                $geozones = array( $table );
-            }
-            
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            foreach ($orderitems as &$item)
-            {
-                $taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);
-                $item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal;
-                $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
-                $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);
-            }
-        }
-        
+            	$taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);            	
+            }                   
+            $item->orderitem_price = $item->orderitem_price + $taxtotal;
+            $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
+            $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);    
+        }      
+              
         $view->assign( 'order', $order );
         $view->setLayout( 'view' );
         $view->display();
@@ -225,28 +215,18 @@ class TiendaControllerOrders extends TiendaController
         $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-        
-        if ($show_tax)
+        foreach ($orderitems as &$item)
         {
-            $geozones = $order->getBillingGeoZones();
-            if (empty($geozones))
+      		$item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );       		
+        	$taxtotal = 0;
+            if($show_tax)
             {
-                // use the default
-                $view->assign( 'using_default_geozone', true );
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-                $geozones = array( $table );
-            }
-            
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            foreach ($orderitems as &$item)
-            {
-                $taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);
-                $item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal;
-                $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
-                $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);
-            }
-        }
+            	$taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);            	
+            }            
+            $item->orderitem_price = $item->orderitem_price + $taxtotal;
+            $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
+            $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);    
+        }      
                 
         $view->assign( 'order', $order );
         $view->setLayout( 'print' );
