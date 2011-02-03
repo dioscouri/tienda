@@ -54,39 +54,73 @@ class TiendaControllerUsers extends TiendaController
 		$model = $this->getModel( $this->get('suffix') );
 		$model->getId();
 		$row = $model->getItem();
-		//debug(221122,$row);
 		$view   = $this->getView( $this->get('suffix'), 'html' );
 		$view->setModel( $model, true );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'view' );
 		
-		//Get Data From Carts Model
+		//Get Data From OrdersItems Model
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel');			
-		$modelCarts->setState('filter_user', $row->id );	
+		$modelOrders= JModel::getInstance( 'orderitems', 'TiendaModel');
+		$modelOrders->setState( 'filter_userid',  $row->id );		
+		$modelOrders->setState( 'order', 'created_date' );
+		$modelOrders->setState( 'direction', 'DESC' );
+		$modelOrders->setState( 'filter_orderstates',  array('2','3','5','17') );
+		$modelOrders->setState( 'limit', '5' );
+		$orders = $modelOrders->getList();
+		$view->assign( 'orders', $orders );
+		foreach (@$orders as $order)
+		{
+			$order->total_price =$order->orderitem_final_price + $order->orderitem_tax; 
+		}
+
+		//Get Data From Carts Model
+		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$modelCarts->setState( 'filter_user', $row->id );	
 		$carts = $modelCarts->getList();
-		$view->assign( 'carts', $carts );						
+		$view->assign( 'carts', $carts );	
 		 foreach (@$carts as $cart)
 		 {
 				$cart->total_price=$cart->product_price *$cart->product_qty;
 		 }
 		 
+		 //Summary Data	
+		$modelSum= JModel::getInstance( 'orderitems', 'TiendaModel');
+		$modelSum->setState( 'filter_userid',  $row->id );
+		$modelSum->setState( 'filter_orderstates',  array('2','3','5','17') );	
+		$orderitems= $modelSum->getList();		
+		$spent = 0;
+		$total_qty = 0;
+		foreach ($orderitems as $orderitem)
+		{
+			$spent += $orderitem->order_total;
+			$total_qty +=$orderitem->orderitem_quantity;
+		}
+		$view->assign( 'spent', $spent );
+		$view->assign('total_qty',$total_qty );
+		
+		//Subcription Data
+		$modelSubs= JModel::getInstance( 'subscriptions', 'TiendaModel');
+		$modelSubs->setState( 'filter_userid',  $row->id );	
+		$modelSubs->setState( 'filter_enabled', 1 );
+		$modelOrders->setState( 'limit', '5' );
+		$subs= $modelSubs->getList();
+		$view->assign( 'subs',$subs );	
+		
 		 //Get Data from Productcomments Model and left join to products
 		$database = $model->getDbo();
 		Tienda::load( 'TiendaQuery', 'library.query' );
         $query = new TiendaQuery();
         $query->select( 'tbl.*');
-        $query->select('p.product_name AS p_name');
-        $query->join('LEFT', '#__tienda_products AS p ON p.product_id = tbl.product_id');   
         $query->select( 'substring(tbl.productcomment_text, 1, 250) AS trimcom' );
         $query->from( '#__tienda_productcomments AS tbl' );
-        $query->where("tbl.user_id='$row->id' LIMIT 5");        
+        $query->select('p.product_name AS p_name');
+        $query->join('LEFT', '#__tienda_products AS p ON p.product_id = tbl.product_id');           
+        $query->where("tbl.user_id='$row->id'");        
         $database->setQuery( (string) $query );
         $procoms = $database->loadObjectList();
 		$view->assign( 'procoms', $procoms);
-		//debug(2222,$procoms);
-		
-		
+				
 		$model->emptyState();
 		$this->_setModelState();
 		$surrounding = $model->getSurrounding( $model->getId() );
