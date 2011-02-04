@@ -419,6 +419,16 @@ class TiendaTableOrders extends TiendaTable
         }
         
         $geozones = $this->getBillingGeoZones();
+        
+        //load the defaul geozones when user is logout and the config is to show tax
+        if (empty($geozones) && TiendaConfig::getInstance()->get('display_prices_with_tax'))
+	    {
+	    	// use the default	       
+	        $table = JTable::getInstance('Geozones', 'TiendaTable');
+	        $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+	        $geozones = array( $table );
+	    }  
+        
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         foreach ($items as $key=>$item)
         {

@@ -378,8 +378,7 @@ class TiendaControllerCheckout extends TiendaController
 	function getOrderSummary()
 	{
 		// get the order object
-		$order =& $this->_order; // a TableOrders object (see constructor)
-
+		$order =& $this->_order; // a TableOrders object (see constructor)   
 		$model = $this->getModel('carts');
 		$view = $this->getView( 'checkout', 'html' );
 		$view->set( '_controller', 'checkout' );
@@ -387,56 +386,58 @@ class TiendaControllerCheckout extends TiendaController
 		$view->set( '_doTask', true);
 		$view->set( 'hidemenu', true);
 		$view->setModel( $model, true );
-		$view->assign( 'state', $model->getState() );		
-		$orderitems = $order->getItems();
-        foreach ($orderitems as &$item)
-        {
-            $item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
-        }
-		
+		$view->assign( 'state', $model->getState() );	
+	
         $config = TiendaConfig::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-
+            
+        $view->assign( 'order', $order );
+        
         if($show_tax)
         {
-        	$order->order_subtotal = $order->order_subtotal + $order->order_tax;    
-        }        
-        $view->assign( 'order', $order );
-        /*$geozones = $order->getBillingGeoZones();
-        if (empty($geozones))
-        {
-            // use the default
-            $view->assign( 'using_default_geozone', true );
-            $table = JTable::getInstance('Geozones', 'TiendaTable');
-            $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-            $geozones = array( $table );
-        }*/
-
+	        $geozones = $order->getBillingGeoZones();
+	        if (empty($geozones))
+	        {
+	            // use the default
+	            $view->assign( 'using_default_geozone', true );
+	            $table = JTable::getInstance('Geozones', 'TiendaTable');
+	            $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+	            $geozones = array( $table );
+	        }        
+        }
+        
+		$orderitems = $order->getItems();
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $tax_sum = 0;
         foreach ($orderitems as &$item)
         {
-            //$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
+            $item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );            
+            $tax = 0;
             if ($show_tax)
-            {
-            	$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + ($item->orderitem_tax/$item->orderitem_quantity);
+            {            	
+		        foreach($geozones as $geozone)
+		        {
+		        	  $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone->geozone_id, true );
+				      $product_tax_rate = $taxrate->tax_rate;	
+				      $tax += ($product_tax_rate/100) * ($item->orderitem_price + floatval( $item->orderitem_attributes_price ));
+		        }       	
+            
+            	$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $tax;
                 $item->orderitem_final_price = $item->price * $item->orderitem_quantity;
-                //$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal->tax_total;
-                //$item->orderitem_final_price = $item->price * $item->orderitem_quantity;
-                //$item->taxtotal = $taxtotal;
-                //$order->order_subtotal += ($taxtotal->tax_total * $item->orderitem_quantity);    
+               
+                $order->order_subtotal += ($tax * $item->orderitem_quantity);    
             }
-            //$tax_sum += ($taxtotal->tax_total * $item->orderitem_quantity);
+            $tax_sum += ($tax * $item->orderitem_quantity);
         }
-        
-        //if (empty($order->user_id))
-       // {
-        //    $order->order_total += $tax_sum;
-        //    $order->order_tax += $tax_sum;
-        //}
-        
+     
+        if (empty($order->user_id))
+        {
+            //$order->order_total += $tax_sum;
+            $order->order_tax += $tax_sum;
+        }
+
         $view->assign( 'orderitems', $orderitems );
 		
 		// Checking whether shipping is required
