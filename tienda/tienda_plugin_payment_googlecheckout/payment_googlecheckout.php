@@ -158,7 +158,14 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		}
 		
 		if ( !empty($data['shipping_plugin'] ) && ( $order->order_shipping > 0 ) )
-		{
+		{			
+			//check if usps plugin			
+			if($data['shipping_plugin'] == 'shipping_usps')
+			{
+				$data['shipping_name'] = str_replace("®", "", $data['shipping_name']);
+				//convert entity character to hexadecimal character 
+				//$data['shipping_name'] = str_replace("®", "&#x3C;sup&#x3E;&#x26;reg;&#x3C;/sup&#x3E;", $data['shipping_name']);				
+			}					
 			// Add shipping
 			$shipTemp = new GooglePickup($data['shipping_name'], $order->order_shipping + $order->order_shipping_tax); // shipping name and Price as an argument
 			$cart->AddShipping($shipTemp);
