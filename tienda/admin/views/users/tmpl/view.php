@@ -5,28 +5,24 @@
 <?php $procoms=@$this->procoms; ?>
 <?php $orders=@$this->orders; ?>
 <?php $subs=@$this->subs; ?>
-
 <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
-
-
+<?php Tienda::load( 'TiendaHelperUser', 'helpers.user' ); ?>
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
 <table width="100%" border="0">
 	<tr>
-		<td width="50%" valign="top">
-			<table class="admintable"  width="100%">
-				<tr>
-					<td>
-						<h2 style="padding:0px; margin:0px;"><div class="id"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></div> </h2>
-					</td>
-				</tr>
-			</table>
+		<td>
+			<h2 style="padding:0px; margin:0px;"><div class="id"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></div> </h2>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
 			<fieldset>
 				<legend><?php echo JText::_('Basic User Info'); ?></legend>
 				<div id="tienda_header">
 					<table class="admintable" style="width: 100%;" border="0">					
 						<tr>
-							<td  align="right" class="key" style="width:80px;">
+							<td  align="right" class="key">
 		                        <label for="name">
 		                        	<?php echo JText::_( 'Username' ); ?>:
 		                        </label>
@@ -34,7 +30,7 @@
 	                    	<td style="width:120px;">
 	                        	<div class="name"><?php echo @$row->username; ?></div>          
 	                    	</td>
-	                    	<td  align="right" class="key" style="width:85px;">
+	                    	<td  align="right" class="key">
 		                        <label for="registerDate">
 		                        	<?php echo JText::_( 'Registered' ); ?>:
 		                        </label>
@@ -42,18 +38,21 @@
 		                    <td>
 		                        <div class="registerDate"><?php echo JHTML::_('date', @$row->registerDate, "%a, %d %b %Y, %H:%M"); ?></div>         
 		                    </td>
-		                    <td style="width:80px;">
+		                    <td rowspan="3" align="center" valign="top">
+		                    	<div style="padding:0px; margin-bottom:5px;width:auto;">
+									<?php echo TiendaHelperUser::getAvatar($row->id);?>
+								</div>
 		                        <?php
 		                        $config = TiendaConfig::getInstance();
 		                        $url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
 		                        $url .= @$row->id; 
 		                        $text = "<button>".JText::_('Edit User')."</button>"; 
 		                        ?>		                        
-		                        <div style="float: right;"><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
+		                        <div ><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
 		                    </td>  
 						</tr>
 						<tr>
-							<td align="right" class="key" key" style="width:80px;">
+							<td align="right" class="key" key">
 		                        <label for="email">
 		                        	<?php echo JText::_( 'Email' ); ?>:
 		                        </label>
@@ -61,7 +60,7 @@
 	                    	<td>
 	                        	<div class="name"><?php echo @$row->email; ?></div>          
 	                    	</td>  
-	                    	<td align="right" class="key" style="width:85px;">
+	                    	<td align="right" class="key">
 		                        <label for="lastvisitDate">
 		                        	<?php echo JText::_( 'Last Visited' ); ?>:
 		                        </label>
@@ -91,6 +90,10 @@
 					</table>
 				</div>
 			</fieldset>
+		</td>
+	</tr>
+	<tr>
+		<td width="50%" valign="top">
 				<fieldset>
 					<legend><?php echo JText::_('Summary Data'); ?></legend>
 						<table class="admintable"  width="100%">
@@ -99,7 +102,7 @@
 									<?php echo JText::_( 'Number of Completed Orders' ); ?>:
 								</td>
 								<td align="right">
-									<div class="id"><?php echo @$this->total_qty; ?></div>
+									<div class="id"><?php echo count($orders); ?></div>
 								</td>
 							</tr>
 							<tr>
@@ -119,8 +122,7 @@
 								</td>
 							</tr>
 						</table>
-				</fieldset>
-			
+				</fieldset>			
 			<fieldset>
 					<legend><?php echo JText::_('Last 5 Completed Orders'); ?></legend>
 					<div id="tienda_header">
@@ -133,10 +135,13 @@
 								<th style="width: 200px;">
 									<?php echo JText::_("Product"); ?>
 								</th>
-								<th style="width: 200px;">
+								<th style="width: 100px;">
 									<?php echo JText::_("Price"); ?>
 								</th>
-								<th style="text-align: center;  width: 200px;">
+								<th style="width:100px;">
+									<?php echo JText::_("Tax"); ?>
+								</th>
+								<th>
 									<?php echo JText::_("Quantity"); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
@@ -144,6 +149,11 @@
 								</th>
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="20"></td>
+							</tr>
+						</tfoot>
 						<tbody>
 							<?php $i=0; $k=0; ?>
 							<?php foreach (@$orders as $order) : ?>
@@ -159,6 +169,9 @@
 									<td style="text-align:right;">
 										<?php echo TiendaHelperBase::currency($order->orderitem_price); ?>										
 									</td>
+									<td style="text-align:right;">
+										<?php echo TiendaHelperBase::currency($order->orderitem_tax); ?>										
+									</td>
 									<td style="text-align:center;">
 										<?php echo $order->orderitem_quantity;?>
 									</td>
@@ -166,6 +179,7 @@
 										<?php echo TiendaHelperBase::currency($order->total_price); ?>										
 									</td>
 								</tr>
+								<?php if ($i==4) break;?>
 							<?php ++$i; $k = (1 - $k); ?>
 							<?php endforeach; ?>
 							<?php if (!count(@$order)) : ?>
@@ -179,11 +193,7 @@
 					</div>
 				</fieldset>
 		</td>
-		<td width="50%" valign="top">
-			<fieldset>
-					<legend><?php echo JText::_('Integration'); ?></legend>
-					
-				</fieldset>
+		<td width="50%" valign="top">					
 			<fieldset>
 					<legend><?php echo JText::_('List of Active Subscriptions'); ?></legend>
 					<table class="adminlist" style="width: 100%;">
@@ -203,6 +213,11 @@
 								</th>								
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="20"></td>
+							</tr>
+						</tfoot>
 						<tbody>
 							<?php $i=0; $k=0; ?>
 							<?php foreach (@$subs as $sub) : ?>
@@ -210,7 +225,7 @@
 									<td align="center">
 										<?php echo $i + 1; ?>
 									</td>
-									<td style="text-align:center;">
+									<td style="text-align:left;">
 										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">
 											<?php echo $sub->product_name; ?>
 										</a>
@@ -219,12 +234,17 @@
 										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">
 											<?php echo $sub->order_id; ?>										
 										</a>
-									</td>
+									</td>									
 									<td style="text-align:center;">
 										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">											
+											<?php if($sub->subscription_lifetime == 1)
+												{
+													 echo JText::_("Lifetime"); 
+												}
+											?>											
 											<?php echo JHTML::_('date', $sub->expires_datetime, "%a, %d %b %Y, %H:%M"); ?>
 										</a>
-									</td>									
+									</td>				
 								</tr>
 							<?php ++$i; $k = (1 - $k); ?>
 							<?php endforeach; ?>
@@ -271,7 +291,7 @@
 									<td align="center">
 										<?php echo $i + 1; ?>
 									</td>
-									<td style="text-align:center;">
+									<td style="text-align:left;">
 										<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $cart->product_id; ?>" target="_blank">
 											<?php echo $cart->product_name; ?>
 										</a>
@@ -326,7 +346,7 @@
 										<?php echo $i + 1; ?>
 									</td>
 									<td style="text-align:left;">
-										<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $procom->product_id; ?>" target="_blank">
+										<a href="index.php?option=com_tienda&view=productcomments&task=edit&id=<?php echo $procom->product_id; ?>" target="_blank">
 											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>							
 									</td>
 									<td style="text-align:center;">

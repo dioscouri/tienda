@@ -59,6 +59,7 @@ class TiendaControllerUsers extends TiendaController
 		$view->assign( 'row', $row );
 		$view->setLayout( 'view' );
 		
+		
 		//Get Data From OrdersItems Model
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$modelOrders= JModel::getInstance( 'orderitems', 'TiendaModel');
@@ -66,14 +67,13 @@ class TiendaControllerUsers extends TiendaController
 		$modelOrders->setState( 'order', 'created_date' );
 		$modelOrders->setState( 'direction', 'DESC' );
 		$modelOrders->setState( 'filter_orderstates',  array('2','3','5','17') );
-		$modelOrders->setState( 'limit', '5' );
 		$orders = $modelOrders->getList();
 		$view->assign( 'orders', $orders );
 		foreach (@$orders as $order)
 		{
 			$order->total_price =$order->orderitem_final_price + $order->orderitem_tax; 
 		}
-
+		
 		//Get Data From Carts Model
 		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel' );
 		$modelCarts->setState( 'filter_user', $row->id );	
@@ -105,7 +105,8 @@ class TiendaControllerUsers extends TiendaController
 		$modelSubs->setState( 'filter_enabled', 1 );
 		$modelOrders->setState( 'limit', '5' );
 		$subs= $modelSubs->getList();
-		$view->assign( 'subs',$subs );	
+		$view->assign( 'subs',$subs );		
+		
 		
 		 //Get Data from Productcomments Model and left join to products
 		$database = $model->getDbo();

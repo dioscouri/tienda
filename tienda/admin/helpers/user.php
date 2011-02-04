@@ -112,7 +112,7 @@ class TiendaHelperUser extends TiendaHelperBase
         if ($result) {
             $success = true;
         }
-        return $success;    
+        return $success;
     }
 
     /**
@@ -515,5 +515,93 @@ class TiendaHelperUser extends TiendaHelperBase
     	}
     	
 		return TiendaConfig::getInstance()->get('default_user_group', '1');
+    }
+    /**
+     * 
+     * Get Avatar based on the installed community component
+     * @param int $id - userid
+     * @return object
+     */
+    function getAvatar($id)
+    {
+    	$avatar = '';    	  	
+    	$found = false;    	
+    	Tienda::load( 'TiendaHelperAmbra', 'helpers.ambra' ); 
+    	
+    	//check if ambra installed
+    	if(TiendaHelperAmbra::isInstalled() && !$found) 
+    	{
+	    	    if ( !class_exists('Ambra') )
+	            { 
+	                JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php" );
+	            }
+	            //Get Ambra Avatar
+	          if($image = Ambra::get( "AmbraHelperUser", 'helpers.user' )->getAvatar( $id ))
+	          {
+	          		$link = JRoute::_( JURI::root().'index.php?option=com_ambra&view=users&id='.$id, false ); 
+	          		$avatar .= "<a href='{$link}' target='_blank'>";
+	          		$avatar .= "<img src='{$image}' style='max-width:80px; border:1px solid #ccccce;' />";
+	          		$avatar .= "</a>";
+	          }    		
+    		$found = true;
+    	}
+    	//check if jomsocial installed
+    	if(JComponentHelper::getComponent( 'com_community', true)->enabled && !$found)
+    	{ 
+    		//Get JomSocial Avatar
+    		$database = JFactory::getDBO();
+    		$query = " 
+			SELECT 
+				*
+			FROM
+				#__community_users
+			WHERE
+				`userid` = '".$id."'
+			";
+    		$database->setQuery( $query );
+			$result = $database->loadObject();
+	    	if (isset($result->thumb )) 
+	    	{
+				$image = JURI::root().$result->thumb;
+			}
+    		$link = JRoute::_( JURI::root().'index.php?option=com_community&view=profile&userid='.$id, false ); 
+	        $avatar .= "<a href='{$link}' target='_blank'>";
+	        $avatar .= "<img src='{$image}' style='max-width:80px; border:1px solid #ccccce;' />";
+	        $avatar .= "</a>";
+    		$found = true;
+    	}
+    	
+    	//check if community builder is installed
+   		if(JComponentHelper::getComponent( 'com_comprofiler', true)->enabled && !$found)
+    	{
+    		//Get JomSocial Avatar
+    		$database = JFactory::getDBO();
+    		$query = " 
+			SELECT 
+				*
+			FROM
+				#__comprofiler
+			WHERE
+				`id` = '".$id."'
+			";
+	    	$database->setQuery( $query );
+			$result = $database->loadObject();
+			if (isset($result->avatar)) 
+			{
+				$image = JURI::root().'images/comprofiler/'.$result->avatar;
+			}
+			else 
+			{
+				$image = JRoute::_( JURI::root().'components/com_comprofiler/plugin/templates/default/images/avatar/nophoto_n.png');
+			}
+    		$link = JRoute::_( JURI::root().'index.php?option=com_comprofiler&userid='.$id, false ); 
+	        $avatar .= "<a href='{$link}' target='_blank'>";
+	        $avatar .= "<img src='{$image}' style='max-width:80px; border:1px solid #ccccce;' />";
+	        $avatar .= "</a>";	        
+    		$found = true;
+    	}
+    	
+    	return $avatar;
+    	
     }
 }
