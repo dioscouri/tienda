@@ -156,6 +156,18 @@ class TiendaHelperSubscription extends TiendaHelperBase
             $model->setId( $subscription_id );
             $item = $model->getItem();
         }
+        
+        //remove user in juga group if integration exist
+        Tienda::load( 'TiendaHelperJuga', 'helpers.juga' );
+        $helperJuga = new TiendaHelperJuga();
+        if($helperJuga->isInstalled())
+        {              
+        	if($helperJuga->doExpiredSubscription( $item ))
+         	{
+         		//do something 
+         		//either send email or raised message
+         	}         	
+        }        
 
         // Email user that their subs expired
         if (!empty($item))
