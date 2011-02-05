@@ -66,7 +66,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         // properties as specified in moneybookers gateway manual
         $vars->pay_to_email = $this->params->get( 'receiver_email' );
         $vars->transaction_id = $data['orderpayment_id'];
-        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=display_message";
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
@@ -82,8 +82,9 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	    $vars->currency = $this->params->get( 'currency', 'USD' );
 	    $vars->detail1_description = $data['order_id'];
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
-     	$vars->detail2_description = $this->params->get( 'receiver_email' );
-     	$vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
+	    $vars->detail2_description = $data['orderpayment_id'];
+	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
+     	
 	    
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -112,23 +113,24 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$html = "";
 			
 		switch ($paction) {
-			case "display_message":					
- 				$html .= $this->_renderHtml( JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT ACCEPTED FOR VALIDATION') ); 
-				$html .= $this->_displayArticle();					
+			case "message":
+				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+				$html .= $this->_renderHtml( $text );
+				$html .= $this->_displayArticle();
 			  break;
 			case "process":
 				$html .= $this->_process();					
-				//echo $html;
-				
-				$app =& JFactory::getApplication();
-				$app->close();
+					echo $html;
+					
+					$app =& JFactory::getApplication();
+					$app->close();
 			  break;
 			case "cancel":
-				$text = JText::_( 'Moneybookers Message Cancel' );
+				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
 				$html .= $this->_renderHtml( $text );
 			  break;				
 			default:
-				$text = JText::_( 'Moneybookers Message Invalid Action' );
+				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE INVALID ACTION' );
 				$html .= $this->_renderHtml( $text );
 			  break;
 		}
@@ -177,6 +179,10 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     	$errors = array();
     	
     	$data = JRequest::get('post');
+    	
+    	// TODO get here some test data and test the function
+  		//$data = plgAmbrasubsPayment_moneybookers_testdata::getSaleData();
+  		//$data = plgAmbrasubsPayment_moneybookers_testdata::getRecurringData();
     	
     	$this->_logResponse($data);
     	
@@ -297,6 +303,15 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		
 		return '';
 	}
+	
+	/**
+	 * Payment canceled
+	 * 
+	 */
+	function _paymentCanceled()
+	{
+		// TODO make order cancelation
+	}
     
 	/**
 	 * Gets the MoneyBookers gateway URL
@@ -346,6 +361,25 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			default: return 'unknown_status';
 		}
 	}
+	
+	/**
+	 * Wraps the given text in the HTML
+	 *
+	 * @param string $text
+	 * @return string
+	 * @access protected
+	 */
+	function _renderHtml($message = '')
+	{
+		$vars = new JObject();
+		$vars->message = $message;
+
+		$html = $this->_getLayout('message', $vars);
+
+		return $html;
+	}
+	
+	
 }
 
 if ( ! function_exists('plg_tienda_escape')) {

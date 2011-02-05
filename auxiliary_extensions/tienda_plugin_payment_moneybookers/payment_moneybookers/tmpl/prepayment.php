@@ -42,7 +42,5 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="detail1_text" value="<?php echo plg_tienda_escape($vars->detail1_text); ?>" /> 
 	<input type="hidden" name="detail2_description" value="<?php echo plg_tienda_escape($vars->detail2_description); ?>" /> 
 	<input type="hidden" name="detail2_text" value="<?php echo plg_tienda_escape($vars->detail2_text); ?>" /> 	
-	
-	<input type='hidden' name='task' value='confirmPayment'>
-	<input type='hidden' name='paction' value='process'>
+		
 </form>
