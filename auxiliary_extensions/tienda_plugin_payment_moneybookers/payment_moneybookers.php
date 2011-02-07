@@ -26,7 +26,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	 * @var boolean
 	 * @access protected
 	 */
-	var $_isLog = false;
+	var $_isLog = true;
     
 	function plgTiendaPayment_moneybookers(& $subject, $config) {
 		parent::__construct($subject, $config);
@@ -69,7 +69,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
-        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
+        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process";
         $vars->status_url2 = $this->params->get( 'receiver_email' );
         $vars->language = $this->params->get( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
@@ -159,7 +159,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      * this plugin
      * 
      ************************************/
-    
+        
     /**
      * Processes the payment
      * 
@@ -177,12 +177,9 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     function _process()
     {
     	$errors = array();
+    	$send_email = false;
     	
-    	$data = JRequest::get('post');
-    	
-    	// TODO get here some test data and test the function
-  		//$data = plgAmbrasubsPayment_moneybookers_testdata::getSaleData();
-  		//$data = plgAmbrasubsPayment_moneybookers_testdata::getRecurringData();
+    	$data = JRequest::get('post');  	
     	
     	$this->_logResponse($data);
     	
@@ -205,7 +202,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
-        $respond_amount = TiendaHelperBase::number( $amountResponse, array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['mb_amount'], array( 'thousands'=>'' ) );
         if ($stored_amount != $respond_amount ) {
         	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT AMOUNT INVALID');
             $errors[] = $stored_amount . " != " . $respond_amount;
@@ -265,7 +262,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $return = JText::_( "TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS" );
         }
          
-        return count($errors) ? implode("\n", $errors) : $return;
+        //return count($errors) ? implode("\n", $errors) : $return;
     }    
 
 	/**
