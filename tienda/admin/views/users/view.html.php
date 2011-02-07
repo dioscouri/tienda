@@ -29,6 +29,8 @@ class TiendaViewUsers extends TiendaViewBase
                 JRequest::setVar('hidemainmenu', '1');
                 $this->_form($tpl);
               break;
+            case "view";
+            	$this->_form($tpl);
             case "default":
             default:
                 $this->set( 'leftMenu', 'leftmenu_users' );
