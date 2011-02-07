@@ -26,7 +26,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	 * @var boolean
 	 * @access protected
 	 */
-	var $_isLog = true;
+	var $_isLog = false;
     
 	function plgTiendaPayment_moneybookers(& $subject, $config) {
 		parent::__construct($subject, $config);
@@ -69,7 +69,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
-        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process";
+        $vars->status_url = JURI::root()."index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
         $vars->status_url2 = $this->params->get( 'receiver_email' );
         $vars->language = $this->params->get( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
@@ -126,6 +126,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 					$app->close();
 			  break;
 			case "cancel":
+				// TODO _paymentCanceled()
+				
 				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
 				$html .= $this->_renderHtml( $text );
 			  break;				
@@ -262,7 +264,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $return = JText::_( "TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS" );
         }
          
-        //return count($errors) ? implode("\n", $errors) : $return;
+        return count($errors) ? implode("\n", $errors) : $return;
     }    
 
 	/**
