@@ -52,14 +52,14 @@ $item = @$this->row;
         </div>
         
         <div class="product_image">
-            <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id), array('update' => false, 'img' => true)); ?>
+            <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id, '', $item->product_name), array('update' => false, 'img' => true)); ?>
             <div>
-            <?php
-                if (isset($item->product_full_image))
-                {
-                    echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), JText::_( 'View Larger' ), array('update' => false, 'img' => true ));
-                }
-            ?>
+	            <?php
+	                if (isset($item->product_full_image))
+	                {
+	                    echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), JText::_( 'View Larger' ), array('update' => false, 'img' => true ));
+	                }
+	            ?>
             </div>
         </div>
         
@@ -104,11 +104,9 @@ $item = @$this->row;
                 foreach ($images as $image)
                 {
                     ?>
-                    <div class="subcategory">
-                        <div class="subcategory_thumb">
-                            <?php echo TiendaUrl::popup( $uri.$image, '<img src="'.$uri."thumbs/".$image.'" />' , array('update' => false, 'img' => true)); ?>
-                        </div>
-                    </div>
+                    	<div class="product_gallery_thumb">
+                            <?php echo TiendaUrl::popup( $uri.$image, '<img src="'.$uri."thumbs/".$image.'" alt="'.$item->product_name.'" />' , array('update' => false, 'img' => true)); ?>
+                        </div>    
                     <?php 
                 } 
                 ?>

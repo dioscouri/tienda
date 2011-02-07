@@ -190,6 +190,13 @@ div.product_rating, div.product_rating img {
 	vertical-align: middle;
 }
 
+.product_gallery_thumb img {
+	max-width: 75px;
+	float: left;
+	margin: 10px 10px 0 0;
+	border: none;
+}
+
 /** SHARED **/
 
 table.adminlist {
