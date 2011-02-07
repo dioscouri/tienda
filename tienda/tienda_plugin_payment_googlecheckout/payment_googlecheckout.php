@@ -117,45 +117,57 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleitem.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googleshipping.php";
 		require_once dirname(__FILE__) . "/{$this->_element}/library/googletax.php";
-		
+	
 		$cart = new GoogleCart($this->_getParam('merchant_id'), $this->_getParam('merchant_key'), $this->_getServerType(), $this->params->get('currency', 'USD'));
 		$totalTax=0;
+		$totalPrice = 0;
+		foreach($items as $itemObject)
+		{			
+			$item_temp = new GoogleItem($itemObject->orderitem_name,
+			$itemObject->orderitem_name,$itemObject->orderitem_quantity,$itemObject->orderitem_final_price);
+			// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
+			$cart->AddItem($item_temp);
+			$totalPrice = $totalPrice + $itemObject->orderitem_final_price;
+			$totalTax=$totalTax+$itemObject->orderitem_tax;
+		}
 
-		//check if coupons is not empty
-		//if not empty then we process the coupon name and value and add to the $items having negative value
+		//check if coupons is not empty		
 		if(!empty($data['coupons']))
 		{	
 			$couponIds = array();
 			$couponIds = $data['coupons'];
-			
+		
 			//NOTE: checking the coupon if its valid for the user is already done in the controller
        		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
        		$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
-			$model->setState( 'filter_ids', $couponIds );
-        	$coupons = $model->getList();
-      	
+			$model->setState( 'filter_ids', $couponIds );					
+        	$coupons = $model->getList();   	
 			if(!empty($coupons))
-			{
+			{			
+				$totalDiscount = 0;	
 				foreach($coupons as $coupon)
-				{
-					$couponObj = new stdClass();
-					$couponObj->orderitem_name = $coupon->coupon_code." ".JText::_( "(Discount)" );
-					$couponObj->orderitem_quantity = (int)1;
-					$couponObj->orderitem_price = "-".$coupon->coupon_value;
+				{		
+					$orderitem_name = $coupon->coupon_code." ".JText::_( "(Discount)" );					
 					
-					$items[] = $couponObj;
-				}
+				  	if (empty($coupon->coupon_type))
+		            {		            	
+		                // get the value
+		                switch ($coupon->coupon_value_type):		                
+		                    case "1": // percentage
+		                        $amount = ($coupon->coupon_value/100) * ($totalPrice + $totalTax);	                 
+		                        break;
+		                    case "0": // flat-rate
+		                        $amount = $coupon->coupon_value;
+		                        break;
+		                endswitch;
+		            }	            
+		            $item_temp = new GoogleItem($orderitem_name,$orderitem_name,1,"-".$amount);
+					// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
+					$cart->AddItem($item_temp);	
+					$totalDiscount = $totalDiscount + $amount;					
+				}	
 			}
 		}			
-				
-		foreach($items as $itemObject)
-		{
-			$item_temp = new GoogleItem($itemObject->orderitem_name,
-			$itemObject->orderitem_name,$itemObject->orderitem_quantity,$itemObject->orderitem_price);
-			// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
-			$cart->AddItem($item_temp);
-			$totalTax=$totalTax+$itemObject->orderitem_tax;
-		}
 		
 		if ( !empty($data['shipping_plugin'] ) && ( $order->order_shipping > 0 ) )
 		{			
