@@ -442,7 +442,7 @@ class TiendaControllerProducts extends TiendaController
             $default_attributes = TiendaHelperProduct::getDefaultAttributes( $product_id );
             sort($default_attributes);
             $attributes_csv = implode( ',', $default_attributes );
-            $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );
+            $availableQuantity = TiendaHelperProduct::getAvailableQuantity ( $product_id, $attributes_csv );
             if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
             {
                 $invalidQuantity = '1';
@@ -464,10 +464,10 @@ class TiendaControllerProducts extends TiendaController
                 }
             }
             // Add 0 to attributes to include all the root attributes
-        	$attributes[] = 0;
+        	//$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
             
             // For getting child opts
-            $view->assign( 'selected_opts', json_encode($attributes) );
+            $view->assign( 'selected_opts', json_encode(array_merge($attributes, array('0'))) );
             
             $attributes_csv = implode( ',', $attributes );
             
@@ -475,7 +475,7 @@ class TiendaControllerProducts extends TiendaController
             if ($product_qty < 0) { $product_qty = '1'; } 
     
             // using a helper file to determine the product's information related to inventory     
-            $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
+            $availableQuantity = TiendaHelperProduct::getAvailableQuantity ( $product_id, $attributes_csv );    
             if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
             {
                 $invalidQuantity = '1';
