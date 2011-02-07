@@ -82,7 +82,7 @@ $citems = @$this->citems;
                 <div class="product_thumb">
                     <div class="product_listimage">
                         <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ."&Itemid=".$item->itemid ); ?>">
-                            <?php echo TiendaHelperProduct::getImage($item->product_id); ?>
+                            <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
                         </a>
                     </div>
                     <div class="reset"></div>
