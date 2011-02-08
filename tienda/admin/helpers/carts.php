@@ -255,10 +255,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 		if (!empty($cart))
 		{
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-			$table = JTable::getInstance( 'Carts', 'TiendaTable' );
 			foreach ($cart as $item)
 			{
-			    $user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
+				$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+				$user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
 				$item->user_id = (empty($item->user_id)) ? $user_id : $item->user_id;				
 	 
 				$keynames = array();

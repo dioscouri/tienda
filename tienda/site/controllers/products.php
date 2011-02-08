@@ -1577,7 +1577,10 @@ class TiendaControllerProducts extends TiendaController
                 
                 // Integrity checks on quantity being added
                 if ($product_qty < 0) { $product_qty = '1'; } 
-        
+                
+                if( !$product_qty ) // product quantity is zero -> skip this product
+                	continue;
+                
                 // using a helper file to determine the product's information related to inventory     
                 $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $child->product_id_to, $attributes_csv );    
                 if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
