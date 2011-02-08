@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin automatically inserts Google Analytics tracking code that track sales in the Google Analytics Ecommerce area.</description>
+	<description>GOOGLE ANALYTICS PLUGIN DESC</description>
 	
 	<files>
 		<filename plugin="googleanalytics">googleanalytics.php</filename>
@@ -19,8 +19,8 @@
     </languages>
     
 	<params>
-		<param name="webid" type="text" default="" label="Google Analytics UA Code" description="Google Analytics UA code, e.g. UA-123456-1. You get this from Google, when you sign in Google Analytics and add new site profile." />
-		<param name="inccategory" type="radio" default="1" label="Include product category" description="Enable to include product categories to be track.">
+		<param name="webid" type="text" default="" label="GOOGLE ANALYTICS UA CODE" description="GOOGLE ANALYTICS UA CODE DESC" />
+		<param name="inccategory" type="radio" default="0" label="INCLUDE PRODUCT CATEGORY" description="INCLUDE PRODUCT CATEGORY DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>	

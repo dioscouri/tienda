@@ -18,60 +18,71 @@ class plgTiendaGoogleAnalytics extends TiendaPluginBase
 	 * @var $_element  string  Should always correspond with the plugin's filename, 
 	 *                         forcing it to be unique 
 	 */
-    var $_element    = 'googleanalytics';
-    
-    var $webid = '';    
-    
-    var $inccategory = '0';
+    public $_element    	= 'googleanalytics';    
+    private $webid 			= '';        
+    private $inccategory 	= '0';    
+    private $embed 			= false;    
+    private $order 			= null;
     
 	function plgTiendaGoogleAnalytics(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
-		
+		$this->loadLanguage( '', JPATH_ADMINISTRATOR );	
 		$this->webid = $this->params->get('webid', '');
 		$this->inccategory = $this->params->get('inccategory', '');
 	}
     
 	/**
-	 *  Method that will be triggered after the prepayment is displayed
+	 *  This event is triggered after the prepayment (during checkout) is displayed
 	 * @param $order
 	 */
 	function onAfterDisplayPrePayment($order)
-	{		
-		if(!empty($this->webid))
-		{
-			$doc =& JFactory::getDocument();	
-			$doc->addScriptDeclaration($this->_buildScript($order));		
-		}	
+	{	
+		$this->embed = true;
+		$this->order = $order;		
 	}
 	
 	/**
-	 * Method to build the script to be put to the header
-	 * Enter description here ...
-	 * @param object $order
+	 * This event is triggered after the framework has rendered the application. 
+	 */
+ 	function onAfterRender ()
+    {   
+    	if($this->embed)
+    	{        
+        	JResponse::setBody(str_replace("</body>", $this->_buildScript() . "\r\n</body>", JResponse::getBody()));
+    	}
+    }
+	
+	
+	/**
+	 * Method to build the script to be appended to the body	
 	 * @return string
 	 */
-	function _buildScript($order)
+	function _buildScript()
 	{
+		$order = $this->order;
 		$storeName = TiendaConfig::getInstance()->get('shop_name');
 		$tax = $order->order_tax + $order->order_shipping_tax;
 		
 		$script = "";
-		$script .= "var _gaq = _gaq || [];\r\n";
-		$script .= "_gaq.push(['_setAccount', '{$this->webid}']);\r\n";
-		$script .= " _gaq.push(['_trackPageview']);\r\n";
-		$script .= "_gaq.push(['_addTrans',
-		    '{$order->order_id}',           // order ID - required
-		    '{$storeName}',  				// affiliation or store name
-		    '{$order->order_total}',          // total - required
-		    '{$tax}',           // tax
-		    '{$order->order_shipping}',              // shipping
-		    '{$order->orderinfo->billing_city}',       // city
-			'{$order->orderinfo->billing_zone_name}',     // state or province
-			'{$order->orderinfo->billing_country_name}'             // country
-			]);\r\n\r\n";
-		
+		$script .= "<script type=\"text/javascript\">\r\n";
+		$script .= "var gaJsHost = ((\"https:\" == document.location.protocol ) ? \"https://ssl.\" : \"http://www.\");\r\n";
+		$script .= "document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));\r\n";
+		$script .= "</script>\r\n";  
+		$script .= "<script type=\"text/javascript\">\r\n";
+		$script .= "try{\r\n";
+		$script .= "var pageTracker = _gat._getTracker(\"{$this->webid}\");\r\n";
+		$script .= "pageTracker._trackPageview();\r\n";
+		$script .= "pageTracker._addTrans(\r\n";
+		$script .= "		{$order->order_id}\r\n";
+		$script .= "		{$storeName}\r\n";
+		$script .= "		{$order->order_total}\r\n";
+		$script .= "		{$tax}\r\n";
+		$script .= "		{$order->orderinfo->billing_city}\r\n";
+		$script .= "		{$order->orderinfo->billing_zone_name}\r\n";
+		$script .= "		{$order->orderinfo->billing_country_name}\r\n";
+		$script .= "		);\r\n\r\n\r\n";
+				
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$items = $order->getItems();		 
 		foreach($items as $item)
@@ -83,23 +94,20 @@ class plgTiendaGoogleAnalytics extends TiendaPluginBase
 				$catName = $this->_getCategoryName($item->product_id);
 		 	}
 		 	
-		 	$script .= " _gaq.push(['_addItem',
-				    '{$order->order_id}',           // order ID - required
-				    '{$item->product_id}',           // SKU/code - required
-				    '{$item->orderitem_name}',        // product name
-				    '{$catName}',   // category or variation
-				    '{$item->orderitem_final_price}',          // unit price - required
-				    '{$item->orderitem_quantity}'               // quantity - required
-				  ]);\r\n";		 		
+		 	$script .= "pageTracker._addItem(\r\n";
+		 	$script .= "		{$order->order_id}\r\n";
+		 	$script .= "		{$item->product_id}\r\n";
+		 	$script .= "		{$item->orderitem_name}\r\n";
+		 	$script .= "		{$catName}\r\n";
+		 	$script .= "		{$item->orderitem_final_price}\r\n";
+		 	$script .= "		{$item->orderitem_quantity}\r\n";
+		 	$script .= ");\r\n";
 		 }
-		 
-		 $script .= "_gaq.push(['_trackTrans']); //submits transaction to the Analytics servers\r\n";
-		 $script .= "(function() {
-							    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-							    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-							    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-							  })();\r\n\r\n";	
- 	 		 		
+		 		 
+		$script .= "pageTracker._trackTrans();\r\n";
+		$script .= "} catch(err) {}\r\n";
+		$script .= "</script>\r\n"; 
+			 		 		
 		return $script;
 	}
 	
