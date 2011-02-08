@@ -124,14 +124,14 @@ class TiendaModelCarts extends TiendaModelBase
         if (empty( $this->_list ))
         {
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $list = parent::getList();
+            $items = parent::getList();
     
             // If no item in the list, return an array()
-            if( empty( $list ) ){
+            if( empty( $items ) ){
                 return array();
             }
-    
-            foreach($list as $item)
+  
+            foreach($items as $item)
             {
             	$filter_group = Tienda::getClass( "TiendaHelperUser", 'helpers.user' )->getUserGroup(JFactory::getUser()->id, $item->product_id);
                 // at this point, ->product_price holds the default price for the product,
@@ -150,60 +150,64 @@ class TiendaModelCarts extends TiendaModelBase
                         $item->product_price = $item->recurring_trial_price;
                     }
                 }
-    
-                $item->orderitem_attributes_price = '0.00000';
-                $item->attributes = array(); // array of each selected attribute's object
-                $attributes_names = array();
-                $attibutes_array = explode(',', $item->product_attributes);
-                foreach ($attibutes_array as $attrib_id)
-                {
-                    // load the attrib's object
-                    $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
-                    $table->load( $attrib_id );
-                    // update the price
-                    // + or -
-                    if($table->productattributeoption_prefix != '=')
-                    {
-                        $item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-                        // store the attribute's price impact
-                        $item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-                    }
-                    // only if prefix is =
-                    else
-                    {
-                        $item->product_price = $table->productattributeoption_price;
-                        // store the attribute's price impact
-                        $item->orderitem_attributes_price = $table->productattributeoption_price;
-                    }
-                    
-                    $item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
-                    $item->product_sku .= $table->productattributeoption_code;
-                    
-                    // store a csv of the attrib names, built by Attribute name + Attribute option name
-                    $atable = JTable::getInstance('ProductAttributes', 'TiendaTable');
-                    $atable->load( $table->productattribute_id );
-                    if (!empty($atable->productattribute_id))
-                    {
-                        $name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
-                        $attributes_names[] = $name;
-                    } 
-                        else
-                    {
-                        $attributes_names[] = JText::_( $table->productattributeoption_name );
-                    }
-                }
-    
-                // Could someone explain to me why this is necessary?
-                if ($item->orderitem_attributes_price >= 0)
-                {
-                    // formatted for storage in the DB
-                    $item->orderitem_attributes_price = "+$item->orderitem_attributes_price";
-                }
-    
-                $item->attributes_names = implode(', ', $attributes_names);
-            }
-            
-            $this->_list = $list;            
+ 
+ 
+ 				$item->orderitem_attributes_price = '0.00000';
+ 				$attributes_names = array();
+ 				if(!empty($item->product_attributes))
+ 				{
+	                $item->attributes = array(); // array of each selected attribute's object	                
+	                $attibutes_array = explode(',', $item->product_attributes);
+	                foreach ($attibutes_array as $attrib_id)
+	                {
+	                    // load the attrib's object
+	                    $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+	                    $table->load( $attrib_id );	           
+	                    // update the price
+	                    // + or - 
+	                    if($table->productattributeoption_prefix != '=')
+	                    {
+	                        $item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+	                        // store the attribute's price impact	                      
+	                        $item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+						}
+	                    // only if prefix is =
+	                    else 
+	                    {	                    	
+	                        $item->product_price = $item->product_price;
+	                        // store the attribute's price impact
+	                        $item->orderitem_attributes_price = $item->orderitem_attributes_price;
+	                    }
+                 
+	                    $item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
+	                    $item->product_sku .= $table->productattributeoption_code;
+	                    
+	                    // store a csv of the attrib names, built by Attribute name + Attribute option name
+	                    $atable = JTable::getInstance('ProductAttributes', 'TiendaTable');
+	                    $atable->load( $table->productattribute_id );
+	                    if (!empty($atable->productattribute_id))
+	                    {
+	                        $name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
+	                        $attributes_names[] = $name;
+	                    } 
+	                        else
+	                    {
+	                        $attributes_names[] = JText::_( $table->productattributeoption_name );
+	                    }
+	                }
+    		
+	                // Could someone explain to me why this is necessary?
+	                if ($item->orderitem_attributes_price >= 0)
+	                {
+	                    // formatted for storage in the DB
+	                    $item->orderitem_attributes_price = "+$item->orderitem_attributes_price";
+	                }	
+ 				}
+
+ 				$item->attributes_names = implode(', ', $attributes_names);
+            }   
+      
+            $this->_list = $items;            
         }
            
         return $this->_list;
