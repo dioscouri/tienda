@@ -433,8 +433,9 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
     		}
     		else
     		{
+    			
     			// Fetch the images from the folder and add them
-    			$images_to_copy = TiendaHelperProduct::getGalleryImages($image);
+    			$images_to_copy = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getGalleryImages($image);
     			foreach($images_to_copy as &$i)
     			{
     				$i = $image.DS.$i;
