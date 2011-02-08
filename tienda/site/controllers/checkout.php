@@ -758,7 +758,7 @@ class TiendaControllerCheckout extends TiendaController
 				$results = array();
 				$dispatcher =& JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
-
+				
 				for ($i=0; $i<count($results); $i++)
 				{
 					$result = $results[$i];
@@ -767,15 +767,10 @@ class TiendaControllerCheckout extends TiendaController
 						$response['msg'] = $helper->generateMessage( $result->message );
 						$response['error'] = '1';
 					}
-					else
-					{
-						// if here, all is OK
-						$response['error'] = '0';
-					}
 				}
 			}
 		}
-
+		
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array();
 		$dispatcher =& JDispatcher::getInstance();
@@ -788,11 +783,6 @@ class TiendaControllerCheckout extends TiendaController
 			{
 				$response['msg'] = $helper->generateMessage( $result->message );
 				$response['error'] = '1';
-			}
-			else
-			{
-				// if here, all is OK
-				$response['error'] = '0';
 			}
 		}
 
