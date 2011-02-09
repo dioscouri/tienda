@@ -113,6 +113,41 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	}
 	
 	/**
+	 * Validation
+	 * 
+	 * @param unknown_type $item
+	 * @param unknown_type $values
+	 */
+	function onValidateAddToCart($item, $values)
+	{
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $item->product_id );
+		
+		// If there are any extra fields, show them as an extra tab
+		if ( count( $fields ) )
+		{
+			foreach($fields as $f)
+			{
+				// User Editable
+				if($f['attribute']->editable_by == 2)
+				{
+					$k = $f['attribute']->eavattribute_alias;
+					if(empty($values[$k]) && $f['attribute']->eavattribute_required)
+					{
+						$error = new JObject();
+						$error->error = '1';
+						$error->message = JText::_($f['attribute']->eavattribute_label .' is required');
+						return $error;
+					}
+					
+				}
+			}
+		}
+		
+		return new JObject();
+	}
+	
+	/**
 	 * Adds eav details if the user has entered them 
 	 * in the order view
 	 *

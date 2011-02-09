@@ -93,6 +93,16 @@ JFilterOutput::objectHTMLSafe( $row );
 						<?php echo TiendaSelect::editableby(@$row->editable_by, 'editable_by'); ?>
 					</td>
 				</tr>
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="eavattribute_required">
+						<?php echo JText::_( 'Required' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo TiendaSelect::booleans(@$row->eavattribute_required, 'eavattribute_required') ?>
+					</td>
+				</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->eaventity_type; ?>" />
 			<input type="hidden" name="task" value="" />

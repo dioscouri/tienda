@@ -285,6 +285,8 @@ CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
   `eaventity_id` int(11) NOT NULL COMMENT 'PK of the entity we are extending',
   `eavattribute_type` VARCHAR( 255 ) NOT NULL COMMENT  'type of the variable (int, varchar, etc)',
   `enum_type` VARCHAR( 255 ) NOT NULL COMMENT  'If it is a list, what type of list',
+  `editable_by` TINYINT( 1 ) NOT NULL,
+  `eavattribute_required` TINYINT( 1 ) NOT NULL,
   `is_multiple` BOOL NOT NULL COMMENT  'If it is a list, are multiple choices allowed?',
   `eavattribute_label` VARCHAR( 255 ) NOT NULL ,
   `eavattribute_alias` VARCHAR( 255 ) NOT NULL ,
