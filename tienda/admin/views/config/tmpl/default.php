@@ -599,6 +599,17 @@
                                 
                             </td>
                         </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Product Sort By' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_sort_by', 'class="inputbox"', $this->row->get('display_sort_by', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Quantity' ); ?>

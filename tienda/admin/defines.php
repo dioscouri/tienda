@@ -481,6 +481,9 @@ class TiendaConfig extends JObject
     var $insert_categories					= '1';
     var $insert_category_id					= '0';
     var $insert_menu_title					= '1';
+    
+    //since 0.7.0
+    var $display_sort_by					= '1';
 	
 	/**
 	 * constructor
