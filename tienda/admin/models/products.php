@@ -240,6 +240,11 @@ class TiendaModelProducts extends TiendaModelEav
         	$query->join('LEFT', '#__tienda_productattributes AS pa ON pa.product_id = tbl.product_id');
     		$query->join('LEFT', '#__tienda_productattributeoptions AS pao ON pa.productattribute_id = pao.productattribute_id');
         }
+        $filter_sortby	= $this->getState('filter_sortby', '', 'string' );
+		if (strlen($filter_sortby))
+        {			
+        	$query->join('LEFT', '#__tienda_productprices AS pp ON pp.product_id = tbl.product_id');
+    	}
     		
 	}
 
