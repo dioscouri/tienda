@@ -364,6 +364,24 @@ class TiendaControllerProducts extends TiendaController
 						$row_file->save(); // save the data
 					}
 				}
+				
+				// create duplicate connections for EAV custom fields
+				$db = JFactory::getDbo();
+				$q = 'SELECT `eavattribute_id` FROM `#__tienda_eavattributeentityxref` WHERE `eaventity_id` = '.$oldPk.' AND `eaventity_type` = \'products\''; 
+				$db->setQuery( $q );
+				$listEAV = $db->loadObjectList();
+				
+				if( is_array( $listEAV ) ) // are there custom fields to clone?
+				{
+					for( $i = 0, $c = count( $listEAV ); $i < $c; $i++ )
+					{
+						$tblEAV = JTable::getInstance( 'EavAttributeEntities', 'TiendaTable' );
+						$tblEAV->eaventity_id = $row->product_id;
+						$tblEAV->eaventity_type = 'products';
+						$tblEAV->eavattribute_id = $listEAV[$i]->eavattribute_id;
+						$tblEAV->save();
+					}
+				}
 			 }
 			 
 		
