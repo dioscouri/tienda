@@ -1113,4 +1113,27 @@ class TiendaSelect extends JHTMLSelect
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+/**
+    * Generates a data productsortby list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function productsortby( $selected, $name = 'filter_sortby', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Sort By' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'price_hightolow', JText::_( "Price: High to Low" ) );
+        $list[] = JHTML::_('select.option',  'price_lowtohigh', JText::_( "Price: Low to High" ) );
+        $list[] = JHTML::_('select.option',  'rate_hightolow', JText::_( "Rating: High to Low" ) );
+        $list[] = JHTML::_('select.option',  'rate_lowtohigh', JText::_( "Rating: Low to High" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }
