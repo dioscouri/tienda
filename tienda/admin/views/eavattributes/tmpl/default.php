@@ -36,7 +36,7 @@
                 	<?php echo TiendaGrid::sort( 'Label', "tbl.eavattribute_label", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Label', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'Type', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>

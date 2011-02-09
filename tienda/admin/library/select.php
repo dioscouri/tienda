@@ -1002,7 +1002,7 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'products', JText::_( "Products" ) );
-        $list[] = JHTML::_('select.option',  'addresses', JText::_( "Addresses" ) );
+        //$list[] = JHTML::_('select.option',  'addresses', JText::_( "Addresses" ) );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

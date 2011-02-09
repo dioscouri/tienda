@@ -8,8 +8,4 @@
         <name>Products</name>
         <url>index.php?option=com_tienda&#38;view=eavattributes&#38;filter_entitytype=products</url>
    </link>
-   <link>
-        <name>Addresses</name>
-        <url>index.php?option=com_tienda&#38;view=eavattributes&#38;filter_entitytype=addresses</url>
-   </link>
 </menu>
