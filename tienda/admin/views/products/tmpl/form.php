@@ -8,6 +8,7 @@
 <?php $form = @$this->form; ?>
 <?php  $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
 <?php
+
 Tienda::load( 'TiendaUrl', 'library.url' );
 Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
 ?>

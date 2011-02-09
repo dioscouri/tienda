@@ -64,7 +64,7 @@ class TiendaHelperEav extends TiendaHelperBase
     		}
     		else
     		{
-    			$value = null;
+    			$value = JRequest::getVar($eav->eavattribute_alias, null);
     		}
     		
     		return $value;

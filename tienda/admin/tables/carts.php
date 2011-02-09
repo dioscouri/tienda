@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaTable', 'tables._base' );
+Tienda::load( 'TiendaTableEav', 'tables._baseeav' );
 
-class TiendaTableCarts extends TiendaTable 
+class TiendaTableCarts extends TiendaTableEav 
 {
     /**
      * @param $db
@@ -52,6 +52,8 @@ class TiendaTableCarts extends TiendaTable
         
         $this->set( '_tbl_key', $tbl_key );
         $this->set( '_suffix', $tbl_suffix );
+        
+        $this->_linked_table = 'products';
         
         parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );    
     }
@@ -151,4 +153,10 @@ class TiendaTableCarts extends TiendaTable
             return false;
         }
     }
+    
+	function store()
+	{
+		$this->_linked_table_key = $this->product_id;
+		return parent::store();
+	}
 }

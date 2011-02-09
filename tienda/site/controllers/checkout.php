@@ -409,6 +409,7 @@ class TiendaControllerCheckout extends TiendaController
         }
         
 		$orderitems = $order->getItems();
+		
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $tax_sum = 0;
         foreach ($orderitems as &$item)

@@ -228,6 +228,7 @@ class TiendaController extends JController
 		$model 	= $this->getModel( $this->get('suffix') );
 		$row = $model->getTable();
 		$row->load( $model->getId() );
+		
 		$userid = JFactory::getUser()->id;
 
 		// Checks if item is checkedout, and if so, redirects to view

@@ -52,6 +52,7 @@ class TiendaViewProducts extends TiendaViewBase
 		
 		$model = $this->getModel();
 		$item = $model->getItem();
+
 		if (empty($item->product_id))
 		{
 		    // this is a new product

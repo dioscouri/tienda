@@ -6,10 +6,10 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
 
@@ -19,12 +19,11 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * @var $_element  string  Should always correspond with the plugin's filename, 
 	 *                         forcing it to be unique 
 	 */
-    var $_element   = 'customfields';
-    
-    
-	function plgTiendaCustomFields(& $subject, $config) 
+	var $_element = 'customfields';
+	
+	function plgTiendaCustomFields( &$subject, $config )
 	{
-		parent::__construct($subject, $config);
+		parent::__construct( $subject, $config );
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
 	
@@ -34,23 +33,156 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * @param unknown_type $tabs
 	 * @param unknown_type $row
 	 */
-	function onAfterDisplayProductFormTabs($tabs, $row)
+	function onAfterDisplayProductFormTabs( $tabs, $row )
 	{
-		$vars = new JObject();
-        $vars->tabs = $tabs;
-        $vars->row = $row;
-        
-        // Get extra fields for products
-        $fields = $this->getCustomFields('products', $row->product_id);
-        
-        // If there are any extra fields, show them as an extra tab
-        if(count($fields))
-        {
-        	$vars->fields = $fields;
-        	$html = $this->_getLayout('product', $vars);
-        	echo $html;
-        }
+		$vars = new JObject( );
+		$vars->tabs = $tabs;
+		$vars->row = $row;
+		
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $row->product_id );
+		
+		// If there are any extra fields, show them as an extra tab
+		if ( count( $fields ) )
+		{
+			$vars->fields = $fields;
+			$html = $this->_getLayout( 'product', $vars );
+			echo $html;
+		}
 	}
+	
+	function onGetAdditionalOrderitemKeyValues( $item )
+	{
+		$fields = $this->getCustomFields('products', $item->product_id);
+		
+		$return = array();
+		
+		if(count($fields))
+		{
+			foreach($fields as $f)
+			{
+				$k = $f['attribute']->eavattribute_alias;
+				$return[$k] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $item->cart_id);
+			}
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * Adds eav details if the user has entered them 
+	 * in the order view
+	 *
+	 * @param unknown_type $i
+	 * @param unknown_type $item
+	 */
+	function onDisplayOrderItem( $i, $item )
+	{
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $item->product_id );
+		
+		// If there are any extra fields, show them as an extra tab
+		if ( count( $fields ) )
+		{
+			$field_show = array();
+			Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
+			foreach ( $fields as $f )
+			{
+				// User editable?
+				if ( $f['attribute']->editable_by == 2 )
+				{
+					$k = $f['attribute']->eavattribute_alias;
+					$f['value'] = $item->$k;
+					
+					if(empty($f['value']))
+					{
+						$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'orderitems', $item->orderitem_id);
+					}
+					
+					$field_show[] = $f;
+				}
+			}
+			
+			if(count($field_show))
+			{
+				$vars->fields = $field_show;
+				$html = $this->_getLayout( 'product_order', $vars );
+				echo $html;
+			}
+		}
+	}
+	
+	/**
+	 * Adds eav details if the user has entered them 
+	 * in the order view
+	 *
+	 * @param unknown_type $i
+	 * @param unknown_type $item
+	 */
+	function onDisplayCartItem( $i, $item )
+	{
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $item->product_id );
+		
+		// If there are any extra fields, show them as an extra tab
+		if ( count( $fields ) )
+		{
+			$field_show = array();
+			Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
+			foreach ( $fields as $f )
+			{
+				// User editable?
+				if ( $f['attribute']->editable_by == 2 )
+				{
+					$k = $f['attribute']->eavattribute_alias;
+					$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $item->cart_id);
+					$field_show[] = $f;
+				}
+			}
+			
+			if(count($field_show))
+			{
+				$vars->fields = $field_show;
+				$html = $this->_getLayout( 'product_cart', $vars );
+				echo $html;
+			}
+		}
+	}
+	
+	/**
+	 * Event to allow plugins to add keys to the loading of cart items
+	 * to make the cartitem also unique based on extra carts column(s).
+	 */
+    function onGetAdditionalCartKeyValues($item, $posted_values, $index)
+    {
+    	// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $item->product_id );
+		
+		
+		
+		// If there are any extra fields, show them as an extra tab
+		if ( count( $fields ) )
+		{
+			$field_show = array();
+			Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
+			foreach ( $fields as $f )
+			{
+				// User editable?
+				if ( $f['attribute']->editable_by == 2 )
+				{
+					$k = $f['attribute']->eavattribute_alias;
+					$field_show[$k] = $item->$k;
+				}
+			}
+
+			if(count($field_show))
+			{
+				return $field_show;
+			}
+		}
+		
+		return array();
+    }
 	
 	/**
 	 * Displays the custom fields on the site product view
@@ -58,18 +190,99 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onAfterDisplayProduct( $product_id )
 	{
-		$vars = new JObject();
+		$vars = new JObject( );
 		
-        // Get extra fields for products
-        $fields = $this->getCustomFields('products', $product_id);
-        
-        // If there are any extra fields, show them as an extra tab
-        if(count($fields))
-        {
-        	$vars->fields = $fields;
-        	$html = $this->_getLayout('product_site', $vars);
-        	echo $html;
-        }
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $product_id );
+		
+		// If there are any extra fields, show them
+		if ( count( $fields ) )
+		{
+			$field_show = array();
+			foreach($fields as $f)
+			{
+				// Admin Editable => show only as info
+				if($f['attribute']->editable_by == 1)
+				{
+					$field_show[] = $f;	
+				}
+				
+			}
+			
+			if(count($field_show))
+			{
+				$vars->fields = $field_show;
+				$html = $this->_getLayout( 'product_site', $vars );
+				echo $html;
+			}
+		}
+	}
+	
+	/**
+	 * Displays the user editable custom fields on the site product view
+	 * @param int $product_id
+	 */
+	function onDisplayProductAttributeOptions( $product_id )
+	{
+		$vars = new JObject( );
+		
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $product_id );
+		
+		// If there are any extra fields, show them
+		if ( count( $fields ) )
+		{
+			$field_show = array();
+			foreach($fields as $f)
+			{
+				// User Editable => show as field
+				if($f['attribute']->editable_by == 2)
+				{
+					$field_show[] = $f;	
+				}
+				
+			}
+			
+			if(count($field_show))
+			{
+				$vars->fields = $field_show;
+				$html = $this->_getLayout( 'product_site_form', $vars );
+				echo $html;
+			}
+		}
+	}
+	
+	/**
+	 * Saves the extra info in the cart item
+	 * 
+	 * @param unknown_type $item
+	 * @param unknown_type $values
+	 * @param unknown_type $files
+	 */
+	function onAfterCreateItemForAddToCart( $item, $values, $files )
+	{
+		// Get extra fields for products
+		$fields = $this->getCustomFields( 'products', $item->product_id );
+		
+		$field_save = array();
+		
+		// If there are any extra fields, save them
+		if ( count( $fields ) )
+		{
+			
+			foreach($fields as $f)
+			{
+				// User Editable => show as field
+				if($f['attribute']->editable_by == 2)
+				{
+					$key = $f['attribute']->eavattribute_alias;
+					$field_save[$key] = $values[$key];	
+				}
+				
+			}
+		}
+		
+		return $field_save;
 	}
 	
 	/**
@@ -77,29 +290,31 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * @param string $entity
 	 * @param int $id
 	 */
-	function getCustomFields($entity, $id)
+	function getCustomFields( $entity, $id )
 	{
-		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
-		Tienda::load('TiendaHelperEav', 'helpers.eav');
+		Tienda::load( 'TiendaModelEavAttributes', 'models.eavattributes' );
+		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		
-		$model = JModel::getInstance('EavAttributes', 'TiendaModel');
-    	$model->setState('filter_entitytype', $entity);
-    	$model->setState('filter_entityid', $id);
-    	$model->setState('filter_published', '1');
-    	
-    	$eavs = $model->getList();
-    	
-    	$fields = array();
-		foreach(@$eavs as $eav)
-    	{
-    		$key = $eav->eavattribute_alias;
-    		
-    		$value = TiendaHelperEav::getAttributeValue($eav, $entity, $id);
-   			
-   			$fields[] = array('attribute' => $eav, 'value' => $value);
-   		}
-   		
-   		return $fields;
+		$model = JModel::getInstance( 'EavAttributes', 'TiendaModel' );
+		$model->setState( 'filter_entitytype', $entity );
+		$model->setState( 'filter_entityid', $id );
+		$model->setState( 'filter_published', '1' );
+		
+		$eavs = $model->getList( );
+		
+		$fields = array( );
+		foreach ( @$eavs as $eav )
+		{
+			$key = $eav->eavattribute_alias;
+			
+			$value = TiendaHelperEav::getAttributeValue( $eav, $entity, $id );
+			
+			$fields[] = array(
+				'attribute' => $eav, 'value' => $value
+			);
+		}
+		
+		return $fields;
 	}
 	
 }

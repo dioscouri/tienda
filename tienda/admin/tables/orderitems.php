@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaTable', 'tables._base' );
+Tienda::load( 'TiendaTableEav', 'tables._baseeav' );
 
-class TiendaTableOrderItems extends TiendaTable 
+class TiendaTableOrderItems extends TiendaTableEav 
 {
 	function TiendaTableOrderItems ( &$db ) 
 	{

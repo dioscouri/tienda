@@ -11,9 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaModelBase', 'models._base' );
+Tienda::load( 'TiendaModelEav', 'models._baseeav' );
 
-class TiendaModelOrderItems extends TiendaModelBase 
+class TiendaModelOrderItems extends TiendaModelEav 
 {
 	
     protected function _buildQueryWhere(&$query)

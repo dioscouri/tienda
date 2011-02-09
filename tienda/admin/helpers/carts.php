@@ -66,6 +66,22 @@ class TiendaHelperCarts extends TiendaHelperBase
                 }
             }
         }
+        
+        // Now for Eavs!!
+        $eavs = TiendaHelperEav::getAttributes('products', $item->product_id);
+        
+        if(count($eavs))
+        {
+        	foreach($eavs as $eav)
+        	{
+        		// Search for user edtable fields & user submitted value
+        		if($eav->editable_by == 2 && array_key_exists($eav->eavattribute_alias, $item))
+        		{
+        			$key = $eav->eavattribute_alias;
+        			$table->set($key, $item->$key);
+        		}
+        	}
+        }        
 
         $date = JFactory::getDate();
         $table->last_updated = $date->toMysql();
@@ -583,7 +599,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		            	$orderItem->set($key,$value);
 		            }
 		        }	    			
-    			
+		        
     			// TODO When do attributes for selected item get set during admin-side order creation?
     			array_push($productitems, $orderItem);
             }

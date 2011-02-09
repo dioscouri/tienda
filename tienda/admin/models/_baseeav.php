@@ -189,6 +189,7 @@ class TiendaModelEav extends TiendaModelBase
      	if (empty( $this->_item ))
         {
             $item = parent::getItem( $emptyState );
+            
             if (empty($item))
             {
                 return $item;
@@ -209,6 +210,7 @@ class TiendaModelEav extends TiendaModelBase
 	    		
 	    		// add the custom fields as properties
 	    		$eavs = $model->getList();
+	    		
 	    		foreach($eavs as $eav)
 	    		{
 	    			$key = $eav->eavattribute_alias;
@@ -223,7 +225,11 @@ class TiendaModelEav extends TiendaModelBase
 	    			}
 	    		}
 	    	}
+	    	
+	    	$this->_item = $item;
         }
+        
+        return $this->_item;
     }
     
     /**
@@ -253,6 +259,8 @@ class TiendaModelEav extends TiendaModelBase
             {
             	Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
             	Tienda::load('TiendaHelperEav', 'helpers.eav');
+            	
+            	$entity = $this->getTable()->get('_suffix');
 	            
 		    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
 	    		$model->setState('filter_entitytype', $entity);
@@ -267,6 +275,15 @@ class TiendaModelEav extends TiendaModelBase
 	    			$model->setState('filter_entityid', $this->getId());
     				$eavs = $model->getList(true);
     				
+    				// Mirrored table?
+    				if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
+    				{
+    					$entity = $this->getTable()->getLinkedTable();
+    					$model->setState('filter_entitytype', $entity);
+    					$model->setState('filter_entityid', $item->product_id);
+    					$eavs = $model->getList(true);
+    				}
+  
 		    		foreach($eavs as $eav)
 		    		{	
 	    				$key = $eav->eavattribute_alias;
@@ -304,7 +321,7 @@ class TiendaModelEav extends TiendaModelBase
 		    			// TODO Check that the excluded fields are not required by eavfiltering
 		    			if($add)
 		    			{
-			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $item->$tbl_key);
+			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key);
 			    			
 		    				// Do NOT ovveride properties
 			    			if(!property_exists($item, $key))

@@ -1153,8 +1153,8 @@ class TiendaControllerProducts extends TiendaController
             {
             	$item->set($key,$value);
             }
-        }	        
-
+        }	 
+        
         // does the user/cart match all dependencies?
         $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
         if (!$canAddToCart)

@@ -76,7 +76,6 @@ class TiendaControllerProducts extends TiendaController
 		$view->set( 'hidemenu', false);
 
 		parent::edit();
-
 	}
 
 	/**
