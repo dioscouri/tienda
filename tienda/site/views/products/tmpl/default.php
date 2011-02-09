@@ -74,6 +74,18 @@ $citems = @$this->citems;
         <?php endif; ?>
     
     </div>
+    <?php if(TiendaConfig::getInstance()->get('display_sort_by', '1')) :?>
+      <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm_sort" enctype="multipart/form-data">        
+     	<div class="tienda_sortby" style="margin: 20px 0; text-align:right;">
+    	<?php Tienda::load('TiendaSelect', 'libray.select');?>
+    	<span class="sort_by_label" style="font-size: 1.15em;">
+    	<?php echo JText::_('Sort By');?>
+    	</span>
+    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'))?>
+    	</div>
+        <?php echo $this->form['validate']; ?>
+    </form>   
+    <?php endif;?>    
     
     <?php if (!empty($items)) : ?>
         <div id="tienda_products">

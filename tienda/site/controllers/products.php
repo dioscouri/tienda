@@ -50,7 +50,30 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
         $state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
         $state['filter_price_to']       = $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
-
+		$state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
+       
+		$state['filter_sortby']     = $app->getUserStateFromRequest($ns.'sortby', 'filter_sortby', '', '');
+		if(strlen($state['filter_sortby']) && TiendaConfig::getInstance()->get('display_sort_by', '1'))
+		{
+			switch( $state['filter_sortby'] )
+			{				
+				case 'rate_lowtohigh':
+					$state['order'] = 'tbl.product_rating';
+					break;
+				case 'rate_hightolow':
+					$state['order'] = 'tbl.product_rating';	
+					$state['direction'] = 'DESC';
+					break;	
+				case 'price_lowtohigh':
+					$state['order'] = 'pp.product_price';
+					break;
+				case 'price_hightolow':	
+				default:
+					$state['order'] = 'pp.product_price';
+					$state['direction'] = 'DESC';												
+			}			
+		}
+       		
 		if ($state['search']) 
 		{
 		    $filter = $state['filter'] = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
@@ -378,7 +401,7 @@ class TiendaControllerProducts extends TiendaController
         {
             return $html;
         }
-        
+      
         $view->set( '_controller', 'products' );
         $view->set( '_view', 'products' );
         $view->set( '_doTask', true);
