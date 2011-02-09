@@ -298,6 +298,7 @@ class TiendaControllerManufacturers extends TiendaController
         $view->assign( 'taxtotal', '' );
         $view->assign( 'shipping_cost_link', '' );
         
+        $row->tax = '0';
         if ($show_tax)
         {
             // finish TiendaHelperUser::getGeoZone -- that's why this isn't working
@@ -313,6 +314,8 @@ class TiendaControllerManufacturers extends TiendaController
             
             $taxtotal = TiendaHelperProduct::getTaxTotal($product_id, $geozones);
             $tax = $taxtotal->tax_total;
+            $row->taxtotal = $taxtotal;
+            $row->tax = $tax;
             $view->assign( 'taxtotal', $taxtotal );
             $view->assign( 'tax', $tax );
         }
@@ -390,7 +393,7 @@ class TiendaControllerManufacturers extends TiendaController
             }  
             $view->assign( 'item', $row );
         }
-        
+     
         $view->assign( 'availableQuantity', $availableQuantity );
         $view->assign( 'invalidQuantity', $invalidQuantity );
         
