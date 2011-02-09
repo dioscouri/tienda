@@ -366,10 +366,11 @@ class TiendaControllerProducts extends TiendaController
 				}
 				
 				// create duplicate connections for EAV custom fields
-				$db = JFactory::getDbo();
-				$q = 'SELECT `eavattribute_id` FROM `#__tienda_eavattributeentityxref` WHERE `eaventity_id` = '.$oldPk.' AND `eaventity_type` = \'products\''; 
-				$db->setQuery( $q );
-				$listEAV = $db->loadObjectList();
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+	    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
+	    	$model->setState('filter_entitytype', 'products' );
+	    	$model->setState('filter_entityid', $oldPk);    	
+	    	$listEAV = $model->getList();
 				
 				if( is_array( $listEAV ) ) // are there custom fields to clone?
 				{
