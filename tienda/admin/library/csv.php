@@ -51,8 +51,8 @@ class TiendaCSV extends JObject
 	 * A field containing integer or fload doesnt need to be escaped in double-qoutes
 	 * 
 	 * @param $content 						String to be translated
-	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
 	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
+	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
 	 * @param $preserve_header 		Preserve header as a firt row of the result array
 	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
 	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
@@ -288,9 +288,14 @@ class TiendaCSV extends JObject
 								$row[$idx] = '';
 							else // otherwise it must be float or integer
 							{
-								$row[$idx] = ( float )@$data[$idx];
-								if( !strcmp( ( int ) $row[$i], $row[$i] ) ) // the number is integer and not float
-									$row[$idx] = ( int )$row[$idx];
+								if( empty( $data[$idx] ) )
+									$row[$idx] = '';
+								else
+								{
+									$row[$idx] = ( float )$data[$idx];
+									if( !strcmp( ( int ) @$row[$i], @$row[$i] ) ) // the number is integer and not float
+										$row[$idx] = ( int )@$row[$idx];
+								}
 							}
 						}
 				}
