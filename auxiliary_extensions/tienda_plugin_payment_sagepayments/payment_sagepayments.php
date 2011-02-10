@@ -74,7 +74,14 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $vars->cardtype = JRequest::getVar("cardtype");
         $vars->cardholder = JRequest::getVar("cardholder");
         $vars->cardnum = JRequest::getVar("cardnum");
-        $vars->cardexp = JRequest::getVar("cardexp");
+        
+        $exp_month = JRequest::getInt("cardexp_month");
+        if ($exp_month < '10') { $exp_month = '0'.$exp_month; } 
+        $exp_year = JRequest::getInt("cardexp_year");
+        $exp_year = $exp_year - 2000;
+        $cardexp = $exp_month.$exp_year;
+        
+        $vars->cardexp = $cardexp;
         $vars->cardcv2 = JRequest::getVar("cardcv2");
         
         $this->_genAsterixes($vars);
@@ -847,5 +854,12 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
 		}
 		
 		return count($errors) ? implode("\n", $errors) : '';
+    }
+    
+    public function showCVV()
+    {
+        $vars = new JObject();
+        echo $this->_getLayout('showcvv', $vars);
+        return;
     }
 }
