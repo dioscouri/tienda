@@ -39,6 +39,7 @@ class modTiendaProductsHelper extends JObject
         
         // load the config class
         Tienda::load( 'TiendaConfig', 'defines' );
+        Tienda::load('TiendaHelperProduct', 'helpers.product'); 
                 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
     	JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -79,12 +80,52 @@ class modTiendaProductsHelper extends JObject
        if ($this->params->get('random', '0') == '1'){
     		$model->setState('order', 'RAND()');
     	}
-    		
+    	
+    	$config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');    
+
+        $default_user_group = TiendaConfig::getInstance()->get('default_user_group');
+        $user_groups_array = $this->getUserGroups();
+        
+        $overide_price = false;
+        if(count($user_groups_array) > 1 && $user_groups_array[0] != $default_user_group)
+        {        	
+        	$overide_price = true;
+        	
+        }
+   	
         // using the set filters, get a list of products 
     	if ($products = $model->getList())
-    	{
+    	{    	
     	    foreach ($products as $product)
-    	    {
+    	    {    	    	
+    	    	if($overide_price)
+    	    	{    	    		
+    	    		$filter_group = TiendaHelperUser::getUserGroup(JFactory::getUser()->id, $product->product_id); 
+    	    		$price = TiendaHelperProduct::getPrice( $product->product_id, '1', $filter_group );    	 
+					 $product->price =	$price->product_price; 	      		
+    	    	}
+        		    	    	
+    	    	$product->taxtotal = 0;
+    	    	$product->tax = 0;
+		        if ($show_tax)
+		        {		            
+		            Tienda::load('TiendaHelperUser', 'helpers.user');
+		            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+		            if (empty($geozones))
+		            {
+		                // use the default
+		                $table = JTable::getInstance('Geozones', 'TiendaTable');
+		                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+		                $geozones = array( $table );
+		            }
+		            
+		            $taxtotal = TiendaHelperProduct::getTaxTotal($product->product_id, $geozones);		           
+		            $product->taxtotal = $taxtotal;
+		            $product->tax = $taxtotal->tax_total;		            
+		        }   	    
+    	    
+    	    
     	        $product->filter_category = '';
     	        $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product->product_id );
                 if (!empty($categories))
@@ -93,11 +134,31 @@ class modTiendaProductsHelper extends JObject
                     $product->filter_category = $categories[0];
                 }
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $product->filter_category, true );
-                $product->itemid = $itemid;
+                $product->itemid = $itemid;      
     	    }
     	}
     	
     	return $products;
+    }
+    
+    /**
+     * Method to get if user has multiple user group
+     * @return array     
+     */
+    private function getUserGroups()
+    {
+    	$user = JFactory::getUser();
+    	$database = JFactory::getDBO();    	
+    	Tienda::load( 'TiendaQuery', 'library.query' );    	
+        $query = new TiendaQuery();
+        $query->select( 'tbl.group_id' );   
+        $query->from('#__tienda_usergroupxref AS tbl');
+        $query->join('INNER', '#__tienda_groups AS g ON g.group_id = tbl.group_id');         
+        $query->where("tbl.user_id = ".(int) $user->id);
+        $query->order('g.ordering ASC'); 
+        
+        $database->setQuery( (string) $query );
+        return $database->loadResultArray();    	
     }
 }
 ?>
