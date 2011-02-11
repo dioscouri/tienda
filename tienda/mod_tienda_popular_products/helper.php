@@ -65,14 +65,37 @@ class modTiendaPopularProductsHelper extends JObject
 
         $model->setQuery( $query );
     	
+        $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax'); 
+        
         // using the set filters, get a list of products
     	if ($products = $model->getList())
     	{
     	    foreach ($products as $product)
     	    {
     	        $product->link = 'index.php?option=com_tienda&view=products&task=view&id='.$product->product_id;
-    	        $price = $helper->getPrice( $product->product_id );
+    	        $filter_group = TiendaHelperUser::getUserGroup(JFactory::getUser()->id, $product->product_id);
+    	        $price = $helper->getPrice( $product->product_id, '1', $filter_group );
     	        $product->price = $price->product_price; 
+    	        
+    	        //product total
+    	        $product->taxtotal = 0;
+    	    	$product->tax = 0;
+		        if ($show_tax)
+		        {		            
+		            Tienda::load('TiendaHelperUser', 'helpers.user');
+		            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
+		            if (empty($geozones))
+		            {
+		                // use the default
+		                $table = JTable::getInstance('Geozones', 'TiendaTable');
+		                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+		                $geozones = array( $table );
+		            }
+		            
+		            $taxtotal = TiendaHelperProduct::getTaxTotal($product->product_id, $geozones);		           
+		            $product->taxtotal = $taxtotal;
+		            $product->tax = $taxtotal->tax_total;		            
+		        }  
     	        
                 $product->filter_category = '';
                 $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $product->product_id );
