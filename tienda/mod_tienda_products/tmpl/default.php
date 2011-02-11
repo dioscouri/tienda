@@ -46,7 +46,7 @@ if ($num > 0 && @$products)
 			<?php endif; ?>
 		<?php endif; ?>
 
-        <?php if ($params->get('display_price','1') != '0') : ?><p class="product_price"><?php echo Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->currency( $product->price ) ?></p><?php endif; ?>
+        <?php if ($params->get('display_price','1') != '0') : ?><p class="product_price"><?php echo TiendaHelperProduct::dispayPriceWithTax($product->price, $product->tax, TiendaConfig::getInstance()->get('display_prices_with_tax')) ?></p><?php endif; ?>
 
 		<?php if ($params->get('display_description','1') != '0' && $product->product_description_short != null) : ?><p class="product_description"><?php echo $product->product_description_short ?></p><?php endif; ?>
 		</div>
