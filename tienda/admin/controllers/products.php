@@ -132,7 +132,7 @@ class TiendaControllerProducts extends TiendaController
 		// set the id as 0 for new entry
 		if ( $task == "save_as" )
 		{
-		  $isSaveAs = true;
+		    $isSaveAs = true;
 			$oldProductImagePath = $row->getImagePath();
 			$pk = $row->getKeyName();
 			$oldPk = $row->$pk;
@@ -364,8 +364,8 @@ class TiendaControllerProducts extends TiendaController
 					}
 				}
 				
-				// create duplicate connections for EAV custom fields
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+			// create duplicate connections for EAV custom fields
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 	    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
 	    	$model->setState('filter_entitytype', 'products' );
 	    	$model->setState('filter_entityid', $oldPk);    	
@@ -431,6 +431,10 @@ class TiendaControllerProducts extends TiendaController
 		$redirect = "index.php?option=com_tienda";
 		switch ($task)
 		{
+            case "save_as":
+                $redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$row->product_id;
+                $this->message .= " - " . JText::_( "and you are now editing the new product" );
+                break;
 			case "saveprev":
 				$redirect .= '&view='.$this->get('suffix');
 				// get prev in list
