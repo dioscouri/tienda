@@ -65,11 +65,10 @@ class TiendaControllerProducts extends TiendaController
 					$state['direction'] = 'DESC';
 					break;	
 				case 'price_lowtohigh':
-					$state['order'] = 'pp.product_price';
+					$state['order'] = 'price';
 					break;
 				case 'price_hightolow':	
-				default:
-					$state['order'] = 'pp.product_price';
+					$state['order'] = 'price';
 					$state['direction'] = 'DESC';												
 			}			
 		}

@@ -81,7 +81,7 @@ $citems = @$this->citems;
     	<span class="sort_by_label" style="font-size: 1.15em;">
     	<?php echo JText::_('Sort By');?>
     	</span>
-    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'))?>
+    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('Default Order'));?>
     	</div>
         <?php echo $this->form['validate']; ?>
     </form>   
