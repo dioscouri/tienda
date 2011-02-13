@@ -61,16 +61,17 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
      */
     function _prePayment( $data )
     {
-        // prepare the payment form
-
+		// prepare the payment form
         $vars = new JObject();
         
         $vars->ssl_merchant_id = $this->params->get('ssl_merchant_id', '');
         $vars->ssl_user_id = $this->params->get('ssl_user_id', '');
         $vars->ssl_pin = $this->params->get('ssl_pin', '');
         $vars->test_mode = $this->params->get('test_mode', '0');
-        
-        $vars->ssl_customer_code = JFactory::getUser()->id;
+		$vars->merchant_demo_mode = $this->params->get('merchant_demo_mode', '0');
+		$vars->inline_creditcard_form = $this->params->get('inline_creditcard_form', '0');
+       
+		$vars->ssl_customer_code = JFactory::getUser()->id;
         $vars->ssl_invoice_number = $data['orderpayment_id'];
         $vars->ssl_description = JText::_('Order Number: ').$data['order_id'];
         
@@ -85,29 +86,155 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         $vars->state        = $data['orderinfo']->billing_zone_name;
         $vars->zip  		= $data['orderinfo']->billing_postal_code;
         
-        
         $vars->amount = @$data['order_total'];
 
-        $vars->payment_url = "https://www.myvirtualmerchant.com/VirtualMerchant/process.do";
-        $vars->receipt_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
-        $vars->failed_url  = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+		if ($vars->merchant_demo_mode == 1)
+		{
+			$vars->payment_url = "https://demo.myvirtualmerchant.com/VirtualMerchantDemo/process.do";
+		}
+		else
+		{
+			$vars->payment_url = "https://www.myvirtualmerchant.com/VirtualMerchant/process.do";
+		}
 
-        $html = $this->_getLayout('prepayment', $vars);
+		if ( $vars->inline_creditcard_form == 0)
+		{
+			$vars->receipt_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+			$vars->failed_url  = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+			$html = $this->_getLayout('prepayment', $vars);
+		}
+		elseif ( $vars->inline_creditcard_form == 1)
+		{
+			$vars->action_url  = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element;
+			$vars->order_id	   = $data['order_id'];
+			$html = $this->_getLayout('paymentcreditcard', $vars);
+		}
+
         return $html;
     }
+
+	/**
+     * Processes the payment form
+     * and returns HTML to be displayed to the user
+     * generally with a success/failed message
+     *
+     * @param  $data           array       creidt card data
+     * @return $result_params array Result response from virtualpayment
+     */
+	function _getInlinePaymentResponse($data)
+	{
+		// prepare the payment form
+        $vars = new JObject();
+
+		$vars->ssl_merchant_id = $this->params->get('ssl_merchant_id', '');
+        $vars->ssl_user_id = $this->params->get('ssl_user_id', '');
+        $vars->ssl_pin = $this->params->get('ssl_pin', '');
+        $vars->test_mode = $this->params->get('test_mode', '0');
+		$vars->merchant_demo_mode = $this->params->get('merchant_demo_mode', '0');
+		$vars->inline_creditcard_form = $this->params->get('inline_creditcard_form', '0');
+		$vars->transaction_type = $this->params->get('transaction_type');
+		$vars->order_id	= $data['order_id'];
+
+		$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+        $orderinfo->load( $vars->order_id );
+
+		$order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $vars->order_id );
+
+		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment->load( $vars->order_id );
+
+		$vars->address     = $orderinfo->billing_address_1;
+		$vars->address    .= ($orderinfo->billing_address_2)?','.$orderinfo->billing_address_2:'';
+		$vars->postal_code = $orderinfo->billing_postal_code;
+		$vars->ssl_invoice_number = $orderpayment->orderpayment_id;
+
+		$vars->order_total = $order->order_total;
+
+		$vars->ssl_customer_code = JFactory::getUser()->id;
+
+		if ($vars->merchant_demo_mode == 1)
+		{
+			$vars->payment_url = "https://demo.myvirtualmerchant.com/VirtualMerchantDemo/process.do";
+		}
+		else
+		{
+			$vars->payment_url = "https://www.myvirtualmerchant.com/VirtualMerchant/process.do";
+		}
+
+		$vars->credit_card = $data['credit_card'];
+		$expire_year = substr($data['expire_year'], 2, 2);
+		$vars->expire_date = $data['expire_month'].$expire_year;
+		$vars->card_cvv	   = $data['card_cvv'];
+
+		$paymentParams = array();
+		$paymentParams [] = 'ssl_merchant_id='.$vars->ssl_merchant_id;
+		$paymentParams [] = 'ssl_user_id='.$vars->ssl_user_id;
+		$paymentParams [] = 'ssl_pin='.$vars->ssl_pin;
+		$paymentParams [] = 'ssl_transaction_type='.$vars->transaction_type;
+		$paymentParams [] = 'ssl_amount='.sprintf('%0.2f', $vars->order_total);
+		$paymentParams [] = 'ssl_customer_code='.$vars->ssl_customer_code;
+		$paymentParams [] = 'ssl_show_form=FALSE';
+		$paymentParams [] = 'ssl_result_format=ASCII';
+		$paymentParams [] = 'ssl_card_number='.$vars->credit_card;
+		$paymentParams [] = 'ssl_card_present=Y';
+		$paymentParams [] = 'ssl_exp_date='.$vars->expire_date;
+		$paymentParams [] = 'ssl_cvv2cvc2='.$vars->card_cvv;
+		$paymentParams [] = 'ssl_cvv2cvc2_indicator=Y';
+		$paymentParams [] = 'ssl_receipt_decl_method=REDG';
+		$paymentParams [] = 'ssl_invoice_number='.$vars->ssl_invoice_number;
+		$paymentParams [] = 'ssl_avs_address='.$vars->address;
+		$paymentParams [] = 'ssl_avs_zip='.$vars->postal_code;
+
+		$postParams = implode('&', $paymentParams);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $vars->payment_url); // set url to post to
+		curl_setopt($ch,CURLOPT_POST, 1); // set POST method
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
+		$result = curl_exec($ch); // run the whole process
+		curl_close($ch);
+
+		$response_params = explode("\n", $result);
+		
+		foreach ( $response_params as $param ) {
+			list($key, $value) = split('=', $param);
+			$result_params[trim($key)] = trim($value);
+		}
+
+		return $result_params;
+	}
 
     /**
      * Processes the payment form
      * and returns HTML to be displayed to the user
      * generally with a success/failed message
      *
+	 * inline_creditcard_form
+	 * value=1 : send curl request and get response from virtualpayment gateway
+	 * value=0 : send web request to virtualpayment server
+	 *
      * @param $data     array       form post data
      * @return string   HTML to display
      */
     function _postPayment( $data )
     {
-        // Process the payment
-        $result = JRequest::getVar('ssl_result');
+		$vars->inline_creditcard_form = $this->params->get('inline_creditcard_form', '0');
+		
+		if ($vars->inline_creditcard_form == 1) 
+		{
+			$data = $this->_getInlinePaymentResponse($data);
+			$result = $data['ssl_result'];
+		} 
+		else 
+		{
+			// Process the payment
+			$result = JRequest::getVar('ssl_result');
+		}
 
         $vars = new JObject();
 
@@ -115,7 +242,7 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         {
             case "0":
             	$errors = $this->_process( $data );
-            	
+
             	// No errors
             	if($errors == '')
             	{
@@ -168,7 +295,7 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
     
     function _process($data)
     {
-    	$post = JRequest::get('post');
+		$post = JRequest::get('post');
     	
     	$orderpayment_id = @$data['ssl_invoice_number'];
     	
