@@ -379,6 +379,7 @@ class TiendaControllerProducts extends TiendaController
 	    	$model->setState('filter_entitytype', 'products' );
 	    	$model->setState('filter_entityid', $oldPk);    	
 	    	$listEAV = $model->getList();
+	    	$teav = $model->getTable();
 				
 				if( is_array( $listEAV ) ) // are there custom fields to clone?
 				{
@@ -389,6 +390,20 @@ class TiendaControllerProducts extends TiendaController
 						$tblEAV->eaventity_type = 'products';
 						$tblEAV->eavattribute_id = $listEAV[$i]->eavattribute_id;
 						$tblEAV->save();
+						
+						// Clone the values too!
+						$teav->load($listEAV[$i]->eavattribute_id); 
+						$value = TiendaHelperEav::getAttributeValue($teav, 'products', $row->product_id);
+						
+						$newValue = JTable::getInstance('EavValues', 'TiendaTable');
+						$newValue->setType($teav->eavattribute_type);
+		    			$newValue->eavattribute_id = $listEAV[$i]->eavattribute_id;
+		    			$newValue->eaventity_id = $row->product_id;
+		    		
+			    		// Store the value
+			    		$newValue->eavvalue_value = $value;
+			    		$newValue->eaventity_type = 'products';
+			    		$newValue->store();
 					}
 				}
 			 }

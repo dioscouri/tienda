@@ -18,6 +18,9 @@ class TiendaTableEavValues extends TiendaTable
 	// If the table type was set
 	private $active = false;
 	
+	// The type of the eav
+	protected $type = '';
+	
 	// Allowed table types
 	private $allowed_types = array();
 	
@@ -50,6 +53,7 @@ class TiendaTableEavValues extends TiendaTable
 		
 		$name 		= 'tienda';
 		$eav_suffix = 'eavvalues';
+		$this->type = $type;
 		
 		// Set the correct suffix
 		$this->set( '_suffix', $eav_suffix.$type );
@@ -61,6 +65,11 @@ class TiendaTableEavValues extends TiendaTable
 		
 		// Table Type defined: Activate the table
 		$this->active = true;
+	}
+	
+	public function getType()
+	{
+		return $this->type;
 	}
 	
 	public function store( $updateNulls=false )

@@ -85,7 +85,7 @@ class TiendaTableEav extends TiendaTable
 					unset($this->$key);
 					
 					// Store it into the array for eav values
-					$custom_fields[] = array('eav' => $eav, 'value' => $this->$key);
+					$custom_fields[] = array('eav' => $eav, 'value' => $value);
 				}
 				// It wasn't in the object, but is it in the post? (new value)
 				else
