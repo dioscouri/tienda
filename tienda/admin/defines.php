@@ -484,6 +484,9 @@ class TiendaConfig extends JObject
     
     //since 0.7.0
     var $display_sort_by					= '1';
+    
+    //social bookmarking integration
+    var $display_facebook_like				= '1';
 	
 	/**
 	 * constructor

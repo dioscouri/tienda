@@ -623,6 +623,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Facebook Like Button' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_facebook_like', 'class="inputbox"', $this->row->get('display_facebook_like', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
                             </th>
                             <td>
