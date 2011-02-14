@@ -161,18 +161,21 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     function _postPayment( $data )
     {
     	$values = JRequest::get('request');
-    	
+	
     	$approved = $values['credit_card_processed'] == 'Y' ? true : false;
         	        	
     	$secret_word = $this->params->get('secret_word', '');
     	$vendor_number = $this->params->get('sid', '');
-    	$order_number = $values['order_number'];
     	
+    	//for testing purposes
+    	//we set the order number to 1
+    	$order_number = $this->params->get('demo', '0') == 1 ? 1 : $values['order_number'];    	
+   
     	//$total = $data['orderpayment_amount'];// it is not defined
     	$total = $data['total'];
     	
-    	$check = md5($secret_word.$vendor_number.$order_number.$total);
-    	
+    	$check = strtoupper(md5($secret_word.$vendor_number.$order_number.$total));
+  	
     	// Check MD5 hash
     	if( ( $check == $values['key'] ) && ( $approved ) ){
     		$vars->approved = true;
