@@ -54,9 +54,12 @@ class TiendaHelperRoute extends TiendaHelperBase
             }
         }
          
-        if (empty($items[$option])) return array();
-           return $items[$option]; 
+        if (empty($items[$option])) 
+        {
+            return array();
+        }
         
+        return $items[$option]; 
        }
     
     /**
@@ -84,6 +87,7 @@ class TiendaHelperRoute extends TiendaHelperBase
                 return null;
             }
 
+            // TODO Move this into the getItems() ?
             foreach ($items as $item)
             {
                 if (!empty($item->query) && !empty($item->query['view']))

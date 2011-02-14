@@ -182,6 +182,7 @@ class TiendaControllerProducts extends TiendaController
         {
             $pathway->addItem( $title );
         }
+        $cat->itemid = $category_itemid;
 		
 		// get the category's sub categories
 		$cmodel->setState('filter_level', $level);
@@ -295,8 +296,7 @@ class TiendaControllerProducts extends TiendaController
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
 		$view->set('_doTask', true);
 		$view->assign( 'row', $row );
-		$view->assign( 'cat', $cat );
-		
+				
         // breadcrumb support
         $app = JFactory::getApplication();
         $pathway =& $app->getPathway();
@@ -309,7 +309,9 @@ class TiendaControllerProducts extends TiendaController
         }
         // add the item being viewed to the pathway
         $pathway->addItem( $row->product_name );
-
+        $cat->itemid = $category_itemid;
+        $view->assign( 'cat', $cat );
+        
 		// Check If the inventroy is set then it will go for the inventory product quantities
 		if ($row->product_check_inventory)
 		{
@@ -1176,7 +1178,7 @@ class TiendaControllerProducts extends TiendaController
             	$item->set($key,$value);
             }
         }	 
-        
+
         // does the user/cart match all dependencies?
         $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
         if (!$canAddToCart)
