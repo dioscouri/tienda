@@ -114,11 +114,11 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
             <?php if ($share_review_enable): ?>
       		<div id="links" class="commentsDiv">
       		<span class="share_review"><?php echo JText::_( "Share this review" ); ?>:</span>      			
-      			 <a href="http://www.facebook.com/share.php?u=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/facebook.png"/></a>
-      			 <a href="http://twitter.com/home?status=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/twitter.png"/></a>
-      			 <a href="http://www.tumblr.com/login?s=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/link-tumblr.PNG"/></a>
-      			 <a href="http://www.stumbleupon.com/submit?url=<?php echo $linkurl;?>&title=<?php echo $row->product_name;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/stumbleupon.png"/></a>
-      			 <a href="http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png"/></a>    			 
+      			 <a href="http://www.facebook.com/share.php?u=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/facebook.png" alt="facebook"/></a>
+      			 <a href="http://twitter.com/home?status=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/twitter.png" alt="twitter"/></a>
+      			 <a href="http://www.tumblr.com/login?s=<?php echo $linkurl;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/link-tumblr.PNG" alt="link-tumblr"/></a>
+      			 <a href="http://www.stumbleupon.com/submit?url=<?php echo $linkurl;?>&title=<?php echo $row->product_name;?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/stumbleupon.png" alt="stumbleupon"/></a>
+      			 <a href="http://www.google.com/buzz/post?url=<?php echo $linkurl; ?>" target='_blank'> <img  src="<?php echo $baseurl;?>/media/com_tienda/images/bookmark/google_buzz.png" alt="google_buzz"/></a>    			 
       		</div>
        		<?php endif; ?>       		
         </div>
