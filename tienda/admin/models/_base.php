@@ -258,8 +258,7 @@ class TiendaModelBase extends JModel
 	{
 		if (empty($this->_total))
 		{
-            $query = $this->getQuery();
-            $this->_total = $this->_getListCount( (string) $query);
+            $this->_total = $this->getResult(); 
 		}
 		return $this->_total;
 	}
