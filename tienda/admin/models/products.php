@@ -308,11 +308,15 @@ class TiendaModelProducts extends TiendaModelEav
 	/**
      * Builds a generic SELECT COUNT(*) query that takes group by into account
      */
-    protected function _buildResultQuery()
+ protected function _buildResultQuery()
     {
     	$grouped_query = new TiendaQuery();
 		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
 		
+		$field = array();
+		
+		if (strlen($filter_price_from) || strlen($filter_price_to))
+		{
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		
@@ -337,7 +341,10 @@ class TiendaModelProducts extends TiendaModelEav
 			LIMIT 1
 			) 
 		AS price";
+		}
 		
+		if(strlen($filter_quantity_from) || strlen($filter_quantity_to))
+		{
 		 $field[] = "
             (
             SELECT 
@@ -349,8 +356,12 @@ class TiendaModelProducts extends TiendaModelEav
                 AND quantities.vendor_id = '0'
             ) 
         AS product_quantity ";
+        }
 		
-		$grouped_query->select( $field );
+		if(count($field))
+		{
+			$grouped_query->select( $field );
+		}
 
         $this->_buildQueryFrom($grouped_query);
         $this->_buildQueryJoins($grouped_query);
