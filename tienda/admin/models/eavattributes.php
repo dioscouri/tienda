@@ -82,6 +82,11 @@ class TiendaModelEavAttributes extends TiendaModelBase
     	$query->join('LEFT', '#__tienda_eavattributeentityxref AS a2e ON tbl.eavattribute_id = a2e.eavattribute_id');
     }
     
+	protected function _buildQueryGroup(&$query)
+    {
+    	$query->group('tbl.eavattribute_id');
+    }
+    
 	public function getList($refresh = false)
 	{
 		$list = parent::getList($refresh); 

@@ -132,6 +132,14 @@ class TiendaControllerProducts extends TiendaController
 		// set the id as 0 for new entry
 		if ( $task == "save_as" )
 		{
+			unset($row);
+			// load WITHOUT EAV! otherwise the save will fail
+			$row = $model->getTable();
+			$row->load( $model->getId(), true, false );
+			$row->bind( JRequest::get('POST') );
+			$row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$row->product_description_short = JRequest::getVar( 'product_description_short', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			
 		    $isSaveAs = true;
 			$oldProductImagePath = $row->getImagePath();
 			$pk = $row->getKeyName();
@@ -156,7 +164,8 @@ class TiendaControllerProducts extends TiendaController
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		
         if ($isSaveAs)
-        {
+        {        	
+        	// and the prices
         	$prices = TiendaHelperProduct::getPrices($oldPk);
         }
             else 

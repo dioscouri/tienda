@@ -82,6 +82,8 @@ class TiendaTableEav extends TiendaTable
 						$value = $this->$key;
 					}
 					
+					unset($this->$key);
+					
 					// Store it into the array for eav values
 					$custom_fields[] = array('eav' => $eav, 'value' => $this->$key);
 				}
