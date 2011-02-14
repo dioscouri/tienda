@@ -169,26 +169,46 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     	
     	//for testing purposes
     	//we set the order number to 1
-    	$order_number = $this->params->get('demo', '0') == 1 ? 1 : $values['order_number'];    	
+    	$order_number = $this->params->get('demo', '0') == 1 ? 1 : $values['order_number'];       	
    
     	//$total = $data['orderpayment_amount'];// it is not defined
     	$total = $data['total'];
     	
     	$check = strtoupper(md5($secret_word.$vendor_number.$order_number.$total));
   	
+    	$vars = new JObject();
     	// Check MD5 hash
-    	if( ( $check == $values['key'] ) && ( $approved ) ){
+    	if( ( $check == $values['key'] ) && ( $approved ) )
+    	{
     		$vars->approved = true;
-    	} else{
+    	} 
+    	else
+    	{
     		$vars->approved = false;
     	}
     	
     	$data_temp = array_merge($values, $data);
     	
-    	$this->_processSale($data_temp);
+    	//we dont process the sale if we have inconsistent hash ?
+    	if($vars->approved)
+    	{    
+    		$return = $this->_processSale($data_temp, $vars);
     	
-    	// Process the payment        
-        $vars = new JObject();
+    		if(empty($return))
+    		{
+    			$vars->message = JText::_('TIENDA 2CHECKOUT MESSAGE PAYMENT ACCEPTED FOR VALIDATION');  
+    		}
+    		else {
+    			$vars->message = $return;
+    		}  		
+    	}
+    	else 
+    	{
+    		$this->_processSale($data_temp, $vars);
+    		$vars->message = JText::_('TIENDA 2CHECKOUT MESSAGE PAYMENT SECURITY ERROR');
+    	}
+    	
+    	// Process the payment
         $html = $this->_getLayout('message', $vars);
                 
         return $html;
@@ -197,7 +217,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     /**
      * Processes the form data 
      */
-    function _processSale($data)
+    function _processSale($data, $vars)
     {
     	
     	// load the orderpayment record and set some values
@@ -211,33 +231,40 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
        
         // check the stored amount against the payment amount
         $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-        $errors = array();
-        if ((float) $stored_amount !== (float) $data['total']) {
+        $errors = array();         
+    	if ((float) $stored_amount !== (float) $data['total']) 
+    	{
             $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
-        }
+        }      
         
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
-        if (count($errors)) 
-        {
-            // if an error occurred 
-            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
-            $send_email = false;
-        }
-            else 
-        {
-            $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
-            
-            // do post payment actions
-            $setOrderPaymentReceived = true;
-            
-            // send email
-            $send_email = true;
+        $send_email = false;
         
+        if(!$vars->approved)
+        {
+        	//incorrect hash
+        	 $order->order_state_id = '14'; // Unspecified Error
         }
+        else 
+        {
+        	if(count($errors))
+        	{
+        		// if an error occurred 
+            	$order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED        	
+        	}
+        	else 
+        	{
+        		$order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED            
+            	// do post payment actions
+            	$setOrderPaymentReceived = true;            
+            	// send email
+            	$send_email = true;
+        	}        
+        }       
 
         // save the order
         if (!$order->save())
