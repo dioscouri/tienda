@@ -228,7 +228,7 @@ class TiendaModelProducts extends TiendaModelEav
     
 	protected function _buildQueryJoins(&$query)
 	{
-		$query->join('LEFT', '#__tienda_productcategoryxref AS p2c ON tbl.product_id = p2c.product_id');	
+		$query->join('LEFT', '#__tienda_productcategoryxref AS p2c ON p2c.product_id = tbl.product_id');	
 		$query->join('LEFT', '#__tienda_categories AS c ON p2c.category_id = c.category_id');
 		$query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id');
 		
@@ -312,6 +312,45 @@ class TiendaModelProducts extends TiendaModelEav
     {
     	$grouped_query = new TiendaQuery();
 		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
+		
+		// This subquery returns the default price for the product and allows for sorting by price
+		$date = JFactory::getDate()->toMysql();
+		
+		$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+		$filter_group = (int) $this->getState('filter_group');
+		if (empty($filter_group))
+		{
+		    $filter_group = $default_group;
+		}
+		
+		$field[] = "(
+			SELECT 
+				prices.product_price
+			FROM
+				#__tienda_productprices AS prices 
+			WHERE 
+				prices.product_id = tbl.product_id 
+				AND prices.group_id = '$filter_group'
+				AND prices.product_price_startdate <= '$date' 
+				AND (prices.product_price_enddate >= '$date' OR prices.product_price_enddate = '0000-00-00 00:00:00' )
+				ORDER BY prices.price_quantity_start ASC
+			LIMIT 1
+			) 
+		AS price";
+		
+		 $field[] = "
+            (
+            SELECT 
+                SUM(quantities.quantity)
+            FROM
+                #__tienda_productquantities AS quantities
+            WHERE 
+                quantities.product_id = tbl.product_id 
+                AND quantities.vendor_id = '0'
+            ) 
+        AS product_quantity ";
+		
+		$grouped_query->select( $field );
 
         $this->_buildQueryFrom($grouped_query);
         $this->_buildQueryJoins($grouped_query);
