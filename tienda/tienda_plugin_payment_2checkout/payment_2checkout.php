@@ -162,22 +162,19 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     {
     	$values = JRequest::get('request');
     	
-    	if($values['credit_card_processed'] == 'Y')
-    		$approved = true;
-    	else
-    		$approved = false;
-    	
-    	$key = $values['key'];
-    	
-    	$secret_word = $this->params->get('secret_word', '');;
+    	$approved = $values['credit_card_processed'] == 'Y' ? true : false;
+        	        	
+    	$secret_word = $this->params->get('secret_word', '');
     	$vendor_number = $this->params->get('sid', '');
     	$order_number = $values['order_number'];
-    	$total = $data['orderpayment_amount'];;	
+    	
+    	//$total = $data['orderpayment_amount'];// it is not defined
+    	$total = $data['total'];
     	
     	$check = md5($secret_word.$vendor_number.$order_number.$total);
     	
     	// Check MD5 hash
-    	if( ( $check == $key ) && ( $approved ) ){
+    	if( ( $check == $values['key'] ) && ( $approved ) ){
     		$vars->approved = true;
     	} else{
     		$vars->approved = false;
@@ -211,6 +208,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
        
         // check the stored amount against the payment amount
         $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+        $errors = array();
         if ((float) $stored_amount !== (float) $data['total']) {
             $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
         }
@@ -224,6 +222,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         {
             // if an error occurred 
             $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+            $send_email = false;
         }
             else 
         {
