@@ -272,7 +272,7 @@ class TiendaModelEav extends TiendaModelBase
     				if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
     				{
     				    $entity = $this->getTable()->getLinkedTable();
-    				    $entity_id = $item->product_id;
+    				    $entity_id = $item->$tbl_key;
                         $eavs = $eav_helper->getAttributes( $entity, $entity_id );     					
     				}
   
