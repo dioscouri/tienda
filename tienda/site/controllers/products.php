@@ -391,7 +391,10 @@ class TiendaControllerProducts extends TiendaController
         //$model  = $this->getModel( $this->get('suffix') );
         $model = JModel::getInstance('Products', 'TiendaModel');
         $model->setId( $product_id );
-        
+
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper_product = TiendaHelperBase::getInstance( 'Product' );
+            
         Tienda::load('TiendaHelperUser', 'helpers.user');       
         $user_id = JFactory::getUser()->id;
         $filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
@@ -463,10 +466,10 @@ class TiendaControllerProducts extends TiendaController
         {
             $product_qty = $quantity_min;
             // get the default set of attribute_csv
-            $default_attributes = TiendaHelperProduct::getDefaultAttributes( $product_id );
+            $default_attributes = $helper_product->getDefaultAttributes( $product_id );
             sort($default_attributes);
             $attributes_csv = implode( ',', $default_attributes );
-            $availableQuantity = TiendaHelperProduct::getAvailableQuantity ( $product_id, $attributes_csv );
+            $availableQuantity = $helper_product->getAvailableQuantity ( $product_id, $attributes_csv );
             if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
             {
                 $invalidQuantity = '1';
@@ -487,6 +490,9 @@ class TiendaControllerProducts extends TiendaController
                     $attributes[] = $value;
                 }
             }
+            
+            sort($attributes);
+            
             // Add 0 to attributes to include all the root attributes
         	//$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
             
@@ -498,14 +504,12 @@ class TiendaControllerProducts extends TiendaController
             // Integrity checks on quantity being added
             if ($product_qty < 0) { $product_qty = '1'; } 
     
-            // using a helper file to determine the product's information related to inventory     
-            $availableQuantity = TiendaHelperProduct::getAvailableQuantity ( $product_id, $attributes_csv );    
+            // using a helper file to determine the product's information related to inventory
+            $availableQuantity = $helper_product->getAvailableQuantity ( $product_id, $attributes_csv );    
             if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
             {
                 $invalidQuantity = '1';
             }
-            
-            sort($attributes);
             
             // adjust the displayed price based on the selected or default attributes
             $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
@@ -578,7 +582,7 @@ class TiendaControllerProducts extends TiendaController
         // now get the summary
         $this->display_cartbutton = true;
         $html = $this->getAddToCart( $values['product_id'], $values );
-        
+
         $response['msg'] = $html;
         // encode and echo (need to echo to send back to browser)
         echo json_encode($response);

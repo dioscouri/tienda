@@ -996,6 +996,8 @@ class TiendaHelperProduct extends TiendaHelperBase
             JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
             $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
             $model->setState( 'filter_product', $id );
+            $model->setState('order', 'tbl.ordering');
+            $model->setState('direction', 'ASC');
             $items = $model->getList();
             if (empty($items))
             {
