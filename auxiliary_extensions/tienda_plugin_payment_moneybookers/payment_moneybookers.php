@@ -69,7 +69,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
-        $vars->status_url = JURI::root()."index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
+        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
         $vars->status_url2 = $this->params->get( 'receiver_email' );
         $vars->language = $this->params->get( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
@@ -107,37 +107,40 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     {
         // Process the payment        
         
-    	$vars = new JObject();   
-        
-        $paction = JRequest::getVar( 'paction' );
-		$html = "";
+		$orderpayment_type = JRequest::getVar( 'orderpayment_type' );
+		
+		if ($orderpayment_type == $this->_element)
+		{
+			$paction 	= JRequest::getVar( 'paction' );
+			$html = "";
 			
-		switch ($paction) {
-			case "message":
-				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
-				$html .= $this->_renderHtml( $text );
-				$html .= $this->_displayArticle();
-			  break;
-			case "process":
-				$html .= $this->_process();					
-					echo $html;
+			switch ($paction) {
+				case "message":
+					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+					$html .= $this->_renderHtml( $text );
+					$html .= $this->_displayArticle();
+				  break;
+				case "process":
+					$html .= $this->_process();					
+						echo $html;
+						
+						$app =& JFactory::getApplication();
+						$app->close();
+				  break;
+				case "cancel":
+					// TODO _paymentCanceled()
 					
-					$app =& JFactory::getApplication();
-					$app->close();
-			  break;
-			case "cancel":
-				// TODO _paymentCanceled()
-				
-				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
-				$html .= $this->_renderHtml( $text );
-			  break;				
-			default:
-				$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE INVALID ACTION' );
-				$html .= $this->_renderHtml( $text );
-			  break;
+					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
+					$html .= $this->_renderHtml( $text );
+				  break;				
+				default:
+					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE INVALID ACTION' );
+					$html .= $this->_renderHtml( $text );
+				  break;
+			}
+	        
+	        return $html;
 		}
-        
-        return $html;
     }
     
 	/**
@@ -189,6 +192,10 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		if ($error = $this->_validatePayment($data)) {
 			$errors[] = $error;
 		}
+		
+		$keyarray = $data;
+		$keyarray['status'] = $this->_getMBStatus($data['status']);
+		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	
      	// check that payment amount is correct for order_id
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -198,7 +205,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         {
              $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ORDER');
         }
-        $orderpayment->transaction_details  = $data['payment_type'];
+        $orderpayment->transaction_details  = $payment_details;
         $orderpayment->transaction_id       = $data['mb_transaction_id'];
         $orderpayment->transaction_status   = $this->_getMBStatus($data['status']);
 
@@ -301,6 +308,26 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		}	
 		
 		return '';
+	}
+	
+	/**
+	 * Formatts the payment data before storing
+	 * 
+	 * @param array $data
+	 * @return string
+	 */
+	function _getFormattedPaymentDetails($data)
+	{
+		$separator = "\n";
+		$formatted = array();
+
+		foreach ($data as $key => $value) {
+			if ($key != 'view' && $key != 'layout') {
+				$formatted[] = $key . ' = ' . $value;
+			}
+		}
+		
+		return count($formatted) ? implode("\n", $formatted) : '';		
 	}
 	
 	/**
