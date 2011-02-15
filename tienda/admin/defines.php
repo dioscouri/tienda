@@ -489,6 +489,11 @@ class TiendaConfig extends JObject
     var $display_facebook_like				= '1';
     var $display_tweet						= '1';
     var $display_tweet_message				= 'Check this out!';
+  	//Ask a question about this product
+    var $ask_question_enable				= '1';
+    var $ask_question_showcaptcha			= '1';
+    var $ask_question_modal					= '1';
+    
 	
 	/**
 	 * constructor

@@ -643,7 +643,7 @@
                                 
                             </td>
                         </tr>
-                        <tr>
+                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Default Tweeter Message' ); ?>
                             </th>
@@ -654,6 +654,39 @@
                                 
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display "Ask a question about this product"' ); ?>
+                            </th>
+                           	<td>
+                                <?php echo JHTML::_('select.booleanlist', 'ask_question_enable', 'class="inputbox"', $this->row->get('ask_question_enable', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Enable Captcha on "Ask a question about this product"' ); ?>
+                            </th>
+                           	<td>
+                                <?php echo JHTML::_('select.booleanlist', 'ask_question_showcaptcha', 'class="inputbox"', $this->row->get('ask_question_showcaptcha', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( '"Ask a question about this product" in modal' ); ?>
+                            </th>
+                           	<td>
+                                <?php echo JHTML::_('select.booleanlist', 'ask_question_modal', 'class="inputbox"', $this->row->get('ask_question_modal', '1') ); ?>
+                            </td>
+                            <td>
+                               <?php echo JText::_('Show the "Ask a question about this product" form in modal.');?> 
+                            </td>
+                        </tr>                       
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
