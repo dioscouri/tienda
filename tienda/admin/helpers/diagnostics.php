@@ -544,10 +544,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         } 
             else
         {
+            $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
+            $currency = $currency_helper->load( $default_currencyid );
+            
             // Check if the currency exists
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $table = JTable::getInstance('Currencies', 'TiendaTable');
-            if ( !$table->load($default_currencyid) )
+            if ( empty($currency->currency_id) )
             {
                 JError::raiseNotice( 'checkDefaultCurrency', JText::_("Currency does not exists") );
                 // do not return false here to enable users to actually change the default currency

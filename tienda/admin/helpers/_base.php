@@ -186,8 +186,8 @@ class TiendaHelperBase extends JObject
      */
     function currency($amount, $currency='', $options='')
     {
-        Tienda::load('TiendaHelperCurrency', 'helpers.currency');
-        $amount = TiendaHelperCurrency::_($amount, $currency, $options);
+        $currency_helper =& TiendaHelperBase::getInstance( 'Currency' );
+        $amount = $currency_helper->_($amount, $currency, $options);
         return $amount;
     }
 	

@@ -18,6 +18,8 @@ Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperAmigos extends TiendaHelperBase 
 {
+    static $commissions = array();
+    
     /**
      * Checks if Amigos is installed
      * 
@@ -73,24 +75,22 @@ class TiendaHelperAmigos extends TiendaHelperBase
      */
     function getCommissions( $order_id )
     {
-        $return = array();
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $query = new TiendaQuery();
-        $query->select( 'tbl.*' );
-        $query->from( '#__amigos_commissions AS tbl' );
-        $query->where( "tbl.orderid = '".(int) $order_id."'" );
-        $query->where( "tbl.order_type = 'com_tienda'" );
-        
-        $db =& JFactory::getDBO();
-        $db->setQuery( (string) $query );
-        $commissions = $db->loadObjectList();
-        
-        if (!empty($commissions))
+        if (!isset($this->commissions[$order_id]))
         {
-            $return = $commissions;
+            $return = array();
+            Tienda::load( 'TiendaQuery', 'library.query' );
+            $query = new TiendaQuery();
+            $query->select( 'tbl.*' );
+            $query->from( '#__amigos_commissions AS tbl' );
+            $query->where( "tbl.orderid = '".(int) $order_id."'" );
+            $query->where( "tbl.order_type = 'com_tienda'" );
+            
+            $db =& JFactory::getDBO();
+            $db->setQuery( (string) $query );
+            $this->commissions[$order_id] = $db->loadObjectList();
         }
-        
-        return $return;
+
+        return $this->commissions[$order_id];
     }
     
     /**

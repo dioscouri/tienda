@@ -92,23 +92,26 @@ class TiendaTableNested extends TiendaTable
 	 */
 	function getPath() 
 	{
-		$return = false;
+	    static $path;
+	    
+	    if (empty($path))
+	    {
+            $query = "
+                SELECT 
+                    tbl.* 
+                FROM 
+                    {$this->_tbl} AS tbl 
+                WHERE 
+                    tbl.lft < '{$this->lft}' AND tbl.rgt > '{$this->rgt}' 
+                ORDER BY 
+                    tbl.lft ASC 
+            ";
+    
+            $this->_db->setQuery( $query );
+            $path = $this->_db->loadObjectList();    	        
+	    }
 
-		$query = "
-			SELECT 
-				tbl.* 
-			FROM 
-				{$this->_tbl} AS tbl 
-			WHERE 
-				tbl.lft < '{$this->lft}' AND tbl.rgt > '{$this->rgt}' 
-			ORDER BY 
-				tbl.lft ASC 
-		";
-
-		$this->_db->setQuery( $query );
-		$return = $this->_db->loadObjectList();
-
-		return $return;
+		return $path;
 	}
 
 	/**

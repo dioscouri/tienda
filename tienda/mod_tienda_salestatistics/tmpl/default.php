@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<?php $options = array('num_decimals'=>'0'); ?>
+<?php $options = array('num_decimals'=>'2'); ?>
     
 <table class="adminlist" style="margin-bottom: 5px;">
 <thead>
@@ -24,49 +24,49 @@ defined('_JEXEC') or die('Restricted access');
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Today" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->today->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->today->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->today->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Yesterday" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->yesterday->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->yesterday->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->yesterday->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Last Seven Days" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->lastseven->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastseven->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastseven->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Last Month" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->lastmonth->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastmonth->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastmonth->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "This Month" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->thismonth->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->thismonth->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->thismonth->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Last Year" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->lastyear->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastyear->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lastyear->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "This Year" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->thisyear->num, $options ); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->thisyear->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->thisyear->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Lifetime Sales" ); ?></a></th>
     <td style="text-align: right;">
         <?php echo TiendaHelperBase::number( $stats->lifetime->num, $options )." ".JText::_("Total"); ?>
     </td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lifetime->amount, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lifetime->amount, '', $options ); ?></td>
 </tr>
 <tr>
     <th><a href="<?php echo $stats->link; ?>"><?php echo JText::_( "Average Sale" ); ?></a></th>
     <td style="text-align: right;"><?php echo TiendaHelperBase::number( $stats->lifetime->average_daily, $options )." ".JText::_("per day"); ?></td>
-    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lifetime->average, $options ); ?></td>
+    <td style="text-align: right;"><?php echo TiendaHelperBase::currency( $stats->lifetime->average, '', $options ); ?></td>
 </tr>
 </tbody>
 </table>

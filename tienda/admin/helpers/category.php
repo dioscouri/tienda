@@ -16,6 +16,8 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperCategory extends TiendaHelperBase
 {
+    static $categories = array();
+    
     /**
      * Gets the list of available category layout files
      * from the template's override folder
@@ -121,27 +123,45 @@ class TiendaHelperCategory extends TiendaHelperBase
      */
     function getLayout( $category_id )
     {
+        static $template;
+        
         $layout = 'default';
         
         jimport('joomla.filesystem.file');
         $app = JFactory::getApplication();
-        if ($app->isAdmin())
+        if (empty($template))
         {
-            $template = $app->getTemplate();
-            $db = JFactory::getDBO();
-            $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
-            $template = $db->loadResult();
-        }
-            else
-        {
-            $template = $app->getTemplate();
+            if ($app->isAdmin())
+            {
+                $template = $app->getTemplate();
+                $db = JFactory::getDBO();
+                $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
+                $template = $db->loadResult();
+            }
+                else
+            {
+                $template = $app->getTemplate();
+            }            
         }
         $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
         $mediaPath = Tienda::getPath( 'categories_templates' ) . DS . '%s'.'.php';
+
+        if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
+        {
+            $helper =& $this;
+        } 
+            else 
+        {
+            $helper =& TiendaHelperBase::getInstance( 'Category' );
+        }
         
-        Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-        $category = JTable::getInstance( 'Categories', 'TiendaTable' );
-        $category->load( $category_id );
+        if (empty($helper->categories[$category_id]))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $helper->categories[$category_id] = JTable::getInstance( 'Categories', 'TiendaTable' );
+            $helper->categories[$category_id]->load( $category_id );            
+        }
+        $category = $helper->categories[$category_id];
 
         // if the $category->category_layout file exists in the template, use it
         if (!empty($category->category_layout) && JFile::exists( sprintf($templatePath, $category->category_layout) ))
@@ -229,9 +249,23 @@ class TiendaHelperCategory extends TiendaHelperBase
 			return $name;
 		}
 		
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$item = JTable::getInstance( 'Categories', 'TiendaTable' );
-		$item->load( $id );
+	    if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
+        {
+            $helper =& $this;
+        } 
+            else 
+        {
+            $helper =& TiendaHelperBase::getInstance( 'Category' );
+        }
+        
+        if (empty($helper->categories[$id]))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $helper->categories[$id] = JTable::getInstance( 'Categories', 'TiendaTable' );
+            $helper->categories[$id]->load( $id );            
+        }
+        $item = $helper->categories[$id];		
+
 		if (empty($item->category_id))
 		{
 			return $name;

@@ -3,6 +3,9 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
+<?php $helper_category =& TiendaHelperBase::getInstance( 'Category' ); ?>
+<?php $helper_product =& TiendaHelperBase::getInstance( 'Product' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -134,7 +137,7 @@
 					</a>
 				</td>
 				<td style="text-align: center; width: 50px;">
-                    <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
+                    <?php echo $helper_product->getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>48 ) ); ?>
 				</td>
 				<td style="text-align: left;">
 					<a href="<?php echo $item->link_edit; ?>">
@@ -142,35 +145,36 @@
 					</a>
 					
 					<div class="product_rating">
-					   <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
+					   <?php echo $helper_product->getRatingImage( $item->product_rating ); ?>
 					   <?php if (!empty($item->product_comments)) : ?>
 					   <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
 					   <?php endif; ?>
 					</div>
 					
 					<div class="product_categories">
-						<?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
-						<?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
 						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_("Select Categories"), array('update' => true) ); ?>]</span>
-						<?php $categories = TiendaHelperProduct::getCategories( $item->product_id ); ?>
+						<?php $categories = $helper_product->getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
 							<?php $category = $categories[$n]; ?>
-							<?php echo TiendaHelperCategory::getPathName( $category ); ?>
+							<?php echo $helper_category->getPathName( $category ); ?>
 							<br/>
 						<?php endfor; ?>
 						<?php if (count($categories) > $n) { echo sprintf( JText::_( "And x More" ), count($categories) - $n ); } ?>
 					</div>
+
                     <div class="product_images_path">
-                        <b><?php echo JText::_( "Image Gallery Path" ); ?>:</b> <?php echo str_replace( JPATH_SITE, '', TiendaHelperProduct::getGalleryPath( $item->product_id ) ); ?>
+                        <b><?php echo JText::_( "Image Gallery Path" ); ?>:</b> <?php echo str_replace( JPATH_SITE, '', $helper_product->getGalleryPath( $item->product_id ) ); ?>
                     </div>
+
                     <?php 
-                    $layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $item->product_id );
+                    $layout = $helper_product->getLayout( $item->product_id );
                     if ($layout != 'view') 
                     {
                         echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 
                     }
                     ?>
-				</td>
+                </td>
+                
 				<td style="text-align: center;">
 					<?php echo $item->product_sku; ?>
 				</td>

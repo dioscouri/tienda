@@ -241,6 +241,8 @@ class TiendaModelOrders extends TiendaModelBase
             }
             
             $amigos = TiendaHelperBase::getInstance( 'Amigos' );
+            $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
+            
             foreach(@$list as $item)
             {
                 $item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
@@ -252,10 +254,10 @@ class TiendaModelOrders extends TiendaModelBase
                 $order_currency = new JParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
-                JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-                $cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
-                $cmodel->setId($item->currency_id);
-                $item->currency = $cmodel->getItem();
+                //JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                //$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
+                //$cmodel->setId($item->currency_id);
+                $item->currency = $currency_helper->load( $item->currency_id );
                 
                 // if the order currency is not the same as it was during the order
                 if (!empty($item->currency) && !empty($order_currency['currency_code']) && $item->currency->currency_code != $order_currency['currency_code'])
@@ -280,104 +282,110 @@ class TiendaModelOrders extends TiendaModelBase
 		return $this->_list;
 	}
 	
-	public function getItem()
+	public function getItem($emptyState=true)
 	{
-        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$amigos = TiendaHelperBase::getInstance( 'Amigos' );
-		
-		if ($item = parent::getItem())
-		{
-		    // get the orderinfo
-		    $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
-		    $item->orderinfo->load(array('order_id'=>$item->order_id));
-		    
-	        //retrieve the order's items
-	        $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
-	        $model->setState( 'filter_orderid', $item->order_id);
-	        $model->setState( 'order', 'tbl.orderitem_name' );
-	        $model->setState( 'direction', 'ASC' );
-	        $item->orderitems = $model->getList();
-	        foreach ($item->orderitems as $orderitem)
-	        {
-	        	$model = JModel::getInstance( 'OrderItemAttributes', 'TiendaModel' );
-	        	$model->setState( 'filter_orderitemid', $orderitem->orderitem_id);
-	        	$attributes = $model->getList();
-	            $attributes_names = array();
-	            $attributes_codes = array();
-	            foreach ($attributes as $attribute)
-	            {
-	                // store a csv of the attrib names
-	                $attributes_names[] = JText::_( $attribute->orderitemattribute_name );
-	                if($attribute->orderitemattribute_code) 
-	                	$attributes_codes[] = JText::_( $attribute->orderitemattribute_code );
-	            }
-	            $orderitem->attributes_names = implode(', ', $attributes_names);
-	            $orderitem->attributes_codes = implode(', ', $attributes_codes);
-	            
-	            // adjust the price
-	            $orderitem->orderitem_price = $orderitem->orderitem_price + floatval($orderitem->orderitem_attributes_price);
-	        }
-	        
-	        
-            //retrieve the order's history
-            $model = JModel::getInstance( 'OrderHistory', 'TiendaModel' );
-            $model->setState( 'filter_orderid', $item->order_id);
-            $model->setState( 'order', 'tbl.date_added' );
-            $model->setState( 'direction', 'ASC' );
-            $item->orderhistory = $model->getList();
-            $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
+	    if (empty( $this->_item ))
+	    {
+	        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $amigos = TiendaHelperBase::getInstance( 'Amigos' );
+            $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
             
-            //retrieve the order's payments
-            $model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
-            $model->setState( 'filter_orderid', $item->order_id);
-            $model->setState( 'order', 'tbl.created_date' );
-            $model->setState( 'direction', 'ASC' );
-            $item->orderpayments = $model->getList();
-            
-            //retrieve the order's shippings
-			$model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
-            $model->setState( 'filter_orderid', $item->order_id);
-            $model->setState( 'order', 'tbl.created_date' );
-            $model->setState( 'direction', 'ASC' );
-            $item->ordershippings = $model->getList();
-            
-            //retrieve the order's taxclasses
-            $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
-            $model->setState( 'filter_orderid', $item->order_id);
-            $model->setState( 'order', 'tbl.ordertaxclass_description' );
-            $model->setState( 'direction', 'ASC' );
-            $item->ordertaxclasses = $model->getList();
-            
-            // retrieve the order's currency
-			// this loads the currency, using the FK is it is the same of the
-    		// currency used in the order, or the JParameter currency of the order otherwise
-    		$order_currency = new JParameter($item->order_currency);
-    		$order_currency = $order_currency->toArray();
-    		
-    		$model = JModel::getInstance( 'Currencies', 'TiendaModel' );
-            $model->setId($item->currency_id);
-            $item->currency = $model->getItem();
-            
-    		// if the order currency is not the same as it was during the order
-    		if (!empty($item->currency) && !empty($order_currency['currency_code']) && $item->currency->currency_code != $order_currency['currency_code'])
-    		{
-    			// overwrite it with the original one
-    			foreach(@$order_currency as $k => $v){
-    				$item->currency->$k = $v;
-    			}
-    		}
-    		
-		    // has a commission?
-            if ($amigos->isInstalled())
+            if ($item =& parent::getItem($emptyState))
             {
-                $item->commissions = $amigos->getCommissions( $item->order_id );
+                // get the orderinfo
+                $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+                $item->orderinfo->load(array('order_id'=>$item->order_id));
+                
+                //retrieve the order's items
+                $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+                $model->setState( 'filter_orderid', $item->order_id);
+                $model->setState( 'order', 'tbl.orderitem_name' );
+                $model->setState( 'direction', 'ASC' );
+                $item->orderitems = $model->getList();
+                foreach ($item->orderitems as $orderitem)
+                {
+                    $model = JModel::getInstance( 'OrderItemAttributes', 'TiendaModel' );
+                    $model->setState( 'filter_orderitemid', $orderitem->orderitem_id);
+                    $attributes = $model->getList();
+                    $attributes_names = array();
+                    $attributes_codes = array();
+                    foreach ($attributes as $attribute)
+                    {
+                        // store a csv of the attrib names
+                        $attributes_names[] = JText::_( $attribute->orderitemattribute_name );
+                        if($attribute->orderitemattribute_code) 
+                            $attributes_codes[] = JText::_( $attribute->orderitemattribute_code );
+                    }
+                    $orderitem->attributes_names = implode(', ', $attributes_names);
+                    $orderitem->attributes_codes = implode(', ', $attributes_codes);
+                    
+                    // adjust the price
+                    $orderitem->orderitem_price = $orderitem->orderitem_price + floatval($orderitem->orderitem_attributes_price);
+                }
+                
+                
+                //retrieve the order's history
+                $model = JModel::getInstance( 'OrderHistory', 'TiendaModel' );
+                $model->setState( 'filter_orderid', $item->order_id);
+                $model->setState( 'order', 'tbl.date_added' );
+                $model->setState( 'direction', 'ASC' );
+                $item->orderhistory = $model->getList();
+                $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
+                
+                //retrieve the order's payments
+                $model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+                $model->setState( 'filter_orderid', $item->order_id);
+                $model->setState( 'order', 'tbl.created_date' );
+                $model->setState( 'direction', 'ASC' );
+                $item->orderpayments = $model->getList();
+                
+                //retrieve the order's shippings
+                $model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
+                $model->setState( 'filter_orderid', $item->order_id);
+                $model->setState( 'order', 'tbl.created_date' );
+                $model->setState( 'direction', 'ASC' );
+                $item->ordershippings = $model->getList();
+                
+                //retrieve the order's taxclasses
+                $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
+                $model->setState( 'filter_orderid', $item->order_id);
+                $model->setState( 'order', 'tbl.ordertaxclass_description' );
+                $model->setState( 'direction', 'ASC' );
+                $item->ordertaxclasses = $model->getList();
+                
+                // retrieve the order's currency
+                // this loads the currency, using the FK is it is the same of the
+                // currency used in the order, or the JParameter currency of the order otherwise
+                $order_currency = new JParameter($item->order_currency);
+                $order_currency = $order_currency->toArray();
+                
+                //$model = JModel::getInstance( 'Currencies', 'TiendaModel' );
+                //$model->setId($item->currency_id);
+                $item->currency = $currency_helper->load( $item->currency_id );
+                
+                // if the order currency is not the same as it was during the order
+                if (!empty($item->currency) && !empty($order_currency['currency_code']) && $item->currency->currency_code != $order_currency['currency_code'])
+                {
+                    // overwrite it with the original one
+                    foreach(@$order_currency as $k => $v){
+                        $item->currency->$k = $v;
+                    }
+                }
+                
+                // has a commission?
+                if ($amigos->isInstalled())
+                {
+                    $item->commissions = $amigos->getCommissions( $item->order_id );
+                }
             }
-		}
+            
+            $this->_item = $item;
+	    }
 		
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$item ) );
+		$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
 		
-        return $item;
+        return $this->_item;
 	}	
 }

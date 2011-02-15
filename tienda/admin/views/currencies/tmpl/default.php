@@ -5,6 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 <?php Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' ); ?>
+<?php $currency_helper = TiendaHelperBase::getInstance( 'Currency' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -115,10 +116,10 @@
 					<?php echo $item->currency_code; ?>
 				</td>
 				<td style="text-align: center;">
-				    <?php echo TiendaHelperCurrency::format( '9876.54321', $item ); ?>
+				    <?php echo $currency_helper->format( '9876.54321', $item ); ?>
 				</td>
                 <td style="text-align: center;">
-                    <?php echo TiendaHelperCurrency::convert( $item->currency_code ); ?>
+                    <?php echo $currency_helper->convert( $item->currency_code ); ?>
                 </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->currency_enabled, $i, 'currency_enabled.' ); ?>

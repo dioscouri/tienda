@@ -17,6 +17,9 @@ jimport('joomla.filesystem.folder');
 
 class TiendaHelperProduct extends TiendaHelperBase
 {
+    static $products = array();
+    static $categoriesxref = array();
+        
     /**
      * Gets the list of available product layout files
      * from the template's override folder
@@ -148,28 +151,41 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getLayout( $product_id, $options=array() )
     {
+        static $template;
+        
         $layout = 'view';
         
         jimport('joomla.filesystem.file');
         $app = JFactory::getApplication();
-        if ($app->isAdmin())
+        
+        if (empty($template))
         {
-            // TODO This doesn't account for when templates are assigned to menu items.  Make it do so
-            $db = JFactory::getDBO();
-            $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
-            $template = $db->loadResult();
+            if ($app->isAdmin())
+            {
+                // TODO This doesn't account for when templates are assigned to menu items.  Make it do so
+                $db = JFactory::getDBO();
+                $db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
+                $template = $db->loadResult();
+            }
+                else
+            {
+                $template = $app->getTemplate();
+            }            
         }
-            else
-        {
-            $template = $app->getTemplate();
-        }
+
         $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
         $extensionPath = JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'views'.DS.'products'.DS.'tmpl'.DS.'%s'.'.php';
         $mediaPath = Tienda::getPath( 'products_templates' ) . DS . '%s'.'.php';
-        
-        Tienda::load( 'TiendaTableProducts', 'tables.products' );
-        $product = JTable::getInstance( 'Products', 'TiendaTable' );
-        $product->load( $product_id );
+
+        if (isset($this) && is_a( $this, 'TiendaHelperProduct' )) 
+        {
+            $helper =& $this;
+        } 
+            else 
+        {
+            $helper =& TiendaHelperBase::getInstance( 'Product' );
+        }
+        $product = $helper->load( (int) $product_id );
 
         // if the product->product_layout file exists in the template, use it
         if (
@@ -185,10 +201,17 @@ class TiendaHelperProduct extends TiendaHelperBase
         
         if (!empty($options['category_id']))
         {
-            // if the options[category_id] has a layout and it exists, use it
-            Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-            $category = JTable::getInstance( 'Categories', 'TiendaTable' );
-            $category->load( $options['category_id'] );
+            $helper_category =& TiendaHelperBase::getInstance( 'Category' );
+            $category_id = $options['category_id'];
+            if (empty($helper_category->categories[$category_id]))
+            {
+                // if the options[category_id] has a layout and it exists, use it
+                Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+                $helper_category->categories[$category_id] = JTable::getInstance( 'Categories', 'TiendaTable' );
+                $helper_category->categories[$category_id]->load( $category_id );                
+            }
+            $category = $helper_category->categories[$category_id];
+
             if (
                 !empty($category->categoryproducts_layout) && 
                 (JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ) || JFile::exists( sprintf($extensionPath, $category->categoryproducts_layout) ))
@@ -199,12 +222,20 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         // if the product is in a category, try to use the layout from that one 
-        $categories = TiendaHelperProduct::getCategories( $product->product_id );
+        $categories = $helper->getCategories( $product->product_id );
         if (!empty($categories))
         {
-            Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-            $category = JTable::getInstance( 'Categories', 'TiendaTable' );
-            $category->load( $categories[0] ); // load the first category
+            $helper_category =& TiendaHelperBase::getInstance( 'Category' );
+            $category_id = $categories[0];
+            if (empty($helper_category->categories[$category_id]))
+            {
+                // if the options[category_id] has a layout and it exists, use it
+                Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+                $helper_category->categories[$category_id] = JTable::getInstance( 'Categories', 'TiendaTable' );
+                $helper_category->categories[$category_id]->load( $category_id );                
+            }
+            $category = $helper_category->categories[$category_id];
+            
             if (
                 !empty($category->categoryproducts_layout) && 
                 (JFile::exists( sprintf($templatePath, $category->categoryproducts_layout) ) || JFile::exists( sprintf($extensionPath, $category->categoryproducts_layout) ))
@@ -411,10 +442,17 @@ class TiendaHelperProduct extends TiendaHelperBase
         if (empty($paths[$id]))
         {
             $paths[$id] = '';
-            
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $row = JTable::getInstance('Products', 'TiendaTable');
-            $row->load( (int) $id );
+
+            if (isset($this) && is_a( $this, 'TiendaHelperProduct' )) 
+            {
+                $helper =& $this;
+            } 
+                else 
+            {
+                $helper =& TiendaHelperBase::getInstance( 'Product' );
+            }
+            $row = $helper->load( (int) $id );
+
             if (empty($row->product_id))
             {
                 // TODO figure out what to do if the id is invalid 
@@ -592,11 +630,17 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             if (!empty($id))
             {
-                // load the item, get the filename, create tmpl
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-                $row = JTable::getInstance('Products', 'TiendaTable');
-                $row->load( (int) $id );
+                if (isset($this) && is_a( $this, 'TiendaHelperProduct' )) 
+                {
+                    $helper =& $this;
+                } 
+                    else 
+                {
+                    $helper =& TiendaHelperBase::getInstance( 'Product' );
+                }
+                $row = $helper->load( (int) $id );
                 
+                // load the item, get the filename, create tmpl
                 $urli = $row->getImageUrl();
                 $dir = $row->getImagePath();
                 
@@ -877,22 +921,31 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getCategories( $id )
     {
-        if (empty($id))
+        if (isset($this) && is_a( $this, 'TiendaHelperProduct' )) 
         {
-            return array();
+            $helper =& $this;
+        } 
+            else 
+        {
+            $helper =& TiendaHelperBase::getInstance( 'Product' );
         }
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
         
-        $query = new TiendaQuery();
-        $query->select( "tbl.category_id" );
-        $query->from( $table->getTableName()." AS tbl" );
-        $query->where( "tbl.product_id = ".(int) $id );
-        $db = JFactory::getDBO();
-        $db->setQuery( (string) $query );
-        $items = $db->loadResultArray();
-        return $items;
+        if (empty($helper->categoriesxref[$id]))
+        {
+            Tienda::load( 'TiendaQuery', 'library.query' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+            
+            $query = new TiendaQuery();
+            $query->select( "tbl.category_id" );
+            $query->from( $table->getTableName()." AS tbl" );
+            $query->where( "tbl.product_id = ".(int) $id );
+            $db = JFactory::getDBO();
+            $db->setQuery( (string) $query );
+            $helper->categoriesxref[$id] = $db->loadResultArray();            
+        }
+
+        return $helper->categoriesxref[$id];
     }
     
     /**
@@ -1757,5 +1810,23 @@ class TiendaHelperProduct extends TiendaHelperBase
      	}
 
      	return $txt;
+    }
+    
+    /**
+     * Loads a product by its ID 
+     * and stores it for later use by the application
+     * 
+     * @param unknown_type $id
+     * @return unknown_type
+     */
+    function load( $id )
+    {
+        if (empty($this->products[$id]))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $this->products[$id] = JTable::getInstance('Products', 'TiendaTable');
+            $this->products[$id]->load( $id );            
+        }
+        return $this->products[$id];
     }
 }
