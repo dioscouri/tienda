@@ -58,11 +58,17 @@ class TiendaControllerCarts extends TiendaController
         }
         return $state;
     }  
-  
+    
+    /**
+     * (non-PHPdoc)
+     * @see tienda/admin/TiendaController::display()
+     */
     function display()
     {
         Tienda::load('TiendaHelperCarts', 'helpers.carts');
-        TiendaHelperCarts::fixQuantities();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+        $cart_helper->fixQuantities();
         
         if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
         {
@@ -76,7 +82,7 @@ class TiendaControllerCarts extends TiendaController
         $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );       		
        
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = new TiendaHelperRoute();
+        $router = TiendaHelperBase::getInstance( 'Route' );
         $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
         if (empty($checkout_itemid)) { $checkout_itemid = JRequest::getInt('Itemid'); }
        

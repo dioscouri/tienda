@@ -94,7 +94,7 @@ class TiendaModelEav extends TiendaModelBase
      * Add joins for eav field if needed for ordeding
      */
     protected function _buildQueryOrder(&$query)
-    {	
+    {        
     	$order      = $this->_db->getEscaped( $this->getState('order') );
     	
     	// Ordering prefix for table column
@@ -111,11 +111,11 @@ class TiendaModelEav extends TiendaModelBase
  			
  			// we haven't already joined the tables, join them
 	    	if ($this->getEavState($order, '') == '')
-	    	{	
-	    		// Join the table based on the type of the value
-	 			$table = JTable::getInstance('EavAttributes', 'TiendaTable');
-	 			$table->load(array('eavattribute_alias' => $attribute_alias));
-	 			$table_type = $table->eavattribute_type;
+	    	{
+                // Join the table based on the type of the value
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+                $table_type = $eav_helper->getType( $attribute_alias );
 	 					
 	 			// Join!
 				$query->join('LEFT', '#__tienda_eavattributes AS '.$eav_tbl_name.' ON tbl.'.$tbl_key.' = '.$eav_tbl_name.'.eaventity_id');
@@ -163,9 +163,9 @@ class TiendaModelEav extends TiendaModelBase
  					$value_tbl_name = 'value_'.$attribute_alias;
  					
  					// Join the table based on the type of the value
- 					$table = JTable::getInstance('EavValues', 'TiendaTable');
- 					$table->load(array('eavattribute_alias' => $attribute_alias));
- 					$table_type = $table->eavattribute_type;
+                    Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                    $eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+                    $table_type = $eav_helper->getType( $attribute_alias );
  					
  					// Join the tables
  					$query->join('LEFT', '#__tienda_eavattributes AS '.$eav_tbl_name.' ON tbl.'.$tbl_key.' = '.$eav_tbl_name.'.eaventity_id');
@@ -200,22 +200,19 @@ class TiendaModelEav extends TiendaModelBase
 	    	{
 	    		Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 	    		Tienda::load('TiendaHelperEav', 'helpers.eav');
+	    		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+	    		$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
 	    		
 	    		$entity = $this->getTable()->get('_suffix');
 	    		
-	    		$model = JModel::getInstance('EavAttributes', 'TiendaModel');
-	    		$model->setState('filter_entitytype', $entity);
-	    		$model->setState('filter_entityid', $this->getId());
-	    		$model->setState('filter_published', '1');
-	    		
 	    		// add the custom fields as properties
-	    		$eavs = $model->getList();
+	    		$eavs = $eav_helper->getAttributes( $entity, $this->getId() );
 	    		
 	    		foreach($eavs as $eav)
 	    		{
 	    			$key = $eav->eavattribute_alias;
 	    			
-	    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $this->getId());
+	    			$value = $eav_helper->getAttributeValue($eav, $this->get('_suffix'), $this->getId());
 	    			
 	    			// Do NOT ovveride properties
 	    			if(!property_exists($item, $key))
@@ -241,10 +238,9 @@ class TiendaModelEav extends TiendaModelBase
      */
 	public function getList($refresh = false, $getEav = true, $options = array())
 	{
-		
         if (empty( $this->_list ))
         {
-            $list = parent::getList(); 
+            $list = parent::getList($refresh); 
 
             // If no item in the list, return an array()
             if ( empty( $list ) ) {
@@ -259,29 +255,25 @@ class TiendaModelEav extends TiendaModelBase
             {
             	Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
             	Tienda::load('TiendaHelperEav', 'helpers.eav');
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
             	
             	$entity = $this->getTable()->get('_suffix');
-	            
-		    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
-	    		$model->setState('filter_entitytype', $entity);
-	    		$model->setState('filter_published', '1');
 	    		
 	    		$tbl_key = $this->getTable()->getKeyName();
 		    	
 	    		// Add them as properties to each item
 		    	foreach($list as $item)
-	            {   
-	            	// fetch the attributes for this particular item
-	    			$model->setState('filter_entityid', $this->getId());
-    				$eavs = $model->getList(true);
+	            {
+	                $entity_id = $this->getId();
+    				$eavs = $eav_helper->getAttributes( $entity, $entity_id );
     				
     				// Mirrored table?
     				if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
     				{
-    					$entity = $this->getTable()->getLinkedTable();
-    					$model->setState('filter_entitytype', $entity);
-    					$model->setState('filter_entityid', $item->product_id);
-    					$eavs = $model->getList(true);
+    				    $entity = $this->getTable()->getLinkedTable();
+    				    $entity_id = $item->product_id;
+                        $eavs = $eav_helper->getAttributes( $entity, $entity_id );     					
     				}
   
 		    		foreach($eavs as $eav)
@@ -321,7 +313,7 @@ class TiendaModelEav extends TiendaModelBase
 		    			// TODO Check that the excluded fields are not required by eavfiltering
 		    			if($add)
 		    			{
-			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key);
+			    			$value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key);
 			    			
 		    				// Do NOT ovveride properties
 			    			if(!property_exists($item, $key))

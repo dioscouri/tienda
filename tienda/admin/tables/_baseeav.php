@@ -40,6 +40,9 @@ class TiendaTableEav extends TiendaTable
 	 */
 	function store( $updateNulls=false )
 	{
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+                
 		$dispatcher = JDispatcher::getInstance();
 		$before = $dispatcher->trigger( 'onBeforeStore'.$this->get('_suffix'), array( &$this ) );
 		if (in_array(false, $before, true))
@@ -52,13 +55,13 @@ class TiendaTableEav extends TiendaTable
 		
 		// Get the custom fields for this entities
 		Tienda::load('TiendaHelperEav', 'helpers.eav');
-		$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+		$eavs = $eav_helper->getAttributes( $this->get('_suffix'), $id );
 		
 		// Is this a mirrored table (see decription at the beginning of this file)
     	if(strlen($this->_linked_table) && $this->_linked_table_key)
     	{
     		// Copy the custom field value to this table
-    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+    		$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key );
     		$eavs = array_merge($eavs, $mirrored_eavs);
     	}
     	
@@ -105,7 +108,7 @@ class TiendaTableEav extends TiendaTable
     	if(strlen($this->_linked_table) && $this->_linked_table_key)
     	{
     		// Copy the custom field value to this table
-    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+    		$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key );
     		
 	    	// If there are Custom Fields for the linked key
 			if(count($mirrored_eavs))
@@ -118,7 +121,7 @@ class TiendaTableEav extends TiendaTable
 					if( !property_exists($this, $key))
 					{
 						// Get the value
-						$value = TiendaHelperEav::getAttributeValue($eav, $this->_linked_table, $this->_linked_table_key);
+						$value = $eav_helper->getAttributeValue($eav, $this->_linked_table, $this->_linked_table_key);
 						
 						// Store it into the array for eav values
 						$custom_fields[] = array('eav' => $eav, 'value' => $value);
@@ -300,6 +303,9 @@ class TiendaTableEav extends TiendaTable
         $query = new TiendaQuery();
         $query->select( '*' );
         $query->from( $this->getTableName() );
+
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
         
 		foreach ($oid as $key=>$value)
 		{			
@@ -314,13 +320,13 @@ class TiendaTableEav extends TiendaTable
 					
 					// Get the custom fields for this entities
 					Tienda::load('TiendaHelperEav', 'helpers.eav');
-					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+					$eavs = $eav_helper->getAttributes( $this->get('_suffix'), $id );
 					
 					// Is this a mirrored table (see decription at the beginning of this file)
 			    	if(strlen($this->_linked_table) && $this->_linked_table_key)
 			    	{
 			    		// Copy the custom field value to this table
-			    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+			    		$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key );
 			    		$eavs = array_merge($eavs, $mirrored_eavs);
 			    	}
 					
@@ -377,13 +383,13 @@ class TiendaTableEav extends TiendaTable
 					
 					// Get the custom fields for this entities
 					Tienda::load('TiendaHelperEav', 'helpers.eav');
-					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+					$eavs = $eav_helper->getAttributes( $this->get('_suffix'), $id );
 					
             		// Is this a mirrored table (see decription at the beginning of this file)
 			    	if(strlen($this->_linked_table) && $this->_linked_table_key)
 			    	{
 			    		// Copy the custom field value to this table
-			    		$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+			    		$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key );
 			    		$eavs = array_merge($eavs, $mirrored_eavs);
 			    	}
 			    	
@@ -393,7 +399,7 @@ class TiendaTableEav extends TiendaTable
 			    		{
 			    			$key = $eav->eavattribute_alias;
 			    			
-			    			$value = TiendaHelperEav::getAttributeValue($eav, $this->get('_suffix'), $id);
+			    			$value = $eav_helper->getAttributeValue($eav, $this->get('_suffix'), $id);
 			    			
 		    				$this->{$key} = $value;
 			    		}

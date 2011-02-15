@@ -17,6 +17,27 @@ Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperEav extends TiendaHelperBase 
 {
+    /**
+     * Gets an Attribute type based on its alias 
+     * 
+     * @param $alias
+     * @return unknown_type
+     */
+    function getType( $alias )
+    {
+        static $sets;
+        if (!is_array($sets)) { $sets = array(); }
+        
+        if (!isset($sets[$alias]))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance('EavAttributes', 'TiendaTable');
+            $table->load(array('eavattribute_alias' => $alias));
+            $sets[$alias] = $table->eavattribute_type;            
+        }
+        return $sets[$alias];
+    }
+    
 	/**
 	 * Get the Eav Attributes for a particular entity
 	 * @param unknown_type $entity
@@ -24,15 +45,21 @@ class TiendaHelperEav extends TiendaHelperBase
 	 */
     function getAttributes( $entity, $id )
     {
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
-    	$model->setState('filter_entitytype', $entity);
-    	$model->setState('filter_entityid', $id);
-    	$model->setState('filter_published', '1');
+        // $sets[$entity][$id]
+        static $sets;
+        if (!is_array($sets)) { $sets = array(); }
+        
+        if (!isset($sets[$entity][$id]))
+        {
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance('EavAttributes', 'TiendaModel');
+            $model->setState('filter_entitytype', $entity);
+            $model->setState('filter_entityid', $id);
+            $model->setState('filter_published', '1');            
+            $sets[$entity][$id] = $model->getList();
+        }
     	
-    	$eavs = $model->getList();
-    	
-    	return $eavs;
+    	return $sets[$entity][$id];
     }
     
     /**
@@ -43,31 +70,39 @@ class TiendaHelperEav extends TiendaHelperBase
      */
     function getAttributeValue($eav, $entity_type, $entity_id )
     {
-    		Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
-    		
-    		// get the value table
-    		$table = JTable::getInstance('EavValues', 'TiendaTable');
-    		// set the type based on the attribute
-    		$table->setType($eav->eavattribute_type);
-    		// load the value based on the entity id
-    		$keynames = array();
-    		$keynames['eavattribute_id'] = $eav->eavattribute_id; 
-    		$keynames['eaventity_id'] = $entity_id;
-    		$keynames['eaventity_type'] = $entity_type;
-    		
-    		$loaded = $table->load($keynames);
-    		
-    		if($loaded)
-    		{
-				// Fetch the value from the value tables
-				$value = $table->eavvalue_value;
-    		}
-    		else
-    		{
-    			$value = JRequest::getVar($eav->eavattribute_alias, null);
-    		}
-    		
-    		return $value;
+        // $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]
+        static $sets;
+        if (!is_array($sets)) { $sets = array(); }
+        
+        if (!isset($sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]))
+        {
+            Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
+            
+            // get the value table
+            $table = JTable::getInstance('EavValues', 'TiendaTable');
+            // set the type based on the attribute
+            $table->setType($eav->eavattribute_type);
+            // load the value based on the entity id
+            $keynames = array();
+            $keynames['eavattribute_id'] = $eav->eavattribute_id; 
+            $keynames['eaventity_id'] = $entity_id;
+            $keynames['eaventity_type'] = $entity_type;
+            
+            $loaded = $table->load($keynames);
+            
+            if($loaded)
+            {
+                // Fetch the value from the value tables
+                $value = $table->eavvalue_value;
+            }
+            else
+            {
+                $value = JRequest::getVar($eav->eavattribute_alias, null);
+            }
+            $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id] = $value;
+        }
+        
+        return $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
     }
     
     /**

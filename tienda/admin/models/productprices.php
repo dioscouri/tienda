@@ -60,24 +60,29 @@ class TiendaModelProductPrices extends TiendaModelBase
         $query->select( $fields );
     }
     
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$nullDate = JFactory::getDBO()->getNullDate();
-		$list = parent::getList(); 
-		
-		// If no item in the list, return an array()
-        if( empty( $list ) ){
-        	return array();
+        if (empty( $this->_list ) || $refresh)
+        {
+            $list = parent::getList($refresh);
+            $nullDate = JFactory::getDBO()->getNullDate();
+
+            if ( empty( $list ) ) {
+                return array();
+            }
+            
+            foreach ($list as $item)
+            {
+                $item->link_remove = 'index.php?option=com_tienda&controller=productprices&task=delete&cid[]='.$item->product_price_id;
+                // convert working dates to localtime for display
+                $item->product_price_startdate = ($item->product_price_startdate != $nullDate) ? JHTML::_( "date", $item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_startdate;
+                $item->product_price_enddate = ($item->product_price_enddate != $nullDate) ? JHTML::_( "date", $item->product_price_enddate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_enddate;
+            }
+            
+            $this->_list = $list;
         }
-		
-		foreach($list as $item)
-		{
-			$item->link_remove = 'index.php?option=com_tienda&controller=productprices&task=delete&cid[]='.$item->product_price_id;
-			// convert working dates to localtime for display
-			$item->product_price_startdate = ($item->product_price_startdate != $nullDate) ? JHTML::_( "date", $item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_startdate;
-			$item->product_price_enddate = ($item->product_price_enddate != $nullDate) ? JHTML::_( "date", $item->product_price_enddate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_enddate;
-		}
-		return $list;
+
+		return $this->_list;
 	}
 	
     /**

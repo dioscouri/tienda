@@ -34,8 +34,10 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		// get the items and add them to the order
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
+
 		$task = JRequest::getVar('task');
 		if (empty($items) && $task != 'confirmPayment' )
 		{
@@ -321,16 +323,19 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			// set the order's addresses based on the form inputs
 			// set to user defaults
-			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
-			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $user_helper = &TiendaHelperBase::getInstance( 'User' );
+			
+			$billingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id );
+			$shippingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
 			$order->setAddress( $billingAddress, 'billing' );
 			$order->setAddress( $shippingAddress, 'shipping' );			
 		}
 
 		// get the items and add them to the order
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
 
 		foreach ($items as $item)
 		{
@@ -410,7 +415,10 @@ class TiendaControllerCheckout extends TiendaController
         
 		$orderitems = $order->getItems();
 		
-        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $product_helper = &TiendaHelperBase::getInstance( 'Product' );
+        $order_helper = &TiendaHelperBase::getInstance( 'Order' );
+        
         $tax_sum = 0;
         foreach ($orderitems as &$item)
         {
@@ -420,7 +428,7 @@ class TiendaControllerCheckout extends TiendaController
             {            	
 		        foreach($geozones as $geozone)
 		        {
-		        	  $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone->geozone_id, true );
+		        	  $taxrate = $product_helper->getTaxRate($item->product_id, $geozone->geozone_id, true );
 				      $product_tax_rate = $taxrate->tax_rate;	
 				      $tax += ($product_tax_rate/100) * ($item->orderitem_price + floatval( $item->orderitem_attributes_price ));
 		        }       	
@@ -454,9 +462,7 @@ class TiendaControllerCheckout extends TiendaController
         //START onDisplayOrderItem: trigger plugins for extra orderitem information
         if (!empty($orderitems))
         {
-			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
-        	
+        	$onDisplayOrderItem = $order_helper->onDisplayOrderItems($orderitems);        	
 	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
         }
         //END onDisplayOrderItem
@@ -1276,8 +1282,9 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// get the items and add them to the order
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
 			$order->addItem( $item );
@@ -1338,8 +1345,9 @@ class TiendaControllerCheckout extends TiendaController
 		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 
 		// get the items and add them to the order
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
 			$order->addItem( $item );
@@ -1416,8 +1424,9 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// get the items and add them to the order
-		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$items = TiendaHelperCarts::getProductsInfo();
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
 			$order->addItem( $item );

@@ -483,38 +483,52 @@ class TiendaHelperUser extends TiendaHelperBase
      * @return mixed
      */
     function getUserGroup( $user_id='', $product_id='')
-    {    	
+    {
+        // $sets[$user_id][$product_id]
+        static $sets, $groups;
+        if (!is_array($sets)) { $sets = array(); }
+        if (!is_array($groups)) { $groups = array(); }
+    
         $user_id = (int) $user_id;
         $product_id = (int) $product_id;
         
     	if (!empty($user_id) && !empty($product_id))
-    	{	    	
-    		// get the model    
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );        
-			$model = JModel::getInstance('UserGroups', 'TiendaModel');
-			$model->setState( 'filter_user', $user_id );
-			//order to get the upper group
-			$model->setState('order', 'g.ordering');
-			$model->setState( 'direction', 'ASC' );
-			$items = $model->getList(); 
-		
-        	$modelPrice  = JModel::getInstance( 'ProductPrices', 'TiendaModel' );	
-			$modelPrice->setState('filter_id', $product_id);
-			$prices = $modelPrice->getList(); // use the state
-			$groupIds = array();
-			foreach($prices as $price):
-				$groupIds[]=$price->group_id;		
-			endforeach;
-
- 			foreach($items as $item):
- 				if(in_array($item->group_id, $groupIds)): 			
- 					return $item->group_id;
- 					break;
- 				endif;
- 			endforeach;
+    	{
+    	    if (!isset($sets[$user_id][$product_id]))
+    	    {
+    	        if (!isset($groups[$user_id]))
+    	        {   
+                    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );        
+                    $model = JModel::getInstance('UserGroups', 'TiendaModel');
+                    $model->setState( 'filter_user', $user_id );
+                    //order to get the upper group
+                    $model->setState('order', 'g.ordering');
+                    $model->setState( 'direction', 'ASC' );
+                    $groups[$user_id] = $model->getList();
+    	        }
+    	        $items = $groups[$user_id];
+    	        
+    	        // using the helper to cut down on queries
+                $product_helper = TiendaHelperBase::getInstance( 'Product' );
+                $prices = $product_helper->getPrices( $product_id );
+                
+                $groupIds = array();
+                foreach($prices as $price):
+                    $groupIds[]=$price->group_id;       
+                endforeach;
+    
+                foreach($items as $item):
+                    if (in_array($item->group_id, $groupIds)):
+                        $sets[$user_id][$product_id] = $item->group_id;
+                        return $sets[$user_id][$product_id];
+                        break;
+                    endif;
+                endforeach;    	        
+    	    }
     	}
     	
-		return TiendaConfig::getInstance()->get('default_user_group', '1');
+    	$sets[$user_id][$product_id] = TiendaConfig::getInstance()->get('default_user_group', '1');
+		return $sets[$user_id][$product_id];
     }
     /**
      * 

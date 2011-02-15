@@ -119,12 +119,21 @@ class TiendaModelCarts extends TiendaModelEav
         $query->select( $field );
 	}
 
-    public function getList()
+    public function getList($refresh=false)
     {
+        static $pa, $pao;
+        
+        if (empty($pa)) { $pa = array(); }
+        if (empty($pao)) { $pao = array(); }
+        
+        Tienda::load( "TiendaHelperUser", 'helpers.user' );
+        $user_helper = &TiendaHelperBase::getInstance( 'User' );
+        $product_helper = &TiendaHelperBase::getInstance( 'Product' );
+        
         if (empty( $this->_list ))
         {
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-            $items = parent::getList();
+            $items = parent::getList($refresh);
     
             // If no item in the list, return an array()
             if( empty( $items ) ){
@@ -133,10 +142,12 @@ class TiendaModelCarts extends TiendaModelEav
   
             foreach($items as $item)
             {
-            	$filter_group = Tienda::getClass( "TiendaHelperUser", 'helpers.user' )->getUserGroup(JFactory::getUser()->id, $item->product_id);
+            	$filter_group = $user_helper->getUserGroup( JFactory::getUser()->id, $item->product_id );
+
                 // at this point, ->product_price holds the default price for the product,
                 // but the user may qualify for a discount based on volume or date, so let's get that price override
-                $item->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $item->product_id, $item->product_qty, $filter_group , JFactory::getDate()->toMySQL() );
+                $item->product_price_override = $product_helper->getPrice( $item->product_id, $item->product_qty, $filter_group , JFactory::getDate()->toMySQL() );
+                
                 if (!empty($item->product_price_override))
                 {
                     $item->product_price = $item->product_price_override->product_price;
@@ -151,7 +162,6 @@ class TiendaModelCarts extends TiendaModelEav
                     }
                 }
  
- 
  				$item->orderitem_attributes_price = '0.00000';
  				$attributes_names = array();
  				if(!empty($item->product_attributes))
@@ -160,9 +170,14 @@ class TiendaModelCarts extends TiendaModelEav
 	                $attibutes_array = explode(',', $item->product_attributes);
 	                foreach ($attibutes_array as $attrib_id)
 	                {
-	                    // load the attrib's object
-	                    $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
-	                    $table->load( $attrib_id );	           
+	                    if (empty($pao[$attrib_id]))
+	                    {
+                            // load the attrib's object
+                            $pao[$attrib_id] = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+                            $pao[$attrib_id]->load( $attrib_id );	                        
+	                    }
+                        $table = $pao[$attrib_id];
+                        
 	                    // update the price
 	                    // + or - 
 	                    if($table->productattributeoption_prefix != '=')
@@ -183,8 +198,13 @@ class TiendaModelCarts extends TiendaModelEav
 	                    $item->product_sku .= $table->productattributeoption_code;
 	                    
 	                    // store a csv of the attrib names, built by Attribute name + Attribute option name
-	                    $atable = JTable::getInstance('ProductAttributes', 'TiendaTable');
-	                    $atable->load( $table->productattribute_id );
+	                    if (empty($pa[$table->productattribute_id]))
+                        {
+                            $pa[$table->productattribute_id] = JTable::getInstance('ProductAttributes', 'TiendaTable');
+                            $pa[$table->productattribute_id]->load( $table->productattribute_id );
+                        }
+                        $atable = $pa[$table->productattribute_id];
+                        
 	                    if (!empty($atable->productattribute_id))
 	                    {
 	                        $name = JText::_($atable->productattribute_name) . ': ' . JText::_( $table->productattributeoption_name );
@@ -239,9 +259,12 @@ class TiendaModelCarts extends TiendaModelEav
           	return false;
         }
         
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $product_helper = &TiendaHelperBase::getInstance( 'Product' );
+        
         foreach ($list as $item)
         {
-           	$shipping = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->isShippingEnabled($item->product_id);
+           	$shipping = $product_helper->isShippingEnabled($item->product_id);
         	if ($shipping)
         	{
         	    return true;

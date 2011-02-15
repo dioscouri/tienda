@@ -407,7 +407,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	    $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 
 		$suffix = strtolower( TiendaHelperCarts::getSuffix() );
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$model = &JModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($suffix)
 		{
@@ -510,6 +510,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function getProductsInfo()
 	{
+	    Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+	    $product_helper = TiendaHelperBase::getInstance( 'Product' );
+	    
 		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -522,8 +525,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 		{
 			$model->setState('filter_session', $session->getId() );
 		}
-        Tienda::load('TiendaHelperUser', 'helpers.user');       
-        $filter_group = TiendaHelperUser::getUserGroup($user->id);
+		
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $user_helper = &TiendaHelperBase::getInstance( 'User' );
+        $filter_group = $user_helper->getUserGroup($user->id);
         $model->setState('filter_group', $filter_group );
 
 		$cartitems = $model->getList();
@@ -534,7 +539,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		    //echo Tienda::dump($cartitem);
 			unset($productModel);
 			$productModel = JModel::getInstance('Products', 'TiendaModel');			
-        	$filter_group = TiendaHelperUser::getUserGroup($user->id, $cartitem->product_id);
+        	$filter_group = $user_helper->getUserGroup($user->id, $cartitem->product_id);
         	$productModel->setState('filter_group', $filter_group );
 			$productModel->setId($cartitem->product_id);
 			if ($productItem = $productModel->getItem(false))
@@ -546,7 +551,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// at this point, ->product_price holds the default price for the product,
 					// but the user may qualify for a discount based on volume or date, so let's get that price override
 					// TODO Shouldn't we remove this?  Is it necessary?  $cartitem has already done this in the carts model!
-					$productItem->product_price_override = Tienda::getClass( "TiendaHelperProduct", 'helpers.product' )->getPrice( $productItem->product_id, $cartitem->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
+					$productItem->product_price_override = $product_helper->getPrice( $productItem->product_id, $cartitem->product_qty, $filter_group, JFactory::getDate()->toMySQL() );
 					if (!empty($productItem->product_price_override))
 					{
 						$productItem->product_price = $productItem->product_price_override->product_price;
@@ -556,7 +561,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				if($productItem->product_check_inventory)
 				{
 					// using a helper file,To determine the product's information related to inventory
-					$availableQuantity=Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $productItem->product_id, $cartitem->product_attributes );
+					$availableQuantity = $product_helper->getAvailableQuantity( $productItem->product_id, $cartitem->product_attributes );
 					if( $availableQuantity->product_check_inventory && $cartitem->product_qty >$availableQuantity->quantity && $availableQuantity->quantity >=1) {
 						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'CART_QUANTITY_ADJUSTED',$productItem->product_name, $cartitem->product_qty, $availableQuantity-> quantity ));
 						$cartitem->product_qty = $availableQuantity->quantity;

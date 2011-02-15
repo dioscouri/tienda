@@ -692,15 +692,22 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getPrices( $id )
     {
-        if (empty($id))
+        static $sets;
+        
+        if (empty($sets) || !is_array($sets))
         {
-            return array();
+            $sets = array();
         }
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
-        $model->setState( 'filter_id', $id );
-        $items = $model->getList();
-        return $items;
+        
+        if (empty($sets[$id]))
+        {
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
+            $model->setState( 'filter_id', $id );
+            $sets[$id] = $model->getList();
+        }
+        
+        return $sets[$id];
     }
     
     /**
@@ -714,52 +721,62 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getPrice( $id, $quantity='1', $group_id='', $date='' )
     {
+        // $sets[$id][$quantity][$group_id][$date]
+        static $sets;
+        
+        if (!is_array($sets)) { $sets = array(); }
+        
         $price = null;
         if (empty($id))
         {
             return $price;
         }
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
-        $model->setState( 'filter_id', $id );
-        $prices = TiendaHelperProduct::getPrices($id);
         
-        (int) $quantity;
-        if ($quantity <= '0') { $quantity = '1'; }
-            //where price_quantity_start < $quantity
-            $model->setState( 'filter_quantity', $quantity );
+        if (!isset($sets[$id][$quantity][$group_id][$date]))
+        {
+            $product_helper = TiendaHelperBase::getInstance( 'Product' );
+            $prices = $product_helper->getPrices($id);
             
-        // does date even matter?
-        $nullDate = JFactory::getDBO()->getNullDate();
-        if (empty($date) || $date == $nullDate) { $date = JFactory::getDate()->toMysql(); }
-            $model->setState( 'filter_date', $date );
-            //where product_price_startdate <= $date
-            //where product_price_enddate >= $date OR product_price_enddate == nullDate 
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
+            $model->setState( 'filter_id', $id );
             
-        // does group_id?
-        (int) $group_id;
-        $default_user_group = '1'; /* TODO Use a default $group_id */
-        if ($group_id <= '0') { $group_id = $default_user_group; }
-            // using ->getPrices(), do a getColumn() on the array for the group_id column
-            $group_ids = TiendaHelperBase::getColumn($prices, 'group_id');
-            if (in_array($group_id, $group_ids))
-            {
-                // if $group_id is in the column, then set the query to pull an exact match on it,
-                $model->setState( 'filter_user_group', $group_id ); 
-            } 
-                else
-            {
-                // otherwise, $group_id_determined = the default $group_id
-                $model->setState( 'filter_user_group', $default_user_group );               
-            }
-        
-        // set the ordering so the most discounted item is at the top of the list
-        $model->setState( 'order', 'price_quantity_start' );
-        $model->setState( 'direction', 'DESC' );
+            (int) $quantity;
+            if ($quantity <= '0') { $quantity = '1'; }
+                //where price_quantity_start < $quantity
+                $model->setState( 'filter_quantity', $quantity );
+                
+            // does date even matter?
+            $nullDate = JFactory::getDBO()->getNullDate();
+            if (empty($date) || $date == $nullDate) { $date = JFactory::getDate()->toMysql(); }
+                $model->setState( 'filter_date', $date );
+                //where product_price_startdate <= $date
+                //where product_price_enddate >= $date OR product_price_enddate == nullDate 
+                
+            // does group_id?
+            (int) $group_id;
+            $default_user_group = TiendaConfig::getInstance()->get('default_user_group', '1'); /* Use a default $group_id */
+            if ($group_id <= '0') { $group_id = $default_user_group; }
+                // using ->getPrices(), do a getColumn() on the array for the group_id column
+                $group_ids = TiendaHelperBase::getColumn($prices, 'group_id');
+                if (!in_array($group_id, $group_ids))
+                {
+                    // if $group_id is in the column, then set the query to pull an exact match on it,
+                    // otherwise, $group_id_determined = the default $group_id
+                    $group_id = $default_user_group;
+                }
+                $model->setState( 'filter_user_group', $group_id );
+            
+            // set the ordering so the most discounted item is at the top of the list
+            $model->setState( 'order', 'price_quantity_start' );
+            $model->setState( 'direction', 'DESC' );
+    
+            // TiendaModelProductPrices is a special model that overrides getItem
+            $price = $model->getItem();
+            $sets[$id][$quantity][$group_id][$date] = $price;
+        }
 
-        // TiendaModelProductPrices is a special model that overrides getItem
-        $price = $model->getItem();
-        return $price;  
+        return $sets[$id][$quantity][$group_id][$date];  
     }
     
     /**
@@ -816,38 +833,40 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     public function getTaxRate( $product_id, $geozone_id, $return_object=false )
     {
-        Tienda::load( 'TiendaQuery', 'library.query' );
-            
-        $taxrate = "0.00000";
-        $db = JFactory::getDBO();
+        // $sets[$product_id][$geozone_id] == object
+        static $sets;
+        if (!is_array($sets)) { $sets = array(); }
         
-        $query = new TiendaQuery();
-        $query->select( 'tbl.*' );
-        $query->from('#__tienda_taxrates AS tbl');
-        $query->join('LEFT', '#__tienda_products AS product ON product.tax_class_id = tbl.tax_class_id');
-        $query->where("product.product_id = '".$product_id."'");
-        $query->where("tbl.geozone_id = '".$geozone_id."'");
-        
-        $db->setQuery( (string) $query );
-        if ($data = $db->loadObject())
+        if (!isset($sets[$product_id][$geozone_id]))
         {
-            $taxrate = $data->tax_rate;
-            if ($return_object)
-            {
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-                $taxrate = JTable::getInstance( 'TaxRates', 'TiendaTable' );
-                $taxrate->load( array( 'tax_rate_id'=>$data->tax_rate_id ) );
-            }
-        }
-            elseif ($return_object)
-        {
-            // if there is no defined tax rate, but an object is expected to be returned
-            //  return an object
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $taxrate = JTable::getInstance( 'TaxRates', 'TiendaTable' );
+            $taxrate->tax_rate = "0.00000"; 
+            
+            Tienda::load( 'TiendaQuery', 'library.query' );
+            
+            $db = JFactory::getDBO();
+            
+            $query = new TiendaQuery();
+            $query->select( 'tbl.*' );
+            $query->from('#__tienda_taxrates AS tbl');
+            $query->join('LEFT', '#__tienda_products AS product ON product.tax_class_id = tbl.tax_class_id');
+            $query->where("product.product_id = '".$product_id."'");
+            $query->where("tbl.geozone_id = '".$geozone_id."'");
+            
+            $db->setQuery( (string) $query );
+            if ($data = $db->loadObject())
+            {
+                $taxrate->load( array( 'tax_rate_id'=>$data->tax_rate_id ) );
+            }
+            $sets[$product_id][$geozone_id] = $taxrate;
         }
-        
-        return $taxrate;
+
+        if (!$return_object)
+        {
+            return $sets[$product_id][$geozone_id]->tax_rate;
+        }
+        return $sets[$product_id][$geozone_id];
     }
     
     /**
@@ -912,35 +931,44 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getDefaultAttributes( $id )
     {
-        if (empty($id))
+        static $sets;
+        
+        if (empty($sets) || !is_array($sets))
         {
-            return array();
-        }
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
-        $model->setState( 'filter_product', $id );
-        $items = $model->getList();
-        if (empty($items))
-        {
-            return array();
+            $sets = array();
         }
         
-        $list = array();
-        foreach ($items as $item)
+        if (empty($sets[$id]))
         {
-            $key = 'attribute_'.$item->productattribute_id;
-            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
-            $model->setState( 'filter_attribute', $item->productattribute_id );
-            $model->setState('order', 'tbl.ordering');
-            $model->setState('direction', 'ASC');
-            $options = $model->getList();
-            if (!empty($options))
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+            $model->setState( 'filter_product', $id );
+            $items = $model->getList();
+            if (empty($items))
             {
-                $option = $options[0];
-                $list[$key] = $option->productattributeoption_id;
+                $sets[$id] = array();
+                return $sets[$id];
             }
+            
+            $list = array();
+            foreach ($items as $item)
+            {
+                $key = 'attribute_'.$item->productattribute_id;
+                $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+                $model->setState( 'filter_attribute', $item->productattribute_id );
+                $model->setState('order', 'tbl.ordering');
+                $model->setState('direction', 'ASC');
+                $options = $model->getList();
+                if (!empty($options))
+                {
+                    $option = $options[0];
+                    $list[$key] = $option->productattributeoption_id;
+                }
+            }
+            $sets[$id] = $list;
         }
-        return $list;
+        
+        return $sets[$id];
     }
     
     
@@ -1285,13 +1313,26 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function isShippingEnabled( $id )
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $table = JTable::getInstance( 'Products', 'TiendaTable' );
-        $table->load( (int) $id);
-        if ($table->product_ships)
+        static $sets;
+        
+        if (empty($sets) || !is_array($sets))
+        {
+            $sets = array();
+        }
+        
+        if (empty($sets[$id]))
+        {
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $table = JTable::getInstance( 'Products', 'TiendaTable' );
+            $table->load( (int) $id);
+            $sets[$id] = $table;
+        }
+        
+        if ($sets[$id]->product_ships)
         {
             return true;
         }
+            
         return false;
     }
 

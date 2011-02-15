@@ -45,9 +45,9 @@ class TiendaModelUserGroups extends TiendaModelBase
 		$query->join('LEFT', '#__tienda_groups AS g ON g.group_id = tbl.group_id');    		
 	}
     
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList(); 
+		$list = parent::getList($refresh); 
 		
 		// If no item in the list, return an array()
         if( empty( $list ) ){
