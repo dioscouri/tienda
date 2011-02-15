@@ -487,6 +487,8 @@ class TiendaConfig extends JObject
     
     //social bookmarking integration
     var $display_facebook_like				= '1';
+    var $display_tweet						= '1';
+    var $display_tweet_message				= 'Check this out!';
 	
 	/**
 	 * constructor

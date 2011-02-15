@@ -632,6 +632,28 @@
                                 
                             </td>
                         </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Tweeter Button' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_tweet', 'class="inputbox"', $this->row->get('display_tweet', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Tweeter Message' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="display_tweet_message" value="<?php echo $this->row->get('display_tweet_message', 'Check this out!'); ?>" class="inputbox" size="35" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Prices with Tax' ); ?>
