@@ -21,7 +21,7 @@ $item = @$this->row;
             <?php echo $this->onBeforeDisplayProduct; ?>
             </div>
         <?php endif; ?>
-    
+                  
         <div id='tienda_product_header'>
             <span class="product_name">
                 <?php echo htmlspecialchars_decode( $item->product_name ); ?>
@@ -50,7 +50,12 @@ $item = @$this->row;
                 <?php endif; ?>
             </div>
         </div>
-        
+        <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1')) : ?>       
+        <div class="product_like" style="float: right;">
+        	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+        	<fb:like show_faces="false" width="450"></fb:like> 
+        </div> 
+        <?php endif;?>
         <div class="product_image">
             <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id, '', $item->product_name), array('update' => false, 'img' => true)); ?>
             <div>
