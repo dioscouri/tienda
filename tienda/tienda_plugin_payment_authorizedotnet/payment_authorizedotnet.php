@@ -807,6 +807,9 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                         case "N":
                             // NO Match
                             $cvv_status = '0';
+                            $payment_status = '0';
+                            $order_status = '0';
+                            $errors[] = JText::_( "CVV Did Not Match" );
                           break;
                         case "P":
                             // Not Processed
@@ -815,10 +818,16 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                         case "S":
                             // Should have been present
                             $cvv_status = '0';
+                            $payment_status = '0';
+                            $order_status = '0';
+                            $errors[] = JText::_( "CVV Should have been present" );
                           break;
                         case "U":
                             // Issuer unable to process request
                             $cvv_status = '0';
+                            $payment_status = '0';
+                            $order_status = '0';
+                            $errors[] = JText::_( "CVV Issuer unable to process request" );
                           break;
                         default:
                             // No Value returned
