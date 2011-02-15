@@ -50,10 +50,20 @@ $item = @$this->row;
                 <?php endif; ?>
             </div>
         </div>
-        <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1')) : ?>       
+        <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1') || TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>       
         <div class="product_like" style="float: right;">
-        	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-        	<fb:like show_faces="false" width="450"></fb:like> 
+        	<?php if (TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>
+        	<div class="product_tweet" style="float:left;">
+        		  <a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance()->get('display_tweet_message', 'Check this out!'); ?>" data-count="horizontal">Tweet</a>
+        		  <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        	</div>
+        	<?php endif;?>
+        	<?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1')) : ?>
+        	<div class="product_facebook_like" style="float:left;">
+        		<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+        		<fb:like show_faces="false" width="375"></fb:like> 
+        	</div>  
+        	<?php endif;?>      	
         </div> 
         <?php endif;?>
         <div class="product_image">
