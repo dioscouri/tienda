@@ -40,8 +40,8 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		$this->helper->service = 'structuredcontent';
 		$this->helper->source = JURI::base();
 		
-		
-		$this->helper->source = 'http://www.weble.it';
+		$this->buildfeed = $this->params->get('build_feed', '0');
+		//$this->helper->source = 'http://www.weble.it';
 	}
     
 	/**
@@ -63,7 +63,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Do an upgrade request
 		if($upgrade)
 		{
-			if($this->upgradeProduct($product))
+			if($this->updateProduct($product))
 			{
 				return true;
 			}
@@ -109,7 +109,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Now let's get serious: was this product already saved on google?
 		$params = new JParameter(trim($product->product_params));
 		$enabled = $params->get('sent_to_google', '0');
-		
+		$enabled='1';
 		if($enabled)
 		{
 			// Delete also on google
@@ -150,7 +150,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 			return false;
 		}
 		
-		echo Tienda::dump($xml);
+		//echo Tienda::dump($xml);
 		
 		// Send the request
 		$curl = curl_init($url);
@@ -198,8 +198,9 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		Tienda::load('TiendaHelperRoute', 'helpers.route');
 		$xml['link']['attributes']['rel'] = 'alternate';
 		$xml['link']['attributes']['type'] = 'text/html';
-		//$xml['link']['attributes']['href'] = TiendaHelperRoute::product($product->product_id);
-		$xml['link']['attributes']['href'] = 'http://www.weble.it/products/'.$product->product_id;
+		$baseurl = str_replace("/administrator/","/",JURI::base());
+		$xml['link']['attributes']['href'] = $baseurl.TiendaHelperRoute::product($product->product_id);
+		//$xml['link']['attributes']['href'] = 'http://www.weble.it/products/'.$product->product_id;
 		
 		// Condition
 		$xml['scp:condition'] = 'new';
@@ -239,8 +240,150 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Google API url
 		$url = $this->getAPIUrl('update', $product);
 		
+		//First, get the google entry - we need etag
+		
+		//Header
+		// Header with authentication
+		$header = $this->getHeader();
+		
+		// Error
+		if(!$header)
+		{
+			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			return false;
+		}
+		
+		//Now get the present data from google
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		
+		$result = curl_exec($curl);
+		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		// Parse the result
+		$errors = array();
+		if($this->parseErrors($code, $result, $errors))
+		{
+			// Error!
+			$this->setError(implode("\n", $errors));
+			return false;
+		}
+		
+		//Now get etag from xml
+		$xmldoc = new SimpleXmlElement($result, LIBXML_NOCDATA);
+		//$namespaces = $xmldoc->getNamespaces(true);
+		
+		$entry = $xmldoc->entry;
+		$etag = '';
+		
+		if($entry){
+				$attrs = $entry->attributes();
+				
+				$etag = $attrs['gd:etag'];
+			}
+		else {
+				JError::raiseWarning('ERR', JText::_('Update request error: ' . $this->getError()));
+				return false;
+			}
+			
+		if($etag){
+				//Once we have the etag, we can build the new xml
+				$xml = $this->getUpdateXML($product, $etag);
+				
+				/* Prepare the data for HTTP PUT. */
+				$putData = tmpfile();
+				fwrite($putData, $xml);
+				fseek($putData, 0);
+  
+				//Now, send in the update request. i.e a PUT call
+				$curl = curl_init($url);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+				curl_setopt($curl, CURLOPT_PUT, true);
+				curl_setopt($curl, CURLOPT_INFILE, $putData);
+				curl_setopt($curl, CURLOPT_INFILESIZE, strlen($xml));
+  
+				$result = curl_exec($curl);
+				$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+				fclose($putData);
+				curl_close($curl);
+		
+				// Parse the result
+				$errors = array();
+				if($this->parseErrors($code, $result, $errors))
+				{
+					// Error!
+					$this->setError(implode("\n", $errors));
+					return false;
+				}
+				
+				return true;
+			}
+		else{
+				JError::raiseWarning('ERR', JText::_('Etag error: ' . $this->getError()));
+				return false;
+			}
 		// perform the update
 	} 
+	
+	/**
+	 * Generates the xml for the update request
+	 * @param unknown_type $product
+	 * @param string $etag - etag of the product
+	 */
+	protected function getUpdateXML($product, $etag)
+	{
+		// perform the insertion
+		Tienda::load('TiendaArrayToXML', 'library.xml');
+		
+		// Populate the xml request
+		$xml = array();
+		$xml['app:control']['sc:required_destination']['attributes']['dest'] = 'ProductSearch';
+		
+		// Title, id and description
+		$xml['title'] = $product->product_name;
+		$xml['content']['attributes']['type'] = 'text/html';
+		$xml['content'] = $product->product_description;
+		$xml['sc:id'] = $product->product_id;
+		
+		// Link to the product
+		Tienda::load('TiendaHelperRoute', 'helpers.route');
+		$xml['link']['attributes']['rel'] = 'alternate';
+		$xml['link']['attributes']['type'] = 'text/html';
+		$baseurl = str_replace("/administrator/","/",JURI::base());
+		$xml['link']['attributes']['href'] = $baseurl.TiendaHelperRoute::product($product->product_id);
+		//$xml['link']['attributes']['href'] = 'http://www.weble.it/products/'.$product->product_id;
+		
+		// Condition
+		$xml['scp:condition'] = 'new';
+		
+		// Price
+		$currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
+		Tienda::load('TiendaTableCurrencies', 'tables.currencies');
+        $currency = JTable::getInstance('Currencies', 'TiendaTable');
+        $currency->load( (int) $currency_id );
+        
+		$xml['scp:price']['attributes']['unit'] = trim(strtoupper($currency->currency_code));
+		$xml['scp:price']['@value'] = TiendaHelperBase::number(TiendaHelperProduct::getPrice($product->product_id)->product_price, array('num_decimals', '0'));
+		
+		// Manufacturer
+		Tienda::load('TiendaTableManufacturers', 'tables.manufacturers');
+		$manufacturer = JTable::getInstance('Manufacturers', 'TiendaTable');
+		if($manufacturer->load($product->manufacturer_id))
+		{
+			$xml['scp:brand'] = $manufacturer->manufacturer_name;
+		}
+		$xml['entry']['attributes']['gd:etag'] = $etag;
+		// Create the request
+		$null = null;
+		$helper = new TiendaArrayToXML();
+		$ns = array( array('name' => 'app', 'url' => "http://www.w3.org/2007/app"), array('name' =>'gd', 'url' => "http://schemas.google.com/g/2005"), array('name' => 'sc', 'url' => "http://schemas.google.com/structuredcontent/2009"), array( 'name' => 'scp', 'url' => "http://schemas.google.com/structuredcontent/2009/products"));
+		$xml = $helper->toXml($xml, 'entry', $null, $ns, "http://www.w3.org/2005/Atom" );
+		
+		return $xml;
+	}
 	
 	/**
 	 * delete a product on google base
@@ -251,7 +394,37 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Google API url
 		$url = $this->getAPIUrl('delete', $product);
 		
+		//Header
+		// Header with authentication
+		$header = $this->getHeader();
+		
+		// Error
+		if(!$header)
+		{
+			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			return false;
+		}
+		
 		// perform the delete
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+  
+		$result = curl_exec($curl);
+		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		// Parse the result
+		$errors = array();
+		if($this->parseErrors($code, $result, $errors))
+		{
+			// Error!
+			$this->setError(implode("\n", $errors));
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -321,4 +494,5 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		return true;
 	}
+	
 }
