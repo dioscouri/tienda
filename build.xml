@@ -242,6 +242,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_editorsxtd/languages" />
         </copy>
+        <!-- GOOGLE PRODUCTS -->
+        <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_googleproducts" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_googleproducts/languages" />
+        </copy>
         <!-- REQUIRE PHONE NUMBER -->
         <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber" />

@@ -12,6 +12,7 @@
 	
 	<files>
 		<filename plugin="googleproducts">googleproducts.php</filename>
+        <folder>googleproducts</folder>
 	</files>
     
     <languages folder="languages">

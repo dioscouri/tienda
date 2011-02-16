@@ -43,7 +43,34 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		$this->buildfeed = $this->params->get('build_feed', '0');
 		//$this->helper->source = 'http://www.weble.it';
 	}
+
+	/**
+	 * This event is triggered when Tienda is loaded on the admin-side
+	 * @return unknown_type
+	 */
+    function onAfterDisplayAdminComponentTienda()
+    {
+        $name = 'GoogleBase XML'; 
+        $text = 'Generate GoogleBase XML';
+        $url = 'index.php?option=com_tienda&task=doTask&element=googleproducts&elementTask=generateXML';
+        
+        $bar = & JToolBar::getInstance('toolbar');
+        $bar->prependButton( 'link', $name, $text, $url );
+    }
     
+    /**
+     * Generates the XML doc and saves it to the location specified by the config
+     * @return unknown_type
+     */
+    function generateXML()
+    {
+        echo "You are in the generateXML() function.  Do what you want then perform a redirect back to the referring URL.  Add a system message to be nice :-)";
+        
+        $request = JRequest::get('request');
+        $dump = Tienda::dump( $request );
+        echo $dump;
+    }
+	
 	/**
 	 * If enabled, insert or update product on google
 	 * @param $product
