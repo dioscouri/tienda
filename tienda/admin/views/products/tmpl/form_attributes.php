@@ -7,7 +7,7 @@
 	[<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$product_id); ?>">
     	<?php echo JText::_("Remove"); ?>
 	</a>]
-    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ) ); ?>]
+    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ) , array('onclose' => '\function(){tiendaUpdateAttributesForm('.$product_id.');}') ); ?>]
     <?php echo $attribute->productattribute_name; ?>
     <?php echo "(".$attribute->option_names_csv.")"; ?>
     <br/>

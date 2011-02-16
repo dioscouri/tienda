@@ -179,7 +179,7 @@ window.addEvent('domready', function(){
                             <?php echo JText::_( 'Product Attributes' ); ?>:
                         </td>
                         <td>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ), array('onclose' => '\function(){tiendaUpdateAttributesForm('.$row->product_id.');}') ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ) ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>

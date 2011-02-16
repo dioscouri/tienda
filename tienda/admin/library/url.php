@@ -71,7 +71,7 @@ class TiendaUrl {
 			}
 	            else
 			{
-			    JHTML::_('behavior.modal');
+			    JHTML::_('behavior.modal', 'a.modal');
 			}
 		}
 

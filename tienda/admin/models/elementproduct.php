@@ -95,6 +95,7 @@ class TiendaModelElementProduct extends JModel
 				' FROM #__tienda_products AS c' .
 				' LEFT JOIN #__tienda_productprices pp ON pp.product_id = c.product_id '.
 				$where .
+				' GROUP BY c.product_id '.
 				$order;
 		$db->setQuery($query, $this->_page->limitstart, $this->_page->limit);
 		$this->_list = $db->loadObjectList();
