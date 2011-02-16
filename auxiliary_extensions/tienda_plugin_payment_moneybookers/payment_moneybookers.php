@@ -57,7 +57,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      */
     function _prePayment( $data )
     {
-        // Process the payment
+        // Process the payment TODO:POSTPAYMENT PROCESSING MIXED CART,PREPARATION MESSAGE FOR THE MIXED CART,SANDBOX PARAMETERS
         
     	$vars = new JObject();        
         
@@ -78,13 +78,65 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
 	    $vars->orderpayment_type = $this->_element;	
-	    $vars->amount = $data['orderpayment_amount'];
+	    //$vars->amount = $data['orderpayment_amount'];
 	    $vars->currency = $this->params->get( 'currency', 'USD' );
 	    $vars->detail1_description = $data['order_id'];
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
 	    $vars->detail2_description = $data['orderpayment_id'];
 	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
      	
+	    $order = JTable::getInstance('Orders', 'TiendaTable');
+		$order->load( $data['order_id'] );
+	    $vars->is_recurring = $order->isRecurring();
+	    $items = $order->getItems();
+	    
+	    // if order has both recurring and non-recurring items
+	    if ($vars->is_recurring && count($items) > '1')
+		{
+			$vars->mixed_cart = true;
+			$order_id = $vars->order_id;
+			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        	$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+        	$model->setState('select', 'tbl.orderitem_id');
+        	$model->setState( 'filter_orderid', $order_id);
+        	$model->setState( 'filter_recurs', '1' );          	  	   	
+        	$orderitem_id = $model->getResult();        	
+			
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        	$orderitems_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+			$orderitems_table->load( $orderitem_id );        	
+			$orderitem_final_price = $orderitems_table->orderitem_final_price;
+			$orderitems_table->delete();
+								
+			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            $orderpayment->load( $vars->orderpayment_id );
+            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $orderitem_final_price; 
+            $orderpayment->save();
+            
+            $vars->is_recurring = false;
+            $vars->amount = $orderpayment->orderpayment_amount;
+            $vars->return_url = "index.php?option=com_tienda&view=checkout";                   
+		}
+		    elseif ($vars->is_recurring && count($items) == '1')
+		{
+			$vars->mixed_cart = false;
+			
+		   	$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+						
+			$vars->rec_start_date = '';
+			
+			$vars->rec_period = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval;
+			$vars->rec_cycle = $this->_getDurationUnit($order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit);// (day | week | month)
+			
+			// a period of days during which the customer can still process the transaction in case it originally failed.			
+			$vars->rec_grace_period = 3;
+		}
+	    	else 
+	    {
+	    	$vars->mixed_cart = false;
+	    	
+			$vars->amount = $data['orderpayment_amount'];
+	    }
 	    
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -197,7 +249,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$keyarray['status'] = $this->_getMBStatus($data['status']);
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	
-     	// check that payment amount is correct for order_id
+     	// check that payment amount is correct for order_id rec_payment_id
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
@@ -405,7 +457,23 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		return $html;
 	}
 	
-	
+	/**
+	 * Converts the duration unit into the Moneybookers valid value
+	 * 
+	 * @param string $unit
+	 * @return string|boolean
+	 * @access protected
+	 */
+	function _getDurationUnit($unit)
+	{
+		switch ($unit) {
+			case 'D' : return 'day';			
+			case 'M' : return 'month';			
+			case 'Y' : return 'year';
+			
+			default : return false;
+		}
+	}
 }
 
 if ( ! function_exists('plg_tienda_escape')) {

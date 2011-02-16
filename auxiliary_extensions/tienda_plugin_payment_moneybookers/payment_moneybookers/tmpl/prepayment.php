@@ -4,19 +4,25 @@ defined('_JEXEC') or die('Restricted access');
 
 <form action="<?php echo plg_tienda_escape($vars->action_url); ?>" method="post">
 
-    <div id="payment_moneybookers">
-    	<div class="prepayment_message">
-        	<?php echo JText::_( "Tienda Moneybookers Payment Standard Preparation Message" ); ?>
+ 	<?php  if ($vars->mixed_cart) { ?>
+    	<div class="note_green">
+        	<span class="alert"><?php  echo JText::_( "TIENDA MONEYBOOKERS PLEASE NOTE" ) ?></span>
+            <?php echo JText::_( "TIENDA MONEYBOOKERS MIXED CART MESSAGE" ); ?>
         </div>
-        <div class="prepayment_action">
-            <div style="float: left; padding: 10px;">
-            	<input type="image" src="http://www.moneybookers.com/images/logos/checkout_logos/checkout_120x40px.gif" alt="Pay!">
-            </div>
-        	<div style="float: left; padding: 10px;">
-        		<?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount ); ?>
-        	</div>         	
-         </div>
-    </div>
+    <?php }  ?>
+    	<div id="payment_moneybookers">
+    		<div class="prepayment_message">
+        		<?php echo JText::_( "Tienda Moneybookers Payment Standard Preparation Message" ); ?>
+        	</div>
+        	<div class="prepayment_action">
+            	<div style="float: left; padding: 10px;">
+            		<input type="image" src="http://www.moneybookers.com/images/logos/checkout_logos/checkout_120x40px.gif" alt="Pay!">
+            	</div>
+        		<div style="float: left; padding: 10px;">
+        			<?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount ); ?>
+        		</div>         	
+        	</div>
+    	</div>
     
     <!-- MERCHANT DETAILS (Moneybookers Gateway Manual) -->
 	<input type="hidden" name="pay_to_email" value="<?php echo plg_tienda_escape($vars->pay_to_email); ?>" />
@@ -36,7 +42,16 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="orderpayment_type" value="<?php echo plg_tienda_escape($vars->orderpayment_type); ?>" />
 	
 	<!-- PAYMENT DETAILS (Moneybookers Gateway Manual) -->	
-	<input type="hidden" name="amount" value="<?php echo plg_tienda_escape($vars->amount); ?>" />
+	<?php if ($vars->is_recurring): ?>
+			<input type="hidden" name="rec_amount" value="<?php echo plg_tienda_escape($vars->rec_amount); ?>" />
+			<input type="hidden" name="rec_start_date" value="<?php echo plg_tienda_escape($vars->rec_start_date); ?>" />
+			<input type="hidden" name="rec_period" value="<?php echo plg_tienda_escape($vars->rec_period); ?>" />
+			<input type="hidden" name="rec_cycle" value="<?php echo plg_tienda_escape($vars->rec_cycle); ?>" />
+			<input type="hidden" name="rec_grace_period" value="<?php echo plg_tienda_escape($vars->rec_grace_period); ?>" />
+	<?php else: ?>
+			<input type="hidden" name="amount" value="<?php echo plg_tienda_escape($vars->amount); ?>" />
+	<?php endif; ?>
+	
 	<input type="hidden" name="currency" value="<?php echo plg_tienda_escape($vars->currency); ?>" />			
 	<input type="hidden" name="detail1_description" value="<?php echo plg_tienda_escape($vars->detail1_description); ?>" /> 
 	<input type="hidden" name="detail1_text" value="<?php echo plg_tienda_escape($vars->detail1_text); ?>" /> 
