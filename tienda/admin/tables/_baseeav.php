@@ -139,7 +139,7 @@ class TiendaTableEav extends TiendaTable
     	}
 		
 		if ( $return = parent::store( $updateNulls ))
-		{	
+		{
 			// Store custom fields if needed
 			if(count($custom_fields))
 			{
@@ -177,10 +177,6 @@ class TiendaTableEav extends TiendaTable
 		    			{
 			    			$this->setError($this->getError());
 		    			}
-		    		}
-		    		else
-		    		{
-		    			unset($this->$key);
 		    		}
 		    		
 				}
