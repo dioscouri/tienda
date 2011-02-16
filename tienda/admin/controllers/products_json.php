@@ -180,52 +180,6 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 	}
 	
 	/**
-	 * Change the default image
-	 * @return unknown_type
-	 */
-	function tiendaUpdateAttributesForm()
-	{
-		$response = array();
-		$response['html'] = '';
-
-		$product_id = JRequest::getInt('product_id');
-		Tienda::load( 'TiendaUrl', 'library.url' );
-		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-
-		$html = $this->getAttributesHtml($product_id);
-		
-		$response['html'] = $html;
-
-		echo ( json_encode( $response ) );
-		return;
-	}
-	
-	function getAttributesHtml( $product_id)
-	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
-        
-		$attributes = TiendaHelperProduct::getAttributes($product_id);
-		
-		$view   = $this->getView( 'products', 'html' );
-			$view->set( '_controller', 'products' );
-			$view->set( '_view', 'products' );
-			$view->set( '_doTask', true);
-			$view->set( 'hideleftmenu', true);
-        $view->setModel( $model, true );
-		$view->setLayout('form_attributes');
-		$view->assign('product_id', $product_id);
-		$view->assign('attributes', $attributes);
-		
-		ob_start();
-		$view->display();
-		$html = ob_get_contents();
-		ob_end_clean();
-		
-		return $html;
-	}
-	
-	/**
 	 * Get a json list of products
 	 * @api
 	 */
