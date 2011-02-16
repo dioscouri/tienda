@@ -38,7 +38,6 @@ class JElementTiendaProduct extends JElement
 
  		$js = "
 		function jSelectProducts(id, title, object) {
-			alert(id);
 			document.getElementById(object + '_id').value = id;
 			document.getElementById(object + '_name').value = title;
 			document.getElementById('sbox-window').close();
