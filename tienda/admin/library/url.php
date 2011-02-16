@@ -50,6 +50,7 @@ class TiendaUrl {
 	 * 				'left',
 	 * 				'class',
 	 * 				'update',
+	 * 				'onclose',
 	 * 				'img'
 	 * 				)
 	 * @return popup html
@@ -58,13 +59,20 @@ class TiendaUrl {
 	{
 		$html = "";
 		
-		if (!empty($options['update']))
+		if(!empty($options['onclose']))
 		{
-		    JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){tiendaUpdate();}') );
+			JHTML::_('behavior.modal', 'a.modal', array('onClose'=> $options['onclose']) );
 		}
-            else
+		else
 		{
-		    JHTML::_('behavior.modal');
+			if (!empty($options['update']))
+			{
+			    JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){tiendaUpdate();}') );
+			}
+	            else
+			{
+			    JHTML::_('behavior.modal');
+			}
 		}
 
 		// set the $handler_string based on the user's browser

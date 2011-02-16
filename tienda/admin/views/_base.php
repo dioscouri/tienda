@@ -44,9 +44,16 @@ class TiendaViewBase extends JView
         
         jimport( 'joomla.application.module.helper' );		
 		$modules = JModuleHelper::getModules("tienda_left");
-		if ($modules && !JRequest::getInt('hidemainmenu') || !empty($this->leftMenu))
+		if ($modules && !JRequest::getInt('hidemainmenu') || !empty($this->leftMenu) )
 		{
-			$this->displayWithLeftMenu($tpl=null, @$this->leftMenu);
+			if(@$this->hideleftmenu)
+			{
+				parent::display($tpl);
+			}
+			else
+			{
+				$this->displayWithLeftMenu($tpl=null, @$this->leftMenu);
+			}
 		}
 			else
 		{

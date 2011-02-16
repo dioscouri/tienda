@@ -955,7 +955,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param int $parent_option the id of the parent option. Use -1 for "all"
      * @return unknown_type
      */
-    function getAttributes( $id, $parent_option = 0 )
+    function getAttributes( $id, $parent_option = "-1" )
     {
         if (empty($id))
         {

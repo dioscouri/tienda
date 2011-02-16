@@ -247,7 +247,7 @@ ul#submenu li:hover ul.submenu_dropdown, ul#submenu a:hover ul {
 
 ul#submenu ul.submenu_dropdown {
 	position: absolute;
-	top: 19px;
+	top: 17px;
 	left: auto;
 	margin-bottom: 10px;
 	background: #F6F6F6;

@@ -17,9 +17,10 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
-        $filter          = $this->getState('filter');
-        $filter_id       = $this->getState('filter_id');
-        $filter_attribute  = $this->getState('filter_attribute');
+        $filter          	= $this->getState('filter');
+        $filter_id      	= $this->getState('filter_id');
+        $filter_attribute   = $this->getState('filter_attribute');
+        $filter_parent		= $this->getState('filter_parent');
 
         if ($filter) 
         {
@@ -37,6 +38,18 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
         if (strlen($filter_attribute))
         {
             $query->where('tbl.productattribute_id = '.(int) $filter_attribute);
+        }
+   		if (is_array($filter_parent))
+        {
+       		$filter_parent = implode(',', $filter_parent);
+       		$query->where('tbl.parent_productattributeoption_id IN ('. $filter_parent.')');
+       	}
+       	else
+       	{
+       		if(strlen($filter_parent)) 
+        	{
+            	$query->where('tbl.parent_productattributeoption_id = '.(int) $filter_parent);
+        	}
         }
     }
 }

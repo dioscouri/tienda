@@ -129,6 +129,32 @@ class TiendaModelCategories extends TiendaModelBase
     {
     	$query->group('tbl.category_id');
     }
+    
+	/**
+     * Builds a generic SELECT COUNT(*) query
+     */
+    protected function _buildResultQuery()
+    {
+    	$grouped_query = new TiendaQuery();
+		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
+
+        $this->_buildQueryFrom($grouped_query);
+        $this->_buildQueryJoins($grouped_query);
+        $this->_buildQueryWhere($grouped_query);
+        $this->_buildQueryGroup($grouped_query);
+        $this->_buildQueryHaving($grouped_query);
+        
+        $query = new TiendaQuery( );
+		$query->select( 'COUNT(*)' );
+		$query->from( '(' . $grouped_query . ') as grouped_count' );
+        
+        // Allow plugins to edit the query object
+        $suffix = ucfirst( $this->getName() );
+        $dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onAfterBuildResultQuery'.$suffix, array( &$query ) );
+
+        return $query;
+    }
 
 	public function getList()
 	{

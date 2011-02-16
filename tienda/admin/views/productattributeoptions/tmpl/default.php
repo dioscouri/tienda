@@ -79,6 +79,9 @@
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Code', "tbl.productattributeoption_code", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="text-align: left;">
+                	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
@@ -105,6 +108,38 @@
                 <td style="text-align: center;">
                     <input type="text" name="code[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_code; ?>" size="10" />
                 </td>
+                <td style="text-align: left;">
+					<?php
+					if($item->parent_productattributeoption_id)
+					{
+						Tienda::load('TiendaTableProductAttributeOptions', 'tables.productattributeoptions');
+						$opt = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+						$opt->load($item->parent_productattributeoption_id);
+						$attribute_id = $opt->productattribute_id;
+					}
+					else
+					{
+						$attribute_id = 0;
+					}
+					
+					
+					echo TiendaSelect::productattributes($attribute_id, $row->product_id, $item->productattributeoption_id, array('class' => 'inputbox', 'size' => '1'), null, $allowAny = true, $title = 'No Parent');
+					
+					?>
+					
+					<div id="parent_option_select_<?php echo $item->productattributeoption_id; ?>">
+					
+					<?php
+					
+					if($item->parent_productattributeoption_id)
+					{
+						echo TiendaSelect::productattributeoptions($attribute_id, $item->parent_productattributeoption_id, 'parent['.$item->productattributeoption_id.']');	
+					}
+					
+					?>
+					
+					</div>
+				</td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
 				</td>

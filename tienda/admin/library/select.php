@@ -623,7 +623,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $idtag
 	 * @return unknown_type
 	 */
-    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null)
+    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $selected = array())
     {
         $list = array();
         
@@ -631,6 +631,13 @@ class TiendaSelect extends JHTMLSelect
         $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
         $model->setState( 'filter_attribute', $productattribute_id );
         $model->setState('order', 'tbl.ordering');
+        
+        // Parent options
+        if(count($selected))
+        {
+        	$model->setState('filter_parent', $selected);
+        }
+        
         $items = $model->getList();
         foreach (@$items as $item)
         {
@@ -652,7 +659,7 @@ class TiendaSelect extends JHTMLSelect
     /**
 	 * Generates a selectlist of Product Attributes 
 	 */
-    public static function productattributes( $selected, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'No Parent')
+    public static function productattributes( $selected, $product_id, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'No Parent')
     {
         $list = array();
         
@@ -667,6 +674,10 @@ class TiendaSelect extends JHTMLSelect
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState('order', 'tbl.ordering');
+        if($product_id)
+        {
+        	$model->setState('filter_product', $product_id);
+        }
         $items = $model->getList();
         foreach (@$items as $item)
         {
