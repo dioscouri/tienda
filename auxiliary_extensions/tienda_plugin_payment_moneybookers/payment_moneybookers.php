@@ -90,38 +90,42 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	    $vars->is_recurring = $order->isRecurring();
 	    $items = $order->getItems();
 	    
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+        $model->setState( 'select', 'tbl.orderitem_id' );
+        $model->setState( 'filter_orderid', $vars->order_id );
+        $model->setState( 'filter_recurs', '1' );          	  	   	
+        $recurring_orderitem_id = $model->getResult();        	
+			
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $recurring_orderitem_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+		$recurring_orderitem_table->load( $recurring_orderitem_id );        	
+		$recurring_orderitem_final_price = $recurring_orderitem_table->orderitem_final_price;
+	    
 	    // if order has both recurring and non-recurring items
 	    if ($vars->is_recurring && count($items) > '1')
 		{
 			$vars->mixed_cart = true;
-			$order_id = $vars->order_id;
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        	$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
-        	$model->setState('select', 'tbl.orderitem_id');
-        	$model->setState( 'filter_orderid', $order_id);
-        	$model->setState( 'filter_recurs', '1' );          	  	   	
-        	$orderitem_id = $model->getResult();        	
-			
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        	$orderitems_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
-			$orderitems_table->load( $orderitem_id );        	
-			$orderitem_final_price = $orderitems_table->orderitem_final_price;
-			$orderitems_table->delete();
-								
+						
+			$recurring_orderitem_table->delete();
+										
 			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $vars->orderpayment_id );
-            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $orderitem_final_price; 
+            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $recurring_orderitem_final_price; 
             $orderpayment->save();
+                        
+            $order->calculateTotals(); 
+            $order->save();
             
             $vars->is_recurring = false;
             $vars->amount = $orderpayment->orderpayment_amount;
-            $vars->return_url = "index.php?option=com_tienda&view=checkout";                   
+            $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout";                   
 		}
 		    elseif ($vars->is_recurring && count($items) == '1')
 		{
 			$vars->mixed_cart = false;
 			
-		   	$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+		   	$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $recurring_orderitem_final_price;
 						
 			$vars->rec_start_date = '';
 			

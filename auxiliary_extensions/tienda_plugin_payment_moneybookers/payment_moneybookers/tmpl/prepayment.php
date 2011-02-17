@@ -10,19 +10,28 @@ defined('_JEXEC') or die('Restricted access');
             <?php echo JText::_( "TIENDA MONEYBOOKERS MIXED CART MESSAGE" ); ?>
         </div>
     <?php }  ?>
-    	<div id="payment_moneybookers">
-    		<div class="prepayment_message">
-        		<?php echo JText::_( "Tienda Moneybookers Payment Standard Preparation Message" ); ?>
-        	</div>
-        	<div class="prepayment_action">
-            	<div style="float: left; padding: 10px;">
-            		<input type="image" src="http://www.moneybookers.com/images/logos/checkout_logos/checkout_120x40px.gif" alt="Pay!">
-            	</div>
-        		<div style="float: left; padding: 10px;">
-        			<?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount ); ?>
-        		</div>         	
-        	</div>
-    	</div>
+    <div id="payment_moneybookers">
+    	<div class="prepayment_message">
+       		<?php echo JText::_( "Tienda Moneybookers Payment Standard Preparation Message" ); ?>
+       	</div>
+       	<div class="prepayment_action">
+           	<div style="float: left; padding: 10px;">
+           		<input type="image" src="http://www.moneybookers.com/images/logos/checkout_logos/checkout_120x40px.gif" alt="Pay!">
+           	</div>
+       		<div style="float: left; padding: 10px;">        		
+       			<?php
+       				if ( $vars->is_recurring )
+       				{
+       					echo "<b>".JText::_( "Recurring Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->rec_amount ); 
+       				}
+       				else 
+       				{
+       					echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );
+       				}
+       			?>
+       		</div>         	
+       	</div>
+    </div>
     
     <!-- MERCHANT DETAILS (Moneybookers Gateway Manual) -->
 	<input type="hidden" name="pay_to_email" value="<?php echo plg_tienda_escape($vars->pay_to_email); ?>" />
