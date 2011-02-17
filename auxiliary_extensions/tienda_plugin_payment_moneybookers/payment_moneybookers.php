@@ -57,29 +57,29 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      */
     function _prePayment( $data )
     {
-        // Process the payment TODO:POSTPAYMENT PROCESSING MIXED CART,PREPARATION MESSAGE FOR THE MIXED CART,SANDBOX PARAMETERS
+        // Process the payment
         
     	$vars = new JObject();        
         
         $vars->action_url = $this->_getActionUrl();        
 
         // properties as specified in moneybookers gateway manual
-        $vars->pay_to_email = $this->params->get( 'receiver_email' );
+        $vars->pay_to_email = $this->_getParam( 'receiver_email' );
         $vars->transaction_id = $data['orderpayment_id'];
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
-        $vars->status_url2 = $this->params->get( 'receiver_email' );
-        $vars->language = $this->params->get( 'language', 'EN' );
+        $vars->status_url2 = $this->_getParam( 'receiver_email' );
+        $vars->language = $this->_getParam( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
-        $vars->logo_url = JURI::root().$this->params->get( 'logo_image' );
+        $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
         $vars->user_id = JFactory::getUser()->id;
 		$vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
 	    $vars->orderpayment_type = $this->_element;	
 	    //$vars->amount = $data['orderpayment_amount'];
-	    $vars->currency = $this->params->get( 'currency', 'USD' );
+	    $vars->currency = $this->_getParam( 'currency', 'USD' );
 	    $vars->detail1_description = $data['order_id'];
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
 	    $vars->detail2_description = $data['orderpayment_id'];
@@ -143,7 +143,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	    	
 			$vars->amount = $data['orderpayment_amount'];
 	    }
-	    
+	
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
     } 
@@ -283,11 +283,11 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         if (count($errors)) 
         {
         	// if an error occurred 
-            $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+            $order->order_state_id = $this->_getParam('failed_order_state', '10'); // FAILED
         }
         else 
         {
-            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+            $order->order_state_id = $this->_getParam('payment_received_order_state', '17');; // PAYMENT RECEIVED
                 
             // do post payment actions
             $setOrderPaymentReceived = true;
@@ -342,9 +342,9 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	function _validatePayment($data)
 	{
 		// sig (i.e. data integrity)
-		$sig = $this->params->get('customer_id')
+		$sig = $this->_getParam('customer_id')
 		     . $data['transaction_id']
-		     . strtoupper(md5($this->params->get('secret_word')))
+		     . strtoupper(md5($this->_getParam('secret_word')))
 		     . $data['mb_amount']
 		     . $data['mb_currency']
 		     . $data['status']
@@ -356,7 +356,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		}
 		
 		// receiver
-		if ($this->params->get('receiver_email') != $data['pay_to_email']) {
+		if ($this->_getParam('receiver_email') != $data['pay_to_email']) {
 			return JText::_('TIENDA MONEYBOOKERS MESSAGE RECEIVER INVALID');
 		}
 		
@@ -462,6 +462,27 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
 		return $html;
 	}
+	
+	/**
+     * Gets the value for the Paypal variable
+     *
+     * @param string $name
+     * @return string
+     * @access protected
+     */
+    function _getParam( $name, $default='' )
+    {
+        $return = $this->params->get($name, $default);
+
+        $sandbox_param = "sendbox_".$name;
+        $sb_value = $this->params->get($sandbox_param);
+        if ($this->params->get('sandbox') && !empty($sb_value))
+        {
+            $return = $this->params->get($sandbox_param, $default);
+        }
+
+        return $return;
+    }
 	
 	/**
 	 * Converts the duration unit into the Moneybookers valid value
