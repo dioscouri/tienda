@@ -66,6 +66,7 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>menus</folder>
+        <folder>templates</folder>
 		<file>index.html</file>
 	</media>
 		
