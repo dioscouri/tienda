@@ -513,22 +513,26 @@ class TiendaHelperUser extends TiendaHelperBase
                 $prices = $product_helper->getPrices( $product_id );                
                
                 $groupIds = array();
-                foreach($prices as $price):
-                    $groupIds[]=$price->group_id;       
-                endforeach;
+                foreach ($prices as $price) 
+                {
+                    $groupIds[] = $price->group_id;       
+                }
      	
-                foreach($items as $item):
-                    if (in_array($item->group_id, $groupIds)):
+                foreach ($items as $item) 
+                {
+                    if (in_array($item->group_id, $groupIds))
+                    {
                         $sets[$user_id][$product_id] = $item->group_id;                      
-                       // return $sets[$user_id][$product_id]; // i dont understand why the return here doesnt work and and the still continues
+                        // return $sets[$user_id][$product_id]; // i dont understand why the return here doesnt work and and the still continues
                         break;
-                    endif;
-                endforeach;    	        
+                    }
+                }
     	    }
     	}
-    	else 
-    	{
-    		$sets[$user_id][$product_id] = TiendaConfig::getInstance()->get('default_user_group', '1');
+
+    	if (!isset($sets[$user_id][$product_id])) 
+    	{ 
+            $sets[$user_id][$product_id] = TiendaConfig::getInstance()->get('default_user_group', '1');
     	}
     	  	
 		return $sets[$user_id][$product_id];
