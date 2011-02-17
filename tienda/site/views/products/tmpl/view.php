@@ -23,6 +23,25 @@ $item = @$this->row;
         <?php endif; ?>
                   
         <div id='tienda_product_header'>
+            <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1') || TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>       
+            <div class="product_like">
+                <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1')) : ?>
+                <div class="product_facebook_like">
+                    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+                    <fb:like show_faces="false" width="375"></fb:like> 
+                </div>  
+                <?php endif;?>
+            
+                <?php if (TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>
+                <div class="product_tweet">
+                      <a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance()->get('display_tweet_message', 'Check this out!'); ?>" data-count="horizontal">Tweet</a>
+                      <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                </div>
+                <?php endif;?>
+                <div class="reset"></div>
+            </div> 
+            <?php endif;?>
+        
             <span class="product_name">
                 <?php echo htmlspecialchars_decode( $item->product_name ); ?>
             </span>
@@ -34,6 +53,8 @@ $item = @$this->row;
                 <?php endif; ?>
             </div>
             <?php } ?>
+            
+            <?php if (!empty($item->product_model) || !empty($item->product_sku)) : ?>
             <div class="product_numbers">
                 <?php if (!empty($item->product_model)) : ?>
                     <span class="model">
@@ -49,23 +70,13 @@ $item = @$this->row;
                     </span>
                 <?php endif; ?>
             </div>
+            <?php endif; ?>
+            
+            <div class="reset"></div>                        
         </div>
-        <?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1') || TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>       
-        <div class="product_like" style="float: right;">
-        	<?php if (TiendaConfig::getInstance()->get('display_tweet', '1')) : ?>
-        	<div class="product_tweet" style="float:left;">
-        		  <a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance()->get('display_tweet_message', 'Check this out!'); ?>" data-count="horizontal">Tweet</a>
-        		  <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        	</div>
-        	<?php endif;?>
-        	<?php if (TiendaConfig::getInstance()->get('display_facebook_like', '1')) : ?>
-        	<div class="product_facebook_like" style="float:left;">
-        		<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-        		<fb:like show_faces="false" width="375"></fb:like> 
-        	</div>  
-        	<?php endif;?>      	
-        </div> 
-        <?php endif;?>
+        
+        <div class="reset"></div>
+        
         <div class="product_image">
             <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true), TiendaHelperProduct::getImage($item->product_id, '', $item->product_name), array('update' => false, 'img' => true)); ?>
             <div>

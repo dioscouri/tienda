@@ -505,4 +505,15 @@ div#tienda_searchfilters div.row select {
 div#tienda_searchfilters div.submit {
     margin-left: 200px;
 }
-	
+
+div.product_facebook_like {
+	float: left;
+}
+
+div.product_tweet {
+    float: right;
+}
+
+div.product_like {
+	float: right;
+}
