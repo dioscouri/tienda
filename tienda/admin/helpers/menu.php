@@ -36,11 +36,11 @@ class TiendaHelperMenu extends TiendaHelperBase
      * @param $menu
      * @return unknown_type
      */
-    function display( $menu='submenu' )
+    function display( $menu_name='submenu' )
     {
         if (!$this->isSubmenuEnabled())
         {
-            $menu =& TiendaMenu::getInstance();
+            $menu =& TiendaMenu::getInstance( $menu_name );
         }
             else
         {
