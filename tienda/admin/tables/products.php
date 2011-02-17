@@ -80,6 +80,7 @@ class TiendaTableProducts extends TiendaTableEav
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
 		
+		Tienda::load('TiendaHelperBase', 'helpers._base');
 		$helper = TiendaHelperBase::getInstance();
 		
 		// is the image path overridden?
