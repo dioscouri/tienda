@@ -114,6 +114,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $recurring_orderitem_final_price; 
             $orderpayment->save();
                         
+            $order = JTable::getInstance('Orders', 'TiendaTable');
+			$order->load( $data['order_id'] );
             $order->calculateTotals(); 
             $order->save();
             
