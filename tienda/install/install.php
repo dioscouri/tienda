@@ -36,6 +36,7 @@ if (is_a($templates, 'JSimpleXMLElement') && count($templates->children())) {
 
 	foreach ($templates->children() as $template)
 	{
+	    set_time_limit(0);
 		$mname		= $template->attributes('template');
 		$mpublish	= $template->attributes('publish');
 		$mclient	= JApplicationHelper::getClientInfo($template->attributes('client'), true);
@@ -85,6 +86,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 
 	foreach ($modules->children() as $module)
 	{
+	    set_time_limit(0);
 		$mname		= $module->attributes('module');
 		$mpublish	= $module->attributes('publish');
 		$mposition	= $module->attributes('position');
@@ -145,6 +147,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 
 	foreach ($plugins->children() as $plugin)
 	{
+	    set_time_limit(0);
 		$pname		= $plugin->attributes('plugin');
 		$ppublish	= $plugin->attributes('publish');
 		$pgroup		= $plugin->attributes('group');
