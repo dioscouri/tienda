@@ -30,10 +30,14 @@ $citems = @$this->citems;
                         </div>
                         <?php if (!empty($categories)) { ?>
                             <ul class="directory_subcategory">
-                            <?php foreach ($categories as $category) { ?>
+                            <?php foreach ($categories as $category) { 
+                                $pmodel = JModel::getInstance('Products', 'TiendaModel');
+                                $pmodel->setState('filter_category', $category->category_id);
+                                $products = $pmodel->getTotal();
+                                ?>
                                 <li>
                                 <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$category->category_id.$category->slug."&Itemid=".$citem->itemid ); ?>">
-                                <?php echo $category->category_name; ?>
+                                <?php echo $category->category_name; ?> (<?php echo $products; ?>)
                                 </a>
                                 </li>
                             <?php } ?>
