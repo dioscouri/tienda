@@ -2,9 +2,11 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $row = @$this->row; ?>
+<?php $config = TiendaConfig::getInstance(); ?>
 
 <table>
     <tbody>
+    <?php if($config->get('show_field_title', '3') != '0' ): ?>
     <tr>
 		<th style="width: 100px; text-align: right;" class="key">
             <?php echo JText::_( 'Address Title' ); ?>
@@ -17,6 +19,7 @@
 			value="<?php echo @$row->address_name; ?>" />
 		</td>
 	</tr>
+	<?php endif;?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">
             <?php echo JText::_( 'Set as Default Shipping' ); ?>
@@ -33,6 +36,7 @@
             <?php echo JHTML::_('select.booleanlist', 'is_default_billing', '', @$row->is_default_billing ); ?>
         </td>
     </tr>
+    <?php if($config->get('show_field_name', '3') != '0' ): ?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">
              <?php echo JText::_( 'First name' ); ?>
@@ -43,6 +47,7 @@
             value="<?php echo @$row->first_name; ?>" />
         </td>
     </tr>
+    <?php endif;?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">
              <?php echo JText::_( 'Middle name' ); ?>

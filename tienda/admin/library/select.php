@@ -1147,4 +1147,23 @@ class TiendaSelect extends JHTMLSelect
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+	/**
+    * Generates a None / Shipping / Billing / Both list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function addressShowList( $selected, $name = 'show_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null )
+    {
+        $list = array();
+        $list[] = JHTML::_('select.option',  '0', JText::_( "None" ) );
+        $list[] = JHTML::_('select.option',  '1', JText::_( "Billing" ) );
+        $list[] = JHTML::_('select.option',  '2', JText::_( "Shipping" ) );
+        $list[] = JHTML::_('select.option',  '3', JText::_( "Both" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

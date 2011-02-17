@@ -813,6 +813,21 @@ class TiendaControllerCheckout extends TiendaController
 			$addressArray['user_id'] = 9999; // Fake id for the checkout process
 			
 		$table->bind( $addressArray );
+		
+		// Add type of the array
+		switch($prefix)
+		{
+			case 'shipping_':
+				$address_type = '2';
+				break;
+			default:
+			case 'billing_':
+				$address_type = '1';
+				break;
+		}
+
+		$table->addresstype_id = $address_type;
+		
 		if (!$table->check())
 		{
 			$this->setError( $table->getError() );
@@ -1199,7 +1214,7 @@ class TiendaControllerCheckout extends TiendaController
 			if (!$this->validateAddress( $submitted_values, $prefix, @$submitted_values['shipping_address_id'] ))
 			{
 				$response['msg'] = $this->getShippingHtml('shipping_calculate');
-				$response['msg'] .= $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError() );
+				$response['msg'] .= $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError());
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return;

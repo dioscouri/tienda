@@ -1246,6 +1246,185 @@
 						</tr>
 					</tbody>
 					</table>
+					
+					<?php
+						echo $this->sliders->endPanel();				
+
+						$legend = JText::_( "Address Fields Management" );
+	                    echo $this->sliders->startPanel( JText::_( $legend ), 'adrress_fields' );
+	                 ?>
+	                <table class="adminlist">
+					<tbody>					
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Title Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_title', '3'), 'show_field_title');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Title Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_title', '3'), 'validate_field_title');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show First Name Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_name', '3'), 'show_field_title');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate First Name Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_name', '3'), 'validate_field_name');?>
+                            </td>
+						</tr>
+                        <tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Middle Name Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_middle', '3'), 'show_field_middle');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Middle Name Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_middle', '0'), 'validate_field_middle');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Last Name Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_last', '3'), 'show_field_last');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Last Name Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_last', '3'), 'validate_field_last');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Company Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_company', '3'), 'show_field_company');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Company Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_company', '0'), 'validate_field_company');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Address 1 Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address1', '3'), 'show_field_address1');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Address 1 Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address1', '3'), 'validate_field_address1');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Address 2 Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address2', '3'), 'show_field_address2');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Address 2 Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address2', '0'), 'validate_field_address2');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show City Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_city', '3'), 'show_field_city');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate City Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_city', '3'), 'validate_field_city');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Country Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_country', '3'), 'show_field_country');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Country Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_country', '3'), 'validate_field_country');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Zone Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_zone', '3'), 'show_field_zone');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Zone Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_zone', '3'), 'validate_field_zone');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Postal Code Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_zip', '3'), 'show_field_zip');?>
+							</td>
+                           <th>
+                               	<?php echo JText::_( 'Validate Postal Code Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_zip', '3'), 'validate_field_zip');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Phone Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_phone', '3'), 'show_field_phone');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Phone Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_phone_title', '3'), 'validate_phone_title');?>
+                            </td>
+						</tr>
+					</tbody>
+					</table>
 					<?php
 						echo $this->sliders->endPanel();				
 

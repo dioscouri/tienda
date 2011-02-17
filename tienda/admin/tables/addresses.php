@@ -74,6 +74,14 @@ class TiendaTableAddresses extends TiendaTable
 	 */
 	function check()
 	{
+		$config = TiendaConfig::getInstance();
+		
+		if(!$this->addresstype_id)
+		{
+			$this->addresstype_id = '1';	
+		}
+		$address_type = $this->addresstype_id;	
+		
 		if (empty($this->user_id))
 		{
 			$this->user_id = JFactory::getUser()->id;
@@ -83,44 +91,64 @@ class TiendaTableAddresses extends TiendaTable
 	            return false;
 	        }
 		}
-	    if (empty($this->address_name))
+	    if (empty($this->address_name) && ($config->get('validate_field_title', '3') == '3' || $config->get('validate_field_title', '3') == $address_type ))
         {
             $this->setError( JText::_("Please include an Address Title") );
             return false;
         }
-		if (empty($this->first_name))
+		if (empty($this->first_name) && ($config->get('validate_field_name', '3') == '3' || $config->get('validate_field_name', '3') == $address_type ))
 		{
 			$this->setError( JText::_("First Name Required") );
 			return false;
 		}
-	    if (empty($this->last_name))
+		if (empty($this->middle_name) && ($config->get('validate_field_middle', '3') == '3' || $config->get('validate_field_middle', '3') == $address_type ))
+        {
+            $this->setError( JText::_("Middle Name Required") );
+            return false;
+        }
+	    if (empty($this->last_name) && ($config->get('validate_field_last', '3') == '3' || $config->get('validate_field_last', '3') == $address_type ))
         {
             $this->setError( JText::_("Last Name Required") );
             return false;
         }
-	    if (empty($this->address_1))
+	    if (empty($this->address_1) && ($config->get('validate_field_address1', '3') == '3' || $config->get('validate_field_address1', '3') == $address_type ))
         {
             $this->setError( JText::_("At Least One Address Line is Required") );
             return false;
         }
-	    if (empty($this->city))
+		if (empty($this->address_2) && ($config->get('validate_field_address2', '3') == '3' || $config->get('validate_field_address2', '3') == $address_type ))
+        {
+            $this->setError( JText::_("Second Address Line is Required") );
+            return false;
+        }
+	 	if (empty($this->company) && ($config->get('validate_field_company', '3') == '3' || $config->get('validate_field_company', '3') == $address_type ))
+        {
+            $this->setError( JText::_("Company Required") );
+            return false;
+        }
+	    if (empty($this->city) && ($config->get('validate_field_city', '3') == '3' || $config->get('validate_field_city', '3') == $address_type ))
         {
             $this->setError( JText::_("City Required") );
             return false;
         }
-	    if (empty($this->postal_code))
+	    if (empty($this->postal_code) && ($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type ))
         {
             $this->setError( JText::_("Postal Code Required") );
             return false;
         }
-	    if (empty($this->country_id))
+	    if (empty($this->country_id) && ($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type ))
         {
             $this->setError( JText::_("Country Required") );
             return false;
         }
-	    if (empty($this->zone_id))
+	    if (empty($this->zone_id) && ($config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ))
         {
             $this->setError( JText::_("Zone Required") );
+            return false;
+        }
+		if (empty($this->phone_1) && ($config->get('validate_field_phone', '3') == '3' || $config->get('validate_field_phone', '3') == $address_type ))
+        {
+            $this->setError( JText::_("Phone Required") );
             return false;
         }
 		return true;

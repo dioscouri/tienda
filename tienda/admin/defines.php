@@ -494,6 +494,34 @@ class TiendaConfig extends JObject
     var $ask_question_showcaptcha			= '1';
     var $ask_question_modal					= '1';
     
+    //address management
+    var $show_field_title					= '3';
+    var $show_field_name					= '3';
+    var $show_field_middle					= '3';
+    var $show_field_last					= '3';
+    var $show_field_company					= '3';
+    var $show_field_address1				= '3';
+    var $show_field_address2				= '3';
+    var $show_field_zone					= '3';
+    var $show_field_country					= '3';
+    var $show_field_city					= '3';
+    var $show_field_zip						= '3';
+    var $show_field_phone					= '3';
+   	
+    // address validation management
+    var $validate_field_title				= '3';
+    var $validate_field_name				= '3';
+    var $validate_field_middle				= '0';
+    var $validate_field_last				= '3';
+    var $validate_field_company				= '0';
+    var $validate_field_address1			= '3';
+    var $validate_field_address2			= '0';
+    var $validate_field_zone				= '3';
+    var $validate_field_country				= '3';
+    var $validate_field_city				= '3';
+    var $validate_field_zip					= '3';
+    var $validate_field_phone				= '3';
+    
 	
 	/**
 	 * constructor
