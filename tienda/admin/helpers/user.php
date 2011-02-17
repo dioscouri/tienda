@@ -519,8 +519,7 @@ class TiendaHelperUser extends TiendaHelperBase
      	
                 foreach($items as $item):
                     if (in_array($item->group_id, $groupIds)):
-                        $sets[$user_id][$product_id] = $item->group_id;
-                        debug(11111112, $sets[$user_id][$product_id]); 
+                        $sets[$user_id][$product_id] = $item->group_id;                      
                        // return $sets[$user_id][$product_id]; // i dont understand why the return here doesnt work and and the still continues
                         break;
                     endif;
