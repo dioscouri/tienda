@@ -183,4 +183,79 @@ class TiendaTableCategories extends TiendaTableNested
 		$database->setQuery( $query );
 		$database->query();		
 	}
+	
+    /**
+     * Rebuilds the Tree
+     * @param object
+     * @return boolean
+     */
+    function rebuildTreeOrdering( $parent=null, $left=1 ) 
+    {
+        $key = $this->getKeyName();
+        $database = JFactory::getDBO();
+                
+        if ($parent === null)
+        {
+            $root = $this->getRoot();
+            if ($root === false) 
+            {
+                return false;
+            }
+            $parent = $root->$key;
+        }
+        
+        // the right value of this node is the left value + 1
+        $right = $left + 1;
+        
+        // get all children of this node
+        $query = "
+            SELECT 
+                tbl.{$key}
+            FROM 
+                {$this->_tbl} AS tbl 
+            WHERE 
+                tbl.parent_id = '{$parent}'
+            ORDER BY
+                tbl.ordering ASC
+        ";
+        $database->setQuery( $query );
+        $children = $database->loadObjectList();
+        for ($i=0; $i<count($children); $i++) 
+        {
+            $child = $children[$i];
+            // recursive execution of this function for each
+            // child of this node
+            // $right is the current right value, which is
+            // incremented by the rebuildTree function
+            $right = $this->rebuildTreeOrdering( $child->$key, $right );
+        }
+        
+        // we've got the left value, and now that we've processed
+        // the children of this node we also know the right value
+        if (!$this->_lock())
+        {
+            return false;
+        }
+        
+        $query = "
+            UPDATE `{$this->_tbl}`
+            SET 
+                `rgt` = '{$right}',
+                `lft` = '{$left}'
+            WHERE 
+                `{$key}` = '{$parent}'
+        ";
+        $database->setQuery( $query );
+        if (!$database->query())
+        {
+            $this->setError( $database->getErrorMsg() );
+            $this->_unlock();
+            return false;
+        }
+        $this->_unlock();
+                    
+        // return the right value of this node + 1
+        $return = $right + 1;
+        return $return;
+    }
 }

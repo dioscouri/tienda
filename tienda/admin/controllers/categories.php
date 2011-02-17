@@ -61,8 +61,43 @@ class TiendaControllerCategories extends TiendaController
      */
     function ordering()
     {
-        parent::ordering();
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
+        $redirect = 'index.php?option=com_tienda&view='.$this->get('suffix');
+        $redirect = JRoute::_( $redirect, false );
+
+        $model = $this->getModel($this->get('suffix'));
+        $row = $model->getTable();
+
+        $ordering = JRequest::getVar('ordering', array(0), 'post', 'array');
+        $cids = JRequest::getVar('cid', array (0), 'post', 'array');
+        foreach (@$cids as $cid)
+        {
+            $row->load( $cid );
+            $row->ordering = @$ordering[$cid];
+
+            if (!$row->store())
+            {
+                $this->message .= $row->getError();
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
+
+        if ($error)
+        {
+            $this->message = JText::_('Error') . " - " . $this->message;
+        }
+        else
+        {
+            $this->message = JText::_('Items Ordered');
+        }
+
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                
         $this->rebuild();
+        $row->reorder();
     }
 	
 	/**
@@ -75,7 +110,7 @@ class TiendaControllerCategories extends TiendaController
 	function rebuild()
 	{
 		JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
-		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTree();
+		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
 			
 		$redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
 		$redirect = JRoute::_( $redirect, false );
