@@ -20,7 +20,7 @@ class TiendaControllerEavAttributes extends TiendaController
 	{
 		parent::__construct();
 		
-		$this->set('suffix', 'EavAttributes');
+		$this->set('suffix', 'eavattributes');
         $this->registerTask( 'enabled.enable', 'boolean' );
         $this->registerTask( 'enabled.disable', 'boolean' );
         $this->registerTask( 'selected_enable', 'selected_switch' );
