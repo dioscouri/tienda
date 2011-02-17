@@ -41,18 +41,39 @@ class ElementTiendaProduct extends Element {
 				$lang->load('com_tienda', JPATH_SITE);
 				
 				$item = $this->getItem();
-				$item_id = $item->id;
 				
-				$query = "SELECT product_id FROM #__tienda_productszooitemsxref WHERE item_id = ".$item_id;
-				$db = JFactory::getDBO();
-				$db->setQuery($query);
-				$product_id = $db->loadResult();
+				$product_id = 0;
+				$product = null;
 				
-	            Tienda::load('TiendaModelProducts', 'models.products');
-	            $model  = JModel::getInstance('Products', 'TiendaModel');
-	            $model->setId( $product_id );
-	            $row = $model->getItem();
-	            
+					Tienda::load('TiendaTableProducts', 'tables.products');
+					$product = JTable::getInstance('Products', 'TiendaTable');
+					// Include xref table
+					if (!class_exists('TiendaTableItemProduct') && ($path = JPath::find(dirname(__FILE__).DS.'../../extra', 'itemproduct.php'))) 
+					{
+						require_once($path);
+					}
+					$xref = JTable::getInstance('ItemProduct', 'TiendaTable');
+					
+					$keynames = array();
+					$keynames['type'] = 'products';
+					$keynames['item_id'] = $item->id;
+					if($xref->load($keynames))
+					{
+						$product->load($xref->product_id);
+						$product_id = $product->product_id;
+					}
+				
+					if($product_id)
+					{
+			            Tienda::load('TiendaModelProducts', 'models.products');
+			            $model  = JModel::getInstance('Products', 'TiendaModel');
+			            $model->setId( $product_id );
+			            $row = $model->getItem();
+					}
+					else
+					{
+						 return "";
+					}
 	            
 	            $vars = new JObject();
 	            
@@ -178,37 +199,6 @@ class ElementTiendaProduct extends Element {
 	{
 		$html = array();
 		$html[] = JHTML::_('select.booleanlist', 'elements[' . $this->identifier . '][value]', '', $this->_data->get('value', 1));
-		
-		// init vars
-		$default_price = $this->_config->get('default_price');		
-		
-		// set default, if item is new
-		if ($default_price != '' && $this->_item != null && $this->_data->get('default_price') == '' ) {
-			$this->_data->set('default_price', $default_price);
-		}
-
-		$html[] = JHTML::_('control.text', 'elements[' . $this->identifier . '][default_price]', $this->_data->get('default_price'), 'size="60" maxlength="255"')." &euro;";		
-		
-		if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php') && $this->_item != null) 
-		{
-		    // Check the registry to see if our Tienda class has been overridden
-		    if ( !class_exists('Tienda') ) 
-		        JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
-			
-			$item_id = $this->_item->id;
-		        
-			$query = "SELECT product_id FROM #__tienda_productszooitemsxref WHERE item_id = ".$item_id;
-			$db = JFactory::getDBO();
-			$db->setQuery($query);
-			$product_id = $db->loadResult();
-			
-			if( $product_id )
-			{
-				Tienda::load('TiendaUrl', 'library.url');
-				$html[] = TiendaUrl::popup('index.php?option=com_tienda&view=products&task=edit&id='.$product_id, JText::_('Edit Product') );
-			}
-		
-		}
 		
 		$id = 'elements['.$this->identifier.']';
 		

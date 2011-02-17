@@ -11,6 +11,5 @@
 	<params>
 		<param name="name" type="text" default="Add to Cart" label="Name" description="Name used in item editor" />
 		<param name="description" type="text" default="Can this product be added to Tienda Cart?" label="Description" description="DESCRIPTION_TOOLTIP_ITEM_EDITOR" />
-		<param name="default_price" type="text" default="" label="Default Price" description="" />
 	</params>
 </element>
