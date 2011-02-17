@@ -796,12 +796,14 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptions` (
   `productattributeoption_id` int(11) NOT NULL AUTO_INCREMENT,
   `productattribute_id` int(11) NOT NULL,
   `productattributeoption_name` varchar(255) NOT NULL,
+  `parent_productattributeoption_id` int(11) NOT NULL,
   `productattributeoption_price` decimal(12,5) NOT NULL,
   `productattributeoption_code` varchar(255) NOT NULL,
   `productattributeoption_prefix` varchar(1) NOT NULL,
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`productattributeoption_id`),
-  KEY `productattribute_id` (`productattribute_id`)
+  KEY `productattribute_id` (`productattribute_id`),
+  KEY `parent_productattributeoption_id` (`parent_productattributeoption_id`)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

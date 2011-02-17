@@ -372,6 +372,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             return $this->redirect( JText::_('DIAGNOSTIC checkEavRequired FAILED') .' :: '. $this->getError(), 'error' );
         }
         
+   		if (!$this->checkParentAttributeOption2())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkParentAttributeOption2 FAILED') .' :: '. $this->getError(), 'error' );
+        }
+        
     }
     
     /**
@@ -2836,7 +2841,39 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         return false;         
     }
     
-/**
+	/**
+     * update #__tienda_productattributeoptions table for the "parent_productattributeoption_id" field
+     * As of v0.7.0
+     * 
+     * return boolean
+     */
+    function checkParentAttributeOption2()
+    {
+     	//if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkParentAttributeOption2', '0')) return true;
+                       	       
+        $table = '#__tienda_productattributeoptions';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "parent_productattributeoption_id";
+            $definitions["parent_productattributeoption_id"] = "INT( 11 ) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions )) 
+        {       
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkParentAttributeOption2') );
+            $config->config_name = 'checkParentAttributeOption2';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;         
+    }
+    
+	/**
      * 
      * Enter description here ...
      * @return unknown_type
