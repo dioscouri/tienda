@@ -444,7 +444,7 @@ class TiendaHelperEmail extends TiendaHelperBase
     	$subject .= JText::_('Product Inquiries!');
     	$sendObject->subject = $subject;
     	
-    	$vendor_name = !empty($config->get('shop_owner_name', 'Admin')) ? $config->get('shop_owner_name', 'Admin') : 'Admin';
+    	$vendor_name = $config->get('shop_owner_name', 'Admin');
     	// set the email body
         $text = sprintf(JText::_('Dear %s'),$vendor_name).",\n\n";
      	$text .= $sendObject->namefrom." has some inquiries about the product ".$sendObject->item->product_name." #{$sendObject->item->product_id} and here's what he has to say -\n\n";
