@@ -35,19 +35,22 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onAfterDisplayProductFormTabs( $tabs, $row )
 	{
-		$vars = new JObject( );
-		$vars->tabs = $tabs;
-		$vars->row = $row;
-		
-		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $row->product_id );
-		
-		// If there are any extra fields, show them as an extra tab
-		if ( count( $fields ) )
+		if(@$row->product_id)
 		{
-			$vars->fields = $fields;
-			$html = $this->_getLayout( 'product', $vars );
-			echo $html;
+			$vars = new JObject( );
+			$vars->tabs = $tabs;
+			$vars->row = $row;
+			
+			// Get extra fields for products
+			$fields = $this->getCustomFields( 'products', $row->product_id );
+			
+			// If there are any extra fields, show them as an extra tab
+			if ( count( $fields ) )
+			{
+				$vars->fields = $fields;
+				$html = $this->_getLayout( 'product', $vars );
+				echo $html;
+			}
 		}
 	}
 	
