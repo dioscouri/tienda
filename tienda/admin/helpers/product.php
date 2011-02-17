@@ -1831,4 +1831,34 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         return $this->products[$id];
     }
+    
+    /**
+     * Guesses the default options (first in the list)
+     * Enter description here ...
+     * @param unknown_type $attributes
+     */
+    function getDefaultAttributeOptions($attributes)
+    {
+    	$default = array();
+    	foreach(@$attributes as $attribute)
+    	{
+	    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+	        $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	        $model->setState( 'filter_attribute', $attribute->productattribute_id );
+	        $model->setState('order', 'tbl.ordering');
+        
+        	$items = $model->getList();
+        	
+        	if(count($items))
+        	{
+        		$default[$attribute->productattribute_id] = $items[0]->productattributeoption_id; 
+        	}
+        	else
+        	{
+        		$default[$attribute->productattribute_id] = 0;
+        	}
+    	}
+    	
+    	return $default;
+    }
 }

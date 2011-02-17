@@ -45,6 +45,16 @@ $formName = 'adminForm_'.$item->product_id;
     }
     
     $attributes = TiendaHelperProduct::getAttributes( $item->product_id, $selected_opts );
+    
+    $default = TiendaHelperProduct::getDefaultAttributeOptions($attributes);
+    
+    // First view of the page: select the first value in the list
+    if(!$selected_opts)
+    {
+    	$selected_opts = $default;
+    	$selected_opts[] = 0;
+    }
+    
     foreach ($attributes as $attribute)
     {
         ?>
@@ -53,7 +63,7 @@ $formName = 'adminForm_'.$item->product_id;
         echo "<span>".$attribute->productattribute_name." : </span>";
         
         $key = 'attribute_'.$attribute->productattribute_id;
-        $selected = (!empty($values[$key])) ? $values[$key] : ''; 
+        $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
         
         $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy_".$item->product_id."', document.".$formName." );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );

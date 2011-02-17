@@ -623,7 +623,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $idtag
 	 * @return unknown_type
 	 */
-    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $selected = array())
+    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $opt_selected = array())
     {
         $list = array();
         
@@ -633,9 +633,9 @@ class TiendaSelect extends JHTMLSelect
         $model->setState('order', 'tbl.ordering');
         
         // Parent options
-        if(count($selected))
+        if(count($opt_selected))
         {
-        	$model->setState('filter_parent', $selected);
+        	$model->setState('filter_parent', $opt_selected);
         }
         
         $items = $model->getList();
