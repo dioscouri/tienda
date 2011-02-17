@@ -376,7 +376,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
         {
             return $this->redirect( JText::_('DIAGNOSTIC checkParentAttributeOption2 FAILED') .' :: '. $this->getError(), 'error' );
         }
-        
+
+        if (!$this->checkEavAlias())
+        {
+            return $this->redirect( JText::_('DIAGNOSTIC checkEavAlias FAILED') .' :: '. $this->getError(), 'error' );
+        }        
     }
     
     /**
@@ -2900,6 +2904,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkEavRequired') );
             $config->config_name = 'checkEavRequired';
+            $config->value = '1';
+            $config->save();
+            return true;
+        }
+        return false;        
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
+    function checkEavAlias()
+    {
+        // if this has already been done, don't repeat
+        if (TiendaConfig::getInstance()->get('checkEavAlias', '0'))
+        {
+            return true;
+        }
+        
+        $table = '#__tienda_eavattributes';
+        $definitions = array();
+        $fields = array();
+        
+        $fields[] = "eavattribute_alias";
+            $definitions["eavattribute_alias"] = "varchar(255) NOT NULL";
+            
+        if ($this->insertTableFields( $table, $fields, $definitions ))
+        {
+            // Update config to say this has been done already
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            $config->load( array( 'config_name'=>'checkEavAlias') );
+            $config->config_name = 'checkEavAlias';
             $config->value = '1';
             $config->save();
             return true;
