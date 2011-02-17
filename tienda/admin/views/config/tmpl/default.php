@@ -1420,7 +1420,7 @@
                                	<?php echo JText::_( 'Validate Phone Field' ); ?>
                             </th>
                             <td>
-                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_phone', '3'), 'validate_field_phone');?>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_phone', '0'), 'validate_field_phone');?>
                             </td>
 						</tr>
 					</tbody>
