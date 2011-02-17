@@ -1931,7 +1931,132 @@ class TiendaControllerProducts extends TiendaController
             return;
         }
 	}
+	
+	/**
+	 * Displays a ask question form
+	 * (non-PHPdoc)
+	 * @see tienda/site/TiendaController#askQuestion()
+	 */
+	function askQuestion()
+	{
+		JRequest::setVar( 'view', $this->get('suffix') );
+		$model  = $this->getModel( $this->get('suffix') );	
+		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+		$view->set('_doTask', true);
 
+		$view->setModel( $model, true );
+		$view->setLayout('form_askquestion');
+		$view->display();
+		$this->footer();
+		return;		
+	}
+	
+	function sendAskedQuestion()
+	{
+		$config = &TiendaConfig::getInstance();
+		$post = JRequest::get('post');		
+		
+		$valid = true;	
+		$this->messagetype  = 'message';
+		$this->message  	= '';
+		$add_link = '';
+		if(empty($post['sender_name']) && $valid)
+		{
+			$valid = false;
+			$this->message = JText::_( "Name field is required." ); 				
+			$this->messagetype = 'notice';
+		}
+		
+		jimport('joomla.mail.helper');
+		if(!JMailHelper::isEmailAddress($post['sender_mail']) && $valid)
+		{
+			$valid = false;				
+            $this->message = JText::_( "Please enter a correct email address." ); 
+            $this->messagetype = 'notice';
+           
+            $add_link .= "&sender_name={$post['sender_name']}";
+            $add_link .= !empty($post['sender_message']) ? "&sender_message={$post['sender_message']}" : '';
+		}		
+
+		if(empty($post['sender_message']) && $valid)
+		{
+			$valid = false;
+			$this->message = JText::_( "Message field is required." ); 				
+			$this->messagetype = 'notice';
+			$add_link .= "&sender_name={$post['sender_name']}&sender_mail={$post['sender_mail']}";
+		}
+		
+		//captcha checking
+		$captcha=true;
+		if(($config->get('ask_question_showcaptcha', '1') == 1) && $valid)
+		{
+			$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
+        	$captcha=false;          
+         
+			if ($_POST["recaptcha_response_field"]) 
+			{
+				Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );
+           		$recaptcha = new TiendaRecaptcha();
+                $resp = $recaptcha->recaptcha_check_answer ($privatekey, $_SERVER["REMOTE_ADDR"], $post['recaptcha_challenge_field'], $post['recaptcha_response_field']);
+                if ($resp->is_valid) 
+                {
+                    $captcha=true;
+                } 
+			}		
+			
+		}
+		if(!$captcha)
+		{
+			$valid = false;			
+            $this->message = JText::_( "Incorrect Captcha" );     
+            $this->messagetype = 'notice';	
+            $add_link .= "&sender_name={$post['sender_name']}&sender_mail={$post['sender_mail']}&sender_message={$post['sender_message']}";		
+		}
+		
+		if($valid)
+		{
+			$mainframe = JFactory::getApplication();
+			$sendObject = new JObject();
+			$sendObject->mailfrom	= $post['sender_mail'];
+			$sendObject->namefrom	= $post['sender_name'];
+			$sendObject->mailto		= $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );	
+			$sendObject->body		= $post['sender_message'];
+			
+			//get product info
+			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        	$model = JModel::getInstance('Products', 'TiendaModel');
+        	$model->setId($post['product_id']);        	
+        	$sendObject->item = $model->getItem();
+        			 	
+			Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        	$helper = TiendaHelperBase::getInstance('Email');     	
+        	if($send = $helper->sendEmailToAskQuestionOnProduct( $sendObject ))
+        	{
+        		$this->message = JText::_( "Message Successfully Sent!" );        		
+        	}
+        	else 
+        	{
+        		$this->message = JText::_( "Error in sending message." );
+        		$this->messagetype = 'notice';	
+        	}	
+        	if(TiendaConfig::getInstance()->get('ask_question_modal', '1'))
+        	{
+        		$url = "index.php?option=com_tienda&view=products&task=askquestion&id={$post['product_id']}&tmpl=component&return=".$post['return'].$add_link."&success=1";
+				$redirect = JRoute::_( $url );
+        	}
+        	else 
+        	{
+        		$redirect = JRoute::_( base64_decode( $post['return'] ) );	
+        	}		
+        		
+		}
+		else 
+		{	$url = "index.php?option=com_tienda&view=products&task=askquestion&id={$post['product_id']}&tmpl=component&return=".$post['return'].$add_link;
+			$redirect = JRoute::_( $url );
+		}					
+ 	
+ 		$this->setRedirect( $redirect, $this->message, $this->messagetype ); 		
+	}
 }
 
 ?>
