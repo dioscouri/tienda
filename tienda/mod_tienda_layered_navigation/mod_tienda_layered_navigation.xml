@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" position="left" method="upgrade">
+    <name>Layered Navigation</name>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.7.1</version>
+    <creationDate>February 2011</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>Allow users to filter products by any parameter they want</description>
+    
+    <files>
+        <filename module="mod_tienda_layered_navigation">mod_tienda_layered_navigation.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+    <languages>
+		<language tag="en-GB">languages/en-GB.mod_tienda_layered_navigation.ini</language>
+	</languages>
+	
+    <params>   
+		<param name="multi_mode" type="list" default="1" label="Multi Mode" description="Apply as many filters at the same time as you want.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+    </params>
+    
+    <params group="advanced">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+</install>
