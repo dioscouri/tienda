@@ -429,4 +429,47 @@ class TiendaHelperEmail extends TiendaHelperBase
         $text = str_replace($plKeys, $plValues, $text);     
         return $text;
     }
+    
+    /**
+     * Method to send the question ask by the customer to the site vendor
+     * 
+     * @param object $sendObject
+     * @return boolean
+     */
+    function sendEmailToAskQuestionOnProduct($sendObject)
+    {
+    	$config = &TiendaConfig::getInstance();
+    	//set the email subject
+    	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('Product')." #{$sendObject->item->product_id} ] ";
+    	$subject .= JText::_('Product Inquiries!');
+    	$sendObject->subject = $subject;
+    	
+    	$vendor_name = !empty($config->get('shop_owner_name', 'Admin')) ? $config->get('shop_owner_name', 'Admin') : 'Admin';
+    	// set the email body
+        $text = sprintf(JText::_('Dear %s'),$vendor_name).",\n\n";
+     	$text .= $sendObject->namefrom." has some inquiries about the product ".$sendObject->item->product_name." #{$sendObject->item->product_id} and here's what he has to say -\n\n";
+		$text .= "------------------------------------------------------------------------------------------\n";
+     	$text .= $sendObject->body;
+     	$text .= "\n------------------------------------------------------------------------------------------";
+		$text .= "\n\n";
+		$text .= JText::_('Please use the link below to view the product.')."\n\n";		
+		$text .= JText::_('Click this link to');
+		$link = JURI::root().$sendObject->item->link;
+		$text .= " <a href='{$link}'>";
+		$text .= JText::_('view product').".";
+		$text .= "</a>";
+     	
+        if ($this->use_html)
+        {
+        	$text = nl2br( $text );
+        }
+
+    	$success = false;    	
+    	if ( $send = $this->_sendMail( $sendObject->mailfrom, $sendObject->namefrom, $sendObject->mailto, $sendObject->subject, $text ) ) 
+        {
+        	$success = true;                    
+        }
+        
+        return $success;
+    }
 }
