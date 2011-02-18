@@ -60,6 +60,33 @@
 
     <target name="build" depends="update_localhost" />
 
+    <target name="build_core_package" description="builds a package of just the core component without any other extensions">
+    	<!-- INSTALLATION MANIFEST -->
+    	<copy todir="${cfg.buildDir}/core/files" preservelastmodified="true" overwrite="true">
+            <fileset file="${cfg.aux}/manifest.xml" />
+        </copy>
+        <!-- MAIN COMPONENT -->
+        <copy todir="${cfg.buildDir}/core/files/admin" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/admin" />
+        </copy>
+        <copy todir="${cfg.buildDir}/core/files/site" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/site" />
+        </copy>
+        <!-- MEDIA FILES -->
+        <copy todir="${cfg.buildDir}/core/files/media" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/media" />
+        </copy>
+        <!-- LANGUAGE FILES -->
+        <copy todir="${cfg.buildDir}/core/files/languages" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/languages" />
+        </copy>
+    	<!-- INSTALL FILES -->
+        <copy todir="${cfg.buildDir}/core/files/install" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/install" />
+        </copy>
+    	<zip destfile="${cfg.buildDir}/core/${cfg.name}_core.zip" basedir="${cfg.buildDir}/core/files" />
+    </target>
+	
     <target name="update_localhost" description="attemps to update files on localhost server with files from working directory">
         <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
             <available file="${tmpdir}" type="dir" />
@@ -562,7 +589,7 @@
     	<mkdir dir="${cfg.buildDir}/apps" />
     </target>
 
-	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages, build_apps" />
+	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages, build_apps, build_core_package" />
 
     <target name="build_component" depends="init" description="packages the final component file">
         <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
@@ -666,6 +693,7 @@
         <delete dir="${cfg.buildDir}/modules" />
         <delete dir="${cfg.buildDir}/components" />
         <delete dir="${cfg.buildDir}/languages" />
+    	<delete dir="${cfg.buildDir}/core" />
     </target>
 
     <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">
