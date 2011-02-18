@@ -26,6 +26,8 @@ $helper = new modTiendaLayeredNavigationFiltersHelper( $params );
 $categories = $helper->getCategories();
 $manufacturers = $helper->getManufacturers();
 $priceRanges = $helper->getPriceRanges();
+$attributes = $helper->getAttributes();
 $found = $helper->getCondition();
+$trackcatcount = $helper->getTrackCatCount();
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_layered_navigation' ) );
