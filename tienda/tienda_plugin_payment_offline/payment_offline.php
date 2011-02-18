@@ -205,6 +205,9 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         if ($this->params->get('enable_moneyorder')) {
             $types[] = JHTML::_('select.option', 'moneyorder', JText::_( "Money Order" ) ); 
         }
+        if ($this->params->get('enable_cash')) {
+            $types[] = JHTML::_('select.option', 'cash', JText::_( "Cash" ) );    
+        }
         if ($this->params->get('enable_wire')) {
             $types[] = JHTML::_('select.option', 'wire', JText::_( "Wire Transfer" ) ); 
         }

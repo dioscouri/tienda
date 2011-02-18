@@ -28,6 +28,10 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+        <param name="enable_cash" type="radio" default="1" label="Offline Accept Cash" description="Offline Accept Cash Desc">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </param>
 		<param name="enable_wire" type="radio" default="1" label="Offline Accept Wire" description="Offline Accept Wire Desc">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
@@ -42,9 +46,10 @@
 		</param>
 		<param name="articleid" type="text" size="10" default="" label="Offline Article Number" description="Offline Article Number Desc"/>
 
-        <param name="default" type="list" default="checkt" label="Default Offline Payment Type" description="Default Offline Payment Type Desc">
+        <param name="default" type="list" default="check" label="Default Offline Payment Type" description="Default Offline Payment Type Desc">
             <option value="check">Check</option>
             <option value="moneyorder">Money Order</option>
+            <option value="cash">Cash</option>
             <option value="wire">Wire</option>
             <option value="invoice">Invoice</option>
             <option value="other">Other</option> 
