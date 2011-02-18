@@ -30,7 +30,8 @@ class TiendaFedex extends JObject
     function __construct()
     {
         //$this->wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';  
-        $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9.wsdl';         
+        $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9.wsdl';
+        // $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9_test.wsdl'; // Use this WSDL when using test credentials from Fedex 
     }
     
     function getClient()
