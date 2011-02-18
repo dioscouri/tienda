@@ -43,13 +43,16 @@ class TiendaMenu extends JObject
             $xml = new JSimpleXML;
             
             // Parse the file
-            if ($xml->loadFile($xmlfile)) {
-                
-                foreach ($xml->document->children() as $child) {
+            if ($xml->loadFile($xmlfile)) 
+            {
+                $items = array();
+                foreach ($xml->document->children() as $child) 
+                {
                     $name = $url = NULL;
                     
                     // $child will be a single link with name and url sub elements
-                    foreach ($child->children() as $element) {
+                    foreach ($child->children() as $element) 
+                    {
                         switch ($element->_name) {
                             case 'name':
                                 $name = JText::_($element->_data);
@@ -61,13 +64,39 @@ class TiendaMenu extends JObject
                     }
                     
                     // If we have both a URL and name, add a new link
-                    if (!empty($name) && !empty($url)) {
-                        parse_str($url, $urlvars);
-                        $active = (strtolower( JRequest::getVar('view') ) == strtolower($urlvars['view']));
-                        $url = ($admin) ? $url : JRoute::_($url);                        
-                        $this->_menu->appendButton($name, $url, $active);
+                    if (!empty($name) && !empty($url)) 
+                    {
+                        $object = new JObject();
+                        $object->name = $name;
+                        $object->url = ($admin) ? $url : JRoute::_($url);
+                        $object->url_raw = $url;
+                        $object->active = false;
+                        $items[] = $object; 
                     }
-                    
+                }
+                
+                // find an exact URL match
+                $uri = JURI::getInstance();
+                $uri_string = "index.php" . $uri->toString(array('query'));
+                $exact_match = false;
+                foreach ($items as $item)
+                {
+                    if ($item->url_raw == $uri_string)
+                    {
+                        $exact_match = $item->url_raw;
+                    }
+                }
+
+                // if no exact match, then match on view
+                foreach ($items as $item)
+                {
+                    parse_str($item->url_raw, $urlvars);
+                    $active = (strtolower( JRequest::getVar('view') ) == strtolower($urlvars['view']));
+                    if ($exact_match == $item->url_raw || (empty($exact_match) && $active))
+                    {
+                        $item->active = true;
+                    }
+                    $this->_menu->appendButton($item->name, $item->url, $item->active);
                 }
             }
         }
