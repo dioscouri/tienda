@@ -198,6 +198,7 @@ class TiendaControllerProducts extends TiendaController
             }
 		}
 
+		$this->_list = true; // if you want to display a slightly differen add-to-cart area for list view, check this boolean
 		// get the products to be displayed in this category
 		if ($items =& $model->getList())
 		{
@@ -206,7 +207,6 @@ class TiendaControllerProducts extends TiendaController
 		    {
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
                 $item->itemid = JRequest::getInt('Itemid', $itemid);
-
                 $item->product_buy = $this->getAddToCart($item->product_id);
 		    }
 		}
@@ -414,6 +414,7 @@ class TiendaControllerProducts extends TiendaController
         $view->setLayout( 'product_buy' );        
         $view->assign('product_id', $product_id);
         $view->assign('values', $values);
+        $view->set( '_list', (!empty($this->_list)) );
         $filter_category = $model->getState('filter_category', JRequest::getInt('filter_category', (int) @$values['filter_category'] ));
         $view->assign('filter_category', $filter_category);
         $view->assign('validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
