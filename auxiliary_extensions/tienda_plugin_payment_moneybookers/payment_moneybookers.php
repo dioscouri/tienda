@@ -181,7 +181,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
                     $carts_helper = new TiendaHelperCarts();
                     if( $carts_helper->hasRecurringItem($user->id) && $checkout == '1' )
                     {
-                    	// check if the cart has only 1 item (user can ope another page and by mistake add another items into the cart) 
+                    	// check if the cart has only 1 item  
                     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         				$model = JModel::getInstance( 'Carts', 'TiendaModel' );        
         				$model->setState( 'filter_user', $user->id );
@@ -196,7 +196,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         					
         					if( $product->product_recurs )
         					{
-        						// prepare payment for the recurring item
+        						// prepare payment for the recurring item Click Here to View and Print an Invoice 
         						$html = $this->_secondPrePayment();
         						break;
         					}        					
@@ -396,7 +396,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
 			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
 			$order->setAddress( $billingAddress, 'billing' );
-			$order->setAddress( $shippingAddress, 'shipping' );			
+			$order->setAddress( $shippingAddress, 'shipping' );		
+			$order->user_id = JFactory::getUser()->id;	
 		}
 
 		// get the items and add them to the order
@@ -410,6 +411,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
 		// get the order totals
 		$order->calculateTotals();
+		
+		$order->order_state_id = '15';
 		
 		$order->save();
 		
@@ -458,7 +461,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		// a period of days during which the customer can still process the transaction in case it originally failed.			
 		$vars->rec_grace_period = 3;
 		
-		$html = $this->_getLayout('prepayment', $vars);
+		$html = $this->_getLayout('secondpayment', $vars);
+        $html .= $this->_getLayout('prepayment', $vars);
         return $html;
     }
 
