@@ -66,7 +66,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         // properties as specified in moneybookers gateway manual
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
         $vars->transaction_id = $data['orderpayment_id'];
-        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message";
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
@@ -121,7 +121,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             
             $vars->is_recurring = false;
             $vars->amount = $orderpayment->orderpayment_amount;
-            $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout";                   
+            $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=1";                   
 		}
 		    elseif ($vars->is_recurring && count($items) == '1')
 		{
@@ -174,9 +174,25 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			
 			switch ($paction) {
 				case "message":
-					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
-					$html .= $this->_renderHtml( $text );
-					$html .= $this->_displayArticle();
+					$checkout = JRequest::getInt('checkout');
+	                // get the order_id from the session set by the prePayment
+	                $mainframe =& JFactory::getApplication();
+	                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
+	                $order = JTable::getInstance('Orders', 'TiendaTable');
+	                $order->load( $order_id );
+	                $items = $order->getItems();
+	
+	                // if order has both recurring and non-recurring items,
+	                if ($order->isRecurring() && count($items) > '1' && $checkout == '1')
+	                {
+	                    $html = $this->_secondPrePayment( $order );
+	                }
+	                    else
+	                {
+	                    $text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+						$html .= $this->_renderHtml( $text );
+						$html .= $this->_displayArticle();                   
+	                }					
 				  break;
 				case "process":
 					$html .= $this->_process();					
@@ -185,9 +201,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 						$app =& JFactory::getApplication();
 						$app->close();
 				  break;
-				case "cancel":
-					// TODO _paymentCanceled()
-					
+				case "cancel":					
 					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
 					$html .= $this->_renderHtml( $text );
 				  break;				
@@ -330,7 +344,74 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         }
          
         return count($errors) ? implode("\n", $errors) : $return;
-    }    
+    }   
+
+    /**
+     * Second prepayment
+     * 
+     * @param object $order order to process
+     * @return string html to display
+     */
+    function _secondPrePayment( $order )
+	{	
+		$model_payments = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+		$model_payments->setState( 'select', 'tbl.orderpayment_id' );
+        $model_payments->setState( 'filter_orderid', $order->order_id );
+        $orderpayment_id = $model_payments->getResult();
+        
+    	$vars = new JObject();        
+        
+        $vars->action_url = $this->_getActionUrl();        
+
+        // properties as specified in moneybookers gateway manual
+        $vars->pay_to_email = $this->_getParam( 'receiver_email' );
+        $vars->transaction_id = $orderpayment_id;
+        $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
+        $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
+        $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
+        $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
+        $vars->status_url2 = $this->_getParam( 'receiver_email' );
+        $vars->language = $this->_getParam( 'language', 'EN' );
+        $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
+        $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
+        $vars->user_id = JFactory::getUser()->id;
+		$vars->order_id = $order->order_id;
+        $vars->orderpayment_id = $orderpayment_id;
+	    $vars->orderpayment_type = $this->_element;	
+	    //$vars->amount = $data['orderpayment_amount'];
+	    $vars->currency = $this->_getParam( 'currency', 'USD' );
+	    $vars->detail1_description = $order->order_id;
+     	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
+	    $vars->detail2_description = $orderpayment_id;
+	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
+     		    
+	    $vars->is_recurring = $order->isRecurring();
+	    $items = $order->getItems();
+	    
+	    if ($vars->is_recurring && count($items) > '1')
+		{
+			$vars->mixed_cart = false;
+			
+		   	$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->order_total;
+						
+			$vars->rec_start_date = '';
+			
+			$vars->rec_period = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval;
+			$vars->rec_cycle = $this->_getDurationUnit($order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit);// (day | week | month)
+			
+			// a period of days during which the customer can still process the transaction in case it originally failed.			
+			$vars->rec_grace_period = 3;
+		}
+	    	else 
+	    {
+	    	$vars->mixed_cart = false;
+	    	
+			$vars->amount = $order->order_total;
+	    }
+	
+        $html = $this->_getLayout('prepayment', $vars);
+        return $html;
+    }
 
 	/**
 	 * Validates the payment data posted back by MB
@@ -387,16 +468,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		
 		return count($formatted) ? implode("\n", $formatted) : '';		
 	}
-	
-	/**
-	 * Payment canceled
-	 * 
-	 */
-	function _paymentCanceled()
-	{
-		// TODO make order cancelation
-	}
-    
+	    
 	/**
 	 * Gets the MoneyBookers gateway URL
 	 * 

@@ -26,7 +26,14 @@ defined('_JEXEC') or die('Restricted access');
        				}
        				else 
        				{
-       					echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );
+       					if ( $vars->mixed_cart )
+       					{
+       						echo "<b>".JText::_( "Non-recurring Items Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );
+       					}
+       					else 
+       					{
+       						echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );	
+       					}       					
        				}
        			?>
        		</div>         	
