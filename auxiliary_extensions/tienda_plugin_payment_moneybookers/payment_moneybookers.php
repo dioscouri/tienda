@@ -78,7 +78,6 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
 	    $vars->orderpayment_type = $this->_element;	
-	    //$vars->amount = $data['orderpayment_amount'];
 	    $vars->currency = $this->_getParam( 'currency', 'USD' );
 	    $vars->detail1_description = $data['order_id'];
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
@@ -174,25 +173,39 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			
 			switch ($paction) {
 				case "message":
+					$user = JFactory::getUser();
 					$checkout = JRequest::getInt('checkout');
-	                // get the order_id from the session set by the prePayment
-	                $mainframe =& JFactory::getApplication();
-	                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
-	                $order = JTable::getInstance('Orders', 'TiendaTable');
-	                $order->load( $order_id );
-	                $items = $order->getItems();
-	
-	                // if order has both recurring and non-recurring items,
-	                if ($order->isRecurring() && count($items) > '1' && $checkout == '1')
-	                {
-	                    $html = $this->_secondPrePayment( $order );
-	                }
-	                    else
-	                {
-	                    $text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
-						$html .= $this->_renderHtml( $text );
-						$html .= $this->_displayArticle();                   
-	                }					
+
+					// check if cart has recurring item and if checkout variable is set to '1'
+					Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
+                    $carts_helper = new TiendaHelperCarts();
+                    if( $carts_helper->hasRecurringItem($user->id) && $checkout == '1' )
+                    {
+                    	// check if the cart has only 1 item (user can ope another page and by mistake add another items into the cart) 
+                    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        				$model = JModel::getInstance( 'Carts', 'TiendaModel' );        
+        				$model->setState( 'filter_user', $user->id );
+        				$items = $model->getList();
+        				
+        				if (count($items) == '1')
+        				{
+        					// check if the item in the cart is recurring product
+        					$model = JModel::getInstance( 'Products', 'TiendaModel' );
+        					$model->setId( $items[0]->product_id );  
+        					$product = $model->getItem();
+        					
+        					if( $product->product_recurs )
+        					{
+        						// prepare payment for the recurring item
+        						$html = $this->_secondPrePayment();
+        						break;
+        					}        					
+        				}        				
+                    }
+                    
+                    $text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+					$html .= $this->_renderHtml( $text );
+					$html .= $this->_displayArticle();  									
 				  break;
 				case "process":
 					$html .= $this->_process();					
@@ -352,20 +365,69 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      * @param object $order order to process
      * @return string html to display
      */
-    function _secondPrePayment( $order )
+    function _secondPrePayment()
 	{	
-		$model_payments = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
-		$model_payments->setState( 'select', 'tbl.orderpayment_id' );
-        $model_payments->setState( 'filter_orderid', $order->order_id );
-        $orderpayment_id = $model_payments->getResult();
+		// Prepare order
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'controllers' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
         
-    	$vars = new JObject();        
+        // set the currency
+		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+		// set the shipping method
+		$order->shipping_method_id = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+
+		// Use AJAX to show plugins that are available
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		$guest = JRequest::getVar( 'guest', '0');
+		if ($guest == '1' && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
+		{
+			$guest = true;
+		}
+		else
+		{
+			$guest = false;
+		}
+		
+		if (!$guest)
+		{
+			// set the order's addresses based on the form inputs
+			// set to user defaults
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
+			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
+			$order->setAddress( $billingAddress, 'billing' );
+			$order->setAddress( $shippingAddress, 'shipping' );			
+		}
+
+		// get the items and add them to the order
+		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+		$items = TiendaHelperCarts::getProductsInfo();
+
+		foreach ($items as $item)
+		{
+			$order->addItem( $item );
+		}
+
+		// get the order totals
+		$order->calculateTotals();
+		
+		$order->save();
+		
+		// Prepare order payment
+		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment->order_id = $order->order_id;
+		$orderpayment->orderpayment_type = $this->_element;
+        $orderpayment->orderpayment_amount = $order->order_total;
+        $orderpayment->transaction_status = "Incomplete";	 
+        $orderpayment->save();
+		
+        $vars = new JObject();        
         
         $vars->action_url = $this->_getActionUrl();        
 
         // properties as specified in moneybookers gateway manual
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
-        $vars->transaction_id = $orderpayment_id;
+        $vars->transaction_id = $orderpayment->orderpayment_id;
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
         $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
@@ -376,45 +438,32 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
         $vars->user_id = JFactory::getUser()->id;
 		$vars->order_id = $order->order_id;
-        $vars->orderpayment_id = $orderpayment_id;
+        $vars->orderpayment_id = $orderpayment->orderpayment_id;
 	    $vars->orderpayment_type = $this->_element;	
-	    //$vars->amount = $data['orderpayment_amount'];
 	    $vars->currency = $this->_getParam( 'currency', 'USD' );
 	    $vars->detail1_description = $order->order_id;
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
-	    $vars->detail2_description = $orderpayment_id;
+	    $vars->detail2_description = $orderpayment->orderpayment_id;
 	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
-     		    
-	    $vars->is_recurring = $order->isRecurring();
-	    $items = $order->getItems();
 	    
-	    if ($vars->is_recurring && count($items) > '1')
-		{
-			$vars->mixed_cart = false;
-			
-		   	$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->order_total;
+	    $vars->is_recurring = $order->isRecurring();
+	    $vars->mixed_cart = false;			
+		$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->order_total;
 						
-			$vars->rec_start_date = '';
+		$vars->rec_start_date = '';
 			
-			$vars->rec_period = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval;
-			$vars->rec_cycle = $this->_getDurationUnit($order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit);// (day | week | month)
+		$vars->rec_period = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval;
+		$vars->rec_cycle = $this->_getDurationUnit($order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit);// (day | week | month)
 			
-			// a period of days during which the customer can still process the transaction in case it originally failed.			
-			$vars->rec_grace_period = 3;
-		}
-	    	else 
-	    {
-	    	$vars->mixed_cart = false;
-	    	
-			$vars->amount = $order->order_total;
-	    }
-	
-        $html = $this->_getLayout('prepayment', $vars);
+		// a period of days during which the customer can still process the transaction in case it originally failed.			
+		$vars->rec_grace_period = 3;
+		
+		$html = $this->_getLayout('prepayment', $vars);
         return $html;
     }
 
 	/**
-	 * Validates the payment data posted back by MB
+	 * Validates the payment data posted back by MB  
 	 * 
 	 * @param array $data
 	 * @return string Empty string if data is valid and an error message otherwise
