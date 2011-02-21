@@ -25,6 +25,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_link 			= 'index.php?option=com_tienda&view=products';
 	private $_itemid		= null;
 	private $_trackcatcount = 0;
+	private $_products		= null;
+	private $_pids			= array();
 	
     /**
      * Sets the modules params as a property of the object
@@ -36,8 +38,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
         $this->_params = $params;          
         $this->_db = JFactory::getDBO();
         $this->_multi_mode = $params->get('multi_mode', 1);       
-        $this->_catid = JRequest::getInt('filter_category');
-    	//$this->_catids = array($this->_catid);    	
+        $this->_catid = JRequest::getInt('filter_category');    	   	
     	$this->_itemid = JRequest::getInt('Itemid');
     }      
     
@@ -79,8 +80,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		    	$catids = array();
 		    	$total = 0;
 		    	foreach ($items as $item)
-		    	{
-		    		//$catids[] = $item->category_id;
+		    	{		    		
 		    	  	$pmodel = JModel::getInstance('Products', 'TiendaModel');
 	                $pmodel->setState('filter_category', $item->category_id);
 	                //make sure that it is enabled
@@ -93,7 +93,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		    		{
 		    			$total = $total + $item->product_total;
 		    		}
-		    	}  //$this->_catids = array_merge($this->_catids, $catids);
+		    	}  
 		    	$this->_trackcatcount = $total;		    	
 		    }
     	}
@@ -127,8 +127,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		$query->select($field);
 		$query->from('#__tienda_products AS tbl');   			
 		$query->join( 'LEFT', '#__tienda_productcategoryxref AS p2c ON p2c.product_id = tbl.product_id' );	
-		$query->join( 'LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id' );	
-		//$query->where( 'p2c.category_id IN(' . implode(',', $this->_catids) . ')' );
+		$query->join( 'LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id' );			
 		$query->where( "p2c.category_id = '{$this->_catid}'" );
 		$query->where( 'tbl.manufacturer_id != \'0\'' );
 		
@@ -158,15 +157,30 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getPriceRanges()
     {
     	$ranges = array();
- 	
+    	
+    	$view = JRequest::getVar('view');
+    	if(empty($this->_catid) && $view != 'manufacturers')
+    	{
+    		return $ranges;
+    	} 
+
     	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
-        $model->setState('filter_category', $this->_catid);      
+		if($view == 'manufacturers')
+		{
+			$filter_manufacturer = JRequest::getInt('filter_manufacturer');
+			$model->setState('filter_manufacturer', $filter_manufacturer);
+		}
+		else 
+		{
+			$model->setState('filter_category', $this->_catid);
+		}
+    	      
         $model->setState( 'order', 'price' );
         $model->setState( 'direction', 'DESC' ); 
         $model->setState('filter_enabled', '1');
 	    $model->setState('filter_quantity_from', '1');	    
         $items = $model->getList();
-      	 
+	 
     	$this->_products = $items;
     		
         if(!empty($items))
@@ -175,52 +189,39 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
         	$priceHigh = abs( $items['0']->price );   
         	$priceLow = ( count($items) == 1 ) ? 0 : abs( $items[count( $items ) - 1]->price );
         	$range = ( abs( $priceHigh ) - abs( $priceLow ) )/4;  
-
-        	//rounding
-    		$roundRange = $this->priceRound($range, '100', true);
-			$roundPriceLow = $this->priceRound( $priceLow);		
-        		
-        	$rangeObj = new stdClass();
-			$rangeObj->price_from = $roundPriceLow;
-			$rangeObj->price_to = $roundRange;
-				
-			$pmodel = JModel::getInstance('Products', 'TiendaModel');
-		    $pmodel->setState('filter_price_from', $rangeObj->price_from);
-		    $pmodel->setState('filter_price_to', $rangeObj->price_to);  
-		    $pmodel->setState('filter_enabled', '1');
-	        $pmodel->setState('filter_quantity_from', '1');	 
-			$rangeObj->total = $pmodel->getTotal();
-			$link = $this->_link;
-			$link .= '&filter_category='.$this->_catid;	
-				
-			$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;
-        	$ranges[] = $rangeObj;
-			for($i = 1; $i <= 3; $i++)
+        	       		
+        	$roundRange = is_int($range) ? $range : ceil($range);                		
+			$roundPriceLow = floor($priceLow);	
+  	
+			$link = $this->_link.'&filter_category='.$this->_catid;
+										
+			$ranges = array();
+			for($i = 0; $i <= 3; $i++)
 			{
-				$rangeObj = new stdClass();
-				$rangeObj->price_from = $roundRange * $i;
-				$rangeObj->price_to = $roundRange * ( 1 + $i );
-					
-				$pmodel = JModel::getInstance('Products', 'TiendaModel');
-		        $pmodel->setState('filter_price_from', $rangeObj->price_from);
-		        $pmodel->setState('filter_price_to', $rangeObj->price_to);   
-		        $pmodel->setState('filter_enabled', '1');
-	            $pmodel->setState('filter_quantity_from', '1');	  
+				$rangeObj = new stdClass();				
+				$rangeObj->price_from = $i == 0 ? $roundPriceLow : ($roundRange * $i);	
+				$rangeObj->price_to = $roundRange * ( 1 + $i );	
+				
+				$pids = array();
+			    $total_product = 0;
+			    foreach($items as $item)
+			    {
+			    	$pids[] = $item->product_id;
+			    	if(($item->price >= $rangeObj->price_from) && ($item->price <= $rangeObj->price_to))
+			    	{
+			    		$total_product++;
+			    	}	
+			    }
+			    
+			    $this->_pids = $pids;		
 	           
-				$rangeObj->total = $pmodel->getTotal();		
+				$rangeObj->total = $total_product;		
 				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
 				$ranges[] = $rangeObj;		
 			}        	
         }
-            
+         
     	return $ranges;
-    }
-    
-    private function priceRound( $price , $digit='100', $up = false )
-    {    	
-    	$price = ( (int) ( $price/$digit) ) * $digit;    	
-    	if( $up ) $price = $price + $digit;   	   	
-    	return (int) $price;
     }   
 
     function getAttributes()
@@ -230,22 +231,27 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	{
     		$model = JModel::getInstance( 'Products', 'TiendaModel' );   
         	$model->setState('filter_category', $this->_catid);  
-        	$pmodel->setState('filter_enabled', '1');
-	        $pmodel->setState('filter_quantity_from', '1');	   
+        	$model->setState('filter_enabled', '1');
+	        $model->setState('filter_quantity_from', '1');	   
         	$items = $model->getList();    		
     	}
-    	$pids = array();
-    	foreach($items as $item)
+    	
+    	if(empty($this->_pids))
     	{
-    		$pids[] = $item->product_id;
-    	}
-	
+	    	$pids = array();
+	    	foreach($items as $item)
+	    	{
+	    		$pids[] = $item->product_id;
+	    	}
+	    	$this->_pids = $pids;
+    	}    	
+    	
     	$query = new TiendaQuery();
 		$query->select( 'tbl.product_id' );	
 		$query->select( 'tbl.productattribute_name' );	
 		$query->select( 'tbl.productattribute_id' );	
 		$query->from('#__tienda_productattributes AS tbl');  
-		$query->where( 'tbl.product_id IN(' . implode(',', $pids) . ')' );	
+		$query->where( 'tbl.product_id IN(' . implode(',', $this->_pids) . ')' );	
 					
 		$this->_db->setQuery( (string) $query );
 		$attributes = $this->_db->loadObjectList(); 
