@@ -412,7 +412,7 @@ if (!class_exists( 'dscInstaller' )) {
 	        $manifestInformation = $package;
 	        $elementID = $this->checkIfInstalledAlready($manifestInformation);
 	
-	        if ($elementID != 0) 
+	        if (!empty($elementID)) 
 	        {
 	        	$clientid = 0;
 	        	if ($package['client'] == 'administrator') { $clientid = '1'; }
@@ -423,11 +423,15 @@ if (!class_exists( 'dscInstaller' )) {
 	            	$this->setError(JText::_( "ELEMENT UNINSTALLED" ));
 	            	return true;
 	            }
-	        }
-	        //$this->_addModifiedExtension($manifestInformation);
-	        //$this->_formatMessage("Uninstalled");
-	        $this->setError(JText::_( "ELEMENT NOT INSTALLED" ));
-	        return false;
+                   else
+                {
+                    $this->setError(JText::_( "ELEMENT UNINSTALL FAILED" )." :: ".$installer->getError());
+                    return false;
+                }
+            }
+            
+            $this->setError(JText::_( "ELEMENT NOT UNINSTALLED" ));
+            return false;
 	    }
 	    
 	    /**
@@ -481,7 +485,30 @@ if (!class_exists( 'dscInstaller' )) {
 	                }
 	                break;
 	            case "template":
-	            	// TODO Finish this
+	                switch ($package['client'])
+                    {
+                        case "1":
+                        case "administrator":
+                            $baseDir = JPATH_ADMINISTRATOR.DS."templates";
+                            break;
+                        case "0":
+                        case "site":
+                        default:
+                            $baseDir = JPATH_SITE.DS."templates";
+                            break;
+                            
+                    }
+    
+                    // xml file for template
+                    $xmlfile = $baseDir . DS . $package['element'] .DS. $package['manifest'] .".xml";
+    
+                    if (file_exists($xmlfile))
+                    {
+                        if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
+                            //return $data;
+                            return $xmlfile;
+                        }
+                    }
 	                return null;
 	                break;
 	            case "language":
@@ -511,6 +538,9 @@ if (!class_exists( 'dscInstaller' )) {
 	            case "plugin":
 	                $query = "SELECT `id` FROM #__plugins WHERE `folder` = '".$manifestInformation["group"]."' AND `element` = '".$manifestInformation["element"]."'";
 	                break;
+                case "template":
+                    return $manifestInformation["element"];
+                    break;
 	            default:
 	                $query = "";
 	        }
