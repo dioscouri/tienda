@@ -271,23 +271,19 @@ class TiendaHelperProduct extends TiendaHelperBase
      * If an image already exists in the current path with the same name, 
      * will either leave the iamge in the old path or delete it if delete_duplicates = true
      * 
-     * @param $product_id
+     * @param $row	Tienda Product
      * @param $delete_duplicates
      * @return unknown_type 
      */
-    function consolidateGalleryImages( $product_id, $delete_duplicates=false )
+    function consolidateGalleryImages( $row, $delete_duplicates=false )
     {
         $file_moved = null;
         
         // get the current path for the product
-        $path = $this->getGalleryPath( $product_id );
+        $path = $this->getGalleryPath( $row->product_id );
         
         // get the current list of images in the current path
         $images = $this->getGalleryImages( $path );
-
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $row = JTable::getInstance('Products', 'TiendaTable');
-        $row->load( (int) $product_id );
 
         // if there are any images in the other possible paths for the product, move them to the current path
         $dir = Tienda::getPath( 'products_images' );
@@ -328,6 +324,46 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
             }
         }
+        else
+        {
+	        $subdirs = TiendaHelperProduct::getSha1Subfolders($row->product_sku);
+	   		 // merge the SKU-based SHA1 dir if it exists and isn't the current path 
+	        if (!empty($row->product_sku) && $this->checkDirectory($dir.DS.$subdirs.$row->product_sku, false) && ($dir.DS.$subdirs.$row->product_sku.DS != $path))
+	        {
+	            $old_dir = $dir.DS.$subdirs.$row->product_sku.DS;
+	            
+	            $files = JFolder::files( $old_dir );
+	            foreach ($files as $file)
+	            {
+	                if (!in_array($file, $images))
+	                {
+	                    if (JFile::move( $old_dir.$file, $path.$file ))
+	                    {
+	                        // create new thumb too
+	                        Tienda::load( 'TiendaImage', 'library.image' );
+	                        $img = new TiendaImage($path.$file);
+	                        $img->setDirectory( $path );
+	                        Tienda::load( 'TiendaHelperImage', 'helpers.image' );
+	                        $imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+	                        $imgHelper->resizeImage( $img );
+	                        
+	                        // delete old thumb
+	                        JFile::delete( $old_dir.'thumbs'.DS.$file );
+	                        
+	                        $file_moved = true;
+	                    }
+	                }
+	                    else
+	                {
+	                    // delete the old one?
+	                    if ($delete_duplicates)
+	                    {
+	                        JFile::delete( $old_dir.$file );
+	                    }
+	                }
+	            }
+	        }
+        }
 
         // merge the ID-based dir if it exists and isn't the current path
         if ($this->checkDirectory($dir.DS.$row->product_id, false) && ($dir.DS.$row->product_id.DS != $path))
@@ -364,9 +400,68 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
             }
         }
-        
+        else
+        {
+	        $subdirs = TiendaHelperProduct::getSha1Subfolders($row->product_id);
+	    	// merge the ID-based SHA1 dir if it exists and isn't the current path
+	        if ($this->checkDirectory($dir.DS.$subdirs.$row->product_id, false) && ($dir.DS.$subdirs.$row->product_id.DS != $path))
+	        {
+	            $old_dir = $dir.DS.$subdirs.$row->product_id.DS;
+	            
+	            $files = JFolder::files( $old_dir );
+	            foreach ($files as $file)
+	            {
+	                if (!in_array($file, $images))
+	                {
+	                    if (JFile::move( $old_dir.$file, $path.$file ))
+	                    {
+	                        // create new thumb too
+	                        Tienda::load( 'TiendaImage', 'library.image' );
+	                        $img = new TiendaImage($path.$file);
+	                        $img->setDirectory( $path );
+	                        Tienda::load( 'TiendaHelperImage', 'helpers.image' );
+	                        $imgHelper = TiendaHelperBase::getInstance('Image', 'TiendaHelper');
+	                        $imgHelper->resizeImage( $img );
+	                        // delete old thumb
+	                        JFile::delete( $old_dir.'thumbs'.DS.$file );
+	                        
+	                        $file_moved = true;
+	                    }
+	                }
+	                    else
+	                {
+	                    // delete the old one?
+	                    if ($delete_duplicates)
+	                    {
+	                        JFile::delete( $old_dir.$file );   
+	                    }
+	                }
+	            }
+	        }
+        }
+            
         return $file_moved;
     }
+    
+	// Thanks to http://ryan.ifupdown.com/2008/08/17/warning-mkdir-too-many-links/
+	function getSha1Subfolders( $string, $separator = DS )
+	{
+		$sha1 = strtoupper( sha1( $string ) );
+
+		// 4 level subfolding using sha1
+		$i = 0;
+		$subdirs = '';
+		while ( $i < 4 )
+		{
+			if ( strlen( $string ) >= $i )
+			{
+				$subdirs .= $sha1[$i] . $separator;
+			}
+			$i++;
+		}
+		
+		return $subdirs;
+	}
     
     /**
      * Returns array of filenames

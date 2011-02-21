@@ -6,7 +6,7 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -15,92 +15,130 @@ Tienda::load( 'TiendaTableEav', 'tables._baseeav' );
 
 class TiendaTableProducts extends TiendaTableEav
 {
-	function TiendaTableProducts ( &$db ) 
+	function TiendaTableProducts( &$db )
 	{
-		$tbl_key 	= 'product_id';
+		$tbl_key = 'product_id';
 		$tbl_suffix = 'products';
 		$this->set( '_suffix', $tbl_suffix );
-		$name 		= 'tienda';
+		$name = 'tienda';
 		
-		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );	
+		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );
 	}
 	
-	function check()
+	function check( )
 	{
-		$nullDate	= $this->_db->getNullDate();
-		if (empty($this->created_date) || $this->created_date == $nullDate)
+		$nullDate = $this->_db->getNullDate( );
+		if ( empty( $this->created_date ) || $this->created_date == $nullDate )
 		{
-			$date = JFactory::getDate();
-			$this->created_date = $date->toMysql();
+			$date = JFactory::getDate( );
+			$this->created_date = $date->toMysql( );
 		}
-        jimport( 'joomla.filter.output' );
-        if (empty($this->product_alias)) 
-        {
-            $this->product_alias = $this->product_name;
-        }
-        $this->product_alias = JFilterOutput::stringURLSafe($this->product_alias);
-        		
-		$date = JFactory::getDate();
-		$this->modified_date = $date->toMysql();
+		jimport( 'joomla.filter.output' );
+		if ( empty( $this->product_alias ) )
+		{
+			$this->product_alias = $this->product_name;
+		}
+		$this->product_alias = JFilterOutput::stringURLSafe( $this->product_alias );
+		
+		$date = JFactory::getDate( );
+		$this->modified_date = $date->toMysql( );
 		
 		return true;
 	}
 	
-    /**
-     * 
-     * @param unknown_type $updateNulls
-     * @return unknown_type
-     */
-    function store( $updateNulls=false )
-    {
-        if ( $return = parent::store( $updateNulls ))
-        {
-            if (empty($this->_isNew))
-            {
-                // consolidate image gallery paths if necessary            
-                Tienda::load( "TiendaHelperBase", 'helpers._base' );
-                $helper = TiendaHelperBase::getInstance('Product');
-                if ($helper->consolidateGalleryImages( $this->product_id ) === true )
-                {
-                    JFactory::getApplication()->enqueueMessage( JText::_( "Images Consolidated Message" ) );
-                }
-            }
-        }
-        return $return;
-    }
+	/**
+	 * 
+	 * @param unknown_type $updateNulls
+	 * @return unknown_type
+	 */
+	function store( $updateNulls = false )
+	{
+		if ( $return = parent::store( $updateNulls ) )
+		{
+			if ( empty( $this->_isNew ) )
+			{
+				// consolidate image gallery paths if necessary            
+				Tienda::load( "TiendaHelperBase", 'helpers._base' );
+				$helper = TiendaHelperBase::getInstance( 'Product' );
+				if ( $helper->consolidateGalleryImages( $this ) === true )
+				{
+					JFactory::getApplication( )->enqueueMessage( JText::_( "Images Consolidated Message" ) );
+				}
+			}
+		}
+		return $return;
+	}
+	
+	function load( $oid = null, $reset = true, $load_eav = true )
+	{
+		if ( $return = parent::load( $oid, $reset, $load_eav ) )
+		{
+			// consolidate image gallery paths if necessary (SHA1 Images)            
+			Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			$helper = TiendaHelperBase::getInstance( 'Product' );
+			if ( $helper->consolidateGalleryImages( $this ) === true )
+			{
+				JFactory::getApplication( )->enqueueMessage( JText::_( "Images Consolidated Message" ) );
+			}
+		}
+		return $return;
+	}
 	
 	/**
 	 * Get the path to the product current Image
 	 * @return string $dir
 	 */
 	
-	function getImagePath($check = true)
+	function getImagePath( $check = true )
 	{
 		// Check where we should upload the file
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
 		
-		Tienda::load('TiendaHelperBase', 'helpers._base');
-		$helper = TiendaHelperBase::getInstance();
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance( );
 		
 		// is the image path overridden?
-		if (!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, $check))
+		if ( !empty( $this->product_images_path ) && $helper->checkDirectory( $this->product_images_path, $check ) )
 		{
 			$dir = $this->product_images_path;
-		} 
-            else
+		}
+		else
 		{
 			// try with the SKU
-			if (!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, $check))
+			if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
 			{
-				$dir = $dir.DS.$this->product_sku.DS;
-			} 
-                else
-			{
-				// try with the product id
-				if($helper->checkDirectory($dir.DS.$this->product_id, $check))
+				if ( !empty( $this->product_sku ) )
 				{
-					$dir = $dir.DS.$this->product_id.DS;
+					$subdirs = $this->getSha1Subfolders( $this->product_sku );
+					$image_dir = $dir . DS . $subdirs . $this->product_sku . DS;
+				}
+			}
+			else
+			{
+				$image_dir = $dir . DS . $this->product_sku . DS;
+			}
+			
+			if ( !empty( $this->product_sku ) && $helper->checkDirectory( $image_dir, $check ) )
+			{
+				$dir = $image_dir;
+			}
+			else
+			{
+				if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) )
+				{
+					$subdirs = $this->getSha1Subfolders( $this->product_id );
+					$image_dir = $dir . DS . $subdirs . $this->product_id . DS;
+				}
+				else
+				{
+					$image_dir = $dir . DS . $this->product_id . DS;
+				}
+				
+				// try with the product id
+				if ( $helper->checkDirectory( $dir . DS . $image_dir, $check ) )
+				{
+					$dir = $image_dir;
 				}
 			}
 		}
@@ -108,77 +146,118 @@ class TiendaTableProducts extends TiendaTableEav
 		return $dir;
 	}
 	
+	// Thanks to http://ryan.ifupdown.com/2008/08/17/warning-mkdir-too-many-links/
+	protected function getSha1Subfolders( $string, $separator = DS )
+	{
+		$sha1 = strtoupper( sha1( $string ) );
+		
+		// 4 level subfolding using sha1
+		$i = 0;
+		$subdirs = '';
+		while ( $i < 4 )
+		{
+			if ( strlen( $string ) >= $i )
+			{
+				$subdirs .= $sha1[$i] . $separator;
+			}
+			$i++;
+		}
+		
+		return $subdirs;
+	}
+	
 	/**
 	 * Get the URL to the path to images
 	 * @return unknown_type
 	 */
-	function getImageUrl()
+	function getImageUrl( )
 	{
 		// Check where we should upload the file
 		// This is the default one
 		$dir = Tienda::getPath( 'products_images' );
 		
-		$url = Tienda::getUrl('products_images');
+		$url = Tienda::getUrl( 'products_images' );
 		
-		$helper = TiendaHelperBase::getInstance();
+		$helper = TiendaHelperBase::getInstance( );
 		
 		// is the image path overridden?
-		if (!empty($this->product_images_path) && $helper->checkDirectory($this->product_images_path, false))
+		if ( !empty( $this->product_images_path ) && $helper->checkDirectory( $this->product_images_path, false ) )
 		{
 			//$url = $this->product_images_path; ????????
 			$url = "";
-		} 
-		    else
+		}
+		else
 		{
 			// try with the SKU
-			if (!empty($this->product_sku) && $helper->checkDirectory($dir.DS.$this->product_sku, false))
+			if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
 			{
-				$url = $url.$this->product_sku."/";
-			} 
-			    else
-			{
-				// try with the product id
-				if ($helper->checkDirectory($dir.DS.$this->product_id, false))
+				if ( !empty( $this->product_sku ) )
 				{
-					$url = $url.$this->product_id."/";
+					$subdirs = $this->getSha1Subfolders( $this->product_sku, '/' );
+					$image_dir = $url . $subdirs . $this->product_sku . '/';
 				}
+			}
+			else
+			{
+				$image_dir = $url . $this->product_sku . '/';
+			}
+			
+			// try with the SKU
+			if ( !empty( $this->product_sku ) )
+			{
+				$url = $image_dir;
+			}
+			else
+			{
+				if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) )
+				{
+					$subdirs = $this->getSha1Subfolders( $this->product_id, '/' );
+					$image_dir = $url . $subdirs . $this->product_id . '/';
+				}
+				else
+				{
+					$image_dir = $url . $this->product_id . '/';
+				}
+				
+				$url = $image_dir;
+				
 			}
 		}
 		
 		return $url;
 	}
-
+	
 	/**
 	 * Recalculates the product's overall rating
 	 * 
 	 * @param $save    boolean
 	 * @return unknown_type
 	 */
-	function updateOverallRating( $save=false )
+	function updateOverallRating( $save = false )
 	{
-	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
-        $model->setState( 'filter_product', $this->product_id );
-        $model->setState( 'filter_enabled', '1' );
-        
-        // get the count of all enabled comments             
-        $count = $model->getResult( true );
-        
-        // get the sum product rating of all enabled comments
-        $model->setState( 'select', 'SUM(productcomment_rating)' );
-        $sum = $model->getResult( true );
-        
-        // get the avg product rating of all enabled comments
-        $avg = $count ? $sum / $count : 0; 
-        
-        // update the product row
-        $this->product_rating = $avg; 
-        $this->product_comments = $count;
-
-        if ($save)
-        {
-            $this->save();
-        }
+		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+		$model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
+		$model->setState( 'filter_product', $this->product_id );
+		$model->setState( 'filter_enabled', '1' );
+		
+		// get the count of all enabled comments             
+		$count = $model->getResult( true );
+		
+		// get the sum product rating of all enabled comments
+		$model->setState( 'select', 'SUM(productcomment_rating)' );
+		$sum = $model->getResult( true );
+		
+		// get the avg product rating of all enabled comments
+		$avg = $count ? $sum / $count : 0;
+		
+		// update the product row
+		$this->product_rating = $avg;
+		$this->product_comments = $count;
+		
+		if ( $save )
+		{
+			$this->save( );
+		}
 	}
 	
 	/**
@@ -187,12 +266,12 @@ class TiendaTableProducts extends TiendaTableEav
 	 * The quantity will be created from the $this->product_quantity property
 	 * The categories will be created from the $this->product_category property
 	 */
-	function create()
+	function create( )
 	{
 		// If this product is already stored, we shouldn't create the product!
-		if($this->product_id)
+		if ( $this->product_id )
 		{
-			$this->setError( JText::_('You cannot create an already existing product') );
+			$this->setError( JText::_( 'You cannot create an already existing product' ) );
 			return false;
 		}
 		
@@ -200,104 +279,106 @@ class TiendaTableProducts extends TiendaTableEav
 		$product_quantity = @$this->product_quantity;
 		$product_categories = @$this->product_category;
 		
-		if(!is_array($product_categories))
+		if ( !is_array( $product_categories ) )
 		{
-			$product_categories = array($product_categories);
+			$product_categories = array(
+				$product_categories
+			);
 		}
 		
-		unset($this->product_price);
-		unset($this->product_quantity);
-		unset($this->product_category);
+		unset( $this->product_price );
+		unset( $this->product_quantity );
+		unset( $this->product_category );
 		
 		// Save the product First
-		$success = $this->save();
+		$success = $this->save( );
 		
-		if($success)
+		if ( $success )
 		{
 			// now the price
-			if($product_price)
+			if ( $product_price )
 			{
-				Tienda::load('TiendaTableProductPrices', 'tables.productprices');
-				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
+				Tienda::load( 'TiendaTableProductPrices', 'tables.productprices' );
+				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
-				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
-				$success = $price->save();
+				$price->group_id = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+				$success = $price->save( );
 				
-				if(!$success)
+				if ( !$success )
 				{
-					$this->setError($price->getError());
+					$this->setError( $price->getError( ) );
 					return false;
 				}
 			}
 			
 			// now the quantities
-			if($product_quantity)
+			if ( $product_quantity )
 			{
-				Tienda::load('TiendaTableProductQuantities', 'tables.productquantities');
-				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
+				Tienda::load( 'TiendaTableProductQuantities', 'tables.productquantities' );
+				$quantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 				$quantity->product_id = $this->product_id;
 				$quantity->quantity = $product_quantity;
-				$success = $quantity->save();
+				$success = $quantity->save( );
 				
-				if(!$success)
+				if ( !$success )
 				{
-					$this->setError($quantity->getError());
+					$this->setError( $quantity->getError( ) );
 					return false;
 				}
 			}
 			
 			// now the categories
-			if($product_categories)
+			if ( $product_categories )
 			{
-				foreach($product_categories as $product_category)
+				foreach ( $product_categories as $product_category )
 				{
-						// This is probably not the best way to do it
-		            	// Numeric = id, string = category name
-		            	if(!is_numeric($product_category))
-		            	{
-		            	 	// check for existance
-		            	 	JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
-		            		$model = JModel::getInstance('Categories', 'TiendaModel');
-		            		$model->setState('filter_name', $product_category);
-		            		$matches = $model->getList();
-		            		$matched = false;
-		            		
-		            		if($matches)
-		            		{
-			            		foreach($matches as $match)
-			            		{
-			            			// is a perfect match?
-			            			if(trim(strtolower($product_category)) == trim(strtolower($match->category_name)))
-			            			{
-			            				$product_category = $match->category_id;
-			            				$matched = true;
-			            			}	
-			            		}
-		            		}
-		            		
-		            		// Not matched, create category
-		            		if(!$matched)
-		            		{
-		            			Tienda::load('TiendaTableCategories', 'tables.categories');
-		            			$category = JTable::getInstance('Categories', 'TiendaTable');
-		            			$category->category_name = $product_category;
-		            			$category->parent_id = 1;
-		            			$category->category_enabled = 1;
-		            			$category->save();
-		            			
-		            			$product_category = $category->category_id;
-		            		}
-		            		
-		            	}
-		            	
-		            	// save xref in every case
-		            	Tienda::load('TiendaTableProductCategories', 'tables.productcategories');
-                        $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
-                        $xref->product_id = $this->product_id;
-                        $xref->category_id = $product_category;
-                        $xref->save();
-		            }
+					// This is probably not the best way to do it
+					// Numeric = id, string = category name
+					if ( !is_numeric( $product_category ) )
+					{
+						// check for existance
+						JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+						$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+						$model->setState( 'filter_name', $product_category );
+						$matches = $model->getList( );
+						$matched = false;
+						
+						if ( $matches )
+						{
+							foreach ( $matches as $match )
+							{
+								// is a perfect match?
+								if ( trim( strtolower( $product_category ) ) == trim( strtolower( $match->category_name ) ) )
+								{
+									$product_category = $match->category_id;
+									$matched = true;
+								}
+							}
+						}
+						
+						// Not matched, create category
+						if ( !$matched )
+						{
+							Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+							$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+							$category->category_name = $product_category;
+							$category->parent_id = 1;
+							$category->category_enabled = 1;
+							$category->save( );
+							
+							$product_category = $category->category_id;
+						}
+						
+					}
+					
+					// save xref in every case
+					Tienda::load( 'TiendaTableProductCategories', 'tables.productcategories' );
+					$xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+					$xref->product_id = $this->product_id;
+					$xref->category_id = $product_category;
+					$xref->save( );
+				}
 			}
 		}
 		else
@@ -314,12 +395,12 @@ class TiendaTableProducts extends TiendaTableEav
 	 * The quantity will be created from the $this->product_quantity property
 	 * The categories will be created from the $this->product_category property
 	 */
-	function update()
+	function update( )
 	{
 		// If this product is already stored, we shouldn't create the product!
-		if(!$this->product_id)
+		if ( !$this->product_id )
 		{
-			$this->setError( JText::_('You cannot update a non existing product') );
+			$this->setError( JText::_( 'You cannot update a non existing product' ) );
 			return false;
 		}
 		
@@ -327,28 +408,30 @@ class TiendaTableProducts extends TiendaTableEav
 		$product_quantity = @$this->product_quantity;
 		$product_categories = @$this->product_category;
 		
-		if(!is_array($product_categories))
+		if ( !is_array( $product_categories ) )
 		{
-			$product_categories = array($product_categories);
+			$product_categories = array(
+				$product_categories
+			);
 		}
 		
-		unset($this->product_price);
-		unset($this->product_quantity);
-		unset($this->product_category);
+		unset( $this->product_price );
+		unset( $this->product_quantity );
+		unset( $this->product_category );
 		
 		// Save the product First
-		$success = $this->save();
+		$success = $this->save( );
 		
-		if($success)
+		if ( $success )
 		{
 			// now the price
-			if($product_price)
+			if ( $product_price )
 			{
 				// Load the default price
-				Tienda::load('TiendaHelperProduct', 'helpers.product');
-				$prices = TiendaHelperProduct::getPrices($this->product_id);
+				Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+				$prices = TiendaHelperProduct::getPrices( $this->product_id );
 				
-				if(count($prices))
+				if ( count( $prices ) )
 				{
 					$price_id = $prices[0]->productprice_id;
 				}
@@ -357,34 +440,34 @@ class TiendaTableProducts extends TiendaTableEav
 					$price_id = 0;
 				}
 				
-				Tienda::load('TiendaTableProductPrices', 'tables.productprices');
-				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
+				Tienda::load( 'TiendaTableProductPrices', 'tables.productprices' );
+				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				// load the price if it does exist
-				if($price_id)
+				if ( $price_id )
 				{
-					$price->load($price_id);
+					$price->load( $price_id );
 				}
 				// else just save it as a new price
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
-				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
-				$success = $price->save();
+				$price->group_id = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+				$success = $price->save( );
 				
-				if(!$success)
+				if ( !$success )
 				{
-					$this->setError($price->getError());
+					$this->setError( $price->getError( ) );
 					return false;
 				}
 			}
 			
 			// now the quantities
-			if($product_quantity)
+			if ( $product_quantity )
 			{
 				// Load the default quantity
-				Tienda::load('TiendaHelperProduct', 'helpers.product');
-				$quantities = TiendaHelperProduct::getProductQuantities($this->product_id);
+				Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+				$quantities = TiendaHelperProduct::getProductQuantities( $this->product_id );
 				
-				if(count($quantities))
+				if ( count( $quantities ) )
 				{
 					$quantity_id = $quantities[0]->productquantity_id;
 				}
@@ -393,76 +476,76 @@ class TiendaTableProducts extends TiendaTableEav
 					$quantity_id = 0;
 				}
 				
-				Tienda::load('TiendaTableProductQuantities', 'tables.productquantities');
-				$quantity = JTable::getInstance('ProductQuantities', 'TiendaTable');
+				Tienda::load( 'TiendaTableProductQuantities', 'tables.productquantities' );
+				$quantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 				// load the quantity if it does exist
-				if($quantity_id)
+				if ( $quantity_id )
 				{
-					$quantity->load($quantity_id);
+					$quantity->load( $quantity_id );
 				}
 				// else just save it as a new quantity
 				$quantity->product_id = $this->product_id;
 				$quantity->quantity = $product_quantity;
-				$success = $quantity->save();
+				$success = $quantity->save( );
 				
-				if(!$success)
+				if ( !$success )
 				{
-					$this->setError($quantity->getError());
+					$this->setError( $quantity->getError( ) );
 					return false;
 				}
 			}
 			
 			// now the categories
-			if($product_categories)
+			if ( $product_categories )
 			{
-				foreach($product_categories as $product_category)
+				foreach ( $product_categories as $product_category )
 				{
-						// This is probably not the best way to do it
-		            	// Numeric = id, string = category name
-		            	if(!is_numeric($product_category))
-		            	{
-		            	 	// check for existance
-		            	 	JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
-		            		$model = JModel::getInstance('Categories', 'TiendaModel');
-		            		$model->setState('filter_name', $product_category);
-		            		$matches = $model->getList();
-		            		$matched = false;
-		            		
-		            		if($matches)
-		            		{
-			            		foreach($matches as $match)
-			            		{
-			            			// is a perfect match?
-			            			if(strtolower($product_category) == strtolower($match->category_name))
-			            			{
-			            				$product_category = $match->category_id;
-			            				$matched = true;
-			            			}	
-			            		}
-		            		}
-		            		
-		            		// Not matched, create category
-		            		if(!$matched)
-		            		{
-		            			Tienda::load('TiendaTableCategories', 'tables.categories');
-		            			$category = JTable::getInstance('Categories', 'TiendaTable');
-		            			$category->category_name = $product_category;
-		            			$category->parent_id = 1;
-		            			$category->category_enabled = 1;
-		            			$category->save();
-		            			
-		            			$product_category = $category->category_id;
-		            		}
-		            		
-		            	}
-		            	
-		            	// save xref in every case
-		            	Tienda::load('TiendaTableProductCategories', 'tables.productcategories');
-                        $xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
-                        $xref->product_id = $this->product_id;
-                        $xref->category_id = $product_category;
-                        $xref->save();
-		            }
+					// This is probably not the best way to do it
+					// Numeric = id, string = category name
+					if ( !is_numeric( $product_category ) )
+					{
+						// check for existance
+						JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+						$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+						$model->setState( 'filter_name', $product_category );
+						$matches = $model->getList( );
+						$matched = false;
+						
+						if ( $matches )
+						{
+							foreach ( $matches as $match )
+							{
+								// is a perfect match?
+								if ( strtolower( $product_category ) == strtolower( $match->category_name ) )
+								{
+									$product_category = $match->category_id;
+									$matched = true;
+								}
+							}
+						}
+						
+						// Not matched, create category
+						if ( !$matched )
+						{
+							Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+							$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+							$category->category_name = $product_category;
+							$category->parent_id = 1;
+							$category->category_enabled = 1;
+							$category->save( );
+							
+							$product_category = $category->category_id;
+						}
+						
+					}
+					
+					// save xref in every case
+					Tienda::load( 'TiendaTableProductCategories', 'tables.productcategories' );
+					$xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+					$xref->product_id = $this->product_id;
+					$xref->category_id = $product_category;
+					$xref->save( );
+				}
 			}
 		}
 		else

@@ -1102,6 +1102,17 @@
                                 <?php echo JText::_( 'TIENDA CUSTOM LANGUAGE FILE DESC'); ?>
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Use SHA1 to store the images?' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                       <?php echo JHTML::_('select.booleanlist', 'sha1_images', 'class="inputbox"', $this->row->get('sha1_images', '0') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'TIENDA SHA1 IMAGE DESC'); ?>
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

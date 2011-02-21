@@ -522,6 +522,8 @@ class TiendaConfig extends JObject
     var $validate_field_zip					= '3';
     var $validate_field_phone				= '0';
     
+    var $sha1_images						= '0';
+    
 	
 	/**
 	 * constructor
