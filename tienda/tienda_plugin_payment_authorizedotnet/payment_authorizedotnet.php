@@ -73,9 +73,16 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         
         $vars->cardtype = JRequest::getVar("cardtype");
         $vars->cardnum = JRequest::getVar("cardnum");
-        $vars->cardexp = JRequest::getVar("cardexp");
+        //$vars->cardexp = JRequest::getVar("cardexp");
         $vars->cardcvv = JRequest::getVar("cardcvv");
         $vars->cardnum_last4 = substr( JRequest::getVar("cardnum"), -4 );
+
+        $exp_month = JRequest::getInt("cardexp_month");
+        if ($exp_month < '10') { $exp_month = '0'.$exp_month; } 
+        $exp_year = JRequest::getInt("cardexp_year");
+        $exp_year = $exp_year - 2000;
+        $cardexp = $exp_month.$exp_year;
+        $vars->cardexp = $cardexp;
         
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -969,4 +976,19 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         // ===================
     }
 
+    /**
+     * Shows the CVV popup
+     * @return unknown_type
+     */
+    public function showCVV($row)
+    {
+        if (!$this->_isMe($row))
+        {
+            return null;
+        }
+        
+        $vars = new JObject();
+        echo $this->_getLayout('showcvv', $vars);
+        return;
+    }
 }

@@ -856,8 +856,12 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
 		return count($errors) ? implode("\n", $errors) : '';
     }
     
-    public function showCVV()
+    public function showCVV($row)
     {
+        if (!$this->_isMe($row))
+        {
+            return null;
+        }
         $vars = new JObject();
         echo $this->_getLayout('showcvv', $vars);
         return;
