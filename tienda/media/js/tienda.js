@@ -69,8 +69,10 @@ function tiendaGridOrder(id, change)
  * @param {String} form element name
  * @param {String} task being performed
  */
-function tiendaFormValidation( url, container, task, form ) 
+function tiendaFormValidation( url, container, task, form, doModal, msg ) 
 {
+    if (doModal == true) { tiendaNewModal(msg); }
+    
     if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' ) 
     {
         // loop through form elements and prepare an array of objects for passing to server
@@ -93,6 +95,7 @@ function tiendaFormValidation( url, container, task, form )
             onComplete: function(response){
                 var resp=Json.evaluate(response, false);
                 if ($(container)) { $(container).setHTML(resp.msg); }
+                if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
                 if (resp.error != '1') 
                 {
                     form.task.value = task;
@@ -103,6 +106,7 @@ function tiendaFormValidation( url, container, task, form )
     }
         else 
     {
+        if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
         form.task.value = task;
         form.submit();
     }
