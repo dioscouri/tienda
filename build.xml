@@ -619,6 +619,8 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sips_atos.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sips_atos" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypal.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypal" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_tatrapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_tatrapay" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_virtualmerchant.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_virtualmerchant" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_cart" />
