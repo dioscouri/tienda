@@ -443,7 +443,13 @@ class TiendaHelperProduct extends TiendaHelperBase
         return $file_moved;
     }
     
-	// Thanks to http://ryan.ifupdown.com/2008/08/17/warning-mkdir-too-many-links/
+	/**
+	 * 
+	 * Thanks to http://ryan.ifupdown.com/2008/08/17/warning-mkdir-too-many-links/
+	 * @param $string
+	 * @param $separator
+	 * @return unknown_type
+	 */
 	function getSha1Subfolders( $string, $separator = DS )
 	{
 		$sha1 = strtoupper( sha1( $string ) );

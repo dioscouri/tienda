@@ -107,7 +107,7 @@ class TiendaTableProducts extends TiendaTableEav
 		{
 			// try with the SKU
 			if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
-			{
+			{		    
 				if ( !empty( $this->product_sku ) )
 				{
 					$subdirs = $this->getSha1Subfolders( $this->product_sku );
@@ -136,7 +136,7 @@ class TiendaTableProducts extends TiendaTableEav
 				}
 				
 				// try with the product id
-				if ( $helper->checkDirectory( $dir . DS . $image_dir, $check ) )
+				if ( $helper->checkDirectory( $image_dir, $check ) )
 				{
 					$dir = $image_dir;
 				}

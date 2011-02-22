@@ -100,12 +100,14 @@ class TiendaHelperBase extends JObject
 			    if (!$return = &JFolder::create( $dir ))
 			    {
 			        $this->setError( "Attempted to Create Dir But Failed" );
+			        JFactory::getApplication( )->enqueueMessage( JText::_( "Attempted to Create Dir But Failed" ) . " " . $dir );
 			    }
 			}
                 else
 			{
 			    $return = false;
 			    $this->setError( "Dir Does Not Exist and Did Not Attempt to Create" );
+			    JFactory::getApplication( )->enqueueMessage( JText::_( "Dir Does Not Exist and Did Not Attempt to Create" ) . " " . $dir );
 			}
 		}
 		
@@ -114,6 +116,7 @@ class TiendaHelperBase extends JObject
             if (!$change = &JPath::setPermissions( $dir ))
             {
                 $this->setError( "Changing Permissions on Dir Failed" );
+                JFactory::getApplication( )->enqueueMessage( JText::_( "Changing Permissions on Dir Failed" ) . " " . $dir );
             }
         }
         
