@@ -135,6 +135,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			
 			// a period of days during which the customer can still process the transaction in case it originally failed.			
 			$vars->rec_grace_period = 3;
+			$vars->rec_status_url = $this->_getParam( 'receiver_email' ); 
 		}
 	    	else 
 	    {
@@ -208,11 +209,10 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 					$html .= $this->_displayArticle();  									
 				  break;
 				case "process":
-					$html .= $this->_process();					
-						echo $html;
+					$html = $this->_process();	
 						
-						$app =& JFactory::getApplication();
-						$app->close();
+					$app =& JFactory::getApplication();
+					$app->close();
 				  break;
 				case "cancel":					
 					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
@@ -278,85 +278,24 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			$errors[] = $error;
 		}
 		
-		$keyarray = $data;
-		$keyarray['status'] = $this->_getMBStatus($data['status']);
-		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
-    	
-     	// check that payment amount is correct for order_id rec_payment_id
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-        $orderpayment->load( $data['orderpayment_id'] );
-        if (empty($orderpayment->order_id))
-        {
-             $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ORDER');
-        }
-        $orderpayment->transaction_details  = $payment_details;
-        $orderpayment->transaction_id       = $data['mb_transaction_id'];
-        $orderpayment->transaction_status   = $this->_getMBStatus($data['status']);
+		// process the payment if this is not a cancellation (-1) or charge back (-3)
+		if ($data['status'] != '-1' && $data['status'] != '-3') {
+			if ( ! isset($data['rec_payment_id'])) {
+				$errors = $this->_processSale($data, $errors);
+			}
+			else {
+				$errors = $this->_processSubscription($data, $errors);
+			}
+		}
+		
+	
 
-        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
-        $respond_amount = TiendaHelperBase::number( $data['mb_amount'], array( 'thousands'=>'' ) );
-        if ($stored_amount != $respond_amount ) {
-        	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT AMOUNT INVALID');
-            $errors[] = $stored_amount . " != " . $respond_amount;
-        }
-            
-        // set the order's new status and update quantities if necessary
-        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
-        $order->load( $orderpayment->order_id );
-        if (count($errors)) 
-        {
-        	// if an error occurred 
-            $order->order_state_id = $this->_getParam('failed_order_state', '10'); // FAILED
-        }
-        else 
-        {
-            $order->order_state_id = $this->_getParam('payment_received_order_state', '17');; // PAYMENT RECEIVED
-                
-            // do post payment actions
-            $setOrderPaymentReceived = true;
-                
-            // send email
-            $send_email = true;
-        }
-        
-        // save the order
-        if (!$order->save())
-        {
-        	$errors[] = $order->getError();
-        }
-            
-        // save the orderpayment
-        if (!$orderpayment->save())
-        {
-            $errors[] = $orderpayment->getError(); 
-        }
-            
-        if (!empty($setOrderPaymentReceived))
-        {
-            $this->setOrderPaymentReceived( $orderpayment->order_id );
-        }
-            
-        if ($send_email)
-        {
-            // send notice of new order
-            Tienda::load( "TiendaHelperBase", 'helpers._base' );
-            $helper = TiendaHelperBase::getInstance('Email');
-            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
-            $model->setId( $orderpayment->order_id );
-            $order = $model->getItem();
-            $helper->sendEmailNotices($order, 'new_order');
-        }
-
-        if (empty($errors))
-        {
-            $return = JText::_( "TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS" );
-        }
-         
-        return count($errors) ? implode("\n", $errors) : $return;
+        if (count($errors)) {						
+			$error = implode("\n", $errors);
+			return $error;
+		}
+		
+		return 'processed';
     }   
 
     /**
@@ -466,6 +405,107 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         return $html;
     }
 
+    /**
+	 * Processes the sale payment
+	 * 
+	 * @param array $data Payment data
+	 * @param object $user
+	 * @param string $payment_details Formatted payment details to store
+	 * @param array $errors 
+	 * @return array
+	 * @access protected
+	 */
+	function _processSale($data, $errors)
+	{		
+		$keyarray = $data;
+		$keyarray['status'] = $this->_getMBStatus($data['status']);
+		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
+    	
+     	// check that payment amount is correct for order_id 
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->load( $data['orderpayment_id'] );
+        if (empty($orderpayment->order_id))
+        {
+             $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ORDER');
+        }
+        $orderpayment->transaction_details  = $payment_details;
+        $orderpayment->transaction_id       = $data['mb_transaction_id'];
+        $orderpayment->transaction_status   = $this->_getMBStatus($data['status']);
+
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['mb_amount'], array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount ) {
+        	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT AMOUNT INVALID');
+            $errors[] = $stored_amount . " != " . $respond_amount;
+        }
+            
+        // set the order's new status and update quantities if necessary
+        Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order->load( $orderpayment->order_id );
+        if (count($errors)) 
+        {
+        	// if an error occurred 
+            $order->order_state_id = $this->_getParam('failed_order_state', '10'); // FAILED
+        }
+        else 
+        {
+            $order->order_state_id = $this->_getParam('payment_received_order_state', '17');; // PAYMENT RECEIVED
+                
+            // do post payment actions
+            $setOrderPaymentReceived = true;
+                
+            // send email
+            $send_email = true;
+        }
+        
+        // save the order
+        if (!$order->save())
+        {
+        	$errors[] = $order->getError();
+        }
+            
+        // save the orderpayment
+        if (!$orderpayment->save())
+        {
+            $errors[] = $orderpayment->getError(); 
+        }
+            
+        if (!empty($setOrderPaymentReceived))
+        {
+            $this->setOrderPaymentReceived( $orderpayment->order_id );
+        }
+            
+        if ($send_email)
+        {
+            // send notice of new order
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+            $model->setId( $orderpayment->order_id );
+            $order = $model->getItem();
+            $helper->sendEmailNotices($order, 'new_order');
+        }
+	}
+	
+	/**
+	 * Processes the recurring payment
+	 * 
+	 * @param array $data Payment data
+	 * @param object $user
+	 * @param string $payment_details Formatted payment details to store
+	 * @param array $errors 
+	 * @return array
+	 * @access protected
+	 */
+	function _processSubscription($data, $errors)
+	{
+		
+	}
+    
 	/**
 	 * Validates the payment data posted back by MB  
 	 * 
