@@ -27,6 +27,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_trackcatcount = 0;
 	private $_products		= null;
 	private $_pids			= array();
+	private $_view			= '';
 	
     /**
      * Sets the modules params as a property of the object
@@ -35,11 +36,16 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      */
     function __construct( $params )    
     {    	
-        $this->_params = $params;          
-        $this->_db = JFactory::getDBO();
-        $this->_multi_mode = $params->get('multi_mode', 1);       
-        $this->_catid = JRequest::getInt('filter_category');    	   	
-    	$this->_itemid = JRequest::getInt('Itemid');
+        $this->_params 		= $params;          
+        $this->_db 			= JFactory::getDBO();
+        $this->_multi_mode 	= $params->get('multi_mode', 1);       
+        $this->_catid 		= JRequest::getInt('filter_category');    	   	
+    	$this->_itemid 		= JRequest::getInt('Itemid');    	
+    	$this->_view 		= JRequest::getVar('view');
+    	if($this->_view == 'products')
+    	{
+    		$this->_products = $this->getProducts();
+    	} 	
     }      
     
     /**
@@ -106,48 +112,60 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      * @return array
      */
     function getManufacturers()
-    {
-    	$items = array(); 	    	
+    {    	
+    	$brandA = array();
+    	$view = JRequest::getVar('view');    	
+    	if($view != 'products') return $brandA;
     	
-    	$query = new TiendaQuery();
-		$query->select( 'tbl.manufacturer_id' );
-		$query->select( 'm.manufacturer_name' );
-		$field[] = "
-		(
-		SELECT 
-			COUNT(*)
-		FROM
-			#__tienda_products AS p 
-		WHERE 	
-			p.manufacturer_id = tbl.manufacturer_id 				
-		LIMIT 1
-		) 
-		AS total ";
-
-		$query->select($field);
-		$query->from('#__tienda_products AS tbl');   			
-		$query->join( 'LEFT', '#__tienda_productcategoryxref AS p2c ON p2c.product_id = tbl.product_id' );	
-		$query->join( 'LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id' );			
-		$query->where( "p2c.category_id = '{$this->_catid}'" );
-		$query->where( 'tbl.manufacturer_id != \'0\'' );
-		
-		$this->_db->setQuery( (string) $query );
-		$items = $this->_db->loadObjectList();
-
-		if(!empty($items))
-		{
-			$this->_manufound = true;
-			foreach($items as $item)
-			{					
-				$link = $this->_link;
-				$link .= '&filter_category='.$this->_catid;	
-				$link .= '&filter_manufacturer='.$item->manufacturer_id;
+    	//if we have filter catergory
+    	//we dont show manufacturers list
+    	$filter_manufacturer = JRequest::getVar('filter_manufacturer');
+    	if(strlen($filter_manufacturer)) return $brandA;
+    	   			
+    	if(empty($this->_products))
+    	{  
+        	$this->_products = $this->getProducts();
+    	}
+	
+    	$pids = array();
+    	foreach($this->_products as $item)
+    	{    		
+    		$pids[] = $item->product_id;
+    		if(!empty($item->manufacturer_id))
+    		{
+    			$brandA[$item->manufacturer_id] = $item->manufacturer_name;
+    		}     		
+    	}    
+    	$this->_pids = $pids;
+    	asort($brandA);
+	
+    	$brands = array();    	
+		if(!empty($brandA))
+		{			
+			foreach($brandA as $key=>$value)
+			{
+				$brandObj = new stdClass();
+				$brandObj->manufacturer_name = $value;
+				$link = $this->_link.'&filter_category='.$this->_catid;				
+				$link .= '&filter_manufacturer='.$key;
 				$link .= '&Itemid='.$this->_itemid;
-				$item->link = JRoute::_( $link );											
-			}		
-		}					
-    			
-	    return $items;    	
+				$brandObj->link = JRoute::_( $link );	
+				
+				$total = 0;
+				foreach($this->_products as $item)
+		    	{    		
+		    		if($item->manufacturer_id == $key && $item->manufacturer_name == $value) 
+		    		{ 
+		    			$total++;
+		    		}
+		    	}
+				
+				$brandObj->total = $total;
+				$brands[] = $brandObj;			
+			}
+		}
+		
+	    return $brands;    	
     }
     
     /**      
@@ -163,44 +181,42 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	{
     		return $ranges;
     	} 
+    	$items = $this->_products;
 
-    	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
-		if($view == 'manufacturers')
-		{
-			$filter_manufacturer = JRequest::getInt('filter_manufacturer');
-			$model->setState('filter_manufacturer', $filter_manufacturer);
-		}
-		else 
-		{
-			$model->setState('filter_category', $this->_catid);
-		}
-    	      
-        $model->setState( 'order', 'price' );
-        $model->setState( 'direction', 'DESC' ); 
-        $model->setState('filter_enabled', '1');
-	    $model->setState('filter_quantity_from', '1');	    
-        $items = $model->getList();
-	 
-    	$this->_products = $items;
-    		
+    	if(empty($items))    	
+    	{
+    		$items = $this->getProducts();
+    		$this->_products = $items;
+    	}
+
         if(!empty($items))
         {
         	$this->_pricefound = true;
         	$priceHigh = abs( $items['0']->price );   
-        	$priceLow = ( count($items) == 1 ) ? 0 : abs( $items[count( $items ) - 1]->price );
-        	$range = ( abs( $priceHigh ) - abs( $priceLow ) )/4;  
-        	       		
-        	$roundRange = is_int($range) ? $range : ceil($range);                		
-			$roundPriceLow = floor($priceLow);	
+        	//$priceLow = ( count($items) == 1 ) ? 0 : abs( $items[count( $items ) - 1]->price );
+        	//$range = ( abs( $priceHigh ) - abs( $priceLow ) )/4; 
+        	$glueZero = '';
+       	
+  			for( $i = 1; $i < strlen($priceHigh); $i++ )
+        	{
+        		$glueZero .= '0'; 
+        	}
+        	
+        	$priceHigh = (substr($priceHigh, 0, 1) + 1).$glueZero;  			
+        	$range = "1{$glueZero}";
+      	
+        	//$roundRange = is_int($range) ? $range : ceil($range);                		
+			//$roundPriceLow = floor($priceLow);				
+			//$price_from = $roundRange + $roundPriceLow;
   	
 			$link = $this->_link.'&filter_category='.$this->_catid;
 										
 			$ranges = array();
-			for($i = 0; $i <= 3; $i++)
+			for($i = 0; $i <= (substr($priceHigh, 0, 1) - 1); $i++)
 			{
-				$rangeObj = new stdClass();				
-				$rangeObj->price_from = $i == 0 ? $roundPriceLow : ($roundRange * $i);	
-				$rangeObj->price_to = $roundRange * ( 1 + $i );	
+				$rangeObj = new stdClass();	
+				$rangeObj->price_from = $i == 0 ? 0 : (int) $range * $i;
+				$rangeObj->price_to = $i == 0 ? (int) $range : (int) $range * ( $i + 1 );
 				
 				$pids = array();
 			    $total_product = 0;
@@ -229,11 +245,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$items = $this->_products;
     	if(empty($items))
     	{
-    		$model = JModel::getInstance( 'Products', 'TiendaModel' );   
-        	$model->setState('filter_category', $this->_catid);  
-        	$model->setState('filter_enabled', '1');
-	        $model->setState('filter_quantity_from', '1');	   
-        	$items = $model->getList();    		
+    		$items = $this->getProducts();
+    		$this->_products = $items;	
     	}
     	
     	if(empty($this->_pids))
@@ -245,7 +258,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    	}
 	    	$this->_pids = $pids;
     	}    	
-    	
+ 	
     	$query = new TiendaQuery();
 		$query->select( 'tbl.product_id' );	
 		$query->select( 'tbl.productattribute_name' );	
@@ -256,28 +269,31 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		$this->_db->setQuery( (string) $query );
 		$attributes = $this->_db->loadObjectList(); 
 
+		if(empty($attributes)) return array();
+		
 		$optionsA = array();
 		$attriNameA = array();
+		$trackAttri = array();
     	foreach($attributes as $attribute)
-		{			
-			$attriNameA[] = $attribute->productattribute_name;	
-				
+		{						
 			$options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);			
 			$optionKey = array();
 			foreach($options as $option)
 			{
-				$optionKey[] = "{$attribute->productattribute_name}|{$option->productattributeoption_name}";
-				$optionNameA[] = $option->productattributeoption_name;
+				$optionKey["{$attribute->productattribute_id}|{$option->productattributeoption_id}"] = "{$attribute->productattribute_name}|{$option->productattributeoption_name}";				
 			}
-			$optionsA = array_merge($optionsA, $optionKey);					
+			
+			$optionsA = array_merge($optionsA, $optionKey);	
+						
 			$attribute->productattribute_options = $options;	
 		}
-		
-		$count_values = array_count_values($optionsA);
 	
+		$count_values = array_count_values($optionsA);
+
 		//track so that we will not showing same attribute
 		$trackA = array();	
 		$newAttributes = array();
+		
 		foreach($attributes as $attribute)
 		{
 			if(!in_array($attribute->productattribute_name, $trackA))
@@ -287,8 +303,24 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				$newAttriObj->productattribute_id = $attribute->productattribute_id;
 				foreach($attribute->productattribute_options as $option)
 				{
-					$key = "{$attribute->productattribute_name}|{$option->productattributeoption_name}";
-					$option->total = $count_values[$key];
+					$index = "{$attribute->productattribute_name}|{$option->productattributeoption_name}";
+					$option->total = $count_values[$index];
+					$link = $this->_link.'&filter_category='.$this->_catid;
+				
+					//get the attribute_id
+					$attriA = array();
+					foreach($optionsA as $key=>$value)
+					{					
+						if($value == $index)
+						{
+							$explode = explode('|', $key);
+							$attriA[]= $explode[0];	
+						}
+					}
+					
+					$link .= '&filter_attribute_set='.implode(',', $attriA);	
+					$link .= '&filter_attributeoptionname='.strtolower($option->productattributeoption_name);					
+					$option->link = $link;
 				}
 				
 				$newAttriObj->productattribute_options = $attribute->productattribute_options;
@@ -301,6 +333,33 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		}
 		
 		return $newAttributes;    	
-    }        
+    }  
+    
+ 	private function getProducts()
+    {
+    	$app = JFactory::getApplication();
+    	$ns = $app->getName().'::'.'com.tienda.model.products';
+    	
+    	$filter_manufacturer = $app->getUserStateFromRequest($ns.'.manufacturer', 'filter_manufacturer', '', '');
+        $filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');      
+        $filter_price_from = $app->getUserStateFromRequest($ns.'.price_from', 'filter_price_from', '0', 'int');
+        $filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');
+    	
+    	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
+        $model->setState('filter_category', $this->_catid);  
+        $model->setState('filter_manufacturer', $filter_manufacturer);       
+       	$model->setState('filter_attribute_set', $filter_attribute_set);
+      
+     	$model->setState('filter_price_from', $filter_price_from);           
+        $model->setState('filter_price_to', $filter_price_to);
+        
+	    $model->setState( 'order', 'price' );
+        $model->setState( 'direction', 'DESC' ); 
+        $model->setState('filter_enabled', '1');
+	    $model->setState('filter_quantity_from', '1');	
+        $items = $model->getList();  
+   
+        return $items;
+    }
 }
 ?>   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="left" method="upgrade">
-    <name>Layered Navigation</name>
+    <name>Shop By</name>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
@@ -8,7 +8,7 @@
     <creationDate>February 2011</creationDate>
     <copyright>2010 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description>Allow users to filter products by any parameter they want</description>
+    <description>Layered navigation that allow users to filter products by any parameter they want</description>
     
     <files>
         <filename module="mod_tienda_layered_navigation">mod_tienda_layered_navigation.php</filename>
@@ -25,7 +25,7 @@
 		<param name="multi_mode" type="list" default="1" label="Multi Mode" description="Apply as many filters at the same time as you want.">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
-		</param>
+		</param>		
 	</params>
     
     <params group="advanced">
