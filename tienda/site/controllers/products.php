@@ -45,14 +45,15 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_published'] = 1;
 		$state['filter_published_date'] = $date->toMySQL();
 		$state['filter_enabled']  = 1;
-		$state['search']          = $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
-		$state['search_type']          = $app->getUserStateFromRequest($ns.'.search_type', 'search_type', '', '');
-		$state['filter_category'] = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
-        $state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
-        $state['filter_price_to']       = $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
-		$state['filter_price_from']     = $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
-       
+		$state['search']          			= $app->getUserStateFromRequest($ns.'.search', 'search', '', '');
+		$state['search_type']          		= $app->getUserStateFromRequest($ns.'.search_type', 'search_type', '', '');
+		$state['filter_category'] 			= $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');
+        $state['filter_price_from']    		= $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
+        $state['filter_price_to']       	= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');	
+ 		$state['filter_attribute_set']     	= $app->getUserStateFromRequest($ns.'attribute', 'filter_attribute_set', '', '');       
+		$state['filter_manufacturer']     	= $app->getUserStateFromRequest($ns.'manufacturer', 'filter_manufacturer', '', '');
 		$state['filter_sortby']     = $app->getUserStateFromRequest($ns.'sortby', 'filter_sortby', '', '');
+		
 		if(strlen($state['filter_sortby']) && TiendaConfig::getInstance()->get('display_sort_by', '1'))
 		{
 			switch( $state['filter_sortby'] )
@@ -151,7 +152,7 @@ class TiendaControllerProducts extends TiendaController
 		{
 		    $model->setState('filter_quantity_from', '1');
 		}
-		
+		     	
 		// get the category we're looking at
 		$filter_category = $model->getState('filter_category', JRequest::getVar('filter_category'));
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -399,7 +400,7 @@ class TiendaControllerProducts extends TiendaController
         $user_id = JFactory::getUser()->id;
         $filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
         $model->setState('filter_group', $filter_group);
-             
+          
         $row = $model->getItem( false );
         if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
         {
@@ -540,7 +541,7 @@ class TiendaControllerProducts extends TiendaController
         $view->assign( 'availableQuantity', $availableQuantity );
         $view->assign( 'invalidQuantity', $invalidQuantity );
         $view->assign( 'item', $row );
-        
+      
         $dispatcher =& JDispatcher::getInstance();
         
         ob_start();
