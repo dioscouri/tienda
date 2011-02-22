@@ -40,7 +40,8 @@ class TiendaModelProducts extends TiendaModelEav
 		$filter_multicategory = $this->getState( 'filter_multicategory' );
 		$filter_description = $this->getState( 'filter_description' );
 		$filter_description_short = $this->getState( 'filter_description_short' );
-		$filter_namedescription = $this->getState( 'filter_namedescription' );
+		$filter_namedescription = $this->getState( 'filter_namedescription' );		
+		$filter_attribute_set = $this->getState( 'filter_attribute_set' );	
 		
 		if ( $filter )
 		{
@@ -145,6 +146,12 @@ class TiendaModelProducts extends TiendaModelEav
 			$where[] = 'LOWER(pao.productattributeoption_code) LIKE ' . $key;
 			$query->where( '(' . implode( ' OR ', $where ) . ')' );
 		}
+						
+		if ( strlen( $filter_attribute_set ) )
+		{			
+			$query->where( 'pa.productattribute_id IN(' . $filter_attribute_set . ')' );		
+		}				
+				
 		if ( $filter_category == 'none' )
 		{
 			$query->where( "NOT EXISTS (SELECT * FROM #__tienda_productcategoryxref AS p2c WHERE tbl.product_id = p2c.product_id)" );
@@ -240,19 +247,17 @@ class TiendaModelProducts extends TiendaModelEav
 		$query->join( 'LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = tbl.manufacturer_id' );
 		
 		$filter_sku = $this->getState( 'filter_sku', '', 'string' );
-		
-		if ( strlen( $filter_sku ) )
-		{
+		$filter_attribute_set = $this->getState( 'filter_attribute_set' );
+		if ( strlen( $filter_sku ) || strlen($filter_attribute_set) )
+		{			
 			// Check also the pao for codes
 			$query->join( 'LEFT', '#__tienda_productattributes AS pa ON pa.product_id = tbl.product_id' );
-			$query->join( 'LEFT', '#__tienda_productattributeoptions AS pao ON pa.productattribute_id = pao.productattribute_id' );
-		}
-		/*$filter_sortby	= $this->getState('filter_sortby', '', 'string' );
-		if (strlen($filter_sortby))
-		{			
-		    $query->join('LEFT', '#__tienda_productprices AS pp ON pp.product_id = tbl.product_id');
-		}*/
-		
+			
+			if(strlen( $filter_sku ))
+			{
+				$query->join( 'LEFT', '#__tienda_productattributeoptions AS pao ON pa.productattribute_id = pao.productattribute_id' );
+			}			
+		}	
 	}
 	
 	protected function _buildQueryFields( &$query )
@@ -263,7 +268,7 @@ class TiendaModelProducts extends TiendaModelEav
 			$field[] = " c.category_name AS category_name ";
 		}
 		
-		$field[] = " m.manufacturer_name AS manufacturer_name ";
+		$field[] = " m.manufacturer_name AS manufacturer_name ";	
 		
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate( )->toMysql( );
