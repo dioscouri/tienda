@@ -109,7 +109,7 @@ class TiendaHelperOrder extends TiendaHelperBase
                 $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
                 $model->setState( 'filter_product', $orderitem->product_id );
                 $model->setState( 'filter_enabled', 1 );
-                $model->setState( 'filter_purchaserequired', 1 );
+                //$model->setState( 'filter_purchaserequired', 1 ); //we still show the downloable file in the My Downloads area if the user completed the checkout
                 if (!$items = $model->getList())
                 {
                     continue;
