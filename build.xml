@@ -225,6 +225,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_my_orderitems/languages" />
         </copy>
+        <!-- LAYERED NAVIGATION -->
+        <copy todir="${destdir}/modules/mod_tienda_layered_navigation" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_layered_navigation" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_layered_navigation/languages" />
+        </copy>
 
     <!-- PLUGINS -->
         <!-- AMBRA POINTS -->
@@ -656,6 +663,7 @@
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cart.zip" basedir="${cfg.comDir}/${cfg.modPrefix}cart" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}categories.zip" basedir="${cfg.comDir}/${cfg.modPrefix}categories" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}currency.zip" basedir="${cfg.comDir}/${cfg.modPrefix}currency" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}layered_navigation.zip" basedir="${cfg.comDir}/${cfg.modPrefix}layered_navigation" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}my_orderitems.zip" basedir="${cfg.comDir}/${cfg.modPrefix}my_orderitems" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}my_orders.zip" basedir="${cfg.comDir}/${cfg.modPrefix}my_orders" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}popular_products.zip" basedir="${cfg.comDir}/${cfg.modPrefix}popular_products" />
