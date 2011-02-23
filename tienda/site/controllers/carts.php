@@ -122,7 +122,8 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'submenu', $submenu );
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-      	$view->assign('cartobj', $this->checkItems($items, $show_tax));      
+      	$view->assign('cartobj', $this->checkItems(&$items, $show_tax));
+      	$view->assign( 'items', $items );      
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
