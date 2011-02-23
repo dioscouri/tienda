@@ -2,7 +2,7 @@
 <install type="language" version="1.5.0" method="upgrade">
     <name>Russian (CIS) Translation for Tienda</name>
     <tag>ru-RU</tag>
-    <version>0.6.5</version>
+    <version>0.7.0</version>
     <creationDate>May 2010</creationDate>
     <author>Pavel Savushkin</author>
     <authoremail>pavel@savushkin.spb.ru</authoremail>
