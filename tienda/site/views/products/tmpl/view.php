@@ -92,30 +92,32 @@ $item = @$this->row;
         <?php if (TiendaConfig::getInstance()->get('shop_enabled', '1')) : ?>
             <div class="product_buy" id="product_buy_<?php echo $item->product_id; ?>">
                 <?php if (!empty($this->product_buy)) { echo $this->product_buy; } ?>
-                 <?php if (TiendaConfig::getInstance()->get('ask_question_enable', '1')) : ?>
-	            <span style="font-size: 12px;">
-	            	<?php 
-	            		$uri = JFactory::getURI();	 
-	            		$return_link = base64_encode($uri->toString());
-	            		$asklink = "index.php?option=com_tienda&view=products&task=askquestion&id={$item->product_id}&return=".$return_link;
-	            		
-	            		if(TiendaConfig::getInstance()->get('ask_question_modal', '1'))
-	            		{
-	            			$height = TiendaConfig::getInstance()->get('ask_question_showcaptcha', '1') ? '570' : '440';
-	            			$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_("Ask a question about this product"), array('width' => '490', 'height' => "{$height}") ); 
-	            		}
-	            		else 
-	            		{
-	            			$asktxt = "<a href='{$asklink}'>";
-	            			$asktxt .= JText::_("Ask a question about this product");
-	            			$asktxt .= "</a>";	            			
-	            		}
-	            	?>
-	            	 [<?php echo $asktxt;?>]
-	            </span>   
-            <?php endif;?> 
             </div>                   
         <?php endif; ?>
+        
+        <?php if (TiendaConfig::getInstance()->get('ask_question_enable', '1')) : ?>
+        <div class="reset"></div>
+        <div id="product_questions">
+            <?php 
+                $uri = JFactory::getURI();   
+                $return_link = base64_encode($uri->toString());
+                $asklink = "index.php?option=com_tienda&view=products&task=askquestion&id={$item->product_id}&return=".$return_link;
+                
+                if(TiendaConfig::getInstance()->get('ask_question_modal', '1'))
+                {
+                    $height = TiendaConfig::getInstance()->get('ask_question_showcaptcha', '1') ? '570' : '440';
+                    $asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_("Ask a question about this product"), array('width' => '490', 'height' => "{$height}") ); 
+                }
+                else 
+                {
+                    $asktxt = "<a href='{$asklink}'>";
+                    $asktxt .= JText::_("Ask a question about this product");
+                    $asktxt .= "</a>";                          
+                }
+            ?>
+            [<?php echo $asktxt;?>]
+        </div>   
+        <?php endif;?>
         
         <?php // display this product's group ?>
         <?php echo $this->product_children; ?>
