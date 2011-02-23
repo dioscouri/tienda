@@ -139,6 +139,8 @@ div#product_description {
 
 .tienda_header {
     margin-top: 10px;
+    margin-bottom: 3px;
+    padding: 5px 0px;
     border-bottom: 1px solid #cccccc;
 }
 
@@ -188,6 +190,7 @@ div.product_listprice span.title {
 
 div.product_rating, div.product_rating img {
 	vertical-align: middle;
+	padding: 3px 0 2px;
 }
 
 .product_gallery_thumb img {
