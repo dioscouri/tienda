@@ -89,56 +89,65 @@ class TiendaHelperImage extends TiendaHelperBase
     /**
 	 * Resize Image
 	 * 
-	 * @param image	string	filename of the image
+	 * @param image	TiendaImage	filename of the image
 	 * @param type	string	what kind of image: product, category
 	 * @param options	array	array of options: width, height, thumb_path
 	 * @return thumb full path
 	 */
 	function resizeImage( &$img, $type = 'product', $options = array() )
 	{
-
-		$types = array('product', 'category', 'manufacturer');
-		if(!in_array($type, $types))
-			$type = 'product';
-
-		// Code less!
-		$thumb_path = $img->getDirectory().DS.'thumbs';
-		$img_width = $type.'_img_width';
-		$img_height = $type.'_img_height';
-		
-		$img->load();
-		
-		// Default width or options width?
-		if(!empty($options['width']) && is_numeric($options['width']))
-			$width = $options['width'];
-		else
-			$width = $this->$img_width;
-		
-		// Default height or options height?
-		if(!empty($options['height']) && is_numeric($options['height']))
-			$height = $options['height'];
-		else	
-			$height= $this->$img_height;
-		
-		// Default thumb path or options thumb path?
-		if(!empty($options['thumb_path']))
-			$dest_dir = $options['thumb_path'];
-		else	
-			$dest_dir = $thumb_path;
-			
-		$this->checkDirectory($dest_dir);
-
-		if($width >= $height)
-			$img->resizeToWidth( $width );
-		else
-			$img->resizeToHeight( $height );
-			
-		$dest_path = $dest_dir.DS.$img->getPhysicalName();
-		
-		if (!$img->save( $dest_path ))
+		if(!$img->is_archive)
 		{
-		    $this->setError( $img->getError() );
-		    return false;
+			$types = array('product', 'category', 'manufacturer');
+			if(!in_array($type, $types))
+				$type = 'product';
+	
+			// Code less!
+			$thumb_path = $img->getDirectory().DS.'thumbs';
+			$img_width = $type.'_img_width';
+			$img_height = $type.'_img_height';
+			
+			$img->load();
+			
+			// Default width or options width?
+			if(!empty($options['width']) && is_numeric($options['width']))
+				$width = $options['width'];
+			else
+				$width = $this->$img_width;
+			
+			// Default height or options height?
+			if(!empty($options['height']) && is_numeric($options['height']))
+				$height = $options['height'];
+			else	
+				$height= $this->$img_height;
+			
+			// Default thumb path or options thumb path?
+			if(!empty($options['thumb_path']))
+				$dest_dir = $options['thumb_path'];
+			else	
+				$dest_dir = $thumb_path;
+				
+			$this->checkDirectory($dest_dir);
+	
+			if($width >= $height)
+				$img->resizeToWidth( $width );
+			else
+				$img->resizeToHeight( $height );
+				
+			$dest_path = $dest_dir.DS.$img->getPhysicalName();
+			
+			if (!$img->save( $dest_path ))
+			{
+			    $this->setError( $img->getError() );
+			    return false;
+			}
+		}
+		else
+		{			
+			foreach($img->archive_files as $file)
+			{
+				$dest_path = self::resizeImage($file, $type, $options);
+			}
 		}
 		
 		return $dest_path;

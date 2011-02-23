@@ -523,6 +523,7 @@ class TiendaConfig extends JObject
     var $validate_field_phone				= '0';
     
     var $sha1_images						= '0';
+    var $files_maxsize						= '3000';
     
 	
 	/**

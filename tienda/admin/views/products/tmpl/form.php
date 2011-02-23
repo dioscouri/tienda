@@ -417,8 +417,11 @@ window.addEvent('domready', function(){
                     </td>
                     <td>
                         <div class="multiupload"> 
-                        <input name="product_full_image_new" type="file" size="40" />
+                        	<input name="product_full_image_new" type="file" size="40" />
                         </div>
+                        <div class="note" style="clear:both">
+	                    	<?php echo JText::_( "Upload Zip Images Message" ); ?>
+	                    </div>
                     </td>
                 </tr>
                 <tr>

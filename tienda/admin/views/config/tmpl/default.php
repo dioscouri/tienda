@@ -1113,6 +1113,17 @@
                                 <?php echo JText::_( 'TIENDA SHA1 IMAGE DESC'); ?>
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Max FileSize for Images / Image Archives' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <input type="text" name="files_maxsize" value="<?php echo $this->row->get('files_maxsize', '3000'); ?>" /> Kb
+							</td>
+                            <td>
+                              &nbsp;
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php
