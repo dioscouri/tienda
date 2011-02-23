@@ -122,7 +122,7 @@ class TiendaControllerCarts extends TiendaController
         $view->assign( 'submenu', $submenu );
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-      	$view->assign('cartobj', $this->checkItems(&$items, $show_tax));
+      	$view->assign('cartobj', $this->checkItems($items, $show_tax));
       	$view->assign( 'items', $items );      
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
@@ -457,7 +457,7 @@ class TiendaControllerCarts extends TiendaController
 		$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
 		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-        $view->assign('cartobj', 	$this->checkItems($items, $show_tax));
+        $view->assign('cartobj', $this->checkItems($items, $show_tax));
         $view->assign( 'show_tax', $show_tax );
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
@@ -476,9 +476,9 @@ class TiendaControllerCarts extends TiendaController
      * @param boolean - config to show tax or not
      * @return object
      */
-    function checkItems($items= array(), $show_tax=false)
+    function checkItems( &$items, $show_tax=false )
     {    	
-    	if(empty($items)) return $items;
+    	if (empty($items)) { return array(); }
     	
       	Tienda::load('TiendaHelperUser', 'helpers.user');
       	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
