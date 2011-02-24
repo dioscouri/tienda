@@ -43,7 +43,6 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     	// Prepare vars for the payment
     	
         $vars = new JObject();
-        $vars->url = JRoute::_( "index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element );
         $vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->orderpayment_type = $this->_element;
@@ -72,7 +71,9 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     {
     	$vars = new JObject();
     	
-    	if( $this->_process( $data ) )
+    	$errors = $this->_process( $data );
+    	
+    	if( empty( $errors ) )
     	{
     		$vars->message = JText::_('TIENDA ALPHAUSERPOINTS PAYMENT SUCCESSUFUL');
             $html = $this->_getLayout('message', $vars);
@@ -80,8 +81,9 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     	}
     		else 
     	{
-    		$vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE' );
-			$html = $this->_getLayout('message', $vars);				
+    		$vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE' ) . $errors;
+    		$vars->errors = $errors;
+			$html = $this->_getLayout('message', $vars);
     	}
     	
     	return $html;
@@ -114,7 +116,90 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
      */
     function _process( $data )
 	{
-		
+		$errors = array();
+        
+        // load the orderpayment record and set some values
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    $orderpayment_id = $data['orderpayment_id'];
+	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	    $orderpayment->load( $orderpayment_id );
+	    $orderpayment->transaction_details  = $data['orderpayment_type'];
+	    $orderpayment->transaction_id       = $data['orderpayment_id'];
+	    $orderpayment->transaction_status   = "Payment Incomplete";
+	    
+		// check the stored amount against the payment amount
+	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
+	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
+	    }
+	    	    
+	    // check if user has enough points
+	    $userpoints = $this->getUserpoints();
+	    if( $data['amount_points'] > $userpoints )
+	    {
+	    	$errors[] = JText::_('TIENDA ALPHAUSERPOINTS PAYMENT MESSAGE NOT ENOUGH POINTS');
+	    }
+	    
+	    // set the order's new status and update quantities if necessary
+	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+	    $order = JTable::getInstance('Orders', 'TiendaTable');
+	    $order->load( $orderpayment->order_id );
+	    
+		if (count($errors)) 
+	    {
+	    	// if an error occurred 
+	        $order->order_state_id = $this->params->get('failed_order_state', '10'); // FAILED
+	        
+	        $setOrderPaymentReceived = false;
+	        
+	        $send_email = false;
+	   	}
+	        else 
+	    {
+	        $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
+	            
+	        $orderpayment->transaction_status = "Payment Received";
+	        
+	        //reduce number of alphauserpoints
+	        $errors[] = $this->reduceUserpoints( $data['amount_points'] );
+	        
+	        // do post payment actions
+	        $setOrderPaymentReceived = true;
+	            
+	        // send email
+	        $send_email = true;    
+	    }
+	    
+		// save the order
+	    if (!$order->save())
+	    {
+	       	$errors[] = $order->getError();
+	    }
+	        
+	    // save the orderpayment
+	    if (!$orderpayment->save())
+	    {
+	      	$errors[] = $orderpayment->getError(); 
+	    }
+	        
+	    if (!empty($setOrderPaymentReceived))
+	    {
+	        $this->setOrderPaymentReceived( $orderpayment->order_id );
+	    }
+	        
+	    if ($send_email)
+	    {
+	    	// send notice of new order
+	    	Tienda::load( "TiendaHelperBase", 'helpers._base' );
+	    	$helper = TiendaHelperBase::getInstance('Email');
+	    	$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+	    	$model->setId( $orderpayment->order_id );
+	   		$order = $model->getItem();
+	    	$helper->sendEmailNotices($order, 'new_order');
+	    }
+	    
+	    return count($errors) ? implode("\n", $errors) : '';
 	}
     
 	/**
@@ -138,19 +223,13 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
         // but plugins may override this
     	
         $amount_points = round( $order->order_total * $this->params->get('exchange_rate') );
-       	        
-        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
-		$current_points = AmbraHelperUser::getPoints( $order->user_id );
-
-	    $api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-		if ( file_exists($api_AUP))
-		{			
-			$referrerid = '';
-			require_once ($api_AUP);
-			$user_info = AlphaUserPointsHelper::getUserInfo ( $referrerid, $order->user_id );			
-		}
+       	    
+		$userpoints = $this->getUserpoints();
 		
-        if( $amount_points > $user_info->points )
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		$guest = JRequest::getVar( 'guest', '0');
+		
+        if( $amount_points > $userpoints && $guest == '1' )
         {
         	return false;
         }
@@ -158,5 +237,121 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
         {
         	return true;
         }              
-    }   
+    }  
+
+    /**
+     * Gets alpha user points
+     * 
+     * @param void
+     * @return $userpoints int
+     */
+    function getUserpoints()
+    {
+    	// get alphauserpoints for the user
+		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		if ( file_exists($api_AUP))
+		{
+			require_once ($api_AUP);
+					
+			$referrerid = $this->getReferreid( JFactory::getUser()->id );
+			
+			$userpoints = AlphaUserPointsHelper::getCurrentTotalPoints( $referrerid );			
+		}
+		
+		return $userpoints;
+    }
+    
+    /**
+     * Updates alpha user points
+     * 
+     * @param $assignpoints int
+     * @return void
+     */
+    function reduceUserpoints( $amount_points )
+    {
+    	// reduce number of points for the payment
+    	$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		if ( file_exists($api_AUP))
+		{
+			require_once ($api_AUP);
+			
+			// create the rule for Tienda payment if not exists
+			$this->checkTiendaPaymentRule();
+							
+			$referrerid = $this->getReferreid( JFactory::getUser()->id );
+			
+			$jnow = & JFactory::getDate();
+			$now  = $jnow->toMySQL();	
+			
+			//AlphaUserPointsHelper::newpoints( 'function_name', '', '', '', -$amount_points);
+			
+			AlphaUserPointsHelper::insertUserPoints( $referrerid, -$amount_points, $rule_expire='0000-00-00 00:00:00', AlphaUserPointsHelper::getRuleID( $this->_element ), 0, '', 'Tienda order paid by points' );
+		}     
+    }
+    
+    /** 
+     * Gets $referrerid for the user and starts the session
+     *  
+     * @param int $userID
+     */    
+	function getReferreid( $userID )
+	{	
+		if ( !$userID ) return;	
+		// get referre ID on login	
+		$db	   =& JFactory::getDBO();
+		$query = "SELECT referreid FROM #__alpha_userpoints WHERE `userid`='$userID'";
+		$db->setQuery( $query );
+		$referreid = $db->loadResult();
+		if ( $referreid )
+		{		
+			@session_start('alphauserpoints');	
+			$_SESSION['referrerid'] = $referreid;
+		}	
+		
+		return $referreid;
+	}
+	
+	/**
+	 * Checks AlphaUserPoints for Tienda payment
+	 * 
+	 * @param void
+	 * @return void
+	 */
+	function checkTiendaPaymentRule()
+	{
+		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		if ( file_exists($api_AUP))
+		{
+			require_once ($api_AUP);
+		
+			$referrerid = $this->getReferreid( JFactory::getUser()->id );
+			
+			$rule_name = AlphaUserPointsHelper::getNameRule( $this->_element );
+			
+			if( empty( $rule_name ) )
+			{
+				JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_alphauserpoints'.DS.'tables');
+				// save new points into alpha_userpoints_rules table
+				$row =& JTable::getInstance('Rules');
+				$row->id			   = NULL;
+				$row->rule_name		   = 'Tienda Payment';
+				$row->rule_description = 'Rule for substraction points during Tienda payment';
+				$row->rule_plugin	   = 'Tienda Payment';
+				$row->plugin_function  = $this->_element;			
+				$row->component		   = 'com_tienda';
+				$row->calltask		   = '';
+				$row->taskid		   = '';
+				$row->category		   = '';
+				if ( !$row->store() )
+				{
+					JError::raiseError(500, $row->getError());
+				}	
+			}		
+		}
+	}
+	
+	
+	
+	
+	
 }
