@@ -5,8 +5,21 @@
 
 <div class="tienda_layered_nav_<?php echo $params->get('multi_mode', 1) ? 'multi' : 'single'?>">
 
-<h2><?php echo JText::_("Shopping Options");?></h2>
+<?php if(count($filters)):?>
+<h2><?php echo JText::_("CURRENTLY SHOPPING BY");?></h2>
+	<ul class="tienda_browse_currently" id="tienda_browse_currently">
+		<?php foreach($filters as $filter):?>
+		<li>
+			<a class="btn-remove" title="<?php echo JText::_('REMOVE THIS ITEM');?>" href="<?php echo $filter->link;?>"><?php echo JText::_('REMOVE THIS ITEM');?></a>
+			<span class="label"><?php echo $filter->label;?>:</span>		
+			<span class="value"><?php echo $filter->value;?></span>					
+		</li>
+		<?php endforeach;?>
+	</ul>
+<?php endif;?>
 
+
+<h2><?php echo JText::_("SHOPPING OPTIONS");?></h2>
 <?php if($trackcatcount > 0):?>
 	<h3><?php echo $categories[0]->category_name;?></h3>
 	<ul id="tienda_browse_category">
@@ -32,7 +45,7 @@
 <?php endif;?>
 
 <?php if(count($priceRanges) > 0):?>
-	<h3><?php echo JText::_('Price');?></h3>
+	<h3><?php echo JText::_('PRICE');?></h3>
 	<ul id="tienda_browse_pricerange">
 		<?php foreach($priceRanges as $priceRange):?>	
 			<?php if($priceRange->total > 0):?>		
@@ -55,7 +68,8 @@
 	<?php foreach($attributes as $attribute):?>
 		<h3><?php echo $attribute->productattribute_name;?></h3>
 		<ul id="tienda_browse_attribute">
-			<?php foreach($attribute->productattribute_options as $option):?>			
+			<?php foreach($attribute->productattribute_options as $option):?>				
+			<?php if(isset($attributeOptions[$option->productattributeoption_id]) && ($option->productattributeoption_name == $attributeOptions[$option->productattributeoption_id])) continue; ?>	
 				<li>
 					<a href="<?php echo $option->link;?>">
 						<span class="refinementLink">	
@@ -72,7 +86,7 @@
 <?php endif;?>
 
 <?php if(count($manufacturers) > 0):?>
-	<h3><?php echo JText::_('Manufacturers');?></h3>
+	<h3><?php echo JText::_('MANUFACTURERS');?></h3>
 	<ul id="tienda_browse_manufacturer">
 		<?php foreach($manufacturers as $manufacturer):?>
 			<?php if($manufacturer->total > 0):?>

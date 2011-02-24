@@ -1,11 +1,12 @@
-div.tienda_layered_nav_single
+div.tienda_layered_nav_single, div.tienda_layered_nav_multi
 {
 	border: 1px solid #CCC;
 	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;	
+	width: 185px;
 }
 
-div.tienda_layered_nav_single h2
+div.tienda_layered_nav_single h2, div.tienda_layered_nav_multi h2
 {
 	background-color: #ccc;	
 	font-size: 120%;	
@@ -14,24 +15,26 @@ div.tienda_layered_nav_single h2
     line-height: 1.25em;
     margin: 0 0 3px 0;   
     padding: 3px 6px;    
+    width: 94%;
 }
 
-div.tienda_layered_nav_single h3
+div.tienda_layered_nav_single h3, div.tienda_layered_nav_multi h3
 {
 	padding: 4px 6px 0 6px;
 	color: #E47911;  
     font-size: 105%;
-    font-weight: bold;   
+    font-weight: bold; 
+    width: 94%;
 }
 
-div.tienda_layered_nav_single ul
+div.tienda_layered_nav_single ul, div.tienda_layered_nav_multi ul
 {	
 	padding: 0 0 10px 10px;
 	margin: -3px 0 3px 0;
     border-bottom: 1px dotted #CCC;
 }
 
-div.tienda_layered_nav_single ul li
+div.tienda_layered_nav_single ul li, div.tienda_layered_nav_multi ul li
 {
 	line-height: 1.2em;
     list-style-image: none;
@@ -39,4 +42,21 @@ div.tienda_layered_nav_single ul li
     list-style-type: none;    
 }
 
- 
+ul.tienda_browse_currently li
+{
+	padding: 3px 0;
+}
+
+ul.tienda_browse_currently .btn-remove
+{	
+	margin-right: 3px;
+	float: right;
+	font-size: 0px;
+	display: block;   
+    height: 12px;    
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-indent: -999em;
+    width: 12px;
+    background-image: url("../images/close.png");
+}
