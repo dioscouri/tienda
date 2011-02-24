@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>AlphaUserPoints Payments</name>
+	<version>0.7.1</version>
+	<creationDate>January 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables payments with AlphaUserPoints</description>
+	
+	<files>
+		<filename plugin="payment_alphauserpoints">payment_alphauserpoints.php</filename>
+		<folder>payment_alphauserpoints</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_payment_alphauserpoints.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="exchange_rate" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS PAYMENT EXSCHANGE RATE" description="TIENDA ALPHAUSERPOINTS PAYMENT EXSCHANGE RATE DESC" />
+        <param type="spacer" />
+        <param name="articleid" type="text" size="10" default="" label="TIENDA ALPHAUSERPOINTS PAYMENT ARTICLE NUMBER" description="TIENDA ALPHAUSERPOINTS PAYMENT ARTICLE NUMBER DESC" /> 
+		<param name="display_article_title" type="radio" default="0" label="TIENDA ALPHAUSERPOINTS PAYMENT DISPLAY ARTICLE TITLE" description="TIENDA ALPHAUSERPOINTS PAYMENT DISPLAY ARTICLE TITLE DESC">
+  			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+  		</param>
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	</params>
+			
+</install>
