@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Exporter - Generic Data Export</name>
+	<version>0.7.1</version>
+	<creationDate>February 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>Generic Data Export</description>
+
+	<files>
+		<filename plugin="genericexporter">genericexporter.php</filename>
+		<folder>report_prepayments</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_genericexporter.ini</language>
+	</languages>
+
+	<params>
+	</params>
+
+</install>
