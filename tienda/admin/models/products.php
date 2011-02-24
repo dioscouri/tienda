@@ -37,6 +37,7 @@ class TiendaModelProducts extends TiendaModelEav
 		$filter_published = $this->getState( 'filter_published' );
 		$filter_published_date = $this->getState( 'filter_published_date' );
 		$filter_manufacturer = $this->getState( 'filter_manufacturer' );
+		$filter_manufacturer_set = $this->getState( 'filter_manufacturer_set' );
 		$filter_multicategory = $this->getState( 'filter_multicategory' );
 		$filter_description = $this->getState( 'filter_description' );
 		$filter_description_short = $this->getState( 'filter_description_short' );
@@ -208,6 +209,12 @@ class TiendaModelProducts extends TiendaModelEav
 		{
 			$query->where( "tbl.manufacturer_id = '" . $filter_manufacturer . "'" );
 		}
+		
+		if ( strlen( $filter_attribute_set ) )
+		{			
+			$query->where( 'tbl.manufacturer_id IN(' . $filter_manufacturer_set . ')' );		
+		}	
+		
 		
 		if ( strlen( $filter_published ) )
 		{

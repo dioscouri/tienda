@@ -52,7 +52,9 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_price_to']       	= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');	
  		$state['filter_attribute_set']     	= $app->getUserStateFromRequest($ns.'attribute', 'filter_attribute_set', '', '');       
 		$state['filter_manufacturer']     	= $app->getUserStateFromRequest($ns.'manufacturer', 'filter_manufacturer', '', '');
-		$state['filter_sortby']     = $app->getUserStateFromRequest($ns.'sortby', 'filter_sortby', '', '');
+		$state['filter_manufacturer_set']   = $app->getUserStateFromRequest($ns.'manufacturer_set', 'filter_manufacturer_set', '', '');
+		$state['filter_attributeoptionname'] = $app->getUserStateFromRequest($ns.'attributeoptionname', 'filter_attributeoptionname', array(), 'array');
+		$state['filter_sortby']     		= $app->getUserStateFromRequest($ns.'sortby', 'filter_sortby', '', '');
 		
 		if(strlen($state['filter_sortby']) && TiendaConfig::getInstance()->get('display_sort_by', '1'))
 		{
