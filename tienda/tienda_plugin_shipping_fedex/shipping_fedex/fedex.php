@@ -209,7 +209,7 @@ class TiendaFedexShip extends TiendaFedex
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('FEDEX_ERRORCODE1') );
+                    $this->setError( Tienda::dump($this->response) );
                     return false;
                 } 
                 

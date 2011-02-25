@@ -19,7 +19,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
 	 *                         forcing it to be unique 
 	 */
     var $_element   = 'shipping_usps'; 
-	
+    
     /**
      * Overriding 
      * 
@@ -188,6 +188,8 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                   
             if (!empty($price->error) && is_object($price->error))
             {
+            	$this->writeToLog( implode( "\n", $usps->getErrors( ) ) );
+            	
             	if($this->params->get( 'show_debug' ))
             	{
             		echo Tienda::dump($price->error);          

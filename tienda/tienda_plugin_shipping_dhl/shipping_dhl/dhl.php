@@ -206,7 +206,7 @@ class TiendaDhlShip extends TiendaDhl
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('DHL_ERRORCODE1') );
+                    $this->setError( Tienda::dump($this->response) );
                     return false;
                 } 
                 

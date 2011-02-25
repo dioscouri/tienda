@@ -253,8 +253,6 @@ class TiendaUpsRate extends TiendaUps
             {
                 $this->response = $this->getClient()->ProcessRate( $this->getRequest() );
                 
-                JFile::write(JPATH_SITE.DS.'tmp'.DS.'test.txt', Tienda::dump($this->response));
-                
                 if ($this->response->Response->ResponseStatus->Code != '0')
                 {
                     $this->processResponse($this->response);
@@ -262,7 +260,7 @@ class TiendaUpsRate extends TiendaUps
                 }
                     else
                 {
-                    $this->setError( JText::_('UPS_ERRORCODE1') );
+                    $this->setError( Tienda::dump($this->response) );
                     return false;
                 } 
 

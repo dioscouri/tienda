@@ -209,6 +209,10 @@ class plgTiendaShipping_Dhl extends TiendaShippingPlugin
                 $dhl->rate->summary['element'] = $this->_element;
                 $rates[] = $dhl->rate->summary;
             }
+            else
+            {
+            	$this->writeToLog( implode( "\n", $dhl->getErrors( ) ) );
+            }
         }
         
         return $rates;
