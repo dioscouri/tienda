@@ -63,6 +63,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	return $this->_catfound ||$this->_manufound || $this->_pricefound || $this->_attrifound ? true : false;  	
     }    
     
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
     function getTrackCatCount()
     {
     	return $this->_trackcatcount;
@@ -270,8 +275,15 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	return $ranges;
     }   
 
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
     function getAttributes()
     {
+        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+        
     	$items = $this->_products;
     	if(empty($items))
     	{
@@ -294,7 +306,10 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		$query->select( 'tbl.productattribute_name' );	
 		$query->select( 'tbl.productattribute_id' );	
 		$query->from('#__tienda_productattributes AS tbl');  
-		$query->where( 'tbl.product_id IN(' . implode(',', $this->_pids) . ')' );	
+		if (!empty($this->_pids))
+		{
+		    $query->where( "tbl.product_id IN ('" . implode("', '", $this->_pids) . "')" );
+		}
 					
 		$this->_db->setQuery( (string) $query );
 		$attributes = $this->_db->loadObjectList(); 
@@ -391,6 +406,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		return $newAttributes;    	
     }  
     
+    /**
+     * 
+     * Enter description here ...
+     * @return unknown_type
+     */
  	private function getProducts()
     {    	    	
     	$items = array();
