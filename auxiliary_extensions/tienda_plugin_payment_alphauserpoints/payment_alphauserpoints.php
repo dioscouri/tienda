@@ -128,8 +128,11 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 	    $orderpayment->transaction_status   = "Payment Incomplete";
 	    
 		// check the stored amount against the payment amount
-	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	    Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands'=>'' ) );	   
+	    if ( $stored_amount != $respond_amount )
+	    {	    
 	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
 	    }
 	    	    
