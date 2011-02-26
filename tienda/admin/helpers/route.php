@@ -345,9 +345,9 @@ class TiendaHelperRoute extends TiendaHelperBase
      */
     function parse( $segments )
     {
-        //echo "segments:<br /><pre>";
-        //print_r($segments);
-        //echo "</pre>";
+//        echo "segments:<br /><pre>";
+//        print_r($segments);
+//        echo "</pre>";
     
         $vars = array();
         $count = count($segments);
@@ -358,7 +358,11 @@ class TiendaHelperRoute extends TiendaHelperBase
             case 'products':
                 if ($count == '2')
                 {
-                    $vars['filter_category'] = $segments[1];    
+                    $vars['filter_category'] = $segments[1];
+                    if ($segments[1] == 'validate')
+                    {
+                        $vars['task'] = $segments[1];
+                    }    
                 }
                 
                 if ($count == '3')
