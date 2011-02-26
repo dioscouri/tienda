@@ -17,7 +17,6 @@ class TiendaTableOrderItems extends TiendaTableEav
 {
 	function TiendaTableOrderItems ( &$db ) 
 	{
-		
 		$tbl_key 	= 'orderitem_id';
 		$tbl_suffix = 'orderitems';
 		$this->set( '_suffix', $tbl_suffix );

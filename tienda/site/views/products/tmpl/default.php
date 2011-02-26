@@ -92,6 +92,7 @@ $citems = @$this->citems;
         <div id="tienda_products">
             <?php foreach ($items as $item) : ?>
             <div class="product_item">
+                <?php if (!empty($item->product_full_image)) : ?>
                 <div class="product_thumb">
                     <div class="product_listimage">
                         <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ."&Itemid=".$item->itemid ); ?>">
@@ -100,6 +101,7 @@ $citems = @$this->citems;
                     </div>
                     <div class="reset"></div>
                 </div>
+                <?php endif; ?>
 
                 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
                     <?php echo $item->product_buy; ?>
