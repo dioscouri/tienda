@@ -53,12 +53,11 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     	// Process the payment
     	
         $vars = new JObject();
-        $vars->url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
         $vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->orderpayment_type = $this->_element;
         $vars->orderpayment_amount = $data['orderpayment_amount'];        
-        $vars->points_rate = $this->_getParam('exchange_rate');
+        $vars->points_rate = $this->params->get('exchange_rate');
         $vars->amount_points = round( $vars->orderpayment_amount * $vars->points_rate );
                
         $html = $this->_getLayout('prepayment', $vars);
@@ -81,8 +80,27 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     function _postPayment( $data )
     {
         // Process the payment
-           	
-    	$success = $this->_process( $data ); 
+
+    	$vars = new JObject();
+    	
+    	$errors = $this->_process( $data );
+    	
+    	if( empty( $errors ) )
+    	{
+    		$vars->message = JText::_('TIENDA AMBRAPOINTS PAYMENT SUCCESSUFUL');
+            $html = $this->_getLayout('message', $vars);
+            $html .= $this->_displayArticle(); 
+    	}
+    		else 
+    	{
+    		$vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE' ) . $errors;
+    		$vars->errors = $errors;
+			$html = $this->_getLayout('message', $vars);
+    	}
+    	
+    	return $html;
+    	
+    	/*$success = $this->_process( $data ); 
     	$display_article = $this->params->get('display_article_title');  	
     	
     	if( $success == '' )
@@ -103,7 +121,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         	$vars->message = JText::_( 'Tienda Ambrapoints Payment Error Message' );
 			$html = $this->_getLayout('message', $vars);
 			return $html;
-    	}
+    	}*/
     }
     
     /**
@@ -115,43 +133,14 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     function _renderForm( $data )
     {
         // Render the form for collecting payment info
-        // TODO correct this
-        $user = JFactory::getUser();    
-        $vars = new JObject();
-        
-        $html = $this->_getLayout('form', $vars);
+         
+        $vars = new JObject();        
+        $vars->message = JText::_( 'TIENDA AMBRAPOINTS PAYMENT MESSAGE' );
+		
+        $html = $this->_getLayout('message', $vars);
         
         return $html;
-    }
-    
-    /**
-     * Verifies that all the required form fields are completed
-     * if any fail verification, set 
-     * $object->error = true  
-     * $object->message .= '<li>x item failed verification</li>'
-     * 
-     * @param $submitted_values     array   post data
-     * @return obj
-     */
-    function _verifyForm( $submitted_values )
-    {
-        $object = new JObject();
-        $object->error = false;
-        $object->message = '';
-        
-       	$amount_points = round( $submitted_values['order_total'] * $this->_getParam('exchange_rate') );
-       	
-        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
-		$current_points = AmbraHelperUser::getPoints( JFactory::getUser()->id ); 
-
-        if( $amount_points > $current_points )
-        {
-        	$object->error = true;
-        	$object->message = 'Insufficient number of points: '.$current_points.' points';
-        }
-                
-        return $object;
-    }                        
+    }               
     
     /************************************
      * Note to 3pd: 
@@ -174,19 +163,30 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    $orderpayment->load( $orderpayment_id );
 	    $orderpayment->transaction_details  = $data['orderpayment_type'];
 	    $orderpayment->transaction_id       = $data['orderpayment_id'];
-	    $orderpayment->transaction_status   = "Payment Received";
+	    $orderpayment->transaction_status   = "Incomplete";
 	       	        
-	    // check the stored amount against the payment amount
-	    $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-	    if ((float) $stored_amount !== (float) $data['orderpayment_amount']) {
+	    // check the stored amount against the payment amount thousand
+	    Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands'=>'' ) );	   
+	    if ( $stored_amount != $respond_amount ) {
 	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
 	    }
-	        
+	    
 	    // set the order's new status and update quantities if necessary
 	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 	    $order = JTable::getInstance('Orders', 'TiendaTable');
 	    $order->load( $orderpayment->order_id );
+	    
+    	// check if user has enough points
+	    JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
+	    if( $data['amount_points'] > $current_points )
+	    {
+	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE NOT ENOUGH POINTS');
+	    }	        
+	   
 	    if (count($errors)) 
 	    {
 	    	// if an error occurred 
@@ -197,7 +197,8 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	        else 
 	    {
 	        $order->order_state_id = $this->params->get('payment_received_order_state', '17'); // PAYMENT RECEIVED
-	            
+	        $orderpayment->transaction_status   = "Payment Received";  
+	        
 	        // do post payment actions
 	        $setOrderPaymentReceived = true;
 	            
@@ -261,29 +262,6 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     }
     
 	/**
-     * Gets a value of the plugin parameter
-     * 
-     * @param string $name
-     * @param string $default
-     * @return string
-     * @access protected
-     */
-    function _getParam($name, $default = '') 
-    {
-        $sandbox_param = "sandbox_$name";
-        $sb_value = $this->params->get($sandbox_param);
-        
-        if ($this->params->get('sandbox') && !empty($sb_value)) {
-            $param = $this->params->get($sandbox_param, $default);
-        }
-        else {
-            $param = $this->params->get($name, $default);
-        }
-        
-        return $param;
-    }
-    
-	/**
      * Determines if this payment option is valid for this order
      * 
      * @param $element
@@ -303,7 +281,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         // by default, all enabled payment methods are valid, so return true here,
         // but plugins may override this
     	
-        $amount_points = round( $order->order_total * $this->_getParam('exchange_rate') );
+        $amount_points = round( $order->order_total * $this->params->get('exchange_rate') );
        	
         JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
 		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
