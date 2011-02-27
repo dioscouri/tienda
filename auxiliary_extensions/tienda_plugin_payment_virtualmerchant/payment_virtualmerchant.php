@@ -315,10 +315,13 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         $orderpayment->transaction_id       = $data['ssl_txn_id'];
         $orderpayment->transaction_status   = $data['ssl_result'];
        
-        // check the stored amount against the payment amount
-        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-        if ((float) $stored_amount !== (float) $data['ssl_amount']) {
-            $errors[] = JText::_('VIRTUALMERCHANT MESSAGE AMOUNT INVALID');
+        // check the stored amount against the payment amount        
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['ssl_amount'], array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount ) {
+        	$errors[] = JText::_('VIRTUALMERCHANT MESSAGE AMOUNT INVALID');
+        	$errors[] = $stored_amount . " != " . $respond_amount;
         }
         
         // set the order's new status and update quantities if necessary

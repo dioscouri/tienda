@@ -219,6 +219,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
      */
     function _processSale($data, $vars)
     {
+    	$errors = array();
     	
     	// load the orderpayment record and set some values
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -230,12 +231,13 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         $orderpayment->transaction_status   = $data['credit_card_processed'];
        
         // check the stored amount against the payment amount
-        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-        $errors = array();         
-    	if ((float) $stored_amount !== (float) $data['total']) 
-    	{
-            $errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
-        }      
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['total'], array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount ) {
+        	$errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
+        	$errors[] = $stored_amount . " != " . $respond_amount;
+        }   
         
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );

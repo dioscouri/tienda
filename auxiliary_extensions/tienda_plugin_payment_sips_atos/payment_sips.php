@@ -164,7 +164,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
 // should not be removed        
 //$data = '2020333732603028502c2360532d5328532d2360522d4360502c4360502c3334502c3330512d2324562d5334592c3324512c33242a2c2360532c2360502d2324502c23602a2c2360552c2360502d433c552e3328572c4048512c2334502c23605435444533303048502c2338502c2324542c4360512c2360582c4344502e3334582d233c2a2c3360532c2360502d4324512d3344502c5048512c2330502c2360582c4360512c2360582c43442a2c3360512c2360502c4360505c224324502c4360502c3360512c4340532c233c552e3330535c224324502c2360502c2338502d5334592d232c2a2c2328582c2360502c4639525c224360522e3360502c2329463c4048502c2340502c2360532e333c585c224324502d4360502c233c512c3324512b4360505c224324512d2360502c2338522c2324522c23242a2c2360592c2360502c4639525c224360532c2360502c4321413b26255438364c512c232160383651413d26254b2b4659453d6048502c3338502c23605334552d2c5c224360502d5360502c2328502c4048502c5340502c2360522e33382a2c2330502c2360512d2425353524412f34455d2330352134353529255c224360532e3360502c2324505c224324502e3360502c23292e335048512c3360502c236051334048512c3324502c2360522c23602a2c2328562c2360502d5344572d3344522d53282adc970880f8cf2717';
 //
-        // Récupération de la variable cryptée DATA
+        // RĂ©cupĂ©ration de la variable cryptĂ©e DATA
         $message = "message=" . $data;
         $pathfile.=" pathfile=" . $this->_getPathfileFileName($this->params->get('pathfile'));
         $bin_response = $this->_getBinPath("response");
@@ -236,10 +236,13 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         }
 
 
-        // check the stored amount against the payment amount
-        $stored_amount = $orderpayment->get('orderpayment_amount') * 100;
-        if ((int) $stored_amount != $amount) {
-            $errors[] = JText::_('TIENDA_SIPS_AMOUNT_INVALID');
+        // check the stored amount against the payment amount        
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $amount, array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount ) {
+        	$errors[] = JText::_('TIENDA_SIPS_AMOUNT_INVALID');
+            $errors[] = $stored_amount . " != " . $respond_amount;
         }
 
         // set the order's new status and update quantities if necessary
@@ -467,20 +470,20 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         $content .= "#\n";
         $content .= "#	Pathfile \n";
         $content .= "#\n";
-        $content .= "#	Liste fichiers parametres utilisés par le module de paiement\n";
-        $content .= "#	Mise à jour le " . $date->toFormat("%Y-%m-%d 00:00:00") . " \n";
+        $content .= "#	Liste fichiers parametres utilisĂ©s par le module de paiement\n";
+        $content .= "#	Mise Ă  jour le " . $date->toFormat("%Y-%m-%d 00:00:00") . " \n";
         $content .= "#	Par " . $user->get('name') . "\n";
         $content .= "#\n";
         $content .= "#########################################################################\n";
         $content .= "\n";
         $content .= "##-------------------------------------------------------------------------\n";
-        $content .= "## Activation (YES) / DÈsactivation (NO) du mode DEBUG\n";
+        $content .= "## Activation (YES) / DĂ�sactivation (NO) du mode DEBUG\n";
         $content .= "##-------------------------------------------------------------------------\n";
         $content .= "##\n";
         $content .= "DEBUG!" . $this->_getSipsDebug() . "!\n";
         $content .= "# ------------------------------------------------------------------------\n";
-        $content .= "# Chemin vers le répertoire des logos depuis le web alias  \n";
-        $content .= "# Exemple pour le répertoire www.merchant.com/xxx/payment/logo/\n";
+        $content .= "# Chemin vers le rĂ©pertoire des logos depuis le web alias  \n";
+        $content .= "# Exemple pour le rĂ©pertoire www.merchant.com/xxx/payment/logo/\n";
         $content .= "# indiquer:\n";
         $content .= "# ------------------------------------------------------------------------\n";
         $content .= "#\n";
@@ -490,7 +493,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         $content .= "#  Fichiers parametres lies a l'api paiement	\n";
         $content .= "#------------------------------------------------------------------------\n";
         $content .= "#\n";
-        $content .= "# Fichier des paramètres commerçant\n";
+        $content .= "# Fichier des paramĂ¨tres commerĂ§ant\n";
         $content .= "#\n";
         $content .= "F_DEFAULT!" . $parcomAndSuffix . "!\n";
         $content .= "#\n";
@@ -498,11 +501,11 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         $content .= "#\n";
         $content .= "F_CERTIFICATE!" . $certif . "!\n";
         $content .= "#\n";
-        $content .= "# Fichier paramètre commercant\n";
+        $content .= "# Fichier paramĂ¨tre commercant\n";
         $content .= "#\n";
         $content .= "F_PARAM!" . $parcom . "!\n";
         $content .= "#\n";
-        $content .= "# Fichier des paramètres commerçant\n";
+        $content .= "# Fichier des paramĂ¨tres commerĂ§ant\n";
         $content .= "#\n";
 
         $content .= "# --------------------------------------------------------------------------\n";

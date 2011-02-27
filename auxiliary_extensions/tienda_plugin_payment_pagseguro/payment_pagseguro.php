@@ -345,10 +345,13 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
         $orderpayment->transaction_id       = $data['txn_id'];
         $orderpayment->transaction_status   = $data['payment_status'];
 
-        // check the stored amount against the payment amount
-        $stored_amount = number_format( $orderpayment->get('orderpayment_amount'), '2' );
-        if ((float) $stored_amount !== (float) $data['mc_gross']) {
-            $errors[] = JText::_('PAYPAL MESSAGE AMOUNT INVALID');
+        // check the stored amount against the payment amount                
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['mc_gross'], array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount ) {
+        	$errors[] = JText::_('PAGSEGURO MESSAGE PAYMENT AMOUNT INVALID');
+            $errors[] = $stored_amount . " != " . $respond_amount;
         }
 
         // check the payment status

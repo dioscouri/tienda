@@ -171,6 +171,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $respond_amount = TiendaHelperBase::number( $data['orderpayment_amount'], array( 'thousands'=>'' ) );	   
 	    if ( $stored_amount != $respond_amount ) {
 	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
+	    	$errors[] = $stored_amount . " != " . $respond_amount;
 	    }
 	    
 	    // set the order's new status and update quantities if necessary

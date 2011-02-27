@@ -134,6 +134,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 	    if ( $stored_amount != $respond_amount )
 	    {	    
 	    	$errors[] = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE AMOUNT INVALID');
+	    	$errors[] = $stored_amount . " != " . $respond_amount;
 	    }
 	    	    
 	    // check if user has enough points
