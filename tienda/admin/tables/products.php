@@ -431,9 +431,10 @@ class TiendaTableProducts extends TiendaTableEav
 				Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 				$prices = TiendaHelperProduct::getPrices( $this->product_id );
 				
+
 				if ( count( $prices ) )
 				{
-					$price_id = $prices[0]->productprice_id;
+					$price_id = $prices[0]->product_price_id;
 				}
 				else
 				{
