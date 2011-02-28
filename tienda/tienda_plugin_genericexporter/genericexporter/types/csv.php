@@ -46,7 +46,13 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
         Tienda::load( $classname, 'genericexporter.models.'.$this->_model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
         $class = new $classname;        	
       	$list = $class->loadDataList();
-  	
+      	
+		if(empty($list))
+		{
+			$this->_errors = JText::_("No Data Found");
+			return $this;
+		}
+  
 		for( $i = 0, $c = count( $list ); $i < $c; $i++ )
 	    {
 	    	if( $fill_header ) // need to fill header yet ?
@@ -63,8 +69,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 	    	}
 	       	$arr[] = $this->objectToString( $list[$i], true );
 	     }
-	     $f_name = $this->_model.'_'.time().'.csv';
-	     
+	     $f_name = $this->_model.'_'.time().'.csv';	     
 	     
 		 $this->_link = 'tmp'.DS.$f_name;
 	     $this->_name = $f_name;
@@ -86,6 +91,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
     {
     	$arr_record = array();
 		$list_vars = get_object_vars( $obj );
+	
 		foreach( $list_vars as $key => $value ) // go through all variables
 		{
 			if( is_object( $value ) )
@@ -103,7 +109,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 				{
 				
 				}
-				$arr_record[] = $root ?  $value : $key.'='.urlencode( $value );		
+				$arr_record[] = $root ?  $value : $key.'='.@urlencode( $value );		
 			}
 		}
 		

@@ -30,7 +30,7 @@ class TiendaGenericExporterModelBase extends JObject
       	$model = JModel::getInstance($this->getName(),'TiendaModel');
       	$this->_setModelState($model);
     	$items = $model->getList($model);
-    	
+ 	
 		return $items;
 	}
 	
@@ -44,7 +44,7 @@ class TiendaGenericExporterModelBase extends JObject
 	function _setModelState($model)
 	{
 		$app = JFactory::getApplication();		
-		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get($this->getName());
+		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
 
 		$state = array();
 		$state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
@@ -53,7 +53,14 @@ class TiendaGenericExporterModelBase extends JObject
 		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
 		$state['filter']    = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
 		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
-	
+		
+		$filters = $this->getFilters();
+
+		foreach($filters as $k=>$val)
+		{			
+			$state[$k] 	= $app->getUserStateFromRequest($ns.str_replace('filter_', '', $k), $k, '', '');
+		}
+
 		foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );
@@ -66,19 +73,10 @@ class TiendaGenericExporterModelBase extends JObject
 	 * can be override in the child class
 	 * @return array
 	 */
-	function getColumns()
-	{
-		JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');     
-      	$model = JModel::getInstance($this->getName(),'TiendaModel');
-      	$model->setState( 'limit', '1' );
-      	$items = $model->getList();
-      	
-      	$columns = array();
-      	if(count($items))
-      	{
-      		$columns = get_object_vars($items[0]);
-      	}
-      
-      	return array_keys($columns);
+	function getFilters()
+	{		
+		$filters = array();
+		
+		return $filters;
 	}
 }
