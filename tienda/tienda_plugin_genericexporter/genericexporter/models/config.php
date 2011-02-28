@@ -10,10 +10,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-//JLoader::register( "TiendaGenericExporterBase", JPATH_SITE.DS."plugins".DS."tienda".DS."genericexporter"."types"."_base.php" );
-Tienda::load( 'TiendaGenericExporterBase', 'genericexporter.types._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.models._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
 
-class TiendaGenericExporterConfig extends TiendaGenericExporterBase
+class TiendaGenericExporterModelConfig extends TiendaGenericExporterModelBase
 {
 	public $_model = 'config';
 }

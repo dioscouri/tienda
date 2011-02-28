@@ -28,49 +28,38 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 	
  	function onAfterDisplayAdminComponentTienda()
     {
+    	$name='revert';
+    	$text= JText::_("Generic Export");
         $url = 'index.php?option=com_tienda&task=doTask&element=generic_exporter&elementTask=display';
        
-        $this->addToolbar( $url );
-    }
-    
-    /**
-     * 
-     * Method to add toolbar
-     * @param string $name
-     * @param string $text
-     * @param string $url
-     * @param boolean $title
-     * @return void
-     */
-    private function addToolbar($url='', $name='revert', $text='Generic Export', $title= false)
-    {
-    	if($title)
-    	{
-    		JToolBarHelper::title( JText::_( 'Generic Export' ) );
-    	}
-    	
-    	$bar = & JToolBar::getInstance('toolbar');
+        $bar = & JToolBar::getInstance('toolbar');
         $bar->prependButton( 'link', $name, $text, $url );
     }
-    
-    
+        
     /**
      * 
      * Method to display list of export types
      */
     function display()
     {
+    	require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
     	JToolBarHelper::title( JText::_( 'Generic Export' ) );
     	
-    	//read the type files inside the /plugins/tienda/genericexporter/types
+    	$bar = & JToolBar::getInstance('toolbar');
+        $btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
+		$btnhtml .= '<span title="Submit" class="icon-32-forward">';
+		$btnhtml .= '</span>'.JText::_('Submit').'</a>';       
+       	$bar->appendButton( 'Custom', $btnhtml ); 
+    	
+    	//read the type files inside the /plugins/tienda/genericexporter/models
     	jimport('joomla.filesystem.file');
-    	$folder = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'genericexporter'.DS.'types';
+    	$folder = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'genericexporter'.DS.'models';
      	if (JFolder::exists( $folder ))
         {
             $extensions = array( 'php' );
             $exclusions = array('_base.php');
                         
-            $files = JFolder::files( $folder );          
+            $files = JFolder::files( $folder ); 
         	foreach ($files as $file)
             {
                 $namebits = explode('.', $file);               
@@ -78,18 +67,50 @@ class plgTiendaGenericExporter extends TiendaPluginBase
               
                 if (in_array($extension, $extensions) && !in_array($file , $exclusions))
                 {     
-                    $classname = 'TiendaGenericExporter'.$namebits[0]; 
-                	Tienda::load( $classname, 'genericexporter.types.'.$namebits[0],  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+                    $classname = 'TiendaGenericExporterModel'.$namebits[0]; 
+                	Tienda::load( $classname, 'genericexporter.models.'.$namebits[0],  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
                 	
-                	$exporter = new $classname;
-                	$types[] = $exporter->getName();
+                	if(class_exists($classname))
+                	{
+                		$exporter = new $classname;
+                		$models[] = $exporter->getName();
+                	}                	
                 }
             }
         }    	
+        
+        $folderTypes = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'genericexporter'.DS.'types';
+     	if (JFolder::exists( $folderTypes ))
+        {
+            $extensions = array( 'php' );  
+            $exclusions = array('_base.php');      
+                        
+            $typeFiles = JFolder::files( $folderTypes );                    
+        	foreach ($typeFiles as $typeFile)
+            {
+                $namebits = explode('.', $typeFile);               
+                $extension = $namebits[count($namebits)-1];
+              
+                if (in_array($extension, $extensions) && !in_array($typeFile , $exclusions))
+                {                        
+                	$classname = 'TiendaGenericExporterType'.$namebits[0]; 
+                	Tienda::load( $classname, 'genericexporter.types.'.strtolower($namebits[0]),  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+              	
+                	if(class_exists($classname))
+                	{ 
+                		$exporterType = new $classname;
+                		$types[] = $exporterType->getFormat();
+                	}                	
+                }
+            }
+        } 
+        
+    	sort($models);
     	sort($types);
     	
     	$vars = new JObject();
-    	$vars->types = $types;
+    	$vars->models 	= $models;
+    	$vars->types 	= $types;
         $html = $this->_getLayout('default', $vars);   
       
         return $html; 
@@ -97,9 +118,15 @@ class plgTiendaGenericExporter extends TiendaPluginBase
     
     function viewcolumns()
     {
-    	$type = JRequest::getVar('type', 'products');
+    	$model = JRequest::getVar('model', 'products');
+    	$type = JRequest::getVar('type');
+    	
+    	if(empty($type) || empty($model))
+    	{
+    		JFactory::getApplication()->redirect('index.php?option=com_tienda&task=doTask&element=generic_exporter&elementTask=display', JText::_("Model or Export Type is empty!"), 'notice');
+    	}    		
 
-    	JToolBarHelper::title( JText::_( 'Generic Export' ).': '.ucfirst($type) );       
+    	JToolBarHelper::title( JText::_( 'Generic Export' ).': '.ucfirst($model) );       
        	$bar = & JToolBar::getInstance('toolbar');
         $btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
 		$btnhtml .= '<span title="Submit" class="icon-32-forward">';
@@ -109,11 +136,19 @@ class plgTiendaGenericExporter extends TiendaPluginBase
        	$url = 'index.php?option=com_tienda&task=doTask&element=generic_exporter&elementTask=display';  
         $bar->prependButton( 'link', 'cancel', JText::_('Back'), $url );       			
         
-    	$classname = 'TiendaGenericExporter'.$type; 
-    	Tienda::load( $classname, 'genericexporter.types.'.$type,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+    	$classname = 'TiendaGenericExporterModel'.$model; 
+    	Tienda::load( $classname, 'genericexporter.models.'.$model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
 
-    	$class = new $classname;
-    	$columns = $class->getColumns();
+    	if(class_exists($classname))
+        {
+          	$class = new $classname;
+    		$columns = $class->getColumns();
+        }
+        else 
+        {
+        	JFactory::getApplication()->enqueueMessage( JText::_( "Class ".$classname." not found!" ), 'notice' );
+        }
+    	
    	
     	$vars = new JObject();
     	$vars->columns = $columns;
@@ -123,105 +158,61 @@ class plgTiendaGenericExporter extends TiendaPluginBase
     }
     
     function doExport()
-    {
-    	$post = JRequest::get('post');
-    	$type = JRequest::getVar('type', 'products');
+    {    	
+    	$model = JRequest::getVar('model', 'products');
+    	$type = JRequest::getVar('type');
     	
     	$views = array('dashboard', 'orders', 'orderpayments', 'subscriptions', 'orderitems', 'products', 'users');
-      	if(in_array(strtolower($type), $views))
+      	if(in_array(strtolower($model), $views))
       	{
-      		$url = 'index.php?option=com_tienda&view='.$type;
+      		$url = 'index.php?option=com_tienda&view='.$model;
       	}
       	else 
       	{
       		$url = 'index.php?option=com_tienda&view=dashboard';
       	}
     	
+      	//add toolbar
       	$bar = & JToolBar::getInstance('toolbar');
       	$bar->prependButton( 'link', 'cancel', JText::_('Back'), $url );
-      	JToolBarHelper::title( JText::_( 'Generic export' ) );
-    	debug(99999, $post);
+      	JToolBarHelper::title( JText::_( 'Generic Export' )." : ". $model);
     	
-    	$f_name = 'tmp'.DS.$post['type'].'_'.time().'.csv';
-    	$this->processExport($post['type'], $f_name);
-    	
+    	$export = $this->processExport($type, $model);
+	
+    	if(!empty($export->_errors))
+    	{
+    		JFactory::getApplication()->enqueueMessage( $export->_errors, 'notice' );
+    		return;
+    	}
+    	//success message    
+    	JFactory::getApplication()->enqueueMessage( JText::_( "Export is complete! Please click the link below to download." ), 'message' );
+  
     	$vars = new JObject();
-    	$vars->type = $post['type'];
-    	$vars->link = $f_name;
+    	$vars->name = $export->_name;
+    	$vars->link = $export->_link;
         $html = $this->_getLayout('view', $vars);
+        return $html;
     }
     
-    /**
-     * 
-     * Enter description here ...
-     * @param string $type
-     * @param string $f_name
+    /**      
+     * Method to process the export
+     * @param string $type - csv, xml, etc
+     * @param string $model - see /plugins/tienda/genericexporter/models
      * @return void
      */
-    private function processExport($type, $f_name)
-    {
-    	Tienda::load( 'TiendaCSV', 'library.csv' );
-    	$arr = array();
-      	$header = array(); // header -> it'll be filled out when 
-      	$fill_header = true; // we need to fill header
-      	
-      	$classname = 'TiendaGenericExporter'.$type; 
-        Tienda::load( $classname, 'genericexporter.types.'.$type,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
-        $class = new $classname;        	
-      	$list = $class->loadDataList();
- debug(444444, $list);     	
-		for( $i = 0, $c = count( $list ); $i < $c; $i++ )
-	    {
-	    	if( $fill_header ) // need to fill header yet ?
-	       	{
-	       		$list_vars = get_object_vars( $list[$i] );	       	
-	       		foreach( $list_vars as $key => $value ) // go through all variables
-	       		{
-	       			if( $fill_header )
-	       			{
-	       				$header[] = $key;
-	       			}
-	         	}
-	         	$fill_header = false; // header is filled
-	    	}
-	       	$arr[] = $this->objectToString( $list[$i], true );
-	     }
-	     $f_name = 'tmp'.DS.$type.'_'.time().'.csv';
-	     //$res = TiendaCSV::FromArrayToFile( $f_name, $arr, $header );
-	     
-	     return;
-    }
-    
- 	function objectToString( $obj, $root = false )
-    {
-    	$arr_record = array();
-		$list_vars = get_object_vars( $obj );
-		foreach( $list_vars as $key => $value ) // go through all variables
-		{
-			if( is_object( $value ) )
-			{
-				$arr_record[] = $this->objectToString( $value );
-			}
-			else
-			{
-				if( is_array( $value ) )
-				{
-					@$value = implode( "\n", $value );
-				}
-				
-				if($root)
-				{
-				
-				}
-				$arr_record[] = $root ?  $value : $key.'='.urlencode( $value );		
-			}
-		}
-		
-		if( $root )
-		{
-			return $arr_record;
-		}
-		
-		return implode( "\n", $arr_record );
+    private function processExport($type, $model)
+    {    	
+    	$classname = 'TiendaGenericExporterType'.$type; 
+        Tienda::load( $classname, 'genericexporter.types.'.strtolower($type),  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+
+        $export = '';
+        if(class_exists($classname))
+        {
+        	$exporterType = new $classname();
+        	$exporterType->setModel($model);
+        	$export = $exporterType->processExport(); 
+        }
+          
+	    return $export;
     }
 }
