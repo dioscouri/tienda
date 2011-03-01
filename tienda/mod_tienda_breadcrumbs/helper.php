@@ -23,6 +23,98 @@ class modTiendaBreadcrumbsHelper extends JObject
     {
         $this->params = $params;
     }
+    
+    /**
+     * Method to build the pathway/breadcrumbs 
+     * @return string
+     */
+    function pathway()
+    {
+    	$pathway = '';
+    	
+    	if($this->params->get('showhome'))
+    	{
+    		$homeText = $this->params->get('hometext');
+    		$homeText = empty($homeText) ? JText::_('Home') : $homeText;    		
+    		$pathway .= " <a href='index.php'>".$homeText.'</a> ';
+    		$pathway .= $this->getSeparator(); 
+    	}
+    	    	
+    	// get the root category
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
+        $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
+		
+        $catRoot = $this->params->get('showcatroot', '1');
+        if ($catRoot)
+        {
+        	$link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );
+            $rootText = $this->params->get('roottext');           
+    		$rootText = empty($rootText) ? JText::_('All Categories') : $rootText;    
+        	$pathway .= " <a href='$link'>".$rootText.'</a> ';
+        }
+        
+        $catid = JRequest::getInt('filter_category');  
+		$table = JTable::getInstance('Categories', 'TiendaTable');
+        $table->load( $catid );  
 
+		if (empty($table->category_id))
+		{
+			return $pathway;
+		}
+		
+		$path = $table->getPath();        
+
+     	foreach (@$path as $cat) 
+		{
+			if (!$cat->isroot) 
+			{
+				if (!$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($cat->category_id, true))
+			    {
+			    	$itemid = $root_itemid;
+			    }
+			    $slug = $cat->category_alias ? ":$cat->category_alias" : "";
+			    $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$cat->category_id.$slug."&Itemid=".$itemid, false);
+			    
+			    if (!empty($pathway)) { $pathway .= $this->getSeparator(); }
+			    
+			    $pathway .= " <a href='$link'>".JText::_( $cat->category_name ).'</a> ';
+			}
+		}
+		
+     	if(!empty($pathway))
+     	{ 
+     		$pathway .= $this->getSeparator(); 
+     	}
+     	
+   		if ($linkSelf = $this->params->get('linkself'))
+        {
+            if (!$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($table->category_id, true))
+            {
+            	$itemid = $root_itemid;
+            }
+            $slug = $table->category_alias ? ":$table->category_alias" : "";
+            $link = JRoute::_("index.php?option=com_tienda&view=products&filter_category=".$table->category_id.$slug."&Itemid=".$itemid, false);
+        	$pathway .= " <a href='$link'>".JText::_( $table->category_name ).'</a> ';
+        }
+        else
+        {
+        	$pathway .= JText::_( $table->category_name );	
+        }
+        
+        return $pathway;
+    }
+    
+    /**
+     * Method to get the separator
+     * @return string
+     */
+    function getSeparator()
+    {
+    	$text = '';
+    	$text = $this->params->get('separator', '>');
+    	$text = empty($text) ? " > " : " {$text} ";
+    	return $text;
+    }
 }
 ?>

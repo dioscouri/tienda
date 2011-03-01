@@ -18,13 +18,11 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
-$element = strtolower( 'com_Tienda' );
+$element = strtolower( 'com_tienda' );
 $lang =& JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
-$helper = new modTiendaCategoriesHelper( $params );
-
-require( JModuleHelper::getLayoutPath( 'mod_tienda_breadcrumbs' ) );    
-
-
+$helper = new modTiendaBreadcrumbsHelper( $params );
+$pathway = $helper->pathway();
+require( JModuleHelper::getLayoutPath( 'mod_tienda_breadcrumbs' ) );   
