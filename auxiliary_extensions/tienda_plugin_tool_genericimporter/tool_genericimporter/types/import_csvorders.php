@@ -11,24 +11,55 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-class plgTiendaTool_CsvOrders extends TiendaToolPluginImport
+require_once JPATH_SITE.'/plugins/tienda/tool_genericimporter/genericimport_csv.php';
+
+class plgTiendaTool_CsvOrders2 extends TiendaToolPluginImportCsv
 {
+	/*
+	 * Name of the importer displayed in select box
+	 */
+	public $importer_name = 'CSV import 2';
 
 	/*
 	 * Sets default values for variables from request
 	 */
 	function getDefaultState()
 	{
-		$this->_state->lol = '(party)';
+		parent::getDefaultState();
+		$this->state->lol = '(party)';
 	}
 
 	/*
-	 * Get HTML code for form layout of step 1
+	 * Generates HTML code for the usual admintable table
+	 * 
+	 * @param $step Step for which the code is generated
+	 * 
+	 * @return String HTML code of the table
+	 */
+	function getAdminTableHtml( $step )
+	{
+		$state = $this->get( 'state' );
+		$checked = array( '', '\'checked\'' );
+		$answer = array( JText::_( 'No' ), JText::_( 'Yes' ) );
+		$rows = array();
+		$only_value = $step == 2;
+		$skip_first_value = strcmp( $state->skip_first, 'on') == 0;
+
+		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Source Import' ).': *' ,'file', 'source_import', $this->source_import );
+		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Separator' ) ,'text', 'field_separator', $state->field_separator, 10 );
+		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Skip First Row' ).'?' ,'checkbox', 'skip_first', $skip_first_value, null, $answer[$skip_first_value], null, $checked[$skip_first_value] );
+
+		$this->set( 'table_rows', $rows );
+		return parent::getAdminTableHtml( $step );
+	}
+
+	/*
+	 * Get HTML code for view layout of step 3
 	 * 
 	 * @return HTML code for the step
 	 */
-	function getHtmlStep1Form()
+	function getHtmlStep3View()
 	{
-		return Tienda::dump( $this->_state );
+		return Tienda::dump( $this->get( 'data' ) );
 	}
 }

@@ -1,7 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php echo @$this->_vars->token; ?>
-<?php $state =  @$this->_state; ?>
+<?php defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
+<?php JHTML::_( 'script', 'tienda.js', 'media/com_tienda/js/' ); ?>
+<?php JHTML::_( 'script', 'genericimporter.js', 'plugins/tienda/tool_genericimporter/media/' ); ?>
+<?php echo @$this->vars->token; ?>
 
 <p><?php echo JText::_( "THIS TOOL HANDLES GENERIC IMPORT INTO TIENDA" ); ?></p>
 

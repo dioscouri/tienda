@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Tool - Csv Importer</name>
+	<name>Tool - Generic Importer</name>
 	<version>0.7.5</version>
 	<creationDate>February 2011</creationDate>
 	<author>Dioscouri</author>
@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2011 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This tool imports data from a csv file to Tienda</description>
+	<description>This tool handles a generic import of data to Tienda</description>
 	
 	<files>
 		<filename plugin="tool_genericimporter">tool_genericimporter.php</filename>
