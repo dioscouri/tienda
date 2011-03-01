@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade" position="left">
+    <name>Tienda - Breadcrumbs</name>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.7.0</version>
+    <creationDate>August 2010</creationDate>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description>MODULEDESC</description>
+    <files>
+        <filename module="mod_tienda_breadcrumbs">mod_tienda_breadcrumbs.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_tienda_cart.ini</language>
+	</languages>
+	
+	<params>
+		<param name="showHome" type="radio" default="1" label="PARAMSHOWHOME" description="PARAMSHOWHOMEDESC">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="homeText" type="text" default="Home" label="PARAMHOMETEXT" description="PARAMHOMETEXTDESC" />
+		<param name="showCatRoot" type="radio" default="1" label="PARAMSHOWCATROOT" description="PARAMSHOWCATROOTDESC">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="rootText" type="text" default="" label="Text for Root Entry" description="PARAMROOTTEXTDESC" />		
+		<param name="showLast" type="radio" default="1" label="Show Last" description="PARAMSHOWLAST">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="separator" type="text" default="" label="PARAMSEPARATOR" description="PARAMSEPARATORDESC" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="0" label="Caching" description="PARAMCACHEDESC">
+			<option value="0">Never</option>
+		</param>
+	</params>
+	
+</install>
