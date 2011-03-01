@@ -470,7 +470,7 @@
     	</tr>	
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Notify Customer about Change in Status"); ?>
+    	        <?php echo JText::_("Send Email to Customer"); ?>
     	    </td>
     	    <td>
     	        <?php echo TiendaSelect::booleans( '0', 'new_orderstate_notify', '', '', '', '', 'Yes', 'No' ); ?>
