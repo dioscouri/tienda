@@ -15,4 +15,5 @@ Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.models._base', 
 class TiendaGenericExporterModelOrders extends TiendaGenericExporterModelBase
 {
 	public $_model = 'orders';
+	public $_modelone = 'order';
 }

@@ -34,13 +34,13 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 		$export = new JObject();
 		if(empty($this->_model))
 		{
-			$this->_errors = JText::_("Please set a model in the plugin method processExport");
+			$this->_errors = JText::_("PLEASE SET A MODEL IN THE PLUGIN METHOD PROCESSEXPORT");
 			return $this;
 		}
 		
     	$arr = array();
-      	$header = array(); // header -> it'll be filled out when 
-      	$fill_header = true; // we need to fill header
+      	$header = array();  
+      	$fill_header = true; 
       	
       	$classname = 'TiendaGenericExporterModel'.$this->_model; 
         Tienda::load( $classname, 'genericexporter.models.'.$this->_model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
@@ -76,7 +76,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 	     	
 	     if(!$res = TiendaCSV::FromArrayToFile( 'tmp'.DS.$f_name, $arr, $header ))
 	     {
-	     	$this->_errors = JText::_("Unable to write file.");	     	
+	     	$this->_errors = JText::_("UNABLE TO WRITE FILE");	     	
 	     }
 	     	     
 	     return $this;

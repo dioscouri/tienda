@@ -12,11 +12,21 @@ defined('_JEXEC') or die('Restricted access');
 
 class TiendaGenericExporterModelBase extends JObject
 {
-	public $_model 	= '';
+	public $_model 		= '';
+	public $_modelone 	= '';
 
 	function getName()
 	{
 		return $this->_model;
+	}
+	
+	/**
+	 * Method to retrieve an generic item name which will be usefull in XML tree
+	 * @return string;
+	 */
+	function getSingleName()
+	{
+		return $this->_modelone;
 	}
 	
 	/**	 
@@ -78,5 +88,5 @@ class TiendaGenericExporterModelBase extends JObject
 		$filters = array();
 		
 		return $filters;
-	}
+	}	
 }

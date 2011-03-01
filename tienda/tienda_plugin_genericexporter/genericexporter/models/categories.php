@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.models._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
 
-class TiendaGenericExporterModelConfig extends TiendaGenericExporterModelBase
+class TiendaGenericExporterModelCategories extends TiendaGenericExporterModelBase
 {
-	public $_model = 'config';
-	public $_modelone 	= 'config';
+	public $_model = 'categories';
+	public $_modelone = 'category';
 }

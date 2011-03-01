@@ -14,8 +14,8 @@ Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.models._base', 
 
 class TiendaGenericExporterModelProducts extends TiendaGenericExporterModelBase
 {
-	public $_model = 'products';
-	
+	public $_model = 'products';	
+	public $_modelone 	= 'product';
 	
 	/**
 	 * Method to set the model state
@@ -64,7 +64,7 @@ class TiendaGenericExporterModelProducts extends TiendaGenericExporterModelBase
 		$filters['filter_manufacturer_set'] = 'Manufacturers';				
 
 		return $filters;
-	}
+	}	
 }
 
 
