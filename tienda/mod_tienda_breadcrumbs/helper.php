@@ -31,13 +31,13 @@ class modTiendaBreadcrumbsHelper extends JObject
     function pathway()
     {
     	$pathway = '';
+    	$catid = JRequest::getInt('filter_category');  
     	
     	if($this->params->get('showhome'))
     	{
     		$homeText = $this->params->get('hometext');
     		$homeText = empty($homeText) ? JText::_('Home') : $homeText;    		
-    		$pathway .= " <a href='index.php'>".$homeText.'</a> ';
-    		$pathway .= $this->getSeparator(); 
+    		$pathway .= " <a href='index.php'>".$homeText.'</a> ';    		
     	}
     	    	
     	// get the root category
@@ -46,15 +46,15 @@ class modTiendaBreadcrumbsHelper extends JObject
         $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
 		
         $catRoot = $this->params->get('showcatroot', '1');
-        if ($catRoot)
+        if ($catRoot && $catid != $root->category_id)
         {
+        	$pathway .= $this->getSeparator(); 
         	$link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );
             $rootText = $this->params->get('roottext');           
     		$rootText = empty($rootText) ? JText::_('All Categories') : $rootText;    
         	$pathway .= " <a href='$link'>".$rootText.'</a> ';
         }
-        
-        $catid = JRequest::getInt('filter_category');  
+               
 		$table = JTable::getInstance('Categories', 'TiendaTable');
         $table->load( $catid );  
 
