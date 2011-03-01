@@ -412,7 +412,6 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$xml_response = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : file_get_contents('php://input');
 		if ( ! $xml_response)
 		{
-			echo "No response received', 'error'";
 			die('No response received');
 		}
 
