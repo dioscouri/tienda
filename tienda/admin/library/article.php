@@ -44,7 +44,7 @@ class TiendaArticle
             $article->event = new stdClass();
             
             // TODO Since there is no title, do we include this event?
-            $results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
+            $results = $dispatcher->trigger('onAfterDisplayTitle', array (& $article, &$params, $limitstart));
             $article->event->afterDisplayTitle = trim(implode("\n", $results));
     
             $results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
