@@ -300,7 +300,18 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    	}
 	    	$this->_pids = $pids;
     	}    	
- 	
+
+    	//we will retun an empty array if we dont have pids
+    	if(empty($this->_pids))
+    	{
+    		return array();
+    	}
+    	
+    	if(!class_exists('TiendaQuery'))
+    	{
+    		Tienda::load( 'TiendaQuery', 'library.query' );
+    	}
+    			
     	$query = new TiendaQuery();
 		$query->select( 'tbl.product_id' );	
 		$query->select( 'tbl.productattribute_name' );	
