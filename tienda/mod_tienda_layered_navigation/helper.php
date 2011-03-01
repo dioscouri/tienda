@@ -49,8 +49,10 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$this->_view 		= JRequest::getVar('view');    	
     	$this->_products = $this->getProducts();    		
   	
-    	$session	=& JFactory::getSession();
-		$registry	=& $session->get('registry');	
+    	//TODO: REMOVE THIS
+    	//$session	=& JFactory::getSession();
+		//$registry	=& $session->get('registry');	
+		
     }      
     
     /**
@@ -83,13 +85,23 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	//filter category found so we display child categories and products inside
     	if(!empty($this->_filter_category))
     	{
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		    $model  = JModel::getInstance( 'Categories', 'TiendaModel' );
-	    	$model->setState('filter_enabled', '1');
-			$model->setState('order', 'tbl.lft');
-			$model->setState('filter_parentid', $this->_filter_category);
-			$items = $model->getList();
+    		//JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		    //$model  = JModel::getInstance( 'Categories', 'TiendaModel' );
+	    	//$model->setState('filter_enabled', '1');
+			//$model->setState('order', 'tbl.lft');
+			//$model->setState('filter_parentid', $this->_filter_category);
+			//$items = $model->getList();
 			
+    		//get categories with parent_id = filter_category and category_id = filter_category
+    		Tienda::load( 'TiendaQuery', 'library.query' );
+			$query = new TiendaQuery();
+			$query->select( 'tbl.*' );					
+			$query->where('tbl.parent_id = '.(int) $this->_filter_category.' OR tbl.category_id = '.(int) $this->_filter_category);
+			$query->where('tbl.category_enabled = \'1\'');			
+			$query->from('#__tienda_categories AS tbl'); 
+			$this->_db->setQuery((string) $query);
+			$items = $this->_db->loadObjectList();
+
     		if (!empty($items))
 		    {
 		    	$this->_catfound = true;
@@ -126,13 +138,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$brandA = array();
     	$view = JRequest::getVar('view');    	
     	if($view != 'products') return $brandA;
-    	
     			       
     	if(!empty($this->_filter_manufacturer) && !$this->_multi_mode)
     	{
     		return $brandA;
-    	}    		      
-    	
+    	}    		          	
     	
     	if(empty($this->_products))
 	    {  
@@ -434,12 +444,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	
     	$app = JFactory::getApplication(); 
     	$ns = $app->getName().'::'.'com.tienda.model.products';
-    	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', '');
-    	    	
+    	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');    	    	
         $this->_filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');      
         $this->_filter_price_from = $app->getUserStateFromRequest($ns.'.price_from', 'filter_price_from', '0', 'int');
         $this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');        
-           	
+         	
     	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
         $model->setState('filter_category', $this->_filter_category);  
         
