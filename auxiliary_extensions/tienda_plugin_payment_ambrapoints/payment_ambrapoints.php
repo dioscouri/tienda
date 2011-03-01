@@ -99,29 +99,6 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     	}
     	
     	return $html;
-    	
-    	/*$success = $this->_process( $data ); 
-    	$display_article = $this->params->get('display_article_title');  	
-    	
-    	if( $success == '' )
-    	{
-    		if( $display_article )
-    		{
-    			$html = $this->_displayArticle();
-    		}
-    		else
-      		{ 			
-	        	$html = $this->_getLayout('postpayment');
-    		}
-    			        
-	        return $html;
-    	}
-    	else
-    	{       	
-        	$vars->message = JText::_( 'Tienda Ambrapoints Payment Error Message' );
-			$html = $this->_getLayout('message', $vars);
-			return $html;
-    	}*/
     }
     
     /**
