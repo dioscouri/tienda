@@ -51,7 +51,7 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_price_from']    		= $app->getUserStateFromRequest($ns.'price_from', 'filter_price_from', '0', 'int');
         $state['filter_price_to']       	= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');	
  		$state['filter_attribute_set']     	= $app->getUserStateFromRequest($ns.'attribute', 'filter_attribute_set', '', '');       
-		$state['filter_manufacturer']     	= $app->getUserStateFromRequest($ns.'manufacturer', 'filter_manufacturer', '', '');
+		$state['filter_manufacturer']     	= $app->getUserStateFromRequest($ns.'manufacturer', 'filter_manufacturer', '', 'int');
 		$state['filter_manufacturer_set']   = $app->getUserStateFromRequest($ns.'manufacturer_set', 'filter_manufacturer_set', '', '');
 		$state['filter_attributeoptionname'] = $app->getUserStateFromRequest($ns.'attributeoptionname', 'filter_attributeoptionname', array(), 'array');
 		$state['filter_sortby']     		= $app->getUserStateFromRequest($ns.'sortby', 'filter_sortby', '', '');
@@ -213,7 +213,7 @@ class TiendaControllerProducts extends TiendaController
                 $item->product_buy = $this->getAddToCart($item->product_id);
 		    }
 		}
-		
+	
 		if (($model->getState('filter_price_from') > '0') || ($model->getState('filter_price_to') > '0'))
 		{
             $url = "index.php?option=com_tienda&view=products&filter_category=$filter_category&filter_price_from=&filter_price_to=";

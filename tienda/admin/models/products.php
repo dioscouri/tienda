@@ -205,12 +205,13 @@ class TiendaModelProducts extends TiendaModelEav
 					break;
 			}
 		}
-		if ( strlen( $filter_manufacturer ) )
+		
+		if ( $filter_manufacturer )
 		{
-			$query->where( "tbl.manufacturer_id = '" . $filter_manufacturer . "'" );
+			$query->where( 'tbl.manufacturer_id = ' . ( int ) $filter_manufacturer );			
 		}
 		
-		if ( strlen( $filter_attribute_set ) )
+		if ( strlen( $filter_manufacturer_set ) )
 		{			
 			$query->where( 'tbl.manufacturer_id IN(' . $filter_manufacturer_set . ')' );		
 		}	

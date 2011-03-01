@@ -29,11 +29,13 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_view					= '';
 	private $_filter_category		= '';
 	private $_filter_manufacturer_set	= '';
+	private $_filter_manufacturer	= '';
 	private $_filter_price_from		= '';
 	private $_filter_price_to			= '';	
 	private $_filter_attribute_set	= '';	
 	private $_filter_attributeoptionname = array();
 	private $_options				= array();	
+	public $_brands				= null;
 	
     /**
      * Sets the modules params as a property of the object
@@ -52,7 +54,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	//TODO: REMOVE THIS
     	//$session	=& JFactory::getSession();
 		//$registry	=& $session->get('registry');	
-		
+		//debug(999999, $registry);
     }      
     
     /**
@@ -138,12 +140,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$brandA = array();
     	$view = JRequest::getVar('view');    	
     	if($view != 'products') return $brandA;
-    			       
-    	if(!empty($this->_filter_manufacturer) && !$this->_multi_mode)
-    	{
-    		return $brandA;
-    	}    		          	
-    	
+
     	if(empty($this->_products))
 	    {  
 	        $this->_products = $this->getProducts();
@@ -151,20 +148,26 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    
     	$setA = explode(',', $this->_filter_manufacturer_set);
     	$pids = array();
-	    	foreach($this->_products as $item)
-	    	{    		
-	    		$pids[] = $item->product_id;
-	    		if(!empty($item->manufacturer_id))
-	    		{
-	    			$brandA[$item->manufacturer_id] = $item->manufacturer_name;
-	    		}     		
-	    	}    
+	    foreach($this->_products as $item)
+	    {    		
+	    	$pids[] = $item->product_id;
+	    	if(!empty($item->manufacturer_id))
+	    	{
+	    		$brandA[$item->manufacturer_id] = $item->manufacturer_name;
+	    	}     		
+	    }    
 	    	$this->_pids = $pids;
     	
     	asort($brandA);
 		$this->_brands = $brandA;	
 	    	
     	$brands = array();   
+    	
+    	//we need to return an empty array if in single mode we dont want to show the current brand filter to brand listing
+    	if(!empty($this->_filter_manufacturer) && !$this->_multi_mode)
+    	{
+    		return $brands;
+    	}   
     	
 		if(!empty($brandA))
 		{			
@@ -459,7 +462,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	}
     	else 
     	{    		       
-    		$this->_filter_manufacturer = $app->getUserStateFromRequest($ns.'.manufacturer', 'filter_manufacturer', '', '');
+    		$this->_filter_manufacturer = $app->getUserStateFromRequest($ns.'.manufacturer', 'filter_manufacturer', '', 'int');
     		$model->setState('filter_manufacturer',  $this->_filter_manufacturer);       
     	}        
        
@@ -471,7 +474,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
         $model->setState('filter_enabled', '1');
 	    $model->setState('filter_quantity_from', '1');	
         $items = $model->getList();  
-   
+  
         return $items;
     }
     
