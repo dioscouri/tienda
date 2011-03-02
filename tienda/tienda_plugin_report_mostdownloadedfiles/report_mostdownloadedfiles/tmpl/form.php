@@ -5,14 +5,14 @@
     <p><?php echo JText::_( "THIS REPORTS ON MOST DOWNLOADED FILES" ); ?></p>
     <div class="note">
     	<?php echo JText::_("FILE NAME"); ?>:    	
-			<input type="text" name="filter" id="filter" value="<?php echo @$state->filter; ?>" />
+			<input type="text" name="filter_file_name" id="filter_file_name" value="<?php echo @$state->filter_file_name; ?>" />
 	  	<span style="font-size:1.6em; border-right: 2px groove #333; margin: 0 20px;"></span>
 	  	<?php echo JText::_("PRODUCT NAME"); ?>:    	
-			<input type="text" name="filter" id="filter" value="<?php echo @$state->filter; ?>" />
+			<input type="text" name="filter_product_name" id="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" />
 	  	<span style="font-size:1.6em; border-right: 2px groove #333; margin: 0 20px;"></span>
     	<?php echo JText::_("SELECT DOWNLOADS RANGE"); ?>:
 	    	<span class="label"><?php echo JText::_("FROM"); ?>:</span>
-	   		<input type="text" name="filter_download_from" id="filter_download_from" value="<?php echo @$state->filter_download_from; ?>" />
+	    	<?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
 	    	<span class="label"><?php echo JText::_("TO"); ?>:</span>
-	   		<input type="text" name="filter_download_to" id="filter_download_to" value="<?php echo @$state->filter_download_to; ?>" />	  	
+	    	<?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
 	</div>	

@@ -10,25 +10,25 @@
                     <?php echo JText::_("Num"); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("ID"); ?>
+                    <?php echo JText::_( 'ID' ); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_("FILE NAME & PATH"); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo JText::_("FILE EXTENSION"); ?>
+                    <?php echo JText::_( 'FILE EXTENSION'  ); ?>
                 </th>
                 <th style="width: 150px;">
-                    <?php echo JText::_("ASSOCIATED PRODUCT"); ?>
+                    <?php echo JText::_( 'ASSOCIATED PRODUCT' ); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo JText::_("PURCHASE REQUIRED"); ?>
+                    <?php echo JText::_( 'PURCHASE REQUIRED' ); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo JText::_("MAX DOWNLOAD"); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("DOWNLOADS"); ?>
+                    <?php echo JText::_( 'DOWNLOADS' ); ?>
                 </th>
             </tr>           
         </thead>
@@ -63,9 +63,9 @@
                 </td>
                 <td style="text-align: center;">
                 	<?php if($item->purchase_required) { ?>
-                    <img border="0" alt="Enabled" src="/dioscouri/media/com_tienda/images/tick.png">
+                    <img border="0" alt="Enabled" src="../media/com_tienda/images/tick.png">
                     <?php }else{ ?>
-                    <img border="0" alt="Disabled" src="/dioscouri/media/com_tienda/images/publish_x.png">
+                    <img border="0" alt="Disabled" src="../media/com_tienda/images/publish_x.png">
                     <?php } ?>
                 </td>
                 <td style="text-align: center;">

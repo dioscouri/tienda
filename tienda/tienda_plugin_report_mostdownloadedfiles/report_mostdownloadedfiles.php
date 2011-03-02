@@ -52,39 +52,9 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
     {
         $state = $this->_getState();
         $model = $this->_getModel();
-       	$query = $model->getQuery();          	
-       
-		
-        $field = array();    
-        // select the total downloads  
-       	$field[] = "
-            (
-            SELECT 
-                COUNT(*)
-            FROM
-                #__tienda_productdownloads AS tbl_downloads
-            WHERE 
-                tbl_downloads.productfile_id = tbl.productfile_id               
-            ) 
-        AS file_downloads ";    
-      	 // select the product name
-       	$field[] = "
-            (
-            SELECT 
-                tbl_products.product_name
-            FROM
-                #__tienda_products AS tbl_products
-            WHERE 
-                tbl_products.product_id = tbl.product_id               
-            ) 
-        AS product_name ";
-       	                    
-        $query->select( $field );       
-      
-		$query->order('file_downloads DESC');
-        $model->setQuery( $query );		
+        $model->setState( 'order', 'file_downloads' );
+        $model->setState( 'direction', 'DESC' );
         $data = $model->getList();
-
         return $data;
     }
     
@@ -99,11 +69,12 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
         $model = $this->_getModel( $this->default_model );
         $ns = $this->_getNamespace();
 
-        $state = array();        
+        $state = parent::_getState(); // get the basic state values from the parent method
        	$state['filter'] = $app->getUserStateFromRequest($ns, 'filter', '', '');
-        $state['filter_download_from'] = $app->getUserStateFromRequest($ns.'download_from', 'filter_download_from', '', '');
-        $state['filter_download_to'] = $app->getUserStateFromRequest($ns.'download_from', 'filter_download_to', '', '');      
-    	$state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
+        $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
+        $state['filter_date_to'] = $app->getUserStateFromRequest($ns.'date_to', 'filter_date_to', '', '');      
+        $state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
+        $state['filter_file_name'] = $app->getUserStateFromRequest($ns.'file_name', 'filter_file_name', '', '');
         $state = $this->_handleRangePresets( $state );
         
         foreach (@$state as $key=>$value)
