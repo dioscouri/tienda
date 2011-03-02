@@ -420,6 +420,17 @@
 
                     <table class="adminlist">
                     <tbody>
+                    	<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'One Page Checkout' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'one_page_checkout', 'class="inputbox"', $this->row->get('one_page_checkout', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Force SSL on Checkout' ); ?>

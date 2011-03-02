@@ -525,6 +525,9 @@ class TiendaConfig extends JObject
     var $sha1_images						= '0';
     var $files_maxsize						= '3000';
     
+    //one page checkout
+    var $one_page_checkout					= '0';
+    
 	
 	/**
 	 * constructor
