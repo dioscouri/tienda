@@ -1,7 +1,7 @@
 <?php 
+    /** this file is a new entry point, so define _JEXEC */
+    define( '_JEXEC', 1 );	
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');	
 	define('TPATH_BASE', dirname(__FILE__) );
 	define( 'DS', DIRECTORY_SEPARATOR );
 	$pathXplode = explode(DS."plugins", TPATH_BASE);
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
     $plugin =& JPluginHelper::getPlugin('tienda', 'payment_googlecheckout');
    	$params = new JParameter($plugin->params);
    	
-   	 chdir("..");
+   	chdir("..");
   	require_once(dirname(__FILE__).'/googleresponse.php');
   	require_once(dirname(__FILE__).'/googlemerchantcalculations.php');
   	require_once(dirname(__FILE__).'/googleresult.php');
