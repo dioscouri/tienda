@@ -41,7 +41,7 @@
     <input type='hidden' name='cardexp' value='<?php echo @$vars->cardexp; ?>' />
     <input type='hidden' name='cardcv2' value='<?php echo @$vars->cardcv2; ?>' />
 
-    <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" id="submit_button" onclick="document.getElementById('submit_button').disabled = 1;" />
+    <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" id="submit_button" onclick="document.getElementById('submit_button').disabled = 1; this.form.submit();" />
 
     <input type='hidden' name='order_id' value='<?php echo @$vars->order_id; ?>' />
     <input type='hidden' name='orderpayment_id' value='<?php echo @$vars->orderpayment_id; ?>' />
