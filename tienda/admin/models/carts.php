@@ -177,7 +177,7 @@ class TiendaModelCarts extends TiendaModelEav
                             $pao[$attrib_id]->load( $attrib_id );	                        
 	                    }
                         $table = $pao[$attrib_id];
-                        
+               
 	                    // update the price
 	                    // + or - 
 	                    if($table->productattributeoption_prefix != '=')
@@ -188,10 +188,12 @@ class TiendaModelCarts extends TiendaModelEav
 						}
 	                    // only if prefix is =
 	                    else 
-	                    {	                    	
-	                        $item->product_price = $item->product_price;
+	                    {	                   	
+	                       	// assign the product attribute price as the product price
+	                       	//then set the orderitem_attributes_price to 0.0000
+	                        $item->product_price = $table->productattributeoption_price; //
 	                        // store the attribute's price impact
-	                        $item->orderitem_attributes_price = $item->orderitem_attributes_price;
+	                        $item->orderitem_attributes_price = "0.00000";
 	                    }
                  
 	                    $item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
@@ -226,7 +228,7 @@ class TiendaModelCarts extends TiendaModelEav
 
  				$item->attributes_names = implode(', ', $attributes_names);
             }   
-      
+
             $this->_list = $items;            
         }
            
