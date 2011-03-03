@@ -123,8 +123,9 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$totalPrice = 0;
 		foreach($items as $itemObject)
 		{			
+			//
 			$item_temp = new GoogleItem($itemObject->orderitem_name,
-			$itemObject->orderitem_name,$itemObject->orderitem_quantity,$itemObject->orderitem_final_price);
+			$itemObject->orderitem_name,$itemObject->orderitem_quantity,$itemObject->orderitem_price + $itemObject->orderitem_attributes_price);
 			// in argument of GoogleItem first itemname , itemDescription,quantity, unti price
 			$cart->AddItem($item_temp);
 			$totalPrice = $totalPrice + $itemObject->orderitem_final_price;
