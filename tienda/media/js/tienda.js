@@ -73,7 +73,7 @@ function tiendaFormValidation( url, container, task, form, doModal, msg )
 {
     if (doModal == true) { tiendaNewModal(msg); }
     
-    if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' ) 
+    if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' || task== 'addReview') 
     {
         // loop through form elements and prepare an array of objects for passing to server
         var str = new Array();
@@ -485,30 +485,6 @@ function tiendaRating(id)
         document.getElementById('rating_'+count).getElementsByTagName("img")[0].src=window.com_tienda.jbase + "media/com_tienda/images/star_00.png";
     }
 }
-
-function tiendaSendReview( validation_div ) 
-{
-	rating = parseInt( document.getElementById( 'productcomment_rating' ).value );
-	var redirect = rating > 0;
-	
-	if( redirect )
-	{
-		$(validation_div).setStyle('display', 'none');
-	    if( typeof document.commentsForm.onsubmit == "function" )
-	    {
-	    	document.commentsForm.onsubmit();
-	    }
-	    else
-	    {
-	        document.commentsForm.submit();
-	    }
-	}
-	else
-	{
-		$(validation_div).setStyle('display', 'block');
-	}
-}
-
 
 function tiendaCheckUpdateCartQuantities(form, text)
 {

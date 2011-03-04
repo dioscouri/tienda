@@ -18,11 +18,10 @@ $count=@$this->count;
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
 $user = JFactory::getUser();
+$url_validate = JRoute::_( 'index.php?option=com_tienda&controller=products&task=validateReview&format=raw' );
 
 if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { 	
 	$emails = TiendaHelperProduct::getUserEmailForReview( $row->product_id );
-	
-$rating_validation = TiendaHelperBase::generateMessage( JText::_( 'Rating is required.' ) );
 ?>
 <div id="product_review_header" class="tienda_header">
     <span><?php echo JText::_("Reviews"); ?></span>
@@ -45,7 +44,7 @@ $rating_validation = TiendaHelperBase::generateMessage( JText::_( 'Rating is req
     	</div>
     </div>    
     <div id="new_review_form" class="rowPaddingDiv" style="display: none;">
-    		<div id="validationmessage_comments" style="padding-top: 10px; display : none;"><?php echo $rating_validation;?></div>
+    		<div id="validationmessage_comments" style="padding-top: 10px;"></div>
         <form action="<?php echo $click;?>" method="post" class="adminform" name="commentsForm" enctype="multipart/form-data" >    
             <div><?php echo JText::_('Rating'); ?>: *</div>
             <?php for ($count=1; $count<=5; $count++): ?>
@@ -71,11 +70,12 @@ $rating_validation = TiendaHelperBase::generateMessage( JText::_( 'Rating is req
             <?php $recaptcha = new TiendaRecaptcha(); ?>
             <div><?php echo $recaptcha->recaptcha_get_html($publickey); ?></div>
             <?php endif;?>                    
-            <input type="button" name="review" id="review" onclick="javscript:tiendaSendReview( 'validationmessage_comments' );" value="<?php echo JText::_( "Submit Comment" ); ?>" />
+            <input type="button" name="review" id="review" onclick="javscript:tiendaFormValidation( '<?php echo $url_validate; ?>','validationmessage_comments', 'addReview', document.commentsForm );" value="<?php echo JText::_( "Submit Comment" ); ?>" />
             <input type="hidden" name="product_id"   value="<?php echo $row->product_id;?>" />
             <input type="hidden" name="user_id" value="<?php echo JFactory::getUser()->id; ?>" />
             <input type="hidden" name="productcomment_rating" id="productcomment_rating" value="" />
             <input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>" />
+            <input type="hidden" name="task" value="" />
         </form>
     </div>
    <?php if($review_enable==1):?>

@@ -1729,6 +1729,100 @@ class TiendaControllerProducts extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;        
     }
+
+    /**
+     * Verifies the fields in a submitted form. Is expected to be called via Ajax 
+     * 
+     * @return unknown_type
+     */
+    function validateReview()
+    {
+    	$response = array();
+    	$response['msg'] = '';
+    	$response['error'] = '';
+    	$errors = array();
+    	
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+    	Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+    	$helper = TiendaHelperBase::getInstance();
+    	$user = & JFactory::getUser();	
+        
+    	// get elements from post
+    	$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+    	// validate it using table's ->check() method
+    	if ( empty( $elements ) )
+    	{
+    		// if it fails check, return message
+    		$response['error'] = '1';
+    		$response['msg'] = $helper->generateMessage( "Could not process form" );
+    		echo ( json_encode( $response ) );
+    		return;
+    	}
+
+    	if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+    	{
+    		$response['msg'] = $helper->generateMessage( "Shop Disabled" );
+    		$response['error'] = '1';
+    		echo ( json_encode( $response ) );
+    		return false;    
+    	}
+            
+    	// convert elements to array that can be binded             
+    	$values = TiendaHelperBase::elementsToArray( $elements );
+    	if ( !$user->id )
+    	{
+    		if( empty( $values['user_name'] ) )
+    		{
+    			$errors[] = '<li>'.JText::_( "Name field is required." ).'</li>';
+    		}
+		
+    		jimport( 'joomla.mail.helper' );
+    		if( !JMailHelper::isEmailAddress( $values['user_email']) )
+    		{
+    			$errors[] = '<li>'.JText::_( "Please enter a correct email address." ).'</li>';
+        }
+			
+        if( in_array( $values['user_email'],TiendaHelperProduct::getUserEmailForReview( $values['product_id'] ) ) )
+        {
+        	$errors[] = '<li>'.JText::_( "You already submitted a review. You can only submit a review once." ).'</li>';
+        }
+    	}
+    	else 
+    	{
+    		if( in_array( $user->email,TiendaHelperProduct::getUserEmailForReview( $values['product_id'] ) ) )
+    		{
+    			$errors[] = '<li>'.JText::_( "You already submitted a review. You can only submit a review once." ).'</li>';
+    		}
+    	}
+    	
+    	if( count( $errors ) ) // there were erros => stop here
+    	{
+    		$response['error'] = 1;
+    		$response['msg'] = $helper->generateMessage( implode( "\n", $errors ), false );
+    		echo ( json_encode( $response ) );
+    		return;
+    	}
+
+    	if( empty( $values['productcomment_rating'] ) ) 
+    	{
+    		$errors[] = '<li>'.JText::_( "Rating is required." ).'</li>';
+    	}
+		
+    	if( empty( $values['productcomment_text'] ) ) 
+    	{
+    		$errors[] = '<li>'.JText::_( "Comment field is required." ).'</li>';
+    	}
+    	
+    	if( count( $errors ) ) // there were erros
+    	{
+    		$response['error'] = 1;
+    		$response['msg'] = $helper->generateMessage( implode( "\n", $errors ), false );
+    	}
+    	
+    	echo ( json_encode( $response ) );
+    	return;
+    }
     
      
     /**
