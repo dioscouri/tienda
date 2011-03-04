@@ -32,7 +32,7 @@
             <input type="hidden" name="src" value="1" />
             <input type="hidden" name="no_shipping" value="1" />
             <input type="hidden" name="srt" value="<?php echo $vars->order->recurring_payments; ?>" />
-            <input type="hidden" name="a3" value="<?php echo TiendaHelperBase::number( $vars->order->recurring_amount, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>" />
+            <input type="hidden" name="a3" value="<?php echo TiendaHelperBase::number( $vars->orderpayment_amount , array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>" />
             <input type="hidden" name="p3" value="<?php echo $vars->order->recurring_period_interval; ?>" />                         
             <input type="hidden" name="t3" value="<?php echo $vars->order->recurring_period_unit; ?>" />
             

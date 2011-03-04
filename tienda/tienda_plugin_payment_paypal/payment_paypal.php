@@ -63,6 +63,14 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $order->load( $data['order_id'] );
         $items = $order->getItems();
         $vars->is_recurring = $order->isRecurring();
+  
+        if($vars->is_recurring)
+        {
+        	//get the orderitem_attributes_price for the recurring item and then add to the $vars->amount
+            //assumption that only 1 recurring per order
+            $orderitems = JTable::getInstance('OrderItems', 'TiendaTable');
+            $orderitems->load( array('order_id'=>$order->order_id, 'orderitem_recurs'=>'1') );
+        }
         
         // if order has both recurring and non-recurring items,
         if ($vars->is_recurring && count($items) > '1')
@@ -75,6 +83,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $vars->orderpayment_id );
             $vars->amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
+
+			$vars->amount = $vars->amount + (float) $orderitems->orderitem_attributes_price;
+			
             $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $vars->amount; 
             $orderpayment->save();
             $vars->orderpayment_amount = $orderpayment->orderpayment_amount;
@@ -83,7 +94,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         {
             // only recurring
             $vars->cmd = '_xclick-subscriptions';
-            $vars->mixed_cart = false;
+            $vars->mixed_cart = false;           
         }
             else
         {
@@ -139,7 +150,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         //$vars->country      = $data['orderinfo']->shipping_country_name;
         $vars->region       = $data['orderinfo']->shipping_zone_name;
         $vars->postal_code  = $data['orderinfo']->shipping_postal_code;
-        
+
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
     }
