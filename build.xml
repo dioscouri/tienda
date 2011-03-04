@@ -637,6 +637,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_virtualmerchant.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_virtualmerchant" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_mostdownloadedfiles.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_mostdownloadedfiles" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_cart" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_ordered_products.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_ordered_products" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_prepayments.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_prepayments" />
