@@ -544,9 +544,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 			$productModel->setId($cartitem->product_id);
 			if ($productItem = $productModel->getItem(false))
 			{								
-				$productItem->product_price = $productItem->price;	
-				//we are not overriding the price if its a recurring				
-				if(!$productItem->product_recurs)
+				$productItem->price = $productItem->product_price = !$cartitem->product_price_override->override ? $cartitem->product_price : $productItem->price;	
+				
+				//we are not overriding the price if its a recurring && price				
+				if(!$productItem->product_recurs && $cartitem->product_price_override->override)
 				{
 					// at this point, ->product_price holds the default price for the product,
 					// but the user may qualify for a discount based on volume or date, so let's get that price override
@@ -594,7 +595,7 @@ class TiendaHelperCarts extends TiendaHelperBase
     			$orderItem->orderitem_attribute_names     = $cartitem->attributes_names;
     			$orderItem->orderitem_attributes_price    = $cartitem->orderitem_attributes_price;
     			$orderItem->orderitem_final_price         = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
-    		
+ 		
     			$dispatcher =& JDispatcher::getInstance();
 		        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $cartitem ) );
 		        foreach ($results as $result)
