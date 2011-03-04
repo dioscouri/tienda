@@ -486,6 +486,30 @@ function tiendaRating(id)
     }
 }
 
+function tiendaSendReview( validation_div ) 
+{
+	rating = parseInt( document.getElementById( 'productcomment_rating' ).value );
+	var redirect = rating > 0;
+	
+	if( redirect )
+	{
+		$(validation_div).setStyle('display', 'none');
+	    if( typeof document.commentsForm.onsubmit == "function" )
+	    {
+	    	document.commentsForm.onsubmit();
+	    }
+	    else
+	    {
+	        document.commentsForm.submit();
+	    }
+	}
+	else
+	{
+		$(validation_div).setStyle('display', 'block');
+	}
+}
+
+
 function tiendaCheckUpdateCartQuantities(form, text)
 {
 	

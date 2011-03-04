@@ -1786,6 +1786,13 @@ class TiendaControllerProducts extends TiendaController
             	$this->messagetype = 'notice';
 			}
 		}
+
+		if(empty($post['productcomment_rating']) && $valid) 
+		{
+			$valid = false;		
+            $this->message = JText::_( "Rating is required." );	   
+            $this->messagetype = 'notice';         
+		}
 		
 		if(empty($post['productcomment_text']) && $valid) 
 		{
