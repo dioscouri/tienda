@@ -32,6 +32,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
             </thead>
             <tbody>
             <?php $i=0; $k=0; $subtotal = 0; ?> 
+            <?php if(count($items)):?>
             <?php foreach ($items as $item) : ?>
                 <tr class="row<?php echo $k; ?>">
                     <td>
@@ -55,6 +56,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
                 </tr>
             <?php ++$i; $k = (1 - $k); ?>
             <?php endforeach; ?>
+            <?php endif;?>
             </tbody>
             <tfoot>
                 <tr>
