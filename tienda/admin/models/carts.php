@@ -139,7 +139,7 @@ class TiendaModelCarts extends TiendaModelEav
             if( empty( $items ) ){
                 return array();
             }
-  
+
             foreach($items as $item)
             {
             	$filter_group = $user_helper->getUserGroup( JFactory::getUser()->id, $item->product_id );
@@ -147,6 +147,9 @@ class TiendaModelCarts extends TiendaModelEav
                 // at this point, ->product_price holds the default price for the product,
                 // but the user may qualify for a discount based on volume or date, so let's get that price override
                 $item->product_price_override = $product_helper->getPrice( $item->product_id, $item->product_qty, $filter_group , JFactory::getDate()->toMySQL() );
+                
+                //checking if we do price override
+                $item->product_price_override->override = true;
                 
                 if (!empty($item->product_price_override))
                 {
@@ -162,12 +165,12 @@ class TiendaModelCarts extends TiendaModelEav
                     }
                 }
  
- 				$item->orderitem_attributes_price = '0.00000';
+ 				$item->orderitem_attributes_price = '0.00000'; 				
  				$attributes_names = array();
  				if(!empty($item->product_attributes))
  				{
 	                $item->attributes = array(); // array of each selected attribute's object	                
-	                $attibutes_array = explode(',', $item->product_attributes);
+	                $attibutes_array = explode(',', $item->product_attributes);	                
 	                foreach ($attibutes_array as $attrib_id)
 	                {
 	                    if (empty($pao[$attrib_id]))
@@ -177,7 +180,7 @@ class TiendaModelCarts extends TiendaModelEav
                             $pao[$attrib_id]->load( $attrib_id );	                        
 	                    }
                         $table = $pao[$attrib_id];
-               
+               			
 	                    // update the price
 	                    // + or - 
 	                    if($table->productattributeoption_prefix != '=')
@@ -185,7 +188,8 @@ class TiendaModelCarts extends TiendaModelEav
 	                        $item->product_price = $item->product_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
 	                        // store the attribute's price impact	                      
 	                        $item->orderitem_attributes_price = $item->orderitem_attributes_price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-						}
+							$item->product_price_override->override = true;
+	                    }
 	                    // only if prefix is =
 	                    else 
 	                    {	                   	
@@ -194,6 +198,7 @@ class TiendaModelCarts extends TiendaModelEav
 	                        $item->product_price = $table->productattributeoption_price; //
 	                        // store the attribute's price impact
 	                        $item->orderitem_attributes_price = "0.00000";
+	                        $item->product_price_override->override = false;
 	                    }
                  
 	                    $item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
@@ -218,6 +223,7 @@ class TiendaModelCarts extends TiendaModelEav
 	                    }
 	                }
     		
+	                 
 	                // Could someone explain to me why this is necessary?
 	                if ($item->orderitem_attributes_price >= 0)
 	                {
@@ -227,7 +233,7 @@ class TiendaModelCarts extends TiendaModelEav
  				}
 
  				$item->attributes_names = implode(', ', $attributes_names);
-            }   
+            }  
 
             $this->_list = $items;            
         }
