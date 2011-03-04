@@ -34,6 +34,7 @@
 		<option value="1">ENABLED</option>
 		<option value="0">DISABLED</option>
 		</param>
+    <param name="itemid" type="text" default="" label="Itemid for Product Page" description="Itemid for Product Page" />
 
 		<param type="spacer" />
 		<param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">

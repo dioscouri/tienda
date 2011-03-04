@@ -134,7 +134,14 @@ class modTiendaProductsHelper extends JObject
                     $product->filter_category = $categories[0];
                 }
                 $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $product->filter_category, true );
-                $product->itemid = $itemid;      
+                if( empty( $itemid ) )
+                {
+                	$product->itemid = $this->params->get( 'itemid' );
+                }
+                else
+                {
+                	$product->itemid = $itemid;      
+                }
     	    }
     	}
     	
