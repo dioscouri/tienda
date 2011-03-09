@@ -1,7 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php JHTML::_('stylesheet', 'uploadify.css', 'media/com_tienda/css/'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'swfobject.js', 'media/com_tienda/js/uploadify/'); ?>
+<?php JHTML::_('script', 'jquery-1.5.1.min.js', 'media/com_tienda/js/uploadify/'); ?>
+<?php JHTML::_('script', 'jquery.uploadify.v2.1.4.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 <?php jimport('joomla.html.pane'); ?>
 <?php $tabs = &JPane::getInstance( 'tabs' ); ?>
@@ -12,13 +16,6 @@
 Tienda::load( 'TiendaUrl', 'library.url' );
 Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
 ?>
-
-<script type="text/javascript">
-window.addEvent('domready', function(){
-	new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
-});
-</script>
-
 <form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
     <fieldset>
@@ -179,14 +176,14 @@ window.addEvent('domready', function(){
                             <?php echo JText::_( 'Product Attributes' ); ?>:
                         </td>
                         <td>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ), array('onclose' => '\function(){submitbutton(\'apply\');}') ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...');'\'); submitbutton(\'apply\');}') ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
-                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ), array('onclose' => '\function(){submitbutton(\'apply\')}') ); ?>]
+                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...');'\'); submitbutton(\'apply\');}') ); ?>]
                                     <?php echo $attribute->productattribute_name; ?>
                                     <?php echo "(".$attribute->option_names_csv.")"; ?>
                                     <br/>
@@ -416,8 +413,13 @@ window.addEvent('domready', function(){
                         </label>
                     </td>
                     <td>
-                        <div class="multiupload"> 
+                        <div class="multiupload" id="oldUploader"> 
                         	<input name="product_full_image_new" type="file" size="40" />
+                        </div>
+                        <div id="uploadifyImage">
+                        	<input id="uploadify_file_upload" type="file" name="uploadify_image" style="display: none;" width="120" height="30">
+							<div id="uploadify-queue" class="uploadifyQueue"></div>
+							<div id="uploadify-status-message"></div>
                         </div>
                         <div class="note" style="clear:both">
 	                    	<?php echo JText::_( "Upload Zip Images Message" ); ?>
@@ -1218,7 +1220,52 @@ window.addEvent('domready', function(){
     JDispatcher::getInstance()->trigger('onAfterDisplayProductForm', array( $row ) );                    
     ?>
 			
-	<input type="hidden" name="id" value="<?php echo @$row->product_id; ?>" />
+	<input type="hidden" name="id" id="product_id" value="<?php echo @$row->product_id; ?>" />
 	<input type="hidden" name="task" value="" />
 	
 </form>
+
+<script type="text/javascript">
+window.addEvent('domready', function(){
+	// Check flash version!
+	var flash = swfobject.getFlashPlayerVersion();
+	if(flash.major < 9 || $('product_id').value == 0 )
+	{
+		// Use normal uploader
+		$('oldUploader').setStyle('display', 'block');
+		$('uploadifyImage').setStyle('display', 'none');
+		new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
+	}
+	else
+	{
+		// Use flash uploader
+		$('uploadifyImage').setStyle('display', 'block');
+		$('oldUploader').setStyle('display', 'none');
+	
+	// Uploadify!
+    jQuery('#uploadify_file_upload').uploadify({
+        'uploader': '<?php echo Tienda::getUrl("js"); ?>/uploadify/uploadify.swf',
+        'script': '<?php echo JURI::getInstance()->root(true); ?>/index.php',
+        'cancelImg': '<?php echo Tienda::getUrl("js"); ?>/uploadify/uploadify-cancel.png',
+        'multi': true,
+        'auto': true,
+        'fileDataName': 'uploadify_image',
+        'fileExt': '*.jpg;*.gif;*.png',
+        'fileDesc': 'Image Files (.JPG, .GIF, .PNG)',
+        'queueID': 'uploadify-queue',
+        'method': 'POST',
+        'scriptData': {'option':'com_tienda','view':'products','task':'uploadifyImage','format':'raw','product_id': '<?php echo @$row->product_id ?>'},
+        'removeCompleted': false,
+        'buttonImage': false,
+        'onSelectOnce': function (event, data) {
+            jQuery('#uploadify-status-message').text(data.filesSelected + ' files have been added to the queue.');
+        },
+        'onAllComplete': function (event, data) {
+            jQuery('#uploadify-status-message').text(data.filesUploaded + ' files uploaded, ' + data.errors + ' errors.');
+            tiendaNewModal('<?php echo JText::_('Saving the Product...'); ?>');
+            submitbutton('apply');
+        }
+    });
+    }
+});
+</script>
