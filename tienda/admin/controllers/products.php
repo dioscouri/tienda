@@ -517,7 +517,10 @@ class TiendaControllerProducts extends TiendaController
 		$params->set( 'core_user_change_gid', JRequest::getVar('core_user_change_gid') );
 		$params->set( 'core_user_new_gid', JRequest::getVar('core_user_new_gid') );
         $params->set( 'ambrasubs_type_id', JRequest::getVar('ambrasubs_type_id') );
-        
+        $params->set( 'hide_quantity_input', JRequest::getVar('param_hide_quantity_input') );
+        $params->set( 'default_quantity', JRequest::getVar('param_default_quantity') );
+        $params->set( 'hide_quantity_cart', JRequest::getVar('param_hide_quantity_cart') );
+                
 		$row->product_params = trim( $params->toString() );
 		return $row;
 	}

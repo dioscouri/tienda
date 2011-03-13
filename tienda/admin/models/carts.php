@@ -87,6 +87,7 @@ class TiendaModelCarts extends TiendaModelEav
         $field[] = " p.recurring_trial_period_interval ";
         $field[] = " p.recurring_trial_period_unit ";
         $field[] = " p.recurring_trial_price ";
+        $field[] = " p.product_params ";
 
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
@@ -164,6 +165,8 @@ class TiendaModelCarts extends TiendaModelEav
                         $item->product_price = $item->recurring_trial_price;
                     }
                 }
+                
+                $item->product_parameters = new JParameter( $item->product_params );
  
  				$item->orderitem_attributes_price = '0.00000'; 				
  				$attributes_names = array();
