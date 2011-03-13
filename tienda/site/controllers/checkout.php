@@ -850,7 +850,15 @@ class TiendaControllerCheckout extends TiendaController
 			
 		$country_id = JRequest::getVar('country_id');
 		$prefix = JRequest::getVar('prefix');
-		$html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id );
+		
+		if (empty($country_id))
+		{
+		    $html = JText::_( "Select a Country" );
+		}
+    		else
+		{
+		    $html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id );
+		}
 			
 		$response = array();
 		$response['msg'] = $html . " *";
@@ -1023,6 +1031,17 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'showShipping', $showShipping );
 		$view->assign( 'forShipping', $forShipping );
 
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$countries_model = JModel::getInstance( 'Countries', 'TiendaModel' );
+        $default_country = $countries_model->getDefault();
+        $default_country_id = $default_country->country_id; 
+		
+        Tienda::load( 'TiendaSelect', 'library.select' );
+        $zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id );
+
+        $view->assign( 'default_country_id', $default_country_id );
+        $view->assign( 'zones', $zones );
+        
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();

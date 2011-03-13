@@ -111,5 +111,23 @@ class TiendaModelCountries extends TiendaModelBase
 		}
 		return $list;
 	}
+	
+	public function getDefault()
+	{
+	    $query = new TiendaQuery();
+	    $query->select( 'tbl.*' );
+	    $query->from( $this->getTable()->getTableName() . " AS tbl" );
+	    $query->where( "tbl.country_enabled = '1'" );
+	    $query->order( "tbl.ordering ASC" );
+	    
+	    $db = $this->getDBO();
+	    $db->setQuery( (string) $query, 0, 1 );
+	    if (!$results = $db->loadObjectList())
+	    {
+	        return false;
+	    }
+	    
+	    return $results[0];
+	}
 
 }

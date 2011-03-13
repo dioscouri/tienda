@@ -144,7 +144,7 @@
 			<?php
 			$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
 			$attribs = array('class' => 'inputbox','size' => '1','onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\');' );
-			echo TiendaSelect::country( '', $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', true, true );
+			echo TiendaSelect::country( $this->default_country_id, $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', false, true );
 			?>&nbsp;
 			<?php if($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type ): ?>
 			*
@@ -159,8 +159,12 @@
 		</th>
 		<td>
             <div id="<?php echo $this->form_prefix; ?>zones_wrapper">
-            <?php 
-                echo JText::_( "Select Country First" );
+            <?php
+                if (!empty($this->zones)) {
+                    echo $this->zones;
+                } else {
+                    echo JText::_( "Select Country First" );
+                }
             ?>
             </div>&nbsp;
 			<?php if($config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ): ?>
