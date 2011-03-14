@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+       <name>Dashboard</name>
+       <url>index.php?option=com_tienda&#38;view=dashboard</url>
+   </link>
+   <link>
+       <name>Orders</name>
+       <url>index.php?option=com_tienda&#38;view=orders</url>
+   </link>
+   <link>
+       <name>Catalog</name>
+       <url>index.php?option=com_tienda&#38;view=catalog</url>
+   </link>
+   <link>
+       <name>Users</name>
+       <url>index.php?option=com_tienda&#38;view=users</url>
+   </link>
+   <link>
+       <name>Coupons</name>
+       <url>index.php?option=com_tienda&#38;view=coupons</url>
+   </link>
+   <link>
+       <name>Custom Fields</name>
+       <url>index.php?option=com_tienda&#38;view=eavattributes</url>
+   </link>
+   <link>
+       <name>Localization</name>
+       <url>index.php?option=com_tienda&#38;view=localization</url>
+   </link>
+   <link>
+       <name>Tools and Reports</name>
+       <url>index.php?option=com_tienda&#38;view=reports</url>
+   </link>
+   <link>
+       <name>Configuration</name>
+       <url>index.php?option=com_tienda&#38;view=config</url>
+   </link>
+</menu>
