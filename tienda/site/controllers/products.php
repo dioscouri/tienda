@@ -400,187 +400,8 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function getAddToCart( $product_id, $values = array( ) )
 	{
-		$html = '';
-		
-		$view = $this->getView( 'products', 'html' );
-		//$model  = $this->getModel( $this->get('suffix') );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
-		$model->setId( $product_id );
-		
-		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-		$helper_product = TiendaHelperBase::getInstance( 'Product' );
-		
-		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-		$user_id = JFactory::getUser( )->id;
-		$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
-		$model->setState( 'filter_group', $filter_group );
-		
-		$row = $model->getItem( false );
-		if ( $row->product_notforsale || TiendaConfig::getInstance( )->get( 'shop_enabled' ) == '0' )
-		{
-			return $html;
-		}
-		
-		$view->set( '_controller', 'products' );
-		$view->set( '_view', 'products' );
-		$view->set( '_doTask', true );
-		$view->set( 'hidemenu', true );
-		$view->setModel( $model, true );
-		$view->setLayout( 'product_buy' );
-		$view->assign( 'product_id', $product_id );
-		$view->assign( 'values', $values );
-		$view->set( '_list', ( !empty( $this->_list ) ) );
-		$filter_category = $model->getState( 'filter_category', JRequest::getInt( 'filter_category', ( int ) @$values['filter_category'] ) );
-		$view->assign( 'filter_category', $filter_category );
-		$view->assign( 'validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
-		
-		$config = TiendaConfig::getInstance( );
-		$show_tax = $config->get( 'display_prices_with_tax' );
-		$view->assign( 'show_tax', $show_tax );
-		$view->assign( 'tax', 0 );
-		$view->assign( 'taxtotal', '' );
-		$view->assign( 'shipping_cost_link', '' );
-		
-		$row->tax = '0';
-		if ( $show_tax )
-		{
-			// finish TiendaHelperUser::getGeoZone -- that's why this isn't working
-			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
-			if ( empty( $geozones ) )
-			{
-				// use the default
-				$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
-				$table->load( array(
-							'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
-						) );
-				$geozones = array(
-					$table
-				);
-			}
-			
-			$taxtotal = TiendaHelperProduct::getTaxTotal( $product_id, $geozones );
-			$tax = $taxtotal->tax_total;
-			$row->taxtotal = $taxtotal;
-			$row->tax = $tax;
-			// @v0.6.1, we're leaving these here for 2 more versions, so as not to break existing templates
-			// @v0.8.0, these are gone
-			$view->assign( 'taxtotal', $taxtotal );
-			$view->assign( 'tax', $tax );
-		}
-		
-		// TODO What about this??
-		$show_shipping = $config->get( 'display_prices_with_shipping' );
-		if ( $show_shipping )
-		{
-			$article_link = $config->get( 'article_shipping', '' );
-			$shipping_cost_link = JRoute::_( 'index.php?option=com_content&view=article&id=' . $article_link );
-			$view->assign( 'shipping_cost_link', $shipping_cost_link );
-		}
-		
-		$quantity_min = 1;
-		if ( $row->quantity_restriction )
-		{
-			$quantity_min = $row->quantity_min;
-		}
-		
-		$invalidQuantity = '0';
-		if ( empty( $values ) )
-		{
-			$product_qty = $quantity_min;
-			// get the default set of attribute_csv
-			$default_attributes = $helper_product->getDefaultAttributes( $product_id );
-			sort( $default_attributes );
-			$attributes_csv = implode( ',', $default_attributes );
-			$availableQuantity = $helper_product->getAvailableQuantity( $product_id, $attributes_csv );
-			if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
-			{
-				$invalidQuantity = '1';
-			}
-		}
-		
-		$attributes = array( );
-		if ( !empty( $values ) )
-		{
-			$product_id = !empty( $values['product_id'] ) ? ( int ) $values['product_id'] : JRequest::getInt( 'product_id' );
-			$product_qty = !empty( $values['product_qty'] ) ? ( int ) $values['product_qty'] : $quantity_min;
-			
-			// TODO only display attributes available based on the first selected attribute?
-			foreach ( $values as $key => $value )
-			{
-				if ( substr( $key, 0, 10 ) == 'attribute_' )
-				{
-					$attributes[] = $value;
-				}
-			}
-			
-			sort( $attributes );
-			
-			// Add 0 to attributes to include all the root attributes
-			//$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
-			
-			// For getting child opts
-			$view->assign( 'selected_opts', json_encode( array_merge( $attributes, array(
-						'0'
-					) ) ) );
-			
-			$attributes_csv = implode( ',', $attributes );
-			
-			// Integrity checks on quantity being added
-			if ( $product_qty < 0 )
-			{
-				$product_qty = '1';
-			}
-			
-			// using a helper file to determine the product's information related to inventory
-			$availableQuantity = $helper_product->getAvailableQuantity( $product_id, $attributes_csv );
-			if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
-			{
-				$invalidQuantity = '1';
-			}
-			
-			// adjust the displayed price based on the selected or default attributes
-			$table = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
-			foreach ( $attributes as $attrib_id )
-			{
-				// load the attrib's object
-				$table->load( $attrib_id );
-				// update the price
-				//$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-				
-				// is not + or -
-				if ( $table->productattributeoption_prefix == '=' )
-				{
-					$row->price = floatval( $table->productattributeoption_price );
-				}
-				else
-				{
-					$row->price = $row->price + floatval( "$table->productattributeoption_prefix" . "$table->productattributeoption_price" );
-				}
-				$row->sku .= $table->productattributeoption_code;
-			}
-		}
-		
-		$row->_product_quantity = $product_qty;
-		
-		$view->assign( 'display_cartbutton', $this->display_cartbutton );
-		$view->assign( 'availableQuantity', $availableQuantity );
-		$view->assign( 'invalidQuantity', $invalidQuantity );
-		$view->assign( 'item', $row );
-		
-		$dispatcher = &JDispatcher::getInstance( );
-		
-		ob_start( );
-		$dispatcher->trigger( 'onDisplayProductAttributeOptions', array(
-					$row->product_id
-				) );
-		$view->assign( 'onDisplayProductAttributeOptions', ob_get_contents( ) );
-		ob_end_clean( );
-		
-		ob_start( );
-		$view->display( );
-		$html = ob_get_contents( );
-		ob_end_clean( );
+		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+		$html = TiendaHelperProduct::getCartButton( $product_id, 'product_buy', $values );
 		
 		return $html;
 	}
@@ -2300,12 +2121,12 @@ class TiendaControllerProducts extends TiendaController
 			if ( $success )
 			{
 				// save as default?
-				if(empty($product->product_full_image))
+				if ( empty( $product->product_full_image ) )
 				{
-					$product->product_full_image = $upload->getPhysicalName();
-					$product->save();
+					$product->product_full_image = $upload->getPhysicalName( );
+					$product->save( );
 				}
-				echo JText::_('Image uploaded correctly');
+				echo JText::_( 'Image uploaded correctly' );
 			}
 			else
 			{
