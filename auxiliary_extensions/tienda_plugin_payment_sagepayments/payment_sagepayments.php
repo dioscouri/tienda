@@ -705,10 +705,11 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
             			case 'A' : // approved
             			    $payment_status = '1';
             				break;
-            			case 'E' :
-            			case 'X' :
+            			case 'E' : // front-end declined
+            			case 'X' : // gateway declined
                             $payment_status = '0';
             				$errors[] = JText::_('Tienda Sagepayments Message Payment Not Approved CODE ' . $value);
+            				$errors[] = $exploded["approval_message"];
                             break;
             			default : // if something went wrong
 	            			$errors[] = $value;
@@ -852,10 +853,20 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
 			$return = JText::_( "TIENDA SAGEPAYMENTS MESSAGE PAYMENT SUCCESS" );
 			return $return;                
 		}
+
+		$vars = new JObject();
+		$vars->message = implode("\n", $errors);
+        $html = $this->_getLayout('fail', $vars);
 		
-		return count($errors) ? implode("\n", $errors) : '';
+		return $html;
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @param $row
+     * @return unknown_type
+     */
     public function showCVV($row)
     {
         if (!$this->_isMe($row))
