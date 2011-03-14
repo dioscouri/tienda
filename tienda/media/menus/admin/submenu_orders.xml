@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+	<link>
+        <name>Orders</name>
+        <url>index.php?option=com_tienda&#38;view=orders</url>
+   </link>
+   <link>
+        <name>Payments</name>
+        <url>index.php?option=com_tienda&#38;view=orderpayments</url>
+   </link>
+   <link>
+        <name>Subscriptions</name>
+        <url>index.php?option=com_tienda&#38;view=subscriptions</url>
+   </link>
+   <link>
+        <name>Ordered Items</name>
+        <url>index.php?option=com_tienda&#38;view=orderitems</url>
+   </link>
+</menu>
