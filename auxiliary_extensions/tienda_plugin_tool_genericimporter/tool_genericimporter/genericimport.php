@@ -32,7 +32,7 @@ abstract class TiendaToolPluginImport extends JObject
 	 * Rows of the admintable table
 	 */
 	public $table_rows = array();
-	
+
 	/*
 	 * Name of the importer displayed in select box
 	 */
@@ -48,6 +48,11 @@ abstract class TiendaToolPluginImport extends JObject
 	 */
 	public $source_data = '';
 
+	/*
+	 * Pointer to parent
+	 */
+	public $plugin; 
+	
 	/*
 	 * Description of importer in form 2
 	 */

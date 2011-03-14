@@ -64,6 +64,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 			$this->_importer = new $classname();
 			$this->_importer->state = &$this->state; // save pointer to the array with variables from request
 			$this->_importer->vars = &$this->vars; // save pointer to the array with variables for this step
+			$this->_importer->plugin = &$this; // pointer to this plugin
 		}
 		else // the importer does not exist
 		{
@@ -311,7 +312,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 		if( $this->isLoaded() ) // get default state of values from request from the current importer
 		{
 			$this->_importer->getDefaultState();
-			$this->_importer->source_import = JRequest::getVar( 'source_import' );
+			$this->_importer->source_import = JRequest::getVar( 'source_import', @$this->_importer->source_import );
 		}
 		    
 		foreach( $this->state->getProperties() as $key => $value )
