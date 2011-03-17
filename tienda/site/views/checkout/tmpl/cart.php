@@ -9,7 +9,6 @@ $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 ?>
-
 <div class="cartitems">
            <table class="adminlist" style="clear: both;">
             <thead>
@@ -105,26 +104,30 @@ $items = @$this->orderitems;
                     <?php 
                     	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
                     	$display_taxclass_lineitems = TiendaConfig::getInstance()->get('display_taxclass_lineitems', '0');
-                    	if ($display_taxclass_lineitems)
-                    	{
-                            foreach ($order->getTaxClasses() as $taxclass)
-                            {
-                                $tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
-                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
-                                    echo JText::_( $tax_desc ).":<br/>";
-                            }
-                    	}
-                    	    else
-                    	{
-                    	    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
-                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
-                    	    else { echo JText::_("Product Tax").":<br>"; }    
-                    	}
+                    	
+	                    	if ($display_taxclass_lineitems)
+	                    	{
+	                            foreach ($order->getTaxClasses() as $taxclass)
+	                            {
+	                                $tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
+	                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
+	                                    echo JText::_( $tax_desc ).":<br/>";
+	                            }
+	                    	}
+	                    	    else
+	                    	{
+		                    	if( $order->order_tax )
+		                    	{
+		                    		if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
+		                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
+		                    	    else { echo JText::_("Product Tax").":<br>"; }    
+		                    	}
+		                    }
    						
                     	if (!empty($this->showShipping))
                     	{
                             echo JText::_("Shipping and Handling").":";
-                            if ($display_shipping_tax) {
+                            if ($display_shipping_tax && $order->order_shipping_tax ) {
                                 echo "<br>".JText::_("Shipping Tax").":";
                             }                    	    
                     	}
@@ -143,13 +146,14 @@ $items = @$this->orderitems;
                         }
                             else
                         {
+                        	if( $order->order_tax )
                             echo TiendaHelperBase::currency($order->order_tax) . "<br>";    
                         }
                         
                         if (!empty($this->showShipping))
                         {
                             echo TiendaHelperBase::currency($order->order_shipping);
-                            if ($display_shipping_tax) {
+                            if ($display_shipping_tax && $order->order_shipping_tax ) {
                                 echo "<br>" . TiendaHelperBase::currency( (float) $order->order_shipping_tax);
                             }                               
                         }
