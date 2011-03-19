@@ -22,6 +22,7 @@ class modTiendaUserAddressHelper
         // get the user's addresses using the address model
     	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
     	$model->setState('filter_userid', JRequest::getVar('id', 0, 'request', 'int'));
+    	$model->setState('filter_deleted', 0);
     	$userAddresses = $model->getList();
     	return $userAddresses;
     }
