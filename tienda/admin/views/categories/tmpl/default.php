@@ -125,7 +125,7 @@
                     <?php echo $item->products_count." ".JText::_("Products"); ?>
                     <br/>
                     <?php $select_url = "index.php?option=com_tienda&controller=categories&task=selectproducts&id=".$item->category_id."&tmpl=component"; ?>
-                    [<?php echo TiendaUrl::popup( $select_url, JText::_( "Select Products") ); ?>]
+                    [<?php echo TiendaUrl::popup( $select_url, JText::_( "Select Products"), array('update' => true) ); ?>]
                 </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::order($item->category_id); ?>
