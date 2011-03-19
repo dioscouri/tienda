@@ -1113,11 +1113,17 @@ class TiendaControllerProducts extends TiendaController
 			case "samepage":
 			// redirects back to the page it came from (category, content, etc)
 			// Take only the url without the base domain (index.php?option.....)
-				$uri = JURI::getInstance( );
-				$redirect = $uri->toString( array(
-							'path', 'query', 'fragment'
-						) );
-				$redirect = JRoute::_( $redirect, false );
+			
+				if ( $return_url = JRequest::getVar( 'return', '', 'method', 'base64' ) )
+				{
+					$return_url = base64_decode( $return_url );
+					$uri = JURI::getInstance( );
+					$uri->parse( $return_url );
+					$redirect = $uri->toString( array(
+						'path', 'query', 'fragment'
+							) );
+					$redirect = JRoute::_( $redirect, false );
+				}
 				break;
 			case "lightbox":
 			case "redirect":
@@ -1168,7 +1174,6 @@ class TiendaControllerProducts extends TiendaController
 		$this->message = JText::_( "Item Added to Your Cart" );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 		return;
-		
 	}
 	
 	/**
