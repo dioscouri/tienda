@@ -37,6 +37,32 @@ class TiendaTableProductComments extends TiendaTable
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param $oid
+	 * @return unknown_type
+	 */
+	function delete( $oid=null  )
+	{
+		$this->load( $oid );
+		$product_id = $this->product_id;
+		if( parent::delete( $oid ) )
+		{
+			$product = JTable::getInstance('Products', 'TiendaTable');
+			$product->load( $product_id );
+			$product->updateOverallRating();
+			if ( !$product->save() )
+			{
+				$this->setError( $product->getError().'what?!' );
+				return false;
+			}
+			return true;
+		}
+		$this->setError( $product->getError().'beh?' );
+		
+		return false;
+	}
+	
 	function save()
 	{
 	    $isNew = false;
