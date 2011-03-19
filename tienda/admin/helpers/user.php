@@ -50,11 +50,13 @@ class TiendaHelperUser extends TiendaHelperBase
                 break;
         }
         $model->setState('filter_userid', (int) $userid);
+        $model->setState( 'filter_deleted', 0 );
         $items = $model->getList();
         if (empty($items))
         {
             $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
             $model->setState('filter_userid', (int) $userid);
+            $model->setState( 'filter_deleted', 0 );
             $items = $model->getList();
         }
         
