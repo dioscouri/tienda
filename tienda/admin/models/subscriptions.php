@@ -19,24 +19,44 @@ class TiendaModelSubscriptions extends TiendaModelBase
        	$filter = $this->getState('filter');
        	$filter_subscriptionid = $this->getState('filter_subscriptionid');
         $filter_userid = $this->getState('filter_userid');
+        $filter_user = $this->getState('filter_user');
         $filter_orderid = $this->getState('filter_orderid');
         $filter_orderitemid = $this->getState('filter_orderitemid');
         $filter_enabled = $this->getState('filter_enabled');
         $filter_productid = $this->getState('filter_productid');
+        $filter_productname = $this->getState('filter_type');
         $filter_transactionid = $this->getState('filter_transactionid');
         $filter_date_from   = $this->getState('filter_date_from');
         $filter_date_to     = $this->getState('filter_date_to');
         $filter_datetype    = $this->getState('filter_datetype');
         $filter_lifetime = $this->getState('filter_lifetime');
+        $filter_id_from = $this->getState('filter_id_from');
+        $filter_id_to = $this->getState('filter_id_to');
         
        	if ($filter) 
        	{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
-			$where = array();
-			$where[] = 'LOWER(tbl.subscription_id) LIKE '.$key;
-			$query->where('('.implode(' OR ', $where).')');
+       		$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+					$where = array();
+					$where[] = 'LOWER(tbl.subscription_id) LIKE '.$key;
+					$query->where('('.implode(' OR ', $where).')');
        	}
-       	
+
+        if (strlen($filter_id_from))
+        {
+        	if (strlen($filter_id_to))
+        	{
+        		$query->where('tbl.subscription_id >= '.(int) $filter_id_from);
+        	}
+        		else
+        	{
+        		$query->where('tbl.subscription_id = '.(int) $filter_id_from);
+        	}
+       	}
+       	if (strlen($filter_id_to))
+        {
+        	$query->where('tbl.subscription_id <= '.(int) $filter_id_to);
+       	}
+
         if (strlen($filter_subscriptionid))
         {
             $query->where('tbl.subscription_id = '.$this->_db->Quote($filter_subscriptionid));
@@ -44,14 +64,28 @@ class TiendaModelSubscriptions extends TiendaModelBase
         
         if (strlen($filter_transactionid))
         {
-            $query->where('tbl.transaction_id = '.$this->_db->Quote($filter_transactionid));
+            $query->where('tbl.transaction_id LIKE '.$this->_db->Quote('%'.$filter_transactionid.'%'));
         }
+
+        if (strlen($filter_productname))
+        {
+            $query->where('p.product_name LIKE '.$this->_db->Quote('%'.$filter_productname.'%'));
+        }
+        
         
         if (strlen($filter_userid))
         {
             $query->where('tbl.user_id = '.$this->_db->Quote($filter_userid));
         }
 
+        if (strlen($filter_user))
+        {
+        	if( strcmp((int)$filter_user,$filter_user ) )
+            $query->where('u.username LIKE '.$this->_db->Quote('%'.$filter_user.'%'));
+        	else
+           	$query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
+        }
+        
         if (strlen($filter_orderid))
         {
             $query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));

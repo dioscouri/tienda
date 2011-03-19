@@ -108,7 +108,7 @@
                     </div>
                 </th>
                 <th>
-                    <input id="filter_transaction" name="filter_transaction" value="<?php echo @$state->filter_transaction; ?>" size="25"/>
+                    <input id="filter_transaction" name="filter_transactionid" value="<?php echo @$state->filter_transactionid; ?>" size="25"/>
                 </th>
                 <th>
                     <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
