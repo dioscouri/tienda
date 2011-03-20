@@ -18,7 +18,7 @@ class TiendaModelOrders extends TiendaModelBase
     protected function _buildQueryWhere(&$query)
     {
         $filter     = $this->getState('filter');
-       	$orderstate	= $this->getState('filter_orderstate');
+       	$filter_orderstate	= $this->getState('filter_orderstate');
        	$filter_userid	= $this->getState('filter_userid');
         $filter_id_from	= $this->getState('filter_id_from');
         $filter_id_to	= $this->getState('filter_id_to');
@@ -29,6 +29,7 @@ class TiendaModelOrders extends TiendaModelBase
         $filter_total_from = $this->getState('filter_total_from');
         $filter_total_to   = $this->getState('filter_total_to');
         $filter_ordernumber    = $this->getState('filter_ordernumber');
+        $filter_orderstates = $this->getState('filter_orderstates');
         
        	if ($filter)
        	{
@@ -74,22 +75,17 @@ class TiendaModelOrders extends TiendaModelBase
 			$where[] = 'LOWER(u.id) LIKE '.$key;
 			$query->where('('.implode(' OR ', $where).')');
        	}
-       	if(is_array($orderstate))
-       	{
-       		foreach($orderstate as &$os)
-       		{
-       			$os = $this->_db->Quote($os);
-       		}
-       		$orderstate = explode(",", $orderstate);
-       		$query->where('tbl.order_state_id IN ( '.$orderstate.')');
-       	}
-       	else
-       	{
-	        if (strlen($orderstate))
-	        {
-	        	$query->where('tbl.order_state_id = '.$this->_db->Quote($orderstate));
-	       	}
-       	}
+
+        if (strlen($filter_orderstate))
+        {
+            $query->where('tbl.order_state_id = '.$this->_db->Quote($filter_orderstate));
+        }
+       	
+        if (is_array($filter_orderstates) && !empty($filter_orderstates))
+        {
+            $query->where('tbl.order_state_id IN('.implode(",", $filter_orderstates).')' );
+        }
+        
         if (strlen($filter_userid))
         {
             $query->where('tbl.user_id = '.$this->_db->Quote($filter_userid));
