@@ -98,6 +98,11 @@
                 </td>
                 <td>
                     <?php echo $row->user_name; ?>
+                    <?php if (!empty($row->user_id)) { ?>
+                    [
+                    <a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $row->user_id; ?>"><?php echo $row->user_id; ?></a>
+                    ]
+                    <?php } ?>
                 </td>
             </tr>
             <tr>
@@ -189,7 +194,12 @@
 	                    foreach ($row->orderpayments as $orderpayment)
 	                    {
 	                        // TODO Make these link to view them
-	                        echo JText::_( "Payment ID" ).": ".$orderpayment->orderpayment_id."<br/>";
+	                        echo JText::_( "Payment ID" ); ?>:                             
+	                        <a href="index.php?option=com_tienda&view=orderpayments&task=edit&id=<?php echo $orderpayment->orderpayment_id; ?>">
+                            <?php echo $orderpayment->orderpayment_id; ?>
+                            </a>
+	                        <br/>
+	                        <?php
 	                        echo JText::_( "Payment Type" ).": ".JText::_($orderpayment->orderpayment_type)."<br/>";
 	                        echo JText::_( "Details" ).": ".JText::_($orderpayment->transaction_details)."<br/>";
 	                    }
@@ -273,6 +283,9 @@
 					        <?php echo $this->onDisplayOrderItem[$i]; ?>
 					        </div>
 					    <?php endif; ?>
+					    
+					    <a href="index.php?option=com_tienda&view=orderitems&task=edit&id=<?php echo $item->orderitem_id; ?>"><?php echo JText::_( "View OrderItem Details"); ?></a>
+					    
                     </td>
                     <td style="text-align: center;">
                         <?php echo $item->orderitem_quantity; ?>

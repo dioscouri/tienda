@@ -13,7 +13,7 @@
 <table width="100%" border="0">
 	<tr>
 		<td>
-			<h2 style="padding:0px; margin:0px;"><div class="id"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></div> </h2>
+			<h2 style="padding:0px; margin:0px;"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></h2>
 		</td>
 	</tr>
 	<tr>
@@ -71,7 +71,7 @@
 		                    </td>
 						</tr>
 						<tr>
-							<td  align="right" class="key" key" style="width:85px;">
+							<td  align="right" class="key" style="width:85px;">
 		                        <label for="id">
 		                        	<?php echo JText::_( 'ID' ); ?>:
 		                        </label>
@@ -131,19 +131,10 @@
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_("Num"); ?>
+									<?php echo JText::_("ID"); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Product"); ?>
-								</th>
-								<th style="width: 100px;">
-									<?php echo JText::_("Price"); ?>
-								</th>
-								<th style="width:100px;">
-									<?php echo JText::_("Tax"); ?>
-								</th>
-								<th>
-									<?php echo JText::_("Quantity"); ?>
+									<?php echo JText::_("Date"); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
 									<?php echo JText::_("Total"); ?>
@@ -160,24 +151,15 @@
 							<?php foreach (@$orders as $order) : ?>
 								<tr class='row <?php echo $k; ?>'>
 									<td align="center">
-										<?php echo $i + 1; ?>
+										<?php echo $order->order_id; ?>
 									</td>
 									<td style="text-align:left;">
-										<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $order->product_id; ?>" target="_blank">
-											<?php echo $order->orderitem_name; ?>
+										<a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $order->order_id; ?>" >
+											<?php echo $order->created_date; ?>
 										</a>
 									</td>
 									<td style="text-align:right;">
-										<?php echo TiendaHelperBase::currency($order->orderitem_price); ?>										
-									</td>
-									<td style="text-align:right;">
-										<?php echo TiendaHelperBase::currency($order->orderitem_tax); ?>										
-									</td>
-									<td style="text-align:center;">
-										<?php echo $order->orderitem_quantity;?>
-									</td>
-									<td style="text-align:right;">
-										<?php echo TiendaHelperBase::currency($order->total_price); ?>										
+										<?php echo TiendaHelperBase::currency($order->order_total); ?>										
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>
@@ -227,17 +209,17 @@
 										<?php echo $i + 1; ?>
 									</td>
 									<td style="text-align:left;">
-										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">
+										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" >
 											<?php echo $sub->product_name; ?>
 										</a>
 									</td>
 									<td style="text-align:center;">
-										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">
+										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" >
 											<?php echo $sub->order_id; ?>										
 										</a>
 									</td>									
 									<td style="text-align:center;">
-										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" target="_blank">											
+										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" >											
 											<?php if($sub->subscription_lifetime == 1)
 												{
 													 echo JText::_("Lifetime"); 
@@ -293,7 +275,7 @@
 										<?php echo $i + 1; ?>
 									</td>
 									<td style="text-align:left;">
-										<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $cart->product_id; ?>" target="_blank">
+										<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $cart->product_id; ?>" >
 											<?php echo $cart->product_name; ?>
 										</a>
 									</td>
@@ -347,7 +329,7 @@
 										<?php echo $i + 1; ?>
 									</td>
 									<td style="text-align:left;">
-										<a href="index.php?option=com_tienda&view=productcomments&task=edit&id=<?php echo $procom->product_id; ?>" target="_blank">
+										<a href="index.php?option=com_tienda&view=productcomments&task=edit&id=<?php echo $procom->product_id; ?>" >
 											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>							
 									</td>
 									<td style="text-align:center;">

@@ -61,18 +61,16 @@ class TiendaControllerUsers extends TiendaController
 		
 		
 		//Get Data From OrdersItems Model
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$modelOrders= JModel::getInstance( 'orderitems', 'TiendaModel');
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$modelOrders= JModel::getInstance( 'Orders', 'TiendaModel');
 		$modelOrders->setState( 'filter_userid',  $row->id );		
-		$modelOrders->setState( 'order', 'created_date' );
+		$modelOrders->setState( 'order', 'tbl.created_date' );
 		$modelOrders->setState( 'direction', 'DESC' );
-		$modelOrders->setState( 'filter_orderstates',  array('2','3','5','17') );
-		$orders = $modelOrders->getList();
-		$view->assign( 'orders', $orders );
-		foreach (@$orders as $order)
-		{
-			$order->total_price =$order->orderitem_final_price + $order->orderitem_tax; 
-		}
+		//$modelOrders->setState( 'filter_orderstate',  array('2','3','5','17') );
+		//$allorders = $modelOrders->getList();
+		$modelOrders->setState( 'limit', '5');
+		$lastfiveorders = $modelOrders->getList( true );
+		$view->assign( 'orders', $lastfiveorders );
 		
 		//Get Data From Carts Model
 		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel' );
@@ -85,10 +83,10 @@ class TiendaControllerUsers extends TiendaController
 		 }
 		 
 		 //Summary Data	
-		$modelSum= JModel::getInstance( 'orderitems', 'TiendaModel');
+		$modelSum = JModel::getInstance( 'Orderitems', 'TiendaModel');
 		$modelSum->setState( 'filter_userid',  $row->id );
-		$modelSum->setState( 'filter_orderstates',  array('2','3','5','17') );	
-		$orderitems= $modelSum->getList();		
+		$modelSum->setState( 'filter_orderstate',  array('2','3','5','17') );	
+		$orderitems = $modelSum->getList();		
 		$spent = 0;
 		$total_qty = 0;
 		foreach ($orderitems as $orderitem)

@@ -1071,7 +1071,7 @@ class TiendaControllerProducts extends TiendaController
 		$results = array( );
 		$dispatcher = &JDispatcher::getInstance( );
 		$results = $dispatcher->trigger( "onBeforeAddToCart", array(
-					$item, $values
+					&$item, $values
 				) );
 		
 		for ( $i = 0; $i < count( $results ); $i++ )

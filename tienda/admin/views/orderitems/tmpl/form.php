@@ -23,6 +23,10 @@
                     </td>
                     <td>
                         <input name="order_id" value="<?php echo @$row->order_id; ?>" size="48" maxlength="250" type="text" />
+                        <?php if (!empty($row->order_id)) { ?>
+                        <br/>
+                        <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>"><?php echo JText::_( "View Order"); ?></a>
+                        <?php } ?>
                     </td>
                 </tr>
                 <tr>

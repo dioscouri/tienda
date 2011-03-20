@@ -1,7 +1,7 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
-$url = JRoute::_( "index.php?option=com_tienda&view=checkout" ); 
+$url = JRoute::_( "index.php?option=com_tienda&view=checkout", false ); 
 ?>
 
 <table style="width: 100%;"  >
@@ -106,7 +106,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
         </tr>
         <tr>
             <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
+                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
             </td>
         </tr>
         </table>
@@ -127,7 +127,7 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout" );
             </tr>
             <tr>
                 <td>
-                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
+                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
                 </td>
             </tr>
             </table>
