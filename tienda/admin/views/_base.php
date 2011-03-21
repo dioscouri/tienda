@@ -32,9 +32,11 @@ class TiendaViewBase extends JView
         Tienda::load( 'TiendaMenu', 'library.menu' );
                 
         $this->getLayoutVars($tpl);
+        if (empty($this->hidemenu))
+        {        
+            $this->displayTitle( $this->get('title') );
+        }
         
-		$this->displayTitle( $this->get('title') );
-
 		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 		{
 		    Tienda::load( 'TiendaHelperMenu', 'helpers.menu' );
