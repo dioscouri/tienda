@@ -295,9 +295,10 @@ class TiendaTableProducts extends TiendaTableEav
 		
 		if ( $success )
 		{
+			//we dont do the $product_price checking since the product will not show if no entry in the #__tienda_productprices table
 			// now the price
-			if ( $product_price )
-			{
+			//if ( $product_price )
+			//{
 				Tienda::load( 'TiendaTableProductPrices', 'tables.productprices' );
 				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				$price->product_id = $this->product_id;
@@ -310,7 +311,7 @@ class TiendaTableProducts extends TiendaTableEav
 					$this->setError( $price->getError( ) );
 					return false;
 				}
-			}
+			//}
 			
 			// now the quantities
 			if ( $product_quantity )
