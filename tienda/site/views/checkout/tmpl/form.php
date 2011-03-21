@@ -126,9 +126,13 @@ $url = JRoute::_( "index.php?option=com_tienda&view=checkout", false );
                 </td>
             </tr>
             <tr>
-                <td>
+            	<td>
+                <?php  if (TiendaConfig::getInstance()->get('one_page_checkout')){?>
+				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaRegistrationValidate(this, this.form, '<?php echo JText::_('User registration is in progress.')?>' );" value="<?php echo JText::_( "REGISTER" ); ?>" />          
+				<?php }else{?>
                     <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
-                </td>
+               	<?php }?>
+                </td>               
             </tr>
             </table>
         <?php endif; ?>
