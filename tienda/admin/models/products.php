@@ -325,6 +325,20 @@ class TiendaModelProducts extends TiendaModelEav
 		$query->group( 'tbl.product_id' );
 	}
 	
+ 	/**
+     * Remove the normal order clause since on large db it makes it heavierfor nothing
+     */
+    protected function _buildQueryOrder(&$query)
+    {
+		$order      = $this->_db->getEscaped( $this->getState('order') );
+       	$direction  = $this->_db->getEscaped( strtoupper( $this->getState('direction') ) );
+
+        if ($order)
+        {
+            $query->order("$order $direction");
+        }
+    }
+	
 	/**
 	 * Builds a generic SELECT COUNT(*) query that takes group by into account
 	 */

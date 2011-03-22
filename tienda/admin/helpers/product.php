@@ -854,6 +854,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 	{
 		static $sets;
 		
+	 	if( !$id )
+        {
+        	return array();
+        }
+		
 		if ( empty( $sets ) || !is_array( $sets ) )
 		{
 			$sets = array( );
