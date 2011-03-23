@@ -52,8 +52,6 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
     {
         $state = $this->_getState();
         $model = $this->_getModel();
-        $model->setState( 'order', 'file_downloads' );
-        $model->setState( 'direction', 'DESC' );
         $data = $model->getList();
         return $data;
     }
@@ -75,6 +73,8 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
         $state['filter_date_to'] = $app->getUserStateFromRequest($ns.'date_to', 'filter_date_to', '', '');      
         $state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
         $state['filter_file_name'] = $app->getUserStateFromRequest($ns.'file_name', 'filter_file_name', '', '');
+        $state['direction'] = $app->getUserStateFromRequest( $ns.'direction', 'filter_direction', 'DESC', '' );
+        $state['order'] = $app->getUserStateFromRequest( $ns.'order', 'filter_order', 'file_downloads', '' );
         $state = $this->_handleRangePresets( $state );
         
         foreach (@$state as $key=>$value)

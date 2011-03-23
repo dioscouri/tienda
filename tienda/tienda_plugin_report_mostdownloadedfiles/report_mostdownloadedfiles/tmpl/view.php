@@ -10,25 +10,25 @@
                     <?php echo JText::_("Num"); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_( 'ID' ); ?>
+                    <?php echo TiendaGrid::sort( 'ID', "tbl.productfile_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("FILE NAME & PATH"); ?>
+                    <?php echo TiendaGrid::sort( 'FILE NAME & PATH', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo JText::_( 'FILE EXTENSION'  ); ?>
+                    <?php echo TiendaGrid::sort( 'FILE EXTENSION', "tbl.productfile_extension", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 150px;">
-                    <?php echo JText::_( 'ASSOCIATED PRODUCT' ); ?>
+                    <?php echo TiendaGrid::sort( 'ASSOCIATED PRODUCT', "tbl_products.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo JText::_( 'PURCHASE REQUIRED' ); ?>
+                    <?php echo TiendaGrid::sort( 'PURCHASE REQUIRED', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("MAX DOWNLOAD"); ?>
+                    <?php echo TiendaGrid::sort( 'MAX DOWNLOAD', "tbl.max_download", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_( 'DOWNLOADS' ); ?>
+                    <?php echo TiendaGrid::sort( 'DOWNLOADS', "file_downloads", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>           
         </thead>
@@ -87,3 +87,6 @@
             <?php endif; ?>
         </tbody>
     </table>
+	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
+	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
+    
