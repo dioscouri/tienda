@@ -2073,9 +2073,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	{
 		$html = '';
 		
-		Tienda::load( 'TiendaViewProducts', 'views.products', array(
-			'site' => 'site'
-		) );
+		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
 		
 		$view = new TiendaViewProducts( );
 		$model = JModel::getInstance( 'Products', 'TiendaModel' );
