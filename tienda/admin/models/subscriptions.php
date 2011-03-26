@@ -152,11 +152,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
     {
         $field = array();
 
-        $field[] = " tbl.* ";
         $field[] = " p.product_name ";
         $field[] = " p.product_sku ";
         $field[] = " p.product_model ";
         $field[] = " o.* ";
+        $field[] = " tbl.* ";
         $field[] = " oi.* ";
         $field[] = " u.name AS user_name ";
         $field[] = " u.username AS user_username "; 
