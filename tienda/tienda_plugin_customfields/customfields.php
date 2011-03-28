@@ -347,8 +347,6 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			);
 		}
 		
-		JDispatcher::getInstance()->trigger('onAfterGetCustomFields', array( &$fields) );
-
 		return $fields;
 	}
 	

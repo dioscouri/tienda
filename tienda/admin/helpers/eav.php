@@ -61,7 +61,7 @@ class TiendaHelperEav extends TiendaHelperBase
     	
         // Let the plugins change the list of custom fields
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger('onAfterGetCustomFields', array( &$sets[$entity][$id]), $entity, $id );
+        $dispatcher->trigger('onAfterGetCustomFields', array( &$sets[$entity][$id], $entity, $id ) );
         
     	return $sets[$entity][$id];
     }
