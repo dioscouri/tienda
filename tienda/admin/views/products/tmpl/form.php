@@ -259,7 +259,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 		
             <fieldset>
-            <legend><?php echo JText::_( "Long and Short Description" ); ?></legend>
+            <legend><?php echo JText::_( "Description" ); ?></legend>
             
             <table class="admintable" style="width: 100%;">
 				<tr>
@@ -280,6 +280,21 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
                     </td>
                 </tr>
+                <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
+                <tr>
+                	<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+                        <?php echo JText::_( 'Tags' ); ?>:
+                    </td>
+                	<td>                	
+                	<?php
+                        // triggering custom event for plugins
+				        //JPluginHelper::importPlugin('tienda');
+						$dispatcher = &JDispatcher::getInstance();
+						$dispatcher->trigger('onDisplayProductTagsForm', array( $row ) );
+					?>
+					</td>
+                </tr>
+                <?php endif; ?>
             </table>
             </fieldset>
 		    
@@ -974,6 +989,28 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
+            <legend><?php echo JText::_( "AmbraSubscriptions Integration" ); ?></legend>
+            <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
+                <table class="admintable" style="width: 100%;">
+                    <tr>
+                        <td title="<?php echo JText::_("Associated Ambrasubs Subscription Type").'::'.JText::_( "Associated Ambrasubs Subscription Type Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_( 'Associated Ambrasubs Subscription Type' ); ?>:
+                        </td>
+                        <td>
+                            <?php echo TiendaHelperAmbrasubs::selectTypes( $row->product_parameters->get('ambrasubs_type_id'), 'ambrasubs_type_id' ); ?>
+                        </td>
+                    </tr>
+                </table>
+            <?php else : ?>
+                <div class="note">
+                    <?php echo JText::_( "Ambrasubs Installation Notice" ); ?>
+                </div>
+            <?php endif; ?>
+            </fieldset>
+        </div>
+        
+        <div style="float: left; width: 50%;">
+            <fieldset>
             <legend><?php echo JText::_( "Amigos Integration" ); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmigos', 'helpers.amigos')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
@@ -1097,21 +1134,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "AmbraSubscriptions Integration" ); ?></legend>
-            <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
+            <legend><?php echo JText::_( "Tags Integration" ); ?></legend>
+            <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
-                    <tr>
-                        <td title="<?php echo JText::_("Associated Ambrasubs Subscription Type").'::'.JText::_( "Associated Ambrasubs Subscription Type Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Associated Ambrasubs Subscription Type' ); ?>:
-                        </td>
+                    <tr>                        
                         <td>
-                            <?php echo TiendaHelperAmbrasubs::selectTypes( $row->product_parameters->get('ambrasubs_type_id'), 'ambrasubs_type_id' ); ?>
+							<div class="note">
+		                    	<?php echo JText::_( "Tags is installed" ); ?>
+		                	</div>
                         </td>
                     </tr>
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Ambrasubs Installation Notice" ); ?>
+                    <?php echo JText::_( "Tags Installation Notice" ); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
