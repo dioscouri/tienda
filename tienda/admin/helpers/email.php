@@ -44,7 +44,19 @@ class TiendaHelperEmail extends TiendaHelperBase
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
-        $recipients = $this->getEmailRecipients( $data->order_id, $type );
+        switch( $type )
+        {
+        	case 'subscription_expiring':
+        	case 'subscription_expired' :
+        	case 'subscription_new':
+        	case 'new_subscription':
+        	case 'subscription':
+        		$recipients = $this->getEmailRecipients( $data->subscription_id, $type );
+        		break;
+        	default :
+        		$recipients = $this->getEmailRecipients( $data->order_id, $type );
+        		break;
+        }
         $content = $this->getEmailContent( $data, $type );
         
         // trigger event onAfterGetEmailContent 
@@ -81,76 +93,114 @@ class TiendaHelperEmail extends TiendaHelperBase
      */
     private function getEmailRecipients( $id, $type = 'order' ) 
     {
-        $recipients = array();
+      $recipients = array();
+       
+      switch ($type)
+      {
+      	case 'subscription_expiring':
+    		case 'subscription_expired' :
+    		case 'subscription_new':
+    		case 'new_subscription':
+    		case 'subscription':
+	    		$model = Tienda::getClass('TiendaModelSubscriptions', 'models.subscriptions');
+	    		$model->setId( $id );
+	    		$subscription = $model->getItem();
+    			
+	    		$model_order = Tienda::getClass('TiendaModelOrders', 'models.orders');
+	    		$model_order->setId( $subscription->order_id );
+	    		$order = $model_order->getItem();
+	    			
+	    		$user = JUser::getInstance( $subscription->user_id );
+	
+	    		// is the email one of our guest emails?
+	    		$pos = strpos($user->email, "guest");
+	    		if ($pos === false) 
+	    		{
+	    			// string needle NOT found in haystack
+	    			if (!in_array($user->email, $recipients))
+	    			{
+	    				$recipients[] = $user->email;    
+	    			}
+	    		}
+	    		else 
+	    		{
+	    			// add the userinfo email to the list of recipients
+	    			if (!in_array($order->userinfo_email, $recipients))
+	    			{
+	    				$recipients[] = $order->userinfo_email;    
+	    			}
+	    		}
+	   			// add the order user_email to the list of recipients
+	   			if (!in_array($order->user_email, $recipients))
+	   			{
+	   				$recipients[] = $order->user_email;    
+	   			}
+	   			break;
+	   		case "new_order":
+	   			$system_recipients = $this->getSystemEmailRecipients();
+	   			foreach ($system_recipients as $r)
+	   			{
+	   				if (!in_array($r->email, $recipients))
+	   				{
+	   					$recipients[] = $r->email;    
+	   				}
+	   			}
+	   			
+	   			$model = Tienda::getClass('TiendaModelOrders', 'models.orders');
+	   			$model->setId( $id );
+	   			$order = $model->getItem();
+	   			jimport('joomla.mail.helper');
+	   			
+	   			// add the userinfo user_email to the list of recipients
+	   			if (!in_array($order->userinfo_email, $recipients) && JMailHelper::isEmailAddress($order->userinfo_email))
+	   			{
+	   				$recipients[] = $order->userinfo_email;    
+	   			}
+               
+	   			// add the order user_email to the list of recipients
+	   			if (!in_array($order->user_email, $recipients) && JMailHelper::isEmailAddress($order->user_email))
+	   			{
+	   				$recipients[] = $order->user_email;    
+	   			}
+	   		case 'order':
+	   		default:                
+	   			$model = Tienda::getClass('TiendaModelOrders', 'models.orders');
+	   			$model->setId( $id );
+	   			$order = $model->getItem();
+	   			
+	   			$user = JUser::getInstance( $order->user_id );
+               
+	   			// is the email one of our guest emails?
+	   			$pos = strpos($user->email, "guest");
+	   			if ($pos === false) 
+	   			{
+	   				// string needle NOT found in haystack
+	   				if (!in_array($user->email, $recipients))
+	   				{
+	   					$recipients[] = $user->email;    
+	   				}
+	   			}
+	   			else 
+	   			{
+	   				// add the userinfo email to the list of recipients
+	   				if (!in_array($order->userinfo_email, $recipients))
+	   				{
+	   					$recipients[] = $order->userinfo_email;    
+	   				}
+	   			}
+               
+	   			// add the order user_email to the list of recipients
+	   			if (!in_array($order->user_email, $recipients))
+	   			{
+	   				$recipients[] = $order->user_email;    
+	   			}
+	   			break;
+      }
+      // allow plugins to modify the order email recipient list
+      $dispatcher = JDispatcher::getInstance();
+      $dispatcher->trigger( 'onGetEmailRecipients', array( $id, $type, &$recipients ) );
         
-        switch ($type)
-        {
-            case "new_order":
-                $system_recipients = $this->getSystemEmailRecipients();
-                foreach ($system_recipients as $r)
-                {
-                    if (!in_array($r->email, $recipients))
-                    {
-                        $recipients[] = $r->email;    
-                    }
-                }
-                
-                $model = Tienda::getClass('TiendaModelOrders', 'models.orders');
-                $model->setId( $id );
-                $order = $model->getItem();
-                jimport('joomla.mail.helper');
-                
-                // add the userinfo user_email to the list of recipients
-                if (!in_array($order->userinfo_email, $recipients) && JMailHelper::isEmailAddress($order->userinfo_email))
-                {
-					$recipients[] = $order->userinfo_email;    
-                }
-                
-                // add the order user_email to the list of recipients
-                if (!in_array($order->user_email, $recipients) && JMailHelper::isEmailAddress($order->user_email))
-                {
-                    $recipients[] = $order->user_email;    
-                }
-            case 'order':
-            default:                
-                $model = Tienda::getClass('TiendaModelOrders', 'models.orders');
-                $model->setId( $id );
-                $order = $model->getItem();
-
-                $user = JUser::getInstance( $order->user_id );
-                
-                // is the email one of our guest emails?
-                $pos = strpos($user->email, "guest");
-                if ($pos === false) 
-                {
-                    // string needle NOT found in haystack
-                    if (!in_array($user->email, $recipients))
-                    {
-                        $recipients[] = $user->email;    
-                    }
-                }
-                    else 
-                {
-                    // add the userinfo email to the list of recipients
-                    if (!in_array($order->userinfo_email, $recipients))
-                    {
-                        $recipients[] = $order->userinfo_email;    
-                    }
-                }
-                
-                // add the order user_email to the list of recipients
-                if (!in_array($order->user_email, $recipients))
-                {
-                    $recipients[] = $order->user_email;    
-                }
-              break;
-        }
-        
-        // allow plugins to modify the order email recipient list
-        $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( 'onGetEmailRecipients', array( $id, $type, &$recipients ) );
-        
-        return $recipients;
+      return $recipients;
     }
 
     /**
