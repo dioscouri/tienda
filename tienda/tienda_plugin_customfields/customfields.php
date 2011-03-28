@@ -333,12 +333,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		Tienda::load( 'TiendaModelEavAttributes', 'models.eavattributes' );
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		
-		$model = JModel::getInstance( 'EavAttributes', 'TiendaModel' );
-		$model->setState( 'filter_entitytype', $entity );
-		$model->setState( 'filter_entityid', $id );
-		$model->setState( 'filter_published', '1' );
-		
-		$eavs = $model->getList( );
+		$eavs = TiendaHelperEav::getAttributes( $entity, $id );
 		
 		$fields = array( );
 		foreach ( @$eavs as $eav )
