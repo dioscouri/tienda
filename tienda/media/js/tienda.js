@@ -518,3 +518,60 @@ function tiendaGetAttributeOptions(attribute_id, container, opt_name, opt_id)
 	var url = 'index.php?option=com_tienda&controller=productattributeoptions&task=getProductAttributeOptions&attribute_id='+attribute_id+'&select_name='+opt_name+'&select_id='+opt_id+'&format=raw';
 	tiendaDoTask(url, container);
 }
+
+/**
+ * Sends form values to server for validation and outputs message returned.
+ * Submits form if error flag is not set in response
+ * Always performs validation, regardless of task value
+ * 
+ * @param {String} url for performing validation
+ * @param {String} html container to update with validation message
+ * @param {String} task to be executed if form validates
+ * @param {String} form name
+ * @param {Boolean} display modal overlay?
+ * @param {String} Text for modal overlay
+ */
+function tiendaValidation( url, container, task, form, doModal, msg ) 
+{
+    if (doModal == true) { tiendaNewModal(msg); }
+
+    // loop through form elements and prepare an array of objects for passing to server
+    var str = new Array();
+    for(i=0; i<form.elements.length; i++)
+    {
+        postvar = {
+            name : form.elements[i].name,
+            value : form.elements[i].value,
+            checked : form.elements[i].checked,
+            id : form.elements[i].id
+        };
+        str[i] = postvar;
+    }
+    
+    // execute Ajax request to server
+    var a=new Ajax(url,{
+        method:"post",
+        data:{"elements":Json.toString(str)},
+        onComplete: function(response){
+            var resp=Json.evaluate(response, false);
+            if (resp.error == '1') 
+            {
+                if ($(container)) { $(container).setHTML(resp.msg); }
+            }
+            if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
+            if (resp.error != '1') 
+            {
+                form.task.value = task;
+                form.submit();
+            }
+        }
+    }).request();
+}
+
+function tiendaClearInput( element, value )
+{
+    if (element.value == value)
+    {
+        element.value = '';
+    }
+}
