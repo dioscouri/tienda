@@ -7,6 +7,9 @@
 <div class="note">
 	<?php echo JText::_("Enter Product Name"); ?>:
 	<input type="text" name="filter_product_name" id="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" style="width: 250px;" />
+	<br /><br />
+	<?php echo JText::_("Manufacturer"); ?>:
+	<?php echo TiendaSelect::manufacturer( @$state->filter_manufacturer_id, 'filter_manufacturer_id', array('class' => 'inputbox', 'size' => '1'), null, true ) ?>
 	<br/><br/>
 	<?php echo JText::_("Select Date Range"); ?>:	
 	<?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>	

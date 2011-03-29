@@ -94,7 +94,8 @@ class plgTiendaReport_ordered_products extends TiendaReportPlugin
         // $state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         //$state['filter_product_id'] = $app->getUserStateFromRequest($ns.'product_id', 'filter_product_id', '', '');
         $state['filter_product_name'] = $app->getUserStateFromRequest($ns.'product_name', 'filter_product_name', '', '');
-       
+        $state['filter_manufacturer_id'] = $app->getUserStateFromRequest($ns.'manufacturer_id', 'filter_manufacturer_id', '', '');
+        
         // then apply the states to the model
         foreach (@$state as $key=>$value)
         {
