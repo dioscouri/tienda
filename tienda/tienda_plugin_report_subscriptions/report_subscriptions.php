@@ -44,17 +44,32 @@ class plgTiendaReport_subscriptions extends TiendaReportPlugin
 	}
     
 	/**
-     * Override parent::_getData() 
+     * Gets the state override
      *  
-     * @return unknown_type
+     * @return array
      */
-    function _getData()
+    function _getState()
     {
-        $state = $this->_getState();
-		$model = $this->_getModel();			
-				
-		$data = $model->getList();	
-				
-		return $data;
+        $app = JFactory::getApplication();
+        $model = $this->_getModel( $this->get('default_model') );
+        $ns = $this->_getNamespace();
+
+        $state = array();
+        
+        $state['filter']            = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
+        $state['filter_enabled']    = $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
+        $state['filter_date_from']  = $app->getUserStateFromRequest($ns.'date_from', 'filter_date_from', '', '');
+        $state['filter_date_to']    = $app->getUserStateFromRequest($ns.'date_to', 'filter_date_to', '', '');
+        $state['filter_datetype']   = $app->getUserStateFromRequest($ns.'datetype', 'filter_datetype', '', '');
+        $state['filter_range']      = $app->getUserStateFromRequest($ns.'range', 'filter_range', '', '');
+        $state['filter_orderstate'] = $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', '');
+        $state = $this->_handleRangePresets( $state );
+        
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+        
+        return $state;
     }
 }

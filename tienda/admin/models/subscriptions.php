@@ -16,22 +16,23 @@ class TiendaModelSubscriptions extends TiendaModelBase
 {
     protected function _buildQueryWhere(&$query)
     {
-       	$filter = $this->getState('filter');
+       	$filter 			   = $this->getState('filter');
        	$filter_subscriptionid = $this->getState('filter_subscriptionid');
-        $filter_userid = $this->getState('filter_userid');
-        $filter_user = $this->getState('filter_user');
-        $filter_orderid = $this->getState('filter_orderid');
-        $filter_orderitemid = $this->getState('filter_orderitemid');
-        $filter_enabled = $this->getState('filter_enabled');
-        $filter_productid = $this->getState('filter_productid');
-        $filter_productname = $this->getState('filter_type');
-        $filter_transactionid = $this->getState('filter_transactionid');
-        $filter_date_from   = $this->getState('filter_date_from');
-        $filter_date_to     = $this->getState('filter_date_to');
-        $filter_datetype    = $this->getState('filter_datetype');
-        $filter_lifetime = $this->getState('filter_lifetime');
-        $filter_id_from = $this->getState('filter_id_from');
-        $filter_id_to = $this->getState('filter_id_to');
+        $filter_userid 		   = $this->getState('filter_userid');
+        $filter_user 		   = $this->getState('filter_user');
+        $filter_orderid 	   = $this->getState('filter_orderid');
+        $filter_orderitemid    = $this->getState('filter_orderitemid');
+        $filter_enabled 	   = $this->getState('filter_enabled');
+        $filter_productid 	   = $this->getState('filter_productid');
+        $filter_productname    = $this->getState('filter_type');
+        $filter_transactionid  = $this->getState('filter_transactionid');
+        $filter_date_from      = $this->getState('filter_date_from');
+        $filter_date_to        = $this->getState('filter_date_to');
+        $filter_datetype       = $this->getState('filter_datetype');
+        $filter_lifetime       = $this->getState('filter_lifetime');
+        $filter_id_from        = $this->getState('filter_id_from');
+        $filter_id_to          = $this->getState('filter_id_to');
+        $filter_orderstate     = $this->getState('filter_orderstate');
         
        	if ($filter) 
        	{
@@ -137,6 +138,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
                     $query->where("tbl.created_datetime <= '".$filter_date_to."'");
                   break;
             }
+        }
+        
+    	if (strlen($filter_orderstate))
+        {
+            $query->where('o.order_state_id = '.$this->_db->Quote($filter_orderstate));
         }
     }
     
