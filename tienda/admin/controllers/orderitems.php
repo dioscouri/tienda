@@ -46,7 +46,8 @@ class TiendaControllerOrderItems extends TiendaController
         $state['filter_datetype']   = 'created';
         $state['filter_total_from']    = $app->getUserStateFromRequest($ns.'filter_total_from', 'filter_total_from', '', '');
         $state['filter_total_to']      = $app->getUserStateFromRequest($ns.'filter_total_to', 'filter_total_to', '', '');
-		
+        $state['filter_paymentstatus']      = $app->getUserStateFromRequest($ns.'filter_paymentstatus', 'filter_paymentstatus', '', '');
+        
     	foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );	

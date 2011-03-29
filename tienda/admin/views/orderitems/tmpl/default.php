@@ -51,6 +51,9 @@
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Status', "tbl.orderitem_status", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'Payment Status', "op.transaction_status", @$state->direction, @$state->order ); ?>
+                </th>
             </tr>
             <tr class="filterline">
                 <th colspan="3">
@@ -99,6 +102,9 @@
                 </th>
                 <th>
                     <!-- <input name="filter_status" value="<?php echo @$state->filter_status; ?>" size="25"/>-->
+                </th>
+                <th>
+                	<input name="filter_paymentstatus" value="<?php echo @$state->filter_paymentstatus; ?>" size="15"/>
                 </th>
             </tr>
 			<tr>
@@ -156,6 +162,9 @@
 				</td>
 				<td style="text-align: center;">
 					<?php echo $item->orderitem_status; ?>
+				</td>
+				<td style="text-align: center;">
+					<?php echo $item->transaction_status; ?>
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

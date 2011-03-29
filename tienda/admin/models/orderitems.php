@@ -28,10 +28,12 @@ class TiendaModelOrderItems extends TiendaModelEav
         $filter_productid  = $this->getState('filter_productid');
         $filter_productname  = $this->getState('filter_product_name');
         $filter_manufacturer_name  = $this->getState('filter_manufacturer_name');
+        $filter_manufacturer_id  = $this->getState('filter_manufacturer_id');
         $filter_subscriptions_date_from = $this->getState('filter_subscriptions_date_from');
         $filter_subscriptions_date_to = $this->getState('filter_subscriptions_date_to');
         $filter_subscriptions_datetype = $this->getState('filter_subscriptions_datetype');
         $filter_orderstates = $this->getState('filter_orderstates');
+        $filter_paymentstatus = $this->getState('filter_paymentstatus') ;
 
         if ($filter)
        	{
@@ -59,7 +61,12 @@ class TiendaModelOrderItems extends TiendaModelEav
             $where[] = 'LOWER(m.manufacturer_name) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
-
+        
+       	if ($filter_manufacturer_id )
+       	{
+        	$query->where('m.manufacturer_id = '.$this->_db->Quote($filter_manufacturer_id));
+       	}
+        
        	if ($filter_orderid)
        	{
         	$query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
@@ -144,6 +151,12 @@ class TiendaModelOrderItems extends TiendaModelEav
         {
             $query->where('s.order_state_id IN('.implode(",", $filter_orderstates).')' );
         }
+        
+    	if ( strlen($filter_paymentstatus) )
+        {
+            $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_paymentstatus ) ) ).'%');
+            $query->where( 'LOWER(op.transaction_status) LIKE '.$key );
+        }
     }
 
     protected function _buildQueryFields(&$query)
@@ -161,7 +174,8 @@ class TiendaModelOrderItems extends TiendaModelEav
         $field[] = " m.manufacturer_name ";
         $field[] = " sb.created_datetime AS subscription_created_datetime";
         $field[] = " sb.expires_datetime AS subscription_expires_datetime";
-
+        $field[] = " op.transaction_status";
+        
         $query->select( $field );
     }
     
@@ -172,6 +186,7 @@ class TiendaModelOrderItems extends TiendaModelEav
         $query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = o.order_state_id');
         $query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = p.manufacturer_id');
         $query->join('LEFT', '#__tienda_subscriptions AS sb ON sb.orderitem_id = tbl.orderitem_id');
+      $query->join('LEFT', '#__tienda_orderpayments AS op ON op.order_id = o.order_id');
     }
     
 	public function getList()
