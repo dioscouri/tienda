@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>AlphaUserPoints Award</name>
+	<version>0.7.2</version>
+	<creationDate>March 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin awards AlphaUserPoints for Tienda Actions</description>
+	
+	<files>
+		<filename plugin="award_alphauserpoints">award_alphauserpoints.php</filename>
+		<folder>award_alphauserpoints</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_award_alphauserpoints.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="award_points_type" type="radio" default="0" label="TIENDA ALPHAUSERPOINTS AWARD TYPE" description="TIENDA ALPHAUSERPOINTS AWARD TYPE DESC">
+  			<option value="0">Fixed</option> 
+			<option value="1">Percentage</option> 
+  		</param>
+  		<param name="points_value" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD VALUE" description="TIENDA ALPHAUSERPOINTS AWARD VALUE DESC" />
+  		<param type="spacer" />
+		<param name="award_points_paymenttype" type="radio" default="0" label="TIENDA ALPHAUSERPOINTS AWARD PAYMENT TYPE" description="TIENDA ALPHAUSERPOINTS AWARD PAYMENT TYPE DESC">
+  			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+  		</param>
+  		<param name="min_purchase_value" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD MINIMUM PURCHASE" description="TIENDA ALPHAUSERPOINTS AWARD MINIMUM PURCHASE DESC" />
+  		<param type="spacer" />
+  		<param name="award_points_reviews" type="radio" default="1" label="TIENDA ALPHAUSERPOINTS AWARD REVIEWS" description="TIENDA ALPHAUSERPOINTS AWARD REVIEWS DESC">
+  			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+  		</param>
+  		<param name="points_per_review" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD POINTS PER REVIEW" description="TIENDA ALPHAUSERPOINTS AWARD POINTS PER REVIEW DESC" />
+   </params>
+			
+</install>
