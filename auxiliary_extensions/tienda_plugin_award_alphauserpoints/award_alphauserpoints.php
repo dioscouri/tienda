@@ -42,6 +42,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 	function plgTiendaAward_alphauserpoints(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
 	
 	/**
@@ -87,7 +88,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
      	
         $award_pointsonreviews = $this->params->get('award_points_reviews');
         
-        if( $award_points_onlyonpurchases )
+        if( $award_pointsonreviews )
         {
 			$award_points_value = $this->params->get('points_per_review');
 			if( empty($award_points_value) )
@@ -107,13 +108,14 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 	}
 	
 	/**
+	 * Award points on purchase
 	 * 
-	 * @param unknown_type $row
+	 * @param int $orderid
+	 * @return bool $success
 	 */
 	function doCompletedOrderTasks($orderid )
     {
-        $success = null;
-    	$user_id=JFactory::getUser()->id;
+        $success = false;
 
 	    if (!$this->_isInstalled())
         {
@@ -122,19 +124,66 @@ class plgTiendaAward_alphauserpoints extends JPlugin
         
 	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $orderid );
-		$item=$model->getItem();
-		$subtotal=$item->order_subtotal;
-		
-		JLoader::register('AmbraConfig', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'defines.php');
-		$min_purchase_points=AmbraConfig::getInstance()->get('min_purchase_points', '');
-		if ($subtotal>=$min_purchase_points)
-		{
-        	JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."point.php");
-            $helper = Ambra::get( "AmbraHelperPoint", 'helpers.point' );
+		$order = $model->getItem();		
 			
-            if ($helper->createLogEntry( $user_id, 'com_tienda', 'doCompletedOrderTasks' ))
+		$subtotal = $order->order_subtotal;
+		$min_purchase_points = $this->params->get('min_purchase_value');
+		
+		$points_value = $this->params->get('points_value');            	
+        $value_type = $this->params->get('award_points_type');
+
+		// check if purches have allowed minimum amount
+		if ( $subtotal >= $min_purchase_points )
+		{
+			$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+			$model->setState( 'filter_orderid', $orderid );
+			$orderpayment = $model->getItem();
+		
+			// check what kind of payment is made and
+			// check if that kind is allowed
+			$allpayments_awarded = $this->params->get('allpayments_awarded');
+			
+            if( $allpayments_awarded )
+            {            	
+            	// check how to calculate awarded points
+            	switch ($value_type) {
+            		case 'Fixed':
+            			$this->insertUserpoints( $points_value, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ONPURCHASE', $order->order_id) );
+						JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD MESSAGE ONPURCHASE',$points_value) );
+						$success = true;
+            			
+            		break;
+            		case 'Percentage':
+            			$points = round($subtotal * $points_value / 100);
+            			$this->insertUserpoints( $points, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ONPURCHASE', $order->order_id ) );
+						JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD MESSAGE ONPURCHASE', $points ) );
+						$success = true;
+            			
+            		break;
+            	}
+            }
+            else 
             {
-                JFactory::getApplication()->enqueueMessage( $helper->getError() );
+            	$orderpayment_type = $orderpayment->orderpayment_type;
+            	
+            	if( $orderpayment_type!='payment_alphauserpoints' && $orderpayment_type!='payment_ambrapoints' )
+            	{
+	            	switch ($value_type) {
+	            		case 'Fixed':
+	            			$this->insertUserpoints( $points_value, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ONPURCHASE', $order->order_id) );
+							JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD MESSAGE ONPURCHASE',$points_value) );
+							$success = true;
+	            			
+	            		break;
+	            		case 'Percentage':
+	            			$points = round($subtotal * $points_value / 100);
+	            			$this->insertUserpoints( $points, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ONPURCHASE', $order->order_id ) );
+							JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD MESSAGE ONPURCHASE', $points ) );
+							$success = true;
+	            			
+	            		break;
+	            	}
+            	}
             }
 		}
         

@@ -586,7 +586,14 @@
         </copy>
     	
     <!-- AUXILIARY EXTENSIONS -->
-    	
+    	<!-- POINTS AWARDING PLUGINS -->
+    	<!-- ALPHAUSERPOINTS -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.aux}/tienda_plugin_award_alphauserpoints" />
+    	</copy>
+    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.aux}/tienda_plugin_award_alphauserpoints/languages" />
+    	</copy>
     	
     <!-- APPS -->
     	 <!-- Example: <copy todir="${destdir}" preservelastmodified="true" overwrite="true">
