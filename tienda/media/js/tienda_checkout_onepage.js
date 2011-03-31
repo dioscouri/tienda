@@ -39,18 +39,18 @@ function tiendaSaveOnepageOrder(container, errcontainer, form)
              if (resp.error != '1') 
              {
             	 if ($(container)) { $(container).setHTML(resp.msg); }
+            	 if ($('onCheckoutCart_wrapper')) { $('onCheckoutCart_wrapper').setHTML(resp.summary); }
             	 if('tienda_btns'){ $('tienda_btns').setStyle('display', 'none'); }
             	 if('refreshpage'){ $('refreshpage').setStyle('display', 'block'); }
-            	 if('tienda_checkout_pane'){ $('tienda_checkout_pane').focus();}
-            	 
+            	 if('validationmessage'){ $('validationmessage').setHTML('');}            	
+            	 window.location = String(window.location).replace(/\#.*$/, "") + "#tienda-method";
              }
              else
              {
             	 if ($(errcontainer)) { $(errcontainer).setHTML(resp.msg); }
              } 
          }
-     }).request();
-	
+     }).request();	
 }
 
 function tiendaGetFinalForm( container, form, msg )
@@ -86,8 +86,7 @@ function tiendaPopulateShippingAddress(checkbox, form)
 	    	}else
 	    	{
 	    		shippingControl.value = '';
-	    	}
-	    	
+	    	}    	
 	    }
 	} 
 	
@@ -97,19 +96,41 @@ function tiendaPopulateShippingAddress(checkbox, form)
 	}
 }
 
+function tiendaGetView(url, container, labelcont)
+{		
+    // execute Ajax request to server
+    var a=new Ajax(url,{
+        method:"post",       
+        onComplete: function(response){
+            var resp=Json.evaluate(response, false);                
+                       
+            if (resp.error != '1') 
+            {
+           	 if ($(container)) { $(container).setHTML(resp.msg); }
+           	 if(labelcont){$(labelcont).setHTML(resp.label);}          
+            }
+        }
+    }).request();	
+}
 
-function tiendaGetRegistrationForm( container, form, msg )
-{	
-	var url = 'index.php?option=com_tienda&view=checkout&task=getRegisterForm&format=raw';
-    tiendaDoTask( url, container, form, msg );  
-    $('tienda-method-pane').setHTML($('hiddenregvalue').value);
+function tiendaGetCustomerInfo(container)
+{
+	var url = 'index.php?option=com_tienda&view=checkout&task=getCustomerInfo&format=raw';
+	tiendaGetView(url, container); 
+	if('tiendaGuest'){$('tiendaGuest').value = '1';}  
+	if('checkoutmethod-pane'){$('checkoutmethod-pane').setStyle('display', 'none');}  
 }
 
 function tiendaCheckoutMethodForm( container, form, msg )
 {	
 	var url = 'index.php?option=com_tienda&view=checkout&task=getCheckoutMethod&ajax=1&format=raw';
-    tiendaDoTask( url, container, form, msg );   
-    $('tienda-method-pane').setHTML($('hiddencmvalue').value);
+	tiendaGetView(url, container, 'tienda-method-pane'); 
+}
+
+function tiendaGetRegistrationForm( container, form, msg )
+{	
+	var url = 'index.php?option=com_tienda&view=checkout&task=getRegisterForm&format=raw';	
+	tiendaGetView(url, container, 'tienda-method-pane'); 
 }
 
 function tiendaRegistrationValidate(obj, form, msg, doModal)
