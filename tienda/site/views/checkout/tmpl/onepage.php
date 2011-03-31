@@ -3,14 +3,12 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'tienda_checkout_onepage.js', 'media/com_tienda/js/'); ?>
-<?php $form = @$this->form; ?>   
-   
+<a name="tienda-method"></a> 
  <!--    ORDER SUMMARY   -->
 <h3><?php echo JText::_("Order Summary") ?></h3>
 <div id='onCheckoutCart_wrapper'> 
 	<?php echo @$this->orderSummary; 	?> 
 </div>
-<a name="tienda-method"></a>
 <div id="tienda_checkout_pane">
 	<?php if(!$this->user->id):?>
 	<fieldset class="tienda-expanded" id="checkoutmethod-pane">
@@ -18,9 +16,6 @@
 		<div id="tienda_checkout_method">
 			<?php echo @$this->checkoutMethod; ?>
 		</div>
-		 <!--    USED IN JAVASCRIPT AND FOR TRANSLATION PURPOSES   -->
-		<input type="hidden" id="hiddenregvalue" value="<?php echo JText::_('Registration');?>">
-		<input type="hidden" id="hiddencmvalue" value="<?php echo JText::_('Checkout Method');?>">
 	</fieldset>  
 	<?php endif;?>
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -38,10 +33,9 @@
 		</div>		
 	</fieldset>  
 	<?php }else{?>
-	<div id="onShowCustomerInfo"></div>
-	
+	<div id="onShowCustomerInfo"></div>	
 	<?php }?>
-	
+	<input type="hidden" id="tiendaGuest" name="guest" value="0">
 	<div class="reset marginbot"></div>
 	
 	<fieldset class="tienda-expanded" id="billing-shipping-pane">
