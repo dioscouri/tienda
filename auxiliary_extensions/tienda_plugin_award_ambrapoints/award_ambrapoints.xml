@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>AmbraUM Points for Tienda Actions</name>
+	<name>Tienda Actions Award - AmbraUM Points</name>
 	<version>0.7.2</version>
 	<creationDate>March 2011</creationDate>
 	<author>Dioscouri Design</author>
@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin awards AmbraUM Points for Tienda Actions</description>
+	<description>TIENDA AMBRAPOINTS AWARD</description>
     <files>
 		<filename plugin="award_ambrapoints">award_ambrapoints.php</filename>	
 	</files>
@@ -17,23 +17,16 @@
 	</languages>
 	
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="award_points_type" type="radio" default="Fixed" label="TIENDA AMBRAUSERPOINTS AWARD TYPE" description="TIENDA AMBRAUSERPOINTS AWARD TYPE DESC">
+		<param name="award_points_type" type="radio" default="Fixed" label="TIENDA AMBRAPOINTS AWARD TYPE" description="TIENDA AMBRAPOINTS AWARD TYPE DESC">
   			<option value="Fixed">Fixed</option> 
 			<option value="Percentage">Percentage</option> 
   		</param>
-  		<param name="points_value" type="text" size="10" default="1" label="TIENDA AMBRAUSERPOINTS AWARD VALUE" description="TIENDA AMBRAUSERPOINTS AWARD VALUE DESC" />
+  		<param name="percentage_value" type="text" size="10" default="1" label="TIENDA AMBRAPOINTS AWARD PERCENTAGE" description="TIENDA AMBRAPOINTS AWARD PERCENTAGE DESC" />
   		<param type="spacer" />
-		<param name="allpayments_awarded" type="radio" default="0" label="TIENDA AMBRAUSERPOINTS AWARD ALL PAYMENTS" description="TIENDA AMBRAUSERPOINTS AWARD ALL PAYMENTS DESC">
+		<param name="allpayments_awarded" type="radio" default="0" label="TIENDA AMBRAPOINTS AWARD ALL PAYMENTS" description="TIENDA AMBRAPOINTS AWARD ALL PAYMENTS DESC">
   			<option value="0">No</option> 
 			<option value="1">Yes</option> 
   		</param>
-  		<param name="min_purchase_value" type="text" size="10" default="1" label="TIENDA AMBRAUSERPOINTS AWARD MINIMUM PURCHASE" description="TIENDA AMBRAUSERPOINTS AWARD MINIMUM PURCHASE DESC" />
-  		<param type="spacer" />
-  		<param name="award_points_reviews" type="radio" default="1" label="TIENDA AMBRAUSERPOINTS AWARD REVIEWS" description="TIENDA AMBRAUSERPOINTS AWARD REVIEWS DESC">
-  			<option value="0">No</option> 
-			<option value="1">Yes</option> 
-  		</param>
-  		<param name="points_per_review" type="text" size="10" default="1" label="TIENDA AMBRAUSERPOINTS AWARD POINTS PER REVIEW" description="TIENDA AMBRAUSERPOINTS AWARD POINTS PER REVIEW DESC" />
-   </params>
-		
+  		<param name="min_purchase_value" type="text" size="10" default="1" label="TIENDA AMBRAPOINTS AWARD MINIMUM PURCHASE" description="TIENDA AMBRAPOINTS AWARD MINIMUM PURCHASE DESC" />
+    </params>		
 </install>

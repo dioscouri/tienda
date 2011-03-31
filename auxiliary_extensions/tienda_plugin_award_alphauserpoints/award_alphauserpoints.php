@@ -184,6 +184,11 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 	            		break;
 	            	}
             	}
+	            else 
+	           	{
+	           		JError::raiseError(500, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ERROR PAYMENT TYPE',$orderpayment_type) );
+					return $success;
+	           	}
             }
 		}
         

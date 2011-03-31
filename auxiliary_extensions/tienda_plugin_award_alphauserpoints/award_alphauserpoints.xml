@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>AlphaUserPoints Award</name>
+	<name>Tienda Actions Award - AlphaUserPoints</name>
 	<version>0.7.2</version>
 	<creationDate>March 2011</creationDate>
 	<author>Dioscouri</author>
