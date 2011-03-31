@@ -37,12 +37,12 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgTiendaReport_orderitems(& $subject, $config) 
+	function plgTiendaReport_salesbymanufacturer(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );	
 	}
-    
+	
 	/**
      * Override parent::_getData() 
      *  
@@ -50,28 +50,29 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
      */
     function _getData()
     {
+    		$app = JFactory::getApplication();    		
+    		Tienda::load( 'TiendaQuery', 'library.query' ); // just in case
+    		$db = JFactory::getDbo();
         $state = $this->_getState();
-		$model = $this->_getModel();
-
-        $model->setState( 'order', 'total_sales' );
-        $model->setState( 'direction', 'DESC' );
-        
+        $model = $this->_getModel();
         // filter only complete orders ( 3 - Shipped, 5 - Complete, 17 - Payment Received )        
         $order_states = array ( '3', '5', '17');
         $model->setState( 'filter_orderstates', $order_states );
-        
-		$query = $model->getQuery();
-				
-		// select the total quantity
-        $field = array();
-        $field[] = " SUM(tbl.orderitem_final_price) AS total_sales ";
-        $field[] = " SUM(tbl.orderitem_quantity) AS sales_count ";
+        $model->setState( 'order', '`price_total`' );
+        $model->setState( 'direction', 'DESC' );
+        $query = $model->getQuery( true );
+
+        $query->group( 'p.manufacturer_id' );
+        $field[] = " SUM(tbl.orderitem_final_price) AS `price_total` ";
+        $field[] = " SUM(tbl.orderitem_quantity) AS `count_items` ";
         $query->select( $field );
         $model->setQuery( $query );
+        $list = $model->getList();
         
-		$data = $model->getList();	
-				
-		return $data;
+        if( !count( $list ) ) 
+        	return $list;
+        	
+        return $list;
     }
     
     /**
@@ -87,11 +88,11 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin
 
         $state = parent::_getState(); // get the basic state values from the parent method
 
-        // then add your own custom ones just for this report       
+        // then add your own custom ones just for this report
         $state['filter_manufacturer_name'] = $app->getUserStateFromRequest($ns.'manufacturer_name', 'filter_manufacturer_name', '', '');
-        $state['filter_subscriptions_date_from'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_date_from', 'filter_subscriptions_date_from', '', '');
-        $state['filter_subscriptions_date_to'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_date_to', 'filter_subscriptions_date_to', '', '');
-        $state['filter_subscriptions_datetype'] = $app->getUserStateFromRequest($ns.'filter_subscriptions_datetype', 'filter_subscriptions_datetype', '', '');
+        $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'filter_date_from', 'filter_date_from', '', '');
+        $state['filter_date_to'] = $app->getUserStateFromRequest($ns.'filter_date_to', 'filter_date_to', '', '');
+        $state['filter_datetype'] = $app->getUserStateFromRequest($ns.'filter_datetype', 'filter_datetype', '', '');
       
         //$state = $this->_handleRangePresets( $state );
         

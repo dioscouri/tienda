@@ -20,7 +20,7 @@ class TiendaQueryElement extends JObject
 	protected $_name = null;
 	
 	/** @var array An array of elements */
-	protected $_elements = null;
+	public $_elements = null;
 	
 	/** @var string Glue piece */
 	protected $_glue = null;
@@ -71,40 +71,40 @@ class TiendaQueryElement extends JObject
 class TiendaQuery extends JObject
 {
 	/** @var string The query type */
-	protected $_type = '';
+	public $_type = '';
 	
 	/** @var object The select element */
-	protected $_select = null;
+	public $_select = null;
 
-    /** @var object The delete element */
-    protected $_delete = null;
+  /** @var object The delete element */
+  public $_delete = null;
 	
-    /** @var object The update element */
-    protected $_update = null;
+  /** @var object The update element */
+  public $_update = null;
     
-    /** @var object The insert element */
-    protected $_insert = null;
+  /** @var object The insert element */
+  public $_insert = null;
         
 	/** @var object The from element */
-	protected $_from = null;
+	public $_from = null;
 	
 	/** @var object The join element */
-	protected $_join = null;
+	public $_join = null;
 
-    /** @var object The set element */
-    protected $_set = null;
+  /** @var object The set element */
+  public $_set = null;
 	
 	/** @var object The where element */
-	protected $_where = null;
+	public $_where = null;
 	
 	/** @var object The group element */
-	protected $_group = null;
+	public $_group = null;
 	
 	/** @var object The having element */
-	protected $_having = null;
+	public $_having = null;
 	
 	/** @var object The order element */
-	protected $_order = null;
+	public  $_order = null;
 
 	/**
 	 * @param	mixed	A string or an array of field names
