@@ -73,11 +73,12 @@ class TiendaViewOrders extends TiendaViewBase
         JToolBarHelper::custom('batchedit', "forward", "forward", JText::_( 'Batch Edit' ), false);
         JToolBarHelper::divider();
         JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
-        $class_name = 'new'; 
-        $text = 'New'; 
-        $url = "index.php?option=com_tienda&view=pos";
-        $bar = & JToolBar::getInstance('toolbar'); 
-        $bar->appendButton( 'link', $class_name, $text, $url );
+        //        TODO Add this back when the POS is ready
+        //        $class_name = 'new'; 
+        //        $text = 'New'; 
+        //        $url = "index.php?option=com_tienda&view=pos";
+        //        $bar = & JToolBar::getInstance('toolbar'); 
+        //        $bar->appendButton( 'link', $class_name, $text, $url );
     }
     
     /**
