@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>Danish Tienda</name>
     <tag>da-DK</tag>
-    <version>0.7.0 Community</version>
+    <version>0.7.1 Community</version>
     <creationDate>August 2010</creationDate>
     <author>Martin Wessel</author>
     <authorEmail>indo@dioscouri.com</authorEmail>

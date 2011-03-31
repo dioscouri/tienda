@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>Spanish Tienda</name>
     <tag>es-ES</tag>
-    <version>0.7.0 Community</version>
+    <version>0.7.1 Community</version>
     <creationDate>August 2010</creationDate>
     <author>Ricardo Romero</author>
     <authorEmail>webmaster@joomladevenezuela.com</authorEmail>

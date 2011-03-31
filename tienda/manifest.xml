@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
     <name>Tienda</name>
-    <version>0.7.0 Community</version>
+    <version>0.7.1 Community</version>
     <creationDate>August 2010</creationDate>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
@@ -74,6 +74,7 @@
 	<modules>
 		<!-- <module module="mod_whatever" publish="true" client="site"/> -->
 		<module module="mod_tienda_admin_submenu" position="submenu" publish="true" client="administrator"/>
+        <module module="mod_tienda_breadcrumbs" client="site" position="left" />
         <module module="mod_tienda_cart" client="site" position="left" />
 		<module module="mod_tienda_categories" client="site" position="left" />
         <module module="mod_tienda_currency" client="site" position="left" />
@@ -102,6 +103,9 @@
 		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
         <plugin plugin="tienda_plugin_checkoutexample" group="tienda" element="checkoutexample" />
         <plugin plugin="tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
+        <plugin plugin="tienda_plugin_customfields" publish="true" group="tienda" element="customfields" />
+        <plugin plugin="tienda_plugin_genericexporter" publish="true" group="tienda" element="genericexporter" />
+        <plugin plugin="tienda_plugin_googleproducts" group="tienda" element="googleproducts" />
 		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
         <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
         <plugin plugin="tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
@@ -125,10 +129,10 @@
         <plugin plugin="tienda_plugin_subscriptions" group="system" element="tienda_subscriptions" />
         <plugin plugin="tienda_plugin_system" group="system" element="tienda" />
         <plugin plugin="tienda_plugin_tool_csvimporter" publish="true" group="tienda" element="tool_csvimporter" />
+        <plugin plugin="tienda_plugin_tool_installsampledata" publish="true" group="tienda" element="tool_installsampledata" />
         <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
         <plugin plugin="tienda_plugin_zoo" group="system" element="tienda_zoo" />
-        <plugin plugin="tienda_plugin_customfields" publish="true" group="tienda" element="customfields" />
 	</plugins>
 </install>
