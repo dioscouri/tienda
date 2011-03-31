@@ -20,6 +20,7 @@ class TiendaControllerCheckout extends TiendaController
 	var $defaultShippingMethod = null; // set in constructor
 	var $steps 				   = array(); // set in constructor
 	var $current_step 		   = 0;
+	var $onepage_checkout	   = false;				
 
 	/**
 	 * constructor
@@ -79,6 +80,11 @@ class TiendaControllerCheckout extends TiendaController
             'STEP_CHECKOUTRESULTS'
             );
             $this->current_step = 0;
+            
+       if(TiendaConfig::getInstance()->get('one_page_checkout', '0'))
+       {
+       		$this->onepage_checkout = true;
+       }     
 	}
 
 	/**
@@ -103,207 +109,406 @@ class TiendaControllerCheckout extends TiendaController
 	function display()
 	{
 		$user = JFactory::getUser();
+		
 		JRequest::setVar( 'view', $this->get('suffix') );
+	
 		
-		$guest_var = JRequest::getInt( 'guest', '0' );
-		$guest = false;
-		if ($guest_var == '1')
-		{
-		    $guest = true;
-		}
-
-		$register_var = JRequest::getInt( 'register', '0' );
-        $form_register = '';
-        $register = false;
-		if ($register_var == '1')
-		{
-            $register = true;
-            $form_register = $this->getRegisterForm();    
-		}
+		//check if we have one page checkout
+		if($this->onepage_checkout)
+		{			
+			// Display the onepage checkout view
+			JRequest::setVar('layout', 'onepage');			
+			$view = $this->getView( 'checkout', 'html' );			
 		
-		// determine layout based on login status
-		// Login / Register / Checkout as a guest
-		if (empty($user->id) && !($guest || $register))
-		{
-			// Display a form for selecting either to register or to login
-			JRequest::setVar('layout', 'form');
-			Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-			$helper = new TiendaHelperRoute();
-			$view = $this->getView( 'checkout', 'html' );
-			$checkout_itemid = $helper->findItemid( array('view'=>'checkout') );
-			if (empty($checkout_itemid))
-			{
-			    $checkout_itemid = JRequest::getInt('Itemid');
-			}
-			$view->assign('checkout_itemid', $checkout_itemid );
-			parent::display();
-			return;
-		}
-		
-		if (($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')) || $register)
-		{
-			// Checkout as a Guest
 			$order =& $this->_order;
-			$order = $this->populateOrder(true);
-
-			// now that the order object is set, get the orderSummary html
+			$order = $this->populateOrder();
+				
+			//get order summarry
 			$html = $this->getOrderSummary();
-
-			// Get the current step
-			$progress = $this->getProgress();
-
-			// get address forms
-			$billing_address_form = $this->getAddressForm( $this->billing_input_prefix, true );
-			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, true, true );
-
-			// get all the enabled shipping plugins
-			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
-			$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-
-			$dispatcher =& JDispatcher::getInstance();
-
-			$rates = array();
-			if ($plugins)
-			{
-				foreach ($plugins as $plugin)
-				{
-					$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $order ) );
-
-					foreach ($results as $result)
-					{
-						if(is_array($result))
-						{
-							foreach( $result as $r )
-							{
-								$rates[] = $r;
-							}
-						}
-					}// endforeach results
-
-				} // endforeach plugins
-			} // endif plugins
-
-
-			// now display the entire checkout page
-			$view = $this->getView( 'checkout', 'html' );
-			$view->set( 'hidemenu', false);
+			$view->assign( 'orderSummary', $html );	
 			$view->assign( 'order', $order );
-			$view->assign( 'register', $register );
-			$view->assign( 'form_register', $form_register );
-			$view->assign( 'billing_address_form', $billing_address_form );
-			$view->assign( 'shipping_address_form', $shipping_address_form );
-			$view->assign( 'orderSummary', $html );
-			$view->assign( 'progress', $progress );
-			//$view->assign( 'default_billing_address', $default_billing_address );
-			//$view->assign( 'default_shipping_address', $default_shipping_address );
-			$view->assign( 'rates', $rates );
-
-			// Checking whether shipping is required
-			$showShipping = false;
-			$shipping_layout = "shipping_no";
-
-			$cartsModel = $this->getModel('carts');
-			if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+			
+			$view->assign( 'user', $user );	
+					
+			if(!$user->id)
 			{
-				$showShipping = true;
+				$view->assign( 'checkoutMethod', $this->getCheckoutMethod() );
 			}
-
-			if ($showShipping)
-			{
-				$shipping_layout = "shipping_yes";
-				if (empty( $shippingAddress ))
-				{
-					$shipping_layout = "shipping_calculate";
-				}
-			}
-			$shipping_method_form = $this->getShippingHtml( $shipping_layout );
-			$view->assign( 'showShipping', $showShipping );
-			$view->assign( 'shipping_method_form', $shipping_method_form );
-
-			JRequest::setVar('layout', 'guest');
-		}
-		else
-		{
-			// Already Logged in, a traditional checkout
-			$order =& $this->_order;
-			$order = $this->populateOrder(false);
-						
-			// now that the order object is set, get the orderSummary html
-			$html = $this->getOrderSummary();
-
-			// Get the current step
-			$progress = $this->getProgress();
-
+					
+			//get addresses
 			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 			$model = JModel::getInstance( 'addresses', 'TiendaModel' );
 			$model->setState("filter_userid", JFactory::getUser()->id);
 			$model->setState("filter_deleted", 0);
-			$addresses = $model->getList();
+			$addresses = $model->getList();			
+		
+			// Checking whether shipping is required
+			$showShipping = false;		
 
-			$billingAddress = $order->getBillingAddress();
-			$shippingAddress = $order->getShippingAddress();
-
-			// get address forms
-			$billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
-			$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, false ,true );
-
-			// get the default shipping and billing addresses, if possible
-			$default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
-			$default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
-
-			// now display the entire checkout page
-			$view = $this->getView( 'checkout', 'html' );
-			$view->set( 'hidemenu', false);
-			$view->assign( 'order', $order );
-			$view->assign( 'addresses', $addresses );
-			$view->assign( 'billing_address', $billingAddress);
-			$view->assign( 'shipping_address', $shippingAddress );
-			$view->assign( 'billing_address_form', $billing_address_form );
-			$view->assign( 'shipping_address_form', $shipping_address_form );
-			$view->assign( 'orderSummary', $html );
-			$view->assign( 'progress', $progress );
-			$view->assign( 'default_billing_address', $default_billing_address );
-			$view->assign( 'default_shipping_address', $default_shipping_address );
-
-			// Check whether shipping is required
-			$showShipping = false;
-			$shipping_layout = "shipping_no";
-
-			$cartsModel = $this->getModel('carts');
+			$cartsModel = $this->getModel('carts');			
 			if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
 			{
 				$showShipping = true;
 			}
-
-			if ($showShipping)
+		
+			$billingAddress = $order->getBillingAddress();
+	
+			if(!$billingAddress)
 			{
-				$shipping_layout = "shipping_yes";
+				$billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
+				$view->assign( 'billing_address_form', $billing_address_form );
+			}
+			
+			$view->assign( 'showShipping', $showShipping );		
+			$view->assign( 'billing_address', $billingAddress);
+			
+			if($showShipping)
+			{
+				$shippingAddress = $order->getShippingAddress();
+			
+				$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, false ,true );				
+				
+				$view->assign( 'shipping_address', $shippingAddress );			
+				$view->assign( 'shipping_address_form', $shipping_address_form );	
+			}	
+			
+			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
+	        $dispatcher =& JDispatcher::getInstance();
+	        
+	        if($showShipping)
+	        {
+	        	$rates = $this->getShippingRates();
+		        $default_rate = array();
+                if (count($rates) == 1)
+                {
+                    $default_rate = $rates[0];
+                }
+		        
+	        	$shipping_layout = "shipping_yes";
 				if (empty( $shippingAddress ))
 				{
 					$shipping_layout = "shipping_calculate";
 				}
-
+		        
+		        $shipping_method_form = $this->getShippingHtml( $shipping_layout );
+				$view->assign( 'showShipping', $showShipping );
+				$view->assign( 'shipping_method_form', $shipping_method_form );
+		        
+		        $view->assign( 'rates', $rates );		               
+	        }
+	        
+	        //get payment plugins
+			// get all the enabled payment plugins
+			$payment_plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
+	        $payment_plgs = array();
+	        if ($payment_plugins)
+	        {
+	            foreach ($payment_plugins as $plugin)
+	            {
+	                $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
+	                if (in_array(true, $results, true))
+	                {
+	                    $payment_plgs[] = $plugin;
+	                }
+	            }
+	        }
+	        
+	        $view->assign( 'payment_plgs', $payment_plgs );
+	        $view->assign( 'order', $order );	        
+	      
+	       	// are there any enabled coupons?
+			$coupons_present = false;
+			$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+			$model->setState('filter_enabled', '1');
+			if ($coupons = $model->getList())
+			{
+			    $coupons_present = true;
 			}
-			$shipping_method_form = $this->getShippingHtml( $shipping_layout );
-			$view->assign( 'showShipping', $showShipping );
-			$view->assign( 'shipping_method_form', $shipping_method_form );
-
-			JRequest::setVar('layout', 'default');
+			$view->assign( 'coupons_present', $coupons_present );
+			
 		}
+		else
+		{
+			$guest_var = JRequest::getInt( 'guest', '0' );
+			$guest = false;
+			if ($guest_var == '1')
+			{
+			    $guest = true;
+			}
 
-		$dispatcher =& JDispatcher::getInstance();
+			$register_var = JRequest::getInt( 'register', '0' );
+	        $form_register = '';
+	        $register = false;
+			if ($register_var == '1')
+			{
+	            $register = true;
+	            $form_register = $this->getRegisterForm();    
+			}
+		
+			// determine layout based on login status
+			// Login / Register / Checkout as a guest
+			if (empty($user->id) && !($guest || $register))
+			{
+				// Display a form for selecting either to register or to login
+				JRequest::setVar('layout', 'form');
+				Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+				$helper = new TiendaHelperRoute();
+				$view = $this->getView( 'checkout', 'html' );
+				$checkout_itemid = $helper->findItemid( array('view'=>'checkout') );
+				if (empty($checkout_itemid))
+				{
+				    $checkout_itemid = JRequest::getInt('Itemid');
+				}
+				$view->assign('checkout_itemid', $checkout_itemid );
+				parent::display();
+				return;
+			}
+		
+			if (($guest && TiendaConfig::getInstance()->get('guest_checkout_enabled')) || $register)
+			{
+				// Checkout as a Guest
+				$order =& $this->_order;
+				$order = $this->populateOrder(true);
+	
+				// now that the order object is set, get the orderSummary html
+				$html = $this->getOrderSummary();
+	
+				// Get the current step
+				$progress = $this->getProgress();
+	
+				// get address forms
+				$billing_address_form = $this->getAddressForm( $this->billing_input_prefix, true );
+				$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, true, true );
+	
+				// get all the enabled shipping plugins
+				Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
+				$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
+	
+				$dispatcher =& JDispatcher::getInstance();
+	
+				$rates = array();
+				if ($plugins)
+				{
+					foreach ($plugins as $plugin)
+					{
+						$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $order ) );
+	
+						foreach ($results as $result)
+						{
+							if(is_array($result))
+							{
+								foreach( $result as $r )
+								{
+									$rates[] = $r;
+								}
+							}
+						}// endforeach results
+	
+					} // endforeach plugins
+				} // endif plugins
+	
+	
+				// now display the entire checkout page
+				$view = $this->getView( 'checkout', 'html' );
+				$view->set( 'hidemenu', false);
+				$view->assign( 'order', $order );
+				$view->assign( 'register', $register );
+				$view->assign( 'form_register', $form_register );
+				$view->assign( 'billing_address_form', $billing_address_form );
+				$view->assign( 'shipping_address_form', $shipping_address_form );
+				$view->assign( 'orderSummary', $html );
+				$view->assign( 'progress', $progress );
+				//$view->assign( 'default_billing_address', $default_billing_address );
+				//$view->assign( 'default_shipping_address', $default_shipping_address );
+				$view->assign( 'rates', $rates );
+	
+				// Checking whether shipping is required
+				$showShipping = false;
+				$shipping_layout = "shipping_no";
+	
+				$cartsModel = $this->getModel('carts');
+				if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+				{
+					$showShipping = true;
+				}
+	
+				if ($showShipping)
+				{
+					$shipping_layout = "shipping_yes";
+					if (empty( $shippingAddress ))
+					{
+						$shipping_layout = "shipping_calculate";
+					}
+				}
+				$shipping_method_form = $this->getShippingHtml( $shipping_layout );
+				$view->assign( 'showShipping', $showShipping );
+				$view->assign( 'shipping_method_form', $shipping_method_form );
+	
+				JRequest::setVar('layout', 'guest');
+			}
+			else
+			{
+				// Already Logged in, a traditional checkout
+				$order =& $this->_order;
+				$order = $this->populateOrder(false);
+							
+				// now that the order object is set, get the orderSummary html
+				$html = $this->getOrderSummary();
+	
+				// Get the current step
+				$progress = $this->getProgress();
+	
+				JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+				$model = JModel::getInstance( 'addresses', 'TiendaModel' );
+				$model->setState("filter_userid", JFactory::getUser()->id);
+				$model->setState("filter_deleted", 0);
+				$addresses = $model->getList();
+	
+				$billingAddress = $order->getBillingAddress();
+				$shippingAddress = $order->getShippingAddress();
+	
+				// get address forms
+				$billing_address_form = $this->getAddressForm( $this->billing_input_prefix );
+				$shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, false ,true );
+	
+				// get the default shipping and billing addresses, if possible
+				$default_billing_address = $this->getAddressHtml( @$billingAddress->address_id );
+				$default_shipping_address = $this->getAddressHtml( @$shippingAddress->address_id );
+	
+				// now display the entire checkout page
+				$view = $this->getView( 'checkout', 'html' );
+				$view->set( 'hidemenu', false);
+				$view->assign( 'order', $order );
+				$view->assign( 'addresses', $addresses );
+				$view->assign( 'billing_address', $billingAddress);
+				$view->assign( 'shipping_address', $shippingAddress );
+				$view->assign( 'billing_address_form', $billing_address_form );
+				$view->assign( 'shipping_address_form', $shipping_address_form );
+				$view->assign( 'orderSummary', $html );
+				$view->assign( 'progress', $progress );
+				$view->assign( 'default_billing_address', $default_billing_address );
+				$view->assign( 'default_shipping_address', $default_shipping_address );
+	
+				// Check whether shipping is required
+				$showShipping = false;
+				$shipping_layout = "shipping_no";
+	
+				$cartsModel = $this->getModel('carts');
+				if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+				{
+					$showShipping = true;
+				}
+	
+				if ($showShipping)
+				{
+					$shipping_layout = "shipping_yes";
+					if (empty( $shippingAddress ))
+					{
+						$shipping_layout = "shipping_calculate";
+					}
+	
+				}
+				$shipping_method_form = $this->getShippingHtml( $shipping_layout );
+				$view->assign( 'showShipping', $showShipping );
+				$view->assign( 'shipping_method_form', $shipping_method_form );
+	
+				JRequest::setVar('layout', 'default');
+			}
+	
+			$dispatcher =& JDispatcher::getInstance();
+	
+			ob_start();
+			$dispatcher->trigger( 'onBeforeDisplaySelectShipping', array( $order ) );
+			$view->assign( 'onBeforeDisplaySelectShipping', ob_get_contents() );
+			ob_end_clean();
+	
+			ob_start();
+			$dispatcher->trigger( 'onAfterDisplaySelectShipping', array( $order ) );
+			$view->assign( 'onAfterDisplaySelectShipping', ob_get_contents() );
+			ob_end_clean();
 
-		ob_start();
-		$dispatcher->trigger( 'onBeforeDisplaySelectShipping', array( $order ) );
-		$view->assign( 'onBeforeDisplaySelectShipping', ob_get_contents() );
-		ob_end_clean();
-
-		ob_start();
-		$dispatcher->trigger( 'onAfterDisplaySelectShipping', array( $order ) );
-		$view->assign( 'onAfterDisplaySelectShipping', ob_get_contents() );
-		ob_end_clean();
-
+		}
+	
 		parent::display();
+		return;
+	}
+	
+	/**
+	 * Method to get the #form view	 
+	 */
+	function getCheckoutMethod()
+	{
+		// Display a form for selecting either to register or to login
+		
+		Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+		$helper = new TiendaHelperRoute();	
+		$checkout_itemid = $helper->findItemid( array('view'=>'checkout') );
+		if (empty($checkout_itemid))
+		{
+			   $checkout_itemid = JRequest::getInt('Itemid');
+		}
+				
+		$view = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->assign('onepage', true );		
+		$view->assign('checkout_itemid', $checkout_itemid );	
+		$view->setLayout( 'form' );
+
+		// Get and Set Model
+		$model = $this->getModel('checkout');
+		$view->setModel( $model, true );
+
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		$ajax = JRequest::getInt('ajax', '0');
+	 	if ($ajax)
+        {
+	        // set response array
+			$response = array();	
+			$response['msg'] = $html;
+			$response['label'] = JText::_('Checkout Method');
+			// encode and echo (need to echo to send back to browser)
+			echo json_encode($response);
+			return;
+    	}
+		
+		return $html;
+	}
+	
+	function getCustomerInfo()
+	{		
+		Tienda::load( 'TiendaUrl', 'library.url' );
+	
+		$view = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->assign('user', JFactory::getUser() );
+		$view->setLayout( 'customer_info' );
+
+		// Get and Set Model
+		$model = $this->getModel('checkout');
+		$view->setModel( $model, true );
+
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		
+	     // set response array
+		$response = array();	
+		$response['msg'] = $html;
+		
+		echo json_encode($response);
+		return;
 	}
 	
 	/**
@@ -326,8 +531,9 @@ class TiendaControllerCheckout extends TiendaController
             Tienda::load( "TiendaHelperBase", 'helpers._base' );
             $user_helper = &TiendaHelperBase::getInstance( 'User' );
 			
-			$billingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id );
-			$shippingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
+			$billingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'billing' );
+			$shippingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'shipping' );			
+			
 			$order->setAddress( $billingAddress, 'billing' );
 			$order->setAddress( $shippingAddress, 'shipping' );			
 		}
@@ -654,7 +860,7 @@ class TiendaControllerCheckout extends TiendaController
 				echo ( json_encode( $response ) );
 				return false;
 			}
-		}
+		}				
 
 		$order =& $this->_order;
         // get the items and add them to the order
@@ -715,6 +921,12 @@ class TiendaControllerCheckout extends TiendaController
 				// if here, all is OK
 				$response['error'] = '0';
 			}
+		}
+		
+		//we will not echo the response if its onpagecheckout
+		if($this->onepage_checkout)
+		{
+			return true;
 		}
 
 		echo ( json_encode( $response ) );
@@ -793,6 +1005,12 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
+		//we will not echo the response if its onpagecheckout
+		if($this->onepage_checkout)
+		{
+			return true;
+		}
+		
 		echo ( json_encode( $response ) );
 		return;
 	}
@@ -835,7 +1053,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return true;
 	}
-
+		
 	/**
 	 * Returns a selectlist of zones
 	 * Called via Ajax
@@ -873,9 +1091,10 @@ class TiendaControllerCheckout extends TiendaController
 	/**
 	 *
 	 * @param $values
+	 * @para boolean - save the addresses
 	 * @return unknown_type
 	 */
-	function setAddresses( $values )
+	function setAddresses( $values, $saved = false )
 	{
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
@@ -931,11 +1150,15 @@ class TiendaControllerCheckout extends TiendaController
 		// set the order billing address
 		$billingAddress->bind( $billingAddressArray );
 		$billingAddress->user_id = $user_id;
-		$order->setAddress( $billingAddress, 'billing' );
+		if($saved) $billingAddress->save();
+		
+		$order->setAddress( $billingAddress);
 
 		// set the order shipping address
 		$shippingAddress->bind( $shippingAddressArray );
 		$shippingAddress->user_id = $user_id;
+		if($saved) $shippingAddress->save();
+		
 		$order->setAddress( $shippingAddress, 'shipping' );
 
 		return;
@@ -1098,10 +1321,11 @@ class TiendaControllerCheckout extends TiendaController
     /**
      * Gets the Register Form
      *
-     * @param $shipping_method_id
+     * @param string $shipping_method_id
+     * @param array $values
      * @return unknown_type
      */
-    function getRegisterForm( $layout='form_register' )
+    function getRegisterForm( $layout='form_register', $values= array() )
     {
         $html = '';
         $model = $this->getModel( 'Checkout', 'TiendaModel' );
@@ -1110,14 +1334,29 @@ class TiendaControllerCheckout extends TiendaController
         $view->set( '_view', 'checkout' );
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
+        $view->assign( 'values', $values );
         $view->setModel( $model, true );
         $view->setLayout( $layout );
         ob_start();
         $view->display();
         $html = ob_get_contents();
         ob_end_clean();
-
-        return $html;
+        
+        if (TiendaConfig::getInstance()->get('one_page_checkout') && empty($values))
+        {
+	        // set response array
+			$response = array();
+			$response['msg'] = '<form action="index.php?option=com_tienda&view=checkout" method="post" id="tienda_registration_form" name="adminForm" enctype="multipart/form-data">';
+			$response['msg'] .= "<div class='tienda_registration'>".$html."</div>";
+			$response['msg'] .= "</form>";   
+			$response['label'] = JText::_('Register'); 
+     
+			// encode and echo (need to echo to send back to browser)
+			echo json_encode($response);
+			return;
+    	}
+    	
+    	return $html;    	
     }
 
 	/**
@@ -1298,7 +1537,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the order object so we can populate it
 		$order =& $this->_order; // a TableOrders object (see constructor)
-
+	
 		// bind what you can from the post
 		$order->bind( $values );
 
@@ -1342,7 +1581,7 @@ class TiendaControllerCheckout extends TiendaController
 		$html = $this->getOrderSummary();
 
 		$response = array();
-		$response['msg'] = $html;
+		$response['msg'] = $html;	
 		$response['error'] = '';
 
 		// encode and echo (need to echo to send back to browser)
@@ -1657,6 +1896,96 @@ class TiendaControllerCheckout extends TiendaController
 		echo json_encode($response);
 
 		return;
+	}
+	
+	/**
+	 * This method is called after the submitted values is successfully validated and order successfully save
+	 * It will prepare the data to be passed to the function _prePayment() of payment plugin
+	 * @return unknown
+	 */
+	function preparePaymentOnepage($values)
+	{
+		$data = new JObject();	
+		$data->html = '';
+		$data->summary = '';
+		
+		// Get Order Object
+		$order =& $this->_order;
+		$user = JFactory::getUser();
+
+		// Update the addresses' user id!
+		$shippingAddress = $order->getShippingAddress();
+		$billingAddress = $order->getBillingAddress();
+
+		$shippingAddress->user_id = $user->id;
+		$billingAddress->user_id = $user->id;
+
+		// Checking whether shipping is required
+		$showShipping = false;
+		$cartsModel = $this->getModel('carts');
+		if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+		{
+			$showShipping = true;
+		}
+
+		if ($showShipping && !$shippingAddress->save())
+		{			
+			$data->_errors = $shippingAddress->getError();		
+			return $data;	
+		}
+
+		if (!$billingAddress->save())
+		{						
+			$data->_errors = $billingAddress->getError();		
+			return $data;		
+		}
+
+		$orderpayment_type = $values['payment_plugin'];
+		$transaction_status = JText::_( "Incomplete" );
+		// in the case of orders with a value of 0.00, use custom values
+		if ( (float) $order->order_total == (float)'0.00' )
+		{
+			$orderpayment_type = 'free';
+			$transaction_status = JText::_( "Complete" );
+		}
+		
+		// Save an orderpayment with an Incomplete status
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment->order_id = $order->order_id;
+		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
+		$orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
+		$orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
+		if (!$orderpayment->save())
+		{			
+			$data->_errors = $orderpayment->getError();					
+			return $data;	
+		}
+
+		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		$values["order_id"]             = $order->order_id;
+		$values["orderinfo"]            = $order->orderinfo;
+		$values["orderpayment_id"]      = $orderpayment->orderpayment_id;
+		$values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
+
+		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
+		$mainframe =& JFactory::getApplication();
+		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
+		$mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
+	
+		$dispatcher    =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+
+		// Display whatever comes back from Payment Plugin for the onPrePayment
+		$html = "";
+		for ($i=0; $i<count($results); $i++)
+		{
+			$html .= $results[$i];
+		}
+		
+		$data->html = $html;		
+		$data->summary = $this->getOrderSummary();
+		return $data;
 	}
 
 	/**
@@ -1986,6 +2315,160 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return;
 	}
+	
+	function saveOrderOnePage()
+	{		
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+
+		// get elements from post
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+		// Test if elements are empty
+		// Return proper message to user
+		if (empty($elements))
+		{
+			// do form validation
+			// if it fails check, return message
+			$response['error'] = '1';
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
+			echo ( json_encode( $response ) );
+			return;
+		}
+
+		// convert elements to array that can be binded
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		$submitted_values = $helper->elementsToArray( $elements );		 									
+		
+		if(empty($submitted_values['_checked']['payment_plugin']))
+		{			
+			$response['msg'] = $helper->generateMessage(JText::_("Please select payment method"));
+			$response['error'] = '1';
+			echo ( json_encode( $response ) );
+			return;
+		}
+		
+		//override the payment plugin with the check value
+		$submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
+		
+		if(!$this->validateSelectShipping($submitted_values))
+		{		
+			return;
+		}	
+		
+		if(!$this->validateSelectPayment($submitted_values))
+		{
+			return;
+		}					
+		//set data
+		$this->setAddresses($submitted_values, true);
+			
+		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $submitted_values['guest'] == '1')
+		{
+			//check email if in correct format
+			jimport('joomla.mail.helper');
+			if(!JMailHelper::isEmailAddress($submitted_values['email_address']))
+			{
+				$response['msg'] = $helper->generateMessage(JText::_("Please enter correct email.")); 				
+				$response['error'] = '1';
+				echo json_encode($response);		
+				return;
+			}
+			
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+			$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+
+			if ($userHelper->emailExists($submitted_values['email_address']))
+			{				
+				$response['msg'] = $helper->generateMessage(JText::_("Email already exist."));
+				$response['error'] = '1';				
+				echo ( json_encode($response) );			
+				return false;
+			}
+			else
+			{
+				// create a guest email address to be stored in the __users table
+				//get the domain from the uri
+				$uri = JURI::getInstance();
+				$domain = $uri->gethost();
+				$lastUserId = $userHelper->getLastUserId();
+				$guestId = $lastUserId + 1;
+				// format: guest_[id]@domain.com
+				$guest_email = "guest_".$guestId."@".$domain;
+					
+				// send the guest user credentials to the user's real email address
+				$details = array(
+					'email' => $submitted_values['email_address'],
+					'name' => "guest_".$guestId,
+					'username' => "guest_".$guestId			
+				);
+					
+				// use a random password, and send password2 for the email
+				jimport('joomla.user.helper');
+				$details['password']    = JUserHelper::genRandomPassword();
+				$details['password2']   = $details['password'];
+
+				// create the new user
+				$msg = $this->getError();
+				$user = $userHelper->createNewUser($details, true);
+
+				if (empty($user->id))
+				{
+					// TODO what to do if creating new user failed?
+				}
+
+				// but don't save the user's real email in the __users db table
+				$userEmailUpdate = $userHelper->updateUserEmail($user->id, $guest_email);
+
+				// save the real user's info in the userinfo table
+				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+				$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+				$userinfo->load( array('user_id'=>$user->id) );
+				$userinfo->user_id = $user->id;
+				$userinfo->email = $submitted_values['email_address'];
+				$userinfo->save();
+
+				// login the user
+				$userHelper->login(
+				array('username' => $user->username, 'password' => $details['password'])
+				);
+			}
+		}
+	
+		//save order
+		if(!$this->saveOrder($submitted_values))
+		{
+			// Output error message and halt			
+			$response['msg'] = $this->getError() ;
+			$response['error'] = '1';
+			// encode and echo (need to echo to send back to browser)
+			echo ( json_encode($response) );			
+			return false;
+		}
+				
+		$data = $this->preparePaymentOnepage($submitted_values);
+
+		if(!empty($data->_errors))
+		{
+			$response['msg'] = $data->_errors;
+			$response['error'] = '1';
+		}
+		else
+		{
+			$response['msg'] = $data->html;
+			$response['summary'] = $data->summary;
+			$response['error'] = '';
+		}
+		// encode and echo (need to echo to send back to browser)
+		echo ( json_encode($response) );
+
+		return;
+	}
 
 	/**
 	 * Saves the order to the database
@@ -1998,17 +2481,19 @@ class TiendaControllerCheckout extends TiendaController
 		$error = false;
 		$order =& $this->_order; // a TableOrders object (see constructor)
 		$order->bind( $values );
-		$order->user_id = JFactory::getUser()->id;
-
+		$order->user_id = JFactory::getUser()->id;					
 		$order->ip_address = $_SERVER['REMOTE_ADDR'];
 		$this->setAddresses( $values );
 
 		// set the shipping method
-		$order->shipping = new JObject();
-		$order->shipping->shipping_price      = $values['shipping_price'];
-		$order->shipping->shipping_extra   = $values['shipping_extra'];
-		$order->shipping->shipping_name        = $values['shipping_name'];
-		$order->shipping->shipping_tax      = $values['shipping_tax'];
+		if($values['shippingrequired'])
+		{
+			$order->shipping = new JObject();
+			$order->shipping->shipping_price      = $values['shipping_price'];
+			$order->shipping->shipping_extra   = $values['shipping_extra'];
+			$order->shipping->shipping_name        = $values['shipping_name'];
+			$order->shipping->shipping_tax      = $values['shipping_tax'];
+		}
 
 		// Store the text verion of the currency for order integrity
 		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
@@ -2016,11 +2501,15 @@ class TiendaControllerCheckout extends TiendaController
 
 		//get the items and add them to the order
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$reviewitems = TiendaHelperCarts::getProductsInfo();
-
-		foreach ($reviewitems as $reviewitem)
+		
+		//we dont need to add items in the order if onepage checkout since its already added in the shipping validation		
+		if(!$this->onepage_checkout)
 		{
-			$order->addItem( $reviewitem );
+			$reviewitems = TiendaHelperCarts::getProductsInfo();
+			foreach ($reviewitems as $reviewitem)
+			{
+				$order->addItem( $reviewitem );
+			}
 		}
 		
 	    // get all coupons and add them to the order
@@ -2559,6 +3048,182 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		return array();
 	}
+	
+ 	/**
+ 	 * Method to show the customer info after registration via ajax
+ 	 * TODO: used view
+ 	 */
+    function showCustomerInfo()
+    {
+    	Tienda::load( 'TiendaUrl', 'library.url' );
+    	$user = JFactory::getUser();    	
+    	$response = array();	    	
+    	$response['msg'] = '<legend class="tienda-collapse-processed">'.JText::_('Customer Information').'</legend>';
+		$response['msg'] .= '<div id="tienda_customer">';	
+		$response['msg'] .= '<div class="note">';
+		$response['msg'] .= JText::_('Order information will be sent to your account e-mail listed below.');
+    	$response['msg'] .= '</div>';	
+    	$response['msg'] .= JText::_('E-mail address').': '.$user->email.'( '.TiendaUrl::popup( "index.php?option=com_user&view=user&task=edit&tmpl=component", JText::_('edit'), array('update' => true) ).' )';	
+    	
+    	echo json_encode($response);
+		return;  	
+    }
+	
+	function registerNewUserOnepage()
+	{
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+		$response['target']= '';	
+		$response['logged']= '';		
+		
+		// get elements from post
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+		
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		
+		if (empty($elements))
+		{			
+			$response['error'] = '1';			
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
+			$response['target']= 'tienda_checkout_onepage';
+			echo ( json_encode( $response ) );
+			return;
+		}
+				
+		$submitted_values = $helper->elementsToArray( $elements );		
+		
+		$button = false;
+		if($submitted_values['target'] == 'tienda_btn_register')
+		{
+			$button = true;
+		}
+				
+		//check email if in correct format
+		jimport('joomla.mail.helper');
+		if(!JMailHelper::isEmailAddress($submitted_values['email_address']) && ($submitted_values['target'] == 'email_address' || $button) )
+		{
+			$response['msg'] = JText::_('Please enter correct email.');
+			$response['error'] = '1';
+			$response['target']= 'email_address';			
+			echo json_encode($response);		
+			return;
+		}
+				
+		//do indiviual checking
+		$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+		if ($userHelper->emailExists($submitted_values['email_address']) && ($submitted_values['target'] == 'email_address' || $button))
+		{							
+			$response['msg'] = JText::_('This e-mail address is already registered.');
+			$response['error'] = '1';
+			$response['target']= 'email_address';
+			echo json_encode($response);		
+			return;
+		}		
+		
+		//check name		
+		if(empty($submitted_values['name']) && ($submitted_values['target'] == 'name' || $button))
+		{
+			$response['msg'] = JText::_('Name is required.');
+			$response['error'] = '1';
+			$response['target']= 'name';
+			echo json_encode($response);		
+			return;
+		}
+		
+		//check username		
+		if(empty($submitted_values['username']) && ($submitted_values['target'] == 'username' || $button))
+		{
+			$response['msg'] = JText::_('Username is required.');
+			$response['error'] = '1';
+			$response['target']= 'username';
+			echo json_encode($response);		
+			return;
+		}
+		else 
+		{
+			$db = JFactory::getDBO();
+			Tienda::load( 'TiendaQuery', 'library.query' );			
+			$query = new TiendaQuery();
+			$query->select( 'tbl.*' );				
+			$query->from('#__users AS tbl');  
+			
+			$key    = $db->Quote($db->getEscaped( trim( strtolower( $submitted_values['username'] ) ) ));            
+            $query->where('tbl.username = '.$key);
+			$db->setQuery( (string) $query );
+			$result = $db->loadObject(); 
+			
+			//username exist
+	        if($result && ($submitted_values['target'] == 'username' || $button))      
+	        {
+	        	$response['msg'] = JText::_('This username is already in use.');
+				$response['error'] = '1';
+				$response['target']= 'username';
+				echo json_encode($response);
+				return;		
+	        }
+		}
+
+		//check username		
+		if( ($submitted_values['password'] != $submitted_values['password2']) && ($submitted_values['target'] == 'password2' || $button))
+		{
+			$response['msg'] = JText::_('The passwords do not match.');
+			$response['error'] = '1';
+			$response['target']= 'password2';
+			echo json_encode($response);		
+			return;
+		}
+				
+		// create the new user
+		if($button)
+		{
+			$details = array(
+					'email' => $submitted_values['email_address'],
+					'name' => $submitted_values['name'],
+					'username' => $submitted_values['username'],
+					'password'=> $submitted_values['password'], 
+					'password2'=> $submitted_values['password2']		
+			);
+			$user = $userHelper->createNewUser($details);
+			
+			if (empty($user->id))
+			{
+				$response['msg'] =  $userHelper->getError();
+				$response['error'] = '1';
+				$response['target']= 'tienda_checkout_onepage';
+				echo json_encode($response);
+				return;
+			}
+							
+			// login the user
+			$userHelper->login(
+			array('username' => $user->username, 'password' => $details['password'])
+			);	
+					
+			$response['logged'] = '1';			
+		}		
+		else 
+		{
+			switch($submitted_values['target'])
+			{
+				case 'email_address':
+					$response['msg'] = JText::_('Email address is available.');
+					break;
+				case 'username':
+					$response['msg'] = JText::_('Username is available.');
+					break;
+				case 'password2':
+					$response['msg'] = JText::_('The passwords match.');
+					break;
+				default:
+					break;
+			}			
+		}
+							              
+		echo json_encode($response);
+		return;		
+	}
 
 	/*
 	 * Regiter the new user with the Form
@@ -2570,11 +3235,18 @@ class TiendaControllerCheckout extends TiendaController
 		//  Register an User
 		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+		
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
 
 		if ($userHelper->emailExists($values['email_address']))
 		{
-			// TODO user already exists
-
+			// TODO user already exists		
+			$response['error'] = '1';	
+			$response['msg'] = JText::_('Email already exist!');
+			$response['key'] = 'email_address';
+			return $response;
 		}
 		else
 		{
@@ -2615,6 +3287,7 @@ class TiendaControllerCheckout extends TiendaController
 			array('username' => $user->username, 'password' => $details['password'])
 			);
 		
+			return true;
 		}
 	}
 	
