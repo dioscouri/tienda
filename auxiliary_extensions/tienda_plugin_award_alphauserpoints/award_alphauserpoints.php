@@ -93,7 +93,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 			$award_points_value = $this->params->get('points_per_review');
 			if( empty($award_points_value) )
 			{
-				JError::raiseError(500, JText::_('TIENDA ALPHAUSERPOINTS AWARD MESSAGE VALUE ERROR'));
+				JFactory::getApplication()->enqueueMessage( JText::_('TIENDA ALPHAUSERPOINTS AWARD MESSAGE VALUE ERROR'), 'notice');
 				return $success;
 			}
 			else 
@@ -134,11 +134,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 
 		// check if purches have allowed minimum amount
 		if ( $subtotal >= $min_purchase_points )
-		{
-			$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
-			$model->setState( 'filter_orderid', $orderid );
-			$orderpayment = $model->getItem();
-		
+		{			
 			// check what kind of payment is made and
 			// check if that kind is allowed
 			$allpayments_awarded = $this->params->get('allpayments_awarded');
@@ -163,8 +159,11 @@ class plgTiendaAward_alphauserpoints extends JPlugin
             	}
             }
             else 
-            {
-            	$orderpayment_type = $orderpayment->orderpayment_type;
+            {            	
+            	$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+            	$model->setState( 'select', 'tbl.orderpayment_type');
+				$model->setState( 'filter_orderid', $orderid );
+				$orderpayment_type = $model->getResult();
             	
             	if( $orderpayment_type!='payment_alphauserpoints' && $orderpayment_type!='payment_ambrapoints' )
             	{
@@ -186,7 +185,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
             	}
 	            else 
 	           	{
-	           		JError::raiseError(500, JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ERROR PAYMENT TYPE',$orderpayment_type) );
+	           		JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA ALPHAUSERPOINTS AWARD ERROR PAYMENT TYPE',$orderpayment_type), 'notice' );
 					return $success;
 	           	}
             }
@@ -300,7 +299,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 				$row->category		   = '';
 				if ( !$row->store() )
 				{
-					JError::raiseError(500, $row->getError());
+					JFactory::getApplication()->enqueueMessage( $row->getError(), 'notice' );
 				}	
 			}		
 		}
