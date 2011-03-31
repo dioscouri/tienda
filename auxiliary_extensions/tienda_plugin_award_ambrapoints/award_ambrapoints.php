@@ -117,11 +117,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
 	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $orderid );
 		$order = $model->getItem();
-		
-		$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
-		$model->setState( 'filter_orderid', $orderid );
-		$orderpayment = $model->getItem();
-		
+			
 		$subtotal = $order->order_subtotal;		
 		$min_purchase_points = $this->params->get('min_purchase_value');
 					
@@ -136,16 +132,19 @@ class plgTiendaAward_AmbraPoints extends JPlugin
 	        }
 	        else
 	        {
-	          	$orderpayment_type = $orderpayment->orderpayment_type;
+	          	$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+            	$model->setState( 'select', 'tbl.orderpayment_type');
+				$model->setState( 'filter_orderid', $orderid );
+				$orderpayment_type = $model->getResult();
 	           	
 	           	if( $orderpayment_type!='payment_alphauserpoints' && $orderpayment_type!='payment_ambrapoints' )
 	           	{
-	            	$this->createLogEntry( $user_id, 'com_tienda', 'doCompletedOrderTasks', $subtotal );
+	            	$success = $this->createLogEntry( $user_id, 'com_tienda', 'doCompletedOrderTasks', $subtotal );
 	           	}
 	           	else 
 	           	{
 	           		
-	           		JError::raiseError(500, JText::sprintf('TIENDA AMBRAPOINTS AWARD ERROR PAYMENT TYPE',$orderpayment_type) );
+	           		JFactory::getApplication()->enqueueMessage( JText::sprintf('TIENDA AMBRAPOINTS AWARD ERROR PAYMENT TYPE',$orderpayment_type), 'notice' );
 					return $success;
 	           	}
 	        }			
@@ -168,7 +167,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
     	// is user_id valid?
         if (empty(JFactory::getUser( $user_id )->id ))
         {   
-            $this->setError( "Invalid User" );
+            JFactory::getApplication()->enqueueMessage( JText::_( "Invalid User" ), 'notice' );
             return false;
         }
        
@@ -192,7 +191,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         $max_points = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPoints( JFactory::getUser( $user_id )->id );
         if ($max_points != '-1' && $userdata->points_total > $max_points)
         {         die("here");
-            $this->setError( JText::_( "User Exceeded Max Points" ) );
+            JFactory::getApplication()->enqueueMessage( JText::_( "User Exceeded Max Points" ), 'notice' );
             return false;            
         } 
                  
@@ -201,7 +200,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         $max_points_per_day = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPointsPerDay( JFactory::getUser( $user_id )->id );
         if ($max_points_per_day != '-1' && $pointhistory_today > $max_points_per_day)
         { 
-            $this->setError( JText::_( "User Exceeded Max Points for the Day" ) );
+            JFactory::getApplication()->enqueueMessage( JText::_( "User Exceeded Max Points for the Day" ), 'notice' );
             return false;            
         }         
         
@@ -218,7 +217,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
        
         if (!$pointrules = $model->getList())
         { 
-            $this->setError( JText::_( 'No Valid Points Found for this Event' ) );
+            JFactory::getApplication()->enqueueMessage( JText::_( 'No Valid Points Found for this Event' ), 'notice' );
             return false;
         }
         
@@ -313,7 +312,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         if (!empty($errors))
         
         {
-            $this->setError( implode( '<br/>', $errors ) );
+            JFactory::getApplication()->enqueueMessage( implode( '<br/>', $errors ), 'notice' );
             return false;
         }
 
@@ -341,7 +340,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         }
         
         // shouldn't end up here
-        $this->setError( JText::_( 'Something Wrong Happened' ) );
+        JFactory::getApplication()->enqueueMessage( JText::_( 'Something Wrong Happened' ), 'notice' );
         return false;   
     }
 }  
