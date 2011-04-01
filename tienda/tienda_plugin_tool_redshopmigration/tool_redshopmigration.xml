@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tool - RedShop Migration</name>
+	<version>0.7.1</version>
+	<creationDate>April 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This tool migrates data from RedShop to Tienda</description>
+	
+	<files>
+		<filename plugin="tool_redshopmigration">tool_redshopmigration.php</filename>
+		<folder>tool_redshopmigration</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_tool_redshopmigration.ini</language>
+	</languages>
+
+	<params>
+	</params>
+			
+</install>
