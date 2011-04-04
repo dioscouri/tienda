@@ -528,6 +528,8 @@ class TiendaConfig extends JObject
     //one page checkout
     var $one_page_checkout					= '0';
     
+    //since 0.7.2
+    var $ignored_countries					= '83, 188, 190';
 	
 	/**
 	 * constructor

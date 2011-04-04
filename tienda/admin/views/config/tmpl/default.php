@@ -467,6 +467,17 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'No Zones Countries' ); ?>
+                            </th>
+                            <td style="width: 280px;">
+                            	<input type="text" name="ignored_countries" value="<?php echo $this->row->get('ignored_countries', ''); ?>" class="inputbox" />                              
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Countries that will be ignored when validating the zones during checkout. Please input the CSV of the country id. The default is 83, 188, 190 which are the ids of Gibraltar, Singapore, and Slovenia respectively.' ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Show Separate Line Items for Each Tax Class' ); ?>
                             </th>
                             <td>
