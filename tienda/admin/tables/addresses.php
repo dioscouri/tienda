@@ -141,10 +141,12 @@ class TiendaTableAddresses extends TiendaTable
             $this->setError( JText::_("Country Required") );
             return false;
         }
-	    if (empty($this->zone_id) && ($config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ))
+        
+        $countryA = explode(',', trim($config->get('ignored_countries', '83,188,190')));
+	    if ( (empty($this->zone_id) && !in_array($this->country_id, $countryA) && ($config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type )))
         {
-            $this->setError( JText::_("Zone Required") );
-            return false;
+           $this->setError( JText::_("Zone Required") );
+           return false;
         }
 		if (empty($this->phone_1) && ($config->get('validate_field_phone', '3') == '3' || $config->get('validate_field_phone', '3') == $address_type ))
         {
