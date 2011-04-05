@@ -135,7 +135,7 @@
                     </a>
                 </td>
                 <td style="text-align: center;">
-                    <a href="<?php echo $item->link; ?>">
+                    <a href="index.php?option=com_tienda&controller=orders&view=orders&task=edit&id=<?php echo $item->order_id; ?>">
                         <?php echo $item->order_id; ?>
                     </a>
                 </td>
