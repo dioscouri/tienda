@@ -17,12 +17,11 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
     <!--base price-->
     <span id="product_price_<?php echo $item->product_id; ?>" class="product_price">
     	<?php  echo TiendaHelperProduct::dispayPriceWithTax($item->price, $vars->tax, $vars->show_tax); ?>
-       <?php         
-        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
-        {
-            echo '<br /><a href="'.$vars->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $vars->shipping_cost_link).'</a>' ;
-        }
-        ?>
+       	<!-- For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates) -->       
+    	<br />
+    	<?php if(TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
+    	<?php echo TiendaUrl::popup( JRoute::_($this->shipping_cost_link.'&tmpl=component'), JText::_( "LINK_TO_SHIPPING_COST" ) ); ?>
+    	<?php endif;?> 
     </span>
     <?php endif; ?>
     
