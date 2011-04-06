@@ -93,7 +93,7 @@ class TiendaTableAddresses extends TiendaTable
 		}
 	    if (empty($this->address_name) && ($config->get('validate_field_title', '3') == '3' || $config->get('validate_field_title', '3') == $address_type ))
         {
-            $this->setError( JText::_("Please include an Address Title") );
+            $this->setError( JText::_("Please include an Address Title".$address_type) );
             return false;
         }
 		if (empty($this->first_name) && ($config->get('validate_field_name', '3') == '3' || $config->get('validate_field_name', '3') == $address_type ))

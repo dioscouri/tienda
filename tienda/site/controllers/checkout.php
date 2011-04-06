@@ -888,13 +888,12 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		// fail if shipping address is invalid
-		// if we're checking shipping and the sameasbilling is checked, then this is good
 		if($submitted_values['shippingrequired'])
 		{
 			$sameasbilling = (!empty($submitted_values['_checked']['sameasbilling']));
-			if (!$sameasbilling && !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, $submitted_values['shipping_address_id'] ))
+			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, $submitted_values['shipping_address_id'] ))
 			{
-				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError() );
+				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" ).$this->shipping_input_prefix." :: ".$this->getError() );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return false;
@@ -1035,11 +1034,11 @@ class TiendaControllerCheckout extends TiendaController
 		// Add type of the array
 		switch($prefix)
 		{
-			case 'shipping_':
+			case 'shipping_input_':
 				$address_type = '2';
 				break;
 			default:
-			case 'billing_':
+			case 'billing_input_':
 				$address_type = '1';
 				break;
 		}
@@ -1464,10 +1463,10 @@ class TiendaControllerCheckout extends TiendaController
 		if ($submitted_values['shippingrequired'])
 		{
 			$prefix = $this->shipping_input_prefix;
-			if ($sameasbilling = (!empty($submitted_values['_checked']['sameasbilling'])))
-			{
+			//if ($sameasbilling = (!empty($submitted_values['_checked']['sameasbilling'])))
+			/*{
 				$prefix = $this->billing_input_prefix;
-			}
+			}*/
 
 			if (!$this->validateAddress( $submitted_values, $prefix, @$submitted_values['shipping_address_id'] ))
 			{
