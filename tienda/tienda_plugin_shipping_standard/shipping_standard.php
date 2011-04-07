@@ -102,7 +102,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         	$vars[$i]['total'] = $rate->shipping_rate_price + $rate->shipping_rate_handling + $rate->shipping_tax_total;
         	$i++;
         }
-        
+  
 		return $vars;
         
     }
@@ -171,7 +171,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		$this->includeCustomTables('shipping_standard');
 		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
-	  
+	 
 		if (empty($shippingmethod->shipping_method_id))
 		{
 			// TODO if this is an object, setError, otherwise return false, or 0.000?
@@ -188,8 +188,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				foreach ($orderItems as $item)
                 {
                 	$total += $item->orderitem_final_price;
-                }
-		       
+                }		  
 		 	   foreach ($geozones as $geozone)
 				    {
 				        unset($rate);
@@ -207,14 +206,13 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				        $model->setState('filter_weight', $total); // Use weight as total
 				        
 				        $items = $model->getList();
-				        
+	       
 				        if (empty($items))
 				        {
 				            return JTable::getInstance('ShippingRates', 'TiendaTable');           
 				        }
 				        
-				        $rate = $items[0];
-                       
+				        $rate = $items[0];                
                         $geozone_rates[$geozone_id]['0'] = $rate;
                         
 				        // if $rate->shipping_rate_id is empty, then no real rate was found 
@@ -225,8 +223,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                             
 				        $geozone_rates[$geozone_id]['0']->qty = '1';  
 				        $geozone_rates[$geozone_id]['0']->shipping_method_type = $shippingmethod->shipping_method_type;   
-				    }
-		       
+				    }		         
+		    	break;  
 		    case "5":
 		        // 5 = per order - quantity based
 		        // first, get the total quantity of shippable items for the entire order
@@ -302,7 +300,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             case "0":
             	// 0 = per item - flat rate
             	// 1 = per item - weight based
-                // 4 = per item - price based, a percentage of the product's price
+                // 4 = per item - price based, a percentage of the product's price  
             	$rates = array();
                 foreach ($orderItems as $item)
                 {
@@ -334,7 +332,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                         {
                             $geozone_rates[$geozone_id][$pid] = $rate; 
                             $geozone_rates[$geozone_id][$pid]->shipping_method_type = $shippingmethod->shipping_method_type;
-                            $geozone_rates[$geozone_id][$pid]->qty = $qty;                            
+                            $geozone_rates[$geozone_id][$pid]->qty = $qty;    
                         }
                         
                         // if $rate->shipping_rate_id is empty, then no real rate was found 
@@ -361,10 +359,10 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $shipping_method_price = 0;
         $shipping_method_handling = 0;
         $shipping_method_tax_total = 0;
-        
+  
 		// now calc for the entire method
 		foreach ($geozone_rates as $geozone_id=>$geozone_rate_array)
-		{
+		{		
 		    foreach ($geozone_rate_array as $geozone_rate)
 		    {
                 $shipping_tax_rates[$geozone_id] = $this->getTaxRate( $shipping_method_id, $geozone_id );
@@ -381,7 +379,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $return->shipping_tax_total     = $shipping_method_tax_total;
         $return->shipping_method_id     = $shipping_method_id;
         $return->shipping_method_name   = $shippingmethod->shipping_method_name;
-	
+
 		return $return;
 	}
 	
@@ -436,6 +434,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
               
         $product->load( $product_id );
+      
         if (empty($product->product_id))
         {
             return JTable::getInstance('ShippingRates', 'TiendaTable');           
@@ -458,7 +457,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             }
         }
         $items = $model->getList();
-       
+     
         if (empty($items))
         {
             return JTable::getInstance('ShippingRates', 'TiendaTable');           
