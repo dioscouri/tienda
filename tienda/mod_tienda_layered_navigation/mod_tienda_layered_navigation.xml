@@ -26,9 +26,26 @@
 		<param name="multi_mode" type="list" default="1" label="Multi Mode" description="Apply as many filters at the same time as you want.">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
-		</param>		
-	</params>
-    
+		</param>
+		<param name="filter_category" type="list" default="1" label="Filter By Category" description="Include filtering of product by category">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>	
+		<param name="roottext" size="35" type="text" default="" label="Text for Root Category" description="To change to default caption of root category. ie. All Categories => Electornics" />	
+		<param name="filter_manufacturer" type="list" default="1" label="Filter By Manufacturer" description="Included filtering of product by category">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="filter_price" type="list" default="1" label="Filter By Price" description="Include filtering of product by price range.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>	
+		<param name="filter_attributes" type="list" default="1" label="Filter By Attributes" description="Included filtering of product by attributes.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="excluded_attributes" size="35" type="text" default="" label="Excluded Attributes" description="CSV of attribute id that will not be included as filter. ie. 1,3,5" />	
+	</params>    
     <params group="advanced">
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
