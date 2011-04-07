@@ -21,7 +21,9 @@
 
 <h2><?php echo JText::_("SHOPPING OPTIONS");?></h2>
 <?php if($trackcatcount > 0):?>
-	<h3><?php echo $categories[0]->category_name;?></h3>
+	<?php $rootTxt = $params->get('roottext'); ?>
+	<h3><?php echo $categories[0]->isroot && !empty( $rootTxt ) ? $rootTxt : $categories[0]->category_name;?></h3>	
+	
 	<ul id="tienda_browse_category">
 	
 	<?php foreach($categories as $category):?>
@@ -30,7 +32,7 @@
 		<li>
 			<a href="<?php echo $category->link;?>">
 				<span class="refinementLink">
-					<?php echo $category->category_name;?>
+					<?php echo $category->category_name;?>					
 				</span>
 			</a>
 			<span class="narrowValue">

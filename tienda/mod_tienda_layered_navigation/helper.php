@@ -31,11 +31,12 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_filter_manufacturer_set	= '';
 	private $_filter_manufacturer	= '';
 	private $_filter_price_from		= '';
-	private $_filter_price_to			= '';	
+	private $_filter_price_to		= '';	
 	private $_filter_attribute_set	= '';	
 	private $_filter_attributeoptionname = array();
 	private $_options				= array();	
-	public $_brands				= null;
+	public $brands					= null;
+	public $category_current		= null;
 	
     /**
      * Sets the modules params as a property of the object
@@ -50,7 +51,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$this->_itemid 		= JRequest::getInt('Itemid');    	
     	$this->_view 		= JRequest::getVar('view');    	
     	$this->_products = $this->getProducts();    		
-  	
+
     	//TODO: REMOVE THIS
     	//$session	=& JFactory::getSession();
 		//$registry	=& $session->get('registry');	
@@ -85,15 +86,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     {
     	$items = array();    	
     	//filter category found so we display child categories and products inside
-    	if(!empty($this->_filter_category))
-    	{
-    		//JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		    //$model  = JModel::getInstance( 'Categories', 'TiendaModel' );
-	    	//$model->setState('filter_enabled', '1');
-			//$model->setState('order', 'tbl.lft');
-			//$model->setState('filter_parentid', $this->_filter_category);
-			//$items = $model->getList();
-			
+    	if(!empty($this->_filter_category) && $this->_params->get('filter_category'))
+    	{   	
     		//get categories with parent_id = filter_category and category_id = filter_category
     		Tienda::load( 'TiendaQuery', 'library.query' );
 			$query = new TiendaQuery();
@@ -104,7 +98,10 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			$this->_db->setQuery((string) $query);
 			$items = $this->_db->loadObjectList();
 
-    		if (!empty($items))
+			//set the current category
+			$this->category_current = $items[0];
+			
+			if (!empty($items))
 		    {
 		    	$this->_catfound = true;
 		    	$catids = array();
@@ -159,7 +156,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    	$this->_pids = $pids;
     	
     	asort($brandA);
-		$this->_brands = $brandA;	
+		$this->brands = $brandA;	
 	    	
     	$brands = array();   
     	
@@ -482,6 +479,15 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     {
 		$filters = array();
 		
+    	if(!empty($this->_filter_category) && !empty($this->category_current))
+		{
+			$catObj = new stdClass();
+			$catObj->label = JText::_('Category');
+			$catObj->value = $this->category_current->category_name;
+			$catObj->link = $this->_link.'&filter_category=';		
+			$filters[] = $catObj;
+		}		
+		
 		if(!empty($this->_filter_price_from) || !empty($this->_filter_price_to))
 		{
 			$priceObj = new stdClass();
@@ -559,7 +565,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				{
 					$brandObj = new stdClass();
 					$brandObj->label = JText::_('Manufacturer');
-					$brandObj->value = $this->_brands[$brand];
+					$brandObj->value = $this->brands[$brand];
 					$brandObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_manufacturer_set='.implode(',',array_diff($brandSet, array($brand)));		
 					$filters[] = $brandObj;					
 				}
@@ -571,7 +577,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			{
 				$brandObj = new stdClass();
 				$brandObj->label = JText::_('Manufacturer');
-				$brandObj->value = $this->_brands[$this->_filter_manufacturer];
+				$brandObj->value = $this->brands[$this->_filter_manufacturer];
 				$brandObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_manufacturer=';		
 				$filters[] = $brandObj;
 			}
