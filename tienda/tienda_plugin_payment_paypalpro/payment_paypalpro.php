@@ -82,8 +82,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
      * @return string   HTML to display
      */
     function _prePayment( $data )
-    {
-    	
+    { 
         $directpayment_renderer = $this->_getRenderer('directpayment');		
 		$expresscheckout_renderer = $this->_getRenderer('expresscheckout');
 		$helper_renderer = $this->_getRenderer('helper');
@@ -381,12 +380,12 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 	{
 		$item_id = JRequest::getVar('item_number', '', 'post', 'int');
 		$data = JRequest::get('post');
-		
+	
 		$processor = $this->_getProcessor('directpayment');
 		$processor->setSubscrTypeID($item_id);
 		$processor->setData($data);
-		$processor->setIsLog($this->_is_log);			
-
+		$processor->setIsLog($this->_is_log);
+		
 		// validate the form data
 		if (!$processor->validateData()) {			
 			$error_msg = $this->_getFormattedErrorMsg($processor->getErrors());

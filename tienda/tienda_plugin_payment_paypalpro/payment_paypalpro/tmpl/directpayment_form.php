@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php debug(4444, $vars);?>
 <table class="userlist" id="direct_payment_form">
 	<tbody>
 	<tr>

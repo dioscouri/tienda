@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Ambrasubs PayPalPro API caller
+ * Tienda PayPalPro API caller
  * 
  * Sends NVP requests to PayPal server and receives responses
  *

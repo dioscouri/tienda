@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__) . '/../renderer.php';
 
 /**
- * Ambrasubs PayPalPro DirectPayment Renderer
+ * Tienda PayPalPro DirectPayment Renderer
  *
  * @package		Joomla 
  * @since 		1.5
