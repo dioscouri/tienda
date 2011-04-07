@@ -808,6 +808,26 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptions` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productattributeoptionvalues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptionvalues` (
+  `productattributeoptionvalue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `productattributeoption_id` int(11) NOT NULL,
+  `productattributeoptionvalue_field` varchar(255) NOT NULL,
+  `productattributeoptionvalue_operator` varchar(255) NOT NULL,
+  `productattributeoptionvalue_value` varchar(255) NOT NULL,
+  PRIMARY KEY (`productattributeoptionvalue_id`),
+  INDEX `fk_paov_pao` (`productattributeoption_id` ASC) ,
+  CONSTRAINT `fk_paov_pao`
+    FOREIGN KEY (`productattributeoption_id` )
+    REFERENCES `#__tienda_productattributeoptions` (`productattributeoption_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+) 
+ENGINE=InnoDB  
+DEFAULT CHARSET=utf8;
+
 
 -- -----------------------------------------------------
 -- Table `#__tienda_products`

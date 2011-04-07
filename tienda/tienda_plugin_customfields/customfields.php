@@ -196,8 +196,6 @@ class plgTiendaCustomFields extends TiendaPluginBase
     	// Get extra fields for products
 		$fields = $this->getCustomFields( 'products', $item->product_id );
 		
-		
-		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
 		{

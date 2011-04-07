@@ -1166,4 +1166,57 @@ class TiendaSelect extends JHTMLSelect
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+    
+     /**
+	 * Generates a  select list for paov operators
+	 * 
+	 * @param unknown_type $selected
+	 * @param unknown_type $name
+	 * @param unknown_type $attribs
+	 * @param unknown_type $idtag
+	 * @param unknown_type $allowAny
+	 * @param unknown_type $title
+	 * @return unknown_type
+	 */
+    public static function productattributeoptionvalueoperator( $selected, $name = 'filter_operator', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Operator' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'replace', "Replace" );
+        $list[] = JHTML::_('select.option',  'append', "Append" );
+        $list[] = JHTML::_('select.option',  'prepend', "Prepend" );
+		$list[] = JHTML::_('select.option',  '+', "+" );
+		$list[] = JHTML::_('select.option',  '-', "-" );
+		$list[] = JHTML::_('select.option',  '=', "=" );
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+	
+	 /**
+	 * Generates a  select list for paov operators
+	 * 
+	 * @param unknown_type $selected
+	 * @param unknown_type $name
+	 * @param unknown_type $attribs
+	 * @param unknown_type $idtag
+	 * @param unknown_type $allowAny
+	 * @param unknown_type $title
+	 * @return unknown_type
+	 */
+    public static function productattributeoptionvaluefield( $selected, $name = 'filter_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Field' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'product_full_image', "Main Image" );
+        $list[] = JHTML::_('select.option',  'product_model', "Model" );
+        $list[] = JHTML::_('select.option',  'product_sku', "SKU" );
+		
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

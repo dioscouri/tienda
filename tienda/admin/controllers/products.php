@@ -1094,6 +1094,40 @@ class TiendaControllerProducts extends TiendaController
 		$view->setLayout( 'default' );
 		$view->display();
 	}
+	
+	/**
+	 * Loads view for assigning product attribute option values
+	 *
+	 * @return unknown_type
+	 */
+	function setattributeoptionvalues()
+	{
+		$this->set('suffix', 'productattributeoptionvalues');
+		$state = parent::_setModelState();
+		$app = JFactory::getApplication();
+		$model = $this->getModel( $this->get('suffix') );
+		$ns = $this->getNamespace();
+
+		$state['filter_option']   = $model->getId();
+
+		foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
+
+		$row = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+		$row->load($model->getId());
+
+		$view   = $this->getView( 'productattributeoptionvalues', 'html' );
+		$view->set( '_controller', 'products' );
+		$view->set( '_view', 'products' );
+		$view->set( '_action', "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&tmpl=component&id=".$model->getId() );
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'row', $row );
+		$view->setLayout( 'default' );
+		$view->display();
+	}
 
 	/**
 	 * Creates an option and redirects
@@ -1125,6 +1159,39 @@ class TiendaControllerProducts extends TiendaController
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+
+	/**
+	 * Creates an option value and redirects
+	 *
+	 * @return unknown_type
+	 */
+	function createattributeoptionvalue()
+	{
+		$this->set('suffix', 'productattributeoptionvalues');
+		$model  = $this->getModel( $this->get('suffix') );
+
+		$row = $model->getTable();
+		$row->productattributeoption_id = JRequest::getVar( 'id' );
+		$row->productattributeoptionvalue_field = JRequest::getVar( 'createproductattributeoptionvalue_field' );
+		$row->productattributeoptionvalue_operator = JRequest::getVar( 'createproductattributeoptionvalue_operator' );
+		$row->productattributeoptionvalue_value = JRequest::getVar( 'createproductattributeoptionvalue_value' );
+		
+		if ( $row->save() )
+		{
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+		}
+		else
+		{
+			$this->messagetype  = 'notice';
+			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+		}
+
+		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&id={$row->productattributeoption_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1181,6 +1248,56 @@ class TiendaControllerProducts extends TiendaController
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+
+	/**
+	 * Saves the properties for all attribute option values in list
+	 *
+	 * @return unknown_type
+	 */
+	function saveattributeoptionvalues()
+	{
+		$error = false;
+		$this->messagetype  = '';
+		$this->message      = '';
+
+		$model = $this->getModel('productattributeoptionvalues');
+		$row = $model->getTable();
+
+		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
+		$field = JRequest::getVar('field', array(0), 'request', 'array');
+		$operator = JRequest::getVar('operator', array(0), 'request', 'array');
+		$value = JRequest::getVar('value', array(0), 'request', 'array');
+
+		foreach (@$cids as $cid)
+		{
+			$row->load( $cid );
+			$row->productattributeoptionvalue_field = $field[$cid];
+			$row->productattributeoptionvalue_operator = $operator[$cid];
+			$row->productattributeoptionvalue_value = $value[$cid];
+
+			if (!$row->check() || !$row->store())
+			{
+				$this->message .= $row->getError();
+				$this->messagetype = 'notice';
+				$error = true;
+			}
+		}
+		$row->reorder();
+
+		if ($error)
+		{
+			$this->message = JText::_('Error') . " - " . $this->message;
+		}
+		else
+		{
+			$this->message = "";
+		}
+
+		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&id={$row->productattributeoption_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );

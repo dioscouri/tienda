@@ -85,6 +85,8 @@
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+				</th>
 				<th style="width: 100px;">
 				</th>
             </tr>
@@ -142,6 +144,9 @@
 				</td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
+				</td>
+				<td style="text-align: center;">
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_( "Set Values" ) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributeoptions&task=delete&cid[]=<?php echo $item->productattributeoption_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component"); ?>">

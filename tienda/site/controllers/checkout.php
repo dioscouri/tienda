@@ -891,7 +891,7 @@ class TiendaControllerCheckout extends TiendaController
 		if($submitted_values['shippingrequired'])
 		{
 			$sameasbilling = (!empty($submitted_values['_checked']['sameasbilling']));
-			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, $submitted_values['shipping_address_id'] ))
+			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
 				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" ).$this->shipping_input_prefix." :: ".$this->getError() );
 				$response['error'] = '1';
