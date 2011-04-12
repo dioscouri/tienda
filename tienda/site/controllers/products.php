@@ -56,6 +56,7 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_attributeoptionname'] = $app
 				->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
 		$state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
+		$state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
 		
 		if ( strlen( $state['filter_sortby'] ) && TiendaConfig::getInstance( )->get( 'display_sort_by', '1' ) )
 		{
