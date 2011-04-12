@@ -18,9 +18,12 @@
 	</ul>
 <?php endif;?>
 
-
+<?php if($trackcatcount || $priceRanges || $attributes || $manufacturers):?>
 <h2><?php echo JText::_("SHOPPING OPTIONS");?></h2>
+<?php endif;?>
+
 <?php if($trackcatcount > 0):?>
+
 	<?php $rootTxt = $params->get('roottext'); ?>
 	<h3><?php echo $categories[0]->isroot && !empty( $rootTxt ) ? $rootTxt : $categories[0]->category_name;?></h3>	
 	
