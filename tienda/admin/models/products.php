@@ -42,7 +42,8 @@ class TiendaModelProducts extends TiendaModelEav
 		$filter_description = $this->getState( 'filter_description' );
 		$filter_description_short = $this->getState( 'filter_description_short' );
 		$filter_namedescription = $this->getState( 'filter_namedescription' );		
-		$filter_attribute_set = $this->getState( 'filter_attribute_set' );	
+		$filter_attribute_set = $this->getState( 'filter_attribute_set' );
+		$filter_rating = $this->getState( 'filter_rating' );		
 		
 		if ( $filter )
 		{
@@ -86,6 +87,12 @@ class TiendaModelProducts extends TiendaModelEav
 				$query->where( 'tbl.product_id = ' . ( int ) $filter_id_from );
 			}
 		}
+		
+		if ( $filter_rating )
+		{
+			$query->where( 'tbl.product_rating >= ' . ( float ) $filter_rating );
+		}
+		
 		if ( strlen( $filter_id_to ) )
 		{
 			$query->where( 'tbl.product_id <= ' . ( int ) $filter_id_to );
