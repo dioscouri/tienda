@@ -6,6 +6,7 @@ $values = @$vars->values;
 $formName = 'adminForm_'.$item->product_id; 
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+Tienda::load( 'TiendaUrl', 'library.url' );
 ?>
 
 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
@@ -20,7 +21,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
        	<!-- For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates) -->       
     	<br />
     	<?php if(TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
-    	<?php echo TiendaUrl::popup( JRoute::_($this->shipping_cost_link.'&tmpl=component'), JText::_( "LINK_TO_SHIPPING_COST" ) ); ?>
+    	<?php echo TiendaUrl::popup( JRoute::_($vars->shipping_cost_link.'&tmpl=component'), JText::_( "LINK_TO_SHIPPING_COST" ) ); ?>
     	<?php endif;?> 
     </span>
     <?php endif; ?>
