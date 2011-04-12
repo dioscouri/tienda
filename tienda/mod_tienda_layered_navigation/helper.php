@@ -55,7 +55,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	//TODO: REMOVE THIS
     	//$session	=& JFactory::getSession();
 		//$registry	=& $session->get('registry');	
-		//debug(999999, $registry);
+		//debug(111111, $registry);
     }      
     
     /**
@@ -286,145 +286,158 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     }   
 
     /**
-     * 
-     * Enter description here ...
-     * @return unknown_type
+     * Method to get the attributes with options of the current products     
+     * @return array
      */
     function getAttributes()
     {
-        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-        
-    	$items = $this->_products;
-    	if(empty($items))
+		Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); 	
+		
+		$finalAttributes = array();		
+   	 	
+		//check if we have products 
+		// get products if no products
+    	if(empty($this->_products))
     	{
-    		$items = $this->getProducts();
-    		$this->_products = $items;	
+    		$this->_products = $this->getProducts();    		
     	}
-    	    	
+		
+    	//check if we have pids
+    	//else get the pids from $this->_products
     	if(empty($this->_pids))
     	{
 	    	$pids = array();
-	    	foreach($items as $item)
+	    	foreach($this->_products as $item)
 	    	{
 	    		$pids[] = $item->product_id;
 	    	}
 	    	$this->_pids = $pids;
-    	}    	
-
-    	//we will retun an empty array if we dont have pids
-    	if(empty($this->_pids))
-    	{
-    		return array();
-    	}
+    	}    
     	
+    	//retun if we dont have pids
+    	if(empty($this->_pids)) return $finalAttributes;
+    			
+    	//check if we TiendaQuery class exist
     	if(!class_exists('TiendaQuery'))
     	{
     		Tienda::load( 'TiendaQuery', 'library.query' );
     	}
     			
+    	//get the attributes of the current products
     	$query = new TiendaQuery();
 		$query->select( 'tbl.product_id' );	
 		$query->select( 'tbl.productattribute_name' );	
 		$query->select( 'tbl.productattribute_id' );	
-		$query->from('#__tienda_productattributes AS tbl');  
-		if (!empty($this->_pids))
-		{
-		    $query->where( "tbl.product_id IN ('" . implode("', '", $this->_pids) . "')" );
-		}
-					
+		$query->from('#__tienda_productattributes AS tbl');  		
+		$query->where( "tbl.product_id IN ('" . implode("', '", $this->_pids) . "')" );
 		$this->_db->setQuery( (string) $query );
 		$attributes = $this->_db->loadObjectList(); 
-
-		if(empty($attributes)) return array();
 		
-		$optionsA = array();
-		$attriNameA = array();
-		$trackAttri = array();		
+		//return if no available attributes
+		if(empty($attributes)) return $finalAttributes;
+		
+		$options = array();
+		//loop to get the available options of the attribute
     	foreach($attributes as $attribute)
-		{									
-			$options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);			
+		{		
+			$attribute->productattribute_options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);;	
+			
 			$optionKey = array();		
-			foreach($options as $option)
+			foreach($attribute->productattribute_options as $option)
 			{
 				$optionKey["{$attribute->productattribute_id}|{$option->productattributeoption_id}"] = "{$attribute->productattribute_name}:::{$option->productattributeoption_name}";				
 			}					
-			$optionsA = array_merge($optionsA, $optionKey);							
-			$attribute->productattribute_options = $options;	
+			$options = array_merge($options, $optionKey);							
+			
 		}
+	
+		//count the total of products available for the particular option
+		$count_values = array_count_values($options);
 		
-		//passed for filters	
-		$this->_options = $optionsA;
+		$this->_options = array_keys($count_values);
 
-		$count_values = array_count_values($optionsA);
-
-		//track so that we will not showing same attribute
-		$trackA = array();	
-		$newAttributes = array();
-		
 		$app = JFactory::getApplication();
 		$ns = $app->getName().'::'.'com.tienda.model';    	
 		$this->_filter_attributeoptionname = array_filter($app->getUserStateFromRequest($ns.'.productsattributeoptionname', 'filter_productsattributeoptionname', array(), 'array'), 'strlen');
-	
-		foreach($attributes as $attribute)
-		{
-			if(!in_array($attribute->productattribute_name, $trackA))
+ 		
+    	//loop to get the attibutes with options to be shown in module
+    	//need to track the option if its already occur to avoid in the previous attribute to avoid having same option filter
+    	$trackOpts = array();
+    	foreach($attributes as $attribute)
+    	{
+    		if(!in_array($attribute->productattribute_name, $trackOpts))
 			{
+				//create new attribute object
 				$newAttriObj = new stdClass();
 				$newAttriObj->productattribute_name = $attribute->productattribute_name;
-				$newAttriObj->productattribute_id = $attribute->productattribute_id;
+				$newAttriObj->productattribute_id = $attribute->productattribute_id;				
+				
+				//loop to get all options available
 				foreach($attribute->productattribute_options as $option)
 				{					
-					//make it unique => :::
-					$index = "{$attribute->productattribute_name}:::{$option->productattributeoption_name}";
-					$option->total = $count_values[$index];
+					//get the product total for the option					
+					$option->total = $count_values["{$attribute->productattribute_name}:::{$option->productattributeoption_name}"];
+					
+					//build the link for each option
 					$link = $this->_link.'&filter_category='.$this->_filter_category;
-				
-					//get the attribute_id
+					
+					//prepare the &filter_attribute_set					
 					$attriA = array();
-					foreach($optionsA as $key=>$value)
+					foreach($options as $key=>$value)
 					{					
-						if($value == $index)
+						if($value == "{$attribute->productattribute_name}:::{$option->productattributeoption_name}")
 						{
 							$explode = explode('|', $key);
 							$attriA[]= $explode[0];	
 						}
 					}					
-					//if $this->_filter_attribute_set is not empty
+					
+					//check if the attribute_set filter in the session is not empty
+					// merge with the attributes id we get from the query
 					$setA = array();
 					if(!empty($this->_filter_attribute_set))
-					{
-						$setA = explode(',', $this->_filter_attribute_set);
-						$attriA = array_unique(array_merge($setA, $attriA));
-					}			
-										
-					$link .= '&filter_attribute_set='.implode(',', $attriA);	
-									
-					if(!empty($this->_filter_attributeoptionname))
-					{
-						foreach($this->_filter_attributeoptionname as $k=>$val)
-						{
-							if(!empty($val))
-							{
-								$link .= '&filter_attributeoptionname['.$k.']='.$val;
-							}												
-						}
-					}
-										
-					$link .= '&filter_attributeoptionname['.$option->productattributeoption_id.']='.$option->productattributeoption_name;					
+					{						
+						$attriA = array_unique(array_merge(explode(',', $this->_filter_attribute_set), $attriA));
+					}	
 					
-					$option->link = $link;
-				}
+					$filter_attribute_set = implode(',', $attriA);
+					$link .= '&filter_attribute_set='.$filter_attribute_set;
 				
-				$newAttriObj->productattribute_options = $attribute->productattribute_options;
+					//create filter for tracking the optionname being click
+					//it will be used in the currently shopping by
+					//$this->_filter_attributeoptionname format will be filter_attributeoptionname['optionname'] = category|attribute_set
+					if(array_key_exists($option->productattributeoption_name, $this->_filter_attributeoptionname))
+					{
+						//recreate the filter_attribute_set							
+						$link .= '&filter_attributeoptionname['.$option->productattributeoption_name.']='.implode(',', array_unique(array_merge(explode(',', $this->_filter_attributeoptionname[$option->productattributeoption_name]), $attriA)));
+					}
+					else
+					{
+						$link .= '&filter_attributeoptionname['.$option->productattributeoption_name.']='.$filter_attribute_set;
+					}
+					
+					//loop $this->_filter_attributeoptionname to append
+					foreach($this->_filter_attributeoptionname as $keyopt=>$optname)
+					{
+						//check if not $option->productattributeoption_name
+						if($keyopt!=$option->productattributeoption_name)
+						{
+							$link .= '&filter_attributeoptionname['.$keyopt.']='.$optname;					
+						}
+					}				
+					
+					$option->link = $link;					
+				}	
 				
-				$newAttriObj->link = $this->_link.'&filter_category='.$this->_filter_category;
+				$newAttriObj->productattribute_options = $attribute->productattribute_options;				
+				$newAttriObj->link = $this->_link.'&filter_category='.$this->_filter_category;				
+				$finalAttributes[] = $newAttriObj;				
 				
-				$newAttributes[] = $newAttriObj;
-			}			
-			$trackA[] = $attribute->productattribute_name;
-		}
-	
-		return $newAttributes;    	
+				$trackOpts[] = $attribute->productattribute_name;			
+			}
+    	}
+    
+		return $finalAttributes;
     }  
     
     /**
@@ -500,59 +513,36 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	if(!empty($this->_filter_attribute_set))
 		{
 			$attriA = explode(',', $this->_filter_attribute_set);
-			
-			//remove atttributes
-			$newOptionsA = array();
-			foreach($this->_options as $op=>$option)
+
+			$options = array();
+			foreach($this->_options as $opt)
 			{
-				$opStr = explode('|', $op);
-				$newOptionsA[$opStr[1]] = $option;
+				$explodetxt = explode(':::', $opt);
+				$options[$explodetxt[1]] = $explodetxt[0];
 			}
-		
+
 			foreach($this->_filter_attributeoptionname as $key=>$value)
 			{
-				$labelA = explode(':::', $newOptionsA[$key]);
-				$label = $labelA[0];				
-			
-				//loop to get attribute ids with the combi=$newOptionsA[$key] from $this->_options		
-				$newSet = array();				
-				foreach($this->_options as $op=>$option)
-				{					
-					if($option == $newOptionsA[$key])
-					{
-						$opA = explode('|', $op);
-						$newSet[] = $opA[0];
-					}
-				}	
-			
 				$attriObj = new stdClass();
-				$attriObj->label = $label;
-				$attriObj->value = $value;
-				
-				//remove from filter set
-				$origSet = explode(',', $this->_filter_attribute_set);				
-				$sets = array_diff($origSet, $newSet);				
+				$attriObj->label = $options[$key];
+				$attriObj->value = $key;
 				
 				$link = '';
-				foreach($this->_filter_attributeoptionname as $k=>$val)
+				$aset = array();
+				//loop to create the option link
+				foreach($this->_filter_attributeoptionname as $k=>$v)
 				{
-					if($k == $key && !empty($val))
+					if($key != $k)
 					{
-						$link .= '&filter_attributeoptionname['.$k.']=';
+						$link .= '&filter_attributeoptionname['.$k.']='.$v;
+						$aset = array_unique(array_merge(explode(',', $v), $aset));						
 					}
-					else 
-					{
-						if(!empty($val))
-						{
-							$link .= '&filter_attributeoptionname['.$k.']='.$val;
-						}		
-					}																
 				}
-				
-				$attriObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_attribute_set='.implode(',', $sets).$link;
-				
+								
+				$link .= '&filter_attributeoptionname['.$key.']=';						
+				$attriObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_attribute_set='.implode(',', $aset).$link;
 				$filters[] = $attriObj;
-			}			
+			}
 		}
 		
 		if($this->_multi_mode)
