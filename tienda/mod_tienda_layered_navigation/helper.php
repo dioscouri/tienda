@@ -129,6 +129,78 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	return $items;
     }
     
+    /**
+     * Method to get the ratings filter
+     * return array    
+     */
+    function getRatings()
+    {
+    	$ratings = array();    
+    	 	
+    	if($this->_view != 'products') return $ratings;
+
+    	if(empty($this->_products))
+	    {  
+	        $this->_products = $this->getProducts();
+	    }
+	    
+	    $ratingFirst 	= 0;
+	    $ratingSecond	= 0;
+	    $ratingThird 	= 0;
+	    $ratingFourth	= 0;
+	    //loop the products to get the total of products for each rating
+	    foreach($this->_products as $product)
+	    {
+	    	if($product->product_rating >= 1)
+	    	{
+	    		$ratingFirst++;
+	    		
+	    		if($product->product_rating >= 2)
+	    		{
+	    			$ratingSecond++;
+	    			if($product->product_rating >= 3)
+	    			{
+	    				 $ratingThird++;
+		    			if($product->product_rating >= 4)
+		    			{
+		    				 $ratingFourth++;
+		    			}
+	    			}
+	    		}	    		
+	    	}
+	    }	    
+    	$link = $this->_link.'&filter_category='.$this->_filter_category;	    	
+    	
+	    Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+	   		
+		
+		$ratingFourthObj = new stdClass();
+		$ratingFourthObj->rating_name = TiendaHelperProduct::getRatingImage( 4 );
+		$ratingFourthObj->link = JRoute::_( $link.'&filter_rating=4' );	
+		$ratingFourthObj->total = $ratingSecond;
+		$ratings[] = $ratingFourthObj;	
+		
+		$ratingThirdObj = new stdClass();
+		$ratingThirdObj->rating_name = TiendaHelperProduct::getRatingImage( 3 );
+		$ratingThirdObj->link = JRoute::_( $link.'&filter_rating=3' );	
+		$ratingThirdObj->total = $ratingSecond;
+		$ratings[] = $ratingThirdObj;
+
+		$ratingSecondObj = new stdClass();
+		$ratingSecondObj->rating_name = TiendaHelperProduct::getRatingImage( 2 );
+		$ratingSecondObj->link = JRoute::_( $link.'&filter_rating=2' );	
+		$ratingSecondObj->total = $ratingSecond;
+		$ratings[] = $ratingSecondObj;
+		
+		$ratingFirstObj = new stdClass();
+		$ratingFirstObj->rating_name = TiendaHelperProduct::getRatingImage( 1 );
+		$ratingFirstObj->link = JRoute::_( $link.'&filter_rating=1' );	
+		$ratingFirstObj->total = $ratingFirst;
+		$ratings[] = $ratingFirstObj;
+	  
+    	return $ratings;
+    }    
+    
     /**      
      * Method to get the manufacturers based on the current view
      * @return array
@@ -136,8 +208,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getManufacturers()
     {    	
     	$brandA = array();
-    	$view = JRequest::getVar('view');    	
-    	if($view != 'products') return $brandA;
+    	   	
+    	if($this->_view != 'products') return $brandA;
 
     	if(empty($this->_products))
 	    {  
