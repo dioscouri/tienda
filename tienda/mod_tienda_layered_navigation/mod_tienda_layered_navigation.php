@@ -27,6 +27,7 @@ $categories = $helper->getCategories();
 $manufacturers = $helper->getManufacturers();
 $priceRanges = $helper->getPriceRanges();
 $attributes = $helper->getAttributes();
+$ratings = $helper->getRatings();
 $found = $helper->getCondition();
 $trackcatcount = $helper->getTrackCatCount();
 $filters = $helper->getFilters();

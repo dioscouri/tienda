@@ -90,6 +90,31 @@
 	<?php endforeach;?>
 <?php endif;?>
 
+<?php if(count($ratings) > 0):?>
+	<h3><?php echo JText::_('Avg. Customer Rating');?></h3>
+	<ul id="tienda_browse_rating">
+		<?php foreach($ratings as $rating):?>
+			<?php if($rating->total > 0):?>
+			<li>
+				<a href="<?php echo $rating->link;?>">
+					<span class="refinementLink">
+						<?php echo $rating->rating_name;?>
+					</span>
+				</a>
+				<a href="<?php echo $rating->link;?>">
+					<span class="refinementLink">
+						<?php echo JText::_('& Up');?>
+					</span>
+				</a>				
+				<span class="narrowValue">
+					(<?php echo $rating->total;?>)
+				</span>							
+			</li>
+			<?php endif;?>
+		<?php endforeach;?>
+	</ul>
+<?php endif;?>
+
 <?php if(count($manufacturers) > 0):?>
 	<h3><?php echo JText::_('MANUFACTURERS');?></h3>
 	<ul id="tienda_browse_manufacturer">
