@@ -40,6 +40,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
+		<param name="filter_rating" type="list" default="1" label="Filter By Rating" description="Include filtering of product by product rating.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="filter_attributes" type="list" default="1" label="Filter By Attributes" description="Included filtering of product by attributes.">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
