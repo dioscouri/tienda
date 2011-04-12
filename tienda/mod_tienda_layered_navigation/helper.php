@@ -112,7 +112,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	                $pmodel->setState('filter_category', $item->category_id);
 	                //make sure that it is enabled
 	                $pmodel->setState('filter_enabled', '1');
-	                $pmodel->setState('filter_quantity_from', '1');	               
+	                $pmodel->setState('filter_quantity_from', '1');	    
+	                $pmodel->setState('filter_attribute_set', $this->_filter_attribute_set);           
 		            $item->product_total = $pmodel->getTotal();	   	    	       
 		    	   	$item->link = JRoute::_($this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid);		    		
 		    		
