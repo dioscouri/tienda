@@ -274,49 +274,51 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getPriceRanges()
     {
     	$ranges = array();    	
+    	 
+    	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_price') || $this->_filter_price_from ||  $this->_filter_price_to) return $ranges;
     	
-    	$price_from = JRequest::getVar('filter_price_from');
-    	$price_to = JRequest::getVar('filter_price_to');
+    	$link = $this->_link.'&filter_category='.$this->_filter_category;
     	
-    	if($price_from || $price_to)
-    	{
-    		return $ranges;
-    	}
-    	
-    	if(empty($this->_filter_category) && $this->_view != 'manufacturers')
-    	{
-    		return $ranges;
-    	} 
-    	$items = $this->_products;
-
-    	if(empty($items))    	
-    	{
-    		$items = $this->getProducts();
-    		$this->_products = $items;
-    	}
-
-        if(!empty($items))
-        {        	
-        	$priceHigh = abs( $items['0']->price );   
-        	
-        	$glueZero = '';
-       	
+    	//automatically create price ranges
+    	if( $this->_params->get('auto_price_range') )
+    	{    		
+    		$items = $this->_products;
+    		    		
+    		//get the highest price
+    		$priceHigh = abs( floor($items['0']->price) ); 
+    		
+    		$glueZero = '';    		       	
   			for( $i = 1; $i < strlen($priceHigh); $i++ )
         	{
         		$glueZero .= '0'; 
         	}
         	
-        	$priceHigh = (substr($priceHigh, 0, 1) + 1).$glueZero;  			
-        	$range = "1{$glueZero}";
-      	  	
-			$link = $this->_link.'&filter_category='.$this->_filter_category;
-										
-			$ranges = array();
+        	$priceHigh = $this->roundToNearest($priceHigh, '1'.$glueZero);
+        	
+        	//get if we are in 1, 10, 100, 1000, 10000,... 
+    		$places =strlen($priceHigh);
+        	    		
+    		//only 1 product
+    		if(count($items) < 2)
+    		{    			
+    			$rangeObj = new stdClass();	
+				$rangeObj->price_from = 0;
+				$rangeObj->price_to = $priceHigh;
+    			$rangeObj->total = 1;		
+				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
+				$ranges[] = $rangeObj;    
+				return 	$ranges;		
+    		}
+    		
+    		//get the range
+    		$range = "1{$glueZero}";
+  		       		
+    	
 			for($i = 0; $i <= (substr($priceHigh, 0, 1) - 1); $i++)
 			{
-				$rangeObj = new stdClass();	
-				$rangeObj->price_from = $i == 0 ? 0 : (int) $range * $i;
-				$rangeObj->price_to = $i == 0 ? (int) $range : (int) $range * ( $i + 1 );
+				$rangeObj = new stdClass();
+				$rangeObj->price_from = $i == 0 ? 0 : $range * $i;
+				$rangeObj->price_to = $i == 0 ? (int) $range : ((int) $range * $i) + (int) $range;
 				
 				$pids = array();
 			    $total_product = 0;
@@ -334,11 +336,30 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				$rangeObj->total = $total_product;		
 				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
 				$ranges[] = $rangeObj;		
-			}        	
-        }
-         
+			}  
+    		
+    	}
+    	else
+    	{
+    		
+    	}
+     	         
     	return $ranges;
     }   
+    
+    private function roundToNearest($number,$nearest=100, $roundUp = true)
+    {
+    	$number = round($number);
+  
+      	if($nearest>$number || $nearest <= 0)
+      	{
+      		return $number;
+      	}
+             
+      	$mod = ($number%$nearest);  
+          
+      	return ($mod<($nearest/2)) || $roundUp ? $number+($nearest-$mod) : $number-$mod;
+    }
 
     /**
      * Method to get the attributes with options of the current products     
