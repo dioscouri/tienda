@@ -823,7 +823,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptionvalues` (
     FOREIGN KEY (`productattributeoption_id` )
     REFERENCES `#__tienda_productattributeoptions` (`productattributeoption_id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION
 ) 
 ENGINE=InnoDB  
 DEFAULT CHARSET=utf8;
