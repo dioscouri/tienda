@@ -132,9 +132,9 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      */
     function getRatings()
     {
-    	$ratings = array();    
+    	$ratings = array();  
     	
-    	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_rating') ) return $ratings;
+    	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_rating') || !TiendaConfig::getInstance( )->get( 'product_review_enable' )) return $ratings;
     		    
 	    $ratingFirst 	= 0;
 	    $ratingSecond	= 0;
@@ -278,12 +278,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_price') || $this->_filter_price_from ||  $this->_filter_price_to) return $ranges;
     	
     	$link = $this->_link.'&filter_category='.$this->_filter_category;
+    	$items = $this->_products;
     	
     	//automatically create price ranges
     	if( $this->_params->get('auto_price_range') )
-    	{    		
-    		$items = $this->_products;
-    		    		
+    	{    		    		    		
     		//get the highest price
     		$priceHigh = abs( floor($items['0']->price) ); 
     		
@@ -341,6 +340,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	}
     	else
     	{
+    		$price_range_set = $this->_params->get('price_range_set');
+    		debug(999999, $price_range_set);
     		
     	}
      	         
