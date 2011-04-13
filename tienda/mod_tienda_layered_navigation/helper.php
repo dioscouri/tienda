@@ -17,14 +17,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_db 					= null;
 	private $_params 				= null;
 	private $_multi_mode 			= true;		
-	private $_catfound 				= false;
-	private $_manufound				= false;
-	private $_pricefound			= false;
-	private $_attrifound			= false;
+	private $_catfound 				= false;	
 	private $_link 					= 'index.php?option=com_tienda&view=products';
 	private $_itemid				= null;
 	private $_trackcatcount 		= 0;
-	private $_products				= null;
+	private $_products				= array();
 	private $_pids					= array();
 	private $_view					= '';
 	private $_filter_category		= '';
@@ -65,7 +62,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      */
     function getCondition()
     {
-    	return $this->_catfound ||$this->_manufound || $this->_pricefound || $this->_attrifound ? true : false;  	
+    	return $this->_catfound || count($this->_products) ? true : false;  	
     }    
     
     /**
@@ -136,14 +133,9 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getRatings()
     {
     	$ratings = array();    
-    	 	
-    	if($this->_view != 'products') return $ratings;
-
-    	if(empty($this->_products))
-	    {  
-	        $this->_products = $this->getProducts();
-	    }
-	    
+    	
+    	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_rating') ) return $ratings;
+    		    
 	    $ratingFirst 	= 0;
 	    $ratingSecond	= 0;
 	    $ratingThird 	= 0;
@@ -172,8 +164,6 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$link = $this->_link.'&filter_category='.$this->_filter_category;	    	
     	
 	    Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-	   		
-		
 		$ratingFourthObj = new stdClass();
 		$ratingFourthObj->rating_name = TiendaHelperProduct::getRatingImage( 4 );
 		$ratingFourthObj->link = JRoute::_( $link.'&filter_rating=4' );	
@@ -209,12 +199,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     {    	
     	$brandA = array();
     	   	
-    	if($this->_view != 'products') return $brandA;
-
-    	if(empty($this->_products))
-	    {  
-	        $this->_products = $this->getProducts();
-	    }
+    	if( $this->_view != 'products' || empty($this->_products) ) return $brandA;
 	    
     	$setA = explode(',', $this->_filter_manufacturer_set);
     	$pids = array();
@@ -242,8 +227,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		if(!empty($brandA))
 		{			
 			foreach($brandA as $key=>$value)
-			{
-				
+			{				
 				$link = $this->_link.'&filter_category='.$this->_filter_category;	
 				
 				if($this->_multi_mode)				
@@ -289,9 +273,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      */
     function getPriceRanges()
     {
-    	$ranges = array();
+    	$ranges = array();    	
     	
-    	$view = JRequest::getVar('view');
     	$price_from = JRequest::getVar('filter_price_from');
     	$price_to = JRequest::getVar('filter_price_to');
     	
@@ -300,7 +283,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     		return $ranges;
     	}
     	
-    	if(empty($this->_filter_category) && $view != 'manufacturers')
+    	if(empty($this->_filter_category) && $this->_view != 'manufacturers')
     	{
     		return $ranges;
     	} 
@@ -313,8 +296,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	}
 
         if(!empty($items))
-        {
-        	$this->_pricefound = true;
+        {        	
         	$priceHigh = abs( $items['0']->price );   
         	
         	$glueZero = '';
@@ -363,17 +345,11 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      * @return array
      */
     function getAttributes()
-    {
-		Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); 	
-		
-		$finalAttributes = array();		
-   	 	
-		//check if we have products 
-		// get products if no products
-    	if(empty($this->_products))
-    	{
-    		$this->_products = $this->getProducts();    		
-    	}
+    {				
+		$finalAttributes = array();	
+    	if($this->_view != 'products' || empty($this->_products) ) return $finalAttributes;
+    	
+    	Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); 	
 		
     	//check if we have pids
     	//else get the pids from $this->_products
@@ -533,7 +509,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');    	    	
         $this->_filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');      
         $this->_filter_price_from = $app->getUserStateFromRequest($ns.'.price_from', 'filter_price_from', '0', 'int');
-        $this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');        
+        $this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');    
+        $this->_filter_rating = $app->getUserStateFromRequest($ns.'.rating', 'filter_rating', '0', 'int');     
          	
     	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
         $model->setState('filter_category', $this->_filter_category);  
@@ -551,11 +528,12 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
        
        	$model->setState('filter_attribute_set', $this->_filter_attribute_set);      
      	$model->setState('filter_price_from', $this->_filter_price_from);           
-        $model->setState('filter_price_to', $this->_filter_price_to);        
-	    $model->setState( 'order', 'price' );
-        $model->setState( 'direction', 'DESC' ); 
+        $model->setState('filter_price_to', $this->_filter_price_to);     
+        $model->setState('filter_rating', $this->_filter_rating);	
         $model->setState('filter_enabled', '1');
 	    $model->setState('filter_quantity_from', '1');	
+	    $model->setState( 'order', 'price' );
+        $model->setState( 'direction', 'DESC' ); 
         $items = $model->getList();  
   
         return $items;
@@ -618,6 +596,15 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			}
 		}
 		
+    	if($this->_filter_rating && $this->_params->get('filter_rating'))
+		{			
+			$ratingObj = new stdClass();
+			$ratingObj->label = JText::_('Rating');
+			$ratingObj->value = TiendaHelperProduct::getRatingImage( (float) $this->_filter_rating ).' '.JText::_('& Up');
+			$ratingObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_rating=0';		
+			$filters[] = $ratingObj;
+		}
+		
 		if($this->_multi_mode)
 		{
 			if(!empty($this->_filter_manufacturer_set))
@@ -652,6 +639,6 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getAttributeOptions()
     {
     	return $this->_filter_attributeoptionname;
-    }
+    }   
 }
 ?>   

@@ -93,8 +93,7 @@
 <?php if(count($ratings) > 0):?>
 	<h3><?php echo JText::_('Avg. Customer Rating');?></h3>
 	<ul id="tienda_browse_rating">
-		<?php foreach($ratings as $rating):?>
-			<?php if($rating->total > 0):?>
+		<?php foreach($ratings as $rating):?>		
 			<li>
 				<a href="<?php echo $rating->link;?>">
 					<span class="refinementLink">
@@ -109,8 +108,7 @@
 				<span class="narrowValue">
 					(<?php echo $rating->total;?>)
 				</span>							
-			</li>
-			<?php endif;?>
+			</li>			
 		<?php endforeach;?>
 	</ul>
 <?php endif;?>

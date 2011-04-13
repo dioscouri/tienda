@@ -32,5 +32,4 @@ $found = $helper->getCondition();
 $trackcatcount = $helper->getTrackCatCount();
 $filters = $helper->getFilters();
 $attributeOptions = $helper->getAttributeOptions();
-
 require( JModuleHelper::getLayoutPath( 'mod_tienda_layered_navigation' ) );

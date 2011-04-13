@@ -60,3 +60,9 @@ ul.tienda_browse_currently .btn-remove
     width: 12px;
     background-image: url("../images/close.png");
 }
+
+.tienda_browse_currently .value img, #tienda_browse_rating .refinementLink img 
+{
+	height: 14px;
+	margin-bottom: 7px;
+}
