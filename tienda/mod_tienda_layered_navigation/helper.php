@@ -199,7 +199,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     {    	
     	$brandA = array();
     	   	
-    	if( $this->_view != 'products' || empty($this->_products) ) return $brandA;
+    	if( $this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_manufacturer') ) return $brandA;
 	    
     	$setA = explode(',', $this->_filter_manufacturer_set);
     	$pids = array();
@@ -347,6 +347,13 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	return $ranges;
     }   
     
+    /**
+     * Method to round a number to nearest 10, 100, 1000 ...
+     * @param int - $number
+     * @param int - nearest
+     * @param booleam
+     * @return int
+     */
     private function roundToNearest($number,$nearest=100, $roundUp = true)
     {
     	$number = round($number);
@@ -368,7 +375,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     function getAttributes()
     {				
 		$finalAttributes = array();	
-    	if($this->_view != 'products' || empty($this->_products) ) return $finalAttributes;
+    	if($this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_attributes')) return $finalAttributes;
     	
     	Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); 	
 		
@@ -399,10 +406,14 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		$query->select( 'tbl.productattribute_name' );	
 		$query->select( 'tbl.productattribute_id' );	
 		$query->from('#__tienda_productattributes AS tbl');  		
+		
+		//explode first because mysql needs the attribute ids inside a quote
+		$excluded_attributes = explode( ',', $this->_params->get('excluded_attributes'));			
+		$query->where( "tbl.productattribute_id NOT IN ('" . implode("', '", $excluded_attributes) . "')" );	
 		$query->where( "tbl.product_id IN ('" . implode("', '", $this->_pids) . "')" );
 		$this->_db->setQuery( (string) $query );
 		$attributes = $this->_db->loadObjectList(); 
-		
+
 		//return if no available attributes
 		if(empty($attributes)) return $finalAttributes;
 		
@@ -527,7 +538,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	
     	$app = JFactory::getApplication(); 
     	$ns = $app->getName().'::'.'com.tienda.model.products';
-    	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '', 'int');    	    	
+    	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '0', 'int');    	    	
         $this->_filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');      
         $this->_filter_price_from = $app->getUserStateFromRequest($ns.'.price_from', 'filter_price_from', '0', 'int');
         $this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');    
