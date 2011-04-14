@@ -31,6 +31,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_filter_price_to		= '';	
 	private $_filter_attribute_set	= '';	
 	private $_filter_attributeoptionname = array();
+	private $_filter_rating			= '';
 	private $_options				= array();	
 	public $brands					= null;
 	public $category_current		= null;
@@ -47,12 +48,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
         $this->_multi_mode 	= $params->get('multi_mode', 1); 
     	$this->_itemid 		= JRequest::getInt('Itemid');    	
     	$this->_view 		= JRequest::getVar('view');    	
-    	$this->_products = $this->getProducts();    		
-
-    	//TODO: REMOVE THIS
-    	//$session	=& JFactory::getSession();
-		//$registry	=& $session->get('registry');	
-		//debug(111111, $registry);
+    	$this->_products = $this->getProducts(); 
     }      
     
     /**
@@ -109,8 +105,23 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	                $pmodel->setState('filter_category', $item->category_id);
 	                //make sure that it is enabled
 	                $pmodel->setState('filter_enabled', '1');
-	                $pmodel->setState('filter_quantity_from', '1');	    
-	                $pmodel->setState('filter_attribute_set', $this->_filter_attribute_set);           
+	                //make sure the product is available
+	                $pmodel->setState('filter_quantity_from', '1');	 
+	                //add filters from user session   
+	                $pmodel->setState('filter_attribute_set', $this->_filter_attribute_set);   
+	                $pmodel->setState('filter_price_from', $this->_filter_price_from); 
+	                $pmodel->setState('filter_price_to', $this->_filter_price_to);
+	                $pmodel->setState('filter_rating', $this->_filter_rating);	                
+	                
+	                if($this->_multi_mode)
+	                {
+	                	 $pmodel->setState('filter_manufacturer_set', $this->_filter_manufacturer_set); 
+	                }
+	                else
+	                {
+	                	 $pmodel->setState('filter_manufacturer', $this->_filter_manufacturer); 	
+	                }
+	                
 		            $item->product_total = $pmodel->getTotal();	   	    	       
 		    	   	$item->link = JRoute::_($this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid);		    		
 		    		
@@ -258,6 +269,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		    			$total++;
 		    		}
 		    	}
+				if(!$total) continue;	
 				
 				$brandObj->total = $total;
 				$brands[] = $brandObj;			
@@ -280,19 +292,19 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$link = $this->_link.'&filter_category='.$this->_filter_category;
     	$items = $this->_products;
     	
+    	//get the highest price
+    	$priceHigh = abs( floor($items['0']->price) );
+    	
     	//automatically create price ranges
     	if( $this->_params->get('auto_price_range') )
-    	{    		    		    		
-    		//get the highest price
-    		$priceHigh = abs( floor($items['0']->price) ); 
-    		
+    	{    		
     		$glueZero = '';    		       	
   			for( $i = 1; $i < strlen($priceHigh); $i++ )
         	{
         		$glueZero .= '0'; 
         	}
         	
-        	$priceHigh = $this->roundToNearest($priceHigh, '1'.$glueZero);
+        	$priceHigh = $this->roundToNearest($priceHigh, '1'.$glueZero, '1');
         	
         	//get if we are in 1, 10, 100, 1000, 10000,... 
     		$places =strlen($priceHigh);
@@ -310,8 +322,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     		}
     		
     		//get the range
-    		$range = "1{$glueZero}";
-  		       		
+    		$range = "1{$glueZero}";  		       		
     	
 			for($i = 0; $i <= (substr($priceHigh, 0, 1) - 1); $i++)
 			{
@@ -319,19 +330,17 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				$rangeObj->price_from = $i == 0 ? 0 : $range * $i;
 				$rangeObj->price_to = $i == 0 ? (int) $range : ((int) $range * $i) + (int) $range;
 				
-				$pids = array();
-			    $total_product = 0;
+				   $total_product = 0;
 			    foreach($items as $item)
-			    {
-			    	$pids[] = $item->product_id;
+			    {			    	
 			    	if(($item->price >= $rangeObj->price_from) && ($item->price <= $rangeObj->price_to))
 			    	{
 			    		$total_product++;
 			    	}	
-			    }
+			    }		  
+			      
+				if(!$total_product) continue;	
 			    
-			    $this->_pids = $pids;		
-	           
 				$rangeObj->total = $total_product;		
 				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
 				$ranges[] = $rangeObj;		
@@ -339,12 +348,62 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     		
     	}
     	else
-    	{
-    		$price_range_set = $this->_params->get('price_range_set');
-    		debug(999999, $price_range_set);
+    	{    		
+    		$price_range_set = $this->_params->get('price_range_set', '0:100');   		
     		
+    		$setXplodes = explode('|', $price_range_set);
+    		$catA = array();
+    		foreach($setXplodes as $setXplode)
+    		{
+    			$catSet = explode(':', $setXplode);
+    			if(count($catSet) == '2')
+    			{
+    				$catA[$catSet[0]] = $catSet[1];
+    			}    			
+    		}
+    		
+    		$increment =  array_key_exists($this->_filter_category, $catA) ? $catA[$this->_filter_category] : $catA[0]; 
+			$priceHigh = $this->roundToNearest($priceHigh, $increment, '1');
+			$priceLow = abs( floor($items[count($items)-1]->price) );
+
+			$priceLow = $priceLow > $increment ? $this->roundToNearest($priceLow, $increment, '2') : 0;
+					
+    		//only 1 product
+    		if(count($items) < 2)
+    		{    			
+    			$rangeObj = new stdClass();	
+				$rangeObj->price_from = $priceHigh-$increment;
+				$rangeObj->price_to = $priceHigh;
+    			$rangeObj->total = 1;		
+				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
+				$ranges[] = $rangeObj;    
+				return 	$ranges;		
+    		}
+    		
+    		for($i = ($priceLow / $increment); $i <= ($priceHigh / $increment); $i++)
+			{
+				$rangeObj = new stdClass();
+				$rangeObj->price_from = $i == ($priceLow / $increment) ? $priceLow : $increment * $i;
+				$rangeObj->price_to = $i == ($priceLow / $increment) ? (int) $priceLow + (int) $increment : ((int) $increment * $i) + (int) $increment;
+								
+			    $total_product = 0;
+			    foreach($items as $item)
+			    {			    	
+			    	if(($item->price >= $rangeObj->price_from) && ($item->price <= $rangeObj->price_to))
+			    	{
+			    		$total_product++;
+			    	}	
+			    }
+			  			    
+			    //if we have 0 product, we dont need to add the object so we just continue
+			    if(!$total_product) continue;		    		
+	           
+				$rangeObj->total = $total_product;		
+				$rangeObj->link = $link.'&filter_price_from='.$rangeObj->price_from.'&filter_price_to='.$rangeObj->price_to.'&Itemid='.$this->_itemid;			
+				$ranges[] = $rangeObj;		
+			}
     	}
-     	         
+          
     	return $ranges;
     }   
     
@@ -352,10 +411,10 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      * Method to round a number to nearest 10, 100, 1000 ...
      * @param int - $number
      * @param int - nearest
-     * @param booleam
+     * @param int $round - 0 => round to nearest, 1 => always round up, 2 => always round down
      * @return int
      */
-    private function roundToNearest($number,$nearest=100, $roundUp = true)
+    private function roundToNearest($number,$nearest=100, $round = '0')
     {
     	$number = round($number);
   
@@ -365,8 +424,22 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
       	}
              
       	$mod = ($number%$nearest);  
+      	
+      	switch($round)
+      	{
+      		case '2':
+      			$return = $number-$mod;
+      			break;
+      		case '1':
+      			$return = $number+($nearest-$mod);
+      			break;
+      		case '0':
+      		default:
+      			$return = $mod<($nearest/2) ? $number+($nearest-$mod) : $number-$mod;
+      			break;
+      	}
           
-      	return ($mod<($nearest/2)) || $roundUp ? $number+($nearest-$mod) : $number-$mod;
+      	return $return;
     }
 
     /**
@@ -568,7 +641,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    $model->setState( 'order', 'price' );
         $model->setState( 'direction', 'DESC' ); 
         $items = $model->getList();  
-  
+          
         return $items;
     }
     

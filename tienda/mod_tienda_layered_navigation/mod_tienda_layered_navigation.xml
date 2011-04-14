@@ -23,36 +23,37 @@
 	</languages>
 	
     <params>   
-		<param name="multi_mode" type="list" default="1" label="Multi Mode" description="Apply as many filters at the same time as you want.">
+		<param name="multi_mode" type="list" default="1" label="MULTI MODE" description="MULTI MODE DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="filter_category" type="list" default="1" label="Filter By Category" description="Include filtering of product by category">
+		<param name="filter_category" type="list" default="1" label="FILTER BY CATEGORY" description="FILTER BY CATEGORY DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
-		<param name="roottext" size="35" type="text" default="" label="Text for Root Category" description="To change to default caption of root category. ie. All Categories => Electornics" />	
-		<param name="filter_manufacturer" type="list" default="1" label="Filter By Manufacturer" description="Included filtering of product by category">
+		<param name="roottext" size="35" type="text" default="" label="TEXT FOR ROOT CATEGORY" description="TEXT FOR ROOT CATEGORY DESC" />	
+		<param name="filter_manufacturer" type="list" default="1" label="FILTER BY MANUFACTURER" description="FILTER BY MANUFACTURER">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>		
-		<param name="filter_rating" type="list" default="1" label="Filter By Rating" description="Include filtering of product by product rating.">
+		<param name="filter_rating" type="list" default="1" label="FILTER BY RATING" description="FILTER BY RATING DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="filter_attributes" type="list" default="1" label="Filter By Attributes" description="Included filtering of product by attributes.">
+		<param name="filter_attributes" type="list" default="1" label="FILTER BY ATTRIBUTES" description="FILTER BY ATTRIBUTES DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="excluded_attributes" size="35" type="text" default="" label="Excluded Attributes" description="CSV of attribute id that will not be included as filter. ie. 1,3,5" />	
-		<param name="filter_price" type="list" default="1" label="Filter By Price" description="Include filtering of product by price range.">
+		<param name="excluded_attributes" size="35" type="text" default="" label="EXCLUDED ATTRIBUTES" description="EXCLUDED ATTRIBUTES DESC" />	
+		<param name="filter_price" type="list" default="1" label="FILTER BY PRICE" description="FILTER BY PRICE DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
-		<param name="auto_price_range" type="list" default="1" label="Automatic Price Range" description="Automatically set the size of the ranges based on the prices of the products in current category.">
+		<param name="auto_price_range" type="list" default="1" label="AUTOMATIC PRICE RANGE" description="AUTOMATIC PRICE RANGE DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="price_range_set" size="50" type="text" default="" label="PRICE RANGE INCREMENTS" description="PRICE RANGE INCREMENTS DESC" />		
 	</params>    
     <params group="advanced">
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
