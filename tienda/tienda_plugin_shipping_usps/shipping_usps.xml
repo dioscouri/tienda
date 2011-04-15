@@ -37,6 +37,7 @@
 		<param name="dimension_unit" type="list" default="IN" label="Dimension Unit" description="Dimension Unit Desc">
 			<option value="IN">IN</option>
 		</param>
+		<param name="taxclass" type="tiendataxclass" size="50" default="" label="Tax Class" description="Specify the tax class to charge tax on shipping."/>
 		<param name="show_debug" type="list" default="0" label="Show Debug Messages" description="Show Debug Messages For USPS">
 			<option value="0">No</option>
             <option value="1">Yes</option>
