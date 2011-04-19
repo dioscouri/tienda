@@ -575,3 +575,30 @@ function tiendaClearInput( element, value )
         element.value = '';
     }
 }
+
+function tiendaAddProductToCompare(id, container, obj, doModal, msgAdd, msgRemove)
+{	
+	var add = 0;
+	var msg = msgRemove;
+	if(obj.checked == true) { add = 1; msg = msgAdd;}			
+	if (doModal == true) { tiendaNewModal(msg); }
+	var url = 'index.php?option=com_tienda&view=productcompare&task=addProductToCompare&format=raw&product_id='+id+'&add='+add;
+	 
+	// execute Ajax request to server
+    var a=new Ajax(url,{
+         method:"post",       
+         onComplete: function(response){
+             var resp=Json.evaluate(response, false);
+            
+             if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
+             if (resp.error == '1') 
+             {
+            	 if ($('validationmessage')) { $('validationmessage').setHTML(resp.msg); }
+             }
+             else
+             {
+            	 if ($(container)) { $(container).setHTML(resp.msg); }
+             }
+         }
+     }).request();	 
+}
