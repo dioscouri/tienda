@@ -54,10 +54,44 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
 	    $address = $order->getShippingAddress();
 	    $address = $this->checkAddress( $address );
 	    $orderItems = $order->getItems();
-	    
-        $rates = $this->getRates($address, $orderItems);
-		return $rates;
+		    
+        $rates = $this->getRates($address, $orderItems);      
         
+        $charge_tax = $this->params->get( 'charge_tax' );   
+        //check params if we charge shipping tax      
+        if($charge_tax)
+        {
+	        $geozones = $order->getShippingGeoZones();	
+			$shipping_tax_rates = array();
+			foreach($geozones as $geozone)
+			{
+				$shipping_tax_rates[$geozone->geozone_id] = $this->getTaxRate($geozone->geozone_id);
+			}
+			
+			$newRates = array();
+			foreach($rates as $rate)
+			{
+				$newRate = array();
+				$newRate['name'] = $rate['name'];
+				$newRate['code'] = $rate['code'];
+				$newRate['price'] = $rate['price'];
+				$newRate['extra'] = $rate['extra'];
+				$shipping_method_tax_total = 0;
+				foreach($shipping_tax_rates as $shipping_tax_rate)
+				{				
+					$shipping_method_tax_total += ($shipping_tax_rate/100) * ($newRate['price'] + $newRate['extra']);			    
+				}
+				$newRate['tax'] = $shipping_method_tax_total;
+				$newRate['total'] =  $rate['total'] + $newRate['tax'];
+				$newRate['element'] = $rate['element'];
+				$newRates[] = $newRate;				
+			}  
+			
+			unset($rates);
+			$rates = $newRates;
+        }        
+	
+		return $rates;        
     }
     
     /**
@@ -185,10 +219,10 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $usps->setCountry($country);
             $usps->setDebug($this->params->get( 'show_debug' ));
             $price = $usps->getPrice();
-                  
+               
             if (!empty($price->error) && is_object($price->error))
             {
-            	$this->writeToLog( implode( "\n", $usps->getErrors( ) ) );
+            	//$this->writeToLog( implode( "\n", $usps->getErrors( ) ) );
             	
             	if($this->params->get( 'show_debug' ))
             	{
@@ -234,8 +268,34 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
                 }
             }
         }
-                        
-        return $rates;
+                             
+        return $rates;        
+    }
+     
+	/**
+     * Returns the tax rate for an item   
+     * @param int $geozone_id
+     * @return int
+     */
+    protected function getTaxRate( $geozone_id )
+    {    	  	
+    	$tax_class_id = $this->params->get( 'taxclass' );            
+        $taxrate = "0.00000";
         
+        $db = JFactory::getDBO();        
+        Tienda::load( 'TiendaQuery', 'library.query' );  
+        $query = new TiendaQuery();
+        $query->select( 'tbl.tax_rate' );
+        $query->from('#__tienda_taxrates AS tbl');       
+        $query->where('tbl.tax_class_id = '.$tax_class_id);
+        $query->where('tbl.geozone_id = '.$geozone_id);
+        
+        $db->setQuery( (string) $query );
+        if ($data = $db->loadResult())
+        {
+            $taxrate = $data;
+        }
+        
+        return $taxrate;
     }
 }
