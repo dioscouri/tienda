@@ -50,9 +50,48 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 		$address = $this->checkAddress( $address );
 		$orderItems = $order->getItems( );
 		
-		$rates = $this->sendRequest( $address, $orderItems );
-		return $rates;
-		
+		$rates = $this->sendRequest( $address, $orderItems );	
+        
+		//TODO: need to used the FEDEX DutiesAndTaxes API
+        $charge_tax = $this->params->get( 'charge_tax' );   
+        //check params if we charge shipping tax      
+        if($charge_tax)
+        {
+	        $geozones = $order->getShippingGeoZones();	
+	      
+			$shipping_tax_rates = array();
+			foreach($geozones as $geozone)
+			{
+				$shipping_tax_rates[$geozone->geozone_id] = $this->getTaxRate($geozone->geozone_id);
+			}
+			
+			if(!empty($shipping_tax_rates))
+			{
+				$newRates = array();
+				foreach($rates as $rate)
+				{
+					$newRate = array();
+					$newRate['name'] = $rate['name'];
+					$newRate['code'] = $rate['code'];
+					$newRate['price'] = $rate['price'];
+					$newRate['extra'] = $rate['extra'];
+					$shipping_method_tax_total = 0;
+					foreach($shipping_tax_rates as $shipping_tax_rate)
+					{				
+						$shipping_method_tax_total += ($shipping_tax_rate/100) * ($newRate['price'] + $newRate['extra']);			    
+					}
+					$newRate['tax'] = $shipping_method_tax_total;
+					$newRate['total'] =  $rate['total'] + $newRate['tax'];
+					$newRate['element'] = $rate['element'];
+					$newRates[] = $newRate;				
+				}  
+				
+				unset($rates);
+				$rates = $newRates;
+			}
+        }        		
+	
+		return $rates;		
 	}
 	
 	function getFedexServices( )
@@ -182,7 +221,8 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 		
 		foreach ( $services as $service => $serviceName )
 		{
-			$fedex = new TiendaFedexShip;
+			$options['live'] = $this->params->get( 'site_mode' );   
+			$fedex = new TiendaFedexShip($options);
 			
 			$fedex->setKey( $key );
 			$fedex->setPassword( $password );
@@ -221,9 +261,34 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 				$this->writeToLog( implode( "\n", $fedex->getErrors( ) ) );
 			}
 		}
-		
+	
 		return $rates;
-		
 	}
 	
+	/**
+     * Returns the tax rate for an item   
+     * @param int $geozone_id
+     * @return int
+     */
+    protected function getTaxRate( $geozone_id )
+    {    	  	
+    	$tax_class_id = $this->params->get( 'taxclass' );            
+        $taxrate = "0.00000";
+        
+        $db = JFactory::getDBO();        
+        Tienda::load( 'TiendaQuery', 'library.query' );  
+        $query = new TiendaQuery();
+        $query->select( 'tbl.tax_rate' );
+        $query->from('#__tienda_taxrates AS tbl');       
+        $query->where('tbl.tax_class_id = '.$tax_class_id);
+        $query->where('tbl.geozone_id = '.$geozone_id);
+        
+        $db->setQuery( (string) $query );
+        if ($data = $db->loadResult())
+        {
+            $taxrate = $data;
+        }
+        
+        return $taxrate;
+    }	
 }

@@ -20,7 +20,7 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="site_mode" type="list" default="0" label="Production/Live Site" description="YES if the site is in production and NO if still in development stage.">
+		<param name="site_mode" type="list" default="0" label="Production/Live" description="YES if the site is in production and NO if still in development stage.">
 			<option value="0">No</option>
             <option value="1">Yes</option>
 		</param>
