@@ -27,11 +27,13 @@ class TiendaFedex extends JObject
     var $accountNumber;
     var $meterNumber;
     
-    function __construct()
+    function __construct($options = array())
     {
-        //$this->wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl';  
-        $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9.wsdl';
-        // $this->wsdl = dirname( __FILE__ ).DS.'RateService_v9_test.wsdl'; // Use this WSDL when using test credentials from Fedex 
+        //$this->wsdl = dirname( __FILE__ ).DS.'RateService_v8.wsdl'; 
+        
+    	// Use RateService_v9_test.wsdl when using test credentials from Fedex        
+    	$wsdl = $options['live'] ? 'RateService_v9.wsdl' : 'RateService_v9_test.wsdl';
+    	$this->wsdl = dirname( __FILE__ ).DS.$wsdl;    	
     }
     
     function getClient()
