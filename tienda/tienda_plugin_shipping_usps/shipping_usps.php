@@ -299,3 +299,5 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
         return $taxrate;
     }
 }
+
+//Notice: Undefined property: TiendaUpsRate::$shipperNumber in /var/www/dioscouri/plugins/tienda/shipping_ups/ups.php on line 311
