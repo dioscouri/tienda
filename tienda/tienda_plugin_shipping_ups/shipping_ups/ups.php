@@ -199,6 +199,11 @@ class TiendaUps extends JObject
 	function setCustomerClassification($code) {
 		$this->customerClassification = $code;
 	}
+	
+ 	function setShipperNumber($number)
+    {
+    	$this->shipperNumber = $number;
+    }
 }
 
 /**
@@ -362,12 +367,8 @@ class TiendaUpsShipment extends TiendaUps
 	function __construct()
     {
         $this->wsdl = dirname( __FILE__ ).DS.'ups_ship.wsdl';        
-    }
-    
-    function setShipperNumber($number)
-    {
-    	$this->shipperNumber = $number;
-    }
+    }    
+   
  	function setOriginName($name)
     {
     	$this->originName = $name;

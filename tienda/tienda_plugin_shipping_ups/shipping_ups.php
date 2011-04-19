@@ -410,6 +410,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		$billAccount = $this->params->get( 'account' );
 		$key = $this->params->get( 'key' );
 		$password = $this->params->get( 'password' );
+		$shipperNumber = $this->params->get( 'shipper_number' );
 		
 		$packageCount = 0;
 		$packages = array( );
@@ -462,7 +463,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 			$ups->setKey( $key );
 			$ups->setPassword( $password );
 			$ups->setAccountNumber( $billAccount );
-			
+			$ups->setShipperNumber( $shipperNumber );
 			$ups->packageLineItems = $packages;
 			$ups->setPackageCount( $packageCount );
 			$ups->setService( $service, $name );
