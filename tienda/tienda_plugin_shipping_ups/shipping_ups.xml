@@ -80,5 +80,10 @@
 			<option value="0">No</option>
 		</param>
 		<param name="currency_code" type="text" default="USD" label="Currency Code" description="Currency Code Desc" />
+		<param name="charge_tax" type="list" default="0" label="Charge Tax" description="Enable to charge shipping tax.">
+			<option value="0">No</option>
+            <option value="1">Yes</option>
+		</param>
+		<param name="taxclass" type="tiendataxclass" size="50" default="" label="Tax Class" description="Specify the tax class to charge tax on shipping."/>
 	</params>
 </install>
