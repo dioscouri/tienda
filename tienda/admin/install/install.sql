@@ -5539,6 +5539,20 @@ CREATE TABLE IF NOT EXISTS `#__tienda_coupons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productcompare`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productcompare` (
+  `productcompare_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `session_id` varchar(200) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`productcompare_id`),
+  KEY `idx_user_product` (`user_id`,`product_id`),
+  KEY `fk_productcompare_products` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
