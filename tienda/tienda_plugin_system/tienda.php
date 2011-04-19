@@ -50,6 +50,9 @@ class plgSystemTienda extends JPlugin
         // clean expired session carts
         $this->deleteExpiredSessionCarts();
         
+        // clean expired session products compared
+        $this->deleteExpiredSessionProductsCompared();
+        
         // get the option variable
         // and get rid of the com_
         $option = JRequest::getCmd( 'option' );
