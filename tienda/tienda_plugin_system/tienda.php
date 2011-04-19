@@ -179,7 +179,37 @@ class plgSystemTienda extends JPlugin
             $model->deleteExpiredSessionCarts();
         } 
 
-        return;
+        return;        
+    }
+    
+	/**
+     * Method to delete expired session compared products 
+     * @return void
+     */
+    function deleteExpiredSessionProductsCompared()
+    {
+        $config = TiendaConfig::getInstance();
+        $last_run = $config->get('last_deleted_expired_sessionproductscompared');
         
+        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+        $helper = new TiendaHelperBase();
+        
+        $date = JFactory::getDate();
+        $now = $date->toMySQL();
+        
+        $three_hours_ago = $helper->getOffsetDate($now, '-3');
+        
+        // when was this last run?
+        // if it was run more than 3 hours ago, run again
+        if ($last_run < $three_hours_ago)
+        {
+            // run it
+            jimport( 'joomla.application.component.model' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
+            $model->deleteExpiredSessionProductCompared();
+        } 
+
+        return;        
     }
 }
