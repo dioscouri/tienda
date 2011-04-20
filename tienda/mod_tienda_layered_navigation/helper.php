@@ -128,7 +128,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		                }
 		                
 			            $item->product_total = $pmodel->getTotal();	   	    	       
-			    	   	$item->link = JRoute::_($this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid);		    		
+			    	   	$item->link = $this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid;	    		
 			    		
 			    		$total = $total + $item->product_total;
 		    		}			    	  
@@ -180,25 +180,25 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	    Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 		$ratingFourthObj = new stdClass();
 		$ratingFourthObj->rating_name = TiendaHelperProduct::getRatingImage( 4 );
-		$ratingFourthObj->link = JRoute::_( $link.'&filter_rating=4' );	
+		$ratingFourthObj->link = $link.'&filter_rating=4';	
 		$ratingFourthObj->total = $ratingSecond;
 		$ratings[] = $ratingFourthObj;	
 		
 		$ratingThirdObj = new stdClass();
 		$ratingThirdObj->rating_name = TiendaHelperProduct::getRatingImage( 3 );
-		$ratingThirdObj->link = JRoute::_( $link.'&filter_rating=3' );	
+		$ratingThirdObj->link = $link.'&filter_rating=3';	
 		$ratingThirdObj->total = $ratingSecond;
 		$ratings[] = $ratingThirdObj;
 
 		$ratingSecondObj = new stdClass();
 		$ratingSecondObj->rating_name = TiendaHelperProduct::getRatingImage( 2 );
-		$ratingSecondObj->link = JRoute::_( $link.'&filter_rating=2' );	
+		$ratingSecondObj->link = $link.'&filter_rating=2';	
 		$ratingSecondObj->total = $ratingSecond;
 		$ratings[] = $ratingSecondObj;
 		
 		$ratingFirstObj = new stdClass();
 		$ratingFirstObj->rating_name = TiendaHelperProduct::getRatingImage( 1 );
-		$ratingFirstObj->link = JRoute::_( $link.'&filter_rating=1' );	
+		$ratingFirstObj->link = $link.'&filter_rating=1';	
 		$ratingFirstObj->total = $ratingFirst;
 		$ratings[] = $ratingFirstObj;
 	  
@@ -262,7 +262,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				
 				$brandObj = new stdClass();
 				$brandObj->manufacturer_name = $value;
-				$brandObj->link = JRoute::_( $link );	
+				$brandObj->link = $link;	
 				
 				$total = 0;
 				foreach($this->_products as $item)
