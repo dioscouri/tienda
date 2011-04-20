@@ -76,8 +76,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      * @return array
      */
     function getCategories()
-    {
-    	$items = array();    	
+    {    	
+    	$items = array();    	    	
     	//filter category found so we display child categories and products inside
     	if(!empty($this->_filter_category) && $this->_params->get('filter_category'))
     	{   	
@@ -91,44 +91,47 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			$this->_db->setQuery((string) $query);
 			$items = $this->_db->loadObjectList();
 
-			//set the current category
-			$this->category_current = $items[0];
-			
 			if (!empty($items))
 		    {
 		    	$this->_catfound = true;
 		    	$catids = array();
 		    	$total = 0;
 		    	foreach ($items as $item)
-		    	{		    		
-		    	  	$pmodel = JModel::getInstance('Products', 'TiendaModel');
-	                $pmodel->setState('filter_category', $item->category_id);
-	                //make sure that it is enabled
-	                $pmodel->setState('filter_enabled', '1');
-	                //make sure the product is available
-	                $pmodel->setState('filter_quantity_from', '1');	 
-	                //add filters from user session   
-	                $pmodel->setState('filter_attribute_set', $this->_filter_attribute_set);   
-	                $pmodel->setState('filter_price_from', $this->_filter_price_from); 
-	                $pmodel->setState('filter_price_to', $this->_filter_price_to);
-	                $pmodel->setState('filter_rating', $this->_filter_rating);	                
-	                
-	                if($this->_multi_mode)
-	                {
-	                	 $pmodel->setState('filter_manufacturer_set', $this->_filter_manufacturer_set); 
-	                }
-	                else
-	                {
-	                	 $pmodel->setState('filter_manufacturer', $this->_filter_manufacturer); 	
-	                }
-	                
-		            $item->product_total = $pmodel->getTotal();	   	    	       
-		    	   	$item->link = JRoute::_($this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid);		    		
-		    		
-		    		if($item->category_id != $this->_filter_category)
-		    		{
-		    			$total = $total + $item->product_total;
+		    	{		    	
+		    		//get current category object
+		    		if($item->category_id == $this->_filter_category)
+		    		{		 
+		    			//set the current category   			
+		    			$this->category_current = $item;
 		    		}
+		    		else
+		    		{
+		    			$pmodel = JModel::getInstance('Products', 'TiendaModel');
+		                $pmodel->setState('filter_category', $item->category_id);
+		                //make sure that it is enabled
+		                $pmodel->setState('filter_enabled', '1');
+		                //make sure the product is available
+		                $pmodel->setState('filter_quantity_from', '1');	 
+		                //add filters from user session   
+		                $pmodel->setState('filter_attribute_set', $this->_filter_attribute_set);   
+		                $pmodel->setState('filter_price_from', $this->_filter_price_from); 
+		                $pmodel->setState('filter_price_to', $this->_filter_price_to);
+		                $pmodel->setState('filter_rating', $this->_filter_rating);	                
+		                
+		                if($this->_multi_mode)
+		                {
+		                	 $pmodel->setState('filter_manufacturer_set', $this->_filter_manufacturer_set); 
+		                }
+		                else
+		                {
+		                	 $pmodel->setState('filter_manufacturer', $this->_filter_manufacturer); 	
+		                }
+		                
+			            $item->product_total = $pmodel->getTotal();	   	    	       
+			    	   	$item->link = JRoute::_($this->_link.'&filter_category='.$item->category_id.'&Itemid='.$this->_itemid);		    		
+			    		
+			    		$total = $total + $item->product_total;
+		    		}			    	  
 		    	}  
 		    	$this->_trackcatcount = $total;		    	
 		    }
