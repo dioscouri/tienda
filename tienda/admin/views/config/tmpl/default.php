@@ -1318,7 +1318,7 @@
 								<?php echo JText::_( 'Show First Name Field' ); ?>
 							</th>
 							<td style="width: 150px;">
-		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_name', '3'), 'show_field_title');?>
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_name', '3'), 'show_field_name');?>
 							</td>
                             <th>
                                	<?php echo JText::_( 'Validate First Name Field' ); ?>
