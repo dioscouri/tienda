@@ -138,7 +138,26 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		return $success;	
 	}	
 
-			
+	/**
+	 * Method to get the suffix  based on the geozonetype
+	 * @param $geozonetype_id
+	 * @return string
+	 */
+	function getSuffix($geozonetype_id)
+	{
+		switch($geozonetype_id)
+		{
+			case '2':
+				$suffix = 'shipping';
+				break;
+			case '1':				
+			default:
+				$suffix = 'payment';
+				break;
+		}
+		
+		return $suffix;
+	}			
 }
 
 ?>
