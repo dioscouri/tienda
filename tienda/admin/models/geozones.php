@@ -89,6 +89,7 @@ class TiendaModelGeozones extends TiendaModelBase
 		{
 			$item->link = 'index.php?option=com_tienda&controller=geozones&view=geozones&task=edit&id='.$item->geozone_id;
 			$item->link_zones = 'index.php?option=com_tienda&view=geozones&task=selectzones&tmpl=component&id='.$item->geozone_id;
+			$item->link_plugins = 'index.php?option=com_tienda&view=geozones&task=selectplugins&type='.$item->geozonetype_id.'&tmpl=component&id='.$item->geozone_id;
 		}
 		return $list;
 	}
