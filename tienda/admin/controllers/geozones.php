@@ -23,6 +23,8 @@ class TiendaControllerGeozones extends TiendaController
 		$this->set('suffix', 'geozones');
         $this->registerTask( 'selected_enable', 'selected_switch' );
         $this->registerTask( 'selected_disable', 'selected_switch' );
+        $this->registerTask( 'plugin_enable', 'plugin_switch' );
+        $this->registerTask( 'plugin_disable', 'plugin_switch' );
 	}
 	
     /**
@@ -47,6 +49,69 @@ class TiendaControllerGeozones extends TiendaController
             $model->setState( $key, $value );   
         }
         return $state;
+    }
+    
+    function display($cachable=false)
+    {    	
+    	  //get all payment plugins
+        $paymentModel = $this->getModel( 'Payment' );
+        $paymentModel->setState('filter_enabled', '1');
+		$payments = $paymentModel->getList();
+		
+		//get all shipping plugins
+        $shippingModel = $this->getModel( 'Shipping' );
+        $shippingModel->setState('filter_enabled', '1');
+		$shippings = $shippingModel->getList();
+			
+      // this sets the default view
+		JRequest::setVar( 'view', JRequest::getVar( 'view', 'dashboard' ) );
+
+		$document =& JFactory::getDocument();
+
+		$viewType	= $document->getType();
+		$viewName	= JRequest::getCmd( 'view', $this->getName() );
+		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
+
+		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
+
+		// Get/Create the model
+		if ($model = & $this->getModel($viewName))
+		{
+			// controller sets the model's state - this is why we override parent::display()
+			$this->_setModelState();
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+		}
+		$items = $model->getList();
+		
+		foreach($items as $item)
+		{
+			//$params = new JParameter($item->params);
+			//$params->get('geozones');
+		}
+		
+		
+		$view->assign( 'items', $model->getState() );
+		
+		// Set the layout
+		$view->setLayout($viewLayout);
+
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeDisplayAdminComponentTienda', array() );
+
+		// Display the view
+		if ($cachable && $viewType != 'feed') {
+			global $option;
+			$cache =& JFactory::getCache($option, 'view');
+			$cache->get($view, 'display');
+		} else {
+			$view->display();
+		}
+
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onAfterDisplayAdminComponentTienda', array() );
+
+		$this->footer();		
     }
 
     /**
@@ -255,7 +320,160 @@ class TiendaControllerGeozones extends TiendaController
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
+	
+	/**
+	 * Method to add/remove the geozone to plugin parameter
+	 */
+	function plugin_switch()
+	{
+		$error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
+                        
+		$type = JRequest::getVar('type');		
+		Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
+		$suffix = TiendaHelperPlugin::getSuffix($type);
+		
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $cids = JRequest::getVar('cid', array (0), 'request', 'array');
+        $task = JRequest::getVar( 'task' );
+        $vals = explode('_', $task);
+        
+        $field = $vals['0'];
+        $action = $vals['1'];       
+
+        switch (strtolower($action))
+        {           
+        	case "switch":
+                $switch = '1';
+              break;
+            case "disable":
+                $enable = '0';
+                $switch = '0';
+              break;
+            case "enable":
+                $enable = '1';
+                $switch = '0';
+              break;
+            default:
+                $this->messagetype  = 'notice';
+                $this->message      = JText::_( "Invalid Task" );
+                $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                return;
+              break;
+        }
+        
+        $model = $this->getModel($suffix);
+            
+        $keynames = array();
+        foreach (@$cids as $cid)
+        {
+            //$table = JTable::getInstance('ZoneRelations', 'TiendaTable');
+            $row = $model->getTable();
+            $keynames["id"] = $cid;          
+            $row->load( $keynames );
+           
+            $params = new JParameter($row->params);
+           
+            $geozones = explode(',',$params->get('geozones'));      
+
+            
+          	if ($switch)
+            {
+                if (in_array($id, $geozones)) 
+                {
+                   	$geozones = explode(',',$params->get('geozones')); 
+            		$geozones = array_diff($geozones, array($id));
+                } 
+                    else 
+                {
+                    $geozones[] = $id;
+                }
+            }
+            else
+            {
+            	switch($enable)
+	            {
+	            	case "1":            		          		
+	            		$geozones[] = $id;            		
+	            		 break;
+	            	case "0":
+	            	default:
+	            		$geozones = explode(',',$params->get('geozones')); 
+	            		$geozones = array_diff($geozones, array($id));
+	            		break;
+	            } 
+            }
+             
+            $geozones = array_filter($geozones, 'strlen'); //remove empty values
+        	$params->set( 'geozones', implode(',', array_unique($geozones)) );  //remove duplicate              
+			$row->params = trim( $params->toString() );		
     
+           	if (!$row->save())
+            {
+            	$this->message .= $cid.': '.$row->getError().'<br/>';
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
+        
+        if($error)
+        {
+        	$this->message = JText::_('Error') . ": " . $this->message;
+        }
+           
+		$redirect = JRoute::_( "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$id, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+	
+	/**
+	 * Method to assign payment/shipping methods to the geozones
+	 */
+	function selectplugins()	
+	{
+		$type = JRequest::getVar('type');		
+		Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
+		$suffix = TiendaHelperPlugin::getSuffix($type);
+				
+		$this->set('suffix', 'zones');
+        $state = parent::_setModelState();
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $suffix );
+        $ns = $this->getNamespace();
+
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $row = $model->getTable( 'geozones' );
+        $row->load( $id );
+        
+        $state['filter_enabled'] = '1';
+        $state['filter_name']   = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', ''); 
+        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.name', 'cmd');
+
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+        
+        $view   = $this->getView( 'geozones', 'html' );
+        $view->set( '_controller', 'geozones' );
+        $view->set( '_view', 'geozones' );
+        $view->set( 'leftMenu', false );
+        $view->set( '_action', "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$model->getId() );
+        $view->setModel( $model, true );
+        
+        $items = $model->getList();
+		foreach($items as $item)
+		{
+			$params = new JParameter($item->params);
+			$item->geozones = explode(',',$params->get('geozones'));
+		}
+    
+        $view->assign( 'suffix', $suffix );
+        $view->assign( 'state', $model->getState() );
+        $view->assign( 'row', $row );
+        $view->setLayout( 'selectplugins' );
+        $view->display();
+	}    
 }
 
 ?>

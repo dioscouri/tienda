@@ -39,6 +39,9 @@
                     <?php echo JText::_( "Assigned Zones" ); ?>
                 </th>
                 <th>
+                    <?php echo JText::_( "Assigned Payment/Shipping" ); ?>
+                </th>
+                <th>
                     <?php echo JText::_( "Type" ); ?>
                 </th>
             </tr>
@@ -107,6 +110,17 @@
                     <?php echo count( $model->getList()); ?>
                     <br/>
                     [<?php echo TiendaUrl::popup( @$item->link_zones, JText::_( "Select Zones" ), array('update' => true) ); ?>]
+                </td>
+                <td style="text-align: center;">
+                	<?php $text = '';?>
+                	<?php if($item->geozonetype_id == 1):?>
+                		<?php //echo JText::_('Payments Assigned');?>
+                		<?php $text = JText::_('Select Payments');?>
+                	<?php elseif($item->geozonetype_id == 2):?>
+                		<?php //echo JText::_('Shippings Assigned');?>
+                		<?php $text = JText::_('Select Shippings');?>
+                	<?php endif;?> 
+                    [<?php echo TiendaUrl::popup( @$item->link_plugins, $text, array('update' => true) ); ?>]
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->geozonetype_name; ?>
