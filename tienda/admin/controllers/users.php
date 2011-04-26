@@ -91,7 +91,7 @@ class TiendaControllerUsers extends TiendaController
 		$total_qty = 0;
 		foreach ($orderitems as $orderitem)
 		{
-			$spent += $orderitem->order_total;
+			$spent += $orderitem->orderitem_price;
 			$total_qty +=$orderitem->orderitem_quantity;
 		}
 		$view->assign( 'spent', $spent );
