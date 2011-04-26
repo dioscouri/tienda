@@ -88,14 +88,17 @@ class TiendaUrl {
 		  ? "{handler:'image'}"
 		  : $handler_string;
 
-		if (!empty($options['width']))
+		$lightbox_width = TiendaConfig::getInstance()->get('lightbox_width');
+		if(empty($options['width']) && !empty($lightbox_width))
+			$options['width'] = $lightbox_width;
+		  		
+		if(!empty($options['width']))
 		{
 			if (empty($options['height']))
-			{
-				$options['height'] = 480;
-			}
-			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";
-		}
+				$options['height'] = 480;	
+			
+			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";	
+		}			
 
 		$class = (!empty($options['class'])) ? $options['class'] : '';
 		
