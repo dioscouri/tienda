@@ -157,7 +157,46 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		}
 		
 		return $suffix;
-	}			
+	}	
+	
+	/**
+	 * Method to count the number of plugin assigned to a geozone
+	 * @param obj $geozone 
+	 * @return int
+	 */
+	function countPlgtoGeozone($geozone)
+	{		
+		$count = 0;	
+		if(!is_object($geozone)) return $count;
+		
+		static $plugins;
+		static $geozones;
+
+		if(empty($plugins[$geozone->geozonetype_id]))
+		{
+			$suffix = TiendaHelperPlugin::getSuffix($geozone->geozonetype_id);
+			JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+			$model = JModel::getInstance( $suffix, 'TiendaModel' );
+			$model->setState('filter_enabled', '1');
+			$plugins[$geozone->geozonetype_id] = $model->getList( );
+		}
+			
+		foreach( $plugins[$geozone->geozonetype_id] as $plugin)
+		{
+			if(isset($plugin->params))
+			{
+				if(empty($geozones[$plugin->id]))
+				{
+					$params = new JParameter($plugin->params);           
+        			$geozones[$plugin->id] = explode(',',$params->get('geozones')); 
+				}				
+        		
+        		if(in_array($geozone->geozone_id, $geozones[$plugin->id])) $count++;        		
+			}
+		}
+		
+		return $count;
+	}
 }
 
 ?>
