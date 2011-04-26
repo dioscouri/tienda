@@ -3,6 +3,7 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+<?php Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -63,6 +64,8 @@
                 <th>
                 </th>
                 <th>
+                </th>
+                <th>
                     <?php echo TiendaSelect::geozonetypes( @$state->filter_geozonetype, 'filter_geozonetype', $attribs, 'geozonetype', true ); ?>
                 </th>
             </tr>
@@ -107,19 +110,21 @@
                     <?php echo JText::_( "Zones Assigned" ); ?>:
                     <?php $model = JModel::getInstance( 'Zonerelations', 'TiendaModel' ); ?>
                     <?php $model->setState( 'filter_geozoneid', $item->geozone_id); ?>
-                    <?php echo count( $model->getList()); ?>
+                    <?php echo $model->getTotal(); ?>
                     <br/>
                     [<?php echo TiendaUrl::popup( @$item->link_zones, JText::_( "Select Zones" ), array('update' => true) ); ?>]
                 </td>
                 <td style="text-align: center;">
                 	<?php $text = '';?>
                 	<?php if($item->geozonetype_id == 1):?>
-                		<?php //echo JText::_('Payments Assigned');?>
+                		<?php echo JText::_('Payments Assigned');?>
                 		<?php $text = JText::_('Select Payments');?>
                 	<?php elseif($item->geozonetype_id == 2):?>
-                		<?php //echo JText::_('Shippings Assigned');?>
+                		<?php echo JText::_('Shippings Assigned');?>
                 		<?php $text = JText::_('Select Shippings');?>
-                	<?php endif;?> 
+                	<?php endif;?>:                	
+                    <?php echo TiendaHelperPlugin::countPlgtoGeozone($item); ?>
+                    <br/>
                     [<?php echo TiendaUrl::popup( @$item->link_plugins, $text, array('update' => true) ); ?>]
                 </td>
                 <td style="text-align: center;">

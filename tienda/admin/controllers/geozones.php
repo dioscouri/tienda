@@ -50,70 +50,7 @@ class TiendaControllerGeozones extends TiendaController
         }
         return $state;
     }
-    
-    function display($cachable=false)
-    {    	
-    	  //get all payment plugins
-        $paymentModel = $this->getModel( 'Payment' );
-        $paymentModel->setState('filter_enabled', '1');
-		$payments = $paymentModel->getList();
-		
-		//get all shipping plugins
-        $shippingModel = $this->getModel( 'Shipping' );
-        $shippingModel->setState('filter_enabled', '1');
-		$shippings = $shippingModel->getList();
-			
-      // this sets the default view
-		JRequest::setVar( 'view', JRequest::getVar( 'view', 'dashboard' ) );
-
-		$document =& JFactory::getDocument();
-
-		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', $this->getName() );
-		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-
-		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-
-		// Get/Create the model
-		if ($model = & $this->getModel($viewName))
-		{
-			// controller sets the model's state - this is why we override parent::display()
-			$this->_setModelState();
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-		$items = $model->getList();
-		
-		foreach($items as $item)
-		{
-			//$params = new JParameter($item->params);
-			//$params->get('geozones');
-		}
-		
-		
-		$view->assign( 'items', $model->getState() );
-		
-		// Set the layout
-		$view->setLayout($viewLayout);
-
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeDisplayAdminComponentTienda', array() );
-
-		// Display the view
-		if ($cachable && $viewType != 'feed') {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		} else {
-			$view->display();
-		}
-
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onAfterDisplayAdminComponentTienda', array() );
-
-		$this->footer();		
-    }
-
+   
     /**
      * Loads view for assigning product to categories
      * 
@@ -367,8 +304,7 @@ class TiendaControllerGeozones extends TiendaController
             
         $keynames = array();
         foreach (@$cids as $cid)
-        {
-            //$table = JTable::getInstance('ZoneRelations', 'TiendaTable');
+        {            
             $row = $model->getTable();
             $keynames["id"] = $cid;          
             $row->load( $keynames );

@@ -15,16 +15,12 @@
 	
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
-    <table>
-        <tr>
-            <td align="left" width="100%">
-                <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
-            </td>            
-        </tr>
-    </table>
-
+	<div style="text-align: right;">
+			<input name="filter" size="40" value="<?php echo @$state->filter; ?>" />
+            <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
+            <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+	</div>
+	
 	<table class="adminlist" style="clear: both;">
 		<thead>
             <tr>
