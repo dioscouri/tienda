@@ -371,7 +371,6 @@ class TiendaControllerGeozones extends TiendaController
 		Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
 		$suffix = TiendaHelperPlugin::getSuffix($type);
 				
-		$this->set('suffix', 'zones');
         $state = parent::_setModelState();
         $app = JFactory::getApplication();
         $model = $this->getModel( $suffix );

@@ -181,6 +181,51 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 			return $success;
 		}
 		
+	/**
+     * Determines if this shipping option is valid for this order
+     * 
+     * @param $element
+     * @param $order
+     * @return unknown_type
+     */
+    function onGetShippingOptions($element, $order)
+    {       
+        // Check if this is the right plugin
+        if (!$this->_isMe($element)) 
+        {
+            return null;
+        }        
+   
+        $found = true;             
+        $geozones = $this->params->get('geozones');        
+        
+        //return true if we have empty geozones
+        if(!empty($geozones))
+        {
+        	$found = false;
+          	
+          	$geozones = explode(',', $geozones); 
+          	$orderGeoZones = $order->getShippingGeoZones();
+                 
+          	//loop to see if we have at least one geozone assigned
+          	foreach( $orderGeoZones as $orderGeoZone )
+          	{
+          		if(in_array($orderGeoZone->geozone_id, $geozones))
+          		{
+          			$found = true;
+          			break;
+          		}
+          	}
+        }
+        
+        // if this shipping methods should be available for this order, return true
+        // if not, return false.
+        // by default, all enabled shipping methods are valid, so return true here,
+        // but plugins may override this         
+        return $found;
+    }
+		
+		
 		/**
 		 * Gets the reports namespace for state variables
 		 * @return string

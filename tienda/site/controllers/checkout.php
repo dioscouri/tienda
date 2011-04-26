@@ -1375,33 +1375,38 @@ class TiendaControllerCheckout extends TiendaController
 		$dispatcher =& JDispatcher::getInstance();
 
 		$rates = array();
-
+  
 		if ($plugins)
 		{
 			foreach ($plugins as $plugin)
 			{
-				$results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
-                foreach ($results as $result)
-				{
-					if(is_array($result))
+				
+                $paymentOptions = $dispatcher->trigger( "onGetShippingOptions", array( $plugin->element, $this->_order ) );
+         
+                if (in_array(true, $paymentOptions, true))
+                {
+                    $results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
+	                foreach ($results as $result)
 					{
-						foreach( $result as $r )
+						if(is_array($result))
 						{
-							$extra = 0;
-							// here is where a global handling rate would be added
-							if ($global_handling = TiendaConfig::getInstance()->get( 'global_handling' ))
+							foreach( $result as $r )
 							{
-							    $extra = $global_handling; 
+								$extra = 0;
+								// here is where a global handling rate would be added
+								if ($global_handling = TiendaConfig::getInstance()->get( 'global_handling' ))
+								{
+								    $extra = $global_handling; 
+								}
+								$r['extra'] += $extra;
+								$r['total'] += $extra;
+								$rates[] = $r;
 							}
-							$r['extra'] += $extra;
-							$r['total'] += $extra;
-							$rates[] = $r;
 						}
 					}
-				}// endforeach results
-
-			} // endforeach plugins
-		} // endif plugins
+                }
+			} 
+		}
 		
 		return $rates;
 	}
