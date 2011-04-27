@@ -2028,10 +2028,6 @@ class TiendaControllerCheckout extends TiendaController
 				//get the domain from the uri
 				$uri = JURI::getInstance();
 				$domain = $uri->gethost();
-				$lastUserId = $userHelper->getLastUserId();
-				$guestId = $lastUserId + 1;
-				// format: guest_[id]@domain.com
-				$guest_email = "guest_".$guestId."@".$domain;
 					
 				// send the guest user credentials to the user's real email address
 				$details = array(
@@ -2055,7 +2051,14 @@ class TiendaControllerCheckout extends TiendaController
 				}
 
 				// but don't save the user's real email in the __users db table
-				$userEmailUpdate = $userHelper->updateUserEmail($user->id, $guest_email);
+				if( TiendaConfig::getInstance()->get('obfuscate_guest_email', '0' ) )
+				{
+					$lastUserId = $userHelper->getLastUserId();
+					$guestId = $lastUserId + 1;
+					// format: guest_[id]@domain.com
+					$guest_email = "guest_".$guestId."@".$domain;
+					$userEmailUpdate = $userHelper->updateUserEmail($user->id, $guest_email);
+				}
 
 				// save the real user's info in the userinfo table
 				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );

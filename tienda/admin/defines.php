@@ -530,6 +530,7 @@ class TiendaConfig extends JObject
     
     //since 0.7.2
     var $ignored_countries					= '83, 188, 190';
+	var $obfuscate_guest_email				= '0';
 	
 	/**
 	 * constructor

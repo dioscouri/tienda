@@ -1168,6 +1168,16 @@
                                 <?php echo JText::_( 'DISABLE GUEST SIGNUP EMAIL DESC' ); ?>
                             </td>
 						</tr>
+							<th style="width: 25%;">
+								<?php echo JText::_( 'Obfuscate Guest Email' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'obfuscate_guest_email', 'class="inputbox"', $this->row->get('obfuscate_guest_email', '0') ); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'OBFUSCATE_GUEST_EMAIL_DESC' ); ?>
+                            </td>
+						</tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Enable Order Status Update Email to User When Order Payment is Received' ); ?>
