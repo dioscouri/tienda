@@ -482,8 +482,9 @@ class TiendaConfig extends JObject
     var $insert_category_id					= '0';
     var $insert_menu_title					= '1';
     
-    //since 0.7.0
+    //product sorting
     var $display_sort_by					= '1';
+    var $display_sortings					= 'Name|product_name,Price|price,Rating|product_rating';
     
     //social bookmarking integration
     var $display_facebook_like				= '1';

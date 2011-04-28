@@ -1137,14 +1137,24 @@ class TiendaSelect extends JHTMLSelect
     {
         $list = array();
         if($allowAny) {
-            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+            $list[] =  self::option('', JText::_( 'Ordering' ) );
         }
 
-        $list[] = JHTML::_('select.option',  'price_hightolow', JText::_( "Price: High to Low" ) );
-        $list[] = JHTML::_('select.option',  'price_lowtohigh', JText::_( "Price: Low to High" ) );
-        $list[] = JHTML::_('select.option',  'rate_hightolow', JText::_( "Rating: High to Low" ) );
-        $list[] = JHTML::_('select.option',  'rate_lowtohigh', JText::_( "Rating: Low to High" ) );
-        
+      	$products = JTable::getInstance( 'Products', 'TiendaTable' ); 
+       	$columns = $products->getProperties();
+   		$columns['price']='';
+   		$columns['product_quantity'] = '';
+   		
+       	$sortings = TiendaConfig::getInstance()->get('display_sortings', 'Name|product_name,Price|price,Rating|product_rating');
+        $sortingsA = explode(',', $sortings);
+       
+        foreach($sortingsA as $sorting)
+        {
+        	$sortA = explode('|', $sorting);  
+        	if(array_key_exists($sortA[1], $columns))
+        		$list[] = JHTML::_('select.option',  $sortA[1], JText::_( $sortA[0] ) );
+        }
+                
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
     

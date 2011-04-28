@@ -632,6 +632,17 @@
                                 
                             </td>
                         </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Product Sortings' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="display_sortings" value="<?php echo $this->row->get('display_sortings', 'Name|product_name,Price|price,Rating|product_rating'); ?>" class="inputbox" size="45" />
+                            </td>
+                            <td>
+                                <?php echo JText::_('This will be the added to the "sort by" select. The format is "title|columnname" and to add another sorting, prepend "," to it. You can sort the price, product_quantity, and all the #__tienda_products columns.')?>
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Product Quantity' ); ?>
