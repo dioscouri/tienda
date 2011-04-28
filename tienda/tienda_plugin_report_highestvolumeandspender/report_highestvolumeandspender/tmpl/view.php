@@ -2,21 +2,22 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
+<?php debug(44444444, $items);?>
 <h2><?php echo JText::_( "Results"); ?></h2>
 
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
-			<th style="width: 5px;">
+			<th style="width: 10px;">
 				<?php echo JText::_("Num"); ?>
 			</th>
-			<th style="width: 200px;">
+			<th>
 				<?php echo JText::_("Customer"); ?>
 			</th>
 			<th style="text-align: center;  width: 200px;">
 				<?php echo JText::_("Total Number Of Purchases"); ?>
 			</th>
-			<th style="width: 150px; text-align: right;">
+			<th style="width: 200px;; text-align: right;">
 				<?php echo JText::_("Total Amount Spent"); ?>
 			</th>
 		</tr>
@@ -33,11 +34,12 @@
 			<td align="center">
 				<?php echo $i + 1; ?>
 			</td>
-			<td style="text-align: left;">
-				<a href="index.php?option=com_tienda&controller=users&view=users&task=view&id=<?php echo $item->id?>" target="_blank">
-					<?php echo $item->user_username .' [ '.$item->user_id.']'; ?>
-					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email; ?>
-				</a>
+			<td style="text-align: left;">	
+				<a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id;?>">
+					<?php echo $item->billing_last_name." ".$item->billing_middle_name." ".$item->billing_middle_name;?>
+					[<?php echo $item->user_id;?>]
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo !empty($item->email) ? $item->email : $item->user_email; ?>
+				</a>	
 			</td>
 			<td style="text-align: center;">
 				<?php echo empty($item->volume) ? 0 : $item->volume; ?>
