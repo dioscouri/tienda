@@ -54,30 +54,18 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_manufacturer'] = $app->getUserStateFromRequest( $ns . 'manufacturer', 'filter_manufacturer', '', 'int' );
 		$state['filter_manufacturer_set'] = $app->getUserStateFromRequest( $ns . 'manufacturer_set', 'filter_manufacturer_set', '', '' );
 		$state['filter_attributeoptionname'] = $app
-				->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
-		$state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
+				->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );		
 		$state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
+		
+		$state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
+		$state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
 		
 		if ( strlen( $state['filter_sortby'] ) && TiendaConfig::getInstance( )->get( 'display_sort_by', '1' ) )
 		{
-			switch ( $state['filter_sortby'] )
-			{
-				case 'rate_lowtohigh':
-					$state['order'] = 'tbl.product_rating';
-					break;
-				case 'rate_hightolow':
-					$state['order'] = 'tbl.product_rating';
-					$state['direction'] = 'DESC';
-					break;
-				case 'price_lowtohigh':
-					$state['order'] = 'price';
-					break;
-				case 'price_hightolow':
-					$state['order'] = 'price';
-					$state['direction'] = 'DESC';
-			}
+			$state['order'] = $state['filter_sortby'];
+			$state['direction'] = strtoupper($state['filter_dir']);
 		}
-		
+				
 		if ( $state['search'] )
 		{
 			$filter = $state['filter'] = $app->getUserStateFromRequest( $ns . '.filter', 'filter', '', 'string' );
@@ -136,7 +124,7 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$model->setState( $key, $value );
 		}
-		
+	
 		return $state;
 	}
 	
@@ -217,7 +205,7 @@ class TiendaControllerProducts extends TiendaController
 				$item->product_buy = $this->getAddToCart( $item->product_id );
 			}
 		}
-		
+
 		if ( ( $model->getState( 'filter_price_from' ) > '0' ) || ( $model->getState( 'filter_price_to' ) > '0' ) )
 		{
 			$url = "index.php?option=com_tienda&view=products&filter_category=$filter_category&filter_price_from=&filter_price_to=";

@@ -77,13 +77,30 @@ $citems = @$this->citems;
     <?php if (!empty($items)) : ?>
     
      <?php if(TiendaConfig::getInstance()->get('display_sort_by', '1')) :?>
-      <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm_sort" enctype="multipart/form-data">        
+      <form action="<?php echo JRoute::_("&limitstart=".@$state->limitstart )?>" method="post" name="adminForm_sort" enctype="multipart/form-data">        
      	<div class="tienda_sortby" style="margin: 20px 0; text-align:right;">
     	<?php Tienda::load('TiendaSelect', 'libray.select');?>
     	<span class="sort_by_label" style="font-size: 1.15em;">
     	<?php echo JText::_('Sort By');?>
     	</span>
     	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('Default Order'));?>
+    	<span>
+    		<?php 
+    			if(strtolower($state->filter_dir) == 'asc')
+    			{
+    				$dir = 'desc';
+    				$img_dir = 'arrow_down.png';
+    			}
+    			else
+    			{
+    				$dir = 'asc';
+    				$img_dir = 'arrow_up.png';
+    			}
+    		?>    		
+    		<a href="<?php echo JRoute::_("&limitstart=".$state->limitstart."&filter_sortby=".$state->filter_sortby."&filter_dir=".$dir);?>">
+    			<img src="<?php echo Tienda::getURL('images').$img_dir?>" alt="filter_direction"/>
+    		</a>
+    	</span>
     	</div>
         <?php echo $this->form['validate']; ?>
     </form>   
