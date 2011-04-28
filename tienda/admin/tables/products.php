@@ -183,8 +183,7 @@ class TiendaTableProducts extends TiendaTableEav
 		// is the image path overridden?
 		if ( !empty( $this->product_images_path ) && $helper->checkDirectory( $this->product_images_path, false ) )
 		{
-			//$url = $this->product_images_path; ????????
-			$url = "";
+			$url = str_replace(JPATH_SITE.DS, JURI::root(), $this->product_images_path);	
 		}
 		else
 		{
