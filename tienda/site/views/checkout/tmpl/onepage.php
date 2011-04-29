@@ -10,6 +10,7 @@
 	<?php echo @$this->orderSummary; 	?> 
 </div>
 <div id="tienda_checkout_pane">
+	<a name="tiendaRegistration" id="tiendaRegistration"></a>
 	<?php if(!$this->user->id):?>
 	<fieldset class="tienda-expanded" id="checkoutmethod-pane">
 		<legend class="tienda-collapse-processed" id="tienda-method-pane"><?php echo JText::_('Checkout Method')?></legend>
@@ -21,8 +22,7 @@
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 	
 	<?php if($this->user->id){?>
-	<div class="reset marginbot"></div>
-	 
+	<div class="reset marginbot"></div>	
 	<fieldset class="tienda-expanded" id="customer-pane">
 		<legend class="tienda-collapse-processed"><?php echo JText::_('Customer Information')?></legend>
 		<div id="tienda_customer">
@@ -177,35 +177,9 @@
 		
 	<fieldset class="tienda-expanded" id="paymentmethod-pane">
 		<legend class="tienda-collapse-processed"><?php echo JText::_('Select a Payment Method')?></legend>
-		<div class="note">
-			<?php echo JText::_("Please select your preferred payment method below"); ?>:
-		</div>
-	
+		<input type="button" onclick="tiendaGetPaymentOptions('onCheckoutPayment_wrapper', this.form, '<?php echo JText::_('Getting Payment Options'); ?>' )" value="<?php echo JText::_("Click here to update your payment methods"); ?>" />
 		<div id="onCheckoutPayment_wrapper">
-		 <?php        
-                    if ($this->payment_plgs) 
-                    {                          	                  	
-                        foreach ($this->payment_plgs as $payment_plg) 
-                        {
-                            ?>
-                            <input value="<?php echo $payment_plg->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $payment_plg->element; ?>', 'payment_form_div'); $('validationmessage').setHTML(''); $('payment_form_div').addClass('note')" name="payment_plugin" type="radio" <?php echo (!empty($payment_plg->checked)) ? "checked" : ""; ?> />
-                            <?php echo JText::_( $payment_plg->name ); ?>
-                            <br/>
-                            <?php
-                        }                   
-                        ?>
-                                      
-		                <div id='payment_form_div' style="padding-top: 5px;">
-		                <?php
-		                if (!empty($this->payment_form_div))
-		                {
-		                	echo $this->payment_form_div;
-		                }
-		                ?>
-		                </div>
-	                <?php 
-                     }
-                ?>                          
+		<?php echo $this->payment_options_html;?>                   
 		</div>		
 	</fieldset>  
  	

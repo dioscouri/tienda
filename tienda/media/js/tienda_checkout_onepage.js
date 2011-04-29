@@ -14,6 +14,12 @@ window.addEvent("domready", function() {
 		});
 });
 
+function tiendaGetPaymentOptions(container, form, msg)
+{
+	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
+    tiendaDoTask( url, container, form, msg );   
+}
+
 function tiendaSaveOnepageOrder(container, errcontainer, form)
 {
 	var url = 'index.php?option=com_tienda&view=checkout&task=saveOrderOnePage&format=raw';	
@@ -48,6 +54,7 @@ function tiendaSaveOnepageOrder(container, errcontainer, form)
              else
              {
             	 if ($(errcontainer)) { $(errcontainer).setHTML(resp.msg); }
+            	 if(resp.anchor){ window.location = String(window.location).replace(/\#.*$/, "") + resp.anchor;}
              } 
          }
      }).request();	

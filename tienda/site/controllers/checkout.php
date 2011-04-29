@@ -196,24 +196,8 @@ class TiendaControllerCheckout extends TiendaController
 		        
 		        $view->assign( 'rates', $rates );		               
 	        }
-	        
-	        //get payment plugins
-			// get all the enabled payment plugins
-			$payment_plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
-	        $payment_plgs = array();
-	        if ($payment_plugins)
-	        {
-	            foreach ($payment_plugins as $plugin)
-	            {
-	                $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
-	                if (in_array(true, $results, true))
-	                {
-	                    $payment_plgs[] = $plugin;
-	                }
-	            }
-	        }
-	        
-	        $view->assign( 'payment_plgs', $payment_plgs );
+	        	    
+	        $view->assign( 'payment_options_html', $this->getPaymentOptionsHtml() );
 	        $view->assign( 'order', $order );	        
 	      
 	       	// are there any enabled coupons?
@@ -1655,6 +1639,158 @@ class TiendaControllerCheckout extends TiendaController
 		echo json_encode($response);
 	}
 	
+	function getPaymentOptionsHtml()
+	{
+		$html = '';
+		$model = $this->getModel( 'Checkout', 'TiendaModel' );
+		$view   = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->setModel( $model, true );
+		$view->setLayout( 'payment_options' ); 
+
+        $payment_plugins = $this->getPaymentOptions($this->_order);		
+        $view->assign( 'payment_plugins',  $payment_plugins);
+        
+        if (count($payment_plugins) == 1)
+        {
+        	$payment_plugins[0]->checked = true;
+        	$dispatcher    =& JDispatcher::getInstance();
+			$results = $dispatcher->trigger( "onGetPaymentForm", array( $payment_plugins[0]->element, '' ) );
+	
+			$text = '';
+			for ($i=0; $i<count($results); $i++)
+			{				
+				$text .= $results[$i];
+			}
+	     
+            $view->assign( 'payment_form_div', $text );                                               
+        }  
+		
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
+	}
+	
+	/**
+	 * Method to get the Payment Methods
+	 * @param object $order - 
+	 * @return array
+	 */	
+	function getPaymentOptions($order = null)
+	{
+		$options = array();
+		
+		if(is_null($order)) return $options;
+		
+		//get payment plugins
+		// get all the enabled payment plugins
+		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
+		$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
+	   
+	    if ($plugins)
+	    {
+	    	$dispatcher =& JDispatcher::getInstance();
+	    	foreach ($plugins as $plugin)
+	        {
+	            $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
+	            if (in_array(true, $results, true))
+	            {
+	            	$options[] = $plugin;
+	        	}
+	        }
+        }
+        
+        return $options;
+	}
+	
+	function updatePaymentOptions()
+	{
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+
+		// get elements from post
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+		// Test if elements are empty
+		// Return proper message to user
+		if (empty($elements))
+		{
+			// do form validation
+			// if it fails check, return message
+			$response['error'] = '1';			
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
+			echo ( json_encode( $response ) );
+			return;
+		}
+
+		// convert elements to array that can be binded
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		$submitted_values = $helper->elementsToArray( $elements );
+
+		// Use AJAX to show plugins that are available
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		
+		$this->setAddresses( $submitted_values );
+		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix, @$submitted_values['billing_address_id'] ))
+		{			
+			$response['msg'] = $helper->generateMessage( JText::_( "BILLING ADDRESS ERROR" )." :: ".$this->getError());
+			$response['error'] = '1';
+			echo ( json_encode( $response ) );
+			return;
+		}
+	
+		$model = $this->getModel( 'Checkout', 'TiendaModel' );
+		$view   = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->setModel( $model, true );
+		$view->setLayout( 'payment_options' ); 
+		
+		$payment_plugins = $this->getPaymentOptions($this->_order);		
+        $view->assign( 'payment_plugins',  $payment_plugins);
+        
+        if (count($payment_plugins) == 1)
+        {
+        	$payment_plugins[0]->checked = true;
+        	$dispatcher    =& JDispatcher::getInstance();
+			$results = $dispatcher->trigger( "onGetPaymentForm", array( $payment_plugins[0]->element, '' ) );
+	
+			$text = '';
+			for ($i=0; $i<count($results); $i++)
+			{				
+				$text .= $results[$i];
+			}
+	     
+            $view->assign( 'payment_form_div', $text );                                               
+        }  
+		
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();        
+	
+		// set response array
+		$response = array();
+		$response['msg'] = $html;
+
+		// encode and echo (need to echo to send back to browser)
+		echo json_encode($response);
+
+		return;		
+	}
 	
 	/**
 	 * Prepare the review tmpl
@@ -2328,6 +2464,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response = array();
 		$response['msg'] = '';
 		$response['error'] = '';
+		$response['anchor'] = '';
 
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
@@ -2447,11 +2584,23 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 	
+		//check if we have a user
+		if(!JFactory::getUser()->id)
+		{
+			// Output error message and halt			
+			$response['msg'] = $helper->generateMessage(JText::_("User registration is required or provide an email for guest checkout."));
+			$response['error'] = '1';
+			$response['anchor'] = '#tiendaRegistration';
+			// encode and echo (need to echo to send back to browser)
+			echo ( json_encode($response) );			
+			return false;
+		}
+		
 		//save order
 		if(!$this->saveOrder($submitted_values))
 		{
 			// Output error message and halt			
-			$response['msg'] = $this->getError() ;
+			$response['msg'] = $helper->generateMessage($this->getError());
 			$response['error'] = '1';
 			// encode and echo (need to echo to send back to browser)
 			echo ( json_encode($response) );			
@@ -2462,7 +2611,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if(!empty($data->_errors))
 		{
-			$response['msg'] = $data->_errors;
+			$response['msg'] = $helper->generateMessage($data->_errors);
 			$response['error'] = '1';
 		}
 		else
