@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
-<?php debug(44444444, $items);?>
+
 <h2><?php echo JText::_( "Results"); ?></h2>
 
 <table class="adminlist" style="clear: both;">
