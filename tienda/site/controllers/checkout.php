@@ -1468,10 +1468,10 @@ class TiendaControllerCheckout extends TiendaController
 		if ($submitted_values['shippingrequired'])
 		{
 			$prefix = $this->shipping_input_prefix;
-			//if ($sameasbilling = (!empty($submitted_values['_checked']['sameasbilling'])))
-			/*{
+			if ($sameasbilling = (!empty($submitted_values['_checked']['sameasbilling'])))
+			{
 				$prefix = $this->billing_input_prefix;
-			}*/
+			}
 
 			if (!$this->validateAddress( $submitted_values, $prefix, @$submitted_values['shipping_address_id'] ))
 			{
