@@ -20,6 +20,30 @@ function tiendaGetPaymentOptions(container, form, msg)
     tiendaDoTask( url, container, form, msg );   
 }
 
+/**
+ * Method to copy all data from Billing Addres fields to Shipping Address fields
+ * @param billingprefix
+ * @param shippingprefix
+ * @return
+ */
+function copyBillingAdToShippingAd(checkbox, form)
+{	
+	var disable = false;
+    if (checkbox.checked){disable = true;tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form ); tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form);}  
+    
+    var fields = "address_name;address_id;title;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
+    var fieldList = fields.split(';');
+
+    for(var index=0;index<fieldList.length;index++){
+    	billingControl = document.getElementById('billing_input_'+fieldList[index]);
+        shippingControl = document.getElementById('shipping_input_'+fieldList[index]);
+        if(shippingControl != null){
+            shippingControl.disabled = disable;           
+            if(billingControl != null){ shippingControl.value = disable ? billingControl.value : '';}
+        }
+    }
+}
+
 function tiendaSaveOnepageOrder(container, errcontainer, form)
 {
 	var url = 'index.php?option=com_tienda&view=checkout&task=saveOrderOnePage&format=raw';	

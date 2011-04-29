@@ -112,7 +112,7 @@
 
                 <?php if (empty($this->shipping_address)) : ?>
                     <div>
-                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaPopulateShippingAddress(this,this.form); " />&nbsp;
+                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="copyBillingAdToShippingAd(this,this.form); " />&nbsp;
                         <?php echo JText::_( 'Same As Billing Address' ); ?>:
                     </div>
 				<?php endif; ?>
