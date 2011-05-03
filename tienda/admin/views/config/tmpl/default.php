@@ -1491,6 +1491,65 @@
 					</tbody>
 					</table>
 					<?php
+						echo $this->sliders->endPanel();	
+	     				echo $this->sliders->startPanel( JText::_( "Product Compare Settings" ), 'product_compare' );
+	    			?>
+					<table class="adminlist">
+					<tbody>		
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Product Compare' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<?php echo JHTML::_('select.booleanlist', 'enable_product_compare', 'class="inputbox"', $this->row->get('enable_product_compare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>			
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Product Compared Limit' ); ?>
+							</th>
+							<td style="width: 150px;">
+												<input type="text" name="compared_products" value="<?php echo $this->row->get('compared_products', ''); ?>" />
+							</td>
+							<td>
+								<?php echo JText::_('Number of products that can be compared at once.');?>
+							</td>
+						</tr>
+						<tr>
+				   			<th style="width: 25%;">
+								<?php echo JText::_( 'Show Add To Cart' ); ?>
+							</th>
+							<td style="width: 150px;">
+			      				<?php echo JHTML::_('select.booleanlist', 'show_addtocart_productcompare', 'class="inputbox"', $this->row->get('show_addtocart_productcompare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>
+						<tr>
+					   		<th style="width: 25%;">
+								<?php echo JText::_( 'Show Average Customer Rating' ); ?>
+							</th>
+							<td style="width: 150px;">
+			      			<?php echo JHTML::_('select.booleanlist', 'show_rating_productcompare', 'class="inputbox"', $this->row->get('show_rating_productcompare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Show Manufacturer' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<?php echo JHTML::_('select.booleanlist', 'show_manufacturer_productcompare', 'class="inputbox"', $this->row->get('show_manufacturer_productcompare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>			
+					</tbody>
+					</table>						
+					<?php
 						echo $this->sliders->endPanel();				
 
 						// if there are plugins, display them accordingly

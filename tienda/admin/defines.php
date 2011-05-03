@@ -533,6 +533,13 @@ class TiendaConfig extends JObject
     var $ignored_countries					= '83, 188, 190';
 	var $obfuscate_guest_email				= '0';
 	
+	//compare products
+    var $enable_product_compare 			= '1';
+    var $compared_products					= '5';
+    var $show_manufacturer_productcompare 	= '1';   
+    var $show_rating_productcompare 		= '1';
+    var $show_addtocart_productcompare 		= '1';
+	
 	/**
 	 * constructor
 	 * @return void
