@@ -49,6 +49,13 @@ class TiendaViewProductCompare extends TiendaViewBase
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
 				
+		$model = $this->getModel();
+		$items = $model->getList();
+		foreach($items as $item)
+		{
+			$item->product_buy = TiendaHelperProduct::getCartButton( $item->product_id, 'product_buy', array() );
+		}
+		
 		// form
 			$validate = JUtility::getToken();
 			$form = array();

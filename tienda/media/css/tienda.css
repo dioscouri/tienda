@@ -530,10 +530,41 @@ div.product_like {
 	top: -4px;
 }
 
-#tiendaProductCompare span.arrow {
+#tiendaProductCompare span.arrow  {
 	color: #F00;
 	font-size: 130%;
 	font-weight: bold;
+}
+
+#tiendaProductCompareScroll {
+	height: 100%; overflow-x: auto; 
+	overflow-y: hidden; 
+	padding-bottom: 3px; 
+	width: 100%;
+}
+
+#tiendaProductCompareScroll table td {
+	padding: 5px;
+}
+
+#tiendaProductCompareScroll table tr.row1 {
+	background-color: #E6E6E6;
+}
+
+#tiendaProductCompareScroll table a.close-img {
+ 	display: block; 
+ 	float: right; 
+ 	margin-left: -15px; 
+ 	padding: 2px;
+}
+
+#tiendaProductCompareScroll table td.border-left {
+	border-left: 1px dotted #666;
+	padding-right: 10px;
+}
+
+#tiendaProductCompareScroll span.arrow {
+	color: #F00;		
 }
 
 /* tabs */
