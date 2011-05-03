@@ -952,6 +952,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
             </table>
             </fieldset>
+            
+            <fieldset>
+            <legend><?php echo JText::_( "Extra" ); ?></legend>
+            <table class="admintable" style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Feature Comparison' ); ?>:
+                    </td>
+                    <td>
+                         <?php echo JHTML::_('select.booleanlist', 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
         </div>
         
         <div style="float: right; width: 50%;">

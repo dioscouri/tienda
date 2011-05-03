@@ -5,7 +5,6 @@ $state = @$this->state;
 $items = @$this->items;
 $citems = @$this->citems;
 ?>
-
 <div id="tienda" class="products default">
 
     <?php if ($this->level > 1 && TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
@@ -119,7 +118,7 @@ $citems = @$this->citems;
                             <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
                         </a>
                     </div>
-                    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
+                    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1') && $item->product_parameters->get('show_product_compare', '1')):?>
                     <div id="tiendaProductCompare">
 	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
 	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">

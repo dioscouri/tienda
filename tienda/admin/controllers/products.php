@@ -520,6 +520,7 @@ class TiendaControllerProducts extends TiendaController
         $params->set( 'hide_quantity_input', JRequest::getVar('param_hide_quantity_input') );
         $params->set( 'default_quantity', JRequest::getVar('param_default_quantity') );
         $params->set( 'hide_quantity_cart', JRequest::getVar('param_hide_quantity_cart') );
+        $params->set( 'show_product_compare', JRequest::getVar('param_show_product_compare', '1') );
                 
 		$row->product_params = trim( $params->toString() );
 		return $row;
