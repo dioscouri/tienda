@@ -13,7 +13,9 @@ $citems = @$this->citems;
             <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
         </div>
     <?php endif; ?>
-
+    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
+	<div id="validationmessage"></div>
+	<?php endif;?>
     <?php if (!empty($this->pricefilter_applied)) : ?>
         <div id='tienda_pricefilter'>
             <b><?php echo JText::_( "Displaying Price Range" ) . ": "; ?></b>
@@ -116,6 +118,15 @@ $citems = @$this->citems;
                             <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
                         </a>
                     </div>
+                    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
+                    <div id="tiendaProductCompare">
+	                	<input type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
+	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
+	               	 		<?php echo JText::_('Compare')?>
+	               	 		<span class="arrow" >»</span>  
+	               	 	</a>             	 	              
+                	</div>
+                	<?php endif;?>
                     <div class="reset"></div>
                 </div>
                 <?php endif; ?>
@@ -123,7 +134,7 @@ $citems = @$this->citems;
                 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
                     <?php echo $item->product_buy; ?>
                 </div>
-                
+               
                 <div class="product_info">
                     <div class="product_name">
                         <span>

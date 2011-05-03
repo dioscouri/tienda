@@ -521,6 +521,21 @@ div.product_like {
 	float: right;
 }
 
+#tiendaProductCompare {
+	margin-top: 10px;
+}
+
+#tiendaProductCompare a {
+	position: relative;
+	top: -4px;
+}
+
+#tiendaProductCompare span.arrow {
+	color: #F00;
+	font-size: 130%;
+	font-weight: bold;
+}
+
 /* tabs */
 dl.tabs {
 	float: left;
