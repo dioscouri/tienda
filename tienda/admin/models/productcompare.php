@@ -68,6 +68,7 @@ class TiendaModelProductCompare extends TiendaModelBase
        	$field = array();
         $field[] = " p.product_name ";
         $field[] = " p.product_sku ";
+        $field[] = " p.product_model ";
         $field[] = " p.product_full_image ";
         $field[] = " p.product_ships ";
         $field[] = " p.product_weight ";
