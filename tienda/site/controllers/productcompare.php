@@ -12,7 +12,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaHelperProductCompare', 'helpers.compare' );
-//Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaControllerProductCompare extends TiendaController
 {
@@ -23,6 +22,12 @@ class TiendaControllerProductCompare extends TiendaController
 	{
 		parent::__construct();
 
+		if(!TiendaConfig::getInstance()->get('enable_product_compare', '1'))
+    	{
+    		JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Product Compare Disabled" ) );
+			return;
+    	}
+		
         $this->set('suffix', 'productcompare');
 	}
 	
@@ -56,13 +61,13 @@ class TiendaControllerProductCompare extends TiendaController
      * @see tienda/admin/TiendaController::display()
      */
     function display()
-    {
+    {    	
         JRequest::setVar( 'view', $this->get('suffix') );		
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
 		$model  = $this->getModel( $this->get('suffix') );
     	$this->_setModelState();
 		$items =& $model->getList();  
-		
+
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         $view->assign( 'items', $items );                
         $view->set('hidemenu', true);
@@ -74,7 +79,7 @@ class TiendaControllerProductCompare extends TiendaController
         return;
     }
         
-    /**
+     /**
      * Adds an item to a User's Product Compare
      * whether in the session or the db 
      * 
@@ -168,7 +173,7 @@ class TiendaControllerProductCompare extends TiendaController
 		
 		echo json_encode($response);
         return;
-    }    
+    }  
 
     function remove()
     {
