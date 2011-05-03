@@ -14,6 +14,7 @@ $citems = @$this->citems;
         </div>
     <?php endif; ?>
     <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
+    <?php $compareitems = @$this->compareitems;?>
 	<div id="validationmessage"></div>
 	<?php endif;?>
     <?php if (!empty($this->pricefilter_applied)) : ?>
@@ -120,7 +121,7 @@ $citems = @$this->citems;
                     </div>
                     <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
                     <div id="tiendaProductCompare">
-	                	<input type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
+	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
 	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
 	               	 		<?php echo JText::_('Compare')?>
 	               	 		<span class="arrow" >»</span>  

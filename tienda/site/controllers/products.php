@@ -218,6 +218,13 @@ class TiendaControllerProducts extends TiendaController
 			$view->assign( 'filterprice_to', $to );
 		}
 		
+		if(TiendaConfig::getInstance()->get('enable_product_compare', '1'))
+		{
+			Tienda::load( "TiendaHelperProductCompare", 'helpers.productcompare' );
+			$compareitems = TiendaHelperProductCompare::getComparedProducts();		
+			$view->assign( 'compareitems',  $compareitems); 
+		}
+			
 		$view->assign( 'level', $level );
 		$view->assign( 'title', $title );
 		$view->assign( 'cat', $cat );
