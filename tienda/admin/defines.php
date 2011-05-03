@@ -539,6 +539,8 @@ class TiendaConfig extends JObject
     var $show_manufacturer_productcompare 	= '1';   
     var $show_rating_productcompare 		= '1';
     var $show_addtocart_productcompare 		= '1';
+    var $show_model_productcompare			= '1';
+    var $show_sku_productcompare			= '1';
 	
 	/**
 	 * constructor

@@ -1546,6 +1546,26 @@
 							</td>
 							<td>								
 							</td>
+						</tr>	
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Show Product Model' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<?php echo JHTML::_('select.booleanlist', 'show_model_productcompare', 'class="inputbox"', $this->row->get('show_model_productcompare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>	
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Show Product SKU' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<?php echo JHTML::_('select.booleanlist', 'show_sku_productcompare', 'class="inputbox"', $this->row->get('show_sku_productcompare', '1') ); ?>
+							</td>
+							<td>								
+							</td>
 						</tr>			
 					</tbody>
 					</table>						
