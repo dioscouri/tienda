@@ -2,7 +2,7 @@
 <install type="language" version="1.5.0" method="upgrade">
     <name>Slovak Tienda</name>
     <tag>sk-SK</tag>
-    <version>0.7.1 Community</version>
+    <version>0.7.2 Community</version>
     <creationDate>January 2011</creationDate>
     <author>Lukas Polak</author>
     <authorEmail>polak.lukas90@gmail.com</authorEmail>

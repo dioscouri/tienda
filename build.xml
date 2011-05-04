@@ -121,6 +121,13 @@
             <fileset dir="${cfg.comDir}/mod_tienda_admin_submenu/languages" />
         </copy>
         <!-- POPULAR PRODUCTS -->
+        <copy todir="${destdir}/modules/mod_tienda_compared_products" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_compared_products" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_compared_products/languages" />
+        </copy>
+        <!-- POPULAR PRODUCTS -->
         <copy todir="${destdir}/modules/mod_tienda_popular_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_popular_products" />
         </copy>
@@ -559,6 +566,13 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_xcartmigration/languages" />
         </copy>
+        <!-- REDSHOP MIGRATION -->
+        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_redshopmigration" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginToolDir}_redshopmigration/languages" />
+        </copy>
     	 <!-- CSV IMPORTER -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_csvimporter" />
@@ -672,7 +686,6 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_xcartmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_xcartmigration" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_csvimporter.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_csvimporter" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}user.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}user" />
-		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}zoo.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}zoo" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requiretaxnumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requiretaxnumber" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />

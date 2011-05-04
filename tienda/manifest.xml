@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
     <name>Tienda</name>
-    <version>0.7.1 Community</version>
+    <version>0.7.2 Community</version>
     <creationDate>August 2010</creationDate>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
@@ -77,14 +77,15 @@
         <module module="mod_tienda_breadcrumbs" client="site" position="left" />
         <module module="mod_tienda_cart" client="site" position="left" />
 		<module module="mod_tienda_categories" client="site" position="left" />
+        <module module="mod_tienda_compared_products" client="site" position="left" />
         <module module="mod_tienda_currency" client="site" position="left" />
         <module module="mod_tienda_layered_navigation" client="site" position="left" />
         <module module="mod_tienda_manufacturers" client="site" position="left" />
         <module module="mod_tienda_my_orderitems" client="site" position="left" />
         <module module="mod_tienda_my_orders" client="site" position="left" />
         <module module="mod_tienda_popular_products" client="site" position="left" />
-        <module module="mod_tienda_products" client="site" position="left" />
         <module module="mod_tienda_pricefilters" client="site" position="left" />
+        <module module="mod_tienda_products" client="site" position="left" />
         <module module="mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
         <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
         <module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
@@ -111,6 +112,7 @@
         <plugin plugin="tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
         <plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
         <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
+        <plugin plugin="tienda_plugin_payment_paypalpro" group="tienda" element="payment_paypalpro" />
         <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
         <plugin plugin="tienda_plugin_report_cart" publish="true" group="tienda" element="report_cart" />
         <plugin plugin="tienda_plugin_report_highestvolumeandspender" publish="true" group="tienda" element="report_highestvolumeandspender" />
@@ -130,6 +132,7 @@
         <plugin plugin="tienda_plugin_system" group="system" element="tienda" />
         <plugin plugin="tienda_plugin_tool_csvimporter" publish="true" group="tienda" element="tool_csvimporter" />
         <plugin plugin="tienda_plugin_tool_installsampledata" publish="true" group="tienda" element="tool_installsampledata" />
+        <plugin plugin="tienda_plugin_tool_redshopmigration" publish="true" group="tienda" element="tool_redshopmigration" />
         <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
