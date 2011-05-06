@@ -22,25 +22,31 @@ class TiendaCSV extends JObject
 	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
 	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
 	 * @param $method 						Method to use to parse the data (1 - explode, 2 - our own (more complex and slower) method)
-	 * @param $preserve_header 		Preserve header as a firt row of the result array
-	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
-	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * @param $params							Parameters of importing
+	 * 			- skip_first 				If first line of the content should be skipped (not parsed as a record - usually a header)
+	 *      - preserve_header		Preserve header as a firt row of the result array
+	 * 			- rec_deliminer 		Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * 			- field_deliminer 	Deliminer distinguishing fields in a record
+	 * 			- clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * 			- preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * 			- begin_import			Starting with importing right now? (true by default - important to set to false when importing next time using offset)
+	 * 			- throttled_import	Are we performing th throttled import ? (return data + offset after reading)
+	 * 			- num_records			  Max number of loaded records, if needed to be limited (for throttled import ) - 0 => unlimited
+	 * 			- offset						Offset in parsing file
+	 * 			- chunk_size			  Size of one chunk of data read during throttled import(required only when number of records is set)
 	 * 
-	 * @return Returns array of arrays representing records
+	 * @return Returns array of arrays representing records (throttled import => array( results, new offset ))
 	 */
-	function toArray( $content, $fields = array(), $num_fields = 0, $method = 1, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
-	{
+	function toArray( $content, $fields = array(), $num_fields = 0, $method = 1,  $params = '' )
+	{		
 		$result = array();
-		switch($method)
+		switch( $method )
 		{
 			case 1 : // explode method
-				$result = TiendaCSV::toArrayExplode( $content, $fields, $num_fields, $preserve_header, $skip_first, $rec_deliminer, $field_deliminer, $clear_fields, $preserve_indexes );
+				$result = TiendaCSV::toArrayExplode( $content, $fields, $num_fields, $params );
 				break;
 			case 2 : // our own method
-				$result = TiendaCSV::toArrayOur( $content, $fields, $num_fields, $preserve_header, $skip_first, $rec_deliminer, $field_deliminer, $clear_fields, $preserve_indexes );
+				$result = TiendaCSV::toArrayOur( $content, $fields, $num_fields, $params );
 				break;
 		}
 		return $result;
@@ -53,41 +59,174 @@ class TiendaCSV extends JObject
 	 * @param $content 						String to be translated
 	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
 	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
-	 * @param $preserve_header 		Preserve header as a firt row of the result array
-	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
-	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * @param $params     				Parameters of importing
+	 * 			- skip_first 				If first line of the content should be skipped (not parsed as a record - usually a header)
+	 *      - preserve_header		Preserve header as a firt row of the result array
+	 * 			- rec_deliminer 		Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * 			- field_deliminer 	Deliminer distinguishing fields in a record
+	 * 			- clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * 			- preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * 			- begin_import			Starting with importing right now? (true by default - important to set to false when importing next time using offset)
+	 * 			- throttled_import	Are we performing th throttled import ? (return data + offset after reading)
+	 * 			- num_records			  Max number of loaded records, if needed to be limited (for throttled import ) - 0 => unlimited
+	 * 			- offset						Offset in parsing file
+	 * 			- chunk_size			  Size of one chunk of data read during throttled import(required only when number of records is set)
 	 * 
-	 * @return Returns array of arrays representing records
+	 * @return Returns array of arrays representing records (throttled import => array( results, new offset ))
 	 */
-	function toArrayExplode( $content, $fields = array(), $num_fields = 0, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
+	function toArrayExplode( $content, $fields = array(), $num_fields = 0, $params = '' )
 	{
-		$result = array();
-		$tmp = explode( $rec_deliminer, $content );
+		if( !$params )
+			$params = new JRegistry();
+
+		$skip_first = $params->getValue( 'skip_first', true );
+		$preserve_header = $params->getValue( 'preserve_header', false );
+		$rec_deliminer = $params->getValue( 'rec_deliminer', "\n" );
+		$field_deliminer = $params->getValue( 'field_deliminer', "," );
+		$clear_fields = $params->getValue( 'clear_fields', true );
+		$preserve_indexes = $params->getValue( 'preserve_indexes', true );
+		$num_records = $params->getValue( 'num_records', 0 );
+		$throttled = $params->getValue( 'throttled_import', false );
+		$offset_original = $offset = $params->getValue( 'offset', 0 );
+		$begin_import = $params->getValue( 'begin_import', true );
+		$chunk = $params->getValue( 'chunk_size', 4096 );
 		
-		if( !$tmp || ( !($c = count( $tmp )) ) ) // no results or a deliminer is empty => empty array
+		$recs = 0; // number of read recs
+		$result = array(); // array with results
+		$offset_act = 0; // relative offset in the file
+		$size_deliminer = strlen( $rec_deliminer ); // size of deliminer (so it does not need to be calculated every time)
+
+		if( $throttled ) // not all records might be imported
+		{
+			$read_records = $num_records; // read only $num_records records
+			jimport( 'joomla.filesystem.file' );
+			$source_file = $content;
+			$content = JFile::read( $source_file, false, $chunk, $chunk, $offset ); // read the first chunk of data
+		}
+		$tmp = explode( $rec_deliminer, $content );
+		if( !$num_records ) // all records should be read
+			$num_records = count( $tmp );
+
+		if( !$tmp || !$num_records ) // no results or a deliminer is empty => empty array
 			return $result;
 
-		if( !$num_fields ) // number of fields is not set => get it from header (firt line)
+		if( !$num_fields ) // number of fields is not set => get it from header (first line)
 			$num_fields = count( explode( $field_deliminer, $tmp[0] ) );
-			
-		$c = count( $tmp ); // number of records
-		if( $skip_first ) // skip first line
-		{
-			$tmp_head = array_shift( $tmp );
-			if( $preserve_header ) // we want to preserve header
-				$result[] = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $tmp_head ), $clear_fields, $preserve_indexes );
 
-			$c--; // adjust number of records
+		$c = count( $tmp ); // number of currently loaded records
+		$i = 0; // index in the list of read records from the file
+		$rec_string = ''; // string containing the current record
+		$rec_size = 0;
+		$act_rec = false;
+		$last_in_chunk = false; // if the record was last in the chunk (needs to check if the whole record ended in that chunk)
+		while( $recs != $num_records )
+		{
+			$length = strlen( $tmp[$i] );
+			$offset_act += $length;
+			if( $i < ( $c - 1 ) )
+				$offset_act += $size_deliminer;
+
+			// read actual "record" from the file (in case of throttled import - we dont know if this is the whole record)
+			if( strlen( $rec_string ) ) // append the "record" if there are traces of the previous "record" (in case of abrupt end of the chunk)
+				$rec_string .= $tmp[$i];
+			else // new record
+				$rec_string = $tmp[$i];
+
+			if( $length )
+			{
+				$act_rec = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $rec_string ), $clear_fields && !$throttled, $preserve_indexes );
+				if( count( $act_rec ) == $num_fields ) // whole record
+				{
+					if( $begin_import )
+					{
+						$begin_import = false; // the first record was read
+						if( $skip_first ) // we want to skip the first record
+						{
+							if( $preserve_header ) // but we want to keep it because it's header
+								$result[] = $act_rec;
+							$act_rec = false;
+							$rec_string = '';
+							
+							if( !$throttled ) // not a throttled import -> one record represents header
+								$num_records--;
+						}
+					}
+					
+					if( !$last_in_chunk ) // tha previously processed record was not the last loaded record in the chunk
+					{
+						if( $i != ( $c - 1) ) // this one is not the last loaded record in the current chunk so the record is fully parsed
+								$rec_string = '';
+					}
+					else // the previously processed record was the last loaded record in the chunk
+					{
+						// we update it
+						$result[$recs] = $act_rec;
+						$act_rec = false; // nothing new will be added to array of results
+						if( $i != ( $c - 1) )  // this one is not the last loaded record in the current chunk so the record is fully parsed
+						{
+							$recs++;
+							$rec_string = '';
+						}
+					}
+				}
+				else // only part of the record
+				{
+					if( $last_in_chunk ) // the previously processed record was the last loaded record in the chunk
+					{							
+						if( $i != ( $c - 1) ) // not the last in the chunk again
+						{
+							// we update it and set this record as "not the last in the chunk"
+							$result[$recs] = $act_rec;
+							$recs++;
+							$rec_string = '';
+							$last_in_chunk = false;
+						}
+					}
+					$act_rec = false; // nothing is added to the array of results
+				}
+			}
+			else // no record was read
+			{
+				if( strlen( $rec_string ) ) // this is the end of the currently processed record so we need to increase number of added records (it was decreased, because this record is divided among several chunks)
+					$recs++;
+				$last_in_chunk = false;
+				$act_rec = false;
+				$rec_string = '';
+			}
+
+			if( $act_rec ) // if there is a record waiting to be added -> add it
+			{
+				$result []= $act_rec;
+				$recs++;
+			}
+			$i++; // next "record"
+
+			if( ( $i == $c ) && $throttled ) // we need to load another chunk
+			{
+				$last_in_chunk = true;
+				if( $act_rec )
+					$recs--;
+				
+				$offset += $chunk;
+				$content = JFile::read( $source_file, false, $chunk, $chunk, $offset ); // read the next chunk of data
+				if( $content === false ) // end of file? get out of the cycle
+					break;
+				$tmp = explode( $rec_deliminer, $content );
+				$i = 0;
+				$c = count( $tmp );
+			}
+		}
+		
+		if( $throttled )
+		{
+			if( $clear_fields ) // clear fields -> this is a slow solution, but it's coded fast
+			{
+				for( $i = 0; $i < $num_records; $i++ )
+					$result[$i] = TiendaCSV::processFieldsToArray( $fields, $result[$i], true, $preserve_indexes );
+			}
+			return array( $result, $offset_original + $offset_act );
 		}
 
-		for( $i = 0; $i < $c; $i++ )
-		{
-			if( strlen( $tmp[$i] ) ) // process the line (skip all empty lines)
-				$result[] = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $tmp[$i] ), $clear_fields, $preserve_indexes );
-		}
 		return $result;
 	}
 
@@ -98,17 +237,37 @@ class TiendaCSV extends JObject
 	 * @param $content 						String to be translated
 	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
 	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
-	 * @param $preserve_header 		Preserve header as a firt row of the result array
-	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
-	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * @param $params 						Parameters of importing
+	 * 			- skip_first 				If first line of the content should be skipped (not parsed as a record - usually a header)
+	 *      - preserve_header		Preserve header as a firt row of the result array
+	 * 			- rec_deliminer 		Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * 			- field_deliminer 	Deliminer distinguishing fields in a record
+	 * 			- clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * 			- preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * 			- begin_import			Starting with importing right now? (true by default - important to set to false when importing next time using offset)
+	 * 			- throttled_import	Are we performing th throttled import ? (return data + offset after reading)
+	 * 			- num_records			  Max number of loaded records, if needed to be limited (for throttled import ) - 0 => unlimited
+	 * 			- offset						Offset in parsing file
+	 * 			- chunk_size			  Size of one chunk of data read during throttled import(required only when number of records is set)
 	 * 
-	 * @return Returns array of arrays representing records
+	 * @return Returns array of arrays representing records (throttled import => array( results, new offset ))
 	 */
-	function toArrayOur( $content, $fields = array(), $num_fields = 0, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
+	function toArrayOur( $content, $fields = array(), $num_fields = 0, $params = '' )
 	{
+		if( !$params )
+			$params = new JRegistry();
+
+		$skip_first = $params->getValue( 'skip_first', true );
+		$preserve_header = $params->getValu( 'preserve_header', false );
+		$rec_deliminer = $params->getValue( 'rec_deliminer', "\n" );
+		$field_deliminer = $params->getValue( 'field_deliminer', "," );
+		$clear_fields = $params->getValue( 'clear_fields', true );
+		$preserve_indexes = $params->getValue( 'preserve_indexes', true );
+		$num_records = $params->getValue( 'num_records', 0 );
+		$offset = $params->getValue( 'offset', 0 );
+		$begin_import = $params->getValue( 'begin_import', true );
+		$chunk = $params->getValue( 'chunk_size', 4096 ); // 4kB by default
+				
 		$result = array();
 		$tmp_lines = explode( $rec_deliminer, $content );
 		
@@ -213,6 +372,8 @@ class TiendaCSV extends JObject
 			
 			$result[] = TiendaCSV::processFieldsToArray( $fields, $tmp_arr1, $clear_fields, $preserve_indexes );
 			$record++;
+			if( $record == $num_records )
+				break;
 		}
 
 		return $result;
@@ -330,8 +491,12 @@ class TiendaCSV extends JObject
 			$result = TiendaCSV::processFieldsFromArray( $header, $use_fields, $field_deliminer ).$rec_deliminer;
 		
 		for( $i = 0, $c = count( $content ); $i < $c; $i++ ) // export all other records
-			$result.= TiendaCSV::processFieldsFromArray( $content[$i], $use_fields, $field_deliminer ).$rec_deliminer;
-
+		{
+			$result.= TiendaCSV::processFieldsFromArray( $content[$i], $use_fields, $field_deliminer );
+			if( $i < ( $c - 1 ) )
+				$result .= $rec_deliminer;
+		}
+		
 		return $result;
 	}
 	
@@ -420,19 +585,32 @@ class TiendaCSV extends JObject
 	 * @param $fields 						Array of indexes fields which we want to process (an empty array means we want to process all fields)
 	 * @param $num_fields 				Number of fields in a row (0 means that it'll be calculated from the first row -> header)
 	 * @param $method 						Method to use to parse the data (1 - explode, 2 - our own (more complex and slower) method)
-	 * @param $preserve_header 		Preserve header as a firt row of the result array
-	 * @param $skip_first 				If first line of the content should be skipped (not parsed as a record)
-	 * @param $rec_deliminer 			Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
-	 * @param $field_deliminer 		Deliminer distinguishing fields in a record
-	 * @param $clear_fields 			If we want to get rid of double quotes in string-containing fields
-	 * @param $preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * @param $params							Parameters of importing
+	 * 			- skip_first 				If first line of the content should be skipped (not parsed as a record - usually a header)
+	 *      - preserve_header		Preserve header as a firt row of the result array
+	 * 			- rec_deliminer 		Delimier distinguishing records from each other (for method 2, if it's  it can be used also in field content)
+	 * 			- field_deliminer 	Deliminer distinguishing fields in a record
+	 * 			- clear_fields 			If we want to get rid of double quotes in string-containing fields
+	 * 			- preserve_indexes 	If we want to have the same field indexes in result array as in the CSV file
+	 * 			- begin_import			Starting with importing right now? (true by default - important to set to false when importing next time using offset)
+	 * 			- throttled_import	Are we performing th throttled import ? (return data + offset after reading)
+	 * 			- num_records			  Max number of loaded records, if needed to be limited (for throttled import ) - 0 => unlimited
+	 * 			- offset						Offset in parsing file
+	 * 			- chunk_size			  Size of one chunk of data read during throttled import(required only when number of records is set)
 	 * 
-	 * @return Returns array of arrays representing records
+	 * @return Returns array of arrays representing records (throttled import => array( results, new offset ))
 	 */
-	function fromFileToArray( $file_path, $fields = array(), $num_fields = 0, $method = 1, $preserve_header = false, $skip_first = true, $rec_deliminer = "\n", $field_deliminer = ",", $clear_fields = true, $preserve_indexes = true )
+	function fromFileToArray( $file_path, $fields = array(), $num_fields = 0, $method = 1, $params = '' )
 	{
-		$buffer = file_get_contents( $file_path );// read the file
-		return TiendaCSV::toArray( $buffer, $fields, $num_fields, $method, $preserve_header, $skip_first, $rec_deliminer, $field_deliminer, $clear_fields, $preserve_indexes ); // parse data
+		if( empty( $params ) )
+			$params = new JRegistry();
+		
+		$throttled = $params->getValue( 'throttled_import', false );
+		if( $throttled )
+			$content = $file_path; // pass path to the file so we can access it in future
+		else // parse whole file
+			$content = file_get_contents( $file_path );// read the file
+		return TiendaCSV::toArray( $content, $fields, $num_fields, $method, $params );			
 	}
 }
 ?>
