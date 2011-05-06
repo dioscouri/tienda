@@ -58,6 +58,32 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
    */
   public $import_preserve_indexes = true;
 
+  /*
+   * If we are just beginning with the import
+   */
+  public $import_begin_import = true;
+  
+  /*
+   * If we want to use the throttled import
+   */
+  public $import_throttled_import = false;
+  
+  /*
+   * Number of records we want to parse (0 means all)
+   */
+  public $import_num_records = 0;
+
+  /*
+   * Offset in the file
+   */
+  public $import_offset = 0;
+
+  /*
+   * Default size of a chunk of a file
+   */
+  public $import_chunk_size = 4096;
+  
+  
 	/*
 	 * Sets default values for variables from request
 	 */
@@ -120,8 +146,11 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
     $this->vars->upload->proper_name = TiendaFile::getProperName( $this->source_import );
 
     // load file
-    $this->vars->upload->fileToText();
-    $this->source_data = $this->vars->upload->fileastext;
+    if( !$this->import_throttled_import )
+    {
+    	$this->vars->upload->fileToText();
+    	$this->source_data = $this->vars->upload->fileastext;
+    }
     return true;
 	}
 
@@ -136,16 +165,27 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
    	$this->import_skip_first = $this->state->skip_first;
    	$this->import_field_separator = $this->state->field_separator;
    	
+		$params = new JRegistry();
+		$params->setValue( 'skip_first', $this->import_skip_first );
+		$params->setValue( 'num_records', $this->import_num_records );
+		$params->setValue( 'num_fields', $this->import_num_fields );
+		$params->setValue( 'clear_fields', $this->import_clear_fields );
+		$params->setValue( 'chunk_size', $this->import_chunk_size );
+		$params->setValue( 'preserve_header', $this->import_preserve_header );
+		$params->setValue( 'offset', $this->import_offset );
+		$params->setValue( 'begin_import', $this->import_begin_import );
+		$params->setValue( 'throttled_import', $this->import_throttled_import );
+		$params->setValue( 'rec_deliminer', $this->import_rec_deliminer );
+		$params->setValue( 'field_deliminer', $this->import_field_separator );
+		
+		if( $this->import_throttled_import ) // use name of the file as source for the importer
+			$this->source_data = $this->source_import;
+
    	$data = TiendaCSV::toArray( $this->source_data,
    															$this->import_fields,
    															$this->import_fields_num,
    															$this->parse_method,
-   															$this->import_preserve_header,
-   															$this->import_skip_first,
-   															$this->import_rec_deliminer,
-   															$this->import_field_separator,
-   															$this->import_clear_fields,
-   															$this->import_preserve_indexes );
+   															$params );
 
    	if( !$data ) // an error during parsing data
    	{
