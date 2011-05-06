@@ -105,7 +105,12 @@ class TiendaCSV extends JObject
 		}
 		$tmp = explode( $rec_deliminer, $content );
 		if( !$num_records ) // all records should be read
-			$num_records = count( $tmp );
+		{
+			if( $throttled )
+				$num_records = -1;
+			else
+				$num_records = count( $tmp );
+		}
 
 		if( !$tmp || !$num_records ) // no results or a deliminer is empty => empty array
 			return $result;
@@ -209,7 +214,7 @@ class TiendaCSV extends JObject
 				
 				$offset += $chunk;
 				$content = JFile::read( $source_file, false, $chunk, $chunk, $offset ); // read the next chunk of data
-				if( $content === false ) // end of file? get out of the cycle
+				if( $content == false ) // end of file? get out of the cycle
 					break;
 				$tmp = explode( $rec_deliminer, $content );
 				$i = 0;
@@ -221,7 +226,7 @@ class TiendaCSV extends JObject
 		{
 			if( $clear_fields ) // clear fields -> this is a slow solution, but it's coded fast
 			{
-				for( $i = 0; $i < $num_records; $i++ )
+				for( $i = 0, $c = count( $result ) ; $i < $c; $i++ )
 					$result[$i] = TiendaCSV::processFieldsToArray( $fields, $result[$i], true, $preserve_indexes );
 			}
 			return array( $result, $offset_original + $offset_act );
