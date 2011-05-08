@@ -139,8 +139,9 @@ class TiendaCSV extends JObject
 
 			if( $length )
 			{
-				$act_rec = TiendaCSV::processFieldsToArray( $fields, explode( $field_deliminer, $rec_string ), $clear_fields && !$throttled, $preserve_indexes );
-				if( count( $act_rec ) == $num_fields ) // whole record
+				$act_data = explode( $field_deliminer, $rec_string );
+				$act_rec = TiendaCSV::processFieldsToArray( $fields, $act_data, $clear_fields && !$throttled, $preserve_indexes );
+				if( count( $act_data ) == $num_fields ) // whole record
 				{
 					if( $begin_import )
 					{
@@ -150,7 +151,6 @@ class TiendaCSV extends JObject
 							if( $preserve_header ) // but we want to keep it because it's header
 								$result[] = $act_rec;
 							$act_rec = false;
-							$rec_string = '';
 							
 							if( !$throttled ) // not a throttled import -> one record represents header
 								$num_records--;
@@ -160,7 +160,7 @@ class TiendaCSV extends JObject
 					if( !$last_in_chunk ) // tha previously processed record was not the last loaded record in the chunk
 					{
 						if( $i != ( $c - 1) ) // this one is not the last loaded record in the current chunk so the record is fully parsed
-								$rec_string = '';
+							$rec_string = '';
 					}
 					else // the previously processed record was the last loaded record in the chunk
 					{
@@ -194,6 +194,7 @@ class TiendaCSV extends JObject
 			{
 				if( strlen( $rec_string ) ) // this is the end of the currently processed record so we need to increase number of added records (it was decreased, because this record is divided among several chunks)
 					$recs++;
+
 				$last_in_chunk = false;
 				$act_rec = false;
 				$rec_string = '';
