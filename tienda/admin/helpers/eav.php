@@ -115,7 +115,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param unknown_type $value
      */
     function editForm($eav, $value = null)
-    {
+    { 
     	// Type of the field
     	switch($eav->eavattribute_type)
     	{
@@ -124,7 +124,7 @@ class TiendaHelperEav extends TiendaHelperBase
     			return TiendaSelect::booleans($value, $eav->eavattribute_alias);
     			break;
     		case "datetime":
-    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
+    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias_".$eav->eavattribute_id, "%Y-%m-%d %H:%M:%p" );
     			break;
     		case "text":
     			$editor = &JFactory::getEditor();
