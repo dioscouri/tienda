@@ -229,7 +229,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 				$data = TiendaCSV::fromFileToArray( $this->source_import, $this->import_fields, $this->import_fields_num, $this->parse_method, $params );
 				$c = count( $data[0] );
 				$this->set( 'data', $data[0] );
-				$result .= $this->migrate_throttled();
+				$result .= $this->migrate_data();
 				if( $c != $this->import_num_records )
 					break;
 				$params->setValue( 'offset', $data[1] );
@@ -238,29 +238,19 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 			return $result;
 		}
 		else
-			return $this->migrate_all();
+			return $this->migrate_data();
 	}
 
 	/*
-	 * Performs migration of data (all at once)
+	 * Performs the actual migration of data
 	 * 
 	 * @return Additional HTML code you would like to display on the final step
 	 */
-	function migrate_all()
+	function migrate_data()
 	{
 		return '';
 	}
-	
-	/*
-	 * Performs migration of data (throttled import)
-	 * 
-	 * @return Additional HTML code you would like to display on the final step
-	 */
-	function migrate_throttled()
-	{
-		return '';
-	}
-	
+		
 	
 	/*
 	 * Updates list of fields to import

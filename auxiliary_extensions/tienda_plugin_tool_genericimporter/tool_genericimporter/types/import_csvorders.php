@@ -56,23 +56,12 @@ class plgTiendaTool_CsvOrders extends TiendaToolPluginImportCsv
 	}
 
 	/*
-	 * Performs migration of data (throttled import)
+	 * Performs the actual migration of data
 	 * 
 	 * @return Additional HTML code you would like to display on the final step
 	 */
-	function migrate_throttled()
+	function migrate_data()
 	{
 		return Tienda::dump( $this->data );
 	}
-
-	/*
-	 * Performs migration of data (throttled import)
-	 * 
-	 * @return Additional HTML code you would like to display on the final step
-	 */
-	function migrate_all()
-	{
-		return Tienda::dump( $this->data );
-	}
-
 }
