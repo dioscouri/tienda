@@ -82,8 +82,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
    * Default size of a chunk of a file
    */
   public $import_chunk_size = 4096;
-  
-  
+ 
 	/*
 	 * Sets default values for variables from request
 	 */
@@ -168,7 +167,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 		$params = new JRegistry();
 		$params->setValue( 'skip_first', $this->import_skip_first );
 		$params->setValue( 'num_records', $this->import_num_records );
-		$params->setValue( 'num_fields', $this->import_num_fields );
+		$params->setValue( 'num_fields', $this->import_fields_num );
 		$params->setValue( 'clear_fields', $this->import_clear_fields );
 		$params->setValue( 'chunk_size', $this->import_chunk_size );
 		$params->setValue( 'preserve_header', $this->import_preserve_header );
@@ -180,22 +179,88 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 		
 		if( $this->import_throttled_import ) // use name of the file as source for the importer
 			$this->source_data = $this->source_import;
-
-   	$data = TiendaCSV::toArray( $this->source_data,
-   															$this->import_fields,
-   															$this->import_fields_num,
-   															$this->parse_method,
-   															$params );
-
-   	if( !$data ) // an error during parsing data
-   	{
-   		$this->setError( JText::_( 'ERROR IN INTEGRITY OF DATA' ) );
-   		return false;
-   	}
-
-		$this->set( 'data', $data );
+		else
+		{
+	   	$data = TiendaCSV::toArray( $this->source_data,
+	   															$this->import_fields,
+	   															$this->import_fields_num,
+	   															$this->parse_method,
+	   															$params );
+	
+	   	if( !$data ) // an error during parsing data
+	   	{
+	   		$this->setError( JText::_( 'ERROR IN INTEGRITY OF DATA' ) );
+	   		return false;
+	   	}
+	
+			$this->set( 'data', $data );
+		}
 		return true;
 	}
+	
+	/*
+	 * Performs migration of data
+	 * 
+	 * @return Additional HTML code you would like to display on the final step
+	 */
+	function migrate()
+	{
+		if( $this->import_throttled_import )
+		{
+			$result = '';
+			$this->import_skip_first = $this->state->skip_first;
+			$this->import_field_separator = $this->state->field_separator;
+   	
+			$params = new JRegistry();
+			$params->setValue( 'skip_first', $this->import_skip_first );
+			$params->setValue( 'num_records', $this->import_num_records );
+			$params->setValue( 'num_fields', $this->import_fields_num );
+			$params->setValue( 'clear_fields', $this->import_clear_fields );
+			$params->setValue( 'chunk_size', $this->import_chunk_size );
+			$params->setValue( 'preserve_header', $this->import_preserve_header );
+			$params->setValue( 'offset', $this->import_offset );
+			$params->setValue( 'begin_import', $this->import_begin_import );
+			$params->setValue( 'throttled_import', true );
+			$params->setValue( 'rec_deliminer', $this->import_rec_deliminer );
+			$params->setValue( 'field_deliminer', $this->import_field_separator );
+			
+			while( true )
+			{
+				$data = TiendaCSV::fromFileToArray( $this->source_import, $this->import_fields, $this->import_fields_num, $this->parse_method, $params );
+				$c = count( $data[0] );
+				$this->set( 'data', $data[0] );
+				$result .= $this->migrate_throttled();
+				if( $c != $this->import_num_records )
+					break;
+				$params->setValue( 'offset', $data[1] );
+				$params->setValue('begin_import', false);  
+			}
+			return $result;
+		}
+		else
+			return $this->migrate_all();
+	}
+
+	/*
+	 * Performs migration of data (all at once)
+	 * 
+	 * @return Additional HTML code you would like to display on the final step
+	 */
+	function migrate_all()
+	{
+		return '';
+	}
+	
+	/*
+	 * Performs migration of data (throttled import)
+	 * 
+	 * @return Additional HTML code you would like to display on the final step
+	 */
+	function migrate_throttled()
+	{
+		return '';
+	}
+	
 	
 	/*
 	 * Updates list of fields to import

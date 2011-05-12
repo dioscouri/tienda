@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_SITE.'/plugins/tienda/tool_genericimporter/genericimport_csv.php';
 
-class plgTiendaTool_CsvOrders2 extends TiendaToolPluginImportCsv
+class plgTiendaTool_CsvOrders extends TiendaToolPluginImportCsv
 {
 	/*
 	 * Name of the importer displayed in select box
@@ -26,6 +26,8 @@ class plgTiendaTool_CsvOrders2 extends TiendaToolPluginImportCsv
 	function getDefaultState()
 	{
 		parent::getDefaultState();
+		$this->import_throttled_import = true;
+		$this->import_num_records = 1;
 		$this->state->lol = '(party)';
 	}
 
@@ -61,5 +63,16 @@ class plgTiendaTool_CsvOrders2 extends TiendaToolPluginImportCsv
 	function getHtmlStep3View()
 	{
 		return Tienda::dump( $this->get( 'data' ) );
+	}
+
+
+	/*
+	 * Performs migration of data (throttled import)
+	 * 
+	 * @return Additional HTML code you would like to display on the final step
+	 */
+	function migrate_throttled()
+	{
+		return Tienda::dump( $this->data ).'asas';
 	}
 }
