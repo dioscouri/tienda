@@ -394,7 +394,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 	{
 		$suffix = $this->_getTokenSuffix();
 		$layout = 'view_'.++$suffix;
-		$this->_importer->migrate();
+		$this->vars->additional_html = $this->_importer->migrate();
 
 		return $this->_getLayout( $layout, $this->vars );
 	}

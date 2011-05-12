@@ -56,23 +56,23 @@ class plgTiendaTool_CsvOrders extends TiendaToolPluginImportCsv
 	}
 
 	/*
-	 * Get HTML code for view layout of step 3
-	 * 
-	 * @return HTML code for the step
-	 */
-	function getHtmlStep3View()
-	{
-		return Tienda::dump( $this->get( 'data' ) );
-	}
-
-
-	/*
 	 * Performs migration of data (throttled import)
 	 * 
 	 * @return Additional HTML code you would like to display on the final step
 	 */
 	function migrate_throttled()
 	{
-		return Tienda::dump( $this->data ).'asas';
+		return Tienda::dump( $this->data );
 	}
+
+	/*
+	 * Performs migration of data (throttled import)
+	 * 
+	 * @return Additional HTML code you would like to display on the final step
+	 */
+	function migrate_all()
+	{
+		return Tienda::dump( $this->data );
+	}
+
 }

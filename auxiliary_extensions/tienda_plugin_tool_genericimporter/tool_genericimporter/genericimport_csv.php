@@ -183,7 +183,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 		{
 	   	$data = TiendaCSV::toArray( $this->source_data,
 	   															$this->import_fields,
-	   															$this->import_fields_num,
+ 	   															$this->import_fields_num,
 	   															$this->parse_method,
 	   															$params );
 	
@@ -233,7 +233,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 				if( $c != $this->import_num_records )
 					break;
 				$params->setValue( 'offset', $data[1] );
-				$params->setValue('begin_import', false);  
+				$params->setValue('begin_import', false );  
 			}
 			return $result;
 		}
