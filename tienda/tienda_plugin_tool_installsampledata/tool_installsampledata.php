@@ -399,8 +399,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
             	
             	$results[$n]->affectedRows = $database->getAffectedRows();
 			
-				$n++;
-				$i++;
+				$n++;				
 			}
 		}	
 
