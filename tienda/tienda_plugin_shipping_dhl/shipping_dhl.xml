@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>shipping via Dhl</name>
+	<name>Shipping via DHL</name>
 	<version>0.7.2</version>
 	<creationDate>AUGUST 2010</creationDate>
 	<author>Dioscouri</author>
@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2010 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin is for Dhl</description>
+	<description>This plugin is for DHL</description>
 	
 	<files>
 		<filename plugin="shipping_dhl">shipping_dhl.php</filename>
@@ -18,37 +18,22 @@
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_shipping_dhl.ini</language>
 	</languages>
-
+	
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
-		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
-		<param name="account" type="text" size="50" default="" label="API Account ID" description="API Account ID Desc"/>
-		<param name="meter" type="text" size="50" default="" label="API Meter" description="API Meter Desc"/>
-		<param name="dropoff" type="list" default="0" label="Dropoff Type" description="Dropoff Type Desc">
-		  <option value="0">None</option>
-		  <option value="REGULAR_PICKUP">Regular Pickup</option>
-		  <option value="BUSINESS_SERVICE_CENTER">Business Service Center</option>
-		  <option value="DROP_BOX">Drop Box</option>
-		  <option value="REQUEST_COURIER">Request Courier</option>
-		  <option value="STATION">Station</option>
+		<param name="siteid" type="text" size="50" default="" label="API Site ID" description="Identifies the sender of the request."/>
+		<param name="password" type="text" size="50" default="" label="API Password" description="Authenticates the sender message."/>
+		<param name="shipperaccnt" type="text" size="50" default="" label="Shipper Account Number" description="The Account Number contains the account number for the billing"/>	
+		<param name="services" type="textarea" default="" label="Services List" description="Services List Desc" rows="5" cols="30" />
+		<param name="packaging" type="list" default="CP" label="Packaging Type" description="Packaging Type Desc">
+			<option value="EE">DHL_EXPRESS_ENVELOPE</option>
+			<option value="OD">OTHER_DHL_PACKAGING</option>
+			<option value="CP">CUSTOMER_PROVIDED</option>		
 		</param>
-        <param name="services" type="textarea" default="DHL_GROUND, STANDARD_OVERNIGHT" label="Services List" description="Services List Desc" rows="5" cols="30" />
-		<param name="packaging" type="list" default="YOUR_PACKAGING" label="Packaging Type" description="Packaging Type Desc">
-			<option value="YOUR_PACKAGING">YOUR_PACKAGING</option>
-			<option value="DHL_10KG_BOX">DHL_10KG_BOX</option>
-			<option value="DHL_25KG_BOX">DHL_25KG_BOX</option>
-			<option value="DHL_BOX">DHL_BOX</option>
-			<option value="DHL_ENVELOPE">DHL_ENVELOPE</option>
-			<option value="DHL_PAK">DHL_PAK</option>
-			<option value="DHL_TUBE">DHL_TUBE</option>
+		<param name="weight_unit" type="list" default="L" label="Weight Unit" description="Unit of measure for weight.">			
+			<option value="L">LB</option>
 		</param>
-		<param name="weight_unit" type="list" default="KG" label="Weight Unit" description="Weight Unit Desc">
-			<option value="KG">KG</option>
-			<option value="LB">LB</option>
-		</param>
-		<param name="dimension_unit" type="list" default="CM" label="Dimension Unit" description="Dimension Unit Desc">
-			<option value="CM">CM</option>
-			<option value="IN">IN</option>
+		<param name="dimension_unit" type="list" default="I" label="Dimension Unit" description="Unit of mausure for size">			
+			<option value="I">IN</option>
 		</param>
 	</params>
 			
