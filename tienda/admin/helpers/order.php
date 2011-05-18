@@ -479,6 +479,11 @@ class TiendaHelperOrder extends TiendaHelperBase
                             $errorMsg .= $subscription->getError();
                             // TODO What to do with this error 
                         }
+						else
+						{
+					        $dispatcher = JDispatcher::getInstance();
+					        $dispatcher->trigger( 'onAfterEnableSubscription', array( $subscription ) );
+						}
                     }
                 }
             }
