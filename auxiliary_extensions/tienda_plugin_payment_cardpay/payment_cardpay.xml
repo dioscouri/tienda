@@ -1,0 +1,60 @@
+	<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Cardpay Payments</name>
+	<version>0.7.2</version>
+	<creationDate>June 2011</creationDate>
+	<author>Lukas Pokak</author>
+	<authorEmail>polak.lukas90@gmail.com</authorEmail>
+	<authorUrl>http://www.lukaspolak.net</authorUrl>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Cardpay payments</description>
+	
+	<files>
+		<filename plugin="payment_cardpay">payment_cardpay.php</filename>
+		<folder>payment_cardpay</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="sk-SK">sk-SK.plg_tienda_payment_cardpay.ini</language>
+	</languages>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+      <param name="mid" type="text" size="50" default="" label="Cardpay MID" description="Cardpay MID Desc"/>
+      <param name="secure_key" type="text" size="50" default="" label="Cardpay Secure Key" description="Cardpay Secure Key Desc"/>
+      <param name="name" type="text" size="50" default="" label="Cardpay Client Name" description="Cardpay Client Name Desc"/>
+      <param name="currency" type="text" size="50" default="978" label="Cardpay Currency" description="Cardpay Currency Desc" />
+      <param name="constant_symbol" type="text" size="50" default="" label="Cardpay Constant Symbol" description="Cardpay Constant Symbol Desc"/>
+      <param name="rsms" type="text" size="50" default="" label="Cardpay Return SMS" description="Cardpay Return SMS Desc"/>
+      <param name="rem" type="text" size="50" default="" label="Cardpay Return E-mail" description="Cardpay Return E-mail Desc"/>
+      <param name="lang" type="radio" default="sk" label="Cardpay Language" description="Cardpay Language Desc">
+        <option value="sk">Slovak</option>
+        <option value="en">English</option>
+        <option value="de">Germany</option>
+        <option value="hu">Hungary</option>
+      </param>
+      <param type="spacer" />
+      <param name="sandbox" type="radio" default="0" label="Cardpay Use Sandbox" description="Tatrapay Use Sandbox Desc">
+        <option value="0">No</option>
+        <option value="1">Yes - Tatrabanka</option>
+        <option value="2">Yes - Monogram</option>
+      </param>
+      <param name="sandbox_mid" type="text" size="50" default="1joa" label="Cardpay MID" description="Cardpay MID Desc Sandbox"/>
+      <param name="sandbox_secure_key" type="text" size="50" default="43218765" label="Cardpay Secure Key" description="Cardpay Secure Key Desc Sandbox"/>
+      <param name="sandbox_name" type="text" size="50" default="" label="Cardpay Client Name" description="Cardpay Client Name Desc"/>
+      <param name="sandbox_currency" type="text" size="50" default="978" label="Cardpay Currency" description="Cardpay Currency Desc" />
+      <param name="sandbox_constant_symbol" type="text" size="50" default="" label="Cardpay Constant Symbol" description="Cardpay Constant Symbol Desc"/>
+      <param name="sandbox_rsms" type="text" size="50" default="" label="Cardpay Return SMS" description="Cardpay Return SMS Desc"/>
+      <param name="sandbox_rem" type="text" size="50" default="" label="Cardpay Return E-mail" description="Cardpay Return E-mail Desc"/>
+      <param name="sandbox_lang" type="radio" default="sk" label="Cardpay Language" description="Cardpay Language Desc">
+        <option value="sk">Slovak</option>
+        <option value="en">English</option>
+        <option value="de">Germany</option>
+        <option value="hu">Hungary</option>
+      </param>
+
+      <param type="spacer" />
+      <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+	</params>
+			
+</install>
