@@ -1,12 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
-
+<div id="validationmessage"></div>
 <h3><?php echo JText::_("Select a Shipping Method") ?></h3>
 
 <input type="button" onclick="tiendaGetShippingRates( 'shippingRatedWrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update customer's shipping rates"); ?>" />
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
-
-<input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
 
 <?php
     if (!empty($this->rates)) 

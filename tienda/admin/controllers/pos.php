@@ -152,7 +152,7 @@ class TiendaControllerPOS extends TiendaController
 		// track if we are in shipping or payment	
 		$session = JFactory::getSession();
 		$subtask = $session->get('subtask', 'shipping', 'tienda_pos');	
-				
+			
 		$order =& $this->populateOrder();
 		$view = $this->getView('pos', 'html');
 		$view->assign('step1_inactive', $this->step1Inactive());
@@ -218,6 +218,18 @@ class TiendaControllerPOS extends TiendaController
 				$order->calculateTotals();
 				
 				$view->assign('paymentOptions', $this->getPaymentOptionsHtml($order));
+				
+				// are there any enabled coupons?
+				$coupons_present = false;
+				$modelCoupon = JModel::getInstance( 'Coupons', 'TiendaModel' );
+				$modelCoupon->setState('filter_enabled', '1');
+				if ($coupons = $modelCoupon->getList())
+				{
+				    $coupons_present = true;
+				}
+				$view->assign( 'coupons_present', $coupons_present );
+				
+											
 			default :
 				break;
 		}
@@ -242,16 +254,33 @@ class TiendaControllerPOS extends TiendaController
 		//calculate the order totals as we already have the shipping
 		$order->calculateTotals();
 		$view->assign('orderSummary', $this->getOrderSummary($order));		
+
 	}
 
 	function saveStep2()
 	{
+		$session = JFactory::getSession();		
+		$session->set('subtask', 'shipping', 'tienda_pos');
 		// merely a redirect
 		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3");
 	}
 	
 	function saveStep3()
 	{
+		$values = JRequest::get('post');	
+				
+		$session = JFactory::getSession();		
+		if(empty($values['payment_plugin']))
+		{
+			$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3", JText::_('Payment method is required'), 'notice');
+		}
+		
+		$session->set('payment_plugin', $values['payment_plugin'], 'tienda_pos');
+		
+		
+		$this->saveOrder($values);
+		
+		
 		// merely a redirect
 		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step4");		
 		
@@ -281,7 +310,7 @@ class TiendaControllerPOS extends TiendaController
 	}
 	
 	function saveShipping()
-	{
+	{		
 		$post = JRequest::get('post');
 		$session = JFactory::getSession();
 		$session->set('shipping_price', $post['shipping_price'], 'tienda_pos');
@@ -322,12 +351,6 @@ class TiendaControllerPOS extends TiendaController
 
 		// convert elements to array that can be binded
 		$values = $helper->elementsToArray($elements);
-
-		// override the step if we are in shipping and then going to payment
-		if(!empty($values['subtask']))
-		{
-			$values['step'] = 'step3';
-		}
 
 		// validate it based on the step
 		switch ( $values['step'] )
@@ -459,39 +482,87 @@ class TiendaControllerPOS extends TiendaController
 		
 		$session = JFactory::getSession();
 		$subtask = $session->get('subtask', 'shipping', 'tienda_pos');	
-		
+
 		switch($subtask)
 		{
 			case 'shipping':
-				$response = $this->validateShipping($values);
+				if(empty($values['shipping_name']))
+				{
+					$response['error'] = '1';
+					$response['msg'] = $helper->generateMessage(JText::_("Please select shipping method."), false);
+				}
 				break;
 			case 'payment':
-			default:
-				$response = $this->validatePayment($values);
-				break;	
-			
+			default:		
+				if(empty($values['payment_plugin']))
+				{
+					$response['error'] = '1';
+					$response['msg'] = $helper->generateMessage(JText::_("Please select payment method."), false);
+				}
+				break;				
 		}		
 
 		return $response;
 	}
 	
-	function validateShipping($values)
-	{
-		$response = array();
-		$response['msg'] = '';
-		$response['error'] = '';
-		
-		return $response;
-	}
-	
-	function validatePayment($values)
-	{
-		$response = array();
-		$response['msg'] = '';
-		$response['error'] = '';
-		
-		return $response;
-	}
+	   /**
+     * Validate Coupon Code
+     *
+     * @return unknown_type
+     */
+    function validateCouponCode()
+    {
+        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );            
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
+        
+        $coupon_code = JRequest::getVar( 'coupon_code', '');
+        
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // check if coupon code is valid
+        $user_id = JFactory::getUser()->id;
+        Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
+        $helper_coupon = new TiendaHelperCoupon();
+        $coupon = $helper_coupon->isValid( $coupon_code, 'code', $user_id );
+        if (!$coupon)
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( $helper_coupon->getError() );
+            echo json_encode($response);
+            return;
+        }
+
+        if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "This Coupon Has Already Been Added to the Order" ) );
+            echo json_encode($response);
+            return;
+        }
+     	        
+        // TODO Check that the user can add this coupon to the order
+        $can_add = true;
+        if (!$can_add)
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "Cannot Add This Coupon to Order" ) );
+            echo json_encode($response);
+            return;
+        }
+    
+        // if valid, return the html for the coupon
+        $response['msg'] = " <input type='hidden' name='coupons[]' value='$coupon->coupon_id'>";
+ 
+        echo json_encode($response);
+        return;
+    }
 
 	/**
 	 * Method to show the listing of products
@@ -1649,4 +1720,25 @@ class TiendaControllerPOS extends TiendaController
 	   return $productitems;
     }
 
+	function saveOrder($values)
+	{
+		$error = false;
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$order = JTable::getInstance('Orders', 'TiendaTable');	
+		$order->bind( $values );
+		$order->user_id = JFactory::getUser()->id;					
+		$order->ip_address = $_SERVER['REMOTE_ADDR'];
+		$this->setAddresses( $order, $values );
+		
+		$session = JFactory::getSession();	
+		// set the shipping method
+		if($values['shippingrequired'])
+		{
+			$order->shipping = new JObject();
+			$order->shipping->shipping_price   = $session->get('shipping_price', '', 'tienda_pos');
+			$order->shipping->shipping_extra   = $session->get('shipping_extra', '', 'tienda_pos');
+			$order->shipping->shipping_name    = $session->get('shipping_name', '', 'tienda_pos');
+			$order->shipping->shipping_tax     = $session->get('shipping_tax', '', 'tienda_pos');
+		}
+	}
 }

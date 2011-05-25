@@ -34,8 +34,39 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="cell step_body active">
-			            <div id="validation_message"></div>			
+		<div class="cell step_body active">			
+			            <div id="validation_message"></div>		
+			  <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');?>
+        <?php if ($coupons_enabled && $this->coupons_present) : ?>
+        <!-- COUPON CODE -->
+        <div id="coupon_code_area">
+            <div id="coupon_code_form">
+            <h3><?php echo JText::_("Coupon Code");?></h3>
+            <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
+            <?php $string = "Coupon Code Help";
+				if($mult_enabled)
+				{
+					$string = "Coupon Code Help Multiple";
+				}
+ ?>
+            <div id="coupon_code_help"><?php echo JText::_($string);?></div>
+            <div id="coupon_code_message"></div>
+            <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
+            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order');?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php
+				if($mult_enabled)
+				{
+					echo "1";
+				}
+				else
+				{
+					echo "0";
+				}
+ ?>' );"/>
+            </div>
+            <div id='coupon_codes' style="display: none;"></div>
+        </div>
+        <?php endif;?>
+        
 			<div id="addresses">
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">
@@ -95,9 +126,9 @@
 				<?php endif;?>
 			</div>
 			<div class="continue">
-				<?php $subtask = $this->subtask== 'shipping' ? 'saveShipping' : 'saveStep3'; ?>
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '".$subtask."', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
-                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
+				<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'saveStep3';?>
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validationmessage', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
+                <input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
             </div>
 		</div>
 		<div class="cell step_title active">
@@ -126,3 +157,4 @@
 	</div>
 </div>
 <input type="hidden" name="nextstep" id="nextstep" value="step4" />
+<input type="hidden" id="shippingrequired" name="shippingrequired" value="<?php echo $this->showShipping ? 1 : 0;?>" />
