@@ -20,20 +20,22 @@
             <h2>
                 <?php echo JText::_( "SELECT_PRODUCTS" ); ?>
                 <span class="new_product">
-                    <?php echo TiendaURL::popup( "index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component", JText::_( "Add New Product to Order" ) ); ?>
+                    <?php echo TiendaURL::popup( "index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component", JText::_( "Add New Product to Order" ) , array('width'=>700, 'height'=>400)); ?>
                 </span>
             </h2>
                         
             <div id="validation_message"></div>
 
             <div id="cart">
-                <?php if (empty($this->cart)) { ?>
+                <?php if (empty($this->cart)): ?>
                     <?php echo JText::_( "No Items in Cart" ); ?>
-                <?php } ?>
+                <?php else: ?>
+                	<?php echo $this->cart;?>
+                <?php endif; ?>
             </div>
 
             <div class="continue">
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'doStep2', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
                 <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
             </div>        
         </div>
