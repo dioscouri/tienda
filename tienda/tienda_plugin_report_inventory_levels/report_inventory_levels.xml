@@ -1,1 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Report - Inventory Levels</name>
+	<version>0.7.5</version>
+	<creationDate>November 2010</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This reports the inventory levels</description>
+
+	<files>
+		<filename plugin="report_inventory_levels">report_inventory_levels.php</filename>
+		<folder>report_inventory_levels</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_inventory_levels.ini</language>
+	</languages>
+
+	<params>
+	</params>
+
+</install>
