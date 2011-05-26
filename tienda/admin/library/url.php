@@ -89,6 +89,8 @@ class TiendaUrl {
 		  : $handler_string;
 
 		$lightbox_width = TiendaConfig::getInstance()->get('lightbox_width');
+		//filter non numeric character to avoid mootools error on modal
+		$lightbox_width = preg_replace ('/[^\d\s]/', '', $lightbox_width);
 		if(empty($options['width']) && !empty($lightbox_width))
 			$options['width'] = $lightbox_width;
 		  		
