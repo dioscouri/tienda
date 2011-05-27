@@ -2072,6 +2072,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
 	{
 		$html = '';
+		$task = JRequest::getVar( 'task' );
 		
 		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
 		
@@ -2107,6 +2108,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		$config = TiendaConfig::getInstance( );
 		$show_tax = $config->get( 'display_prices_with_tax' );
+		$show_product = $config->get( 'display_category_cartbuttons' );
 		$view->assign( 'show_tax', $show_tax );
 		$view->assign( 'tax', 0 );
 		$view->assign( 'taxtotal', '' );
@@ -2234,9 +2236,16 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		$row->_product_quantity = $product_qty;
 		
-		$display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );
+		if ($task == 'view') {
 		
-		$view->assign( 'display_cartbutton', $display_cartbutton );
+		   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_product_cartbuttons', '1' );
+		   $view->assign( 'display_cartbutton', $display_cartbutton );
+		}
+		else {		
+		
+	  	   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );		
+		   $view->assign( 'display_cartbutton', $display_cartbutton );
+		}
 		$view->assign( 'availableQuantity', $availableQuantity );
 		$view->assign( 'invalidQuantity', $invalidQuantity );
 		$view->assign( 'item', $row );

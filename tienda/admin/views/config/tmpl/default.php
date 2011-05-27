@@ -797,6 +797,18 @@
                                 
                             </td>
                         </tr>
+                        <!--  Add Display Add to Cart Button in Product -->
+						<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Add to Cart Button in Product' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_product_cartbuttons', 'class="inputbox"', $this->row->get('display_product_cartbuttons', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Select Cart Button Type' ); ?>
