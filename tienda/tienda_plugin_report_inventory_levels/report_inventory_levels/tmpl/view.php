@@ -2,7 +2,6 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items;?>
-<?php $helper_product =& TiendaHelperBase::getInstance( 'Product' ); ?>
 
 <table class="adminlist" style="clear: both;">
         <thead>
@@ -13,11 +12,11 @@
                 <th style="width: 50px;">
                     <?php echo JText::_("ID"); ?>
                 </th>
-                <th style="text-align: left; width:150px;">
+                <th style="text -align: left; width:150px;">
                 	<?php echo JText::_("Product name"); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Attributes"); ?>
+                    <?php echo JText::_("Attributes + Options"); ?>
                 </th>
 				<th style="width: 80px;">
                     <?php echo JText::_("Model"); ?>
@@ -56,7 +55,13 @@
                     </a>
                  </td>
                  <td style="text-align: left;">
-                      <?php echo JText::_($item->productattribute_name); ?>
+               <?php $attributes = plgTiendaReport_inventory_levels::getAttributes( $item->product_id ); ?>
+                 	<div id="current_attributes">
+                 		<?php foreach(@$attributes as $attribute): ?>
+                      		<?php echo JText::_($attribute->productattribute_name); ?>
+                      		<?php echo "(".$attribute->option_names_csv.")"; ?>
+                     	<?php endforeach; ?>
+                    </div>
                 </td>
 				<td style="text-align: center;">
                     <?php echo $item->product_model; ?>
@@ -65,7 +70,7 @@
                     <?php echo $item->product_sku; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo TiendaHelperBase::currency($item->price); ?>
+                   <?php echo TiendaHelperBase::currency($item->price); ?>
                 </td>
                 <td style="text-align: center;">
                    <?php echo $item->total_quantity; ?>

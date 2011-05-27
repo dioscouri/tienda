@@ -62,20 +62,13 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin
 		$field = array();
 		$field[] = " tbl.* ";
 		$field[] = "pq.* ";
-		$field[] = "pa.* ";
-		$field[] = "pp.* ";
-		//$field[] = "po.productattributeoption_name";
-		$field[] = " SUM(pp.product_price) AS total_price ";
+		
 		$field[] = " SUM(pq.quantity) AS total_quantity ";
 	
-		
 		$query->select( $field );
 					
 		$query->join('LEFT', '#__tienda_productquantities AS pq ON pq.product_id = tbl.product_id');
-		$query->join('LEFT', '#__tienda_productattributes AS pa ON pa.product_id = pq.product_id');
-		//$query->join('LEFT', '#__tienda_productattributeoptions AS po ON po.productattribute_id = pa.productattribute_id');
-		$query->join('LEFT', '#__tienda_productprices AS pp ON pp.product_id = tbl.product_id');
-		
+				
 		$query->group('tbl.product_id');
 		$model->setQuery( $query );
        	$data = $model->getList();
@@ -109,4 +102,28 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin
         return $state;
     
     }
+    
+	/**
+	 * Returns a list of a product's attributes
+	 * 
+	 * @param int $id
+	 * @return unknown_type
+	 */
+	function getAttributes( $id )
+	{
+		if ( empty( $id ) )
+		{
+			return array( );
+		}
+		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+		$model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+		$model->setState( 'filter_product', $id );
+		
+		$model->setState( 'order', 'tbl.ordering' );
+		$model->setState( 'direction', 'ASC' );
+		
+		$items = $model->getList( );
+		return $items;
+	}
+
 }
