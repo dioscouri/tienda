@@ -69,11 +69,11 @@
                 <td style="text-align: center;">
                     <?php echo $item->product_sku; ?>
                 </td>
-                <td style="text-align: center;">
-                   <?php echo TiendaHelperBase::currency($item->price); ?>
+                <td style="text-align: right;">
+                   <?php echo TiendaHelperBase::currency($item->total_value); ?>
                 </td>
                 <td style="text-align: center;">
-                   <?php echo $item->total_quantity; ?>
+                   <?php echo $item->product_quantity; ?>
                 </td>
             </tr>
             <?php ++$i; $k = (1 - $k); ?>
