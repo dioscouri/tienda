@@ -34,7 +34,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="cell step_body active">
+		<div class="cell step_body inactive">
 			            <div id="validation_message"></div>			
 			<div id="addresses">				
 				<?php if($this->showShipping):?>
@@ -45,13 +45,9 @@
 				</div>
 				<div class="reset"></div>
 				<?php endif;?>
-			</div>
-			<div class="continue">			
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep4', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
-                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
-            </div>
+			</div>			
 		</div>
-		<div class="cell step_title active">
+		<div class="cell step_title inactive">
 			<h2>
 			<?php echo JText::_("POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS");?>
 			</h2>
@@ -59,6 +55,10 @@
 	</div>
 	<div class="row">
 		<div class="cell step_body inactive">
+			<div class="continue">			
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep4', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
+                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
+            </div>
 		</div>
 		<div class="cell step_title inactive">
 			<h2>

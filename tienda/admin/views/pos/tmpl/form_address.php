@@ -17,8 +17,23 @@ break;
 
 <fieldset>
 	<table class="address_form" style="clear: both;" >
-		<tbody>			
+		<tbody>
 			<input type="hidden" value="<?php echo JText::_('Temporary');?>" name="<?php echo $this->form_prefix;?>address_name" id="<?php echo $this->form_prefix;?>address_name" />
+			<?php if( $config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type ) :?>
+			<tr>
+				<th style="width: 100px; text-align: right;" class="key">
+				<?php echo JText::_('Title');?>
+				</th>
+				<td>
+				<input name="<?php echo $this->form_prefix;?>title" id="<?php echo $this->form_prefix;?>title"
+				type="text" size="35" maxlength="250" />
+				&nbsp;
+				<?php if($config->get('validate_field_title', '3') == '3' || $config->get('validate_field_name', '3') == $address_type ): ?>
+				*
+				<?php endif;?>
+				</td>
+			</tr>
+			<?php endif;?>
 			<?php if( $config->get('show_field_name', '3') == '3' || $config->get('show_field_name', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
@@ -131,7 +146,7 @@ break;
 				</th>
 				<td>
 				<?php
-				$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
+				$url = "index.php?option=com_tienda&format=raw&controller=pos&task=getzones&prefix={$this->form_prefix}&country_id=";
 				$attribs = array('class' => 'inputbox',
 				'size' => '1',
 				'onchange' => 'tiendaDoTask( \'' . $url . '\'+document.getElementById(\'' . $this->form_prefix . 'country_id\').value, \'' . $this->form_prefix . 'zones_wrapper\', \'\');');
@@ -175,35 +190,31 @@ break;
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>postal_code"
 				id="<?php echo $this->form_prefix;?>postal_code" size="25" maxlength="250"
-				<?php if (!empty($this->
-				showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" <?php }?>
-/>&nbsp;
-<?php if($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type ): ?>
-*
-<?php endif;?>
-</td>
-</tr>
-<?php endif;?>
-<?php if( $config->get('show_field_phone', '3') == '3' || $config->get('show_field_phone', '3') == $address_type ) :?>
-<tr>
-<th style="width: 100px; text-align: right;" class="key">
-<?php echo JText::_('Phone');?>
-</th>
-<td>
-<input name="<?php echo $this->form_prefix;?>phone_1" id="<?php echo $this->form_prefix;?>phone_1"
-type="text" size="25" maxlength="250" />&nbsp;
-<?php if($config->get('validate_field_phone', '3') == '3' || $config->get('validate_field_phone', '3') == $address_type ): ?>
-*
-<?php endif;?>
-</td>
-</tr>
-<?php endif;?>
-<?php
-$data = new JObject();
-$dispatcher = JDispatcher::getInstance();
-$dispatcher->trigger('onAfterDisplayAddressDetails', array($data,
-$this->form_prefix));
-				?>
+				<?php if (!empty($this->showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" <?php }?> />&nbsp;
+				<?php if($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type ): ?>
+				*
+				<?php endif;?>
+				</td>
+			</tr>
+			<?php endif;?>
+			<?php if( $config->get('show_field_phone', '3') == '3' || $config->get('show_field_phone', '3') == $address_type ) :?>
+			<tr>
+				<th style="width: 100px; text-align: right;" class="key">
+				<?php echo JText::_('Phone');?>
+				</th>
+				<td>
+				<input name="<?php echo $this->form_prefix;?>phone_1" id="<?php echo $this->form_prefix;?>phone_1"
+				type="text" size="25" maxlength="250" />&nbsp;
+				<?php if($config->get('validate_field_phone', '3') == '3' || $config->get('validate_field_phone', '3') == $address_type ): ?>
+				*
+				<?php endif;?>
+				</td>
+			</tr>
+			<?php endif;?>
+				<?php	$data = new JObject();
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onAfterDisplayAddressDetails', array($data,
+				$this->form_prefix));?>
 
 </tbody>
 </table>

@@ -1,10 +1,12 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
-<div id="validationmessage"></div>
+
 <h3><?php echo JText::_("Select a Shipping Method") ?></h3>
 
 <input type="button" onclick="tiendaGetShippingRates( 'shippingRatedWrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update customer's shipping rates"); ?>" />
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
+
+<input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
 
 <?php
     if (!empty($this->rates)) 
@@ -33,11 +35,11 @@
 ?>
 <?php $setval = false;?>
 <?php if(count($this->rates)==1 && ($this->rates['0']['name'] == $this->default_rate['name'])) $setval= true;?>
-<input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $setval ? $this->rates['0']['price'] : "";?>" />
-<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $setval ? $this->rates['0']['tax'] : "";?>" />
-<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $setval ? $this->rates['0']['name'] : "";?>" />
-<input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo $setval ? $this->rates['0']['code'] : "";?>" />
-<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $setval ? $this->rates['0']['extra'] : "";?>" />
+<input type="text" name="shipping_price" id="shipping_price" value="<?php echo $setval ? $this->rates['0']['price'] : "";?>" />
+<input type="text" name="shipping_tax" id="shipping_tax" value="<?php echo $setval ? $this->rates['0']['tax'] : "";?>" />
+<input type="text" name="shipping_name" id="shipping_name" value="<?php echo $setval ? $this->rates['0']['name'] : "";?>" />
+<input type="text" name="shipping_code" id="shipping_code" value="<?php echo $setval ? $this->rates['0']['code'] : "";?>" />
+<input type="text" name="shipping_extra" id="shipping_extra" value="<?php echo $setval ? $this->rates['0']['extra'] : "";?>" />
 
     
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
@@ -55,4 +57,4 @@
         window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');
     </script>
 <?php endif; ?>
-<input type="hidden" name="subtask" id="subtask" value="payment" />
+<input type="text" name="subtask" id="subtask" value="payment" />

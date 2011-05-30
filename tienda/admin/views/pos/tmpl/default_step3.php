@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
+
 <div class="table">
 	<div class="row">
 		<div class="cell step_body inactive">
@@ -37,7 +38,7 @@
 		<div class="cell step_body active">			
 			            <div id="validation_message"></div>		
 			  <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');?>
-        <?php if ($coupons_enabled && $this->coupons_present) : ?>
+        <?php if ($coupons_enabled && !empty($this->coupons_present)) : ?>
         <!-- COUPON CODE -->
         <div id="coupon_code_area">
             <div id="coupon_code_form">
@@ -82,6 +83,7 @@
 						echo $this->billingAddress->country_name . "<br>";
 						?>
 					</p>
+					<input id="billingaddress_id" name="billingaddress_id" value="<?php echo $this->billingAddress->id;?>" />
 					<?php else:?>
 					<?php echo $this->billingForm;?>
 					<?php endif;?>
@@ -102,11 +104,13 @@
 						echo $this->shippingAddress->country_name . "<br>";
 						?>
 					</p>
-					
+					<input id="shippingaddress_id" name="shippingaddress_id" value="<?php echo $this->shippingAddress->id;?>" />
 					<?php else:?>
-						<input type="checkbox" onclick="tiendaSameBillingAddress(this,this.form);" name="sameasbilling" id="sameasbilling">
-						<?php echo JText::_('SAME AS BILLING ADDRESS')?>
-					<?php echo $this->shippingForm;?>
+						<?php if($this->showShipping):?>
+							<input type="checkbox" name="sameasbilling" id="sameasbilling">
+							<?php echo JText::_('SAME AS BILLING ADDRESS')?>
+							<?php echo $this->shippingForm;?>
+						<?php endif;?>
 					<?php endif;?>
 				</div>
 				<div class="reset"></div>
@@ -125,9 +129,10 @@
 				
 				<?php endif;?>
 			</div>
+			<div class="reset"></div>
 			<div class="continue">
-				<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'saveStep3';?>
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validationmessage', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
+				<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
                 <input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
             </div>
 		</div>
