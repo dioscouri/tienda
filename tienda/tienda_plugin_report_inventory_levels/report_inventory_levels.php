@@ -113,6 +113,7 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin
 		$state['filter_name'] = $app -> getUserStateFromRequest($ns . 'name', 'filter_name', '', '');
 		$state['filter_quantity_from'] = $app -> getUserStateFromRequest($ns . 'quantity_from', 'filter_quantity_from', '', '');
 		$state['filter_quantity_to'] = $app -> getUserStateFromRequest($ns . 'quantity_to', 'filter_quantity_to', '', '');
+		$state['filter_product_name'] = $app->getUserStateFromRequest($ns.'filter_product_name', 'filter_product_name', '', '');
 		$state = $this -> _handleRangePresets($state);
 
 		foreach(@$state as $key => $value)
