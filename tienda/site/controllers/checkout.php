@@ -34,13 +34,24 @@ class TiendaControllerCheckout extends TiendaController
 			return;
 		}
 
+		$task = JRequest::getVar('task');
+		
+		if($task == 'poscheckout')
+		{			
+			//TODO: do some security check?
+			$user_id= JRequest::getInt('userid');
+			$this->pos_order = new JObject();
+			$this->pos_order->user = JFactory::getUser($user_id);
+			$this->pos_order->order_id = JRequest::getInt('orderid');
+		}
+
 		// get the items and add them to the order
         Tienda::load( "TiendaHelperBase", 'helpers._base' );
         $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 
-		$task = JRequest::getVar('task');
-		if (empty($items) && $task != 'confirmPayment' )
+		
+		if (empty($items) && $task != 'confirmPayment' && $task != 'poscheckout' )
 		{
 			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
 			return;
@@ -3484,5 +3495,25 @@ class TiendaControllerCheckout extends TiendaController
 	    $dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
 	    
 	    return $articles;
+	}
+	
+	function poscheckout() {		
+		$view = $this->getView( $this->get('suffix') , 'html' );
+		$model  = $this->getModel( $this->get('suffix') );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);	
+		
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$order = JTable::getInstance('Orders', 'TiendaTable');		
+		$order->load( array('order_id' => $this->pos_order->order_id));
+		
+		$items = $order->getItems();	
+		//$view->assign( 'submenu', $submenu );
+		$view->setModel( $model, true );
+        $view->setLayout('pospayment');
+		$view->display();
+		$this->footer();
 	}
 }
