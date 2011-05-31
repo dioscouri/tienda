@@ -27,7 +27,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			$step = 'step1';
 		}
-		//Tienda::debug(222222, $_SESSION);
+		
 		JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
 		$elementUserModel = JModel::getInstance('ElementUser', 'TiendaModel');
 		$session = JFactory::getSession();
@@ -43,7 +43,6 @@ class TiendaControllerPOS extends TiendaController
 		{
 			$this->$method_name($post);
 		}
-
 		parent::display();
 	}
 
@@ -69,7 +68,7 @@ class TiendaControllerPOS extends TiendaController
 		// store the values in the session
 		$session = JFactory::getSession();
 
-		if($post['user_type'] == 'new' || $post['user_type'] == 'anonymous')
+		if($post['user_type'] != 'existing')
 		{
 			$email = '';
 			// Create user
@@ -78,8 +77,8 @@ class TiendaControllerPOS extends TiendaController
 			if($post['user_type'] == 'new')
 			{
 				$text = JText::_('Username');
-				$email = $post['new_email'];
-				$username = $post['new_username_create'] && $post['new_username'] != $text ? $post['new_username'] : $post['new_email'];
+				$email = $post['new_email'];								
+				$username = $post['new_username_create'] ?  $email : $post['new_username'];
 				$details = array('email' => $post['new_email'],
 				'name' => $post['new_name'],
 				'username' => $username);
@@ -88,7 +87,7 @@ class TiendaControllerPOS extends TiendaController
 				$details['password'] = JUserHelper::genRandomPassword();
 				$details['password2'] = $details['password'];
 
-				$user = $userHelper->createNewUser($details);
+				$user = $userHelper->createNewUser($details);				
 			}
 			elseif($post['user_type'] == 'anonymous')
 			{
@@ -119,7 +118,7 @@ class TiendaControllerPOS extends TiendaController
 					// format: guest_[id]@domain.com
 					$guest_email = "guest_" . $guestId . "@" . $domain;
 					$userEmailUpdate = $userHelper->updateUserEmail($user->id, $guest_email);
-				}
+				}			
 			}
 
 			// save the real user's info in the userinfo table
@@ -129,7 +128,7 @@ class TiendaControllerPOS extends TiendaController
 			$userinfo->user_id = $user->id;
 			$userinfo->email = $email;
 			$userinfo->save();
-
+			
 			// overide the userid in the post
 			$user_id = $user->id;
 			$session->set('user_id', $user->id, 'tienda_pos');
@@ -204,8 +203,7 @@ class TiendaControllerPOS extends TiendaController
 		switch($subtask)
 		{
 			case 'shipping' :
-				if(empty($shippingAddress))
-					$view->assign('shippingRates', $this->getShippingHtml($order));
+				$view->assign('shippingRates', $this->getShippingHtml($order));
 				break;
 			case 'payment' :
 				$order->shipping = new JObject();
@@ -216,7 +214,6 @@ class TiendaControllerPOS extends TiendaController
 
 				//calculate the order totals as we already have the shipping
 				$order->calculateTotals();
-
 				$view->assign('paymentOptions', $this->getPaymentOptionsHtml($order));
 
 				// are there any enabled coupons?
@@ -239,20 +236,11 @@ class TiendaControllerPOS extends TiendaController
 	}
 
 	function doStep4($post = array())
-	{
-
-		Tienda::debug(444444, $post);
+	{		
+		$values = $post;
 		$session = JFactory::getSession();
-		$view = $this->getView('pos', 'html');
-		$view->assign('step1_inactive', $this->step1Inactive());
-		//$order = &$this->populateOrder();
-		////$order->shipping = new JObject();
-		//$order->shipping->shipping_price = $session->get('shipping_price', '', 'tienda_pos');
-		//$order->shipping->shipping_extra = $session->get('shipping_extra', '', 'tienda_pos');
-		//$order->shipping->shipping_name = $session->get('shipping_name', '', 'tienda_pos');
-		//$order->shipping->shipping_tax = $session->get('shipping_tax', '', 'tienda_pos');
-
-		//save order before calculating the totals
+		$userid = $session->get('user_id', '', 'tienda_pos');		
+		
 		// Save the order with a pending status
 		if(!$order = $this->saveOrder($values))
 		{
@@ -261,9 +249,106 @@ class TiendaControllerPOS extends TiendaController
 			return false;
 		}
 
+		// Update the addresses' user id!
+		$shippingAddress = $order->getShippingAddress();
+		$billingAddress = $order->getBillingAddress();
+
+		$shippingAddress->user_id = $userid;
+		$billingAddress->user_id = $userid;
+
+		// Checking whether shipping is required
+		$showShipping = false;		
+		if ($values['shippingrequired'])		
+			$showShipping = true;		
+
+		if ($showShipping && !$shippingAddress->save())
+		{
+			// Output error message and halt
+			JError::raiseNotice( 'Error Updating the Shipping Address', $shippingAddress->getError() );
+			return false;
+		}
+
+		if (!$billingAddress->save())
+		{
+			// Output error message and halt
+			JError::raiseNotice( 'Error Updating the Billing Address', $billingAddress->getError() );
+			return false;
+		}
+		
+		$orderpayment_type = $values['payment_plugin'];
+		$transaction_status = JText::_( "Incomplete" );
+		// in the case of orders with a value of 0.00, use custom values
+		if ( (float) $order->order_total == (float)'0.00' )
+		{
+			$orderpayment_type = 'free';
+			$transaction_status = JText::_( "Complete" );
+		}
+		
+		// Save an orderpayment with an Incomplete status
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment->order_id = $order->order_id;
+		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
+		$orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
+		$orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
+		if (!$orderpayment->save())
+		{
+			// Output error message and halt
+			JError::raiseNotice( 'Error Saving Pending Payment Record', $orderpayment->getError() );
+			return false;
+		}
+		
+		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+		$values["order_id"]             = $order->order_id;
+		$values["orderinfo"]            = $order->orderinfo;
+		$values["orderpayment_id"]      = $orderpayment->orderpayment_id;
+		$values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
+
+		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
+		$mainframe =& JFactory::getApplication();
+		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
+		$mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
+		
+		// in the case of orders with a value of 0.00, we redirect to the confirmPayment page
+		if ( (float) $order->order_total == (float)'0.00' )
+		{
+			JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=pos&task=confirmPayment' );
+			return;
+		}
+		
+		$dispatcher    =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+
+		// Display whatever comes back from Payment Plugin for the onPrePayment
+		$html = "";
+		for ($i=0; $i<count($results); $i++)
+		{
+			$html .= $results[$i];
+		}
+		
+		// Get Addresses		
+		$billing_address = $order->getBillingAddress();
+		$shipping_address = $showShipping ? $order->getShippingAddress() : null;		
+			
+		$shippingMethodName = $values['shipping_name'];		
+		
+		$view = $this->getView( 'pos', 'html' );	
+		$view->assign('order', $order);
+		$view->assign('plugin_html', $html);		
+		$view->assign('shipping_info', $shipping_address);
+		$view->assign('billing_info', $billing_address);
+		$view->assign('shipping_method_name',$shippingMethodName);
+		$view->assign( 'showShipping', $showShipping );		
+		$view->assign('step1_inactive', $this->step1Inactive());	
 		//calculate the order totals as we already have the shipping
 		$order->calculateTotals();
 		$view->assign('orderSummary', $this->getOrderSummary($order));
+		$showBilling = true;
+        if (empty($billingAddress->address_id))
+        {
+            $showBilling = false;
+        }
+        $view->assign( 'showBilling', $showBilling );	
 	}
 
 	function saveStep2()
@@ -440,6 +525,16 @@ class TiendaControllerPOS extends TiendaController
 					$response['error'] = '1';
 					$msg[] = JText::_("This email already exists");
 				}
+				
+				  // Send the reminder
+		        jimport('joomla.mail.helper');
+		        
+		        // Validate the e-mail address
+		        if (!JMailHelper::isEmailAddress($values['new_email']))
+		        {
+		          	 $response['error'] = '1';
+					$msg[] = JText::_("Invalid email address");
+		        }
 
 				// Is this username already used?
 				if(empty($values['_checked']['new_username_create']) && $userhelper->usernameExists($values['new_username']))
@@ -454,6 +549,19 @@ class TiendaControllerPOS extends TiendaController
 					$response['error'] = '1';
 					$msg[] = JText::_("Please provide an email");
 				}
+				else
+				{
+					 // Send the reminder
+			        jimport('joomla.mail.helper');		        
+			        // Validate the e-mail address
+			        if (!JMailHelper::isEmailAddress($values['anon_emails']))
+			        {
+			          	$response['error'] = '1';
+						$msg[] = JText::_("Invalid email address");
+			        }
+				}
+				
+				 
 				break;
 		}
 
@@ -497,7 +605,7 @@ class TiendaControllerPOS extends TiendaController
 		
 		$config = TiendaConfig::getInstance();
 		//check if we have billing address id
-		if(empty($values['billingaddress_id']))
+		if(empty($values['billing_input_address_id']))
 		{		
 			$responseBilling = $this->validateAddress($values);
 			if(count($responseBilling))
@@ -514,7 +622,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			case 'shipping' :
 				//check if we have billing address id				
-				if(empty($values['shippingaddress_id']))
+				if(empty($values['shipping_input_address_id']))
 				{
 					if(empty($values['_checked']['sameasbilling']))
 					{
@@ -531,18 +639,18 @@ class TiendaControllerPOS extends TiendaController
 					if(empty($values['shipping_name']))
 					{
 						$response['error'] = '1';
-						$msg = array_merge($msg, $helper->generateMessage(JText::_("Please select shipping method"), false));	
+						$msg[] = JText::_('Please select shipping method');						
 					}
 				}				
 				break;
 			case 'payment' :
 			default :
-				if(!empty($values['billingaddress_id']))
+				if(!empty($values['billing_input_address_id']))
 				{
 					if(empty($values['payment_plugin']))
-					{
+					{							
 						$response['error'] = '1';
-						$msg = array_merge($msg, $helper->generateMessage(JText::_("Please select payment method."), false));						
+						$msg[] = JText::_('Please select payment method');										
 					}
 				}
 				
@@ -557,11 +665,23 @@ class TiendaControllerPOS extends TiendaController
 
 	function validateAddress($values, $type="billing")
 	{
+		//special case
+		$sameasbilling = !empty($values['_checked']['sameasbilling']) ? true : false;
+		$msg = array();
+		
 		switch($type)
 		{
 			case 'shipping':
-				$prefix = 'shipping_input_';
-				$validate_id = '2';
+				if($sameasbilling)
+				{
+					$prefix = 'billing_input_';
+					$validate_id = '1';
+				}
+				else
+				{
+					$prefix = 'shipping_input_';
+					$validate_id = '2';
+				}
 				$text = 'Shipping';
 				break;
 			case 'billing':
@@ -571,6 +691,15 @@ class TiendaControllerPOS extends TiendaController
 				$text = 'Billing';
 				break;
 		}		
+		
+		// check if we already have an address id
+		// if found we return a  empty msg
+		$addressInput = $prefix . 'address_id';
+		if(!empty($values[$addressInput]))
+		{
+			return $msg;
+		}
+		
 		$config = TiendaConfig::getInstance();
 		$field_title = $config->get('validate_field_title');
 		$field_name = $config->get('validate_field_name');
@@ -583,76 +712,58 @@ class TiendaControllerPOS extends TiendaController
 		$field_zone = $config->get('validate_field_zone');
 		$field_city = $config->get('validate_field_city');
 		$field_zip = $config->get('validate_field_zip');
-		$field_phone = $config->get('validate_field_phone');
+		$field_phone = $config->get('validate_field_phone');		
 		
-		//$response = array();
-		//$response['msg'] = '';
-		//$response['error'] = '';
-		$msg = array();
 		if( ($field_title == $validate_id || $field_title == '3')  AND empty($values["{$prefix}title"]) )
-		{
-			//$response['error'] = '1';			
+		{					
 			$msg[] = JText::sprintf("%s title field is required",$text);
 			
 		}
 		if( ($field_name == $validate_id || $field_name == '3') AND empty($values["{$prefix}first_name"]) )
-		{
-			//$response['error'] = $validate_id;
+		{			
 			$msg[] = JText::sprintf("%s first name field is required", $text);
 		}
 		if( ($field_middle == $validate_id || $field_middle == '3') AND empty($values["{$prefix}middle_name"]) )
-		{
-			//$response['error'] = $validate_id;
+		{			
 			$msg[] = JText::sprintf("%s middle name field is required", $text);
 		}
 		if( ($field_last == $validate_id || $field_last == '3') AND empty($values["{$prefix}last_name"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s last name field is required", $text);
 		}
 		if( ($field_company == $validate_id || $field_company == '3') AND empty($values["{$prefix}company"]) )
-		{
-			//$response['error'] = $validate_id;
+		{			
 			$msg[] = JText::sprintf("%s company field is required", $text);
 		}
 		if( ($field_address1 == $validate_id || $field_address1 == '3') AND empty($values["{$prefix}address_1"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s address line 1 field is required", $text);
 		}
 		if( ($field_address1 == $validate_id || $field_address1 == '3') AND empty($values["{$prefix}address_2"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s address line 2 field is required", $text);
 		}
 		if( ($field_city == $validate_id || $field_city == '3') AND empty($values["{$prefix}city"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s city field is required", $text);
 		}
-		if( ($field_country == $validate_id || $field_country == '3') AND empty($values["{$prefix}address_country_id"]) )
-		{
-			//$response['error'] = '1';
+		if( ($field_country == $validate_id || $field_country == '3') AND empty($values["{$prefix}country_id"]) )
+		{			
 			$msg[] = JText::sprintf("%s country field is required", $text);
 		}
 		if( ($field_zone == $validate_id || $field_zone == '3') AND empty($values["{$prefix}zone_id"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s zone field is required", $text);
 		}		
 		if( ($field_zip == $validate_id || $field_zip == '3') AND empty($values["{$prefix}postal_code"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s postal code field is required", $text);
 		}
 		if( ($field_phone == $validate_id || $field_phone == '3') AND empty($values["{$prefix}phone_1"]) )
-		{
-			//$response['error'] = '1';
+		{			
 			$msg[] = JText::sprintf("%s phone field is required", $text);
 		}
-		//Tienda::load('TiendaHelperBase', 'helpers._base');
-		//$helper = new TiendaHelperBase();
-		//$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);		
+			
 		return $msg;
 	}
 
@@ -1425,6 +1536,133 @@ class TiendaControllerPOS extends TiendaController
 		}
 		return array();
 	}
+	
+	/**
+	 *
+	 * @param unknown_type $oldArray
+	 * @param unknown_type $old_prefix
+	 * @param unknown_type $new_prefix
+	 * @param unknown_type $append
+	 * @return unknown_type
+	 */
+	function filterArrayUsingPrefix( $oldArray, $old_prefix, $new_prefix, $append )
+	{
+		// create array with input form keys and values
+		$address_input = array();
+
+		foreach ($oldArray as $key => $value)
+		{
+			if (($append) || (strpos($key, $old_prefix) !== false))
+			{
+				$new_key = '';
+				if ($append){$new_key = $new_prefix.$key;}
+				else{
+					$new_key = str_replace($old_prefix, $new_prefix, $key);
+				}
+				if (strlen($new_key)>0){
+					$address_input[$new_key] = $value;
+				}
+			}
+		}
+		return $address_input;
+	}
+	
+	function saveAddress()
+	{		
+		$post = JRequest::get('post');	
+		$session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+		
+		$same_as_billing = (!empty($post['sameasbilling'])) ? true : false;
+		$billing_input_prefix = 'billing_input_';
+		$shipping_input_prefix = 'shipping_input_';
+
+		$session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+
+		$billing_zone_id = 0;	
+		$billingaddressArray = $this->filterArrayUsingPrefix($post, $billing_input_prefix, '', false );		// set the zone name
+		$bzone = JTable::getInstance('Zones', 'TiendaTable');
+		$bzone->load( @$billingaddressArray['zone_id'] );
+		$billingaddressArray['zone_name'] = $bzone->zone_name;		
+		// set the country name
+		$billingcountry = JTable::getInstance('Countries', 'TiendaTable');
+		$billingcountry->load( @$billingaddressArray['country_id'] );
+		$billingaddressArray['country_name'] = $billingcountry->country_name;
+		if(array_key_exists('zone_id', $billingAddressArray))
+			$billing_zone_id = $billingAddressArray['zone_id'];		
+		
+		//SHIPPING ADDRESS: get shipping address from dropdown or form (depending on selection)
+		$shipping_zone_id = 0;	
+		$shippingAddressArray = $same_as_billing ? $billingAddressArray : $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
+
+		if($same_as_billing)
+		{
+			$shippingAddressArray = $billingAddressArray;
+		}
+		else
+		{			
+			$shippingaddressArray = $this->filterArrayUsingPrefix($post, $shipping_input_prefix, '', false );
+			// set the zone name
+			$szone = JTable::getInstance('Zones', 'TiendaTable');
+			$szone->load( @$shippingaddressArray['zone_id'] );
+			$addressArray['zone_name'] = $szone->zone_name;
+			// set the country name
+			$shippingcountry = JTable::getInstance('Countries', 'TiendaTable');
+			$shippingcountry->load( @$shippingaddressArray['country_id'] );
+			$shippingaddressArray['country_name'] = $shippingcountry->country_name;
+		}
+
+		if(array_key_exists('zone_id', $shippingAddressArray))
+			$shipping_zone_id = $shippingAddressArray['zone_id'];
+			
+			
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+
+		// set the order billing address
+		$billingAddress->bind($billingaddressArray);
+		$billingAddress->user_id = $user_id;
+		$billingAddress->save();
+			
+		// set the order billing address
+		$shippingAddress->bind($shippingaddressArray);
+		$shippingAddress->user_id = $user_id;		
+		$shippingAddress->save();				
+				
+		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3");
+	}
+		
+	/**
+	 *
+	 * @param unknown_type $address_id
+	 * @param unknown_type $input_prefix
+	 * @param unknown_type $form_input_array
+	 * @return unknown_type
+	 */
+	function getAddress( $address_id, $input_prefix, $form_input_array )
+	{
+		$addressArray = array();
+		if (!empty($address_id))
+		{
+			$addressArray = $this->retrieveAddressIntoArray($address_id);
+		}
+		else
+		{
+			$addressArray = $this->filterArrayUsingPrefix($form_input_array, $input_prefix, '', false );
+			// set the zone name
+			$zone = JTable::getInstance('Zones', 'TiendaTable');
+			$zone->load( @$addressArray['zone_id'] );
+			$addressArray['zone_name'] = $zone->zone_name;
+			// set the country name
+			$country = JTable::getInstance('Countries', 'TiendaTable');
+			$country->load( @$addressArray['country_id'] );
+			$addressArray['country_name'] = $country->country_name;
+		}
+		return $addressArray;
+	}
+	
 
 	/**
 	 *
@@ -1437,8 +1675,8 @@ class TiendaControllerPOS extends TiendaController
 		// Get the currency from the configuration
 		$currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
 		// USD is default if no currency selected
-		$billing_address_id = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
-		$shipping_address_id = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
+		$billing_address_id = (!empty($values['billing_input_address_id'])) ? $values['billing_input_address_id'] : 0;
+		$shipping_address_id = (!empty($values['shipping_input_address_id'])) ? $values['shipping_input_address_id'] : 0;
 		//$shipping_method_id     = $values['shipping_method_id'];
 		$same_as_billing = (!empty($values['sameasbilling'])) ? true : false;
 		$billing_input_prefix = 'billing_input_';
@@ -1447,36 +1685,19 @@ class TiendaControllerPOS extends TiendaController
 		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 
-		$billing_zone_id = 0;
-
-		$billingAddressArray = $this->retrieveAddressIntoArray($billing_address_id);
+		$billing_zone_id = 0;			
+		//$billingAddressArray = $this->retrieveAddressIntoArray($billing_address_id);
+		$billingAddressArray = $this->getAddress( $billing_address_id, $billing_input_prefix, $values );
 		if(array_key_exists('zone_id', $billingAddressArray))
-		{
 			$billing_zone_id = $billingAddressArray['zone_id'];
-		}
 
 		//SHIPPING ADDRESS: get shipping address from dropdown or form (depending on selection)
-		$shipping_zone_id = 0;
-		if($same_as_billing)
-		{
-			$shippingAddressArray = $billingAddressArray;
-		}
-		else
-		{
-			$shippingAddressArray = $this->retrieveAddressIntoArray($shipping_address_id);
-			//$shippingAddressArray = $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
-		}
+		$shipping_zone_id = 0;	
+		$shippingAddressArray = $same_as_billing ? $billingAddressArray : $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
 
 		if(array_key_exists('zone_id', $shippingAddressArray))
-		{
 			$shipping_zone_id = $shippingAddressArray['zone_id'];
-		}
 
-		// keep the array for binding during the save process
-		//$this->_orderinfoBillingAddressArray = $this->filterArrayUsingPrefix($billingAddressArray, '', 'billing_', true);
-		//$this->_orderinfoShippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
-		//$this->_billingAddressArray = $billingAddressArray;
-		//$this->_shippingAddressArray = $shippingAddressArray;
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
 		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
@@ -1658,6 +1879,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// get elements from post
 		$elements = json_decode(preg_replace('/[\n\r]+/', '\n', JRequest::getVar('elements', '', 'post', 'string')));
+		
 
 		// Test if elements are empty
 		// Return proper message to user
@@ -1670,8 +1892,23 @@ class TiendaControllerPOS extends TiendaController
 			echo( json_encode($response));
 			return ;
 		}
+		// convert elements to array that can be binded		
+		$submitted_values = $helper->elementsToArray( $elements );				
+		$msg = $this->validateAddress( $submitted_values, 'shipping');
+		
+		if(!empty($msg))
+		{		
+			$response['error'] = '1';
+			$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);		
+			// encode and echo (need to echo to send back to browser)
+			echo json_encode($response);
+			return;
+		}
 
-		$order = &$this->populateOrder();
+		$order = &$this->populateOrder();		
+		
+		$this->setAddresses( $order , $submitted_values, false );
+	
 		// set response array
 		$response = array();
 		$response['msg'] = $this->getShippingHtml($order);
@@ -1977,7 +2214,7 @@ class TiendaControllerPOS extends TiendaController
 			}
 		}
 
-		$order->order_state_id = $this->initial_order_state;
+		$order->order_state_id = 15;
 		$order->calculateTotals();
 		$order->getShippingTotal();
 		$order->getInvoiceNumber();
@@ -2182,27 +2419,51 @@ class TiendaControllerPOS extends TiendaController
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
-		$row->user_email = JFactory::getUser()->get('email');
-		$row->bind($this->_orderinfoBillingAddressArray);
-		$row->bind($this->_orderinfoShippingAddressArray);
+		
+		$session = &JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+		$row->user_email = JFactory::getUser($user_id)->get('email');		
 
 		// Get Addresses
 		$shipping_address = $order->getShippingAddress();
 		$billing_address = $order->getBillingAddress();
-
-		// set zones and countries
+		
+		// billing infos
+		$row->billing_company = $billing_address->company;		
+		$row->billing_first_name = $billing_address->first_name;
+		$row->billing_last_name = $billing_address->last_name;		
+		$row->billing_middle_name = $billing_address->middle_name;
+		$row->billing_phone_1 = $billing_address->phone_1;
+		$row->billing_phone_2 = $billing_address->phone_2;
+		$row->billing_fax = $billing_address->fax;		
+		$row->billing_address_1 = $billing_address->address_1;
+		$row->billing_address_2 = $billing_address->address_2;
+		$row->billing_city = $billing_address->city;
+		$row->billing_postal_code = $billing_address->postal_code;
 		$row->billing_zone_id = $billing_address->zone_id;
 		$row->billing_country_id = $billing_address->country_id;
+		// shipping infos
+		$row->shipping_company = $shipping_address->company;		
+		$row->shipping_first_name = $shipping_address->first_name;
+		$row->shipping_last_name = $shipping_address->last_name;		
+		$row->shipping_middle_name = $shipping_address->middle_name;
+		$row->shipping_phone_1 = $shipping_address->phone_1;
+		$row->shipping_phone_2 = $shipping_address->phone_2;
+		$row->shipping_fax = $shipping_address->fax;		
+		$row->shipping_address_1 = $shipping_address->address_1;
+		$row->shipping_address_2 = $shipping_address->address_2;
+		$row->shipping_city = $shipping_address->city;
+		$row->shipping_postal_code = $shipping_address->postal_code;
 		$row->shipping_zone_id = $shipping_address->zone_id;
 		$row->shipping_country_id = $shipping_address->country_id;
-
+	
 		if(!$row->save())
-		{
+		{			
 			$this->setError($row->getError());
 			return false;
 		}
 
-		$order->orderinfo = $row;
+		$order->orderinfo = $row;	
 		return true;
 	}
 
@@ -2315,19 +2576,16 @@ class TiendaControllerPOS extends TiendaController
 	 * @return unknown_type
 	 */
 	function saveOrderShippings(&$order)
-	{
-		//$order->shipping = new JObject();
-		//	$order->shipping->shipping_price = $session->get('shipping_price', '', 'tienda_pos');
-		//	$order->shipping->shipping_extra = $session->get('shipping_extra', '', 'tienda_pos');
-		//	$order->shipping->shipping_name = $session->get('shipping_name', '', 'tienda_pos');
-		//	$order->shipping->shipping_tax = $session->get('shipping_tax', '', 'tienda_pos');
-		$shipping_plugin = JRequest::getVar('shipping_plugin', '');
-		$shipping_name = JRequest::getVar('shipping_name', '');
-		$shipping_code = JRequest::getVar('shipping_code', '');
-		$shipping_price = JRequest::getVar('shipping_price', '');
-		$shipping_tax = JRequest::getVar('shipping_tax', '');
-		$shipping_extra = JRequest::getVar('shipping_extra', '');
-
+	{		
+		$session = &JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');		
+		$shipping_plugin = $session->get('shipping_plugin', '', 'tienda_pos');
+		$shipping_name = $session->get('shipping_name', '', 'tienda_pos');
+		$shipping_code = $session->get('shipping_code', '', 'tienda_pos');
+		$shipping_price = $session->get('shipping_price', '', 'tienda_pos');
+		$shipping_tax = $session->get('shipping_tax', '', 'tienda_pos');
+		$shipping_extra = $session->get('shipping_extra', '', 'tienda_pos');
+	
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
 		$row->order_id = $order->order_id;
@@ -2346,8 +2604,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// Let the plugin store the information about the shipping
 		$dispatcher = &JDispatcher::getInstance();
-		$dispatcher->trigger("onPostSaveShipping", array($shipping_plugin,
-		$row));
+		$dispatcher->trigger("onPostSaveShipping", array($shipping_plugin, $row));
 
 		return true;
 	}
@@ -2382,5 +2639,4 @@ class TiendaControllerPOS extends TiendaController
 
 		return true;
 	}
-
 }

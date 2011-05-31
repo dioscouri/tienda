@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-
 <div class="table">
 	<div class="row">
 		<div class="cell step_body inactive">
@@ -83,7 +82,7 @@
 						echo $this->billingAddress->country_name . "<br>";
 						?>
 					</p>
-					<input id="billingaddress_id" name="billingaddress_id" value="<?php echo $this->billingAddress->id;?>" />
+					<input type="hidden" id="billing_input_address_id" name="billing_input_address_id" value="<?php echo $this->billingAddress->address_id;?>" />
 					<?php else:?>
 					<?php echo $this->billingForm;?>
 					<?php endif;?>
@@ -104,7 +103,7 @@
 						echo $this->shippingAddress->country_name . "<br>";
 						?>
 					</p>
-					<input id="shippingaddress_id" name="shippingaddress_id" value="<?php echo $this->shippingAddress->id;?>" />
+					<input type="hidden" id="shipping_input_address_id" name="shipping_input_address_id" value="<?php echo $this->shippingAddress->address_id;?>" />
 					<?php else:?>
 						<?php if($this->showShipping):?>
 							<input type="checkbox" name="sameasbilling" id="sameasbilling">
@@ -120,20 +119,23 @@
 					<?php echo $this->shippingRates;?>
 				</div>
 				<?php endif;?>
-				
-				<?php if(!empty($this->paymentOptions)):?>
+				<?php endif;?>
+			</div>
+			<div class="reset"></div>
+			<?php if(!empty($this->paymentOptions)):?>
 				<div id="paymentOptions">
 					<?php echo $this->paymentOptions;?>
 				</div>
 				<?php endif;?>
-				
-				<?php endif;?>
-			</div>
-			<div class="reset"></div>
 			<div class="continue">
-				<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
-                <input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+				<?php if (empty($this->billingAddress)): ?>
+					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
+					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+				<?php else:?>
+					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
+                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
+                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+				<?php endif;?>				
             </div>
 		</div>
 		<div class="cell step_title active">
@@ -161,5 +163,18 @@
 		</div>
 	</div>
 </div>
+
+<input type="text" id="order_total" name="order_total" value="<?php echo $this->order->order_total; ?>" />
+<input type="text" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
+<?php if($this->subtask != 'shipping'):?>
+<input type="text" id="shipping_plugin" name="shipping_plugin" value="<?php echo $this->session->get('shipping_plugin', '', 'tienda_pos'); ?>" />
+<input type="text" name="shipping_price" id="shipping_price" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos'); ?>" />
+<input type="text" name="shipping_tax" id="shipping_tax" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos'); ?>" />
+<input type="text" name="shipping_name" id="shipping_name" value="<?php echo $this->session->get('shipping_name', '', 'tienda_pos'); ?>" />
+<input type="text" name="shipping_code" id="shipping_code" value="<?php echo $this->session->get('shipping_code', '', 'tienda_pos'); ?>" />
+<input type="text" name="shipping_extra" id="shipping_extra" value="<?php echo $this->session->get('shipping_extra', '', 'tienda_pos'); ?>" />
+<input type="text" id="customer_note" name="customer_note" value="<?php echo $this->session->get('customer_note', '', 'tienda_pos'); ?>" />
+<?php endif;?>
+
 <input type="hidden" name="nextstep" id="nextstep" value="step4" />
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="<?php echo $this->showShipping ? 1 : 0;?>" />
