@@ -35,20 +35,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="cell step_body inactive">
-			<div id="validation_message">
-			</div>
-			<div id="addresses">
-				<?php if($this->showShipping):?>
-				<div>
-					<h4 id='shipping_address_header' class="address_header">
-					<?php echo JText::_("Shipping Information") ?>
-					</h4>
-				</div>
-				<div class="reset">
-				</div>
-				<?php endif;?>
-			</div>
+		<div class="cell step_body inactive">			
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
@@ -105,12 +92,7 @@
 			<div class="reset">
 			</div>
 			
-			<a id="modalWindowPayment" rel="{handler:'iframe',size:{x: window.innerWidth-80, y: window.innerHeight-80}, onShow:$('sbox-window').setStyles({'padding': 0})}" href="<?php echo JURI::root();?>/index.php?option=com_tienda&amp;controller=checkout&amp;task=poscheckout&amp;orderid=<?php echo $this->order->order_id;?>&amp;userid=<?php echo $this->session->get('user_id', '', 'tienda_pos'); ?>&amp;tmpl=component" class="modal">
-				<span>
-				TESTPOPUP
-				</span>
-			</a>
-			
+		
 			<?php if(!empty($this->order->customer_note)):?>
 			<div id="shipping_comments">
 				<h3>
@@ -121,15 +103,20 @@
 			<?php endif; ?>
 			<?php }?>
 		    <div class="reset"></div>
-		        
-		    <!--    PAYMENT METHOD   -->
-		    <h3><?php echo JText::_("Payment Method"); ?></h3>
-		
-			<?php echo $this->plugin_html; ?>
-
+		    
+		    
 			<div class="continue">
-				<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep4', document.adminForm, true, '" . JText::_('Validating') . "' );";?>
-				<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+				<?php 
+				$link = JURI::root();
+				$link .= 'index.php?option=com_tienda&amp;controller=checkout&amp;task=poscheckout';
+				$link .= '&amp;orderid=' . $this->order->order_id;
+				$link .= '&amp;userid='.$this->session->get('user_id', '', 'tienda_pos');			
+				$link .= '&amp;data='.base64_encode(@json_encode($this->values));
+				$link .= '&amp;tmpl=component';
+				?>
+				<a id="modalWindowPayment" rel="{handler:'iframe',size:{x: window.innerWidth-400, y: window.innerHeight-200}, onShow:$('sbox-window').setStyles({'padding': 0})}" href="<?php echo $link;?>" class="modal">
+					<button><?php echo JText::_('Click Here to Complete Order');?></button>					
+				</a>
 			</div>
 		</div>
 		<div class="cell step_title active">

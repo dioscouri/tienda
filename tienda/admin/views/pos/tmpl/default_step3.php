@@ -53,14 +53,14 @@
             <div id="coupon_code_message"></div>
             <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
             <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order');?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php
-				if($mult_enabled)
-				{
-					echo "1";
-				}
-				else
-				{
-					echo "0";
-				}
+			if($mult_enabled)
+			{
+				echo "1";
+			}
+			else
+			{
+				echo "0";
+			}
  ?>' );"/>
             </div>
             <div id='coupon_codes' style="display: none;"></div>
@@ -164,16 +164,16 @@
 	</div>
 </div>
 
-<input type="text" id="order_total" name="order_total" value="<?php echo $this->order->order_total; ?>" />
-<input type="text" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
+<input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total;?>" />
+<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id;?>" />
 <?php if($this->subtask != 'shipping'):?>
-<input type="text" id="shipping_plugin" name="shipping_plugin" value="<?php echo $this->session->get('shipping_plugin', '', 'tienda_pos'); ?>" />
-<input type="text" name="shipping_price" id="shipping_price" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos'); ?>" />
-<input type="text" name="shipping_tax" id="shipping_tax" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos'); ?>" />
-<input type="text" name="shipping_name" id="shipping_name" value="<?php echo $this->session->get('shipping_name', '', 'tienda_pos'); ?>" />
-<input type="text" name="shipping_code" id="shipping_code" value="<?php echo $this->session->get('shipping_code', '', 'tienda_pos'); ?>" />
-<input type="text" name="shipping_extra" id="shipping_extra" value="<?php echo $this->session->get('shipping_extra', '', 'tienda_pos'); ?>" />
-<input type="text" id="customer_note" name="customer_note" value="<?php echo $this->session->get('customer_note', '', 'tienda_pos'); ?>" />
+<input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo $this->session->get('shipping_plugin', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $this->session->get('shipping_name', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo $this->session->get('shipping_code', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $this->session->get('shipping_extra', '', 'tienda_pos');?>" />
+<input type="hidden" id="customer_note" name="customer_note" value="<?php echo $this->session->get('customer_note', '', 'tienda_pos');?>" />
 <?php endif;?>
 
 <input type="hidden" name="nextstep" id="nextstep" value="step4" />

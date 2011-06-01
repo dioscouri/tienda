@@ -240,7 +240,7 @@ class TiendaControllerPOS extends TiendaController
 		$values = $post;
 		$session = JFactory::getSession();
 		$userid = $session->get('user_id', '', 'tienda_pos');		
-		
+				
 		// Save the order with a pending status
 		if(!$order = $this->saveOrder($values))
 		{
@@ -318,6 +318,10 @@ class TiendaControllerPOS extends TiendaController
 		
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+		
+		//set payment to session
+		$session = JFactory::getSession();
+		$session->set('payment_plugin', $values['payment_plugin'], 'tienda_pos');
 
 		// Display whatever comes back from Payment Plugin for the onPrePayment
 		$html = "";
@@ -340,6 +344,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('shipping_method_name',$shippingMethodName);
 		$view->assign( 'showShipping', $showShipping );		
 		$view->assign('step1_inactive', $this->step1Inactive());	
+		$view->assign('values', $values);
 		//calculate the order totals as we already have the shipping
 		$order->calculateTotals();
 		$view->assign('orderSummary', $this->getOrderSummary($order));
@@ -349,6 +354,87 @@ class TiendaControllerPOS extends TiendaController
             $showBilling = false;
         }
         $view->assign( 'showBilling', $showBilling );	
+	}
+
+	function doStep5($post)
+	{		
+		$values = JRequest::getVar('data');
+		$values = json_decode(base64_decode($values));		
+		if(is_object($values)) $values = get_object_vars($values);
+		
+		$order_id = JRequest::getInt('order_id');	
+		$session = JFactory::getSession();
+		$orderpayment_type = JRequest::getVar('orderpayment_type', $session->get('payment_plugin', '', 'tienda_pos'));
+		
+		$doneReloading = JRequest::getInt('reloaded');
+		if($orderpayment_type == 'payment_offline' && !$doneReloading)
+		{
+			$uri	 = & JURI::getInstance();		
+			$query = $uri->getQuery();	
+			//reload the page since in payment_offline we are still in the modal
+			$doc = JFactory::getDocument();
+			$link = JURI::root().'administrator/index.php?'.$query.'&reloaded=1';
+			$js = "window.parent.location.href = '{$link}';";		
+			$js .= "window.parent.document.getElementById('sbox-window').close(); ";		
+			$doc->addScriptDeclaration($js); 			
+		}
+
+		$dispatcher =& JDispatcher::getInstance();
+		$html = "";
+		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order->load( array('order_id'=>$order_id) );
+		
+		if ( (!empty($order_id)) && (float) $order->order_total == (float)'0.00' )
+		{
+			$order->order_state_id = '17'; // PAYMENT RECEIVED
+			$order->save();
+
+			// send notice of new order
+			Tienda::load( "TiendaHelperBase", 'helpers._base' );
+			$helper = TiendaHelperBase::getInstance('Email');
+			$order_model = Tienda::getClass("TiendaModelOrders", "models.orders");
+			$order_model->setId( $order_id );
+			$order_model_item = $order_model->getItem();
+			$helper->sendEmailNotices($order_model_item, 'new_order');
+
+			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+			TiendaHelperOrder::setOrderPaymentReceived( $order_id );
+		}
+		else
+		{				
+			// get the payment results from the payment plugin
+			$results = $dispatcher->trigger( "onPostPayment", array( $orderpayment_type, $values ) );
+
+			// Display whatever comes back from Payment Plugin for the onPrePayment
+			for ($i=0; $i<count($results); $i++)
+			{
+				$html .= $results[$i];
+			}
+			
+			// re-load the order in case the payment plugin updated it
+			$order->load( array('order_id'=>$order_id) );
+		}
+		
+		if(!empty($order_id))
+		{
+			$order_link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$order_id;
+			$view = $this->getView( 'pos', 'html' );
+			$view->assign('order_link', $order_link );			
+			$view->assign('plugin_html', $html);
+			
+			// get the articles to display after checkout
+			$articles = array();
+			switch ($order->order_state_id)
+			{
+			    case "2":
+			    case "3":
+			    case "5":
+			    case "17":
+			        $articles = $this->getOrderArticles( $order_id );
+			        break;
+			}
+			$view->assign( 'articles', $articles );
+		}		
 	}
 
 	function saveStep2()

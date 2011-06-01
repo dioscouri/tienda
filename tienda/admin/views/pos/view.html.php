@@ -23,6 +23,9 @@ class TiendaViewPOS extends TiendaViewBase
             case "addproduct":
                 $this->_default($tpl);
               break;
+			case "ordersummary":
+			case "form_address":
+			case "shipping":
 			case "cart":				
 				break;
             case "view":
