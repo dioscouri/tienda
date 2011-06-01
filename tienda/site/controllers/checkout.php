@@ -34,23 +34,12 @@ class TiendaControllerCheckout extends TiendaController
 			return;
 		}
 
-		$task = JRequest::getVar('task');
-		
-		if($task == 'poscheckout')
-		{			
-			//TODO: do some security check?
-			$user_id= JRequest::getInt('userid');
-			$this->pos_order = new JObject();
-			$this->pos_order->user = JFactory::getUser($user_id);
-			$this->pos_order->order_id = JRequest::getInt('orderid');
-		}
-
 		// get the items and add them to the order
         Tienda::load( "TiendaHelperBase", 'helpers._base' );
         $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 
-		
+		$task = JRequest::getVar('task');
 		if (empty($items) && $task != 'confirmPayment' && $task != 'poscheckout' )
 		{
 			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
@@ -2158,6 +2147,9 @@ class TiendaControllerCheckout extends TiendaController
 		$values = JRequest::get('post');
 		$user = JFactory::getUser();
 
+		//set to session to know that we are not doing POS order
+		JFactory::getApplication()->setUserState( 'tienda.pos_order', false );
+
 		// Guest Checkout: Silent Registration!
 		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $values['guest'] == '1')
 		{
@@ -2388,6 +2380,25 @@ class TiendaControllerCheckout extends TiendaController
 		$mainframe =& JFactory::getApplication();
 		$order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
 		$order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
+		
+		$pos_order = $mainframe->getUserState( 'tienda.pos_order' );
+	
+		//redirect to the backend since we are doing pos order
+		if($pos_order)
+		{
+			// build URL for POS
+			$uri	 = & JURI::getInstance();		
+			$uriA = JRequest::get('get');	
+			$uriA['view'] = 'pos';
+			$uriA['task'] = 'display';
+			$uriA['subtask'] = 'confirmPayment';
+			$uriA['data'] = base64_encode(@json_encode($values));
+			$uriA['order_id'] = $order_id;
+			$uriA['nextstep'] = 'step5';
+			$uriA['Itemid'] = null;
+			$pos_link = $uri->buildQuery(array_filter($uriA));
+			$mainframe->redirect(JURI::root().'administrator/index.php?' . $pos_link);
+		}
 
 		$dispatcher =& JDispatcher::getInstance();
 		$html = "";
@@ -3497,7 +3508,28 @@ class TiendaControllerCheckout extends TiendaController
 	    return $articles;
 	}
 	
-	function poscheckout() {		
+	function poscheckout() 
+	{				
+		$tmpl = JRequest::getVar('tmpl');
+		if(empty($tmpl))
+		{
+			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Restricted Access" ) );
+			return;
+		}
+		
+		//set to session to know that we are doing POS order
+		JFactory::getApplication()->setUserState( 'tienda.pos_order', true );
+				
+		$values = JRequest::getVar('data');
+		$values = json_decode(base64_decode($values));		
+		if(is_object($values)) $values = get_object_vars($values);
+	
+		//TODO: do some security check?
+		$user_id= JRequest::getInt('userid');
+		$this->pos_order = new JObject();
+		$this->pos_order->user = JFactory::getUser($user_id);
+		$this->pos_order->order_id = $values['order_id'];
+			
 		$view = $this->getView( $this->get('suffix') , 'html' );
 		$model  = $this->getModel( $this->get('suffix') );
 		$view->set( '_controller', 'checkout' );
@@ -3507,10 +3539,22 @@ class TiendaControllerCheckout extends TiendaController
 		
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$order = JTable::getInstance('Orders', 'TiendaTable');		
-		$order->load( array('order_id' => $this->pos_order->order_id));
-		
+		$order->load( array('order_id' => $this->pos_order->order_id));		
 		$items = $order->getItems();	
-		//$view->assign( 'submenu', $submenu );
+			
+		$dispatcher    =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+
+		// Display whatever comes back from Payment Plugin for the onPrePayment
+		$html = "";
+		for ($i=0; $i<count($results); $i++)
+		{
+			$html .= $results[$i];
+		}
+		
+		$view->assign( 'plugin_html', $html );
+		$view->assign( 'values', $values );
+		$view->assign( 'order', $order );
 		$view->setModel( $model, true );
         $view->setLayout('pospayment');
 		$view->display();
