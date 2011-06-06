@@ -265,7 +265,7 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
     	$session = JFactory::getSession();
       $order = JTable::getInstance( 'Orders', 'TiendaTable' );
     	$data['secure_key'] = $this->_getParam( 'secure_key' );
-    	$data['ipc'] = '95.103.121.190';//$_SERVER['REMOTE_ADDR'];
+    	$data['ipc'] = $_SERVER['REMOTE_ADDR'];
       switch( $type )
     	{
     		case 1:
