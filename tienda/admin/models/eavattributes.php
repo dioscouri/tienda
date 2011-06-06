@@ -86,6 +86,23 @@ class TiendaModelEavAttributes extends TiendaModelBase
     {
     	$query->group('tbl.eavattribute_id');
     }
+
+	protected function _buildQueryFields(&$query)
+	{
+		$field = array();
+    $field[] = "
+         (
+          SELECT 
+            COUNT(*)
+          FROM
+            #__tienda_eavattributeentityxref AS xref 
+          WHERE 
+            xref.eavattribute_id = tbl.eavattribute_id
+         ) 
+       AS entity_count ";        
+		$query->select( $this->getState( 'select', 'tbl.*' ) );
+		$query->select( $field );
+	}
     
 	public function getList($refresh = false)
 	{

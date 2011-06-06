@@ -38,6 +38,9 @@
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Type', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="text-align: center;">
+                	<?php echo TiendaGrid::sort( 'Count', "entity_count", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
                     <?php echo JHTML::_('grid.order', @$items ); ?>
@@ -108,6 +111,11 @@
 				</td>
 				<td style="text-align: left;">
 						<?php echo JText::_($item->eaventity_type); ?>
+				</td>
+				<td>
+						<?php echo $item->entity_count.' '.JText::_($item->eaventity_type); ?>
+						<?php $select_url = "index.php?option=com_tienda&controller=eavattributes&task=selectentities&tmpl=component&eaventity_type=".@$item->eaventity_type."&id=".@$item->eavattribute_id; ?>
+                    [<?php echo TiendaUrl::popup( $select_url, JText::_( "Select Entities" ), array('update' => true) ); ?>]				
 				</td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::order($item->eavattribute_id); ?>
