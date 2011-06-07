@@ -358,14 +358,16 @@ class TiendaControllerPOS extends TiendaController
 
 	function doStep5($post)
 	{		
-		$values = JRequest::getVar('data');
-		$values = json_decode(base64_decode($values));		
-		if(is_object($values)) $values = get_object_vars($values);
+		$data = JRequest::getVar('data');
+		$data = json_decode(base64_decode($data));		
+		if(is_object($data)) $data = get_object_vars($data);
+		$values = JRequest::get('get');
+		$values = array_merge($data, $values);
 		
 		$order_id = JRequest::getInt('order_id');	
 		$session = JFactory::getSession();
 		$orderpayment_type = JRequest::getVar('orderpayment_type', $session->get('payment_plugin', '', 'tienda_pos'));
-		
+			
 		$doneReloading = JRequest::getInt('reloaded');
 		if($orderpayment_type == 'payment_offline' && !$doneReloading)
 		{
@@ -433,8 +435,8 @@ class TiendaControllerPOS extends TiendaController
 			        $articles = $this->getOrderArticles( $order_id );
 			        break;
 			}
-			$view->assign( 'articles', $articles );
-		}		
+			$view->assign( 'articles', $articles );			
+		}	
 	}
 
 	function saveStep2()
@@ -2736,21 +2738,21 @@ class TiendaControllerPOS extends TiendaController
 		
 		// Clear all of the session POS values
 	    $session = JFactory::getSession();
-		$session->clear('user_id', tienda_pos);
-		$session->clear('user_type', tienda_pos);
-		$session->clear('new_email', tienda_pos);
-		$session->clear('new_name', tienda_pos);
-		$session->clear('new_username_create', tienda_pos);
-		$session->clear('new_username', tienda_pos);
-		$session->clear('anon_emails', tienda_pos);
-		$session->clear('anon_email', tienda_pos);		
-		$session->clear('subtask', tienda_pos);
-		$session->clear('payment_plugin', tienda_pos);
-		$session->clear('shipping_price', tienda_pos);
-		$session->clear('shipping_tax', tienda_pos);
-		$session->clear('shipping_name', tienda_pos);
-		$session->clear('shipping_code', tienda_pos);
-		$session->clear('shipping_extra', tienda_pos);
-		$session->clear('customer_note', tienda_pos);	  
+		$session->clear('user_id', 'tienda_pos');
+		$session->clear('user_type', 'tienda_pos');
+		$session->clear('new_email', 'tienda_pos');
+		$session->clear('new_name', 'tienda_pos');
+		$session->clear('new_username_create', 'tienda_pos');
+		$session->clear('new_username', 'tienda_pos');
+		$session->clear('anon_emails', 'tienda_pos');
+		$session->clear('anon_email', 'tienda_pos');		
+		$session->clear('subtask', 'tienda_pos');
+		$session->clear('payment_plugin', 'tienda_pos');
+		$session->clear('shipping_price', 'tienda_pos');
+		$session->clear('shipping_tax', 'tienda_pos');
+		$session->clear('shipping_name', 'tienda_pos');
+		$session->clear('shipping_code', 'tienda_pos');
+		$session->clear('shipping_extra', 'tienda_pos');
+		$session->clear('customer_note', 'tienda_pos');		 
 	}
 }
