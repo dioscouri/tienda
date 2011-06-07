@@ -2733,7 +2733,24 @@ class TiendaControllerPOS extends TiendaController
 	function cancel()
 	{
 	    parent::cancel();
-	    
-	    // TODO Clear all of the session POS values
+		
+		// Clear all of the session POS values
+	    $session = JFactory::getSession();
+		$session->clear('user_id', tienda_pos);
+		$session->clear('user_type', tienda_pos);
+		$session->clear('new_email', tienda_pos);
+		$session->clear('new_name', tienda_pos);
+		$session->clear('new_username_create', tienda_pos);
+		$session->clear('new_username', tienda_pos);
+		$session->clear('anon_emails', tienda_pos);
+		$session->clear('anon_email', tienda_pos);		
+		$session->clear('subtask', tienda_pos);
+		$session->clear('payment_plugin', tienda_pos);
+		$session->clear('shipping_price', tienda_pos);
+		$session->clear('shipping_tax', tienda_pos);
+		$session->clear('shipping_name', tienda_pos);
+		$session->clear('shipping_code', tienda_pos);
+		$session->clear('shipping_extra', tienda_pos);
+		$session->clear('customer_note', tienda_pos);	  
 	}
 }
