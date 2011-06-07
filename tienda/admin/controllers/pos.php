@@ -2733,6 +2733,7 @@ class TiendaControllerPOS extends TiendaController
 	function cancel()
 	{
 	    parent::cancel();		
+		
 		// Clear all of the session POS values
 	    $session = JFactory::getSession();
 		$session->clear('user_id', tienda_pos);
