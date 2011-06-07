@@ -2725,4 +2725,15 @@ class TiendaControllerPOS extends TiendaController
 
 		return true;
 	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see TiendaController::cancel()
+	 */
+	function cancel()
+	{
+	    parent::cancel();
+	    
+	    // TODO Clear all of the session POS values
+	}
 }
