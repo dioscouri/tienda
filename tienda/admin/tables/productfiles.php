@@ -113,5 +113,53 @@ class TiendaTableProductFiles extends TiendaTable
         $downloadlog->productfile_id = $this->productfile_id;
         $downloadlog->save();    
     }
+
+	/**
+	 * Loads a row from the database and binds the fields to the object properties
+	 *
+	 * @access	public
+	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	 * @return	boolean	True if successful
+	 */
+	function load( $oid=null, $reset=true )
+	{
+		if( !parent::load( $oid, $reset ) )
+			return false;
+
+	  // relative paths start with DSDS
+		if( strpos( $this->productfile_path, DS.DS ) !== false ) // relative path => add JPATH_BASE before it
+		{
+			$app = JFactory::getApplication();
+			if( $app->isAdmin() ) //saving on admin site -> path_base contains "/Administrator"
+				$this->productfile_path = substr( JPATH_BASE, 0, strlen( JPATH_BASE ) - 14 ).substr( $this->productfile_path, 1 );
+			else
+				$this->productfile_path = JPATH_BASE.substr( $this->productfile_path, 1 );
+		}
+			
+		return true;
+	}
+
+		/**
+	 * 
+	 * @param unknown_type $updateNulls
+	 * @return unknown_type
+	 */
+	function store( $updateNulls=false )
+	{
+		$app = JFactory::getApplication();
+		// relative paths start with DSDS
+		if( strpos( $this->productfile_path, DS.DS ) === false ) // not a relative path => make it
+		{
+			$prefix = DS.DS;
+			if( $this->productfile_path[0] == DS ) // in case we use UNIX path (starting with /)
+				$prefix = DS;
+			if( $app->isAdmin() ) //saving on admin site -> path_base contains "/Administrator"
+				$this->productfile_path = $prefix.substr( $this->productfile_path, strlen( JPATH_BASE ) - 14 );
+			else
+				$this->productfile_path = $prefix.substr( $this->productfile_path, strlen( JPATH_BASE ) );
+		}
+		
+		return parent::store( $updateNulls );
+	}
 	
 }

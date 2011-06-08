@@ -284,7 +284,7 @@ class TiendaFile extends JObject
         
             if (intval( ini_get('output_buffering')) > '1' )
             {
-                while (ob_end_clean());                
+                while (@ob_end_clean());                
             }
             
             // Fix IE bugs

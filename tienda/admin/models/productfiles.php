@@ -120,4 +120,50 @@ class TiendaModelProductFiles extends TiendaModelBase
     {
     	$query->group( 'tbl.productfile_id' );
     }
+
+	public function getList()
+	{
+		if( empty( $this->_list ) )
+		{
+			$list = parent::getList();            
+			// If no item in the list, return an array()
+			if( empty( $list ) )
+				return array();
+
+			foreach( @$list as $item )
+			{
+				$item->productfile_path = $this->correctPath( $item->productfile_path );
+			}
+			$this->_list = $list;
+		}
+		return $this->_list;
+	}
+	
+	public function getItem( $emptyState = true )
+	{
+		if( empty( $this->_item ) )
+		{
+			if( $item = &parent::getItem( $emptyState ) )
+			{
+				$item->productfile_path = $this->correctPath( $item->productfile_path );
+			}
+			$this->_item = $item;
+		}
+		return $this->_item;
+	}
+	
+	public function correctPath( $act_path )
+	{
+		$app = JFactory::getApplication();
+		// relative paths start with DSDS
+		if( strpos( $act_path, DS.DS ) === false ) // not a relative path
+			return $act_path;
+		else // relative path -> add JPATH_BASE before it
+		{
+			if( $app->isAdmin() ) //saving on admin site -> path_base contains "/Administrator"
+				return substr( JPATH_BASE, 0, strlen( JPATH_BASE ) - 14 ).substr( $act_path, 1 );
+			else
+				return JPATH_BASE.substr( $act_path, 1 );
+		}
+	}
 }
