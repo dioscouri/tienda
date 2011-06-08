@@ -637,9 +637,9 @@ DEFAULT CHARACTER SET = utf8;
 
 INSERT IGNORE INTO `#__tienda_currencies` (`currency_id`, `currency_name`, `currency_code`, `symbol_left`, `symbol_right`, `currency_decimals`, `decimal_separator`, `thousands_separator`, `created_date`, `modified_date`, `currency_enabled`) VALUES
 (1, 'US Dollar', 'USD', '$', '', 2, '.', ',', NOW(), NOW(), 1),
-(2, 'Japanese Yen', 'JPY', '�', '', 3, '.', ',', NOW(), NOW(), 1),
-(3, 'Euro', 'EUR', '�', '', 2, '.', ',', NOW(), NOW(), 1),
-(4, 'British Pound', 'GBP', '�', '', 2, '.', ',', NOW(), NOW(), 1);
+(2, 'Japanese Yen', 'JPY', '¥', '', 3, '.', ',', NOW(), NOW(), 1),
+(3, 'Euro', 'EUR', '€', '', 2, '.', ',', NOW(), NOW(), 1),
+(4, 'British Pound', 'GBP', '£', '', 2, '.', ',', NOW(), NOW(), 1);
 
 
 -- -----------------------------------------------------
@@ -1658,7 +1658,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (197, 13, 'VIC', 'Victoria'),
 (198, 13, 'WA', 'Western Australia'),
 (199, 14, 'BUR', 'Burgenland'),
-(200, 14, 'KAR', 'K�rnten'),
+(200, 14, 'KAR', 'Kï¿½rnten'),
 (201, 14, 'NOS', 'Nieder&ouml;esterreich'),
 (202, 14, 'OOS', 'Ober&ouml;esterreich'),
 (203, 14, 'SAL', 'Salzburg'),
@@ -2104,7 +2104,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (643, 41, 'HMB', 'Haut-Mbomou'),
 (644, 41, 'KEM', 'Kemo'),
 (645, 41, 'LOB', 'Lobaye'),
-(646, 41, 'MKD', 'Mambere-Kade�'),
+(646, 41, 'MKD', 'Mambere-Kadeï¿½'),
 (647, 41, 'MBO', 'Mbomou'),
 (648, 41, 'NMM', 'Nana-Mambere'),
 (649, 41, 'OMP', 'Ombella-M''Poko'),
@@ -3650,7 +3650,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (2188, 140, 'SO', 'Soroca'),
 (2189, 140, 'TI', 'Tighina'),
 (2190, 140, 'UN', 'Ungheni'),
-(2191, 140, 'SN', 'St�nga Nistrului'),
+(2191, 140, 'SN', 'Stï¿½nga Nistrului'),
 (2192, 141, 'FV', 'Fontvieille'),
 (2193, 141, 'LC', 'La Condamine'),
 (2194, 141, 'MV', 'Monaco-Ville'),
