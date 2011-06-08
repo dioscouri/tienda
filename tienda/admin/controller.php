@@ -36,8 +36,8 @@ class TiendaController extends JController
 		// Register Extra tasks
 		$this->registerTask( 'list', 'display' );
 		$this->registerTask( 'close', 'cancel' );
-		$this->registerTask( 'add', 'edit' );
-		$this->registerTask( 'new', 'edit' );
+		$this->registerTask( 'add', 'add' );
+		$this->registerTask( 'new', 'add' );
 		$this->registerTask( 'apply', 'save' );
 		$this->registerTask( 'savenew', 'save' );
 		$this->registerTask( 'remove', 'delete' );
@@ -216,6 +216,18 @@ class TiendaController extends JController
 		return;
 	}
 
+	/**
+	 * Checks if an item is checked out, and if so, redirects to layout for viewing item
+	 * Otherwise, displays a form for adding item
+	 *
+	 * @return void
+	 */
+	function add()
+	{
+		JRequest::setVar( 'cid', array() );
+		$this->edit();
+	}
+	
 	/**
 	 * Checks if an item is checked out, and if so, redirects to layout for viewing item
 	 * Otherwise, displays a form for editing item
