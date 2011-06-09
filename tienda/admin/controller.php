@@ -224,7 +224,7 @@ class TiendaController extends JController
 	 */
 	function add()
 	{
-		JRequest::setVar( 'cid', array() );
+		JRequest::setVar( 'cid', array( 0 ) );
 		$this->edit();
 	}
 	
