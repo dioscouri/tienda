@@ -10,5 +10,5 @@
 		<?php	echo JText::_("MIGRATION RESULTS");?>
 	</p>
 </div>
-<?phpecho $this->getHtmlStep(3, 2);?>
-<?phpecho $this->vars->additional_html;?>
+<?php echo $this->getHtmlStep(3, 2);?>
+<?php echo $this->vars->additional_html;?>
