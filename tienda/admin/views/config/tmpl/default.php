@@ -1580,7 +1580,56 @@
 							</td>
 						</tr>			
 					</tbody>
-					</table>						
+					</table>
+					
+					<?php
+						echo $this->sliders->endPanel();	
+	     				echo $this->sliders->startPanel( JText::_( "EAV Editor Settings" ), 'eav_editor_settings' );
+	    			?>
+					<table class="adminlist">
+					<tbody>		
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Textarea Rows' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<input type="text" name="eav_textarea_rows" value="<?php echo $this->row->get('eav_textarea_rows', '20'); ?>" />
+							</td>
+							<td>								
+							</td>
+						</tr>
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Textarea Columns' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<input type="text" name="eav_textarea_columns" value="<?php echo $this->row->get('eav_textarea_columns', '50'); ?>" />
+							</td>
+							<td>								
+							</td>
+						</tr>		
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Textarea Width' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<input type="text" name="eav_textarea_width" value="<?php echo $this->row->get('eav_textarea_width', '300'); ?>" />
+							</td>
+							<td>								
+							</td>
+						</tr>		
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Textarea Height' ); ?>
+							</th>
+							<td style="width: 150px;">
+		       					<input type="text" name="eav_textarea_height" value="<?php echo $this->row->get('eav_textarea_height', '200'); ?>" />
+							</td>
+							<td>								
+							</td>
+						</tr>					
+					</tbody>
+					</table>										
 					<?php
 						echo $this->sliders->endPanel();				
 

@@ -128,7 +128,8 @@ class TiendaHelperEav extends TiendaHelperBase
     			break;
     		case "text":
     			$editor = &JFactory::getEditor();
-    			return $editor->display($eav->eavattribute_alias, $value, '300', '200', '50', '20');
+				$config = TiendaConfig::getInstance();
+    			return $editor->display($eav->eavattribute_alias, $value, $config->get('eav_textarea_width', '300'), $config->get('eav_textarea_width', '200'), $config->get('eav_textarea_width', '50'), $config->get('eav_textarea_width', '20'));
     			break;
     		case "decimal":
     		case "int":	
