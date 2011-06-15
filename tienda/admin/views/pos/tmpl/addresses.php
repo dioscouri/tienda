@@ -8,7 +8,7 @@
 <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&view=pos&tmpl=component' ); ?>" method="post" class="adminForm" name="adminForm" >
 	<fieldset>
 		<div class="header icon-48-tienda" style="float: left;">
-			<?php echo JText::_('Manage Your Addresses');?>
+			<?php echo JText::_('Manage Addresses');?>
 		</div>
 		<div class="toolbar" id="toolbar" style="float: right;">
 			<table class="toolbar">
