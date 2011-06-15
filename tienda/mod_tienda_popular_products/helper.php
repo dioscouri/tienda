@@ -40,6 +40,7 @@ class modTiendaPopularProductsHelper extends JObject
         // load the config class
         Tienda::load( 'TiendaConfig', 'defines' );
         Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+		    Tienda::load('TiendaHelperUser', 'helpers.user');
         $helper = new TiendaHelperProduct();
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -82,7 +83,6 @@ class modTiendaPopularProductsHelper extends JObject
     	    	$product->tax = 0;
 		        if ($show_tax)
 		        {		            
-		            Tienda::load('TiendaHelperUser', 'helpers.user');
 		            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
 		            if (empty($geozones))
 		            {
