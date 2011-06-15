@@ -19,6 +19,18 @@ class TiendaControllerPOS extends TiendaController
 	var $redirect = 'index.php?option=com_tienda&view=orders';
 	var $validation_url = 'index.php?option=com_tienda&view=pos&task=validate&format=raw';
 
+	/**
+	 * constructor
+	 */
+	function __construct() 
+	{
+		parent::__construct();	
+		$this->set('suffix', 'pos');
+		$this->registerTask( 'flag_billing', 'flag' );
+		$this->registerTask( 'flag_shipping', 'flag' );
+		$this->registerTask( 'flag_deleted', 'flag' );
+	}
+	
 	function display($cachable=false)
 	{
 		$post = JRequest::get('post');
@@ -2755,4 +2767,193 @@ class TiendaControllerPOS extends TiendaController
 		$session->clear('shipping_extra', 'tienda_pos');
 		$session->clear('customer_note', 'tienda_pos');		 
 	}
+	
+	function addresses()
+	{
+		$this->set('suffix', 'addresses');
+		$state = parent::_setModelState();
+		$app = JFactory::getApplication();
+		$model = $this->getModel($this->get('suffix'));
+		$ns = $this->getNamespace();
+		
+		$session = JFactory::getSession();
+        $state['filter_userid']     = $session->get('user_id', '', 'tienda_pos');
+        $state['filter_deleted']    = '0';
+      
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );   
+        }
+	
+		$view = $this->getView('pos', 'html');
+		$view->setModel($model, true);
+		$view->assign('state', $model->getState());
+		$view->assign('items', $model->getList());
+		$view->setLayout('addresses');
+		$view->display();
+	}
+	function address()
+	{
+		$this->set('suffix', 'addresses');
+		$model  = $this->getModel( $this->get('suffix') );
+        $row = $model->getTable();
+        $row->load( $model->getId() );     		
+		$user_id = JFactory::getSession()->get('user_id', '', 'tienda_pos');
+        // if id is present then user is editing, check if user can edit this item
+        if (!empty($row->address_id) && $row->user_id != $user_id) 
+        {
+        	$redirect = "index.php?option=com_tienda&view=pos&task=addresses";
+        	$redirect = JRoute::_( $redirect, false );
+			$this->message = JText::_( 'You Cannot Edit That Address' );
+			$this->messagetype = 'notice';
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );
+			return;
+        }
+		
+		$view = $this->getView('pos', 'html');
+		$view->setModel($model, true);	
+		$view->setLayout('address');
+		$view->assign('address', $row);
+		$view->display();
+	}
+	
+	function addaddress()
+	{		
+		$this->set('suffix', 'addresses');
+		$post = JRequest::get('post');
+		
+		$model = $this->getModel( $this->get('suffix') );
+        $row = $model->getTable();
+        $row->load( $model->getId() );
+        $row->bind( $post);
+        $row->_isNew = empty($row->address_id);
+
+        $redirect = "index.php?option=com_tienda&view=pos&task=addresses";
+    	if (JRequest::getVar('tmpl') == 'component')
+    	{
+        	$redirect .= "&tmpl=component";
+        }
+        $redirect = JRoute::_( $redirect, false );
+        
+      	$user_id = JFactory::getSession()->get('user_id', '', 'tienda_pos');
+		
+        if ($row->_isNew)
+        {
+        	
+            $row->user_id = $user_id;	
+        }
+        elseif ($row->user_id != $user_id)
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( 'You are not authorized to edit this item' );
+        	$this->setRedirect( $redirect, $this->message, $this->messagetype );
+        	return;
+        }
+        
+        if ( $row->save() ) 
+        {
+            $model->setId( $row->address_id );
+            $this->messagetype  = 'message';
+            $this->message      = JText::_( 'Saved' );
+                
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+        } 
+            else 
+        {
+            $this->messagetype  = 'notice';         
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+        }
+
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+
+	 /**
+     * Flags an address
+     * @return unknown_type
+     */
+    function flag()
+    {
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
+        $redirect = 'index.php?option=com_tienda&view=pos&task=addresses';
+    	if (JRequest::getVar('tmpl') == 'component')
+    	{
+        	$redirect .= "&tmpl=component";
+        }
+                  
+		$this->set('suffix', 'addresses');
+		$user_id = JFactory::getSession()->get('user_id', '', 'tienda_pos');		
+        $model = $this->getModel($this->get('suffix'));
+        $row = $model->getTable();
+ 
+        $task = JRequest::getVar( 'task' );
+        $actions = explode( '_', $task );
+        if (!is_array($actions)) 
+        {
+            $this->message = JText::_( 'Invalid Task' );
+            $this->messagetype = 'notice';
+            $redirect = JRoute::_( $redirect, false );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+        $act = $actions['1'];
+        $errors = array();
+        
+        $cids = JRequest::getVar('cid', array (0), 'post', 'array');
+        foreach (@$cids as $cid)
+        {
+            switch($act)
+            {
+                case "billing":
+                    $flag = "is_default_billing"; $value = "1";
+                  break;
+                case "shipping":
+                    $flag = "is_default_shipping"; $value = "1";
+                  break;
+                case "deleted":
+                    $flag = "is_deleted"; $value = "1";
+                  break;
+                default:
+                    $this->message = JText::_( 'Invalid Act' );
+                    $this->messagetype = 'notice';
+                    $redirect = JRoute::_( $redirect, false );
+                    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                    return;
+                  break;
+            }
+            $row->load($cid);
+            if ($row->address_id && $row->user_id == $user_id)
+            {
+            	$row->$flag = $value;
+            	if (!$row->save())
+            	{
+	                $errors[] = $cid;
+	                $this->messagetype = 'notice';
+	                $error = true;            		
+            	}
+            }
+            else
+            {
+                $errors[] = $cid;
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
+        
+        if ($error)
+        {
+            $this->message = JText::_( "Unable to Change" ).": ".implode(", ", $errors);
+        }
+            else
+        {
+            $this->message = "";
+        }
+        
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;
+    }
+    
 }
