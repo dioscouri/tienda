@@ -654,7 +654,7 @@ class TiendaControllerPOS extends TiendaController
 					 // Send the reminder
 			        jimport('joomla.mail.helper');		        
 			        // Validate the e-mail address
-			        if (!JMailHelper::isEmailAddress($values['anon_emails']))
+			        if (!JMailHelper::isEmailAddress($values['anon_email']))
 			        {
 			          	$response['error'] = '1';
 						$msg[] = JText::_("Invalid email address");
