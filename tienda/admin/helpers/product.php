@@ -1997,14 +1997,25 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$txt = '';
 		if ( $show && $tax )
 		{
-			if ( $show == '2' )
+			switch( $show )
 			{
-				$txt .= TiendaHelperBase::currency( $price + $tax );
-			}
-			else
-			{
-				$txt .= TiendaHelperBase::currency( $price );
-				$txt .= sprintf( JText::_( 'INCLUDE_TAX' ), TiendaHelperBase::currency( $tax ) );
+				case 1: // display tax next to price
+					{
+						$txt .= TiendaHelperBase::currency( $price );
+						$txt .= sprintf( JText::_( 'INCLUDE_TAX' ), TiendaHelperBase::currency( $tax ) );
+						break;
+					}
+				case 2: // sum the tax and product price
+					{
+						$txt .= TiendaHelperBase::currency( $price + $tax );
+						break;
+					}
+				case 3: // display both price without and with tax
+					{
+						$txt .= TiendaHelperBase::currency( $price );
+						$txt .= sprintf( JText::_( 'INCLUDING_TAX' ), TiendaHelperBase::currency( $price + $tax ) );
+						break;
+					}
 			}
 		}
 		else
