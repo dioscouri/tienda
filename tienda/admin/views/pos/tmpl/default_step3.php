@@ -68,6 +68,15 @@
         <?php endif;?>
         
 			<div id="addresses">
+				<h3>
+            		<?php echo JText::_("Select Shipping and Billing Addresses") ?>
+        		</h3>
+        		 <div class='note'>
+	                <?php $text = JText::_( "Click Here to Manage Your Stored Addresses" )."."; ?>
+	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
+                    <?php echo JText::_( "This opens a window where you may modify your existing stored addresses or create a new one. When you're finished, close the window to continue your checkout process. " ); ?>
+                </div>
+				<div class="reset"></div>
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">
 					<?php echo JText::_("Billing Address") ?>
