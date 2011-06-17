@@ -5553,6 +5553,33 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcompare` (
   KEY `fk_productcompare_products` (`product_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+
+-- -----------------------------------------------------
+-- Table `#__tienda_productcouponxref`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_productcouponxref` (
+  `coupon_id` INT(11) NOT NULL DEFAULT '0' ,
+  `product_id` INT(11) NOT NULL DEFAULT '0' ,
+  INDEX `idx_product_coupon_xref_coupon_id` (`coupon_id` ASC) ,
+  INDEX `idx_product_coupon_xref_product_id` (`product_id` ASC) ,
+  INDEX `fk_Product_ProductCoupon` (`product_id` ASC) ,
+  INDEX `fk_Coupon_ProductCoupon` (`coupon_id` ASC) ,
+  CONSTRAINT `fk_Product_ProductCoupon`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `#__tienda_products` (`product_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Coupon_ProductCoupon`
+    FOREIGN KEY (`coupon_id` )
+    REFERENCES `#__tienda_coupons` (`coupon_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

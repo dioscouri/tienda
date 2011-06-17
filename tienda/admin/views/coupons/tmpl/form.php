@@ -3,10 +3,40 @@
 <?php $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
 Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
+JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+JHTML::_('behavior.tooltip'); 
 ?>
-<?php JHTML::_('behavior.tooltip'); ?>
+<script type="text/javascript">
+function showProductList()
+{
+	var value = getSelectedRadio('adminForm', 'coupon_type');
+	if(value == '1')
+	{
+		$('per_product').style.display = '';
+	}
+	else
+	{
+		$('per_product').style.display = 'none';
+	}
+}
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+function shippingPerOrder()
+{
+	var value = getSelectedValue('adminForm', 'coupon_group');
+	if(value == 'shipping')
+	{
+		$('coupon_type1').style.display = 'none';
+		$('couponForm').getElement('label[for=coupon_type1]').style.display = 'none';
+	}
+	else
+	{
+		$('coupon_type1').style.display = '';
+		$('couponForm').getElement('label[for=coupon_type1]').style.display = '';
+	}
+}
+</script>
+
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" id="couponForm" name="adminForm" enctype="multipart/form-data" >
 
 	<fieldset>
 		<legend><?php echo JText::_('Form'); ?></legend>
@@ -95,17 +125,38 @@ Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
                     <td style="width: 125px; text-align: right;" class="key">
                         <?php echo JText::_( 'Discount Applied' ); ?>:
                     </td>
-                    <td>
-                        <input type="radio" checked="checked" value="0" id="coupon_type0" name="coupon_type">
-                        <label for="coupon_type0"><?php echo JText::_("Per Order"); ?></label>
+                    <td>                    
+                        <?php $attribs = array(); ?>
+                        <?php $attribs['onclick'] = 'showProductList();'; ?>
+                        <?php echo TiendaSelect::coupontype(@$row->coupon_type, 'coupon_type', $attribs, 'coupon_type'); ?>
                     </td>
                 </tr>
+                <tr <?php if (empty($row->coupon_type)) { echo 'style="display: none;"'; } ?> id="per_product">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Select Products' ); ?>:
+                    </td>
+                    <td>
+                    	<?php if(@$row->coupon_id){?>
+                        <?php $select_url = "index.php?option=com_tienda&controller=coupons&task=selectproducts&id=".$row->coupon_id."&tmpl=component&hidemainmenu=1"; ?>
+                    	<?php echo TiendaUrl::popup( $select_url, JText::_( "Select Products") ); ?>
+                    	<?php } else
+                    	{
+                    		?>
+                    		<div class="note">
+                    		<?php echo JText::_( "Click the Apply button to add products to this coupon" ); ?>
+                			</div>
+                    		<?php 
+                    	}?>
+                    </td>
+                </tr>                                
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
                         <?php echo JText::_( 'Discount Applies To' ); ?>:
                     </td>
                     <td>
-                        <?php echo TiendaSelect::coupongroup( @$row->coupon_group, 'coupon_group' ); ?>
+                    	<?php $attribs = array(); ?>
+                        <?php $attribs['onchange'] = 'shippingPerOrder();'; ?>
+                        <?php echo TiendaSelect::coupongroup( @$row->coupon_group, 'coupon_group', $attribs ); ?>                                               
                     </td>
                 </tr>
                 <tr>
@@ -113,8 +164,7 @@ Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
                         <?php echo JText::_( 'Type' ); ?>:
                     </td>
                     <td>
-                        <input type="radio" checked="checked" value="0" id="coupon_automatic0" name="coupon_automatic">
-                        <label for="coupon_automatic0"><?php echo JText::_("User Submitted"); ?></label>
+                        <?php echo TiendaSelect::booleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'User Submitted' );?>
                     </td>
                 </tr>                
                 <tr>
@@ -139,3 +189,9 @@ Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
 			<input type="hidden" name="task" value="" />
 	</fieldset>
 </form>
+<script type="text/javascript">
+	window.addEvent('domready', function(){
+	  showProductList();
+	  shippingPerOrder();
+	});
+</script>

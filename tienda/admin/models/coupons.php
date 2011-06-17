@@ -96,10 +96,15 @@ class TiendaModelCoupons extends TiendaModelBase
         	$query->where('tbl.coupon_id IN('.implode(",", $filter_ids).')' );
         }
     }
-        	
-	public function getList()
+ 	
+	public function getList($reload = false)
 	{
-		$list = parent::getList(); 
+		if (empty( $this->_list ) || $reload)
+		{
+			$query = $this->getQuery($reload);
+			$this->_list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
+		}
+		$list = $this->_list;
 		
 		// If no item in the list, return an array()
         if( empty( $list ) ){
@@ -111,5 +116,20 @@ class TiendaModelCoupons extends TiendaModelBase
 			$item->link = 'index.php?option=com_tienda&view=coupons&task=edit&id='.$item->coupon_id;
 		}
 		return $list;
+	}
+	
+	/**
+	 * Gets the model's query, building it if it doesn't exist
+	 * @return valid query object
+	 * 
+	 * @enterprise
+	 */
+	public function getQuery($reload = false)
+	{
+		if (empty( $this->_query ) || $reload )
+		{
+			$this->_query = $this->_buildQuery($reload);
+		}
+		return $this->_query;
 	}
 }

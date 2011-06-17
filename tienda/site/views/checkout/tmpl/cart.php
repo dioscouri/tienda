@@ -5,9 +5,11 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
+Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
+$coupons = @$this->coupons;
 ?>
 <div class="cartitems">
            <table class="adminlist" style="clear: both;">
@@ -59,6 +61,10 @@ $items = @$this->orderitems;
 					        </div>
 					    <?php endif; ?>  
 
+                        <?php if( in_array($item->product_id, $coupons) ){ ?>
+                        	<span style="float: right;"><?php echo JText::_('Coupon Discount Applied!'); ?></span>
+                        <?php } ?>
+                                                
                     </td>
                     <td style="width: 50px; text-align: center;">
                         <?php echo $item->orderitem_quantity;?>  

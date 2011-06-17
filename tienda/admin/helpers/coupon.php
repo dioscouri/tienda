@@ -97,6 +97,54 @@ class TiendaHelperCoupon extends TiendaHelperBase
         
         // all ok
         return $coupon;
-    }  
+    } 
+
+	function checkByProductIds($coupon_id, $product_ids)
+    {
+    	if (!empty($product_ids))
+        {
+        	
+			$ids = implode(",", $product_ids);        	
+
+            // Check the product_id
+            Tienda::load( 'TiendaQuery', 'library.query' );
+	        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	        $table = JTable::getInstance( 'ProductCoupons', 'TiendaTable' );
+	        
+	        $query = new TiendaQuery();
+	        $query->select( "COUNT(*)" );
+	        $query->from( $table->getTableName()." AS tbl" );
+	        $query->where( "tbl.product_id IN (".$ids.")" );
+	        $query->where( "tbl.coupon_id = ".(int) $coupon_id );
+	        
+	        $db = JFactory::getDBO();
+	        $db->setQuery( (string) $query );
+	        
+	        $count = $db->loadResult();
+            
+	        if (!$count)
+            {
+                return false;
+            }
+            
+            return true;
+        }        
+
+        return false;
+    } 
+	
+	function getCouponProductIds($coupon_id)
+    {
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $query = new TiendaQuery();
+		$query->select('product_id');
+		$query->from('#__tienda_productcouponxref');
+		$query->where('coupon_id = '.(int)$coupon_id);
+		
+		$db = JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadResultArray();  
+
+	}
       
 }

@@ -180,7 +180,10 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $jHost       = $conf->getValue('config.host');
         $jDatabase   = $conf->getValue('config.db');
         
-        if (($state->database != $jDatabase) && ($state->host != $jHost))
+		echo $jHost.'='.$state->host.'<br />';
+		echo $state->database .'='.$jDatabase;
+		
+        if (($state->database == $jDatabase) && ($state->host == $jHost))
         {
             // then we can do an insert select
             $results = $this->_migrateInternal($state->prefix, $state->vm_prefix);                        
@@ -216,7 +219,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $queries[0] = "
             INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_full_image, category_enabled )
             SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
-            FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id;
+            FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id AND c.category_id >1;
         ";
         
         $queries[1]->title = "PRODUCTS";
@@ -244,8 +247,8 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $queries[4] = "
             INSERT IGNORE INTO #__tienda_productcategoryxref ( category_id, product_id )
             SELECT p.category_id, p.product_id
-            FROM {$p}product_category_xref as p;
-        ";
+            FROM {$p}product_category_xref as p WHERE p.category_id > 1; 
+        "; // ALL categories
         
         $queries[5]->title = "ORDERS";
         $queries[5] = "
@@ -495,14 +498,25 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         // migrate categories
         $queries[0]->title = "CATEGORIES";
         $queries[0]->select = "
-            SELECT c.category_id, cx.category_parent_id, c.category_name, c.category_description, c.category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
+            SELECT 99999,c.category_id, cx.category_parent_id, c.category_name, c.category_description, c.category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
             FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id;
         ";
         $queries[0]->insert = "
             INSERT IGNORE INTO #__tienda_categories ( category_id, parent_id, category_name, category_description, category_full_image, category_enabled )
             VALUES ( %s )
         ";
-
+        
+        // migrate category with id = 1
+        $queries[0]->title = "CATEGORY 1";
+        $queries[0]->select = "
+            SELECT cx.category_parent_id, c.category_name, c.category_description, c.category_full_image, IF(c.category_publish = 'Y', 1, 0) AS category_enabled
+            FROM {$p}category as c, {$p}category_xref as cx WHERE c.category_id = cx.category_child_id AND c.category_id = 1;
+        ";
+        $queries[0]->insert = "
+            INSERT IGNORE INTO #__tienda_categories ( parent_id, category_name, category_description, category_full_image, category_enabled )
+            VALUES ( %s )
+        ";
+        
         // migrate products
         $queries[1]->title = "PRODUCTS";
         $queries[1]->select = "
@@ -541,6 +555,17 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $queries[4]->select = "
             SELECT p.category_id, p.product_id
             FROM {$p}product_category_xref as p;
+        ";
+        $queries[4]->insert = "
+            INSERT IGNORE INTO #__tienda_productcategoryxref ( category_id, product_id )
+            VALUES ( %s )
+        ";
+		
+		// migrate product categories xref with id = 1
+		$queries[4]->title = "PRODUCT CATEGORIES XREF 1";
+        $queries[4]->select = "
+            SELECT 99999, p.product_id
+            FROM {$p}product_category_xref as p WHERE p.category_id = 0;
         ";
         $queries[4]->insert = "
             INSERT IGNORE INTO #__tienda_productcategoryxref ( category_id, product_id )

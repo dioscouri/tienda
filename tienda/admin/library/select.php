@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
 
 class TiendaSelect extends JHTMLSelect
-{   
+{
 	/**
 	* Generates a yes/no radio list
 	*
@@ -388,7 +388,7 @@ class TiendaSelect extends JHTMLSelect
 
 		return self::genericlist($list, $name, $attribs, 'currency_id', 'currency_code', $selected, $idtag );
  	}
- 	 
+
  	/**
  	 * 
  	 * @param unknown_type $selected
@@ -398,8 +398,8 @@ class TiendaSelect extends JHTMLSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-    public static function selectsort($selected, $name = 'default_selectsort', $attribs = array('class' => 'inputbox', 'size' => '1') , $idtag = null, $allowAny = false)
-    {
+	public static function selectsort($selected, $name = 'default_selectsort', $attribs = array('class' => 'inputbox', 'size' => '1') , $idtag = null, $allowAny = false)
+	{
         $list = array();
         if($allowAny) {
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
@@ -973,8 +973,34 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'price', JText::_( "Price" ) );
+        $list[] = JHTML::_('select.option',  'tax', JText::_( "Tax" ) );
+        $list[] = JHTML::_('select.option',  'shipping', JText::_( "Shipping" ) );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+	
+	/**
+     * 
+     * Enter description here ...
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @param unknown_type $attribs
+     * @param unknown_type $idtag
+     * @param unknown_type $allowAny
+     * @param unknown_type $title
+     * @return unknown_type
+     */
+    public static function coupontype( $selected, $name = 'filter_coupontype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Coupon Type' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  '0', JText::_( "Per Order" ) );
+        $list[] = JHTML::_('select.option',  '1', JText::_( "Per Product" ) );
+
+        return self::radiolist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
 
     /**

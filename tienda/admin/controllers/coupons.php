@@ -22,6 +22,8 @@ class TiendaControllerCoupons extends TiendaController
 		$this->set('suffix', 'coupons');
 		$this->registerTask( 'coupon_enabled.enable', 'boolean' );
 		$this->registerTask( 'coupon_enabled.disable', 'boolean' );
+		$this->registerTask( 'selected_enable', 'selected_switch' );
+		$this->registerTask( 'selected_disable', 'selected_switch' );
 	}
 	
 	/**
@@ -47,6 +49,161 @@ class TiendaControllerCoupons extends TiendaController
 		}
   		return $state;
     }
+    
+	/**
+	 * Loads view for assigning products to coupons
+	 *
+	 * @return unknown_type
+	 * @enterprise
+	 */
+	function selectproducts()
+	{
+		$this->set('suffix', 'products');
+		$state = parent::_setModelState();
+		$app = JFactory::getApplication();
+		$model = $this->getModel( $this->get('suffix') );
+		$ns = $this->getNamespace();
+		
+		$state['filter_category'] 		= $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
+
+		foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
+
+		$id = JRequest::getInt( 'id', 0 );
+		
+		$row = $model->getTable( 'coupons' );
+		
+		$row->load( $id );
+
+		$view   = $this->getView( 'coupons', 'html' );
+		$view->set( '_controller', 'coupons' );
+		$view->set( '_view', 'coupons' );
+		$view->set( '_action', "index.php?option=com_tienda&controller=coupons&task=selectproducts&tmpl=component&id=".$id );
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'row', $row );
+		$view->setLayout( 'selectproducts' );
+		JRequest::setVar( 'hidemainmenu', '1' );
+		$view->display();
+	}
+	
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	function selected_switch()
+	{
+		$error = false;
+		$this->messagetype  = '';
+		$this->message      = '';
+
+		$model = $this->getModel($this->get('suffix'));
+		$row = $model->getTable();
+
+		$id = JRequest::getInt( 'id', 0 );
+		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
+		$task = JRequest::getVar( 'task' );
+		$vals = explode('_', $task);
+
+		$field = $vals['0'];
+		$action = $vals['1'];
+
+		switch (strtolower($action))
+		{
+			case "switch":
+				$switch = '1';
+				break;
+			case "disable":
+				$enable = '0';
+				$switch = '0';
+				break;
+			case "enable":
+				$enable = '1';
+				$switch = '0';
+				break;
+			default:
+				$this->messagetype  = 'notice';
+				$this->message      = JText::_( "Invalid Task" );
+				$this->setRedirect( $redirect, $this->message, $this->messagetype );
+				return;
+				break;
+		}
+		
+		$keynames = array();
+		foreach (@$cids as $cid)
+		{
+			$table = JTable::getInstance('ProductCoupons', 'TiendaTable');
+			$keynames["coupon_id"] = $id;
+			$keynames["product_id"] = $cid;
+			$table->load( $keynames );
+			if ($switch)
+			{
+				if (isset($table->product_id))
+				{
+					if (!$table->delete())
+					{
+						$this->message .= $cid.': '.$table->getError().'<br/>';
+						$this->messagetype = 'notice';
+						$error = true;
+					}
+				}
+				else
+				{
+					$table->product_id = $cid;
+					$table->coupon_id = $id;
+					if (!$table->save())
+					{
+						$this->message .= $cid.': '.$table->getError().'<br/>';
+						$this->messagetype = 'notice';
+						$error = true;
+					}
+				}
+			}
+			else
+			{
+				switch ($enable)
+				{
+					case "1":
+						$table->product_id = $cid;
+						$table->coupon_id = $id;
+						if (!$table->save())
+						{
+							$this->message .= $cid.': '.$table->getError().'<br/>';
+							$this->messagetype = 'notice';
+							$error = true;
+						}
+						break;
+					case "0":
+					default:
+						if (!$table->delete())
+						{
+							$this->message .= $cid.': '.$table->getError().'<br/>';
+							$this->messagetype = 'notice';
+							$error = true;
+						}
+						break;
+				}
+			}
+		}
+
+		if ($error)
+		{
+			$this->message = JText::_('Error') . ": " . $this->message;
+		}
+		else
+		{
+			$this->message = "";
+		}
+
+		$redirect = JRequest::getVar( 'return' ) ?
+		base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=coupons&task=selectproducts&tmpl=component&id=".$id;
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+	
 }
 
 ?>

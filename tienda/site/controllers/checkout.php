@@ -532,6 +532,8 @@ class TiendaControllerCheckout extends TiendaController
 			$order->addItem( $item );
 		}
 
+		$this->addAutomaticCoupons();
+
 		// get the order totals
 		$order->calculateTotals();
 
@@ -574,6 +576,23 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		// get the order object
 		$order =& $this->_order; // a TableOrders object (see constructor)   
+		
+		Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
+		
+		// Coupons
+		$coupons_id = array();
+		$coupons = $order->getCoupons();
+		foreach($coupons as $cg)
+		{
+			foreach($cg as $c)
+			{
+				if($c->coupon_type == '1')
+				{
+					$coupons_id = array_merge($coupons_id, TiendaHelperCoupon::getCouponProductIds( @$c->coupon_id ) );
+				}
+			}
+		}
+
 		$model = $this->getModel('carts');
 		$view = $this->getView( 'checkout', 'html' );
 		$view->set( '_controller', 'checkout' );
@@ -582,6 +601,7 @@ class TiendaControllerCheckout extends TiendaController
 		$view->set( 'hidemenu', true);
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );	
+		$view->assign( 'coupons', $coupons_id);
 	
         $config = TiendaConfig::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
@@ -1562,6 +1582,8 @@ class TiendaControllerCheckout extends TiendaController
             }
         }
 		
+		$this->addCoupons($values);
+		
 		// get the order totals
 		$order->calculateTotals();
 
@@ -1844,6 +1866,8 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			$order->addItem( $item );
 		}
+		
+		$this->addAutomaticCoupons();
 
 		// get the order totals
 		$order->calculateTotals();
@@ -2664,7 +2688,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// set the shipping method
-		if($values['shippingrequired'])
+		if(@$values['shippingrequired'])
 		{
 			$order->shipping = new JObject();
 			$order->shipping->shipping_price      = $values['shipping_price'];
@@ -2690,23 +2714,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 		
-	    // get all coupons and add them to the order
-        $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
-        $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
-        if (!empty($values['coupons']) && $coupons_enabled)
-        {
-            foreach ($values['coupons'] as $coupon_id)
-            {
-                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
-                $coupon->load(array('coupon_id'=>$coupon_id));
-                $order->addCoupon( $coupon );
-                if (empty($mult_enabled))
-                {
-                    // this prevents Firebug users from adding multiple coupons to orders
-                    break;
-                }                
-            }
-        }
+		$this->addCoupons($values);
 		
 		$order->order_state_id = $this->initial_order_state;
 		$order->calculateTotals();
@@ -3203,6 +3211,25 @@ class TiendaControllerCheckout extends TiendaController
             return;
         }
     
+		// Check per product coupon code
+        $ids = array();
+        $items = TiendaHelperCarts::getProductsInfo();
+        foreach($items as $item)
+        {
+        	$ids[] = $item->product_id;
+        }
+        if($coupon->coupon_type == '1')
+        {
+        	$check = $helper_coupon->checkByProductIds($coupon->coupon_id, $ids);
+        	if(!$check)
+        	{
+        		$response['error'] = '1';
+	            $response['msg'] = $helper->generateMessage( JText::_( "This Coupon is not related to a product in your cart!" ) );
+	            echo json_encode($response);
+	            return;
+        	}
+        }
+	
         // if valid, return the html for the coupon
         $response['msg'] = " <input type='hidden' name='coupons[]' value='$coupon->coupon_id'>";
  
@@ -3559,5 +3586,68 @@ class TiendaControllerCheckout extends TiendaController
         $view->setLayout('pospayment');
 		$view->display();
 		$this->footer();
+	}
+
+
+	private function addCoupons( $values )
+	{
+		$this->addCouponCodes( $values );
+        $this->addAutomaticCoupons();
+	}
+	
+	private function addCouponCodes($values)
+	{
+		$order = &$this->_order;
+		
+		// get all coupons and add them to the order
+        $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
+        $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
+        if (!empty($values['coupons']) && $coupons_enabled)
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+                if (empty($mult_enabled))
+                {
+                    // this prevents Firebug users from adding multiple coupons to orders
+                    break;
+                }                
+            }
+        }
+	}
+	
+	private function addAutomaticCoupons()
+	{
+		$order = &$this->_order;
+		$date = JFactory::getDate();
+		$date = $date->toMysql();
+		
+		// Per Order Automatic Coupons
+		$model = JModel::getInstance('Coupons', 'TiendaModel');
+		$model->setState('filter_automatic', '1');
+		$model->setState('filter_date_from', $date);
+		$model->setState('filter_date_to', $date);
+		$model->setState('filter_datetype', 'validity');
+		$model->setState('filter_type', '0');
+		$model->setState('filter_enabled', '1');
+		
+		$coupons = $model->getList();
+		
+		// Per Product Automatic Coupons
+		$model->setState('filter_type', '1');
+		$coupons_2 = $model->getList(true);
+		
+		$coupons = array_merge( $coupons, $coupons_2 );
+		
+		if($coupons)
+		{
+			foreach($coupons as $coupon)
+			{
+				$order->addCoupon($coupon);
+			}
+		}
+
 	}
 }
