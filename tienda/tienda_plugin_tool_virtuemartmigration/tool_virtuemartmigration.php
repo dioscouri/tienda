@@ -238,8 +238,8 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         
         $queries[3]->title = "PRICES";
         $queries[3] = "
-            INSERT IGNORE INTO #__tienda_productprices ( product_id, product_price, price_quantity_start, price_quantity_end )
-            SELECT p.product_id, p.product_price, p.price_quantity_start, p.price_quantity_end
+            INSERT IGNORE INTO #__tienda_productprices ( product_id, product_price, price_quantity_start, price_quantity_end, group_id )
+            SELECT p.product_id, p.product_price, p.price_quantity_start, p.price_quantity_end, ".TiendaConfig::getInstance()->get('default_user_group', '1')."
             FROM {$p}product_price as p;
         ";
         
@@ -542,11 +542,11 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         // migrate product prices
         $queries[3]->title = "PRICES";
         $queries[3]->select = "
-            SELECT p.product_id, p.product_price, p.price_quantity_start, p.price_quantity_end
+            SELECT p.product_id, p.product_price, p.price_quantity_start, p.price_quantity_end, ".TiendaConfig::getInstance()->get('default_user_group', '1')."
             FROM {$p}product_price as p;
         ";
         $queries[3]->insert = "
-            INSERT IGNORE INTO #__tienda_productprices ( product_id, product_price, price_quantity_start, price_quantity_end )
+            INSERT IGNORE INTO #__tienda_productprices ( product_id, product_price, price_quantity_start, price_quantity_end, group_id )
             VALUES ( %s )
         ";
         
