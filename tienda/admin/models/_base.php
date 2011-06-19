@@ -141,6 +141,13 @@ class TiendaModelBase extends JModel
 		{
 			$query = $this->getQuery($refresh);
 			$this->_list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
+			
+			$overridden_methods = $this->getOverriddenMethods( get_class($this) );
+			if (!in_array('getList', $overridden_methods))  
+			{
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix').'List', array( &$this->_list ) );
+			}
 		}
 		return $this->_list;
 	}

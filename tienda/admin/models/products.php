@@ -461,6 +461,11 @@ class TiendaModelProducts extends TiendaModelEav
 			}
 			
 			$this->_list = $list;
+			
+			$dispatcher = JDispatcher::getInstance( );
+			$dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ).'List', array(
+						&$this->_list
+					) );
 		}
 		return $this->_list;
 	}
