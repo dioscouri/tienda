@@ -71,14 +71,14 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 	     }
 	     $f_name = $this->_model.'_'.time().'.csv';	     
 	     
-		 $this->_link = 'tmp'.DS.$f_name;
+		 $this->_link = 'tmp/'.$f_name;
 	     $this->_name = $f_name;
 	     	
 	     if(!$res = TiendaCSV::FromArrayToFile( 'tmp'.DS.$f_name, $arr, $header ))
 	     {
 	     	$this->_errors = JText::_("UNABLE TO WRITE FILE");	     	
 	     }
-	     	     
+	     
 	     return $this;
 	}	
 

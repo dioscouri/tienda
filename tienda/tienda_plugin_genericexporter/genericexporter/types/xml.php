@@ -67,7 +67,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 		//convert items to array upto child nodes	
 		//$items = $this->objectToArray( $items );				
 		$f_name = $this->_model.'_'.time().'.xml';
-		$this->_link = 'tmp'.DS.$f_name;
+		$this->_link = 'tmp/'.$f_name;
 	    $this->_name = $f_name;	     	
 	  
 	    if(!$res = $this->fromXMLToFile( 'tmp'.DS.$f_name, $items ))
