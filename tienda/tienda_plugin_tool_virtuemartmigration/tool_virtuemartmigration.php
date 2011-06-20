@@ -179,9 +179,6 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         $conf =& JFactory::getConfig();
         $jHost       = $conf->getValue('config.host');
         $jDatabase   = $conf->getValue('config.db');
-        
-		echo $jHost.'='.$state->host.'<br />';
-		echo $state->database .'='.$jDatabase;
 		
         if (($state->database == $jDatabase) && ($state->host == $jHost))
         {
@@ -271,16 +268,9 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             FROM {$p}order_item;
         ";
         
-        $queries[8]->title = "ORDER HISTORY";
+        $queries[8]->title = "ORDER INFO";
         $queries[8] = "            
-            INSERT IGNORE INTO #__tienda_orderhistory ( order_id, date_added, notify_customer, comments )
-            SELECT order_id, date_added, customer_notified, comments
-            FROM {$p}order_history;
-        ";
-        
-        $queries[9]->title = "ORDER INFO";
-        $queries[9] = "            
-            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_1, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
+            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_2, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
             SELECT order_id, company, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, user_id  
             FROM {$p}order_user_info WHERE address_type = 'BT';
         ";
@@ -301,6 +291,12 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             $results[$n]->affectedRows = $db->getAffectedRows();
             $n++; 
         }
+        
+        // Rebuild Categories tree
+        Tienda::load('TiendaModelCategories', 'models.categories');
+        Tienda::load('TiendaTableCategories', 'tables.categories');
+        JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
+		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
         
         $this->_migrateImages($prefix, $vm_prefix, $results);
         
@@ -384,11 +380,13 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 	    		$type = $img->getExtension();	    		
 	    		
 	            $img->load();
+				$name = $img->getPhysicalName();
 	    		// Save full Image
-	    		if(!$img->save($path.$result['image']))
+	    		if(!$img->save($path.$name))
 	    		{
 	    			$results[$n]->error .= '::Could not Save Product Image- From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
 	    		}
+				$img->setDirectory($path);
 	    		
 	    		// Save Thumb
 	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
@@ -397,6 +395,11 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 				{
 					$results[$n]->error .= '::Could not Save Product Thumb';
 				}
+				
+				// Save correct image naming
+				$product->product_full_image = $name;
+				$product->save();
+
 				$results[$n]->affectedRows++;
 	    				
 	    	}
@@ -463,11 +466,14 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 	            
 	            $img->load();
 	    		
+				$path = Tienda::getPath('categories_images').DS;
+				$name = $img->getPhysicalName();
 	    		// Save full Image
-	    		if(!$img->save($path.$result['image']))
+	    		if(!$img->save($path.$name))
 	    		{
 	    			$results[$n]->error .= '::Could not Save Category Image - From: '.$vm_image_path.$result['image'].' To: '.$path.$result['image'];
 	    		}
+				$img->setDirectory($path);
 	    		
 	    		// Save Thumb
 	    		Tienda::load( 'TiendaHelperImage', 'helpers.image' );
@@ -476,6 +482,14 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 				{
 					$results[$n]->error .= '::Could not Save Category Thumb';
 				}
+				
+				// Save correct image name
+				Tienda::load( 'TiendaTableCategories', 'tables.categories' );
+	        	$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+	        	
+	    		$category->load($result['id']);
+				$category->category_full_image = $name;
+				$category->save();
 		
 				$results[$n]->affectedRows++;
 	    	}
@@ -599,22 +613,13 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             INSERT IGNORE INTO #__tienda_orderitems ( order_id, product_id, orderitem_attributes, orderitem_sku, orderitem_name, orderitem_quantity, orderitem_price, orderitem_final_price )
         ";
         
-        $queries[8]->title = "ORDER HISTORY";
+        $queries[8]->title = "ORDER INFO";
         $queries[8]->select = "
-            SELECT order_id, date_added, customer_notified, comments
-            FROM {$p}order_history;
-        ";
-        $queries[8]->insert = "            
-            INSERT IGNORE INTO #__tienda_orderhistory ( order_id, date_added, notify_customer, comments )
-        ";
-        
-        $queries[9]->title = "ORDER INFO";
-        $queries[9]->select = "
             SELECT order_id, company, last_name, first_name, middle_name, phone_1, phone_2, fax, address_1, address_2, city, state, country, zip, user_email, user_id  
             FROM {$p}order_user_info WHERE address_type = 'BT';
         ";
-        $queries[9]->insert = "            
-            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_1, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
+        $queries[8]->insert = "            
+            INSERT IGNORE INTO #__tienda_orderinfo ( order_id, billing_company, billing_last_name, billing_first_name, billing_middle_name, billing_phone_1, billing_phone_2, billing_fax, billing_address_1, billing_address_2, billing_city, billing_zone_name, billing_country_name, billing_postal_code, user_email, user_id )
         ";
         
         
@@ -652,6 +657,12 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
             $results[$n]->affectedRows = count( $rows );
             $n++; 
         }
+
+		// Rebuild categories tree
+		Tienda::load('TiendaModelCategories', 'models.categories');
+        Tienda::load('TiendaTableCategories', 'tables.categories');
+        JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
+		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
         
         $this->_migrateImages($prefix, $vm_prefix, $results, false);
         
