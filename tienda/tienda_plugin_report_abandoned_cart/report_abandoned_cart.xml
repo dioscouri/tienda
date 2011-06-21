@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Report - List of User's with Abandoned Cart</name>
+	<version>0.1.0</version>
+	<creationDate>June 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This reports displays list of users with items in their carts that have not been purchased yet. </description>
+
+	<files>
+		<filename plugin="report_abandoned_cart">report_abandoned_cart.php</filename>
+		<folder>report_abandoned_cart</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_report_abandoned_cart.ini</language>
+	</languages>
+
+	<params>
+	</params>
+
+</install>
