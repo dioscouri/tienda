@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - iDevAffiliate Integration</name>
+	<version>0.7.3</version>
+	<creationDate>June 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2010 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin integrates iDevAffiliate to Tienda</description>
+	
+	<files>
+		<filename plugin="idevaffiliate">idevaffiliate.php</filename>
+		<filename>idevaffiliate.xml</filename>
+		<folder>idevaffiliate</folder>	
+	</files>
+	<languages folder="languages">
+        <language tag="en-GB">en-GB.plg_tienda_idevaffiliate.ini</language>
+    </languages>
+	<params addpath="/administrator/components/com_tienda/elements">
+	</params>
+			
+</install>
