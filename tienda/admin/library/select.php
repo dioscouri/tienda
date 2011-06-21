@@ -866,8 +866,9 @@ class TiendaSelect extends JHTMLSelect
         $list[] = JHTML::_('select.option',  '0', JText::_( "Do Not Display Tax" ) );
         $list[] = JHTML::_('select.option',  '1', JText::_( "Display Tax Next to Price" ) );
         $list[] = JHTML::_('select.option',  '2', JText::_( "Sum the Tax and Product Price" ) );
-        $list[] = JHTML::_('select.option',  '3', JText::_( "Display Both Price without Tax and Price Including Tax" ) );
-        
+        $list[] = JHTML::_('select.option',  '3', JText::_( "Sum the Tax and Product Price Including Text" ) );
+        $list[] = JHTML::_('select.option',  '4', JText::_( "Display Both Price without Tax and Price Including Tax" ) );
+                
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
     

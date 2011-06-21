@@ -2010,7 +2010,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 						$txt .= TiendaHelperBase::currency( $price + $tax );
 						break;
 					}
-				case 3: // display both price without and with tax
+				case 3: // sum the tax and product price (+text that the price includes tax)
+					{
+						$txt .= sprintf( JText::_( 'SUM_INCLUDE_PRICE_TAX' ), TiendaHelperBase::currency( $price + $tax ) );
+						break;
+					}
+				case 4: // display both price without and with tax
 					{
 						$txt .= TiendaHelperBase::currency( $price );
 						$txt .= sprintf( JText::_( 'INCLUDING_TAX' ), TiendaHelperBase::currency( $price + $tax ) );
