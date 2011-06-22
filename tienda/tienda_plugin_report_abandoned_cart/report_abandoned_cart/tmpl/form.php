@@ -4,7 +4,7 @@
 
     <p><?php echo JText::_( "THIS REPORTS ON DISPLAYING LIST OF USERS WITH ITEMS NOT PURCHASED" ); ?></p>
     <div class="note">
-    	<?php echo JText::_("PRODUCT NAME"); ?>:
+    	<?php echo JText::_("USER NAME"); ?>:
 			<input type="text" name="filter_name" id="filter_name" value="<?php echo @$state->filter_name; ?>" />&nbsp;&nbsp;&nbsp;
 	    <?php echo JText::_("SELECT DATE RANGE"); ?>:
 	    <?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>

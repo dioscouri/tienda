@@ -6,7 +6,7 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
@@ -19,12 +19,12 @@ class plgTiendaReport_abandoned_cart extends TiendaReportPlugin
 	 * @var $_element  string  Should always correspond with the plugin's filename,
 	 *                         forcing it to be unique
 	 */
-    var $_element    = 'report_abandoned_cart';
+	var $_element    = 'report_abandoned_cart';
 
-    /**
-     * @var $default_model  string  Default model used by report
-     */
-    var $default_model    = 'carts';
+	/**
+	 * @var $default_model  string  Default model used by report
+	 */
+	var $default_model    = 'carts';
 
 	/**
 	 * Constructor
@@ -43,48 +43,77 @@ class plgTiendaReport_abandoned_cart extends TiendaReportPlugin
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
 
-    /**
-     * Override parent::_getData() to sort products in users cart
-     *
-     * @return objectlist
-     */
-    function _getData()
-    {
-        $state = $this->_getState();
+	/**
+	 * Override parent::_getData() to sort products in users cart
+	 *
+	 * @return objectlist
+	 */
+	function _getData()
+	{
+		//static $st;
+
+		//if(empty($st))
+		//{
+		//	$st = array();
+		//}
+
+		$state = $this->_getState();
 		$model = $this->_getModel();
 
 		$query = $model->getQuery();
 
-		 // group results by product ID
-        $query->group('tbl.product_id');
+
+		// group results by user ID
+		$query->group('tbl.user_id');
+
+		$query->join('LEFT', '#__users AS u ON u.id = tbl.user_id');
+		$field = array();
+		$field[] = "u.name,email";
+		$query->select( $field );
+
 
 		// select the total carts
 		$field = array();
-        $field[] = " COUNT(*) AS total_carts ";
-        $query->select( $field );
+		$field[] = " COUNT(*) AS total_carts ";
+		$query->select( $field );
 
-         // order results by the total sales
-        $query->order('total_carts DESC');
+		// order results by the total sales
+		$query->order('total_carts DESC');
 
-        $model->setQuery( $query );
+		$model->setQuery( $query );
 		$data = $model->getList();
+
+
+		//getting the subtotal in cart
+		$subtotal = 0;
+		foreach ($data as $item)
+		{
+			//$item->subtotal ='';
+			//$sub_total = $this -> getAttributeOptions($item -> product_id);
+			$item->subtotal = $item->product_price * $item->product_qty;
+			$subtotal = $subtotal + $item->subtotal;
+		}
+
+		$item->subtotal = $item->product_price * $item->product_qty;
+		$subtotal = $subtotal + $item->subtotal;
+
 		return $data;
-    }
+	}
 
-    /**
-     * Override parent::_getState() to do the filtering
-     *
-     * @return object
-     */
-    function _getState()
-    {
-    	$app = JFactory::getApplication();
-        $model = $this->_getModel( 'carts' );
-        $ns = $this->_getNamespace();
+	/**
+	 * Override parent::_getState() to do the filtering
+	 *
+	 * @return object
+	 */
+	function _getState()
+	{
+		$app = JFactory::getApplication();
+		$model = $this->_getModel( 'carts' );
+		$ns = $this->_getNamespace();
 
-        $state = parent::_getState(); // get the basic state values from the parent method
+		$state = parent::_getState(); // get the basic state values from the parent method
 
-       	$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+		$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         $state = $this->_handleRangePresets( $state );
 
         foreach (@$state as $key=>$value)
@@ -95,4 +124,5 @@ class plgTiendaReport_abandoned_cart extends TiendaReportPlugin
         return $state;
 
     }
+
 }
