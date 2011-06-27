@@ -72,7 +72,7 @@ class TiendaModelEavAttributes extends TiendaModelBase
         }
         if (strlen($filter_enabled))
         {
-            $query->where('tbl.eavattribute_enabled = '.$this->_db->Quote($filter_enabled));
+            $query->where('tbl.enabled = '.$this->_db->Quote($filter_enabled));
         }
     
     }

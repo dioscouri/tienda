@@ -42,8 +42,9 @@ class TiendaHelperEav extends TiendaHelperBase
 	 * Get the Eav Attributes for a particular entity
 	 * @param unknown_type $entity
 	 * @param unknown_type $id
+	 * @param boolean $only_enabled
 	 */
-    function getAttributes( $entity, $id )
+    function getAttributes( $entity, $id, $only_enabled = false )
     {
         // $sets[$entity][$id]
         static $sets;
@@ -55,7 +56,7 @@ class TiendaHelperEav extends TiendaHelperBase
             $model = JModel::getInstance('EavAttributes', 'TiendaModel');
             $model->setState('filter_entitytype', $entity);
             $model->setState('filter_entityid', $id);
-            $model->setState('filter_published', '1');            
+            $model->setState('filter_enabled', '1');            
             $sets[$entity][$id] = $model->getList();
         }
     	
