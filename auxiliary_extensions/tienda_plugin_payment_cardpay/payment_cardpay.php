@@ -270,6 +270,8 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
     	{
     		case 1:
     			$order->load( $data['order_id'] );
+    			$orderInfo = JTable::getInstance( 'OrderInfo', 'TiendaTable' );
+    			$orderInfo->load( array( 'order_id' => $order->order_id) );
     			$data['order_total'] = $order->order_total;
     			$data['mid'] = 	$this->_getParam( 'mid' );
     			$data['curr'] = $this->_getParam('currency');
@@ -277,7 +279,7 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
     			$data['rem'] = 	$this->_getParam( 'rem' );
     			$data['cs'] = 	$this->_getParam( 'constant_symbol' );
     			$data['rurl'] = $this->_getReturnUri( $data );
-    			$data['name'] = $this->_getParam( 'name' );
+    			$data['name'] = $orderInfo->user_email;
     			$session->set( 'order_id', $data['order_id'] );
     		break;
     		
@@ -381,3 +383,4 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
     	return JUri::base().'plugins/tienda/payment_cardpay/tmpl/return.php';
     }
 }
+	
