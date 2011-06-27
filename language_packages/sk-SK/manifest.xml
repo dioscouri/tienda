@@ -12,6 +12,12 @@
     <license>GNU General Public License v2</license>
     <description>Slovak translation for Tienda</description>
 
+   <administration>
+   	<files folder="site">
+		    <filename>sk-SK.plg_tienda_customfields.ini</filename>
+   	</files>
+	</administration>
+
       <files folder="site">
 		    <filename>sk-SK.com_tienda.ini</filename>
         <filename>sk-SK.mod_tienda_cart.ini</filename>
