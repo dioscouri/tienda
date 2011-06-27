@@ -56,19 +56,22 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	
 	function onGetAdditionalOrderitemKeyValues( $item )
 	{
+		if( is_a( $item, 'TiendaTableOrderItems'  ) )
+			$id = $item->orderitem_id;
+		else
+			$id = $item->cart_id;
+
 		$fields = $this->getCustomFields('products', $item->product_id);
-		
 		$return = array();
 		
 		if(count($fields))
 		{
 			foreach($fields as $f)
 			{
-				$k = $f['attribute']->eavattribute_alias;
-				$return[$k] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $item->cart_id);
+			$k = $f['attribute']->eavattribute_alias;
+				$return[$k] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $id );
 			}
 		}
-		
 		return $return;
 	}
 	
@@ -194,7 +197,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
     function onGetAdditionalCartKeyValues($item, $posted_values, $index)
     {
     	// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id );
+		$fields = $this->getCustomFields( 'products', $item->product_id, false );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -298,7 +301,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onAfterCreateItemForAddToCart( $item, $values, $files )
 	{
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id );
+		$fields = $this->getCustomFields( 'products', $item->product_id, false );
 		
 		$field_save = array();
 		
@@ -317,7 +320,6 @@ class plgTiendaCustomFields extends TiendaPluginBase
 				
 			}
 		}
-		
 		return $field_save;
 	}
 	
@@ -325,8 +327,9 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * Get the custom fields for the given entity
 	 * @param string $entity
 	 * @param int $id
+	 * @param bool $cache_values If the values should be cached in RAV helper
 	 */
-	function getCustomFields( $entity, $id )
+	function getCustomFields( $entity, $id, $cache_values = true )
 	{
 		Tienda::load( 'TiendaModelEavAttributes', 'models.eavattributes' );
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
@@ -338,7 +341,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		{
 			$key = $eav->eavattribute_alias;
 			
-			$value = TiendaHelperEav::getAttributeValue( $eav, $entity, $id );
+			$value = TiendaHelperEav::getAttributeValue( $eav, $entity, $id, false, $cache_values );
 			
 			$fields[] = array(
 				'attribute' => $eav, 'value' => $value

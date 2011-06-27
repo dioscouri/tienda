@@ -211,7 +211,7 @@ class TiendaTableOrders extends TiendaTable
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
 
         $dispatcher =& JDispatcher::getInstance();
-        $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
+				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
         foreach ($results as $result)
         {
             foreach($result as $key=>$value)
@@ -219,6 +219,7 @@ class TiendaTableOrders extends TiendaTable
             	$hash = $hash.".".$value; 
             }
         }	        
+        
         
         if (!empty($this->_items[$hash]))
         {
@@ -293,7 +294,7 @@ class TiendaTableOrders extends TiendaTable
         	// or just wait until the calculateTotals() method is executed?
         }
     }
-    
+        
     /**
      * Based on the items and addresses in the object, 
      * calculates the totals
@@ -337,7 +338,7 @@ class TiendaTableOrders extends TiendaTable
         // so the plugins can override whatever they need to
         $dispatcher    =& JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateOrderTotals", array( $this ) );
-    }
+    	    }
 
     /**
      * Calculates the product total (aka subtotal) 
@@ -361,12 +362,13 @@ class TiendaTableOrders extends TiendaTable
         // calculate product subtotal
         foreach ($items as $item)
         {
+            // track the subtotal
+        	$item->orderitem_final_price = ( $item->orderitem_price + $item->orderitem_attributes_price ) * $item->orderitem_quantity;
 	        if ($coupons_before_tax)
             {
             	$item->orderitem_final_price = $this->calculatePerProductCouponValue( $item->product_id, $item->orderitem_final_price, 'price' );       	
             }
-            // track the subtotal
-            $subtotal += $item->orderitem_final_price;
+        	$subtotal += $item->orderitem_final_price;
         }
 
         // set object properties
@@ -460,7 +462,7 @@ class TiendaTableOrders extends TiendaTable
             $orderitem_tax = $this->calculatePerProductCouponValue( $item->product_id, $orderitem_tax, 'tax' );
             
             $item->orderitem_tax = $orderitem_tax;
-            
+
             // track the running total
             $tax_total += $item->orderitem_tax;
         }        
@@ -483,7 +485,7 @@ class TiendaTableOrders extends TiendaTable
         	$this->order_discount = $tax_discount;
         	$tax_total -= $tax_discount;
         }
-        
+
         $this->order_tax = $tax_total;
         
         // some locations may want taxes calculated on shippingGeoZone, so
@@ -545,7 +547,7 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
         
-		$order_shipping_discount = $this->calculatePerOrderCouponValue($order_shipping, 'shipping');
+				$order_shipping_discount = $this->calculatePerOrderCouponValue($order_shipping, 'shipping');
        	if($order_shipping_discount > $order_shipping)
        	{
        		$this->order_discount += $order_shipping;
@@ -1447,5 +1449,5 @@ class TiendaTableOrders extends TiendaTable
         	return $this->_coupons;
         else
         	return array();
-    }
+    }  
 }

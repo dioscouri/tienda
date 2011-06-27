@@ -553,7 +553,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				$helper = &TiendaHelperBase::getInstance( 'Product' );
 			}
-			$row = $helper->load( ( int ) $id );
+			$row = $helper->load( ( int ) $id, true, false );
 			
 			if ( empty( $row->product_id ) )
 			{
@@ -590,7 +590,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
 			$row = JTable::getInstance( 'Products', 'TiendaTable' );
-			$row->load( ( int ) $id );
+			$row->load( ( int ) $id, true, false );
 			if ( empty( $row->product_id ) )
 			{
 				// TODO figure out what to do if the id is invalid 
@@ -626,7 +626,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
 			$row = JTable::getInstance( 'Products', 'TiendaTable' );
-			$row->load( ( int ) $id );
+			$row->load( ( int ) $id, true, false );
 			if ( empty( $row->product_id ) )
 			{
 				// TODO figure out what to do if the id is invalid 
@@ -753,7 +753,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 				{
 					$helper = &TiendaHelperBase::getInstance( 'Product' );
 				}
-				$row = $helper->load( ( int ) $id );
+				$row = $helper->load( ( int ) $id, true, false );
 				
 				// load the item, get the filename, create tmpl
 				$urli = $row->getImageUrl( );
@@ -1289,7 +1289,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			$model->setState( $key, $value );
 		}
-		$rowset = $model->getList( );
+		$rowset = $model->getList( false, false );
 		
 		$found = false;
 		$prev_id = '';
@@ -1521,7 +1521,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
 			$table = JTable::getInstance( 'Products', 'TiendaTable' );
-			$table->load( ( int ) $id );
+			$table->load( ( int ) $id, true, false );
 			$sets[$id] = $table;
 		}
 		
@@ -1623,7 +1623,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 		
-		$tableProduct->load( $id );
+		$tableProduct->load( $id, true, false );
 		if ( empty( $tableProduct->product_check_inventory ) )
 		{
 			$tableProduct->quantity = '9999';
@@ -1840,7 +1840,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				// get the product row
 				$product = JTable::getInstance( 'Products', 'TiendaTable' );
-				$product->load( $item->product_id );
+				$product->load( $item->product_id, true, false );
 				$product->updateOverallRating( true );
 			}
 		}
@@ -2036,15 +2036,17 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * and stores it for later use by the application
 	 * 
 	 * @param unknown_type $id
+	 * @param boolean $reset
+	 * @param boolean $load_eav
 	 * @return unknown_type
 	 */
-	function load( $id )
+	function load( $id, $reset = true, $load_eav = true )
 	{
 		if ( empty( $this->products[$id] ) )
 		{
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
 			$this->products[$id] = JTable::getInstance( 'Products', 'TiendaTable' );
-			$this->products[$id]->load( $id );
+			$this->products[$id]->load( $id, $reset, $load_eav );
 		}
 		return $this->products[$id];
 	}

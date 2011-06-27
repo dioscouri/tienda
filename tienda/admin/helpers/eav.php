@@ -71,17 +71,19 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param EavAttribute $eav
      * @param string $entity_type
      * @param string $entity_id
+     * @param bool $no_post - only value from db will be used
+     * @param bool $cache_values - If the values should be cached in the static array
      */
-    function getAttributeValue($eav, $entity_type, $entity_id )
+    function getAttributeValue($eav, $entity_type, $entity_id, $no_post = false, $cache_values = true )
     {
-        // $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]
+    	// $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]
         static $sets;
         if (!is_array($sets)) { $sets = array(); }
         
         if (!isset($sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]))
         {
-            Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
-            
+        	Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
+        	
             // get the value table
             $table = JTable::getInstance('EavValues', 'TiendaTable');
             // set the type based on the attribute
@@ -97,16 +99,28 @@ class TiendaHelperEav extends TiendaHelperBase
             if($loaded)
             {
                 // Fetch the value from the value tables
-                $value = $table->eavvalue_value;
+            	$value = $table->eavvalue_value;
             }
             else
             {
-                $value = JRequest::getVar($eav->eavattribute_alias, null);
+            	if( !$no_post ) // we allowed using post variables
+            	{
+								$value = JRequest::getVar($eav->eavattribute_alias, null);
+            	}
+							else
+							{
+								$value = null;
+							}
             }
-            $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id] = $value;
+            if( $value !== null && $cache_values )
+	            $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id] = $value;
+	            
         }
-        
-        return $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
+				
+				if( $cache_values )
+	        return @$sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
+	      else
+		      return  $value;
     }
     
     /**
@@ -115,7 +129,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param unknown_type $value
      */
     function editForm($eav, $value = null)
-    { 
+    {
     	// Type of the field
     	switch($eav->eavattribute_type)
     	{
@@ -124,12 +138,14 @@ class TiendaHelperEav extends TiendaHelperBase
     			return TiendaSelect::booleans($value, $eav->eavattribute_alias);
     			break;
     		case "datetime":
-    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias_".$eav->eavattribute_id, "%Y-%m-%d %H:%M:%p" );
+    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
     			break;
     		case "text":
     			$editor = &JFactory::getEditor();
-				$config = TiendaConfig::getInstance();
-    			return $editor->display($eav->eavattribute_alias, $value, $config->get('eav_textarea_width', '300'), $config->get('eav_textarea_width', '200'), $config->get('eav_textarea_width', '50'), $config->get('eav_textarea_width', '20'));
+    			return $editor->display($eav->eavattribute_alias, $value, '300', '200', '50', '20');
+    			break;
+    		case "hidden":
+    			return '<input type="hidden" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" />';
     			break;
     		case "decimal":
     		case "int":	
@@ -176,8 +192,9 @@ class TiendaHelperEav extends TiendaHelperBase
     		case "decimal":
     		case "int":	
     			return self::number($value);
+    		case "hidden":
     		case "varchar":
-    		default:
+    			default:
     			return $value;
     			break;
     	}

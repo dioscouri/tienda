@@ -985,7 +985,7 @@ class TiendaControllerProducts extends TiendaController
 		$product = JTable::getInstance( 'Products', 'TiendaTable' );
 		$product->load( array(
 					'product_id' => $product_id
-				) );
+				), true, false );
 		
 		// if product notforsale, fail
 		if ( $product->product_notforsale )

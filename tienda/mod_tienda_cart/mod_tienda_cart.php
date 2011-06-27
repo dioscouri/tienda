@@ -44,6 +44,7 @@ foreach($items as $item)
 {
     $orderTable->addItem($item);
 }
+$items = $orderTable->getItems();
 
 Tienda::load( 'TiendaConfig', 'defines' );
 $config = TiendaConfig::getInstance();

@@ -33,7 +33,7 @@ class modTiendaCartHelper
             $model->setState('filter_session', $session->getId() );
         }
     	
-    	$list = $model->getList();
+    	$list = $model->getList( false, false );
     	
     	Tienda::load( 'TiendaConfig', 'defines' );
         $config = TiendaConfig::getInstance();
