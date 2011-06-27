@@ -1063,6 +1063,7 @@ class TiendaSelect extends JHTMLSelect
 
         $list[] = JHTML::_('select.option',  'int', JText::_( "Int" ) );
         $list[] = JHTML::_('select.option',  'varchar', JText::_( "String" ) );
+        $list[] = JHTML::_('select.option',  'hidden', JText::_( "Hidden" ) );
         $list[] = JHTML::_('select.option',  'text', JText::_( "Textarea" ) );
         $list[] = JHTML::_('select.option',  'decimal', JText::_( "Decimal" ) );
         $list[] = JHTML::_('select.option',  'datetime', JText::_( "Date / Time" ) );
