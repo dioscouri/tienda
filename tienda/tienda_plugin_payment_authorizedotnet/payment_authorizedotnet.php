@@ -71,15 +71,14 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $vars->orderpayment_amount = $data['orderpayment_amount'];
         $vars->orderpayment_type = $this->_element;
         
-        $vars->cardtype = JRequest::getVar("cardtype");
-        $vars->cardnum = JRequest::getVar("cardnum");
-        //$vars->cardexp = JRequest::getVar("cardexp");
-        $vars->cardcvv = JRequest::getVar("cardcvv");
-        $vars->cardnum_last4 = substr( JRequest::getVar("cardnum"), -4 );
+        $vars->cardtype = !empty($data['cardtype']) ? $data['cardtype'] : JRequest::getVar("cardtype");
+        $vars->cardnum = !empty($data['cardnum']) ? $data['cardnum'] : JRequest::getVar("cardnum");      
+        $vars->cardcvv = !empty($data['cardcvv']) ? $data['cardcvv'] : JRequest::getVar("cardcvv");
+        $vars->cardnum_last4 = substr( $vars->cardnum, -4 );
 
-        $exp_month = JRequest::getInt("cardexp_month");
+        $exp_month = !empty($data['cardexp_month']) ? $data['cardexp_month'] : JRequest::getVar("cardexp_month");
         if ($exp_month < '10') { $exp_month = '0'.$exp_month; } 
-        $exp_year = JRequest::getInt("cardexp_year");
+        $exp_year = !empty($data['cardexp_year']) ? $data['cardexp_year'] : JRequest::getVar("cardexp_year");
         $exp_year = $exp_year - 2000;
         $cardexp = $exp_month.$exp_year;
         $vars->cardexp = $cardexp;
