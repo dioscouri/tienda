@@ -90,7 +90,7 @@ class TiendaControllerPOS extends TiendaController
 			{
 				$text = JText::_('Username');
 				$email = $post['new_email'];								
-				$username = $post['new_username_create'] ?  $email : $post['new_username'];
+				$username = !empty($post['new_username_create']) ?  $email : $post['new_username'];
 				$details = array('email' => $post['new_email'],
 				'name' => $post['new_name'],
 				'username' => $username);
