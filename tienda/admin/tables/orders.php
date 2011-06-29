@@ -505,14 +505,14 @@ class TiendaTableOrders extends TiendaTable
         $order_shipping     = 0.00;
         $order_shipping_tax = 0.00;
         
-        $items =& $this->getItems();
+        $items =& $this->getItems();		
+
         if (!is_array($items) || !$this->shipping)
         {
             $this->order_shipping       = $order_shipping;
             $this->order_shipping_tax   = $order_shipping_tax;
             return;
         }
-
 
         // This support multiple shipping geozones
         // For each item in $this->getShippingGeoZones, calculate the shipping total
@@ -546,17 +546,17 @@ class TiendaTableOrders extends TiendaTable
         // set object properties
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
-        
-				$order_shipping_discount = $this->calculatePerOrderCouponValue($order_shipping, 'shipping');
+  
+		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
        	if($order_shipping_discount > $order_shipping)
-       	{
-       		$this->order_discount += $order_shipping;
-       		$this->order_shipping = 0;
+       	{        
+       		$this->order_discount += $this->order_shipping;
+       		$this->order_shipping = 0.00;
        	}
        	else
        	{
        		$this->order_discount += $order_shipping_discount;
-       		$this->order_shipping = $order_shipping - $order_shipping_discount;
+       		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
        	}
 
         // Allow this to be modified via plugins

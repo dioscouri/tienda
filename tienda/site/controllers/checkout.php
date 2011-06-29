@@ -2688,7 +2688,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $values );
 
 		// set the shipping method
-		if(@$values['shippingrequired'])
+		if(@$values['shippingrequired'] || !empty($values['shipping_plugin']))
 		{
 			$order->shipping = new JObject();
 			$order->shipping->shipping_price      = $values['shipping_price'];
