@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Custom Fields</name>
+  <author>Lukas Polak</author>
+  <version>0.7.3</version>
+  <description>Definition for the Tienda Custom Fields table</description>
+  <copyright>2010 Dioscouri.com</copyright>
+  <reference type="tienda_eavattributes">
+  	<table name="tienda_eavattributes">
+  		<field type="referenceid" name="eavattribute_id" translate="0">ID</field>
+  		<field type="titletext" name="eavattribute_label" translate="1">Custom Field Name</field>
+  	</table>
+  </reference>
+</joomfish>
