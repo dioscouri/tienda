@@ -424,20 +424,20 @@ class TiendaControllerPOS extends TiendaController
 			{
 				$html .= $results[$i];
 			}
-			
+	
 			// re-load the order in case the payment plugin updated it
 			$order->load( array('order_id'=>$order_id) );
 		}
+		$articles = array();
+		$view = $this->getView( 'pos', 'html' );			
+		$view->assign('plugin_html', $html);
 		
 		if(!empty($order_id))
 		{
 			$order_link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$order_id;
-			$view = $this->getView( 'pos', 'html' );
-			$view->assign('order_link', $order_link );			
-			$view->assign('plugin_html', $html);
+			$view->assign('order_link', $order_link );	
 			
-			// get the articles to display after checkout
-			$articles = array();
+			// get the articles to display after checkout		
 			switch ($order->order_state_id)
 			{
 			    case "2":
@@ -446,9 +446,9 @@ class TiendaControllerPOS extends TiendaController
 			    case "17":
 			        $articles = $this->getOrderArticles( $order_id );
 			        break;
-			}
-			$view->assign( 'articles', $articles );			
+			}		
 		}	
+		$view->assign( 'articles', $articles );			
 	}
 
 	function saveStep2()
