@@ -2,7 +2,6 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items;?>
-
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
@@ -17,7 +16,7 @@
 			<th style="text-align: left;"><?php echo JText::_("Date"); ?>
 			</th>
 
-			<th style="width: 70px;"><?php echo JText::_("No. of Carts"); ?>
+			<th style="width: 100px;"><?php echo JText::_("Numbers of Items"); ?>
 			</th>
 			<th style="width: 85px;"><?php echo JText::_("Subtotal"); ?>
 			</th>
@@ -42,10 +41,9 @@
 			</td>
 			<td style="text-align: left;"><?php echo JHTML::_('date', $item->last_updated, TiendaConfig::getInstance()->get('date_format')); ?>
 			</td>
-
-			<td style="text-align: center;"><?php echo $item->total_carts; ?>
+			<td style="text-align: center;"><?php echo $item->total_items; ?>
 			</td>
-			<td style="text-align: center;"><?php //$subtotal = $subtotal + $item->subtotal; ?>
+			<td style="text-align: center;">
 			<?php echo TiendaHelperBase::currency($item->subtotal); ?>
 			</td>
 		</tr>

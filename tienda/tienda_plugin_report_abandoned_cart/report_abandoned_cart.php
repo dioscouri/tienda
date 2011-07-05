@@ -49,55 +49,36 @@ class plgTiendaReport_abandoned_cart extends TiendaReportPlugin
 	 * @return objectlist
 	 */
 	function _getData()
-	{
-		//static $st;
-
-		//if(empty($st))
-		//{
-		//	$st = array();
-		//}
-
+	{	
 		$state = $this->_getState();
-		$model = $this->_getModel();
+        $model = $this->_getModel();	
+        $query = $model->getQuery();       
+		$query->join('LEFT', '#__users AS u ON tbl.user_id = u.id');
+		$query->where('tbl.user_id != 0');
 
-		$query = $model->getQuery();
-
-
-		// group results by user ID
-		$query->group('tbl.user_id');
-
-		$query->join('LEFT', '#__users AS u ON u.id = tbl.user_id');
-		$field = array();
-		$field[] = "u.name,email";
-		$query->select( $field );
-
-
-		// select the total carts
-		$field = array();
-		$field[] = " COUNT(*) AS total_carts ";
-		$query->select( $field );
-
-		// order results by the total sales
-		$query->order('total_carts DESC');
-
-		$model->setQuery( $query );
-		$data = $model->getList();
-
-
-		//getting the subtotal in cart
-		$subtotal = 0;
-		foreach ($data as $item)
+		$query->select( 'u.*' );	
+        $model->setQuery( $query );				
+        $items = $model->getList();
+		
+		$data = array();
+		$subtotals	 = array();
+		$total_items = array();		
+		foreach($items as $item) 
+		{	
+			if(empty($subtotals[$item->user_id])) $subtotals[$item->user_id] = 0;
+			if(empty($total_items[$item->user_id])) $total_items[$item->user_id] = 0;
+			$subtotals[$item->user_id] += (float) $item->product_price;	
+			$total_items[$item->user_id] += (int) $item->product_qty;				
+		}
+			
+		foreach($items as $item)
 		{
-			//$item->subtotal ='';
-			//$sub_total = $this -> getAttributeOptions($item -> product_id);
-			$item->subtotal = $item->product_price * $item->product_qty;
-			$subtotal = $subtotal + $item->subtotal;
+			$data[$item->user_id] = $item;
+			$data[$item->user_id]->subtotal = $subtotals[$item->user_id];
+			$data[$item->user_id]->total_items = $total_items[$item->user_id];
 		}
 
-		$item->subtotal = $item->product_price * $item->product_qty;
-		$subtotal = $subtotal + $item->subtotal;
-
-		return $data;
+        return $data;
 	}
 
 	/**
@@ -108,21 +89,23 @@ class plgTiendaReport_abandoned_cart extends TiendaReportPlugin
 	function _getState()
 	{
 		$app = JFactory::getApplication();
-		$model = $this->_getModel( 'carts' );
+		$model = $this->_getModel();
 		$ns = $this->_getNamespace();
 
 		$state = parent::_getState(); // get the basic state values from the parent method
+	
 
 		$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_date_from'] = $app->getUserStateFromRequest($ns.'filter_date_from', 'filter_date_from', '', '');
+		$state['filter_date_to'] = $app->getUserStateFromRequest($ns.'filter_date_to', 'filter_date_to', '', '');
         $state = $this->_handleRangePresets( $state );
-
+        
         foreach (@$state as $key=>$value)
         {
             $model->setState( $key, $value );
         }
 
         return $state;
-
     }
 
 }
