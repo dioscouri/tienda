@@ -723,9 +723,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		// get the cart items
 
-		JFactory::getApplication()->enqueueMessage( 'helpers/carts.php - line 725' );
 		$cart_items = $model->getList( false, false);
-		JFactory::getApplication()->enqueueMessage( 'helpers/carts.php - line 727' );
 		if (!empty($cart_items))
 		{
 			// foreach

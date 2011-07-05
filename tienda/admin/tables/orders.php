@@ -152,6 +152,7 @@ class TiendaTableOrders extends TiendaTable
      */
     function addItem( $item )
     {
+    		Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
         $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
         if (is_array($item))
         {
@@ -181,20 +182,38 @@ class TiendaTableOrders extends TiendaTable
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $orderItem->product_id );
         $product = $model->getItem();
-        if (!empty($product->product_recurs))
+        $orderItem->subscription_prorated = $product->subscription_prorated;
+        if ( $orderItem->subscription_prorated )
         {
         	// flag the order as recurring
-            $this->order_recurs = true;
-            // set the orderitem's recurring product values
-            $orderItem->orderitem_recurs            = $product->product_recurs;
-            $orderItem->recurring_price             = $product->recurring_price; 
-            $orderItem->recurring_payments          = $product->recurring_payments;
-            $orderItem->recurring_period_interval   = $product->recurring_period_interval;
-            $orderItem->recurring_period_unit       = $product->recurring_period_unit;
-            $orderItem->recurring_trial             = $product->recurring_trial;
-            $orderItem->recurring_trial_period_interval = $product->recurring_trial_period_interval;
-            $orderItem->recurring_trial_period_unit = $product->recurring_trial_period_unit;
-            $orderItem->recurring_trial_price       = $product->recurring_trial_price;
+          $this->order_recurs = true;
+          // set the orderitem's recurring product values
+          $orderItem->orderitem_recurs            = $product->product_recurs;
+          $orderItem->recurring_price             = $product->recurring_price; 
+          $orderItem->recurring_payments          = $product->recurring_payments;
+          $orderItem->recurring_period_interval   = $product->recurring_period_interval;
+          $orderItem->recurring_period_unit       = $product->recurring_period_unit;
+          $orderItem->recurring_trial_price       = $product->recurring_trial_price;
+            
+					if( $product->subscription_prorated ) // prorated subscription
+					{
+						$result = TiendaHelperSubscription::calculateProRatedTrial( $product->subscription_prorated_date,
+																																				$product->subscription_prorated_term, 
+																																				$product->recurring_period_unit,
+																																				$product->recurring_trial_price,
+																																				$product->subscription_prorated_charge
+																																				);
+						$orderItem->recurring_trial = $result['trial'];
+						$orderItem->recurring_trial_period_interval = $result['interval'];
+						$orderItem->recurring_trial_period_unit = $result['unit'];
+						$orderItem->recurring_trial_price = $result['price'];
+					}
+					else
+					{
+	          $orderItem->recurring_trial             = $product->recurring_trial;
+	          $orderItem->recurring_trial_period_interval = $product->recurring_trial_period_interval;
+	          $orderItem->recurring_trial_period_unit = $product->recurring_trial_period_unit;
+					}
         }
         
         if (!empty($product->product_subscription))
@@ -205,7 +224,7 @@ class TiendaTableOrders extends TiendaTable
             $orderItem->subscription_period_interval= $product->subscription_period_interval;
             $orderItem->subscription_period_unit    = $product->subscription_period_unit;
         }
-        
+
         // Use hash to separate items when customer is buying the same product from multiple vendors
         // and with different attribs
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
@@ -219,7 +238,6 @@ class TiendaTableOrders extends TiendaTable
             	$hash = $hash.".".$value; 
             }
         }	        
-        
         
         if (!empty($this->_items[$hash]))
         {

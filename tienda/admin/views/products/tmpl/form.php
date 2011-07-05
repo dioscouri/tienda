@@ -851,7 +851,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo TiendaSelect::periodUnit( @$row->recurring_period_unit, 'recurring_period_unit' ); ?>
                     </td>
                 </tr>
-                <tr>
+                <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
                         <?php echo JText::_( 'Trial Period' ); ?>:
                     </td>
@@ -860,14 +860,14 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="key trial_price">
                         <?php echo JText::_( 'Trial Period Price' ); ?>:
                     </td>
                     <td>
                         <input name="recurring_trial_price" id="recurring_trial_price" value="<?php echo @$row->recurring_trial_price; ?>" size="10" maxlength="10" type="text" />
                     </td>
                 </tr>
-                <tr>
+                <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
                         <?php echo JText::_( 'Trial Period Interval' ); ?>:
                     </td>
@@ -875,7 +875,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <input name="recurring_trial_period_interval" id="recurring_trial_period_interval" value="<?php echo @$row->recurring_trial_period_interval; ?>" size="10" maxlength="10" type="text" />
                     </td>
                 </tr>
-                <tr>
+                <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
                         <?php echo JText::_( 'Trial Period Units' ); ?>:
                     </td>
@@ -883,6 +883,50 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo TiendaSelect::periodUnit( @$row->recurring_trial_period_unit, 'recurring_trial_period_unit' ); ?>
                     </td>
                 </tr>          
+            </table>
+            </fieldset>
+            
+            <fieldset>
+            <legend><?php echo JText::_( "Subscription with pro-rated Charges" ); ?></legend>
+            <div class="note"><?php echo JText::_( "Subscription with pro-rated Charges NOTE" ); ?></div>
+            <table class="admintable" style="width: 100%;">
+            		<?php $onclick_prorated = 'showProRatedFields();'; ?>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Charges Pro-rated' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_("No"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_("Yes"); ?></label>
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Initial Charge' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_("Subscription Pro-rated charge Full"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_("Subscription Pro-rated charge Pro-rated"); ?></label>
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Date' ); ?>:<br />
+                        <?php echo JText::_( 'SUBSCRIPTION PRO-RATED DATE NOTE' );?>
+                    </td>
+                    <td>
+                        <input name="subscription_prorated_date" id="subscription_prorated_date" value="<?php echo @$row->subscription_prorated_date; ?>" size="8" maxlength="5" type="text" />
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Term' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_("Day"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_("Month"); ?></label>
+                    </td>
+                </tr>
             </table>
             </fieldset>
         </div>
@@ -1342,4 +1386,24 @@ window.addEvent('domready', function(){
     });
     }
 });
+
+// showing/hiding elementes related to pro-rated payments
+function showProRatedFields()
+{
+	val = jQuery('input[name=subscription_prorated]:checked').val();
+	if( val == 1 )
+	{
+		jQuery( '.prorated_unrelated' ).hide( 'fast' );
+		jQuery( '.prorated_related' ).show( 'fast' );
+		jQuery( '.trial_price' ).text( '<?php echo JText::_( 'INITIAL PERIOD PRICE' );?>:' );
+	}
+	else
+	{
+		jQuery( '.prorated_unrelated' ).show( 'fast' );
+		jQuery( '.prorated_related' ).hide( 'fast' );
+		jQuery( '.trial_price' ).text( '<?php echo JText::_( 'Trial Period Price' );?>:' );
+	}
+}
+
+showProRatedFields();
 </script>

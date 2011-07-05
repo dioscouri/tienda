@@ -434,6 +434,7 @@ class TiendaModelProducts extends TiendaModelEav
 		if ( empty( $this->_list ) )
 		{
 			Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+		  Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
 			$list = parent::getList( );
 			
 			// If no item in the list, return an array()
@@ -449,7 +450,18 @@ class TiendaModelProducts extends TiendaModelEav
 					$item->recurring_price = $item->price;
 					if ( $item->recurring_trial )
 					{
-						$item->price = $item->recurring_trial_price;
+						if( $item->subscription_prorated )
+						{
+							$result = TiendaHelperSubscription::calculateProRatedTrial( $item->subscription_prorated_date,
+																																					$item->subscription_prorated_term, 
+																																					$item->recurring_period_unit,
+																																					$item->recurring_trial_price,
+																																					$item->subscription_prorated_charge
+																																					);
+							$item->price = $result['price'];
+						}
+						else
+							$item->price = $item->recurring_trial_price;
 					}
 				}
 				
@@ -484,10 +496,26 @@ class TiendaModelProducts extends TiendaModelEav
 			if ( !empty( $item->product_recurs ) )
 			{
 				$item->recurring_price = $item->price;
-				if ( !empty( $item->recurring_trial ) )
+				if( $item->subscription_prorated ) // prorated subscription
 				{
-					$item->price = $item->recurring_trial_price;
+	    		Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+					$result = TiendaHelperSubscription::calculateProRatedTrial( $item->subscription_prorated_date,
+																																			$item->subscription_prorated_term, 
+																																			$item->recurring_period_unit,
+																																			$item->recurring_trial_price,
+																																			$item->subscription_prorated_charge
+																																			);
+					$item->price = $result['price'];
+					$item->prorated_price = $result['price'];
+					$item->prorated_interval = $result['interval'];
+					$item->prorated_unit = $result['unit'];						
+//					$item->recurring_trial = $result['trial'];
 				}
+				else				
+					if ( !empty( $item->recurring_trial ) )
+					{
+						$item->price = $item->recurring_trial_price;
+					}
 			}
 			
 			$item->product_parameters = new JParameter( $item->product_params);

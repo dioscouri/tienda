@@ -289,4 +289,109 @@ class TiendaHelperSubscription extends TiendaHelperBase
         }
 
     }
+
+    /*
+     * Method which calculates parameters for pro-rated subscriptions. It gets all information and returns an array with correct values for trial period
+     * @param $prorated_date      		Mask for Pro-rated date
+     * @param $prorated_term      		Whether the Pro-rated trial period is monthly or daily based
+     * @param $subs_period_unit   		What kind of subscription we're using
+     * @param $original_trial_price 	Original trial period price
+     * @param $prorated_charge 				Whether we want ot use Prorated charge or initial trial period charge
+     * @param $from_time 							From what time we want to calculate the pro-rated subscription (null means now)
+     * 
+     * @return Array									Array with necessary information (trial unit, price, interval, if there is a trial period )
+     */
+		function calculateProRatedTrial( $prorated_date, $prorated_term, $subs_period_unit, $original_trial_price, $prorated_charge, $from_time = null )
+		{
+			if( $from_time === null )
+				$from_time = time();
+
+			$result = array();
+			$result['trial'] = 0;
+			$result['interval'] = 0;
+			$result['unit'] = 'D';
+			$result['price'] = 0;
+			
+			$today_d = date( 'j', $from_time );
+			$today_m = date( 'm', $from_time );
+			$prorated_date = explode( '/', $prorated_date );
+			$prorated_date[0] = ( int )$prorated_date[0];
+			$prorated_date[1] = ( int )$prorated_date[1];
+			if( $prorated_date[0] == '*' )
+			{
+				$prorated_date[0] = $today_m;
+				if( $today_d > $prorated_date[1] ) // the date should be in the next month
+					$prorated_date[0]++;
+			}
+			else 
+			{
+				if( $today_m > $prorated_date[0] || ( $today_m == $prorated_date[0] && $today_d > $prorated_date[1] ) ) // the subscription starts in the next year
+					$prorated_date[0] += 12;
+			}
+			$next_date = mktime( date("H"), date("i"), date("s"), ( int )$prorated_date[0], ( int )$prorated_date[1] );
+				
+			// so i know the start of the subscription - now, i'm going to calculate the trial period						
+			$end_date = gregoriantojd( date( 'n', $next_date ), date( 'j', $next_date ), date( 'Y', $next_date ) );
+			$start_date = gregoriantojd( date( 'n' ), date( 'j' ), date( 'Y' ) );
+			$trial_period_days = $end_date - $start_date;
+			$trial_period = 0;
+			switch( $prorated_term ) // calculate the trial period
+			{
+				case 'D' :
+					$trial_period = $trial_period_days; // we already calculated the difference in days
+					break;
+				case 'M' :									
+					$trial_period = $prorated_date[0] - $today_m;
+					break;
+			}
+
+			// calculate the price of the trial period, if there is a any trial period
+			if( $trial_period_days )
+			{
+				$trial_period_price = 0;
+				switch( $subs_period_unit )
+				{
+					case 'Y' : // yearly
+						switch( $prorated_term ) // calculate the trial period
+						{
+							case 'D' :
+								$trial_period_price = $original_trial_price / 365 * $trial_period;
+								break;
+							case 'M' :											
+								$trial_period_price = $original_trial_price / 12 * $trial_period;
+								break;
+						}
+						break;
+					case 'M' : // monthly
+						switch( $prorated_term ) // calculate the trial period
+						{
+							case 'D' :
+								$trial_period_price = $original_trial_price / 30.416 * $trial_period;
+								break;
+						}
+						break;
+				}
+				if( !$trial_period_price && $trial_period_days ) // no price was set
+				{
+					switch( $subs_period_unit )
+					{
+						case 'Y' : // yearly
+							$trial_period_price = $original_trial_price / 12;
+							break;
+						case 'M' : // monthly
+							$trial_period_price = $original_trial_price;
+							break;
+					}
+				}
+				$result['trial'] = 1;
+				$result['interval'] = $trial_period_days;
+				$result['unit'] = 'D';
+				
+			if( $prorated_charge ) // pro-rated price
+					$result['price'] = $trial_period_price;
+				else
+					$result['price'] = $original_trial_price;
+			}
+			return $result;
+		}
 }
