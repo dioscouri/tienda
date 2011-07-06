@@ -111,21 +111,38 @@ class TiendaMenu extends JObject
      */
     function & getInstance($name = 'submenu')
     {
+    	//refactor as it causes a php notice "Only variable references should be returned by reference" in PHP5
         // Check the config to see if the admin has disabled submenus
-		if (!TiendaConfig::getInstance()->get('display_submenu', '1')) {
-		    return false;
-		}
-		
+        //if (!TiendaConfig::getInstance()->get('display_submenu', '1')) 
+		//{
+		//    return false;
+		//}
+				
         static $instances;
         
-        if (!isset($instances)) {
+        if (!isset($instances)) 
+        {
             $instances = array();
         }
         
-        if (empty ($instances[$name])) {
-            $instances[$name] = new TiendaMenu($name);
+		$display = true;
+		//TODO: are we going to add it in the config view?
+		if (!TiendaConfig::getInstance()->get('display_submenu', '1')) 
+		{
+		    $display = false;
+		}
+		
+		$app = JFactory::getApplication();		
+		if (!$app->isAdmin() && !TiendaConfig::getInstance()->get('show_submenu_fe', '1')) 
+		{
+		    $display = false;
+		}
+						
+        if (empty ($instances[$name])) 
+        {
+            $instances[$name] = $display ? new TiendaMenu($name) : '';
         }
-        
+		        
         return $instances[$name];
     }
     
