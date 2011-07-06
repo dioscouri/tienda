@@ -587,7 +587,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				// TODO Push this into the orders object->addItem() method?
 				$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
-				$orderItem->orderitem_id                 = $cartitem->cart_id;
+				$orderItem->orderitem_id                 = $cartitem->cart_id; // for custom fields
 				$orderItem->product_id                    = $productItem->product_id;
 				$orderItem->orderitem_sku                 = $cartitem->product_sku;
 				$orderItem->orderitem_name                = $productItem->product_name;
@@ -609,6 +609,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 
 				// TODO When do attributes for selected item get set during admin-side order creation?
+				$orderItem->orderitem_id = null; // so it can create a new ordreitem, if needed
 				array_push($productitems, $orderItem);
 			}
 		}
