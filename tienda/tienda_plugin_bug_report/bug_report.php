@@ -55,12 +55,10 @@ class plgTiendaBug_report extends JPlugin
 	 */
 	function submitBug()
 	{
+		JRequest::setVar('tienda_display_submenu', 1 );
 		Tienda::load( 'TiendaViewBase', 'views._base' );
 		$view = new TiendaViewBase();
 		$view->displayTitle(JText::_('SUBMIT BUG'));
-		
-		Tienda::load( 'TiendaMenu', 'library.menu' );
-		$menu =& TiendaMenu::getInstance();
 
 		unset($view);
 		
