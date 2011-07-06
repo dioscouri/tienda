@@ -361,7 +361,6 @@ class Tienda extends JObject
  */
 class TiendaConfig extends JObject
 {
-
 	// View Options
 	var $show_linkback						= '1';
 	var $amigosid                           = '';
@@ -542,6 +541,9 @@ class TiendaConfig extends JObject
     var $show_addtocart_productcompare 		= '1';
     var $show_model_productcompare			= '1';
     var $show_sku_productcompare			= '1';
+	
+	// since 0.7.3
+	var $show_submenu_fe					= '1';
 	
 	/**
 	 * constructor

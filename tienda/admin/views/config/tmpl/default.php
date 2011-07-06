@@ -588,6 +588,17 @@
 					
 					<table class="adminlist">
 					<tbody>
+						 <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Front End Submenu' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'show_submenu_fe', 'class="inputbox"', $this->row->get('show_submenu_fe', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Out of Stock Products' ); ?>
