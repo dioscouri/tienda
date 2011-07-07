@@ -148,8 +148,14 @@ function tiendaDisableShippingAddressControls(checkbox, form)
     	billingControl = document.getElementById('billing_input_'+fieldList[index]);
         shippingControl = document.getElementById('shipping_input_'+fieldList[index]);
         if(shippingControl != null){
-            shippingControl.disabled = disable;           
-            if(billingControl != null){ shippingControl.value = disable ? billingControl.value : '';}
+    		shippingControl.disabled = disable;           
+            if(billingControl != null)
+            {
+            	if( fieldList[index] == 'zone_id' ) // special care for zones
+            		tiendaDoTask( 'index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix=billing_input_&disabled=1&country_id='+document.getElementById('billing_input_country_id').value+'&zone_id='+document.getElementById('billing_input_zone_id').value, 'shipping_input_zones_wrapper', '');
+            	else // the rest of fields is OK the way they are handled now
+               		shippingControl.value = disable ? billingControl.value : '';
+            }
         }
     }
 }

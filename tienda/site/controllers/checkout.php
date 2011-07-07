@@ -1069,8 +1069,13 @@ class TiendaControllerCheckout extends TiendaController
 		$html = '';
 		$text = '';
 			
-		$country_id = JRequest::getVar('country_id');
+		$country_id = JRequest::getInt('country_id');
+		$zone_id = JRequest::getInt('zone_id');
 		$prefix = JRequest::getVar('prefix');
+		$disabled = JRequest::getInt( 'disabled', 0 );
+		$attribs = array('class' => 'inputbox', 'size' => '1');
+		if( $disabled )
+			$attribs['disabled'] = 'disabled';
 		
 		if (empty($country_id))
 		{
@@ -1078,7 +1083,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
     		else
 		{
-		    $html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id );
+		    $html = TiendaSelect::zone( $zone_id, $prefix.'zone_id', $country_id, $attribs );
 		}
 			
 		$response = array();
