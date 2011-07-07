@@ -62,11 +62,11 @@
                     <div class="range">
                         <div class="rangeline">
                             <span class="label"><?php echo JText::_("From"); ?>:</span>
-                            <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
+                            <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d 00:00:00' ); ?>
                         </div>
                         <div class="rangeline">
                             <span class="label"><?php echo JText::_("To"); ?>:</span>
-                            <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
+                            <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d 00:00:00' ); ?>
                         </div>
                         <div class="rangeline">
                             <span class="label"><?php echo JText::_("Type"); ?>:</span>
