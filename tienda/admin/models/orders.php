@@ -35,7 +35,14 @@ class TiendaModelOrders extends TiendaModelBase
 		//TODO handle solar and legal time where is present.	
 		$filter_date_from= $this->local_to_GMT_data( $filter_date_from );		
 		$filter_date_to=$this->local_to_GMT_data( $filter_date_to );
-        
+
+		 if (empty($filter_date_to))
+		 {
+			$date = date_create($filter_date_from);
+			date_modify($date, '24 hour');	
+			$filter_date_to= date_format($date, 'Y-m-d H:i:s');
+		 }	
+		
        	if ($filter)
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
