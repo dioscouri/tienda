@@ -238,7 +238,8 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 (233, 'Wallis and Futuna Islands', 'WF', 'WLF'),
 (234, 'Western Sahara', 'EH', 'ESH'),
 (235, 'Yemen', 'YE', 'YEM'),
-(236, 'Yugoslavia', 'YU', 'YUG'),
 (237, 'Zaire', 'ZR', 'ZAR'),
 (238, 'Zambia', 'ZM', 'ZMB'),
-(239, 'Zimbabwe', 'ZW', 'ZWE');
+(239, 'Zimbabwe', 'ZW', 'ZWE'),
+(240, 'Serbia', 'RS', 'SRB'),
+(241, 'Montenegro', 'ME', 'MNE');
