@@ -425,7 +425,8 @@ class TiendaHelperBase extends JObject
 	}
 
 	/**
-	 *
+	 * return local today Data as GMT value.
+	 * TODO handle solar and legal time where is present.
 	 * @return unknown_type
 	 */
 	function getToday()
@@ -436,12 +437,11 @@ class TiendaHelperBase extends JObject
 		{
 			$config = JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
-			$date = JFactory::getDate();
+			$date = JFactory::getDate(); //get local data
 			$today = $date->toFormat( "%Y-%m-%d 00:00:00" );
-
-			if ($offset > 0) {
+			if ($offset < 0) {
 				$command = 'DATE_ADD';
-			} elseif ($offset < 0) {
+			} elseif ($offset > 0) {
 				$command = 'DATE_SUB';
 			} else {
 				return $today;
@@ -700,5 +700,40 @@ class TiendaHelperBase extends JObject
 		$document = &JDocument::getInstance($format);
 		
 		$doc = $document;
+    }
+	
+	/**
+     * convert Local data to GMT data
+     */
+    function local_to_GMT_data( $local_data )
+    {
+		$GMT_data=$local_data ;
+		if(!empty($local_data)) 
+		{
+			$config = JFactory::getConfig();
+			$offset = $config->getValue('config.offset');
+			$offset=0-$offset;
+			$date = date_create($local_data);
+			date_modify($date,  $offset.' hour');		
+			$GMT_data= date_format($date, 'Y-m-d H:i:s');
+		}
+		return $GMT_data;
+    }
+	
+	/**
+     * convert GMT data to Local data
+     */
+    function GMT_to_local_data( $GMT_data )
+    {
+		$local_data=$GMT_data ;
+		if(!empty($local_data)) 
+		{
+			$config = JFactory::getConfig();
+			$offset = $config->getValue('config.offset');
+			$date = date_create($GMT_data);
+			date_modify($date,  $offset.' hour');		
+			$local_data= date_format($date, 'Y-m-d H:i:s');
+		}
+		return $local_data;
     }
 }

@@ -30,6 +30,11 @@ class TiendaModelOrders extends TiendaModelBase
         $filter_total_to   = $this->getState('filter_total_to');
         $filter_ordernumber    = $this->getState('filter_ordernumber');
         $filter_orderstates = $this->getState('filter_orderstates');
+		
+
+		//TODO handle solar and legal time where is present.	
+		$filter_date_from= $this->local_to_GMT_data( $filter_date_from );		
+		$filter_date_to=$this->local_to_GMT_data( $filter_date_to );
         
        	if ($filter)
        	{

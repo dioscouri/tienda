@@ -462,4 +462,23 @@ class TiendaModelBase extends JModel
 	    
 	    return $array;
 	}
+	
+	/**
+     * convert data from local to GMT
+	 * TODO handle solar and legal time where is present.
+     */
+    function local_to_GMT_data( $local_data )
+    {
+		$GMT_data=$local_data ;
+		if(!empty($local_data))
+		{
+			$config = JFactory::getConfig();
+			$offset = $config->getValue('config.offset');
+			$offset=0-$offset;
+			$date = date_create($local_data);
+			date_modify($date,  $offset.' hour');		
+			$GMT_data= date_format($date, 'Y-m-d H:i:s');
+		}
+		return $GMT_data;
+    }
 }

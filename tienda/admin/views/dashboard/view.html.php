@@ -118,7 +118,9 @@ class TiendaViewDashboard extends TiendaViewBase
     {
         $database = JFactory::getDBO();
         $base = new TiendaHelperBase();
-        $today = $base->getToday();
+        $date = JFactory::getDate();
+		$today = $date->toFormat( "%Y-%m-%d 23:59:59" );
+		$today=TiendaHelperBase::local_to_GMT_data($today);
         $end_datetime = $today;
         $query = " SELECT DATE_SUB('".$today."', INTERVAL 1 MONTH) ";
         $database->setQuery( $query );
@@ -129,7 +131,10 @@ class TiendaViewDashboard extends TiendaViewBase
         $data = new stdClass();
         $num = 0;
         $result = array();
-        $curdate = $start_datetime;
+		$curdate=date_create($start_datetime);
+		date_time_set($curdate, 00, 00, 00);
+		$curdate= date_format($curdate, 'Y-m-d H:i:s');
+
         $enddate = $end_datetime;
         while ($curdate <= $enddate)
         {
@@ -187,12 +192,9 @@ class TiendaViewDashboard extends TiendaViewBase
     function _today()
     {
     	$base = new TiendaHelperBase();
-    	
-		$database =& JFactory::getDBO();
-		$database->setQuery("SELECT UTC_DATE()");
-		$today = $database->loadResult();
-        
-        $runningtotal = 0;
+		$date = JFactory::getDate();
+		$today_strg=$date->toFormat( "%Y-%m-%d" );
+		$runningtotal = 0;
         $runningsum = 0;
         $data = new stdClass();
         $num = 0;
@@ -201,10 +203,9 @@ class TiendaViewDashboard extends TiendaViewBase
         for ($curhour = 0; $curhour < 24; $curhour++)
         {
             $thishour = $curhour < 10 ? '0'.$curhour : $curhour;
-            
-            $start_ts = $base->getOffsetDate( $today." $thishour:00:00" );
-            $end_ts = $base->getOffsetDate( $today." $thishour:59:59" );
-            
+			
+			$start_ts=$date->toFormat( "%Y-%m-%d $thishour:00:00" );
+            $end_ts=$date->toFormat( "%Y-%m-%d $thishour:59:59" );
             // grab all records
             $model = JModel::getInstance( 'Orders', 'TiendaModel' );
             $model->setState( 'filter_date_from', $start_ts );
@@ -240,8 +241,9 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
 
-        $this->getChartHourly( $data, JText::_('Today (Hourly), UTC'), 'graph' );
-        $this->getChartHourly( $data, JText::_('Today (Hourly), UTC'), 'graphSum', 'sumdata', 'Line' );
+        $this->getChartHourly( $data,  JText::sprintf('DASHBOARD_TODAY', $today_strg), 'graph' );
+        $this->getChartHourly( $data,  JText::sprintf('DASHBOARD_TODAY', $today_strg), 'graphSum', 'sumdata', 'Line' );
+
 
         $this->assign( 'graphData', $data );
         
@@ -255,14 +257,10 @@ class TiendaViewDashboard extends TiendaViewBase
     function _yesterday()
     {   
     	$base = new TiendaHelperBase();
-    	   
-        $database =& JFactory::getDBO();
-        $database->setQuery("SELECT UTC_DATE()");
-        $today = $database->loadResult();
-        
-        $database =& JFactory::getDBO();
-        $database->setQuery("SELECT SUBDATE('".$today."', INTERVAL 1 DAY)");
-        $yesterday = $database->loadResult();
+		$date = JFactory::getDate();
+		$date->setOffset( -24 );		
+		$yesterday_strg=$date->toFormat( "%Y-%m-%d" );
+
 
         $runningtotal = 0;
         $runningsum = 0;
@@ -273,10 +271,9 @@ class TiendaViewDashboard extends TiendaViewBase
         for($curhour = 0; $curhour < 24; $curhour++)
         {
             $thishour = $curhour<10?'0'.$curhour:$curhour;
-            
-            $start_ts = $base->getOffsetDate( $yesterday." $thishour:00:00" );
-            $end_ts = $base->getOffsetDate( $yesterday." $thishour:59:59" );
-            
+			$start_ts=$date->toFormat( "%Y-%m-%d $thishour:00:00" );
+			$end_ts=$date->toFormat( "%Y-%m-%d $thishour:59:59" );
+
             // grab all records
             $model = JModel::getInstance( 'Orders', 'TiendaModel' );
             $model->setState( 'filter_date_from', $start_ts );
@@ -312,10 +309,8 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
 
-        //$this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graph' );
-        //$this->getChartHourly( $data, "Yesterday (Hourly), $yesterday", 'graphSum', 'sumdata', 'Line' );
-        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday), 'graph' );
-        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday), 'graphSum', 'sumdata', 'Line' );
+        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday_strg), 'graph' );
+        $this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday_strg), 'graphSum', 'sumdata', 'Line' );
 
         $this->assign( 'graphData', $data );
         
@@ -328,11 +323,15 @@ class TiendaViewDashboard extends TiendaViewBase
      */
     function _lastSeven()
     {
+
+		
         $database = JFactory::getDBO();
         $base = new TiendaHelperBase();
-        $today = $base->getToday();
-        $end_datetime = $today;
-        $query = " SELECT DATE_SUB('".$today."', INTERVAL 7 DAY) ";
+        $date = JFactory::getDate();
+		$today = $date->toFormat( "%Y-%m-%d 23:59:59" );
+		$today=TiendaHelperBase::local_to_GMT_data($today);
+		$end_datetime = $today;
+        $query = " SELECT DATE_SUB('".$today."', INTERVAL 6 DAY) ";
         $database->setQuery( $query );
         $start_datetime = $database->loadResult();
 
@@ -341,8 +340,10 @@ class TiendaViewDashboard extends TiendaViewBase
         $data = new stdClass();
         $num = 0;
         $result = array();
-        $curdate = $start_datetime;
         $enddate = $end_datetime;
+		$curdate=date_create($start_datetime);
+		date_time_set($curdate, 00, 00, 00);
+		$curdate= date_format($curdate, 'Y-m-d H:i:s');
         while ($curdate <= $enddate)
         {
             // set working variables
@@ -351,6 +352,7 @@ class TiendaViewDashboard extends TiendaViewBase
             $nextdate = $variables->nextdate;
 
             // grab all records
+			
             $model = JModel::getInstance( 'Orders', 'TiendaModel' );
             $model->setState( 'filter_date_from', $thisdate );
             $model->setState( 'filter_date_to', $nextdate );
@@ -366,7 +368,7 @@ class TiendaViewDashboard extends TiendaViewBase
             $ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
             $model->setResultQuery($ordersQuery);
             $sum = $model->getResult();
-
+			
             //store the value in an array
             $result[$num]['rows']       = $rows;
             $result[$num]['datedata']   = getdate( strtotime($thisdate) );
@@ -386,8 +388,8 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
 
-        $this->getChartDaily( $data, 'Last Seven Days', 'graph' );
-        $this->getChartDaily( $data, 'Last Seven Days', 'graphSum', 'sumdata', 'Line' );
+        $this->getChartDaily( $data, JText::sprintf('LAST SEVEN DAYS'), 'graph' );
+        $this->getChartDaily( $data, JText::sprintf('LAST SEVEN DAYS'), 'graphSum', 'sumdata', 'Line' );
 
         $this->assign( 'graphData', $data );
     }
@@ -401,8 +403,7 @@ class TiendaViewDashboard extends TiendaViewBase
     	$year = gmdate('Y');
     	
     	$base = new TiendaHelperBase();
-    	$newyear = $base->getOffsetDate( "$year-01-01 00:00:00" );
-    	
+    	$newyear = $base->local_to_GMT_data( "$year-01-01 00:00:00" );
         $database = JFactory::getDBO();
 
         $runningtotal = 0;
@@ -415,11 +416,11 @@ class TiendaViewDashboard extends TiendaViewBase
         {
             $thismonth = $curmonth < 10 ? '0'.$curmonth : $curmonth;
             
-            $start_ts = $base->getOffsetDate( "$year-$thismonth-01 00:00:00" );
+            $start_ts = $base->local_to_GMT_data( "$year-$thismonth-01 00:00:00" );
 	        $database =& JFactory::getDBO();
 	        $database->setQuery("SELECT ADDDATE('".$start_ts."', INTERVAL 1 MONTH)");
 	        $nextmonth = $database->loadResult();
-            $end_ts = $base->getOffsetDate( $nextmonth );
+            $end_ts = $base->local_to_GMT_data( $nextmonth );
             
             // grab all records
             $model = JModel::getInstance( 'Orders', 'TiendaModel' );
@@ -455,9 +456,9 @@ class TiendaViewDashboard extends TiendaViewBase
         $data->rows         = $result;          // Array
         $data->total        = $runningtotal;    // Int
         $data->sum          = $runningsum;      // Int
-
-        $this->getChartHourly( $data, "Year to Date (Monthly)", 'graph' );
-        $this->getChartHourly( $data, "Year to Date (Monthly)", 'graphSum', 'sumdata', 'Line' );
+		
+		$this->getChartHourly( $data, JText::sprintf('YEAR TO DATE (MONTHLY)'), 'graph' );
+        $this->getChartHourly( $data, JText::sprintf('YEAR TO DATE (MONTHLY)'), 'graphSum', 'sumdata', 'Line' );
 
         $this->assign( 'graphData', $data );
         
