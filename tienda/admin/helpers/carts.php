@@ -538,7 +538,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$productitems = array();
 		foreach ($cartitems as $cartitem)
 		{
-			//echo Tienda::dump($cartitem);
 			unset($productModel);
 			$productModel = JModel::getInstance('Products', 'TiendaModel');
 			$filter_group = $user_helper->getUserGroup($user->id, $cartitem->product_id);
@@ -587,17 +586,27 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				// TODO Push this into the orders object->addItem() method?
 				$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
-				$orderItem->orderitem_id                 = $cartitem->cart_id; // for custom fields
-				$orderItem->product_id                    = $productItem->product_id;
-				$orderItem->orderitem_sku                 = $cartitem->product_sku;
-				$orderItem->orderitem_name                = $productItem->product_name;
-				$orderItem->orderitem_quantity            = $cartitem->product_qty;
-				$orderItem->orderitem_price               = $productItem->product_price;
-				$orderItem->orderitem_attributes          = $cartitem->product_attributes;
-				$orderItem->orderitem_attribute_names     = $cartitem->attributes_names;
-				$orderItem->orderitem_attributes_price    = $cartitem->orderitem_attributes_price;
-				$orderItem->orderitem_final_price         = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
-					
+				$orderItem->orderitem_id                    = $cartitem->cart_id; // for custom fields
+				$orderItem->product_id                      = $productItem->product_id;
+				$orderItem->orderitem_sku                   = $cartitem->product_sku;
+				$orderItem->orderitem_name                  = $productItem->product_name;
+				$orderItem->orderitem_quantity              = $cartitem->product_qty;
+				$orderItem->orderitem_price                 = $productItem->product_price;
+				$orderItem->orderitem_attributes            = $cartitem->product_attributes;
+				$orderItem->orderitem_attribute_names       = $cartitem->attributes_names;
+				$orderItem->orderitem_attributes_price      = $cartitem->orderitem_attributes_price;
+				$orderItem->orderitem_final_price           = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
+				$orderItem->orderitem_recurs                = $productItem->product_recurs;
+				$orderItem->recurring_price                 = $productItem->recurring_price;
+				$orderItem->recurring_payments              = $productItem->recurring_payments;
+				$orderItem->recurring_period_interval       = $productItem->recurring_period_interval;
+				$orderItem->recurring_period_unit           = $productItem->recurring_period_unit;
+				$orderItem->recurring_trial                 = $productItem->recurring_trial;
+				$orderItem->recurring_trial_period_interval = $productItem->recurring_trial_period_interval;
+				$orderItem->recurring_trial_period_unit     = $productItem->recurring_trial_period_unit;
+				$orderItem->recurring_trial_price           = $productItem->recurring_trial_price;
+				
+				
 				$dispatcher =& JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $cartitem ) );
 				foreach ($results as $result)
