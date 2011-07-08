@@ -2198,6 +2198,8 @@ class TiendaControllerCheckout extends TiendaController
 				$domain = $uri->gethost();
 					
 				// send the guest user credentials to the user's real email address
+				$lastUserId = $userHelper->getLastUserId();
+				$guestId = $lastUserId + 1;
 				$details = array(
 					'email' => $values['email_address'],
 					'name' => "guest_".$guestId,
