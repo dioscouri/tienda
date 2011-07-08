@@ -1904,47 +1904,47 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			case "5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "five.png' alt='" . JText::_( 'Great' ) . "' title='" . JText::_( 'Great' )
-						. "' name='" . JText::_( 'Great' ) . "' align='center' border='0'>";
+						. "' name='" . JText::_( 'Great' ) . "' align='center' border='0' />";
 				break;
 			case "4.5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "four_half.png' alt='" . JText::_( 'Great' ) . "' title='"
-						. JText::_( 'Great' ) . "' name='" . JText::_( 'Great' ) . "' align='center' border='0'>";
+						. JText::_( 'Great' ) . "' name='" . JText::_( 'Great' ) . "' align='center' border='0' />";
 				break;
 			case "4":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "four.png' alt='" . JText::_( 'Good' ) . "' title='" . JText::_( 'Good' )
-						. "' name='" . JText::_( 'Good' ) . "' align='center' border='0'>";
+						. "' name='" . JText::_( 'Good' ) . "' align='center' border='0' />";
 				break;
 			case "3.5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "three_half.png' alt='" . JText::_( 'Good' ) . "' title='"
-						. JText::_( 'Good' ) . "' name='" . JText::_( 'Good' ) . "' align='center' border='0'>";
+						. JText::_( 'Good' ) . "' name='" . JText::_( 'Good' ) . "' align='center' border='0' />";
 				break;
 			case "3":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "three.png' alt='" . JText::_( 'Average' ) . "' title='"
-						. JText::_( 'Average' ) . "' name='" . JText::_( 'Average' ) . "' align='center' border='0'>";
+						. JText::_( 'Average' ) . "' name='" . JText::_( 'Average' ) . "' align='center' border='0' />";
 				break;
 			case "2.5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "two_half.png' alt='" . JText::_( 'Average' ) . "' title='"
-						. JText::_( 'Average' ) . "' name='" . JText::_( 'Average' ) . "' align='center' border='0'>";
+						. JText::_( 'Average' ) . "' name='" . JText::_( 'Average' ) . "' align='center' border='0' />";
 				break;
 			case "2":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "two.png' alt='" . JText::_( 'Poor' ) . "' title='" . JText::_( 'Poor' )
-						. "' name='" . JText::_( 'Poor' ) . "' align='center' border='0'>";
+						. "' name='" . JText::_( 'Poor' ) . "' align='center' border='0' />";
 				break;
 			case "1.5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "one_half.png' alt='" . JText::_( 'Poor' ) . "' title='" . JText::_( 'Poor' )
-						. "' name='" . JText::_( 'Poor' ) . "' align='center' border='0'>";
+						. "' name='" . JText::_( 'Poor' ) . "' align='center' border='0' />";
 				break;
 			case "1":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "one.png' alt='" . JText::_( 'Unsatisfactory' ) . "' title='"
-						. JText::_( 'Unsatisfactory' ) . "' name='" . JText::_( 'Unsatisfactory' ) . "' align='center' border='0'>";
+						. JText::_( 'Unsatisfactory' ) . "' name='" . JText::_( 'Unsatisfactory' ) . "' align='center' border='0' />";
 				break;
 			case "0.5":
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "zero_half.png' alt='" . JText::_( 'Unsatisfactory' ) . "' title='"
-						. JText::_( 'Unsatisfactory' ) . "' name='" . JText::_( 'Unsatisfactory' ) . "' align='center' border='0'>";
+						. JText::_( 'Unsatisfactory' ) . "' name='" . JText::_( 'Unsatisfactory' ) . "' align='center' border='0' />";
 				break;
 			default:
 				$return = "<img src='" . Tienda::getURL( 'ratings' ) . "zero.png' alt='" . JText::_( 'Unrated' ) . "' title='"
-						. JText::_( 'Unrated' ) . "' name='" . JText::_( 'Unrated' ) . "' align='center' border='0'>";
+						. JText::_( 'Unrated' ) . "' name='" . JText::_( 'Unrated' ) . "' align='center' border='0' />";
 				break;
 		}
 		
