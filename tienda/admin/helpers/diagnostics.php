@@ -2960,10 +2960,10 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 * @version 0.7.3
 	 * @return unknown_type
 	 */
-	function checkProRatedSubscriptionProduct()
+	function checkProRatedSubscriptionProducts()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProRatedSubscriptionProduct', '0')) return true;
+		if (TiendaConfig::getInstance()->get('checkProRatedSubscriptionProducts', '0')) return true;
 		 
 		$table = '#__tienda_products';
 		$definitions = array();
@@ -2984,8 +2984,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Update config to say this has been done already
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
-			$config->load( array( 'config_name'=>'checkProRatedSubscriptionProduct') );
-			$config->config_name = 'checkProRatedSubscriptionProduct';
+			$config->load( array( 'config_name'=>'checkProRatedSubscriptionProducts') );
+			$config->config_name = 'checkProRatedSubscriptionProducts';
 			$config->value = '1';
 			$config->save();
 			return true;
