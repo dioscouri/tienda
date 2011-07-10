@@ -35,7 +35,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         if ($item->product_check_inventory == 1) 
         {
             // $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"TiendaCheckStock();");
-            $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy', this.form );");
+            $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'products','product_buy', this.form );");
             echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
         } 
             else 

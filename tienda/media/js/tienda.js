@@ -432,9 +432,9 @@ function tiendaAddToCart( url, container, form, msg )
     }).request();
 }
 
-function tiendaUpdateAddToCart( container, form )
+function tiendaUpdateAddToCart( page, container, form )
 {
-    var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart';
+    var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page='+page;
     
     // loop through form elements and prepare an array of objects for passing to server
     var str = new Array();

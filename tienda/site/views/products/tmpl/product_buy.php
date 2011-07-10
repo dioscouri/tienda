@@ -62,7 +62,7 @@ $formName = 'adminForm_'.$item->product_id;
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
         
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product_buy_".$item->product_id."', document.".$formName." );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName." );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
     
         ?>

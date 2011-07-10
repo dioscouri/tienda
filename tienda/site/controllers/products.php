@@ -197,6 +197,7 @@ class TiendaControllerProducts extends TiendaController
 		// get the products to be displayed in this category
 		if ( $items = &$model->getList( ) )
 		{
+			JRequest::setVar( 'page', 'category' ); // for "getCartButton"
 			$this->display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );
 			foreach ( $items as $item )
 			{
