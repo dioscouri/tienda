@@ -1967,10 +1967,18 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'orderSummary', $html );
 
 		$showPayment = true;
-		if ((float)$order->order_total == (float)'0.00')
+		if( $order->isRecurring() )
 		{
-			$showPayment = false;
+			if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
+			{
+				$showPayment = false;
+			}
 		}
+		else
+			if ((float)$order->order_total == (float)'0.00')
+			{
+				$showPayment = false;
+			}
 		$view->assign( 'showPayment', $showPayment );
 
 		// are there any enabled coupons?
