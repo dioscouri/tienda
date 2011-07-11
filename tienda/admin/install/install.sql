@@ -5400,7 +5400,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (3949, 105, 'VV', 'Vibo Valentia'),
 (3950, 105, 'VI', 'Vicenza'),
 (3951, 105, 'VT', 'Viterbo');
-INSERT INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
+INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
 (3952, 240, 'VO', 'Vojvodina'),
 (3953, 240, 'BG', 'Beograd'),
 (3954, 240, 'ZA', 'Šumadija i Zapadna Srbija'),
