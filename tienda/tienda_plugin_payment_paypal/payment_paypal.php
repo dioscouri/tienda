@@ -62,7 +62,6 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         $items = $order->getItems();
-        JFactory::getApplication()->enqueueMessage( 'recurr - 65 - '.(int)$order->isRecurring() );
         $vars->is_recurring = $order->isRecurring();
   
         if($vars->is_recurring)
