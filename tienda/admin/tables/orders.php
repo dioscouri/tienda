@@ -183,10 +183,13 @@ class TiendaTableOrders extends TiendaTable
         $model->setId( $orderItem->product_id );
         $product = $model->getItem();
         $orderItem->subscription_prorated = $product->subscription_prorated;
+
+        // flag the order as recurring
+        if( $product->product_recurs )
+        	$this->order_recurs = true;
+
         if ( $orderItem->subscription_prorated )
         {
-        	// flag the order as recurring
-          $this->order_recurs = true;
           // set the orderitem's recurring product values
           $orderItem->orderitem_recurs            = $product->product_recurs;
           $orderItem->recurring_price             = $product->recurring_price; 
@@ -720,7 +723,7 @@ class TiendaTableOrders extends TiendaTable
             $orderitems = $model->getList();
             foreach ($orderitems as $orderitem)
             {
-                unset($table);
+            	unset($table);
                 $table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
                 $table->load( $orderitem->orderitem_id );
                 $this->addItem( $table );
@@ -743,7 +746,7 @@ class TiendaTableOrders extends TiendaTable
                 
                 if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
                 {
-                    // Only one recurring item allowed per order. 
+                	// Only one recurring item allowed per order. 
                     // If the item is recurring, 
                     // check if there already is a recurring item accounted for in the order
                     // if so, remove this one from the order but leave it in the cart and continue
