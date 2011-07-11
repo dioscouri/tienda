@@ -37,7 +37,7 @@
             <input type="hidden" name="t3" value="<?php echo $vars->order->recurring_period_unit; ?>" />
             
             <?php if ($vars->order->recurring_trial): ?>
-                <input type="hidden" name="a1" value="<?php echo TiendaHelperBase::number( $vars->order->recurring_trial_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>" />
+                <input type="hidden" name="a1" value="<?php if( (float)$vars->order->recurring_trial_price == (float)'0.00' ) echo '0'; else echo TiendaHelperBase::number( $vars->order->recurring_trial_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>" />
                 <input type="hidden" name="p1" value="<?php echo $vars->order->recurring_trial_period_interval; ?>" />                         
                 <input type="hidden" name="t1" value="<?php echo $vars->order->recurring_trial_period_unit; ?>" />
             <?php endif; ?>

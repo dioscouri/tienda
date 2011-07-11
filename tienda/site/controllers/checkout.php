@@ -2296,11 +2296,21 @@ class TiendaControllerCheckout extends TiendaController
 		$orderpayment_type = $values['payment_plugin'];
 		$transaction_status = JText::_( "Incomplete" );
 		// in the case of orders with a value of 0.00, use custom values
-		if ( (float) $order->order_total == (float)'0.00' )
+
+		if( $order->isRecurring() )
 		{
-			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "Complete" );
+			if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
+			{
+				$orderpayment_type = 'free';
+				$transaction_status = JText::_( "Complete" );
+			}
 		}
+		else
+			if ( (float) $order->order_total == (float)'0.00' )
+			{
+				$orderpayment_type = 'free';
+				$transaction_status = JText::_( "Complete" );
+			}
 
 		// Save an orderpayment with an Incomplete status
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -2339,11 +2349,20 @@ class TiendaControllerCheckout extends TiendaController
 		// onPostPayment, payment plugin to update order status with payment status
 
 		// in the case of orders with a value of 0.00, we redirect to the confirmPayment page
-		if ( (float) $order->order_total == (float)'0.00' )
+		if( $order->isRecurring() )
 		{
-			JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
-			return;
+			if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
+			{
+				JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
+				return;
+			}
 		}
+		else
+			if ( (float) $order->order_total == (float)'0.00' )
+			{
+				JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
+				return;
+			}
 
 		$dispatcher    =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
