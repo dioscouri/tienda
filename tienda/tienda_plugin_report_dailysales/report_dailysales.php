@@ -67,6 +67,10 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
 		 {
 			$filter_date_to=$filter_date_from;
 		 }
+		 else if (!empty($filter_date_to) and empty($filter_date_from))
+		 {
+			$filter_date_from=$filter_date_to;
+		 }
 		
 		$date_tmp = date_create($filter_date_to);
 		date_modify($date_tmp, '24 hour');	
