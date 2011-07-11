@@ -29,7 +29,7 @@ class TiendaViewProducts extends TiendaViewBase
 		switch(strtolower($layout))
 		{
 			case "view":
-				JRequest::setVar( 'page', 'products' ); // for "getCartButton" 
+				JRequest::setVar( 'page', 'product' ); // for "getCartButton" 
 				$this->_form($tpl);
 			  break;
 			case "form":

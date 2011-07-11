@@ -41,7 +41,7 @@ Tienda::load( 'TiendaUrl', 'library.url' );
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
         Tienda::load('TiendaSelect', 'library.select');
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'products', 'product_buy_".$item->product_id."', document.".$formName." );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product', 'product_buy_".$item->product_id."', document.".$formName." );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>

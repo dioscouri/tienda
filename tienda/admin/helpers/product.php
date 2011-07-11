@@ -2090,7 +2090,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
 	{
 		$html = '';
-		$page = JRequest::getVar( 'page', 'products' );
+		$page = JRequest::getVar( 'page', 'product' );
 		
 		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
 		
@@ -2254,7 +2254,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		$row->_product_quantity = $product_qty;
 		
-		if ($page == 'products') {		
+		if ($page == 'product') {		
 		   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_product_cartbuttons', '1' );
 		}
 		else {				

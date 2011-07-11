@@ -19,7 +19,7 @@
             $key = 'attribute_'.$attribute->productattribute_id;
             $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
             $attribs = array();
-            //$attribs = array('class' => 'inputbox', 'size' => '1', 'onchange'=>"tiendaUpdateAddToCart(  'products', 'product_buy', document.adminForm );");
+            //$attribs = array('class' => 'inputbox', 'size' => '1', 'onchange'=>"tiendaUpdateAddToCart(  'product', 'product_buy', document.adminForm );");
             echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
             ?>
         </div>
