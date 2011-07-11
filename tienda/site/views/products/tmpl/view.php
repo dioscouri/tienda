@@ -32,14 +32,23 @@ $item = @$this->row;
                 </div>  
                 <?php endif; ?>
             
-                <?php if ( TiendaConfig::getInstance( )->get( 'display_tweet', '1' ) ) : ?>
-                <div class="product_tweet">
-                      <a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance( )
-																												 ->get( 'display_tweet_message',
-																														 'Check this out!' ); ?>" data-count="horizontal">Tweet</a>
-                      <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            		<div class="product_share_buttons">
+	                <?php if ( TiendaConfig::getInstance( )->get( 'display_tweet', '1' ) ) : ?>
+	                <div class="product_tweet">
+	                      <a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance( )
+																													 ->get( 'display_tweet_message',
+																															 'Check this out!' ); ?>" data-count="horizontal">Tweet</a>
+	                      <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	                </div>
+	                <?php endif; ?>
+	                <?php if ( TiendaConfig::getInstance( )->get( 'display_google_plus1', '1' ) ) : ?>
+	                <?php $google_plus1_size = TiendaConfig::getInstance( )->get( 'display_google_plus1_size', 'medium' ); ?>
+	                <div class="product_google_plus1">
+	                			<g:plusone <?php if( strlen( $google_plus1_size ) ) echo 'size="'.$google_plus1_size.'"' ?>></g:plusone>
+	                      <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+	                </div>
+	                <?php endif; ?>
                 </div>
-                <?php endif; ?>
                 <div class="reset"></div>
             </div> 
             <?php endif; ?>

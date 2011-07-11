@@ -698,6 +698,35 @@
                                 
                             </td>
                         </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Google +1 Buttom' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_google_plus1', 'class="inputbox"', $this->row->get('display_google_plus1', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Google +1 Buttom Size' ); ?>
+                            </th>
+                            <td>
+                                <?php 
+                                	$google_sizes = array();
+													        $google_sizes[] = JHTML::_('select.option',  'small', JText::_( "Small" ) );
+													        $google_sizes[] = JHTML::_('select.option',  '', JText::_( "Standard" ) );
+													        $google_sizes[] = JHTML::_('select.option',  'medium', JText::_( "Medium" ) );
+													        $google_sizes[] = JHTML::_('select.option',  'tall', JText::_( "Tall" ) );
+                                	echo JHTML::_( 'select.genericlist', $google_sizes, 'display_google_plus1_size', array('class' => 'inputbox', 'size' => '1'), 'value', 'text', $this->row->get('display_google_plus1_size', 'medium') );
+                                ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display "Ask a question about this product"' ); ?>

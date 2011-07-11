@@ -513,8 +513,16 @@ div.product_facebook_like {
 	float: left;
 }
 
+div.product_share_buttons{
+	float : right;
+}
+
 div.product_tweet {
-    float: right;
+	float : left;
+}
+
+div.product_google_plus1{
+	float : left;
 }
 
 div.product_like {
