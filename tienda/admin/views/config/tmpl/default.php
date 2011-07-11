@@ -716,10 +716,10 @@
                             <td>
                                 <?php 
                                 	$google_sizes = array();
-													        $google_sizes[] = JHTML::_('select.option',  'small', JText::_( "Small" ) );
-													        $google_sizes[] = JHTML::_('select.option',  '', JText::_( "Standard" ) );
-													        $google_sizes[] = JHTML::_('select.option',  'medium', JText::_( "Medium" ) );
-													        $google_sizes[] = JHTML::_('select.option',  'tall', JText::_( "Tall" ) );
+													        $google_sizes[] = JHTML::_('select.option',  'small', JText::_( "GOOGLE Small" ) );
+													        $google_sizes[] = JHTML::_('select.option',  '', JText::_( "GOOGLE Standard" ) );
+													        $google_sizes[] = JHTML::_('select.option',  'medium', JText::_( "GOOGLE Medium" ) );
+													        $google_sizes[] = JHTML::_('select.option',  'tall', JText::_( "GOOGLE Tall" ) );
                                 	echo JHTML::_( 'select.genericlist', $google_sizes, 'display_google_plus1_size', array('class' => 'inputbox', 'size' => '1'), 'value', 'text', $this->row->get('display_google_plus1_size', 'medium') );
                                 ?>
                             </td>
