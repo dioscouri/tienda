@@ -23,7 +23,7 @@ $item = @$this->row;
         <?php endif; ?>
                   
         <div id='tienda_product_header'>
-            <?php if ( TiendaConfig::getInstance( )->get( 'display_facebook_like', '1' ) || TiendaConfig::getInstance( )->get( 'display_tweet', '1' ) ) : ?>       
+            <?php if ( TiendaConfig::getInstance( )->get( 'display_facebook_like', '1' ) || TiendaConfig::getInstance( )->get( 'display_tweet', '1' ) || TiendaConfig::getInstance( )->get( 'display_google_plus1', '1' ) ) : ?>       
             <div class="product_like">
                 <?php if ( TiendaConfig::getInstance( )->get( 'display_facebook_like', '1' ) ) : ?>
                 <div class="product_facebook_like">
