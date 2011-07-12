@@ -597,14 +597,17 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$orderItem->orderitem_attributes_price      = $cartitem->orderitem_attributes_price;
 				$orderItem->orderitem_final_price           = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
 				$orderItem->orderitem_recurs                = $productItem->product_recurs;
-				$orderItem->recurring_price                 = $productItem->recurring_price;
-				$orderItem->recurring_payments              = $productItem->recurring_payments;
-				$orderItem->recurring_period_interval       = $productItem->recurring_period_interval;
-				$orderItem->recurring_period_unit           = $productItem->recurring_period_unit;
-				$orderItem->recurring_trial                 = $productItem->recurring_trial;
-				$orderItem->recurring_trial_period_interval = $productItem->recurring_trial_period_interval;
-				$orderItem->recurring_trial_period_unit     = $productItem->recurring_trial_period_unit;
-				$orderItem->recurring_trial_price           = $productItem->recurring_trial_price;
+				if( $productItem->product_recurs )
+				{
+					$orderItem->recurring_price                 = $productItem->recurring_price;
+					$orderItem->recurring_payments              = $productItem->recurring_payments;
+					$orderItem->recurring_period_interval       = $productItem->recurring_period_interval;
+					$orderItem->recurring_period_unit           = $productItem->recurring_period_unit;
+					$orderItem->recurring_trial                 = $productItem->recurring_trial;
+					$orderItem->recurring_trial_period_interval = $productItem->recurring_trial_period_interval;
+					$orderItem->recurring_trial_period_unit     = $productItem->recurring_trial_period_unit;
+					$orderItem->recurring_trial_price           = $productItem->recurring_trial_price;	
+				}
 				
 				
 				$dispatcher =& JDispatcher::getInstance();
