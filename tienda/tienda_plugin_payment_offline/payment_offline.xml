@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Offline Payments</name>
-	<version>0.7.2</version>
-	<creationDate>August 2010</creationDate>
+	<version>0.7.3</version>
+	<creationDate>July 2011</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>
-	<copyright>2010 Dioscouri.com</copyright>
+	<copyright>2011 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>This plugin enables offline payments</description>
 	

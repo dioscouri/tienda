@@ -886,7 +886,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </table>
             </fieldset>
             
-            <fieldset>
+<!--        <fieldset>
             <legend><?php echo JText::_( "Subscription with pro-rated Charges" ); ?></legend>
             <div class="note"><?php echo JText::_( "Subscription with pro-rated Charges NOTE" ); ?></div>
             <table class="admintable" style="width: 100%;">
@@ -929,6 +929,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
             </table>
             </fieldset>
+-->
         </div>
     
         <div style="clear: both;"></div>
@@ -1405,5 +1406,5 @@ function showProRatedFields()
 	}
 }
 
-showProRatedFields();
+//showProRatedFields();
 </script>
