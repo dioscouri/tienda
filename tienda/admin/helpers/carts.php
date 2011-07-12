@@ -591,7 +591,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$orderItem->orderitem_sku                   = $cartitem->product_sku;
 				$orderItem->orderitem_name                  = $productItem->product_name;
 				$orderItem->orderitem_quantity              = $cartitem->product_qty;
-				$orderItem->orderitem_price                 = $productItem->product_price;
+				$orderItem->orderitem_price                 = $cartitem->product_price - $cartitem->orderitem_attributes_price;
 				$orderItem->orderitem_attributes            = $cartitem->product_attributes;
 				$orderItem->orderitem_attribute_names       = $cartitem->attributes_names;
 				$orderItem->orderitem_attributes_price      = $cartitem->orderitem_attributes_price;
