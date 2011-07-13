@@ -60,6 +60,6 @@
 			<?php	echo JText::_('NO ITEMS FOUND');?>
 			</td>
 		</tr>
-		<?phpendif;?>
+		<?php endif;?>
 	</tbody>
 </table>
