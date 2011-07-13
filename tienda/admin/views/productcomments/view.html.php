@@ -69,8 +69,8 @@ class TiendaViewProductComments extends TiendaViewBase
 			$this->assign('resetArticle_product', $resetArticle_product);
 			$userModel 	= JModel::getInstance( 'ElementUser', 'TiendaModel' );
          	// terms
-			$elementUser_product 		= $userModel->_fetchElement( 'user_id',@$item->user_id ) ;
-			$resetUser_product		= $userModel->_clearElement( 'user_id','0' );
+			$elementUser_product 		= $userModel->fetchElement( 'user_id',@$item->user_id ) ;
+			$resetUser_product		= $userModel->clearElement( 'user_id','0' );
 			$this->assign('elementUser_product',$elementUser_product);
 			$this->assign('resetUser_product', $resetUser_product);
 			
