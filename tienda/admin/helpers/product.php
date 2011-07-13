@@ -44,7 +44,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		// set the default exclusions array
 		$exclusions = array(
 				'default.php', 'product_buy.php', 'product_children.php', 'product_comments.php', 'product_files.php', 'product_relations.php',
-				'product_requirements.php', 'product_reviews.php', 'quickadd.php', 'search.php', 'view.php',
+				'product_requirements.php', 'product_reviews.php', 'quickadd.php', 'search.php', 'view.php', 'form_askquestion.php', 'product_share_buttons.php'
 		);
 		// TODO merge $exclusions with $options['exclude']
 		
@@ -2275,6 +2275,36 @@ class TiendaHelperProduct extends TiendaHelperBase
 				) );
 		$view->assign( 'onDisplayProductAttributeOptions', ob_get_contents( ) );
 		ob_end_clean( );
+		
+		ob_start( );
+		$view->display( );
+		$html = ob_get_contents( );
+		ob_end_clean( );
+		
+		return $html;
+	}
+
+	/**
+	 * Get the share buttons for a specific product
+	 * 
+	 * @param int $product_id 	The id of the product
+	 * @return html	The add to product detail view
+	 */
+	public static function getProductShareButtons( $product_id, $layout = 'product_share_buttons' )
+	{
+		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
+		
+		$view = new TiendaViewProducts( );
+		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+		$model->setId( $product_id );
+		$row = $model->getItem( false );		
+		$view->assign( 'item', $row );
+		$view->set( '_view', 'products' );
+		$view->set( '_doTask', true );
+		$view->set( 'hidemenu', true );
+		$view->setModel( $model, true );
+		$view->setLayout( $layout );
+		$view->assign( 'product_id', $product_id );
 		
 		ob_start( );
 		$view->display( );
