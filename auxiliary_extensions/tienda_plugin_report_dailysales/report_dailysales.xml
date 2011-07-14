@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Report - Sales</name>
+	<name>Report - Dailysales</name>
 	<version>0.7.3</version>
 	<creationDate>July 2011</creationDate>
 	<author>Dioscouri</author>
@@ -11,7 +11,7 @@
 	<description>This reports on sales during the selected date range</description>
 	
 	<files>
-		<filename plugin="report_sales">report_dailysales.php</filename>
+		<filename plugin="report_dailysales">report_dailysales.php</filename>
 		<folder>report_dailysales</folder>	
 	</files>
 
