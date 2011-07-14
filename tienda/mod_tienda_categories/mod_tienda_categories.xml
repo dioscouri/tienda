@@ -29,5 +29,6 @@
 		</param> -->
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
         <param name="itemid" type="text" default="" label="Itemid for Products Page" description="Itemid for Products Page" />
+		<param name="depthlevel" type="text" default="3" label="Depth levels to show categories " description="Depth levels to show categories " />
     </params>
 </install>

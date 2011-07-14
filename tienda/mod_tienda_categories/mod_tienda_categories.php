@@ -24,5 +24,6 @@ $lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
 // grab the items
 $helper = new modTiendaCategoriesHelper( $params ); 
 $items = $helper->getItems();
+$depthlevel = $params->get( 'depthlevel', '2' );
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_categories' ) );
