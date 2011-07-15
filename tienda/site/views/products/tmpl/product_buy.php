@@ -122,7 +122,8 @@ $formName = 'adminForm_'.$item->product_id;
             }
         endif; 
         ?>
-    </div>
+    </div>    
+    <?php endif; ?>
     
     <?php if (!empty($item->product_recurs)) : ?> 
         <div id='product_recurs_<?php echo $item->product_id; ?>' class="product_recurs"> 
@@ -158,8 +159,6 @@ $formName = 'adminForm_'.$item->product_id;
         <div id='out_of_stock_<?php echo $item->product_id; ?>' class="out_of_stock"> 
           <?php echo JText::_("OUT_OF_STOCK"); ?> 
         </div>
-    <?php endif; ?>
-    
     <?php endif; ?>
     
     </form>
