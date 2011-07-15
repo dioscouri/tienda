@@ -824,7 +824,7 @@
                                 <?php echo JText::_( 'Default Tax Geozone' ); ?>
                             </th>
                             <td>
-                                <?php echo TiendaSelect::geozone( $this->row->get('default_tax_geozone'), 'default_tax_geozone' ); ?>
+                                <?php echo TiendaSelect::geozone( $this->row->get('default_tax_geozone'), 'default_tax_geozone', 1 ); ?>
                             </td>
                             <td>
                                 <?php echo JText::_( 'Default Tax Geozone Desc' ); ?>            

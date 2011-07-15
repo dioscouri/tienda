@@ -30,7 +30,7 @@
         <tbody>
             <tr>
                 <td style="text-align: center;">
-                    <?php echo TiendaSelect::geozone( '', 'geozone_id' ); ?>
+                    <?php echo TiendaSelect::geozone( '', 'geozone_id', 1 ); ?>
                 </td>
                 <td style="text-align: center;">
                     <input id="tax_rate_description" name="tax_rate_description" value="" />

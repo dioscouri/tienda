@@ -335,12 +335,13 @@ class TiendaSelect extends JHTMLSelect
 	 *
 	 * @param $selected
 	 * @param $name
+	 * @param $type
 	 * @param $attribs
 	 * @param $idtag
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function geozone($selected, $name = 'filter_geozoneid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function geozone($selected, $name = 'filter_geozoneid', $type = '', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
  	{
  		// TODO Make these static?
  		
@@ -353,6 +354,7 @@ class TiendaSelect extends JHTMLSelect
 		$model = JModel::getInstance( 'Geozones', 'TiendaModel' );
 		$model->setState( 'order', 'geozone_name' );
 		$model->setState( 'direction', 'ASC' );
+		$model->setState( 'filter_geozonetype', $type );
 		$items = $model->getList();
         foreach (@$items as $item)
         {

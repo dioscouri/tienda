@@ -38,7 +38,7 @@
             			<?php echo JText::_( "Complete this form to add a new rate" ); ?>:
                 	</td>
             		<td>
-                		<?php echo TiendaSelect::geozone("", "geozone_id"); ?>
+                		<?php echo TiendaSelect::geozone("", "geozone_id", 2); ?>
                 		<input type="hidden" name="shipping_method_id" value="<?php echo $row->shipping_method_id; ?>" />
             		</td>
             		<td>
@@ -92,7 +92,7 @@
 					<?php echo TiendaGrid::checkedout( $item, $i, 'shipping_rate_id' ); ?>
 				</td>
                 <td style="text-align: center;">
-                    <?php echo TiendaSelect::geozone($item->geozone_id, "geozone[{$item->shipping_rate_id}]"); ?>
+                    <?php echo TiendaSelect::geozone($item->geozone_id, "geozone[{$item->shipping_rate_id}]", 2); ?>
                 </td>				
 				<td style="text-align: center;">
 					<input type="text" name="price[<?php echo $item->shipping_rate_id; ?>]" value="<?php echo $item->shipping_rate_price; ?>" />
