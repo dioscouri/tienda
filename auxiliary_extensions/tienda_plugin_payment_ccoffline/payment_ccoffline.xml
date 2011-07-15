@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Offline Credit Card Payments</name>
+	<version>0.7.3</version>
+	<creationDate>July 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>TIENDA CC OFFLINE PAYMENT DESC</description>
+	
+	<files>
+		<filename plugin="payment_ccoffline">payment_ccoffline.php</filename>
+		<folder>payment_ccoffline</folder>	
+	</files>
+
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_payment_ccoffline.ini</language>
+	</languages>
+
+	<params>
+		<param name="cc_list" type="text" size="100" default="Visa, Mastercard, American Express, Discover, Diners Club, JCB" label="CC LIST LABEL" description="CC LIST DESC"/>
+		<param name="remove_quantities" type="list" default="0" label="REMOVE ORDER QUANTITIES" description="REMOVE ORDER QUANTITIES DESC">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+	</params>
+			
+</install>
