@@ -139,7 +139,7 @@ class plgSearchTienda extends JPlugin
             $item->created      = $item->created_date;
             $item->section      = JText::_( $this->params->get('title', "Tienda") );
             $item->text         = substr( $item->product_description, 0, 250);
-            $item->browsernav   = "1";                
+            $item->browsernav   = $this->params->get('link_behaviour', "1");                
         }
 
         return $items;

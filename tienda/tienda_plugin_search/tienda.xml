@@ -24,5 +24,9 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="link_behaviour" type="radio" default="1" label="Link Behaviour" description="Link Behaviour Desc">
+			<option value="0">Open in the Same Tab</option>
+			<option value="1">Open in a New Tab</option>
+		</param>
 	</params>
 </install>
