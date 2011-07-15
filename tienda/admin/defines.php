@@ -492,6 +492,10 @@ class TiendaConfig extends JObject
     var $display_tweet_message				= 'Check this out!';
     var $display_google_plus1						= '1';
     var $display_google_plus1_size				= 'medium';
+    var $display_bookmark_uri        = '0';
+    var $bitly_key 								= '';
+    var $bitly_login 						= '';
+    
     //Ask a question about this product
     var $ask_question_enable				= '1';
     var $ask_question_showcaptcha			= '1';

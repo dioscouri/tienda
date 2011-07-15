@@ -2283,4 +2283,38 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		return $html;
 	}
+
+	public static function getSocialBookMarkUri( $uri = null )
+	{
+		if( $uri === null )
+			$uri = JFactory::getUri()->toString();
+
+		static $cached_uri = array();
+		$type = TiendaConfig::getInstance()->get( 'display_bookmark_uri', 0 );
+		
+		switch( $type )
+		{
+			case 0 : // Long URI
+				{
+					return $uri;
+				}
+			case 1 : // Bit.ly
+				{
+					if( !isset( $cached_uri[$type][$uri] ) )
+					{
+						$key = TiendaConfig::getInstance()->get( 'bitly_key', '' );
+						$logn = TiendaConfig::getInstance()->get( 'bitly_login', '' );
+						$link = 'http://api.bit.ly/v3/shorten?apiKey='.$key.'&login='.$login.'&longURL='.urlencode($uri);
+				  	$c = curl_init();
+				  	curl_setopt( $c, CURLOPT_RETURNTRANSFER, 1 );
+				  	curl_setopt( $c, CURLOPT_URL, $link );
+				  	$request = curl_exec( $c );
+				  	curl_close( $c );
+				  	$uri_short = json_decode( $request )->data->url;
+						$cached_uri[$type][$uri] = $uri_short;
+					}
+					return $cached_uri[$type][$uri];
+				}
+		}
+	}
 }

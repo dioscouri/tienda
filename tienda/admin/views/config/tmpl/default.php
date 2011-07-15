@@ -727,6 +727,44 @@
                                 
                             </td>
                         </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Use URI For Social Bookmark Integration' ); ?>
+                            </th>
+                            <td>
+                                <?php 
+                                	$social_uri_types = array();
+													        $social_uri_types[] = JHTML::_('select.option',  0, JText::_( "Long URI" ) );
+													        $social_uri_types[] = JHTML::_('select.option',  1, JText::_( "Bit.ly" ) );
+                                	echo JHTML::_( 'select.genericlist', $social_uri_types, 'display_bookmark_uri', array('class' => 'inputbox', 'size' => '1'), 'value', 'text', $this->row->get('display_bookmark_uri', 0) );
+                                ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'BitLy Login' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="bitly_login" value="<?php echo $this->row->get('bitly_login', ''); ?>" class="inputbox" size="35" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'BitLy Key' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="bitly_key" value="<?php echo $this->row->get('bitly_key', ''); ?>" class="inputbox" size="35" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display "Ask a question about this product"' ); ?>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="product_share_buttons">
 	<?php if ( TiendaConfig::getInstance( )->get( 'display_tweet', '1' ) ) : ?>
 		<div class="product_tweet">
-			<a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance( )->get( 'display_tweet_message', 'Check this out!' ); ?>" data-count="horizontal">Tweet</a>
+			<a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo TiendaConfig::getInstance( )->get( 'display_tweet_message', 'Check this out!' ).' '.TiendaHelperProduct::getSocialBookMarkUri(); ?>" data-count="horizontal">Tweet</a>
 			<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 		</div>
 	<?php endif; ?>
