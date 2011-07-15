@@ -573,13 +573,20 @@
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_redshopmigration/languages" />
         </copy>
-    	 <!-- CSV IMPORTER -->
+    	<!-- CSV IMPORTER -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_csvimporter" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_csvimporter/languages" />
         </copy>
+    	<!-- XML IMPORTER -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    		<fileset dir="${cfg.pluginToolDir}_xmlimporter" />
+    	</copy>
+    	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+    		<fileset dir="${cfg.pluginToolDir}_xmlimporter/languages" />
+    	</copy>
         <!-- USER PLUGINS -->
         <copy todir="${destdir}/plugins/user" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_user" />
