@@ -39,11 +39,16 @@ class TiendaHelperEmail extends TiendaHelperBase
 
         // grab config settings for sender name and email
         $config     = &TiendaConfig::getInstance();
-        $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
-        $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
+        $mailfrom   = $config->get( 'shop_email', '' );
+        if( !strlen( $mailfrom ) )
+        	$mailfrom = $mainframe->getCfg('mailfrom');
+        	
+        $fromname   = $config->get( 'shop_email_from_name', '' );
+        if( !strlen( $fromname ) )
+        	$fromname = $mainframe->getCfg('fromname');
+        
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
-        
         switch( $type )
         {
         	case 'subscription_expiring':
@@ -399,7 +404,6 @@ class TiendaHelperEmail extends TiendaHelperBase
             
         $sender = array( $from, $fromname );
         $mailer->setSender($sender);
-            
         $sent = $mailer->send();
         if ($sent == '1') 
         {

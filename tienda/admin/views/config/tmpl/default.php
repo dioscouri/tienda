@@ -1258,6 +1258,28 @@
                     
 					<table class="adminlist">
 					<tbody>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Shop Email Address' ); ?><br />
+                            </th>
+                            <td>
+                                <input type="text" name="shop_email" value="<?php echo $this->row->get('shop_email', ''); ?>" class="inputbox" size="35" />
+                            </td>
+                            <td>
+															<?php echo JText::_( 'Shop Email Address Desc' ); ?>                                
+                            </td>
+                        </tr>
+                         <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Shop Email From Name' ); ?><br />
+                            </th>
+                            <td>
+                                <input type="text" name="shop_email_from_name" value="<?php echo $this->row->get('shop_email_from_name', ''); ?>" class="inputbox" size="35" />
+                            </td>
+                            <td>
+															<?php echo JText::_( 'Shop Email From Name Desc' ); ?>                                
+                            </td>
+                        </tr>
 						<tr>
 			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Disable Guest Signup Email' ); ?>

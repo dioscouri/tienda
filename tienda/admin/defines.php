@@ -461,12 +461,10 @@ class TiendaConfig extends JObject
     var $default_user_group			 	    = '1';
     var $subcategories_per_line				= '5';
     var $custom_language_file				= '0';
-    var $disable_guest_signup_email         = '0';
     var $currency_preval				    = '$';
 	var $currency_postval				    = 'USD';
 	var $display_period					    = '1';
 	var $article_checkout                   = '';
-	var $autonotify_onSetOrderPaymentReceived = '0';
     var $display_category_cartbuttons       = '1';
     var $display_product_cartbuttons       = '1';
     var $product_reviews_autoapprove        = '0';
@@ -531,13 +529,19 @@ class TiendaConfig extends JObject
     
     var $sha1_images						= '0';
     var $files_maxsize						= '3000';
-    
+
+    // email settings
+    var $disable_guest_signup_email         = '0';
+		var $obfuscate_guest_email				= '0';
+		var $autonotify_onSetOrderPaymentReceived = '0';
+		var $shop_email = '';
+		var $shop_email_from_name = '';
+		
     //one page checkout
     var $one_page_checkout					= '0';
     
     //since 0.7.2
     var $ignored_countries					= '83, 188, 190';
-	var $obfuscate_guest_email				= '0';
 	
 	//compare products
     var $enable_product_compare 			= '1';
