@@ -90,7 +90,7 @@ class TiendaCSV extends JObject
 		$offset_original = $offset = $params->getValue( 'offset', 0 );
 		$begin_import = $params->getValue( 'begin_import', true );
 		$chunk = $params->getValue( 'chunk_size', 4096 );
-		
+	
 		$recs = 0; // number of read recs
 		$result = array(); // array with results
 		$offset_act = 0; // relative offset in the file
@@ -228,8 +228,10 @@ class TiendaCSV extends JObject
 			if( $clear_fields ) // clear fields -> this is a slow solution, but it's coded fast
 			{
 				for( $i = 0, $c = count( $result ) ; $i < $c; $i++ )
+				{					
 					$result[$i] = TiendaCSV::processFieldsToArray( $fields, $result[$i], true, $preserve_indexes );
-			}
+				}
+			}			
 			return array( $result, $offset_original + $offset_act );
 		}
 
@@ -407,7 +409,7 @@ class TiendaCSV extends JObject
 			$c = count( $data );
 			$process_all = true;// we want to process all fields
 		}
-		
+	
 		if( $process_all )
 		{
 			if( $clear_fields ) // clean out all fields
@@ -415,10 +417,12 @@ class TiendaCSV extends JObject
 				for($i = 0; $i < $c; $i++)
 				{
 					// cut off double quotation marks if there are any
-					if( isset( $data[$i] ) && strlen( $data[$i ]) && ( $data[$i][0]	 == '"' ) )
+					//if( isset( $data[$i] ) && strlen( $data[$i ]) && ( $data[$i][0]	 == '"' ) )
+					if( isset( $data[$i] ) && strlen( $data[$i]))					
 					{
-						$row[$i] = substr( $data[$i], 1, strlen( $data[$i] )-2 );
-						$row[$i] = str_replace( '""', '"', $row[$i] ); // replace double double-quotes with only one double-quote
+						//$row[$i] = substr( $data[$i], 1, strlen( $data[$i] )-2 );// what is this for?						
+						//$row[$i] = str_replace( '""', '"', $row[$i] ); // replace double double-quotes with only one double-quote
+						$row[$i] = str_replace( '""', '"', $data[$i] ); // replace double double-quotes with only one double-quote
 					}
 					else // otherwise the value is float/integer
 					{
@@ -434,7 +438,9 @@ class TiendaCSV extends JObject
 				}
 			}
 			else // process all and we doesnt want to clear fields => return unchanged array
+			{				
 				return $data;
+			}	
 		}
 		else // we process only part of the array
 		{

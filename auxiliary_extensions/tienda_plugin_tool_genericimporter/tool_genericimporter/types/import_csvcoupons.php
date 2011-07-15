@@ -64,9 +64,7 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 	 * @return Additional HTML code you would like to display on the final step
 	 */
 	function migrate_data() {
-		$datas = $this->data;
-
-		//debug(23444,$this->data);
+		$datas = $this->data;		
 		$result = '';
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
@@ -74,17 +72,27 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 
 		$i = 0;
 		foreach($datas as $data) {
-
 			$fields = $this->mapFields($data);
 
-			$coupon->coupon_id = '';
-			$coupon->coupon_name = $fields['coupon_name'];
-			$coupon->coupon_code = $fields['coupon_code'];
-			$coupon->coupon_value = $fields['coupon_value'];
-			$coupon->coupon_value_type = $fields['coupon_value_type'];
-			$coupon->start_date = $fields['start_date'];
-			$coupon->coupon_max_uses = $fields['coupon_max_uses'];
-			$coupon->coupon_max_uses_per_user = $fields['coupon_max_uses_per_user'];
+			$coupon->coupon_id 					= '';
+			$coupon->coupon_name 				= $fields['coupon_name'];
+			$coupon->coupon_code 				= $fields['coupon_code'];
+			$coupon->coupon_value 				= $fields['coupon_value'];
+			$coupon->coupon_type 				= $fields['coupon_type'];
+			$coupon->coupon_group 				= $fields['coupon_group'];
+			$coupon->coupon_automatic 			= $fields['coupon_automatic'];
+			$coupon->coupon_value_type 			= $fields['coupon_value_type'];
+			$coupon->currency_id 				= $fields['currency_id'];
+			$coupon->coupon_description 		= $fields['coupon_description'];
+			$coupon->coupon_params 				= $fields['coupon_params'];
+			$coupon->created_date 				= $fields['created_date'];
+			$coupon->modified_date 				= $fields['modified_date'];
+			$coupon->expiration_date 			= $fields['expiration_date'];			
+			$coupon->start_date 				= $fields['start_date'];
+			$coupon->coupon_enabled 			= $fields['coupon_enabled'];
+			$coupon->coupon_uses 				= $fields['coupon_uses'];			
+			$coupon->coupon_max_uses 			= $fields['coupon_max_uses'];
+			$coupon->coupon_max_uses_per_user 	= $fields['coupon_max_uses_per_user'];
 			$coupon->save();
 
 			$result = new stdClass();
@@ -101,7 +109,7 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 	function mapFields($datas) {
 		$mapped = array();
 		$i = 0;
-		foreach($this->keys as $key) {
+		foreach($this->keys as $key) {			
 			$mapped[$key] = @$datas[$i];
 			$i++;
 		}
