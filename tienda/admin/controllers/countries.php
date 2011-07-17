@@ -36,8 +36,9 @@ class TiendaControllerCountries extends TiendaController
         $app = JFactory::getApplication();
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
-
-        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.country_name', 'cmd');
+        
+        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.ordering', 'cmd');
+		$state['direction'] = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
         $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');

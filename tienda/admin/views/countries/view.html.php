@@ -51,4 +51,13 @@ class TiendaViewCountries extends TiendaViewBase
         JToolBarHelper::divider();
         parent::_defaultToolbar();
     }
+    
+	function _default($tpl=null)
+	{		
+		$model = $this->getModel();
+		$model->setState( 'order', 'tbl.ordering' );
+		$model->setState( 'direction', 'ASC' );		
+		
+		parent::_default($tpl);
+	}
 }
