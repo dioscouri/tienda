@@ -195,7 +195,26 @@
 		</div>		
 	</fieldset>  
 	
-	<div class="reset"></div>
+	<div class="reset marginbot"></div>	
+	<fieldset class="tienda-expanded" id="shipping_terms-pane">
+		 <?php 
+	    	if( TiendaConfig::getInstance()->get('require_terms', '1') )
+	    	{
+	    		$terms_article = TiendaConfig::getInstance()->get('article_terms');
+	    		$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
+	    		?>
+				
+        	 	
+            	<legend class="tienda-collapse-processed"><?php echo JText::_("Terms & Conditions"); ?></legend>
+				<div id="shipping_terms" >
+					<br/>
+					<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
+         			<br/>
+            	</div>
+				
+        <?php } ?>
+		</fieldset>
+		
 	
 </div>  
 

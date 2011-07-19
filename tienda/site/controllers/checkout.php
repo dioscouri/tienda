@@ -2576,6 +2576,16 @@ class TiendaControllerCheckout extends TiendaController
 			echo ( json_encode( $response ) );
 			return;
 		}
+		// fail if not checked terms & condition
+		if( TiendaConfig::getInstance()->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
+		{
+			$response['msg'] = $helper->generateMessage(JText::_('Please Check the Terms & Conditions'));
+			$response['error'] = '1';
+			echo ( json_encode( $response ) );
+			return;
+		}
+		
+
 		
 		//override the payment plugin with the check value
 		$submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
@@ -2702,6 +2712,8 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		// encode and echo (need to echo to send back to browser)
 		echo ( json_encode($response) );
+		
+	
 
 		return;
 	}
