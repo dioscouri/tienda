@@ -132,7 +132,9 @@
                     </a>
                 </td>
 				<td style="text-align: left;">
+					<a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id; ?>">
 					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
+					</a>
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
 					<br/>
 					<b><?php echo JText::_( "Ship to" ); ?></b>:
