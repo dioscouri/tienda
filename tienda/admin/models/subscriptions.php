@@ -207,4 +207,41 @@ class TiendaModelSubscriptions extends TiendaModelBase
         
         return $item;
     }
+
+	/*
+	 * Gets list of all subscriptions by issue x-days before expiring
+	 *
+	 * @$days Number of days before expiring (0 stands for expired now)
+	 *
+	 * @return List of subscriptions by issue
+	 */
+	public function getListByIssues( $days = 0 )
+	{
+		$db = $this->getDBO();
+		$date = JFactory::getDate();
+		$today = $date->toFormat( "%Y-%m-%d" );
+		
+		Tienda::load( 'TiendaQuery', 'library.query' );
+		$q = new TiendaQuery();
+		$q->select( 's.*' );
+		$q->from( '`#__tienda_productissues` tbl' );
+		$q->join( 'left', '`#__tienda_subscriptions` s ON s.`product_id` = tbl.`product_id`' );
+		$q->join( 'left', '`#__tienda_orderitems` oi ON s.`orderitem_id` = oi.`orderitem_id`' );
+		$q->where( 's.`subscription_enabled` = 1' );
+		$q->where( 'oi.`subscription_period_unit` = \'I\'' );
+		
+		if( $days ) // x-days before expiring
+		{
+			$query = " SELECT DATE_ADD('".$today."', INTERVAL '.$days.' DAY) ";
+			$db->setQuery( $query );
+			$date = $db->loadResult();
+		}
+		else // just expired
+		{
+			$date = $today;
+		}
+		$q->where( 'tbl.`publishing_date` = \''.$date.'\'' );
+		$db->setQuery( (string)$q );
+		return $db->loadObjectList();
+	}
 }

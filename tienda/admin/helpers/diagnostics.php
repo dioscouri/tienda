@@ -390,6 +390,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkProRatedSubscriptionOrderitems FAILED') .' :: '. $this->getError(), 'error' );
 		}
+		
+		if (!$this->checkSubscriptionByIssue() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionByIssue FAILED') .' :: '. $this->getError(), 'error' );
+		}
 	}
 
 	/**
@@ -3019,6 +3024,39 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProRatedSubscriptionOrderitems') );
 			$config->config_name = 'checkProRatedSubscriptionOrderitems';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in Subscriptions table) for subscription by issue
+	 * @version 0.7.3
+	 * @return unknown_type
+	 */
+	function checkSubscriptionByIssue()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSubscriptionByIssue', '0')) return true;
+		 
+		$table = '#__tienda_subscriptions';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "subscription_issue_end_id";
+
+		$definitions["subscription_issue_end_id"] = "INT NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkSubscriptionByIssue') );
+			$config->config_name = 'checkSubscriptionByIssue';
 			$config->value = '1';
 			$config->save();
 			return true;

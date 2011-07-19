@@ -2012,13 +2012,13 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 */
 	function load( $id, $reset = true, $load_eav = true )
 	{
-		if ( empty( $this->products[$id] ) )
+		if ( empty( $this->products[$id][$load_eav] ) )
 		{
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
-			$this->products[$id] = JTable::getInstance( 'Products', 'TiendaTable' );
-			$this->products[$id]->load( $id, $reset, $load_eav );
+			$this->products[$id][$load_eav] = JTable::getInstance( 'Products', 'TiendaTable' );
+			$this->products[$id][$load_eav]->load( $id, $reset, $load_eav );
 		}
-		return $this->products[$id];
+		return $this->products[$id][$load_eav];
 	}
 	
 	/**

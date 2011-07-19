@@ -457,6 +457,7 @@ class TiendaHelperOrder extends TiendaHelperBase
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
+        $model_issues = null;
         $order = $model->getItem();
         if ($order->orderitems)
         {
@@ -472,6 +473,15 @@ class TiendaHelperOrder extends TiendaHelperBase
                     if (!empty($subscription->subscription_id))
                     {
                         $subscription->subscription_enabled = '1';
+                        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+                        $product = TiendaHelperProduct::load( $subscription->product_id, true, false );
+                        
+                        if( $product->subscription_period_unit == 'I' ) // subscription by issue => calculate ID of the end issue (create the rest of them if they dont exist)
+                        {
+                        	if( $model_issues === null )
+	                        	$model_issues = JModel::getInstance( 'ProductIssues', 'TiendaModel' );
+													$subscription->subscription_issue_end_id = $model_issues->getEndIssueId( $subscription->product_id, $product->subscription_period_interval );
+                        }
                         if (!$subscription->save())
                         {
                             // track error

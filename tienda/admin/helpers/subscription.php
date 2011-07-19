@@ -100,11 +100,19 @@ class TiendaHelperSubscription extends TiendaHelperBase
         
         // select all subs that have expired but still have status = '1';
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );        
         $model->setState("filter_datetype", 'expires' );
         $model->setState("filter_date_to", $today );
         $model->setState("filter_enabled", '1' );
         if ($list = $model->getList())
+        {
+            foreach ($list as $item)
+            {
+                $this->setExpired( $item->subscription_id, $item );
+            }
+        }
+
+        if ($list = $model->getListByIssues() )
         {
             foreach ($list as $item)
             {
@@ -212,6 +220,17 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $model->setState("filter_date_to", $end_date );
         $model->setState("filter_enabled", '1' );
         if ($list = $model->getList())
+        {
+            Tienda::load( "TiendaHelperBase", 'helpers._base' );
+            $helper = TiendaHelperBase::getInstance('Email');
+            foreach ($list as $item)
+            {
+                // Send expiring email for $item
+                $helper->sendEmailNotices($item, 'subscription_expiring');
+            }
+        }
+        
+        if ($list = $model->getListByIssues( $subscriptions_expiring_notice_days ) )
         {
             Tienda::load( "TiendaHelperBase", 'helpers._base' );
             $helper = TiendaHelperBase::getInstance('Email');
@@ -393,5 +412,56 @@ class TiendaHelperSubscription extends TiendaHelperBase
 					$result['price'] = $original_trial_price;
 			}
 			return $result;
+		}
+
+		/*
+		 * Gets object of the margin (the closest or the last one) issue of a product to a specific date
+		 * 
+		 * @param $product_id
+		 * @param $direction 
+		 * @param $date In case of null, the current date is used
+		 * 
+		 * @return Object of the last issue
+		 */
+		static function getMarginalIssue( $product_id, $direction = 'ASC' , $date = null )
+		{
+			if($date === null )
+			{
+				$date = JFactory::getDate();
+				$date = $date->toFormat( "%Y-%m-%d" );
+			}
+			$db = JFactory::getDbo();
+			$q = 'SELECT tbl.* FROM `#__tienda_productissues` tbl WHERE tbl.`product_id`='.$product_id.' AND tbl.`publishing_date` >= \''.$date.'\' ORDER BY tbl.`publishing_date` '.$direction.' LIMIT 0,1 ';
+			$db->setQuery( $q );
+			return $db->loadObject();
+		}
+
+		/*
+		 * Gets number of issues within a date range
+		 * 
+		 * @param $product_id
+		 * @param $start_date In case of null, the current date is used
+		 * @param $end_date
+		 * 
+		 * @return Number of issues
+		 */
+		static function getNumberIssues( $product_id, $start_date = null , $end_date = null )
+		{
+			$db = JFactory::getDbo();
+			Tienda::load( 'TiendaQuery', 'library.query' );
+			$q = new TiendaQuery();
+			$q->select( 'count( tbl.`product_issue_id` ) ' );
+			$q->from( '`#__tienda_productissues` tbl' );
+			$q->where( 'tbl.`product_id`='.$product_id );
+			if( $start_date === null )
+				$q->where( 'tbl.`publishing_date` >= NOW()' );
+			else
+				$q->where( 'tbl.`publishing_date` >= \''.$start_date.'\'' );
+
+			if( $end_date === null )
+				$q->where( 'tbl.`publishing_date` >= \''.$start_date.'\'' );
+				
+			$db->setQuery( (string)$q );
+			return $db->loadResult();
 		}
 }

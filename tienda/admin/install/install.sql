@@ -5571,7 +5571,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcompare` (
 -- -----------------------------------------------------
 -- Table `#__tienda_productcouponxref`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__tienda_productcouponxref` (
+CREATE TABLE IF NOT EXISTS `#__tienda_productcouponxref` (
   `coupon_id` INT(11) NOT NULL DEFAULT '0' ,
   `product_id` INT(11) NOT NULL DEFAULT '0' ,
   INDEX `idx_product_coupon_xref_coupon_id` (`coupon_id` ASC) ,
@@ -5591,8 +5591,19 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcouponxref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
-
+-- -----------------------------------------------------
+-- Table `#__tienda_productissues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productissues` (
+	`product_issue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	`product_id` INT NOT NULL ,
+	`issue_num` VARCHAR( 10 ) NOT NULL ,
+	`volume_num` VARCHAR( 10 ) NOT NULL ,
+	`publishing_date` DATE NOT NULL ,
+	`created_date` DATETIME NOT NULL ,
+	`modified_date` DATETIME NOT NULL )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

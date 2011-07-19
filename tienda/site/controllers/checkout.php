@@ -2585,8 +2585,6 @@ class TiendaControllerCheckout extends TiendaController
 			return;
 		}
 		
-
-		
 		//override the payment plugin with the check value
 		$submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
 		
@@ -2712,8 +2710,6 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		// encode and echo (need to echo to send back to browser)
 		echo ( json_encode($response) );
-		
-	
 
 		return;
 	}
@@ -2893,6 +2889,11 @@ class TiendaControllerCheckout extends TiendaController
 							break;
 						case "W":
 							$period_unit = "WEEK";
+							break;
+						case "I":
+							// expiration date is not important (it's calculated on-the-fly) => create a seemingly lifetime subscription
+							$period_unit = 'YEAR';
+							$item->subscription_period_interval = '100'; // we dont need to know the interval (we will know the last ID)
 							break;
 						case "D":
 						default:

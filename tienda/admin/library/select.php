@@ -736,6 +736,7 @@ class TiendaSelect extends JHTMLSelect
         $list[] = JHTML::_('select.option',  'W', JText::_( "Week" ) );
         $list[] = JHTML::_('select.option',  'M', JText::_( "Month" ) );
         $list[] = JHTML::_('select.option',  'Y', JText::_( "Year" ) );
+        $list[] = JHTML::_('select.option',  'I', JText::_( "UNIT ISSUE" ) );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

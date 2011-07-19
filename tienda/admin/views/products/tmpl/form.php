@@ -747,7 +747,9 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
             </table>
             </fieldset>
-            
+        </div>
+        
+        <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_( "Product List Price" ); ?></legend>
             <table class="admintable">
@@ -771,6 +773,17 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </table>
             </fieldset>
         </div>
+    
+        <div style="clear: both;"></div>
+
+    <?php 
+    echo $tabs->endPanel();
+    
+    // Tab
+    echo $tabs->startPanel( JText::_( 'Subscriptions' ), "subscriptions"); 
+    ?>
+
+        <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
@@ -812,9 +825,87 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo TiendaSelect::periodUnit( @$row->subscription_period_unit, 'subscription_period_unit' ); ?>
                     </td>
                 </tr>          
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Issues List' ); ?>:
+                    </td>
+                    <td>
+		                <?php 
+		                if (empty($row->product_id)) 
+		                {
+                    // doing a new product, so display a note
+                    ?>
+                      <div class="note"><?php echo JText::_( "Click Apply to be able to add issues to the product" ); ?></div>
+                    <?php
+		                } 
+                    else
+		                {
+		                	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+		                	$next_issue = TiendaHelperSubscription::getMarginalIssue( $row->product_id );
+		                	$last_issue = TiendaHelperSubscription::getMarginalIssue( $row->product_id, 'DESC' );
+		                	$num_issues = TiendaHelperSubscription::getNumberIssues( $row->product_id );
+                    ?>
+                       [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setissues&id=".$row->product_id."&tmpl=component", JText::_( "Set Issues" ) ); ?>]<br />
+
+                       <?php 
+                       		if( isset( $next_issue ) )
+	                       		echo '<b>'.JText::_( 'Next Issue Published' ).':</b> '.JHTML::_('date', $next_issue->publishing_date, JText::_( 'DATE_FORMAT_LC4' ) ).'<br />'; 
+                       		if( isset( $last_issue ) )
+	                       		echo '<b>'.JText::_( 'Last Issue Published' ).':</b> '.JHTML::_('date', $last_issue->publishing_date, JText::_( 'DATE_FORMAT_LC4' ) ).'<br />'; 
+                       		echo '<b>'.JText::_( 'Issues Left' ).':</b> '.@$num_issues;?><br />
+                    <?php } ?>
+                    </td>
+                </tr>          
             </table>
             </fieldset>
-            
+                        
+<!--        <fieldset>
+            <legend><?php echo JText::_( "Subscription with pro-rated Charges" ); ?></legend>
+            <div class="note"><?php echo JText::_( "Subscription with pro-rated Charges NOTE" ); ?></div>
+            <table class="admintable" style="width: 100%;">
+            		<?php $onclick_prorated = 'showProRatedFields();'; ?>
+                <tr>
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Product Charges Pro-rated' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_("No"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_("Yes"); ?></label>
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Initial Charge' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_("Subscription Pro-rated charge Full"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_("Subscription Pro-rated charge Pro-rated"); ?></label>
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Date' ); ?>:<br />
+                        <?php echo JText::_( 'SUBSCRIPTION PRO-RATED DATE NOTE' );?>
+                    </td>
+                    <td>
+                        <input name="subscription_prorated_date" id="subscription_prorated_date" value="<?php echo @$row->subscription_prorated_date; ?>" size="8" maxlength="5" type="text" />
+                    </td>
+                </tr>
+                <tr class="prorated_related">
+                    <td style="width: 125px; text-align: right;" class="key">
+                        <?php echo JText::_( 'Subscription Pro-rated Term' ); ?>:
+                    </td>
+                    <td>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_("Day"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_("Month"); ?></label>
+                    </td>
+                </tr>
+            </table>
+            </fieldset>
+-->
+        </div>
+        
+        <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_( "Subscription with Recurring Charges" ); ?></legend>
             <table class="admintable" style="width: 100%;">
@@ -886,54 +977,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </table>
             </fieldset>
             
-<!--        <fieldset>
-            <legend><?php echo JText::_( "Subscription with pro-rated Charges" ); ?></legend>
-            <div class="note"><?php echo JText::_( "Subscription with pro-rated Charges NOTE" ); ?></div>
-            <table class="admintable" style="width: 100%;">
-            		<?php $onclick_prorated = 'showProRatedFields();'; ?>
-                <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Charges Pro-rated' ); ?>:
-                    </td>
-                    <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_("No"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_("Yes"); ?></label>
-                    </td>
-                </tr>
-                <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Initial Charge' ); ?>:
-                    </td>
-                    <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_("Subscription Pro-rated charge Full"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_("Subscription Pro-rated charge Pro-rated"); ?></label>
-                    </td>
-                </tr>
-                <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Date' ); ?>:<br />
-                        <?php echo JText::_( 'SUBSCRIPTION PRO-RATED DATE NOTE' );?>
-                    </td>
-                    <td>
-                        <input name="subscription_prorated_date" id="subscription_prorated_date" value="<?php echo @$row->subscription_prorated_date; ?>" size="8" maxlength="5" type="text" />
-                    </td>
-                </tr>
-                <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Term' ); ?>:
-                    </td>
-                    <td>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_("Day"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_("Month"); ?></label>
-                    </td>
-                </tr>
-            </table>
-            </fieldset>
--->
         </div>
     
         <div style="clear: both;"></div>
     
+
     <?php 
     echo $tabs->endPanel();
 

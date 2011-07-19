@@ -821,7 +821,6 @@ class TiendaControllerProducts extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-
 	/*
 	 * Creates a popup where prices can be edited & created
 	 */
@@ -939,6 +938,120 @@ class TiendaControllerProducts extends TiendaController
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setprices&id={$row->product_id}&tmpl=component";
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+	
+	/*
+	 * Creates a popup where issues can be edited & created
+	 */
+	function setissues()
+	{
+		$this->set('suffix', 'productissues');
+		$ns = $this->getNamespace();
+		$app = JFactory::getApplication();
+		
+		$app->setUserState( $ns.'.filter_order', $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.publishing_date', 'cmd') );
+		$app->setUserState( $ns.'.filter_direction', $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'DESC', 'word') );
+		$state = parent::_setModelState();
+		$model = $this->getModel( $this->get('suffix') );
+		foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
+		
+		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row->load( $model->getId() );
+		$model->setState('filter_product_id', $model->getId());
+		$view	= $this->getView( 'productissues', 'html' );
+		$view->set( '_controller', 'products' );
+		$view->set( '_view', 'products' );
+		$view->set( '_action', "index.php?option=com_tienda&view=products&task=setissues&id={$model->getId()}&tmpl=component" );
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'row', $row );
+		$view->setLayout( 'default' );
+		$view->display();
+	}
+
+	/**
+	 * Creates an issue and redirects
+	 *
+	 * @return unknown_type
+	 */
+	function createissue()
+	{
+		$this->set('suffix', 'productissues');
+		$model 	= $this->getModel( $this->get('suffix') );
+
+		$row = $model->getTable();
+		$row->product_id = JRequest::getVar( 'id' );
+		$row->issue_num = JRequest::getVar( 'issue_num' );
+		$row->volume_num = JRequest::getVar( 'volume_num' );
+		$row->publishing_date = JRequest::getVar( 'publishing_date'  );
+		
+		if ( $row->save() )
+		{
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+		}
+		else
+		{
+			$this->messagetype 	= 'notice';
+			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+		}
+
+		$redirect = "index.php?option=com_tienda&view=products&task=setissues&id={$row->product_id}&tmpl=component";
+		$redirect = JRoute::_( $redirect, false );
+
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	}
+
+	/**
+	 * Saves the properties for all issues in list
+	 *
+	 * @return unknown_type
+	 */
+	function saveissues()
+	{
+		$error = false;
+		$this->messagetype	= '';
+		$this->message 		= '';
+
+		$model = $this->getModel('productissues');
+		$row = $model->getTable();
+
+		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
+		$issues_num = JRequest::getVar( 'issues_num', array(0), 'request', 'array' );
+		$volumes_num = JRequest::getVar( 'volumes_num', array(0), 'request', 'array' );
+		$publishing_dates = JRequest::getVar( 'publishing_dates', array(0), 'request', 'array' );
+				
+		foreach (@$cids as $cid)
+		{
+			$row->load( $cid );
+			$row->issue_num = $issues_num[$cid];
+			$row->volume_num = $volumes_num[$cid];
+			$row->publishing_date = $publishing_dates[$cid];
+
+			if (!$row->save())
+			{
+				$this->message .= $row->getError();
+				$this->messagetype = 'notice';
+				$error = true;
+			}
+		}
+
+		if ($error)
+		{
+			$this->message = JText::_('Error') . " - " . $this->message;
+		}
+		else
+		{
+			$this->message = "";
+		}
+
+		$redirect = "index.php?option=com_tienda&view=products&task=setissues&id={$row->product_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
