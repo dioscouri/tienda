@@ -267,7 +267,8 @@ class TiendaHelperEmail extends TiendaHelperBase
                 $user = JUser::getInstance($data->user_id);
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
-                
+                $link = "<a href='{$link}'>" . $link . "</a>";
+                                
                 if ( count($data->history) == 1 )
                 {
                     // new order
@@ -319,6 +320,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                 $user = JUser::getInstance($data->user_id);
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
+                $link = "<a href='{$link}'>" . $link . "</a>";
                 
                 if ( $type == 'new_order' )
                 {
