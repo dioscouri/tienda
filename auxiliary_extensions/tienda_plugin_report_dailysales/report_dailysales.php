@@ -74,10 +74,10 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
 		
 		$date_tmp = date_create($filter_date_to);
 		date_modify($date_tmp, '24 hour');	
-		$enddate= date_format($date_tmp, 'Y-m-d H:i:s');
-
-		$curdate=$filter_date_from;
 		$database = JFactory::getDBO();
+		$curdate=TiendaHelperBase::local_to_GMT_data($filter_date_from);
+		$enddate=TiendaHelperBase::local_to_GMT_data(date_format($date_tmp, 'Y-m-d H:i:s'));
+		
         while ($curdate < $enddate)
         {
 			// set working variables
@@ -90,12 +90,12 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
 			$query->from('#__tienda_orders AS tbl');
 
 			$query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
-			$query->where("tbl.created_date >= '".$curdate."'");
-			$query->where("tbl.created_date <= '".$nextdate."'");
+			$query->where("tbl.modified_date >= '".$curdate."'");
+			$query->where("tbl.modified_date <= '".$nextdate."'");
 			$database->setQuery( (string) $query );
 			$return_daily_report = $database->loadObject();
 			
-			$date_tmp = date_create($curdate);
+			$date_tmp = date_create(TiendaHelperBase::GMT_to_local_data($curdate));
 			$data_print= date_format($date_tmp, 'd-m-Y');
 
 
@@ -105,31 +105,7 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
             $curdate = $nextdate;
 		}
 return $return_range_report;
-/*
 
-$database = JFactory::getDBO();
-           // $model = JModel::getInstance( 'Orders', 'TiendaModel' );
-           // $model->setState( 'filter_date_from', $thisdate );
-           // $model->setState( 'filter_date_to', $nextdate );
-            // set query for orderstate range
-            $ordersQuery = $model->getQuery();
-            //$ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
-            $model->setQuery($ordersQuery);
-            $rows = $model->getList();
-
-            $total = count( $rows );
-            $model->setState('select', 'SUM(`order_total`)');
-            $ordersQuery = $model->getQuery();
-            //$ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
-            $model->setQuery($ordersQuery);
-            $sum = $model->getList();
-
-        //$sum = $database->loadObject();
-			
-
-		fb($ordersQuery,'ordersQuery');
-		
-		return $sum;*/
 
     }
 	    function setStatesCSV( $csv='' )
