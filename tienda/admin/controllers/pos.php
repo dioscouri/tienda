@@ -310,6 +310,9 @@ class TiendaControllerPOS extends TiendaController
 			return false;
 		}
 		
+		// remove unnecessary _db proprety which causes 'Request-URI Too Large' error
+		unset($order->orderinfo->_db);
+		
 		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$values["order_id"]             = $order->order_id;
 		$values["orderinfo"]            = $order->orderinfo;
@@ -381,7 +384,8 @@ class TiendaControllerPOS extends TiendaController
 		$orderpayment_type = JRequest::getVar('orderpayment_type', $session->get('payment_plugin', '', 'tienda_pos'));
 			
 		$doneReloading = JRequest::getInt('reloaded');
-		if($orderpayment_type == 'payment_offline' && !$doneReloading)
+		// TODO find other way to do this check - there can be other offline payment types (new ones or created by users)
+		if( ($orderpayment_type == 'payment_offline' || $orderpayment_type == 'payment_ccoffline') && !$doneReloading)
 		{
 			$uri	 = & JURI::getInstance();		
 			$query = $uri->getQuery();	

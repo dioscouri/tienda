@@ -68,7 +68,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->orderpayment_amount = $data['orderpayment_amount'];
         $vars->orderpayment_type = $this->_element;
-        $vars->offline_payment_method = JRequest::getVar('offline_payment_method');
+        $vars->offline_payment_method = !empty($data['offline_payment_method']) ? $data['offline_payment_method'] : JRequest::getVar('offline_payment_method');
         
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -86,8 +86,8 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
     {
         // Process the payment        
         $vars = new JObject();
-        $orderpayment_id = JRequest::getVar('orderpayment_id');
-        $offline_payment_method = JRequest::getVar('offline_payment_method');
+        $orderpayment_id =  !empty($data['orderpayment_id']) ? $data['orderpayment_id'] : JRequest::getVar('orderpayment_id');
+        $offline_payment_method = !empty($data['offline_payment_method']) ? $data['offline_payment_method'] : JRequest::getVar("offline_payment_method");
         $formatted = array( 
                         'offline_payment_method' => $offline_payment_method 
                         ); 
