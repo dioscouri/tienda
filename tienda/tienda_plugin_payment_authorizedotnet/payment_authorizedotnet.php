@@ -617,6 +617,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         
         // Evaluate a typical response from auth.net
         $exploded = explode( $auth_x_delim_char, $resp );
+                
         for ($i=0; $i<count($exploded); $i++)
         {
             $value = $exploded[$i]; 
@@ -649,7 +650,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                             // Error
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "Error processing payment" );
+                            $errors[] = JText::_( "TIENDA AUTHORIZEDOTNET PAYMENT ERROR PROCESSING PAYMENT MESSAGE" ) . $exploded[3];
                           break;
                     }
                   break;
@@ -890,13 +891,16 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             }
         }
         
+        // orderpayment_id is always in this part of the response
+        $orderpayment_id = $exploded[69];
+        
         // =======================
         // verify & create payment
         // =======================
             // check that payment amount is correct for order_id
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-            $orderpayment->load( $invoiceResponse );
+            $orderpayment->load( $orderpayment_id );
             if (empty($orderpayment->order_id))
             {
                 // TODO fail
