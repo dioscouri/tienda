@@ -2,7 +2,7 @@
 	        
 	        
 <div class="tienda_header">
-	<span><?php echo JText::_("Informations"); ?></span>
+	<span><?php echo JText::_("Information"); ?></span>
 </div>
 	  
 		<table border="0">  
