@@ -1219,7 +1219,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     				$order->recurring_trial_period_unit = 'D';
     				$order->recurring_trial_period_interval2 = $weeks;
     				$order->recurring_trial_period_unit2 = 'W';
-    				$order->recurring_trial_price2 = 0;
+    				$order->recurring_trial_price2 = $order->recurring_trial_price;
+    				$order->recurring_trial_price = 0;
     			}
     			else // days arent important so use only weeks
     			{
