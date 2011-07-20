@@ -94,6 +94,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         {
             // only recurring
             $vars->cmd = '_xclick-subscriptions';
+            $this->_calculateTrialPeriod( $order );
             $vars->mixed_cart = false;
         }
             else
@@ -196,6 +197,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->orderpayment_amount = $orderpayment->orderpayment_amount;
         $vars->orderpayment_type = $this->_element;
         $vars->cmd = '_xclick-subscriptions';
+        $vars->_calculateTrialPeriod( $order );
         $vars->order = $order;
         $vars->orderitems = $items;
         
@@ -1193,6 +1195,41 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // TODO perhaps send an email when this happens? "hello, payment failed, want to check your credit card expiration?"
     }
     
+    /*
+     * Modifies Trial period for days if it's not within date range
+     * 
+     * Date ranges for Paypal:
+     * for days - allowable range is 1 to 90
+     * for weeks - allowable range is 1 to 52
+     * for months - allowable range is 1 to 24
+     * for years - allowable range is 1 to 5
+     * @param $order
+     */
+    function _calculateTrialPeriod( $order )
+    {
+    	if( $order->recurring_trial_period_unit == 'D' )
+    	{
+    		if( $order->recurring_trial_period_interval > 90 )
+    		{
+    			$weeks = ( int )( $order->recurring_trial_period_interval / 7 );
+    			$days = $order->recurring_trial_period_interval % 7;
+    			if( $days )
+    			{
+    				$order->recurring_trial_period_interval = $days;
+    				$order->recurring_trial_period_unit = 'D';
+    				$order->recurring_trial_period_interval2 = $weeks;
+    				$order->recurring_trial_period_unit2 = 'W';
+    				$order->recurring_trial_price2 = 0;
+    			}
+    			else // days arent important so use only weeks
+    			{
+    				$order->recurring_trial_period_interval = $weeks;
+    				$order->recurring_trial_period_unit = 'W';
+    			}
+    		}
+    	}
+    	return;
+    }
     
       /* TYPICAL RESPONSE FROM PAYPAL INCLUDES:
        * mc_gross=49.99
