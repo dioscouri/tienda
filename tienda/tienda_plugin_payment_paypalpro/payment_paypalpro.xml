@@ -43,8 +43,8 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
-   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+		<param name="failed_order_state" type="TiendaOrderState" scope="com_tienda" default="10" label="PAYPALPRO FAILED ORDER STATE" description="PAYPALPRO FAILED ORDER STATE DESC" />
+   		<param name="payment_received_order_state" type="TiendaOrderState" scope="com_tienda" default="17" label="PAYPALPRO PAYMENT RECEIVED ORDER STATE" description="PAYPALPRO PAYMENT RECEIVED ORDER STATE DESC" />
 	
 	</params>	
 </install>
