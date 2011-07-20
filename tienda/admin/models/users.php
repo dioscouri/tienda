@@ -22,6 +22,7 @@ class TiendaModelUsers extends TiendaModelBase
         $filter_id_from = $this->getState('filter_id_from');
         $filter_id_to   = $this->getState('filter_id_to');
         $filter_name    = $this->getState('filter_name');
+        $filter_subnum    = $this->getState('filter_subnum');
         $filter_username    = $this->getState('filter_username');
         $filter_email    = $this->getState('filter_email');
         $filter_group    = $this->getState('filter_group');
@@ -80,6 +81,11 @@ class TiendaModelUsers extends TiendaModelBase
         {
             $query->where('g.group_id = '.(int) $filter_group);
         }
+
+       	if (strlen($filter_subnum))
+        {
+        	$query->where('ui.sub_number LIKE '.$this->_db->Quote('%'.$filter_subnum.'%'));
+       	}
     }
     
 	protected function _buildQueryJoins(&$query)
@@ -101,6 +107,7 @@ class TiendaModelUsers extends TiendaModelBase
 		$field[] = " ui.phone_1 AS phone_1 ";
 		$field[] = " ui.phone_2 AS phone_2 ";
 		$field[] = " ui.fax AS fax ";
+		$field[] = " ui.sub_number AS sub_number ";
 		$field[] = " g.group_id ";
 		$field[] = " g.group_name ";
 		$field[] = " g.group_description ";

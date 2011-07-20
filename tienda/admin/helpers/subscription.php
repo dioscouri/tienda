@@ -464,4 +464,23 @@ class TiendaHelperSubscription extends TiendaHelperBase
 			$db->setQuery( (string)$q );
 			return $db->loadResult();
 		}
+
+		/*
+		 * Displays Subscription number
+		 * 
+		 * @param $num Number to display
+		 * 
+		 * @return String to be displayed
+		 */
+		static function displaySubNum( $num )
+		{
+			$digits = TiendaConfig::getInstance()->get( 'sub_num_digits', 8 );
+			$result = (string)$num;
+			$len = strlen( $num );
+			for( ; $len < $digits; $len++ )
+				$result = '0'.$result;
+				
+			return $result;
+		}
+
 }

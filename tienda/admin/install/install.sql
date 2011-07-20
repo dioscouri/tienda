@@ -1384,6 +1384,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   `fax` VARCHAR(32) NULL DEFAULT NULL ,
   `html_emails` TINYINT(1) NOT NULL DEFAULT '0' ,
   `email` VARCHAR(255) NULL DEFAULT NULL ,
+  `sub_number` INT NULL,
   PRIMARY KEY (`user_info_id`) ,
   INDEX `idx_user_info_user_id` (`user_id` ASC) )
 ENGINE = InnoDB

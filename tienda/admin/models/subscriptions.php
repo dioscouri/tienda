@@ -33,6 +33,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $filter_id_from        = $this->getState('filter_id_from');
         $filter_id_to          = $this->getState('filter_id_to');
         $filter_orderstate     = $this->getState('filter_orderstate');
+        $filter_subnum         = $this->getState('filter_subnum');
         
        	if ($filter) 
        	{
@@ -86,6 +87,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
         	else
            	$query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
         }
+
+       	if (strlen($filter_subnum))
+        {
+        	$query->where('tbl.sub_number LIKE '.$this->_db->Quote('%'.$filter_subnum.'%'));
+       	}
         
         if (strlen($filter_orderid))
         {

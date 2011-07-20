@@ -3,6 +3,8 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
+<?php $display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -32,6 +34,11 @@
                 <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'ID', "tbl.id", @$state->direction, @$state->order ); ?>
                 </th>                
+                <?php if( $display_subnum ): ?>
+                <th style="width: 70px;">
+                    <?php echo TiendaGrid::sort( 'Sub Num', "ui.sub_number", @$state->direction, @$state->order ); ?>
+                </th>
+                <?php endif; ?>
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
@@ -61,6 +68,11 @@
                         </div>
                     </div>
                 </th>
+                <?php if( $display_subnum ): ?>
+                <th>
+                    <input id="filter_subnum" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
+                </th>
+                <?php endif; ?>
                 <th style="text-align: left;">
                     <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>
@@ -105,6 +117,11 @@
 						<?php echo $item->id; ?>
 					</a>
 				</td>	
+        <?php if( $display_subnum ): ?>
+        <td style="text-align: center;">
+        	<?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?>
+        </td>
+        <?php endif; ?>
 				<td style="text-align: left;">
 					<a href="<?php echo $item->link; ?>">
 						<?php echo $item->name; ?>

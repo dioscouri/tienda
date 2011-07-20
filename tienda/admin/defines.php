@@ -542,7 +542,10 @@ class TiendaConfig extends JObject
     
     //since 0.7.2
     var $ignored_countries					= '83, 188, 190';
-	
+
+    // since 0.7.4
+    var $display_subnum = '0';
+    var $sub_num_digits = '8';
 	//compare products
     var $enable_product_compare 			= '1';
     var $compared_products					= '5';

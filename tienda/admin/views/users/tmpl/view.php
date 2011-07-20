@@ -8,6 +8,7 @@
 <?php $surrounding = @$this->surrounding; ?>
 <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
 <?php Tienda::load( 'TiendaHelperUser', 'helpers.user' ); ?>
+
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
 <table width="100%" border="0">
@@ -88,6 +89,19 @@
 		                      	<div class="id"><?php echo @$row->group_name; ?></div>		                      	
 		                    </td>
 						</tr>
+						<?php if( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) :?>
+						<tr>
+							<td  align="right" class="key" style="width:85px;">
+		                        <label for="sub_number">
+		                        	<?php echo JText::_( 'Sub Num' ); ?>:
+		                        </label>
+		                    </td>
+		                    <td colspan="3">
+							            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
+		                        <div class="sub_number"><?php echo TiendaHelperSubscription::displaySubNum( @$row->sub_number ); ?></div>          
+		                    </td>
+						</tr>
+						<?php endif; ?>
 					</table>
 				</div>
 			</fieldset>

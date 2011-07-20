@@ -395,6 +395,15 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionByIssue FAILED') .' :: '. $this->getError(), 'error' );
 		}
+		
+		if (!$this->checkSubNumUserInfo() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkSubNumUserInfo FAILED') .' :: '. $this->getError(), 'error' );
+		}
+		if (!$this->checkSubNumSubscriptions() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkSubNumSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+		}		
 	}
 
 	/**
@@ -3057,6 +3066,72 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubscriptionByIssue') );
 			$config->config_name = 'checkSubscriptionByIssue';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in UserInfo table) for subscription number
+	 * @version 0.7.4
+	 * @return unknown_type
+	 */
+	function checkSubNumUserInfo()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSubNumUserInfo', '0')) return true;
+		 
+		$table = '#__tienda_userinfo';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "sub_number";
+
+		$definitions["sub_number"] = "INT NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkSubNumUserInfo') );
+			$config->config_name = 'checkSubNumUserInfo';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in UserInfo table) for subscription number
+	 * @version 0.7.4
+	 * @return unknown_type
+	 */
+	function checkSubNumSubscriptions()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSubNumSubscriptions', '0')) return true;
+		 
+		$table = '#__tienda_subscriptions';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "sub_number";
+
+		$definitions["sub_number"] = "INT NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkSubNumSubscriptions') );
+			$config->config_name = 'checkSubNumSubscriptions';
 			$config->value = '1';
 			$config->save();
 			return true;

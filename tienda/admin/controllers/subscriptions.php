@@ -54,6 +54,9 @@ class TiendaControllerSubscriptions extends TiendaController
         $state['filter_total_to']      = $app->getUserStateFromRequest($ns.'filter_total_to', 'filter_total_to', '', '');
 		$state['filter_enabled']       = $app->getUserStateFromRequest($ns.'filter_enabled', 'filter_enabled', '', '');
 		$state['filter_lifetime']       = $app->getUserStateFromRequest($ns.'filter_lifetime', 'filter_lifetime', '', '');
+				if( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) )
+					$state['filter_subnum']       = $app->getUserStateFromRequest($ns.'filter_subnum', 'filter_subnum', '', '');
+				
 		
     	foreach (@$state as $key=>$value)
 		{

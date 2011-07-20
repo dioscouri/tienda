@@ -627,4 +627,19 @@ class TiendaHelperUser extends TiendaHelperBase
     	return $avatar;
     	
     }
+
+    /*
+     * Gets user subscription number
+     * 
+     * @param $id User ID
+     * 
+     * @return User subscription number
+     */
+		function getSubNumber( $id )
+		{
+			$db = JFactory::getDbo();
+			$q = ' SELECT `sub_number` FROM `#__tienda_userinfo` WHERE `user_id` = '.$id;
+			$db->setQuery( $q );
+			return $db->loadResult();
+		}
 }

@@ -4,6 +4,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
+<?php $display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -44,8 +45,12 @@
                 <th style="width: 50px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.order_id", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="text-align: left;">
+                <th style="text-align: left;" <?php if( $display_subnum ) echo 'nowrap'; ?>>
                 	<?php echo TiendaGrid::sort( 'Customer', "u.name", @$state->direction, @$state->order ); ?>
+                <?php if( $display_subnum ) : ?>
+                    + <?php echo TiendaGrid::sort( 'Sub Num', "tbl.sub_number", @$state->direction, @$state->order ); ?>
+                <?php endif; ?>
+
                 </th>
                 <th style="width: 200px;">
                     <?php echo TiendaGrid::sort( 'Expires', "tbl.expires_datetime", @$state->direction, @$state->order ); ?>
@@ -93,7 +98,20 @@
                     <input id="filter_orderid" name="filter_orderid" value="<?php echo @$state->filter_orderid; ?>" size="10"/>
                 </th>
                 <th style="text-align: left;">
-                	<input id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="25"/>
+                	<?php if( $display_subnum ) : ?>
+                	<div class="range">
+                    <div class="rangeline">
+		                		<span class="label"><?php echo JText::_( 'Name or ID' )?></span>:
+                	<?php endif; ?>
+                	<input id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="<?php echo $display_subnum ? '10' : '25' ?>"/>
+                	<?php if( $display_subnum ) : ?>
+  		              </div>
+                    <div class="rangeline">
+	                		<span class="label"><?php echo JText::_( 'Sub Num' )?></span>:
+  		              	<input id="filter_subnum" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
+  		              </div>
+  		            </div>
+                	<?php endif; ?>
                 </th>
                 <th>
                     <div class="range">
@@ -108,7 +126,7 @@
                     </div>
                 </th>
                 <th>
-                    <input id="filter_transaction" name="filter_transactionid" value="<?php echo @$state->filter_transactionid; ?>" size="25"/>
+                    <input id="filter_transaction" name="filter_transactionid" value="<?php echo @$state->filter_transactionid; ?>" size="10"/>
                 </th>
                 <th>
                     <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
@@ -168,6 +186,10 @@
                     </a>
                 </td>
 				<td style="text-align: left;">
+            <?php if( $display_subnum && strlen( $item->sub_number ) ) : ?>
+            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
+            	<b><?php echo JText::_( 'Sub Num' ); ?>:</b> <?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?><br />
+            <?php endif; ?>
 				    <?php if (!empty($item->user_name)) { ?>
     					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
     					<br/>

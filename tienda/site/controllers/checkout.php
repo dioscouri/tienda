@@ -2849,6 +2849,7 @@ class TiendaControllerCheckout extends TiendaController
 			
 		$error = false;
 		$errorMsg = "";
+		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		foreach ($items as $item)
 		{
 			$item->order_id = $order->order_id;
@@ -2869,7 +2870,7 @@ class TiendaControllerCheckout extends TiendaController
 				if (!empty($item->orderitem_subscription))
 				{
 					$date = JFactory::getDate();
-					// these are only for one-time payments that create subscriptions
+					// these are only for one-time payments that create subscriptions					
 					// recurring payment subscriptions are handled differently - by the payment plugins
 					$subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
 					$subscription->user_id = $order->user_id;
@@ -2912,6 +2913,11 @@ class TiendaControllerCheckout extends TiendaController
 					$query = " SELECT DATE_ADD('{$subscription->created_datetime}', INTERVAL {$item->subscription_period_interval} $period_unit ) ";
 					$database->setQuery( $query );
 					$subscription->expires_datetime = $database->loadResult();
+					
+					if( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) )
+					{
+						$subscription->sub_number = TiendaHelperUser::getSubNumber( $order->user_id );
+					}
 
 					if (!$subscription->save())
 					{

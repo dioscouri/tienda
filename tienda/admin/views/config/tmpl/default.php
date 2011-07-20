@@ -667,6 +667,28 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Subscription Number' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_subnum', 'class="inputbox"', $this->row->get('display_subnum', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Subscription Number Digits' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="sub_num_digits" value="<?php echo $this->row->get('sub_num_digits', ''); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Facebook Like Button' ); ?>
                             </th>
                             <td>
