@@ -53,7 +53,53 @@ class TiendaTableProductIssues extends TiendaTable
 
 		$date = JFactory::getDate();
 		$this->modified_date = $date->toMysql();
-
+		$act = strtotime( $this->publishing_date );
+		if( $act == strtotime( $original ) )
+			return true;
+					
+		$db = $this->_db;
+		if( empty( $this->product_issue_id ) ) // add at the end
+		{
+			$db->setQuery( $q );
+			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_id`='.$this->product_id.' ORDER BY `publishing_date` DESC LIMIT 1';
+			$db->setQuery( $q );
+			$next = $db->loadResult();
+			if( $next === null )
+				return true;
+			$next = strtotime( $next );
+			$act = strtotime( $this->publishing_date );
+			if( $act <= $next )
+			{
+				$this->setError( JText::_( "Publishing date is not preserving issue order" ).' - '.$this->publishing_date );
+				return false;
+			}
+		}
+		else
+		{
+			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_issue_id`='.$this->product_issue_id;
+			$db->setQuery( $q );
+			$original = $db->loadResult();
+			$original = Date( 'Y-m-d', strtotime( $original ) );		
+			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_id`='.$this->product_id.' AND `publishing_date` < \''.$original.'\' ORDER BY `publishing_date` DESC LIMIT 1';
+			$db->setQuery( $q );
+			$prev = $db->loadResult();
+			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_id`='.$this->product_id.' AND `publishing_date` > \''.$original.'\' ORDER BY `publishing_date` ASC LIMIT 1';
+			$db->setQuery( $q );
+			$next = $db->loadResult();
+			
+			if( $prev === null )
+				$prev = 0;
+			else
+				$prev = strtotime( $prev );
+			if( $next )
+				$next = strtotime( $next );
+	
+			if( ( $prev >= $act ) || ( $next && $next <= $act ) )
+			{
+				$this->setError( JText::_( "Publishing date is not preserving issue order" ).' - '.$this->publishing_date );
+				return false;
+			}
+		}
 		return true;
 	}
 }
