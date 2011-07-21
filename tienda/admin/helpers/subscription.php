@@ -483,4 +483,21 @@ class TiendaHelperSubscription extends TiendaHelperBase
 			return $result;
 		}
 
+		/*
+		 * Gets the next subscription number (last sub number + 1)
+		 * 
+		 * @return Subscription number
+		 */
+		static function getNextSubNum()
+		{
+			$db = JFactory::getDbo();
+			$q =  'SELECT `sub_number` FROM `#__tienda_userinfo` ORDER BY `sub_number` DESC LIMIT 1';
+			$db->setQuery( $q );
+			$result = $db->loadResult();
+			if( $result === null )
+				$result = TiendaConfig::getInstance()->get( 'default_sub_num', 1 );
+			else
+				$result++;
+			return $result;
+		}
 }
