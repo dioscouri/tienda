@@ -687,6 +687,16 @@
                                 
                             </td>
                         </tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Subscription Number' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'default_sub_num', 'class="inputbox"', $this->row->get('default_sub_num', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Facebook Like Button' ); ?>
