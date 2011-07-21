@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 <?php $carts = @$this->carts; ?>
@@ -96,9 +97,13 @@
 		                        	<?php echo JText::_( 'Sub Num' ); ?>:
 		                        </label>
 		                    </td>
+		                    <td>
+		                        <div class="sub_number"><input name="sub_number" id="sub_number" value="<?php echo @$row->sub_number; ?>" /></div>
+		                    </td>
+	                    	<td >
+	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_( 'Change Sub Num' ); ?></button>
+		                    </td>
 		                    <td colspan="3">
-							            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
-		                        <div class="sub_number"><?php echo TiendaHelperSubscription::displaySubNum( @$row->sub_number ); ?></div>          
 		                    </td>
 						</tr>
 						<?php endif; ?>

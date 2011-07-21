@@ -111,6 +111,17 @@
                         <?php echo @$row->user_id; ?>
                     </td>
                 </tr>
+		            <?php if ( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) : ?>
+		            <tr>
+                    <td width="100" align="right" class="key">
+		                    <?php echo JText::_( "Sub Num" ); ?>
+		                </td>
+		                <td colspan="2">
+				            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
+		    	        		<?php echo TiendaHelperSubscription::displaySubNum( $row->sub_number ); ?>                    
+		                </td>
+		            </tr>
+		            <?php endif; ?>
             </table>
     </fieldset>
     
