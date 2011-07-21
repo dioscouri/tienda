@@ -71,6 +71,17 @@
                     </a>
                 </td>
             </tr>
+            <?php if ( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) : ?>
+            <tr>
+                <th style="width: 100px;">
+                    <?php echo JText::_( "Sub Num" ); ?>
+                </th>
+                <td colspan="2">
+		            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
+    	        		<?php echo TiendaHelperSubscription::displaySubNum( $userinfo->sub_number ); ?>                    
+                </td>
+            </tr>
+            <?php endif; ?>
             <tr>
                 <th style="width: 100px;">
                     <?php echo JText::_( "Primary Shipping Address" ); ?>
