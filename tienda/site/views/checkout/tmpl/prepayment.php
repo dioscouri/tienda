@@ -33,6 +33,9 @@
             <h3><?php echo JText::_("Billing Information"); ?></h3>
             <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
             <?php
+            if( strlen( $billing_info['company'] ) )
+            	echo $billing_info['company']."<br/>";
+            
             echo $billing_info['first_name']." ". $billing_info['last_name']."<br/>";
             echo $billing_info['address_1'].", ";
             echo $billing_info['address_2'] ? $billing_info['address_2'] .", " : "";
@@ -40,6 +43,8 @@
             echo $billing_info['zone_name'] ." ";
             echo $billing_info['postal_code'] ." ";
             echo $billing_info['country_name'];
+            if( strlen( $billing_info['tax_number'] ) )
+            	echo "<br/>".$billing_info['tax_number'];
             ?>
         </div>
     <?php } ?>
@@ -50,6 +55,9 @@
             <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
             <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
             <?php
+            if( strlen( $shipping_info['company'] ) )
+            	echo $shipping_info['company']."<br/>";
+            
             echo $shipping_info['first_name']." ". $shipping_info['last_name']."<br/>";
             echo $shipping_info['address_1'].", ";
             echo $shipping_info['address_2'] ? $shipping_info['address_2'] .", " : "";
@@ -57,6 +65,8 @@
             echo $shipping_info['zone_name'] ." ";
             echo $shipping_info['postal_code'] ." ";
             echo $shipping_info['country_name'];
+            if( strlen( $shipping_info['tax_number'] ) )
+            	echo "<br/>".$shipping_info['tax_number'];
             ?>
         </div>
         

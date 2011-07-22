@@ -126,7 +126,14 @@ class TiendaTableAddresses extends TiendaTable
             $this->setError( JText::_("Company Required") );
             return false;
         }
-	    if (empty($this->city) && ($config->get('validate_field_city', '3') == '3' || $config->get('validate_field_city', '3') == $address_type ))
+
+	 	if (empty($this->tax_number) && ($config->get('validate_field_tax_number', '3') == '3' || $config->get('validate_field_tax_number', '3') == $address_type ))
+        {
+            $this->setError( JText::_("Company Tax Number Required") );
+            return false;
+        }
+
+    if (empty($this->city) && ($config->get('validate_field_city', '3') == '3' || $config->get('validate_field_city', '3') == $address_type ))
         {
             $this->setError( JText::_("City Required") );
             return false;

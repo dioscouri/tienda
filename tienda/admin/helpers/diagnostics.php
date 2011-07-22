@@ -404,6 +404,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkSubNumSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
 		}		
+		
+		if (!$this->checkOrderInfoTaxNumber() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkOrderInfoTaxNumber FAILED') .' :: '. $this->getError(), 'error' );
+		}		
+
+		if (!$this->checkAddressTaxNumber() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkAddressTaxNumber FAILED') .' :: '. $this->getError(), 'error' );
+		}		
 	}
 
 	/**
@@ -3132,6 +3142,74 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubNumSubscriptions') );
 			$config->config_name = 'checkSubNumSubscriptions';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in Addresses table) for Company Tax Number
+	 * @version 0.7.4
+	 * @return unknown_type
+	 */
+	function checkAddressTaxNumber()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkAddressTaxNumber', '0')) return true;
+		 
+		$table = '#__tienda_addresses';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "tax_number";
+
+		$definitions["tax_number"] = "VARCHAR( 32 ) NOT NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkAddressTaxNumber') );
+			$config->config_name = 'checkAddressTaxNumber';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in OrderInfo table) for Company Tax Number
+	 * @version 0.7.4
+	 * @return unknown_type
+	 */
+	function checkOrderInfoTaxNumber()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderInfoTaxNumber', '0')) return true;
+		 
+		$table = '#__tienda_orderinfo';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "billing_tax_number";
+		$fields[] = "shipping_tax_number";
+		
+		$definitions["billing_tax_number"] = "VARCHAR( 32 ) NULL";
+		$definitions["shipping_tax_number"] = "VARCHAR( 32 ) NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkOrderInfoTaxNumber') );
+			$config->config_name = 'checkOrderInfoTaxNumber';
 			$config->value = '1';
 			$config->save();
 			return true;

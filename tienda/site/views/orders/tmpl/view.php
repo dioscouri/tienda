@@ -48,6 +48,10 @@
 		<strong><?php echo JText::_("Amount"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
         <strong><?php echo JText::_("Billing Address"); ?></strong>: 
                     <?php
+				            if( strlen( $row->billing_company ) )
+				            	echo $row->billing_company."<br/>";
+				            if( strlen( $row->billing_tax_number ) )
+				            	echo $row->billing_tax_number."<br/>";
                     echo $row->billing_first_name." ".$row->billing_last_name."<br/>";
                     echo $row->billing_address_1.", ";
                     echo $row->billing_address_2 ? $row->billing_address_2.", " : "";

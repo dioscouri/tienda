@@ -505,6 +505,7 @@ class TiendaConfig extends JObject
 	var $show_field_middle					= '3';
 	var $show_field_last					= '3';
 	var $show_field_company					= '3';
+	var $show_field_tax_number					= '3';
 	var $show_field_address1				= '3';
 	var $show_field_address2				= '3';
 	var $show_field_zone					= '3';
@@ -519,6 +520,7 @@ class TiendaConfig extends JObject
 	var $validate_field_middle				= '0';
 	var $validate_field_last				= '3';
 	var $validate_field_company				= '0';
+	var $validate_field_tax_number				= '0';
 	var $validate_field_address1			= '3';
 	var $validate_field_address2			= '0';
 	var $validate_field_zone				= '3';

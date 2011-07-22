@@ -93,6 +93,20 @@
         </td>
     </tr>
     <?php endif; ?>
+    <?php if( $config->get('show_field_tax_number', '3') == '3' || $config->get('show_field_tax_number', '3') == $address_type ) :?>
+    <tr>
+        <th style="width: 100px; text-align: right;" class="key"> 
+          <?php echo JText::_( 'Company Tax Number' ); ?>
+        </th>
+        <td>
+            <input type="text" name="<?php echo $this->form_prefix; ?>tax_number" id="<?php echo $this->form_prefix; ?>tax_number"
+            size="48" maxlength="250" />&nbsp;
+			<?php if($config->get('validate_field_tax_number', '3') == '3' || $config->get('validate_field_tax_number', '3') == $address_type ): ?>
+			*
+			<?php endif;?>
+        </td>
+    </tr>
+    <?php endif; ?>
     <?php if( $config->get('show_field_address1', '3') == '3' || $config->get('show_field_address1', '3') == $address_type ) :?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">

@@ -55,14 +55,18 @@
         <strong><?php echo JText::_("Amount"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
         <strong><?php echo JText::_("Billing Address"); ?></strong>: 
                     <?php
-                    echo $row->billing_company."<br/>";
-                    echo $row->billing_first_name." ".$row->billing_last_name."<br/>";
+                    if( strlen( $row->billing_company ) )
+	                    echo $row->billing_company."<br/>";
+
+	                   echo $row->billing_first_name." ".$row->billing_last_name."<br/>";
                     echo $row->billing_address_1.", ";
                     echo $row->billing_address_2 ? $row->billing_address_2.", " : "";
                     echo $row->billing_city.", ";
                     echo $row->billing_zone_name." ";
                     echo $row->billing_postal_code." ";
                     echo $row->billing_country_name;
+                    if( strlen( $row->billing_tax_number ) )
+	                    echo "<br/>".$row->billing_tax_number;
                     ?>
         <br/>
         <strong><?php echo JText::_("Associated Payment Records"); ?></strong>:
@@ -86,6 +90,9 @@
             <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
             <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
                         <?php
+		                    if( strlen( $row->shipping_company ) )
+			                    echo $row->shipping_company."<br/>";
+		
                         echo $row->shipping_first_name." ".$row->shipping_last_name."<br/>";
                         echo $row->shipping_address_1.", ";
                         echo $row->shipping_address_2 ? $row->shipping_address_2.", " : "";
@@ -93,6 +100,8 @@
                         echo $row->shipping_zone_name." ";
                         echo $row->shipping_postal_code." ";
                         echo $row->shipping_country_name;
+		                    if( strlen( $row->shipping_tax_number ) )
+			                    echo "<br/>".$row->shipping_tax_number;
                         ?>
             <br/>
         </div>

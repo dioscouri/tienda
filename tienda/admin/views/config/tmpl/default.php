@@ -1536,6 +1536,20 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Company Tax Number Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_tax_number', '3'), 'show_field_tax_number');?>
+							</td>
+                           <th>
+                               	<?php echo JText::_( 'Validate Company Tax Number Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_tax_number', '3'), 'validate_field_tax_number');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Show Address 1 Field' ); ?>
 							</th>
 							<td style="width: 150px;">
