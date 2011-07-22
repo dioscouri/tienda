@@ -3326,6 +3326,220 @@ class TiendaControllerCheckout extends TiendaController
     	echo json_encode($response);
 		return;  	
     }
+    
+    /**
+     * Checks that an email is valid
+     * @return unknown_type
+     */
+    function checkEmail()
+    {
+    	Tienda::load('TiendaHelperUser', 'helpers.user');
+		$checker = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string','string' ) ) );
+    
+        // convert elements to array that can be binded   
+        $values = TiendaHelperBase::elementsToArray( $elements );
+   
+        $email = $values['email_address'];
+
+        if (empty($email))
+        {
+            $response['msg'] = $helper->validationMessage( "Email cannot be empty", 'fail' );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }        
+      
+        $message = "";
+ 
+        if (!$checker->isEmailAddress($email)) 
+        { 
+            $message .= $helper->validationMessage( "Email Invalid", 'fail' );
+        }
+        
+        if ($checker->emailExists($email)) 
+        {
+            $message .= $helper->validationMessage( "Email Already Registered", 'fail' );
+        }
+
+        if (!$checker->emailExists($email) && $checker->isEmailAddress($email))
+        {
+            // no error
+            $message .= $helper->validationMessage( 'Email OK', 'success' ); 
+        } 
+        
+        $response['msg'] = $message;
+        $response['error'] = '1';
+
+        echo ( json_encode( $response ) );        
+        return;
+    }
+        
+ 	/**
+     * Checks that a username is available
+     * @return unknown_type
+     */
+    function checkUsername()
+    {
+    	Tienda::load('TiendaHelperUser', 'helpers.user');
+		$checker = TiendaHelperUser::getInstance('User', 'TiendaHelper');
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string','string' ) ) );
+        
+        // convert elements to array that can be binded     
+        $values = TiendaHelperBase::elementsToArray( $elements );
+
+        $username = $values['username'];
+
+        if (empty($username))
+        {
+            $response['msg'] = $helper->validationMessage( "Username cannot be empty", 'fail' );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+                
+        $message = "";        
+        if ($checker->usernameExists($username)) 
+        {
+            $message .= $helper->validationMessage( "Username Unavailable", 'fail' );
+        } 
+            else 
+        {
+            // no error
+            $message .= $helper->validationMessage( 'Valid Username', 'success' ); 
+        } 
+        
+        $response['msg'] = $message;
+        $response['error'] = '1';
+
+        echo ( json_encode( $response ) );
+        return;
+    }
+        
+    /**
+     * Checks that a password is strong enough
+     * @return unknown_type
+     */
+    function checkPassword()
+    {
+    	Tienda::load('TiendaHelperPassword', 'helpers.password');
+		$checker = TiendaHelperUser::getInstance('Password', 'TiendaHelper');
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string','string' ) ) );
+        
+        // convert elements to array that can be binded      
+        $values = TiendaHelperBase::elementsToArray( $elements );
+
+        $password = $values['password'];
+        $username = empty( $values['username'] ) ? '' : $values['username'];
+
+        if (empty($password))
+        {
+            $response['msg'] = $helper->validationMessage( "Password cannot be empty", 'fail' );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        // get the password checker & check it
+        $checker->setConfig();
+        
+        $message = "";        
+        if (!$checker->checkPassword($password, $username)) 
+        {
+            // error encountered            
+            foreach ($checker->errorMsgArray as $error) 
+            {
+                $message .= $helper->validationMessage( $error, 'fail' );
+            }
+        } 
+            else 
+        {
+            // no error
+            $message .= $helper->validationMessage( 'Strong Password', 'success' ); 
+        } 
+        
+        $response['msg'] = $message;
+        $response['error'] = '1';
+
+        echo ( json_encode( $response ) );
+        return;
+    }
+    
+    /**
+     * Checks that a password and password2 match
+     * @return unknown_type
+     */
+    function checkPassword2()
+    {
+    	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // get elements from post
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string','string' ) ) );
+        
+        // convert elements to array that can be binded      
+        $values = TiendaHelperBase::elementsToArray( $elements );
+
+        $password = $values['password'];
+        $password2 = $values['password2'];
+
+        if (empty($password))
+        {
+            $response['msg'] = $helper->validationMessage( "Password cannot be empty", 'fail' );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        if (empty($password2))
+        {
+            $response['msg'] = $helper->validationMessage( "Verify Password field cannot be empty", 'fail' );
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
+            return;
+        }
+        
+        $message = "";        
+        if ($password != $password2) 
+        {
+            $message .= $helper->validationMessage( 'Passwords do not match', 'fail' );
+        } 
+            else 
+        {
+            // no error
+            $message .= $helper->validationMessage( 'Password Verified', 'success' ); 
+        } 
+        
+        $response['msg'] = $message;
+        $response['error'] = '1';
+
+        echo ( json_encode( $response ) );
+        return;
+    }
 	
 	function registerNewUserOnepage()
 	{

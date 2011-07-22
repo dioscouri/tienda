@@ -736,4 +736,27 @@ class TiendaHelperBase extends JObject
 		}
 		return $local_data;
     }
+    
+	/**
+     * Generates a validation message
+     * 
+     * @param unknown_type $text
+     * @param unknown_type $type
+     * @return unknown_type
+     */
+    function validationMessage( $text, $type='fail' )
+    {
+        switch (strtolower($type))
+        {
+            case "success":
+                $src = Tienda::getUrl( 'images' ).'accept_16.png';
+                $html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Success" )."'><span class='validation-success'>".JText::_( $text )."</span></div>";
+                break;
+            default:
+                $src = Tienda::getUrl( 'images' ).'remove_16.png';
+                $html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Error" )."'><span class='validation-fail'>".JText::_( $text )."</span></div>";
+                break;
+        }
+        return $html;
+    }
 }
