@@ -61,7 +61,8 @@ class TiendaControllerUsers extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'view' );
-
+		$orderstates_csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+		$orderstates_array=explode(',', $orderstates_csv);
 
 		//Get Data From OrdersItems Model
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -69,11 +70,20 @@ class TiendaControllerUsers extends TiendaController
 		$modelOrders->setState( 'filter_userid',  $row->id );
 		$modelOrders->setState( 'order', 'tbl.created_date' );
 		$modelOrders->setState( 'direction', 'DESC' );
-		//$modelOrders->setState( 'filter_orderstate',  array('2','3','5','17') );
-		//$allorders = $modelOrders->getList();
+		$modelOrders->setState( 'filter_orderstates',  $orderstates_array);
+		$allorders = $modelOrders->getList();
 		$modelOrders->setState( 'limit', '5');
 		$lastfiveorders = $modelOrders->getList( true );
 		$view->assign( 'orders', $lastfiveorders );
+
+		$spent = 0;
+		foreach ($allorders as $orderitem)
+		{
+			$spent += $orderitem->order_total;
+		}
+		$view->assign( 'spent', $spent );
+
+		
 
 		//Get Data From Carts Model
 		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel' );
@@ -84,21 +94,10 @@ class TiendaControllerUsers extends TiendaController
 		{
 			$cart->total_price=$cart->product_price *$cart->product_qty;
 		}
-			
-		//Summary Data
-		$modelSum = JModel::getInstance( 'Orderitems', 'TiendaModel');
-		$modelSum->setState( 'filter_userid',  $row->id );
-		$modelSum->setState( 'filter_orderstate',  array('2','3','5','17') );
-		$orderitems = $modelSum->getList();
-		$spent = 0;
-		$total_qty = 0;
-		foreach ($orderitems as $orderitem)
-		{
-			$spent += $orderitem->orderitem_price;
-			$total_qty +=$orderitem->orderitem_quantity;
-		}
-		$view->assign( 'spent', $spent );
-		$view->assign('total_qty',$total_qty );
+		
+	    
+
+
 
 		//Subcription Data
 		$modelSubs= JModel::getInstance( 'subscriptions', 'TiendaModel');
