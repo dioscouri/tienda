@@ -134,7 +134,7 @@ function tiendaDisableShippingAddressControls(checkbox, form)
 	var disable = false;
     if (checkbox.checked){disable = true;tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );}  
     
-    var fields = "address_name;address_id;title;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
+    var fields = "address_name;address_id;title;first_name;middle_name;last_name;company;tax_number;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
     var fieldList = fields.split(';');
 
 //    for(var index=0;index<fieldList.length;index++){
@@ -152,7 +152,7 @@ function tiendaDisableShippingAddressControls(checkbox, form)
             if(billingControl != null)
             {
             	if( fieldList[index] == 'zone_id' ) // special care for zones
-            		tiendaDoTask( 'index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix=billing_input_&disabled=1&country_id='+document.getElementById('billing_input_country_id').value+'&zone_id='+document.getElementById('billing_input_zone_id').value, 'shipping_input_zones_wrapper', '');
+            		tiendaDoTask( 'index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix=shipping_input_&disabled=1&country_id='+document.getElementById('billing_input_country_id').value+'&zone_id='+document.getElementById('billing_input_zone_id').value, 'shipping_input_zones_wrapper', '');
             	else // the rest of fields is OK the way they are handled now
                		shippingControl.value = disable ? billingControl.value : '';
             }
