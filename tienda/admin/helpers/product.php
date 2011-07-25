@@ -2059,6 +2059,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 */
 	public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
 	{
+		if( is_array( $values ) && !count( $values ) )
+		{
+			$values = JRequest::get( 'request' );
+		}
 		$html = '';
 		$page = JRequest::getVar( 'page', 'product' );
 		
@@ -2316,5 +2320,27 @@ class TiendaHelperProduct extends TiendaHelperBase
 					return $cached_uri[$type][$uri];
 				}
 		}
+	}
+
+	/*
+	 * Converts product attributes from CSV format to an array
+	 * 
+	 * @param $product_id    ID of the product with attributes
+	 * @param $values_csv    String with product attributes in CSV format
+	 * 
+	 * @return Array of arrays in format (attribute_id, attribute_value)
+	 */
+	public static function convertAttributesToArray( $product_id, $values_csv )
+	{
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+		$model->setState( 'filter_product', $product_id );
+		$list = $model->getList();
+		$result = array();
+		$values = explode( ',', $values_csv );
+		for( $i = 0, $c = count( $list ); $i < $c; $i++ )
+			$result []= array( $list[$i]->productattribute_id, $values[$i] );
+			
+		return $result;
 	}
 }

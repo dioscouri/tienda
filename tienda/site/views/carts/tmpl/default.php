@@ -11,6 +11,7 @@ $state = @$this->state;
 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 $router = new TiendaHelperRoute();
 $quantities = array();
+Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 ?>
 
 <div class='componentheading'>
@@ -46,7 +47,13 @@ $quantities = array();
             	
             	<?php            	
             		$params = new JParameter( trim(@$item->cartitem_params) );
-            		$link = $params->get('product_url', "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id);
+            		$default_url = "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id;
+            		$attributes = TiendaHelperProduct::convertAttributesToArray( $item->product_id, $item->product_attributes );
+            		for( $i = 0, $c = count( $attributes ); $i < $c; $i++ )
+            		{
+            			$default_url .= '&attribute_'.$attributes[$i][0].'='.$attributes[$i][1];
+            		}	
+            		$link = $params->get('product_url', $default_url );
             		$link = JRoute::_($link);
             	?>
             
