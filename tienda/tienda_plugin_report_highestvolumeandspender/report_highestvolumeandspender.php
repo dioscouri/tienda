@@ -86,6 +86,19 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
             	o.user_id = tbl.user_id
             ) 
         AS spent ";		
+		
+		$field[] = "
+            (
+            SELECT 
+                COUNT(*)
+            FROM
+                #__tienda_orders AS o
+            WHERE 
+            	o.order_state_id IN ('2', '3', '5', '17' )
+            AND 
+            	o.user_id = tbl.user_id
+            ) 
+        AS number_of_orders ";
 		$query->select( $field );
 		if (strlen($state['filter_totalpurchase_from']))
 		{

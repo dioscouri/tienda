@@ -15,6 +15,9 @@
 				<?php echo JText::_("Customer"); ?>
 			</th>
 			<th style="text-align: center;  width: 200px;">
+				<?php echo JText::_("Total Number Of Orders"); ?>
+			</th>
+			<th style="text-align: center;  width: 200px;">
 				<?php echo JText::_("Total Number Of Purchases"); ?>
 			</th>
 			<th style="width: 200px;; text-align: right;">
@@ -40,6 +43,9 @@
 					[<?php echo $item->user_id;?>]
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo !empty($item->email) ? $item->email : $item->user_email; ?>
 				</a>	
+			</td>
+			<td style="text-align: center;">
+				<?php echo empty($item->volume) ? 0 : $item->number_of_orders; ?>
 			</td>
 			<td style="text-align: center;">
 				<?php echo empty($item->volume) ? 0 : $item->volume; ?>
