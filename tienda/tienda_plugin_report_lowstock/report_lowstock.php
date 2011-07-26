@@ -72,12 +72,14 @@ class plgTiendaReport_lowstock extends TiendaReportPlugin
     	$app = JFactory::getApplication();
         $model = $this->_getModel( 'products' );
         $ns = $this->_getNamespace();
-
         $state = array();        
        	$state['filter_name'] = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         $state['filter_quantity_from'] = $app->getUserStateFromRequest($ns.'quantity_from', 'filter_quantity_from', '', '');
         $state['filter_quantity_to'] = $app->getUserStateFromRequest($ns.'quantity_to', 'filter_quantity_to', '', '');      
     	$state['filter_category'] = $app->getUserStateFromRequest($ns.'category', 'filter_category', '', '');
+		$state['filter_enabled'] 	= $app->getUserStateFromRequest($ns.'enabled', 'filter_enabled', '', '');
+
+	
         $state = $this->_handleRangePresets( $state );
         
         foreach (@$state as $key=>$value)

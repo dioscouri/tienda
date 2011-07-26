@@ -16,4 +16,9 @@
 	    <?php echo JText::_("SELECT CATEGORY"); ?>:
 	   	<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'javascript:submitbutton(\'view\').click;'); ?>
 	  	<?php echo TiendaSelect::category( @$state->filter_category, 'filter_category', $attribs, 'category', true ); ?>
+		<span style="font-size:1.6em; border-right: 2px groove #333; margin: 0 20px;"></span>
+		<?php echo JText::_("SELECT PRODUCTS TO SHOW"); ?>:
+		<?php $attribs = array('class' => 'inputbox', 'size' => '1' ); ?>
+		<?php echo TiendaSelect::booleans( @$state->filter_enabled, filter_enabled, $attribs, null, true); ?>
+		
 	</div>
