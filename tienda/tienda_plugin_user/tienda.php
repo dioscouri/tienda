@@ -91,7 +91,7 @@ class plgUserTienda extends JPlugin
         $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
         $user_groups->load(array('user_id'=>$user->id));
         
-        if (empty($user_groups->groupid))
+        if (empty($user_groups->group_id))
         {
             $user_groups->group_id = TiendaConfig::getInstance()->get('default_user_group', '1'); ; // If there is no user selected then it will consider as default user group 
             $user_groups->user_id = $user->id;

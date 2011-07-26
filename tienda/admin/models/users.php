@@ -90,8 +90,12 @@ class TiendaModelUsers extends TiendaModelBase
     
 	protected function _buildQueryJoins(&$query)
 	{
+    $filter_group    = $this->getState('filter_usergroup');
 		$query->join('LEFT', '#__tienda_userinfo AS ui ON ui.user_id = tbl.id');
-		$query->join('LEFT', '#__tienda_usergroupxref AS ug ON ug.user_id = tbl.id');
+		if( strlen( $filter_group ) )
+			$query->join('LEFT', '#__tienda_usergroupxref AS ug ON ( ug.user_id = tbl.id AND ug.group_id = '.( int )$filter_group.')');
+		else
+			$query->join('LEFT', '#__tienda_usergroupxref AS ug ON ug.user_id = tbl.id');
 		$query->join('LEFT', '#__tienda_groups AS g ON ug.group_id = g.group_id');
 	}    
 	

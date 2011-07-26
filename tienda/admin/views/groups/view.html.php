@@ -23,6 +23,7 @@ class TiendaViewGroups extends TiendaViewBase
      */
     function getLayoutVars($tpl=null) 
     {
+    	JFactory::getApplication()->enqueueMessage( 'id - '.$this->getModel()->getId() );
         $layout = $this->getLayout();
         switch(strtolower($layout))
         {

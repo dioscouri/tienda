@@ -66,7 +66,7 @@ class TiendaControllerGroups extends TiendaController
         $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         $state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', '');
         $state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', '');
-			
+        
 		foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );
@@ -94,6 +94,7 @@ class TiendaControllerGroups extends TiendaController
 
 		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
 		$row = $model->getTable( 'groups' );
+		$model->setState( 'filter_usergroup', $id );
 		$row->load( $id );
 
 		$view   = $this->getView( 'groups', 'html' );
