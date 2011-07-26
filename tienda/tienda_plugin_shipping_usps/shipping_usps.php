@@ -221,9 +221,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
             $price = $usps->getPrice();
                
             if (!empty($price->error) && is_object($price->error))
-            {
-            	//$this->writeToLog( implode( "\n", $usps->getErrors( ) ) );
-            	
+            {            	
             	if($this->params->get( 'show_debug' ))
             	{
             		echo Tienda::dump($price->error);          

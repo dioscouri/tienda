@@ -209,8 +209,6 @@ class TiendaDhlShip extends TiendaDhl
                     $this->setError( Tienda::dump($this->response) );
                     return false;
                 } 
-                
-                // $this->writeToLog($client);    // Write to log file   
             
             } catch (SoapFault $exception) {
                 $this->response = array();

@@ -218,11 +218,4 @@ class plgTiendaShipping_Dhl extends TiendaShippingPlugin
         return $rates;
         
     }
-    
-	protected function writeToLog($client)
-	{  
-		$file = '';
-		JFile::write( $file,  sprintf("\r%s:- %s",date("D M j G:i:s T Y"), $client->__getLastRequest(). "\n\n" . $client->__getLastResponse()) );
-	}
-    
 }

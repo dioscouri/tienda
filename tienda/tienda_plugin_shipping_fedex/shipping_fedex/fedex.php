@@ -215,8 +215,6 @@ class TiendaFedexShip extends TiendaFedex
                     return false;
                 } 
                 
-                // $this->writeToLog($client);    // Write to log file   
-            
             } catch (SoapFault $exception) {
                 $this->response = array();
                 $this->setError( 'E2', (string) $exception );
