@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="user" method="upgrade">
+	<name>New User Plugin</name>
+	<version>0.7.3</version>
+	<creationDate>July 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin assigns a unique subscription number to a new user in Joomla</description>
+	<files>
+		<filename plugin="usersubnum">usersubnum.php</filename>
+	</files>
+
+  <languages folder="languages">
+   <language tag="en-GB">en-GB.plg_user_tienda_usersubnum.ini</language>
+  </languages>
+
+	<params>
+		<param name="create_address" type="radio" default="0" label="CREATE ADDRESS" description="CREATE ADDRESS DESC">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="notify_person" type="radio" default="1" label="NOTIFY Person" description="NOTIFY Person DESC">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="person_email" type="text" size="50" default="" label="Person Email" description="Person Email Desc"/>		
+		<param name="email_subject" type="text" size="50" default="" label="Email Subject" description="Email Subject Desc"/>		
+		<param name="address_title" type="text" size="50" default="" label="ADDRESS TITLE" description="ADDRESS TITLE Desc"/>		
+		<param name="default_country" type="text" size="10" default="" label="Default Country" description="Default Country Desc"/>		
+		<param name="default_zone" type="text" size="10" default="" label="Default Zone" description="Default Zone Desc"/>		
+	</params>
+			
+</install>
