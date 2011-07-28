@@ -14,7 +14,7 @@
 	</files>
 
   <languages folder="languages">
-   <language tag="en-GB">en-GB.plg_user_tienda_usersubnum.ini</language>
+   <language tag="en-GB">en-GB.plg_user_usersubnum.ini</language>
   </languages>
 
 	<params>
