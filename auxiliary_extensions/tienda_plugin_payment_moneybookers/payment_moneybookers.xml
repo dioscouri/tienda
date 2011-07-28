@@ -23,7 +23,7 @@
 		<param name="receiver_email" type="text" size="50" default="" label="Tienda Moneybookers Email" description="Tienda Moneybookers Email Desc"/>
 		<param name="customer_id" type="text" size="50" default="" label="Tienda Moneybookers Customer ID" description="Tienda Moneybookers Customer ID Desc" />
 		<param name="secret_word" type="text" size="50" default="" label="Tienda Moneybookers Secret Word" description="Tienda Moneybookers Secret Word Desc" />
-		<param name="currency" type="text" size="10" default="USD" label="Tienda Moneybookers Currency" description="Tienda Moneybookers Currency Desc"/>
+		<param name="currency" type="text" size="10" default="USD" label="CurrencyCode" description="Tienda Moneybookers Currency Desc"/>
 		<param name="language" type="list" default="EN" label="Tienda Moneybookers Language" description="Tienda Moneybookers Language Desc" >
 			<option value="EN">EN</option>
 			<option value="DE">DE</option>
@@ -42,13 +42,11 @@
 			<option value="SV">SV</option>
 			<option value="FI">FI</option>		  
 		</param>
-		
-		<param name="include_logo" type="radio" default="0" label="Tienda Moneybookers Include Logo" description="Tienda Moneybookers Include Logo Desc" >
-			<option value="0">No</option>	
-			<option value="1">Yes</option>							  
+		<param name="Recurring_Starts" type="radio" default="0" label="Recurring Start Date [Not yet Implemented]" description="Tienda Moneybookers Include Logo Desc" >
+			<option value="0">Order Date</option>
+			<option value="1">Payment Date</option>	
+			<option value="2">Beginning of Next Period</option>							  
 		</param>
-		<param name="logo_image" type="text" size="50" default="" label="Tienda Moneybookers Logo Image" description="Tienda Moneybookers Logo Image Desc"/>
-		<param type="spacer" />
         <param name="sandbox" type="radio" default="0" label="Moneybookers Use Sandbox" description="Moneybookers Use Sandbox Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>

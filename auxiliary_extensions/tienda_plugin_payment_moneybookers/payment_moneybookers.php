@@ -54,13 +54,18 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->action_url = $this->_getActionUrl();        
 
         // properties as specified in moneybookers gateway manual
+        $order = JTable::getInstance('Orders', 'TiendaTable');
+		$order->load( $data['order_id'] );
+	    $vars->is_recurring = $order->isRecurring();
+	    $items = $order->getItems();
+		
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
-        $vars->transaction_id = $data['orderpayment_id'];
+        $vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$data['orderpayment_id'];
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
-        $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
+        $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
-        $vars->status_url2 = $this->_getParam( 'receiver_email' );
+        $vars->status_url2 = 'mailto:info@opensoft.co.za'; //$this->_getParam( 'receiver_email' );
         $vars->language = $this->_getParam( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
@@ -68,16 +73,24 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$vars->order_id = $data['order_id'];
         $vars->orderpayment_id = $data['orderpayment_id'];
 	    $vars->orderpayment_type = $this->_element;	
-	    $vars->currency = $this->_getParam( 'currency', 'USD' );
+	    $vars->currency = $this->_getParam( 'currency', 'EUR' ); //A
 	    $vars->detail1_description = $data['order_id'];
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
 	    $vars->detail2_description = $data['orderpayment_id'];
-	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
-     	
-	    $order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->load( $data['order_id'] );
-	    $vars->is_recurring = $order->isRecurring();
-	    $items = $order->getItems();
+	    $billing_address = TiendaHelperUser::getPrimaryAddress( $vars->user_id , 'billing' );
+     	$vars->first_name       = $billing_address->first_name;
+		$vars->last_name       	= $billing_address->last_name;
+		$vars->phone_number      		= $billing_address->phone1;
+		$vars->email      		= JFactory::getUser()->email;
+		
+		$vars->address       	= $billing_address->address_1;
+		$vars->postal_code      = $billing_address->postal_code;
+		$vars->city			    = $billing_address->city;
+		$vars->country     		= $billing_address->country;
+		$vars->state       		= $billing_address->zone_name;
+		
+     	//Currency Static ? 
+	    
 	    
 	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
@@ -88,23 +101,25 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $recurring_orderitem_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
-		$recurring_orderitem_table->load( $recurring_orderitem_id );        	
-		$recurring_orderitem_final_price = $recurring_orderitem_table->orderitem_final_price;
-		
+		$recurring_orderitem_table->load( $recurring_orderitem_id );    
+		$recurring_order_id = $recurring_orderitem_table->order_id;
+		$recurring_orderitem_final_price = 0;
+		if (is_null($recurring_order_id) == False)
+		{    	
+			$recurring_orderitem_final_price = $recurring_orderitem_table->orderitem_final_price + $recurring_orderitem_table->orderitem_tax;
+		}
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $vars->orderpayment_id );
-	    
 	    // if order has both recurring and non-recurring items
-	    if ($vars->is_recurring && count($items) > '1')
+	    if ($vars->is_recurring && count($items) > '1')  //Mixed
 		{
 			$vars->mixed_cart = true;
-						
 			$recurring_orderitem_table->delete();
-										
-			
-            $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $recurring_orderitem_final_price; 
+		
+            $orderpayment->orderpayment_amount = $order->order_total - $recurring_orderitem_final_price;
             $orderpayment->save();
                         
+			//$this->_sendErrorEmails($error, 'A0 -'.$orderpayment->orderpayment_amount.' = '.$order->order_total.' - '.$recurring_orderitem_final_price.' Recurring ID '.$recurring_order_id);
             $order = JTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
             $order->calculateTotals(); 
@@ -113,16 +128,17 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $vars->is_recurring = false;
             $vars->amount = $orderpayment->orderpayment_amount;
             $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=1";                   
-		}
-		    elseif ($vars->is_recurring && count($items) == '1')
-		{
-			$vars = $this->prepareRecVars(  $order, $orderpayment  );			
-		}
-	    	else 
-	    {
-	    	$vars->mixed_cart = false;
-	    	
-			$vars->amount = $data['orderpayment_amount'];
+			}
+			elseif ($vars->is_recurring && count($items) == '1') //Recurring Only
+			{
+				//Calls Second Prepayment fo
+				$vars = $this->prepareSecondVars(  $order, $orderpayment  );	
+			}
+		    else //Non-Recurring Only
+		    {
+		    	$order->order_recurs = false;
+		    	$vars->mixed_cart = false;
+				$vars->amount = $data['orderpayment_amount'];
 	    }
 	
         $html = $this->_getLayout('prepayment', $vars);
@@ -137,15 +153,10 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      */
     function _secondPrePayment()
 	{	
+		//error_reporting(E_ALL);
 		// Prepare order
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
         
-        // set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-		// set the shipping method
-		$order->shipping_method_id = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
-
 		// Use AJAX to show plugins that are available
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
 		$guest = JRequest::getVar( 'guest', '0');
@@ -158,34 +169,84 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			$guest = false;
 		}
 		
+		$order = JTable::getInstance('Orders', 'TiendaTable');
+        
+        // set the currency
+		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+		// set the shipping method
+		$order->shipping_method_id = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+
 		if (!$guest)
 		{
 			// set the order's addresses based on the form inputs
 			// set to user defaults
-			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$billingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id );
-			$shippingAddress = TiendaHelperUser::getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
-			$order->setAddress( $billingAddress, 'billing' );
-			$order->setAddress( $shippingAddress, 'shipping' );		
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );		
 			$order->user_id = JFactory::getUser()->id;	
+			$billing_address = TiendaHelperUser::getPrimaryAddress( $order->user_id , 'billing' );
+			$shipping_address = TiendaHelperUser::getPrimaryAddress( $order->user_id, 'shipping' );
+			$order->setAddress( $billing_address, 'billing' );
+			$order->setAddress( $shipping_address, 'shipping' );
 		}
 
 		// get the items and add them to the order
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$items = TiendaHelperCarts::getProductsInfo();
-
-		foreach ($items as $item)
+		$order->ip_address        = $_SERVER['REMOTE_ADDR'];
+		$order->order_state_id = '15';
+		$order->addItem( $items[0] );
+		$order->calculateTotals();
+		$order->save();
+			
+			$items[0]->order_id = $order->order_id;
+			$items[0]->orderitem_tax = $order->order_tax;
+			$items[0]->save();
+		
+		// get the order totals
+		
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
+		$row->order_id = $order->order_id;
+		$row->user_email = JFactory::getUser()->get('email');
+		
+		// Get Addresses
+		$row->billing_first_name       	= $billing_address->first_name;
+		$row->billing_last_name       	= $billing_address->last_name;
+		$row->billing_middle_name       = $billing_address->middle_name;
+		$row->billing_phone1       		= $billing_address->phone1;
+		$row->billing_phone2       		= $billing_address->phone2;
+		$row->billing_fax       		= $billing_address->fax;
+		$row->billing_address_1       	= $billing_address->address_1;
+		$row->billing_address_2       	= $billing_address->address_2;
+		$row->billing_city       		= $billing_address->city;
+		$row->billing_zone_name       	= $billing_address->zone_name;
+		$row->billing_country_name      = $billing_address->country_name;
+		
+		$row->shipping_first_name       = $shipping_address->first_name;
+		$row->shipping_last_name       	= $shipping_address->last_name;
+		$row->shipping_middle_name      = $shipping_address->middle_name;
+		$row->shipping_phone1       	= $shipping_address->phone1;
+		$row->shipping_phone2       	= $shipping_address->phone2;
+		$row->shipping_fax       		= $shipping_address->fax;
+		$row->shipping_address_1       	= $shipping_address->address_1;
+		$row->shipping_address_2       	= $shipping_address->address_2;
+		$row->shipping_city       		= $shipping_address->city;
+		$row->shipping_zone_name       	= $shipping_address->zone_name;
+		$row->shipping_country_name     = $shipping_address->country_name;
+		
+		
+		// set zones and countries
+		$row->billing_zone_id       = $billing_address->zone_id;
+		$row->billing_country_id    = $billing_address->country_id;
+		$row->shipping_zone_id      = $shipping_address->zone_id;
+		$row->shipping_country_id   = $shipping_address->country_id;
+			
+		if (!$row->save())
 		{
-			$order->addItem( $item );
+			$this->setError( $row->getError() );
 		}
 
-		// get the order totals
-		$order->calculateTotals();
-		
-		$order->order_state_id = '15';
-				
+		$order->orderinfo = $row;
 		$order->save();
-		
 		
 		$orderpayment_type = $this->_element;
 		$transaction_status = JText::_( "Incomplete" );
@@ -205,13 +266,14 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
 		$orderpayment->save();
 		
-        $vars = $this->prepareRecVars( $order, $orderpayment );
+        $vars = $this->prepareSecondVars( $order, $orderpayment );
 		
 		$html = $this->_getLayout('secondpayment', $vars);
         $html .= $this->_getLayout('prepayment', $vars);
         return $html;
     }
-    
+	
+      
     
     /**
      * Prepares vars for the recurring prepayment
@@ -219,7 +281,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      * @param object vars
      * @return object vars
      */
-    function prepareRecVars( $order, $orderpayment ) 
+    function prepareSecondVars( $order, $orderpayment ) 
     {
     	$vars = new JObject();        
         
@@ -227,37 +289,52 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
         // properties as specified in moneybookers gateway manual
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
-        $vars->transaction_id = $orderpayment->orderpayment_id; // this need to be subscription id??
+        $vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
-        $vars->return_url_text = JText::_( 'TIENDA MONEYBOOKERS TEXT ON FINISH PAYMENT BUTTON' );
+        $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
-        $vars->status_url2 = $this->_getParam( 'receiver_email' );
+        $vars->status_url2 = 'mailto:info@opensoft.co.za';
         $vars->language = $this->_getParam( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
-        $vars->user_id = JFactory::getUser()->id;
-		$vars->order_id = $order->order_id;
-        $vars->orderpayment_id = $orderpayment->orderpayment_id;
-	    $vars->orderpayment_type = $this->_element;	
-	    $vars->currency = $this->_getParam( 'currency', 'USD' );
+        
+	    $vars->currency = $this->_getParam( 'currency', 'EUR' );
 	    $vars->detail1_description = $order->order_id;
      	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
 	    $vars->detail2_description = $orderpayment->orderpayment_id;
 	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
 	    
+		//pay from email + All Customer Details to prefill MoneyBookers form
+		//MD5 and other comparison
+		$vars->user_id = JFactory::getUser()->id;
+		$vars->order_id = $order->order_id;
+        $vars->orderpayment_id = $orderpayment->orderpayment_id;
+	    $vars->orderpayment_type = $this->_element;	
 	    $vars->is_recurring = $order->isRecurring();
-	    $vars->mixed_cart = false;			
+	    $vars->mixed_cart = false;
+	    
+	    $billing_address = TiendaHelperUser::getPrimaryAddress( $vars->user_id , 'billing' );
+     	$vars->first_name       = $billing_address->first_name;
+		$vars->last_name       	= $billing_address->last_name;
+		$vars->phone_number     = $billing_address->phone1;
+		$vars->email      		= JFactory::getUser()->email;
+		
+		$vars->address       	= $billing_address->address_1;
+		$vars->postal_code      = $billing_address->postal_code;
+		$vars->city			    = $billing_address->city;
+		$vars->country     		= $billing_address->country;
+		$vars->state       		= $billing_address->zone_name;
+					
 		$vars->rec_amount = $order->recurring_trial ? $order->recurring_trial_price : $order->order_total;
-						
 		$vars->rec_start_date = '';
-			
 		$vars->rec_period = $order->recurring_trial ? $order->recurring_trial_period_interval : $order->recurring_period_interval;
 		$vars->rec_cycle = $this->_getDurationUnit($order->recurring_trial ? $order->recurring_trial_period_unit : $order->recurring_period_unit);// (day | week | month)
 			
 		// a period of days during which the customer can still process the transaction in case it originally failed.			
 		$vars->rec_grace_period = 3;
-		
+		$vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
+        
 		return $vars;
     }
  
@@ -284,7 +361,6 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		{
 			$paction 	= JRequest::getVar( 'paction' );
 			$html = "";
-			
 			switch ($paction) {
 				case "message":
 					$user = JFactory::getUser();
@@ -307,24 +383,29 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         					$model = JModel::getInstance( 'Products', 'TiendaModel' );
         					$model->setId( $items[0]->product_id );  
         					$product = $model->getItem();
-        					
         					if( $product->product_recurs )
         					{
+        						// get the order_id from the session set by the prePayment
+				                $mainframe =& JFactory::getApplication();
+				                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
+				                $order = JTable::getInstance('Orders', 'TiendaTable');
+				                $order->load( $order_id );
+				                $items = $order->getItems();
         						// prepare payment for the recurring item Click Here to View and Print an Invoice 
-        						$html = $this->_secondPrePayment();        						
+        						//$html = $this->_secondPrePayment($order_id);
+        						$html = $this->_secondPrePayment();      						
         					}        					
         				}        				
                     }
                     	else 
                    	{
-                    	$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
-						$html .= $this->_renderHtml( $text );
+                    	$text =  JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+						$html .= "<div align='center'><strong>".$this->_renderHtml( $text )."<strong></div>";
 						$html .= $this->_displayArticle(); 	
                    	}									
 				  break;
 				case "process":
 					$html = $this->_process();	
-						
 					$app =& JFactory::getApplication();
 					$app->close();
 				  break;
@@ -365,27 +446,28 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      * - Merchant creates a pending transaction or order for X amount in their system.
 	 * - Merchant redirects the customer to the Moneybookers Payment Gateway where the customer completes the transaction.
      * - Moneybookers posts the confirmation for a transaction to the status_url, which includes the 'mb_amount' parameter.
-     * - The Merchant's application at 'status_url' first validates the parameters by calculating the md5sig (see Annex III – MD5 Signature) and if successful, it should compare the value from the confirmation post (amount parameter) to the one from the pending transaction/order in their system. Merchants may also wish to compare other parameters such as transaction id and pay_from_email. Once everything is correct the Merchant can process the transaction in their system, crediting the money to their customer's account or dispatching the goods ordered.
+     * - The Merchant's application at 'status_url' first validates the parameters by calculating the md5sig (see Annex III ï¿½ MD5 Signature) and if successful, it should compare the value from the confirmation post (amount parameter) to the one from the pending transaction/order in their system. Merchants may also wish to compare other parameters such as transaction id and pay_from_email. Once everything is correct the Merchant can process the transaction in their system, crediting the money to their customer's account or dispatching the goods ordered.
      * 
      * @return string
      * @access protected
      */
     function _process()
     {
+		
     	$errors = array();
     	$send_email = false;
     	
-    	$data = JRequest::get('post');  	
+    	$data = JRequest::get('POST');  	
     	
     	$this->_logResponse($data);
-    	
+		
     	// make some initial validations
 		if ($error = $this->_validatePayment($data)) {
 			$errors[] = $error;
 		}
-		
-		// process the payment if this is not a cancellation (-1) or charge back (-3)
-		if ($data['status'] != '-1' && $data['status'] != '-3') {
+			
+		// process the payment if this is not a cancellation (-1) or failed (-2) or charge back (-3)
+		if ($data['status'] != '-1' && $data['status'] != '-2' && $data['status'] != '-3') {
 			if ( ! isset($data['rec_payment_id'])) {
 				$payment_error = $this->_processSale($data, $errors);
 			}
@@ -401,8 +483,9 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
         if ($error) {   
             // send an emails to site's administrators with error messages
-            $this->_sendErrorEmails($error, $data['transaction_details']);
-            return $error;    
+            foreach($error as $value)
+			 	$this->_sendErrorEmails($error, 'A9 ='.$value);
+            return $error;
         }
 		
         // if here, all went well
@@ -425,33 +508,37 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$keyarray = $data;
 		$keyarray['status'] = $this->_getMBStatus($data['status']);
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
-    	
+    	echo $data[0];
      	// check that payment amount is correct for order_id 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
+        
         if (empty($orderpayment->order_id))
         {
              $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ORDER');
+			 $this->_sendErrorEmails($error, 'A1 -'.$orderpayment->order_id);
         }
+		echo $orderpayment->order_id.'</br>';
         $orderpayment->transaction_details  = $payment_details;
         $orderpayment->transaction_id       = $data['mb_transaction_id'];
         $orderpayment->transaction_status   = $this->_getMBStatus($data['status']);
 
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
-        $respond_amount = TiendaHelperBase::number( $data['mb_amount'], array( 'thousands'=>'' ) );
+        $respond_amount = TiendaHelperBase::number( $data['amount'], array( 'thousands'=>'' ) );
         if ($stored_amount != $respond_amount ) {
         	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT AMOUNT INVALID');
             $errors[] = $stored_amount . " != " . $respond_amount;
+			$this->_sendErrorEmails($error, 'A2 -'.$stored_amount);
+			$this->_sendErrorEmails($error, 'A3 -'.$respond_amount);
         }
-            
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
-        if (count($errors)) 
+        if (count($errors))
         {
         	// if an error occurred 
             $order->order_state_id = $this->_getParam('failed_order_state', '10'); // FAILED
@@ -476,7 +563,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         // save the orderpayment
         if (!$orderpayment->save())
         {
-            $errors[] = $orderpayment->getError(); 
+            $errors[] = $orderpayment->getError();
+			$this->_sendErrorEmails($error, 'A4 -'.$orderpayment->getError()); 
         }
             
         if (!empty($setOrderPaymentReceived))
@@ -494,7 +582,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $order = $model->getItem();
             $helper->sendEmailNotices($order, 'new_order');
         }
-        
+		
         return $errors;	
 	}
 	
@@ -521,6 +609,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         if (empty($orderpayment->order_id))
         {
              $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ORDER');
+			 $this->_sendErrorEmails($error, 'A18 -'.$data['orderpayment_id']);
         }
         $orderpayment->transaction_details  = $payment_details;
         $orderpayment->transaction_id       = $data['rec_payment_id'];
@@ -528,10 +617,11 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
-        $respond_amount = TiendaHelperBase::number( $data['mb_amount'], array( 'thousands'=>'' ) );
-        if ($stored_amount != $respond_amount ) {
+        $respond_amount = TiendaHelperBase::number( $data['amount'], array( 'thousands'=>'' ) );
+        if ($stored_amount != $respond_amount) {
         	$errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT AMOUNT INVALID');
             $errors[] = $stored_amount . " != " . $respond_amount;
+			$this->_sendErrorEmails($error, 'A19 -'.$stored_amount . " != " . $respond_amount);
         }
             
         // set the order's new status and update quantities if necessary
@@ -547,12 +637,11 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         else 
         {
             $order->order_state_id = $this->_getParam('payment_received_order_state', '17');; // PAYMENT RECEIVED
-                
             // do post payment actions
             $setOrderPaymentReceived = true;
                 
             // send email
-            $send_email = true;
+            $send_email = false;
             
             // make subscription
             $subscription = true;
@@ -592,11 +681,6 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	        if (empty($data['pay_to_email']) || $data['pay_to_email'] != $this->_getParam( 'receiver_email' )) {
 	            $errors[] = JText::_('TIENDA MONEYBOOKERS MESSAGE RECEIVER INVALID');
 	        }
-	        
-	        
-	        
-	        
-	        
 	        // if no subscription exists for this subscr_id,
 	        // create new subscription for the user
 	        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
@@ -618,17 +702,27 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	                $recurring_period_interval = $order->recurring_trial_period_interval;
 	            }      
 
-	            $orderitem = $order->getRecurringItem();
-	                
+				error_reporting(E_ALL);
+				//$items = $order->getItems();
+	           // $item = $items[0];
+	            
+	            
+		        $items = $order->getItems();
+		        
+		        foreach ($items as $item)
+				{
+	            	$subscription->product_id = $item->product_id;
+	            	$subscription->orderitem_id = $item->orderitem_id;
+				}
+		
 	            $subscription->user_id = $order->user_id;
 	            $subscription->order_id = $order->order_id;
-	            $subscription->product_id = $orderitem->product_id;
-	            $subscription->orderitem_id = $orderitem->orderitem_id;
 	            $subscription->transaction_id = $data['rec_payment_id'];
 	            $subscription->created_datetime = $date->toMySQL();
 	            $subscription->subscription_enabled = '1';
-	            switch($recurring_period_unit) 
-	            {
+	            
+	        	switch($recurring_period_unit) 
+	            {   
 	                case "Y":
 	                    $period_unit = "YEAR";
 	                    break;
@@ -662,6 +756,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
 	            $subscriptionhistory->comments = JText::_( 'TIENDA MONEYBOOKERS NEW SUBSCRIPTION CREATED' );
 	            $subscriptionhistory->save();
+	            
 	        }
 	            else
 	        {
@@ -706,7 +801,48 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	        }
         }
         
-        return $errors;	
+        
+            // update order status
+            Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+            $order->order_state_id = $this->params->get('payment_received_order_state', '17');; // PAYMENT RECEIVED
+            
+            // do post payment actions
+            $setOrderPaymentReceived = true;
+            
+            // send email
+            $send_email = true;
+            
+            // save the order
+            if (!$order->save())
+            {
+                $errors[] = $order->getError();
+            }
+            
+            if (!empty($setOrderPaymentReceived))
+            {
+                $this->setOrderPaymentReceived( $orderpayment->order_id );
+            }
+            
+            if ($send_email)
+            {
+                // send notice of new order
+                Tienda::load( "TiendaHelperBase", 'helpers._base' );
+                $helper = TiendaHelperBase::getInstance('Email');
+                $model = Tienda::getClass("TiendaModelOrders", "models.orders");
+                $model->setId( $orderpayment->order_id );
+                $order = $model->getItem();
+                $helper->sendEmailNotices($order, 'new_order');
+            }
+        
+        
+        $error = count($errors) ? implode("\n", $errors) : '';
+        if (!empty($error))
+        {
+            $this->setError( $error );
+            return false;            
+        }
+        return true;
 	}
     
 	/**
@@ -776,7 +912,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
     function _sendErrorEmails($message, $paymentData)
     {
         $mainframe =& JFactory::getApplication();
-                
+               
         // grab config settings for sender name and email
         $config     = &TiendaConfig::getInstance();
         $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
@@ -784,21 +920,20 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
-        $recipients = $this->_getAdmins();
+        $recipients = 'info@opensoft.co.za';
         $mailer =& JFactory::getMailer();
         
-        $subject = JText::sprintf('TIENDA MONEYBOOKERS EMAIL PAYMENT NOT VALIDATED SUBJECT', $sitename);
+        $subject = $keyarray['status'];
 
-        foreach ($recipients as $recipient) 
-        {
+        
             $mailer = JFactory::getMailer();        
-            $mailer->addRecipient( $recipient->email );
+            $mailer->addRecipient( $recipients );
         
             $mailer->setSubject( $subject );
             $mailer->setBody( JText::sprintf('TIENDA MONEYBOOKERS EMAIL PAYMENT FAILED BODY', $recipient->name, $sitename, $siteurl, $message, $paymentData) );          
             $mailer->setSender(array( $mailfrom, $fromname ));
             $sent = $mailer->send();
-        }
+        
 
         return true;
     }
