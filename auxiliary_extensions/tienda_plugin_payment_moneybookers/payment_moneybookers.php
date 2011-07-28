@@ -65,7 +65,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
-        $vars->status_url2 = 'mailto:info@opensoft.co.za'; //$this->_getParam( 'receiver_email' );
+        $vars->status_url2 = 'mailto:bojan.programer@gmail.com'; //$this->_getParam( 'receiver_email' );
         $vars->language = $this->_getParam( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
@@ -294,7 +294,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
-        $vars->status_url2 = 'mailto:info@opensoft.co.za';
+        $vars->status_url2 = 'mailto:bojan.programer@gmail.com';
         $vars->language = $this->_getParam( 'language', 'EN' );
         $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
@@ -920,7 +920,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
-        $recipients = 'info@opensoft.co.za';
+        $recipients = 'bojan.programer@gmail.com';
         $mailer =& JFactory::getMailer();
         
         $subject = $keyarray['status'];
