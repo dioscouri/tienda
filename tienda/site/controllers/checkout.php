@@ -2526,9 +2526,9 @@ class TiendaControllerCheckout extends TiendaController
 			    case "5":
 			    case "17":
 			        $articles_order = $this->getOrderArticles( $order_id );
+							$articles = array_merge( $articles, $articles_order );
 			        break;
 			}
-			$articles = array_merge( $articles, $articles_order );
 			$view->assign( 'articles', $articles );
 		
 			ob_start();
