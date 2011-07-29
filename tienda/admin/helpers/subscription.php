@@ -116,7 +116,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         {
             foreach ($list as $item)
             {
-                $this->setExpired( $item->subscription_id, $item );
+                $this->setExpired( $item->subscription_id, $item, true );
             }
         }
         
@@ -137,15 +137,19 @@ class TiendaHelperSubscription extends TiendaHelperBase
      * 
      * @param $subscription_id
      * @param object $item Single item from the Subscriptions model 
+     * @param $issues If this is subscription by issues
      * @return unknown_type
      */
-    function setExpired( $subscription_id, $item='' )
+    function setExpired( $subscription_id, $item='', $issues = false )
     {
         // change status = '0'
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
         $subscription->subscription_enabled = 0;
+        if( $issues )
+        	$subscription->expires_datetime = JFactory::getDate()->toMySQL();
+
         if (!$subscription->save())
         {
             $this->setError( $subscription->getError() );

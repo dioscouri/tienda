@@ -691,7 +691,7 @@
                                 <?php echo JText::_( 'Default Subscription Number' ); ?>
                             </th>
                             <td>
-                                <?php echo JHTML::_('select.booleanlist', 'default_sub_num', 'class="inputbox"', $this->row->get('default_sub_num', '1') ); ?>
+                                <input type="text" name="default_sub_num" value="<?php echo $this->row->get('default_sub_num', '1'); ?>" class="inputbox" size="10" />
                             </td>
                             <td>
                                 
