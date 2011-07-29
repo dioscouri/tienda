@@ -4,8 +4,8 @@
     <tag>it-IT</tag>
     <version>0.7.2 Community</version>
     <creationDate>August 2010</creationDate>
-    <author>Massimo Olivio, Giovanni Gresele, Daniele Rosario</author>
-    <authorEmail>massimolivio@gmail.com, supporto@ideazioni.it, daniele@weble.it</authorEmail>
+    <author>Massimo Olivio, Giovanni Gresele, Daniele Rosario, Alessandro Manfre</author>
+    <authorEmail>massimolivio@gmail.com, supporto@ideazioni.it, daniele@weble.it, alessandro@e-smokers.it</authorEmail>
     <authorUrl>Dioscouri.com</authorUrl>
     <copyright>2010 Dioscouri.com</copyright>
     <copyrightHolder>Dioscouri.com</copyrightHolder>
@@ -43,10 +43,10 @@
 			<filename>it-IT.plg_tienda_payment_paypal.ini</filename>
 			<filename>it-IT.plg_tienda_report_bestsellers.ini</filename>
 			<filename>it-IT.plg_tienda_shipping_fedex.ini</filename>
-			<filename>it-IT.plg_tienda_report_dailysales</filename>
-			<filename>it-IT.plg_tienda_report_highestvolumeandspender</filename>
-			<filename>it-IT.plg_tienda_report_lowstock</filename>
-			
+			<filename>it-IT.plg_tienda_report_dailysales.ini</filename>
+			<filename>it-IT.plg_tienda_report_highestvolumeandspender.ini</filename>
+			<filename>it-IT.plg_tienda_report_lowstock.ini</filename>
+        </files>
     </administration>
 
 </install>
