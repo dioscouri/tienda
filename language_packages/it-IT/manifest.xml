@@ -43,7 +43,10 @@
 			<filename>it-IT.plg_tienda_payment_paypal.ini</filename>
 			<filename>it-IT.plg_tienda_report_bestsellers.ini</filename>
 			<filename>it-IT.plg_tienda_shipping_fedex.ini</filename>
-        </files>
+			<filename>it-IT.plg_tienda_report_dailysales</filename>
+			<filename>it-IT.plg_tienda_report_highestvolumeandspender</filename>
+			<filename>it-IT.plg_tienda_report_lowstock</filename>
+			
     </administration>
 
 </install>
