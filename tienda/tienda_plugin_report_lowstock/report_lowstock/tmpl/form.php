@@ -19,6 +19,14 @@
 		<span style="font-size:1.6em; border-right: 2px groove #333; margin: 0 20px;"></span>
 		<?php echo JText::_("SELECT PRODUCTS TO SHOW"); ?>:
 		<?php $attribs = array('class' => 'inputbox', 'size' => '1' ); ?>
-		<?php echo TiendaSelect::booleans( @$state->filter_enabled, filter_enabled, $attribs, null, true); ?>
+		<?php 
+				$arr = array(
+					JHTML::_('select.option',  '', JText::_( JText::_( 'All' ) ) ),
+					JHTML::_('select.option',  '1', JText::_( JText::_( 'Enabled' ) ) ),
+					JHTML::_('select.option',  '0',  JText::_( JText::_( 'Disabled' ) ) )
+				);
+		
+				echo JHtml::_( 'select.radiolist', $arr, 'filter_enabled', $attribs, 'value', 'text', @$state->filter_enabled );
+		?>
 		
 	</div>
