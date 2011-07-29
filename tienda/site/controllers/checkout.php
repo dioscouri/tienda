@@ -2513,15 +2513,22 @@ class TiendaControllerCheckout extends TiendaController
 
 			// get the articles to display after checkout
 			$articles = array();
+	    $article_id = TiendaConfig::getInstance()->get( 'article_checkout' );
+	    if (!empty($article_id))
+	    {
+        Tienda::load( 'TiendaArticle', 'library.article' );
+	    	$articles[] = TiendaArticle::display( $article_id );
+	    }
 			switch ($order->order_state_id)
 			{
 			    case "2":
 			    case "3":
 			    case "5":
 			    case "17":
-			        $articles = $this->getOrderArticles( $order_id );
+			        $articles_order = $this->getOrderArticles( $order_id );
 			        break;
 			}
+			$articles = array_merge( $articles, $articles_order );
 			$view->assign( 'articles', $articles );
 		
 			ob_start();
@@ -3777,12 +3784,6 @@ class TiendaControllerCheckout extends TiendaController
         Tienda::load( 'TiendaArticle', 'library.article' );
         
 	    $articles = array();
-	    
-	    $article_id = TiendaConfig::getInstance()->get( 'article_checkout' );
-	    if (!empty($article_id))
-	    {
-	        $articles[] = TiendaArticle::display( $article_id );
-	    }
 	    
 	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
