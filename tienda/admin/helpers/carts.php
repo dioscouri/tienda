@@ -173,6 +173,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function mergeSessionCartWithUserCart( $session_id, $user_id )
 	{
+		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		$date = JFactory::getDate();
 		$session =& JFactory::getSession();
 	  
@@ -197,12 +198,23 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 				// fire plugin event: onGetAdditionalCartKeyValues
 				//this event allows plugins to extend the multiple-column primary key of the carts table
+				// load EAVs from the previous cart
+				$eavs = TiendaHelperEav::getAttributes( 'products', $session_cartitem->product_id );
+				$eav_fields = array();
+				foreach ( @$eavs as $eav )
+				{					
+					$keynames[$eav->eavattribute_alias] = TiendaHelperEav::getAttributeValue( $eav, 'carts', $session_cartitem->cart_id, true, false );					
+					$field_key = $eav->eavattribute_alias;
+					$session_cartitem->$field_key = $keynames[$eav->eavattribute_alias];
+					$eav_fields[$field_key] = $keynames[$eav->eavattribute_alias];
+				}
+				
 				$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( $session_cartitem, null, null );
 				if (!empty($additionalKeyValues))
 				{
 					$keynames = array_merge($keynames, $additionalKeyValues);
 				}
-
+				
 				if ($table->load($keynames))
 				{
 					// the quantity as set in the session takes precedence
@@ -217,6 +229,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 							$table->set($key, $value);
 						}
 					}
+					
+					foreach( @$eav_fields as $key=>$value )
+					{
+						$table->set($key, $value);
+					}
 					// this is a new cartitem, so set cart_id = 0
 					$table->cart_id = '0';
 				}
@@ -224,11 +241,12 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$table->user_id = $user_id;
 				$table->session_id = $session->getId();
 				$table->last_updated = $date->toMysql();
-
+				
 				if (!$table->save())
 				{
 					JError::raiseNotice('updateCart', $table->getError());
 				}
+				
 			}
 		}
 	}
