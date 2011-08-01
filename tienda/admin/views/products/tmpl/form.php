@@ -1410,9 +1410,9 @@ window.addEvent('domready', function(){
 	
 	// Uploadify!
     jQuery('#uploadify_file_upload').uploadify({
-        'uploader': '<?php echo Tienda::getUrl("js"); ?>/uploadify/uploadify.swf',
+        'uploader': '<?php echo Tienda::getUrl("js"); ?>uploadify/uploadify.swf',
         'script': '<?php echo JURI::getInstance()->root(true); ?>/index.php',
-        'cancelImg': '<?php echo Tienda::getUrl("js"); ?>/uploadify/uploadify-cancel.png',
+        'cancelImg': '<?php echo Tienda::getUrl("images"); ?>cancel.png',
         'multi': true,
         'auto': true,
         'fileDataName': 'uploadify_image',
