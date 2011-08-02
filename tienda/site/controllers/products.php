@@ -953,6 +953,15 @@ class TiendaControllerProducts extends TiendaController
 		
 		// convert elements to array that can be binded             
 		$values = JRequest::get( 'post' );
+		if( isset( $values['elements'] ) ) // ajax call! -> decode elements and merge them with the request array
+		{
+			$elements = json_decode( preg_replace( '/[\n\r]+/', '\n', $values['elements'] ) );	
+			unset( $values['elements'] );	
+			// convert elements to array that can be binded
+			$values = array_merge( TiendaHelperBase::elementsToArray( $elements ), $values );
+			JRequest::set( $values );
+		}
+		
 		$files = JRequest::get( 'files' );
 		
 		$attributes = array( );

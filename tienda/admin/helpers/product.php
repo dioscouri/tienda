@@ -2062,12 +2062,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if( is_array( $values ) && !count( $values ) )
 		{
 			$values = JRequest::get( 'request' );
-			if( isset( $values['elements'] ) )
-			{
-				$elements = json_decode( preg_replace( '/[\n\r]+/', '\n', $values['elements'] ) );		
-				// convert elements to array that can be binded
-				$values = TiendaHelperBase::elementsToArray( $elements );
-			}
 		}
 		$html = '';
 		$page = JRequest::getVar( 'page', 'product' );

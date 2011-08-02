@@ -49,9 +49,9 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             		$params = new JParameter( trim(@$item->cartitem_params) );
             		$default_url = "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id;
             		$attributes = TiendaHelperProduct::convertAttributesToArray( $item->product_id, $item->product_attributes );
-            		for( $i = 0, $c = count( $attributes ); $i < $c; $i++ )
+            		for( $j = 0, $c = count( $attributes ); $j < $c; $j++ )
             		{
-            			$default_url .= '&attribute_'.$attributes[$i][0].'='.$attributes[$i][1];
+            			$default_url .= '&attribute_'.$attributes[$j][0].'='.$attributes[$j][1];
             		}	
             		$link = $params->get('product_url', $default_url );
             		$link = JRoute::_($link);
