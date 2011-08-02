@@ -4,6 +4,10 @@ $item = @$this->item;
 $form = @$this->form;
 $values = @$this->values;
 $formName = 'adminForm_'.$item->product_id; 
+
+$return = base64_encode( JUri::getInstance()->toString() );
+if( strlen( @$values['return'] ) )
+	$return = $values['return'];
 ?>
 
 <div>
@@ -97,7 +101,7 @@ $formName = 'adminForm_'.$item->product_id;
         <input type="hidden" name="filter_category" value="<?php echo $this->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
         <?php echo JHTML::_( 'form.token' ); ?>
-        <input type="hidden" name="return" value="<?php echo base64_encode( JUri::getInstance()->toString() ); ?>" />
+        <input type="hidden" name="return" value="<?php echo $return; ?>" />
    
         <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_( 'Validating' )."' );"; ?>
         
