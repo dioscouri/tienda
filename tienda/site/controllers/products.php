@@ -398,7 +398,11 @@ class TiendaControllerProducts extends TiendaController
 	function getAddToCart( $product_id, $values = array( ) )
 	{
 		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-		$html = TiendaHelperProduct::getCartButton( $product_id, 'product_buy', $values );
+		if( isset( $values['layout'] ) )
+			$layout = $values['layout'];
+		else
+			$layout = 'product_buy';
+		$html = TiendaHelperProduct::getCartButton( $product_id, $layout, $values );
 		
 		return $html;
 	}
