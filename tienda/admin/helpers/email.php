@@ -495,6 +495,8 @@ class TiendaHelperEmail extends TiendaHelperBase
     function sendEmailToAskQuestionOnProduct($sendObject)
     {
     	$config = &TiendaConfig::getInstance();
+		$lang = &JFactory::getLanguage();
+        $lang->load('com_tienda', JPATH_ADMINISTRATOR);
     	//set the email subject
     	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('Product')." #{$sendObject->item->product_id} ] ";
     	$subject .= JText::_('Product Inquiries!');
@@ -502,8 +504,8 @@ class TiendaHelperEmail extends TiendaHelperBase
     	
     	$vendor_name = $config->get('shop_owner_name', 'Admin');
     	// set the email body
-        $text = sprintf(JText::_('Dear %s'),$vendor_name).",\n\n";
-     	$text .= $sendObject->namefrom." has some inquiries about the product ".$sendObject->item->product_name." #{$sendObject->item->product_id} and here's what he has to say -\n\n";
+        $text = sprintf(JText::_('EMAIL_DEAR'),$vendor_name).",\n\n".$vendor_name;
+     	$text .= $sendObject->namefrom.JText::_(' has some inquiries about the product')." ".$sendObject->item->product_name." #{$sendObject->item->product_id} ".JText::_("and here's what he has to say")."-\n\n";
 		$text .= "------------------------------------------------------------------------------------------\n";
      	$text .= $sendObject->body;
      	$text .= "\n------------------------------------------------------------------------------------------";
