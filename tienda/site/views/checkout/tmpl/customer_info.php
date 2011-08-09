@@ -5,10 +5,19 @@
 		<div class="note">
 			<?php echo JText::_('Order information will be sent to your account e-mail listed below.')?>	
 		</div>
-	<?php if($this->user->id):?>
-	<?php echo JText::_('E-mail address');?>: <?php echo $this->user->email;?> ( <?php echo TiendaUrl::popup( "index.php?option=com_user&view=user&task=edit&tmpl=component", JText::_('edit'), array('update' => true) );  ?>)
-	<?php else : ?>
-	<?php echo JText::_('Email Address')?>: <input type="text" maxlength="250" size="48" id="email_address" name="email_address">
-	<?php endif;?>
-	</div>		
-</fieldset> 
+			<div class="tienda_checkout_method_user_email">
+				<?php
+					if($this->user->id)
+						$email_address = $this->user->email;
+					else
+						$email_address = '';
+				?>
+
+				<?php echo JText::_('E-mail address');?>: <span id="user_email_span"><?php echo $email_address; ?></span>
+				<input type="text" id="email_address" name="email_address" value="<?php echo $email_address; ?>"/>
+				<input type="button" id="email_address_button_edit" onclick="tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, true );" value="<?php echo JText::_( 'Edit' );?>" />
+				<input type="button" id="email_address_button_cancel" onclick="tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );" value="<?php echo JText::_( 'Cancel' );?>" />
+			</div>
+			<div id="user_email_validation"></div>
+	</div>
+</fieldset>

@@ -11,8 +11,10 @@
     <span><?php echo JText::_( "Checkout Results" ); ?></span>
 </div>
 
+<?php if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') ) : ?>
 <!-- Progress Bar -->
 <?php echo $this->progress; ?>
+<?php endif; ?>
 
 <?php if (!empty($this->onBeforeDisplayPostPayment)) : ?>
     <div id='onBeforeDisplayPostPayment_wrapper'>

@@ -18,7 +18,7 @@
 			$return_link = base64_encode( $uri->toString( ) );
 			$asklink = "index.php?option=com_tienda&view=checkout&task=registrationLink&tmpl=component&return=" . $return_link;
 				
-				$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_( "Click here to login" ),
+				$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_( "Click here to login or register" ),
 						array(
 							'width' => '490', 'height' => '320'
 						) );
@@ -66,36 +66,48 @@
 				<div class="tienda-collapse-processed contentheading"><?php echo $this->showShipping ? JText::_('Billing and Shipping Information') : JText::_('Billing Information'); ?></div>
 				<div id="tienda_billing-shipping">
         			<?php 
-						 		$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";                   
+				 		$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";                   
+        			if (!empty($this->billing_address))
+            		{
             		$billattribs = array(
                 		'class' => 'inputbox',    
                     	'size' => '1',
-                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value );"
+                    	'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', ''); tiendaGetCheckoutTotals();"
                 	);
                         
                 	// display select list of stored addresses
-                	echo TiendaSelect::address( $this->user->id, @$this->billing_address->address_id, 'billing_address_id', 1, $billattribs, 'billing_address_id', false, true );
+                	echo TiendaSelect::address( $this->user->id, @$this->billing_address->address_id, 'billing_address_id', 1, $billattribs, 'billing_address_id', false );
+                        
+                	if (count($this->billing_address) == 1)
+                	{
+                		echo "<input type=\"hidden\" id=\"billing_address_id\" name=\"billing_address_id\" value=\"" . @$this->billing_address->address_id . "\" />";
+                	}
+            	}
            		?>
+           		<!--    BILLING ADDRESS FORM  -->          
+           		<?php if (empty($this->billing_address)): ?>
+           			<span id="billingDefaultAddress">
+            			<?php echo @$this->billing_address_form; ?>
+                	</span>	
+				<?php else : ?>
             	<div>
 					<div><?php echo JText::_('Billing Address')?></div>
 					<span id="billingDefaultAddress">
 				<?php 
-					if ( !empty( $this->billing_address ) ):
-						echo $this->billing_address->title . " ". $this->billing_address->first_name . " ". $this->billing_address->last_name . "<br>";
-						echo $this->billing_address->company . "<br>";
-						echo $this->billing_address->address_1 . " " . $this->billing_address->address_2 . "<br>";
-						echo $this->billing_address->city . ", " . $this->billing_address->zone_name ." " . $this->billing_address->postal_code . "<br>";
-						echo $this->billing_address->country_name . "<br>";
-					endif;
-					?>
+			        echo $this->billing_address->title . " ". $this->billing_address->first_name . " ". $this->billing_address->last_name . "<br>";
+					echo $this->billing_address->company . "<br>";
+					echo $this->billing_address->address_1 . " " . $this->billing_address->address_2 . "<br>";
+					echo $this->billing_address->city . ", " . $this->billing_address->zone_name ." " . $this->billing_address->postal_code . "<br>";
+					echo $this->billing_address->country_name . "<br>";
+				?>
 				</span>
-					<?php echo @$this->billing_address_form; ?>
 				</div>
+        		<?php endif; ?>
           		
           		<div class="reset marginbot"></div>
           		<?php if(!$this->user->id ) : ?>
 					<div class="tienda_checkout_method">
-						<input type="checkbox" id="create_account" name="create_account" value="" />
+						<input type="checkbox" id="field-create-account" name="field-create-account" value="" />
 						<label for="field-create-account"><?php echo JText::_( 'Create a New Account' );?></label>
 						<div id="tienda_user_additional_info">
                             <?php echo $this->form_user_register;?>
@@ -106,17 +118,25 @@
            		<?php if($this->showShipping):?>
            		<div class="reset marginbot"></div>
             	<?php
+                if (!empty($this->shipping_address))
+                {
                     $shipping_rates_text = JText::_( "Getting Shipping Rates" ); 
 	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '$shipping_rates_text', this.form, this.options[this.selectedIndex].value ); "
-	                ); // tiendaCheckoutSetShippingAddress();
+	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '$shipping_rates_text' ); "
+	                ); // tiendaGetCheckoutTotals();
 	                
 	                // display select list of stored addresses
-	                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false, true );
-							?>
-	
+	                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false );
+	                
+	               	if (count($this->shipping_address) == 1)
+	               	{
+	               		echo "<input type=\"hidden\" id=\"shipping_address_id\" name=\"shipping_address_id\" value=\"" . @$this->shipping_address->address_id . "\" />";
+	               	}
+				}
+				?>
+
                 <?php if (empty($this->shipping_address)) : ?>
                     <div>
                         <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" />&nbsp;
@@ -125,22 +145,24 @@
 				<?php endif; ?>
 				
 				<!--    SHIPPING ADDRESS FORM  -->	         
+	            <?php if (empty($this->shipping_address)) : ?>
+	            <span id="shippingDefaultAddress">
+	            	<?php echo @$this->shipping_address_form; ?>
+	            </span>
+	            <?php else : ?>
 	            <div>
-					<div><?php echo JText::_('Shipping Address'); ?></div>
+					<div><?php echo JText::_('Shipping Address')?></div>
 					<span id="shippingDefaultAddress">
 					<?php 
-					if ( !empty( $this->shipping_address ) )
-					{
-		        echo $this->shipping_address->title . " ". $this->shipping_address->first_name . " ". $this->shipping_address->last_name . "<br>";
+				        echo $this->shipping_address->title . " ". $this->shipping_address->first_name . " ". $this->shipping_address->last_name . "<br>";
 						echo $this->shipping_address->company . "<br>";
 						echo $this->shipping_address->address_1 . " " . $this->shipping_address->address_2 . "<br>";
 						echo $this->shipping_address->city . ", " . $this->shipping_address->zone_name ." " . $this->shipping_address->postal_code . "<br>";
 						echo $this->shipping_address->country_name . "<br>";
-					}
 					?>
 					 </span>
-					<?php echo @$this->shipping_address_form; ?>
 				</div>
+	            <?php endif; ?>
            		<?php else :?>
            		<input type="hidden" id="shippingrequired" name="shippingrequired" value="0"  />
            		<?php endif;?>
@@ -247,26 +269,12 @@
 
 <script type="text/javascript">
 window.addEvent('domready', function() {
-<?php if( @$this->billing_address->address_id ): ?>
-	tiendaShowHideDiv( 'billing_input_addressForm' );
-<?php endif; ?>
-
-<?php if( $this->showShipping  ):?>	
-
-	<?php if( !$this->user->id ) : ?>
-	tiendaHideShippingFields('<?php echo JText::_( "Getting Shipping Rates" ); ?>');
-	<?php endif; ?>
-	
-	<?php if( @$this->shipping_address->address_id ): ?>
-	tiendaShowHideDiv( 'shipping_input_addressForm' );
-	<?php endif; ?>
-
-<?php endif; ?>
+	tiendaHideShippingFields();
 	tiendaHideBillingFields();
-<?php if( $this->user->id ) : ?>
-	tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );
-<?php else: ?>
+<?php if( !$this->user->id ) : ?>
 	tiendaHideInfoCreateAccount();
+<?php else: ?>
+	tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );
 <?php endif; ?>
 });
 </script>

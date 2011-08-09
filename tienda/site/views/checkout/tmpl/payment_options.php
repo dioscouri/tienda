@@ -4,7 +4,7 @@
 </div>
 <?php if(count($this->payment_plugins)):?>
 	<?php foreach($this->payment_plugins as $payment_plugin):?>
-	<input value="<?php echo $payment_plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $payment_plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML(''); $('payment_form_div').addClass('note')" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />
+	<input value="<?php echo $payment_plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $payment_plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML(''); $('payment_form_div').addClass('note');" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />
 	<?php echo JText::_( $payment_plugin->name ); ?>
 	<br />
 	<?php endforeach;?>

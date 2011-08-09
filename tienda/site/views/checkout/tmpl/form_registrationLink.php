@@ -4,7 +4,7 @@
 
 <table style="width: 100%;">
 <tr>
-    <td style="vertical-align: top; padding: 5px; border-right: 1px solid #CCC;">
+    <td style="vertical-align: top; padding: 5px;">
     
         <div class='componentheading'>
             <span><?php echo JText::_( "Returning Users" ); ?></span>
@@ -28,7 +28,7 @@
         
             <table>
             <tr>
-                <td style="height: 40px;">
+                <td style="height: 20px;">
                     <?php echo JText::_('USERNAME'); ?> <span class>*</span>
                 </td>
                 <td>
@@ -36,7 +36,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="height: 40px;">
+                <td style="height: 20px;">
                     <?php echo JText::_('PASSWORD'); ?><span>*</span>
                 </td>
                 <td>
@@ -63,7 +63,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="height: 40px;">
+                <td>
                     <ul>
                         <li>
                             <?php // TODO Can we do this in a lightbox or something? Why does the user have to leave? ?>
@@ -89,56 +89,6 @@
         </form>
     
     </td>
-    <td style="vertical-align: top; padding: 5px; width: 50%;">
-    
-        <div class='componentheading'>
-            <span><?php echo JText::_( "New Users" ); ?></span>
-        </div>
-        <!-- REGISTRATION -->
-
-        <table>
-        <tr>
-            <td style="height: 40px; padding: 5px;">
-                <?php echo JTEXT::_('PLEASE REGISTER TO CONTINUE SHOPPING'); ?>
-            </td>
-        </tr>
-        <tr>
-            <td>            
-            <?php if (TiendaConfig::getInstance()->get('one_page_checkout')){ ?>	
-             	<input type="button" class="button" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_( "REGISTER" ); ?>" />
-            <?php }else{?>	
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
-            <?php }?>
-            </td>
-        </tr>
-        </table>
-
-        <div class="reset"></div>
-        
-        <?php if (TiendaConfig::getInstance()->get('guest_checkout_enabled')) : ?>
-            <div class='componentheading' style="margin-top:15px;">
-                <span><?php echo JText::_( "Checkout as a Guest" ); ?></span>
-            </div>
-            <!-- REGISTRATION -->
-        
-            <table>
-            <tr>
-                <td style="height: 40px; padding: 5px;">
-                    <?php echo JTEXT::_('CHECKOUT AS A GUEST DESC'); ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <?php  if (TiendaConfig::getInstance()->get('one_page_checkout')){?>
-				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
-          
-				<?php }else{?>
-                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
-               	<?php }?>
-                </td>
-            </tr>
-            </table>
-        <?php endif; ?>        
-    </td>
 </tr>
+
 </table>

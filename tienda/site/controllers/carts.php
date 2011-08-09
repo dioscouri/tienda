@@ -12,7 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-//Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaControllerCarts extends TiendaController
 {
@@ -25,6 +25,13 @@ class TiendaControllerCarts extends TiendaController
 		parent::__construct();
 
         $this->set('suffix', 'carts');
+        
+        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
+		
+		// create the order object
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
 	}
 	
     /**
@@ -100,6 +107,13 @@ class TiendaControllerCarts extends TiendaController
         {
 	        //trigger the onDisplayCartItem for each cartitem
 	        $dispatcher =& JDispatcher::getInstance();
+	        $user       =& JFactory::getUser();
+	        
+        	if( !$user->id ) // saves session id (will be needed after logging in)
+			{
+				$session = JFactory::getSession();
+				$session->set( 'old_sessionid', $session->getId() );
+			}
         
 	        $i=0;
 	        $onDisplayCartItem = array();
@@ -116,6 +130,16 @@ class TiendaControllerCarts extends TiendaController
 		        $i++;
 	        }
 	        $view->assign( 'onDisplayCartItem', $onDisplayCartItem );
+	        
+	        // are there any enabled coupons?
+			$coupons_present = false;
+			$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+			$model->setState('filter_enabled', '1');
+			if ($coupons = $model->getList())
+			{
+				$coupons_present = true;
+			}
+			$view->assign( 'coupons_present', $coupons_present );
         }
         $view->assign( 'return', $redirect );
         $view->assign( 'checkout_itemid', $checkout_itemid );
@@ -529,4 +553,466 @@ class TiendaControllerCarts extends TiendaController
     	$cartObj->subtotal = $subtotal;
         return $cartObj;
     }
+
+    /**
+	 * Validate Coupon Code
+	 *
+	 * @return unknown_type
+	 */
+	function validateCouponCode()
+		{
+			JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+			$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+	
+			// convert elements to array that can be binded
+			Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+			$helper = TiendaHelperBase::getInstance();
+			$values = $helper->elementsToArray( $elements );
+	
+			$coupon_code = JRequest::getVar( 'coupon_code', '');
+	
+			$response = array();
+			$response['msg'] = '';
+			$response['error'] = '';
+	
+			// check if coupon code is valid
+			$user_id = JFactory::getUser()->id;
+			Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
+			$helper_coupon = new TiendaHelperCoupon();
+			$coupon = $helper_coupon->isValid( $coupon_code, 'code', $user_id );
+			if (!$coupon)
+			{
+				$response['error'] = '1';
+				$response['msg'] = $helper->generateMessage( $helper_coupon->getError() );
+				echo json_encode($response);
+				return;
+			}
+	
+			if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
+			{
+				$response['error'] = '1';
+				$response['msg'] = $helper->generateMessage( JText::_( "This Coupon Has Already Been Added to the Order" ) );
+				echo json_encode($response);
+				return;
+			}
+	
+			// TODO Check that the user can add this coupon to the order
+			$can_add = true;
+			if (!$can_add)
+			{
+				$response['error'] = '1';
+				$response['msg'] = $helper->generateMessage( JText::_( "Cannot Add This Coupon to Order" ) );
+				echo json_encode($response);
+				return;
+			}
+	
+			// Check per product coupon code
+			$ids = array();
+			$items = TiendaHelperCarts::getProductsInfo();
+			foreach($items as $item)
+			{
+				$ids[] = $item->product_id;
+			}
+			if($coupon->coupon_type == '1')
+			{
+				$check = $helper_coupon->checkByProductIds($coupon->coupon_id, $ids);
+				if(!$check)
+				{
+					$response['error'] = '1';
+					$response['msg'] = $helper->generateMessage( JText::_( "This Coupon is not related to a product in your cart!" ) );
+					echo json_encode($response);
+					return;
+				}
+			}
+	
+			// if valid, return the html for the coupon
+			$response['msg'] = " <input type='hidden' name='coupons[]' value='$coupon->coupon_id'>";
+	
+			echo json_encode($response);
+			return;
+		}
+		
+/**
+	 * Sets the selected shipping method
+	 *
+	 * @return unknown_type
+	 */
+	function setShippingMethod()
+	{
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+		// convert elements to array that can be binded
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		$values = $helper->elementsToArray( $elements );
+
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+
+		// get the order object so we can populate it
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		// bind what you can from the post
+		$order->bind( $values );
+
+		// set the currency
+		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+
+		// set the shipping method
+		$order->shipping = new JObject();
+		$order->shipping->shipping_price      = @$values['shipping_price'];
+		$order->shipping->shipping_extra      = @$values['shipping_extra'];
+		$order->shipping->shipping_name       = @$values['shipping_name'];
+		$order->shipping->shipping_tax        = @$values['shipping_tax'];
+
+		// set the addresses
+		$this->setAddresses( $values );
+
+		// get the items and add them to the order
+		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$items = $cart_helper->getProductsInfo();
+		foreach ($items as $item)
+		{
+			$order->addItem( $item );
+		}
+
+		// get all coupons and add them to the order
+		if (!empty($values['coupons']))
+		{
+			foreach ($values['coupons'] as $coupon_id)
+			{
+				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon->load(array('coupon_id'=>$coupon_id));
+				$order->addCoupon( $coupon );
+			}
+		}
+
+		$this->addCoupons($values);
+
+		// get the order totals
+		$order->calculateTotals();
+
+		// now get the summary
+		$html = $this->getOrderSummary();
+
+		$response = array();
+		$response['msg'] = $html;
+		$response['error'] = '';
+
+		// encode and echo (need to echo to send back to browser)
+		echo json_encode($response);
+
+		return;
+	}
+	
+	private function addCoupons( $values )
+	{
+		$this->addCouponCodes( $values );
+		$this->addAutomaticCoupons();
+	}
+	
+private function addCouponCodes($values)
+	{
+		$order = &$this->_order;
+
+		// get all coupons and add them to the order
+		$coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
+		$mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
+		if (!empty($values['coupons']) && $coupons_enabled)
+		{
+			foreach ($values['coupons'] as $coupon_id)
+			{
+				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon->load(array('coupon_id'=>$coupon_id));
+				$order->addCoupon( $coupon );
+				if (empty($mult_enabled))
+				{
+					// this prevents Firebug users from adding multiple coupons to orders
+					break;
+				}
+			}
+		}
+	}
+
+	private function addAutomaticCoupons()
+	{
+		$order = &$this->_order;
+		$date = JFactory::getDate();
+		$date = $date->toMysql();
+
+		// Per Order Automatic Coupons
+		$model = JModel::getInstance('Coupons', 'TiendaModel');
+		$model->setState('filter_automatic', '1');
+		$model->setState('filter_date_from', $date);
+		$model->setState('filter_date_to', $date);
+		$model->setState('filter_datetype', 'validity');
+		$model->setState('filter_type', '0');
+		$model->setState('filter_enabled', '1');
+
+		$coupons = $model->getList();
+
+		// Per Product Automatic Coupons
+		$model->setState('filter_type', '1');
+		$coupons_2 = $model->getList(true);
+
+		$coupons = array_merge( $coupons, $coupons_2 );
+
+		if($coupons)
+		{
+			foreach($coupons as $coupon)
+			{
+				$order->addCoupon($coupon);
+			}
+		}
+
+	}
+	
+/**
+	 * Prepares data for and returns the html of the order summary layout.
+	 * This assumes that $this->_order has already had its properties set
+	 *
+	 * @return unknown_type
+	 */
+	function getOrderSummary()
+	{
+		// get the order object
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
+
+		// Coupons
+		$coupons_id = array();
+		$coupons = $order->getCoupons();
+		foreach($coupons as $cg)
+		{
+			foreach($cg as $c)
+			{
+				if($c->coupon_type == '1')
+				{
+					$coupons_id = array_merge($coupons_id, TiendaHelperCoupon::getCouponProductIds( @$c->coupon_id ) );
+				}
+			}
+		}
+
+		$model = $this->getModel('carts');
+		$view = $this->getView( 'checkout', 'html' );
+		$view->set( '_controller', 'checkout' );
+		$view->set( '_view', 'checkout' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'coupons', $coupons_id);
+
+		$config = TiendaConfig::getInstance();
+		$show_tax = $config->get('display_prices_with_tax');
+		$view->assign( 'show_tax', $show_tax );
+		$view->assign( 'using_default_geozone', false );
+
+		$view->assign( 'order', $order );
+
+		if($show_tax)
+		{
+			$geozones = $order->getBillingGeoZones();
+			if (empty($geozones))
+			{
+				// use the default
+				$view->assign( 'using_default_geozone', true );
+				$table = JTable::getInstance('Geozones', 'TiendaTable');
+				$table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+				$geozones = array( $table );
+			}
+		}
+
+		$orderitems = $order->getItems();
+
+		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+		$product_helper = &TiendaHelperBase::getInstance( 'Product' );
+		$order_helper = &TiendaHelperBase::getInstance( 'Order' );
+
+		$tax_sum = 0;
+		foreach ($orderitems as &$item)
+		{
+			$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
+			$tax = 0;
+			if ($show_tax)
+			{
+				foreach($geozones as $geozone)
+				{
+					$taxrate = $product_helper->getTaxRate($item->product_id, $geozone->geozone_id, true );
+					$product_tax_rate = $taxrate->tax_rate;
+					$tax += ($product_tax_rate/100) * ($item->orderitem_price + floatval( $item->orderitem_attributes_price ));
+				}
+
+				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $tax;
+				$item->orderitem_final_price = $item->price * $item->orderitem_quantity;
+					
+				$order->order_subtotal += ($tax * $item->orderitem_quantity);
+			}
+			$tax_sum += ($tax * $item->orderitem_quantity);
+		}
+			
+		if (empty($order->user_id))
+		{
+			//$order->order_total += $tax_sum;
+			$order->order_tax += $tax_sum;
+		}
+
+		$view->assign( 'orderitems', $orderitems );
+
+		// Checking whether shipping is required
+		$showShipping = false;
+		$cartsModel = $this->getModel('carts');
+		if ($isShippingEnabled = $cartsModel->getShippingIsEnabled())
+		{
+			$showShipping = true;
+			$view->assign( 'shipping_total', $order->getShippingTotal() );
+		}
+		$view->assign( 'showShipping', $showShipping );
+
+		//START onDisplayOrderItem: trigger plugins for extra orderitem information
+		if (!empty($orderitems))
+		{
+			$onDisplayOrderItem = $order_helper->onDisplayOrderItems($orderitems);
+			$view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+		}
+		//END onDisplayOrderItem
+
+		$view->setLayout( 'cart' );
+
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
+	}
+	
+/**
+	 * Prepares data for and returns the html of the total amount
+	 * This assumes that $this->_order has already had its properties set
+	 *
+	 * @return unknown_type
+	 */
+	function getTotalAmountDue()
+	{
+		// get the order object
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		$model = $this->getModel('carts');
+		$view = $this->getView( 'carts', 'html' );
+		$view->set( '_controller', 'carts' );
+		$view->set( '_view', 'carts' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', true);
+		$view->setModel( $model, true );
+		$view->assign( 'state', $model->getState() );
+		$view->assign( 'order', $order );
+		$orderitems = $order->order_total;
+		$view->assign( 'orderitems', $orderitems );
+
+		$view->setLayout( 'total' );
+
+		ob_start();
+		$view->display();
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		return $html;
+	}
+	
+/**
+	 * Returning total amount value
+	 *
+	 * @return unknown_type
+	 */
+	function totalAmountDue()
+	{
+		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+		// convert elements to array that can be binded
+		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+		$values = $helper->elementsToArray( $elements );
+
+		$response = array();
+		$response['msg'] = '';
+		$response['error'] = '';
+
+		// get the order object so we can populate it
+		$order =& $this->_order; // a TableOrders object (see constructor)
+
+		// bind what you can from the post
+		$order->bind( $values );
+
+		// set the currency
+		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+
+		// get the items and add them to the order
+		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+		//$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		//$items = $cart_helper->getProductsInfo();
+		//foreach ($items as $item)
+		//{
+			//$order->addItem( $item );
+		//}
+
+		// get all coupons and add them to the order
+		if (!empty($values['coupons']))
+		{
+			foreach ($values['coupons'] as $coupon_id)
+			{
+				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon->load(array('coupon_id'=>$coupon_id));
+				$order->addCoupon( $coupon );
+			}
+		}
+
+		// get the order totals
+		$order->calculateTotals();
+
+		// now get the summary
+		$html = $this->getTotalAmountDue();
+
+		$response = array();
+		$response['msg'] = $html;
+		$response['error'] = '';
+
+		// encode and echo (need to echo to send back to browser)
+		echo json_encode($response);
+	}
+	
+/**
+	 * Saves the order coupons to the DB
+	 * @return unknown_type
+	 */
+	function saveOrderCoupons()
+	{
+		$order =& $this->_order;
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+
+		$error = false;
+		$errorMsg = "";
+		$ordercoupons = $order->getOrderCoupons();
+		foreach ($ordercoupons as $ordercoupon)
+		{
+			$ordercoupon->order_id = $order->order_id;
+			if (!$ordercoupon->save())
+			{
+				// track error
+				$error = true;
+				$errorMsg .= $ordercoupon->getError();
+			}
+		}
+
+		if ($error)
+		{
+			$this->setError( $errorMsg );
+			return false;
+		}
+
+		return true;
+	}
 }

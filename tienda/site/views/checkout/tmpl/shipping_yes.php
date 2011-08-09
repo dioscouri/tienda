@@ -2,9 +2,8 @@
 <?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
 
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
-<h3><?php echo JText::_("Select a Shipping Method") ?></h3>
-<?php endif;?>
-<input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update your shipping rates"); ?>" />
+<h3><?php echo JText::_("Select a Shipping Method"); ?></h3>
+<?php endif; ?>
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
@@ -14,22 +13,32 @@
     {      
         foreach ($this->rates as $rate) 
         {
+/*        	
             $checked = "";
             if (!empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
             {
             	$checked = "checked";                        
             }        	        		
+*/
             ?>
             <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $checked; ?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
             <br/>
             <?php
         }
+				if( TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ) ) :?>
+					<br /><input type="button" class="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form )" value="<?php echo JText::_("Calculate shipping rates"); ?>" />        
+				<?php 
+				endif;
+        
     }
         else
     {
         ?>
         <div class="note">
         <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
+				<?php if( TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ) ) :?>
+					<br /><input type="button" class="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form )" value="<?php echo JText::_("Calculate shipping rates"); ?>" />        
+				<?php endif; ?>
         </div>
         <?php
     }
@@ -52,9 +61,9 @@
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
 
-<?php if (!empty($this->default_rate)) : ?>
-    <?php $default_rate = $this->default_rate; ?>
-    <script type="text/javascript">
-        window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');
-    </script>
+<?php if (!empty($this->default_rate) && !TiendaConfig::getInstance()->get('one_page_checkout', '0') ) : ?>
+<?php $default_rate = $this->default_rate; ?>
+<script type="text/javascript">
+	window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');
+</script>
 <?php endif; ?>

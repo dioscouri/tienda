@@ -17,7 +17,7 @@ window.addEvent("domready", function() {
 function tiendaGetPaymentOptions(container, form, msg)
 {
 	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
-    tiendaDoTask( url, container, form, msg );   
+    tiendaDoTask( url, container, form, msg, false );   
 }
 
 /**
@@ -29,19 +29,12 @@ function tiendaGetPaymentOptions(container, form, msg)
 function copyBillingAdToShippingAd(checkbox, form)
 {	
 	var disable = false;
-    if (checkbox.checked){disable = true;tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form ); tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form);}  
-    
-    var fields = "address_name;address_id;title;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
-    var fieldList = fields.split(';');
-
-    for(var index=0;index<fieldList.length;index++){
-    	billingControl = document.getElementById('billing_input_'+fieldList[index]);
-        shippingControl = document.getElementById('shipping_input_'+fieldList[index]);
-        if(shippingControl != null){
-            shippingControl.disabled = disable;           
-            if(billingControl != null){ shippingControl.value = disable ? billingControl.value : '';}
-        }
-    }
+    if (checkbox.checked)
+    {
+    	disable = true;
+    	tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );
+    	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form);
+    }  
 }
 
 function tiendaSaveOnepageOrder(container, errcontainer, form)
@@ -70,9 +63,9 @@ function tiendaSaveOnepageOrder(container, errcontainer, form)
              {
             	 if ($(container)) { $(container).setHTML(resp.msg); }
             	 if ($('onCheckoutCart_wrapper')) { $('onCheckoutCart_wrapper').setHTML(resp.summary); }
-            	 if('tienda_btns'){ $('tienda_btns').setStyle('display', 'none'); }
-            	 if('refreshpage'){ $('refreshpage').setStyle('display', 'block'); }
-            	 if('validationmessage'){ $('validationmessage').setHTML('');}            	
+            	 if($('tienda_btns')){ $('tienda_btns').setStyle('display', 'none'); }
+            	 if($('refreshpage')){ $('refreshpage').setStyle('display', 'block'); }
+            	 if($('validationmessage')){ $('validationmessage').setHTML('');}            	
             	 window.location = String(window.location).replace(/\#.*$/, "") + "#tienda-method";
              }
              else
@@ -89,42 +82,6 @@ function tiendaGetFinalForm( container, form, msg )
 	var url = 'index.php?option=com_tienda&view=checkout&task=getRegisterForm&format=raw';
     tiendaDoTask( url, container, form, msg );  
     $('tienda-method-pane').setHTML($('hiddenregvalue').value);
-}
-
-function tiendaPopulateShippingAddress(checkbox, form)
-{
-	var populate = false;
-    if (checkbox.checked)
-    {
-    	populate = true;
-    	$('shippingDefaultAddress').setStyle('display', 'none');    	
-    }
-    else
-    {
-    	$('shippingDefaultAddress').setStyle('display', 'block');
-    } 	
-	
-	var fields = "address_id;address_name;first_name;middle_name;last_name;company;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
-	var fieldList = fields.split(';');
-
-	for(var index=0;index<fieldList.length;index++){
-		billingControl = document.getElementById('billing_input_'+fieldList[index])
-		shippingControl = document.getElementById('shipping_input_'+fieldList[index]);
-	    if(billingControl != null && shippingControl != null){
-	    	if(populate)
-	    	{
-	    		shippingControl.value = billingControl.value;
-	    	}else
-	    	{
-	    		shippingControl.value = '';
-	    	}    	
-	    }
-	} 
-	
-	if(populate)
-	{
-		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );
-	}
 }
 
 function tiendaGetView(url, container, labelcont)
@@ -144,112 +101,10 @@ function tiendaGetView(url, container, labelcont)
     }).request();	
 }
 
-function tiendaGetCustomerInfo(container)
-{
-	var url = 'index.php?option=com_tienda&view=checkout&task=getCustomerInfo&format=raw';
-	tiendaGetView(url, container); 
-	if('tiendaGuest'){$('tiendaGuest').value = '1';}  
-	if('checkoutmethod-pane'){$('checkoutmethod-pane').setStyle('display', 'none');}  
-}
-
-function tiendaCheckoutMethodForm( container, form, msg )
-{	
-	var url = 'index.php?option=com_tienda&view=checkout&task=getCheckoutMethod&ajax=1&format=raw';
-	tiendaGetView(url, container, 'tienda-method-pane'); 
-}
-
 function tiendaGetRegistrationForm( container, form, msg )
 {	
 	var url = 'index.php?option=com_tienda&view=checkout&task=getRegisterForm&format=raw';	
 	tiendaGetView(url, container, 'tienda-method-pane'); 
-}
-
-function tiendaRegistrationValidate(obj, form, msg, doModal)
-{	
-	tiendaSetRegistrationTargetInput(obj.id); 
-	
-	if (doModal != false) { tiendaNewModal(msg); }
-	
-	var url = 'index.php?option=com_tienda&view=checkout&task=registerNewUserOnepage&format=raw';
-	// loop through form elements and prepare an array of objects for passing to server	
-	var str = new Array();
-	
-	for(i=0; i<form.elements.length; i++)
-	{
-		postvar = {
-			name : form.elements[i].name,
-			value : form.elements[i].value,
-			checked : form.elements[i].checked,
-			id : form.elements[i].id
-		};
-		str[i] = postvar;
-	}
-	
-	// execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-		data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);      
-          
-            if(resp.error)
-            {
-            	if($(resp.target+'_msg'))
-            	{
-            		//$(resp.target+'_msg').setHTML(resp.msg);    
-            		//$(resp.target+'_msg').className = 'tienda_message tienda_error';
-            	}
-            	else
-            	{            		
-            		//var span = new Element('span', { 'id': resp.target+'_msg','class': 'tienda_message tienda_error' }); 
-                    //span.injectAfter($(resp.target));
-                    //span.setHTML(resp.msg);
-            	}
-            	//$(resp.target).removeClass('success'); 
-            	//$(resp.target).addClass('error'); 
-            	//set focus back
-            	$(resp.target).focus();
-            }
-            else
-            {            
-            	if(resp.logged)
-            	{            		
-            		url = 'index.php?option=com_tienda&view=checkout&task=showCustomerInfo&format=raw';
-            	    tiendaDoTask( url, 'checkoutmethod-pane', '', '', false ); 
-            	    //call
-            	}
-            	else
-            	{
-            		if(obj.id != 'tienda_btn_register')
-                	{
-                		if($(obj.id+'_msg'))
-                    	{
-                    		$(obj.id+'_msg').setHTML(resp.msg);            		
-                    		$(obj.id+'_msg').className = 'tienda_message tienda_success';	
-                    		$(resp.target).removeClass('error');
-                    		$(resp.target).addClass('success'); 
-                    	}
-                    	else
-                    	{                		
-                    		var span = new Element('span', { 'id': obj.id+'_msg','class': 'tienda_message tienda_success' }); 
-                            span.injectAfter($(obj.id));
-                            span.setHTML(resp.msg);
-                            obj.className = 'inputbox';                 		            		
-                    	}	             		
-                	}  
-            	}	     	           	
-            }
-                 
-            if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(200); }
-         
-            return true;
-        }
-    }).request();
-}
-
-function tiendaSetRegistrationTargetInput(id)
-{		
-	$('tienda_target').value = id;
 }
 
 /**
@@ -285,38 +140,6 @@ function tiendaCheckEmail( container, form )
 }
 
 /**
- * Simple function to check username availability
- */
-function tiendaCheckUsername( container, form )
-{
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkUsername&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
-    
-}
-
-/**
  * Simple function to check a password strength
  */
 function tiendaCheckPassword( container, form )
@@ -336,6 +159,7 @@ function tiendaCheckPassword( container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
+    tiendaPutAjaxLoader( container, '_transp' );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -367,6 +191,7 @@ function tiendaCheckPassword2( container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
+    tiendaPutAjaxLoader( container, '_transp' );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -377,4 +202,154 @@ function tiendaCheckPassword2( container, form )
         }
     }).request();
     
+}
+
+/**
+ * method to hide shipping fields
+ */
+ function tiendaHideBillingFields() 
+ {
+	 $('billingToggle_show').set('class', 'hidden');
+	 $('field-toggle').addEvent('change', function() {
+			$$('#billingDefaultAddress', '#billingToggle_show', '#billingToggle_hide').toggleClass('hidden');
+		});
+ }
+ 
+ /**
+  * method to hide shipping fields
+  * 
+  */
+ function tiendaHideShippingFields( shipping_text )
+ {
+	 $( 'shipping_input_addressForm' ).setStyle( 'display', 'none' );
+	 if( $('sameasbilling') )
+	 {
+		 $('sameasbilling').addEvent('change', function() {
+			 var field = document.getElementById( 'shipping_input_addressForm' );
+			 if (field.style.display == "none")
+				field.style.display = "";
+			 else
+			 {
+				 field.style.display = "none";
+				 tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, shipping_text );
+			 }
+		 });
+	 }
+ }
+
+/*
+ * This method toggles editation of user email in one page checkout when a user is logged in
+ */
+function tiendaCheckoutToogleEditEmail( container, form, check )
+{
+	user_email = 'email_address';
+	user_email_span = 'user_email_span';
+	user_email_cancel_button = 'email_address_button_cancel';
+	if( $( user_email ).style.display == 'none' ) // start editation
+	{
+		$( container ).setHTML( '' );
+		$( user_email ).setStyle( 'display','inline' );
+		$( user_email_span ).setStyle( 'display','none' );
+		$( user_email_cancel_button ).setStyle( 'display', 'inline' );
+	}
+	else // finish editation
+	{
+		if( check )
+		{
+			// send AJAX request to validate the email address against other users
+		    var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
+		    
+		    // loop through form elements and prepare an array of objects for passing to server
+		    var str = new Array();
+		    for(i=0; i<form.elements.length; i++)
+		    {
+		        postvar = {
+		            name : form.elements[i].name,
+		            value : form.elements[i].value,
+		            checked : form.elements[i].checked,
+		            id : form.elements[i].id
+		        };
+		        str[i] = postvar;
+		    }
+		    // execute Ajax request to server
+		    tiendaPutAjaxLoader( container, '_transp' );
+		    var a=new Ajax(url,{
+		        method:"post",
+		        data:{"elements":Json.toString(str)},
+		        onComplete: function( response ){
+		            var resp=Json.evaluate( response, false );
+		            if( resp.error != '0' )
+		            {
+	            		$(container).setHTML(resp.msg);
+		            }
+		            else
+	           		{
+	            		$( container ).setHTML( resp.msg );
+	           			$( user_email_span ).set( 'text', $( user_email ).value );
+	           			$( user_email_span ).setStyle( 'display', 'inline' );
+	           			$( user_email ).setStyle( 'display', 'none' );
+	           			$( user_email_cancel_button ).setStyle( 'display', 'none' );
+	           		}
+		            return true;
+		        }
+		    }).request();
+		}
+		else
+		{
+    		$(container).setHTML( '' );
+   			$( user_email_span ).setStyle('display','inline');
+   			$( user_email ).setStyle('display','none');			
+   			$( user_email_cancel_button ).setStyle( 'display', 'none' );
+		}
+	}
+}
+
+function tiendaPutAjaxLoader( container, suffix )
+{
+	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
+	$(container).setHTML( img_loader );
+}
+
+function tiendaHideInfoCreateAccount( )
+{
+	$('tienda_user_additional_info').set('class', 'hidden');
+	$('create_account').addEvent('change', function() {
+		$('tienda_user_additional_info').toggleClass('hidden');
+	});
+}
+
+function tiendaCheckoutSetBillingAddress(url, container, selected )
+{
+	var divContainer = document.getElementById( container );
+	var divForm = document.getElementById( 'billing_input_addressForm' );
+	if( selected > 0 ) // address was selected -> get shipping rates
+	{
+		divContainer.style.display = "";
+		divForm.style.display = "none";
+		tiendaDoTask( url, container, '' );
+		tiendaGetCheckoutTotals();
+	}
+	else // user wants to create a new address
+	{
+		divContainer.style.display = "none";
+		divForm.style.display = "";
+	}
+}
+
+function tiendaCheckoutSetShippingAddress(url, container, shipping_text, form, selected )
+{
+	var divContainer = document.getElementById( container );
+	var divForm = document.getElementById( 'shipping_input_addressForm' );
+	if( selected > 0 ) // address was selected -> get shipping rates
+	{
+		divContainer.style.display = "";
+		divForm.style.display = "none";
+		tiendaDoTask( url, container, '', '', false );
+		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, shipping_text );
+	}
+	else // user wants to create a new address
+	{
+		divContainer.style.display = "none";
+		divForm.style.display = "";
+	}
 }

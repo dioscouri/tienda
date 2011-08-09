@@ -162,7 +162,7 @@ class TiendaHelperUser extends TiendaHelperBase
      * @param mixed Boolean
      * @return array
      */
-    function createNewUser( $details, $guest=false ) 
+		    function createNewUser( $details, $guest=false ) 
     {
         $success = false;
         // Get required system objects

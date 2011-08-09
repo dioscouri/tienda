@@ -15,7 +15,6 @@ function tiendaGetShippingRates( container, form, msg )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
     tiendaDoTask( url, container, form, msg );
-    tiendaGetCheckoutTotals();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code)

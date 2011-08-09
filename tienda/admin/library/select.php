@@ -425,9 +425,10 @@ class TiendaSelect extends JHTMLSelect
  	 * @param unknown_type $attribs
  	 * @param unknown_type $idtag
  	 * @param unknown_type $allowAny
+ 	 * @param unknown_type $addNew
  	 * @return unknown_type
  	 */
-	public static function address($userid, $selected, $name = 'filter_address_id', $type = 1, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function address($userid, $selected, $name = 'filter_address_id', $type = 1, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $addNew = false )
  	{
  		// TODO return empty array?
  		if (empty($userid))
@@ -465,6 +466,9 @@ class TiendaSelect extends JHTMLSelect
         	$list[] =  self::option( $item->address_id, JText::_($item->address_name), 'address_id', 'address_name' );
         }
         
+		if($addNew) {
+			$list[] =  self::option('0',JText::_( 'New Address' ), 'address_id', 'address_name' );
+		}
         if (count($list) == 1)
         {
         	return;
