@@ -55,12 +55,6 @@
 					<div id="user_email_validation"></div>
 				</div> <?php // end id - customer pane ?>
 			
-			<input type="checkbox" id="field-toggle" name="field-toggle" value="" /> 
-			<label id="billingToggle" for="field-toggle">
-				<span id="billingToggle_hide"><?php echo JText::_('Click to hide billing address fields'); ?></span>
-				<span id="billingToggle_show"><?php echo JText::_('Click to show billing address fields')?></span>
-			</label>
-			
 			<?php // start billing address ?>
 			<div class="tienda-expanded" id="billing-shipping-pane">
 				<div class="tienda-collapse-processed contentheading"><?php echo $this->showShipping ? JText::_('Billing and Shipping Information') : JText::_('Billing Information'); ?></div>
@@ -262,7 +256,6 @@ window.addEvent('domready', function() {
 	<?php endif; ?>
 
 <?php endif; ?>
-	tiendaHideBillingFields();
 <?php if( $this->user->id ) : ?>
 	tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );
 <?php else: ?>

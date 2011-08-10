@@ -203,17 +203,6 @@ function tiendaCheckPassword2( container, form )
     }).request();
     
 }
-
-/**
- * method to hide shipping fields
- */
- function tiendaHideBillingFields() 
- {
-	 $('billingToggle_show').set('class', 'hidden');
-	 $('field-toggle').addEvent('change', function() {
-			$$('#billingDefaultAddress', '#billingToggle_show', '#billingToggle_hide').toggleClass('hidden');
-		});
- }
  
  /**
   * method to hide shipping fields
