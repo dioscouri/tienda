@@ -32,4 +32,5 @@
 #tienda_checkout_pane .col3 .note{line-height:1.2;margin-bottom:5px;margin-top:5px;padding:2px 5px;text-align:center;}
 #tienda_checkout_pane .col3 .button{margin-top:5px;}
 #tienda_checkout_pane .hidden,#tienda_checkout_pane .tienda-collapsed div{display:none;}
-#tienda_checkout_pane .col3 #user_email_validation,#tienda_checkout_pane .col3 #user_email_validation{clear:both;float:none;width:auto;}
+#tienda_checkout_pane .col3 #user_email_validation{clear:both;float:none;width:auto;}
+#tienda_checkout_pane .col3 #user_email_validation .tienda_validation{ width : 100%;}

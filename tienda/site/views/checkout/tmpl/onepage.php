@@ -48,9 +48,7 @@
 					?>
 
 					<?php echo JText::_('E-mail address');?>: <span id="user_email_span"><?php echo $email_address; ?></span>
-						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>"/> <br />
-						<input type="button" id="email_address_button_edit" class="button" onclick="tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, true );" value="<?php echo JText::_( 'Edit' );?>" />
-						<input type="button" id="email_address_button_cancel" class="button" onclick="tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );" value="<?php echo JText::_( 'Cancel' );?>" />
+						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm )"/>
 					</div>
 					<div id="user_email_validation"></div>
 				</div> <?php // end id - customer pane ?>
@@ -245,6 +243,10 @@ window.addEvent('domready', function() {
 	tiendaShowHideDiv( 'billing_input_addressForm' );
 <?php endif; ?>
 
+<?php if( !$this->user->id ) : ?>
+	tiendaHideInfoCreateAccount();
+<?php endif; ?>
+
 <?php if( $this->showShipping  ):?>	
 
 	<?php if( !$this->user->id ) : ?>
@@ -255,11 +257,6 @@ window.addEvent('domready', function() {
 	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php endif; ?>
 
-<?php endif; ?>
-<?php if( $this->user->id ) : ?>
-	tiendaCheckoutToogleEditEmail( 'user_email_validation',document.adminForm, false );
-<?php else: ?>
-	tiendaHideInfoCreateAccount();
 <?php endif; ?>
 });
 </script>

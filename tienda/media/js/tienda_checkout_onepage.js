@@ -108,38 +108,6 @@ function tiendaGetRegistrationForm( container, form, msg )
 }
 
 /**
- * Simple function to check email availability
- */
-function tiendaCheckEmail( container, form )
-{
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
-   
-}
-
-/**
  * Simple function to check a password strength
  */
 function tiendaCheckPassword( container, form )
@@ -227,70 +195,44 @@ function tiendaCheckPassword2( container, form )
  }
 
 /*
- * This method toggles editation of user email in one page checkout when a user is logged in
+ * This method checks availability of the email address
  */
-function tiendaCheckoutToogleEditEmail( container, form, check )
+function tiendaCheckoutCheckEmail( container, form )
 {
 	user_email = 'email_address';
-	user_email_span = 'user_email_span';
-	user_email_cancel_button = 'email_address_button_cancel';
-	if( $( user_email ).style.display == 'none' ) // start editation
-	{
-		$( container ).setHTML( '' );
-		$( user_email ).setStyle( 'display','inline' );
-		$( user_email_span ).setStyle( 'display','none' );
-		$( user_email_cancel_button ).setStyle( 'display', 'inline' );
-	}
-	else // finish editation
-	{
-		if( check )
-		{
-			// send AJAX request to validate the email address against other users
-		    var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
+	// send AJAX request to validate the email address against other users
+	var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
 		    
-		    // loop through form elements and prepare an array of objects for passing to server
-		    var str = new Array();
-		    for(i=0; i<form.elements.length; i++)
-		    {
-		        postvar = {
-		            name : form.elements[i].name,
-		            value : form.elements[i].value,
-		            checked : form.elements[i].checked,
-		            id : form.elements[i].id
-		        };
-		        str[i] = postvar;
-		    }
-		    // execute Ajax request to server
-		    tiendaPutAjaxLoader( container, '_transp' );
-		    var a=new Ajax(url,{
-		        method:"post",
-		        data:{"elements":Json.toString(str)},
-		        onComplete: function( response ){
-		            var resp=Json.evaluate( response, false );
-		            if( resp.error != '0' )
-		            {
-	            		$(container).setHTML(resp.msg);
-		            }
-		            else
-	           		{
-	            		$( container ).setHTML( resp.msg );
-	           			$( user_email_span ).set( 'text', $( user_email ).value );
-	           			$( user_email_span ).setStyle( 'display', 'inline' );
-	           			$( user_email ).setStyle( 'display', 'none' );
-	           			$( user_email_cancel_button ).setStyle( 'display', 'none' );
-	           		}
-		            return true;
-		        }
-		    }).request();
-		}
-		else
-		{
-    		$(container).setHTML( '' );
-   			$( user_email_span ).setStyle('display','inline');
-   			$( user_email ).setStyle('display','none');			
-   			$( user_email_cancel_button ).setStyle( 'display', 'none' );
-		}
-	}
+	// loop through form elements and prepare an array of objects for passing to server
+	var str = new Array();
+    for(i=0; i<form.elements.length; i++)
+    {
+        postvar = {
+            name : form.elements[i].name,
+            value : form.elements[i].value,
+            checked : form.elements[i].checked,
+            id : form.elements[i].id
+        };
+        str[i] = postvar;
+    }
+    // execute Ajax request to server
+    tiendaPutAjaxLoader( container, '_transp' );
+    var a=new Ajax(url,{
+        method:"post",
+        data:{"elements":Json.toString(str)},
+        onComplete: function( response ){
+            var resp=Json.evaluate( response, false );
+            if( resp.error != '0' )
+            {
+        		$(container).setHTML(resp.msg);
+            }
+            else
+       		{
+        		$( container ).setHTML( resp.msg );
+       		}
+            return true;
+        }
+    }).request();
 }
 
 function tiendaPutAjaxLoader( container, suffix )
