@@ -126,8 +126,8 @@
 				
 				<!--    SHIPPING ADDRESS FORM  -->	         
 	            <div>
-					<div><?php echo JText::_('Shipping Address'); ?></div>
 					<span id="shippingDefaultAddress">
+					<div><?php echo JText::_('Shipping Address'); ?></div>
 					<?php 
 					if ( !empty( $this->shipping_address ) )
 					{

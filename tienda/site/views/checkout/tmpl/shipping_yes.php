@@ -13,12 +13,13 @@
     {      
         foreach ($this->rates as $rate) 
         {
-           $checked = "";
+            $checked = "";
+/*        	
             if (!empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
             {
             	$checked = "checked";                        
             }        	        		
-
+*/
             ?>
             <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $checked; ?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
             <br/>
