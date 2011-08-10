@@ -3789,7 +3789,7 @@ class TiendaControllerCheckout extends TiendaController
 		$view->set( '_doTask', true );
 
 		$view->setModel( $model, true );
-		$view->setLayout( 'form_registrationLink' );
+		$view->setLayout( 'form_registration_link' );
 		$view->display( );
 		$this->footer( );
 		return;
