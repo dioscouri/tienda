@@ -626,7 +626,7 @@ class TiendaControllerCheckout extends TiendaController
 		$view->set( '_view', 'checkout' );
 		$view->set( '_doTask', true);
 		$view->set( 'hidemenu', true);
-		$view->assign( 'values', $values );
+		//$view->assign( 'values', $values );
 		$view->setModel( $model, true );
 		$view->setLayout( 'form_register_opc' );
 		ob_start();
