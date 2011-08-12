@@ -561,6 +561,9 @@ class TiendaConfig extends JObject
 	var $display_subnum = '0';
 	var $sub_num_digits = '8';
 	var $default_sub_num = '1';
+	
+	// since 0.7.5
+	var $one_page_checkout_layout = 'onepagecheckout';
 
 	/**
 	 * constructor
