@@ -54,16 +54,13 @@ class TiendaViewProductComments extends TiendaViewBase
 	 */
 	function _form($tpl=null)
 	{ 
-		
-		
-			$productcomment_id = JRequest::getVar('id', '');	
 			$model = $this->getModel();
-			$item = $model->getItem($productcomment_id);
+			$item = $model->getItem();
 			$this->assign( 'item', $item);
 		    // Products
 			$productModel 	= JModel::getInstance( 'ElementProduct', 'TiendaModel' );
          	// terms
-			$elementArticle_product 		= $productModel->_fetchElement( 'product_id',@$item->product_name) ;
+			$elementArticle_product 		= $productModel->_fetchElement( 'product_id',@$item->product_id) ;
 			$resetArticle_product		= $productModel->_clearElement( 'product_id', '0' );
 			$this->assign('elementArticle_product', $elementArticle_product);
 			$this->assign('resetArticle_product', $resetArticle_product);

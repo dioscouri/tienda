@@ -278,7 +278,17 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		
-		if ( empty( $row->product_enabled ) )
+		$unpublished = false;
+		if( $row->unpublish_date != JFactory::getDbo()->getNullDate() )
+		{
+			$unpublished = strtotime( $row->unpublish_date ) < time();
+		}
+		if( !$unpublished && $row->publish_date != JFactory::getDbo()->getNullDate() )
+		{
+			$unpublished = strtotime( $row->publish_date ) > time();
+		}
+		
+		if ( empty( $row->product_enabled ) || $unpublished )
 		{
 			$redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=" . $filter_category;
 			$redirect = JRoute::_( $redirect, false );
@@ -780,7 +790,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
-			$response['msg'] = $helper->generateMessage( "Shop Disabled" );
+			$response['msg'] = $helper->generateMessage( JText::_( "Shop Disabled" ) );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return false;
@@ -826,7 +836,7 @@ class TiendaControllerProducts extends TiendaController
 		// if product notforsale, fail
 		if ( $product->product_notforsale )
 		{
-			$response['msg'] = $helper->generateMessage( "Product Not For Sale" );
+			$response['msg'] = $helper->generateMessage( JText::_( "Product Not For Sale" ) );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return false;

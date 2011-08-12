@@ -138,13 +138,15 @@ class TiendaModelElementProduct extends JModel
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
-		
 		$html = "";
 		$doc 		=& JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		$title = JText::_('Select products');
 		if ($value) {
-			$title =$value;
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$tbl = JTable::getInstance( 'Products', 'TiendaTable' );
+			$tbl->load( $value );			
+			$title = $tbl->product_name;
 		}
 		else
 		{

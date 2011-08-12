@@ -274,7 +274,8 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 (238, 'Zambia', 'ZM', 'ZMB'),
 (239, 'Zimbabwe', 'ZW', 'ZWE'),
 (240, 'Serbia', 'RS', 'SRB'),
-(241, 'Montenegro', 'ME', 'MNE');
+(241, 'Montenegro', 'ME', 'MNE'),
+(9999, 'Dummy Country', '!!', '!!!');
 
 -- -----------------------------------------------------
 -- Table `#__tienda_eavattributes`
@@ -3610,7 +3611,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (2156, 138, 'GE', 'Guerrero'),
 (2157, 138, 'HI', 'Hidalgo'),
 (2158, 138, 'JA', 'Jalisco'),
-(2159, 138, 'ME', 'Mexico'),
+(2159, 138, 'ME', 'Estado de México'),
 (2160, 138, 'MI', 'Michoacan de Ocampo'),
 (2161, 138, 'MO', 'Morelos'),
 (2162, 138, 'NA', 'Nayarit'),
@@ -5427,7 +5428,10 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (3974, 241, 'ŠN', 'Šavnik'),
 (3975, 241, 'TV', 'Tivat'),
 (3976, 241, 'UL', 'Ulcinj'),
-(3977, 241, 'ŽB', 'Žabljak');
+(3977, 241, 'ŽB', 'Žabljak'),
+(9999, 9999, '!!', 'Dummy Zone');
+
+
 -- -----------------------------------------------------
 -- Table `#__tienda_zonerelations`
 -- -----------------------------------------------------

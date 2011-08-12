@@ -1791,7 +1791,6 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the posted values
 		$values = JRequest::get('post');
-
 		// get the order object so we can populate it
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
@@ -1875,7 +1874,7 @@ class TiendaControllerCheckout extends TiendaController
 		//$billingAddressArray = $this->retrieveAddressIntoArray($billing_address_id);
 		$billingAddressArray = $this->_billingAddressArray;
 		$shippingAddressArray = $this->_shippingAddressArray;
-
+		
 		// save the addresses
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
@@ -1886,7 +1885,7 @@ class TiendaControllerCheckout extends TiendaController
 		$billingAddress->bind( $billingAddressArray );
 		$billingAddress->user_id = $user_id;
 		$billingAddress->save();
-
+		
 		$showBilling = true;
 		if (empty($billingAddress->address_id))
 		{
@@ -2845,7 +2844,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 
 			// save the order shipping info
-			if (!$this->saveOrderShippings())
+			if (!$this->saveOrderShippings( $values ))
 			{
 				// TODO What to do if saving order shippings fails?
 				$error = true;
@@ -3050,7 +3049,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * Adds an order history record to the DB for this order
 	 * @return unknown_type
 	 */
-	function saveOrderHistory()
+	function saveOrderHistory( )
 	{
 		$order =& $this->_order;
 
@@ -3156,26 +3155,19 @@ class TiendaControllerCheckout extends TiendaController
 	 * Saves the order shipping info to the DB
 	 * @return unknown_type
 	 */
-	function saveOrderShippings()
+	function saveOrderShippings( $values )
 	{
 		$order =& $this->_order;
-
-		$shipping_plugin = JRequest::getVar('shipping_plugin', '');
-		$shipping_name = JRequest::getVar('shipping_name', '');
-		$shipping_code = JRequest::getVar('shipping_code', '');
-		$shipping_price = JRequest::getVar('shipping_price', '');
-		$shipping_tax = JRequest::getVar('shipping_tax', '');
-		$shipping_extra = JRequest::getVar('shipping_extra', '');
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
 		$row->order_id = $order->order_id;
-		$row->ordershipping_type = $shipping_plugin;
-		$row->ordershipping_price = $shipping_price;
-		$row->ordershipping_name = $shipping_name;
-		$row->ordershipping_code = $shipping_code;
-		$row->ordershipping_tax = $shipping_tax;
-		$row->ordershipping_extra = $shipping_extra;
+		$row->ordershipping_type = $values['shipping_plugin'];
+		$row->ordershipping_price = $values['shipping_price'];
+		$row->ordershipping_name = $values['shipping_name'];
+		$row->ordershipping_code = $values['shipping_code'];
+		$row->ordershipping_tax = $values['shipping_tax'];
+		$row->ordershipping_extra = $values['shipping_extra'];
 
 		if (!$row->save())
 		{
@@ -3185,7 +3177,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// Let the plugin store the information about the shipping
 		$dispatcher =& JDispatcher::getInstance();
-		$dispatcher->trigger( "onPostSaveShipping", array( $shipping_plugin, $row ) );
+		$dispatcher->trigger( "onPostSaveShipping", array( $values['shipping_plugin'], $row ) );
 
 		return true;
 	}

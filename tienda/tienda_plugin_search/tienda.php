@@ -93,6 +93,8 @@ class plgSearchTienda extends JPlugin
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
+        $model->setState( 'filter_published', 1 );
+        $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
         $match = strtolower($match);
         switch ($match)
         {
@@ -131,10 +133,18 @@ class plgSearchTienda extends JPlugin
         $items = $model->getList();
         if (empty($items)) { return array(); }
  
+				if ( !class_exists('Tienda') ) 
+				    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        
+        $menu = JFactory::getApplication()->getMenu()->getActive();
         // format the items array according to what com_search expects
         foreach ($items as $key => $item)
         {
-            $item->href         = "index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id;
+	        	$itemid = TiendaHelperRoute::findItemid( array( 'view'=>'products', 'task'=>'view', 'filter_category'=>'', 'id'=>$item->product_id ) );
+	        	if( !$itemid )
+							$itemid = $menu->id;
+	        	$item->href         = "index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id.'&Itemid='.$itemid;
             $item->title        = JText::_( $item->product_name );
             $item->created      = $item->created_date;
             $item->section      = JText::_( $this->params->get('title', "Tienda") );

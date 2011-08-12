@@ -13,10 +13,12 @@
 			$address_type = '1';
 			break;
 	}
+	
+	echo $this->guest.'###';
 ?>
 
 <div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form col3">
-    <?php if(!$this->guest && ($config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type ) ) { ?>
+    <?php if( !$this->guest && ($config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type ) ) { ?>
 		
         <label class="key" for="<?php echo $this->form_prefix; ?>address_name"> <?php echo JText::_( 'Address Title' ); ?>
             <span class="block"><?php echo JText::_( 'Address Title For Your Reference' ); ?></span>

@@ -121,7 +121,7 @@ class TiendaHelperEav extends TiendaHelperBase
 				if( $cache_values )
 	        return @$sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
 	      else
-		      return  $value;
+		      return @$value;
     }
     
     /**

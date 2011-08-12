@@ -1794,6 +1794,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$db->setQuery( ( string ) $query );
 		
 		$results = $db->loadObjectList( );
+		JFactory::getApplucation()->enqueueMessage( Tienda::dump( $results ) );
 		return $results;
 	}
 	
@@ -1854,51 +1855,54 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	function getRatingImage( $num, $layout = 'product_rating' )
+	function getRatingImage( $num, $clickable = false ,$layout = 'product_rating' )
 	{
-		if ( $num <= '0' )
+		if( !$clickable )
 		{
-			$id = "0";
-		}
-		elseif ( $num > '0' && $num <= '0.5' )
-		{
-			$id = "0.5";
-		}
-		elseif ( $num > '0.5' && $num <= '1' )
-		{
-			$id = "1";
-		}
-		elseif ( $num > '1' && $num <= '1.5' )
-		{
-			$id = "1.5";
-		}
-		elseif ( $num > '1.5' && $num <= '2' )
-		{
-			$id = "2";
-		}
-		elseif ( $num > '2' && $num <= '2.5' )
-		{
-			$id = "2.5";
-		}
-		elseif ( $num > '2.5' && $num <= '3' )
-		{
-			$id = "3";
-		}
-		elseif ( $num > '3' && $num <= '3.5' )
-		{
-			$id = "3.5";
-		}
-		elseif ( $num > '3.5' && $num <= '4' )
-		{
-			$id = "4";
-		}
-		elseif ( $num > '4' && $num <= '4.5' )
-		{
-			$id = "4.5";
-		}
-		elseif ( $num > '4.5' && $num <= '5' )
-		{
-			$id = "5";
+			if ( $num <= '0' )
+			{
+				$id = "0";
+			}
+			elseif ( $num > '0' && $num <= '0.5' )
+			{
+				$id = "0.5";
+			}
+			elseif ( $num > '0.5' && $num <= '1' )
+			{
+				$id = "1";
+			}
+			elseif ( $num > '1' && $num <= '1.5' )
+			{
+				$id = "1.5";
+			}
+			elseif ( $num > '1.5' && $num <= '2' )
+			{
+				$id = "2";
+			}
+			elseif ( $num > '2' && $num <= '2.5' )
+			{
+				$id = "2.5";
+			}
+			elseif ( $num > '2.5' && $num <= '3' )
+			{
+				$id = "3";
+			}
+			elseif ( $num > '3' && $num <= '3.5' )
+			{
+				$id = "3.5";
+			}
+			elseif ( $num > '3.5' && $num <= '4' )
+			{
+				$id = "4";
+			}
+			elseif ( $num > '4' && $num <= '4.5' )
+			{
+				$id = "4.5";
+			}
+			elseif ( $num > '4.5' && $num <= '5' )
+			{
+				$id = "5";
+			}
 		}
 		
 		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
@@ -1910,7 +1914,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view->set( '_doTask', true );
 		$view->setModel( $model, true );
 		$view->setLayout( $layout );
-		$view->assign( 'rating', $id );
+		if( !$clickable )
+			$view->assign( 'rating', $id );
+		$view->assign( 'clickable', $clickable );
+		$view->assign( 'count', $num );
 		$view->assign( 'hideleftmenu', 1 );
 		$view->assign( 'hidemenu', 1 );
 		ob_start( );
@@ -2167,7 +2174,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$attributes = array( );
 		if ( !empty( $values ) )
 		{
-			$product_id = !empty( $values['product_id'] ) ? ( int ) $values['product_id'] : JRequest::getInt( 'product_id' );
 			$product_qty = !empty( $values['product_qty'] ) ? ( int ) $values['product_qty'] : $quantity_min;
 			
 			// TODO only display attributes available based on the first selected attribute?

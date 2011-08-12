@@ -47,13 +47,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
     		<div id="validationmessage_comments" style="padding-top: 10px;"></div>
         <form action="<?php echo $click;?>" method="post" class="adminform" name="commentsForm" enctype="multipart/form-data" >    
             <div><?php echo JText::_('Rating'); ?>: *</div>
-            <?php for ($count=1; $count<=5; $count++): ?>
-                <span id="rating_<?php echo $count; ?>">
-                <a href="javascript:void(0);" onclick="javascript:tiendaRating(<?php echo $count; ?>);">
-                <img id="rate_<?php echo $count; ?>" src="media/com_tienda/images/star_00.png">
-                </a>
-                </span>
-            <?php endfor; ?>
+            <?php echo TiendaHelperProduct::getRatingImage( 5, true  ); ?>
             <?php if ($user->guest || !$user->id) {?>
             <div><?php echo JText::_( 'Name' ); ?>: *</div>
             <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('rn', ''));?>" size="40" name="user_name" id="user_name"/></div>

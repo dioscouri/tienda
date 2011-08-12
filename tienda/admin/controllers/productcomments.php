@@ -58,6 +58,8 @@ class TiendaControllerProductComments extends TiendaController
 		$row = $model->getTable();
 	    $row->load( $model->getId() );
 	    $row->bind( JRequest::get('POST') );
+	   	$row->user_name = JRequest::getString( 'user_id_name_hidden' ); 
+	  
 	   if ( $row->save() ) 
 		{
 			$model->setId( $row->id );

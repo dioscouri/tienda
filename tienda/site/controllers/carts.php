@@ -390,6 +390,7 @@ class TiendaControllerCarts extends TiendaController
               if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
               {
               	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
+              	$msg = JText::_( 'Quantity Update Failed' );
                 continue;
               }
                 

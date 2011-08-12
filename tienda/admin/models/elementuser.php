@@ -50,6 +50,7 @@ class TiendaModelElementUser extends TiendaModelUsers
         function tiendaSelectUser(id, title, object) {
             document.getElementById(object + '_id').value = id;
             document.getElementById(object + '_name').value = title;
+            document.getElementById(object + '_name_hidden').value = title;
             document.getElementById('sbox-window').close();
             $js_extra
         }";
@@ -61,7 +62,8 @@ class TiendaModelElementUser extends TiendaModelUsers
         $html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
         $html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Select an User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('Select').'</a></div></div>'."\n";
         $html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
-
+        $html .= "\n".'<input type="hidden" id="'.$name.'_name_hidden" name="'.$fieldName.'_name_hidden" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" />';
+        
         return $html;
     }
 
