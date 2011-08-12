@@ -433,6 +433,19 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_( 'One Page Checkout Layout' ); ?>
+                            </th>
+                            <td>
+                                <?php
+                                echo TiendaSelect::opclayouts($this->row->get('one_page_checkout_layout', 'onepagecheckout'), 'one_page_checkout_layout');
+                                ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Force SSL on Checkout' ); ?>
                             </th>
                             <td>

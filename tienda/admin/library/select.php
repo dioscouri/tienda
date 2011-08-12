@@ -1265,4 +1265,29 @@ class TiendaSelect extends JHTMLSelect
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+
+ 	/**
+	 * Generates a  select list for opc layouts
+	 * 
+	 * @param unknown_type $selected
+	 * @param unknown_type $name
+	 * @param unknown_type $attribs
+	 * @param unknown_type $idtag
+	 * @param unknown_type $allowAny
+	 * @param unknown_type $title
+	 * @return unknown_type
+	 */
+    public static function opclayouts( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Layout' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'onepagecheckout_1', "1 Column" );
+        $list[] = JHTML::_('select.option',  'onepagecheckout_3', "3 Columns" );
+        $list[] = JHTML::_('select.option',  'onepagecheckout', "Default" );
+		
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }
