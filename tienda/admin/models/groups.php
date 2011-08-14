@@ -64,7 +64,7 @@ class TiendaModelGroups extends TiendaModelBase
 			$query->order("$order $direction");
 		}
 		else{
-			$query->order("tbl.order ASC");
+			$query->order("tbl.ordering ASC");
 		}
 	}
 
