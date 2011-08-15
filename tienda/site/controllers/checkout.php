@@ -419,7 +419,6 @@ class TiendaControllerCheckout extends TiendaController
 		return;
 	}
 
-
 	/**
 	 * Populate the order object with items and addresses, and calculate the order Totals
 	 * @param $guest	guest mode?
@@ -2459,6 +2458,10 @@ class TiendaControllerCheckout extends TiendaController
 		{
 
 			// Set display
+			if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') )
+			{
+				$progress = $this->getProgress();
+			}
 			$view = $this->getView( 'checkout', 'html' );
 			$view->setLayout('postpayment');
 			$view->set( '_doTask', true);
@@ -2466,10 +2469,9 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign('plugin_html', $html);
 			if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') )
 			{
-				$progress = $this->getProgress();
 				$view->assign('progress', $progress );
 			}
-			
+				
 			// Get and Set Model
 			$model = $this->getModel('checkout');
 			$view->setModel( $model, true );
@@ -2503,7 +2505,7 @@ class TiendaControllerCheckout extends TiendaController
 			$dispatcher->trigger( 'onAfterDisplayPostPayment', array( $order_id ) );
 			$view->assign( 'onAfterDisplayPostPayment', ob_get_contents() );
 			ob_end_clean();
-
+			
 			$view->display();
 		}
 		return;

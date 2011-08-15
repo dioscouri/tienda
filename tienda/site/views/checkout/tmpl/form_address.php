@@ -13,8 +13,6 @@
 			$address_type = '1';
 			break;
 	}
-	
-	echo $this->guest.'###';
 ?>
 
 <div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form col3">
