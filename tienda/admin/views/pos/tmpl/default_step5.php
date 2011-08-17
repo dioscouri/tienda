@@ -47,7 +47,7 @@ $plugin_html = @$this->plugin_html;
 			
 			<div class="note">
 				<a href="<?php echo JRoute::_($order_link);?>">
-				<?php echo JText::_("Click Here to View or Edit Order");?>
+				<?php echo JText::_("CLICK TO VIEW OR EDIT ORDER");?>
 				</a>
 			</div>
 			<?php foreach ($this->articles as $article) : ?>

@@ -15,12 +15,12 @@
 				<tr>
 					<td align="center">
 					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to set as Billing default')?>');}else{  submitbutton('flag_billing')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('Billing Default');?>
+					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('BILLING DEFAULT');?>
 					</a>
 					</td>
 					<td align="center">
 					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to set as Shipping default')?>');}else{  submitbutton('flag_shipping')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('Shipping Default');?>
+					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('SHIPPING DEFAULT');?>
 					</a>
 					</td>
 					<td class="divider"> </td>
@@ -69,7 +69,7 @@
         <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('NO ITEMS FOUND'); ?>
                 </td>
             </tr>
         <?php else: ?>
@@ -95,22 +95,22 @@
                     <?php echo @$item->country_name; ?><br/>
                     <!-- PHONE NUMBERS -->
                     <?php // if ($item->phone_1 || $item->phone_2 || $item->fax) { echo "<hr/>"; } ?>
-                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Phone" )."</b>: ".$item->phone_1; ?><br/><?php } ?>
+                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "PHONE" )."</b>: ".$item->phone_1; ?><br/><?php } ?>
                     <?php if (!empty($item->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Alt Phone" )."</b>: ".$item->phone_2; ?><br/><?php } ?>
-                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Fax" )."</b>: ".$item->fax; ?><br/><?php } ?>
+                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "FAX" )."</b>: ".$item->fax; ?><br/><?php } ?>
                 </td>
                 <td style="text-align: center;">
                     <?php if ($item->is_default_shipping && $item->is_default_billing)
                     {
-                        echo JText::_( "Default Billing and Shipping Address" );
+                        echo JText::_( "DEFAULT BILLING AND SHIPPING ADDRESS" );
                     }
                     elseif ($item->is_default_shipping) 
                     {
-                    	echo JText::_( "Default Shipping Address" );
+                    	echo JText::_( "DEFAULT SHIPPING ADDRESS" );
                     }
                     elseif ($item->is_default_billing) 
                     {
-                    	echo JText::_( "Default Billing Address" );
+                    	echo JText::_( "DEFAULT BILLING ADDRESS" );
                     }
                     ?>
                 </td>

@@ -5,12 +5,12 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Select Products for" ); ?>: <?php echo $row->category_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "SELECT PRODUCTS FOR" ); ?>: <?php echo $row->category_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
     <?php echo JText::_( "For Checked Items" ); ?>:
-    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "Change Status" ); ?></button>
+    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "CHANGE STATUS" ); ?></button>
 
     <table>
         <tr>
@@ -20,8 +20,7 @@
                 <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
             </td>
             <td nowrap="nowrap">
-                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                <?php //echo TiendaSelect::category( @$state->filter_parentid, 'filter_parentid', $attribs, 'parentid', true, true ); ?>
+                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>              
             </td>
         </tr>
     </table>
@@ -42,7 +41,7 @@
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-	                <?php echo JText::_( 'Status' ); ?>
+	                <?php echo JText::_( 'STATUS' ); ?>
                 </th>
             </tr>
 		</thead>
@@ -79,7 +78,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('NO ITEMS FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

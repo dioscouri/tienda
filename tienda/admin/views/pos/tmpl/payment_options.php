@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>	
 <div class="note">
-	<?php echo count($this->payment_plugins) ? JText::_("Please select your preferred payment method below:") : JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." );?>
+	<?php echo count($this->payment_plugins) ? JText::_("PAYMENT NOTE 1").":" : JText::_( "PAYMENT NOTE 2" );?>
 </div>
 <?php if(count($this->payment_plugins)):?>
 	<?php foreach($this->payment_plugins as $payment_plugin):?>

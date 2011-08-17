@@ -21,7 +21,7 @@
 		<div class="cell step_body inactive">
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos&nextstep=step2">
-				<?php echo JText::_("Go Back");?>
+				<?php echo JText::_("GO BACK");?>
 				</a>
 			</div>
 			<div id="orderSummary">
@@ -48,10 +48,10 @@
 			<?php if (!empty($this->showBilling)) { ?>
 			<div id="payment_info" class="address">
 				<h3>
-				<?php echo JText::_("Billing Information");?>
+				<?php echo JText::_("BILLING INFO");?>
 				</h3>
 				<strong>
-				<?php echo JText::_("Billing Address");?>
+				<?php echo JText::_("BILLING ADDRESS");?>
 				</strong>:
 				<br/>
 				<?php
@@ -69,14 +69,14 @@
 			<?php if (!empty($this->showShipping)) { ?>
 			<div id="shipping_info" class="address">
 				<h3>
-				<?php echo JText::_("Shipping Information");?>
+				<?php echo JText::_("SHIPPING INFO");?>
 				</h3>
 				<strong>
-				<?php echo JText::_("Shipping Method");?>
+				<?php echo JText::_("SHIPPING METHOD");?>
 				</strong>: <?php echo JText::_($this->shipping_method_name);?>
 				<br/>
 				<strong>
-				<?php echo JText::_("Shipping Address");?>
+				<?php echo JText::_("SHIPPING ADDRESS");?>
 				</strong>:
 				<br/>
 				<?php
@@ -96,7 +96,7 @@
 			<?php if(!empty($this->order->customer_note)):?>
 			<div id="shipping_comments">
 				<h3>
-				<?php echo JText::_("Shipping Notes");?>
+				<?php echo JText::_("SHIPPING NOTES");?>
 				</h3>
 				<?php echo $this->order->customer_note;?>
 			</div>
@@ -115,7 +115,7 @@
 				$link .= '&amp;tmpl=component';
 				?>
 				<a id="modalWindowPayment" rel="{handler:'iframe',size:{x: window.innerWidth-400, y: window.innerHeight-200}, onShow:$('sbox-window').setStyles({'padding': 0})}" href="<?php echo $link;?>" class="modal">
-					<button><?php echo JText::_('Click Here to Complete Order');?></button>					
+					<button><?php echo JText::_('CLICK TO COMPLETE ORDER');?></button>					
 				</a>
 			</div>
 		</div>

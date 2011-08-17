@@ -8,7 +8,7 @@
             <div id="validation_message"></div>
 
             <div class="option">
-                <input type="radio" name="user_type" value="existing" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'existing' || $this->session->get('user_type', '', 'tienda_pos') == '') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "Use an Existing User" ); ?>
+                <input type="radio" name="user_type" value="existing" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'existing' || $this->session->get('user_type', '', 'tienda_pos') == '') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "USE AN EXISTING USER" ); ?>
                 <div class="option_data">
                     <?php echo $this->getModel('elementUser')->fetchElement( 'user_id', $this->session->get('user_id', '', 'tienda_pos' ) ); ?>
                     <?php echo $this->getModel('elementUser')->clearElement( 'user_id', '' ); ?>
@@ -16,33 +16,33 @@
             </div>
             
             <div class="option">
-                <input type="radio" name="user_type" value="new" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'new') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "Create a New User" ); ?>
+                <input type="radio" name="user_type" value="new" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'new') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "CREATE A NEW USER" ); ?>
                 <div class="option_data">
-                    <input type="text" name="new_email" value="<?php echo $this->session->get('new_email', JText::_( "Email" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "Email" ); ?>' );" />
-                    <input type="text" name="new_name" value="<?php echo $this->session->get('new_name', JText::_( "Full Name" ), 'tienda_pos' ); ?>" size="75" onclick="tiendaClearInput( this, '<?php echo JText::_( "Full Name" ); ?>' );" />
+                    <input type="text" name="new_email" value="<?php echo $this->session->get('new_email', JText::_( "EMAIL" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "EMAIL" ); ?>' );" />
+                    <input type="text" name="new_name" value="<?php echo $this->session->get('new_name', JText::_( "FULLNAME" ), 'tienda_pos' ); ?>" size="75" onclick="tiendaClearInput( this, '<?php echo JText::_( "FULLNAME" ); ?>' );" />
                 </div>
                 <div class="option_data">
                     <input type="checkbox" name="new_username_create" value="yes" checked="checked" />
                     <?php echo JText::_( "AUTO_CREATE_USERNAME" ); ?>
-                    <input type="text" name="new_username" value="<?php echo $this->session->get('new_username', JText::_( "Username" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "Username" ); ?>' );" />
+                    <input type="text" name="new_username" value="<?php echo $this->session->get('new_username', JText::_( "USERNAME" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "USERNAME" ); ?>' );" />
                 </div>
             </div>
             
             <div class="option">
-                <input type="radio" name="user_type" value="anonymous" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'anonymous') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "Anonymous" ); ?>
+                <input type="radio" name="user_type" value="anonymous" <?php if ($this->session->get('user_type', '', 'tienda_pos') == 'anonymous') { ?>checked="checked" <?php } ?> /><?php echo JText::_( "ANONYMOUS" ); ?>
                 <div class="option_data">
                     <input type="checkbox" name="anon_emails" value="yes" />
                     <?php echo JText::_( "SEND_ANON_EMAILS" ); ?>
                     <div class="option_data">
                         <?php echo JText::_( "ANON_EMAILS" ); ?>
                         <br/>
-                        <input type="text" name="anon_email" value="<?php echo $this->session->get('anon_email', JText::_( "Email" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "Email" ); ?>' );" />
+                        <input type="text" name="anon_email" value="<?php echo $this->session->get('anon_email', JText::_( "EMAIL" ), 'tienda_pos' ); ?>" size="40" onclick="tiendaClearInput( this, '<?php echo JText::_( "EMAIL" ); ?>' );" />
                     </div>
                 </div>
             </div>
             
             <div class="continue">
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_( 'VALIDATING' )."' );"; ?> 
                 <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
             </div>
         </div>

@@ -12,9 +12,9 @@ $items = @$this->orderitems;
            <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>
-                    <th style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_( "PRODUCT" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "QUANTITY" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "TOTAL" ); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,7 +84,7 @@ $items = @$this->orderitems;
                 <?php if (!empty($order->_coupons['order_price'])) : ?>
                 <tr>
                     <td colspan="2" style="text-align: left;font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "Discount" ); ?>
+                        <?php echo JText::_( "DISCOUNT" ); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($order->order_discount); ?>
@@ -96,7 +96,7 @@ $items = @$this->orderitems;
         <table class="adminlist" style="clear: both;">
                 <tr>
                     <td colspan="2" style="white-space: nowrap;">
-                        <b><?php echo JText::_( "Tax and Shipping Totals" ); ?></b>
+                        <b><?php echo JText::_( "TAX AND SHIPPING TOTALS" ); ?></b>
                         <br/>
                     </td>
                     <td colspan="2" style="text-align: right;">
@@ -117,9 +117,9 @@ $items = @$this->orderitems;
 	                    	{
 		                    	if( $order->order_tax )
 		                    	{
-		                    		if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
-		                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
-		                    	    else { echo JText::_("Product Tax").":<br>"; }    
+		                    		if (!empty($this->show_tax)) { echo JText::_("PRODUCT_TAX_INCLUDED").":<br>"; }
+		                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("PRODUCT TAX ESTIMATE").":<br>"; } 
+		                    	    else { echo JText::_("PRODUCT TAX").":<br>"; }    
 		                    	}
 		                    }
    						
@@ -127,7 +127,7 @@ $items = @$this->orderitems;
                     	{
                             echo JText::_("Shipping and Handling").":";
                             if ($display_shipping_tax && $order->order_shipping_tax ) {
-                                echo "<br>".JText::_("Shipping Tax").":";
+                                echo "<br>".JText::_("SHIPPING TAX").":";
                             }                    	    
                     	}
 
@@ -162,7 +162,7 @@ $items = @$this->orderitems;
                 </tr>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "Total" ); ?>
+                        <?php echo JText::_( "TOTAL" ); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($order->order_total); ?>

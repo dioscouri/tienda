@@ -11,13 +11,13 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
 				</th>				
 				<th colspan="2" style="text-align: left;">
-				<?php echo JText::_("Product");?>
+				<?php echo JText::_("PRODUCT");?>
 				</th>
 				<th style="width: 50px;">
-				<?php echo JText::_("Quantity");?>
+				<?php echo JText::_("QUANTITY");?>
 				</th>
 				<th style="width: 50px;">
-				<?php echo JText::_("Total");?>
+				<?php echo JText::_("TOTAL");?>
 				</th>
 			</tr>
 		</thead>
@@ -68,15 +68,15 @@
 			<?php endforeach;?>			
 			<tr>
 				<td colspan="3" style="border-bottom: 1px solid #E5E5E5; text-align: left;">
-				<input type="submit" class="button" value="<?php echo JText::_('Remove Selected');?>" onclick="tiendaSubmitForm('update')" name="remove" />
+				<input type="submit" class="button" value="<?php echo JText::_('REMOVE SELECTED');?>" onclick="tiendaSubmitForm('update')" name="remove" />
 				</td>
 				<td colspan="2" style="border-bottom: 1px solid #E5E5E5; ">
-				<input style="float: right;" type="submit" class="button" value="<?php echo JText::_('Update Quantities');?>" onclick="tiendaSubmitForm('update')" name="update" />
+				<input style="float: right;" type="submit" class="button" value="<?php echo JText::_('UPDATE QUANTITIES');?>" onclick="tiendaSubmitForm('update')" name="update" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" style="border-bottom: 1px solid #E5E5E5;  text-align: right; font-weight: bold;">
-				<?php echo JText::_("Subtotal");?>
+				<?php echo JText::_("SUBTOTAL");?>
 				</td>
 				<td style="border-bottom: 1px solid #E5E5E5; text-align: right;">
 				<?php echo TiendaHelperBase::currency($subtotal);?>

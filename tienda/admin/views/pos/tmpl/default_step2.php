@@ -6,7 +6,7 @@
             <?php echo $this->step1_inactive; ?>
             
             <div class="go_back">
-                <a href="index.php?option=com_tienda&view=pos"><?php echo JText::_( "Go Back" ); ?></a>
+                <a href="index.php?option=com_tienda&view=pos"><?php echo JText::_( "GO BACK" ); ?></a>
             </div>
         </div>
         
@@ -20,7 +20,7 @@
             <h2>
                 <?php echo JText::_( "SELECT_PRODUCTS" ); ?>
                 <span class="new_product">
-                    <?php echo TiendaURL::popup( "index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component", JText::_( "Add New Product to Order" ) , array('width'=>700, 'height'=>400)); ?>
+                    <?php echo TiendaURL::popup( "index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component", JText::_( "ADD NEW PRODUCT TO ORDER" ) , array('width'=>700, 'height'=>400)); ?>
                 </span>
             </h2>
                         
@@ -28,15 +28,18 @@
 
             <div id="cart">
                 <?php if (empty($this->cart)): ?>
-                    <?php echo JText::_( "No Items in Cart" ); ?>
+                    <?php echo JText::_( "NO ITEMS IN CART" ); ?>
                 <?php else: ?>
                 	<?php echo $this->cart;?>
                 <?php endif; ?>
             </div>
 
             <div class="continue">
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_( 'Validating' )."' );"; ?> 
-                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
+            	
+            	<!--<input type="checkbox" value="1" name="skippayment" id="skippayment"> <?php echo JText::_('SKIP PAYMENT');?>--> 
+            	<!--<a class="modal" href="" />[?]</a>-->
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_( 'VALIDATING' )."' );"; ?> 
+                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('CONTINUE'); ?>" type="button" class="button" />
             </div>        
         </div>
         <div class="cell step_title active">

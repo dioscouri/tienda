@@ -20,7 +20,7 @@
 		<div class="cell step_body inactive">
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos&nextstep=step2">
-				<?php echo JText::_("Go Back");?>
+				<?php echo JText::_("GO BACK");?>
 				</a>
 			</div>
 			<div id="orderSummary">
@@ -69,17 +69,17 @@
         
 			<div id="addresses">
 				<h3>
-            		<?php echo JText::_("Select Shipping and Billing Addresses") ?>
+            		<?php echo JText::_("SELECT SHIPPING AND BILLING ADDRESS") ?>
         		</h3>
         		 <div class='note'>
-	                <?php $text = JText::_( "Click Here to Manage User's Stored Addresses" )."."; ?>
+	                <?php $text = JText::_( "MANAGE USERS STORED ADDRESSES" )."."; ?>
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
-                    <?php echo JText::_( "This opens a window where you may modify user's existing stored addresses or create a new one. When you're finished, close the window to continue your checkout process. " ); ?>
+                    <?php echo JText::_( "USERS STORED ADDRESSES NOTE" ); ?>
                 </div>
 				<div class="reset"></div>
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">
-					<?php echo JText::_("Billing Address") ?>
+					<?php echo JText::_("BILLING ADDRESS") ?>
 					</h4>
 					<?php if (!empty($this->billingAddress)): ?>
 					<p>
@@ -99,7 +99,7 @@
 				<?php if($this->showShipping):?>
 				<div style="float: left; margin-left: 30px;">
 					<h4 id='shipping_address_header' class="address_header">
-					<?php echo JText::_("Shipping Address") ?>
+					<?php echo JText::_("SHIPPING ADDRESS") ?>
 					</h4>
 					<?php if(!empty($this->shippingAddress)):?>
 
@@ -138,12 +138,12 @@
 				<?php endif;?>
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
-					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
-					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('VALIDATING') . "' );";?> 
+					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
 				<?php else:?>
 					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
-                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('Validating') . "' );";?> 
-                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('Continue');?>" type="button" class="button" />
+                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('VALIDATING') . "' );";?> 
+                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
 				<?php endif;?>				
             </div>
 		</div>

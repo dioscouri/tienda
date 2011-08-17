@@ -50,7 +50,7 @@
                     <?php if (!count(@$items)) : ?>
                     <tr>
                         <td colspan="10" align="center">
-                            <?php echo JText::_('No items found'); ?>
+                            <?php echo JText::_('NO ITEMS FOUND'); ?>
                         </td>
                     </tr>
                     <?php endif; ?>

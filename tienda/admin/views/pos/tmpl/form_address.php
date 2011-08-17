@@ -18,11 +18,11 @@ break;
 <fieldset>
 	<table class="address_form" style="clear: both;" >
 		<tbody>
-			<input type="hidden" value="<?php echo JText::_('Temporary');?>" name="<?php echo $this->form_prefix;?>address_name" id="<?php echo $this->form_prefix;?>address_name" />
+			<input type="hidden" value="<?php echo JText::_('TEMPORARY');?>" name="<?php echo $this->form_prefix;?>address_name" id="<?php echo $this->form_prefix;?>address_name" />
 			<?php if( $config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Title');?>
+				<?php echo JText::_('TITLE');?>
 				</th>
 				<td>
 				<input name="<?php echo $this->form_prefix;?>title" id="<?php echo $this->form_prefix;?>title"
@@ -37,7 +37,7 @@ break;
 			<?php if( $config->get('show_field_name', '3') == '3' || $config->get('show_field_name', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('First name');?>
+				<?php echo JText::_('FIRST NAME');?>
 				</th>
 				<td>
 				<input name="<?php echo $this->form_prefix;?>first_name" id="<?php echo $this->form_prefix;?>first_name"
@@ -52,7 +52,7 @@ break;
 			<?php if( $config->get('show_field_middle', '3') == '3' || $config->get('show_field_middle', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Middle name');?>
+				<?php echo JText::_('MIDDLE NAME');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>middle_name"
@@ -67,7 +67,7 @@ break;
 			<?php if( $config->get('show_field_last', '3') == '3' || $config->get('show_field_last', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Last name');?>
+				<?php echo JText::_('LAST NAME');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>last_name"
@@ -82,7 +82,7 @@ break;
 			<?php if( $config->get('show_field_company', '3') == '3' || $config->get('show_field_company', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Company');?>
+				<?php echo JText::_('COMPANY NAME');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>company" id="<?php echo $this->form_prefix;?>company"
@@ -97,7 +97,7 @@ break;
 			<?php if( $config->get('show_field_address1', '3') == '3' || $config->get('show_field_address1', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Address Line 1');?>
+				<?php echo JText::_('ADDRESS LINE 1');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>address_1"
@@ -112,7 +112,7 @@ break;
 			<?php if( $config->get('show_field_address2', '3') == '3' || $config->get('show_field_address2', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Address Line 2');?>
+				<?php echo JText::_('ADDRESS LINE 2');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>address_2"
@@ -127,7 +127,7 @@ break;
 			<?php if( $config->get('show_field_city', '3') == '3' || $config->get('show_field_city', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('City');?>
+				<?php echo JText::_('CITY');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>city"
@@ -142,7 +142,7 @@ break;
 			<?php if( $config->get('show_field_country', '3') == '3' || $config->get('show_field_country', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Country');?>
+				<?php echo JText::_('COUNTRY');?>
 				</th>
 				<td>
 				<?php
@@ -172,7 +172,7 @@ break;
 					}
 					else
 					{
-						echo JText::_("Select Country First");
+						echo JText::_("SELECT COUNTRY FIRST");
 					}
 					?>
 				</div>&nbsp;
@@ -185,7 +185,7 @@ break;
 			<?php if( $config->get('show_field_zip', '3') == '3' || $config->get('show_field_zip', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Postal code');?>
+				<?php echo JText::_('POSTAL CODE');?>
 				</th>
 				<td>
 				<input type="text" name="<?php echo $this->form_prefix;?>postal_code"
@@ -200,7 +200,7 @@ break;
 			<?php if( $config->get('show_field_phone', '3') == '3' || $config->get('show_field_phone', '3') == $address_type ) :?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Phone');?>
+				<?php echo JText::_('PHONE');?>
 				</th>
 				<td>
 				<input name="<?php echo $this->form_prefix;?>phone_1" id="<?php echo $this->form_prefix;?>phone_1"

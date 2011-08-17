@@ -9,9 +9,9 @@
 	<fieldset>
 		<div class="header icon-48-tienda" style="float: left;">
 			<?php if($row->address_id):?>
-			<?php echo JText::_('Edit Address') . ": " . $row->address_name;?>	
+			<?php echo JText::_('EDIT ADDRESS') . ": " . $row->address_name;?>	
 			<?php else:?>
-			<?php echo JText::_('New Address');?>	
+			<?php echo JText::_('NEW ADDRESS');?>	
 			<?php endif;?>
 		</div>
 		<div class="toolbar" id="toolbar" style="float: right;">
@@ -38,10 +38,10 @@
 			<?php if($config->get('show_field_title', '3') != '0' ): ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Address Title');?>
+				<?php echo JText::_('ADDRESS TITLE');?>
 				</th>
 				<td>
-				<?php echo JText::_('Address Title For Your Reference');?>
+				<?php echo JText::_('ADDRESS TITLE FOR YOUR REFERENCE');?>
 				<br/>
 				<input name="address_name" id="address_name"
 				type="text" size="48" maxlength="250"
@@ -51,7 +51,7 @@
 			<?php endif;?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Set as Default Shipping');?>
+				<?php echo JText::_('SET AS DEFAULT SHIPPING');?>
 				</th>
 				<td>
 				<?php echo JHTML::_('select.booleanlist', 'is_default_shipping', '', @$row->is_default_shipping);?>
@@ -59,7 +59,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Set as Default Billing');?>
+				<?php echo JText::_('SET AS DEFAUTL BILLING');?>
 				</th>
 				<td>
 				<?php echo JHTML::_('select.booleanlist', 'is_default_billing', '', @$row->is_default_billing);?>
@@ -68,7 +68,7 @@
 			<?php if($config->get('show_field_name', '3') != '0' ): ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('First name');?>
+				<?php echo JText::_('FIRST NAME');?>
 				</th>
 				<td>
 				<input name="first_name" id="first_name"
@@ -79,7 +79,7 @@
 			<?php endif;?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Middle name');?>
+				<?php echo JText::_('MIDDLE NAME');?>
 				</th>
 				<td>
 				<input type="text" name="middle_name"
@@ -89,7 +89,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Last name');?>
+				<?php echo JText::_('LAST NAME');?>
 				</th>
 				<td>
 				<input type="text" name="last_name"
@@ -99,7 +99,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Company');?>
+				<?php echo JText::_('COMPANY NAME');?>
 				</th>
 				<td>
 				<input type="text" name="company" id="company"
@@ -109,7 +109,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Address Line 1');?>
+				<?php echo JText::_('ADDRESS LINE 1');?>
 				</th>
 				<td>
 				<input type="text" name="address_1"
@@ -119,7 +119,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Address Line 2');?>
+				<?php echo JText::_('ADDRESS LINE 2');?>
 				</th>
 				<td>
 				<input type="text" name="address_2"
@@ -129,7 +129,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('City');?>
+				<?php echo JText::_('CITY');?>
 				</th>
 				<td>
 				<input type="text" name="city" id="city"
@@ -139,7 +139,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Country');?>
+				<?php echo JText::_('COUNTRY');?>
 				</th>
 				<td>
 				<?php
@@ -155,14 +155,14 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Zone');?>
+				<?php echo JText::_('ZONE');?>
 				</th>
 				<td>
 				<div id="zones_wrapper">
 					<?php
 					if(empty($row->zone_id))
 					{
-						echo JText::_("Select Country First");
+						echo JText::_("SELECT COUNTRY FIRST");
 					}
 					else
 					{
@@ -174,7 +174,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Postal code');?>
+				<?php echo JText::_('POSTAL CODE');?>
 				</th>
 				<td>
 				<input type="text" name="postal_code"
@@ -184,7 +184,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Phone');?>
+				<?php echo JText::_('PHONE');?>
 				</th>
 				<td>
 				<input type="text" name="phone_1" id="phone_1"
@@ -194,7 +194,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Cell');?>
+				<?php echo JText::_('CELL');?>
 				</th>
 				<td>
 				<input type="text" name="phone_2" id="phone_2"
@@ -204,7 +204,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('Fax');?>
+				<?php echo JText::_('FAX');?>
 				</th>
 				<td>
 				<input type="text" name="fax" id="fax"

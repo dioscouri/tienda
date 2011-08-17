@@ -28,7 +28,7 @@
     {
         ?>
         <div class="note">
-        <?php echo JText::_( "No shipping options are available for customer's address.  Please select a different address." ); ?>
+        <?php echo JText::_( "NO SHIPPING NOTE" ); ?>
         </div>
         <?php
     }
@@ -45,8 +45,8 @@
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
-<h3><?php echo JText::_("Shipping Notes") ?></h3>
-<?php echo JText::_( "Add optional notes for shipment here" ); ?>:
+<h3><?php echo JText::_("SHIPPING NOTES") ?></h3>
+<?php echo JText::_( "ADD OPTIONAL NOTES FOR SHIPMENT HERE" ); ?>:
 <br/>
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
