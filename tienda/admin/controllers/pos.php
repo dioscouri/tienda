@@ -663,8 +663,7 @@ class TiendaControllerPOS extends TiendaController
 			          	$response['error'] = '1';
 						$msg[] = JText::_("Invalid email address");
 			        }
-				}
-				
+				}				
 				 
 				break;
 		}
@@ -817,7 +816,7 @@ class TiendaControllerPOS extends TiendaController
 		$field_city = $config->get('validate_field_city');
 		$field_zip = $config->get('validate_field_zip');
 		$field_phone = $config->get('validate_field_phone');		
-		
+				
 		if( ($field_title == $validate_id || $field_title == '3')  AND empty($values["{$prefix}title"]) )
 		{					
 			$msg[] = JText::sprintf("%s title field is required",$text);
@@ -843,7 +842,7 @@ class TiendaControllerPOS extends TiendaController
 		{			
 			$msg[] = JText::sprintf("%s address line 1 field is required", $text);
 		}
-		if( ($field_address1 == $validate_id || $field_address1 == '3') AND empty($values["{$prefix}address_2"]) )
+		if( ($field_address2 == $validate_id || $field_address2 == '3') AND empty($values["{$prefix}address_2"]) )
 		{			
 			$msg[] = JText::sprintf("%s address line 2 field is required", $text);
 		}
