@@ -853,6 +853,17 @@
                             <td>
                             </td>
                         </tr>
+						 <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Working Image Product' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'dispay_working_image_product', 'class="inputbox"', $this->row->get('dispay_working_image_product', '1') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Number of Subcategories per Line' ); ?>

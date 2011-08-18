@@ -432,7 +432,7 @@ function tiendaAddToCart( url, container, form, msg )
     }).request();
 }
 
-function tiendaUpdateAddToCart( page, container, form )
+function tiendaUpdateAddToCart( page, container, form, working, working_text )
 {
     var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page='+page;
     
@@ -449,12 +449,15 @@ function tiendaUpdateAddToCart( page, container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
+    if( working )
+    	tiendaGrayOutAjaxDiv( container , working_text, '');
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
         onComplete: function(response){
             var resp=Json.evaluate(response, false);
             if ($(container)) { $(container).setHTML(resp.msg); }
+            
             return true;
         }
     }).request();
@@ -760,15 +763,23 @@ function tiendaPutAjaxLoader( container, suffix )
 /**
  * Puts an AJAX loader gif to a div element and gray out that div
  * @param container ID of the div element
+ * @param text Text which is displayed under the image
  * @param suffix Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
  */
-function tiendaGrayOutAjaxDiv( container, suffix )
+function tiendaGrayOutAjaxDiv( container, text, suffix )
 {
 	if( suffix == '' )
 		suffix = '_transp';
 
 	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
 	$(container).setStyle( 'position', 'relative' );
-	document.getElementById( container ).innerHTML += '<div class="tiendaAjaxGrayDiv">'+img_loader+'</div>';
-//	$(container).setHTML(  );
+	text_element = '';
+	if( text.length )
+		text_element = '<div class="text">'+text+'</div>';
+
+	// make all texts in the countainer gray 
+	$ES('*',container).each(function(el) {
+		    el.setStyle('color','#CFCFCF' );
+	});	
+	document.getElementById( container ).innerHTML += '<div class="tiendaAjaxGrayDiv">'+img_loader+text_element+'</div>';
 }
