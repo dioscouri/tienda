@@ -128,43 +128,8 @@ $item = @$this->row;
                 <?php echo $this->product_description; ?>
             </div>
         <?php endif; ?>
-        
-        <?php // display the gallery images associated with this product if there is one ?>
-        <?php $path = TiendaHelperProduct::getGalleryPath( $item->product_id ); ?>
-        <?php $images = TiendaHelperProduct::getGalleryImages( $path, array(
-			'exclude' => $item->product_full_image
-		) ); ?>
-        <?php
-		jimport( 'joomla.filesystem.folder' );
-		if ( !empty( $path ) && !empty( $images ) )
-		{
-		?>
-            
-            <div class="reset"></div>
-            <div class="product_gallery">
-                <div id="product_gallery_header" class="tienda_header">
-                    <span><?php echo JText::_( "Images" ); ?></span>
-                </div>
-                <?php
-					$uri = TiendaHelperProduct::getUriFromPath( $path );
-					foreach ( $images as $image )
-					{
-				?>
-                    	<div class="product_gallery_thumb">
-                            <?php echo TiendaUrl::popup( $uri . $image, '<img src="' . $uri . "thumbs/" . $image . '" alt="' . $item->product_name
-													. '" />', array(
-												'update' => false, 'img' => true
-											) ); ?>
-                        </div>    
-                    <?php
-						}
-					?>
-                <div class="reset"></div>
-            </div>
-            <?php
-			}
-			?>
-        
+
+				<?php echo TiendaHelperProduct::getGalleryLayout( $item->product_id, $item->product_name, $item->product_full_image );?>            
         <div class="reset"></div>
 
         <?php // display the files associated with this product ?>
