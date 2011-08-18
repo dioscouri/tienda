@@ -522,6 +522,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 		}
 		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger( 'onPrepareGalleryImages', array( &$images ) );
+		
 		return $images;
 	}
 	
@@ -2348,5 +2351,56 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$result []= array( $list[$i]->productattribute_id, $values[$i] );
 			
 		return $result;
+	}
+
+	/*
+	 * Method to display a selected gallery layout for a specific product
+	 * 
+	 * @param $product_id Product ID
+	 * @param $product_name Product name
+	 * @param $exclude Exclude this image from the gallery
+	 * @param $layout Layout of the gallery ('product_gallery' by default)
+	 * @param $values Values from the request (POST array by default)
+	 * 
+	 * @return HTML of the layout
+	 */
+	public static function getGalleryLayout( $product_id, $product_name = '', $exclude = '', $layout = 'product_gallery', $values = array() )
+	{
+		if( is_array( $values ) && !count( $values ) )
+		{
+			$values = JRequest::get( 'post' );
+		}
+
+		$path = TiendaHelperProduct::getGalleryPath( $product_id );
+		$images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude' => $exclude ) );
+		$uri = TiendaHelperProduct::getUriFromPath( $path );
+		$show_gallery = false;
+		if ( !empty( $path ) && !empty( $images ) )
+			$show_gallery = true;
+		
+		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
+		Tienda::load( 'TiendaUrl', 'library.url' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$view = new TiendaViewProducts( );
+		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+		$model->setId( $product_id );
+		$view->setModel( $model, true );
+		$view->set( '_controller', 'products' );
+		$view->set( '_view', 'products' );
+		$view->set( '_doTask', true );
+		$view->set( 'hidemenu', true );
+		$view->setLayout( $layout );
+		$view->assign( 'values', $values );
+		$view->assign( 'show_gallery', $show_gallery );
+		$view->assign( 'uri', $uri );
+		$view->assign( 'images', $images );
+		$view->assign( 'product_name', $product_name );
+
+		ob_start( );
+		$view->display( );
+		$html = ob_get_contents( );
+		ob_end_clean( );
+		
+		return $html;
 	}
 }
