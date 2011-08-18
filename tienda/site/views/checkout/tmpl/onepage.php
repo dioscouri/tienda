@@ -48,7 +48,7 @@
 					?>
 
 					<?php echo JText::_('E-mail address');?>: <span id="user_email_span"><?php echo $email_address; ?></span>
-						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm )"/>
+						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
 					</div>
 					<div id="user_email_validation"></div>
 				</div> <?php // end id - customer pane ?>

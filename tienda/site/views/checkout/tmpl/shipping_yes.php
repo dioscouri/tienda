@@ -1,5 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
+<?php $one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ); ?>
 
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
 <h3><?php echo JText::_("Select a Shipping Method"); ?></h3>
@@ -14,31 +15,22 @@
         foreach ($this->rates as $rate) 
         {
             $checked = "";
-/*        	
-            if (!empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
+
+            if ( !$one_page && !empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
             {
             	$checked = "checked";                        
             }        	        		
-*/
             ?>
-            <input name="shipping_plugin" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>');" <?php echo $checked; ?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
+            <input name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>' );" <?php echo $checked; ?> /> <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )<br />
             <br/>
             <?php
         }
-				if( TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ) ) :?>
-					<br /><input type="button" class="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form )" value="<?php echo JText::_("Calculate shipping rates"); ?>" />        
-				<?php 
-				endif;
-        
     }
         else
     {
         ?>
         <div class="note">
-        <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
-				<?php if( TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ) ) :?>
-					<br /><input type="button" class="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form )" value="<?php echo JText::_("Calculate shipping rates"); ?>" />        
-				<?php endif; ?>
+	        <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
         </div>
         <?php
     }
@@ -52,7 +44,7 @@
 <input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $setval ? $this->rates['0']['extra'] : "";?>" />
 
     
-<?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
+<?php if( !$one_page ):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
 <h3><?php echo JText::_("Shipping Notes") ?></h3>
@@ -61,7 +53,7 @@
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
 
-<?php if (!empty($this->default_rate) && !TiendaConfig::getInstance()->get('one_page_checkout', '0') ) : ?>
+<?php if (!empty($this->default_rate) && !$one_page ) : ?>
 <?php $default_rate = $this->default_rate; ?>
 <script type="text/javascript">
 	window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');

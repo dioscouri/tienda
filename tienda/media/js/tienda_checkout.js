@@ -5,10 +5,12 @@
  * 
  * @return
  */
-function tiendaGetPaymentForm( element, container )
+function tiendaGetPaymentForm( element, container, text )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
-    tiendaDoTask( url, container, document.adminForm );
+
+   	tiendaGrayOutAjaxDiv( container, text, '' );
+    tiendaDoTask( url, container, document.adminForm, '', false, deletePaymentGrayDiv );    	
 }
 
 function tiendaGetShippingRates( container, form, msg )
@@ -17,13 +19,16 @@ function tiendaGetShippingRates( container, form, msg )
     tiendaDoTask( url, container, form, msg );
 }
 
-function tiendaSetShippingRate(name, price, tax, extra, code)
+function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, text_cart )
 {
 	$('shipping_name').value = name;
 	$('shipping_code').value = code;
 	$('shipping_price').value = price;
 	$('shipping_tax').value = tax;
 	$('shipping_extra').value = extra;
+
+		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
+		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );		
 	tiendaGetCheckoutTotals();
 }
 
@@ -84,6 +89,35 @@ function tiendaAddCoupon( form, mult_enabled )
     }).request();
 }
 
+function deletePaymentGrayDiv()
+{
+	if( $( 'onCheckoutPayment_wrapper' ) )
+		tiendaSetColorInContainer( 'onCheckoutPayment_wrapper', '' );
+}
+
+function deleteShippingGrayDiv()
+{
+	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
+	if( el )
+	{
+		el.destroy();
+		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
+		
+		// selected shipping rate has to be checked manually
+		shipping_plugin = $( 'shipping_name' ).get( 'value' );
+		$ES( 'input[type=radio]', 'onCheckoutShipping_wrapper' ).each( function( e ){
+			if( e.get( 'rel' ) == shipping_plugin )
+				e.set( 'checked', true );
+		} );
+	}
+	deleteCartGrayDiv();
+}
+
+function deleteCartGrayDiv()
+{
+	$( 'onCheckoutCart_wrapper' ).setStyle( 'color', '' );
+}
+
 /**
  * Based on the session contents,
  * calculates the order total
@@ -94,7 +128,7 @@ function tiendaAddCoupon( form, mult_enabled )
 function tiendaGetCheckoutTotals()
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=setShippingMethod&format=raw';
-    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false );    
+    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false, deleteShippingGrayDiv );    
 }
 
 /**

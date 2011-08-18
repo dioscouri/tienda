@@ -118,7 +118,9 @@ div.form_message{display:inline;float:left;padding:7px;vertical-align:middle;wid
 div.tienda_validation,div.tienda_validation img{float:left;vertical-align:middle;}
 span.validation-fail{color:#FF0000;padding-left:5px;}
 span.validation-success{color:#088A08;padding-left:5px;}
-
+div#payment_form_div{
+	min-height : 50px;
+}
 
 div#tienda_breadcrumb,div#tienda_pricefilter{margin-bottom:15px;}
 div#tienda_category_header span,div#tienda_product_header span.product_name{font-size:1.8em;vertical-align:middle;}

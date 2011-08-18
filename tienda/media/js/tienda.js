@@ -212,8 +212,9 @@ function tiendaShowHideDiv(divname)
  * @param {String} document element to update after execution
  * @param {String} form name (optional)
  * @param {String} msg message for the modal div (optional)
+ * @param (Function) Function which is executed after the call is completed
  */
-function tiendaDoTask( url, container, form, msg, doModal ) 
+function tiendaDoTask( url, container, form, msg, doModal, execFunc ) 
 {
 	if (doModal != false) { tiendaNewModal(msg); }
 	
@@ -240,6 +241,9 @@ function tiendaDoTask( url, container, form, msg, doModal )
                 var resp=Json.evaluate(response, false);
                 if ($(container)) { $(container).setHTML(resp.msg); }
                 if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
+                if( execFunc != null )
+                		execFunc();
+                
                 return true;
             }
         }).request();
@@ -253,6 +257,8 @@ function tiendaDoTask( url, container, form, msg, doModal )
                 var resp=Json.evaluate(response, false);
                 if ($(container)) { $(container).setHTML(resp.msg); }
                 if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
+                if( execFunc != null )
+            		execFunc();
                 return true;
         }
         }).request();			
@@ -457,7 +463,7 @@ function tiendaUpdateAddToCart( page, container, form, working, working_text )
         onComplete: function(response){
             var resp=Json.evaluate(response, false);
             if ($(container)) { $(container).setHTML(resp.msg); }
-            
+        	$( container ).setStyle( 'color', '' );            
             return true;
         }
     }).request();
@@ -749,22 +755,27 @@ function tiendaRefreshCartTotalAmountDue()
 /**
  * Puts an AJAX loader gif to a div element
  * @param container ID of the div element
+ * @param text Text next to ajax loading picture
  * @param suffix Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
  */
-function tiendaPutAjaxLoader( container, suffix )
+function tiendaPutAjaxLoader( container, text, suffix )
 {
-	if( suffix == '' )
+	if( !suffix || suffix == '' )
 		suffix = '_transp';
 
+	text_element = '';
+	if( text != '' )
+		text_element = '<span> '+text+'</span>';
 	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
-	$(container).setHTML( img_loader );
+	$(container).setHTML( img_loader+text_element );
 }
 
 /**
  * Puts an AJAX loader gif to a div element and gray out that div
- * @param container ID of the div element
- * @param text Text which is displayed under the image
- * @param suffix Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
+ * @param container 	ID of the div element
+ * @param text 			Text which is displayed under the image
+ * @param suffix 		Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
+ * 
  */
 function tiendaGrayOutAjaxDiv( container, text, suffix )
 {
@@ -778,8 +789,14 @@ function tiendaGrayOutAjaxDiv( container, text, suffix )
 		text_element = '<div class="text">'+text+'</div>';
 
 	// make all texts in the countainer gray 
-	$ES('*',container).each(function(el) {
-		    el.setStyle('color','#CFCFCF' );
-	});	
+	tiendaSetColorInContainer( container, '#CFCFCF' );
 	document.getElementById( container ).innerHTML += '<div class="tiendaAjaxGrayDiv">'+img_loader+text_element+'</div>';
+}
+
+function tiendaSetColorInContainer( container, color )
+{
+	$( container ).setStyle( 'color', color );
+	$ES('*',container).each(function(el) {
+	    el.setStyle('color', color );
+	});			
 }

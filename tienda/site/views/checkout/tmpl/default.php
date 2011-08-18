@@ -149,7 +149,7 @@
         <div id="validationmessage"></div>
         
         <!--    SUBMIT   -->    
-            <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('Select Payment Method'); ?>" />
+            <input type="button" class="button" onclick="tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_( 'VALIDATING' );?>' ); tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('Select Payment Method'); ?>" />
             <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a>
             	
     		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />

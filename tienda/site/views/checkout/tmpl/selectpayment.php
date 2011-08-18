@@ -126,7 +126,7 @@
                         foreach ($this->plugins as $plugin) 
                         {
                             ?>
-                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
+                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
                             <?php echo JText::_( $plugin->name ); ?>
                             <br/>
                             <?php

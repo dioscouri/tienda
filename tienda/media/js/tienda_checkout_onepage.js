@@ -110,7 +110,7 @@ function tiendaGetRegistrationForm( container, form, msg )
 /**
  * Simple function to check a password strength
  */
-function tiendaCheckPassword( container, form )
+function tiendaCheckPassword( container, form, valid_text )
 {
     var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword&format=raw';
     
@@ -127,7 +127,7 @@ function tiendaCheckPassword( container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
-    tiendaPutAjaxLoader( container, '_transp' );
+    tiendaPutAjaxLoader( container, valid_text );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -142,7 +142,7 @@ function tiendaCheckPassword( container, form )
 /**
  * Simple function to compare passwords
  */
-function tiendaCheckPassword2( container, form )
+function tiendaCheckPassword2( container, form, valid_text )
 {
     var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword2&format=raw';
     
@@ -159,7 +159,7 @@ function tiendaCheckPassword2( container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
-    tiendaPutAjaxLoader( container, '_transp' );
+    tiendaPutAjaxLoader( container, valid_text );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -197,7 +197,7 @@ function tiendaCheckPassword2( container, form )
 /*
  * This method checks availability of the email address
  */
-function tiendaCheckoutCheckEmail( container, form )
+function tiendaCheckoutCheckEmail( container, form, valid_text )
 {
 	user_email = 'email_address';
 	// send AJAX request to validate the email address against other users
@@ -216,7 +216,7 @@ function tiendaCheckoutCheckEmail( container, form )
         str[i] = postvar;
     }
     // execute Ajax request to server
-    tiendaPutAjaxLoader( container, '_transp' );
+    tiendaPutAjaxLoader( container, valid_text );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
