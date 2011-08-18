@@ -235,12 +235,6 @@ function tiendaCheckoutCheckEmail( container, form )
     }).request();
 }
 
-function tiendaPutAjaxLoader( container, suffix )
-{
-	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
-	$(container).setHTML( img_loader );
-}
-
 function tiendaHideInfoCreateAccount( )
 {
 	$('tienda_user_additional_info').set('class', 'hidden');

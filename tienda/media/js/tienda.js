@@ -742,3 +742,33 @@ function tiendaRefreshCartTotalAmountDue()
 	var url = 'index.php?option=com_tienda&view=carts&task=totalAmountDue&format=raw';
     tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false );
 }
+
+/**
+ * Puts an AJAX loader gif to a div element
+ * @param container ID of the div element
+ * @param suffix Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
+ */
+function tiendaPutAjaxLoader( container, suffix )
+{
+	if( suffix == '' )
+		suffix = '_transp';
+
+	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
+	$(container).setHTML( img_loader );
+}
+
+/**
+ * Puts an AJAX loader gif to a div element and gray out that div
+ * @param container ID of the div element
+ * @param suffix Suffix of the AJAX loader gif (in case it's empty '_transp' is used)
+ */
+function tiendaGrayOutAjaxDiv( container, suffix )
+{
+	if( suffix == '' )
+		suffix = '_transp';
+
+	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
+	$(container).setStyle( 'position', 'relative' );
+	document.getElementById( container ).innerHTML += '<div class="tiendaAjaxGrayDiv">'+img_loader+'</div>';
+//	$(container).setHTML(  );
+}
