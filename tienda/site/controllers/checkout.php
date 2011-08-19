@@ -2817,7 +2817,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 
 			// save the order shipping info
-			if (!$this->saveOrderShippings( $values ))
+			if ( isset( $order->shipping ) && !$this->saveOrderShippings( $values ))
 			{
 				// TODO What to do if saving order shippings fails?
 				$error = true;
