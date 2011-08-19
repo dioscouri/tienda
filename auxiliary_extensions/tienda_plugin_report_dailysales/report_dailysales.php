@@ -86,7 +86,7 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
             $nextdate = $variables->nextdate;
 
 			$query = new TiendaQuery();
-			$query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+			$query->select( 'COUNT(tbl.order_id) AS num, SUM(order_total) AS amount' );
 			$query->from('#__tienda_orders AS tbl');
 
 			$query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
