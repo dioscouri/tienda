@@ -160,7 +160,7 @@ class TiendaHelperOrder extends TiendaHelperBase
             // update quantities
             // TODO Update quantity based on vendor_id
             $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
-            $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
+            $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes), true, false);
 
             $productsTable = JTable::getInstance( 'Products', 'TiendaTable' );
             $productsTable->load($orderitem->product_id);
@@ -189,6 +189,8 @@ class TiendaHelperOrder extends TiendaHelperBase
             {
             	$new_quantity = 0;
             }
+            $product->quantity = $new_quantity;
+	 			    $product->save();
 
 						// send mail to notify low quantity
 						$config = TiendaConfig::getInstance();
@@ -201,9 +203,6 @@ class TiendaHelperOrder extends TiendaHelperBase
 							$helper = TiendaHelperBase::getInstance( 'Email' );
 							$helper->sendEmailLowQuanty( $product->productquantity_id );
 						}
-						
-            $product->quantity = $new_quantity;
-	 			    $product->save();
         	}
         	
         	$row = $model->getTable();
