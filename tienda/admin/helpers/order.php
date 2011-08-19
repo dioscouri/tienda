@@ -157,40 +157,53 @@ class TiendaHelperOrder extends TiendaHelperBase
         {
         	foreach ($order->orderitems as $orderitem)
         	{
-                // update quantities
-                // TODO Update quantity based on vendor_id
-                $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
-                $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
+            // update quantities
+            // TODO Update quantity based on vendor_id
+            $product = JTable::getInstance('ProductQuantities', 'TiendaTable');
+            $product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes));
 
-                $productsTable = JTable::getInstance( 'Products', 'TiendaTable' );
-                $productsTable->load($orderitem->product_id);
-                       
-                
-                // Check if it has inventory enabled
-                if (!$productsTable->product_check_inventory  || empty($product->product_id))
-                {
-                	// do not update quantities
-                	continue;
-                }
-                
-                switch ($delta)
-                {
-                	case "+":
-                		$new_quantity = $product->quantity + $orderitem->orderitem_quantity;
-                		break;
-                	case "-":
-                	default:
-                        $new_quantity = $product->quantity - $orderitem->orderitem_quantity;		
-                		break;
-                }
-                
-                // no product made infinite accidentally
-                if ($new_quantity < 0)
-                {
-                	$new_quantity = 0;
-                }
-                $product->quantity = $new_quantity;
- 			    $product->save();
+            $productsTable = JTable::getInstance( 'Products', 'TiendaTable' );
+            $productsTable->load($orderitem->product_id);
+                   
+            
+            // Check if it has inventory enabled
+            if (!$productsTable->product_check_inventory  || empty($product->product_id))
+            {
+            	// do not update quantities
+            	continue;
+            }
+            
+            switch ($delta)
+            {
+            	case "+":
+            		$new_quantity = $product->quantity + $orderitem->orderitem_quantity;
+            		break;
+            	case "-":
+            	default:
+                    $new_quantity = $product->quantity - $orderitem->orderitem_quantity;		
+            		break;
+            }
+            
+            // no product made infinite accidentally
+            if ($new_quantity < 0)
+            {
+            	$new_quantity = 0;
+            }
+
+						// send mail to notify low quantity
+						$config = TiendaConfig::getInstance();
+						$low_stock_notify_enabled = $config->get('low_stock_notify', '0');
+						$low_stock_notify_value   = $config->get('low_stock_notify_value', '0');
+						
+						if ( ( $low_stock_notify_enabled ) && ( $new_quantity <= ( ( int ) $low_stock_notify_value ) ) )
+						{
+							Tienda::load( "TiendaHelperBase", 'helpers._base' );
+							$helper = TiendaHelperBase::getInstance( 'Email' );
+							$helper->sendEmailLowQuanty( $product->productquantity_id );
+						}
+						
+            $product->quantity = $new_quantity;
+	 			    $product->save();
         	}
         	
         	$row = $model->getTable();

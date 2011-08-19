@@ -1751,9 +1751,41 @@
 						</tr>			
 					</tbody>
 					</table>
-					
 					<?php
-						echo $this->sliders->endPanel();	
+            echo $this->sliders->endPanel();
+
+            $legend = JText::_( "LOW STOCK NOTIFY SETTINGS" );
+            echo $this->sliders->startPanel( JText::_( $legend ), 'low_stock_notify' );
+            ?>
+            
+            <table class="adminlist">
+            <tbody>
+                <tr>
+                    <th style="width: 25%;">
+                        <?php echo JText::_( 'LOW STOCK NOTIFY' ); ?>
+                    </th>
+                    <td>
+                        <?php echo JHTML::_('select.booleanlist', 'low_stock_notify', 'class="inputbox"', $this->row->get('low_stock_notify', '0') ); ?>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 25%;">
+                        <?php echo JText::_( 'LOW STOCK NOTIFY VALUE' ); ?>
+                    </th>
+                    <td>
+                        <input ="text" name="low_stock_notify_value" value="<?php echo $this->row->get('low_stock_notify_value', '0'); ?>" />
+                    </td>
+                    <td>
+                        <?php echo JText::_( "LOW STOCK NOTIFY VALUE DESC" ); ?>
+                    </td>
+                </tr>
+            </tbody>
+            </table>					
+					<?php
+							echo $this->sliders->endPanel();	
 	     				echo $this->sliders->startPanel( JText::_( "EAV Editor Settings" ), 'eav_editor_settings' );
 	    			?>
 					<table class="adminlist">

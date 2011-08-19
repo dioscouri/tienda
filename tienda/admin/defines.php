@@ -565,6 +565,8 @@ class TiendaConfig extends JObject
 	
 	// since 0.7.5
 	var $one_page_checkout_layout = 'onepagecheckout';
+	var $low_stock_notify					= '0';
+	var $low_stock_notify_value				= '0';	
 
 	/**
 	 * constructor

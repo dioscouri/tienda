@@ -530,4 +530,100 @@ class TiendaHelperEmail extends TiendaHelperBase
         
         return $success;
     }
+
+ /**
+	 * Method to send a notice about low quantity of a product in the stock
+	 *
+	 * @param  string productquantity_id
+	 * @return boolean
+	 */
+	function sendEmailLowQuanty( $productquantity_id )
+	{
+		$mainframe = JFactory::getApplication();
+		$recipients = array();
+		$done = array();
+		$lang = JFactory::getLanguage();
+		$lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
+		$system_recipients = $this->getSystemEmailRecipients();
+
+		foreach ( $system_recipients as $r )
+		{
+			if( !in_array( $r->email, $recipients ) )
+			{
+				$recipients[] = $r->email;
+			}
+		}
+		$config = TiendaConfig::getInstance();
+
+		$fromname = $config->get('shop_name', 'SHOP');
+		$mailfrom = $config->get('shop_email', '');
+		if (!strlen($mailfrom))
+		{
+			$mailfrom = $mainframe->getCfg('mailfrom');
+		}
+		$vendor_name = $config->get('shop_owner_name', 'Admin');
+		$ProductQuantities_model = JTable::getInstance('ProductQuantities', 'TiendaTable');
+		$ProductQuantities_model->load( array( 'productquantity_id' => $productquantity_id ) );
+		$quantity = $ProductQuantities_model -> quantity;
+		$product_id = $ProductQuantities_model -> product_id;
+		$product_attributes_csv = $ProductQuantities_model -> product_attributes;
+
+		if (!empty($product_attributes_csv))
+		{
+			$productattributeoption_id_array = explode(',', $product_attributes_csv);
+		}
+		else
+		{
+			$productattributeoption_id_array = NULL;
+		}
+
+		$productsTable = JTable::getInstance('Products', 'TiendaTable');
+		$productsTable -> load( $product_id, true, false );
+		$product_name = $productsTable-> product_name;
+		$subject = "[" . $config -> get('shop_name', 'SHOP') . " - " . JText::sprintf('LOW STOCK MAIL SUBJECT NAME AND ID', $product_name, $product_id) . "]";
+
+		// set the email body
+		$text = JText::sprintf('EMAIL_DEAR', $vendor_name) . ",\n\n";
+		$text .= JText::sprintf("LOW STOCK MAIL PRODUCT NAME AND ID", $product_name, $product_id) . "\n";
+		if (!empty($productattributeoption_id_array))
+		{
+			foreach ($productattributeoption_id_array as $productattributeoption_id)
+			{
+				$productattributeoptionsTable = JTable::getInstance('Productattributeoptions', 'TiendaTable');
+				$productattributeoptionsTable -> load($productattributeoption_id);
+				$productattribute_id = $productattributeoptionsTable -> productattribute_id;
+				$productattributeoption_name = $productattributeoptionsTable -> productattributeoption_name;
+				$productattributesTable = JTable::getInstance('Productattributes', 'TiendaTable');
+				$productattributesTable -> load($productattribute_id);
+				$productattribute_name = $productattributesTable -> productattribute_name;
+				$text .= JText::sprintf( "LOW STOCK MAIL OPTION DETAILS", $productattribute_name, $productattributeoption_name ) . "\n";
+			}
+		}
+
+		$text .= "\n------------------------------------------------------------------------------------------\n";
+		$text .= JText::sprintf("LOW STOCK MAIL ITEMS AVAILABLE", $quantity) . "\n";
+		$text .= "------------------------------------------------------------------------------------------";
+		$text .= "\n\n";
+
+		if ($this -> use_html)
+		{
+			$text = nl2br($text);
+		}
+
+		$success = false;
+		for ($i = 0; $i < count($recipients); $i++)
+		{
+			$recipient = $recipients[$i];
+			if (!isset($done[$recipient]))
+			{
+				if ($send = $this -> _sendMail($mailfrom, $fromname, $recipient, $subject, $text))
+				{
+					$success = true;
+					$done[$recipient] = $recipient;
+				}
+			}
+		}
+		return $success;
+	}
+
 }
