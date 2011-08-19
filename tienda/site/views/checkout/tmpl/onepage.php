@@ -222,7 +222,7 @@
 			</div>
 			<div id="validationmessage" style="padding-top: 10px;"></div> 
 			<div id="tienda_btns">
-				<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form)" value="<?php echo JText::_('Click Here to Continue'); ?>" />
+				<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form, '<?php echo JText::_( 'VALIDATING' ); ?>')" value="<?php echo JText::_('Click Here to Continue'); ?>" />
 				<div class="reset marginbot"></div>	
 				<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a> 
 			</div>

@@ -37,7 +37,7 @@ function copyBillingAdToShippingAd(checkbox, form)
     }  
 }
 
-function tiendaSaveOnepageOrder(container, errcontainer, form)
+function tiendaSaveOnepageOrder(container, errcontainer, form, valid_text)
 {
 	var url = 'index.php?option=com_tienda&view=checkout&task=saveOrderOnePage&format=raw';	
 	var str = new Array();
@@ -53,6 +53,7 @@ function tiendaSaveOnepageOrder(container, errcontainer, form)
     }
      
      // execute Ajax request to server
+     tiendaPutAjaxLoader( errcontainer, valid_text );
      var a=new Ajax(url,{
          method:"post",
          data:{"elements":Json.toString(str)},
