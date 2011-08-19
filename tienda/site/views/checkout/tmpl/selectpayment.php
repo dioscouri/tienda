@@ -118,34 +118,7 @@
         <?php if (!empty($this->showPayment)) { ?>
             <!--    PAYMENT METHODS   -->        
             <h3><?php echo JText::_("Payment Method") ?></h3>
-            <p><?php echo JText::_("Please select your preferred payment method below"); ?>:</p>
-            <div id='onCheckoutPayment_wrapper'>
-                <?php        
-                    if ($this->plugins) 
-                    {                          	                  	
-                        foreach ($this->plugins as $plugin) 
-                        {
-                            ?>
-                            <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
-                            <?php echo JText::_( $plugin->name ); ?>
-                            <br/>
-                            <?php
-                        }                   
-                        ?>
-                                      
-		                <div id='payment_form_div' style="padding-top: 10px;">
-		                <?php
-		                if (!empty($this->payment_form_div))
-		                {
-		                	echo $this->payment_form_div;
-		                }
-		                ?>
-		                </div>
-	                <?php 
-                     }
-                ?>
-                <div id="validationmessage" style="padding-top: 10px;"></div>
-            </div>
+            <?php echo $this->payment_options_html; ?>
         <?php } ?>
     </div>
 
@@ -156,7 +129,7 @@
         <?php endif; ?>
 
     <p>
-        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm )" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
+        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm ); tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_( 'VALIDATING' );?>' );" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
         <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a>
     </p>
         

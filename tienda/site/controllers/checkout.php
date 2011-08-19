@@ -1650,6 +1650,7 @@ class TiendaControllerCheckout extends TiendaController
 			$view->assign( 'payment_form_div', $text );
 		}
 
+		$view->assign( 'one_page', $this->onepage_checkout );
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
@@ -1850,6 +1851,8 @@ class TiendaControllerCheckout extends TiendaController
 
 		$progress = $this->getProgress();
 
+		$paymentOptionsHtml = $this->getPaymentOptionsHtml();
+
 		//Set display
 		$view = $this->getView( 'checkout', 'html' );
 		$view->setLayout('selectpayment');
@@ -1950,44 +1953,12 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		$view->assign( 'coupons_present', $coupons_present );
 
-
-		// get all the enabled payment plugins
-		Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
-		$payment_plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetPaymentPlugins' );
-
 		$dispatcher =& JDispatcher::getInstance();
-
-		$plugins = array();
-		if ($payment_plugins)
-		{
-			foreach ($payment_plugins as $plugin)
-			{
-				$results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
-				if (in_array(true, $results, true))
-				{
-					$plugins[] = $plugin;
-				}
-			}
-		}
-
-		if (count($plugins) == 1)
-		{
-			$plugins[0]->checked = true;
-			ob_start();
-			$this->getPaymentForm( $plugins[0]->element );
-			$html = json_decode( ob_get_contents() );
-			ob_end_clean();
-			$view->assign( 'payment_form_div', $html->msg );
-		}
-		$view->assign('plugins', $plugins);
-
-		//$dispatcher =& JDispatcher::getInstance();
-
 		ob_start();
 		$dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
 		$view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
 		ob_end_clean();
-
+		$view->assign( 'payment_options_html', $paymentOptionsHtml );
 		ob_start();
 		$dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
 		$view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
