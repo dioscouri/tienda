@@ -34,3 +34,45 @@
 #tienda_checkout_pane .hidden,#tienda_checkout_pane .tienda-collapsed div{display:none;}
 #tienda_checkout_pane .col3 #user_email_validation{clear:both;float:none;width:auto;}
 #tienda_checkout_pane .col3 #user_email_validation .tienda_validation{ width : 100%;}
+
+/* OPC layout */	
+#tienda_checkout_pane .opc-customer-billship-address {
+	float: left;
+	width: 33.3%;		
+}
+
+#tienda_checkout_pane .right-side {
+	 
+	
+}
+
+div#payment_form_div{ /* this is defined in tienda.css as min-height: 50px */
+	min-height : 0px;
+}
+
+#tienda_checkout_pane .opc-method {
+	float: left;
+	width: 33.3%;		
+}
+
+#tienda_checkout_pane .opc-review-place-order {
+	float: right;
+	width: 66.7%;		
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
