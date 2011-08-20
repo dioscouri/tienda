@@ -56,6 +56,6 @@
 <?php if (!empty($this->default_rate) && !$one_page ) : ?>
 <?php $default_rate = $this->default_rate; ?>
 <script type="text/javascript">
-	window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>');
+	window.onload = tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>', '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>');
 </script>
 <?php endif; ?>
