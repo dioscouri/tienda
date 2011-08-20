@@ -2160,6 +2160,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 		
 		$invalidQuantity = '0';
+		$attributes = array( );
 		if ( empty( $values ) )
 		{
 			$product_qty = $quantity_min;
@@ -2172,9 +2173,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				$invalidQuantity = '1';
 			}
+			$attributes = $default_attributes;
 		}
 		
-		$attributes = array( );
 		if ( !empty( $values ) )
 		{
 			$product_qty = !empty( $values['product_qty'] ) ? ( int ) $values['product_qty'] : $quantity_min;
@@ -2188,6 +2189,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 				}
 			}
 			
+			if( !count( $attributes ) ) // no attributes are selected -> use default
+				$attributes = $helper_product->getDefaultAttributes( $product_id );
+
 			sort( $attributes );
 			
 			// Add 0 to attributes to include all the root attributes
@@ -2212,28 +2216,29 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				$invalidQuantity = '1';
 			}
-			
-			// adjust the displayed price based on the selected or default attributes
-			$table = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
-			foreach ( $attributes as $attrib_id )
-			{
-				// load the attrib's object
-				$table->load( $attrib_id );
-				// update the price
-				//$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-				
-				// is not + or -
-				if ( $table->productattributeoption_prefix == '=' )
-				{
-					$row->price = floatval( $table->productattributeoption_price );
-				}
-				else
-				{
-					$row->price = $row->price + floatval( "$table->productattributeoption_prefix" . "$table->productattributeoption_price" );
-				}
-				$row->sku .= $table->productattributeoption_code;
-			}
 		}
+
+		// adjust the displayed price based on the selected or default attributes
+		$table = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+		foreach ( $attributes as $attrib_id )
+		{
+			// load the attrib's object
+			$table->load( $attrib_id );
+			// update the price
+			//$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
+			
+			// is not + or -
+			if ( $table->productattributeoption_prefix == '=' )
+			{
+				$row->price = floatval( $table->productattributeoption_price );
+			}
+			else
+			{
+				$row->price = $row->price + floatval( "$table->productattributeoption_prefix" . "$table->productattributeoption_price" );
+			}
+			$row->sku .= $table->productattributeoption_code;
+		}
+
 		
 		$row->_product_quantity = $product_qty;
 		
