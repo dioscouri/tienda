@@ -364,10 +364,13 @@ class TiendaTableEav extends TiendaTable
 
 					// kery was found -> add this EAV field
 					$value_tbl_name = 'value_'.$eavs[$i]->eavattribute_alias;
+					// for some reason MySQL makes spaces around '-' charachter 
+					// (which is often charachter in aliases) that's why we replace it with '_'
+					$value_tbl_name = str_replace("-", "_", $value_tbl_name);
 					// Join the table based on the type of the value
 					$table_type = $eav_helper->getType( $eavs[$i]->eavattribute_alias );
 					// Join the tables
-					$query->join('LEFT', '#__tienda_eavvalues'.$table_type.' AS '.$value_tbl_name.' ON ( '.$value_tbl_name.'.eavattribute_id = '.$eavs[$i]->eavattribute_id.' AND '.$value_tbl_name.'.eaventity_id =  '.$this->getKeyName().' )' );
+					$query->join('LEFT', '#__tienda_eavvalues'.$table_type.' AS '.$value_tbl_name.' ON ( '.$value_tbl_name.'.eavattribute_id = '.$eavs[$i]->eavattribute_id.' AND '.$value_tbl_name.'.eaventity_id =  '.$this->_linked_table_key.' )' );
 					// Filter using '='
 					$query->where($value_tbl_name.".eavvalue_value = '".$value."'"); 
 					// else let the store() method worry over this
