@@ -4,6 +4,8 @@
 <?php JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'tienda_checkout_onepage.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('behavior.mootools' ); ?>
+<?php Tienda::load('TiendaHelperImage', 'helpers.image'); ?>
+<?php $image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images')); ?>
 
 <a name="tienda-method"></a> 
 
@@ -40,13 +42,16 @@
 			
 			<div class="tienda-collapse-processed contentheading">
 				1. <?php echo JText::_('Customer Information')?>
+				<a class="img_tooltip" href="" > 
+					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+					<span>
+						<?php echo JText::_('Order information will be sent to your account e-mail listed below'); ?>												
+					</span>
+				</a>
 			</div>
 				
 			<!-- ID-CUSTOMER PANE -->
 			<div id="tienda_customer">
-				<div class="note">
-					<?php echo JText::_('Order information will be sent to your account e-mail listed below')?>	
-				</div>
 				<div class="tienda_checkout_method_user_email">
 					<?php if($this->user->id) : ?>
 							<?php $email_address = $this->user->email; ?>
@@ -55,7 +60,7 @@
 				  	<?php else : ?>
 							<?php $email_address = ''; ?>
 							<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
-					<?php endif;?>						
+					<?php endif;?>					 				
 				</div>
 				<div id="user_email_validation"></div>
 			</div>
@@ -191,6 +196,18 @@
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="tienda-collapse-processed contentheading">
 						3. <?php echo JText::_('Select a Payment Method')?>
+						<?php if(count($this->payment_plugins)):?>
+								<a class="img_tooltip" href="" > 
+									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+									<span class="img_tooltip_left">
+										<?php echo JText::_("Please select your preferred payment method below."); ?>												
+									</span>
+								</a>
+						<?php else: ?>
+								<div class="note">
+										<?php echo JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." ); ?>
+								</div>
+						<?php endif;?>
 					</div>		
 					<div id="onCheckoutPayment_wrapper">
 						<?php echo $this->payment_options_html;?>                   
@@ -217,18 +234,25 @@
 				
 				<?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled'); ?>
 		 		<?php if ($coupons_enabled && $this->coupons_present) : ?>
-					<div class="tienda-expanded" id="coupon-pane">
-						<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Coupon Code')?></div>
-						 <div id="coupon_code_area">
-		            	 <div id="coupon_code_form">          
-		           	 	<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
-		            	<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
-		            		<div id="coupon_code_help" class="note"><?php echo JText::_($string); ?></div>
-		            		<div id="coupon_code_message"></div>
-		            		<input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-		            		<input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
-		            	</div>
-		            	<div id='coupon_codes' style="display: none;"></div>
+					<div class="tienda-expanded" id="coupon-pane">						
+						<div id="coupon_code_area">
+		            	 	<div id="coupon_code_form">  
+		            	 		<div class="tienda-collapse-processed contentheading">
+									<?php echo JText::_('Coupon Code')?>
+									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
+			            			<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
+			            			<a class="img_tooltip" href="" > 
+										<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+										<span>
+											<?php echo JText::_($string); ?>												
+										</span>
+									</a>
+								</div>    	           	 			
+		            			<div id="coupon_code_message"></div>
+		            			<input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
+		            			<input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
+		            		</div>
+		            		<div id='coupon_codes' style="display: none;"></div>
 		        		</div>	
 					</div>  
 				<?php endif;?>
@@ -236,10 +260,15 @@
 				<div class="reset marginbot"></div>
 				
 				<div class="tienda-expanded" id="comments-pane">
-				<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Order Comments')?></div>
-				<div class='note'>
-		    		<?php echo JText::_('Use this area for special instructions or questions regarding your order.');?>
-	        	</div>
+				<div class="tienda-collapse-processed contentheading">
+					<?php echo JText::_('Order Comments')?>
+					<a class="img_tooltip" href="" > 
+						<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+						<span>
+							<?php echo JText::_('Use this area for special instructions or questions regarding your order.');?>												
+						</span>
+					</a>
+				</div>
 			
 				<div id="tienda_comments">	
 					<textarea id="customer_note" name="customer_note" rows="5" cols="41"></textarea>		

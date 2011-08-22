@@ -1,9 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>	
 
-<?php if( $this->one_page ): ?>
-	<div class="note">
-		<?php echo count($this->payment_plugins) ? JText::_("Please select your preferred payment method below:") : JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." );?>
-	</div>
+<?php if( $this->one_page ): ?>	
 	<?php if(count($this->payment_plugins)):?>
 		<?php foreach($this->payment_plugins as $payment_plugin):?>
 		<input value="<?php echo $payment_plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $payment_plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML(''); $('payment_form_div').addClass('note');" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />
