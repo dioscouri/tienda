@@ -16,7 +16,7 @@
         {
             $checked = "";
 
-            if ( !$one_page && !empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
+            if ( !empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
             {
             	$checked = "checked";                        
             }        	        		

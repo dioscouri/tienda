@@ -26,7 +26,21 @@ class TiendaTableUserInfo extends TiendaTable
 	}
 	
 	function check()
-	{		
+	{
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		
+		$notnew = isset( $this->user_info_id );
+		
+		$old_record = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+		$old_record->load( $this->user_info_id );
+		$changed_sub_num = $old_record->sub_number != $this->sub_number;
+		
+		if( $notnew && $app->isSite() && $changed_sub_num && !( $user->usertype == 'Super Administrator'  ) )
+		{
+				$this->setError( JText::_( 'You do not have enough rights to perform this task' ) );
+				return false;
+		}
 		return true;
 	}
 }

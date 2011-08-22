@@ -50,9 +50,6 @@
 
 #tienda_checkout_pane .right-side{}
 
-/* this is defined in tienda.css as min-height: 50px */
-div#payment_form_div{min-height:0px;}
-
 #tienda_checkout_pane .opc-method{float:left;width:33.3%;}
 
 #tienda_checkout_pane .opc-review-place-order{float:right;width:66.7%;}
