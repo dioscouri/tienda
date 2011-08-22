@@ -174,12 +174,29 @@ function tiendaCheckPassword2( container, form, valid_text )
 }
  
  /**
+  * method to hide billing fields 
+  */
+function tiendaHideBillingFields() 
+{
+	$('billingToggle_show').set('class', 'hidden');
+	
+	$('field-toggle').addEvent('change', function() {
+		$$('#billingDefaultAddress', '#billingToggle_show', '#billingToggle_hide').toggleClass('hidden');
+	});
+}
+
+ /**
   * method to hide shipping fields
   * 
   */
  function tiendaHideShippingFields( shipping_text )
  {
-	 $( 'shipping_input_addressForm' ).setStyle( 'display', 'none' );
+	 var shipAddressForm = $('shipping_input_addressForm'); 
+	 
+	 if (shipAddressForm) {
+		 shipAddressForm.setStyle('display', 'none'); 
+	 }
+
 	 if( $('sameasbilling') )
 	 {
 		 $('sameasbilling').addEvent('change', function() {
@@ -238,8 +255,12 @@ function tiendaCheckoutCheckEmail( container, form, valid_text )
 
 function tiendaHideInfoCreateAccount( )
 {
-	$('tienda_user_additional_info').set('class', 'hidden');
-	$('create_account').addEvent('change', function() {
+	var $tuai = $('tienda_user_additional_info'); 
+	if ($tuai) {
+		$tuai.set('class', 'hidden'); 
+	}
+	
+	$('field-create-account').addEvent('change', function() {
 		$('tienda_user_additional_info').toggleClass('hidden');
 	});
 }

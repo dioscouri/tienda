@@ -140,7 +140,7 @@
                 <?php if (empty($this->shipping_address)) : ?>
                     <div>
                         <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" />&nbsp;
-                        <?php echo JText::_( 'Same As Billing Address' ); ?>:
+                        <label for="sameasbilling"><?php echo JText::_( 'Same As Billing Address' ); ?>:</label>
                     </div>
 				<?php endif; ?>
 				
@@ -180,9 +180,8 @@
 					<?php echo $this->shipping_method_form;?>
 				</div>		
 			</div>  
-			<?php endif;?>
-			
-			<div class="reset marginbot"></div>	
+			<div class="reset marginbot"></div>
+			<?php endif;?>	
 			
 			<div class="tienda-expanded" id="paymentmethod-pane">
 				<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Select a Payment Method')?></div>		

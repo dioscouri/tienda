@@ -12,19 +12,16 @@ $items = @$this->orderitems;
 $coupons = @$this->coupons;
 ?>
 <div class="cartitems">
-           <table class="adminlist" style="clear: both;">
-            <thead>
-                <tr>
-                    <th style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
-                </tr>
-            </thead>
-            <tbody>
+	<div class="adminlist" style="clear: both;">
+		<div id="cartitems_header" class="floatbox">
+			<span class="left50"><?php echo JText::_( "Product" ); ?></span>
+			<span class="left20 center"><?php echo JText::_( "Quantity" ); ?></span>
+			<span class="left30 right"><?php echo JText::_( "Total" ); ?></span>
+		</div>
             <?php $i=0; $k=0; ?> 
             <?php foreach ($items as $item) : ?>
-                <tr class="row<?php echo $k; ?>">
-                    <td>
+                <div class="row<?php echo $k; ?> floatbox">
+                    <div class="left50">
                         <a href="<?php echo JRoute::_("index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id); ?>">
                             <?php echo $item->orderitem_name; ?>
                         </a>
@@ -71,70 +68,79 @@ $coupons = @$this->coupons;
                         	<span style="float: right;"><?php echo JText::_('Coupon Discount Applied!'); ?></span>
                         <?php } ?>
                                                 
-                    </td>
-                    <td style="width: 50px; text-align: center;">
-                        <?php echo $item->orderitem_quantity;?>  
-                    </td>
-                    <td style="text-align: right;">
-                        <?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>
-                                               
-                    </td>
-                </tr>
-              
+                    </div>
+                    <div class="left20 center">
+                        <?php //echo $item->orderitem_quantity;?>  
+                        
+                        <input name="quantities[<?php echo $item->orderitem_quantity; ?>]" type="text" class="inputbox" size="3" maxlength="3" value="<?php echo $item->orderitem_quantity; ?>" />
+                        
+                        <!-- Keep Original quantity to check any update to it when going to checkout -->
+                        <input name="original_quantities[<?php echo $item->orderitem_quantity; ?>]" type="hidden" value="<?php echo $item->orderitem_quantity; ?>" />
+                    </div>
+                    <div class="left30 right">
+                        <?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>           
+                    </div>
+                </div>
+              	<div class="marginbot"></div>
             <?php ++$i; $k = (1 - $k); ?>
             <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2" style="font-weight: bold; white-space: nowrap;">
+            <div class="floatbox">
+            	<div class="left50">
+            		<input type="submit" class="button" value="<?php echo JText::_('Remove Selected'); ?>" name="remove" />
+            	</div>
+            	<div class="left50 right">
+            		<input type="submit" class="button" value="<?php echo JText::_('Update Quantities'); ?>" name="update" />
+            	</div>
+            </div>
+            <div class="marginbot"></div>
+                <div class="floatbox">
+                    <span class="left50 header">
                         <?php echo JText::_( "Subtotal" ); ?>
-                    </td>
-                    <td colspan="3" style="text-align: right;">
+                    </span>
+                    <span class="right">
                         <?php echo TiendaHelperBase::currency($order->order_subtotal); ?>
-                    </td>
-                </tr>
+                    </span>
+                </div>
                 
                 <?php if (!empty($order->_coupons['order_price'])) : ?>
-                <tr>
-                    <td colspan="2" style="font-weight: bold; white-space: nowrap;">
+                <div class="floatbox">
+                    <span class="left50 header">
                         <?php echo JText::_( "Discount" ); ?>
-                    </td>
-                    <td colspan="3" style="text-align: right;">
+                    </span>
+                    <span class="left50 right">
                         <?php echo TiendaHelperBase::currency($order->order_discount); ?>
-                    </td>
-                </tr>
+                    </span>
+                </div>
                 <?php endif; ?>
-            </tfoot>
-        </table>
-        <table class="adminlist" style="clear: both;">
-                <tr>
-                    <td colspan="2" style="white-space: nowrap;">
-                        <b><?php echo JText::_( "Tax and Shipping Totals" ); ?></b>
-                        <br/>
-                    </td>
-                    <td colspan="2" style="text-align: right;">
-                    <?php 
-                    	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
-                    	$display_taxclass_lineitems = TiendaConfig::getInstance()->get('display_taxclass_lineitems', '0');
+        </div>
+        <div class="floatbox">
+        	<span class="header">
+            	<?php echo JText::_( "Tax and Shipping Totals" ); ?>
+            <br/>
+            </span>
+            <span class="left62">
+            <?php 
+            	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
+                $display_taxclass_lineitems = TiendaConfig::getInstance()->get('display_taxclass_lineitems', '0');
                     	
-	                    	if ($display_taxclass_lineitems)
-	                    	{
-	                            foreach ($order->getTaxClasses() as $taxclass)
-	                            {
-	                                $tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
-	                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
-	                                    echo JText::_( $tax_desc ).":<br/>";
-	                            }
-	                    	}
-	                    	    else
-	                    	{
-		                    	if( $order->order_tax )
-		                    	{
-		                    		if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
-		                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
-		                    	    else { echo JText::_("Product Tax").":<br>"; }    
-		                    	}
+	            	if ($display_taxclass_lineitems)
+	                {
+	                	foreach ($order->getTaxClasses() as $taxclass)
+	                    {
+	                    	$tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
+	                        	if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
+	                            	echo JText::_( $tax_desc ).":<br/>";
+	                    }
+	                }
+	                else
+	                	{
+		                	if( $order->order_tax )
+		                    {
+		                    	if (!empty($this->show_tax)) { echo JText::_("Product Tax Included").":<br>"; }
+		                    	elseif (!empty($this->using_default_geozone)) { echo JText::_("Product Tax Estimate").":<br>"; } 
+		                    	else { echo JText::_("Product Tax").":<br>"; }    
 		                    }
+		                }
    						
                     	if (!empty($this->showShipping))
                     	{
@@ -145,8 +151,9 @@ $coupons = @$this->coupons;
                     	}
 
                     ?>
-                    </td>
-                    <td colspan="2" style="text-align: right;">
+                    </span>
+               
+                    <span class="left38 right">
                      <?php 
                         if ($display_taxclass_lineitems)
                         {
@@ -170,16 +177,16 @@ $coupons = @$this->coupons;
                             }                               
                         }
 
-                    ?>                  
-                    </td>
-                </tr>
-                <tr>
-                	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "Total" ); ?>
-                    </td>
-                    <td colspan="3" style="text-align: right;">
-                        <?php echo TiendaHelperBase::currency($order->order_total); ?>
-                    </td>
-                </tr>                
-        </table>        
+                    ?>
+                </span>                  
+        </div>
+        <div class="marginbot"></div>
+        <div class="floatbox">
+        	<span class="left50 header">
+            	<?php echo JText::_( "Total" ); ?>
+            </span>
+            <span class="left50 right">
+            	<?php echo TiendaHelperBase::currency($order->order_total); ?>
+            </span>
+        </div>
 </div>
