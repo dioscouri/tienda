@@ -20,7 +20,7 @@ $coupons = @$this->coupons;
 		</div>
             <?php $i=0; $k=0; ?> 
             <?php foreach ($items as $item) : ?>
-                <div class="row<?php echo $k; ?> floatbox">
+                <div class="row<?php echo $k; ?> floatbox cart_item_list">
                     <div class="left50">
                         <a href="<?php echo JRoute::_("index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id); ?>">
                             <?php echo $item->orderitem_name; ?>
@@ -70,12 +70,7 @@ $coupons = @$this->coupons;
                                                 
                     </div>
                     <div class="left20 center">
-                        <?php //echo $item->orderitem_quantity;?>  
-                        
-                        <input name="quantities[<?php echo $item->orderitem_quantity; ?>]" type="text" class="inputbox" size="3" maxlength="3" value="<?php echo $item->orderitem_quantity; ?>" />
-                        
-                        <!-- Keep Original quantity to check any update to it when going to checkout -->
-                        <input name="original_quantities[<?php echo $item->orderitem_quantity; ?>]" type="hidden" value="<?php echo $item->orderitem_quantity; ?>" />
+                        <?php echo $item->orderitem_quantity;?>  
                     </div>
                     <div class="left30 right">
                         <?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>           
@@ -84,14 +79,6 @@ $coupons = @$this->coupons;
               	<div class="marginbot"></div>
             <?php ++$i; $k = (1 - $k); ?>
             <?php endforeach; ?>
-            <div class="floatbox">
-            	<div class="left50">
-            		<input type="submit" class="button" value="<?php echo JText::_('Remove Selected'); ?>" name="remove" />
-            	</div>
-            	<div class="left50 right">
-            		<input type="submit" class="button" value="<?php echo JText::_('Update Quantities'); ?>" name="update" />
-            	</div>
-            </div>
             <div class="marginbot"></div>
                 <div class="floatbox">
                     <span class="left50 header">
