@@ -13,10 +13,35 @@ function tiendaGetPaymentForm( element, container, text )
     tiendaDoTask( url, container, document.adminForm, '', false, deletePaymentGrayDiv );    	
 }
 
-function tiendaGetShippingRates( container, form, msg )
+
+function tiendaGetShippingRates( container, form, text_shipping, text_cart )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
-    tiendaDoTask( url, container, form, msg );
+    
+	// loop through form elements and prepare an array of objects for passing to server
+	var str = new Array();
+	for(i=0; i<form.elements.length; i++)
+	{
+		postvar = {
+			name : form.elements[i].name,
+			value : form.elements[i].value,
+			checked : form.elements[i].checked,
+			id : form.elements[i].id
+		};
+		str[i] = postvar;
+	}
+	// execute Ajax request to server
+    var a=new Ajax(url,{
+        method:"post",
+		data:{"elements":Json.toString(str)},
+        onComplete: function(response){
+            var resp=Json.evaluate(response, false);
+            $( container ).setHTML( resp.msg );
+            if( resp.default_rate !== null ) // if only one rate was found - set it as default
+            	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], text_shipping, text_cart );
+            return true;
+        }
+    }).request();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, text_cart )

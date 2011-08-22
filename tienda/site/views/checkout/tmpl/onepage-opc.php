@@ -53,14 +53,15 @@
 			<!-- ID-CUSTOMER PANE -->
 			<div id="tienda_customer">
 				<div class="tienda_checkout_method_user_email">
-					<?php if($this->user->id) : ?>
-							<?php $email_address = $this->user->email; ?>
-							<?php echo JText::_('E-mail address'); ?>: 
-							<span id="user_email_span"><?php echo $email_address; ?></span>
-				  	<?php else : ?>
-							<?php $email_address = ''; ?>
-							<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
-					<?php endif;?>					 				
+					<?php
+						if($this->user->id)
+							$email_address = $this->user->email;
+						else
+							$email_address = '';
+					?>
+
+					<?php echo JText::_('E-mail address');?>:
+						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
 				</div>
 				<div id="user_email_validation"></div>
 			</div>
@@ -79,7 +80,7 @@
 	            		$billattribs = array(
 	                		'class' => 'inputbox',    
 	                    	'size' => '1',
-	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value );"
+	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', '".JText::_( 'Updating Address' )."' );"
 	                	);
 	                        
 	                	// display select list of stored addresses
@@ -91,7 +92,7 @@
 							<?php echo JText::_('Billing Address')?>
 						</div>
 						
-						<span id="billingDefaultAddress">
+						<div id="billingDefaultAddress">
 							<?php 
 								if ( !empty( $this->billing_address ) ):
 									echo $this->billing_address->title . " ". $this->billing_address->first_name . " ". $this->billing_address->last_name . "<br>";
@@ -101,7 +102,7 @@
 									echo $this->billing_address->country_name . "<br>";
 								endif;
 							?>
-						</span>
+						</div>
 						
 						<?php echo @$this->billing_address_form; ?>
 					</div>
@@ -123,12 +124,11 @@
            			<div class="reset marginbot"></div>
            		
             		<?php
-	                    $shipping_rates_text = JText::_( "Getting Shipping Rates" ); 
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
 		                   'size' => '1',
-		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '$shipping_rates_text', this.form, this.options[this.selectedIndex].value ); "
-		                ); // tiendaCheckoutSetShippingAddress();
+		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', '".JText::_( 'Updating Address' )."', this.form, this.options[this.selectedIndex].value ); "
+		                );
 		                
 		                // display select list of stored addresses
 		                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false, true );
@@ -143,7 +143,7 @@
 				
 					<!--    SHIPPING ADDRESS FORM  -->	         
 		            <div>
-						<span id="shippingDefaultAddress">
+						<div id="shippingDefaultAddress">
 							<div>
 								<?php echo JText::_('Shipping Address'); ?>
 							</div>
@@ -157,7 +157,7 @@
 									echo $this->shipping_address->country_name . "<br>";
 								}
 							?>
-						 </span>
+						 </div>
 							  <?php echo @$this->shipping_address_form; ?>
 					</div>
 	           		<?php else :?>

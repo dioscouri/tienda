@@ -1,18 +1,5 @@
-#tienda_checkout_pane .left20,#tienda_checkout_pane .left30,#tienda_checkout_pane .left33,#tienda_checkout_pane .left38,#tienda_checkout_pane .left50,#tienda_checkout_pane .left62{float:left;}
-#tienda_checkout_pane .left20{width:19.99%;}
-#tienda_checkout_pane .left30{width:29.99%;}
-#tienda_checkout_pane .left33{width:33.3%;}
-#tienda_checkout_pane .left38{width: 38%;}
-#tienda_checkout_pane .left50{width:49.99%;}
-#tienda_checkout_pane .left62{width:61.99%;}
-#tienda_checkout_pane .inner{padding:0 10px;}
-#tienda_checkout_pane .block{display:block;}
-#tienda_checkout_pane .center{text-align: center;}
-#tienda_checkout_pane .right{float: right;text-align: right;}
-#tienda_checkout_pane .floatbox{border-left:1px solid #D7D7D7;border-right:1px solid #D7D7D7;overflow:hidden;}
-#tienda_checkout_pane .col3 .floatbox{border:0 none;}
+#tienda_checkout_pane { overflow:auto; }
 #tienda_checkout_pane .pad-five-left{padding:0 0 0 5px;}
-#tienda_checkout_pane .marginbot{margin-bottom:10px;}
 #tienda_checkout_pane .tienda_checkout_method_user_email{clear:right;float:left;width:380px;}
 #tienda_checkout_pane .tienda_checkout_method{border-bottom:1px solid #e8e8e8;margin:0 0 10px;padding:0 0 5px;}
 #tienda_checkout_pane #user_email_validation{clear:right;float:left;padding-top:5px;width:170px;}
@@ -39,10 +26,7 @@
 #tienda_checkout_pane .col3 .note{line-height:1.2;margin-bottom:5px;margin-top:5px;padding:2px 5px;text-align:center;}
 #tienda_checkout_pane .col3 .button{margin-top:5px; padding: 2px;}
 #tienda_checkout_pane .hidden,#tienda_checkout_pane .tienda-collapsed div{display:none;}
-#tienda_checkout_pane .col3 #user_email_validation,#tienda_checkout_pane .col3 #user_email_validation{clear:both;float:none;width:auto;}
-#cartitems_header{background: none repeat scroll 0 0 #E8E8E8; margin-bottom: 10px; padding: 5px;}
-#cartitems_header span {font-weight: bold; font-size: 1.087em;} 
-#onCheckoutCart_wrapper span.header {font-weight: bold; font-size: 1.083em; display: block;}
+#tienda_checkout_pane .col3 #user_email_validation,#tienda_checkout_pane .col3 #user_email_validation{clear:both;float:none;width:auto; overflow: auto;}
 #tienda_comments #customer_note {width: 94.5%;}
 .col3 #onCheckoutCart_wrapper .cart_item_list {border-bottom: 1px solid #E8E8E8;}
 /* OPC layout */	

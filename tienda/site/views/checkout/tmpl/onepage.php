@@ -47,8 +47,8 @@
 							$email_address = '';
 					?>
 
-					<?php echo JText::_('E-mail address');?>: <span id="user_email_span"><?php echo $email_address; ?></span>
-						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
+					<?php echo JText::_('E-mail address');?>:
+						<input type="text" id="email_address" size="15" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( 'VALIDATING' ); ?>' )"/>
 					</div>
 					<div id="user_email_validation"></div>
 				</div> <?php // end id - customer pane ?>
@@ -102,7 +102,7 @@
 	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '$shipping_rates_text', this.form, this.options[this.selectedIndex].value ); "
+	                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', this.form, this.options[this.selectedIndex].value ); "
 	                ); // tiendaCheckoutSetShippingAddress();
 	                
 	                // display select list of stored addresses

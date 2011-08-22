@@ -120,11 +120,10 @@
             	<?php
                 if (!empty($this->shipping_address))
                 {
-                    $shipping_rates_text = JText::_( "Getting Shipping Rates" ); 
 	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '$shipping_rates_text' ); "
+	                   'onchange' => "tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>' ); "
 	                ); // tiendaGetCheckoutTotals();
 	                
 	                // display select list of stored addresses

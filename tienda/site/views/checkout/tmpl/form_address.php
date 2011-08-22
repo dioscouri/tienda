@@ -135,7 +135,7 @@
 			</label>
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code"
 			id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" 
-			<?php if (!empty($this->showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form );" <?php } ?> 
+			<?php if (!empty($this->showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>' );" <?php } ?> 
 			/>&nbsp;
 			<?php if($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type ): ?>
 				*

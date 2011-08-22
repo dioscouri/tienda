@@ -1481,6 +1481,9 @@ class TiendaControllerCheckout extends TiendaController
 		$response = array();
 		$response['msg'] = $html;
 
+		if( count( $rates ) == 1 )
+			$response['default_rate'] = $default_rate;
+
 		// encode and echo (need to echo to send back to browser)
 		echo json_encode($response);
 
@@ -3352,11 +3355,15 @@ class TiendaControllerCheckout extends TiendaController
 			$message .= $helper->validationMessage( "Email Invalid", 'fail' );
 			$response['error'] = '1';
 		}
-
-		if ( $checker->emailExists($email))
+		
+		if ( $checker->emailExists( $email ) )
 		{
-			$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
-			$response['error'] = '1';
+			$user_id = JFactory::getUser()->id;
+			if( $user_id && $checker->getBasicInfo( $user_id )->email != $email )
+			{
+				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
+				$response['error'] = '1';
+			}
 		}
 
 		if ($response['error'] == '0')

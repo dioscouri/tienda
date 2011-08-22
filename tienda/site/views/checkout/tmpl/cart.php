@@ -12,7 +12,7 @@ $items = @$this->orderitems;
 $coupons = @$this->coupons;
 ?>
 <div class="cartitems">
-	<div class="adminlist" style="clear: both;">
+	<div class="adminlist">
 		<div id="cartitems_header" class="floatbox">
 			<span class="left50"><?php echo JText::_( "Product" ); ?></span>
 			<span class="left20 center"><?php echo JText::_( "Quantity" ); ?></span>
