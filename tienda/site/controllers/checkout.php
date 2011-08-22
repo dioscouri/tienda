@@ -576,12 +576,13 @@ class TiendaControllerCheckout extends TiendaController
 			}
 			$tax_sum += ($tax * $item->orderitem_quantity);
 		}
-			
-		if (empty($order->user_id))
+
+		// TODO remove this block of code? it was doubling the tax sum.
+		/*if (empty($order->user_id))
 		{
 			//$order->order_total += $tax_sum;
 			$order->order_tax += $tax_sum;
-		}
+		}*/
 
 		$view->assign( 'orderitems', $orderitems );
 
