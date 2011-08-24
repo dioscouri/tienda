@@ -8,6 +8,7 @@
 <a name="tienda-method"></a> 
 
 <div id="tienda_checkout_pane">
+<div class="col3">
 <a name="tiendaRegistration" id="tiendaRegistration"></a>
 
 <?php // login link ?>
@@ -33,7 +34,7 @@
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="floatbox">
 	<div class="left33">
-		<div class="inner col3">
+		<div class="inner">
 			<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Customer Information')?></div>
 				<div id="tienda_customer">
 					<div class="note">
@@ -171,7 +172,7 @@
 		</div>
 	</div> <?php // end 1st column ?>
 	<div class="left33">
-		<div class="inner col3">
+		<div class="inner">
 			<?php if($this->showShipping):?>	
 			<div class="tienda-expanded" id="shippingcost-pane">
 				<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Select a Shipping Method')?></div>
@@ -191,7 +192,7 @@
 		</div>
 	</div> <?php // end 2nd column ?>
 	<div class="left33">
-		<div class="inner col3">
+		<div class="inner">
 			 <!--    ORDER SUMMARY   -->
 			<h3 class="contentheading"><?php echo JText::_("Order Summary") ?></h3>
 			<div id='onCheckoutCart_wrapper'> 
@@ -257,6 +258,7 @@
 		</div>
 	</div> <?php // end col 3 ?>
 </div> <?php // end floatbox ?>
+</div> <?php // end 3col class ?>
 </div>
 <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
 <input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total; ?>" />

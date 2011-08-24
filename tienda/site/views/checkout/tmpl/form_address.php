@@ -2,6 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
+<?php $three_col = $config->get('one_page_checkout_layout'); ?>
 <?php 
 	switch($this->form_prefix)
 	{
@@ -15,7 +16,7 @@
 	}
 ?>
 
-<div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form col3">
+<div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form <?php if ($three_col == 'onepage-3col') {echo 'col3';} ?>">
     <?php if( !$this->guest && ($config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type ) ) { ?>
 		
         <label class="key" for="<?php echo $this->form_prefix; ?>address_name"> <?php echo JText::_( 'Address Title' ); ?>
@@ -33,7 +34,7 @@
 	?>
 	<div class="floatbox">
 	<?php if( $config->get('show_field_name', '3') == '3' || $config->get('show_field_name', '3') == $address_type ) :?>
-    <div class="left50">
+    <div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
     	<label class="key" for="<?php echo $this->form_prefix; ?>first_name">
 	    	<?php echo JText::_( 'First name' ); ?>
 	    </label>
@@ -46,7 +47,7 @@
     <?php endif; ?>
     
     <?php if( $config->get('show_field_middle', '3') == '3' || $config->get('show_field_middle', '3') == $address_type ) :?>
-    <div class="left50">
+    <div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
     	<label class="key" for="<?php echo $this->form_prefix; ?>middle_name">
     		<?php echo JText::_( 'Middle name' ); ?>
         </label>
@@ -129,7 +130,7 @@
 	<div class="floatbox">
 		
 		<?php if( $config->get('show_field_zip', '3') == '3' || $config->get('show_field_zip', '3') == $address_type ) :?>
-		<div class="left50">
+		<div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
 			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
 				<?php echo JText::_( 'Postal code' ); ?>
 			</label>
@@ -144,7 +145,7 @@
 		<?php endif; ?>
 		
 		<?php if( $config->get('show_field_zone', '3') == '3' || $config->get('show_field_zone', '3') == $address_type ) :?>
-		<div class="left50">
+		<div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
 			<label class="key">
 				<?php echo JText::_( 'Zone' ); ?>
 			</label>
@@ -180,7 +181,7 @@
 	
 	<div class="floatbox">
     <?php if( $config->get('show_field_company', '3') == '3' || $config->get('show_field_company', '3') == $address_type ) :?>
-     	<div class="left50">
+     	<div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
      		<label class="key" for="<?php echo $this->form_prefix; ?>company">
     			<?php echo JText::_( 'Company' ); ?>
         	</label>
@@ -192,7 +193,7 @@
      	</div>
     <?php endif; ?>
     <?php if( $config->get('show_field_tax_number', '3') == '3' || $config->get('show_field_tax_number', '3') == $address_type ) :?>
-    	<div class="left50">
+    	<div class="<?php if ($three_col == 'onepage-3col') { echo 'left50'; } ?>">
     		<label class="key" for="<?php echo $this->form_prefix; ?>tax_number"> 
         		<?php echo JText::_( 'Co. Tax Number' ); ?>
         	</label>

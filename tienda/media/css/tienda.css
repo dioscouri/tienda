@@ -43,7 +43,6 @@ div.pao{padding-bottom:2px;}
 div.product_image{float:left;text-align:center;}
 div.product_name span{font-size:1.8em;font-weight:bold;margin-right:15px;}
 
-
 .tienda_header{border-bottom:1px solid #cccccc;margin-bottom:3px;margin-top:10px;padding:5px 0;}
 .tienda_header span{font-size:1.5em;margin-bottom:10px;padding:5px 0;}
 div.currency{float:right;font-weight:bold;}
@@ -54,7 +53,7 @@ div.product_rating,div.product_rating img{padding:3px 0 2px;vertical-align:middl
 .product_gallery_thumb img{border:none;float:left;margin:10px 10px 0 0;max-width:75px;}
 
 /* Checkout */
-#cartitems_header{background: none repeat scroll 0 0 #E8E8E8; padding: 5px;}
+#cartitems_header{background: none repeat scroll 0 0 #E8E8E8; padding: 5px 10px;}
 #cartitems_header span {font-weight: bold; font-size: 1.087em;} 
 #onCheckoutCart_wrapper span.header {font-weight: bold; font-size: 1.083em; display: block;}
 #onCheckoutCart_wrapper  .cartitems{border-bottom : 1px solid #D7D7D7; border-left : 1px solid #D7D7D7; border-right : 1px solid #D7D7D7; }
@@ -72,6 +71,7 @@ div.product_rating,div.product_rating img{padding:3px 0 2px;vertical-align:middl
 #onCheckoutCart_wrapper .right{float: right;text-align: right;}
 #onCheckoutCart_wrapper .floatbox{overflow:hidden;}
 #onCheckoutCart_wrapper .col3 .floatbox{border:0 none;}
+#onCheckoutCart_wrapper .cart_item_list {border-bottom: 1px solid #E8E8E8;}
 
 /* tables */ 
 table.adminlist{border-collapse:collapse;margin:5px 0 10px;padding:5px;width:100%;}
