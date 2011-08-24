@@ -269,7 +269,6 @@
 
 <script type="text/javascript">
 window.addEvent('domready', function() {
-	tiendaHideShippingFields();
 	tiendaHideBillingFields();
 <?php if( !$this->user->id ) : ?>
 	tiendaHideInfoCreateAccount();
