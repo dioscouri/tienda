@@ -244,13 +244,17 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, text_shipping
 {
 	var divContainer = document.getElementById( container );
 	var divForm = document.getElementById( 'billing_input_addressForm' );
+	if( $( 'shipping_address_id' ) )
+		shipping_id = $( 'shipping_address_id' ).get( 'value' );
+
 	if( selected > 0 ) // address was selected -> get shipping rates
 	{
 		divContainer.style.display = "";
 		divForm.style.display = "none";
 		tiendaGrayOutAddressDiv( text_address );
 		tiendaDoTask( url, container, '', '', false );
-		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
+		if( $( 'onCheckoutShipping_wrapper' ) )
+			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
 		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );
 
 		tiendaGetCheckoutTotals( true );
@@ -260,10 +264,14 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, text_shipping
 		divContainer.style.display = "none";
 		divForm.style.display = "";
 	}
+	$( 'billing_address_id' ).set( 'value', selected );
+	if( $( 'shipping_address_id' ) )
+		$( 'shipping_address_id' ).set( 'value',  shipping_id );	
 }
 
 function tiendaCheckoutSetShippingAddress(url, container, text_shipping, text_cart, text_address, form, selected )
 {
+	billing_id = $( 'billing_address_id' ).get( 'value' );
 	var divContainer = document.getElementById( container );
 	var divForm = document.getElementById( 'shipping_input_addressForm' );
 	if( selected > 0 ) // address was selected -> get shipping rates
@@ -280,4 +288,6 @@ function tiendaCheckoutSetShippingAddress(url, container, text_shipping, text_ca
 		divContainer.style.display = "none";
 		divForm.style.display = "";
 	}
+	$( 'billing_address_id' ).set( 'value',  billing_id );	
+	$( 'shipping_address_id' ).set( 'value', selected );
 }

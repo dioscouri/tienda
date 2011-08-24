@@ -268,7 +268,10 @@ function tiendaDeleteCartGrayDiv()
 function tiendaDeleteCombinedGrayDiv()
 {
 	tiendaDeleteAddressGrayDiv();
-	tiendaDeleteShippingGrayDiv();
+	if( $( 'onCheckoutShipping_wrapper' ) )
+		tiendaDeleteShippingGrayDiv();
+	else // no shipping address so delete gray div from cart
+		tiendaDeleteCartGrayDiv();
 }
 
 function tiendaGrayOutAddressDiv( text_address, prefix )
