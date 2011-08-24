@@ -274,8 +274,12 @@ INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country
 (238, 'Zambia', 'ZM', 'ZMB'),
 (239, 'Zimbabwe', 'ZW', 'ZWE'),
 (240, 'Serbia', 'RS', 'SRB'),
-(241, 'Montenegro', 'ME', 'MNE'),
-(9999, 'Dummy Country', '!!', '!!!');
+(241, 'Montenegro', 'ME', 'MNE');
+
+INSERT IGNORE INTO `#__tienda_countries` (`country_id`, `country_name`, `country_isocode_2`, `country_isocode_3`, `ordering`) VALUES
+(9999, 'Dummy Country', '!!', '!!!', 9999 );
+
+
 
 -- -----------------------------------------------------
 -- Table `#__tienda_eavattributes`

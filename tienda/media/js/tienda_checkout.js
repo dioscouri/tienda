@@ -1,3 +1,8 @@
+var ajax_shipping_call = 0;
+var ajax_shipping_last = 0;
+var ajax_cart_call = 0;
+var ajax_cart_last = 0;
+
 /**
  * Based on the session contents,
  * calculates the order total
@@ -10,11 +15,11 @@ function tiendaGetPaymentForm( element, container, text )
     var url = 'index.php?option=com_tienda&view=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
 
    	tiendaGrayOutAjaxDiv( container, text, '' );
-    tiendaDoTask( url, container, document.adminForm, '', false, deletePaymentGrayDiv );    	
+    tiendaDoTask( url, container, document.adminForm, '', false, tiendaDeletePaymentGrayDiv );    	
 }
 
 
-function tiendaGetShippingRates( container, form, text_shipping, text_cart )
+function tiendaGetShippingRates( container, form, text_shipping, text_cart, callback )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
     
@@ -31,20 +36,27 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart )
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
+	ajax_shipping_call++;
     var a=new Ajax(url,{
         method:"post",
-		data:{"elements":Json.toString(str)},
+		data:{"elements":Json.toString(str), "call":ajax_shipping_call},
         onComplete: function(response){
             var resp=Json.evaluate(response, false);
             $( container ).setHTML( resp.msg );
-            if( resp.default_rate !== null ) // if only one rate was found - set it as default
-            	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], text_shipping, text_cart );
+            if( resp.default_rate != null ) // if only one rate was found - set it as default
+               	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], text_shipping, text_cart, callback != null );
+            else
+            	{
+            		tiendaDeleteShippingGrayDiv();
+            		if( callback )
+            			callback();
+            	}
             return true;
         }
     }).request();
 }
 
-function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, text_cart )
+function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, text_cart, combined )
 {
 	$('shipping_name').value = name;
 	$('shipping_code').value = code;
@@ -52,9 +64,9 @@ function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, tex
 	$('shipping_tax').value = tax;
 	$('shipping_extra').value = extra;
 
-		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
-		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );		
-	tiendaGetCheckoutTotals();
+	tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
+	tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );		
+	tiendaGetCheckoutTotals( combined ); // combined = true - both shipping rates and addresses are updating at the same time
 }
 
 /**
@@ -114,46 +126,21 @@ function tiendaAddCoupon( form, mult_enabled )
     }).request();
 }
 
-function deletePaymentGrayDiv()
-{
-	if( $( 'onCheckoutPayment_wrapper' ) )
-		tiendaSetColorInContainer( 'onCheckoutPayment_wrapper', '' );
-}
-
-function deleteShippingGrayDiv()
-{
-	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
-	if( el )
-	{
-		el.destroy();
-		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
-		
-		// selected shipping rate has to be checked manually
-		shipping_plugin = $( 'shipping_name' ).get( 'value' );
-		$ES( 'input[type=radio]', 'onCheckoutShipping_wrapper' ).each( function( e ){
-			if( e.get( 'rel' ) == shipping_plugin )
-				e.set( 'checked', true );
-		} );
-	}
-	deleteCartGrayDiv();
-}
-
-function deleteCartGrayDiv()
-{
-	$( 'onCheckoutCart_wrapper' ).setStyle( 'color', '' );
-}
-
 /**
  * Based on the session contents,
  * calculates the order total
  * and returns HTML
  * 
+ * @param combined If true, both shipping rated and addresses are updating at the same time
  * @return
  */
-function tiendaGetCheckoutTotals()
+function tiendaGetCheckoutTotals( combined )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=setShippingMethod&format=raw';
-    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false, deleteShippingGrayDiv );    
+    if( combined )
+    	tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false, tiendaDeleteCombinedGrayDiv );    	
+    else
+    	tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false, tiendaDeleteShippingGrayDiv );
 }
 
 /**
@@ -217,7 +204,10 @@ function tiendaDisableShippingAddressControls(checkbox, form)
             			shippingControl.disabled = false;
             	}
             	else // the rest of fields is OK the way they are handled now
-               		shippingControl.value = disable ? billingControl.value : '';
+            		{
+            			if( shippingControl.getAttribute( 'type' ) != 'hidden' )
+            				shippingControl.value = disable ? billingControl.value : '';            		
+            		}
             }
         }
     }
@@ -229,4 +219,61 @@ function tiendaManageShippingRates()
 		tiendaGetCheckoutTotals();
 	}
 	);
+}
+
+function tiendaDeleteAddressGrayDiv()
+{
+	tiendaSetColorInContainer( 'billingAddress', '' );
+	$E( '.tiendaAjaxGrayDiv', 'billingAddress' ).destroy();
+	
+	if( $( 'shippingAddress' ) )
+	{
+		tiendaSetColorInContainer( 'shippingAddress', '' );
+		$E( '.tiendaAjaxGrayDiv', 'shippingAddress' ).destroy();		
+	}
+}
+
+function tiendaDeletePaymentGrayDiv()
+{
+	if( $( 'onCheckoutPayment_wrapper' ) )
+		tiendaSetColorInContainer( 'onCheckoutPayment_wrapper', '' );
+}
+
+function tiendaDeleteShippingGrayDiv()
+{
+	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
+	if( el )
+	{
+		el.destroy();
+		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
+		
+		// selected shipping rate has to be checked manually
+		if( $( 'shipping_name' ) )
+		{
+			shipping_plugin = $( 'shipping_name' ).get( 'value' );
+			$ES( 'input[type=radio]', 'onCheckoutShipping_wrapper' ).each( function( e ){
+				if( e.get( 'rel' ) == shipping_plugin )
+					e.set( 'checked', true );
+			} );			
+		}
+	}
+	tiendaDeleteCartGrayDiv();
+}
+
+function tiendaDeleteCartGrayDiv()
+{
+	$( 'onCheckoutCart_wrapper' ).setStyle( 'color', '' );
+}
+
+function tiendaDeleteCombinedGrayDiv()
+{
+	tiendaDeleteAddressGrayDiv();
+	tiendaDeleteShippingGrayDiv();
+}
+
+function tiendaGrayOutAddressDiv( text_address, prefix )
+{
+	tiendaGrayOutAjaxDiv( 'billingAddress', text_address, prefix );
+	if( $( 'shippingAddress' ) )
+		tiendaGrayOutAjaxDiv( 'shippingAddress', text_address, prefix );
 }

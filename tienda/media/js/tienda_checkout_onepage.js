@@ -26,13 +26,15 @@ function tiendaGetPaymentOptions(container, form, msg)
  * @param shippingprefix
  * @return
  */
-function copyBillingAdToShippingAd(checkbox, form, text_shipping )
+function copyBillingAdToShippingAd(checkbox, form, text_shipping, text_cart, text_address )
 {	
 	var disable = false;
     if (checkbox.checked)
     {
     	disable = true;
-    	tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping );
+
+    	tiendaGrayOutAddressDiv( text_address );
+    	tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
     	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form);
     }
 }
@@ -185,33 +187,6 @@ function tiendaHideBillingFields()
 	});
 }
 
- /**
-  * method to hide shipping fields
-  * 
-  */
- function tiendaHideShippingFields( text_shipping )
- {
-	 var shipAddressForm = $('shipping_input_addressForm'); 
-	 
-	 if (shipAddressForm) {
-		 shipAddressForm.setStyle('display', 'none'); 
-	 }
-
-	 if( $('sameasbilling') )
-	 {
-		 $('sameasbilling').addEvent('change', function() {
-			 var field = document.getElementById( 'shipping_input_addressForm' );
-			 if (field.style.display == "none")
-				field.style.display = "";
-			 else
-			 {
-				 field.style.display = "none";
-				 tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, text_shipping );
-			 }
-		 });
-	 }
- }
-
 /*
  * This method checks availability of the email address
  */
@@ -260,7 +235,7 @@ function tiendaHideInfoCreateAccount( )
 		$tuai.set('class', 'hidden'); 
 	}
 	
-	$('field-create-account').addEvent('change', function() {
+	$('create_account').addEvent('change', function() {
 		$('tienda_user_additional_info').toggleClass('hidden');
 	});
 }
@@ -273,12 +248,12 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, text_shipping
 	{
 		divContainer.style.display = "";
 		divForm.style.display = "none";
-		tiendaDoTask( url, container, '', '', false, deleteBillingAddressGrayDiv );
+		tiendaGrayOutAddressDiv( text_address );
+		tiendaDoTask( url, container, '', '', false );
 		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
 		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );
-		tiendaGrayOutAjaxDiv( 'billingDefaultAddress', text_address, '' );
 
-		tiendaGetCheckoutTotals();
+		tiendaGetCheckoutTotals( true );
 	}
 	else // user wants to create a new address
 	{
@@ -295,24 +270,14 @@ function tiendaCheckoutSetShippingAddress(url, container, text_shipping, text_ca
 	{
 		divContainer.style.display = "";
 		divForm.style.display = "none";
-		tiendaDoTask( url, container, '', '', false, deleteShippingAddressGrayDiv );
+		tiendaGrayOutAddressDiv( text_address );
+		tiendaDoTask( url, container, '', '', false );
 		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
-		tiendaGrayOutAjaxDiv( 'shippingDefaultAddress', text_address, '' );
-		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping, text_cart );
+		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
 	}
 	else // user wants to create a new address
 	{
 		divContainer.style.display = "none";
 		divForm.style.display = "";
 	}
-}
-
-function deleteShippingAddressGrayDiv()
-{
-	$( 'shippingDefaultAddress' ).setStyle( 'color', '' );
-}
-
-function deleteBillingAddressGrayDiv()
-{
-	$( 'billingDefaultAddress' ).setStyle( 'color', '' );
 }

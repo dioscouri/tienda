@@ -1382,7 +1382,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response = array();
 		$response['msg'] = '';
 		$response['error'] = '';
-
+		$response['ajax_call'] = JRequest::getInt( 'call', 0 );
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 

@@ -779,13 +779,13 @@ function tiendaPutAjaxLoader( container, text, suffix )
  */
 function tiendaGrayOutAjaxDiv( container, text, suffix )
 {
-	if( suffix == '' )
+	if( !suffix || suffix == '' )
 		suffix = '_transp';
 
 	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
 	$(container).setStyle( 'position', 'relative' );
 	text_element = '';
-	if( text.length )
+	if( text && text.length )
 		text_element = '<div class="text">'+text+'</div>';
 
 	// make all texts in the countainer gray 

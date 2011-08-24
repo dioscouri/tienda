@@ -38,7 +38,7 @@
             <?php echo JText::_("Select Shipping and Billing Addresses") ?>
         </h3>
 
-        <table style="clear: both;">
+        <table>
         <tr>
             <td colspan="2">
                 <div class='note'>
@@ -51,6 +51,7 @@
         
         <tr>
             <td style="text-align: left;">
+            	<div id="billingAddress">
                 <!--    BILLING ADDRESS   -->             
                 <h4 id='billing_address_header' class="address_header">
                     <?php echo JText::_("Billing Address") ?>
@@ -82,12 +83,14 @@
                    <?php echo @$this->default_billing_address; ?>
                    <?php endif; ?>
                 </span>
+              </div>  
             </td>
         </tr>
         <tr>
             <td style="text-align: left;">
                 <!-- SHIPPING ADDRESS   -->
                 <?php if($this->showShipping) { ?>
+              <div id="shippingAddress">
 	            <h4 id='shipping_address_header' class="address_header">
 	               <?php echo JText::_("Shipping Address") ?>
 	            </h4>
@@ -125,7 +128,7 @@
 	               <?php echo @$this->default_shipping_address; ?>
 	               <?php endif; ?>
 	            </span>
-	            
+	            	</div>
             </td>
         </tr>
          <?php } ?>

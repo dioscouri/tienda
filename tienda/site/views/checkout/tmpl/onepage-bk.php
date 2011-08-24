@@ -104,7 +104,7 @@
 
                 <?php if (empty($this->shipping_address)) : ?>
                     <div>
-                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="copyBillingAdToShippingAd(this,this.form, '<?php echo JText::_( 'Updating Shipping Rates' );?>'); " />&nbsp;
+                        <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="copyBillingAdToShippingAd(this,this.form, '<?php echo JText::_( 'Updating Shipping Rates' );?>', '<?php echo JText::_( 'Updating Cart' );?>', '<?php echo JText::_( 'Updating Address' );?>'); " />&nbsp;
                         <?php echo JText::_( 'Same As Billing Address' ); ?>:
                     </div>
 				<?php endif; ?>

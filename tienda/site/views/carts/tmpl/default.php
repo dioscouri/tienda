@@ -31,7 +31,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         </div>
         
         <div id="onCheckoutCart_wrapper">
-        <table class="adminlist" style="clear: both;">
+        <table class="adminlist">
             <thead>
                 <tr>
                     <th style="width: 20px;">
@@ -173,25 +173,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                 </tr>
             </tfoot>
         </table>
-        </div>
-        <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled'); ?>
-	 		<?php if ($coupons_enabled && $this->coupons_present) : ?>
-				<div class="tienda-expanded" id="coupon-pane">
-					<div class="tienda-collapse-processed contentheading"><?php echo JText::_('Coupon Code')?></div>
-					 <div id="coupon_code_area">
-	            	 <div id="coupon_code_form">          
-	           	 	<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
-	            	<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
-	            		<div id="coupon_code_help" class="note"><?php echo JText::_($string); ?></div>
-	            		<div id="coupon_code_message"></div>
-	            		<input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-	            		<input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCartCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
-	            	</div>
-	            	<div id='coupon_codes' style="display: none;"></div>
-	        		</div>	
-				</div>  
-			<?php endif;?>
-        
+        </div>        
         <input type="hidden" name="boxchecked" value="" />
         <?php echo $this->form['validate']; ?>
         

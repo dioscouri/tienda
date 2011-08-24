@@ -248,10 +248,6 @@ window.addEvent('domready', function() {
 <?php endif; ?>
 
 <?php if( $this->showShipping  ):?>	
-
-	<?php if( !$this->user->id ) : ?>
-	tiendaHideShippingFields('<?php echo JText::_( "Getting Shipping Rates" ); ?>');
-	<?php endif; ?>
 	
 	<?php if( @$this->shipping_address->address_id ): ?>
 	tiendaShowHideDiv( 'shipping_input_addressForm' );

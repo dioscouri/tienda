@@ -75,6 +75,7 @@
 				</div>
 				
 				<div id="tienda_billing-shipping">
+	        <div id="billingAddress">						
         			<?php 
 						$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";                   
 	            		$billattribs = array(
@@ -87,7 +88,6 @@
 	                	echo TiendaSelect::address( $this->user->id, @$this->billing_address->address_id, 'billing_address_id', 1, $billattribs, 'billing_address_id', false, true );
 	           		?>
             	
-	            	<div>						
 						<div>
 							<?php echo JText::_('Billing Address')?>
 						</div>
@@ -106,9 +106,7 @@
 						
 						<?php echo @$this->billing_address_form; ?>
 					</div>
-          		
           			<div class="reset marginbot"></div>
-          		
 					<?php if(!$this->user->id ) : ?>
 						<div class="tienda_checkout_method">
 							<input type="checkbox" id="create_account" name="create_account" value="" />
@@ -119,10 +117,15 @@
 	           			</div>
            			<?php endif; ?>
            		
-           			<?php if($this->showShipping):?>
-           		
-           			<div class="reset marginbot"></div>
-           		
+           			<?php if($this->showShipping):?>				
+					<!--    SHIPPING ADDRESS  -->	         
+		            <div id="shippingAddress">
+	                <?php if (empty($this->shipping_address)) : ?>
+	                    <div>
+	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" />&nbsp;
+	                        <?php echo JText::_( 'Same As Billing Address' ); ?>:
+	                    </div>
+					<?php endif; ?>
             		<?php
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
@@ -133,20 +136,10 @@
 		                // display select list of stored addresses
 		                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false, true );
 					?>
-	
-	                <?php if (empty($this->shipping_address)) : ?>
-	                    <div>
-	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" />&nbsp;
-	                        <?php echo JText::_( 'Same As Billing Address' ); ?>:
-	                    </div>
-					<?php endif; ?>
-				
-					<!--    SHIPPING ADDRESS FORM  -->	         
-		            <div>
-						<div id="shippingDefaultAddress">
 							<div>
 								<?php echo JText::_('Shipping Address'); ?>
 							</div>
+						<div id="shippingDefaultAddress">
 							<?php 
 								if ( !empty( $this->shipping_address ) )
 								{
@@ -329,10 +322,6 @@ window.addEvent('domready', function() {
 <?php endif; ?>
 
 <?php if( $this->showShipping  ):?>	
-
-	<?php if( !$this->user->id ) : ?>
-	tiendaHideShippingFields('<?php echo JText::_( "Getting Shipping Rates" ); ?>');
-	<?php endif; ?>
 	
 	<?php if( @$this->shipping_address->address_id ): ?>
 	tiendaShowHideDiv( 'shipping_input_addressForm' );

@@ -50,7 +50,7 @@
             <?php echo JText::_("Your Email Address") ?>
         </h4>
        	
-       	<table style="clear: both;">
+       	<table>
         	<tr>
             <td style="text-align: left;">
                 <!--    Email Address   -->             
@@ -60,10 +60,11 @@
 		</table>
 		<?php endif;?>	
 			
-        <table style="clear: both;">
+        <table>
         <tr>
             <td style="text-align: left;">
                 <!--    BILLING ADDRESS   -->             
+              <div id="billingAddress">
                 <h4 id='billing_address_header' class="address_header">
                     <?php echo JText::_("Billing Address") ?>
                 </h4>                
@@ -71,6 +72,7 @@
                 <div id="billingDefaultAddress">
                    <?php echo @$this->billing_address_form; ?>
                 </div>
+              </div>
             </td>
         </tr>
         
@@ -80,20 +82,21 @@
             <tr>
                 <td style="text-align: left;">
                     <!--    SHIPPING ADDRESS   -->
-    	            <h4 id='shipping_address_header' class="address_header">
-    	               <?php echo JText::_("Shipping Address") ?>
-    	            </h4>
-    	           
-                        <div>
-                            <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaDisableShippingAddressControls(this,this.form);" />&nbsp;
-                            <?php echo JText::_( 'Same As Billing Address' ); ?>:
-                        </div>
-    				
-    				<!--    SHIPPING ADDRESS FORM  -->
-    	            <div id="shippingDefaultAddress">
-    	                   <?php echo @$this->shipping_address_form; ?>
+                  <div id="shippingAddress">
+	    	            <h4 id='shipping_address_header' class="address_header">
+	    	               <?php echo JText::_("Shipping Address") ?>
+	    	            </h4>
+	    	           
+	                        <div>
+	                            <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaDisableShippingAddressControls(this,this.form);" />&nbsp;
+	                            <?php echo JText::_( 'Same As Billing Address' ); ?>:
+	                        </div>
+	    				
+	    				<!--    SHIPPING ADDRESS FORM  -->
+	    	            <div id="shippingDefaultAddress">
+	    	                   <?php echo @$this->shipping_address_form; ?>
+	    	            </div>
     	            </div>
-    	            
                 </td>
             </tr>
             <?php 
