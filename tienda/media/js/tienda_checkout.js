@@ -1,8 +1,3 @@
-var ajax_shipping_call = 0;
-var ajax_shipping_last = 0;
-var ajax_cart_call = 0;
-var ajax_cart_last = 0;
-
 /**
  * Based on the session contents,
  * calculates the order total
@@ -36,10 +31,9 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart, call
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
-	ajax_shipping_call++;
     var a=new Ajax(url,{
         method:"post",
-		data:{"elements":Json.toString(str), "call":ajax_shipping_call},
+		data:{"elements":Json.toString(str)},
         onComplete: function(response){
             var resp=Json.evaluate(response, false);
             $( container ).setHTML( resp.msg );
@@ -276,7 +270,49 @@ function tiendaDeleteCombinedGrayDiv()
 
 function tiendaGrayOutAddressDiv( text_address, prefix )
 {
+	values = tiendaStoreFormInputs( document.adminForm );
 	tiendaGrayOutAjaxDiv( 'billingAddress', text_address, prefix );
 	if( $( 'shippingAddress' ) )
 		tiendaGrayOutAjaxDiv( 'shippingAddress', text_address, prefix );
+	tiendaRestoreFormInputs( document.adminForm , values );
+}
+
+/*
+ * Method to disable UI and update shipping rates
+ * 
+ */
+function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text_cart, text_address, text_payment )
+{
+	obj = document.getElementById( obj_id );
+	// see, if you find can find payment_wrapper and update payment methods
+	if( $( 'onCheckoutPayment_wrapper' ) && obj_id.substr( 0, 8 ) == 'billing_' ) // found the payment_wrapper - update payment methods && this is a billing input
+    	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, text_payment );			
+
+	if( !$( 'shippingAddress' ) ) // no shipping
+		return;		
+
+	only_shipping = !$( 'sameasbilling' ) || !$( 'sameasbilling' ).get( 'checked' );
+	if( only_shipping )
+	{
+		tiendaGrayOutAddressDiv( text_address );
+		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping );
+		if( obj_id.substr( 0, 9 ) == 'shipping_' ) // shipping input
+		{
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );		
+		}
+		else // billing input
+		{
+			tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );
+			tiendaGetCheckoutTotals( true );
+		}
+	}
+	else // same as billing
+	{
+		if( obj_id.substr( 0, 8 ) == 'billing_' ) // billing input
+		{
+			tiendaGrayOutAddressDiv( text_address );
+			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping );
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );				
+		}
+	}
 }

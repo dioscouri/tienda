@@ -764,7 +764,7 @@ function tiendaPutAjaxLoader( container, text, suffix )
 		suffix = '_transp';
 
 	text_element = '';
-	if( text != '' )
+	if( text != null && text != '' )
 		text_element = '<span> '+text+'</span>';
 	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
 	$(container).setHTML( img_loader+text_element );
@@ -799,4 +799,45 @@ function tiendaSetColorInContainer( container, color )
 	$ES('*',container).each(function(el) {
 	    el.setStyle('color', color );
 	});			
+}
+
+/*
+ * Method to store values of all inputs on a form
+ * 
+ * @param form Form
+ * 
+ * @return Associative array
+ */
+function tiendaStoreFormInputs( form )
+{
+    var values = new Array();
+    for(i=0; i<form.elements.length; i++)
+    {
+    	value = {
+            value : form.elements[i].value,
+            checked : form.elements[i].checked,
+        };
+        values[form.elements[i].name] = value;
+    }
+    return values;
+}
+
+/*
+ * Method to restore values of all inputs on a form
+ * 
+ * @param form 		Form
+ * @param values	Values which are being restored 
+ * 
+ * @return Associative array
+ */
+function tiendaRestoreFormInputs( form, values )
+{
+    for(i=0; i<form.elements.length; i++)
+    {
+    	if( form.elements[i].getAttribute( 'type') == 'checkbox' )
+    		form.elements[i].checked = values[form.elements[i].name].checked;
+    	else
+    		if( $( form.elements[i].id ) )
+    		$( form.elements[i].id ).set( 'value',  values[form.elements[i].name].value );
+    }
 }

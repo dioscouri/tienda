@@ -118,14 +118,19 @@
            			<?php endif; ?>
            		
            			<?php if($this->showShipping):?>				
+          			<div class="reset marginbot"></div>
+							<div>
+								<?php echo JText::_('Shipping Address'); ?>
+							</div>
+          			<div class="reset marginbot"></div>
 					<!--    SHIPPING ADDRESS  -->	         
-		            <div id="shippingAddress">
 	                <?php if (empty($this->shipping_address)) : ?>
 	                    <div>
-	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" />&nbsp;
-	                        <?php echo JText::_( 'Same As Billing Address' ); ?>:
+	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" onclick="tiendaShowHideDiv( 'shippingAddress' );"/>&nbsp;
+	                        <?php echo JText::_( 'Same As Billing Address' ); ?>
 	                    </div>
 					<?php endif; ?>
+		            <div id="shippingAddress">
             		<?php
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
@@ -136,9 +141,6 @@
 		                // display select list of stored addresses
 		                echo TiendaSelect::address( JFactory::getUser()->id, @$this->shipping_address->address_id, 'shipping_address_id', 2, $shipattribs, 'shipping_address_id', false, true );
 					?>
-							<div>
-								<?php echo JText::_('Shipping Address'); ?>
-							</div>
 						<div id="shippingDefaultAddress">
 							<?php 
 								if ( !empty( $this->shipping_address ) )
@@ -317,15 +319,15 @@ window.addEvent('domready', function() {
 	tiendaShowHideDiv( 'billing_input_addressForm' );
 <?php endif; ?>
 
+<?php if( $this->showShipping  ):?>	
+	<?php if( !@$this->shipping_address->address_id ): ?>
+	tiendaShowHideDiv( 'shippingAddress' );
+	$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>', '<?php echo JText::_( 'Updating Address' )?>', '<?php echo JText::_( 'Updating Payment Methods' )?>' ) } );
+<?php endif; ?>
+
 <?php if( !$this->user->id ) : ?>
 	tiendaHideInfoCreateAccount();
 <?php endif; ?>
-
-<?php if( $this->showShipping  ):?>	
-	
-	<?php if( @$this->shipping_address->address_id ): ?>
-	tiendaShowHideDiv( 'shipping_input_addressForm' );
-	<?php endif; ?>
 
 <?php endif; ?>
 });

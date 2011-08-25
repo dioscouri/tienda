@@ -1,6 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>	
+<?php $one_page = TiendaConfig::getInstance()->get('one_page_checkout', 0); ?>
 
-<?php if( $this->one_page ): ?>	
+<?php if( $one_page ): ?>	
 	<?php if(count($this->payment_plugins)):?>
 		<?php foreach($this->payment_plugins as $payment_plugin):?>
 		<input value="<?php echo $payment_plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $payment_plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML(''); $('payment_form_div').addClass('note');" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />

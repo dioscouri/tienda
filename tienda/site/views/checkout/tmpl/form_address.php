@@ -3,6 +3,7 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
 <?php $three_col = $config->get('one_page_checkout_layout'); ?>
+<?php $one_page = TiendaConfig::getInstance()->get('one_page_checkout', 0); ?>
 <?php 
 	switch($this->form_prefix)
 	{
@@ -105,7 +106,17 @@
 		</label>
 		<?php
 		$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
-		$attribs = array('class' => 'inputbox','size' => '1','onchange' => 'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\');' );
+		
+		$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' );}  );';
+		if( $one_page )
+		{
+			$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );'.
+									'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, '.
+									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' ); '.
+									'	});';
+		}
+		
+		$attribs = array('class' => 'inputbox','size' => '1','onchange' => $onchange );
 		echo TiendaSelect::country( $this->default_country_id, $this->form_prefix.'country_id', $attribs, $this->form_prefix.'country_id', false, true );
 		?>&nbsp;
 		<?php if($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type ): ?>
@@ -134,9 +145,17 @@
 			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
 				<?php echo JText::_( 'Postal code' ); ?>
 			</label>
+			<?php 
+					$onchange = '';
+					if( $one_page )
+						$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' )';
+					else
+						if( !empty($this->showShipping)&& $this->forShipping )
+							$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', this.form,  \''.JText::_( 'Updating Shipping Rates' ).'\', tiendaDeleteAddressGrayDiv);';
+			?>
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code"
 			id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" 
-			<?php if (!empty($this->showShipping)&& $this->forShipping ) { ?>onchange="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>' );" <?php } ?> 
+			<?php if ( strlen( $onchange ) ) { ?>onchange="<?php echo $onchange; ?>" <?php } ?> 
 			/>&nbsp;
 			<?php if($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type ): ?>
 				*

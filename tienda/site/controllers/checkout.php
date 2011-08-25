@@ -1027,6 +1027,9 @@ class TiendaControllerCheckout extends TiendaController
 		$attribs = array('class' => 'inputbox', 'size' => '1');
 		if( $disabled )
 		$attribs['disabled'] = 'disabled';
+		
+		if( TiendaConfig::getInstance()->get('one_page_checkout', 0) )
+			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' ); ';
 
 		if (empty($country_id))
 		{
@@ -1382,7 +1385,6 @@ class TiendaControllerCheckout extends TiendaController
 		$response = array();
 		$response['msg'] = '';
 		$response['error'] = '';
-		$response['ajax_call'] = JRequest::getInt( 'call', 0 );
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
 
@@ -1702,6 +1704,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response = array();
 		$response['msg'] = '';
 		$response['error'] = '';
+		$error_message = '';
 
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
@@ -1762,11 +1765,14 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		else
 		{
-			foreach ($payment_plugins as $plugin)
+			if( isset( $submitted_values['_checked']['payment_plugin'] ) )
 			{
-				if($plugin->element == $submitted_values[_checked][payment_plugin])
+				foreach ($payment_plugins as $plugin)
 				{
-					$plugin->checked = true;
+					if($plugin->element == $submitted_values['_checked']['payment_plugin'])
+					{
+						$plugin->checked = true;
+					}
 				}
 			}
 		}
@@ -3359,7 +3365,8 @@ class TiendaControllerCheckout extends TiendaController
 		if ( $checker->emailExists( $email ) )
 		{
 			$user_id = JFactory::getUser()->id;
-			if( $user_id && $checker->getBasicInfo( $user_id )->email != $email )
+			$user_email = $checker->getBasicInfo( $user_id )->email;
+			if( $user_id && $user_email != $email )
 			{
 				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
 				$response['error'] = '1';
