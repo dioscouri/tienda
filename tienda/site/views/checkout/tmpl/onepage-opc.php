@@ -125,14 +125,14 @@
 								<?php echo JText::_('Shipping Address'); ?>
 							</div>
           			<div class="reset marginbot"></div>
+		            <div id="shippingAddress">
 					<!--    SHIPPING ADDRESS  -->	         
 	                <?php if (empty($this->shipping_address)) : ?>
 	                    <div>
-	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" onclick="tiendaShowHideDiv( 'shippingAddress' );"/>&nbsp;
+	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" onclick="tiendaShowHideDiv( 'shipping_input_addressForm' );"/>&nbsp;
 	                        <?php echo JText::_( 'Same As Billing Address' ); ?>
 	                    </div>
 					<?php endif; ?>
-		            <div id="shippingAddress">
             		<?php
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
