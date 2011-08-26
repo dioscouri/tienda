@@ -37,7 +37,7 @@
 <div class="floatbox">
 
 	<!-- CUSTOMER, BILLING & SHIPPING ADDRESS FORMS -->
-	<div class="opc-customer-billship-address">
+	<div class="1col-customer-billship-address">
 		<div class="inner col3">
 			
 			<div class="tienda-collapse-processed contentheading">
@@ -167,11 +167,10 @@
 	</div>
 	<!-- CUSTOMER, BILLING & SHIPPING ADDRESS FORMS -->
 	
-	<!-- RIGHT SIDE OF THE LAYOUT -->
-	<div class="right-side">
+	<div class="reset marginbot"></div>
 	
-		<!-- SHIPPING METHOD -->
-		<div class="opc-method">	
+	<!-- SHIPPING METHOD -->
+		<div class="1col-method">	
 			<div class="inner col3">	 
 				<?php if($this->showShipping):?>	
 				<div class="tienda-expanded" id="shippingcost-pane">
@@ -185,10 +184,10 @@
 				<?php endif;?>
 			</div> 
 		</div>
-		<!-- SHIPPING METHOD END -->
-		
-		<!-- PAYMENT METHOD -->
-		<div class="opc-method">
+	<!-- SHIPPING METHOD END -->
+	
+	<!-- PAYMENT METHOD -->
+		<div class="1col-method">
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="tienda-collapse-processed contentheading">
@@ -216,8 +215,8 @@
 		</div>
 		<!-- PAYMENT METHOD END -->
 		
-		<!-- REVIEW & PLACE ORDER -->
-		<div class="opc-review-place-order">
+	<!-- REVIEW & PLACE ORDER -->
+		<div class="1col-review-place-order">
 			<div class="inner col3">
 				
 				<!--    ORDER SUMMARY   -->
@@ -303,11 +302,8 @@
 				</div>
 			</div>
 		</div> 
-		<!-- REVIEW & PLACE ORDER END -->
+		<!-- REVIEW & PLACE ORDER END -->	
 	
-	</div>
-	<!-- RIGHT SIDE OF THE LAYOUT -->
-
 </div>
 <!-- END FLOATBOX -->
 

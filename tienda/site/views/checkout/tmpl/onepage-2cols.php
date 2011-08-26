@@ -184,11 +184,11 @@
 				</div>  
 				<?php endif;?>
 			</div> 
-		</div>
+		 
 		<!-- SHIPPING METHOD END -->
 		
 		<!-- PAYMENT METHOD -->
-		<div class="opc-method">
+		 
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="tienda-collapse-processed contentheading">
