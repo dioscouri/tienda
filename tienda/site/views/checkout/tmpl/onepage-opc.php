@@ -6,7 +6,7 @@
 <?php JHTML::_('behavior.mootools' ); ?>
 <?php Tienda::load('TiendaHelperImage', 'helpers.image'); ?>
 <?php $image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images')); ?>
-
+<?php $enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);?>
 <a name="tienda-method"></a> 
 
 <div id="tienda_checkout_pane">
@@ -42,12 +42,14 @@
 			
 			<div class="tienda-collapse-processed contentheading">
 				1. <?php echo JText::_('Customer Information')?>
+				<?php if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
 					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
 					<span>
 						<?php echo JText::_('Order information will be sent to your account e-mail listed below'); ?>												
 					</span>
 				</a>
+				<?php endif; ?>
 			</div>
 				
 			<!-- ID-CUSTOMER PANE -->
@@ -70,7 +72,7 @@
 			<!-- BILLING-SHIPPING PANE -->
 			<div class="tienda-expanded" id="billing-shipping-pane">
 				
-				<div class="tienda-collapse-processed contentheading">
+				<div class="contentheading">
 					<?php echo $this->showShipping ? JText::_('Billing and Shipping Information') : JText::_('Billing Information'); ?>
 				</div>
 				
@@ -192,12 +194,14 @@
 					<div class="tienda-collapse-processed contentheading">
 						3. <?php echo JText::_('Select a Payment Method')?>
 						<?php if(count($this->payment_plugins)):?>
+								<?php if( $enable_tooltips ) : ?>
 								<a class="img_tooltip" href="" > 
 									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
 									<span class="img_tooltip_left">
 										<?php echo JText::_("Please select your preferred payment method below."); ?>												
 									</span>
 								</a>
+								<?php endif; ?>
 						<?php else: ?>
 								<div class="note">
 										<?php echo JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." ); ?>
@@ -236,12 +240,14 @@
 									<?php echo JText::_('Coupon Code')?>
 									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
 			            			<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
+			            	<?php if( $enable_tooltips ) : ?>
 			            			<a class="img_tooltip" href="" > 
 										<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
 										<span>
 											<?php echo JText::_($string); ?>												
 										</span>
 									</a>
+									<?php endif; ?>
 								</div>    	           	 			
 		            			<div id="coupon_code_message"></div>
 		            			<input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
@@ -257,12 +263,14 @@
 				<div class="tienda-expanded" id="comments-pane">
 				<div class="tienda-collapse-processed contentheading">
 					<?php echo JText::_('Order Comments')?>
+					<?php if( $enable_tooltips ): ?>
 					<a class="img_tooltip" href="" > 
 						<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
 						<span>
 							<?php echo JText::_('Use this area for special instructions or questions regarding your order.');?>												
 						</span>
 					</a>
+					<?php endif; ?>
 				</div>
 			
 				<div id="tienda_comments">	
@@ -320,15 +328,14 @@ window.addEvent('domready', function() {
 <?php endif; ?>
 
 <?php if( $this->showShipping  ):?>	
+	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php if( !@$this->shipping_address->address_id ): ?>
-	tiendaShowHideDiv( 'shippingAddress' );
-	$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>', '<?php echo JText::_( 'Updating Address' )?>', '<?php echo JText::_( 'Updating Payment Methods' )?>' ) } );
+		$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_( 'Updating Shipping Rates' )?>', '<?php echo JText::_( 'Updating Cart' )?>', '<?php echo JText::_( 'Updating Address' )?>', '<?php echo JText::_( 'Updating Payment Methods' )?>' ) } );
+	<?php endif; ?>
 <?php endif; ?>
 
 <?php if( !$this->user->id ) : ?>
 	tiendaHideInfoCreateAccount();
-<?php endif; ?>
-
 <?php endif; ?>
 });
 </script>

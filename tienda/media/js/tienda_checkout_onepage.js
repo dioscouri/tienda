@@ -14,11 +14,15 @@ window.addEvent("domready", function() {
 		});
 });
 
-function tiendaGetPaymentOptions(container, form, msg, text_payment )
+function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
 {
     payment_plugin = $$( 'input[type=radio]:checked', 'onCheckoutPayment_wrapper' ).map( function(e) { return e.value; });
 	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
-    tiendaDoTask( url, container, form, msg, false, tiendaDeletePaymentGrayDiv );
+	if( callback )
+		tiendaDoTask( url, container, form, msg, false, function(){ callback(); tiendaDeletePaymentGrayDiv();} );		
+	else
+		tiendaDoTask( url, container, form, msg, false, tiendaDeletePaymentGrayDiv );
+
 	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', text_payment );
 
 	$ES( 'input[type=radio]', 'onCheckoutPayment_wrapper' ).each( function( e ){
@@ -29,7 +33,7 @@ function tiendaGetPaymentOptions(container, form, msg, text_payment )
 }
 
 /**
- * Method to copy all data from Billing Addres fields to Shipping Address fields
+ * Method to copy all data from Billing Address fields to Shipping Address fields
  * @param billingprefix
  * @param shippingprefix
  * @return

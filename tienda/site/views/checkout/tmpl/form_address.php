@@ -112,7 +112,7 @@
 		{
 			$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );'.
 									'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, '.
-									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' ); '.
+									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' ); '.
 									'	});';
 		}
 		
@@ -148,7 +148,7 @@
 			<?php 
 					$onchange = '';
 					if( $one_page )
-						$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' )';
+						$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' )';
 					else
 						if( !empty($this->showShipping)&& $this->forShipping )
 							$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', this.form,  \''.JText::_( 'Updating Shipping Rates' ).'\', tiendaDeleteAddressGrayDiv);';

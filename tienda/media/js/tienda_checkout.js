@@ -10,7 +10,7 @@ function tiendaGetPaymentForm( element, container, text )
     var url = 'index.php?option=com_tienda&view=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
 
    	tiendaGrayOutAjaxDiv( container, text, '' );
-    tiendaDoTask( url, container, document.adminForm, '', false, tiendaDeletePaymentGrayDiv );    	
+	tiendaDoTask( url, container, document.adminForm, '', false, tiendaDeletePaymentGrayDiv );    	
 }
 
 
@@ -220,7 +220,7 @@ function tiendaDeleteAddressGrayDiv()
 	tiendaSetColorInContainer( 'billingAddress', '' );
 	$E( '.tiendaAjaxGrayDiv', 'billingAddress' ).destroy();
 	
-	if( $( 'shippingAddress' ) )
+	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
 	{
 		tiendaSetColorInContainer( 'shippingAddress', '' );
 		$E( '.tiendaAjaxGrayDiv', 'shippingAddress' ).destroy();		
@@ -262,6 +262,7 @@ function tiendaDeleteCartGrayDiv()
 function tiendaDeleteCombinedGrayDiv()
 {
 	tiendaDeleteAddressGrayDiv();
+
 	if( $( 'onCheckoutShipping_wrapper' ) )
 		tiendaDeleteShippingGrayDiv();
 	else // no shipping address so delete gray div from cart
@@ -272,7 +273,7 @@ function tiendaGrayOutAddressDiv( text_address, prefix )
 {
 	values = tiendaStoreFormInputs( document.adminForm );
 	tiendaGrayOutAjaxDiv( 'billingAddress', text_address, prefix );
-	if( $( 'shippingAddress' ) )
+	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
 		tiendaGrayOutAjaxDiv( 'shippingAddress', text_address, prefix );
 	tiendaRestoreFormInputs( document.adminForm , values );
 }
@@ -286,7 +287,15 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 	obj = document.getElementById( obj_id );
 	// see, if you find can find payment_wrapper and update payment methods
 	if( $( 'onCheckoutPayment_wrapper' ) && obj_id.substr( 0, 8 ) == 'billing_' ) // found the payment_wrapper - update payment methods && this is a billing input
-    	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, text_payment );			
+	{
+		if( !$( 'shippingAddress' ) ) // no shipping
+		{
+			tiendaGrayOutAddressDiv( text_address );
+			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '',text_payment, tiendaDeleteAddressGrayDiv );
+		}
+		else
+			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '', text_payment );
+	}
 
 	if( !$( 'shippingAddress' ) ) // no shipping
 		return;		
@@ -298,7 +307,7 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping );
 		if( obj_id.substr( 0, 9 ) == 'shipping_' ) // shipping input
 		{
-			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );		
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
 		}
 		else // billing input
 		{

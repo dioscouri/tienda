@@ -1029,7 +1029,7 @@ class TiendaControllerCheckout extends TiendaController
 		$attribs['disabled'] = 'disabled';
 		
 		if( TiendaConfig::getInstance()->get('one_page_checkout', 0) )
-			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\' ); ';
+			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' ); ';
 
 		if (empty($country_id))
 		{

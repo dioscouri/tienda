@@ -444,6 +444,17 @@
                                 
                             </td>
                         </tr>
+                    	<tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'ENABLE TOOLTIPS ONE PAGE CHECKOUT' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'one_page_checkout_tooltips_enabled', 'class="inputbox"', $this->row->get('one_page_checkout_tooltips_enabled', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         <tr>
                             <th style="width: 25%;">
                                 <?php echo JText::_( 'Force SSL on Checkout' ); ?>

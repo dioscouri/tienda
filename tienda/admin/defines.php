@@ -562,11 +562,10 @@ class TiendaConfig extends JObject
 	var $sub_num_digits = '8';
 	var $default_sub_num = '1';
 	var $dispay_working_image_product = '1';
-	
-	// since 0.7.5
 	var $one_page_checkout_layout = 'onepagecheckout';
 	var $low_stock_notify					= '0';
 	var $low_stock_notify_value				= '0';	
+	var $one_page_checkout_tooltips_enabled = '0';
 
 	/**
 	 * constructor
