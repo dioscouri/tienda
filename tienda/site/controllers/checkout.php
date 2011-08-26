@@ -2585,6 +2585,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 			else
 			{
+				$obfuscation = false;
 				$guest = true;
 				$email_user = $submitted_values['email_address'];
 				$defails = array();
@@ -2602,14 +2603,19 @@ class TiendaControllerCheckout extends TiendaController
 				}
 				else
 				{
-					// create a guest email address to be stored in the __users table
-					// get the domain from the uri
-					$uri = JURI::getInstance();
-					$domain = $uri->gethost();
 					$lastUserId = $userHelper->getLastUserId();
 					$guestId = $lastUserId + 1;
-					// format: guest_[id]@domain.com
-					$email_user = "guest_".$guestId."@".$domain;
+					$obfuscation = TiendaConfig::getInstance()->get('obfuscate_guest_email', '0' );
+					$email_user = '';
+					// create a guest email address to be stored in the __users table
+					if( $obfuscation )
+					{
+						// get the domain from the uri
+						$uri = JURI::getInstance();
+						$domain = $uri->gethost();
+						// format: guest_[id]@domain.com
+						$email_user = "guest_".$guestId."@".$domain;
+					}
 
 					// send the guest user credentials to the user's real email address
 					$details = array(
@@ -2621,9 +2627,6 @@ class TiendaControllerCheckout extends TiendaController
 					jimport('joomla.user.helper');
 					$details['password']    = JUserHelper::genRandomPassword();
 					$details['password2']   = $details['password'];
-
-					//set data
-					$this->setAddresses($submitted_values, true);
 				}
 
 				// create the new user
@@ -2636,13 +2639,14 @@ class TiendaControllerCheckout extends TiendaController
 				}
 
 				// but don't save the user's real email in the __users db table
-				if( $guest )
+				if( $guest && $obfuscation )
 					$userEmailUpdate = $userHelper->updateUserEmail($user->id, $email_user );
 				else
-				{
-					//save address now
-					$this->setAddresses($submitted_values, true);
-				}
+					if( !$guest )
+					{
+						//save address now
+						$this->setAddresses($submitted_values, true);
+					}
 			}
 
 			// save the real user's info in the userinfo table
