@@ -949,6 +949,8 @@ class TiendaControllerProducts extends TiendaController
 		if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
 		{
 			$itemid = $router->category( 1, true );
+			if( !$itemid )
+				$itemid = JRequest::getInt( 'Itemid', 0 );
 		}
 		
 		// set the default redirect URL
@@ -1165,6 +1167,9 @@ class TiendaControllerProducts extends TiendaController
 				$itemid = $router->findItemid( array(
 							'view' => 'checkout'
 						) );
+						
+				if( !$itemid )
+					$itemid = JRequest::getInt( 'Itemid', 0 );
 				$redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=" . $itemid, false );
 				if ( $redirect_url = JRequest::getVar( 'redirect', '', 'method', 'base64' ) )
 				{

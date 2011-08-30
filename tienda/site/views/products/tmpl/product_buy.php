@@ -102,6 +102,9 @@ $working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product
         <input type="hidden" name="product_id" value="<?php echo $item->product_id; ?>" />
         <input type="hidden" name="filter_category" value="<?php echo $this->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
+        <?php if( !empty( $values['Itemid'] ) ): ?>
+        <input type="hidden" name="Itemid" value="<?php echo ( int )$values['Itemid']; ?>" />        	
+        <?php endif; ?>
         <?php echo JHTML::_( 'form.token' ); ?>
         <input type="hidden" name="return" value="<?php echo $return; ?>" />
    
