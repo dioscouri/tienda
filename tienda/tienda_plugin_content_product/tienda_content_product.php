@@ -93,6 +93,12 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     	
     	 	// plugin only processes if there are any instances of the plugin in the text
     	 	if ( $count ) {
+					$doc = JFactory::getDocument();
+					$uri = JURI::getInstance();
+					$js = "var com_tienda = {};\n";
+					$js.= "com_tienda.jbase = '".$uri->root()."';\n";
+					$doc->addScriptDeclaration($js);
+
     	 		foreach($matches as $match)
     	 			$this->showProducts( $row, $matches, $count, $regex );
     		}
@@ -203,6 +209,17 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     				$inventoryList[''] = '0';
     			}
     		}
+            $dispatcher =& JDispatcher::getInstance();
+            
+            ob_start();
+            $dispatcher->trigger( 'onBeforeDisplayProduct', array( $row->product_id ) );
+            $onBeforeDisplayProduct = ob_get_contents() ;
+            ob_end_clean();
+            
+            ob_start();
+            $dispatcher->trigger( 'onAfterDisplayProduct', array( $row->product_id ) );
+            $onAfterDisplayProduct = ob_get_contents();
+            ob_end_clean();
 
     		$files = $this->getFiles( $row->product_id );
     		$product_buy = $this->getAddToCart( $row->product_id, $params['attributes'], $params );
@@ -249,24 +266,6 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
 	                $vars->shipping_cost_link = $shipping_cost_link ;
 	            }
     		}
-    		
-            $dispatcher =& JDispatcher::getInstance();
-            
-            ob_start();
-            $dispatcher->trigger( 'onDisplayProductAttributeOptions', array( $row->product_id ) );
-            $onDisplayProductAttributeOptions = ob_get_contents();
-            ob_end_clean();
-            
-            ob_start();
-            $dispatcher->trigger( 'onBeforeDisplayProduct', array( $row->product_id ) );
-            $onBeforeDisplayProduct = ob_get_contents() ;
-            ob_end_clean();
-            
-            ob_start();
-            $dispatcher->trigger( 'onAfterDisplayProduct', array( $row->product_id ) );
-            $nAfterDisplayProduct = ob_get_contents();
-            ob_end_clean();
-    		
             ob_start();
     		include( 'tienda_content_product'.DS.'tmpl'.DS.'view.php' );
     		$return = ob_get_contents();
@@ -500,7 +499,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             $row = $model->getItem(false);
             
             $vars = new JObject();
-            
+
             if (@$row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
             {
                 return $html;
@@ -594,12 +593,13 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             $vars->invalidQuantity = $invalidQuantity ;
             
             $dispatcher =& JDispatcher::getInstance();
+						JPluginHelper::importPlugin( 'tienda' );					
             
             ob_start();
-            $dispatcher->trigger( 'onDisplayProductAttributeOptions', array( $row->product_id ) );
-            $vars->onDisplayProductAttributeOptions = ob_get_contents() ;
+            $dispatcher->trigger( 'onDisplayProductAttributeOptions', array( $product_id ) );
+            $vars->onDisplayProductAttributeOptions = ob_get_contents();
             ob_end_clean();
-    
+		
             ob_start();
            	echo $this->_getLayout('product_buy', $vars);
             $html = ob_get_contents();

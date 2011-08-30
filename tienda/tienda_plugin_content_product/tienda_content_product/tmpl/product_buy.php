@@ -7,6 +7,8 @@ $formName = 'adminForm_'.$item->product_id;
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 Tienda::load( 'TiendaUrl', 'library.url' );
+$working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product', 1);
+$return = base64_encode( JUri::getInstance()->toString() );
 ?>
 
 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
@@ -41,7 +43,7 @@ Tienda::load( 'TiendaUrl', 'library.url' );
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
         Tienda::load('TiendaSelect', 'library.select');
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product', 'product_buy_".$item->product_id."', document.".$formName." );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_( 'Updating Attributes' )."' );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>
@@ -82,9 +84,11 @@ Tienda::load( 'TiendaUrl', 'library.url' );
         <input type="hidden" name="product_url" value="<?php echo $url; ?>" />
         <input type="hidden" name="filter_category" value="<?php echo @$vars->filter_category; ?>" />
         <input type="hidden" id="task" name="task" value="" />
+        <input type="hidden" name="return" value="<?php echo $return; ?>" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
-        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_( 'Validating' )."' );"; ?>
+        <?php //$onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($vars->invalidQuantity)) ) :
@@ -97,7 +101,7 @@ Tienda::load( 'TiendaUrl', 'library.url' );
                     break;
                 case "image":
                 default:
-                    // Search for localized version of the image
+                	// Search for localized version of the image
                 	Tienda::load('TiendaHelperImage', 'helpers.image');
                 	$image = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::getPath('images'));
                     ?> 
