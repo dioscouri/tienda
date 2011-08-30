@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Report - Inventory Levels</name>
-	<version>0.7.3</version>
-	<creationDate>July 2011</creationDate>
+	<version>0.8.0</version>
+	<creationDate>August 2011</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>
