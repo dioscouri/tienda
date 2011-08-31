@@ -1290,4 +1290,29 @@ class TiendaSelect extends JHTMLSelect
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+
+ 	/**
+	 * Generates a select list for scripts handling upload multiple files at once
+	 * 
+	 * @param unknown_type $selected
+	 * @param unknown_type $name
+	 * @param unknown_type $attribs
+	 * @param unknown_type $idtag
+	 * @param unknown_type $allowAny
+	 * @param unknown_type $title
+	 * @return unknown_type
+	 */
+    public static function multipleuploadscript( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Layout' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  '0', JText::_( "Detect Automatically" ) );
+        $list[] = JHTML::_('select.option',  'multiupload', JText::_( "MultiUpload" ) );
+        $list[] = JHTML::_('select.option',  'uploadify', JText::_( "Uploadify" ) );
+		
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }

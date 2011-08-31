@@ -1391,8 +1391,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 	
 </form>
 
+<?php $multiscript = TiendaConfig::getInstance()->get( 'multiupload_script', 0 ); ?>
 <script type="text/javascript">
 window.addEvent('domready', function(){
+<?php switch( $multiscript ) { 
+	case '0' : ?>	
 	// Check flash version!
 	var flash = swfobject.getFlashPlayerVersion();
 	if(flash.major < 9 || $('product_id').value == 0 )
@@ -1433,6 +1436,43 @@ window.addEvent('domready', function(){
         }
     });
     }
+ <?php break; ?>
+<?php	case 'multiupload' : ?>	
+		$('oldUploader').setStyle('display', 'block');
+		$('uploadifyImage').setStyle('display', 'none');
+		new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
+ <?php break; ?>
+<?php	case 'uploadify' : ?>	
+		// Use flash uploader
+		$('uploadifyImage').setStyle('display', 'block');
+		$('oldUploader').setStyle('display', 'none');
+	
+	// Uploadify!
+    jQuery('#uploadify_file_upload').uploadify({
+        'uploader': '<?php echo Tienda::getUrl("js"); ?>uploadify/uploadify.swf',
+        'script': '<?php echo JURI::getInstance()->root(true); ?>/index.php',
+        'cancelImg': '<?php echo Tienda::getUrl("images"); ?>cancel.png',
+        'multi': true,
+        'auto': true,
+        'fileDataName': 'uploadify_image',
+        'fileExt': '*.jpg;*.gif;*.png',
+        'fileDesc': 'Image Files (.JPG, .GIF, .PNG)',
+        'queueID': 'uploadify-queue',
+        'method': 'POST',
+        'scriptData': {'option':'com_tienda','view':'products','task':'uploadifyImage','format':'raw','product_id': '<?php echo @$row->product_id ?>'},
+        'removeCompleted': false,
+        'buttonImage': false,
+        'onSelectOnce': function (event, data) {
+            jQuery('#uploadify-status-message').text(data.filesSelected + ' files have been added to the queue.');
+        },
+        'onAllComplete': function (event, data) {
+            jQuery('#uploadify-status-message').text(data.filesUploaded + ' files uploaded, ' + data.errors + ' errors.');
+            tiendaNewModal('<?php echo JText::_('Saving the Product...'); ?>');
+            submitbutton('apply');
+        }
+    });
+ <?php break; ?>
+ <?php } ?>
 });
 
 // showing/hiding elementes related to pro-rated payments

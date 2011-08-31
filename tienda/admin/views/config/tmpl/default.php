@@ -1314,6 +1314,17 @@
                               &nbsp;
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_( 'CHOOSE MULTI UPLOAD SCRIPT' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::multipleuploadscript($this->row->get('multiupload_script', '0'), 'multiupload_script'); ?>
+							</td>
+                            <td>
+                                <?php echo JText::_( 'CHOOSE MULTI UPLOAD SCRIPT DESC' ); ?>
+                            </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

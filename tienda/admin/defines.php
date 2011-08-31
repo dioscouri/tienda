@@ -557,7 +557,7 @@ class TiendaConfig extends JObject
 	// since 0.7.3
 	var $show_submenu_fe					= '1';
 
-	// since 0.7.4
+	// since 0.8.0
 	var $display_subnum = '0';
 	var $sub_num_digits = '8';
 	var $default_sub_num = '1';
@@ -566,6 +566,9 @@ class TiendaConfig extends JObject
 	var $low_stock_notify					= '0';
 	var $low_stock_notify_value				= '0';	
 	var $one_page_checkout_tooltips_enabled = '0';
+
+	// since 0.8.1
+	var $multiupload_script = '0';
 
 	/**
 	 * constructor
