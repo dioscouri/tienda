@@ -40,7 +40,7 @@
 	<div class="opc-customer-billship-address">
 		<div class="inner col3">
 			
-			<div class="tienda-collapse-processed contentheading">
+			<div class="contentheading">
 				1. <?php echo JText::_('Customer Information')?>
 				<?php if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
@@ -175,7 +175,7 @@
 			<div class="inner col3">	 
 				<?php if($this->showShipping):?>	
 				<div class="tienda-expanded" id="shippingcost-pane">
-					<div class="tienda-collapse-processed contentheading">
+					<div class="contentheading">
 						2. <?php echo JText::_('Select a Shipping Method')?>
 					</div>
 					<div id="onCheckoutShipping_wrapper">
@@ -191,7 +191,7 @@
 		<div class="opc-method">
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
-					<div class="tienda-collapse-processed contentheading">
+					<div class="contentheading">
 						3. <?php echo JText::_('Select a Payment Method')?>
 						<?php if(count($this->payment_plugins)):?>
 								<?php if( $enable_tooltips ) : ?>
@@ -236,7 +236,7 @@
 					<div class="tienda-expanded" id="coupon-pane">						
 						<div id="coupon_code_area">
 		            	 	<div id="coupon_code_form">  
-		            	 		<div class="tienda-collapse-processed contentheading">
+		            	 		<div class="contentheading">
 									<?php echo JText::_('Coupon Code')?>
 									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
 			            			<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
@@ -261,7 +261,7 @@
 				<div class="reset marginbot"></div>
 				
 				<div class="tienda-expanded" id="comments-pane">
-				<div class="tienda-collapse-processed contentheading">
+				<div class="contentheading">
 					<?php echo JText::_('Order Comments')?>
 					<?php if( $enable_tooltips ): ?>
 					<a class="img_tooltip" href="" > 
@@ -286,7 +286,7 @@
 		    			$terms_article = TiendaConfig::getInstance()->get('article_terms');
 		    			$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
 		    		?>
-	            	<div class="tienda-collapse-processed"><?php echo JText::_("Terms & Conditions"); ?></div>
+	            	<div><?php echo JText::_("Terms & Conditions"); ?></div>
 					<div id="shipping_terms" >
 						<br/>
 						<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
