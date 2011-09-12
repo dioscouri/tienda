@@ -845,7 +845,6 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if shipping address is invalid
 		if($submitted_values['shippingrequired'])
 		{
-			$sameasbilling = (!empty($submitted_values['_checked']['sameasbilling']));
 			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
 				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" ).$this->shipping_input_prefix." :: ".$this->getError() );
@@ -976,28 +975,30 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		$model = $this->getModel( 'Addresses', 'TiendaModel' );
 		$table = $model->getTable();
-		$addressArray = $this->getAddress( $address_id, $prefix, $values );
 
 		// IS Guest Checkout or register??
 		$user_id = JFactory::getUser()->id;
 		$register = !empty($values['register']);
-		if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0) || $register)
-		$addressArray['user_id'] = 9999; // Fake id for the checkout process
-			
-		$table->bind( $addressArray );
 
 		// Add type of the array
 		switch($prefix)
 		{
 			case 'shipping_input_':
 				$address_type = '2';
+				
+				if( !empty( $values['_checked']['sameasbilling'] ) )
+					$prefix = 'billing_input_';
 				break;
 			default:
 			case 'billing_input_':
 				$address_type = '1';
 				break;
 		}
+		$addressArray = $this->getAddress( $address_id, $prefix, $values );
+		if((TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0) || $register )
+			$addressArray['user_id'] = 9999; // Fake id for the checkout process
 
+		$table->bind( $addressArray );
 		$table->addresstype_id = $address_type;
 
 		if (!$table->check())
@@ -1435,13 +1436,7 @@ class TiendaControllerCheckout extends TiendaController
 		// if we're checking shipping and the sameasbilling is checked, then this is good
 		if ($submitted_values['shippingrequired'])
 		{
-			$prefix = $this->shipping_input_prefix;
-			if ($sameasbilling = (!empty($submitted_values['_checked']['sameasbilling'])))
-			{
-				$prefix = $this->billing_input_prefix;
-			}
-
-			if (!$this->validateAddress( $submitted_values, $prefix, @$submitted_values['shipping_address_id'] ))
+			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
 				$response['msg'] = $this->getShippingHtml('shipping_calculate');
 				$response['msg'] .= $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError());
