@@ -815,7 +815,7 @@ function tiendaStoreFormInputs( form )
     {
     	value = {
             value : form.elements[i].value,
-            checked : form.elements[i].checked,
+            checked : form.elements[i].checked
         };
         values[form.elements[i].name] = value;
     }
