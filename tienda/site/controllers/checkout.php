@@ -219,7 +219,7 @@ class TiendaControllerCheckout extends TiendaController
 			$dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
 			$view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
 			ob_end_clean();
-			$view->assign( 'payment_options_html', $paymentOptionsHtml );
+			
 			ob_start();
 			$dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
 			$view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
