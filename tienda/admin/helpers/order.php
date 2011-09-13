@@ -534,4 +534,16 @@ class TiendaHelperOrder extends TiendaHelperBase
         
         return $onDisplayOrderItem;
     }
+		
+		/*
+		 * Method to display order number or order ID (in case there is no order number)
+		 * 
+		 * @param $order TiendaTableOrder object
+		 * 
+		 * @return string Order number (or order ID in case of order number is not present)
+		 */
+		function displayOrderNumber( $order )
+		{
+			return empty( $order->order_number ) ? $order->order_id : $order->order_number;
+		}
 }

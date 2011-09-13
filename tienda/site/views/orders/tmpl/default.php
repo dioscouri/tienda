@@ -4,7 +4,7 @@
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
-
+<?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
 <div class='componentheading'>
 	<span><?php echo JText::_( "Order History" ); ?></span>
 </div>
@@ -74,7 +74,7 @@
             <tr class='row<?php echo $k; ?>'>
                 <td style="text-align: center;">
                     <a href="<?php echo JRoute::_( $item->link_view ); ?>">
-                        <?php echo $item->order_id; ?>
+                        <?php echo TiendaHelperOrder::displayOrderNumber( $item ); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
