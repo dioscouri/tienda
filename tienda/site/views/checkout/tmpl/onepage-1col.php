@@ -113,7 +113,7 @@
 						<div class="tienda_checkout_method">
 							<input type="checkbox" id="create_account" name="create_account" value="" />
 							<label for="field-create-account"><?php echo JText::_( 'Create a New Account' );?></label>
-							<div id="tienda_user_additional_info">
+							<div id="tienda_user_additional_info" class="hidden">
 	                            <?php echo $this->form_user_register;?>
 	                        </div>
 	           			</div>

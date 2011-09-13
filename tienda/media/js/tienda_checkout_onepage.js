@@ -16,7 +16,7 @@ window.addEvent("domready", function() {
 
 function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
 {
-    payment_plugin = $$( 'input[type=radio]:checked', 'onCheckoutPayment_wrapper' ).map( function(e) { return e.value; });
+	var payment_plugin = $E( 'input[name=payment_plugin]:checked' ).value;
 	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
 	if( callback )
 		tiendaDoTask( url, container, form, msg, false, function(){ callback(); tiendaDeletePaymentGrayDiv();} );		
@@ -25,11 +25,13 @@ function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
 
 	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', text_payment );
 
-	$ES( 'input[type=radio]', 'onCheckoutPayment_wrapper' ).each( function( e ){
-		if( e.get( 'value' ) == payment_plugin )
-			e.set( 'checked', true );
-	} );			
-    
+	if( payment_plugin )
+	{
+		$ES( 'input[name=payment_plugin]', 'onCheckoutPayment_wrapper' ).each( function( e ){
+			if( e.get( 'value' ) == payment_plugin )
+				e.set( 'checked', true );
+		} );
+	}
 }
 
 /**
@@ -240,12 +242,7 @@ function tiendaCheckoutCheckEmail( container, form, valid_text )
 }
 
 function tiendaHideInfoCreateAccount( )
-{
-	var $tuai = $('tienda_user_additional_info'); 
-	if ($tuai) {
-		$tuai.set('class', 'hidden'); 
-	}
-	
+{	
 	$('create_account').addEvent('change', function() {
 		$('tienda_user_additional_info').toggleClass('hidden');
 	});
