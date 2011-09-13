@@ -251,7 +251,7 @@ function tiendaHideInfoCreateAccount( )
 	});
 }
 
-function tiendaCheckoutSetBillingAddress(url, container, selected, text_shipping, text_cart, text_address )
+function tiendaCheckoutSetBillingAddress(url, container, selected, form, text_shipping, text_cart, text_address )
 {
 	var divContainer = document.getElementById( container );
 	var divForm = document.getElementById( 'billing_input_addressForm' );

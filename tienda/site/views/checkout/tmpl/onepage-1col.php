@@ -83,7 +83,7 @@
 	            		$billattribs = array(
 	                		'class' => 'inputbox',    
 	                    	'size' => '1',
-	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', '".JText::_( 'Updating Address' )."' );"
+	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form, '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', '".JText::_( 'Updating Address' )."' );"
 	                	);
 	                        
 	                	// display select list of stored addresses

@@ -166,7 +166,7 @@ class TiendaTableAddresses extends TiendaTable
 				$this->zone_id = 9999;
 			}
 		
-		if (empty($this->phone_1) && ($config->get('validate_field_phone', '3') == '3' || ( $config->get('validate_field_phone', '3') == $address_type )) )
+		if (empty($this->phone_1) && ( ( $config->get('validate_field_phone', '3') == '3' ) || ( $config->get('validate_field_phone', '3') == $address_type ) ) )
 		{
 			$this->setError( JText::_("Phone Required") );
 			return false;
