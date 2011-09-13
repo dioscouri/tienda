@@ -353,7 +353,8 @@ class TiendaModelBase extends JModel
     protected function _buildResultQuery()
     {
     	$query = new TiendaQuery();
-		$query->select( $this->getState( 'select', 'COUNT(*)' ) );
+			$tbl = $this->getTable();
+		$query->select( $this->getState( 'select', 'COUNT(tbl.'.$tbl->getKeyName().')' ) );
 
         $this->_buildQueryFrom($query);
         $this->_buildQueryJoins($query);
