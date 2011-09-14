@@ -191,8 +191,9 @@ class TiendaHelperEav extends TiendaHelperBase
 		        $dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
 		        return $value;
     		case "decimal":
+    			return self::number( $value );
     		case "int":	
-    			return self::number($value);
+    			return self::number( $value, array( 'num_decimals' => 0 ) );
     		case "hidden":
     		case "varchar":
     			default:
