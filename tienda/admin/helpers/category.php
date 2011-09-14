@@ -41,16 +41,19 @@ class TiendaHelperCategory extends TiendaHelperBase
         $layouts = array();
         // set the default exclusions array
         $exclusions = array(
-            'default.php',
+            'form_askquestion.php',
             'product_buy.php',
             'product_children.php',
             'product_comments.php',
             'product_files.php',
+            'product_gallery.php',
+            'product_rating.php',
             'product_relations.php',
             'product_requirements.php',
-            'product_reviews.php',
+            'product_share_buttons.php',
             'quickadd.php',
-            'search.php'
+            'search.php',
+            'view.php'
         );
         // TODO merge $exclusions with $options['exclude']
         
