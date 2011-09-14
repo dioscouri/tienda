@@ -730,6 +730,7 @@
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}ru-RU.zip" basedir="${cfg.langDir}/ru-RU" />
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sv-SE.zip" basedir="${cfg.langDir}/sv-SE" />
   	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sk-SK.zip" basedir="${cfg.langDir}/sk-SK" />
+   	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}nb-NO.zip" basedir="${cfg.langDir}/nb-NO" />
     </target>
 	
 	<!-- BUILD EXTRA APPS -->

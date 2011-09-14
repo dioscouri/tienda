@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="both" type="language" method="upgrade">
+  <name>Norsk Tienda</name>
+  <tag>nb-NO</tag>
+  <version>0.7.3 Community</version>
+  <creationDate>Aug 2011</creationDate>
+  <author>Sireco</author>
+  <authorEmail>post@sireco.no</authorEmail>
+  <authorUrl>http://www.sireco.no</authorUrl>
+  <copyright>2011 Dioscouri.com</copyright>
+  <copyrightHolder>Dioscouri.com</copyrightHolder>
+  <license>GNU General Public License v2</license>
+  <description>Norwegian translation for Tienda</description>
+
+  <site>
+  	<files folder="site">
+  		<filename>nb-NO.com_tienda.ini</filename>
+    </files>
+  </site>
+
+	<!-- Application/administrator -->
+	<administration>
+		<files folder="admin">
+			<filename>nb-NO.com_tienda.ini</filename>
+		</files>
+	</administration>
+</install>
