@@ -1797,7 +1797,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$db->setQuery( ( string ) $query );
 		
 		$results = $db->loadObjectList( );
-		JFactory::getApplucation()->enqueueMessage( Tienda::dump( $results ) );
+		
+		//are we going to dump the result???
+		//JFactory::getApplication()->enqueueMessage( Tienda::dump( $results ) );
 		return $results;
 	}
 	
