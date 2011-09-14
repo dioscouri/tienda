@@ -836,8 +836,8 @@ function tiendaRestoreFormInputs( form, values )
     {
     	if( form.elements[i].getAttribute( 'type') == 'checkbox' )
     		form.elements[i].checked = values[form.elements[i].name].checked;
-//    	else
- //   		if( $( form.elements[i].id ) )
-//    			$( form.elements[i].id ).set( 'value',  values[form.elements[i].name].value );
+    	else
+    		if( $( form.elements[i].id ) )
+    			$( form.elements[i].id ).set( 'value',  values[form.elements[i].name].value );
     }
 }

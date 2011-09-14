@@ -81,10 +81,10 @@ class TiendaControllerCheckout extends TiendaController
             );
             $this->current_step = 0;
 
-            if(TiendaConfig::getInstance()->get('one_page_checkout', '0'))
-            {
-            	$this->onepage_checkout = true;
-            }
+      if( TiendaConfig::getInstance()->get('one_page_checkout', '0') )
+      {
+      	$this->onepage_checkout = true;
+      }
 	}
 
 	/**
@@ -989,7 +989,10 @@ class TiendaControllerCheckout extends TiendaController
 
 		// IS Guest Checkout or register??
 		$user_id = JFactory::getUser()->id;
-		$register = !empty($values['register']);
+		if( $this->onepage_checkout )
+			$register = !empty($values['_checked']['create_account']);
+		else
+			$register = !empty($values['register']);
 
 		// Add type of the array
 		switch($prefix)
@@ -1040,7 +1043,7 @@ class TiendaControllerCheckout extends TiendaController
 		if( $disabled )
 		$attribs['disabled'] = 'disabled';
 		
-		if( TiendaConfig::getInstance()->get('one_page_checkout', 0) )
+		if( $this->onepage_checkout )
 			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' ); ';
 
 		if (empty($country_id))
@@ -1316,7 +1319,7 @@ class TiendaControllerCheckout extends TiendaController
 		$html = ob_get_contents();
 		ob_end_clean();
 
-		if (TiendaConfig::getInstance()->get('one_page_checkout') && empty($values))
+		if ( $this->onepage_checkout && empty($values))
 		{
 			// set response array
 			$response = array();
@@ -1427,7 +1430,7 @@ class TiendaControllerCheckout extends TiendaController
 		$guest = false;
 		if( TiendaConfig::getInstance()->get('guest_checkout_enabled') )
 		{
-			if(!TiendaConfig::getInstance()->get('one_page_checkout', '0'))
+			if( !$this->onepage_checkout )
 			{
 				$guest = JFactory::getUser()->id ? 0 : 1;
 			}
@@ -2461,7 +2464,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 
 			// Set display
-			if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') )
+			if( !$this->onepage_checkout )
 			{
 				$progress = $this->getProgress();
 			}
@@ -2470,7 +2473,7 @@ class TiendaControllerCheckout extends TiendaController
 			$view->set( '_doTask', true);
 			$view->assign('order_link', $order_link );
 			$view->assign('plugin_html', $html);
-			if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') )
+			if( !$this->onepage_checkout )
 			{
 				$view->assign('progress', $progress );
 			}

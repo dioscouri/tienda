@@ -16,7 +16,10 @@ window.addEvent("domready", function() {
 
 function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
 {
-	var payment_plugin = $E( 'input[name=payment_plugin]:checked' ).value;
+	var payment_plugin = $E( 'input[name=payment_plugin]:checked' );
+	
+	if( payment_plugin )
+		payment_plugin = payment_plugin.value;
 	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
 	if( callback )
 		tiendaDoTask( url, container, form, msg, false, function(){ callback(); tiendaDeletePaymentGrayDiv();} );		
