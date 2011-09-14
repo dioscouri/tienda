@@ -3,10 +3,10 @@
 
 <?php if($found):?>
 
-<div class="tienda_layered_nav_<?php echo $params->get('multi_mode', 1) ? 'multi' : 'single'?>">
+<span class="tienda_layered_nav_<?php echo $params->get('multi_mode', 1) ? 'multi' : 'single'?>">
 
 <?php if(count($filters)):?>
-<h2><?php echo JText::_("CURRENTLY SHOPPING BY");?></h2>
+<h3><?php echo JText::_("CURRENTLY SHOPPING BY");?></h3>
 	<ul class="tienda_browse_currently" id="tienda_browse_currently">
 		<?php foreach($filters as $filter):?>
 		<li>
@@ -19,13 +19,13 @@
 <?php endif;?>
 
 <?php if($trackcatcount || $priceRanges || $attributes || $manufacturers):?>
-<h2><?php echo JText::_("SHOPPING OPTIONS");?></h2>
+<h3><?php echo JText::_("SHOPPING OPTIONS");?></h3>
 <?php endif;?>
 
 <?php if($trackcatcount > 0):?>
 
 	<?php $rootTxt = $params->get('roottext'); ?>
-	<h3><?php echo $categories[0]->isroot && !empty( $rootTxt ) ? $rootTxt : $categories[0]->category_name;?></h3>	
+	<h4><?php echo $categories[0]->isroot && !empty( $rootTxt ) ? $rootTxt : $categories[0]->category_name;?></h4>	
 	
 	<ul id="tienda_browse_category">
 	
@@ -50,7 +50,7 @@
 <?php endif;?>
 
 <?php if(count($priceRanges) > 0):?>
-	<h3><?php echo JText::_('PRICE');?></h3>
+	<h4><?php echo JText::_('PRICE');?></h4>
 	<ul id="tienda_browse_pricerange">
 		<?php foreach($priceRanges as $priceRange):?>	
 			<?php if($priceRange->total > 0):?>		
@@ -70,19 +70,18 @@
 <?php endif;?>
 
 <?php if(count($attributes) > 0):?>
-	<?php foreach($attributes as $attribute):?>
-		<h3><?php echo $attribute->productattribute_name;?></h3>
+	<?php foreach($attributes as $key=>$val):?>
+		<h4><?php echo $key;?></h4>
 		<ul id="tienda_browse_attribute">
-			<?php foreach($attribute->productattribute_options as $option):?>				
-			<?php if(isset($attributeOptions[$option->productattributeoption_id]) && ($option->productattributeoption_name == $attributeOptions[$option->productattributeoption_id])) continue; ?>	
+			<?php foreach($val as $k=>$option):?>	
 				<li>
-					<a href="<?php echo JRoute::_($option->link);?>">
+					<a href="<?php echo JRoute::_($option->link.'&filter_attribute_set='.implode(',', $option->attributes));?>">
 						<span class="refinementLink">	
-						<?php echo $option->productattributeoption_name;?>					
+						<?php echo $k;?>					
 						</span>
 					</a>
 					<span class="narrowValue">
-						(<?php echo $option->total;?>)
+						(<?php echo count(array_unique($option->products));?>)
 					</span>								
 				</li>			
 			<?php endforeach;?>
@@ -91,7 +90,7 @@
 <?php endif;?>
 
 <?php if(count($ratings) > 0):?>
-	<h3><?php echo JText::_('Avg. Customer Rating');?></h3>
+	<h4><?php echo JText::_('Avg. Customer Rating');?></h4>
 	<ul id="tienda_browse_rating">
 		<?php foreach($ratings as $rating):?>		
 			<li>
@@ -114,7 +113,7 @@
 <?php endif;?>
 
 <?php if(count($manufacturers) > 0):?>
-	<h3><?php echo JText::_('MANUFACTURERS');?></h3>
+	<h4><?php echo JText::_('MANUFACTURERS');?></h4>
 	<ul id="tienda_browse_manufacturer">
 		<?php foreach($manufacturers as $manufacturer):?>
 			<?php if($manufacturer->total > 0):?>
@@ -133,6 +132,6 @@
 	</ul>
 <?php endif;?>
 
-</div>
+</span>
 
 <?php endif;?>

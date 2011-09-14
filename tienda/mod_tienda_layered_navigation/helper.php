@@ -450,8 +450,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
      * @return array
      */
     function getAttributes()
-    {				
-		$finalAttributes = array();	
+    {
+    	$finalAttributes = array();			
     	if($this->_view != 'products' || empty($this->_products) || !$this->_params->get('filter_attributes')) return $finalAttributes;
     	
     	Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); 	
@@ -493,108 +493,53 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 
 		//return if no available attributes
 		if(empty($attributes)) return $finalAttributes;
-		
-		$options = array();
-		//loop to get the available options of the attribute
-    	foreach($attributes as $attribute)
-		{		
-			$attribute->productattribute_options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);;	
 			
-			$optionKey = array();		
-			foreach($attribute->productattribute_options as $option)
-			{
-				$optionKey["{$attribute->productattribute_id}|{$option->productattributeoption_id}"] = "{$attribute->productattribute_name}:::{$option->productattributeoption_name}";				
-			}					
-			$options = array_merge($options, $optionKey);							
-			
-		}
-	
-		//count the total of products available for the particular option
-		$count_values = array_count_values($options);
-		
-		$this->_options = array_keys($count_values);
-
-		$app = JFactory::getApplication();
-		$ns = $app->getName().'::'.'com.tienda.model';    	
-		$this->_filter_attributeoptionname = array_filter($app->getUserStateFromRequest($ns.'.productsattributeoptionname', 'filter_productsattributeoptionname', array(), 'array'), 'strlen');
- 		
-    	//loop to get the attibutes with options to be shown in module
-    	//need to track the option if its already occur to avoid in the previous attribute to avoid having same option filter
-    	$trackOpts = array();
+		$newAttributes = array();
+	    //loop to get the available options of the attribute
     	foreach($attributes as $attribute)
-    	{
-    		if(!in_array($attribute->productattribute_name, $trackOpts))
+		{
+			$options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);
+			
+			foreach($options as $option)
 			{
-				//create new attribute object
-				$newAttriObj = new stdClass();
-				$newAttriObj->productattribute_name = $attribute->productattribute_name;
-				$newAttriObj->productattribute_id = $attribute->productattribute_id;				
-				
-				//loop to get all options available
-				foreach($attribute->productattribute_options as $option)
-				{					
-					//get the product total for the option					
-					$option->total = $count_values["{$attribute->productattribute_name}:::{$option->productattributeoption_name}"];
-					
-					//build the link for each option
-					$link = $this->_link.'&filter_category='.$this->_filter_category;
-					
-					//prepare the &filter_attribute_set					
-					$attriA = array();
-					foreach($options as $key=>$value)
-					{					
-						if($value == "{$attribute->productattribute_name}:::{$option->productattributeoption_name}")
-						{
-							$explode = explode('|', $key);
-							$attriA[]= $explode[0];	
-						}
-					}					
-					
-					//check if the attribute_set filter in the session is not empty
-					// merge with the attributes id we get from the query
-					$setA = array();
-					if(!empty($this->_filter_attribute_set))
-					{						
-						$attriA = array_unique(array_merge(explode(',', $this->_filter_attribute_set), $attriA));
-					}	
-					
-					$filter_attribute_set = implode(',', $attriA);
-					$link .= '&filter_attribute_set='.$filter_attribute_set;
-				
-					//create filter for tracking the optionname being click
-					//it will be used in the currently shopping by
-					//$this->_filter_attributeoptionname format will be filter_attributeoptionname['optionname'] = category|attribute_set
-					if(array_key_exists($option->productattributeoption_name, $this->_filter_attributeoptionname))
-					{
-						//recreate the filter_attribute_set							
-						$link .= '&filter_attributeoptionname['.$option->productattributeoption_name.']='.implode(',', array_unique(array_merge(explode(',', $this->_filter_attributeoptionname[$option->productattributeoption_name]), $attriA)));
-					}
-					else
-					{
-						$link .= '&filter_attributeoptionname['.$option->productattributeoption_name.']='.$filter_attribute_set;
-					}
-					
-					//loop $this->_filter_attributeoptionname to append
-					foreach($this->_filter_attributeoptionname as $keyopt=>$optname)
-					{
-						//check if not $option->productattributeoption_name
-						if($keyopt!=$option->productattributeoption_name)
-						{
-							$link .= '&filter_attributeoptionname['.$keyopt.']='.$optname;					
-						}
-					}				
-					
-					$option->link = $link;					
-				}	
-				
-				$newAttriObj->productattribute_options = $attribute->productattribute_options;				
-				$newAttriObj->link = $this->_link.'&filter_category='.$this->_filter_category;				
-				$finalAttributes[] = $newAttriObj;				
-				
-				$trackOpts[] = $attribute->productattribute_name;			
+				$option->product_id = $attribute->product_id;
 			}
-    	}
-    
+						
+			if(isset($newAttributes[$attribute->productattribute_name]))
+			{
+				$newAttributes[$attribute->productattribute_name] = array_merge($newAttributes[$attribute->productattribute_name], $options);
+			}
+			else
+			{						
+				$newAttributes[$attribute->productattribute_name] = $options;
+			}			
+		}
+		$link = $this->_link.'&filter_category='.$this->_filter_category;
+		$finalAttributes = array();
+		foreach($newAttributes as $key=>$options) 
+		{
+			foreach($options as $option) 
+			{
+				if(isset($finalAttributes[$key][$option->productattributeoption_name]))				
+				{
+					$finalAttributes[$key][$option->productattributeoption_name]->products[] = $option->product_id;
+					$finalAttributes[$key][$option->productattributeoption_name]->attributes[] = $option->productattribute_id;
+				}
+				else
+				{
+					$finalAttributes[$key][$option->productattributeoption_name] = new stdClass();
+					$finalAttributes[$key][$option->productattributeoption_name]->link = $link.'&filter_attributeoptionname='.$key.':'.$option->productattributeoption_name;
+					$finalAttributes[$key][$option->productattributeoption_name]->products = array($option->product_id);
+					$finalAttributes[$key][$option->productattributeoption_name]->attributes = array($option->productattribute_id);
+				}
+				
+				if(!empty($this->_filter_attribute_set))
+				{
+					$finalAttributes[$key][$option->productattributeoption_name]->attributes = 						
+						array_unique(array_merge(explode(',', $this->_filter_attribute_set), $finalAttributes[$key][$option->productattributeoption_name]->attributes));
+				}	
+			}
+		}	
 		return $finalAttributes;
     }  
     
