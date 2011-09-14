@@ -187,6 +187,12 @@
 		 
 		<!-- SHIPPING METHOD END -->
 		
+        <?php if (!empty($this->onBeforeDisplaySelectPayment)) : ?>
+            <div id='onBeforeDisplaySelectPayment_wrapper'>
+            <?php echo $this->onBeforeDisplaySelectPayment; ?>
+            </div>
+        <?php endif; ?>			
+	
 		<!-- PAYMENT METHOD -->
 		 
 			<div class="inner col3">	
@@ -215,6 +221,11 @@
 			</div>
 		</div>
 		<!-- PAYMENT METHOD END -->
+        <?php if (!empty($this->onAfterDisplaySelectPayment)) : ?>
+            <div id='onAfterDisplaySelectPayment_wrapper'>
+            <?php echo $this->onAfterDisplaySelectPayment; ?>
+            </div>
+        <?php endif; ?>			
 		
 		<!-- REVIEW & PLACE ORDER -->
 		<div class="opc-review-place-order">
