@@ -18,10 +18,11 @@
 
     <!--    ORDER SUMMARY   -->
     <h3><?php echo JText::_("Order Summary") ?></h3>
+    <div id="onCheckoutCart_wrapper" style="position: relative;">
 	<?php
 	echo @$this->orderSummary;
 	?>
-	
+	</div>
     <?php if (!empty($this->onBeforeDisplayPrePayment)) : ?>
         <div id='onBeforeDisplayPrePayment_wrapper'>
         <?php echo $this->onBeforeDisplayPrePayment; ?>

@@ -29,7 +29,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             <?php echo JText::_( "Begin Checkout" ); ?>
         </a>]
         </div>
-        
+        <div class="reset"></div>
         <div id="onCheckoutCart_wrapper">
         <table class="adminlist">
             <thead>
