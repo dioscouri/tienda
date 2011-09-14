@@ -2121,7 +2121,6 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function preparePayment()
 	{
-
 		$this->current_step = 2;
 		// verify that form was submitted by checking token
 		JRequest::checkToken() or jexit( 'TiendaControllerCheckout::preparePayment - Invalid Token' );
@@ -2321,6 +2320,21 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			$html .= $results[$i];
 		}
+
+		// get all coupons and add them to the order
+		if (!empty($values['coupons']))
+		{
+			foreach ($values['coupons'] as $coupon_id)
+			{
+				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon->load(array('coupon_id'=>$coupon_id));
+				$order->addCoupon( $coupon );
+			}
+		}
+
+		$this->addCoupons($values);
+		// get the order totals
+		$order->calculateTotals();
 
 		// get the order summary
 		$summary = $this->getOrderSummary();
