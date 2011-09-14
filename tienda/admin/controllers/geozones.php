@@ -373,8 +373,8 @@ class TiendaControllerGeozones extends TiendaController
 				
         $state = parent::_setModelState();
         $app = JFactory::getApplication();
-        $model = $this->getModel( $suffix );
-        $ns = $this->getNamespace();
+        $model = $this->getModel( $suffix );     
+		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
 
         $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
         $row = $model->getTable( 'geozones' );
