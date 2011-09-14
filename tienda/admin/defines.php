@@ -469,17 +469,6 @@ class TiendaConfig extends JObject
 	var $display_product_cartbuttons       = '1';
 	var $product_reviews_autoapprove        = '0';
 
-	//sh404sef support
-	var $insert_shop_name					= '1';
-	var $insert_product_name				= '1';
-	var $insert_product_id					= '0';
-	var $insert_product_sku					= '0';
-	var $insert_manufacturer_name			= '0';
-	var $insert_manufacturer_id				= '0';
-	var $insert_categories					= '1';
-	var $insert_category_id					= '0';
-	var $insert_menu_title					= '1';
-
 	//product sorting
 	var $display_sort_by					= '1';
 	var $display_sortings					= 'Name|product_name,Price|price,Rating|product_rating';
