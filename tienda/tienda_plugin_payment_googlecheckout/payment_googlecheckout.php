@@ -203,14 +203,14 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	    $tax_rule->SetWorldArea(true);
 	    $cart->AddDefaultTaxRules($tax_rule);
 		
-		$reponseURL = JURI::root() ."plugins/tienda/{$this->_element}/library/responsehandler.php";		
+		//$reponseURL = JURI::root() ."plugins/tienda/{$this->_element}/library/responsehandler.php";		
 		
 		// Add merchant calculations options
-    	$cart->SetMerchantCalculations(
-		"{$reponseURL}", // merchant-calculations-url
-        "true", // merchant-calculated tax
-        "false", // accept-merchant-coupons
-        "false"); // accept-merchant-gift-certificates
+    	//$cart->SetMerchantCalculations(
+		//"{$reponseURL}", // merchant-calculations-url
+     //   "true", // merchant-calculated tax
+      //  "false", // accept-merchant-coupons
+      //  "false"); // accept-merchant-gift-certificates
 
 		$checkout_return_url = JURI::root() ."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
 		$cart->SetContinueShoppingUrl($checkout_return_url);
@@ -447,10 +447,10 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		{	// it's amount charged
 			if( $data ['new-financial-order-state']['VALUE']=='CHARGED')
 			{
-				$payment_error = $this->_processSale( $data, $error,$payment_details );
-				$response->SendAck();
+				$payment_error = $this->_processSale( $data, $error,$payment_details );				
+				$serial = isset($data) ? $data[$this->root]['serial-number']: null;
+				$response->SendAck($serial);
 			}
-
 		}
 
 		$error = 'processed';

@@ -47,7 +47,8 @@
       $this->_indent();
       $this->xml .= '<'.$element;
       foreach ($attributes as $key => $value) {
-        $this->xml .= ' '.$key.'="'.htmlentities($value).'"';
+        if(!empty($value))
+          $this->xml .= ' '.$key.'="'.htmlentities($value).'"';
       }
       $this->xml .= ">\n";
       $this->stack[] = $element;

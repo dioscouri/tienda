@@ -26,10 +26,6 @@
   * Creates a Google Checkout shopping cart and posts it 
   * to the google checkout sandbox or production environment
   * Refer demo/cartdemo.php for different use case scenarios for this code
-  * 
-  * Modified by Dioscouri Design, Nov 2009:
-  *  - paths to classes
-  *  - recurring payments support
   */
   class GoogleCart {
     var $merchant_id;
@@ -401,7 +397,7 @@
      * @return string the cart's xml
      */
     function GetXML() {
-      require_once('xml-processing/gc_xmlbuilder.php');
+      require_once(dirname(__FILE__).'/xml-processing/gc_xmlbuilder.php');
 
       $xml_data = new gc_XmlBuilder();
 
@@ -446,30 +442,96 @@
                                                 'value' => $item->numeric_weight
                                                ));
         }
-//      New Digital Delivery Tags
+//      Digital Delivery Tags
         if($item->digital_content) {
-          $xml_data->push('digital-content');
+          $xml_data->Push('digital-content');
           if(!empty($item->digital_url)) {
-            $xml_data->element('description', substr($item->digital_description,
+            $xml_data->Element('description', substr($item->digital_description,
                                                           0, MAX_DIGITAL_DESC));
-            $xml_data->element('url', $item->digital_url);
+            $xml_data->Element('url', $item->digital_url);
 //            To avoid NULL key message in GC confirmation Page
             if(!empty($item->digital_key)) {
-              $xml_data->element('key', $item->digital_key);
+              $xml_data->Element('key', $item->digital_key);
             }
           }
+          else if(!empty($item->digital_description)) {
+            $xml_data->element('description', substr($item->digital_description, 0,MAX_DIGITAL_DESC));
+          }
           else {
-            $xml_data->element('email-delivery', 
+            $xml_data->Element('email-delivery', 
                       $this->_GetBooleanValue($item->email_delivery, "true"));
           }
           $xml_data->pop('digital-content');          
         }
-        
-        // Subscription Tags
-        if ($item->subscription_data) {
-        	$item->subscription_data->AddToXML($xml_data);
-        }
-        
+//      BETA Subscription Tags
+        if($item->subscription){
+          $sub = $item->subscription;
+          $xml_data->Push('subscription', array('type' => $sub->subscription_type,
+                          'period' => $sub->subscription_period,
+                          'start-date' => $sub->subscription_start_date,
+                          'no-charge-after' => $sub->subscription_no_charge_after));
+          $xml_data->Push('payments');
+          $xml_data->Push('subscription-payment', array('times' => $sub->subscription_payment_times));
+          $xml_data->Element('maximum-charge', $sub->maximum_charge, array('currency' => $this->currency));
+          $xml_data->Pop('subscription-payment');
+          $xml_data->Pop('payments');
+          if(!empty($sub->recurrent_item)){
+            $recurrent_item = $sub->recurrent_item;
+            //Google Handled Subscriptions
+            if($sub->subscription_type == 'google'){
+              $xml_data->Push('recurrent-item');
+              $xml_data->Element('item-name', $recurrent_item->item_name);
+              $xml_data->Element('item-description', $recurrent_item->item_description);
+              $xml_data->Element('unit-price', $recurrent_item->unit_price,
+                  array('currency' => $this->currency));
+              $xml_data->Element('quantity', $recurrent_item->quantity);
+              if($recurrent_item->merchant_private_item_data != '') {
+              //          echo get_class($item->merchant_private_item_data);
+                if(is_a($recurrent_item->merchant_private_item_data, 
+                                                    'merchantprivate')) {
+                  $recurrent_item->merchant_private_item_data->AddMerchantPrivateToXML($xml_data);
+                }
+                else {
+                  $xml_data->Element('merchant-private-item-data', 
+                                                   $recurrent_item->merchant_private_item_data);
+                }
+              }
+              if($recurrent_item->merchant_item_id != '')
+                $xml_data->Element('merchant-item-id', $recurrent_item->merchant_item_id);
+              if($recurrent_item->tax_table_selector != '')
+                $xml_data->Element('tax-table-selector', $recurrent_item->tax_table_selector);
+              //     recurring Carrier calculation
+              if($recurrent_item->item_weight != '' && $recurrent_item->numeric_weight !== '') {
+                $xml_data->EmptyElement('item-weight', array( 'unit' => $recurrent_item->item_weight,
+                                                      'value' => $recurrent_item->numeric_weight
+                                                     ));
+              }
+              //     recurring Digital Delivery Tags
+              if($recurrent_item->digital_content) {
+                $xml_data->Push('digital-content');
+                if(!empty($recurrent_item->digital_url)) {
+                  $xml_data->Element('description', substr($recurrent_item->digital_description,
+                                                                0, MAX_DIGITAL_DESC));
+                  $xml_data->Element('url', $recurrent_item->digital_url);
+              //            To avoid NULL key message in GC confirmation Page
+                  if(!empty($recurrent_item->digital_key)) {
+                    $xml_data->Element('key', $recurrent_item->digital_key);
+                  }
+                }
+                else if(!empty($item->digital_description)) {
+                  $xml_data->element('description', substr($item->digital_description, 0,MAX_DIGITAL_DESC));
+                }
+                else {
+                  $xml_data->Element('email-delivery', 
+                            $this->_GetBooleanValue($recurrent_item->email_delivery, "true"));
+                }
+                $xml_data->pop('digital-content');          
+              }
+              $xml_data->Pop('recurrent-item'); 
+            }
+          }
+          $xml_data->pop('subscription');                
+        }        
         $xml_data->Pop('item');
       }
       $xml_data->Pop('items');
@@ -745,12 +807,12 @@
       }
       //Set Third party Tracking
       if($this->thirdPartyTackingUrl) {
-        $xml_data->push('parameterized-urls');
-        $xml_data->push('parameterized-url', 
+        $xml_data->Push('parameterized-urls');
+        $xml_data->Push('parameterized-url', 
            array('url' => $this->thirdPartyTackingUrl));
         if(is_array($this->thirdPartyTackingParams) 
             && count($this->thirdPartyTackingParams)>0) {
-          $xml_data->push('parameters');
+          $xml_data->Push('parameters');
           foreach($this->thirdPartyTackingParams as $tracking_param_name => 
                                                           $tracking_param_type) {
             $xml_data->emptyElement('url-parameter',
@@ -968,9 +1030,7 @@
      *               and the redirect url returned by the server in index 1
      */
     function CheckoutServer2Server($proxy=array(), $certPath='') {
-      //ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-      //require_once('library/googlerequest.php');
-      require_once dirname(__FILE__) . '/googlerequest.php';
+      require_once(dirname(__FILE__).'/library/googlerequest.php');
       $GRequest = new GoogleRequest($this->merchant_id, 
                       $this->merchant_key, 
                       $this->server_url=="https://checkout.google.com/"?
@@ -1038,17 +1098,17 @@
       }
       $data = "<div style=\"width: ".$width."px\">";
       if ($this->variant == "text") {
-        $data .= "<div align=center><form method=\"POST\" action=\"". 
+        $data .= "<div align=\"center\"><form method=\"post\" action=\"".
                 $url . "\"" . ($this->googleAnalytics_id?
                 " onsubmit=\"setUrchinInputCode();\"":"") . ">
                 <input type=\"image\" name=\"Checkout\" alt=\"Checkout\" 
                 src=\"". $this->server_url."buttons/checkout.gif?merchant_id=" .
-                $this->merchant_id."&w=".$width. "&h=".$height."&style=".
-                $style."&variant=".$this->variant."&loc=".$loc."\" 
-                height=\"".$height."\" width=\"".$width. "\" />";
+                $this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".
+                $style."&amp;variant=".$this->variant."&amp;loc=".$loc."\" 
+                style=\"height:".$height."px;width:".$width. "px\" />";
                 
         if($this->googleAnalytics_id) {
-          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
+          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\" />";
         }                
         $data .= "</form></div>";
         if($this->googleAnalytics_id) {                
@@ -1066,8 +1126,8 @@
         }      } else {
         $data .= "<div><img alt=\"Checkout\" src=\"" .
                 "". $this->server_url."buttons/checkout.gif?merchant_id=" .
-                "".$this->merchant_id."&w=".$width. "&h=".$height."&style=".$style.
-                "&variant=".$this->variant."&loc=".$loc."\" height=\"".$height."\"".
+                "".$this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".$style.
+                "&amp;variant=".$this->variant."&amp;loc=".$loc."\" height=\"".$height."\"".
                 " width=\"".$width. "\" /></div>";
         
       }
@@ -1130,7 +1190,7 @@
       
       $data = "<div style=\"width: ".$width."px\">";
       if ($this->variant == "text") {
-        $data .= "<div align=center><form method=\"POST\" action=\"". 
+        $data .= "<div align=\"center\"><form method=\"post\" action=\"".
                 $this->checkout_url . "\"" . ($this->googleAnalytics_id?
                 " onsubmit=\"setUrchinInputCode();\"":"") . ">
                 <input type=\"hidden\" name=\"cart\" value=\"". 
@@ -1139,12 +1199,12 @@
                 base64_encode($this->CalcHmacSha1($this->GetXML())). "\"> 
                 <input type=\"image\" name=\"Checkout\" alt=\"Checkout\" 
                 src=\"". $this->server_url."buttons/checkout.gif?merchant_id=" .
-                $this->merchant_id."&w=".$width. "&h=".$height."&style=".
-                $style."&variant=".$this->variant."&loc=".$loc."\" 
-                height=\"".$height."\" width=\"".$width. "\" />";
+                $this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".
+                $style."&amp;variant=".$this->variant."&amp;loc=".$loc."\" 
+                style=\"height:".$height."px;width:".$width. "px\" />";
                 
         if($this->googleAnalytics_id) {
-          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
+          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\" />";
         }                
         $data .= "</form></div>";
         if($this->googleAnalytics_id) {                
@@ -1163,8 +1223,8 @@
       } else {
         $data .= "<div><img alt=\"Checkout\" src=\"" .
             "". $this->server_url."buttons/checkout.gif?merchant_id=" .
-            "".$this->merchant_id."&w=".$width. "&h=".$height."&style=".$style.
-            "&variant=".$this->variant."&loc=".$loc."\" height=\"".$height."\"".
+            "".$this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".$style.
+            "&amp;variant=".$this->variant."&amp;loc=".$loc."\" height=\"".$height."\"".
             " width=\"".$width. "\" /></div>";
       }
       if($showtext) {
@@ -1211,7 +1271,7 @@
       
       $data = "<div style=\"width: ".$width."px\">";
       if ($this->variant == "text") {
-        $data .= "<div align=center><form method=\"POST\" action=\"". 
+        $data .= "<div align=\"center\"><form method=\"post\" action=\"".
                 $this->checkout_url . "\"" . ($this->googleAnalytics_id?
                 " onsubmit=\"setUrchinInputCode();\"":"") . ">
                 <input type=\"hidden\" name=\"buyButtonCart\" value=\"". 
@@ -1219,12 +1279,12 @@
                 base64_encode($this->CalcHmacSha1($this->GetXML())) . "\">
                 <input type=\"image\" name=\"Checkout\" alt=\"BuyNow\" 
                 src=\"". $this->server_url."buttons/buy.gif?merchant_id=" .
-                $this->merchant_id."&w=".$width. "&h=".$height."&style=".
-                $style."&variant=".$this->variant."&loc=".$loc."\" 
-                height=\"".$height."\" width=\"".$width. "\" />";
+                $this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".
+                $style."&amp;variant=".$this->variant."&amp;loc=".$loc."\" 
+                style=\"height:".$height."px;width:".$width. "px\" />";
                 
         if($this->googleAnalytics_id) {
-          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
+          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\" />";
         }                
         $data .= "</form></div>";
         if($this->googleAnalytics_id) {                
@@ -1316,12 +1376,12 @@
       
       $data = "<div style=\"width: ".$width."px\">";
       if ($this->variant == "text") {
-        $data .= "<div align=\"center\"><form method=\"POST\" action=\"". 
+        $data .= "<div align=\"center\"><form method=\"post\" action=\"". 
                 $this->checkoutForm_url . "\"" . ($this->googleAnalytics_id?
                 " onsubmit=\"setUrchinInputCode();\"":"") . ">";
 
         $request = $this->GetXML();
-        require_once('xml-processing/gc_xmlparser.php');
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
         $xml_parser = new gc_xmlparser($request);
         $root = $xml_parser->GetRoot();
         $XMLdata = $xml_parser->GetData();
@@ -1333,7 +1393,7 @@
                 height=\"".$height."\" width=\"".$width. "\" />";
                 
         if($this->googleAnalytics_id) {
-          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\">";
+          $data .= "<input type=\"hidden\" name=\"analyticsdata\" value=\"\" />";
         }                
         $data .= "</form></div>";
         if($this->googleAnalytics_id) {                
@@ -1352,8 +1412,8 @@
       } else {
         $data .= "<div align=\"center\"><img alt=\"Checkout\" src=\"" .
             "". $this->server_url."buttons/checkout.gif?merchant_id=" .
-            "".$this->merchant_id."&w=".$width. "&h=".$height."&style=".$style.
-            "&variant=".$this->variant."&loc=".$loc."\" height=\"".$height."\"".
+            "".$this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".$style.
+            "&amp;variant=".$this->variant."&amp;loc=".$loc."\" height=\"".$height."\"".
             " width=\"".$width. "\" /></div>";
       }
       if($showtext){

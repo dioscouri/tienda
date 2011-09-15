@@ -60,7 +60,7 @@
      * @return string the response xml
      */
     function GetXML() {
-      require_once('xml-processing/gc_xmlbuilder.php');
+      require_once(dirname(__FILE__).'/xml-processing/gc_xmlbuilder.php');
 
       $xml_data = new gc_XmlBuilder();
       $xml_data->Push('merchant-calculation-results', 
@@ -95,13 +95,13 @@
             $xml_data->Pop('coupon-result');  
           }
           foreach($result->giftcert_arr as $curr_gift) {
-            $xml_data->Push('gift-result');  
+            $xml_data->Push('gift-certificate-result');  
             $xml_data->Element('valid', $curr_gift->gift_valid);
             $xml_data->Element('code', $curr_gift->gift_code);
             $xml_data->Element('calculated-amount', $curr_gift->gift_amount, 
                 array('currency'=> $this->currency));
             $xml_data->Element('message', $curr_gift->gift_message);
-            $xml_data->Pop('gift-result');  
+            $xml_data->Pop('gift-certificate-result');  
           }
           $xml_data->Pop('merchant-code-results');
         }

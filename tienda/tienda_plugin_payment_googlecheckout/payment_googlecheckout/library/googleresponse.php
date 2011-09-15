@@ -2,13 +2,13 @@
 
 /*
  * Copyright (C) 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 
- /* This class is instantiated everytime any notification or 
+ /* This class is instantiated everytime any notification or
   * order processing commands are received.
-  * 
-  * Refer demo/responsehandlerdemo.php for different use case scenarios 
+  *
+  * Refer demo/responsehandlerdemo.php for different use case scenarios
   * for this code
   */
 
-  
+
   /**
    * Handles the response to notifications sent by the Google Checkout server.
-   * 
-   * Modified by Dioscouri Design to handle the serial-number attribute in acknowledgments
    */
   class GoogleResponse {
     var $merchant_id;
     var $merchant_key;
     var $schema_url;
-    
+
     var $log;
     var $response;
     var $root='';
@@ -48,8 +46,7 @@
       $this->merchant_id = $id;
       $this->merchant_key = $key;
       $this->schema_url = "http://checkout.google.com/schema/2";
-      ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-      require_once('googlelog.php');
+      require_once(dirname(__FILE__).'/googlelog.php');
       $this->log = new GoogleLog('', '', L_OFF);
     }
 
@@ -61,15 +58,15 @@
       $this->merchant_id = $id;
       $this->merchant_key = $key;
     }
-    
+
     function SetLogFiles($errorLogFile, $messageLogFile, $logLevel=L_ERR_RQST) {
       $this->log = new GoogleLog($errorLogFile, $messageLogFile, $logLevel);
     }
-    
+
     /**
-     * Verifies that the authentication sent by Google Checkout matches the 
+     * Verifies that the authentication sent by Google Checkout matches the
      * merchant id and key
-     * 
+     *
      * @param string $headers the headers from the request
      */
     function HttpAuthentication($headers=null, $die=true) {
@@ -77,17 +74,17 @@
         $_SERVER = $headers;
       }
       if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-        $compare_mer_id = $_SERVER['PHP_AUTH_USER']; 
+        $compare_mer_id = $_SERVER['PHP_AUTH_USER'];
         $compare_mer_key = $_SERVER['PHP_AUTH_PW'];
       }
-  //  IIS Note::  For HTTP Authentication to work with IIS, 
-  // the PHP directive cgi.rfc2616_headers must be set to 0 (the default value). 
+  //  IIS Note::  For HTTP Authentication to work with IIS,
+  // the PHP directive cgi.rfc2616_headers must be set to 0 (the default value).
       else if(isset($_SERVER['HTTP_AUTHORIZATION'])){
-        list($compare_mer_id, $compare_mer_key) = explode(':', 
+        list($compare_mer_id, $compare_mer_key) = explode(':',
             base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'],
             strpos($_SERVER['HTTP_AUTHORIZATION'], " ") + 1)));
       } else if(isset($_SERVER['Authorization'])) {
-        list($compare_mer_id, $compare_mer_key) = explode(':', 
+        list($compare_mer_id, $compare_mer_key) = explode(':',
             base64_decode(substr($_SERVER['Authorization'],
             strpos($_SERVER['Authorization'], " ") + 1)));
       } else {
@@ -95,7 +92,7 @@
               "Failed to Get Basic Authentication Headers",$die);
         return false;
       }
-      if($compare_mer_id != $this->merchant_id 
+      if($compare_mer_id != $this->merchant_id
          || $compare_mer_key != $this->merchant_key) {
         $this->SendFailAuthenticationStatus("Invalid Merchant Id/Key Pair",$die);
         return false;
@@ -138,9 +135,9 @@
     }
 
     /**
-     * Set the response header indicating an erroneous authentication from 
+     * Set the response header indicating an erroneous authentication from
      * Google Checkout
-     * 
+     *
      * @param string $msg the message to log
      */
     function SendFailAuthenticationStatus($msg="401 Unauthorized Access",
@@ -149,7 +146,7 @@
       header('WWW-Authenticate: Basic realm="GoogleCheckout PHPSample Code"');
       header('HTTP/1.0 401 Unauthorized');
       if($die) {
-       die($msg); 
+       die($msg);
       } else {
       echo $msg;
       }
@@ -158,14 +155,14 @@
     /**
      * Set the response header indicating a malformed request from Google
      * Checkout
-     * 
+     *
      * @param string $msg the message to log
      */
     function SendBadRequestStatus($msg="400 Bad Request", $die=true) {
       $this->log->logError($msg);
       header('HTTP/1.0 400 Bad Request');
       if($die) {
-       die($msg); 
+       die($msg);
       } else {
       echo $msg;
       }
@@ -174,7 +171,7 @@
     /**
      * Set the response header indicating that an internal error ocurred and
      * the notification sent by Google Checkout can't be processed right now
-     * 
+     *
      * @param string $msg the message to log
      */
     function SendServerErrorStatus($msg="500 Internal Server Error",
@@ -182,29 +179,33 @@
       $this->log->logError($msg);
       header('HTTP/1.0 500 Internal Server Error');
       if($die) {
-       die($msg); 
+       die($msg);
       } else {
         echo $msg;
       }
     }
-
+    
     /**
      * Send an acknowledgement in response to Google Checkout's request
+     * @param string $serial serial number of notification for acknowledgement 
      */
-    function SendAck($die=true) {
-      $this->SendOKStatus();      
-      $acknowledgment = 
-      		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" .
-            "<notification-acknowledgment xmlns=\"" . 
-            $this->schema_url . '" ' . (isset($this->data[$this->root]) ? 'serial-number="' . @$this->data[$this->root]['serial-number'] . '" ' : '') . "/>";
+    function SendAck($serial=null, $die=true) {
+      $this->SendOKStatus();
+      $acknowledgment = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" .
+                        "<notification-acknowledgment xmlns=\"" .
+                        $this->schema_url . "\"";
+      if(isset($serial)) {
+        $acknowledgment .=" serial-number=\"" . $serial."\"";
+      }                  
+      $acknowledgment .= " />";
       $this->log->LogResponse($acknowledgment);
       if($die) {
-        die($acknowledgment);    
+        die($acknowledgment);
       } else {
-        echo $acknowledgment;    
+        echo $acknowledgment;
       }
     }
-    
+
     /**
      * @access private
      */
@@ -212,10 +213,9 @@
       if(!is_null($request)) {
         $this->log->LogRequest($request);
         $this->response = $request;
-        ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-        require_once('xml-processing/gc_xmlparser.php');
-  
-        $this->xml_parser = new gc_xmlparser($request);
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
+
+        $this->xml_parser = new gc_XmlParser($request);
         $this->root = $this->xml_parser->GetRoot();
         $this->data = $this->xml_parser->GetData();
       }

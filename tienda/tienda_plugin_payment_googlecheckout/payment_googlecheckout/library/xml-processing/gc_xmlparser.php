@@ -78,7 +78,7 @@
   * any error during parsing 
   */
   // XML to Array
-  class gc_xmlparser {
+  class gc_XmlParser {
 
     var $params = array(); //Stores the object representation of XML data
     var $root = NULL;
@@ -88,8 +88,11 @@
    /* Constructor for the class
     * Takes in XML data as input( do not include the <xml> tag
     */
-    function gc_xmlparser($input, $xmlParams=array(XML_OPTION_CASE_FOLDING => 0)) {
+    function gc_XmlParser($input, $xmlParams=array(XML_OPTION_CASE_FOLDING => 0)) {
       $xmlp = xml_parser_create();
+      
+      //trim xml definition if it's defined
+      $input = trim(str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", '', $input));
       foreach($xmlParams as $opt => $optVal) {
         switch( $opt ) {
           case XML_OPTION_CASE_FOLDING:

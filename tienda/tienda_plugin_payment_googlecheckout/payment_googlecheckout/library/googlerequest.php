@@ -26,7 +26,7 @@
   * Send functions are provided for most of the commands that are supported
   * by the server for this code
   */
-  define('PHP_SAMPLE_CODE_VERSION', 'v1.2.5');
+  define('PHP_SAMPLE_CODE_VERSION', 'v1.3.0');
   define('ENTER', "\r\n");
   define('DOUBLE_ENTER', ENTER.ENTER);  
   // Max size of the Google Messsage string
@@ -47,6 +47,7 @@
     var $checkout_url;
     var $checkout_diagnose_url;
     var $request_url;
+    var $report_url;
     var $request_diagnose_url;
     var $merchant_checkout;
     var $proxy = array();
@@ -75,14 +76,14 @@
         $this->server_url = "https://checkout.google.com/";
       }  
 
-
       $this->schema_url = "http://checkout.google.com/schema/2";
       $this->base_url = $this->server_url . "api/checkout/v2/"; 
       $this->request_url = $this->base_url . "request/Merchant/" . $this->merchant_id;
+      $this->report_url = $this->base_url . "reports/Merchant/" . $this->merchant_id;
       $this->merchant_checkout = $this->base_url . "merchantCheckout/Merchant/" . $this->merchant_id;
 
       ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-      require_once('googlelog.php');
+      require_once(dirname(__FILE__).'/googlelog.php');
       $this->log = new GoogleLog('', '', L_OFF);
       
     }
@@ -123,21 +124,24 @@
       if($status != 200 ){
           return array($status, $body);
       } else {
-        ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-        require_once('xml-processing/gc_xmlparser.php');
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
   
         $xml_parser = new gc_xmlparser($body);
         $root = $xml_parser->GetRoot();
         $data = $xml_parser->GetData();
         
+        $redirect_url = $data[$root]['redirect-url']['VALUE'];
         $this->log->logRequest("Redirecting to: ". 
-                        $data[$root]['redirect-url']['VALUE']);
-        header('Location: ' . $data[$root]['redirect-url']['VALUE']);
+                        $redirect_url);
+        if (strpos($redirect_url, "shoppingcartshoppingcart") != false) {
+          $redirect_url = str_replace("shoppingcartshoppingcart","shoppingcart&shoppingcart", $redirect_url);
+        }
+        header('Location: ' . $redirect_url);
         if($die) {
-          die($data[$root]['redirect-url']['VALUE']);
+          die($redirect_url);
         }
         else {
-          return array(200, $data[$root]['redirect-url']['VALUE']);
+          return array(200, $redirect_url);
         }
       }
     }
@@ -166,6 +170,39 @@
                    $this->GetAuthenticationHeaders(), $postargs); 
     }
 
+    /**
+     * Send a <charge-and-ship-order> command to the Google Checkout server
+     * 
+     * info: {@link http://http://code.google.com/apis/checkout/developer/Google_Checkout_XML_API_Financial_Commands.html#Charge_And_Ship_Order}
+     * 
+     * @param string $google_order the google id of the order
+     * @param double $amount the amount to be charged, if empty the whole 
+     *                       amount of the order will be charged
+     * @param array  $tracking_data an array of tracking data where the tracking data maps to the carrier
+     * @return array the status code and body of the response
+     */
+    function SendChargeAndShipOrder ($google_order, $tracking_data=null, $amount=null){
+      $postargs = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+                  <charge-and-ship-order xmlns=\"".$this->schema_url.
+                  "\" google-order-number=\"". $google_order. "\">";
+      if (isset($amount)) {
+        $postargs .= "<amount currency=\"" . $this->currency . "\">" .
+                      $amount . "</amount>";
+      }
+      if (isset($tracking_data)){
+        $postargs .= "<tracking-data-list>";
+        foreach($tracking_data as $tracking_code => $carrier){
+          $postargs .= "<tracking-data>".
+                       "<carrier>".$carrier."</carrier>".
+                       "<tracking-number>".$tracking_code."</tracking-number>".
+                       "</tracking-data>";
+        }
+        $postargs .= "</tracking-data-list>";
+      }
+      $postargs .= "</charge-and-ship-order>";
+      return $this->SendReq($this->request_url, 
+                   $this->GetAuthenticationHeaders(), $postargs);
+    }
     /**
      * Send a <refund-order> command to the Google Checkout server
      * 
@@ -220,6 +257,32 @@
       return $this->SendReq($this->request_url, 
                    $this->GetAuthenticationHeaders(), $postargs); 
     }
+    
+  /**
+     *
+     *Send create-order-recurrence-request to Google CHeckout 
+     * 
+     * @param array $item_arr array of googleitem recurrence items
+     * @param string $google_order google id of the order
+     * @return array the status code and body of the response
+     */
+    function SendRecurrenceRequest ($google_order, $item_arr){
+      $postargs = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+      <create-order-recurrence-request xmlns=\"".$this->schema_url.
+      "\" google-order-number=\"". $google_order. "\">
+      <shopping-cart>
+        <items>"; 
+                               
+      foreach($item_arr as $item) {
+        $postargs .= str_replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>","", $item->GetXML());
+      }
+      
+      $postargs .= "  </items>
+                    </shopping-cart>
+                    </create-order-recurrence-request>";                    
+      return $this->SendReq($this->request_url, $this->GetAuthenticationHeaders(), $postargs);
+    }
+     
 
     /**
      * Send an <add-tracking-data> command to the Google Checkout server, which
@@ -577,6 +640,13 @@
                    $this->GetAuthenticationHeaders(), $postargs); 
     }
 
+    function GetRequestUrl(){
+      return $this->request_url;
+    }
+    
+    function GetReportUrl(){
+      return $this->report_url;
+    }
     /**
      * @access private
      */
@@ -641,11 +711,22 @@
         curl_close($session);
       }
       $heads = $this->parse_headers($response);
-      $body = $this->get_body_x($response);
-            
+      $body_xml = $this->get_body_x($response);
+      
+      try {
+        $b_e = new SimpleXMLElement($body_xml);
+		
+        if ($b_e and !empty($b_e->{'error-message'})) {
+          //$body = implode(",\n", $b_e->{'error-message'}->getChildren());
+		  $body = $b_e->{'error-message'};
+        }
+      } catch (Exception $e) {
+        //$body = htmlentities($b_x);
+      }
 //      // Get HTTP Status code from the response
       $status_code = array();
       preg_match('/\d\d\d/', $heads[0], $status_code);
+     
       
       // Check for errors
       switch( $status_code[0] ) {
