@@ -30,7 +30,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 	private $_filter_price_from		= '';
 	private $_filter_price_to		= '';	
 	private $_filter_attribute_set	= '';	
-	private $_filter_attributeoptionname = array();
+	private $_filter_option_set  	= '';
 	private $_filter_rating			= '';
 	private $_options				= array();	
 	public $brands					= null;
@@ -48,7 +48,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
         $this->_multi_mode 	= $params->get('multi_mode', 1); 
     	$this->_itemid 		= JRequest::getInt('Itemid');    	
     	$this->_view 		= JRequest::getVar('view');    	
-    	$this->_products = $this->getProducts(); 
+    	$this->_products = $this->getProducts(); 	
     }      
     
     /**
@@ -476,14 +476,14 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	{
     		Tienda::load( 'TiendaQuery', 'library.query' );
     	}
-    			
-    	//get the attributes of the current products
-    	$query = new TiendaQuery();
+
+		//get the attributes of the current products
+	    $query = new TiendaQuery();
 		$query->select( 'tbl.product_id' );	
 		$query->select( 'tbl.productattribute_name' );	
 		$query->select( 'tbl.productattribute_id' );	
 		$query->from('#__tienda_productattributes AS tbl');  		
-		
+			
 		//explode first because mysql needs the attribute ids inside a quote
 		$excluded_attributes = explode( ',', $this->_params->get('excluded_attributes'));			
 		$query->where( "tbl.productattribute_id NOT IN ('" . implode("', '", $excluded_attributes) . "')" );	
@@ -499,10 +499,12 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	foreach($attributes as $attribute)
 		{
 			$options = TiendaHelperProduct::getAttributeOptionsObjects($attribute->productattribute_id);
-			
+	
 			foreach($options as $option)
 			{
 				$option->product_id = $attribute->product_id;
+				$option->attributename = $attribute->productattribute_name;
+				$this->_options[$option->productattributeoption_id] = $option;
 			}
 						
 			if(isset($newAttributes[$attribute->productattribute_name]))
@@ -515,31 +517,43 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			}			
 		}
 		$link = $this->_link.'&filter_category='.$this->_filter_category;
+
+		if(empty($this->_filter_attribute_set))
+		{
+			$session = JFactory::getSession();		
+			$cleanO = array();
+			$cleanO[$this->_filter_category]= $this->_options;
+			$session->set('options', $cleanO, 'tienda_layered_nav');
+		}						
+		
+		$options_ids = !empty($this->_filter_option_set) ? explode(',', $this->_filter_option_set) :  array();		
+		
 		$finalAttributes = array();
 		foreach($newAttributes as $key=>$options) 
 		{
 			foreach($options as $option) 
 			{
-				if(isset($finalAttributes[$key][$option->productattributeoption_name]))				
-				{
-					$finalAttributes[$key][$option->productattributeoption_name]->products[] = $option->product_id;
-					$finalAttributes[$key][$option->productattributeoption_name]->attributes[] = $option->productattribute_id;
+				$addoptionset = '';				
+				if(!in_array($option->productattributeoption_id, $options_ids))
+				{				
+					if(isset($finalAttributes[$key][$option->productattributeoption_name]))				
+					{
+						$addoptionset = ','.$option->productattributeoption_id;
+						$finalAttributes[$key][$option->productattributeoption_name]->products[] = $option->product_id;
+						$finalAttributes[$key][$option->productattributeoption_name]->attributes[] = $option->productattribute_id;
+					}
+					else
+					{
+						$finalAttributes[$key][$option->productattributeoption_name] = new stdClass();		
+						$newoption_set = count($options_ids) ? $this->_filter_option_set.','.$option->productattributeoption_id : $option->productattributeoption_id;
+						$finalAttributes[$key][$option->productattributeoption_name]->products = array($option->product_id);
+						$finalAttributes[$key][$option->productattributeoption_name]->attributes = array($option->productattribute_id);
+					}
+					$finalAttributes[$key][$option->productattributeoption_name]->link = $link.'&filter_option_set='.$newoption_set.$addoptionset;
 				}
-				else
-				{
-					$finalAttributes[$key][$option->productattributeoption_name] = new stdClass();
-					$finalAttributes[$key][$option->productattributeoption_name]->link = $link.'&filter_attributeoptionname='.$key.':'.$option->productattributeoption_name;
-					$finalAttributes[$key][$option->productattributeoption_name]->products = array($option->product_id);
-					$finalAttributes[$key][$option->productattributeoption_name]->attributes = array($option->productattribute_id);
-				}
-				
-				if(!empty($this->_filter_attribute_set))
-				{
-					$finalAttributes[$key][$option->productattributeoption_name]->attributes = 						
-						array_unique(array_merge(explode(',', $this->_filter_attribute_set), $finalAttributes[$key][$option->productattributeoption_name]->attributes));
-				}	
 			}
 		}	
+
 		return $finalAttributes;
     }  
     
@@ -561,7 +575,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
     	$app = JFactory::getApplication(); 
     	$ns = $app->getName().'::'.'com.tienda.model.products';
     	$this->_filter_category = $app->getUserStateFromRequest($ns.'.category', 'filter_category', '0', 'int');    	    	
-        $this->_filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');      
+        $this->_filter_attribute_set = $app->getUserStateFromRequest($ns.'.attribute_set', 'filter_attribute_set', '', '');    
+		$this->_filter_option_set = $app->getUserStateFromRequest($ns.'.option_set', 'filter_option_set', '', '');        
         $this->_filter_price_from = $app->getUserStateFromRequest($ns.'.price_from', 'filter_price_from', '0', 'int');
         $this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');    
         $this->_filter_rating = $app->getUserStateFromRequest($ns.'.rating', 'filter_rating', '0', 'int');     
@@ -616,38 +631,51 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		}
 	
     	if(!empty($this->_filter_attribute_set))
-		{
-			$attriA = explode(',', $this->_filter_attribute_set);
-
-			$options = array();
-			foreach($this->_options as $opt)
+		{			
+			$options = explode(',', $this->_filter_option_set);	
+			$session = JFactory::getSession();	
+			$saveOptions = $session->get('options', array(), 'tienda_layered_nav');
+	
+			$trackOpts = array();
+			
+			$link = '';
+			$newOPT = array();
+			$listPAO= array();
+			$listPA = array();
+			foreach($saveOptions[$this->_filter_category] as $saveOption)
 			{
-				$explodetxt = explode(':::', $opt);
-				$options[$explodetxt[1]] = $explodetxt[0];
-			}
-
-			foreach($this->_filter_attributeoptionname as $key=>$value)
-			{
-				$attriObj = new stdClass();
-				$attriObj->label = $options[$key];
-				$attriObj->value = $key;
-				
-				$link = '';
-				$aset = array();
-				//loop to create the option link
-				foreach($this->_filter_attributeoptionname as $k=>$v)
+				if(in_array($saveOption->productattributeoption_id, $options))
 				{
-					if($key != $k)
-					{
-						$link .= '&filter_attributeoptionname['.$k.']='.$v;
-						$aset = array_unique(array_merge(explode(',', $v), $aset));						
-					}
-				}
-								
-				$link .= '&filter_attributeoptionname['.$key.']=';						
-				$attriObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_attribute_set='.implode(',', $aset).$link;
-				$filters[] = $attriObj;
+					$listPAO[] = $saveOption->productattributeoption_id;
+					$listPA[] = $saveOption->productattribute_id;
+					$newOPT[$saveOption->productattributeoption_name]->istopa[] = $saveOption->productattribute_id;
+					$newOPT[$saveOption->productattributeoption_name]->istopao[] = $saveOption->productattributeoption_id;
+				}			
 			}
+	
+			foreach($options as $option)
+			{
+				if(empty($this->_options[$option])) continue;
+				
+				$combination = $this->_options[$option]->attributename.'::'.$this->_options[$option]->productattributeoption_name;
+				if(!in_array($combination, $trackOpts))
+				{
+					$trackOpts[] = $combination;
+					$attriObj = new stdClass();
+					$attriObj->label = $this->_options[$option]->attributename;
+					$attriObj->value = $this->_options[$option]->productattributeoption_name;
+					
+					//create option set
+					$option_set = array_diff($listPAO, $newOPT[$attriObj->value]->istopao);
+					//create attribute set
+					$attribute_set = array_diff($listPA, $newOPT[$attriObj->value]->istopa);
+					
+					$attriObj->link	 = $this->_link.'&filter_category='.$this->_filter_category.'&filter_attribute_set='.implode(',',$attribute_set).'&filter_option_set='.implode(',',$option_set);							
+					
+					$filters[] = $attriObj;
+								
+				}
+			}	
 		}
 		
     	if($this->_filter_rating && $this->_params->get('filter_rating'))
@@ -688,11 +716,6 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		}   	
 		
     	return $filters;
-    }    
-    
-    function getAttributeOptions()
-    {
-    	return $this->_filter_attributeoptionname;
     }   
 }
 ?>   
