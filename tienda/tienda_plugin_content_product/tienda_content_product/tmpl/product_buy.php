@@ -14,7 +14,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
     <div id="validationmessage_<?php echo $item->product_id; ?>"></div>
     
-    <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id="'.$vars->product_id ); ?>" method="post" class="adminform" name="<?php echo $formName; ?>" enctype="multipart/form-data" >
+    <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&id='.$vars->product_id ); ?>" method="post" class="adminform" name="<?php echo $formName; ?>" enctype="multipart/form-data" >
 
 	<?php if(@$vars->params['show_price'] == '1'): ?>
     <!--base price-->
