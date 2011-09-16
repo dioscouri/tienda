@@ -414,6 +414,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkAddressTaxNumber FAILED') .' :: '. $this->getError(), 'error' );
 		}		
+
+		if (!$this->checkSubByIssueGtmField() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkSubByIssueGtmField FAILED') .' :: '. $this->getError(), 'error' );
+		}		
 	}
 
 	/**
@@ -3215,5 +3220,41 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Change of type of a field to support time zones in subscription by issue
+	 * @version 0.8.0
+	 * @return unknown_type
+	 */
+	function checkSubByIssueGtmField()
+	{
+		// if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSubByIssueGtmField', '0'))
+		{
+			return true;
+		}
+
+		$table = '#__tienda_productissues';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "publishing_date";
+		$newnames["publishing_date"] = "publishing_date";
+		$definitions["publishing_date"] = "DATETIME NOT NULL";
+
+		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkSubByIssueGtmField') );
+			$config->config_name = 'checkSubByIssueGtmField';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+
+		return false;		
 	}
 }

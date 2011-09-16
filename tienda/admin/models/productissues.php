@@ -86,9 +86,9 @@ class TiendaModelProductIssues extends TiendaModelBase
 			$this->_item = $this->_db->loadObject();
 			if (is_object($this->_item))
 			{
-				$nullDate = JFactory::getDBO()->getNullDate();
+//				$nullDate = JFactory::getDBO()->getNullDate();
 				// convert working dates to localtime for display
-				$this->_item->publishing_date = ($this->_item->publishing_date != $nullDate) ? JHTML::_( "date", $this->_item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->publishing_date;
+//				$this->_item->publishing_date = ($this->_item->publishing_date != $nullDate) ? JHTML::_( "date", $this->_item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->publishing_date;
 			}
 		}
 

@@ -41,9 +41,15 @@ class TiendaTableProductIssues extends TiendaTable
 			return false;
 		}
 
+		$offset = JFactory::getConfig()->getValue( 'config.offset' );
+		if( isset( $this->publishing_date ) )
+		{
+			$this->publishing_date = date( 'Y-m-d H:i:s', strtotime( TiendaHelperBase::getOffsetDate( $this->publishing_date, -$offset ) ) );
+		}
+
+
 		$nullDate = $this->_db->getNullDate();
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-		$this->publishing_date = ($this->publishing_date != $nullDate) ? TiendaHelperBase::getOffsetDate( $this->publishing_date ) : $this->publishing_date;
 
 		if (empty($this->created_date) || $this->created_date == $nullDate)
 		{
@@ -53,21 +59,17 @@ class TiendaTableProductIssues extends TiendaTable
 
 		$date = JFactory::getDate();
 		$this->modified_date = $date->toMysql();
-		$act = strtotime( $this->publishing_date );
-		if( $act == strtotime( $original ) )
-			return true;
+		$act = strtotime( Date( 'Y-m-d', strtotime( $this->publishing_date ) ) );
 					
 		$db = $this->_db;
 		if( empty( $this->product_issue_id ) ) // add at the end
 		{
-			$db->setQuery( $q );
 			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_id`='.$this->product_id.' ORDER BY `publishing_date` DESC LIMIT 1';
 			$db->setQuery( $q );
 			$next = $db->loadResult();
 			if( $next === null )
 				return true;
 			$next = strtotime( $next );
-			$act = strtotime( $this->publishing_date );
 			if( $act <= $next )
 			{
 				$this->setError( JText::_( "Publishing date is not preserving issue order" ).' - '.$this->publishing_date );
@@ -79,7 +81,9 @@ class TiendaTableProductIssues extends TiendaTable
 			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_issue_id`='.$this->product_issue_id;
 			$db->setQuery( $q );
 			$original = $db->loadResult();
-			$original = Date( 'Y-m-d', strtotime( $original ) );		
+			if( $act == strtotime( Date( 'Y-m-d', strtotime( $original ) ) ) )
+				return true;
+
 			$q = 'SELECT `publishing_date` FROM `#__tienda_productissues` WHERE `product_id`='.$this->product_id.' AND `publishing_date` < \''.$original.'\' ORDER BY `publishing_date` DESC LIMIT 1';
 			$db->setQuery( $q );
 			$prev = $db->loadResult();
