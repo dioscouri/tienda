@@ -14,7 +14,7 @@
 				<td>
 					<?php $list = array();?>
 					<?php foreach($models as $model):?>
-					<?php $list[] = JHTML::_('select.option',  $model, ucfirst($model) );?>
+					<?php $list[] = JHTML::_('select.option',  $model[0], ucfirst($model[1]) );?>
 					<?php endforeach;?>
 					<?php echo JHTMLSelect::genericlist($list, 'model', array('class' => 'inputbox', 'size' => '1'), 'value', 'text');?>				
 				</td>				

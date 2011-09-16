@@ -19,6 +19,14 @@ class TiendaGenericExporterModelBase extends JObject
 	{
 		return $this->_model;
 	}
+
+	/*
+	 * Gets name of the model class suffix
+	 */
+	function getModelClass()
+	{
+		return $this->_model;
+	}
 	
 	/**
 	 * Method to retrieve an generic item name which will be usefull in XML tree
