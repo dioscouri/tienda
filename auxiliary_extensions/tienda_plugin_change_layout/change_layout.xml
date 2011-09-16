@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda Change Layout</name>
+	<version>0.8.1</version>
+	<creationDate>September 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLUGINDESC</description>
+	
+	<files>
+		<filename plugin="change_layout">change_layout.php</filename>
+	</files>
+
+	<params>
+	</params>
+			
+</install>

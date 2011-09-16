@@ -151,6 +151,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	{
 		static $template;
 		
+		$dispatcher = JDispatcher::getInstance();
 		$layout = 'view';
 		
 		jimport( 'joomla.filesystem.file' );
@@ -191,7 +192,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 						|| JFile::exists( sprintf( $extensionPath, $product->product_layout ) )
 						|| JFile::exists( sprintf( $mediaPath, $product->product_layout ) ) ) )
 		{
-			return $product->product_layout;
+			$new_layout = $dispatcher->trigger('onGetLayoutProduct', array( $product, $product->product_layout ) ); 		
+			
+			if( count( $new_layout ) )
+				return $new_layout[0];
+			else
+				return $product->product_layout;
 		}
 		
 		if ( !empty( $options['category_id'] ) )
@@ -211,7 +217,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 					&& ( JFile::exists( sprintf( $templatePath, $category->categoryproducts_layout ) )
 							|| JFile::exists( sprintf( $extensionPath, $category->categoryproducts_layout ) ) ) )
 			{
-				return $category->categoryproducts_layout;
+				$new_layout = $dispatcher->trigger('onGetLayoutProduct', array( $product, $category->categoryproducts_layout ) );
+				
+				if( count( $new_layout ) )
+					return $new_layout[0];
+				else
+					return $category->categoryproducts_layout;
 			}
 		}
 		
@@ -234,7 +245,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 					&& ( JFile::exists( sprintf( $templatePath, $category->categoryproducts_layout ) )
 							|| JFile::exists( sprintf( $extensionPath, $category->categoryproducts_layout ) ) ) )
 			{
-				return $category->categoryproducts_layout;
+				$new_layout = $dispatcher->trigger('onGetLayoutProduct', array( $product, $category->categoryproducts_layout ) );
+				
+				if( count( $new_layout ) )
+					return $new_layout[0];
+				else
+					return $category->categoryproducts_layout;
 			}
 		}
 		
@@ -243,7 +259,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 		// and move upwards in tree after that
 		
 		// if all else fails, use the default!
-		return $layout;
+		$new_layout = $dispatcher->trigger('onGetLayoutProduct', array( $product, $layout ) );
+		
+		if( count( $new_layout ) )
+			return $new_layout[0];
+		else
+			return $layout;
 	}
 	
 	/**

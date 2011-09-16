@@ -127,6 +127,7 @@ class TiendaHelperCategory extends TiendaHelperBase
     function getLayout( $category_id )
     {
         static $template;
+				$dispatcher = JDispatcher::getInstance();
         
         $layout = 'default';
         
@@ -169,17 +170,32 @@ class TiendaHelperCategory extends TiendaHelperBase
         // if the $category->category_layout file exists in the template, use it
         if (!empty($category->category_layout) && JFile::exists( sprintf($templatePath, $category->category_layout) ))
         {
-            return $category->category_layout;
+					$new_layout = $dispatcher->trigger('onGetLayoutCategory', array( $category, $category->category_layout ) ); 		
+					
+					if( count( $new_layout ) )
+						return $new_layout[0];
+					else
+						return $category->category_layout;
         }
         
         // if the $category->category_layout file exists in the media folder, use it
         if (!empty($category->category_layout) && JFile::exists( sprintf($mediaPath, $category->category_layout) ))
         {
-            return $category->category_layout;
+					$new_layout = $dispatcher->trigger('onGetLayoutCategory', array( $category, $category->category_layout ) ); 		
+					
+					if( count( $new_layout ) )
+						return $new_layout[0];
+					else
+						return $category->category_layout;
         }
             
-        // if all else fails, use the default!
-        return $layout;
+       // if all else fails, use the default!
+			$new_layout = $dispatcher->trigger('onGetLayoutCategory', array( $category, $layout ) );
+			
+			if( count( $new_layout ) )
+				return $new_layout[0];
+			else
+				return $layout;
     }
     
     /**
