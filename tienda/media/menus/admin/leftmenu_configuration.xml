@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
     <link>
-       <name>Basic Configuration</name>
+       <name>General Configuration</name>
        <url>index.php?option=com_tienda&#38;view=config</url>
     </link>
     <link>
