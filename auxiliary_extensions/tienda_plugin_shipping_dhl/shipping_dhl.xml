@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Shipping via DHL</name>
+	<version>0.8.0</version>
+	<creationDate>August 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2011 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin is for DHL</description>
+	
+	<files>
+		<filename plugin="shipping_dhl">shipping_dhl.php</filename>
+		<folder>shipping_dhl</folder>	
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_shipping_dhl.ini</language>
+	</languages>
+	
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="siteid" type="text" size="50" default="" label="API Site ID" description="Identifies the sender of the request."/>
+		<param name="password" type="text" size="50" default="" label="API Password" description="Authenticates the sender message."/>
+		<param name="shipperaccnt" type="text" size="50" default="" label="Shipper Account Number" description="The Account Number contains the account number for the billing"/>	
+		<param name="services" type="textarea" default="" label="Services List" description="Services List Desc" rows="5" cols="30" />
+		<param name="packaging" type="list" default="CP" label="Packaging Type" description="Packaging Type Desc">
+			<option value="EE">DHL_EXPRESS_ENVELOPE</option>
+			<option value="OD">OTHER_DHL_PACKAGING</option>
+			<option value="CP">CUSTOMER_PROVIDED</option>		
+		</param>
+		<param name="weight_unit" type="list" default="L" label="Weight Unit" description="Unit of measure for weight.">			
+			<option value="L">LB</option>
+		</param>
+		<param name="dimension_unit" type="list" default="I" label="Dimension Unit" description="Unit of mausure for size">			
+			<option value="I">IN</option>
+		</param>
+	</params>
+			
+</install>
+
