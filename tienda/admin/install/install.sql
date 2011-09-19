@@ -604,6 +604,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `ordering` int(11) NOT NULL,
   `category_enabled` tinyint(1) NOT NULL,
   `isroot` tinyint(1) NOT NULL,
+	`display_name_category` TINYINT NOT NULL DEFAULT  '1',
+	`display_name_subcategory` TINYINT NOT NULL DEFAULT  '1',
   `category_params` text,
   `category_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this category',
   `categoryproducts_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for all products in this category',

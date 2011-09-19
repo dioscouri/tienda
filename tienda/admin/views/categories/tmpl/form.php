@@ -58,6 +58,26 @@ JFilterOutput::objectHTMLSafe( $row );
     				</tr>
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
+    						<label for="enabled">
+    						<?php echo JText::_( 'Category Name in Categories Listing' ); ?>:
+    						</label>
+    					</td>
+    					<td>
+    						<?php echo JHTML::_('select.booleanlist', 'display_name_category', '', @$row->display_name_category ); ?>
+    					</td>
+    				</tr>
+    				<tr>
+    					<td style="width: 100px; text-align: right;" class="key">
+    						<label for="enabled">
+    						<?php echo JText::_( 'Category Name in Subcategories Listing' ); ?>:
+    						</label>
+    					</td>
+    					<td>
+    						<?php echo JHTML::_('select.booleanlist', 'display_name_subcategory', '', @$row->display_name_subcategory ); ?>
+    					</td>
+    				</tr>
+    				<tr>
+    					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_full_image">
     						<?php echo JText::_( 'Current Image' ); ?>:
     						</label>

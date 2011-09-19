@@ -225,6 +225,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
 	{
 		$db = $this->getDBO();
 		$date = JFactory::getDate();
+		$date->setOffset( -JFactory::getConfig()->getValue( 'config.offset' ) );
 		$today = $date->toFormat( "%Y-%m-%d" );
 		
 		Tienda::load( 'TiendaQuery', 'library.query' );
@@ -240,13 +241,13 @@ class TiendaModelSubscriptions extends TiendaModelBase
 		{
 			$query = " SELECT DATE_ADD('".$today."', INTERVAL '.$days.' DAY) ";
 			$db->setQuery( $query );
-			$date = $db->loadResult();
+			$date = Date( 'Y-m-d', strtotime( $db->loadResult() ) );
 		}
 		else // just expired
 		{
 			$date = $today;
 		}
-		$q->where( 'tbl.`publishing_date` = \''.$date.'\'' );
+		$q->where( 'DATE_FORMAT( tbl.`publishing_date`, \'%Y-%m-%d\' ) = \''.$date.'\'' );
 		$db->setQuery( (string)$q );
 		return $db->loadObjectList();
 	}

@@ -143,28 +143,33 @@ class TiendaTableAddresses extends TiendaTable
 			$this->setError( JText::_("Postal Code Required") );
 			return false;
 		}
-		if (empty($this->country_id) && ( ($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type )) )
+		
+		if( empty( $this->country_id ) )
 		{
-			$this->setError( JText::_("Country Required") );
-			return false;
-		}
-		else
-			if( ( $config->get('validate_field_country', '3') != '3' ) && ( $config->get('validate_field_country', '3') != $address_type  ) ) 
+			if ( ($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type ) )
+			{
+				$this->setError( JText::_("Country Required") );
+				return false;
+			}
+			else
 			{
 				$this->country_id = 9999;
 			}
+		}
 
 		$countryA = explode(',', trim($config->get('ignored_countries', '83,188,190')));
-		if ( (empty($this->zone_id) && !in_array($this->country_id, $countryA) && ( ($config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ))) )
+		if ( empty( $this->zone_id ) && !in_array( $this->country_id, $countryA ) )
 		{
-			$this->setError( JText::_("Zone Required") );
-			return false;
-		}
-		else
-			if( ( $config->get('validate_field_zone', '3') != '3' ) && ( $config->get('validate_field_zone', '3') != $address_type  ) ) 
+			if( ( ( $config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ) ) )
 			{
-				$this->zone_id = 9999;
+				$this->setError( JText::_("Zone Required") );
+				return false;				
 			}
+			else
+			{
+				$this->zone_id = 9999;					
+			}
+		}
 		
 		if (empty($this->phone_1) && ( ( $config->get('validate_field_phone', '3') == '3' ) || ( $config->get('validate_field_phone', '3') == $address_type ) ) )
 		{

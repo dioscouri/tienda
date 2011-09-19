@@ -432,6 +432,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
 			if($date === null )
 			{
 				$date = JFactory::getDate();
+				$date->setOffset( -JFactory::getConfig()->getValue( 'config.offset' ) );
 				$date = $date->toFormat( "%Y-%m-%d" );
 			}
 			$db = JFactory::getDbo();
@@ -458,12 +459,16 @@ class TiendaHelperSubscription extends TiendaHelperBase
 			$q->from( '`#__tienda_productissues` tbl' );
 			$q->where( 'tbl.`product_id`='.$product_id );
 			if( $start_date === null )
-				$q->where( 'tbl.`publishing_date` >= NOW()' );
-			else
-				$q->where( 'tbl.`publishing_date` >= \''.$start_date.'\'' );
+			{
+				$date = JFactory::getDate();
+				$date->setOffset( -JFactory::getConfig()->getValue( 'config.offset' ) );
+				$start_date = $date->toFormat( "%Y-%m-%d 00:00:00" );				
+			}
 
-			if( $end_date === null )
-				$q->where( 'tbl.`publishing_date` >= \''.$start_date.'\'' );
+			$q->where( 'tbl.`publishing_date` >= \''.$start_date.'\'' );
+
+			if( $end_date !== null )
+				$q->where( 'tbl.`publishing_date` <= \''.$end_date.'\'' );
 				
 			$db->setQuery( (string)$q );
 			return $db->loadResult();

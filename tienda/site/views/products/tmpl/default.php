@@ -32,7 +32,9 @@ $citems = @$this->citems;
                 <?php endif; ?>
             <?php endif; ?>
 
+         		<?php if( $this->cat->display_name_category ) : ?>
             <span><?php echo @$this->title; ?></span>
+            <?php endif; ?>
             <div class='category_description'><?php echo $this->cat->category_description; ?></div>
         </div>
         
@@ -45,11 +47,13 @@ $citems = @$this->citems;
                 foreach ($citems as $citem) : 
                 ?>
                     <div class="subcategory">
+                    		<?php if( $citem->display_name_subcategory ) : ?>
                         <div class="subcategory_name">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
                             <?php echo $citem->category_name; ?>
                             </a>
                         </div>
+                        <?php endif; ?>
                         <?php if (!empty($citem->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
                             <div class="subcategory_thumb">
                                 <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">

@@ -490,8 +490,7 @@ class TiendaHelperOrder extends TiendaHelperBase
                         
                         if( $product->subscription_period_unit == 'I' ) // subscription by issue => calculate ID of the end issue (create the rest of them if they dont exist)
                         {
-                        	if( $model_issues === null )
-	                        	$model_issues = JModel::getInstance( 'ProductIssues', 'TiendaModel' );
+                        	$model_issues = JModel::getInstance( 'ProductIssues', 'TiendaModel' );
 													$subscription->subscription_issue_end_id = $model_issues->getEndIssueId( $subscription->product_id, $product->subscription_period_interval );
                         }
                         if (!$subscription->save())

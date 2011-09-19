@@ -124,7 +124,7 @@
 				<div class="reset"></div>
 				
 				<?php if(!empty($this->shippingRates)):?>
-				<div id="shippingRatedWrapper">
+				<div id="onCheckoutShipping_wrapper">
 					<?php echo $this->shippingRates;?>
 				</div>
 				<?php endif;?>

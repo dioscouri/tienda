@@ -442,13 +442,21 @@ class TiendaControllerPOS extends TiendaController
 			$view->assign('order_link', $order_link );	
 			
 			// get the articles to display after checkout		
+		  $article_id = TiendaConfig::getInstance()->get( 'article_checkout' );
+			$articles = array();
+	    if (!empty($article_id))
+	    {
+        Tienda::load( 'TiendaArticle', 'library.article' );
+	    	$articles[] = TiendaArticle::display( $article_id );
+	    }
+
 			switch ($order->order_state_id)
 			{
 			    case "2":
 			    case "3":
 			    case "5":
 			    case "17":
-			        $articles = $this->getOrderArticles( $order_id );
+			        $articles = array_merge( $articles, $this->getOrderArticles( $order_id ) );
 			        break;
 			}		
 		}	
@@ -943,6 +951,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			$model->setState($key, $value);
 		}
+		$model->setState( 'filter_enabled', 1 );
 
 		$view = $this->getView('pos', 'html');
 		$view->setModel($model, true);
@@ -2957,5 +2966,37 @@ class TiendaControllerPOS extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
     }
-    
+
+	/**
+	 * Returns an array of objects,
+	 * each containing the parsed html of all articles that should be displayed
+	 * after an order is completed,
+	 * based on the defined global article and any product-, shippingmethod-, and paymentmethod-specific articles
+	 *
+	 * @param $order_id
+	 * @return array
+	 */
+	function getOrderArticles( $order_id )
+	{
+		Tienda::load( 'TiendaArticle', 'library.article' );
+
+		$articles = array();
+
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+		$model->setState( 'filter_orderid', $order_id);
+		$orderitems = $model->getList();
+		foreach ($orderitems as $item)
+		{
+			if (!empty($item->product_article))
+			{
+				$articles[] = TiendaArticle::display( $item->product_article );
+			}
+		}
+
+		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
+
+		return $articles;
+	}    
 }

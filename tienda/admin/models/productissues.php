@@ -86,9 +86,9 @@ class TiendaModelProductIssues extends TiendaModelBase
 			$this->_item = $this->_db->loadObject();
 			if (is_object($this->_item))
 			{
-//				$nullDate = JFactory::getDBO()->getNullDate();
-				// convert working dates to localtime for display
-//				$this->_item->publishing_date = ($this->_item->publishing_date != $nullDate) ? JHTML::_( "date", $this->_item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->publishing_date;
+				$nullDate = JFactory::getDBO()->getNullDate();
+// 			convert working dates to localtime for display
+				$this->_item->publishing_date = ($this->_item->publishing_date != $nullDate) ? JHTML::_( "date", $this->_item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $this->_item->publishing_date;
 			}
 		}
 
@@ -112,7 +112,8 @@ class TiendaModelProductIssues extends TiendaModelBase
 		if( $date === null )
 		{
 			$date = JFactory::getDate();
-			$date = $date->toFormat( "%Y-%m-%d" );
+			$date->setOffset( -JFactory::getConfig()->getValue( 'config.offset' ) );
+			$date = $date->toFormat( "%Y-%m-%d 00:00:00" );
 		}
 		$db = $this->getDBO();
 		$q = 'SELECT `product_issue_id`, `publishing_date` FROM `#__tienda_productissues` WHERE '.
@@ -148,7 +149,7 @@ class TiendaModelProductIssues extends TiendaModelBase
 		}
 		else // we have enough entries so pick the last one and go
 		{
-			$last_id = $list[$interval]->product_issue_id;			
+			$last_id = $list[$interval-1]->product_issue_id;			
 		}
 		return $last_id;
 	}

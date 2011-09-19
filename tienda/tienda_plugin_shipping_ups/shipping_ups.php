@@ -70,6 +70,9 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		{
 			$ordershipping_id = $ship->ordershipping_id;
 		}
+
+		if( !isset( $ordershipping_id ) )
+			return;
 		
 		$row = JTable::getInstance( 'OrderShippings', 'TiendaTable' );
 		$row->load( $ordershipping_id );

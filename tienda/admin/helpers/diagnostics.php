@@ -419,6 +419,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkSubByIssueGtmField FAILED') .' :: '. $this->getError(), 'error' );
 		}		
+
+		if (!$this->checkCategoryDisplayFields() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkCategoryDisplayFields FAILED') .' :: '. $this->getError(), 'error' );
+		}		
 	}
 
 	/**
@@ -3256,5 +3261,40 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 
 		return false;		
+	}
+
+	/**
+	 *
+	 * Additional fields (in Categories table) for hiding category names in listing
+	 * @version 0.8.1
+	 * @return unknown_type
+	 */
+	function checkCategoryDisplayFields()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkCategoryDisplayFields', '0')) return true;
+		 
+		$table = '#__tienda_categories';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "display_name_category";
+		$fields[] = "display_name_subcategory";
+		
+		$definitions["display_name_category"] = "TINYINT NOT NULL DEFAULT  '1'";
+		$definitions["display_name_subcategory"] = "TINYINT NOT NULL DEFAULT  '1'";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkCategoryDisplayFields') );
+			$config->config_name = 'checkCategoryDisplayFields';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
 	}
 }

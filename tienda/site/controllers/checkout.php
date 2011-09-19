@@ -2931,6 +2931,7 @@ class TiendaControllerCheckout extends TiendaController
 					$subscription->transaction_id = ''; // in recurring payments, this is the subscr_id
 					$subscription->created_datetime = $date->toMySQL();
 					$subscription->subscription_enabled = '0'; // disabled at first, enabled after payment clears
+
 					switch($item->subscription_period_unit)
 					{
 						case "Y":
