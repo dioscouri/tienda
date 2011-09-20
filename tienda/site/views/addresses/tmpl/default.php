@@ -112,8 +112,6 @@
     </table>
 
     <input type="hidden" name="order_change" value="0" />
-    <input type="hidden" name="id" value="<?php echo $row->id; ?>" />
-    <input type="hidden" name="task" id="task" value="setprices" />
     <input type="hidden" name="boxchecked" value="" />
     <input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
     <input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
