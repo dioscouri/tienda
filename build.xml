@@ -403,6 +403,10 @@
     	<copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
     	    <fileset dir="${cfg.aux}/tienda_plugin_payment_moneybookers/languages" />
     	</copy>
+    	<!-- Flo2Cach -->
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+    	    <fileset dir="${cfg.aux}/tienda_plugin_payment_flo2cash" />
+    	</copy>
 
     <!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->
@@ -663,6 +667,7 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_tatrapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_tatrapay" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cardapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cardpay" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_virtualmerchant.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_virtualmerchant" />
+  		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_flo2cash.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_flo2cash" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_abandoned_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_abandoned_cart" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_highestvolumeandspender.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_highestvolumeandspender" />

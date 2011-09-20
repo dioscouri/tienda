@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Flo2Cash</name>
+	<version>1.0.1</version>
+	<creationDate>July 2011</creationDate>
+	<author>Indivar Software Solutions Limited</author>
+	<authorEmail>info@indivar.com</authorEmail>
+	<authorUrl>http://www.indivar.com</authorUrl>
+	<copyright>2011 flo2Cash.co.nz</copyright>
+	<license>GNU General Public License v2</license>
+	<description>This plugin enables Flo2Cash payments</description>
+	
+	<files>
+		<filename plugin="payment_flo2cash">payment_flo2cash.php</filename>
+		<folder>payment_flo2cash</folder>	
+	</files>
+
+	<params addpath="/administrator/components/com_tienda/elements">
+		<param name="f2cTestMode" type="radio" default="1" label="Test Mode?" description="">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>		
+		<param name="f2cAccid" type="text"  size ="12" default="" label="Account ID" description="This is an unique Account ID issued by Flo2Cash that can be used to make test or actual payments" />
+		<param name="f2cLiveProcessURL" type="text"  size ="70" default="" label="Live Process URL:" description="Live mode Process URL" />
+		<param name="f2cTestProcessURL" type="text"  size ="70" default="" label="Test Process URL:" description="Test mode Process URL" />
+		<param name="f2cHeaderImage" type="text"  size ="70" default="" label="Header image:" description="URL of an image that will be shown on top of the payment page where the user will enter their credit card information. Image URL should be URL encoded with maximum size of 750 (wide)x 90 (high). Please ensure that the image is stored on a secure (HTTPS) server" />
+		<param name="f2cHeaderBorderBottom" type="text"  size ="12" default="" label="Header border bottom:" description="Sets the colour of the border underneath the header on the Flo2Cash hosted payment page. Value must be a 6 character hexadecimal value for the colour required" />
+		<param name="f2cHeaderBackgroundColor" type="text"  size ="12" default="" label="Header background color:" description="Sets the background colour of the header on the Flo2Cash hosted payment page. Value must be a 6 character hexadecimal value for the colour required" />
+		<param name="f2cStoreCard" type="radio" default="0" label="Store card?" description="Whether Flo2Cash Web2Pay should display the option for storing the card details upon a successful payment">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="f2cCSCRequired" type="radio" default="0" label="CSC required?" description="Whether Flo2Cash Web2Pay should display the CSC field when a client enters their credit card details">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+		<param name="f2cDisplayEmail" type="radio" default="0" label="Display Email?" description="Whether Flo2Cash Web2Pay should display customer email receipt field where a confirmation email will be sent regarding payment status">
+		  <option value="0">No</option>
+		  <option value="1">Yes</option>
+		</param>
+  		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+
+		
+	</params>
+			
+</install>
