@@ -529,7 +529,7 @@ class TiendaConfig extends JObject
 	var $shop_email_from_name = '';
 
 	//one page checkout
-	var $one_page_checkout					= 'onepage-opc';
+	var $one_page_checkout					= '1';
 
 	//since 0.7.2
 	var $ignored_countries					= '83, 188, 190';

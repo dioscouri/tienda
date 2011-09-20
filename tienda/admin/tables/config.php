@@ -18,7 +18,7 @@ class TiendaTableConfig extends TiendaTable
 
 	function TiendaTableConfig( &$db ) 
 	{
-		$tbl_key 	= 'config_name';
+		$tbl_key 	= 'config_id';
 		$tbl_suffix = 'config';
 		$this->set( '_suffix', $tbl_suffix );
 		$name 		= "tienda";
