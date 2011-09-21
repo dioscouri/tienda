@@ -4,8 +4,8 @@
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.8.0</version>
-    <creationDate>August 2011</creationDate>
+    <version>0.8.1</version>
+    <creationDate>September 2011</creationDate>
     <copyright>2011 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
     <description>Displays recent orders made by a user</description>
