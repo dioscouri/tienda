@@ -438,7 +438,7 @@ function tiendaAddToCart( url, container, form, msg )
     }).request();
 }
 
-function tiendaUpdateAddToCart( page, container, form, working, working_text )
+function tiendaUpdateAddToCart( page, container, form, working, working_text, callback )
 {
     var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page='+page;
     
@@ -464,6 +464,8 @@ function tiendaUpdateAddToCart( page, container, form, working, working_text )
             var resp=Json.evaluate(response, false);
             if ($(container)) { $(container).setHTML(resp.msg); }
         	$( container ).setStyle( 'color', '' );            
+        	if( callback !== null )
+        		callback();
             return true;
         }
     }).request();
