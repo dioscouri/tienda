@@ -436,6 +436,13 @@ class TiendaControllerProducts extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$values = TiendaHelperBase::elementsToArray( $elements );
 		
+		// merge current elements with post
+		$request_arr = JRequest::get();
+		unset( $request_arr['elements'] );
+		JRequest::setVar( 'elements', null );
+		$values = array_merge( $values, $request_arr );
+		JRequest::set( $values, 'POST' );
+		
 		if ( empty( $values['product_id'] ) )
 		{
 			$values['product_id'] = JRequest::getInt( 'product_id', 0 );
