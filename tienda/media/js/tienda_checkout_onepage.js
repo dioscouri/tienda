@@ -125,71 +125,6 @@ function tiendaGetRegistrationForm( container, form, msg )
 	var url = 'index.php?option=com_tienda&view=checkout&task=getRegisterForm&format=raw';	
 	tiendaGetView(url, container, 'tienda-method-pane'); 
 }
-
-/**
- * Simple function to check a password strength
- */
-function tiendaCheckPassword( container, form, valid_text )
-{
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
-}
-
-/**
- * Simple function to compare passwords
- */
-function tiendaCheckPassword2( container, form, valid_text )
-{
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword2&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
-    
-}
  
  /**
   * method to hide billing fields 
@@ -200,54 +135,6 @@ function tiendaHideBillingFields()
 	
 	$('field-toggle').addEvent('change', function() {
 		$$('#billingDefaultAddress', '#billingToggle_show', '#billingToggle_hide').toggleClass('hidden');
-	});
-}
-
-/*
- * This method checks availability of the email address
- */
-function tiendaCheckoutCheckEmail( container, form, valid_text )
-{
-	user_email = 'email_address';
-	// send AJAX request to validate the email address against other users
-	var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
-		    
-	// loop through form elements and prepare an array of objects for passing to server
-	var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function( response ){
-            var resp=Json.evaluate( response, false );
-            if( resp.error != '0' )
-            {
-        		$(container).setHTML(resp.msg);
-            }
-            else
-       		{
-        		$( container ).setHTML( resp.msg );
-       		}
-            return true;
-        }
-    }).request();
-}
-
-function tiendaHideInfoCreateAccount( )
-{	
-	$('create_account').addEvent('change', function() {
-		$('tienda_user_additional_info').toggleClass('hidden');
 	});
 }
 

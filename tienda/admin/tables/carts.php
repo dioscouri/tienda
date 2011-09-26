@@ -54,6 +54,7 @@ class TiendaTableCarts extends TiendaTableEav
         $this->set( '_suffix', $tbl_suffix );
         
         $this->_linked_table = 'products';
+        $this->_linked_table_key_name = 'product_id';
         
         parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );    
     }

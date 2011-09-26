@@ -70,14 +70,14 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		// Now for Eavs!!
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
-		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id);
+		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id, false, 2 );
 
 		if(count($eavs))
 		{
 			foreach($eavs as $eav)
 			{
 				// Search for user edtable fields & user submitted value
-				if($eav->editable_by == 2 && array_key_exists($eav->eavattribute_alias, $item))
+				if(array_key_exists($eav->eavattribute_alias, $item))
 				{
 					$key = $eav->eavattribute_alias;
 					$table->set($key, $item->$key);
@@ -199,22 +199,13 @@ class TiendaHelperCarts extends TiendaHelperBase
 				// fire plugin event: onGetAdditionalCartKeyValues
 				//this event allows plugins to extend the multiple-column primary key of the carts table
 				// load EAVs from the previous cart
-				$eavs = TiendaHelperEav::getAttributes( 'products', $session_cartitem->product_id );
-				$eav_fields = array();
-				foreach ( @$eavs as $eav )
-				{					
-					$keynames[$eav->eavattribute_alias] = TiendaHelperEav::getAttributeValue( $eav, 'carts', $session_cartitem->cart_id, true, false );					
-					$field_key = $eav->eavattribute_alias;
-					$session_cartitem->$field_key = $keynames[$eav->eavattribute_alias];
-					$eav_fields[$field_key] = $keynames[$eav->eavattribute_alias];
-				}
-				
 				$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( $session_cartitem, null, null );
 				if (!empty($additionalKeyValues))
 				{
 					$keynames = array_merge($keynames, $additionalKeyValues);
 				}
 				
+				$table->product_id = $session_cartitem->product_id;
 				if ($table->load($keynames))
 				{
 					// the quantity as set in the session takes precedence
@@ -222,17 +213,19 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				else
 				{
+					
+				  $eavs = TiendaHelperEav::getAttributes( 'products', $session_cartitem->product_id );
+					foreach ( @$eavs as $eav )
+					{
+						$table->{$eav->eavattribute_alias} = TiendaHelperEav::getAttributeValue( $eav, 'carts', $session_cartitem->cart_id, true, false ) ;
+					}
+					
 					foreach($session_cartitem as $key=>$value)
 					{
 						if(property_exists($table, $key))
 						{
 							$table->set($key, $value);
 						}
-					}
-					
-					foreach( @$eav_fields as $key=>$value )
-					{
-						$table->set($key, $value);
 					}
 					// this is a new cartitem, so set cart_id = 0
 					$table->cart_id = '0';
@@ -245,8 +238,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 				if (!$table->save())
 				{
 					JError::raiseNotice('updateCart', $table->getError());
-				}
-				
+				}				
+				$table->cart_id = '0';
 			}
 		}
 	}
@@ -604,7 +597,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				// TODO Push this into the orders object->addItem() method?
 				$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
-				$orderItem->orderitem_id                    = $cartitem->cart_id; // for custom fields
+				$orderItem->cart_id													= $cartitem->cart_id;
 				$orderItem->product_id                      = $productItem->product_id;
 				$orderItem->orderitem_sku                   = $cartitem->product_sku;
 				$orderItem->orderitem_name                  = $productItem->product_name;
@@ -639,7 +632,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 
 				// TODO When do attributes for selected item get set during admin-side order creation?
-				$orderItem->orderitem_id = null; // so it can create a new ordreitem, if needed
 				array_push($productitems, $orderItem);
 			}
 		}

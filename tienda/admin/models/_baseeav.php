@@ -271,7 +271,7 @@ class TiendaModelEav extends TiendaModelBase
 					if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
 					{
 						$entity = $this->getTable()->getLinkedTable();
-						$entity_id = $item->$tbl_key;
+						$entity_id = $item->{$this->getTable()->getLinkedTableKeyName()};
 						$eavs = $eav_helper->getAttributes( $entity, $entity_id );
 					}
 
@@ -312,7 +312,7 @@ class TiendaModelEav extends TiendaModelBase
 						// TODO Check that the excluded fields are not required by eavfiltering
 						if($add)
 						{
-							$value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key);
+							$value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key, true, true );
 
 							// Do NOT ovveride properties
 							if(!property_exists($item, $key))

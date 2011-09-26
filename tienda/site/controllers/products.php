@@ -982,7 +982,7 @@ class TiendaControllerProducts extends TiendaController
 			unset( $values['elements'] );	
 			// convert elements to array that can be binded
 			$values = array_merge( TiendaHelperBase::elementsToArray( $elements ), $values );
-			JRequest::set( $values );
+			JRequest::set( $values, 'POST' );
 		}
 		
 		$files = JRequest::get( 'files' );

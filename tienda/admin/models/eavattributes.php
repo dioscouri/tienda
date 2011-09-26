@@ -24,6 +24,7 @@ class TiendaModelEavAttributes extends TiendaModelBase
         $filter_enabled  = $this->getState('filter_enabled');
         $filter_entitytype  = $this->getState('filter_entitytype');
         $filter_entityid  = $this->getState('filter_entityid');
+        $filter_editable = $this->getState( 'filter_editable' );
        	
        	if ($filter) 
        	{
@@ -74,7 +75,11 @@ class TiendaModelEavAttributes extends TiendaModelBase
         {
             $query->where('tbl.enabled = '.$this->_db->Quote($filter_enabled));
         }
-    
+        
+        if( strlen( $filter_editable ) )
+        {
+            $query->where('tbl.editable_by IN ('.$filter_editable.' )' );
+        }
     }
     
     protected function _buildQueryJoins(&$query)

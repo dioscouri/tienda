@@ -42,7 +42,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			$vars->row = $row;
 			
 			// Get extra fields for products
-			$fields = $this->getCustomFields( 'products', $row->product_id );
+			$fields = $this->getCustomFields( 'products', $row->product_id, true, array( 0, 1 ) );
 			
 			// If there are any extra fields, show them as an extra tab
 			if ( count( $fields ) )
@@ -56,20 +56,23 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	
 	function onGetAdditionalOrderitemKeyValues( $item )
 	{
-		if( is_a( $item, 'TiendaTableOrderItems'  ) )
-			$id = $item->orderitem_id;
-		else
+		$type = 'orderitems';
+		$id = @$item->orderitem_id;
+		if( isset( $item->cart_id) )
+		{
+			$type = 'carts';
 			$id = $item->cart_id;
-
-		$fields = $this->getCustomFields('products', $item->product_id);
+		}
+			
+		$fields = $this->getCustomFields('products', $item->product_id, true, 2 );
 		$return = array();
 		
 		if(count($fields))
 		{
 			foreach($fields as $f)
 			{
-			$k = $f['attribute']->eavattribute_alias;
-				$return[$k] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $id );
+				$k = $f['attribute']->eavattribute_alias;
+				$return[$k] = TiendaHelperEav::getAttributeValue($f['attribute'], $type, $id );
 			}
 		}
 		return $return;
@@ -85,7 +88,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onDisplayOrderItem( $i, $item )
 	{
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id );
+		$fields = $this->getCustomFields( 'products', $item->product_id, true, 2 );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -94,19 +97,15 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 			foreach ( $fields as $f )
 			{
-				// User editable?
-				if ( $f['attribute']->editable_by == 2 )
+				$k = $f['attribute']->eavattribute_alias;
+				$f['value'] = $item->$k;
+					
+				if(empty($f['value']))
 				{
-					$k = $f['attribute']->eavattribute_alias;
-					$f['value'] = $item->$k;
-					
-					if(empty($f['value']))
-					{
-						$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'orderitems', $item->orderitem_id);
-					}
-					
-					$field_show[] = $f;
+					$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'orderitems', $item->orderitem_id);
 				}
+					
+				$field_show[] = $f;
 			}
 			
 			if(count($field_show))
@@ -127,25 +126,20 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onValidateAddToCart($item, $values)
 	{
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id );
+		$fields = $this->getCustomFields( 'products', $item->product_id, true, 2 );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
 		{
 			foreach($fields as $f)
 			{
-				// User Editable
-				if($f['attribute']->editable_by == 2)
+				$k = $f['attribute']->eavattribute_alias;
+				if(empty($values[$k]) && $f['attribute']->eavattribute_required)
 				{
-					$k = $f['attribute']->eavattribute_alias;
-					if(empty($values[$k]) && $f['attribute']->eavattribute_required)
-					{
-						$error = new JObject();
-						$error->error = '1';
-						$error->message = JText::_($f['attribute']->eavattribute_label .' is required');
-						return $error;
-					}
-					
+					$error = new JObject();
+					$error->error = '1';
+					$error->message = JText::_($f['attribute']->eavattribute_label .' is required');
+					return $error;
 				}
 			}
 		}
@@ -163,7 +157,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onDisplayCartItem( $i, $item )
 	{
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id );
+		$fields = $this->getCustomFields( 'products', $item->product_id, true, 2 );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -172,13 +166,9 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 			foreach ( $fields as $f )
 			{
-				// User editable?
-				if ( $f['attribute']->editable_by == 2 )
-				{
-					$k = $f['attribute']->eavattribute_alias;
-					$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $item->cart_id);
-					$field_show[] = $f;
-				}
+				$k = $f['attribute']->eavattribute_alias;
+				$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'carts', $item->cart_id);
+				$field_show[] = $f;
 			}
 			
 			if(count($field_show))
@@ -197,7 +187,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
     function onGetAdditionalCartKeyValues($item, $posted_values, $index)
     {
     	// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id, false );
+		$fields = $this->getCustomFields( 'products', $item->product_id, false, 2 );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -207,11 +197,10 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			foreach ( $fields as $f )
 			{
 				// User editable?
-				if ( $f['attribute']->editable_by == 2 )
-				{
 					$k = $f['attribute']->eavattribute_alias;
+					if( $f['attribute']->eavattribute_type == 'datetime' && !strlen( $item->$k ) )
+						$item->$k = JFactory::getDbo()->getNullDate();
 					$field_show[$k] = $item->$k;
-				}
 			}
 
 			if(count($field_show))
@@ -232,28 +221,13 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		$vars = new JObject( );
 		
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $product_id );
+		$field_show = $this->getCustomFields( 'products', $product_id, true, 1 );
 		
-		// If there are any extra fields, show them
-		if ( count( $fields ) )
+		if(count($field_show))
 		{
-			$field_show = array();
-			foreach($fields as $f)
-			{
-				// Admin Editable => show only as info
-				if($f['attribute']->editable_by == 1)
-				{
-					$field_show[] = $f;	
-				}
-				
-			}
-			
-			if(count($field_show))
-			{
-				$vars->fields = $field_show;
-				$html = $this->_getLayout( 'product_site', $vars );
-				echo $html;
-			}
+			$vars->fields = $field_show;
+			$html = $this->_getLayout( 'product_site', $vars );
+			echo $html;
 		}
 	}
 	
@@ -266,28 +240,13 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		$vars = new JObject( );
 		
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $product_id );
-		
-		// If there are any extra fields, show them
-		if ( count( $fields ) )
-		{
-			$field_show = array();
-			foreach($fields as $f)
-			{
-				// User Editable => show as field
-				if($f['attribute']->editable_by == 2)
-				{
-					$field_show[] = $f;	
-				}
+		$field_show = $this->getCustomFields( 'products', $product_id, true, 2 );
 				
-			}
-			
-			if(count($field_show))
-			{
-				$vars->fields = $field_show;
-				$html = $this->_getLayout( 'product_site_form', $vars );
-				echo $html;
-			}
+		if(count($field_show))
+		{
+			$vars->fields = $field_show;
+			$html = $this->_getLayout( 'product_site_form', $vars );
+			echo $html;
 		}
 	}
 	
@@ -301,7 +260,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onAfterCreateItemForAddToCart( $item, $values, $files )
 	{
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id, false );
+		$fields = $this->getCustomFields( 'products', $item->product_id, false, 2 );
 		
 		$field_save = array();
 		
@@ -311,13 +270,8 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			
 			foreach($fields as $f)
 			{
-				// User Editable => show as field
-				if($f['attribute']->editable_by == 2)
-				{
-					$key = $f['attribute']->eavattribute_alias;
-					$field_save[$key] = $values[$key];	
-				}
-				
+				$key = $f['attribute']->eavattribute_alias;
+				$field_save[$key] = $values[$key];	
 			}
 		}
 		return $field_save;
@@ -329,12 +283,12 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * @param int $id
 	 * @param bool $cache_values If the values should be cached in RAV helper
 	 */
-	function getCustomFields( $entity, $id, $cache_values = true )
+	function getCustomFields( $entity, $id, $cache_values = true, $editable_by = '' )
 	{
 		Tienda::load( 'TiendaModelEavAttributes', 'models.eavattributes' );
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		
-		$eavs = TiendaHelperEav::getAttributes( $entity, $id );
+		$eavs = TiendaHelperEav::getAttributes( $entity, $id, false, $editable_by );
 		
 		$fields = array( );
 		foreach ( @$eavs as $eav )

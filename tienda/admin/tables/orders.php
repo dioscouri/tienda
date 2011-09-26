@@ -234,13 +234,17 @@ class TiendaTableOrders extends TiendaTable
 
         $dispatcher =& JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
-        foreach ($results as $result)
+//				JFactory::getApplication()->enqueueMessage( 'orders.php - line 236 - '.Tienda::dump( $results ) );
+				foreach ($results as $result)
         {
             foreach($result as $key=>$value)
             {
             	$hash = $hash.".".$value; 
             }
         }	        
+        if( isset( $orderItem->cart_id ) )
+        	unset( $orderItem->cart_id );
+//				$orderItem->orderitem_id = null; // so it can create a new ordreitem, if needed        
         
         if (!empty($this->_items[$hash]))
         {
@@ -251,7 +255,6 @@ class TiendaTableOrders extends TiendaTable
         {
             $this->_items[$hash] = $orderItem; 
         }
-        
         // add the vendor to the order
         $this->addVendor( $orderItem );
         

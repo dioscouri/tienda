@@ -29,6 +29,14 @@ class TiendaTableEav extends TiendaTable
 	 */
 	protected $_linked_table_key = 0;
 
+		/**
+	 * If this "mirrors" another table (ex orderitems => products), put name of the the mirrored table key
+	 * (ex: product_id)
+	 * @var int
+	 */
+	protected $_linked_table_key_name = '';
+	
+	
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 * Check for custom fields and store them in the right table
@@ -52,15 +60,18 @@ class TiendaTableEav extends TiendaTable
 		$key = $this->_tbl_key;
 		$id = $this->$key;
 		$post_id = JRequest::getInt( $key, null, 'post' ); // ID from post
+		
+		$app = JFactory::getApplication();
+		$editable_by = $app->isAdmin() ? 1 : 2;
 
 		// Get the custom fields for this entities
-		$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+		$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id, false, $editable_by );
 
 		// Is this a mirrored table (see decription at the beginning of this file)
 		if(strlen($this->_linked_table) && $this->_linked_table_key)
 		{
 			// Copy the custom field value to this table
-			$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+			$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key, false, $editable_by );
 			$eavs = array_merge($eavs, $mirrored_eavs);
 		}
 		 
@@ -115,7 +126,7 @@ class TiendaTableEav extends TiendaTable
 		if(strlen($this->_linked_table) && $this->_linked_table_key)
 		{
 			// Copy the custom field value to this table
-			$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key );
+			$mirrored_eavs = TiendaHelperEav::getAttributes( $this->_linked_table, $this->_linked_table_key, false, $editable_by );
 
 			// If there are Custom Fields for the linked key
 			if(count($mirrored_eavs))
@@ -275,7 +286,7 @@ class TiendaTableEav extends TiendaTable
 	 * @return	boolean	True if successful
 	 */
 	function load( $oid=null, $reset=true, $load_eav = true )
-	{
+	{		
 		if (!is_array($oid))
 		{
 			// load by primary key if not array
@@ -313,6 +324,9 @@ class TiendaTableEav extends TiendaTable
 
 		if( $load_eav )
 		{
+			$app = JFactory::getApplication();
+			$editable_by = $app->isAdmin() ? 1 : 2;
+
 			Tienda::load( "TiendaHelperBase", 'helpers._base' );
 			$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
 			$k = $this->_tbl_key;
@@ -320,13 +334,13 @@ class TiendaTableEav extends TiendaTable
 				
 			// Get the custom fields for this entities
 			Tienda::load('TiendaHelperEav', 'helpers.eav');
-			$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+			$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id, true, $editable_by );
 				
 			// Is this a mirrored table (see decription at the beginning of this file)
 			if(strlen($this->_linked_table) && $this->_linked_table_key)
 			{
 				// Copy the custom field value to this table
-				$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key );
+				$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key, true, $editable_by );
 				$eavs = array_merge($eavs, $mirrored_eavs);
 			}
 		}
@@ -362,7 +376,7 @@ class TiendaTableEav extends TiendaTable
 						return false;
 					}
 
-					// kery was found -> add this EAV field
+					// key was found -> add this EAV field
 					$value_tbl_name = 'value_'.$eavs[$i]->eavattribute_alias;
 					// for some reason MySQL makes spaces around '-' charachter 
 					// (which is often charachter in aliases) that's why we replace it with '_'
@@ -370,7 +384,7 @@ class TiendaTableEav extends TiendaTable
 					// Join the table based on the type of the value
 					$table_type = $eav_helper->getType( $eavs[$i]->eavattribute_alias );
 					// Join the tables
-					$query->join('LEFT', '#__tienda_eavvalues'.$table_type.' AS '.$value_tbl_name.' ON ( '.$value_tbl_name.'.eavattribute_id = '.$eavs[$i]->eavattribute_id.' AND '.$value_tbl_name.'.eaventity_id =  '.$this->_linked_table_key.' )' );
+					$query->join('LEFT', '#__tienda_eavvalues'.$table_type.' AS '.$value_tbl_name.' ON ( '.$value_tbl_name.'.eavattribute_id = '.$eavs[$i]->eavattribute_id.' AND '.$value_tbl_name.'.eaventity_id =  '.$this->_tbl_key.' )' );
 					// Filter using '='
 					$query->where($value_tbl_name.".eavvalue_value = '".$value."'"); 
 					// else let the store() method worry over this
@@ -392,7 +406,6 @@ class TiendaTableEav extends TiendaTable
 		}
 
 		$db->setQuery( (string) $query );
-		
 		if ( $result = $db->loadAssoc() )
 		{
 			$result = $this->bind($result);
@@ -453,4 +466,9 @@ class TiendaTableEav extends TiendaTable
 		return $this->_linked_table_key;
 	}
 
+	public function getLinkedTableKeyName()
+	{
+		return $this->_linked_table_key_name;
+	}
+	
 }

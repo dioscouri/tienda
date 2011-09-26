@@ -33,7 +33,16 @@ class TiendaHelperEav extends TiendaHelperBase
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $table = JTable::getInstance('EavAttributes', 'TiendaTable');
             $table->load(array('eavattribute_alias' => $alias));
-            $sets[$alias] = $table->eavattribute_type;            
+            switch( $table->eavattribute_type )
+            {
+            	case 'hidden':
+            			$type ='varchar';
+            			break;
+            	default:
+            			$type = $table->eavattribute_type;
+            			break;
+            }
+            $sets[$alias] = $type;            
         }
         return $sets[$alias];
     }
@@ -44,27 +53,36 @@ class TiendaHelperEav extends TiendaHelperBase
 	 * @param unknown_type $id
 	 * @param boolean $only_enabled
 	 */
-    function getAttributes( $entity, $id, $only_enabled = false )
+    function getAttributes( $entity, $id, $only_enabled = false, $editable_by = '' )
     {
         // $sets[$entity][$id]
         static $sets;
         if (!is_array($sets)) { $sets = array(); }
         
-        if (!isset($sets[$entity][$id]))
+        if( is_array( $editable_by ) )
+        	$editable_by = implode( ',', $editable_by );
+        else
+	        if( !strlen( $editable_by ) )
+  	      	$editable_by = '-1';
+        
+        if (!isset( $sets[$entity][$id][$editable_by] ) )
         {
             JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
             $model = JModel::getInstance('EavAttributes', 'TiendaModel');
             $model->setState('filter_entitytype', $entity);
             $model->setState('filter_entityid', $id);
-            $model->setState('filter_enabled', '1');            
-            $sets[$entity][$id] = $model->getList();
+            $model->setState('filter_enabled', '1');
+            if( $editable_by != '-1' )
+            	$model->setState( 'filter_editable',$editable_by );
+            	
+            $sets[$entity][$id][$editable_by] = $model->getList();
         }
     	
         // Let the plugins change the list of custom fields
         $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger('onAfterGetCustomFields', array( &$sets[$entity][$id], $entity, $id ) );
+        $dispatcher->trigger('onAfterGetCustomFields', array( &$sets[$entity][$id][$editable_by], $entity, $id ) );
         
-    	return $sets[$entity][$id];
+    	return $sets[$entity][$id][$editable_by];
     }
     
     /**
@@ -105,7 +123,7 @@ class TiendaHelperEav extends TiendaHelperBase
             else
             {
             	if( !$no_post ) // we allowed using post variables
-            	{
+            	{            		
 								$value = JRequest::getVar($eav->eavattribute_alias, null);
             	}
 							else
