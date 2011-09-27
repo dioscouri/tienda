@@ -78,6 +78,9 @@
 				
 				<div id="tienda_billing-shipping">
 	        <div id="billingAddress">						
+						<div>
+							<?php echo JText::_('Billing Address')?>
+						</div>
         			<?php 
 						$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";                   
 	            		$billattribs = array(
@@ -89,10 +92,6 @@
 	                	// display select list of stored addresses
 	                	echo TiendaSelect::address( $this->user->id, @$this->billing_address->address_id, 'billing_address_id', 1, $billattribs, 'billing_address_id', false, true );
 	           		?>
-            	
-						<div>
-							<?php echo JText::_('Billing Address')?>
-						</div>
 						
 						<div id="billingDefaultAddress">
 							<?php 
