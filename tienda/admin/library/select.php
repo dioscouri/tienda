@@ -1284,7 +1284,7 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'onepage-opc', "OPC" );
+        $list[] = JHTML::_('select.option',  'onepage-opc', "Standard" );
         $list[] = JHTML::_('select.option',  'onepage-1col', "1 Column" );
         $list[] = JHTML::_('select.option',  'onepage-2cols', "2 Columns" );
 		
