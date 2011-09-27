@@ -1236,8 +1236,12 @@ class TiendaControllerCheckout extends TiendaController
 		$default_country = $countries_model->getDefault();
 		$default_country_id = $default_country->country_id;
 
+		$attribs = array('class' => 'inputbox','size' => '1' );
+		if( $this->onepage_checkout )
+			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' ); ';
+				
 		Tienda::load( 'TiendaSelect', 'library.select' );
-		$zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id );
+		$zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id , $attribs );
 
 		$view->assign( 'default_country_id', $default_country_id );
 		$view->assign( 'zones', $zones );
