@@ -230,6 +230,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		$return->shipping_tax_rates     = $shipping_tax_rates;
 		$return->shipping_tax_total     = $shipping_method_tax_total;
 		$return->shipping_method_id     = $shipping_method_id;
+    $return->shipping_method_name   = $shippingmethod->shipping_method_weightbased_name;
 		
 		return $return;
 	}
