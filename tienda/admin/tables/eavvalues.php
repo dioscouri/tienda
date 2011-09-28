@@ -83,13 +83,11 @@ class TiendaTableEavValues extends TiendaTable
 		
 		if( $this->getType() == 'datetime' )
 		{	
-			JFactory::getApplication()->enqueueMessage( Tienda::dump( $this ) );
 			if( isset( $this->eavvalue_value ) )
 			{
 				$offset = JFactory::getConfig()->getValue( 'config.offset' );
 				$this->eavvalue_value = date( 'Y-m-d H:i:s', strtotime( TiendaHelperBase::getOffsetDate( $this->eavvalue_value, -$offset ) ) );
 			}
-			JFactory::getApplication()->enqueueMessage( 'potom'.Tienda::dump( $this ) );
 		}
 		JFactory::getApplication()->enqueueMessage( $this->getType() );
 		return parent::store( $updateNulls );
