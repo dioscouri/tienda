@@ -7,6 +7,8 @@
 <?php $orders=@$this->orders; ?>
 <?php $subs=@$this->subs; ?>
 <?php $surrounding = @$this->surrounding; ?>
+<?php $total_cart=@$this->total_cart; ?>
+
 <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
 <?php Tienda::load( 'TiendaHelperUser', 'helpers.user' ); ?>
 
@@ -305,7 +307,7 @@
 										<?php echo $cart->product_qty;?>
 									</td>
 									<td style="text-align:right;">
-										<?php echo TiendaHelperBase::currency($cart->total_price); ?>										
+										<?php echo TiendaHelperBase::currency($cart->total_price); ?>									
 									</td>
 								</tr>
 							<?php ++$i; $k = (1 - $k); ?>
@@ -317,6 +319,26 @@
 								</tr>
 							<?php endif; ?>
 						</tbody>
+						<thead>
+							<tr>
+								<th style="width: 5px;">
+									&nbsp;
+								</th>
+								<th style="width: 200px;">
+									&nbsp;
+								</th>
+								<th style="width: 200px;">
+									&nbsp;
+								</th>
+
+								<th style="text-align: center;  width: 200px;">
+									<?php echo JText::_("Total"); ?>
+								</th>
+								<th style="width: 150px; text-align: right;">
+									<?php echo TiendaHelperBase::currency(@$total_cart); ?>	
+								</th>
+							</tr>
+						</thead>
 					</table>
 				</fieldset>
 			<fieldset>

@@ -90,11 +90,13 @@ class TiendaControllerUsers extends TiendaController
 		$modelCarts->setState( 'filter_user', $row->id );
 		$carts = $modelCarts->getList();
 		$view->assign( 'carts', $carts );
+		$total_cart=0;
 		foreach (@$carts as $cart)
 		{
 			$cart->total_price=$cart->product_price *$cart->product_qty;
+			$total_cart+=$cart->total_price;
 		}
-		
+		$view->assign( 'total_cart', $total_cart );
 	    
 
 
