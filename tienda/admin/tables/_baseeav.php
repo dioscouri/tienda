@@ -287,6 +287,8 @@ class TiendaTableEav extends TiendaTable
 	 */
 	function load( $oid=null, $reset=true, $load_eav = true )
 	{		
+		$app = JFactory::getApplication();
+		$editable_by = $app->isAdmin() ? 1 : 2;
 		if (!is_array($oid))
 		{
 			// load by primary key if not array
@@ -321,11 +323,9 @@ class TiendaTableEav extends TiendaTable
 		$query = new TiendaQuery();
 		$query->select( '*' );
 		$query->from( $this->getTableName() );
-
+		
 		if( $load_eav )
 		{
-			$app = JFactory::getApplication();
-			$editable_by = $app->isAdmin() ? 1 : 2;
 
 			Tienda::load( "TiendaHelperBase", 'helpers._base' );
 			$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
@@ -421,7 +421,7 @@ class TiendaTableEav extends TiendaTable
 						
 					// Get the custom fields for this entities
 					Tienda::load('TiendaHelperEav', 'helpers.eav');
-					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+					$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id, false, $editable_by );
 						
 					// Is this a mirrored table (see decription at the beginning of this file)
 					if(strlen($this->_linked_table) && $this->_linked_table_key)

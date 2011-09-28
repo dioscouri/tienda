@@ -198,6 +198,9 @@ class TiendaModelEav extends TiendaModelBase
 			// Get Extra Fields
 			if($getEav)
 			{
+				$app = JFactory::getApplication();
+				$editable_by = $app->isAdmin() ? 1 : 2;
+				
 				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 				Tienda::load( "TiendaHelperBase", 'helpers._base' );
 				$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
@@ -205,8 +208,7 @@ class TiendaModelEav extends TiendaModelBase
 				$entity = $this->getTable()->get('_suffix');
 				 
 				// add the custom fields as properties
-				$eavs = $eav_helper->getAttributes( $entity, $this->getId() );
-				 
+				$eavs = $eav_helper->getAttributes( $entity, $this->getId(), false, $editable_by );
 				foreach($eavs as $eav)
 				{
 					$key = $eav->eavattribute_alias;
@@ -252,6 +254,9 @@ class TiendaModelEav extends TiendaModelBase
 			// Fetch the Eav attributes if specified OR if there are eav states set
 			if($getEav || ($eavStates > 0))
 			{
+				$app = JFactory::getApplication();
+				$editable_by = $app->isAdmin() ? 1 : 2;
+				
 				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 				Tienda::load('TiendaHelperEav', 'helpers.eav');
 				Tienda::load( "TiendaHelperBase", 'helpers._base' );
@@ -265,14 +270,14 @@ class TiendaModelEav extends TiendaModelBase
 				foreach($list as $item)
 				{
 					$entity_id = $this->getId();
-					$eavs = $eav_helper->getAttributes( $entity, $entity_id );
+					$eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
 
 					// Mirrored table?
 					if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
 					{
 						$entity = $this->getTable()->getLinkedTable();
 						$entity_id = $item->{$this->getTable()->getLinkedTableKeyName()};
-						$eavs = $eav_helper->getAttributes( $entity, $entity_id );
+						$eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
 					}
 
 					foreach($eavs as $eav)
