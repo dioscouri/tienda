@@ -122,6 +122,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
@@ -143,6 +144,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= DATE_SUB('".$today."', INTERVAL 1 DAY)");
@@ -169,6 +171,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= DATE_SUB('".$today."', INTERVAL 6 DAY)");
@@ -193,6 +196,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
@@ -210,13 +214,14 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
     {
         $database = JFactory::getDBO();
         $today = TiendaHelperBase::getToday();
-
+//todo convert local data in gmt before to do query
         $start = getdate( strtotime($today) );
         // first day of month
         $enddate = date("Y-m-d", strtotime($start['year']."-".$start['mon']."-01"));
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date < '$enddate'");
@@ -242,6 +247,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date >= '$startdate'");
@@ -266,6 +272,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 
         $query = new TiendaQuery();
         $query->select( 'COUNT(*) AS num, SUM(order_total) AS amount' );
+		$query->select( 'AVG(order_total) AS average' );
         $query->from('#__tienda_orders AS tbl');
         $query->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
         $query->where("tbl.created_date < '$enddate'");
