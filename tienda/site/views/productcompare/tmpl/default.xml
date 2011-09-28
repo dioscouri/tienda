@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TIENDA PRODUCT COMPARE DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TIENDA PRODUCT COMPARE DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TIENDA ORDERS PRODUCT COMPARE LAYOUT</name>
+		<description>TIENDA PRODUCT COMPARE DEFAULT LAYOUT DESC</description>
+	</state>
+</metadata>
