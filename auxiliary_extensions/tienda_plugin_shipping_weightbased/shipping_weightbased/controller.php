@@ -27,6 +27,17 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'tables' );
 	}
 
+	/**
+	 * Gets the plugin's namespace for state variables
+	 * @return string
+	 */
+	function getNamespace()
+	{
+		$app = JFactory::getApplication();
+		$ns = $app->getName().'::'.'com.tienda.plugin.shipping.weightbased';
+		return $ns;
+	}
+	
 	function newMethod(){
 		return $this->view();
 	}
@@ -69,6 +80,15 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 
 		$model = JModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
 		$model->setState('filter_shippingmethod', $sid);
+		$app = JFactory::getApplication();
+		$ns = $this->getNamespace();
+		$state = array();
+		$state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
+		foreach (@$state as $key=>$value)
+		{
+			$model->setState( $key, $value );
+		}
 		$items = $model->getList();
 
 		//form
