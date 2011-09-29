@@ -89,7 +89,6 @@ class TiendaTableEavValues extends TiendaTable
 				$this->eavvalue_value = date( 'Y-m-d H:i:s', strtotime( TiendaHelperBase::getOffsetDate( $this->eavvalue_value, -$offset ) ) );
 			}
 		}
-		JFactory::getApplication()->enqueueMessage( $this->getType() );
 		return parent::store( $updateNulls );
 	}
 	
