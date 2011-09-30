@@ -424,6 +424,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkCategoryDisplayFields FAILED') .' :: '. $this->getError(), 'error' );
 		}		
+		
+		if (!$this->checkEmptyEavTable() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkEmptyEavTable FAILED') .' :: '. $this->getError(), 'error' );
+		}		
 	}
 
 	/**
@@ -3297,4 +3302,38 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
+
+	/**
+	 *
+	 * Empty all EAV values, because they might be wrong cached values
+	 * @version 0.8.2
+	 * @return unknown_type
+	 */
+	function checkEmptyEavTable()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkEmptyEavTable', '0')) return true;
+		 
+		$db = JFactory::getDbo();
+		$tables = array( '#__tienda_eavvaluesdatetime', '#__tienda_eavvaluesdecimal', '#__tienda_eavvaluesint', '#__tienda_eavvaluestext', '#__tienda_eavvaluesvarchar' );		
+		$ok = true;
+		for( $i = 0, $c = count( $tables ); $ok && $i < $c; $i++ )
+		{
+			$db->setQuery( 'TRUNCATE TABLE `'.$tables[$i].'`' );
+			$ok = $db->query() !== false;
+		}
+		if ( $ok )
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkEmptyEavTable') );
+			$config->config_name = 'checkEmptyEavTable';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
 }
+
