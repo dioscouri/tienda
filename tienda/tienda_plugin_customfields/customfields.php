@@ -102,9 +102,10 @@ class plgTiendaCustomFields extends TiendaPluginBase
 					
 				if(empty($f['value']))
 				{
-					$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'orderitems', $item->orderitem_id);
+					$f['value'] = TiendaHelperEav::getAttributeValue($f['attribute'], 'orderitems', $item->orderitem_id );
 				}
-					
+				$f['value'] = TiendaHelperEav::showValue( $f['attribute'], $f['value'] );
+				
 				$field_show[] = $f;
 			}
 			
