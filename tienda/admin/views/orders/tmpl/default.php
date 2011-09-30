@@ -139,13 +139,13 @@
 					<br/>
 					<b><?php echo JText::_( "Ship to" ); ?></b>:
 					<?php 
-					if (empty($item->shipping_address_1)) 
+					if ((empty($item->shipping_address_1) and (empty($item->shipping_address_2))))
 					{
 					   echo JText::_( "Undefined Shipping Address" ); 
 					}
 					   else
 					{
-	                    echo $item->shipping_address_1.", ";
+						echo $item->shipping_address_1 ? $item->shipping_address_1.", " : "";
 	                    echo $item->shipping_address_2 ? $item->shipping_address_2.", " : "";
 	                    echo $item->shipping_city.", ";
 	                    echo $item->shipping_zone_name." ";
