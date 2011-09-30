@@ -559,6 +559,9 @@ class TiendaConfig extends JObject
 	// since 0.8.1
 	var $multiupload_script = '0';
 
+	// since 0.8.2
+	var $display_relateditems = '1';
+	
 	/**
 	 * constructor
 	 * @return void

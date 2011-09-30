@@ -139,7 +139,9 @@ $item = @$this->row;
         <?php echo $this->product_requirements; ?>
 
         <?php // display the products associated with this product ?>
-        <?php echo $this->product_relations; ?>
+		    <?php if ( TiendaConfig::getInstance( )->get( 'display_relateditems' ) ) : ?>
+    	    <?php echo $this->product_relations; ?>
+				<?php endif; ?>
 
         <?php if ( !empty( $this->onAfterDisplayProduct ) ) : ?>
             <div id='onAfterDisplayProduct_wrapper'>
