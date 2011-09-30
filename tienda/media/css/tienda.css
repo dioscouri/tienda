@@ -50,7 +50,9 @@ div.currency{float:right;font-weight:bold;}
 .view div.product_buy{float:right;font-size:1.3em;padding:10px;text-align:right;vertical-align:middle;width:65%;}
 img.addcart{cursor:pointer;}
 div.product_rating,div.product_rating img{padding:3px 0 2px;vertical-align:middle;}
-.product_gallery_thumb img{border:none;float:left;margin:10px 10px 0 0;max-width:75px;}
+
+.product_gallery_thumb{border:none;float:left;margin:10px 10px 0 0;width : auto; clear : right;}
+.product_gallery_thumb img{border:none;float:left;margin:10px 10px 0 0;width : auto; max-width:75px; clear : right;}
 
 /* Checkout */
 #cartitems_header{background: none repeat scroll 0 0 #E8E8E8; padding: 5px 10px;}
