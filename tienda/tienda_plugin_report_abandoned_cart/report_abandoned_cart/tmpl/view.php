@@ -35,7 +35,10 @@
 			</td>
 			<td style="text-align: center;"><?php echo $item->user_id;?>
 			</td>
-			<td style="text-align: left;"><?php echo $item->name; ?>
+			<td style="text-align: left;">
+				<a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id;?>">
+					<?php echo $item->name; ?>
+				</a>		
 			</td>
 			<td style="text-align: left;"><?php echo $item->email; ?>
 			</td>
