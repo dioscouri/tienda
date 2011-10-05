@@ -375,6 +375,14 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		// TODO Make this report errors and return boolean
 		$db->query();
+
+		$q_select->select( 'cart_id, product_id' );
+		$db->setQuery( (string) $q_select );
+		$dispatcher = JDispatcher::getInstance();
+		for( $i = 0, $c = count( $items ); $i < $c; $i++ )
+		{
+			$dispatcher->trigger( 'onRemoveFromCart', array( $items[$i] ) );
+		}
 		return null;
 	}
 
@@ -396,12 +404,14 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$order = $model->getItem();
 		if (!empty($order->order_id))
 		{
+			$dispatcher = JDispatcher::getInstance();
 			// foreach orderitem
 			foreach ($order->orderitems as $orderitem)
 			{
 				// remove from user's cart
 				$ids = array('user_id'=>$order->user_id, 'product_id'=>$orderitem->product_id, 'product_attributes'=>$orderitem->orderitem_attributes );
 				$cart->delete( $ids );
+				$dispatcher->trigger( 'onRemoveOrderItem', array( $items[$i] ) );
 			}
 		}
 	}

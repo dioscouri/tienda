@@ -263,4 +263,28 @@ class TiendaHelperEav extends TiendaHelperBase
     	}	
     	
     }
+
+    /*
+     * This method removes all eav values from an entity with a specified ID
+     * 
+     * @params $entity_type 	Type of the entity
+     * @params $entity-id			Entity ID
+     */
+		function deleteEavValuesFromEntity( $entity_type, $entity_id, $entity_type_mirror = null, $entity_id_mirror = null )
+		{
+			if( !$entity_type_mirror )
+				$entity_type_mirror = $entity_type;
+			if( !$entity_id_mirror )
+				$entity_id_mirror = $entity_id;
+				
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
+			$eavs = TiendaHelperEav::getAttributes( $entity_type, $entity_id ); // get list of EAV fields
+			for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )
+			{
+				$tbl_eav->setType( $eavs[$i]->eavattribute_type );
+				$tbl_eav->load( array( 'eaventity_type' => $entity_type_mirror, 'eaventity_id' => $entity_id_mirror, 'eavattribute_id' => $eavs[$i]->eavattribute_id ) );
+				$tbl_eav->delete();
+			}
+		}
 }
