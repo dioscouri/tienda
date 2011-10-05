@@ -305,5 +305,18 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		
 		return $fields;
 	}
-	
+
+	function onRemoveFromCart( $item )
+	{
+		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
+		$eavs = TiendaHelperEav::getAttributes( 'products', $item->product_id ); // get list of EAV fields
+		for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )
+		{
+			$tbl_eav->setType( $eavs[$i]->eavattribute_type );
+			$tbl_eav->load( array( 'eaventity_type' => 'carts', 'eaventity_id' => $item->cart_id, 'eavattribute_id' => $eavs[$i]->	eavattribute_id ) );			
+			$tbl_eav->delete();
+		}
+	}
 }

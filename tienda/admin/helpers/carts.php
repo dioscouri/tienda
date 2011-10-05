@@ -360,7 +360,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		Tienda::load( 'TiendaQuery', 'library.query' );
 		$query = new TiendaQuery();
-		$query->delete();
 		$query->from( "#__tienda_carts" );
 		if (empty($user_id))
 		{
@@ -370,11 +369,12 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		$query->where( "`product_id` = '".$product_id."'" );
 
+		$q_select = clone( $query );
+		$query->delete();
 		$db->setQuery( (string) $query );
 
 		// TODO Make this report errors and return boolean
 		$db->query();
-
 		return null;
 	}
 
@@ -858,7 +858,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $index
 	 * @return unknown_type
 	 */
-	function getAdditionalKeyValues( $item, $posted_values, $index )
+	function getAdditionalKeyValues( $item, $posted_values, $index = null )
 	{
 		$keynames = array();
 		$dispatcher = JDispatcher::getInstance();

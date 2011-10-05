@@ -324,21 +324,10 @@ class TiendaControllerCarts extends TiendaController
         {
             foreach ($cids as $cart_id=>$product_id)
             {
-//            	$keynames = explode('.', $key);
-//            	$attributekey = $keynames[0].'.'.$keynames[1];
-//            	$index = $keynames[2];
                 $row = $model->getTable();
                 
                 //main cartitem keys
                 $ids = array('user_id'=>$user->id, 'cart_id'=>$cart_id);
-
-                // fire plugin event: onGetAdditionalCartKeyValues
-				        //this event allows plugins to extend the multiple-column primary key of the carts table
-				        $additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues( null, $post, $index );
-				        if (!empty($additionalKeyValues))
-				        {
-				        	$ids = array_merge($ids, $additionalKeyValues);
-				        }
 		
 				        if (empty($user->id))
 		                {
@@ -347,12 +336,12 @@ class TiendaControllerCarts extends TiendaController
 
 		                if ($return = $row->delete(array('cart_id'=>$cart_id)))
 		                {
-                            $item = new JObject;
-                            $item->product_id = $product_id;
-                            $item->product_attributes = $product_attributes[$cart_id];
-                            $item->vendor_id = '0'; // vendors only in enterprise version
-                            
-			                // fire plugin event
+                      $item = new JObject;
+                      $item->product_id = $product_id;
+                      $item->product_attributes = $product_attributes[$cart_id];
+                      $item->vendor_id = '0'; // vendors only in enterprise version
+                      $item->cart_id = $cart_id;
+		                	// fire plugin event
 			                $dispatcher = JDispatcher::getInstance();
 			                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
 		                }
