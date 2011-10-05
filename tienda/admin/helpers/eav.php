@@ -154,7 +154,7 @@ class TiendaHelperEav extends TiendaHelperBase
     	{
     		case "bool":
     			Tienda::load('TiendaSelect', 'library.select');
-    			return TiendaSelect::booleans($value, $eav->eavattribute_alias);
+    			return TiendaSelect::booleans($value, $eav->eavattribute_alias, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select State', $yes = 'Yes', $no = 'No' );
     			break;
     		case "datetime":
     			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
