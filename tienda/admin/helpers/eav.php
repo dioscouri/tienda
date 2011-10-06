@@ -114,7 +114,7 @@ class TiendaHelperEav extends TiendaHelperBase
             $keynames['eaventity_type'] = $entity_type;
             
             $loaded = $table->load($keynames);
-            
+
             if($loaded)
             {
                 // Fetch the value from the value tables
@@ -123,8 +123,11 @@ class TiendaHelperEav extends TiendaHelperBase
             else
             {
             	if( !$no_post ) // we allowed using post variables
-            	{            		
-								$value = JRequest::getVar($eav->eavattribute_alias, null);
+            	{            	
+            		if( $table->getType() == 'text' )
+            			$value = JRequest::getVar( $eav->eavattribute_alias, null, 'default','string', JREQUEST_ALLOWHTML );	
+            		else
+									$value = JRequest::getVar($eav->eavattribute_alias, null);
             	}
 							else
 							{

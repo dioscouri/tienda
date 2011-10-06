@@ -88,7 +88,10 @@ class TiendaTableEav extends TiendaTable
 				if( property_exists($this, $key))
 				{
 					// Fetch the value from the post (if any) and overwrite the object value if it exists
-					$value = JRequest::getVar($key, null, 'post');
+					if( $eav->eavattribute_type == 'text' )
+						$value = JRequest::getVar($key, null, 'post','string', JREQUEST_ALLOWHTML );
+					else
+						$value = JRequest::getVar($key, null, 'post');
 					if($value === null)
 					{
 						// If not, use the object value
