@@ -138,26 +138,6 @@
 
 	<div class="floatbox">
 
-	<?php if( $elements['zip'][0] ) :?>
-		<div>
-			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
-				<?php echo JText::_( 'Postal code' ); ?>
-				<?php if( $elements['zip'][1] ): ?>
-					<?php echo TiendaGrid::required(); ?>
-				<?php endif;?>
-			</label>
-			<?php
-			$onchange = '';
-			if( $one_page )
-				$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' )';
-			else
-				if( !empty($this->showShipping)&& $this->forShipping )
-					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', this.form,  \''.JText::_( 'Updating Shipping Rates' ).'\', tiendaDeleteAddressGrayDiv);';
-			?>
-			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code" id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" <?php if ( strlen( $onchange ) ) { ?> onchange="<?php echo $onchange; ?>" <?php } ?> />
-		</div>
-		<?php endif; ?>
-
 		<?php if( $elements['zone'][0] ) :?>
 		<div>
 			<label class="key">
@@ -178,6 +158,26 @@
 		</div>
 		<?php endif; ?>
 	</div>
+
+	<?php if( $elements['zip'][0] ) :?>
+		<div>
+			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
+				<?php echo JText::_( 'Postal code' ); ?>
+				<?php if( $elements['zip'][1] ): ?>
+					<?php echo TiendaGrid::required(); ?>
+				<?php endif;?>
+			</label>
+			<?php
+			$onchange = '';
+			if( $one_page )
+				$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' )';
+			else
+				if( !empty($this->showShipping)&& $this->forShipping )
+					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', this.form,  \''.JText::_( 'Updating Shipping Rates' ).'\', tiendaDeleteAddressGrayDiv);';
+			?>
+			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code" id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" <?php if ( strlen( $onchange ) ) { ?> onchange="<?php echo $onchange; ?>" <?php } ?> />
+		</div>
+		<?php endif; ?>
 
 	<?php if( $elements['phone'][0] ) :?>
 	<div>
