@@ -3,8 +3,8 @@
 	  
 				<?php foreach (@$vars->fields as $field): ?>	            
 	            
-	               <div class="pao">
-	               	<span class="cf_<?php echo $field['attribute']->eavattribute_alias; ?>">
+	               <div class="pao cf_div_<?php echo $field['attribute']->eavattribute_alias; ?>">
+	               	<span class="cf_span_<?php echo $field['attribute']->eavattribute_alias; ?>">
 	                        <?php echo JText::_( $field['attribute']->eavattribute_label ); ?>:
 	                 </span>
 	                    
