@@ -498,6 +498,9 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
                                         <?php echo JText::_("Remove"); ?>
                                     </a>]
+                                    [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=downloadfile&id=".$file->productfile_id."&product_id=".$row->product_id; ?>">
+                                    <?php echo JText::_( 'Download' );?>
+                                    </a>]
                                     <?php echo $file->productfile_name; ?>
                                     <br/>
                                 <?php endforeach; ?>
