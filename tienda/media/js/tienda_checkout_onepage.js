@@ -12,6 +12,14 @@ window.addEvent("domready", function() {
 				parent.addClass('tienda-expanded');
 			}		
 		});
+	
+	SqueezeBox.onkeypress = function(e) {
+		switch (e.key) {
+		case 'esc':
+			this.close();
+			break;
+		}
+	};
 });
 
 function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
