@@ -75,7 +75,8 @@ div.product_rating,div.product_rating img{padding:3px 0 2px;vertical-align:middl
 #onCheckoutCart_wrapper .col3 .floatbox{border:0 none;}
 #onCheckoutCart_wrapper .cart_item_list {border-bottom: 1px solid #E8E8E8;}
 #onCheckoutShipping_wrapper{ min-height : 60px; }
-
+#onCheckout_wrapper div.address_form label.key{ float : left; clear : right; width : 120px; }
+#onCheckout_wrapper div.address_form > div, #onCheckout_wrapper div.address_form > div > div { margin : 5px 0px; }
 /* tables */ 
 table.adminlist{border-collapse:collapse;margin:5px 0 10px;padding:5px;width:100%;}
 table.adminlist th{padding:5px;vertical-align:top;white-space:nowrap;}

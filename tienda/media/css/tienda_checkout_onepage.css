@@ -17,10 +17,11 @@
 #tienda_checkout_pane form {margin: 0; padding: 0;}
 #tienda_checkout_pane .col3 div.form_key{display:block;float:none;width:auto;}
 #tienda_checkout_pane .col3 div.form_input{display:block;float:none;padding:5px;width:auto;}
-#tienda_checkout_pane label.key{display:block;font-weight:700;margin-bottom:5px;}
+#tienda_checkout_pane label.key{font-weight:700;margin-bottom:5px;}
 #tienda_checkout_pane label.key span{font-weight:400;}
+#tienda_checkout_pane select.inputbox {display:block;}
 #tienda_checkout_pane .col3 .address_form input,.col3 .address_form select{margin-bottom:5px;}
-#tienda_checkout_pane .col3 .address_form input[type=text]{width:75%;}
+#tienda_checkout_pane .col3 .address_form input[type=text]{display:block;}
 
 #cartitems_header{background: none repeat scroll 0 0 #E8E8E8; padding: 5px 10px;}
 #cartitems_header span {font-weight: bold; font-size: 1.087em;} 
@@ -73,11 +74,6 @@ a.img_tooltip:hover span{display:block;}
 #tienda_checkout_pane .1col-customer-billship-address{clear:both;}
 #tienda_checkout_pane .1col-method{clear:both;}
 #tienda_checkout_pane .1col-review-place-order{clear:both;}
- 
-#tienda_checkout_pane .3cols-customer-billship-address{width:33.3%;}
-#tienda_checkout_pane .3cols-method{width:33.3%;}
-#tienda_checkout_pane .3cols-review-place-order{width:33.3%;overflow:visible;}
-    
  
 
 
