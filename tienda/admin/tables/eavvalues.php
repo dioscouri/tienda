@@ -85,8 +85,16 @@ class TiendaTableEavValues extends TiendaTable
 		{	
 			if( isset( $this->eavvalue_value ) )
 			{
-				$offset = JFactory::getConfig()->getValue( 'config.offset' );
-				$this->eavvalue_value = date( 'Y-m-d H:i:s', strtotime( TiendaHelperBase::getOffsetDate( $this->eavvalue_value, -$offset ) ) );
+				$null_date = JFactory::getDbo()->getNullDate();
+				if( $this->eavvalue_value == $null_date || $this->eavvalue_value == '' )
+				{
+					$this->eavvalue_value = $null_date;	
+				}
+				else 
+				{
+					$offset = JFactory::getConfig()->getValue( 'config.offset' );
+					$this->eavvalue_value = date( 'Y-m-d H:i:s', strtotime( TiendaHelperBase::getOffsetDate( $this->eavvalue_value, -$offset ) ) );
+				}
 			}
 		}
 		return parent::store( $updateNulls );

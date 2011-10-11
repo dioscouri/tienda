@@ -35,6 +35,7 @@ class TiendaHelperEav extends TiendaHelperBase
             $table->load(array('eavattribute_alias' => $alias));
             switch( $table->eavattribute_type )
             {
+            	case 'bool' :
             	case 'hidden':
             			$type ='varchar';
             			break;
@@ -140,9 +141,33 @@ class TiendaHelperEav extends TiendaHelperBase
         }
 				
 				if( $cache_values )
-	        return @$sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
+				{
+					if( isset( $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id] ) )
+						return $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id];
+					else
+					{
+						if($eav->eavattribute_type == 'datetime' )
+						{
+							return JFactory::getDbo()->getNullDate();
+						}
+						else
+							return null;
+					}
+				}
 	      else
-		      return @$value;
+	      {
+	      	if ( isset( $value ) )
+	      		return $value;
+	      	else
+	      	{
+						if($eav->eavattribute_type == 'datetime' )
+						{
+							return JFactory::getDbo()->getNullDate();
+						}
+						else
+							return null;
+	      	}
+	      }
     }
     
     /**

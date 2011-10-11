@@ -52,6 +52,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 			$keynames = array_merge($keynames, $additionalKeyValues);
 		}
 		
+		
 		$table->product_id = $item->product_id;
 		if ($table->load( $keynames, true, true ) )
 		{
