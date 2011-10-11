@@ -1056,7 +1056,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 			
 		$response = array();
-		$response['msg'] = $html . " *";
+		$response['msg'] = $html;
 		$response['error'] = '';
 
 		// encode and echo (need to echo to send back to browser)

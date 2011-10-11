@@ -198,9 +198,6 @@
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="contentheading">
 						3. <?php echo JText::_('Select a Payment Method')?>
-					</div>		
-					<div id="onCheckoutPayment_wrapper">
-						<?php if(count($this->payment_plugins)):?>
 								<?php if( $enable_tooltips ) : ?>
 								<a class="img_tooltip" href="" > 
 									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
@@ -209,7 +206,9 @@
 									</span>
 								</a>
 								<?php endif; ?>
-						<?php else: ?>
+					</div>		
+					<div id="onCheckoutPayment_wrapper">
+						<?php if(!count($this->payment_plugins)):?>
 								<div class="note">
 										<?php echo JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." ); ?>
 								</div>
