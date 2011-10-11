@@ -8,7 +8,6 @@
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
-
 <?php
     if (!empty($this->rates)) 
     {      
