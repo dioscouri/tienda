@@ -157,7 +157,7 @@ class TiendaHelperEav extends TiendaHelperBase
     	{
     		case "bool":
     			Tienda::load('TiendaSelect', 'library.select');
-    			return TiendaSelect::booleans($value, $eav->eavattribute_alias, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select State', $yes = 'Yes', $no = 'No' );
+    			return TiendaSelect::booleans($value, $eav->eavattribute_alias, $attribs = array('class' => 'inputbox cf_'.$eav->eavattribute_alias, 'size' => '1'), $idtag = null, $allowAny = false, $title='Select State', $yes = 'Yes', $no = 'No' );
     			break;
     		case "datetime":
     			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
@@ -167,13 +167,13 @@ class TiendaHelperEav extends TiendaHelperBase
     			return $editor->display($eav->eavattribute_alias, $value, '300', '200', '50', '20');
     			break;
     		case "hidden":
-    			return '<input type="hidden" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" />';
+    			return '<input type="hidden" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'"/>';
     			break;
     		case "decimal":
     		case "int":	
     		case "varchar":
     		default:
-    			return '<input type="text" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" />';
+    			return '<input type="text" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" class="cf_'.$eav->eavattribute_alias.'"/>';
     			break;
     	}
     	

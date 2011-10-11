@@ -4,7 +4,7 @@
 				<?php foreach (@$vars->fields as $field): ?>	            
 	            
 	               <div class="pao">
-	               	<span>
+	               	<span class="cf_<?php echo $field['attribute']->eavattribute_alias; ?>">
 	                        <?php echo JText::_( $field['attribute']->eavattribute_label ); ?>:
 	                 </span>
 	                    
