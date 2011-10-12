@@ -311,7 +311,10 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	public function calculatePriceRate( $rate, $weight )
 	{
 		$costs = ( float )$rate->base_price;
-		$steps = ( $weight - ( float )$rate->weight_start ) / ( float )$rate->weight_step_size;
+		if( ( float ) $rate->weight_step_size )
+			$steps = ( $weight - ( float )$rate->weight_start ) / ( float )$rate->weight_step_size;
+		else
+			$steps = 0;
 		
 		if( ( ( float )$weight != ( float )$rate->weight_start ) && $steps < 1 ) // at least one step is done
 			$steps = 1; 
