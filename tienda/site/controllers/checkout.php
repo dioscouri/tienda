@@ -2503,6 +2503,15 @@ class TiendaControllerCheckout extends TiendaController
 				case "17":
 					$articles = array_merge( $articles, $this->getOrderArticles( $order_id ) );
 					break;
+				case "7":
+				case "8":
+				case "9":
+				case "10":
+				case "14":
+			  	$article_id = TiendaConfig::getInstance()->get( 'article_default_payment_failure' );
+        	Tienda::load( 'TiendaArticle', 'library.article' );
+	    		$articles = array( TiendaArticle::display( $article_id ) );
+					break;
 			}
 			$view->assign( 'articles', $articles );
 

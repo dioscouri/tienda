@@ -412,7 +412,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				// remove from user's cart
 				$ids = array('user_id'=>$order->user_id, 'product_id'=>$orderitem->product_id, 'product_attributes'=>$orderitem->orderitem_attributes );
 				$cart->delete( $ids );
-				$dispatcher->trigger( 'onRemoveOrderItem', array( $items[$i] ) );
+				$dispatcher->trigger( 'onRemoveOrderItem', array( $orderitem ) );
 			}
 		}
 	}

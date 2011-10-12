@@ -600,6 +600,18 @@
                                 <?php echo JText::_( 'Article to Display After Successful Checkout Desc' ); ?>
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Article to Display After Unsuccessful Checkout' ); ?>
+                            </th>
+                            <td style="width: 280px;">
+                                <?php echo $this->elementArticleModel->_fetchElement( 'article_default_payment_failure', $this->row->get('article_default_payment_failure') ); ?>
+                                <?php echo $this->elementArticleModel->_clearElement( 'article_default_payment_failure', '0' ); ?>              
+                            </td>
+                            <td>
+                                <?php echo JText::_( 'Article to Display After Unsuccessful Checkout Desc' ); ?>
+                            </td>
+                        </tr>
                     </tbody>
                     </table>
 
