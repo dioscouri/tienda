@@ -215,7 +215,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				else
 				{
 					
-				  $eavs = TiendaHelperEav::getAttributes( 'products', $session_cartitem->product_id );
+				    $eavs = TiendaHelperEav::getAttributes( 'products', $session_cartitem->product_id );
 					foreach ( @$eavs as $eav )
 					{
 						$table->{$eav->eavattribute_alias} = TiendaHelperEav::getAttributeValue( $eav, 'carts', $session_cartitem->cart_id, true, false ) ;

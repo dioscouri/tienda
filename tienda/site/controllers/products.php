@@ -407,11 +407,23 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function getAddToCart( $product_id, $values = array( ) )
 	{
+	    $layout = 'product_buy';
+	    
 		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-		if( isset( $values['layout'] ) )
+		if( isset( $values['layout'] ) ) {
 			$layout = $values['layout'];
-		else
-			$layout = 'product_buy';
+		}
+
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance('Products', 'TiendaModel');
+        $model->setId( $product_id );
+        $row = $model->getItem( false );
+        $buy_layout_override = $row->product_parameters->get('product_buy_layout_override');
+        if (!empty($buy_layout_override))
+        {
+            $layout = $buy_layout_override;
+        }
+        		
 		$html = TiendaHelperProduct::getCartButton( $product_id, $layout, $values );
 		
 		return $html;

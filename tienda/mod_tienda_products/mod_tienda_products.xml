@@ -34,7 +34,16 @@
 		<option value="1">ENABLED</option>
 		<option value="0">DISABLED</option>
 		</param>
-    <param name="itemid" type="text" default="" label="Itemid for Product Page" description="Itemid for Product Page" />
+        <param name="order" type="list" default="0" label="Order" description="Order">
+            <option value="0">Ordering</option>
+            <option value="1">Created</option>
+            <option value="2">Name</option>
+        </param>
+        <param name="direction" type="radio" default="ASC" label="Direction" description="Direction">
+            <option value="ASC">ASC</option>
+            <option value="DESC">DESC</option>
+        </param>
+        <param name="itemid" type="text" default="" label="Itemid for Product Page" description="Itemid for Product Page" />
 
 		<param type="spacer" />
 		<param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">

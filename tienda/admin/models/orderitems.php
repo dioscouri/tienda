@@ -175,6 +175,14 @@ class TiendaModelOrderItems extends TiendaModelEav
         $field[] = " sb.created_datetime AS subscription_created_datetime";
         $field[] = " sb.expires_datetime AS subscription_expires_datetime";
         $field[] = " op.transaction_status";
+		$field[] = " u.name AS user_name ";
+		$field[] = " u.username AS user_username ";	
+		$field[] = " u.email ";
+		$field[] = " ui.phone_1 ";
+		$field[] = " ui.fax ";
+		$field[] = " ui.first_name as first_name";
+		$field[] = " ui.last_name as last_name";
+		$field[] = " ui.email as userinfo_email";
         
         $query->select( $field );
     }
@@ -186,7 +194,9 @@ class TiendaModelOrderItems extends TiendaModelEav
         $query->join('LEFT', '#__tienda_orderstates AS s ON s.order_state_id = o.order_state_id');
         $query->join('LEFT', '#__tienda_manufacturers AS m ON m.manufacturer_id = p.manufacturer_id');
         $query->join('LEFT', '#__tienda_subscriptions AS sb ON sb.orderitem_id = tbl.orderitem_id');
-      $query->join('LEFT', '#__tienda_orderpayments AS op ON op.order_id = o.order_id');
+        $query->join('LEFT', '#__tienda_orderpayments AS op ON op.order_id = o.order_id');
+		$query->join('LEFT', '#__tienda_userinfo AS ui ON ui.user_id = o.user_id');
+		$query->join('LEFT', '#__users AS u ON u.id = o.user_id');
     }
     
 	public function getList()

@@ -1367,7 +1367,7 @@
                                 <input type="text" name="shop_email" value="<?php echo $this->row->get('shop_email', ''); ?>" class="inputbox" size="35" />
                             </td>
                             <td>
-															<?php echo JText::_( 'Shop Email Address Desc' ); ?>                                
+                                <?php echo JText::_( 'Shop Email Address Desc' ); ?>                                
                             </td>
                         </tr>
                          <tr>
@@ -1378,7 +1378,7 @@
                                 <input type="text" name="shop_email_from_name" value="<?php echo $this->row->get('shop_email_from_name', ''); ?>" class="inputbox" size="35" />
                             </td>
                             <td>
-															<?php echo JText::_( 'Shop Email From Name Desc' ); ?>                                
+								<?php echo JText::_( 'Shop Email From Name Desc' ); ?>                                
                             </td>
                         </tr>
 						<tr>
@@ -1392,6 +1392,7 @@
                                 <?php echo JText::_( 'DISABLE GUEST SIGNUP EMAIL DESC' ); ?>
                             </td>
 						</tr>
+                        <tr>
 							<th style="width: 25%;">
 								<?php echo JText::_( 'Obfuscate Guest Email' ); ?>
 							</th>
@@ -1411,6 +1412,17 @@
                             </td>
                             <td>
                                 
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Additional Email Addresses to Receive Order Notifications' ); ?><br />
+                            </th>
+                            <td>
+                                <textarea name="order_emails" style="width: 250px;" rows="10"><?php echo $this->row->get('order_emails', ''); ?></textarea>
+                            </td>
+                            <td>
+                                <?php echo JText::_( "Separate emails with a comma or put them on each on a new line" ); ?>
                             </td>
                         </tr>
 					</tbody>

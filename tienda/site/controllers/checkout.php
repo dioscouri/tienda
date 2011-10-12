@@ -356,13 +356,18 @@ class TiendaControllerCheckout extends TiendaController
 
 				// Get the current step
 				$progress = $this->getProgress();
-
-				JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-				$model = JModel::getInstance( 'addresses', 'TiendaModel' );
-				$model->setState("filter_userid", JFactory::getUser()->id);
-				$model->setState("filter_deleted", 0);
-				$addresses = $model->getList();
-
+	
+				$user_id = JFactory::getUser()->id;
+    			$addresses = array();
+    			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    			$model = JModel::getInstance( 'addresses', 'TiendaModel' );
+    			if (!empty($user_id))
+    			{
+        			$model->setState("filter_userid", $user_id );
+        			$model->setState("filter_deleted", 0);
+        			$addresses = $model->getList();						    
+    			}
+	
 				$billingAddress = $order->getBillingAddress();
 				$shippingAddress = $order->getShippingAddress();
 

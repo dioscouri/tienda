@@ -33,25 +33,25 @@
                 <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'ID', "tbl.orderitem_id", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 200px;">
+                <th style="width: 150px;">
                     <?php echo TiendaGrid::sort( 'Date', "o.created_date", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 200px;">
                     <?php echo TiendaGrid::sort( 'Order', "tbl.order_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Item', "tbl.orderitem_name", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'Quantity', "tbl.orderitem_quantity", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 50px;">
     	            <?php echo TiendaGrid::sort( 'Price', "tbl.orderitem_price", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 50px;">
                     <?php echo TiendaGrid::sort( 'Status', "tbl.orderitem_status", @$state->direction, @$state->order ); ?>
                 </th>
-                <th style="width: 100px;">
+                <th style="width: 50px;">
                     <?php echo TiendaGrid::sort( 'Payment Status', "op.transaction_status", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
@@ -146,6 +146,10 @@
                     <a href="<?php echo $item->link; ?>">
                         <?php echo $item->order_id; ?>
                     </a>
+                    <br/>
+                    <?php echo $item->order_state_name; ?>
+                    <br/>
+                    <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
                 </td>
 				<td style="text-align: left;">
                     <?php echo $item->orderitem_name .' [ '.$item->product_id.' ]'; ?>

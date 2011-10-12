@@ -29,7 +29,7 @@ class TiendaTableEav extends TiendaTable
 	 */
 	protected $_linked_table_key = 0;
 
-		/**
+	/**
 	 * If this "mirrors" another table (ex orderitems => products), put name of the the mirrored table key
 	 * (ex: product_id)
 	 * @var int

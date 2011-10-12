@@ -77,9 +77,29 @@ class modTiendaProductsHelper extends JObject
     	if($this->params->get( 'price_to', '-1' ) != '-1')
     		$model->setState('filter_price_to', $this->params->get( 'price_to', '-1' ));
     	
-       if ($this->params->get('random', '0') == '1'){
+        if ($this->params->get('random', '0') == '1'){
     		$model->setState('order', 'RAND()');
     	}
+    	
+    	$order = $this->params->get('order');
+    	$direction = $this->params->get('direction', 'ASC');
+    	switch ($order)
+    	{
+    	    case "2":
+    	    case "name":
+    	        $model->setState('order', 'tbl.product_name');
+    	        break;
+    	    case "1":
+    	    case "created":
+    	        $model->setState('order', 'tbl.created_date');
+    	        break;
+    	    case "0":
+    	    case "ordering":
+    	    default:
+    	        $model->setState('order', 'tbl.ordering');
+    	        break;    	    
+    	}
+    	$model->setState('direction', $direction);
     	
     	$config = TiendaConfig::getInstance();
         $show_tax = $config->get('display_prices_with_tax');    

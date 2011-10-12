@@ -86,6 +86,9 @@ class TiendaControllerOrders extends TiendaController
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this-> _setModelState();
+        $config = TiendaConfig::getInstance();
+        $model->setState('filter_orderstate', $config->get('orderstates_csv', '2, 3, 5, 17') );
+        $list = $model->getList();
         
         $view = $this->getView( 'orders', 'html' );
         $view->set( '_controller', 'orders' );

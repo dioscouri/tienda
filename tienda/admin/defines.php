@@ -168,6 +168,9 @@ class Tienda extends JObject
 			case 'products_templates' :
 				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'products';
 				break;
+            case 'product_buy_templates' :
+                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'product_buy';
+                break;
 			case 'categories_templates' :
 				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'categories';
 				break;
@@ -562,6 +565,7 @@ class TiendaConfig extends JObject
 	// since 0.8.2
 	var $display_relateditems = '1';
 	var $article_default_payment_failure = '0';
+	var $order_emails = '';
 	
 	/**
 	 * constructor

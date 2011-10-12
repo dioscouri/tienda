@@ -2119,6 +2119,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			return $html;
 		}
 		
+		$view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
 		$view->set( '_doTask', true );

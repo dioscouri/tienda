@@ -473,6 +473,10 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $auth_exp_date              = $this->_getFormattedCardExprDate('my', $data['cardexp'] ); // "1209";
         $auth_cvv                   = $data['cardcvv']; //"";
 
+        $chars = array( '(', ')', ' ', '-', '.' );
+        $billing_phone = str_replace( $chars, '', $orderinfo->billing_phone_1 );
+        $auth_phone                 = $billing_phone;
+        
         // put all values into an array
         $authnet_values             = array
         (
@@ -499,6 +503,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             "x_email"               => $auth_useremail,
             "x_card_code"           => $auth_cvv,
             "x_invoice_num"         => $auth_invoice_num,
+        	"x_phone"               => $auth_phone,
             "tienda_order_id"       => $data['order_id'],
             "tienda_orderpayment_id"    => $data['orderpayment_id'],
             "cardtype"              => $data['cardtype'],
@@ -972,7 +977,12 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                 return $return;                
             }
             
-            return count($errors) ? implode("\n", $errors) : '';
+            if (!empty($errors))
+            {
+                $string = implode("\n", $errors);
+                $return = "<div class='note_pink'>" . $string . "</div>";
+                return $return;
+            }
 
         // ===================
         // end custom code

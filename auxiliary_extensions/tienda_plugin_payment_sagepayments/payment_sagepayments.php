@@ -214,7 +214,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                   break;
                 case "cardcv2":
             		$len = JString::strlen($submitted_values[$key]);
-            		if ($submitted_values['cardtype'] != 'PAYPAL' && $len) // not a required field for paypal
+            		if ($submitted_values['cardtype'] != 'PAYPAL') // not a required field for paypal
             		{
             			if(($submitted_values['cardtype'] == 'AMEX' && $len != 4) ||
             			   ($submitted_values['cardtype'] != 'AMEX' && $len != 3))

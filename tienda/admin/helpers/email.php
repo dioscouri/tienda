@@ -102,7 +102,7 @@ class TiendaHelperEmail extends TiendaHelperBase
        
       switch ($type)
       {
-      	case 'subscription_expiring':
+      	    case 'subscription_expiring':
     		case 'subscription_expired' :
     		case 'subscription_new':
     		case 'new_subscription':
@@ -148,6 +148,15 @@ class TiendaHelperEmail extends TiendaHelperBase
 	   				if (!in_array($r->email, $recipients))
 	   				{
 	   					$recipients[] = $r->email;    
+	   				}
+	   			}
+	   			
+      	   		$additional_recipients = $this->getAdditionalEmailRecipients();
+	   			foreach ($additional_recipients as $r)
+	   			{
+	   				if (!in_array($r, $recipients))
+	   				{
+	   					$recipients[] = $r;    
 	   				}
 	   			}
 	   			
@@ -434,6 +443,48 @@ class TiendaHelperEmail extends TiendaHelperBase
         {
             return array();
         }
+        return $items;
+    }
+    
+    /**
+     * 
+     * 
+     * return array of emails
+     */
+    function getAdditionalEmailRecipients()
+    {
+        $items = array();
+        
+        $order_emails = TiendaConfig::getInstance()->get('order_emails');
+        if (empty($order_emails))
+        {
+            return $items;
+        }
+        
+        if ($csv = explode(',', $order_emails))
+        {
+            foreach ($csv as $email) 
+            {
+                $email = trim($email);
+                if (!in_array($email, $items))
+                {
+                    $items[] = $email;
+                }
+            }
+        }
+
+        if ($nlsv = explode("\n", $order_emails))
+        {
+            foreach ($nlsv as $email) 
+            {
+                $email = trim($email);
+                if (!in_array($email, $items))
+                {
+                    $items[] = $email;
+                }
+            }
+        }
+        
         return $items;
     }
     
