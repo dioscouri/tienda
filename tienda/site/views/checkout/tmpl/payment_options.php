@@ -17,7 +17,7 @@
 	<?php endif;?>
 <?php else: ?>
 	<div class="note">
-		<?php echo count($this->payment_plugins) ? JText::_("Please select your preferred payment method below:") : JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." );?>
+		<?php echo count($this->payment_plugins) ? JText::_("Please select your preferred payment method below").':' : JText::_( "No payment method are available for your address.  Please select a different address or contact the administrator." );?>
 	</div>
   <div id='onCheckoutPayment_wrapper'>
       <?php        
