@@ -253,7 +253,7 @@ class TiendaSelect extends JHTMLSelect
 		$items = $model->getList();
         foreach (@$items as $item)
         {
-        	$list[] =  self::option( $item->country_id, JText::_($item->country_name), 'country_id', 'country_name' );
+        	$list[] =  self::option( $item->country_id, $item->country_name, 'country_id', 'country_name' );
         }
 
 		return self::genericlist($list, $name, $attribs, 'country_id', 'country_name', $selected, $idtag );
