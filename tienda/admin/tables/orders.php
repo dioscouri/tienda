@@ -571,18 +571,12 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
   
-		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
-       	if($order_shipping_discount > $order_shipping)
-       	{        
-       		$this->order_discount += $this->order_shipping;
-       		$this->order_shipping = 0.00;
-       	}
-       	else
-       	{
-       		$this->order_discount += $order_shipping_discount;
-       		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
-       	}
-
+				$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
+		    $this->order_shipping = $this->order_shipping - $order_shipping_discount;
+      	if( $this->order_shipping < 0)
+      	{
+      		$this->order_shipping = 0.00;
+				}
         // Allow this to be modified via plugins
         $dispatcher    =& JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateShippingTotals", array( $this ) );
