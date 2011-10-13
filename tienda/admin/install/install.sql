@@ -5436,6 +5436,9 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (3976, 241, 'UL', 'Ulcinj'),
 (3977, 241, 'ŽB', 'Žabljak'),
 (3978, 138, 'AG', 'Aguascalientes'),
+(3979, 83,  '83', 'Gibraltar'),
+(3980, 188, '188','Singapore'),
+(3981, 190, '190','Slovenia'),
 (9999, 9999, '!!', 'Dummy Zone');
 
 
