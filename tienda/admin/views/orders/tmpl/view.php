@@ -368,6 +368,14 @@
                 <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
                 </th>
             </tr>
+						<tr>
+							<th colspan="2"style="text-align: right;">
+								 <?php echo JText::_( 'Shipping tax' ); ?>:
+							</th>
+							<td style="text-align: right;">
+							    <?php echo TiendaHelperBase::currency( @$row->order_shipping_tax, $row->currency ); ?>
+							</td>
+						</tr>
             <tr>
                 <th colspan="2" style="font-size: 120%; text-align: right;">
                 <?php echo JText::_( "Total" ); ?>
@@ -380,7 +388,6 @@
             </table>
             </fieldset>
         </div>
-
         <?php
             // fire plugin event here to enable extending the form
             JDispatcher::getInstance()->trigger('onAfterDisplayOrderViewOrderItems', array( $row ) );                    

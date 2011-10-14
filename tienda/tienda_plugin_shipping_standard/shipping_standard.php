@@ -58,6 +58,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $this->includeCustomModel('ShippingMethods');
         $this->includeCustomModel('ShippingRates');
         
+        $geozones_taxes = $order->getBillingGeoZones();
         $geozones = $order->getShippingGeoZones();
         $gz_array = array();
         foreach ($geozones as $geozone)
@@ -65,6 +66,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             $gz_array[] = $geozone->geozone_id;
         }
 
+        
+        
         $rates = array();
         $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
         $model->setState( 'filter_enabled', '1' );
@@ -79,7 +82,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                 $ratemodel->setState('filter_geozones', $gz_array);
                 if ($ratesexist = $ratemodel->getList())
                 {
-                    $total = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems() );                  
+                    $total = $this->getTotal($method->shipping_method_id, $geozones, $order->getItems(), $geozones_taxes );                  
                     if ($total)
                     {
                     	$total->shipping_method_type = $method->shipping_method_type;
@@ -152,7 +155,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
      * @param unknown_type $orderItems
      * @param unknown_type $order_id
      */
-	protected function getTotal( $shipping_method_id, $geozones, $orderItems )
+	protected function getTotal( $shipping_method_id, $geozones, $orderItems, $geozones_taxes )
 	{
         $return = new JObject();
         $return->shipping_rate_id         = '0';
@@ -361,17 +364,21 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $shipping_method_tax_total = 0;
   
 		// now calc for the entire method
-		foreach ($geozone_rates as $geozone_id=>$geozone_rate_array)
+    foreach ($geozone_rates as $geozone_id=>$geozone_rate_array)
 		{		
 		    foreach ($geozone_rate_array as $geozone_rate)
 		    {
-                $shipping_tax_rates[$geozone_id] = $this->getTaxRate( $shipping_method_id, $geozone_id );
+		    	$shipping_tax_rates[$geozone_id] = 0;
+		    	foreach( $geozones_taxes as $gz_tax )
+		    	{
+                $shipping_tax_rates[$geozone_id] += $this->getTaxRate( $shipping_method_id, $gz_tax->geozone_id );
                 $shipping_method_price += ($geozone_rate->shipping_rate_price * $geozone_rate->qty);
                 $shipping_method_handling += $geozone_rate->shipping_rate_handling;
                 $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($geozone_rate->shipping_rate_price + $geozone_rate->shipping_rate_handling); 
+		    	}
 		    }
 		}
-		
+			
         // return formatted object
 		$return->shipping_rate_price    = $shipping_method_price;
 		$return->shipping_rate_handling = $shipping_method_handling; 
