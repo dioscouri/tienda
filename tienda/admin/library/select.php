@@ -1315,4 +1315,55 @@ class TiendaSelect extends JHTMLSelect
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+	
+	 /**
+    * Generates a list of credit types
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function credittype( $selected, $name = 'credit_type', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        $model = JModel::getInstance( 'CreditTypes', 'TiendaModel' );
+        $items = $model->getList();
+        foreach (@$items as $item)
+        {
+            $list[] =  self::option( $item->credittype_code, JText::_($item->credittype_name) );
+        }
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+    
+    /**
+    * Generates a list of credit status
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function creditstatus( $selected, $name = 'credit_status', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Status' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+
+        $list[] = JHTML::_('select.option',  'active', JText::_( "Active" ) );
+        $list[] = JHTML::_('select.option',  'disabled', JText::_( "Disabled" ) );
+        $list[] = JHTML::_('select.option',  'used', JText::_( "Used" ) );
+        $list[] = JHTML::_('select.option',  'withdrawable', JText::_( "Withdrawable" ) );
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
+	
 }
