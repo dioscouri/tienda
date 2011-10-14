@@ -1365,5 +1365,18 @@ class TiendaSelect extends JHTMLSelect
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
-	
+	/**
+     * 
+     * @param unknown_type $selected
+     * @param unknown_type $name
+     * @return unknown_type
+     */
+    public static function userelement( $selected, $name = 'customer', $onChange = '' )
+    {
+        $return = array();
+        $model = JModel::getInstance( 'ElementUser', 'TiendaModel' );
+        $return['select'] = $model->_fetchElement( $name, $selected, '','', $onChange );
+        $return['clear'] = $model->_clearElement( $name, '0', '', '', $onChange );
+        return $return;
+    }
 }
