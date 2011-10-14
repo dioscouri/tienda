@@ -697,6 +697,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `order_shipping` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_shipping_tax` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_discount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' ,
+  `order_credit` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'Stores the sum of all credits applied to this order',
   `order_currency` TEXT NOT NULL COMMENT 'Stores a JParameter formatted version of the current currency. Used to maintain the order integrity' ,
   `currency_id` INT(11) NULL DEFAULT NULL ,
   `order_state_id` INT(11) NULL DEFAULT NULL ,
@@ -1392,6 +1393,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   `html_emails` TINYINT(1) NOT NULL DEFAULT '0' ,
   `email` VARCHAR(255) NULL DEFAULT NULL ,
   `sub_number` INT NULL,
+  `credits_total` DECIMAL(12,5) NOT NULL,
+  `credits_withdrawable_total` DECIMAL(12,5) NOT NULL,
   PRIMARY KEY (`user_info_id`) ,
   INDEX `idx_user_info_user_id` (`user_id` ASC) )
 ENGINE = InnoDB
@@ -5567,6 +5570,61 @@ CREATE TABLE IF NOT EXISTS `#__tienda_coupons` (
   `coupon_max_uses_per_user` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
   PRIMARY KEY (`coupon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_credits`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_credits` (
+  `credit_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `user_id` INT(11) NOT NULL ,
+  `order_id` INT(11) NOT NULL COMMENT 'if this credit is related to an order',
+  `currency_id` INT(11) NOT NULL ,
+  `credit_code` VARCHAR(45) NULL ,
+  `credittype_code` VARCHAR(255) NOT NULL ,
+  `credit_enabled` TINYINT(1) NULL ,
+  `credit_withdrawable` TINYINT(1) NULL ,
+  `credit_amount` DECIMAL(12,5) NOT NULL COMMENT 'can be negative',
+  `credit_balance_before` DECIMAL(12,5) NULL ,
+  `credit_balance_after` DECIMAL(12,5) NULL ,
+  `withdrawable_balance_before` DECIMAL(12,5) NULL ,
+  `withdrawable_balance_after` DECIMAL(12,5) NULL ,
+  `credit_comments` TEXT NULL ,
+  `created_date` DATETIME NOT NULL COMMENT 'GMT Only',
+  `modified_date` DATETIME NOT NULL COMMENT 'GMT Only',
+  `expiration_date` DATETIME NULL COMMENT 'GMT Only',
+  `credits_updated` TINYINT(1) NULL COMMENT 'Were the users credit totals updated by this credit?',
+  PRIMARY KEY (`credit_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_credittypes`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_credittypes` (
+  `credittype_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `credittype_code` VARCHAR(255) NOT NULL ,
+  `credittype_name` VARCHAR(255) NOT NULL ,
+  `created_date` DATETIME NULL ,
+  `modified_date` DATETIME NULL ,
+  PRIMARY KEY (`credittype_id`),
+  UNIQUE KEY `credittype_code` (`credittype_code`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Dumping data for table `#__tienda_credittypes`
+-- -----------------------------------------------------
+INSERT IGNORE INTO `#__tienda_credittypes` (`credittype_id`, `credittype_code`, `credittype_name`) VALUES
+(1, 'refund', 'Refund'),
+(2, 'coupon', 'Coupon'),
+(3, 'giftcard', 'Gift Card'),
+(4, 'vendorcredit', 'Vendor Credit'),
+(5, 'usage', 'Usage History'),
+(6, 'credit', 'Other Credit');
 
 
 -- -----------------------------------------------------
