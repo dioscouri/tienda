@@ -27,6 +27,11 @@ class TiendaTableUserInfo extends TiendaTable
 	
 	function check()
 	{
+		if ($this->credits_withdrawable_total > $this->credits_total)
+	    {
+	        $this->credits_withdrawable_total = $this->credits_total;
+	    }
+		
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		

@@ -134,6 +134,19 @@ class TiendaTableOrders extends TiendaTable
                 $this->store();
             }
             
+			// If the order_credit > 0.00, then save a usage in the order credits, with a - value of the credit amount
+            if ($this->order_credit > '0.00' && $this->_adjustCredits)
+            {
+                $credit = JTable::getInstance( 'Credits', 'TiendaTable');
+                $credit->user_id = $this->user_id;
+                $credit->order_id = $this->order_id;
+                $credit->credittype_code = 'usage';
+                $credit->credit_enabled = '1';
+                $credit->credit_amount = 0 - $this->order_credit;
+                $credit->save();
+            }
+			
+			
             // TODO All of the protected vars information could be saved here instead, no?	
         }
         return $return;
@@ -1191,6 +1204,17 @@ class TiendaTableOrders extends TiendaTable
         return $return;
     }
     
+	 /**
+     * Adds a credit amount to the order
+     * 
+     * @param float
+     * @return void
+     */
+    function addCredit( $amount )
+    {
+        $this->order_credit = (float) $amount;
+    }
+	
     /**
      * Adds a coupon to the order
      * 
@@ -1274,6 +1298,7 @@ class TiendaTableOrders extends TiendaTable
        
     }
     
+	
 	/**
      * Adds a per_product coupon to the order
      * 
