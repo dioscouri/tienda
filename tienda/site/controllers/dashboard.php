@@ -30,4 +30,28 @@ class TiendaControllerDashboard extends TiendaController
 		parent::__construct();
 		$this->set('suffix', 'dashboard');
 	}
+	/**
+	 * (non-PHPdoc)
+	 * @see tienda/admin/TiendaController::display()
+	 */
+	function display()
+	{
+	    Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        JRequest::setVar( 'view', $this->get('suffix') );
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $model  = $this->getModel( $this->get('suffix') );
+        $this->_setModelState();
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('default');
+        
+        $user_id = JFactory::getUser()->id;
+        $userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+        $userinfo->load( array( 'user_id'=>$user_id ) );
+        $view->assign( 'userinfo', $userinfo );
+        
+        $view->display();
+        $this->footer();
+        return;        
+	}
 }

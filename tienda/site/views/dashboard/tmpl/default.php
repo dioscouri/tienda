@@ -2,7 +2,7 @@
 <?php JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $user = JFactory::getUser(); ?>
-
+<?php Tienda::load( "TiendaHelperBase", 'helpers._base' ); ?>
 <div class='componentheading'>
 	<span><?php echo JText::_( "My Account" ); ?></span>
 </div>
