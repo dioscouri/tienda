@@ -58,6 +58,14 @@
                     </a>
                 </td>
             </tr>
+            <tr>
+                <th style="width: 100px;">
+                    <?php echo JText::_( "Available Store Credit" ); ?>
+                </th>
+                <td>
+                    <?php echo TiendaHelperBase::currency( $this->userinfo->credits_total ); ?>
+                </td>
+            </tr>
             </tbody>
             </table>
         
