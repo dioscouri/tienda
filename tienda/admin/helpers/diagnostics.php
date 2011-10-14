@@ -3335,5 +3335,72 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
+	
+	/**
+	 *
+	 * Additional fields (in Orders table) for order credits
+	 * @version 0.8.2
+	 * @return boolean
+	 */
+	function checkOrderCreditFields()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderCreditFields', '0')) return true;
+		 
+		$table = '#__tienda_orders';
+		$definitions = array();
+		$fields = array();
+		$fields[] = "order_credit";			
+		$definitions["order_credit"] = "DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'Stores the sum of all credits applied to this order'";		
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkOrderCreditFields') );
+			$config->config_name = 'checkOrderCreditFields';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 *
+	 * Additional fields (in UserInfo table) for credits
+	 * @version 0.8.2
+	 * @return boolean
+	 */
+	function checkUserInfoCreditFields()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkUserInfoCreditFields', '0')) return true;
+		 
+		$table = '#__tienda_userinfo';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "credits_total";
+		$fields[] = "credits_withdrawable_total";
+		
+		$definitions["credits_total"] = "DECIMAL(12,5) NOT NULL";
+		$definitions["credits_withdrawable_total"] = "DECIMAL(12,5) NOT NULL";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkUserInfoCreditFields') );
+			$config->config_name = 'checkUserInfoCreditFields';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+	
 }
 
