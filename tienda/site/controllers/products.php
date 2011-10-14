@@ -570,6 +570,8 @@ class TiendaControllerProducts extends TiendaController
 				return $html;
 				break;
 		}
+		$query = $model->getQuery();
+		$query->order( 'p_from.ordering ASC, p_to.ordering ASC' );
 		
 		if ( $items = $model->getList( ) )
 		{
