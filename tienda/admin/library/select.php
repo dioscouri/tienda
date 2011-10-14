@@ -1375,8 +1375,8 @@ class TiendaSelect extends JHTMLSelect
     {
         $return = array();
         $model = JModel::getInstance( 'ElementUser', 'TiendaModel' );
-        $return['select'] = $model->_fetchElement( $name, $selected, '','', $onChange );
-        $return['clear'] = $model->_clearElement( $name, '0', '', '', $onChange );
+        $return['select'] = $model->fetchElement( $name, $selected, '','', $onChange );
+        $return['clear'] = $model->clearElement( $name, '0', '', '', $onChange );
         return $return;
     }
 }
