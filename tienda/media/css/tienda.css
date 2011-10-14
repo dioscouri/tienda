@@ -141,10 +141,7 @@ div.form_message{display:inline;float:left;padding:7px;vertical-align:middle;wid
 div.tienda_validation,div.tienda_validation img{float:left;vertical-align:middle;}
 span.validation-fail{color:#FF0000;padding-left:5px;}
 span.validation-success{color:#088A08;padding-left:5px;}
-div#payment_form_div{
-	min-height : 50px;
-}
-
+div#payment_form_div{min-height : 50px;}
 div#tienda_breadcrumb,div#tienda_pricefilter{margin-bottom:15px;}
 div#tienda_category_header span,div#tienda_product_header span.product_name{font-size:1.8em;vertical-align:middle;}
 div#tienda_products span.title,div#tienda_product_header span.title,span.product_name,div#product_recurs span.title,div.product_listprice span.title,div.progressbar span.current-step,div#searchresults_sort div.title{font-weight:bold;}
@@ -155,3 +152,6 @@ div.prepayment_message,div.prepayment_action{padding:10px;}
 .customerRating,.rightAlignDiv{float:right;width:auto;}
 div#tienda_searchfilters div.row div.range,div.product_facebook_like,div.product_tweet,div.product_google_plus1,.inputbox_required{float:left;}
 div.product_share_buttons,div.product_like{float:right;}
+
+/* CREDITS */
+.available_store_credit_title {	font-weight: bold;}
