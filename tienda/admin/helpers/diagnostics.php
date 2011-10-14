@@ -429,6 +429,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkEmptyEavTable FAILED') .' :: '. $this->getError(), 'error' );
 		}		
+		
+		if (!$this->checkOrderCreditFields() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkOrderCreditFields FAILED') .' :: '. $this->getError(), 'error' );
+		}		
+		
+		if (!$this->checkUserInfoCreditFields() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoCreditFields FAILED') .' :: '. $this->getError(), 'error' );
+		}	
 	}
 
 	/**
