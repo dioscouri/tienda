@@ -194,6 +194,7 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
       $orderpayment = JTable::getInstance( 'OrderPayments', 'TiendaTable' );
       $orderpayment->load( array( 'order_id'=>$data['vs'] ) );
 
+      unset( $data[ 'secure_key' ] );
       $orderpayment->transaction_details  = Tienda::dump( $data );
       $orderpayment->transaction_id       = $data['vs'];
       $orderpayment->transaction_status   = $data['res'];
