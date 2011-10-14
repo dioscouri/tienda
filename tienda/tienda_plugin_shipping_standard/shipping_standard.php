@@ -370,12 +370,11 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		    {
 		    	$shipping_tax_rates[$geozone_id] = 0;
 		    	foreach( $geozones_taxes as $gz_tax )
-		    	{
-                $shipping_tax_rates[$geozone_id] += $this->getTaxRate( $shipping_method_id, $gz_tax->geozone_id );
-                $shipping_method_price += ($geozone_rate->shipping_rate_price * $geozone_rate->qty);
-                $shipping_method_handling += $geozone_rate->shipping_rate_handling;
-                $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($geozone_rate->shipping_rate_price + $geozone_rate->shipping_rate_handling); 
-		    	}
+	          $shipping_tax_rates[$geozone_id] += $this->getTaxRate( $shipping_method_id, $gz_tax->geozone_id );
+
+          $shipping_method_price += ($geozone_rate->shipping_rate_price * $geozone_rate->qty);
+          $shipping_method_handling += $geozone_rate->shipping_rate_handling;
+          $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($geozone_rate->shipping_rate_price + $geozone_rate->shipping_rate_handling); 
 		    }
 		}
 			

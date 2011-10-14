@@ -61,6 +61,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		$this->includeCustomModel('ShippingMethodsWeightbased');
 		$this->includeCustomModel('ShippingRatesWeightbased');
 
+    $geozones_taxes = $order->getBillingGeoZones();
 		$geozones = $order->getShippingGeoZones();
 		$gz_array = array();
 		foreach ($geozones as $geozone)
@@ -83,7 +84,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 				$ratemodel->setState('filter_geozones', $gz_array);
 				if ($ratesexist = $ratemodel->getList())
 				{
-					$total = $this->getTotal($method->shipping_method_weightbased_id, $geozones, $order->getItems() );
+					$total = $this->getTotal($method->shipping_method_weightbased_id, $geozones, $order->getItems(),$geozones_taxes );
 					if ( $total )
 					{
 						$vars[$i]['element'] = $this->_element;
@@ -150,7 +151,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	 * @param unknown_type $orderItems
 	 * @param unknown_type $order_id
 	 */
-	protected function getTotal( $shipping_method_id, $geozones, $orderItems )
+	protected function getTotal( $shipping_method_id, $geozones, $orderItems, $geozones_taxes )
 	{
 		$return = new JObject();
 		$return->shipping_price					 	      = '0.00000';
@@ -215,12 +216,15 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		{
 			foreach ($geozone_rate_array as $geozone_rate)
 			{
+		    $shipping_tax_rates[$geozone_id] = 0;
+		    foreach( $geozones_taxes as $gz_tax )
+					$shipping_tax_rates[$geozone_id] += $this->getTaxRate( $shipping_method_id, $gz_tax->geozone_id );
+					
 				$return->shipping_rate_weightbased_id = $geozone_rate->shipping_rate_weightbased_id;
 				$rate_price = $this->calculatePriceRate( $geozone_rate, $sum_weight );
-				$shipping_tax_rates[$geozone_id] = $this->getTaxRate( $shipping_method_id, $geozone_id );
-				$shipping_method_price += $rate_price;
+		    $shipping_method_price += $rate_price;
 				$shipping_method_handling += $geozone_rate->shipping_handling;
-				$shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($rate_price + $geozone_rate->shipping_handling);
+		    $shipping_method_tax_total += ($shipping_tax_rates[$geozone_id]/100) * ($rate_price + $geozone_rate->shipping_handling);
 			}
 		}
 
