@@ -440,9 +440,9 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoCreditFields FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
-		if (!$this->checkProductAttributeOptionsBlank() )
+		if (!$this->checkProductAttributeOptionBlank() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionsBlank FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionBlank FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 	}
@@ -3424,12 +3424,12 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 * @version 0.8.2
 	 * @return boolean
 	 */
-	function checkProductAttributeOptionsBlank()
+	function checkProductAttributeOptionBlank()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionsBlank', '0')) return true;
+		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionBlank', '0')) return true;
 		 
-		$table = '#__tienda_productattributes';
+		$table = '#__tienda_productattributeoptions';
 		$definitions = array();
 		$fields = array();
 
@@ -3442,7 +3442,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Update config to say this has been done already
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
-			$config->load( array( 'config_name'=>'checkProductAttributeOptionsBlank') );
+			$config->load( array( 'config_name'=>'checkProductAttributeOptionBlank') );
 			$config->config_name = 'checkProductAttributeOptionsBlank';
 			$config->value = '1';
 			$config->save();
