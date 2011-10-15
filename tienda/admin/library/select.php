@@ -685,7 +685,7 @@ class TiendaSelect extends JHTMLSelect
         	}
         	$display_name = JText::_($item->productattributeoption_name).$display_suffix;
         	if( $item->is_blank )
-            $list[] =  self::option( '', $display_name );
+            $list[] =  self::option( 0, $display_name );
         	else
             $list[] =  self::option( $item->productattributeoption_id, $display_name );
         }

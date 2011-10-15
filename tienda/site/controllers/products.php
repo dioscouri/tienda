@@ -828,7 +828,7 @@ class TiendaControllerProducts extends TiendaController
 			if ( substr( $key, 0, 10 ) == 'attribute_' )
 			{
 				$attributes[] = $value;
-				if( !strlen( $value ) )
+				if(  !( int )@$value )
 				{
 					$response['msg'] = $helper->generateMessage( JText::_( 'All Product Attributes are Required!' ) );
 					$response['error'] = '1';
