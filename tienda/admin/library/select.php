@@ -632,12 +632,11 @@ class TiendaSelect extends JHTMLSelect
     public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $opt_selected = array())
     {
         $list = array();
-        
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
         $model->setState( 'filter_attribute', $productattribute_id );
         $model->setState('order', 'tbl.ordering');
-        
+                
         // Parent options
         if(count($opt_selected))
         {
@@ -645,8 +644,36 @@ class TiendaSelect extends JHTMLSelect
         }
         
         $items = $model->getList();
+        $geozones = array();
+        $shipping = false;
+        if( count( $items ) )
+        {
+        	$shipping = $items[0]->product_ships;
+        	if( $shipping )
+        	{
+		        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+        		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+						$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
+						if ( empty( $geozones ) )
+						{
+							// use the default
+							$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
+							$table->load( array(
+										'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
+									) );
+							$geozones = array(
+								$table
+							);
+						}
+        	}
+        }
         foreach (@$items as $item)
         {
+        	if( $shipping )
+        	{
+	        	$tax = TiendaHelperProduct::getTaxTotal( $item->product_id, $geozones, $item->productattributeoption_price );
+	        	$item->productattributeoption_price += $tax->tax_total;
+        	}
         	// Do not display the prefix if it is "=" (it's not good to see =�13, better �13)
         	if($item->productattributeoption_prefix != '=')
         	{

@@ -988,16 +988,24 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $geozones
 	 * @return object
 	 */
-	public function getTaxTotal( $product_id, $geozones )
+	public function getTaxTotal( $product_id, $geozones, $price = null )
 	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
-		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-		$user_id = JFactory::getUser( )->id;
-		$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
-		$model->setState( 'filter_group', $filter_group );
-		$model->setId( $product_id );
-		$row = $model->getItem( false );
+		$product_price = 0;
+		if( $price )
+			$product_price = $price;
+		else 
+		{
+			JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+			$model = JModel::getInstance( 'Products', 'TiendaModel' );
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+			$user_id = JFactory::getUser( )->id;
+			$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
+			$model->setState( 'filter_group', $filter_group );
+			$model->setId( $product_id );
+			$row = $model->getItem( false );
+			$product_price = $row->price;
+		}
+
 		$orderitem_tax = 0;
 		$tax_rates = array( );
 		$tax_amounts = array( );
@@ -1007,14 +1015,14 @@ class TiendaHelperProduct extends TiendaHelperBase
 		foreach ( $geozones as $geozone )
 		{
 			$geozone_id = $geozone->geozone_id;
+			
 			$taxrate = TiendaHelperProduct::getTaxRate( $product_id, $geozone_id, true );
 			$product_tax_rate = $taxrate->tax_rate;
 			
 			// track the total tax for this item
-			$orderitem_tax += ( $product_tax_rate / 100 ) * $row->price;
-			
+			$orderitem_tax += ( $product_tax_rate / 100 ) * $product_price;
 			$tax_rates[$taxrate->tax_rate_id] = $taxrate;
-			$tax_amounts[$taxrate->tax_rate_id] = ( $product_tax_rate / 100 ) * $row->price;
+			$tax_amounts[$taxrate->tax_rate_id] = ( $product_tax_rate / 100 ) * $product_price;
 			;
 		}
 		
@@ -1022,7 +1030,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$return->tax_rates = $tax_rates;
 		$return->tax_amounts = $tax_amounts;
 		$return->tax_total = $orderitem_tax;
-		
 		return $return;
 	}
 	
@@ -1069,7 +1076,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 			$sets[$product_id][$geozone_id] = $taxrate;
 		}
-		
 		if ( !$return_object )
 		{
 			return $sets[$product_id][$geozone_id]->tax_rate;
@@ -2133,41 +2139,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view->assign( 'validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
 		
 		$config = TiendaConfig::getInstance( );
-		$show_tax = $config->get( 'display_prices_with_tax' );
-		$show_product = $config->get( 'display_category_cartbuttons' );
-		$view->assign( 'show_tax', $show_tax );
-		$view->assign( 'tax', 0 );
-		$view->assign( 'taxtotal', '' );
-		$view->assign( 'shipping_cost_link', '' );
-		
-		$row->tax = '0';
-		if ( $show_tax )
-		{
-			// finish TiendaHelperUser::getGeoZone -- that's why this isn't working
-			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
-			if ( empty( $geozones ) )
-			{
-				// use the default
-				$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
-				$table->load( array(
-							'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
-						) );
-				$geozones = array(
-					$table
-				);
-			}
-			
-			$taxtotal = TiendaHelperProduct::getTaxTotal( $product_id, $geozones );
-			$tax = $taxtotal->tax_total;
-			$row->taxtotal = $taxtotal;
-			$row->tax = $tax;
-			// @v0.6.1, we're leaving these here for 2 more versions, so as not to break existing templates
-			// @v0.8.0, these are gone
-			$view->assign( 'taxtotal', $taxtotal );
-			$view->assign( 'tax', $tax );
-		}
-		
 		// TODO What about this??
 		$show_shipping = $config->get( 'display_prices_with_shipping' );
 		if ( $show_shipping )
@@ -2263,6 +2234,40 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$row->sku .= $table->productattributeoption_code;
 		}
 
+		$show_tax = $config->get( 'display_prices_with_tax' );
+		$show_product = $config->get( 'display_category_cartbuttons' );
+		$view->assign( 'show_tax', $show_tax );
+		$view->assign( 'tax', 0 );
+		$view->assign( 'taxtotal', '' );
+		$view->assign( 'shipping_cost_link', '' );
+		
+		$row->tax = '0';
+		if ( $show_tax )
+		{
+			// finish TiendaHelperUser::getGeoZone -- that's why this isn't working
+			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
+			if ( empty( $geozones ) )
+			{
+				// use the default
+				$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
+				$table->load( array(
+							'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
+						) );
+				$geozones = array(
+					$table
+				);
+			}
+			
+			$taxtotal = TiendaHelperProduct::getTaxTotal( $product_id, $geozones, $row->price );
+			$tax = $taxtotal->tax_total;
+			$row->taxtotal = $taxtotal;
+			$row->tax = $tax;
+			// @v0.6.1, we're leaving these here for 2 more versions, so as not to break existing templates
+			// @v0.8.0, these are gone
+			$view->assign( 'taxtotal', $taxtotal );
+			$view->assign( 'tax', $tax );
+		}
 		
 		$row->_product_quantity = $product_qty;
 		
@@ -2273,6 +2278,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	  	   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );		
 		}
 
+		
 		$view->assign( 'page', $page );
 		$view->assign( 'display_cartbutton', $display_cartbutton );
 		$view->assign( 'availableQuantity', $availableQuantity );
