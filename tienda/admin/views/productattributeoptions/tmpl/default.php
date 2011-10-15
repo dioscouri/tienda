@@ -25,6 +25,7 @@
                     <th style="width: 15px;"><?php echo JText::_( "Prefix" ); ?></th>
                     <th><?php echo JText::_( "Price" ); ?></th>
                     <th><?php echo JText::_( "Code" ); ?></th>
+                    <th><?php echo JText::_( "Is Blank?" ); ?></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -44,6 +45,9 @@
                     </td>
                     <td>
                         <input id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
+                    </td>
+                    <td>
+	                    <?php echo TiendaSelect::booleans( 0, 'createproductattributeoption_blank', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
                     </td>
                     <td>
                         <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('Create Option'); ?></button>
@@ -81,6 +85,9 @@
                 </th>
                 <th style="text-align: left;">
                 	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
+                </th>
+                <th style="text-align: center;">
+                	<?php echo JText::_( "Is Blank?" ); ?>
                 </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
@@ -141,6 +148,9 @@
 					?>
 					
 					</div>
+				</td>
+        <td style="text-align: center;">
+	      	<?php echo TiendaSelect::booleans( $item->is_blank, 'blank['.$item->productattributeoption_id.']', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
 				</td>
 				<td style="text-align: center;">
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />

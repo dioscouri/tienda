@@ -438,7 +438,13 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		if (!$this->checkUserInfoCreditFields() )
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoCreditFields FAILED') .' :: '. $this->getError(), 'error' );
-		}	
+		}
+
+		if (!$this->checkProductAttributeOptionsBlank() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionsBlank FAILED') .' :: '. $this->getError(), 'error' );
+		}
+		
 	}
 
 	/**
@@ -3411,6 +3417,38 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
-	
+
+	/**
+	 *
+	 * Additional fields (in ProdcutAttributeOptions table) for blank options in product attributes
+	 * @version 0.8.2
+	 * @return boolean
+	 */
+	function checkProductAttributeOptionsBlank()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionsBlank', '0')) return true;
+		 
+		$table = '#__tienda_productattributes';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "is_blank";
+		
+		$definitions["is_blank"] = "TINYINT( 1 ) NOT NULL DEFAULT '0'";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkProductAttributeOptionsBlank') );
+			$config->config_name = 'checkProductAttributeOptionsBlank';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
 }
 

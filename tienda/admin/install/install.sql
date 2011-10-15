@@ -791,6 +791,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributes` (
   `parent_productattributeoption_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `ordering` int(11) NOT NULL,
+  `is_blank` TINYINT( 1 ) NOT NULL DEFAULT '0',
   PRIMARY KEY (`productattribute_id`),
   KEY `product_id` (`product_id`)
 )

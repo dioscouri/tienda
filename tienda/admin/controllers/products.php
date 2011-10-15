@@ -1259,7 +1259,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->productattributeoption_price = JRequest::getVar( 'createproductattributeoption_price' );
 		$row->productattributeoption_code = JRequest::getVar( 'createproductattributeoption_code' );
 		$row->productattributeoption_prefix = JRequest::getVar( 'createproductattributeoption_prefix' );
-        $row->ordering = '99';
+		$row->is_blank = JRequest::getVar( 'createproductattributeoption_blank' );
+		$row->ordering = '99';
         
 		if ( $row->save() )
 		{
@@ -1332,7 +1333,8 @@ class TiendaControllerProducts extends TiendaController
 		$code = JRequest::getVar('code', array(0), 'request', 'array');
 		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
-
+		$blank = JRequest::getVar( 'blank', array( 0 ), 'request', 'array' );
+		
 		foreach (@$cids as $cid)
 		{
 			$row->load( $cid );
@@ -1342,6 +1344,7 @@ class TiendaControllerProducts extends TiendaController
 			$row->productattributeoption_code = $code[$cid];
 			$row->parent_productattributeoption_id = $parent[$cid];
 			$row->ordering = $ordering[$cid];
+			$row->is_blank = $blank[$cid];
 
 			if (!$row->check() || !$row->store())
 			{

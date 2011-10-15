@@ -828,6 +828,13 @@ class TiendaControllerProducts extends TiendaController
 			if ( substr( $key, 0, 10 ) == 'attribute_' )
 			{
 				$attributes[] = $value;
+				if( !strlen( $value ) )
+				{
+					$response['msg'] = $helper->generateMessage( JText::_( 'All Product Attributes are Required!' ) );
+					$response['error'] = '1';
+					echo ( json_encode( $response ) );
+					return false;
+				}
 			}
 		}
 		sort( $attributes );

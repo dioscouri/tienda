@@ -684,6 +684,9 @@ class TiendaSelect extends JHTMLSelect
         		$display_suffix = ($item->productattributeoption_price > '0') ? ": ".TiendaHelperBase::currency($item->productattributeoption_price) : '';
         	}
         	$display_name = JText::_($item->productattributeoption_name).$display_suffix;
+        	if( $item->is_blank )
+            $list[] =  self::option( '', $display_name );
+        	else
             $list[] =  self::option( $item->productattributeoption_id, $display_name );
         }
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag  );
