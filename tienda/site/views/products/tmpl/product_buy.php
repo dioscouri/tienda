@@ -169,6 +169,11 @@ $working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product
           <?php echo JText::_("OUT_OF_STOCK"); ?> 
         </div>
     <?php endif; ?>
-    
+
+    <div id='add_to_wishlist_<?php echo $item->product_id; ?>' class="add_to_wishlist">
+        <?php $onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();"; ?>
+        <a href="javascript:void(0);" onclick="<?php echo $onclick; ?>"><?php echo JText::_('COM_TIENDA_ADD_TO_WISHLIST'); ?></a>
+    </div>
+            
     </form>
 </div>

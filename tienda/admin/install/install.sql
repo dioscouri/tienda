@@ -5680,6 +5680,28 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productissues` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `#__tienda_wishlists`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_wishlists` (
+  `wishlist_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `user_id` INT(11) NOT NULL ,
+  `session_id` VARCHAR(255) NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  `vendor_id` INT(11) NOT NULL ,
+  `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
+  `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `wishlistitem_params` text COMMENT 'Params for the wishlist item',
+  INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) ,
+  CONSTRAINT `fk_wishlists_products`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `#__tienda_products` (`product_id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
