@@ -22,6 +22,7 @@ class TiendaModelWishlists extends TiendaModelEav
 		$filter_date_from	= $this->getState('filter_date_from');
 		$filter_date_to		= $this->getState('filter_date_to');
 		$filter_name	= $this->getState('filter_name');
+		$filter_ids	= $this->getState('filter_ids');
 
 		if (strlen($filter_user))
 		{
@@ -54,6 +55,11 @@ class TiendaModelWishlists extends TiendaModelEav
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_name ) ) ).'%');
 			$query->where('LOWER(p.product_name) LIKE '.$key);
 		}
+		
+	    if (!empty($filter_ids) && is_array($filter_ids))
+        {
+        	$query->where("tbl.wishlist_id IN('" . implode( "' ,'", $filter_ids ) . "')" );
+        }
 	}
 
 	protected function _buildQueryJoins(&$query)

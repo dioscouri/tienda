@@ -114,7 +114,12 @@ class TiendaControllerWishlists extends TiendaController
      */
     function update()
     {
-	    // verify form submitted by user
+		$share = JRequest::getVar('share');
+		if ($share) {
+		    $this->share();
+		    return;
+		}
+
 		JRequest::checkToken( ) or jexit( 'Invalid Token' );
 		
 		$dispatcher = JDispatcher::getInstance();
@@ -182,5 +187,47 @@ class TiendaControllerWishlists extends TiendaController
         $router = new TiendaHelperRoute(); 
         $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
        	$this->setRedirect( $redirect, $msg );
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return return_type
+     */
+    public function share()
+    {
+		JRequest::checkToken( ) or jexit( 'Invalid Token' );
+		
+		$dispatcher = JDispatcher::getInstance();
+		$model  = $this->getModel( $this->get('suffix') );
+        $user =& JFactory::getUser();
+        $cids = JRequest::getVar('cid', array(0), '', 'array');        
+        
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute(); 
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+       	
+        // get all the items to be shared from wishlist.  if not, redirect back to wishlist with message
+        if (empty($cids))
+        {
+            $this->messagetype = 'notice';
+            $this->message = JText::_( "COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;            
+        }
+        
+        $model->setState( 'filter_ids', $cids );
+        $items = $model->getList();
+        
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+      	$view->assign( 'items', $items );      
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('share');
+        $view->display();        
+        $this->footer();
+        return;
+        
     }
 }
