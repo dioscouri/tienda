@@ -269,7 +269,7 @@ class TiendaModelEav extends TiendaModelBase
 				// Add them as properties to each item
 				foreach($list as $item)
 				{
-					$entity_id = $this->getId();
+					$entity_id = $item->$tbl_key;
 					$eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
 
 					// Mirrored table?
