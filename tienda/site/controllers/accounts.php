@@ -104,7 +104,7 @@ class TiendaControllerAccounts extends TiendaController
         {
             $model->setId( $row->user_id );
             $this->messagetype  = 'message';
-            $this->message      = JText::_( 'Saved' );
+            $this->message      = JText::_( "COM_TIENDA_SAVED" );
 
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -112,7 +112,7 @@ class TiendaControllerAccounts extends TiendaController
             else
         {
             $this->messagetype  = 'notice';
-            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+            $this->message      = JText::_( 'COM_TIENDA_SAVED_FAILED' )." - ".$row->getError();
         }
 
         $redirect = "index.php?option=com_tienda";
