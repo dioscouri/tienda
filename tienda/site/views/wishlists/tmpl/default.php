@@ -29,7 +29,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         </div>
         <div class="reset"></div>
         <div id="onCheckoutCart_wrapper">
-        <table class="adminlist" style="border: thin solid black;">
+        <table class="adminlist">
             <thead>
                 <tr>
                     <th style="width: 20px;">
