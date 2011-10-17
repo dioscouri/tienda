@@ -205,7 +205,7 @@ class TiendaControllerCarts extends TiendaController
         $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $attributes_csv );    
         if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity ) 
         {
-            JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ));
+            JFactory::getApplication()->enqueueMessage( JText::sprintf( "COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $product_qty ));
             $product_qty = $availableQuantity->quantity;
         }
         
@@ -317,7 +317,7 @@ class TiendaControllerCarts extends TiendaController
         $quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');        
         $post = JRequest::get('post');
 		
-        $msg = JText::_('Quantities Updated');
+        $msg = JText::_("COM_TIENDA_QUANTITIES_UPDATED");
         
         $remove = JRequest::getVar('remove');
         if ($remove) 
@@ -378,7 +378,7 @@ class TiendaControllerCarts extends TiendaController
               $availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$cart_id] );	
               if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
               {
-              	JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
+              	JFactory::getApplication()->enqueueMessage( JText::sprintf( "COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $value ));
               	$msg = JText::_( 'Quantity Update Failed' );
                 continue;
               }
@@ -396,7 +396,7 @@ class TiendaControllerCarts extends TiendaController
                   {
                   	if ($value > $max )
                   	{
-                  		$msg = JText::_('You have reached the maximum quantity for this object: ').$max;
+                  		$msg = JText::_("COM_TIENDA_YOU_HAVE_REACHED_THE_MAXIMUM_QUANTITY_FOR_THIS_OBJECT: ").$max;
                   		$value = $max;
                   	}
                   }
@@ -404,7 +404,7 @@ class TiendaControllerCarts extends TiendaController
                   {
                   	if ($value < $min )
                   	{
-                  		$msg = JText::_('You have reached the minimum quantity for this object: ').$min;
+                  		$msg = JText::_("COM_TIENDA_YOU_HAVE_REACHED_THE_MINIMUM_QUANTITY_FOR_THIS_OBJECT: ").$min;
                   		$value = $min;
                   	}
                   }
