@@ -26,8 +26,8 @@
               foreach ($this->payment_plugins as $plugin) 
               {
                   ?>
-                  <input value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
-                  <?php echo JText::_( $plugin->name ); ?>
+                  <input id="paymeny_<?php echo $plugin->element?>" value="<?php echo $plugin->element; ?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML('');" name="payment_plugin" type="radio" <?php echo (!empty($plugin->checked)) ? "checked" : ""; ?> />
+                  <label for="paymeny_<?php echo $plugin->element?>" onclick="tiendaGetPaymentForm('<?php echo $plugin->element; ?>', 'payment_form_div', '<?php echo JText::_( 'Getting Payment Method' ); ?>'); $('validationmessage').setHTML('');"><?php echo JText::_( $plugin->name ); ?></label>
                   <br/>
                   <?php
               }                   
