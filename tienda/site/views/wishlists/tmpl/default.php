@@ -13,7 +13,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "COM_TIENDA_MY_WISHLIST" ); ?></span>
+    <span><?php echo JText::_( "My Wishlist" ); ?></span>
 </div>
 
     <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
@@ -118,7 +118,6 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                     <td colspan="20" style="text-align: left;">
                         <input type="submit" class="button" value="<?php echo JText::_('ADD TO CART'); ?>" name="addtocart" />
                         <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_REMOVE'); ?>" name="remove" />
-                        <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_SHARE'); ?>" name="share" />
                     </td>
                 </tr>
             </tfoot>

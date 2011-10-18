@@ -67,7 +67,7 @@ class TiendaControllerAddresses extends TiendaController
         // if id is present then user is editing, check if user can edit this item
         if (!empty($row->address_id) && $row->user_id != JFactory::getUser()->id) 
         {
-			$this->message = JText::_( "COM_TIENDA_YOU_CANNOT_EDIT_THAT_ADDRESS" );
+			$this->message = JText::_( 'You Cannot Edit That Address' );
 			$this->messagetype = 'notice';
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
@@ -138,7 +138,7 @@ class TiendaControllerAddresses extends TiendaController
         elseif ($row->user_id != JFactory::getUser()->id)
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( "COM_TIENDA_YOU_ARE_NOT_AUTHORIZED_TO_EDIT_THIS_ITEM" );
+            $this->message      = JText::_( 'You are not authorized to edit this item' );
         	$this->setRedirect( $redirect, $this->message, $this->messagetype );
         	return;
         }
@@ -147,7 +147,7 @@ class TiendaControllerAddresses extends TiendaController
         {
             $model->setId( $row->address_id );
             $this->messagetype  = 'message';
-            $this->message      = JText::_( 'COM_TIENDA_SAVED' );
+            $this->message      = JText::_( 'Saved' );
                 
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -155,7 +155,7 @@ class TiendaControllerAddresses extends TiendaController
             else 
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( 'COM_TIENDA_SAVED_FAILED' )." - ".$row->getError();
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
 
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -209,7 +209,7 @@ class TiendaControllerAddresses extends TiendaController
         $actions = explode( '_', $task );
         if (!is_array($actions)) 
         {
-            $this->message = JText::_( "COM_TIENDA_INVALID_TASK" );
+            $this->message = JText::_( 'Invalid Task' );
             $this->messagetype = 'notice';
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -233,7 +233,7 @@ class TiendaControllerAddresses extends TiendaController
                     $flag = "is_deleted"; $value = "1";
                   break;
                 default:
-                    $this->message = JText::_( "COM_TIENDA_INVALID_ACT" );
+                    $this->message = JText::_( 'Invalid Act' );
                     $this->messagetype = 'notice';
                     $redirect = JRoute::_( $redirect, false );
                     $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -261,7 +261,7 @@ class TiendaControllerAddresses extends TiendaController
         
         if ($error)
         {
-            $this->message = JText::_( "COM_TIENDA_UNABLE_TO_CHANGE" ).": ".implode(", ", $errors);
+            $this->message = JText::_( "Unable to Change" ).": ".implode(", ", $errors);
         }
             else
         {
