@@ -99,7 +99,7 @@
                         <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message Mixed Cart" ); ?>
                     </div>
                     <div class="prepayment_action">
-                        <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                        <div style="float: left; padding: 10px;"><input type="image" src="<?php echo $vars->img_url_mixed; ?>" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
                         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "First Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Second Checkout Amount").":</b> ".TiendaHelperBase::currency( $vars->amount ); ?></div>
                         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
@@ -112,7 +112,7 @@
                         <?php echo JText::_( "Tienda Paypal Payment Standard Preparation Message" ); ?>
                     </div>
                     <div class="prepayment_action">
-                        <div style="float: left; padding: 10px;"><input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
+                        <div style="float: left; padding: 10px;"><input type="image" src="<?php echo $vars->img_url_std; ?>" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /></div>
                         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->orderpayment_amount ); ?></div>
                         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
                         <div style="clear: both;"></div>

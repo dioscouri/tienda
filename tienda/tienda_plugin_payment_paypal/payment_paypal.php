@@ -57,7 +57,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->orderpayment_id = $data['orderpayment_id'];
         $vars->orderpayment_amount = $data['orderpayment_amount'];
         $vars->orderpayment_type = $this->_element;
-
+        $vars->img_url_std = $this->_getParam( 'img_url_std', 'https://www.paypal.com/en_US/i/btn/x-click-but20.gif' );
+        $vars->img_url_mixed = $this->_getParam( 'img_url_mixed', 'https://www.paypal.com/en_US/i/btn/x-click-but02.gif' );
+        
         // set paypal checkout type
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );

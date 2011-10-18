@@ -26,7 +26,10 @@
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
+		<param name="img_url_std" type="text" size="100" default="https://www.paypal.com/en_US/i/btn/x-click-but20.gif" label="Tienda Paypal Checkout Image" description="Tienda Paypal Checkout Image Desc"/>
+		<param name="img_url_mixed" type="text" size="100" default="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" label="Tienda Paypal Checkout Image Mixed" description="Tienda Paypal Checkout Image Mixed Desc"/>
 		<param type="spacer" />
+		
         <param name="sandbox" type="radio" default="0" label="Paypal Use Sandbox" description="Paypal Use Sandbox Desc">
           <option value="0">No</option>
           <option value="1">Yes</option>
