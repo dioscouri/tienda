@@ -366,6 +366,7 @@ class TiendaTableOrders extends TiendaTable
             + $this->order_shipping 
             + $this->order_shipping_tax
             - $this->order_discount
+            - $this->order_credit
             ;
         
         // set object properties
