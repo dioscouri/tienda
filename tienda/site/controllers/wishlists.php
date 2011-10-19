@@ -114,7 +114,12 @@ class TiendaControllerWishlists extends TiendaController
      */
     function update()
     {
-	    // verify form submitted by user
+		$share = JRequest::getVar('share');
+		if ($share) {
+		    $this->share();
+		    return;
+		}
+
 		JRequest::checkToken( ) or jexit( 'Invalid Token' );
 		
 		$dispatcher = JDispatcher::getInstance();
@@ -182,5 +187,191 @@ class TiendaControllerWishlists extends TiendaController
         $router = new TiendaHelperRoute(); 
         $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
        	$this->setRedirect( $redirect, $msg );
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return return_type
+     */
+    public function share()
+    {
+		JRequest::checkToken( ) or jexit( 'Invalid Token' );
+		
+		$dispatcher = JDispatcher::getInstance();
+		$model  = $this->getModel( $this->get('suffix') );
+        $user =& JFactory::getUser();
+        $cids = JRequest::getVar('cid', array(0), '', 'array');
+        
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute(); 
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+       	
+        // get all the items to be shared from wishlist.  if not, redirect back to wishlist with message
+        if (empty($cids))
+        {
+            $this->messagetype = 'notice';
+            $this->message = JText::_( "COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;            
+        }
+        
+        $model->setState( 'filter_ids', $cids );
+        $items = $model->getList();
+        
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+      	$view->assign( 'items', $items );      
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('share');
+        $view->display();        
+        $this->footer();
+        return;
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @return return_type
+     */
+    public function shareitems()
+    {
+        JRequest::checkToken( ) or jexit( 'Invalid Token' );
+        
+        // get the email addresses, cutting list off at 10 unique emails
+        $addresses = JRequest::getVar('share_emails', '');
+        
+        // explode them to an array
+        if ($nlsv = explode("\n", $addresses))
+        {
+            foreach ($nlsv as $email) 
+            {
+                $email = trim($email);
+                if (!in_array($email, $recipients))
+                {
+                    $recipients[] = $email;
+                }
+            }
+        }
+        
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute(); 
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+
+        // if no emails, fail
+        if (empty($recipients))
+        {
+            $this->messagetype = 'notice';
+            $this->message = JText::_( "COM_TIENDA_PLEASE_PROVIDE_EMAIL_RECIPIENTS" );
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+        
+        // create the list of items to be shared, with name & link to each item's detail page
+        $cids = JRequest::getVar('cid', array(0), '', 'array');
+        $model  = $this->getModel( $this->get('suffix') );
+        $model->setState( 'filter_ids', $cids );
+        $items = $model->getList();
+        
+        $share_items_html = '';
+        if (!empty($items))
+        {
+            $share_items_html .= '<ul>';
+            foreach ($items as $item)
+            {
+                $item->link = "index.php?option=com_tienda&view=products&task=view&id=" . $item->product_id;
+            	$item->filter_category = '';
+    	        $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $item->product_id );
+                if (!empty($categories))
+                {
+                    $item->link .= "&filter_category=".$categories[0];
+                    $item->filter_category = $categories[0];
+                }
+                $item->itemid = $router->category( $item->filter_category, true );
+                if( empty( $item->itemid ) )
+                {
+                	$item->itemid = $router->findItemid( array('view'=>'products', 'filter_category'=>'1' ) );
+                }
+                    
+                $item->link = JRoute::_( $item->link. "&Itemid=" . $item->itemid );
+                $share_items_html .= '<li>';
+                $share_items_html .= '<a href="'.$item->link.'">';
+                $share_items_html .= $item->product_name;
+                $share_items_html .= '</a>';
+                $share_items_html .= '</li>';
+            }
+            $share_items_html .= '</ul>';
+        }
+        
+        // set the mailfrom & reply-to
+        $mainframe = JFactory::getApplication();
+        $sitename = $mainframe->getCfg('sitename');
+        $siteurl = JURI::base();
+        
+        $user = JFactory::getUser();
+        $replyto = $user->email; 
+        $replytoname = $user->name;
+        $mailfrom = $replyto;
+        $fromname = $replytoname;
+        
+        // create body and subject of email
+        $share_message = JRequest::getVar('share_message', '');
+        $subject = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_SUBJECT", $sitename );
+        $body = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_BODY", $replytoname, $siteurl );
+        $body .= JText::sprintf( "COM_TIENDA_MESSAGE_FROM_SENDER", $share_message );
+        $body .= $share_items_html; 
+        
+        // foreach email address, send the email
+        $max_recipients = '10';
+        $count = (count($recipients) > $max_recipients) ? $max_recipients : count($recipients);
+        for ($i=0; $i < $count; $i++) 
+        {
+            $recipient = $recipients[$i];
+            if (empty($done[$recipient])) 
+            {
+                $done[$recipient] = $recipient;
+                if ( $send = $this->_sendMail( $mailfrom, $fromname, $recipient, $subject, $body, null, null, null, null, null, $replyto, $replytoname ) ) 
+                {
+                    $success = true;
+                    $done[$recipient] = $recipient;
+                }
+            }
+        }
+        
+        // redirect to wishlist with message 
+        $this->messagetype = 'message';
+        $this->message = JText::_( "COM_TIENDA_EMAILS_SENT" );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;
+    }
+    
+    private function _sendMail( $from, $fromname, $recipient, $subject, $body, $actions=NULL, $mode=NULL, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) 
+    {
+        $success = false;
+        $mailer = JFactory::getMailer();
+        $mailer->addRecipient( $recipient );
+        $mailer->setSubject( $subject );
+        
+        // check user mail format type, default html
+        $mailer->IsHTML($this->use_html);
+        $body = htmlspecialchars_decode( $body );
+        $mailer->setBody( $body );
+
+        if (!empty($replyto)) {
+            $replytoname = empty($replytoname) ? $replyto : $replytoname;
+            $reply = array( $replyto, $replytoname );
+            $mailer->addReplyTo($reply);
+        }        
+        
+        $sender = array( $from, $fromname );
+        $mailer->setSender($sender);
+        $sent = $mailer->send();
+        if ($sent == '1') 
+        {
+            $success = true;
+        }
+        
+        return $success;
     }
 }

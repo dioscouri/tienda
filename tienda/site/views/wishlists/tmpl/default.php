@@ -118,6 +118,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                     <td colspan="20" style="text-align: left;">
                         <input type="submit" class="button" value="<?php echo JText::_('ADD TO CART'); ?>" name="addtocart" />
                         <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_REMOVE'); ?>" name="remove" />
+                        <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_SHARE'); ?>" name="share" />
                     </td>
                 </tr>
             </tfoot>

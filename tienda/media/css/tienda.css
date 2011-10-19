@@ -12,6 +12,12 @@ div.reset{clear:both;}
 .share_review{display:block;float:left;}
 .commentsDiv1{border-bottom:1px solid #cccccc;float:left;padding:5px 0 10px;width:100%;}
 
+/*-------------------------------------------    
+    Self-clearing Floats
+-------------------------------------------*/
+.clear:after,.wrap:after,.flat:after {clear: both; content: '.'; height: 0; width: 0; visibility: hidden; display: block; }
+.wrap,.flat { zoom: 1; }
+
 /* Gray DIV while loading AJAX */ 
 .tiendaAjaxGrayDiv{	position : absolute; top : 0px;	left : 0px;	width : 100%;	height : 100%;	z-index : 9999;	background : url(../images/ajax_background.png);}
 .tiendaAjaxGrayDiv img{	position : absolute !important; top : 50%;	left : 50%; margin-left : -8px; margin-top : -8px; }
