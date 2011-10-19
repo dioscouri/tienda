@@ -184,6 +184,21 @@ $coupons = @$this->coupons;
                 </span>
             </span>                  
         </div>
+        
+        <div class="marginbot"></div>
+        <div class="floatbox">
+        	<span class="left50 header">
+        		<span class="inner">
+        			 <?php echo JText::_( "Store Credit" ); ?>
+        		</span>
+            </span>
+            <span class="left50 right">
+            	<span class="inner">
+            		- <?php echo TiendaHelperBase::currency($order->order_credit); ?>
+            	</span>
+            </span>
+        </div>        
+        
         <div class="marginbot"></div>
         <div class="floatbox">
         	<span class="left50 header">
