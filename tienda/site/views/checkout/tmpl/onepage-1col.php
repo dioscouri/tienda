@@ -267,6 +267,21 @@
 				<?php endif;?>
 				
 				<div class="reset marginbot"></div>
+				<?php if ($this->userinfo->credits_total > '0.00') : ?>
+            	<!-- STORE CREDITS -->
+		            <div id="credits_area" class="address">
+		                <div id="credits_form">
+		                <h3><?php echo JText::_("Store Credit"); ?></h3>
+		                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		                <div id="credit_message"></div>
+		                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
+		                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
+		                </div>
+		            </div>
+		        <?php endif; ?>
+		        <div id='applied_credit' style="display: none;"></div>				
+				
+				<div class="reset marginbot"></div>
 				
 				<div class="tienda-expanded" id="comments-pane">
 				<div class="contentheading">
