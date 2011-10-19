@@ -294,7 +294,7 @@ class TiendaControllerWishlists extends TiendaController
                 	$item->itemid = $router->findItemid( array('view'=>'products', 'filter_category'=>'1' ) );
                 }
                     
-                $item->link = JRoute::_( $item->link. "&Itemid=" . $item->itemid );
+                $item->link = substr( JURI::base(), 0, -1 ) . JRoute::_( $item->link. "&Itemid=" . $item->itemid );
                 $share_items_html .= '<li>';
                 $share_items_html .= '<a href="'.$item->link.'">';
                 $share_items_html .= $item->product_name;
@@ -321,6 +321,8 @@ class TiendaControllerWishlists extends TiendaController
         $body = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_BODY", $replytoname, $siteurl );
         $body .= JText::sprintf( "COM_TIENDA_MESSAGE_FROM_SENDER", $share_message );
         $body .= $share_items_html; 
+        
+        $this->use_html = true;
         
         // foreach email address, send the email
         $max_recipients = '10';
@@ -354,8 +356,11 @@ class TiendaControllerWishlists extends TiendaController
         $mailer->setSubject( $subject );
         
         // check user mail format type, default html
-        $mailer->IsHTML($this->use_html);
         $body = htmlspecialchars_decode( $body );
+        if (!empty($this->use_html)) {
+            $body = nl2br( $body );
+            $mailer->IsHTML($this->use_html);
+        }        
         $mailer->setBody( $body );
 
         if (!empty($replyto)) {
