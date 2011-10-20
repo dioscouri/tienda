@@ -13,13 +13,14 @@ window.addEvent("domready", function() {
 			}		
 		});
 	
-	SqueezeBox.onkeypress = function(e) {
-		switch (e.key) {
-		case 'esc':
-			this.close();
-			break;
-		}
-	};
+	if( typeof( SqueezeBox ) !== 'undefined' )
+		SqueezeBox.onkeypress = function(e) {
+			switch (e.key) {
+			case 'esc':
+				this.close();
+				break;
+			}
+		};
 });
 
 function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
