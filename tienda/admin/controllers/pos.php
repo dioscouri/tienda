@@ -898,8 +898,10 @@ class TiendaControllerPOS extends TiendaController
 		$response['msg'] = '';
 		$response['error'] = '';
 
-		// check if coupon code is valid
-		$user_id = JFactory::getUser()->id;
+		// check if coupon code is valid	
+		$session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+		
 		Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
 		$helper_coupon = new TiendaHelperCoupon();
 		$coupon = $helper_coupon->isValid($coupon_code, 'code', $user_id);
