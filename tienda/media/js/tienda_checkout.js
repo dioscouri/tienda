@@ -214,54 +214,6 @@ function tiendaManageShippingRates()
 	);
 }
 
-/**
- * 
- */
-function tiendaAddCredit( form )
-{
-    var apply_credit_amount = document.getElementById('apply_credit_amount').value;
-    
-    var url = 'index.php?option=com_tienda&view=checkout&task=validateApplyCredit&format=raw&apply_credit_amount='+apply_credit_amount;
-    var container = 'credit_message';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    
-    // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if (resp.error != '1') 
-            {
-                if ($(container)) { $(container).setHTML(''); }
-                $('applied_credit').setHTML( resp.msg );                
-                // Clear the field
-                $('apply_credit_amount').value = '';
-                               
-                 // Update the summary
-                tiendaGetCheckoutTotals();
-                tiendaRefreshTotalAmountDue();                
-            }
-                else
-            {
-                if ($(container)) { $(container).setHTML(resp.msg); }
-            }
-        }
-    }).request();
-}
-
 function tiendaDeleteAddressGrayDiv()
 {
 	tiendaSetColorInContainer( 'billingAddress', '' );

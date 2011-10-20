@@ -162,6 +162,14 @@ $items = @$this->orderitems;
                 </tr>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
+                        <?php echo JText::_( "Store Credit" ); ?>
+                    </td>
+                    <td colspan="3" style="text-align: right;">
+                       - <?php echo TiendaHelperBase::currency($order->order_credit); ?>
+                    </td>
+                </tr> 
+                <tr>
+                	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
                         <?php echo JText::_( "TOTAL" ); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">

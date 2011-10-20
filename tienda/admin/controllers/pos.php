@@ -237,6 +237,13 @@ class TiendaControllerPOS extends TiendaController
 					$coupons_present = true;
 				}
 				$view->assign('coupons_present', $coupons_present);
+				
+				$userid = $session->get('user_id', '', 'tienda_pos');	
+				// assign userinfo for credits
+				$userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+				$userinfo->load( array( 'user_id'=>$userid ) );
+				$userinfo->credits_total = (float) $userinfo->credits_total; 
+				$view->assign('userinfo', $userinfo);
 
 			default :
 				break;
@@ -937,6 +944,135 @@ class TiendaControllerPOS extends TiendaController
 		echo json_encode($response);
 		return ;
 	}
+	
+	/**
+     * Validates the credit amount and applies it to the order
+     * @return unknown_type
+     */
+    function validateApplyCredit()
+    {
+        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );            
+        $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
+        
+        $session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+        $apply_credit_amount = (float) JRequest::getVar( 'apply_credit_amount', '');
+        
+        $response = array();
+        $response['msg'] = '';
+        $response['error'] = '';
+        
+        // is the credit amount valid (i.e. greater than 0,
+        if ($apply_credit_amount < (float) '0.00')
+        {
+            $response['error'] = '1';
+            $response['msg'] = $helper->generateMessage( JText::_( "Please specify a valid credit amount" ) );
+            echo json_encode($response);
+            return;
+        }
+        
+        // less than/== their available amount & order amount?
+        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        $userinfo->load( array( 'user_id'=>$user_id ) );
+        $userinfo->credits_total = (float) $userinfo->credits_total;
+        if ($apply_credit_amount > $userinfo->credits_total)
+        {
+            $apply_credit_amount = $userinfo->credits_total;
+        }
+        
+        // get the order object so we can populate it
+        $order = &$this->populateOrder();	
+
+        // bind what you can from the post
+        $order->bind( $values );
+
+        // unset the order credit because it may have been set by the bind
+        $order->order_credit = '0';
+        
+        // set the currency
+        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+
+        // set the shipping method
+        $order->shipping = new JObject();
+        $order->shipping->shipping_price      = @$values['shipping_price'];
+        $order->shipping->shipping_extra      = @$values['shipping_extra'];
+        $order->shipping->shipping_name       = @$values['shipping_name'];
+        $order->shipping->shipping_tax        = @$values['shipping_tax'];
+
+        // set the addresses
+        $this->setAddresses( $order, $values );
+
+        // get the items and add them to the order
+        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        $items = TiendaHelperCarts::getProductsInfo();
+        foreach ($items as $item)
+        {
+            $order->addItem( $item );
+        }
+
+        // get all coupons and add them to the order
+        if (!empty($values['coupons']))
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+            }
+        }
+        
+        $this->addAutomaticCoupons($order);
+        
+        // get the order totals
+        $order->calculateTotals();
+        
+        if ($apply_credit_amount > $order->order_total)
+        {
+            $apply_credit_amount = $order->order_total;
+        }
+        
+        // if valid, return the html for the credit
+        $response['msg'] = "<input type='hidden' name='order_credit' value='$apply_credit_amount'>";
+        echo json_encode($response);
+        return;
+    }
+
+	private function addAutomaticCoupons(&$order)
+	{		
+		$date = JFactory::getDate();
+		$date = $date->toMysql();
+
+		// Per Order Automatic Coupons
+		$model = JModel::getInstance('Coupons', 'TiendaModel');
+		$model->setState('filter_automatic', '1');
+		$model->setState('filter_date_from', $date);
+		$model->setState('filter_date_to', $date);
+		$model->setState('filter_datetype', 'validity');
+		$model->setState('filter_type', '0');
+		$model->setState('filter_enabled', '1');
+
+		$coupons = $model->getList();
+
+		// Per Product Automatic Coupons
+		$model->setState('filter_type', '1');
+		$coupons_2 = $model->getList(true);
+
+		$coupons = array_merge( $coupons, $coupons_2 );
+
+		if($coupons)
+		{
+			foreach($coupons as $coupon)
+			{
+				$order->addCoupon($coupon);
+			}
+		}
+
+	}	
 
 	/**
 	 * Method to show the listing of products

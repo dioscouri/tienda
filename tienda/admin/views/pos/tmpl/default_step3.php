@@ -39,7 +39,7 @@
 			  <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');?>
         <?php if ($coupons_enabled && !empty($this->coupons_present)) : ?>
         <!-- COUPON CODE -->
-        <div id="coupon_code_area">
+        <div id="coupon_code_area" class="address">
             <div id="coupon_code_form">
             <h3><?php echo JText::_("Coupon Code");?></h3>
             <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
@@ -66,6 +66,25 @@
             <div id='coupon_codes' style="display: none;"></div>
         </div>
         <?php endif;?>
+        
+        <div class="reset"></div>
+        <?php if(isset($this->userinfo)):?>        
+        <?php if ($this->userinfo->credits_total > '0.00') : ?>
+            	<!-- STORE CREDITS -->
+		<div id="credits_area" class="address">
+			<div id="credits_form">
+		        <h3><?php echo JText::_("Store Credit"); ?></h3>
+		        <div id="credit_help"><?php echo sprintf( JText::_( "YOU HAVE X STORE CREDIT" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		       	<div id="credit_message"></div>
+		        <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
+		    	<input type="button" name="credit_submit" value="<?php echo JText::_('APPLY CREDIT TO ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
+			</div>
+		</div>
+		<?php endif; ?>
+		<div id='applied_credit' style="display: none;"></div>	
+        <div class="reset"></div>
+        <?php endif;?>
+        
         
 			<div id="addresses">
 				<h3>
