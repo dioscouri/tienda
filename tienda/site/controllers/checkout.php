@@ -1572,9 +1572,7 @@ class TiendaControllerCheckout extends TiendaController
 				$order->addCoupon( $coupon );
 			}
 		}
-
-	
-		$order->calculateTotals();		
+			
 		// get the order totals
 		$order->calculateTotals();
 
