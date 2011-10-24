@@ -707,8 +707,8 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
             				break;
             			case 'E' : // front-end declined
             			case 'X' : // gateway declined
-                            $payment_status = '0';
-            				$errors[] = JText::_('Tienda Sagepayments Message Payment Not Approved CODE ' . $value);
+                            $payment_status = '0';            				
+            				$errors[] = JText::sprintf("TIENDA SAGEPAYMENTS MESSAGE PAYMENT NOT APPROVED CODE %s", $value);
             				$errors[] = $exploded["approval_message"];
                             break;
             			default : // if something went wrong
