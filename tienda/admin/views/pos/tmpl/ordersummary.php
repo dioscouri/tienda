@@ -7,6 +7,8 @@ Tienda::load( 'TiendaGrid', 'library.grid' );
 $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
+$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+
 ?>
 <div class="cartitems">
            <table class="adminlist" style="clear: both;">
@@ -160,6 +162,7 @@ $items = @$this->orderitems;
                     ?>                  
                     </td>
                 </tr>
+                <?php if( $display_credits ): ?>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
                         <?php echo JText::_( "Store Credit" ); ?>
@@ -168,6 +171,7 @@ $items = @$this->orderitems;
                        - <?php echo TiendaHelperBase::currency($order->order_credit); ?>
                     </td>
                 </tr> 
+                <?php endif; ?>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
                         <?php echo JText::_( "TOTAL" ); ?>

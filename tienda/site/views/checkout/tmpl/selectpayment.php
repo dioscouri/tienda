@@ -7,7 +7,7 @@
 <?php $billing_info = @$this->billing_info; ?>
 <?php $items = @$this->items ? @$this->items : array();?>
 <?php $values = @$this->values; ?>
-
+<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
     <span><?php echo JText::_( "Select Payment Method" ); ?></span>
 </div>
@@ -50,20 +50,22 @@
         <?php endif; ?>
         
         <div class="reset"></div>
-         <?php if ($this->userinfo->credits_total > '0.00') : ?>
-            <!-- STORE CREDITS -->
-            <div id="credits_area" class="address">
-                <div id="credits_form">
-                <h3><?php echo JText::_("Store Credit"); ?></h3>
-                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
-                <div id="credit_message"></div>
-                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
-                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
-                </div>
-            </div>
+        <?php if( $display_credits ): ?>
+	        <?php if ($this->userinfo->credits_total > '0.00') : ?>
+	            <!-- STORE CREDITS -->
+	            <div id="credits_area" class="address">
+	                <div id="credits_form">
+	                <h3><?php echo JText::_("Store Credit"); ?></h3>
+	                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+	                <div id="credit_message"></div>
+	                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
+	                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
+	                </div>
+	            </div>
+	        <?php endif; ?>
+	        <div id='applied_credit' style="display: none;"></div>
+	        <div class="reset"></div>
         <?php endif; ?>
-        <div id='applied_credit' style="display: none;"></div>
-        <div class="reset"></div>
         
 	   <div id="payment_info" class="address">
 		<h3><?php echo JText::_("Billing Information"); ?></h3>

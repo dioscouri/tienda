@@ -9,11 +9,11 @@
 	
 	switch($this->form_prefix)
 	{
-		case 'shipping_':
+		case 'shipping_input_':
 			$address_type = '2';
 			break;
 		default:
-		case 'billing_':
+		case 'billing_input_':
 			$address_type = '1';
 			break;
 	}
@@ -207,7 +207,7 @@
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
 				<?php echo JText::_( 'Co. Tax Number' ); ?>
-				<?php if( $elements['tax_number'][0] ): ?>
+				<?php if( $elements['tax_number'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
 			</label>

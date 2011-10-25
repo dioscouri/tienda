@@ -79,7 +79,6 @@ class TiendaHelperAddresses extends TiendaHelperBase
 				$config->get('show_field_tax_number', '3') == '3' || $config->get('show_field_tax_number', '3') == $address_type,
 		 		$config->get('validate_field_tax_number', '3') == '3' || $config->get('validate_field_tax_number', '3') == $address_type
 																			);
-
 		return $elements;
 	}
 }

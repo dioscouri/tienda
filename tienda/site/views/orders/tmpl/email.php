@@ -207,6 +207,14 @@
             <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
             </th>
         </tr>
+				<?php if ((float) $row->order_shipping_tax > (float) '0.00') : ?>
+				<tr>
+					<th colspan="2" style="text-align: right;"><?php echo JText::_("Shipping Tax"); ?>
+					</th>
+					<th style="text-align: right;"><?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?>
+					</th>
+				</tr>
+				<?php endif; ?>
         <tr>
             <th colspan="2" style="font-size: 120%; text-align: right;">
             <?php echo JText::_( "Total" ); ?>

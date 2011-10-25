@@ -11,7 +11,7 @@
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
 <?php $config = TiendaConfig::getInstance(); ?>
 <?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
-
+<?php $display_credits = $config->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
 	<span><?php echo JText::_( "Order Detail" ); ?></span>
 </div>
@@ -198,7 +198,7 @@
                 <?php echo JText::_( "Discount" ); ?>
             </th>
             <th colspan="3" style="text-align: right;">
-                <?php echo TiendaHelperBase::currency($row->order_discount); ?>
+                <?php echo TiendaHelperBase::currency($row->order_discount, $row->currency ); ?>
             </th>
         </tr>
         <?php endif; ?>
@@ -245,7 +245,17 @@
             <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
             </th>
         </tr>
-         <?php if ((float) $row->order_credit > (float) '0.00') : ?>
+				<?php if ((float) $row->order_shipping_tax > (float) '0.00') : ?>
+				<tr>
+					<th colspan="2" style="text-align: right;">
+						<?php echo JText::_("Shipping Tax"); ?>
+					</th>
+					<th style="text-align: right;">
+						<?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?>
+					</th>
+				</tr>
+				<?php endif; ?>
+         <?php if ( $display_credits && ( (float) $row->order_credit > (float) '0.00' ) ) : ?>
         <tr>
             <th colspan="2" style="text-align: right;">
                 <?php echo JText::_( "Store Credit" ); ?>

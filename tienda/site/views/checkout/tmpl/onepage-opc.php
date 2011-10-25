@@ -7,6 +7,7 @@
 <?php Tienda::load('TiendaHelperImage', 'helpers.image'); ?>
 <?php $image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images')); ?>
 <?php $enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);?>
+<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
 <a name="tienda-method"></a> 
 
 <div id="tienda_checkout_pane">
@@ -266,6 +267,7 @@
 					</div>  
 				<?php endif;?>
 								
+				<?php if( $display_credits ): ?>
 				<div class="reset marginbot"></div>
 				<?php if ($this->userinfo->credits_total > '0.00') : ?>
             	<!-- STORE CREDITS -->
@@ -280,7 +282,7 @@
 		            </div>
 		        <?php endif; ?>
 		        <div id='applied_credit' style="display: none;"></div>				
-				
+				<?php endif; ?>				
 				<div class="reset marginbot"></div>
 							
 				<div class="tienda-expanded" id="comments-pane">

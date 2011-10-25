@@ -566,6 +566,10 @@ class TiendaConfig extends JObject
 	var $display_relateditems = '1';
 	var $article_default_payment_failure = '0';
 	var $order_emails = '';
+	var $display_credits = '0';
+	var $display_wishlist = '0';
+	var $display_subscriptions = '1';
+	var $display_mydownloads = '1';
 	
 	/**
 	 * constructor

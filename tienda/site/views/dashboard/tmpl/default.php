@@ -3,6 +3,7 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $user = JFactory::getUser(); ?>
 <?php Tienda::load( "TiendaHelperBase", 'helpers._base' ); ?>
+<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
 	<span><?php echo JText::_( "My Account" ); ?></span>
 </div>
@@ -58,6 +59,7 @@
                     </a>
                 </td>
             </tr>
+            <?php if( $display_credits ): ?>
             <tr>
                 <th style="width: 100px;">
                     <?php echo JText::_( "Available Store Credit" ); ?>
@@ -66,6 +68,7 @@
                     <?php echo TiendaHelperBase::currency( $this->userinfo->credits_total ); ?>
                 </td>
             </tr>
+            <?php endif; ?>
             </tbody>
             </table>
         

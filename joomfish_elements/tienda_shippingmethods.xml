@@ -8,7 +8,7 @@
   <reference type="tienda_shippingmethods">
   	<table name="tienda_shippingmethods">
   		<field type="referenceid" name="shipping_method_id" translate="0">ID</field>
-  		<field type="titletext" name="shipping_method_name" translate="1">Geozone name</field>
+  		<field type="titletext" name="shipping_method_name" translate="1">Name</field>
   	</table>
   </reference>
 </joomfish>

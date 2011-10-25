@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
+<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
 <div class="table">
 	<div class="row">
 		<div class="cell step_body inactive">
@@ -68,7 +69,7 @@
         <?php endif;?>
         
         <div class="reset"></div>
-        <?php if(isset($this->userinfo)):?>        
+        <?php if( $display_credits && isset($this->userinfo)):?>        
         <?php if ($this->userinfo->credits_total > '0.00') : ?>
             	<!-- STORE CREDITS -->
 		<div id="credits_area" class="address">

@@ -1,6 +1,8 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+$display_subscriptions = TiendaConfig::getInstance()->get( 'display_subscriptions', 1 );
+$display_mydownloads = TiendaConfig::getInstance()->get( 'display_mydownloads', 1 );
 ?>
 
 <div id="<?php echo $this->name; ?>" class="submenu">
@@ -8,7 +10,12 @@ JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
 
 <?php 
 foreach ($this->items as $item) {
-    
+		if( strpos( $item[1],'view=subscriptions' ) !== false && !$display_subscriptions )
+			continue;
+
+		if( strpos( $item[1],'view=productdownloads' ) !== false && !$display_mydownloads )
+			continue;
+			
     if ($this->hide) {
         
         if ($item[2] == 1) {

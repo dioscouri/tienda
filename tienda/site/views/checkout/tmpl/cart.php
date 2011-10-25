@@ -10,6 +10,7 @@ $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 $coupons = @$this->coupons;
+$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 ?>
 <div class="cartitems">
 	<div class="adminlist">
@@ -203,6 +204,7 @@ $coupons = @$this->coupons;
 
         </div>
         
+        <?php if( $display_credits ): ?>
         <div class="marginbot"></div>
         <div class="floatbox">
         	<span class="left50 header">
@@ -216,20 +218,7 @@ $coupons = @$this->coupons;
             	</span>
             </span>
         </div>        
-        
-        <div class="marginbot"></div>
-        <div class="floatbox">
-        	<span class="left50 header">
-        		<span class="inner">
-        			 <?php echo JText::_( "Store Credit" ); ?>
-        		</span>
-            </span>
-            <span class="left50 right">
-            	<span class="inner">
-            		- <?php echo TiendaHelperBase::currency($order->order_credit); ?>
-            	</span>
-            </span>
-        </div>        
+        <?php endif; ?>
         
         <div class="marginbot"></div>
         <div class="floatbox">

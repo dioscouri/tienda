@@ -115,6 +115,6 @@
     <input type="hidden" name="boxchecked" value="" />
     <input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
     <input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
-    
+    <input type="hidden" name="task" id="task" value="" />
     <?php echo $this->form['validate']; ?>
 </form>

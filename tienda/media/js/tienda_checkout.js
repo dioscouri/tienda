@@ -31,6 +31,7 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart, call
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
+   	tiendaGrayOutAjaxDiv( container, text_shipping, '' );
     var a=new Ajax(url,{
         method:"post",
 		data:{"elements":Json.toString(str)},

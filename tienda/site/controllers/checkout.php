@@ -995,8 +995,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function validateAddress( $values, $prefix, $address_id )
 	{
-		$model = $this->getModel( 'Addresses', 'TiendaModel' );
-		$table = $model->getTable();
+		$table = JTable::getInstance( 'Addresses', 'TiendaTable' );
 
 		// IS Guest Checkout or register??
 		$user_id = JFactory::getUser()->id;
@@ -1460,7 +1459,6 @@ class TiendaControllerCheckout extends TiendaController
 		$values = &$this->populateOrder($guest);
 
 		$this->setAddresses( $submitted_values );
-		$this->validateAddress( $submitted_values, $this->shipping_input_prefix, '0' );
 		// fail if shipping address is invalid
 		// if we're checking shipping and the sameasbilling is checked, then this is good
 		if ($submitted_values['shippingrequired'])
@@ -1475,41 +1473,45 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
+		// set response array
+		$response = array();
 		$text = "";
 		$user = JFactory::getUser();
 
 		$rates = $this->getShippingRates();
-		$default_rate = array();
-		if (count($rates) == 1)
+		$c = count($rates);
+		if( $c )
 		{
-			$default_rate = $rates[0];
+			$default_rate = array();
+			if ( $c == 1)
+			{
+				$default_rate = $rates[0];
+				$response['default_rate'] = $default_rate;
+			}
+	
+			//Set display
+			$view = $this->getView( 'checkout', 'html' );
+			$view->setLayout('shipping_yes');
+			$view->set( '_doTask', true);
+	
+			//Get and Set Model
+			$model = $this->getModel('checkout');
+			$view->setModel( $model, true );
+	
+			$view->set( 'hidemenu', false);
+			$view->assign( 'rates', $rates );
+			$view->assign( 'default_rate', $default_rate );
+	
+			ob_start();
+			$view->display();
+			$html = ob_get_contents();
+			ob_end_clean();
 		}
-
-		//Set display
-		$view = $this->getView( 'checkout', 'html' );
-		$view->setLayout('shipping_yes');
-		$view->set( '_doTask', true);
-
-		//Get and Set Model
-		$model = $this->getModel('checkout');
-		$view->setModel( $model, true );
-
-		$view->set( 'hidemenu', false);
-		$view->assign( 'rates', $rates );
-		$view->assign( 'default_rate', $default_rate );
-
-		ob_start();
-		$view->display();
-		$html = ob_get_contents();
-		ob_end_clean();
-
-		// set response array
-		$response = array();
+		else
+		{
+			$html = $this->getShippingHtml('shipping_calculate');
+		}
 		$response['msg'] = $html;
-
-		if( count( $rates ) == 1 )
-			$response['default_rate'] = $default_rate;
-
 		// encode and echo (need to echo to send back to browser)
 		echo json_encode($response);
 

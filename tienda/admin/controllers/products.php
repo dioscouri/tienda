@@ -1331,7 +1331,7 @@ class TiendaControllerProducts extends TiendaController
 		$prefix = JRequest::getVar('prefix', array(0), 'request', 'array');
 		$price = JRequest::getVar('price', array(0), 'request', 'array');
 		$code = JRequest::getVar('code', array(0), 'request', 'array');
-		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
+		$parent = JRequest::getVar('attribute_parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
 		$blank = JRequest::getVar( 'blank', array( 0 ), 'request', 'array' );
 		

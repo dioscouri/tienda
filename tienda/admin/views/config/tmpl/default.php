@@ -714,38 +714,6 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( 'Display Subscription Number' ); ?>
-                            </th>
-                            <td>
-                                <?php echo JHTML::_('select.booleanlist', 'display_subnum', 'class="inputbox"', $this->row->get('display_subnum', '0') ); ?>
-                            </td>
-                            <td>
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="width: 25%;">
-                                <?php echo JText::_( 'Display Subscription Number Digits' ); ?>
-                            </th>
-                            <td>
-                                <input type="text" name="sub_num_digits" value="<?php echo $this->row->get('sub_num_digits', ''); ?>" class="inputbox" size="10" />
-                            </td>
-                            <td>
-                                
-                            </td>
-                        </tr>
-                            <th style="width: 25%;">
-                                <?php echo JText::_( 'Default Subscription Number' ); ?>
-                            </th>
-                            <td>
-                                <input type="text" name="default_sub_num" value="<?php echo $this->row->get('default_sub_num', '1'); ?>" class="inputbox" size="10" />
-                            </td>
-                            <td>
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="width: 25%;">
                                 <?php echo JText::_( 'Display Facebook Like Button' ); ?>
                             </th>
                             <td>
@@ -1045,6 +1013,38 @@
                             </td>
                             <td>
                                 <?php echo JText::_( "Expiration Notice DESC" ); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Subscription Number' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'display_subnum', 'class="inputbox"', $this->row->get('display_subnum', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Display Subscription Number Digits' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="sub_num_digits" value="<?php echo $this->row->get('sub_num_digits', ''); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Default Subscription Number' ); ?>
+                            </th>
+                            <td>
+                                <input type="text" name="default_sub_num" value="<?php echo $this->row->get('default_sub_num', '1'); ?>" class="inputbox" size="10" />
+                            </td>
+                            <td>
+                                
                             </td>
                         </tr>
                     </tbody>
@@ -1610,7 +1610,7 @@
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_phone', '3'), 'show_field_phone');?>
 							</td>
-                            <th>
+	                            <th>
                                	<?php echo JText::_( 'Validate Phone Field' ); ?>
                             </th>
                             <td>
@@ -1781,7 +1781,56 @@
 					</table>										
 					<?php
 						echo $this->sliders->endPanel();				
-
+     				echo $this->sliders->startPanel( JText::_( "Features Settings" ), 'features_settings' );
+					?>
+					<table class="adminlist">
+					<tbody>		
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Subscriptions' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'display_subscriptions', 'class="inputbox"', $this->row->get('display_subscriptions', '1') ); ?>
+							</td>
+							<td>								
+								<?php echo JText::_( 'Enable Subscriptions Note' );?>
+							</td>
+						</tr>
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Enable My Downloads' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'display_mydownloads', 'class="inputbox"', $this->row->get('display_mydownloads', '1') ); ?>
+							</td>
+							<td>								
+								<?php echo JText::_( 'Enable My Downloads Note' );?>
+							</td>
+						</tr>
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Wishlist' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'display_wishlist', 'class="inputbox"', $this->row->get('display_wishlist', '0') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>		
+						<tr>
+		   				<th style="width: 25%;">
+								<?php echo JText::_( 'Enable Credits' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'display_credits', 'class="inputbox"', $this->row->get('display_credits', '0') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>		
+					</tbody>
+					</table>										
+					<?php	
+						echo $this->sliders->endPanel();				
 						// if there are plugins, display them accordingly
 		                if ($this->items_sliders) 
 		                {               	
@@ -1806,8 +1855,8 @@
 								}
 							}
 						}						
-						echo $this->sliders->endPane();					
-					?>
+						
+						?>
 					</td>
 					<td style="vertical-align: top; max-width: 30%;">
 					
