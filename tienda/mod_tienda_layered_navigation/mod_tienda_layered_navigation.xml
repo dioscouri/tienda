@@ -4,8 +4,8 @@
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.8.1</version>
-    <creationDate>September 2011</creationDate>
+    <version>0.8.2</version>
+    <creationDate>October 2011</creationDate>
     <copyright>2011 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
     <description>Layered navigation that allow users to filter products by any parameter they want</description>

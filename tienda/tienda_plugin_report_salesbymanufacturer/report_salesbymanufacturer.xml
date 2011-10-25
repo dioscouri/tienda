@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Report - Sales by Manufacturer</name>
-	<version>0.8.1</version>
-	<creationDate>September 2011</creationDate>
+	<version>0.8.2</version>
+	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
 	<authorUrl>http://www.dioscouri.com</authorUrl>

@@ -11,8 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 
 class Tienda extends JObject
 {
-	static $_version 		= '0.8.1';
-	static $_build          = 'r2161';
+	static $_version 		= '0.8.2';
+	static $_build          = 'r2272';
 	static $_versiontype    = 'community';
 	static $_copyrightyear 	= '2011';
 	static $_name 			= 'tienda';
