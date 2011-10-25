@@ -173,7 +173,7 @@
 				$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' )';
 			else
 				if( !empty($this->showShipping)&& $this->forShipping )
-					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', this.form,  \''.JText::_( 'Updating Shipping Rates' ).'\', tiendaDeleteAddressGrayDiv);';
+					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', document.adminForm,  \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', tiendaDeleteAddressGrayDiv );';
 			?>
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code" id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" <?php if ( strlen( $onchange ) ) { ?> onchange="<?php echo $onchange; ?>" <?php } ?> />
 		</div>
