@@ -120,7 +120,7 @@ class TiendaControllerOrders extends TiendaController
         if (empty($user_id) || $user_id != $row->user_id)
         {
         	$this->messagetype  = 'notice';
-        	$this->message      = JText::_( 'Invalid Order' );
+        	$this->message      = JText::_( "COM_TIENDA_INVALID_ORDER" );
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -189,7 +189,7 @@ class TiendaControllerOrders extends TiendaController
         if (empty($user_id) || $user_id != $row->user_id)
         {
             $this->messagetype  = 'notice';
-            $this->message      = JText::_( 'Invalid Order' );
+            $this->message      = JText::_( "COM_TIENDA_INVALID_ORDER");
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
