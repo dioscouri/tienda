@@ -8,7 +8,7 @@
 <?php $tmpl = @$this->tmpl; ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "Manage Your Addresses" ); ?></span>
+    <span><?php echo JText::_( "COM_TIENDA_MANAGE_YOUR_ADDRESSES" ); ?></span>
 </div>
 
     <?php if ($menu =& TiendaMenu::getInstance() && $tmpl == '') { $menu->display(); } ?>
@@ -26,7 +26,7 @@
             </td>
             <td nowrap="nowrap">
                 <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=add".$tmpl); ?>">
-                    <?php echo JText::_( "Enter a New Address" ); ?>
+                    <?php echo JText::_( "COM_TIENDA_ENTER_A_NEW_ADDRESS" ); ?>
                 </a>
             </td>
         </tr>
@@ -71,22 +71,22 @@
                     <?php echo @$item->country_name; ?><br/>
                     <!-- PHONE NUMBERS -->
                     <?php // if ($item->phone_1 || $item->phone_2 || $item->fax) { echo "<hr/>"; } ?>
-                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Phone" )."</b>: ".$item->phone_1; ?><br/><?php } ?>
-                    <?php if (!empty($item->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Alt Phone" )."</b>: ".$item->phone_2; ?><br/><?php } ?>
-                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Fax" )."</b>: ".$item->fax; ?><br/><?php } ?>
+                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "COM_TIENDA_PHONE" )."</b>: ".$item->phone_1; ?><br/><?php } ?>
+                    <?php if (!empty($item->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "COM_TIENDA_ALT_PHONE" )."</b>: ".$item->phone_2; ?><br/><?php } ?>
+                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "COM_TIENDA_FAX" )."</b>: ".$item->fax; ?><br/><?php } ?>
                 </td>
                 <td style="text-align: center;">
                     <?php if ($item->is_default_shipping && $item->is_default_billing)
                     {
-                        echo JText::_( "Default Billing and Shipping Address" );
+                        echo JText::_( "COM_TIENDA_DEFAULT_BILLING_AND_SHIPPING_ADDRESS" );
                     }
                     elseif ($item->is_default_shipping) 
                     {
-                    	echo JText::_( "Default Shipping Address" );
+                    	echo JText::_( "COM_TIENDA_DEFAULT_SHIPPING_ADDRESS" );
                     }
                     elseif ($item->is_default_billing) 
                     {
-                    	echo JText::_( "Default Billing Address" );
+                    	echo JText::_( "COM_TIENDA_DEFAULT_BILLING_ADDRESS" );
                     }
                     ?>
                 </td>
@@ -97,7 +97,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_("COM_TIENDA_NO_ITEMS_FOUND"); ?>
                 </td>
             </tr>
             <?php endif; ?>

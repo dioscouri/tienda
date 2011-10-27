@@ -15,7 +15,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "My Shopping Cart" ); ?></span>
+    <span><?php echo JText::_( "COM_TIENDA_MY_SHOPPING_CART" ); ?></span>
 </div>
 
     <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
@@ -26,7 +26,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 
         <div style="float: right;">
         [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('CHECK_CART_UPDATE'); ?>');">
-            <?php echo JText::_( "Begin Checkout" ); ?>
+            <?php echo JText::_( "COM_TIENDA_BEGIN_CHECKOUT" ); ?>
         </a>]
         </div>
         <div class="reset"></div>
@@ -37,9 +37,9 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                     <th style="width: 20px;">
                 	   <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
-                    <th colspan="2" style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
+                    <th colspan="2" style="text-align: left;"><?php echo JText::_( "COM_TIENDA_PRODUCT" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "COM_TIENDA_QUANTITY" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "COM_TIENDA_TOTAL" ); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -78,29 +78,29 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 	                    <input name="product_attributes[<?php echo $item->cart_id; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />                       
                       
                         <?php if (!empty($item->product_sku)) : ?>
-                            <b><?php echo JText::_( "SKU" ); ?>:</b>
+                            <b><?php echo JText::_( "COM_TIENDA_SKU" ); ?>:</b>
                             <?php echo $item->product_sku; ?>
                             <br/>
                         <?php endif; ?>
                       
                         <?php if ($item->product_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
-                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+                            <?php echo JText::_( "COM_TIENDA_RECURRING_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+                            (<?php echo $item->recurring_payments . " " . JText::_( "COM_TIENDA_PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIOD" ); ?>) 
 
 										            <?php if( $item->subscription_prorated ) : ?>
 		                                <br/>
-		                                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-		                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+		                                <?php echo JText::_( "COM_TIENDA_INITIAL_PERIOD_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+		                                (<?php echo "1 " . JText::_( "COM_TIENDA_PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIOD" ); ?>)
 										            <?php else : ?>
 			                            <?php if ($item->recurring_trial) : ?>
 			                                <br/>
-		                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-		                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+		                                <?php echo JText::_( "COM_TIENDA_TRIAL_PERIOD_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+		                                (<?php echo "1 " . JText::_( "COM_TIENDA_PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIOD" ); ?>)
 										            <?php endif;?>
                             <?php endif; ?>    
                         <?php else : ?>
-                            <?php echo JText::_( "Price" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?>                         
+                            <?php echo JText::_( "COM_TIENDA_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?>                         
                         <?php endif; ?> 
                         
 					    <?php if (!empty($this->onDisplayCartItem) && (!empty($this->onDisplayCartItem[$i]))) : ?>
@@ -132,15 +132,15 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             <tfoot>
                 <tr>
                     <td colspan="3" style="text-align: left;">
-                        <input type="submit" class="button" value="<?php echo JText::_('Remove Selected'); ?>" name="remove" />
+                        <input type="submit" class="button" value="<?php echo JText::_("COM_TIENDA_REMOVE_SELECTED"); ?>" name="remove" />
                     </td>
                     <td colspan="2">
-                        <input style="float: right;" type="submit" class="button" value="<?php echo JText::_('Update Quantities'); ?>" name="update" />
+                        <input style="float: right;" type="submit" class="button" value="<?php echo JText::_("COM_TIENDA_UPDATE_QUANTITIES"); ?>" name="update" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" style="font-weight: bold;">
-                        <?php echo JText::_( "Subtotal" ); ?>
+                        <?php echo JText::_( "COM_TIENDA_SUBTOTAL" ); ?>
                     </td>
                     <td style="text-align: right;">
                         <span id="totalAmountDue"><?php echo TiendaHelperBase::currency($subtotal); ?></span>
@@ -148,10 +148,10 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                 </tr>
                 <tr>
                 	<td colspan="5" style="white-space: nowrap;">
-                        <b><?php echo JText::_( "Tax and Shipping Totals" ); ?></b>
+                        <b><?php echo JText::_( "COM_TIENDA_TAX_AND_SHIPPING_TOTALS" ); ?></b>
                         <br/>
                         <?php
-                            echo JText::_( "Calculated during checkout process" );
+                            echo JText::_( "COM_TIENDA_CALCULATED_DURING_CHECKOUT_PROCESS" );
                     	?>
               	 	</td>
                 </tr>
@@ -159,14 +159,14 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                     <td colspan="4">
                         <?php if (!empty($this->return)) { ?>
                         [<a href="<?php echo $this->return; ?>">
-                            <?php echo JText::_( "Continue Shopping" ); ?>
+                            <?php echo JText::_( "COM_TIENDA_CONTINUE_SHOPPING" ); ?>
                         </a>]
                         <?php } ?>
                     </td>
                     <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
 				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('CHECK_CART_UPDATE'); ?>');">
-				            <?php echo JText::_( "Begin Checkout" ); ?>
+				            <?php echo JText::_( "COM_TIENDA_BEGIN_CHECKOUT" ); ?>
 				        </a>]
 				        </div>
                     </td>
@@ -179,6 +179,6 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         
     </form>
     <?php } else { ?>
-    <p><?php echo JText::_( "No items in your cart" ); ?></p>
+    <p><?php echo JText::_( "COM_TIENDA_NO_ITEMS_IN_YOUR_CART" ); ?></p>
     <?php } ?>
 </div>

@@ -7,7 +7,7 @@
     <td style="vertical-align: top; padding: 5px;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "Returning Users" ); ?></span>
+            <span><?php echo JText::_( "COM_TIENDA_RETURNING_USERS" ); ?></span>
         </div>
             
         <!-- LOGIN FORM -->
@@ -15,9 +15,9 @@
         <?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
                 $lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
                 $langScript =   'var JLanguage = {};'.
-                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-                                ' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
+                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_( "COM_TIENDA_WHAT_IS_OPENID" ).'\';'.
+                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( "COM_TIENDA_LOGIN_WITH_OPENID" ).'\';'.
+                                ' JLanguage.NORMAL_LOGIN = \''.JText::_( "COM_TIENDA_NORMAL_LOGIN" ).'\';'.
                                 ' var modlogin = 1;';
                 $document = &JFactory::getDocument();
                 $document->addScriptDeclaration( $langScript );
@@ -29,7 +29,7 @@
             <table>
             <tr>
                 <td style="height: 20px;">
-                    <?php echo JText::_('USERNAME'); ?> <span class>*</span>
+                    <?php echo JText::_("COM_TIENDA_USER_NAME"); ?> <span class>*</span>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td style="height: 20px;">
-                    <?php echo JText::_('PASSWORD'); ?><span>*</span>
+                    <?php echo JText::_("COM_TIENDA_PASSWORD"); ?><span>*</span>
                 </td>
                 <td>
                     <input type="password" name="passwd" class="inputbox" size="18" alt="password" />
@@ -46,7 +46,7 @@
             <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
             <tr>
                 <td>
-                    <?php echo JText::_('REMEMBER ME'); ?>
+                    <?php echo JText::_("COM_TIENDA_REMEMBER_ME"); ?>
                 </td>
                 <td>
                     <span style="float: left">
@@ -59,7 +59,7 @@
                 <td>
                 </td>
                 <td style="text-align: right;">
-                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
+                    <input type="submit" name="submit" class="button" value="<?php echo JText::_("COM_TIENDA_LOGIN") ?>" />
                 </td>
             </tr>
             <tr>
@@ -68,12 +68,12 @@
                         <li>
                             <?php // TODO Can we do this in a lightbox or something? Why does the user have to leave? ?>
                             <a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
-                            <?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
+                            <?php echo JText::_("COM_TIENDA_FORGOT_YOUR_PASSWORD"); ?></a>
                         </li>
                         <li>
                             <?php // TODO Can we do this in a lightbox or something? Why does the user have to leave? ?>
                             <a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
-                            <?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></a>
+                            <?php echo JText::_("COM_TIENDA_FORGOT_YOUR_USERNAME"); ?></a>
                         </li>
                     </ul>
                 </td>

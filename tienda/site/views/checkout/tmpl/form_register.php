@@ -3,7 +3,7 @@
 <div style="clear: both;width:100%;">
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_("Email").': '.TiendaGrid::required(); ?>
+			<?php echo JText::_("COM_TIENDA_EMAIL").': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Email Address   --> 
@@ -13,7 +13,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key"> 
-			<?php echo JText::_( 'Name' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( "COM_TIENDA_NAME" ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Name   -->
@@ -22,7 +22,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( 'Username' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( "COM_TIENDA_USER_NAME" ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Username   -->
@@ -32,7 +32,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( 'Password' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( "COM_TIENDA_PASSWORD" ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 1st   -->
@@ -42,7 +42,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( 'Verify Password' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( "COM_TIENDA_VERIFY_PASSWORD" ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 2nd   -->
@@ -57,6 +57,6 @@
 <input id="tienda_btn_register" type="button" class="button" onclick="tiendaRegistrationValidate(this, this.form, '<?php echo JText::_('User registration is in progress.')?>' );" value="<?php echo JText::_( "REGISTER" ); ?>" />
 or 
 <a href="#" onclick="tiendaCheckoutMethodForm( 'tienda_checkout_method', '', '' ); ">
-<?php echo JText::_('Cancel')?> 
+<?php echo JText::_("COM_TIENDA_CANCEL")?> 
 </a>           
 <?php endif;?>
