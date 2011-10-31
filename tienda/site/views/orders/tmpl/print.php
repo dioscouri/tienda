@@ -13,7 +13,7 @@
 <?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
 <?php $display_credits = $config->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
-	<span><?php echo JText::_( "Order Detail" ); ?></span>
+	<span><?php echo JText::_( "COM_TIENDA_ORDER_DETAIL" ); ?></span>
 </div>
 
     <?php
@@ -28,33 +28,33 @@
 		<?php echo $config->get('shop_owner_name', ''); ?><br />
 		
 		<?php if ($config->get('shop_address_1', '')) { ?>
-            <strong><?php echo JText::_('Address'); ?></strong>: <br />
+            <strong><?php echo JText::_("COM_TIENDA_ADDRESS"); ?></strong>: <br />
             <?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
             <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $config->get('shop_zip', ''); ?>, <?php echo $shop_info->shop_country_name; ?><br />		
 		<?php } ?>
 		
 		<?php if ($config->get('shop_phone', '')) { ?>
-            <strong><?php echo JText::_('Phone'); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
+            <strong><?php echo JText::_("COM_TIENDA_PHONE"); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
 		<?php } ?>
         <?php if ($config->get('shop_tax_number_1', '')) { ?>
-            <strong><?php echo JText::_('Tax Number 1'); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
+            <strong><?php echo JText::_("COM_TIENDA_TAX_NUMBER_1"); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
         <?php } ?>
         <?php if ($config->get('shop_tax_number_2', '')) { ?>
-            <strong><?php echo JText::_('Tax Number 2'); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
+            <strong><?php echo JText::_("COM_TIENDA_TAX_NUMBER_2"); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
         <?php } ?>
 	</div>
 		
     <div id="order_info">
-        <h3><?php echo JText::_("Order Information"); ?></h3>
-        <strong><?php echo JText::_("Order ID"); ?></strong>: <?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?><br/>
-        <strong><?php echo JText::_("Date"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
-        <strong><?php echo JText::_("Status"); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
+        <h3><?php echo JText::_("COM_TIENDA_ORDER_INFORMATION"); ?></h3>
+        <strong><?php echo JText::_("COM_TIENDA_ORDER_ID"); ?></strong>: <?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?><br/>
+        <strong><?php echo JText::_("COM_TIENDA_DATE"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
+        <strong><?php echo JText::_("COM_TIENDA_STATUS"); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
     </div>
     
     <div id="payment_info">
-        <h3><?php echo JText::_("Payment Information"); ?></h3>
-        <strong><?php echo JText::_("Amount"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
-        <strong><?php echo JText::_("Billing Address"); ?></strong>: 
+        <h3><?php echo JText::_("COM_TIENDA_PAYMENT_INFORMATION"); ?></h3>
+        <strong><?php echo JText::_("COM_TIENDA_AMOUNT"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
+        <strong><?php echo JText::_("COM_TIENDA_BILLING_ADDRESS"); ?></strong>: 
                     <?php
                     if( strlen( $row->billing_company ) )
 	                    echo $row->billing_company."<br/>";
@@ -70,14 +70,14 @@
 	                    echo "<br/>".$row->billing_tax_number;
                     ?>
         <br/>
-        <strong><?php echo JText::_("Associated Payment Records"); ?></strong>:
+        <strong><?php echo JText::_("COM_TIENDA_ASSOCIATED_PAYMENT_RECORDS"); ?></strong>:
             <div>
                 <?php
                 if (!empty($row->orderpayments))
                 {
                     foreach ($row->orderpayments as $orderpayment)
                     {
-                        echo JText::_( "Payment ID" ).": ".$orderpayment->orderpayment_id."<br/>";
+                        echo JText::_( "COM_TIENDA_PAYMENT_ID" ).": ".$orderpayment->orderpayment_id."<br/>";
                     }
                 } 
                 ?>
@@ -87,9 +87,9 @@
 
     <?php if ($row->order_ships) { ?>
         <div id="shipping_info">
-            <h3><?php echo JText::_("Shipping Information"); ?></h3>
-            <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
-            <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
+            <h3><?php echo JText::_("COM_TIENDA_SHIPPING_INFORMATION"); ?></h3>
+            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_METHOD"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
+            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_ADDRESS"); ?></strong>: 
                         <?php
 		                    if( strlen( $row->shipping_company ) )
 			                    echo $row->shipping_company."<br/>";
@@ -114,14 +114,14 @@
     ?>
     
     <div id="items_info">
-        <h3><?php echo JText::_("Items in Order"); ?></h3>
+        <h3><?php echo JText::_("COM_TIENDA_ITEMS_IN_ORDER"); ?></h3>
         
         <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
-                <th style="text-align: left;"><?php echo JText::_("Item"); ?></th>
-                <th style="width: 150px; text-align: center;"><?php echo JText::_("Quantity"); ?></th>
-                <th style="width: 150px; text-align: right;"><?php echo JText::_("Amount"); ?></th>
+                <th style="text-align: left;"><?php echo JText::_("COM_TIENDA_ITEM"); ?></th>
+                <th style="width: 150px; text-align: center;"><?php echo JText::_("COM_TIENDA_QUANTITY"); ?></th>
+                <th style="width: 150px; text-align: right;"><?php echo JText::_("COM_TIENDA_AMOUNT"); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -138,22 +138,22 @@
                     <?php endif; ?>
                     
                     <?php if (!empty($item->orderitem_sku)) : ?>
-                        <b><?php echo JText::_( "SKU" ); ?>:</b>
+                        <b><?php echo JText::_( "COM_TIENDA_SKU" ); ?>:</b>
                         <?php echo $item->orderitem_sku; ?>
                         <br/>
                     <?php endif; ?>
                     
                     <?php if ($item->orderitem_recurs) : ?>
                         <?php $recurring_subtotal = $item->recurring_price; ?>
-                        <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-                        (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+                        <?php echo JText::_( "COM_TIENDA_RECURRING_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+                        (<?php echo $item->recurring_payments . " " . JText::_( "COM_TIENDA_PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIODS" ); ?>) 
                         <?php if ($item->recurring_trial) : ?>
                             <br/>
-                            <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-                            (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+                            <?php echo JText::_( "COM_TIENDA_TRIAL_PERIOD_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                            (<?php echo "1 " . JText::_( "COM_TIENDA_PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIOD" ); ?>)
                         <?php endif; ?>    
                     <?php else : ?>
-                        <b><?php echo JText::_( "Price" ); ?>:</b>
+                        <b><?php echo JText::_( "COM_TIENDA_PRICE" ); ?>:</b>
                         <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>                         
                     <?php endif; ?>
                     
@@ -177,7 +177,7 @@
         <?php if (empty($items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_("COM_TIENDA_NO_ITEMS_FOUND"); ?>
                 </td>
             </tr>
         <?php endif; ?>
@@ -185,7 +185,7 @@
         <tfoot>
         <tr>
             <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Subtotal" ); ?>
+            <?php echo JText::_( "COM_TIENDA_SUBTOTAL" ); ?>
             </th>
             <th style="text-align: right;">
             <?php echo TiendaHelperBase::currency($order->order_subtotal, $row->currency); ?>
@@ -195,7 +195,7 @@
         <?php if (!empty($row->order_discount)) : ?>
         <tr>
             <th colspan="2" style="text-align: right;">
-                <?php echo JText::_( "Discount" ); ?>
+                <?php echo JText::_( "COM_TIENDA_DISCOUNT" ); ?>
             </th>
             <th colspan="3" style="text-align: right;">
                 <?php echo TiendaHelperBase::currency($row->order_discount, $row->currency ); ?>
@@ -226,8 +226,8 @@
             <tr>
                 <th colspan="2" style="text-align: right;">
                     <?php
-                    if (!empty($this->show_tax)) { echo JText::_("Product Tax Included"); } 
-                    else { echo JText::_("Product Tax"); }
+                    if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED"); } 
+                    else { echo JText::_("COM_TIENDA_PRODUCT_TAX"); }
                     ?>
                 </th>
                 <th style="text-align: right;">
@@ -239,7 +239,7 @@
         ?>
         <tr>
             <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "Shipping" ); ?>
+            <?php echo JText::_( "COM_TIENDA_SHIPPING" ); ?>
             </th>
             <th style="text-align: right;">
             <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
@@ -248,7 +248,7 @@
 				<?php if ((float) $row->order_shipping_tax > (float) '0.00') : ?>
 				<tr>
 					<th colspan="2" style="text-align: right;">
-						<?php echo JText::_("Shipping Tax"); ?>
+						<?php echo JText::_("COM_TIENDA_SHIPPING_TAX"); ?>
 					</th>
 					<th style="text-align: right;">
 						<?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?>
@@ -258,7 +258,7 @@
          <?php if ( $display_credits && ( (float) $row->order_credit > (float) '0.00' ) ) : ?>
         <tr>
             <th colspan="2" style="text-align: right;">
-                <?php echo JText::_( "Store Credit" ); ?>
+                <?php echo JText::_( "COM_TIENDA_STORE_CREDIT" ); ?>
             </th>
             <th style="text-align: right;">
                 - <?php echo TiendaHelperBase::currency($row->order_credit, $row->currency); ?>
@@ -267,7 +267,7 @@
         <?php endif; ?>        
         <tr>
             <th colspan="2" style="font-size: 120%; text-align: right;">
-            <?php echo JText::_( "Total" ); ?>
+            <?php echo JText::_( "COM_TIENDA_TOTAL" ); ?>
             </th>
             <th style="font-size: 120%; text-align: right;">
             <?php echo TiendaHelperBase::currency($row->order_total, $row->currency); ?>
@@ -284,7 +284,7 @@
 
     <?php if (!empty($row->customer_note)) : ?>
         <div id="customer_note">
-            <h3><?php echo JText::_("Note"); ?></h3>
+            <h3><?php echo JText::_("COM_TIENDA_NOTE"); ?></h3>
             <span><?php echo @$row->customer_note; ?></span>
         </div>
     <?php endif; ?>

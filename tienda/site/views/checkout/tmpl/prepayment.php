@@ -10,14 +10,14 @@
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "Review Checkout Selections and Submit Payment" ); ?></span>
+    <span><?php echo JText::_( "COM_TIENDA_REVIEW_CHECKOUT_SELECTIONS_AND_SUBMIT_PAYMENT" ); ?></span>
 </div>
 
 	<!-- Progress Bar -->
 	<?php echo $this->progress; ?>
 
     <!--    ORDER SUMMARY   -->
-    <h3><?php echo JText::_("Order Summary") ?></h3>
+    <h3><?php echo JText::_("COM_TIENDA_ORDER_SUMMARY") ?></h3>
     <div id="onCheckoutCart_wrapper" style="position: relative;">
 	<?php
 	echo @$this->orderSummary;
@@ -31,8 +31,8 @@
 	
 	<?php if (!empty($this->showBilling)) { ?>
         <div id="payment_info" class="address">
-            <h3><?php echo JText::_("Billing Information"); ?></h3>
-            <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
+            <h3><?php echo JText::_("COM_TIENDA_BILLING_INFORMATION"); ?></h3>
+            <strong><?php echo JText::_("COM_TIENDA_BILLING_ADDRESS"); ?></strong>:<br/> 
             <?php
             if( strlen( $billing_info['company'] ) )
             	echo $billing_info['company']."<br/>";
@@ -52,9 +52,9 @@
     
     <?php if (!empty($this->showShipping)) { ?>
         <div id="shipping_info" class="address">
-            <h3><?php echo JText::_("Shipping Information"); ?></h3>
-            <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
-            <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
+            <h3><?php echo JText::_("COM_TIENDA_SHIPPING_INFORMATION"); ?></h3>
+            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_METHOD"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
+            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_ADDRESS"); ?></strong>:<br/> 
             <?php
             if( strlen( $shipping_info['company'] ) )
             	echo $shipping_info['company']."<br/>";
@@ -78,7 +78,7 @@
     	{
     		?>
     		<div id="shipping_comments">
-    			<h3><?php echo JText::_("Shipping Notes"); ?></h3>
+    			<h3><?php echo JText::_("COM_TIENDA_SHIPPING_NOTES"); ?></h3>
     			<?php echo $this->order->customer_note; ?>
     		</div>
     	    <?php 
@@ -97,7 +97,7 @@
     <div class="reset"></div>
         
     <!--    PAYMENT METHOD   -->
-    <h3><?php echo JText::_("Payment Method"); ?></h3>
+    <h3><?php echo JText::_("COM_TIENDA_PAYMENT_METHOD"); ?></h3>
 
 	<?php echo $plugin_html; ?>
     
