@@ -203,7 +203,7 @@ class TiendaModelOrders extends TiendaModelBase
         $field[] = "
             (
             SELECT 
-                COUNT(*)
+                COUNT(items.orderitem_id)
             FROM
                 #__tienda_orderitems AS items 
             WHERE 

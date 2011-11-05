@@ -110,7 +110,7 @@ class TiendaModelCategories extends TiendaModelBase
         $field[] = "
             (
             SELECT 
-                COUNT(*)
+                COUNT(xref.category_id)
             FROM
                 #__tienda_productcategoryxref AS xref 
             WHERE 
@@ -136,7 +136,7 @@ class TiendaModelCategories extends TiendaModelBase
     protected function _buildResultQuery()
     {
     	$grouped_query = new TiendaQuery();
-		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
+		$grouped_query->select( $this->getState( 'select', 'COUNT(tbl.category_id)' ) );
 
         $this->_buildQueryFrom($grouped_query);
         $this->_buildQueryJoins($grouped_query);
@@ -145,7 +145,7 @@ class TiendaModelCategories extends TiendaModelBase
         $this->_buildQueryHaving($grouped_query);
         
         $query = new TiendaQuery( );
-		$query->select( 'COUNT(*)' );
+		$query->select( 'COUNT(tbl.category_id)' );
 		$query->from( '(' . $grouped_query . ') as grouped_count' );
         
         // Allow plugins to edit the query object

@@ -2,8 +2,12 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
-$items = @$this->items;
+$items = @$this->product_relations_data->items;
 $form = @$this->form;
+
+Tienda::load('TiendaHelperImage', 'helpers.image');
+$image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::getPath('images'));
+
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" class="adminform" name="adminFormChildren" enctype="multipart/form-data" >
@@ -50,7 +54,7 @@ $form = @$this->form;
                 <?php echo $item->product_sku; ?>
             </td>
             <td style="text-align: center;">
-               <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->show_tax); ?>
+               <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->product_relations_data->show_tax); ?>
             </td>
             <td style="text-align: center;">
                 <input type="text" name="quantities[<?php echo $item->product_id; ?>]" value="1" size="5" />
@@ -67,16 +71,16 @@ $form = @$this->form;
         
         <!-- Add to cart button ---> 
         <div id='add_to_cart_children' style="display: block; float: right;">
-            <input type="hidden" name="product_id" value="<?php echo $this->product_id; ?>" />
-            <input type="hidden" name="filter_category" value="<?php echo $this->filter_category; ?>" />
+            <input type="hidden" name="product_id" value="<?php echo $this->product_relations_data->product_id; ?>" />
+            <input type="hidden" name="filter_category" value="<?php echo $this->product_relations_data->filter_category; ?>" />
             <input type="hidden" id="task" name="task" value="" />
             <?php echo JHTML::_( 'form.token' ); ?>
       
-            <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
+            <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->product_relations_data->validation )."', 'validationmessage_children', 'addchildrentocart', document.adminFormChildren );"; ?>
             
             <?php 
-            if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
-                switch (TiendaConfig::getInstance()->get('cartbutton', 'image')) 
+            if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->product_relations_data->invalidQuantity)) ) :
+            		switch (TiendaConfig::getInstance()->get('cartbutton', 'image')) 
                 {
                     case "button":
                         ?>
@@ -86,7 +90,7 @@ $form = @$this->form;
                     case "image":
                     default:
                         ?> 
-                        <img class='addcart' src='<?php echo Tienda::getUrl('images')."addcart.png"; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
+                        <img class='addcart' src='<?php echo Tienda::getUrl('images').$image_addtocart; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
                         <?php
                         break;
                 }

@@ -93,5 +93,3 @@ $controller->execute( $task );
 
 // Redirect if set by the controller
 $controller->redirect();
-
-?>

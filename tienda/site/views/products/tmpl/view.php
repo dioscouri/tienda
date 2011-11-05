@@ -23,7 +23,7 @@ $item = @$this->row;
         <?php endif; ?>
                   
         <div id='tienda_product_header'>
-					<?php echo TiendaHelperProduct::getProductShareButtons( $item->product_id ); ?>
+					<?php echo TiendaHelperProduct::getProductShareButtons( $this, $item->product_id ); ?>
         
             <span class="product_name">
                 <?php echo htmlspecialchars_decode( $item->product_name ); ?>
@@ -31,7 +31,7 @@ $item = @$this->row;
             <?php if ( TiendaConfig::getInstance( )->get( 'product_review_enable', '0' ) )
 			{ ?>
             <div class="product_rating">
-                <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
+                <?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>
                 <?php if ( !empty( $item->product_comments ) ) : ?>
                 <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
                 <?php endif; ?>
@@ -81,7 +81,6 @@ $item = @$this->row;
         
         <?php if ( TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) ) : ?>
             <div class="product_buy" id="product_buy_<?php echo $item->product_id; ?>">
-                <?php //if (!empty($this->product_buy)) { echo $this->product_buy; } ?>
                 <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
             </div>              
         <?php endif; ?>
@@ -129,7 +128,7 @@ $item = @$this->row;
             </div>
         <?php endif; ?>
 
-				<?php echo TiendaHelperProduct::getGalleryLayout( $item->product_id, $item->product_name, $item->product_full_image );?>            
+				<?php echo TiendaHelperProduct::getGalleryLayout( $this, $item->product_id, $item->product_name, $item->product_full_image );?>            
         <div class="reset"></div>
 
         <?php // display the files associated with this product ?>

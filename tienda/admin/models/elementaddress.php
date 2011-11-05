@@ -84,7 +84,7 @@ class TiendaModelElementAddress extends JModel
 		$where = (count($where) ? ' WHERE '.implode(' OR ', $where) : '');
 
 		// Get the total number of records
-		$query = 'SELECT COUNT(*)' .
+		$query = 'SELECT COUNT(c.address_id)' .
 				' FROM #__tienda_addresses AS c' .
 				$where;
 		$db->setQuery($query);

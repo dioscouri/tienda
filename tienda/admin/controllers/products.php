@@ -72,8 +72,9 @@ class TiendaControllerProducts extends TiendaController
 	{
 		$view   = $this->getView( $this->get('suffix'), 'html' );
 		$model  = $this->getModel( $this->get('suffix') );
-		$view->assign( 'product_relations', $this->getRelationshipsHtml($model->getId()) );
 		$view->set( 'hidemenu', false);
+		$view->assign( 'product_relations', $this->getRelationshipsHtml($view, $model->getId()) );
+		$view->setLayout( 'form' );
 
 		parent::edit();
 	}
@@ -1847,7 +1848,7 @@ class TiendaControllerProducts extends TiendaController
 	 * @param int $address_id
 	 * @return string html
 	 */
-	function getRelationshipsHtml( $product_id )
+	function getRelationshipsHtml( $view, $product_id )
 	{
 		$html = '';
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
@@ -1855,18 +1856,21 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($items = $model->getList())
 		{
-			$view   = $this->getView( 'products', 'html' );
-			$view->set( '_controller', 'products' );
-			$view->set( '_view', 'products' );
-			$view->set( '_doTask', true);
-			$view->set( 'hidemenu', true);
-			$view->setModel( $model, true );
+			if( $view === null )
+			{
+				$view   = $this->getView( 'products', 'html' );
+				$view->set( '_controller', 'products' );
+        $view->set( '_view', 'products' );
+        $view->set( '_doTask', true);
+				$view->set( 'hidemenu', true);
+				$view->setModel( $model, true );
+			}
 			$view->setLayout( 'form_relations' );
 			$view->set('items', $items);
 			$view->set('product_id', $product_id);
 
 			ob_start();
-			$view->display();
+			echo $view->loadTemplate( null );
 			$html = ob_get_contents();
 			ob_end_clean();
 		}

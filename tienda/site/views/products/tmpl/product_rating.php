@@ -1,8 +1,11 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-if( $this->clickable )
+
+$rating = $this->rating;
+
+if( $rating->clickable )
 {
-	for( $i = 1; $i <= $this->count; $i++ ) : ?>
+	for( $i = 1; $i <= $rating->count; $i++ ) : ?>
 		<span id="rating_<?php echo $i; ?>">
 	   	<a href="javascript:void(0);" onclick="javascript:tiendaRating(<?php echo $i; ?>);">
 		   	<img id="rate_<?php echo $i; ?>" src="media/com_tienda/images/star_00.png" alt="<?php echo $i?>">
@@ -12,7 +15,7 @@ if( $this->clickable )
 }
 else 
 {
-	switch ( $this->rating )
+	switch ( $rating->rating )
 	{
 		case "5":
 				$src = Tienda::getURL( 'ratings' )."five.png";

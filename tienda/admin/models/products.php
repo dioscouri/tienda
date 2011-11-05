@@ -352,7 +352,7 @@ class TiendaModelProducts extends TiendaModelEav
 	protected function _buildResultQuery( )
 	{
 		$grouped_query = new TiendaQuery( );
-		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
+		$grouped_query->select( $this->getState( 'select', 'COUNT(tbl.product_id)' ) );
 		
 		$field = array( );
 		$filter_quantity_from = $this->getState( 'filter_quantity_from' );
@@ -428,15 +428,14 @@ class TiendaModelProducts extends TiendaModelEav
 		return $query;
 	}
 	
-	public function getList( )
+	public function getList( $refresh = false, $getEav = true, $options = array() )
 	{
 		
-		if ( empty( $this->_list ) )
+		if ( empty( $this->_list ) || $refresh )
 		{
 			Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		  Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-			$list = parent::getList( );
-			
+		  $list = parent::getList( $refresh, $getEav, $options );
 			// If no item in the list, return an array()
 			if ( empty( $list ) )
 			{
@@ -482,11 +481,11 @@ class TiendaModelProducts extends TiendaModelEav
 		return $this->_list;
 	}
 	
-	function getItem( $emptyState = true )
+	function getItem( $emptyState = true, $getEav = true )
 	{
 		if ( empty( $this->_item ) )
 		{
-			$item = parent::getItem( $emptyState );
+			$item = parent::getItem( $emptyState, $getEav );
 			
 			if ( empty( $item ) )
 			{

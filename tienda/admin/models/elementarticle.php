@@ -110,7 +110,7 @@ class TiendaModelElementArticle extends JModel
 		$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
 		// Get the total number of records
-		$query = 'SELECT COUNT(*)' .
+		$query = 'SELECT COUNT(c.id)' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .

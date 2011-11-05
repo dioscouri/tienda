@@ -1,7 +1,8 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-if ( $this->show_gallery )
+$gallery_data = $this->gallery_data;
+if ( $gallery_data->show_gallery )
 {
 	?>
 <div class="reset"></div>
@@ -11,12 +12,12 @@ if ( $this->show_gallery )
 	</div>
 	<?php
 	$i = 1;
-	foreach ( $this->images as $image )
+	foreach ( $gallery_data->images as $image )
 	{
 		?>
 	<div class="product_gallery_thumb" id="product_gallery_thumb_<?php echo $i;?>">
 	<?php 
-		echo TiendaUrl::popup( $this->uri . $image, '<img src="' . $this->uri . "thumbs/" . $image . '" alt="' . $this->product_name . '" />', array( 'update' => false, 'img' => true ) ); ?>
+		echo TiendaUrl::popup( $gallery_data->uri . $image, '<img src="' . $gallery_data->uri . "thumbs/" . $image . '" alt="' . $gallery_data->product_name . '" />', array( 'update' => false, 'img' => true ) ); ?>
 	</div>
 	<?php
 	$i++;

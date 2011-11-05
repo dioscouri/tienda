@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
-$items = @$this->items;
+$items = @$this->product_relations_data->items;
 ?>
 
     <div id="product_relations">
@@ -26,7 +26,7 @@ $items = @$this->items;
                     </a>
                 </div>
                 <div class="productrelation_price" style="vertical-align: middle;" >
-                    <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->show_tax); ?>
+                    <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->product_relations_data->show_tax); ?>
                 </div>
             </div>
         </div>

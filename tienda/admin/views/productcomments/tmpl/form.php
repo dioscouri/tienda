@@ -44,7 +44,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 					</td>
 					<td>
                         <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
-                        <?php echo TiendaHelperProduct::getRatingImage( @$row->productcomment_rating ); ?>
+                        <?php echo TiendaHelperProduct::getRatingImage( $this, @$row->productcomment_rating ); ?>
 						<input type="hidden" id="productcomment_rating" name="productcomment_rating" value="<?php echo @$row->productcomment_rating; ?>" size="10" />
 					</td>
 				</tr>

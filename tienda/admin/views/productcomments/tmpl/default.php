@@ -130,7 +130,7 @@
     			</a>
 			</td>
 			<td style="text-align: center;"> 
-                <?php echo TiendaHelperProduct::getRatingImage( $item->productcomment_rating ); ?>
+                <?php echo TiendaHelperProduct::getRatingImage( $this, $item->productcomment_rating ); ?>
 			</td>
             <td style="text-align: center;">
                 <a href="<?php echo $item->link; ?>"> 

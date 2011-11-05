@@ -1,27 +1,27 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-$item = @$this->item;
-$form = @$this->form;
-$values = @$this->values;
 $row= @$this->row;
-$click=@$this->click;
-$reviews=@$this->reviews;
+$click = @$this->comments_data->click;
+$reviews = @$this->comments_data->reviews;
+$selectsort = $this->comments_data->selectsort;
+$result = @$this->comments_data->result;
+$review_enable=@$this->comments_data->review_enable;
+$count=@$this->comments_data->count;
+
 $url = JURI::getInstance()->toString();
 $root  = JURI::getInstance()->root();
 $return_url = str_replace($root , '', $url);
 $linkurl=base64_encode( $url );
 $Itemid = JRequest::getInt('Itemid', '0');
-$result=@$this->result;
-$review_enable=@$this->review_enable;
-$count=@$this->count;
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
 $user = JFactory::getUser();
 $url_validate = JRoute::_( 'index.php?option=com_tienda&controller=products&task=validateReview&format=raw' );
 
+
 if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { 	
-	$emails = TiendaHelperProduct::getUserEmailForReview( $row->product_id );
+	$emails = TiendaHelperProduct::getUserEmailForReview( $this->comments_data->product_id );
 ?>
 <div id="product_review_header" class="tienda_header">
     <span><?php echo JText::_("Reviews"); ?></span>
@@ -38,7 +38,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
     	<?php if ($review_enable==1 && $count > 0  ): ?>
     		<form name="sortForm" method="post" action="<?php echo JRoute::_($url); ?>">
     		<?php echo JText::_('Sort By'); ?>:
-    		<?php echo TiendaSelect::selectsort( $this->selectsort, 'default_selectsort', array('class' => 'inputbox', 'size' => '1','onchange'=>'document.sortForm.submit();') ); ?> 
+    		<?php echo TiendaSelect::selectsort( $selectsort, 'default_selectsort', array('class' => 'inputbox', 'size' => '1','onchange'=>'document.sortForm.submit();') ); ?> 
     		</form>
     	<?php endif;?>
     	</div>
@@ -47,7 +47,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
     		<div id="validationmessage_comments" style="padding-top: 10px;"></div>
         <form action="<?php echo $click;?>" method="post" class="adminform" name="commentsForm" enctype="multipart/form-data" >    
             <div><?php echo JText::_('Rating'); ?>: *</div>
-            <?php echo TiendaHelperProduct::getRatingImage( 5, true  ); ?>
+            <?php echo TiendaHelperProduct::getRatingImage( $this, 5, true  ); ?>
             <?php if ($user->guest || !$user->id) {?>
             <div><?php echo JText::_( 'Name' ); ?>: *</div>
             <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('rn', ''));?>" size="40" name="user_name" id="user_name"/></div>
@@ -65,8 +65,8 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
             <div><?php echo $recaptcha->recaptcha_get_html($publickey); ?></div>
             <?php endif;?>                    
             <input type="button" name="review" id="review" onclick="javscript:tiendaFormValidation( '<?php echo $url_validate; ?>','validationmessage_comments', 'addReview', document.commentsForm );" value="<?php echo JText::_( "Submit Comment" ); ?>" />
-            <input type="hidden" name="product_id"   value="<?php echo $row->product_id;?>" />
-            <input type="hidden" name="user_id" value="<?php echo JFactory::getUser()->id; ?>" />
+            <input type="hidden" name="product_id"   value="<?php echo $this->comments_data->product_id;?>" />
+            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>" />
             <input type="hidden" name="productcomment_rating" id="productcomment_rating" value="" />
             <input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>" />
             <input type="hidden" name="task" value="" />
@@ -88,7 +88,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
                 </div>                
                 <div class="customerRating">
                     <span>
-                        <?php echo TiendaHelperProduct::getRatingImage( $review->productcomment_rating ); ?>
+                        <?php echo TiendaHelperProduct::getRatingImage( $this, $review->productcomment_rating ); ?>
                 	</span>
                 </div>
             </div>                  

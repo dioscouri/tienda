@@ -38,7 +38,7 @@ class TiendaModelTaxclasses extends TiendaModelBase
         $field[] = "
             (
             SELECT 
-                COUNT(*)
+                COUNT(rates.tax_rate_id)
             FROM
                 #__tienda_taxrates AS rates 
             WHERE 

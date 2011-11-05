@@ -6,7 +6,7 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
@@ -15,64 +15,69 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelProductRelations extends TiendaModelBase
 {
-    protected function _buildQueryWhere(&$query)
-    {
-        $filter_id = $this->getState('filter_id');
-        $filter_product = $this->getState('filter_product');
-        $filter_relation = $this->getState('filter_relation');
-        $filter_relations = $this->getState('filter_relations');
-       	$filter_product_from = $this->getState('filter_product_from');       	
-        $filter_product_to = $this->getState('filter_product_to');
-        
+	protected function _buildQueryWhere(&$query)
+	{
+		$filter_id = $this->getState('filter_id');
+		$filter_product = $this->getState('filter_product');
+		$filter_relation = $this->getState('filter_relation');
+		$filter_relations = $this->getState('filter_relations');
+		$filter_product_from = $this->getState('filter_product_from');
+		$filter_product_to = $this->getState('filter_product_to');
+
 		if (strlen($filter_id))
-        {
-            $query->where('tbl.productrelation_id = '.(int) $filter_id);
-       	}
+		{
+			$query->where('tbl.productrelation_id = '.(int) $filter_id);
+		}
 
-        if (strlen($filter_product))
-        {
-            $query->where(
+		if (strlen($filter_product))
+		{
+			$query->where(
                 '(tbl.product_id_from = '.(int) $filter_product .' OR tbl.product_id_to = '.(int) $filter_product .' )'
-            );
-        }
-       	
-       	if (strlen($filter_product_from))
-        {
-            $query->where('tbl.product_id_from = '.(int) $filter_product_from);
-       	}
-        
-       	if (strlen($filter_product_to))
-        {
-            $query->where('tbl.product_id_to = '.(int) $filter_product_to);
-        }
-        
-        if (strlen($filter_relation))
-        {
-            $query->where("tbl.relation_type = '$filter_relation'");
-        }
-        
-        if (is_array($filter_relations))
-        {
-            $query->where("tbl.relation_type IN ('".implode("', '", $filter_relations)."')");
-        }
-    }
+                );
+		}
 
-    protected function _buildQueryJoins(&$query)
-    {
-        $query->join('LEFT', '#__tienda_products AS p_from ON p_from.product_id = tbl.product_id_from');
-        $query->join('LEFT', '#__tienda_products AS p_to ON p_to.product_id = tbl.product_id_to');   
-    }
-    
-    protected function _buildQueryFields(&$query)
-    {
-        $date = JFactory::getDate()->toMysql();
-        $default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
-        
-        $fields = array();
-        $fields[] = " p_from.product_name as product_name_from ";
-        $fields[] = " p_from.product_sku as product_sku_from ";
-        $fields[] = " p_from.product_model as product_model_from ";
-        $fields[] = "
+		if (strlen($filter_product_from))
+		{
+			$query->where('tbl.product_id_from = '.(int) $filter_product_from);
+		}
+
+		if (strlen($filter_product_to))
+		{
+			$query->where('tbl.product_id_to = '.(int) $filter_product_to);
+		}
+
+		if (strlen($filter_relation))
+		{
+			$query->where("tbl.relation_type = '$filter_relation'");
+		}
+
+		if (is_array($filter_relations))
+		{
+			$query->where("tbl.relation_type IN ('".implode("', '", $filter_relations)."')");
+		}
+	}
+
+	protected function _buildQueryJoins(&$query)
+	{
+		$query->join('LEFT', '#__tienda_products AS p_from ON p_from.product_id = tbl.product_id_from');
+		$query->join('LEFT', '#__tienda_products AS p_to ON p_to.product_id = tbl.product_id_to');
+	}
+
+	protected function _buildQueryFields(&$query)
+	{
+		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+		$date = JFactory::getDate()->toMysql();
+		$filter_product = $this->getState('filter_product');
+		if( strlen( $filter_product ) )
+			$default_group = TiendaHelperUser::getUserGroup( JFactory::getUser()->id, (int)$filter_product );
+		else
+			$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+
+		$fields = array();
+		$fields[] = " p_from.product_name as product_name_from ";
+		$fields[] = " p_from.product_sku as product_sku_from ";
+		$fields[] = " p_from.product_model as product_model_from ";
+		$fields[] = "
             (
             SELECT 
                 prices.product_price
@@ -87,11 +92,11 @@ class TiendaModelProductRelations extends TiendaModelBase
             LIMIT 1
             ) 
         AS product_price_from ";
-        
-        $fields[] = " p_to.product_name as product_name_to ";
-        $fields[] = " p_to.product_sku as product_sku_to ";
-        $fields[] = " p_to.product_model as product_model_to ";
-        $fields[] = "
+
+		$fields[] = " p_to.product_name as product_name_to ";
+		$fields[] = " p_to.product_sku as product_sku_to ";
+		$fields[] = " p_to.product_model as product_model_to ";
+		$fields[] = "
             (
             SELECT 
                 prices.product_price
@@ -107,19 +112,19 @@ class TiendaModelProductRelations extends TiendaModelBase
             ) 
         AS product_price_to ";
 
-        $query->select( $this->getState( 'select', 'tbl.*' ) );
-        $query->select( $fields );
-    }
-    
+		$query->select( $this->getState( 'select', 'tbl.*' ) );
+		$query->select( $fields );
+	}
+
 	public function getList()
 	{
-		$list = parent::getList(); 
-		
+		$list = parent::getList();
+
 		// If no item in the list, return an array()
-        if( empty( $list ) ){
-        	return array();
-        }
-        
+		if( empty( $list ) ){
+			return array();
+		}
+
 		return $list;
 	}
 }

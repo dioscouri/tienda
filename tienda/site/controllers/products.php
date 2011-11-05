@@ -203,7 +203,6 @@ class TiendaControllerProducts extends TiendaController
 			{
 				$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
 				$item->itemid = JRequest::getInt( 'Itemid', $itemid );
-				$item->product_buy = $this->getAddToCart( $item->product_id );
 			}
 		}
 
@@ -261,12 +260,11 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'view', $this->get( 'suffix' ) );
 		$model = $this->getModel( $this->get( 'suffix' ) );
 		$model->getId( );
-		
 		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		$user_id = JFactory::getUser( )->id;
 		$filter_group = TiendaHelperUser::getUserGroup( $user_id, $model->getId( ) );
 		$model->setState( 'filter_group', $filter_group );
-		$row = $model->getItem( false ); // use the state
+		$row = $model->getItem( false, false ); // use the state
 		
 		$filter_category = $model->getState( 'filter_category', JRequest::getVar( 'filter_category' ) );
 		if ( empty( $filter_category ) )
@@ -277,7 +275,6 @@ class TiendaControllerProducts extends TiendaController
 				$filter_category = $categories[0];
 			}
 		}
-		
 		$unpublished = false;
 		if( $row->unpublish_date != JFactory::getDbo()->getNullDate() )
 		{
@@ -348,13 +345,13 @@ class TiendaControllerProducts extends TiendaController
 			}
 			$view->assign( 'inventoryList', $inventoryList );
 		}
-		$view->assign( 'product_comments', $this->getComments( $row->product_id ) );
-		$view->assign( 'product_description', $product_description );
-		$view->assign( 'files', $this->getFiles( $row->product_id ) );
-		$view->assign( 'product_buy', $this->getAddToCart( $row->product_id ) );
-		$view->assign( 'product_relations', $this->getRelationshipsHtml( $row->product_id, 'relates' ) );
-		$view->assign( 'product_children', $this->getRelationshipsHtml( $row->product_id, 'parent' ) );
-		$view->assign( 'product_requirements', $this->getRelationshipsHtml( $row->product_id, 'requires' ) );
+
+		$view->product_comments = $this->getComments( $view, $row->product_id );
+		$view->files = $this->getFiles( $view, $row->product_id );
+		$view->product_relations = $this->getRelationshipsHtml( $view, $row->product_id, 'relates' );
+		$view->product_children = $this->getRelationshipsHtml( $view, $row->product_id, 'parent' );
+		$view->product_requirements = $this->getRelationshipsHtml( $view, $row->product_id, 'requires' );
+		$view->product_description = $product_description;
 		$view->setModel( $model, true );
 		
 		// add the media/templates folder as a valid path for templates
@@ -371,14 +368,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->setLayout( $layout );
 		
 		$dispatcher = &JDispatcher::getInstance( );
-		
-		ob_start( );
-		$dispatcher->trigger( 'onDisplayProductAttributeOptions', array(
-					$row->product_id
-				) );
-		$view->assign( 'onDisplayProductAttributeOptions', ob_get_contents( ) );
-		ob_end_clean( );
-		
+				
 		ob_start( );
 		$dispatcher->trigger( 'onBeforeDisplayProduct', array(
 					$row->product_id
@@ -440,10 +430,10 @@ class TiendaControllerProducts extends TiendaController
 		$response = array( );
 		$response['msg'] = '';
 		$response['error'] = '';
-		
+
 		// get elements from post
 		$elements = json_decode( preg_replace( '/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
-		
+
 		// convert elements to array that can be binded
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$values = TiendaHelperBase::elementsToArray( $elements );
@@ -454,7 +444,7 @@ class TiendaControllerProducts extends TiendaController
 		JRequest::setVar( 'elements', null );
 		$values = array_merge( $values, $request_arr );
 		JRequest::set( $values, 'POST' );
-		
+
 		if ( empty( $values['product_id'] ) )
 		{
 			$values['product_id'] = JRequest::getInt( 'product_id', 0 );
@@ -477,7 +467,7 @@ class TiendaControllerProducts extends TiendaController
 	 * @param int $address_id
 	 * @return string html
 	 */
-	function getFiles( $product_id )
+	function getFiles( $view, $product_id )
 	{
 		$html = '';
 		
@@ -506,21 +496,21 @@ class TiendaControllerProducts extends TiendaController
 			$helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
 			$filtered_items = $helper->filterRestricted( $items, JFactory::getUser( )->id );
 			
-			$view = $this->getView( 'products', 'html' );
-			$view->set( '_controller', 'products' );
-			$view->set( '_view', 'products' );
-			$view->set( '_doTask', true );
-			$view->set( 'hidemenu', true );
 			$view->setModel( $model, true );
+			$product_file_data = new stdClass;
+			$product_file_data->downloadItems = $filtered_items[0];
+			$product_file_data->nondownloadItems = $filtered_items[1];
+			$product_file_data->product_id = $product_id;
+			$lyt = $view->getLayout();
 			$view->setLayout( 'product_files' );
-			$view->set( 'downloadItems', $filtered_items[0] );
-			$view->set( 'nondownloadItems', $filtered_items[1] );
-			$view->set( 'product_id', $product_id );
+			$view->product_file_data = $product_file_data;
 			
 			ob_start( );
-			$view->display( );
+			echo $view->loadTemplate( null );
 			$html = ob_get_contents( );
 			ob_end_clean( );
+			$view->setLayout( $lyt );
+			unset( $view->product_file_data );
 		}
 		
 		return $html;
@@ -533,7 +523,7 @@ class TiendaControllerProducts extends TiendaController
 	 * @param int $address_id
 	 * @return string html
 	 */
-	function getRelationshipsHtml( $product_id, $relation_type = 'relates' )
+	function getRelationshipsHtml( $view, $product_id, $relation_type = 'relates' )
 	{
 		$html = '';
 		$validation = "";
@@ -543,7 +533,6 @@ class TiendaControllerProducts extends TiendaController
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_relation', $relation_type );
 		$user = &JFactory::getUser( );
-		$filter_group = TiendaHelperUser::getUserGroup( $user->id, $product_id );
 		$model->setState( 'filter_group', $relation_type );
 		
 		switch ( $relation_type )
@@ -587,6 +576,23 @@ class TiendaControllerProducts extends TiendaController
 			$userId = JFactory::getUser( )->id;
 			$config = TiendaConfig::getInstance( );
 			$show_tax = $config->get( 'display_prices_with_tax' );
+			
+			if ( $show_tax )
+			{
+				Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+				$geozones = TiendaHelperUser::getGeoZones( $userId );
+				if ( empty( $geozones ) )
+				{
+					// use the default
+					$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
+					$table->load( array(
+								'geozone_id' => $config->get( 'default_tax_geozone' )
+							) );
+					$geozones = array(
+						$table
+					);
+				}
+			}
 			foreach ( $items as $key => $item )
 			{
 				if ( $check_quantity )
@@ -615,30 +621,12 @@ class TiendaControllerProducts extends TiendaController
 					$item->product_sku = $item->product_sku_from;
 					$item->product_price = $item->product_price_from;
 				}
-				//get the right price base on the $filter_group
-				$filter_group = TiendaHelperUser::getUserGroup( $user->id, $item->product_id );
-				$priceObj = TiendaHelperProduct::getPrice( $item->product_id, '1', $filter_group );
-				$item->product_price = $priceObj->product_price;
 				
 				$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
 				$item->itemid = JRequest::getInt( 'Itemid', $itemid );
 				$item->tax = 0;
 				if ( $show_tax )
 				{
-					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-					$geozones = TiendaHelperUser::getGeoZones( $userId );
-					if ( empty( $geozones ) )
-					{
-						// use the default
-						$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
-						$table->load( array(
-									'geozone_id' => $config->get( 'default_tax_geozone' )
-								) );
-						$geozones = array(
-							$table
-						);
-					}
-					
 					$taxtotal = TiendaHelperProduct::getTaxTotal( $item->product_id, $geozones );
 					$tax = $taxtotal->tax_total;
 					$item->taxtotal = $taxtotal;
@@ -646,28 +634,28 @@ class TiendaControllerProducts extends TiendaController
 				}
 			}
 		}
-		
-		if ( !empty( $items ) )
+		else
 		{
-			$view = $this->getView( 'products', 'html' );
-			$view->set( '_controller', 'products' );
-			$view->set( '_view', 'products' );
-			$view->set( '_doTask', true );
-			$view->set( 'hidemenu', true );
-			$view->setModel( $model, true );
-			$view->setLayout( $layout );
-			$view->set( 'items', $items );
-			$view->set( 'product_id', $product_id );
-			$view->set( 'show', $product_id );
-			$view->assign( 'filter_category', $filter_category );
-			$view->assign( 'validation', $validation );
-			$view->assign( 'show_tax', $show_tax );
-			
-			ob_start( );
-			$view->display( );
-			$html = ob_get_contents( );
-			ob_end_clean( );
+			return '';
 		}
+		$view->setModel( $model, true );
+		$lyt = $view->getLayout();
+		$view->setLayout( $layout );
+		$product_relations = new stdClass;
+		$product_relations->items = $items;
+		$product_relations->product_id = $product_id;
+		$product_relations->show = $product_id;
+		$product_relations->filter_category = $filter_category;
+		$product_relations->validation = $validation;
+		$product_relations->show_tax = $show_tax;
+		$view->product_relations_data = $product_relations;
+		
+		ob_start( );
+		$view->display( );
+		$html = ob_get_contents( );
+		ob_end_clean( );	
+		unset( $view->product_relations_data );
+		$view->setLayout( $lyt );
 		
 		return $html;
 	}
@@ -1234,10 +1222,9 @@ class TiendaControllerProducts extends TiendaController
 	 * @param $product_id
 	 * @return unknown_type
 	 */
-	function getComments( $product_id )
+	function getComments( $view, $product_id )
 	{
 		$html = '';
-		$view = &$this->getView( 'products', 'html' );
 		
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
@@ -1252,15 +1239,13 @@ class TiendaControllerProducts extends TiendaController
 		
 		$count = count( $reviews );
 		
-		$view->set( '_controller', 'products' );
-		$view->set( '_view', 'products' );
-		$view->set( '_doTask', true );
-		$view->set( 'hidemenu', true );
-		$view->setModel( $model, true );
+		$lyt = $view->getLayout();
 		$view->setLayout( 'product_comments' );
-		$view->assign( 'product_id', $product_id );
-		$view->assign( 'count', $count );
-		$view->assign( 'reviews', $reviews );
+		$view->setModel( $model, true );
+		$comments_data = new stdClass;
+		$comments_data->product_id = $product_id;
+		$comments_data->count = $count;
+		$comments_data->reviews = $reviews;
 		
 		$user_id = JFactory::getUser( )->id;
 		$productreview = TiendaHelperProduct::getUserAndProductIdForReview( $product_id, $user_id );
@@ -1304,17 +1289,23 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		
-		$view->assign( 'review_enable', $review_enable );
-		$view->assign( 'result', $result );
-		$view->assign( 'click', 'index.php?option=com_tienda&controller=products&view=products&task=addReview' );
-		$view->assign( 'selectsort', $selectsort );
+		$comments_data->review_enable = $review_enable;
+		$comments_data->result = $result;
+		$comments_data->click = 'index.php?option=com_tienda&controller=products&view=products&task=addReview';
+		$comments_data->selectsort = $selectsort;
+		$view->comments_data = $comments_data;
+		$task = $model->getState( 'task' );
+		$model->setState( 'task', 'product_comments' );
 		ob_start( );
-		$view->display( );
+		$view->display( null );
 		$html = ob_get_contents( );
 		ob_end_clean( );
+		$model->setState( 'task', $task );
+		$view->setLayout( $lyt );
+		
 		return $html;
 	}
-	
+		
 	/**
 	 * Verifies the fields in a submitted form.  Uses the table's check() method.
 	 * Will often be overridden. Is expected to be called via Ajax 
@@ -2216,7 +2207,7 @@ class TiendaControllerProducts extends TiendaController
 		
         JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 		$product = JTable::getInstance( 'Products', 'TiendaTable' );
-		$product->load( $product_id );
+		$product->load( $product_id, true, false );
 		
 		if (empty($product->product_id))
 		{

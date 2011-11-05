@@ -4,6 +4,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $state = @$this->state;
 $items = @$this->items;
 $citems = @$this->citems;
+Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 ?>
 <div id="tienda" class="products default">
 
@@ -136,7 +137,7 @@ $citems = @$this->citems;
                 <?php endif; ?>
 
                 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
-                    <?php echo $item->product_buy; ?>
+                    <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
                 </div>
                
                 <div class="product_info">
@@ -149,7 +150,7 @@ $citems = @$this->citems;
                     </div>
                      <?php if ( TiendaConfig::getInstance()->get('product_review_enable', '0') ) { ?>
                     <div class="product_rating">
-                       <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
+                       <?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>
                        <?php if (!empty($item->product_comments)) : ?>
                        <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
                        <?php endif; ?>

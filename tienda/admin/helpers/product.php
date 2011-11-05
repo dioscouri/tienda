@@ -297,7 +297,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$path = $this->getGalleryPath( $row->product_id );
 		
 		// get the current list of images in the current path
-		$images = $this->getGalleryImages( $path );
+		$images = $this->getGalleryImages( $path, array(), false);
+		
 		
 		// if there are any images in the other possible paths for the product, move them to the current path
 		$dir = Tienda::getPath( 'products_images' );
@@ -502,7 +503,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $folder
 	 * @return array
 	 */
-	function getGalleryImages( $folder = null, $options = array( ) )
+	function getGalleryImages( $folder = null, $options = array( ), $triggerEvent = true )
 	{
 		$images = array( );
 		
@@ -543,8 +544,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 		}
 		
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger( 'onPrepareGalleryImages', array( &$images ) );
+		if( $triggerEvent )
+		{
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onPrepareGalleryImages', array( &$images ) );
+		}
 		
 		return $images;
 	}
@@ -713,7 +717,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @return unknown_type
 	 */
 	function getImage( $id, $by = 'id', $alt = '', $type = 'thumb', $url = false, $resize = false, $options = array( ) )
-	{
+	{ 
 		$style = "";
 		$height_style = "";
 		$width_style = "";
@@ -1002,7 +1006,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
 			$model->setState( 'filter_group', $filter_group );
 			$model->setId( $product_id );
-			$row = $model->getItem( false );
+			$row = $model->getItem( false, false );
 			$product_price = $row->price;
 		}
 
@@ -1174,7 +1178,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$sets[$id] = array( );
 				return $sets[$id];
 			}
-			
 			$list = array( );
 			foreach ( $items as $item )
 			{
@@ -1653,6 +1656,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		$tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
+		return $tableProduct;
 		
 		$tableProduct->load( $id, true, false );
 		if ( empty( $tableProduct->product_check_inventory ) )
@@ -1708,14 +1712,13 @@ class TiendaHelperProduct extends TiendaHelperBase
 				JPATH_ADMINISTRATOR . DS . "components" . DS . "com_tienda" . DS . "defines.php" );
 		// load the config class
 		Tienda::load( 'TiendaConfig', 'defines' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		// get the model
 		$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
 		$user = JFactory::getUser( );
 		$model->setState( 'filter_userid', $user->id );
 		$model->setState( 'filter_productid', $product_id );
-		$orders = $model->getList( );
+		$orders = $model->getList( true, false );
 		return $orders;
 		
 	}
@@ -1887,7 +1890,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	function getRatingImage( $num, $clickable = false ,$layout = 'product_rating' )
+	function getRatingImage( $view, $num, $clickable = false ,$layout = 'product_rating' )
 	{
 		if( !$clickable )
 		{
@@ -1936,28 +1939,21 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$id = "5";
 			}
 		}
-		
-		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
-		JModel::addIncludePath( JPATH_SITE.DS."components".DS."com_tienda".DS."models" );
-		
-		$view = new TiendaViewProducts( );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
-		$view->set( '_view', 'products' );
-		$view->set( '_doTask', true );
-		$view->setModel( $model, true );
-		$view->setLayout( $layout );
+		$rating = new stdClass();
+		$rating->clickable = $clickable;
 		if( !$clickable )
-			$view->assign( 'rating', $id );
-		$view->assign( 'clickable', $clickable );
-		$view->assign( 'count', $num );
-		$view->assign( 'hideleftmenu', 1 );
-		$view->assign( 'hidemenu', 1 );
-		ob_start( );
-		$view->display( );
-		$return = ob_get_contents( );
-		ob_end_clean( );
+			$rating->rating = $id;
+		$rating->count = $num;
+		$view->rating =  $rating;
+		$view->setLayout( $layout ); 
 		
-		return $return;
+		$result = $view->loadTemplate( null );
+		if (JError::isError($result))
+			return '';
+			
+		unset( $view->rating );
+		
+		return $result;
 	}
 	
 	/**
@@ -2098,6 +2094,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 */
 	public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
 	{
+		
 		if( is_array( $values ) && !count( $values ) )
 		{
 			$values = JRequest::get( 'request' );
@@ -2110,6 +2107,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view = new TiendaViewProducts( );
 		$model = JModel::getInstance( 'Products', 'TiendaModel' );
 		$model->setId( $product_id );
+		$model->setState( 'task', 'product_buy' );
 		
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper_product = TiendaHelperBase::getInstance( 'Product' );
@@ -2119,12 +2117,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
 		$model->setState( 'filter_group', $filter_group );
 		
-		$row = $model->getItem( false );
+		$row = $model->getItem( false, false );
 		if ( $row->product_notforsale || TiendaConfig::getInstance( )->get( 'shop_enabled' ) == '0' )
 		{
 			return $html;
 		}
-		
 		$view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
@@ -2132,11 +2129,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view->set( 'hidemenu', true );
 		$view->setModel( $model, true );
 		$view->setLayout( $layout );
-		$view->assign( 'product_id', $product_id );
-		$view->assign( 'values', $values );
+		$view->product_id = $product_id;
+		$view->values = $values;
 		$filter_category = $model->getState( 'filter_category', JRequest::getInt( 'filter_category', ( int ) @$values['filter_category'] ) );
-		$view->assign( 'filter_category', $filter_category );
-		$view->assign( 'validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
+		$view->filter_category = $filter_category;
+		$view->validation = "index.php?option=com_tienda&view=products&task=validate&format=raw";
 		
 		$config = TiendaConfig::getInstance( );
 		// TODO What about this??
@@ -2145,7 +2142,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			$article_link = $config->get( 'article_shipping', '' );
 			$shipping_cost_link = JRoute::_( 'index.php?option=com_content&view=article&id=' . $article_link );
-			$view->assign( 'shipping_cost_link', $shipping_cost_link );
+			$view->shipping_cost_link = $shipping_cost_link;
 		}
 		
 		$quantity_min = 1;
@@ -2170,8 +2167,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 			$attributes = $default_attributes;
 		}
-		
-		if ( !empty( $values ) )
+		else
 		{
 			$product_qty = !empty( $values['product_qty'] ) ? ( int ) $values['product_qty'] : $quantity_min;
 			
@@ -2186,16 +2182,16 @@ class TiendaHelperProduct extends TiendaHelperBase
 			
 			if( !count( $attributes ) ) // no attributes are selected -> use default
 				$attributes = $helper_product->getDefaultAttributes( $product_id );
-
+				
 			sort( $attributes );
 			
 			// Add 0 to attributes to include all the root attributes
 			//$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
 			
 			// For getting child opts
-			$view->assign( 'selected_opts', json_encode( array_merge( $attributes, array(
+			$view->selected_opts = json_encode( array_merge( $attributes, array(
 						'0'
-					) ) ) );
+					) ) );
 			
 			$attributes_csv = implode( ',', $attributes );
 			
@@ -2212,7 +2208,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 				$invalidQuantity = '1';
 			}
 		}
-
+		
 		// adjust the displayed price based on the selected or default attributes
 		$table = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
 		foreach ( $attributes as $attrib_id )
@@ -2236,12 +2232,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 
 		$show_tax = $config->get( 'display_prices_with_tax' );
 		$show_product = $config->get( 'display_category_cartbuttons' );
-		$view->assign( 'show_tax', $show_tax );
-		$view->assign( 'tax', 0 );
-		$view->assign( 'taxtotal', '' );
-		$view->assign( 'shipping_cost_link', '' );
+		$view->show_tax = $show_tax;
 		
 		$row->tax = '0';
+		$row->taxtotal = '0';
 		if ( $show_tax )
 		{
 			// finish TiendaHelperUser::getGeoZone -- that's why this isn't working
@@ -2258,15 +2252,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 					$table
 				);
 			}
-			
 			$taxtotal = TiendaHelperProduct::getTaxTotal( $product_id, $geozones, $row->price );
 			$tax = $taxtotal->tax_total;
 			$row->taxtotal = $taxtotal;
 			$row->tax = $tax;
-			// @v0.6.1, we're leaving these here for 2 more versions, so as not to break existing templates
-			// @v0.8.0, these are gone
-			$view->assign( 'taxtotal', $taxtotal );
-			$view->assign( 'tax', $tax );
 		}
 		
 		$row->_product_quantity = $product_qty;
@@ -2279,19 +2268,19 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 
 		
-		$view->assign( 'page', $page );
-		$view->assign( 'display_cartbutton', $display_cartbutton );
-		$view->assign( 'availableQuantity', $availableQuantity );
-		$view->assign( 'invalidQuantity', $invalidQuantity );
-		$view->assign( 'item', $row );
+		$view->page = $page;
+		$view->display_cartbutton = $display_cartbutton;
+		$view->availableQuantity = $availableQuantity;
+		$view->invalidQuantity = $invalidQuantity;
+		$view->item = $row;
 		
 		$dispatcher = &JDispatcher::getInstance( );
-		
+
 		ob_start( );
 		$dispatcher->trigger( 'onDisplayProductAttributeOptions', array(
 					$row->product_id
 				) );
-		$view->assign( 'onDisplayProductAttributeOptions', ob_get_contents( ) );
+		$view->onDisplayProductAttributeOptions = ob_get_contents( );
 		ob_end_clean( );
 		
 		ob_start( );
@@ -2308,27 +2297,20 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param int $product_id 	The id of the product
 	 * @return html	The add to product detail view
 	 */
-	public static function getProductShareButtons( $product_id, $layout = 'product_share_buttons' )
+	public static function getProductShareButtons( $view, $product_id, $layout = 'product_share_buttons' )
 	{
-		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
+		$share_data = new stdClass();
+		$share_data->product_id = $product_id;
+		$view->share_data = $share_data;
 		
-		$view = new TiendaViewProducts( );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
-		$model->setId( $product_id );
-		$row = $model->getItem( false );		
-		$view->assign( 'item', $row );
-		$view->set( '_view', 'products' );
-		$view->set( '_doTask', true );
-		$view->set( 'hidemenu', true );
-		$view->setModel( $model, true );
+		$lt = $view->getLayout();
 		$view->setLayout( $layout );
-		$view->assign( 'product_id', $product_id );
-		
 		ob_start( );
-		$view->display( );
+		echo $view->loadTemplate( null );
 		$html = ob_get_contents( );
 		ob_end_clean( );
-		
+		$view->setLayout( $lt );
+		unset( $view->share_data );
 		return $html;
 	}
 
@@ -2399,13 +2381,13 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * 
 	 * @return HTML of the layout
 	 */
-	public static function getGalleryLayout( $product_id, $product_name = '', $exclude = '', $layout = 'product_gallery', $values = array() )
+	public static function getGalleryLayout( $view, $product_id, $product_name = '', $exclude = '', $layout = 'product_gallery', $values = array() )
 	{
 		if( is_array( $values ) && !count( $values ) )
 		{
 			$values = JRequest::get( 'post' );
 		}
-
+		
 		$path = TiendaHelperProduct::getGalleryPath( $product_id );
 		$images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude' => $exclude ) );
 		$uri = TiendaHelperProduct::getUriFromPath( $path );
@@ -2413,29 +2395,23 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if ( !empty( $path ) && !empty( $images ) )
 			$show_gallery = true;
 		
-		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
 		Tienda::load( 'TiendaUrl', 'library.url' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$view = new TiendaViewProducts( );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
-		$model->setId( $product_id );
-		$view->setModel( $model, true );
-		$view->set( '_controller', 'products' );
-		$view->set( '_view', 'products' );
-		$view->set( '_doTask', true );
-		$view->set( 'hidemenu', true );
-		$view->setLayout( $layout );
-		$view->assign( 'values', $values );
-		$view->assign( 'show_gallery', $show_gallery );
-		$view->assign( 'uri', $uri );
-		$view->assign( 'images', $images );
-		$view->assign( 'product_name', $product_name );
+		$gallery_data = new stdClass();
+		$gallery_data->values = $values;
+		$gallery_data->show_gallery = $show_gallery;
+		$gallery_data->uri = $uri;
+		$gallery_data->images = $images;
+		$gallery_data->product_name = $product_name;
+		$view->gallery_data = $gallery_data;
 
+		$lt = $view->getLayout();
+		$view->setLayout( $layout );
 		ob_start( );
-		$view->display( );
+		echo $view->loadTemplate( null );
 		$html = ob_get_contents( );
 		ob_end_clean( );
-		
+		$view->setLayout( $lt );
+		unset( $view->gallery_data );
 		return $html;
 	}
 }

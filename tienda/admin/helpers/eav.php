@@ -115,7 +115,7 @@ class TiendaHelperEav extends TiendaHelperBase
             $keynames['eaventity_type'] = $entity_type;
             
             $loaded = $table->load($keynames);
-
+            
             if($loaded)
             {
                 // Fetch the value from the value tables

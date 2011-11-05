@@ -242,7 +242,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		
 		// Get extra fields for products
 		$field_show = $this->getCustomFields( 'products', $product_id, true, 2 );
-				
+
 		if(count($field_show))
 		{
 			$vars->fields = $field_show;
@@ -295,7 +295,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		foreach ( @$eavs as $eav )
 		{
 			$key = $eav->eavattribute_alias;
-			
+
 			$value = TiendaHelperEav::getAttributeValue( $eav, $entity, $id, false, $cache_values );
 			
 			$fields[] = array(

@@ -150,7 +150,6 @@ class TiendaController extends JController
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
 		// Set the layout
 		$view->setLayout($viewLayout);
 
@@ -398,5 +397,3 @@ class TiendaController extends JController
 	
 	
 }
-
-?>

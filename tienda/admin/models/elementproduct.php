@@ -80,7 +80,7 @@ class TiendaModelElementProduct extends JModel
 		$where = (count($where) ? ' WHERE '.implode(' OR ', $where) : '');
 
 		// Get the total number of records
-		$query = 'SELECT COUNT(*)' .
+		$query = 'SELECT COUNT(c.product_id)' .
 				' FROM #__tienda_products AS c' .
 				$where;
 		$db->setQuery($query);

@@ -94,7 +94,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <?php echo JText::_( 'Overall Rating' ); ?>:
                 </td>
                 <td>
-                    <?php echo TiendaHelperProduct::getRatingImage( @$row->product_rating ); ?>
+                    <?php echo TiendaHelperProduct::getRatingImage( $this, @$row->product_rating ); ?>
                 </td>
             </tr>
             <tr>

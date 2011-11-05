@@ -98,7 +98,7 @@ class TiendaModelEavAttributes extends TiendaModelBase
     $field[] = "
          (
           SELECT 
-            COUNT(*)
+            COUNT(xref.eaventity_id)
           FROM
             #__tienda_eavattributeentityxref AS xref 
           WHERE 

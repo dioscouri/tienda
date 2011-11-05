@@ -54,7 +54,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$table->delete( $productrelation_id );
 
 		$response['error'] = '0';
-		$response['msg'] = $this->getRelationshipsHtml( $product_id );
+		$response['msg'] = $this->getRelationshipsHtml( null, $product_id );
 
 		echo ( json_encode( $response ) );
 	}
@@ -86,12 +86,12 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 
 		// verify product id exists
 		$product = JTable::getInstance('Products', 'TiendaTable');
-		$product->load(array('product_id'=>$product_to));
+		$product->load( $product_to, true, false );
 		if (empty($product->product_id) || $product_id == $product_to)
 		{
 			$response['error'] = '1';
 			$response['msg'] = $helper->generateMessage( JText::_( "Invalid Product" ) );
-			$response['msg'] .= $this->getRelationshipsHtml( $product_id );
+			$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 			echo ( json_encode( $response ) );
 			return;
 		}
@@ -102,7 +102,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		{
 			$response['error'] = '1';
 			$response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
-			$response['msg'] .= $this->getRelationshipsHtml( $product_id );
+			$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 			echo ( json_encode( $response ) );
 			return;
 		}
@@ -127,7 +127,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 				{
 					$response['error'] = '1';
 					$response['msg'] = $helper->generateMessage( JText::_( "Relationship Already Exists" ) );
-					$response['msg'] .= $this->getRelationshipsHtml( $product_id );
+					$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 					echo ( json_encode( $response ) );
 					return;
 				}
@@ -149,7 +149,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		}
 
 		$response['error'] = '0';
-		$response['msg'] = $this->getRelationshipsHtml( $product_id );
+		$response['msg'] = $this->getRelationshipsHtml( null,  $product_id );
 
 		echo ( json_encode( $response ) );
 		return;

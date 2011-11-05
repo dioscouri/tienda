@@ -242,7 +242,6 @@ class TiendaModelEav extends TiendaModelBase
 		if (empty( $this->_list ))
 		{
 			$list = parent::getList($refresh);
-
 			// If no item in the list, return an array()
 			if ( empty( $list ) ) {
 				return array();
