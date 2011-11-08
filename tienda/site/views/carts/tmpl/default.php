@@ -12,6 +12,7 @@ Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 $router = new TiendaHelperRoute();
 $quantities = array();
 Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 ?>
 
 <div class='componentheading'>
@@ -54,6 +55,12 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             		{
             			$default_url .= '&attribute_'.$attributes[$j][0].'='.$attributes[$j][1];
             		}	
+            		
+            		$eavs = TiendaHelperEav::getAttributes( 'products', $item->product_id, true, 2 );
+            		
+            		for( $j = 0,$cj = count( $eavs ); $j < $cj; $j++ )
+            			$default_url .= '&'.urlencode( $eavs[$j]->eavattribute_alias ).'='.urlencode( TiendaHelperEav::getAttributeValue( $eavs[$j], 'carts', $item->cart_id, false, true ) );
+
             		$link = $params->get('product_url', $default_url );
             		$link = JRoute::_($link);
             	?>
