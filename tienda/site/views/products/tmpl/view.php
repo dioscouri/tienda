@@ -4,6 +4,9 @@ JHTML::_( 'script', 'tienda.js', 'media/com_tienda/js/' );
 JHTML::_( 'script', 'tienda_inventory_check.js', 'media/com_tienda/js/' );
 $state = @$this->state;
 $item = @$this->row;
+
+$product_image = TiendaHelperProduct::getImage($item->product_id, '', '', 'full', false, false, array(), true );
+$product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name, 'thumb', false, false, array(), true );
 ?>  
 
 <div id="tienda" class="products view">
@@ -62,15 +65,12 @@ $item = @$this->row;
         <div class="reset"></div>
         
         <div class="product_image">
-            <?php echo TiendaUrl::popup( TiendaHelperProduct::getImage( $item->product_id, '', '', 'full', true ),
-					TiendaHelperProduct::getImage( $item->product_id, '', $item->product_name ), array(
-						'update' => false, 'img' => true
-					) ); ?>
+            <?php echo TiendaUrl::popup( $product_image, $product_image_thumbm, array( 'update' => false, 'img' => true ) ); ?>
             <div>
 	            <?php
 				if ( isset( $item->product_full_image ) )
 				{
-					echo TiendaUrl::popup( TiendaHelperProduct::getImage( $item->product_id, '', '', 'full', true ), JText::_( 'View Larger' ),
+					echo TiendaUrl::popup( $product_image, JText::_( 'View Larger' ),
 							array(
 								'update' => false, 'img' => true
 							) );

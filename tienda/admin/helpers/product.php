@@ -716,7 +716,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $url
 	 * @return unknown_type
 	 */
-	function getImage( $id, $by = 'id', $alt = '', $type = 'thumb', $url = false, $resize = false, $options = array( ) )
+	function getImage( $id, $by = 'id', $alt = '', $type = 'thumb', $url = false, $resize = false, $options = array( ), $main_product = false )
 	{ 
 		$style = "";
 		$height_style = "";
@@ -783,7 +783,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 					$helper = &TiendaHelperBase::getInstance( 'Product' );
 				}
 				$row = $helper->load( ( int ) $id, true, false );
-				
+				$full_image = $row->product_full_image; // in case it'll be changed by an event
 				// load the item, get the filename, create tmpl
 				$urli = $row->getImageUrl( );
 				$dir = $row->getImagePath( );
@@ -794,9 +794,14 @@ class TiendaHelperProduct extends TiendaHelperBase
 					$urli .= 'thumbs/';
 				}
 				
-				$file = $dir . DS . $row->product_full_image;
+				if( $main_product )
+				{
+					$dispatcher = JDispatcher::getInstance();
+					$dispatcher->trigger('onGetProductMainImage', array( $row->product_id, &$full_image, $options ) ); 		
+				}
+				$file = $dir . DS . $full_image;
 				
-				$id = $urli . $row->product_full_image;
+				$id = $urli . $full_image;
 				
 				// Gotta do some resizing first?
 				if ( $resize )
