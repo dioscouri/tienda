@@ -65,7 +65,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         <div class="reset"></div>
         
         <div class="product_image">
-            <?php echo TiendaUrl::popup( $product_image, $product_image_thumbm, array( 'update' => false, 'img' => true ) ); ?>
+            <?php echo TiendaUrl::popup( $product_image, $product_image_thumb, array( 'update' => false, 'img' => true ) ); ?>
             <div>
 	            <?php
 				if ( isset( $item->product_full_image ) )
