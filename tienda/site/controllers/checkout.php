@@ -3748,12 +3748,18 @@ class TiendaControllerCheckout extends TiendaController
 			$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
 			$userinfo->load( array('user_id'=>$user->id) );
 			$userinfo->user_id = $user->id;
-			$userinfo->first_name = $values['billing_input_first_name'];
-			$userinfo->last_name = $values['billing_input_last_name'];
-			$userinfo->company = $values['billing_input_company'];
-			$userinfo->middle_name = $values['billing_input_middle_name'];
-			$userinfo->phone_1 = $values['billing_input_phone_1'];
-			$userinfo->email = $values['email_address'];
+			if( isset( $values['billing_input_first_name'] ) )
+				$userinfo->first_name = $values['billing_input_first_name'];
+			if( isset( $values['billing_input_last_name'] ) )
+				$userinfo->last_name = $values['billing_input_last_name'];
+			if( isset( $values['billing_input_company'] ) )
+				$userinfo->company = $values['billing_input_company'];
+			if( isset( $values['billing_input_middle_name'] ) )
+				$userinfo->middle_name = $values['billing_input_middle_name'];
+			if( isset( $values['billing_input_phone_1'] ) )
+				$userinfo->phone_1 = $values['billing_input_phone_1'];
+			if( isset( $values['email_address'] ) )
+				$userinfo->email = $values['email_address'];
 			$userinfo->save();
 
 			// login the user
