@@ -65,62 +65,6 @@ function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, tex
 }
 
 /**
- * 
- */
-function tiendaAddCoupon( form, mult_enabled )
-{
-    var new_coupon_code = document.getElementById('new_coupon_code').value;   
-    var url = 'index.php?option=com_tienda&view=checkout&task=validateCouponCode&format=raw&coupon_code='+new_coupon_code;
-    var container = 'coupon_code_message';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    
-    // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if (resp.error != '1') 
-            {
-                if ($(container)) { $(container).setHTML(''); }
-                
-                // Push the code into the form
-                var cc_html = $('coupon_codes').innerHTML + resp.msg;
-                $('coupon_codes').setHTML( cc_html );
-                
-                // Clear the field
-                document.getElementById('new_coupon_code').value = '';
-                
-                // Update the summary
-                tiendaGetCheckoutTotals();
-                tiendaRefreshTotalAmountDue();
-                
-                if (mult_enabled != 1)
-                {
-                    tiendaShowHideDiv('coupon_code_form');
-                }                
-            }
-                else
-            {
-                if ($(container)) { $(container).setHTML(resp.msg); }
-            }
-        }
-    }).request();
-}
-
-/**
  * Based on the session contents,
  * calculates the order total
  * and returns HTML
@@ -131,6 +75,8 @@ function tiendaAddCoupon( form, mult_enabled )
 function tiendaGetCheckoutTotals( combined )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=setShippingMethod&format=raw';
+//    if( typeof( combined ) == 'undefined' )
+ //   	tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false );
     if( combined )
     	tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false, tiendaDeleteCombinedGrayDiv );    	
     else
@@ -217,8 +163,11 @@ function tiendaManageShippingRates()
 
 function tiendaDeleteAddressGrayDiv()
 {
+	el_billing = $E( '.tiendaAjaxGrayDiv', 'billingAddress' );
+	if( !el_billing )
+		return;
 	tiendaSetColorInContainer( 'billingAddress', '' );
-	$E( '.tiendaAjaxGrayDiv', 'billingAddress' ).destroy();
+	el_billing.destroy();
 	
 	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
 	{
@@ -236,7 +185,7 @@ function tiendaDeletePaymentGrayDiv()
 function tiendaDeleteShippingGrayDiv()
 {
 	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
-	if( el )
+	if( el != '' )
 	{
 		el.destroy();
 		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
@@ -256,7 +205,8 @@ function tiendaDeleteShippingGrayDiv()
 
 function tiendaDeleteCartGrayDiv()
 {
-	$( 'onCheckoutCart_wrapper' ).setStyle( 'color', '' );
+	if( el = $('onCheckoutCart_wrapper') )
+		el.setStyle( 'color', '' );
 }
 
 function tiendaDeleteCombinedGrayDiv()
@@ -271,6 +221,8 @@ function tiendaDeleteCombinedGrayDiv()
 
 function tiendaGrayOutAddressDiv( text_address, prefix )
 {
+	if( !$( 'shippingAddress' ) )
+		return;
 	values = tiendaStoreFormInputs( document.adminForm );
 	tiendaGrayOutAjaxDiv( 'billingAddress', text_address, prefix );
 	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
