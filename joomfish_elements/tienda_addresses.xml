@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Tienda - Addresses</name>
+  <author>Ivo Apostolov / C. Paschen</author>
+  <version>0.8.2</version>
+  <description>Definition for the Tienda Addresses table</description>
+  <copyright>2011 Dioscouri.com</copyright>
+  <reference type="tienda_addresses">
+  	<table name="tienda_addresses">
+  		<field type="referenceid" name="address_id" translate="0">ID</field>
+  		<field type="text" name="user_id" translate="0">UserID</field>
+  		<field type="text" name="addresstype_id" translate="1">Address Type</field>
+  		<field type="titletext" name="address_name" translate="1">Address Name</field>
+  		<field type="text" name="company"  translate="1">Company</field>
+  		<field type="text" name="title" translate="1">Title</field>
+  		<field type="text" name="first_name" translate="1">First Name</field>
+  		<field type="text" name="last_name" translate="1">Last Name</field>
+  		<field type="text" name="middle_name" translate="1">Middle Name</field>
+  		<field type="text" name="phone_1" translate="0">Phone 1</field>
+  		<field type="text" name="phone_2" translate="0">Phone 2</field>
+  		<field type="text" name="fax" translate="0">Fax</field>
+  		<field type="textarea" name="address_1" translate="1">Address 1</field>
+  		<field type="textarea" name="address_2" translate="1">Address 2</field>
+  		<field type="text" name="city" translate="1">City</field>
+  		<field type="text" name="postal_code" translate="1">Postal Code</field>
+  		<field type="text" name="country_id" translate="0">CountryID</field>
+  		<field type="text" name="zone_id" translate="0">Zone ID</field>
+  		<field type="text" name="is_default_shipping" translate="0">Is Default Shipping</field>
+  		<field type="text" name="is_default_billing" translate="0">Is Default Billing</field>
+  		<field type="text" name="is_deleted" translate="0">Is Deleted</field>
+  		<field type="text" name="tax_number" translate="0">Tax Number</field>
+  	</table>
+  </reference>
+</joomfish>
