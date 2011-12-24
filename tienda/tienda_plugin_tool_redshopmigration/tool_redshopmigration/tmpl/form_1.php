@@ -103,13 +103,13 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'EXTERNAL SITE URL' ); ?>:
+                        <?php echo JText::_( 'REDSHOP EXTERNAL SITE URL' ); ?>:
                     </td>
                     <td>
                         <input type="text" name="external_site_url" id="external_site_url" size="48" maxlength="250" value="<?php echo @$state->external_site_url; ?>" />
                     </td>
                     <td>
-                    	<?php echo JText::_('EXTERNAL SITE URL DESC');?>
+                    	<?php echo JText::_('REDSHOP EXTERNAL SITE URL DESC');?>
                     </td>
                 </tr>
             </table>    
