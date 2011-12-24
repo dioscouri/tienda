@@ -110,7 +110,7 @@
                 </tr>
                  <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'EXTERNAL SITE URL' ); ?>:
+                        <?php echo JText::_( 'REDSHOP EXTERNAL SITE URL' ); ?>:
                     </td>
                     <td>
                     	<?php echo @$state->external_site_url; ?>
