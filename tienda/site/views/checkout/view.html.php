@@ -79,8 +79,23 @@ class TiendaViewCheckout extends TiendaViewBase
 	{
 		
 	}
+
+  /*
+   * Loads layour for displaying taxes
+   * 
+   * @params $tpl Specifies name of layout (null means cart_taxes)
+   * 
+   * @return Content of a layout with taxes
+   */
+	function displayTaxes( $tpl = null )
+	{
+		$tmpl = 'cart_taxes';
+		if( $tpl !== null )
+			$tmpl = $tpl;
+		$this->setLayout( $tmpl );
+			
+		return $this->loadTemplate( null );
+	}
+	
 }
-
-
-
 ?>

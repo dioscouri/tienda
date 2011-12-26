@@ -201,126 +201,21 @@
                 <?php echo TiendaHelperBase::currency($row->order_discount, $row->currency ); ?>
             </th>
         </tr>
-			<?php endif;
-	              $display_tax_checkout = TiendaConfig::getInstance()->get('show_tax_checkout', '1');
-	                    	
-	              switch( $display_tax_checkout )
-	              {
-	              	case 1 : // Tax Rates in Separate Lines
-		                	foreach ( $row->ordertaxrates as $taxrate)
-		                  {
-		                   	$tax_desc = $taxrate->ordertaxrate_description ? $taxrate->ordertaxrate_description : 'Tax';
-		                   	$amount = $taxrate->ordertaxrate_amount;
-		                   	if ( $amount )
-		                   	{
-		                  ?>
-		      <tr>
-            <th colspan="2" style="text-align: right;">
-							<?php echo JText::_( $tax_desc ).":"; ?>
-						</th>
-            <th style="text-align: right;">
-							<?php echo TiendaHelperBase::currency( $amount, $row->currency); ?>
-						</th>
-					</tr>
-  	                  <?php
-		                    }
-		                  }
-	              		break;
-	              	case 2 : // Tax Classes in Separate Lines
-		                	foreach ( $row->ordertaxclasses as $taxclass)
-		                  {
-		                   	$tax_desc = $taxclass->ordertaxclass_description ? $taxclass->ordertaxclass_description : 'Tax';
-		                   	$amount = $taxclass->ordertaxclass_amount;
-		                   	if ( $amount )
-		                   	{
-		                  ?>
-		      <tr>
-            <th colspan="2" style="text-align: right;">
-							<?php echo JText::_( $tax_desc ).":"; ?>
-						</th>
-            <th style="text-align: right;">
-							<?php echo TiendaHelperBase::currency( $amount , $row->currency); ?>
-						</th>
-					</tr>
-  	                  <?php
-		                    }
-		                  }
-	              		break;
-	              	case 3 : // Tax Classes and Tax Rates in Separate Lines
-		                	foreach ( $row->ordertaxclasses as $taxclass)
-		                  {
-		                   	$tax_desc = $taxclass->ordertaxclass_description ? $taxclass->ordertaxclass_description : 'Tax';
-		                   	$amount = $taxclass->ordertaxclass_amount;
-		                   	if ( $amount )
-		                   	{
-		                  ?>
-		      <tr>
-            <th colspan="2" style="text-align: right;">
-							<?php echo JText::_( $tax_desc ).":"; ?>
-						</th>
-            <th style="text-align: right;">
-							<?php echo TiendaHelperBase::currency( $amount , $row->currency); ?>
-						</th>
-				</tr>
-  	                  <?php
-		                     }
-		                     foreach( $row->ordertaxrates as $taxrate )
-		                     {
-				                   	$tax_desc = $taxrate->ordertaxrate_description ? $taxrate->ordertaxrate_description : 'Tax';
-				                   	$amount = $taxrate->ordertaxrate_amount;
-				                   	if ( $amount && $taxrate->ordertaxclass_id == $taxclass->tax_class_id )
-				                   	{
-				                  ?>
-				  <tr>
-            <th colspan="2" style="text-align: right;">
-							<?php echo JText::_( $tax_desc )." &nbsp;&nbsp; :"; ?></span>
-						</th>
-            <th style="text-align: right;">
-							<?php echo TiendaHelperBase::currency( $amount, $row->currency); ?>
-						</th>
-					</tr>
-		  	                  <?php
-		                     		}
-		                     }
-		                  }
-	              		break;
-	              	case 4 : // All in One Line
-	                	if( $row->order_tax )
-	                    {
-	                    	?>
-            <th colspan="2" style="text-align: right;">
-	            	<?php
-                    	if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED").":"; }
-                    	else { echo JText::_("COM_TIENDA_PRODUCT_TAX").":"; }    
-	            	?>
-	          </th>
-            <th style="text-align: right;">
-							 <?php echo TiendaHelperBase::currency($row->order_tax) ?>
-						</th>
-							            <?php
-	                    }
-	              		break;
-	              }
-                ?>
-        <tr>
-            <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "COM_TIENDA_SHIPPING" ); ?>
-            </th>
-            <th style="text-align: right;">
-            <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
-            </th>
-        </tr>
-				<?php if ((float) $row->order_shipping_tax > (float) '0.00') : ?>
-				<tr>
-					<th colspan="2" style="text-align: right;">
-						<?php echo JText::_("COM_TIENDA_SHIPPING_TAX"); ?>
-					</th>
-					<th style="text-align: right;">
-						<?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?>
-					</th>
-				</tr>
-				<?php endif; ?>
-         <?php if ( $display_credits && ( (float) $row->order_credit > (float) '0.00' ) ) : ?>
+			<?php
+				endif;
+				echo $this->displayTaxes();
+			?>
+		<tr>
+    	<th colspan="2" style="text-align: right;"><?php echo JText::_( "COM_TIENDA_SHIPPING" ); ?></th>
+			<th style="text-align: right;"><?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?></th>
+   	</tr>
+<?php if ((float) $row->order_shipping_tax > (float) '0.00') : ?>
+		<tr>
+			<th colspan="2" style="text-align: right;"><?php echo JText::_("COM_TIENDA_SHIPPING_TAX"); ?></th>
+			<th style="text-align: right;"><?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?></th>
+		</tr>
+<?php endif;
+				if ( $display_credits && ( (float) $row->order_credit > (float) '0.00' ) ) : ?>
         <tr>
             <th colspan="2" style="text-align: right;">
                 <?php echo JText::_( "COM_TIENDA_STORE_CREDIT" ); ?>
