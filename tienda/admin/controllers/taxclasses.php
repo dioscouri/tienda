@@ -70,6 +70,8 @@ class TiendaControllerTaxclasses extends TiendaController
         {
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+            $this->messagetype  = 'notice';
+            $this->message = JText::_( 'Saved' );
         } 
             else 
         {
@@ -100,6 +102,7 @@ class TiendaControllerTaxclasses extends TiendaController
         
         $cids = JRequest::getVar('cid', array(0), 'request', 'array');
         $rates = JRequest::getVar('rate', array(0), 'request', 'array');
+        $levels = JRequest::getVar('levels', array(0), 'request', 'array');
         $descriptions = JRequest::getVar('description', array(0), 'request', 'array');
         
         foreach (@$cids as $cid)
@@ -107,6 +110,7 @@ class TiendaControllerTaxclasses extends TiendaController
             $row->load( $cid );
             $row->tax_rate = $rates[$cid];
             $row->tax_rate_description = $descriptions[$cid];
+            $row->level = $levels[$cid];
 
             if (!$row->save())
             {

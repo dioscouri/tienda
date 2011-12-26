@@ -502,10 +502,10 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( 'Show Separate Line Items for Each Tax Class' ); ?>
+                                <?php echo JText::_( 'Show Taxes' ); ?>
                             </th>
                             <td>
-                                <?php echo JHTML::_('select.booleanlist', 'display_taxclass_lineitems', 'class="inputbox"', $this->row->get('display_taxclass_lineitems', '0') ); ?>
+                                <?php echo TiendaSelect::taxdisplaycheckout($this->row->get('show_tax_checkout', '3'), 'show_tax_checkout'); ?>
                             </td>
                             <td>
                                 

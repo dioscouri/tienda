@@ -52,10 +52,6 @@ class TiendaViewProductCompare extends TiendaViewBase
 		$model = $this->getModel();
 		$items = $model->getList();
 		JRequest::setVar( 'page', 'category' ); // for "getCartButton"
-		foreach($items as $item)
-		{
-			$item->product_buy = TiendaHelperProduct::getCartButton( $item->product_id, 'product_buy', array() );
-		}
 		
 		// form
 			$validate = JUtility::getToken();

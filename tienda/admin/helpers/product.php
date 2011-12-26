@@ -1014,31 +1014,30 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$row = $model->getItem( false, false );
 			$product_price = $row->price;
 		}
+		
+		$zones = array();
+		foreach( $geozones as $geozone )
+			$zones []= $geozone->geozone_id;
 
 		$orderitem_tax = 0;
 		$tax_rates = array( );
 		$tax_amounts = array( );
+		Tienda::load('TiendaHelperTax', 'helpers.tax' );
+		$product = new stdClass();
+		$product->product_id = $product_id;
+		$product->product_price = $product_price;
+		$taxrates = TiendaHelperTax::calculateGeozonesTax( array( $product ), 2, $zones );
 		
-		// For each item in $this->getBillingGeoZone, calculate the tax total
-		// and update the item's tax value
-		foreach ( $geozones as $geozone )
+		foreach( $taxrates->tax_rate_rates as $rate )
 		{
-			$geozone_id = $geozone->geozone_id;
-			
-			$taxrate = TiendaHelperProduct::getTaxRate( $product_id, $geozone_id, true );
-			$product_tax_rate = $taxrate->tax_rate;
-			
-			// track the total tax for this item
-			$orderitem_tax += ( $product_tax_rate / 100 ) * $product_price;
-			$tax_rates[$taxrate->tax_rate_id] = $taxrate;
-			$tax_amounts[$taxrate->tax_rate_id] = ( $product_tax_rate / 100 ) * $product_price;
-			;
+			$tax_rates[$rate->tax_rate_id] = $rate;
+			$tax_amounts[$rate->tax_rate_id] = $rate->applied_tax;
 		}
 		
-		$return = new JObject( );
+		$return = new stdClass( );
 		$return->tax_rates = $tax_rates;
 		$return->tax_amounts = $tax_amounts;
-		$return->tax_total = $orderitem_tax;
+		$return->tax_total = $taxrates->tax_total;
 		return $return;
 	}
 	
@@ -2245,22 +2244,24 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			// finish TiendaHelperUser::getGeoZone -- that's why this isn't working
 			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
-			if ( empty( $geozones ) )
+			$geozones_user = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
+			if ( empty( $geozones_user ) )
 			{
-				// use the default
-				$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
-				$table->load( array(
-							'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
-						) );
-				$geozones = array(
-					$table
-				);
+				$geozones = array( TiendaConfig::getInstance( )->get( 'default_tax_geozone' ) );
 			}
-			$taxtotal = TiendaHelperProduct::getTaxTotal( $product_id, $geozones, $row->price );
-			$tax = $taxtotal->tax_total;
-			$row->taxtotal = $taxtotal;
-			$row->tax = $tax;
+			else 
+			{
+				$geozones = array();
+				foreach( $geozones_user as $value )
+					$geozones[] = $value->geozone_id;
+			}
+			Tienda::load( 'TiendaHelperTax', 'helpers.tax' );
+			$product = new stdClass();
+			$product->product_price = $row->price;
+			$product->product_id = $product_id;
+			$tax = TiendaHelperTax::calculateGeozonesTax( array( $product ), 2, $geozones );
+			$row->taxtotal = $tax->tax_total;
+			$row->tax = $tax->tax_total;
 		}
 		
 		$row->_product_quantity = $product_qty;

@@ -6,7 +6,7 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
@@ -16,7 +16,7 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperShipping extends TiendaHelperBase
 {
-	
+
 	/**
 	 * Returns the list of shipping method types
 	 * @return array of objects
@@ -24,55 +24,55 @@ class TiendaHelperShipping extends TiendaHelperBase
 	public function getTypes()
 	{
 		static $instance;
-		
+
 		if (!is_array($instance))
 		{
 			$instance = array();
 		}
 		if (empty($instance))
 		{
-            $object = new JObject();
-            $object->id = '0';
-            $object->title = JText::_( "Flat Rate Per Item" );
-            $instance[$object->id] = $object;
+			$object = new JObject();
+			$object->id = '0';
+			$object->title = JText::_( "Flat Rate Per Item" );
+			$instance[$object->id] = $object;
 
-            $object = new JObject();
-            $object->id = '1';
-            $object->title = JText::_( "Weight Based Per Item" );
-            $instance[$object->id] = $object;
-            
-            $object = new JObject();
-            $object->id = '2';
-            $object->title = JText::_( "Weight Based Per Order" );
-            $instance[$object->id] = $object;
-            
-            $object = new JObject();
-            $object->id = '3';
-            $object->title = JText::_( "Flat Rate Per Order" );
-            $instance[$object->id] = $object;
-            
-            $object = new JObject();
-            $object->id = '4';
-            $object->title = JText::_( "Price Based Per Item" );
-            $instance[$object->id] = $object;
-            
-            $object = new JObject();
-            $object->id = '5';
-            $object->title = JText::_( "Quantity Based Per Order" );
-            $instance[$object->id] = $object;
-            
-            $object = new JObject();
-            $object->id = '6';
-            $object->title = JText::_( "Price Based Per Order" );
-            $instance[$object->id] = $object;
+			$object = new JObject();
+			$object->id = '1';
+			$object->title = JText::_( "Weight Based Per Item" );
+			$instance[$object->id] = $object;
+
+			$object = new JObject();
+			$object->id = '2';
+			$object->title = JText::_( "Weight Based Per Order" );
+			$instance[$object->id] = $object;
+
+			$object = new JObject();
+			$object->id = '3';
+			$object->title = JText::_( "Flat Rate Per Order" );
+			$instance[$object->id] = $object;
+
+			$object = new JObject();
+			$object->id = '4';
+			$object->title = JText::_( "Price Based Per Item" );
+			$instance[$object->id] = $object;
+
+			$object = new JObject();
+			$object->id = '5';
+			$object->title = JText::_( "Quantity Based Per Order" );
+			$instance[$object->id] = $object;
+
+			$object = new JObject();
+			$object->id = '6';
+			$object->title = JText::_( "Price Based Per Order" );
+			$instance[$object->id] = $object;
 		}
-		
+
 		return $instance;
 	}
-	
+
 	/**
 	 * Returns the requested shipping method object
-	 * 
+	 *
 	 * @param $id
 	 * @return object
 	 */
@@ -81,14 +81,14 @@ class TiendaHelperShipping extends TiendaHelperBase
 		$items = TiendaHelperShipping::getTypes();
 		return $items[$id];
 	}
-	
+
 	/**
 	 * Returns a shipping estimate, unformatted.
-	 * 
-     * @param int $shipping_method_id
-     * @param int $geozone_id
-     * @param array $orderItems     an array of TiendaTableOrderItems objects, each with ->product_id and ->orderitem_quantity
-     * 
+	 *
+	 * @param int $shipping_method_id
+	 * @param int $geozone_id
+	 * @param array $orderItems     an array of TiendaTableOrderItems objects, each with ->product_id and ->orderitem_quantity
+	 *
 	 * @return object with ->shipping_rate_price and ->shipping_rate_handling and ->shipping_tax_total, all decimal(12,5)
 	 */
 	public function getTotal( $shipping_method_id, $geozone_id, $orderItems )
@@ -99,9 +99,9 @@ class TiendaHelperShipping extends TiendaHelperBase
 		$return->shipping_tax_rate        = '0.00000';
 		$return->shipping_tax_total       = '0.00000';
 
-        // cast product_id as an array
-        $orderItems = (array) $orderItems;
-		
+		// cast product_id as an array
+		$orderItems = (array) $orderItems;
+
 		// determine the shipping method type
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
 		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
@@ -112,7 +112,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 			$return->setError( JText::_( "Undefined Shipping Method" ) );
 			return $return;
 		}
-		
+
 		switch($shippingmethod->shipping_method_type)
 		{
 			case "2":
@@ -124,82 +124,94 @@ class TiendaHelperShipping extends TiendaHelperBase
 				{
 					//$pid = $orderItems[$i]->product_id;
 					$pid = $item->product_id;
-		            $product = JTable::getInstance( 'Products', 'TiendaTable' );
-		            $product->load( $pid );
-		            if (!empty($product->product_ships))
-		            {
-		                $product_id = $item->product_id;
-		                $order_ships = true;
-		            }
+					$product = JTable::getInstance( 'Products', 'TiendaTable' );
+					$product->load( $pid );
+					if (!empty($product->product_ships))
+					{
+						$product_id = $item->product_id;
+						$order_ships = true;
+					}
 				}
 				if ($order_ships)
 				{
-	                //$shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $product_id );
-	                //$return->shipping_rate_price      = $shippingrate->shipping_rate_price;
-	                //$return->shipping_rate_handling   = $shippingrate->shipping_rate_handling;
+					//$shippingrate = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $product_id );
+					//$return->shipping_rate_price      = $shippingrate->shipping_rate_price;
+					//$return->shipping_rate_handling   = $shippingrate->shipping_rate_handling;
 				}
-                break;
-            case "1":
-            case "0":
-            	// 0 = per item
-            	// 1 = weight based
-            	$rates = array();
-                foreach ($orderItems as $item)
-                {
-                    $pid = $item->product_id;
-                    $qty = $item->orderitem_quantity;
-                    //$rates[$pid] = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
-                    //$return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
-			        //$return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
-            	}
-                break;
-            default:
-	            // TODO if this is an object, setError, otherwise return false, or 0.000?
-	            $return->setError( JText::_( "Invalid Shipping Method Type" ) );
-	            return $return;
-                break;
+				break;
+			case "1":
+			case "0":
+				// 0 = per item
+				// 1 = weight based
+				$rates = array();
+				foreach ($orderItems as $item)
+				{
+					$pid = $item->product_id;
+					$qty = $item->orderitem_quantity;
+					//$rates[$pid] = TiendaHelperShipping::getRate( $shipping_method_id, $geozone_id, $pid, $shippingmethod->shipping_method_type );
+					//$return->shipping_rate_price      += ($rates[$pid]->shipping_rate_price * $qty);
+					//$return->shipping_rate_handling   += ($rates[$pid]->shipping_rate_handling * $qty);
+				}
+				break;
+			default:
+				// TODO if this is an object, setError, otherwise return false, or 0.000?
+				$return->setError( JText::_( "Invalid Shipping Method Type" ) );
+				return $return;
+				break;
 		}
 
-        // get the shipping tax rate and total
-        $return->shipping_tax_rate    = TiendaHelperShipping::getTaxRate( $shipping_method_id, $geozone_id );
-        $return->shipping_tax_total   = ($return->shipping_tax_rate/100) * ($return->shipping_rate_price + $return->shipping_rate_handling);
-		
+		// get the shipping tax rate and total
+		$return->shipping_tax_rate    = TiendaHelperShipping::getTaxRate( $shipping_method_id, $geozone_id );
+		$return->shipping_tax_total   = ($return->shipping_tax_rate/100) * ($return->shipping_rate_price + $return->shipping_rate_handling);
+
 		return $return;
 	}
-	
-	/**
-     * Gets geozones associated with a zone id and a zip code, optionally
-     * 
-     * @param $zone_id
-     * @param $geozonetype
-     * @return array
-     */
-    public function getGeoZones( $zone_id, $geozonetype='2', $zip_code = null )
-    {
-    	$return = array();
-    	if (empty($zone_id))
-    	{
-    		return $return;
-    	}
-    	
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-    	$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
-        $model->setState( 'filter_zone', $zone_id );
-        $model->setState( 'filter_geozonetype', $geozonetype );
-        
-        if($zip_code)
-        {
-        	$model->setState( 'filter_zip', $zip_code );
-        }
-        
-        $items = $model->getList();
 
-        if (!empty($items))
-        {
-        	$return = $items;
-        }
-        
-        return $return;
-    }
-	
+	/**
+	 * Gets geozones associated with a zone id and a zip code, optionally
+	 *
+	 * @param $zone_id
+	 * @param $geozonetype
+	 * @param $zip_code
+	 * @param $update
+	 * @return array
+	 */
+	public function getGeoZones( $zone_id, $geozonetype='2', $zip_code = null, $update = false )
+	{
+		$return = array();
+		if (empty($zone_id))
+		{
+			return $return;
+		}
+		 
+		static $geozones = null; // static array for caching results
+		if( $geozones === null )
+			$geozones = array();
+			
+		if( $zip_code === null )
+			$zip_code = 0;
+
+		if( isset( $geozones[$geozonetype][$zone_id][$zip_code] ) && !$update )
+			return $geozones[$geozonetype][$zone_id][$zip_code];
+		 
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
+		$model->setState( 'filter_zone', $zone_id );
+		$model->setState( 'filter_geozonetype', $geozonetype );
+
+		if($zip_code)
+		{
+			$model->setState( 'filter_zip', $zip_code );
+		}
+
+		$items = $model->getList();
+
+		if (!empty($items))
+		{
+			$return = $items;
+		}
+		$geozones[$geozonetype][$zone_id][$zip_code] = $return;
+		return $return;
+	}
+
 }

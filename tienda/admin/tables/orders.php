@@ -425,106 +425,59 @@ class TiendaTableOrders extends TiendaTable
      */
     function calculateTaxTotals()
     {
-        $tax_total = 0.00;
-        
-        $items =& $this->getItems();
-        if (!is_array($items))
+        Tienda::load( "TiendaHelperTax", 'helpers.tax' );
+        $items = &$this->getItems();
+        $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
+				$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');
+        /* Per Product Tax Coupons */
+        foreach( $items as $item )
         {
-            $this->order_tax = $tax_total;
-            return;
+          $item->orderitem_tax = $this->calculatePerProductCouponValue( $item->product_id, $taxes->product_taxes[ $item->product_id ], 'tax' );
+          if( $show_tax )
+	          $item->orderitem_final_price += $item->orderitem_tax;
+        }
+
+        foreach( @$taxes->tax_rate_rates as $key => $value )
+        {
+        	$applied_tax = $value->applied_tax;
+        	// add this as one of the taxrates applicable to this order
+					if ( empty( $this->_taxrates[$key] ) )
+						$this->_taxrates[$key] = $value;    
+					// track the total amount of tax applied to this order for this taxrate
+          if ( empty($this->_taxrate_amounts[$key] ) )
+						$this->_taxrate_amounts[$key] = 0;    
+					$this->_taxrate_amounts[$key] += $applied_tax;
         }
         
-        $geozones = $this->getBillingGeoZones();
-        
-        //load the defaul geozones when user is logout and the config is to show tax
-        if (empty($geozones) && TiendaConfig::getInstance()->get('display_prices_with_tax'))
-	    {
-	    	// use the default	       
-	        $table = JTable::getInstance('Geozones', 'TiendaTable');
-	        $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
-	        $geozones = array( $table );
-	    }  
-        
-        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-        foreach ($items as $key=>$item)
+        foreach( @$taxes->tax_class_rates as $key => $value )
         {
-            $orderitem_tax = 0;
-            
-            // For each item in $this->getBillingGeoZone, calculate the tax total
-            // and update the item's tax value
-            foreach ($geozones as $geozone)
-            {
-                $geozone_id = $geozone->geozone_id;
-                $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone_id, true );
-                $product_tax_rate = $taxrate->tax_rate;
-                
-                // add this as one of the taxrates applicable to this order
-                if (!empty($taxrate->tax_rate_id) && empty($this->_taxrates[$taxrate->tax_rate_id]))
-                {
-                    $this->_taxrates[$taxrate->tax_rate_id] = $taxrate;    
-                }
-                
-                // track the total amount of tax applied to this order for this taxrate
-                if (!empty($taxrate->tax_rate_id) && empty($this->_taxrate_amounts[$taxrate->tax_rate_id]))
-                {
-                    $this->_taxrate_amounts[$taxrate->tax_rate_id] = 0;    
-                }
-                if (!empty($taxrate->tax_rate_id))
-                {
-                    $this->_taxrate_amounts[$taxrate->tax_rate_id] += ($product_tax_rate/100) * $item->orderitem_final_price;    
-                }                
-
-                // add this as one of the taxclasses applicable to this order
-                if (!empty($taxrate->tax_class_id) && empty($this->_taxclasses[$taxrate->tax_class_id]))
-                {
-                    $this->_taxclasses[$taxrate->tax_class_id] = $taxrate;    
-                }
-                
-                // track the total amount of tax applied to this order for this taxclass
-                if (!empty($taxrate->tax_class_id) && empty($this->_taxclass_amounts[$taxrate->tax_class_id]))
-                {
-                    $this->_taxclass_amounts[$taxrate->tax_class_id] = 0;    
-                }
-                
-                if (!empty($taxrate->tax_class_id))
-                {
-                    $this->_taxclass_amounts[$taxrate->tax_class_id] += ($product_tax_rate/100) * $item->orderitem_final_price;                    
-                }
-                
-                // track the total tax for this item
-                $orderitem_tax += ($product_tax_rate/100) * $item->orderitem_final_price;
-            }
-            $item->orderitem_tax = $orderitem_tax;
-            
-             /* Per Product Tax Coupons */
-            $orderitem_tax = $this->calculatePerProductCouponValue( $item->product_id, $orderitem_tax, 'tax' );
-            
-            $item->orderitem_tax = $orderitem_tax;
-
-            // track the running total
-            $tax_total += $item->orderitem_tax;
-        }        
-        
+        	$applied_tax = $value->applied_tax;
+        	// add this as one of the taxclasses applicable to this order
+					if ( empty( $this->_taxclasses[$key] ) )
+						$this->_taxclasses[$key] = $value;
+      		// track the total amount of tax applied to this order for this taxclass
+					if ( empty( $this->_taxclass_amounts[$key] ) )
+						$this->_taxclass_amounts[$key] = 0;
+					$this->_taxclass_amounts[$key] += $applied_tax;
+        }
         if($this->order_shipping_tax)
-        {
-        	$tax_total += $this->order_shipping_tax;
-        }
+        	$taxes->tax_total += $this->order_shipping_tax;
         
         /* Per Order Tax Coupons */
-        $tax_discount = $this->calculatePerOrderCouponValue( $tax_total, 'tax' );
+        $tax_discount = $this->calculatePerOrderCouponValue( $taxes->tax_total, 'tax' );
         
-        if($tax_discount > $tax_total)
+        if($tax_discount > $taxes->tax_total )
         {
-        	$this->order_discount += $tax_total;
-        	$tax_total = 0;	
+        	$this->order_discount += $taxes->tax_total;
+        	$taxes->tax_total = 0;	
         }
         else
         {
         	$this->order_discount = $tax_discount;
-        	$tax_total -= $tax_discount;
+        	$taxes->tax_total -= $tax_discount;
         }
 
-        $this->order_tax = $tax_total;
+        $this->order_tax = $taxes->tax_total;
         
         // some locations may want taxes calculated on shippingGeoZone, so
         // Allow this to be modified via plugins
@@ -1299,7 +1252,6 @@ class TiendaTableOrders extends TiendaTable
        
     }
     
-	
 	/**
      * Adds a per_product coupon to the order
      * 

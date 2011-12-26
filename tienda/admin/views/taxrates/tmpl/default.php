@@ -23,6 +23,7 @@
         <thead>
             <tr>
                 <th><?php echo JText::_( "Geozone" ); ?></th>
+                <th><?php echo JText::_( "Predecessor" ); ?></th>
                 <th><?php echo JText::_( "Description" ); ?></th>
                 <th><?php echo JText::_( "Rate" ); ?></th>
             </tr>
@@ -31,6 +32,9 @@
             <tr>
                 <td style="text-align: center;">
                     <?php echo TiendaSelect::geozone( '', 'geozone_id', 1 ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <?php echo TiendaSelect::taxratespredecessors( 0, 'level', 1 ); ?>
                 </td>
                 <td style="text-align: center;">
                     <input id="tax_rate_description" name="tax_rate_description" value="" />
@@ -62,6 +66,9 @@
                 <th style="text-align: left;">
                     <?php echo TiendaGrid::sort( 'Geo Zone', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="text-align: left;">
+                    <?php echo TiendaGrid::sort( 'Level', "tbl.level", @$state->direction, @$state->order ); ?>
+                </th>
                 <th>
                     <?php echo TiendaGrid::sort( 'Tax Rate Description', "tbl.tax_rate_description", @$state->direction, @$state->order ); ?>
                 </th>
@@ -84,6 +91,12 @@
                 </td>   
                 <td style="text-align: left;">
                     <?php echo JText::_( $item->geozone_name ); ?>
+                </td>
+                <td style="text-align: left;">
+                    <?php echo $this->listRateLevels( $item->level, $item->tax_rate_id, $item->tax_class_id ); ?><br />
+                    (<?php 
+                    		echo implode( ' | ', $this->getAssociatedTaxRates( $item->level, $item->geozone_id, $item->tax_class_id ) ); 
+                    ?>)
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="description[<?php echo $item->tax_rate_id; ?>]" value="<?php echo $item->tax_rate_description; ?>" />

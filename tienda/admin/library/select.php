@@ -1409,4 +1409,67 @@ class TiendaSelect extends JHTMLSelect
         $return['clear'] = $model->clearElement( $name, '0', '', '', $onChange );
         return $return;
     }
+
+    /*
+     * Generates ordered list of tax rates for a specified geozone and tax class
+     * 
+     * @param $selected 				ID of selected option
+     * @param $name 						Name of the element
+     * @param $tax_class_id			ID of the tax class (null means any class)
+     * @param $geozone_id				ID of a geozone
+     * @param $tax_type					Type of the class (for future use)
+     * @param $attribs					Element attributes
+     * @param $idtag						ID of the element (null means that it will be equal to name)
+     */
+		public static function taxratespredecessors( $selected, $name = 'level', $tax_class_id = null, $geozone_id = null, $tax_type = null, $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
+		{
+        $list = array();
+        $list[] =  self::option( 0, JText::_( 'Root' ) );
+
+        $db = JFactory::getDbo();
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $q = new TiendaQuery();
+        
+        $q->select( array( 'level', 'tax_rate_description' ) );
+        $q->from( '#__tienda_taxrates' );
+        if( $tax_class_id )
+	        $q->where( 'tax_class_id = '.(int)$tax_class_id );
+        if( $geozone_id )
+	        $q->where( 'geozone_id = '.(int)$tax_class_id );
+	       
+	      $q->order( 'level ASC, tax_rate_description' );
+	      $db->setQuery( $q );
+        $items = $db->loadObjectList();
+        $spaces = '';
+        $last_level = -1;
+        for( $i = 0, $c = count($items);$i < $c; $i++)
+        {
+        	$item = $items[$i];
+        	if( $item->level != $last_level )
+        		$spaces .= '-';
+           $list[] =  self::option( $item->level+1, $spaces.' '.$item->tax_rate_description );
+          $last_level = $item->level;
+        }
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+		}
+
+    /*
+     * Generates list of ways to display taxes in order summary
+     * 
+     * @param $selected ID of selected option
+     * @param $name 		Name of the element
+     * @param $attribs	Element attributes
+     * @param $idtag		ID of the element (null means that it will be equal to name)
+     */
+		public static function taxdisplaycheckout( $selected, $name = 'show_tax_checkout', $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
+		{
+        $list = array();
+        $list[] = JHTML::_('select.option',  '1', "Tax Rates in Separate Lines" );
+        $list[] = JHTML::_('select.option',  '2', "Tax Classes in Separate Lines" );
+        $list[] = JHTML::_('select.option',  '3', "Tax Classes and Tax Rates in Separate Lines" );
+        $list[] = JHTML::_('select.option',  '4', "All in One Line" );
+		
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+		}
 }

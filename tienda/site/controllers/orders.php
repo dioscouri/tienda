@@ -110,12 +110,13 @@ class TiendaControllerOrders extends TiendaController
     {
     	// if the user cannot view order, fail
         $model  = $this->getModel( $this->get('suffix') );
+    	$model->getId();
         $order = $model->getTable( 'orders' );
-        $order->load( $model->getId() );
-        $orderitems = &$order->getItems();
-        
-        $row = $model->getItem();
-                
+        $order->load( $model->getId() );        
+        $orderitems = $order->getItems();
+        $row =& $model->getItem();
+        $row->order_ships = $order->order_ships;
+    	                
         $user_id = JFactory::getUser()->id;
         if (empty($user_id) || $user_id != $row->user_id)
         {
@@ -135,33 +136,28 @@ class TiendaControllerOrders extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', false);
         $view->setModel( $model, true );
-
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        if( $show_tax )
+        	$order->order_subtotal += $order->order_tax;
+        
         //START onDisplayOrderItem: trigger plugins for extra orderitem information
         if (!empty($orderitems))
         {
-			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+					Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
         		
 	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
         }
         //END onDisplayOrderItem
+        foreach( $orderitems as $item )
+        {
+        	if( $show_tax )
+        		$item->orderitem_price += $item->orderitem_tax / $item->orderitem_quantity;
+        }
 
-        $config = TiendaConfig::getInstance();
-        $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-        foreach ($orderitems as &$item)
-        {
-      		$item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );       		
-        	$taxtotal = 0;
-            if($show_tax)
-            {
-            	$taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);            	
-            }                   
-            $item->orderitem_price = $item->orderitem_price + $taxtotal;
-            $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
-            $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);    
-        }      
               
         $view->assign( 'order', $order );
         $view->setLayout( 'view' );
@@ -179,11 +175,10 @@ class TiendaControllerOrders extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $model->getId();
         $order = $model->getTable( 'orders' );
-        $order->load( $model->getId() );
-        $orderitems = &$order->getItems();
-        
+        $order->load( $model->getId() );        
         $row =& $model->getItem();
         $row->order_ships = $order->order_ships;
+        $orderitems = $order->getItems();
         
         $user_id = JFactory::getUser()->id;
         if (empty($user_id) || $user_id != $row->user_id)
@@ -203,7 +198,11 @@ class TiendaControllerOrders extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
         $view->setModel( $model, true );
-
+        $config = TiendaConfig::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        if( $show_tax )
+        	$order->order_subtotal += $order->order_tax;
+        
         //START onDisplayOrderItem: trigger plugins for extra orderitem information
         if (!empty($orderitems))
         {
@@ -212,25 +211,15 @@ class TiendaControllerOrders extends TiendaController
         		
 	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
         }
-        //END onDisplayOrderItem
+        foreach( $orderitems as $item )
+        {
+        	if( $show_tax )
+        		$item->orderitem_price += $item->orderitem_tax / $item->orderitem_quantity;
+        }
         
-        $config = TiendaConfig::getInstance();
-        $show_tax = $config->get('display_prices_with_tax');
+        //END onDisplayOrderItem
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'using_default_geozone', false );
-        foreach ($orderitems as &$item)
-        {
-      		$item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );       		
-        	$taxtotal = 0;
-            if($show_tax)
-            {
-            	$taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);            	
-            }            
-            $item->orderitem_price = $item->orderitem_price + $taxtotal;
-            $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
-            $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);    
-        }      
-                
         $view->assign( 'order', $order );
         $view->setLayout( 'print' );
         $view->display();

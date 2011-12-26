@@ -342,7 +342,6 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         return $url;
     }
     
-    
     /**
      * Gets the value for the Paypal variable
      * 

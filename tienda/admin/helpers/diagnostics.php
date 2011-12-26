@@ -444,7 +444,16 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionBlank FAILED') .' :: '. $this->getError(), 'error' );
 		}
+
+		if( !$this->checkLevelTaxes() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkLevelTaxes FAILED') .' :: '. $this->getError(), 'error' );
+		}
 		
+		if( !$this->checkOrderitemLevelTaxes() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemLevelTaxes FAILED') .' :: '. $this->getError(), 'error' );
+		}
 	}
 
 	/**
@@ -3450,5 +3459,74 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
+
+	/**
+	 *
+	 * Additional fields (in Taxrates table) for compound taxes
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function checkLevelTaxes()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkLevelTaxes', '0')) return true;
+		 
+		$table = '#__tienda_taxrates';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "level";
+		
+		$definitions["level"] = "INT NOT NULL DEFAULT '0'";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkLevelTaxes') );
+			$config->config_name = 'checkLevelTaxes';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * Additional fields (in Taxrates table) for compound taxes
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function checkOrderitemLevelTaxes()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderitemLevelTaxes', '0')) return true;
+		 
+		$table = '#__tienda_ordertaxrates';
+		$definitions = array();
+		$fields = array();
+
+		$fields[] = "ordertaxrate_level";
+		$fields[] = 'ordertaxclass_id';
+		
+		$definitions["ordertaxrate_level"] = "INT NOT NULL DEFAULT '0'";
+		$definitions["ordertaxclass_id"] = "INT NOT NULL DEFAULT '0'";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+		{
+			// Update config to say this has been done already
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config->load( array( 'config_name'=>'checkOrderitemLevelTaxes') );
+			$config->config_name = 'checkOrderitemLevelTaxes';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+	
 }
 

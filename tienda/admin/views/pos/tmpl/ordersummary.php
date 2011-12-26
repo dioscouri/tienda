@@ -104,26 +104,61 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     <td colspan="2" style="text-align: right;">
                     <?php 
                     	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
-                    	$display_taxclass_lineitems = TiendaConfig::getInstance()->get('display_taxclass_lineitems', '0');
-                    	
-	                    	if ($display_taxclass_lineitems)
-	                    	{
-	                            foreach ($order->getTaxClasses() as $taxclass)
-	                            {
-	                                $tax_desc = $taxclass->tax_rate_description ? $taxclass->tax_rate_description : 'Tax';
-	                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
-	                                    echo JText::_( $tax_desc ).":<br/>";
-	                            }
-	                    	}
-	                    	    else
-	                    	{
-		                    	if( $order->order_tax )
-		                    	{
-		                    		if (!empty($this->show_tax)) { echo JText::_("PRODUCT_TAX_INCLUDED").":<br>"; }
-		                    	    elseif (!empty($this->using_default_geozone)) { echo JText::_("PRODUCT TAX ESTIMATE").":<br>"; } 
-		                    	    else { echo JText::_("PRODUCT TAX").":<br>"; }    
-		                    	}
+	              			$display_tax_checkout = TiendaConfig::getInstance()->get('show_tax_checkout', '1');
+
+	              switch( $display_tax_checkout )
+	              {
+	              	case 1 : // Tax Rates in Separate Lines
+		                	$taxes = $order->getTaxRates();
+		                	foreach ( $taxes as $taxrate)
+		                  {
+		                   	$tax_desc = $taxrate->tax_rate_description ? $taxrate->tax_rate_description : 'Tax';
+		                   	$amount = $taxrate->applied_tax;
+		                   	if ( $amount )
+			                   	echo JText::_( $tax_desc ).":<br />";
+		                  }
+	              		break;
+	              	case 2 : // Tax Classes in Separate Lines
+		                	$taxes = $order->getTaxClasses();
+		                	foreach ( $taxes as $taxclass)
+		                  {
+		                   	$tax_desc = $taxclass->tax_class_description ? $taxclass->tax_class_description : 'Tax';
+		                   	$amount = $taxclass->applied_tax;
+		                   	if ( $amount )
+													echo JText::_( $tax_desc ).":<br />";
+		                  }
+	              		break;
+	              	case 3 : // Tax Classes and Tax Rates in Separate Lines
+		                	$tax_classes = $order->getTaxClasses();
+		                	$tax_rates = $order->getTaxRates();
+		                	foreach ( $tax_classes as $taxclass)
+		                  {
+		                   	$tax_desc = $taxclass->tax_class_description ? $taxclass->tax_class_description : 'Tax';
+		                   	$amount = $taxclass->applied_tax;
+		                   	if ( $amount )
+		                   	{
+		                   		echo JText::_( $tax_desc ).":<br />";
+
+		                      foreach( $tax_rates as $taxrate )
+		                      {
+				                   	$tax_desc = $taxrate->tax_rate_description ? $taxrate->tax_rate_description : 'Tax';
+				                   	$amount = $taxrate->applied_tax;
+				                   	if ( $amount && $taxrate->tax_class_id == $taxclass->tax_class_id )
+				                   		echo JText::_( $tax_desc )." &nbsp;&nbsp; :<br />";
+		                      }
 		                    }
+		                  }
+	              		break;
+	              	case 4 : // All in One Line
+	                	if( $order->order_tax )
+	                    {
+												if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED").":<br/>"; }
+					              	elseif (!empty($this->using_default_geozone)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_ESTIMATE").":<br/>"; } 
+					                	else { echo JText::_("COM_TIENDA_PRODUCT_TAX").":<br/>"; }    
+	                    }
+	              		break;
+	              }
+	              			
    						
                     	if (!empty($this->showShipping))
                     	{
@@ -137,20 +172,49 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     </td>
                     <td colspan="2" style="text-align: right;">
                      <?php 
-                        if ($display_taxclass_lineitems)
-                        {
-                            foreach ($order->getTaxClasses() as $taxclass)
-                            {
-                                if ($order->getTaxClassAmount( $taxclass->tax_class_id ))
-                                    echo TiendaHelperBase::currency($order->getTaxClassAmount( $taxclass->tax_class_id ), $order->currency)."<br/>";
-                            }
-                        }
-                            else
-                        {
-                        	if( $order->order_tax )
-                            echo TiendaHelperBase::currency($order->order_tax) . "<br>";    
-                        }
-                        
+	                    	
+	              switch( $display_tax_checkout )
+	              {
+	              	case 1 : // Tax Rates in Separate Lines
+		                	$taxes = $order->getTaxRates();
+		                	foreach ( $taxes as $taxrate)
+		                  {
+		                   	$amount = $taxrate->applied_tax;
+		                   	if ( $amount )
+			                   	echo TiendaHelperBase::currency( $amount, $order->currency).'<br />';
+		                  }
+	              		break;
+	              	case 2 : // Tax Classes in Separate Lines
+		                	$taxes = $order->getTaxClasses();
+		                	foreach ( $taxes as $taxclass)
+		                  {
+		                   	$amount = $taxclass->applied_tax;
+		                   	if ( $amount )
+		                   		echo TiendaHelperBase::currency( $amount , $order->currency).'<br />';
+		                  }
+	              		break;
+	              	case 3 : // Tax Classes and Tax Rates in Separate Lines
+		                	$tax_classes = $order->getTaxClasses();
+		                	$tax_rates = $order->getTaxRates();
+		                	foreach ( $tax_classes as $taxclass)
+		                  {
+		                   	$amount = $taxclass->applied_tax;
+		                   	if ( $amount )
+		                   	{
+		                   		echo TiendaHelperBase::currency( $amount , $order->currency).'<br />';
+			                    foreach( $tax_rates as $taxrate )
+			                    {
+				                  	$amount = $taxrate->applied_tax;
+				                  	if ( $amount && $taxrate->tax_class_id == $taxclass->tax_class_id )
+				                   		echo TiendaHelperBase::currency( $amount, $order->currency).'<br />';		                     		}
+		                     	}
+		                  }
+	              		break;
+	              	case 4 : // All in One Line
+	                	if( $order->order_tax )
+			                echo TiendaHelperBase::currency($order->order_tax).'<br />';
+	              		break;
+		              }
                         if (!empty($this->showShipping))
                         {
                             echo TiendaHelperBase::currency($order->order_shipping);

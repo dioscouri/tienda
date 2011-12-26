@@ -495,52 +495,27 @@ class TiendaControllerCarts extends TiendaController
     	if (empty($items)) { return array(); }
     	
       	Tienda::load('TiendaHelperUser', 'helpers.user');
-      	Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-         	
-        if ($show_tax)
-        {            
-            $geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
-            if (empty($geozones))
-            {
-                // use the default
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
-                $geozones = array( $table );
-            }          
-        }        
-      	$subtotal = 0;
-        foreach ($items as $item)
-        {
-        	/* This is not necessary! already done in the model! 
-        	if(!$item->product_recurs)
-        	{
-				$filter_group = TiendaHelperUser::getUserGroup(JFactory::getUser()->id, $item->product_id);
-				$priceObj = TiendaHelperProduct::getPrice($item->product_id, '1', $filter_group);
-				$item->product_price = $priceObj->product_price;
-        	}  */
-        	
-        	if($show_tax)
-        	{
-        		$cartitem_tax = 0;
-		        foreach ($geozones as $geozone)
-		        {		           
-		            $taxrate = TiendaHelperProduct::getTaxRate($item->product_id, $geozone->geozone_id, true );
-		            $product_tax_rate = $taxrate->tax_rate;
-		            
-		            // track the total tax for this item
-		            $cartitem_tax += ($product_tax_rate/100) * $item->product_price;		            
-		        }		               		
-        		//$taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);        	
-           	 	$item->product_price = $item->product_price + $cartitem_tax;
-            	$item->taxtotal = $cartitem_tax;
-        	}        	
+      	Tienda::load('TiendaHelperTax', 'helpers.tax');
+      	
+				if ( $show_tax )
+		    	$taxes = TiendaHelperTax::calculateTax( $items, 2 );
+		    	
+		    $subtotal = 0;
+				foreach( $items as $item )
+				{
+					if( $show_tax )
+					{
+           	$item->product_price = $item->product_price + $taxes->product_taxes[$item->product_id];
+           	$item->taxtotal = $taxes->product_taxes[$item->product_id];
+					}
         	
         	$item->subtotal = $item->product_price * $item->product_qty;	
         	$subtotal = $subtotal + $item->subtotal;		
-        }
+				}
+      	////////////////
         $cartObj = new JObject();
         $cartObj->items = $items;
-    	$cartObj->subtotal = $subtotal;
+	    	$cartObj->subtotal = $subtotal;
         return $cartObj;
     }
 
@@ -803,46 +778,28 @@ private function addCouponCodes($values)
 
 		$view->assign( 'order', $order );
 
-		if($show_tax)
-		{
-			$geozones = $order->getBillingGeoZones();
-			if (empty($geozones))
-			{
-				// use the default
-				$view->assign( 'using_default_geozone', true );
-				$table = JTable::getInstance('Geozones', 'TiendaTable');
-				$table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-				$geozones = array( $table );
-			}
-		}
-
 		$orderitems = $order->getItems();
 
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$product_helper = &TiendaHelperBase::getInstance( 'Product' );
 		$order_helper = &TiendaHelperBase::getInstance( 'Order' );
+		$orderitems = $order->getItems();
+		Tienda::load('TiendaHelperTax', 'helpers.tax');
+		if ( $show_tax )
+    	$taxes = TiendaHelperTax::calculateTax( $orderitems, 1, $order->getBillingAddress(), $order->getShippingAddress() );
 
-		$tax_sum = 0;
-		foreach ($orderitems as &$item)
+   	$tax_sum = 0;
+		foreach( $orderitems as $item )
 		{
 			$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
-			$tax = 0;
-			if ($show_tax)
+			if( $show_tax )
 			{
-				foreach($geozones as $geozone)
-				{
-					$taxrate = $product_helper->getTaxRate($item->product_id, $geozone->geozone_id, true );
-					$product_tax_rate = $taxrate->tax_rate;
-					$tax += ($product_tax_rate/100) * ($item->orderitem_price + floatval( $item->orderitem_attributes_price ));
-				}
-
-				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $tax;
+				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxes->product_taxes[$item->product_id]->amount;
 				$item->orderitem_final_price = $item->price * $item->orderitem_quantity;
 					
-				$order->order_subtotal += ($tax * $item->orderitem_quantity);
+				$tax_sum += ($taxes->product_taxes[$item->product_id]->amount * $item->orderitem_quantity);
 			}
-			$tax_sum += ($tax * $item->orderitem_quantity);
 		}
+		$order->order_subtotal +=$tax_sum;
 			
 		if (empty($order->user_id))
 		{

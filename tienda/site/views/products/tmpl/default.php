@@ -5,6 +5,8 @@ $state = @$this->state;
 $items = @$this->items;
 $citems = @$this->citems;
 Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+
+$product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1');
 ?>
 <div id="tienda" class="products default">
 
@@ -13,7 +15,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
         </div>
     <?php endif; ?>
-    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1')):?>
+    <?php if( $product_compare ):?>
     <?php $compareitems = @$this->compareitems;?>
 	<div id="validationmessage"></div>
 	<?php endif;?>
@@ -115,15 +117,18 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
       
         <div id="tienda_products">
             <?php foreach ($items as $item) : ?>
-            <div class="product_item">
-                <?php if (!empty($item->product_full_image)) : ?>
+            <div class="product_item">adfalsd
+                <?php if (!empty($item->product_full_image) || ($product_compare && $item->product_parameters->get('show_product_compare', '1') ) ) : ?>
                 <div class="product_thumb">
+                		<?php if( !empty($item->product_full_image) ): ?>
                     <div class="product_listimage">
                         <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ."&Itemid=".$item->itemid ); ?>">
                             <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
                         </a>
                     </div>
-                    <?php if(TiendaConfig::getInstance()->get('enable_product_compare', '1') && $item->product_parameters->get('show_product_compare', '1')):?>
+                    <?php 
+                    	endif;
+                    	if( $product_compare && $item->product_parameters->get('show_product_compare', '1')):?>
                     <div id="tiendaProductCompare">
 	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
 	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">

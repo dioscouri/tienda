@@ -147,11 +147,11 @@ class TiendaViewBase extends JView
 	function _form($tpl='')
 	{
 		Tienda::load( 'TiendaSelect', 'library.select' );
+		$model = $this->getModel();
 		if( isset( $this->row ) ) 
 			JFilterOutput::objectHTMLSafe( $this->row );
 		else
 		{
-			$model = $this->getModel();
 	
 			// get the data
 			$row = $model->getItem();

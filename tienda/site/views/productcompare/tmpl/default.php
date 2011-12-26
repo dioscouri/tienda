@@ -1,7 +1,15 @@
-<?php defined('_JEXEC') 	or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $items = @$this->items;?>
+<?php defined('_JEXEC') 	or die('Restricted access');
+JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+$items = @$this->items;
+
+$show_manufacturer = TiendaConfig::getInstance()->get('show_manufacturer_productcompare', '1');
+$show_srp = TiendaConfig::getInstance()->get('show_srp_productcompare', '1');
+$show_addtocart = TiendaConfig::getInstance()->get('show_addtocart_productcompare', '1');
+$show_rating = TiendaConfig::getInstance()->get('show_rating_productcompare', '1');
+$show_model = TiendaConfig::getInstance()->get('show_model_productcompare', '1');
+$show_sku = TiendaConfig::getInstance()->get('show_sku_productcompare', '1');
+?>
 <a name="tienda-compare"></a>
 <h1><?php echo JText::_('Compare')?></h1>
 <?php if(count($items)):?>
@@ -35,16 +43,16 @@
 				</td>
 					<?php endforeach;?>	
 			</tr>	
-			<?php if(TiendaConfig::getInstance()->get('show_srp_productcompare', '1')):?>
+			<?php if($show_srp ):?>
 			<tr  class="row1">
 				<td>
 					<?php echo JText::_('SRP')?>
 				</td>			
 					<?php foreach($items as $item):?>
 				<td align="center" class="border-left">
-				<?php if(TiendaConfig::getInstance()->get('show_addtocart_productcompare', '1')):?>
+				<?php if( $show_addtocart ):?>
 					<div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
-						<?php echo $item->product_buy;?>
+						<?php echo TiendaHelperProduct::getCartButton( $item->product_id, 'product_buy', array() );?>
 					</div>					
 				<?php else:?>
 				<?php echo TiendaHelperBase::currency($item->product_price); ?>	
@@ -54,20 +62,20 @@
 					<?php endforeach;?>		
 			</tr>
 			<?php endif?>
-			<?php if(TiendaConfig::getInstance()->get('show_rating_productcompare', '1')):?>
+			<?php if( $show_rating ):?>
 			<tr  class="row0">
 				<td>
 					<?php echo JText::_('Average Customer Rating')?>
 				</td>			
 					<?php foreach($items as $item):?>
 				<td align="center" class="border-left">
-					<?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>								
+					<?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>								
 				</td>
 					<?php endforeach;?>		
 			</tr>
 			<?php endif?>
 			
-			<?php if(TiendaConfig::getInstance()->get('show_manufacturer_productcompare', '1')):?>
+			<?php if( $show_manufacturer ):?>
 			<tr  class="row1">
 				<td>
 					<?php echo JText::_('Manufacturer')?>
@@ -80,7 +88,7 @@
 			</tr>
 			<?php endif;?>
 			
-			<?php if(TiendaConfig::getInstance()->get('show_model_productcompare', '1')):?>
+			<?php if( $show_model ):?>
 			<tr  class="row0">
 				<td>
 					<?php echo JText::_('Model')?>
@@ -93,7 +101,7 @@
 			</tr>
 			<?php endif;?>
 			
-			<?php if(TiendaConfig::getInstance()->get('show_sku_productcompare', '1')):?>
+			<?php if( $show_sku ):?>
 			<tr  class="row1">
 				<td>
 					<?php echo JText::_('SKU')?>

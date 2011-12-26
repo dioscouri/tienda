@@ -84,4 +84,49 @@ class TiendaModelTaxrates extends TiendaModelBase
 		
 		return $list;
 	}
+
+	/*
+	 * Gets data about taxes at a certain level
+	 * 
+	 * @params $level						level of taxes
+	 * @params $geozone_id 			ID of a geozone (null means all)
+	 * @params $tax_class_id 		ID of a tax class (null means all)
+	 * @params $tax_type				for the future use
+	 * @params $update					update cached info
+	 * 
+	 * @return Array with rows from tienda_taxrates table
+	 */
+	function getTaxRatesAtLevel( $level, $geozone_id = null, $tax_class_id = null, $tax_type = null, $update = false )
+	{
+		static $taxrates = null; // static array for caching results
+		if( $taxrates === null )
+			$taxrates = array();
+			
+		if( !$geozone_id )
+			$geozone_id = -1;
+		if( !$tax_class_id )
+			$tax_class_id = -1;
+			
+		if( isset( $taxrates[$tax_class_id][$geozone_id][$level] ) && !$update )
+			return $taxrates[$tax_class_id][$geozone_id][$level];
+	
+		Tienda::load( 'TiendaQuery', 'library.query' );
+		$db = JFactory::getDbo();
+		$q = new TiendaQuery();
+		$q->select( array( 'tax_rate_id', 'geozone_id', 'tax_class_id', 'tax_rate', 'tax_rate_description', 'level' ) );
+		$q->from( '#__tienda_taxrates' );
+		$q->where( 'level = '.( int )$level );
+		if( $geozone_id > 0 )
+			$q->where( 'geozone_id = '.( int )$geozone_id );
+		if( $tax_class_id > 0 )
+			$q->where( 'tax_class_id = '.( int )$tax_class_id );
+		$q->order( 'tax_rate_description' );
+		
+		$db->setQuery( $q );
+		$items = $db->loadObjectList();
+		
+		$taxrates[$tax_class_id][$geozone_id][$level] = $items;
+		return $taxrates[$tax_class_id][$geozone_id][$level];
+	}
+	
 }

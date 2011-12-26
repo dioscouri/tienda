@@ -558,53 +558,24 @@ class TiendaControllerCheckout extends TiendaController
 
 		$view->assign( 'order', $order );
 
-		if($show_tax)
-		{
-			$geozones = $order->getBillingGeoZones();
-			if (empty($geozones))
-			{
-				// use the default
-				$view->assign( 'using_default_geozone', true );
-				$table = JTable::getInstance('Geozones', 'TiendaTable');
-				$table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-				$geozones = array( $table );
-			}
-		}
-
-		$orderitems = $order->getItems();
-
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
 		$product_helper = &TiendaHelperBase::getInstance( 'Product' );
 		$order_helper = &TiendaHelperBase::getInstance( 'Order' );
 
 		$tax_sum = 0;
-		foreach ($orderitems as &$item)
+		$orderitems = $order->getItems();
+   	$taxes = TiendaHelperTax::calculateTax( $orderitems, 3, $order->getBillingAddress(), $order->getShippingAddress() );
+
+		foreach( $orderitems as $item )
 		{
 			$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
-			$tax = 0;
-			if ($show_tax)
+			if( $show_tax )
 			{
-				foreach($geozones as $geozone)
-				{
-					$taxrate = $product_helper->getTaxRate($item->product_id, $geozone->geozone_id, true );
-					$product_tax_rate = $taxrate->tax_rate;
-					$tax += ($product_tax_rate/100) * ($item->orderitem_price + floatval( $item->orderitem_attributes_price ));
-				}
+				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxes->product_taxes[$item->product_id];
 
-				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $tax;
-				$item->orderitem_final_price = $item->price * $item->orderitem_quantity;
-					
-				$order->order_subtotal += ($tax * $item->orderitem_quantity);
+				$order->order_subtotal += ( $taxes->product_taxes[$item->product_id] * $item->orderitem_quantity );
 			}
-			$tax_sum += ($tax * $item->orderitem_quantity);
-		}
-
-		// TODO remove this block of code? it was doubling the tax sum.
-		/*if (empty($order->user_id))
-		{
-			//$order->order_total += $tax_sum;
-			$order->order_tax += $tax_sum;
-		}*/
+		} 
 
 		$view->assign( 'orderitems', $orderitems );
 
@@ -3174,7 +3145,7 @@ class TiendaControllerCheckout extends TiendaController
 			$row->order_id = $order->order_id;
 			$row->tax_class_id = $taxclass->tax_class_id;
 			$row->ordertaxclass_amount = $order->getTaxClassAmount( $taxclass->tax_class_id );
-			$row->ordertaxclass_description = $taxclass->tax_rate_description;
+			$row->ordertaxclass_description = $taxclass->tax_class_description;
 			$row->save();
 		}
 
@@ -3188,6 +3159,8 @@ class TiendaControllerCheckout extends TiendaController
 			$row->ordertaxrate_rate = $taxrate->tax_rate;
 			$row->ordertaxrate_amount = $order->getTaxRateAmount( $taxrate->tax_rate_id );
 			$row->ordertaxrate_description = $taxrate->tax_rate_description;
+			$row->ordertaxrate_level = $taxrate->level;
+			$row->ordertaxclass_id = $taxrate->tax_class_id;
 			$row->save();
 		}
 

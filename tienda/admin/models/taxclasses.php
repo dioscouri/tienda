@@ -29,6 +29,10 @@ class TiendaModelTaxclasses extends TiendaModelBase
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
+       	
+       	$id = $this->getState( 'tax_class_id' );
+      if( strlen( $id ) )
+      	$where []= ' tbl.tax_class_id = '.( int )$id; 
     }
     
     protected function _buildQueryFields(&$query)

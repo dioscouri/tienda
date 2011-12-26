@@ -571,6 +571,9 @@ class TiendaConfig extends JObject
 	var $display_subscriptions = '1';
 	var $display_mydownloads = '1';
 	
+	// since 0.8.3
+	var $show_tax_checkout = '3';
+	
 	/**
 	 * constructor
 	 * @return void
