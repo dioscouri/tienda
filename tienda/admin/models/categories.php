@@ -136,7 +136,7 @@ class TiendaModelCategories extends TiendaModelBase
     protected function _buildResultQuery()
     {
     	$grouped_query = new TiendaQuery();
-		$grouped_query->select( $this->getState( 'select', 'COUNT(tbl.category_id)' ) );
+		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
 
         $this->_buildQueryFrom($grouped_query);
         $this->_buildQueryJoins($grouped_query);
