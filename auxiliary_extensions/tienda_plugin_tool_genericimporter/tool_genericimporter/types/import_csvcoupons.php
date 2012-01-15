@@ -131,43 +131,4 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 		return $html;
 	}
 
-	function _getLayout($layout, $vars =false, $plugin ='', $group ='tienda') {
-		if(empty($plugin)) {
-			$plugin = $this->_element;
-		}
-
-		ob_start();
-		$layout = $this->_getLayoutPath($plugin, $group, $layout);
-		include ($layout);
-		$html = ob_get_contents();
-		ob_end_clean();
-
-		return $html;
-	}
-
-	/**
-	 * Get the path to a layout file
-	 *
-	 * @param   string  $plugin The name of the plugin file
-	 * @param   string  $group The plugin's group
-	 * @param   string  $layout The name of the plugin layout file
-	 * @return  string  The path to the plugin layout file
-	 * @access protected
-	 */
-	function _getLayoutPath($plugin, $group, $layout ='default') {
-		$app = JFactory::getApplication();
-
-		// get the template and default paths for the layout
-		$templatePath = JPATH_SITE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . 'plugins' . DS . $group . DS . $plugin . DS . $layout . '.php';
-		$defaultPath = JPATH_SITE . DS . 'plugins' . DS . $group . DS . $plugin . DS . 'tmpl' . DS . $layout . '.php';
-
-		// if the site template has a layout override, use it
-		jimport('joomla.filesystem.file');
-		if(JFile::exists($templatePath)) {
-			return $templatePath;
-		} else {
-			return $defaultPath;
-		}
-	}
-
 }
