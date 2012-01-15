@@ -1,5 +1,5 @@
 Importing Coupons - Using the Coupon Importer
-
+===========================================
 Installation
 
 Just use the Joomla installer to install the provided install file. Do NOT unzip the file first.
