@@ -300,13 +300,8 @@ abstract class TiendaToolPluginImport extends JObject
 		return $this->generateRowRaw( $key, $input );
 	}
 
-	function _getLayout($layout, $vars =false, $plugin ='', $group ='tienda')
+	function _getLayout($layout, $vars =false, $plugin ='tool_genericimporter', $group ='tienda')
 	{
-		if( empty( $plugin ) )
-		{
-			$plugin = $this->_element;
-		}
-
 		ob_start();
 		$layout = $this->_getLayoutPath( $plugin, $group, $layout );
 		include ( $layout );
