@@ -454,6 +454,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemLevelTaxes FAILED') .' :: '. $this->getError(), 'error' );
 		}
+		
+		if( !$this->checkSecretWord() )
+		{
+			return $this->redirect( JText::_('DIAGNOSTIC checkSecretWord FAILED') .' :: '. $this->getError(), 'error' );
+		}
 	}
 
 	/**
@@ -3527,6 +3532,35 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Checks, if Tienda already generated a secret word. If not, it generates one
+	 * 
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function checkSecretWord()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSecretWord', '0')) return true;
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		$config->config_name = 'secret_word';
+		
+		Tienda::load( 'TiendaHelperBase', 'helper._base' );
+		$config->value = TiendaHelperBase::generateSecretWord();
+		if ( $config->save() )
+		{
+			unset( $config->config_id );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkSecretWord') );
+			$config->config_name = 'checkSecretWord';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+		
+	}
 }
 

@@ -96,6 +96,25 @@ class TiendaViewCheckout extends TiendaViewBase
 			
 		return $this->loadTemplate( null );
 	}
-	
+
+	/**
+	 * Generates shipping hash
+	 * @param $rate		Array with a shipping rate which is actually set
+	 * 
+	 * @return	Shipping hash as a string
+	 */
+	function generateHash( $rate )
+	{
+		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+		$ship_values = array();
+		$ship_values['type'] = $rate->shipping_type;
+		$ship_values['name'] = $rate->shipping_name;
+		$ship_values['price'] = $rate->shipping_price;
+		$ship_values['tax'] = $rate->shipping_tax;
+		$ship_values['code'] = $rate->shipping_code;
+		$ship_values['extra'] = $rate->shipping_extra;
+		
+		return TiendaHelperShipping::generateShippingHash( $ship_values );
+	}
 }
 ?>

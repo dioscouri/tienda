@@ -145,7 +145,7 @@ class TiendaModelCategories extends TiendaModelBase
         $this->_buildQueryHaving($grouped_query);
         
         $query = new TiendaQuery( );
-		$query->select( 'COUNT(tbl.category_id)' );
+		$query->select( 'COUNT(*)' );
 		$query->from( '(' . $grouped_query . ') as grouped_count' );
         
         // Allow plugins to edit the query object

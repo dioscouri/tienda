@@ -573,6 +573,7 @@ class TiendaConfig extends JObject
 	
 	// since 0.8.3
 	var $show_tax_checkout = '3';
+	var $secret_word = '';
 	
 	/**
 	 * constructor

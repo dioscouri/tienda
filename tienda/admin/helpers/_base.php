@@ -6,19 +6,18 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+if ( !class_exists('Tienda') )
+JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 Tienda::load( 'TiendaConfig', 'defines' );
 
 class TiendaHelperBase extends JObject
-{   
-	
+{
 	/**
 	 * constructor
 	 * make it protected where necessary
@@ -27,15 +26,14 @@ class TiendaHelperBase extends JObject
 	{
 		parent::__construct();
 	}
-	
-	
+
 	/**
 	 * Returns a reference to the a Helper object, only creating it if it doesn't already exist
 	 *
 	 * @param type 		$type 	 The helper type to instantiate
 	 * @param string 	$prefix	 A prefix for the helper class name. Optional.
-	 * @return helper The Helper Object	 
-	*/
+	 * @return helper The Helper Object
+	 */
 	function &getInstance( $type = 'Base', $prefix = 'TiendaHelper' )
 	{
 		static $instances;
@@ -45,13 +43,13 @@ class TiendaHelperBase extends JObject
 		}
 
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-		
+
 		// The Base helper is in _base.php, but it's named TiendaHelperBase
 		if(strtolower($type) == 'Base'){
 			$helperClass = $prefix.ucfirst($type);
 			$type = '_Base';
 		}
-		
+
 		$helperClass = $prefix.ucfirst($type);
 
 		if (empty($instances[$helperClass]))
@@ -63,7 +61,7 @@ class TiendaHelperBase extends JObject
 				if($path = JPath::find(TiendaHelperBase::addIncludePath(), strtolower($type).'.php'))
 				{
 					require_once $path;
-	
+
 					if (!class_exists( $helperClass ))
 					{
 						JError::raiseWarning( 0, 'Helper class ' . $helperClass . ' not found in file.' );
@@ -78,13 +76,13 @@ class TiendaHelperBase extends JObject
 			}
 
 			$instance = new $helperClass();
-			
+				
 			$instances[$helperClass] = & $instance;
 		}
 
 		return $instances[$helperClass];
 	}
-	
+
 	/**
 	 * Check if the path exists, and if not, tries to create it
 	 * @param string $dir
@@ -93,36 +91,36 @@ class TiendaHelperBase extends JObject
 	function checkDirectory($dir, $create = true)
 	{
 		$return = true;
-		if (!$exists = &JFolder::exists( $dir ) ) 
+		if (!$exists = &JFolder::exists( $dir ) )
 		{
 			if ($create)
 			{
-			    if (!$return = &JFolder::create( $dir ))
-			    {
-			        $this->setError( "Attempted to Create Dir But Failed" );
-			        //JFactory::getApplication( )->enqueueMessage( JText::_( "Attempted to Create Dir But Failed" ) . " " . $dir );
-			    }
+				if (!$return = &JFolder::create( $dir ))
+				{
+					$this->setError( "Attempted to Create Dir But Failed" );
+					//JFactory::getApplication( )->enqueueMessage( JText::_( "Attempted to Create Dir But Failed" ) . " " . $dir );
+				}
 			}
-                else
+			else
 			{
-			    $return = false;
-			    $this->setError( "Dir Does Not Exist and Did Not Attempt to Create" );
-			    //JFactory::getApplication( )->enqueueMessage( JText::_( "Dir Does Not Exist and Did Not Attempt to Create" ) . " " . $dir );
+				$return = false;
+				$this->setError( "Dir Does Not Exist and Did Not Attempt to Create" );
+				//JFactory::getApplication( )->enqueueMessage( JText::_( "Dir Does Not Exist and Did Not Attempt to Create" ) . " " . $dir );
 			}
 		}
-		
-        if (!is_writable($dir)) 
-        {
-            if (!$change = &JPath::setPermissions( $dir ))
-            {
-                $this->setError( "Changing Permissions on Dir Failed" );
-                //JFactory::getApplication( )->enqueueMessage( JText::_( "Changing Permissions on Dir Failed" ) . " " . $dir );
-            }
-        }
-        
+
+		if (!is_writable($dir))
+		{
+			if (!$change = &JPath::setPermissions( $dir ))
+			{
+				$this->setError( "Changing Permissions on Dir Failed" );
+				//JFactory::getApplication( )->enqueueMessage( JText::_( "Changing Permissions on Dir Failed" ) . " " . $dir );
+			}
+		}
+
 		return $return;
 	}
-	
+
 	/**
 	 * Determines whether/not a user can view a record
 	 *
@@ -138,11 +136,11 @@ class TiendaHelperBase extends JObject
 		$userid = intval($user->id);
 
 		// if the user is super admin, yes
-			if ($user->gid == '25') { return true; }
+		if ($user->gid == '25') { return true; }
 
 		return $result;
 	}
-	
+
 	/**
 	 * Add a directory where TiendaHelper should search for helper types. You may
 	 * either pass a string or an array of directories.
@@ -179,21 +177,21 @@ class TiendaHelperBase extends JObject
 		return $tiendaHelperPaths;
 	}
 
-    /**
-     * Formats and converts a number according to currency rules
-     * As of v0.5.0 is a wrapper
-     * 
-     * @param unknown_type $amount
-     * @param unknown_type $currency
-     * @return unknown_type
-     */
-    function currency($amount, $currency='', $options='')
-    {
-        $currency_helper =& TiendaHelperBase::getInstance( 'Currency' );
-        $amount = $currency_helper->_($amount, $currency, $options);
-        return $amount;
-    }
-	
+	/**
+	 * Formats and converts a number according to currency rules
+	 * As of v0.5.0 is a wrapper
+	 *
+	 * @param unknown_type $amount
+	 * @param unknown_type $currency
+	 * @return unknown_type
+	 */
+	function currency($amount, $currency='', $options='')
+	{
+		$currency_helper =& TiendaHelperBase::getInstance( 'Currency' );
+		$amount = $currency_helper->_($amount, $currency, $options);
+		return $amount;
+	}
+
 	/**
 	 * Return a mesure with its unit
 	 * @param float $amount
@@ -201,35 +199,35 @@ class TiendaHelperBase extends JObject
 	 */
 	function measure($amount, $type='dimension')
 	{
-        // default to whatever is in config
-            
-        $config = TiendaConfig::getInstance();
-        $dim_unit = $config->get('dimensions_unit', 'cm');
-        $weight_unit = $config->get('weight_unit', 'kg');
-            
-        if(strtolower($type) == 'dimension'){
-        	return $amount.$dim_unit;
-        } else{
-        	return $amount.$weight_unit;
-        }
-		
+		// default to whatever is in config
+
+		$config = TiendaConfig::getInstance();
+		$dim_unit = $config->get('dimensions_unit', 'cm');
+		$weight_unit = $config->get('weight_unit', 'kg');
+
+		if(strtolower($type) == 'dimension'){
+			return $amount.$dim_unit;
+		} else{
+			return $amount.$weight_unit;
+		}
+
 	}
 
 	/**
 	 * Nicely format a number
-	 * 
+	 *
 	 * @param $number
 	 * @return unknown_type
 	 */
-    function number($number, $options='' )
+	function number($number, $options='' )
 	{
 		$config = TiendaConfig::getInstance();
-        $options = (array) $options;
-        
-        $thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
-        $decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
-        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
-		
+		$options = (array) $options;
+
+		$thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
+		$decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
+		$num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
+
 		$return = number_format($number, $num_decimals, $decimal, $thousands);
 		return $return;
 	}
@@ -255,7 +253,7 @@ class TiendaHelperBase extends JObject
 				{
 					$result[] = $item[$index];
 				}
-					elseif (is_object($item) && isset($item->$index))
+				elseif (is_object($item) && isset($item->$index))
 				{
 					$result[] = $item->$index;
 				}
@@ -273,22 +271,22 @@ class TiendaHelperBase extends JObject
 	function elementsToArray( $elements )
 	{
 		$return = array();
-        $names = array();
-        $checked_items = array();
-        if (empty($elements))
-        {
-            $elements = array();
-        }
-        
+		$names = array();
+		$checked_items = array();
+		if (empty($elements))
+		{
+			$elements = array();
+		}
+
 		foreach (@$elements as $element)
 		{
 			$isarray = false;
 			$name = $element->name;
 			$value = $element->value;
-            $checked = $element->checked;
-            
+			$checked = $element->checked;
+
 			// if the name is an array,
-			// attempt to recreate it 
+			// attempt to recreate it
 			// using the array's name
 			if (strpos($name, '['))
 			{
@@ -299,57 +297,57 @@ class TiendaHelperBase extends JObject
 				$name = str_replace( $search, '', $exploded[1]);
 				if (!empty($index))
 				{
-                    // track the name of the array
-	                if (!in_array($index, $names))
-	                {
-                        $names[] = $index;	
-	                }
+					// track the name of the array
+					if (!in_array($index, $names))
+					{
+						$names[] = $index;
+					}
 
-	                if (empty(${$index}))
-	                {
-	                    ${$index} = array(); 
-	                }
-	                
-	                if (!empty($name))
-	                {
-	                	${$index}[$name] = $value;
-	                }
-	                else
-	                {
-                        ${$index}[] = $value;	
-	                }
-	                
-				    if ($checked)
-                    {
-                    	if (empty($checked_items[$index]))
-                    	{
-                    		$checked_items[$index] = array();
-                    	}
-                        $checked_items[$index][] = $value; 
-                    }
+					if (empty(${$index}))
+					{
+						${$index} = array();
+					}
+					 
+					if (!empty($name))
+					{
+						${$index}[$name] = $value;
+					}
+					else
+					{
+						${$index}[] = $value;
+					}
+					 
+					if ($checked)
+					{
+						if (empty($checked_items[$index]))
+						{
+							$checked_items[$index] = array();
+						}
+						$checked_items[$index][] = $value;
+					}
 				}
 			}
-            elseif (!empty($name))
+			elseif (!empty($name))
 			{
 				$return[$name] = $value;
-			    if ($checked)
-                {
-                    if (empty($checked_items[$name]))
-                    {
-                        $checked_items[$name] = array();
-                    }
-                    $checked_items[$name] = $value; 
-                }
+				if ($checked)
+				{
+					if (empty($checked_items[$name]))
+					{
+						$checked_items[$name] = array();
+					}
+					$checked_items[$name] = $value;
+				}
 			}
 		}
-		
+
 		foreach ($names as $extra)
 		{
 			$return[$extra] = ${$extra};
 		}
-		
-        $return['_checked'] = $checked_items;
-        
+
+		$return['_checked'] = $checked_items;
+
 		return $return;
 	}
 
@@ -368,57 +366,57 @@ class TiendaHelperBase extends JObject
 		switch ($period)
 		{
 			case "daily":
-					$thisdate = $curdate;
-					$query = " SELECT DATE_ADD('".$curdate."', INTERVAL 1 DAY) ";
-					$database->setQuery( $query );
-					$nextdate = $database->loadResult();
+				$thisdate = $curdate;
+				$query = " SELECT DATE_ADD('".$curdate."', INTERVAL 1 DAY) ";
+				$database->setQuery( $query );
+				$nextdate = $database->loadResult();
 				$return->thisdate = $thisdate;
 				$return->nextdate = $nextdate;
-			  break;
+				break;
 			case "weekly":
 				$start 	= getdate( strtotime($curdate) );
 
 				// First period should be days between x day and the immediate Sunday
-					if ($start['wday'] < '1') {
-						$thisdate = $curdate;
-						$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 1 DAY ) ";
-						$database->setQuery( $query );
-						$nextdate = $database->loadResult();
-					} elseif ($start['wday'] > '1') {
-						$interval = 8 - $start['wday'];
-						$thisdate = $curdate;
-						$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL {$interval} DAY ) ";
-						$database->setQuery( $query );
-						$nextdate = $database->loadResult();
-					} else {
-						// then every period following should be Mon-Sun
-						$thisdate = $curdate;
-						$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 7 DAY ) ";
-						$database->setQuery( $query );
-						$nextdate = $database->loadResult();
-					}
+				if ($start['wday'] < '1') {
+					$thisdate = $curdate;
+					$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 1 DAY ) ";
+					$database->setQuery( $query );
+					$nextdate = $database->loadResult();
+				} elseif ($start['wday'] > '1') {
+					$interval = 8 - $start['wday'];
+					$thisdate = $curdate;
+					$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL {$interval} DAY ) ";
+					$database->setQuery( $query );
+					$nextdate = $database->loadResult();
+				} else {
+					// then every period following should be Mon-Sun
+					$thisdate = $curdate;
+					$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 7 DAY ) ";
+					$database->setQuery( $query );
+					$nextdate = $database->loadResult();
+				}
 
-					if ( $nextdate > $enddate ) {
-						$query = " SELECT DATE_ADD( '".$nextdate."', INTERVAL 1 DAY ) ";
-						$database->setQuery( $query );
-						$nextdate = $database->loadResult();
-					}
+				if ( $nextdate > $enddate ) {
+					$query = " SELECT DATE_ADD( '".$nextdate."', INTERVAL 1 DAY ) ";
+					$database->setQuery( $query );
+					$nextdate = $database->loadResult();
+				}
 				$return->thisdate = $thisdate;
 				$return->nextdate = $nextdate;
-			  break;
+				break;
 			case "monthly":
 				$start 	= getdate( strtotime($curdate) );
 				$start_datetime = date("Y-m-d", strtotime($start['year']."-".$start['mon']."-01"));
-					$thisdate = $start_datetime;
-					$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 1 MONTH ) ";
-					$database->setQuery( $query );
-					$nextdate = $database->loadResult();
+				$thisdate = $start_datetime;
+				$query = " SELECT DATE_ADD( '".$thisdate."', INTERVAL 1 MONTH ) ";
+				$database->setQuery( $query );
+				$nextdate = $database->loadResult();
 
 				$return->thisdate = $thisdate;
 				$return->nextdate = $nextdate;
-			  break;
+				break;
 			default:
-			  break;
+				break;
 		}
 
 		return $return;
@@ -450,11 +448,11 @@ class TiendaHelperBase extends JObject
 			$database = JFactory::getDBO();
 			$query = "
 				SELECT
-					{$command}( '{$today}', INTERVAL {$offset} HOUR )
+				{$command}( '{$today}', INTERVAL {$offset} HOUR )
 				";
 
-			$database->setQuery( $query );
-			$today = $database->loadResult();
+				$database->setQuery( $query );
+				$today = $database->loadResult();
 		}
 		return $today;
 	}
@@ -466,11 +464,11 @@ class TiendaHelperBase extends JObject
 	 */
 	function getOffsetDate( $date, $offset='' )
 	{
-	    if (empty($offset))
-	    {
-            $config = JFactory::getConfig();
-            $offset = $config->getValue('config.offset');
-	    }
+		if (empty($offset))
+		{
+			$config = JFactory::getConfig();
+			$offset = $config->getValue('config.offset');
+		}
 
 		if ($offset > 0) {
 			$command = 'DATE_ADD';
@@ -479,18 +477,18 @@ class TiendaHelperBase extends JObject
 		} else {
 			$command = '';
 		}
-		
+
 		if ($command)
 		{
-		    $offset = abs($offset);
-		    
+			$offset = abs($offset);
+
 			$database = JFactory::getDBO();
 			$query = "
 				SELECT
-					{$command}( '{$date}', INTERVAL {$offset} HOUR )
+				{$command}( '{$date}', INTERVAL {$offset} HOUR )
 				";
-			$database->setQuery( $query );
-			$date = $database->loadResult();
+				$database->setQuery( $query );
+				$date = $database->loadResult();
 		}
 		return $date;
 	}
@@ -536,21 +534,21 @@ class TiendaHelperBase extends JObject
 				$database = JFactory::getDBO();
 				$query = "
 					SELECT
-						{$command}( '{$start_datetime}', INTERVAL {$offset} HOUR )
+					{$command}( '{$start_datetime}', INTERVAL {$offset} HOUR )
 					";
 
-				$database->setQuery( $query );
-				$curdate = $database->loadResult();
+					$database->setQuery( $query );
+					$curdate = $database->loadResult();
 
-				$query = "
+					$query = "
 					SELECT
-						{$command}( '{$end_datetime}', INTERVAL {$offset} HOUR )
+					{$command}( '{$end_datetime}', INTERVAL {$offset} HOUR )
 					";
 
-				$database->setQuery( $query );
-				$enddate = $database->loadResult();
+					$database->setQuery( $query );
+					$enddate = $database->loadResult();
 			}
-				else
+			else
 			{
 				$curdate = $start_datetime;
 				$enddate = $end_datetime;
@@ -563,16 +561,16 @@ class TiendaHelperBase extends JObject
 			while ($curdate <= $enddate)
 			{
 				// set working variables
-					$variables = TiendaHelperBase::setDateVariables( $curdate, $enddate, $period );
-					$thisdate = $variables->thisdate;
-					$nextdate = $variables->nextdate;
+				$variables = TiendaHelperBase::setDateVariables( $curdate, $enddate, $period );
+				$thisdate = $variables->thisdate;
+				$nextdate = $variables->nextdate;
 
 				// grab all records
 				// TODO Set the query here
-					$query = new TiendaQuery();
-					$query->select( $select );
-					$rows = $this->selectPeriodData( $thisdate, $nextdate, $select, $type );
-					$total = $this->selectPeriodData( $thisdate, $nextdate, "COUNT(*)", "result" );
+				$query = new TiendaQuery();
+				$query->select( $select );
+				$rows = $this->selectPeriodData( $thisdate, $nextdate, $select, $type );
+				$total = $this->selectPeriodData( $thisdate, $nextdate, "COUNT(*)", "result" );
 
 				//store the value in an array
 				$result[$num]['rows']		= $rows;
@@ -593,31 +591,31 @@ class TiendaHelperBase extends JObject
 
 		return $items[$start_datetime][$end_datetime][$period][$select];
 	}
-	
+
 	/**
 	 * includeJQueryUI function.
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
 	function includeJQueryUI()
 	{
-        self::includeJQuery();
-	    JHTML::_('script', 'jquery-ui-1.7.2.min.js', 'media/com_tienda/js/');
-        JHTML::_('stylesheet', 'jquery-ui.css', 'media/com_tienda/css/');
+		self::includeJQuery();
+		JHTML::_('script', 'jquery-ui-1.7.2.min.js', 'media/com_tienda/js/');
+		JHTML::_('stylesheet', 'jquery-ui.css', 'media/com_tienda/css/');
 	}
 
 	/**
 	 * includeJQuery function.
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
 	function includeJQuery()
 	{
-	    JHTML::_('script', 'jquery-1.3.2.min.js', 'media/com_tienda/js/');
+		JHTML::_('script', 'jquery-1.3.2.min.js', 'media/com_tienda/js/');
 	}
-	
+
 	/**
 	 * Include JQueryMultiFile script
 	 */
@@ -626,11 +624,11 @@ class TiendaHelperBase extends JObject
 		JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/');
 		JHTML::_('stylesheet', 'Stickman.MultiUpload.css', 'media/com_tienda/css/');
 	}
-	
+
 	/**
 	 * Generate an html message for the checkout page
 	 * used for validation errors
-	 * 
+	 *
 	 * @param string message
 	 * @return html message
 	 */
@@ -641,122 +639,140 @@ class TiendaHelperBase extends JObject
             <dt class="notice">'.JText::_( "Notice" ).'</dt>
             <dd class="notice message fade">
                 <ul>';
-				
-                if ($include_li) {
-                    $html .= "<li>".$msg."</li>";
-                } else {
-                    $html .= $msg;
-                }
-                
-                $html .= "
+
+		if ($include_li) {
+			$html .= "<li>".$msg."</li>";
+		} else {
+			$html .= $msg;
+		}
+
+		$html .= "
                 </ul>
             </dd>
         </dl>";
-		
+
 		return $html;
 	}
-	
-    /**
-     * Sets a json_encoded session variable to value
-     * 
-     * @param unknown_type $key
-     * @param unknown_type $value
-     * @return void
-     */
-    function setSessionVariable($key, $value)
-    {
-        $session =& JFactory::getSession();
-        $session->set($key, json_encode($value));
-    }
-    
-    /**
-     * Gets json_encoded session variable
-     * 
-     * @param str $key
-     * @return mixed
-     */
-    function getSessionVariable($key, $default=null)
-    {
-        $session =& JFactory::getSession();
-        $sessionvalue = $default;
-        if ($session->has($key))
-        {
-            $sessionvalue = $session->get($key);
-            if (!empty($sessionvalue))
-            {
-                $sessionvalue = json_decode($sessionvalue); 
-            }
-        }
-        return $sessionvalue;
-    }
-    
-    /**
-     * Set the document format
-     */
-    function setFOrmat( $format = 'html' )
-    {
-    	// 	Default to raw output
+
+	/**
+	 * Sets a json_encoded session variable to value
+	 *
+	 * @param unknown_type $key
+	 * @param unknown_type $value
+	 * @return void
+	 */
+	function setSessionVariable($key, $value)
+	{
+		$session =& JFactory::getSession();
+		$session->set($key, json_encode($value));
+	}
+
+	/**
+	 * Gets json_encoded session variable
+	 *
+	 * @param str $key
+	 * @return mixed
+	 */
+	function getSessionVariable($key, $default=null)
+	{
+		$session =& JFactory::getSession();
+		$sessionvalue = $default;
+		if ($session->has($key))
+		{
+			$sessionvalue = $session->get($key);
+			if (!empty($sessionvalue))
+			{
+				$sessionvalue = json_decode($sessionvalue);
+			}
+		}
+		return $sessionvalue;
+	}
+
+	/**
+	 * Set the document format
+	 */
+	function setFOrmat( $format = 'html' )
+	{
+		// 	Default to raw output
 		$doc = &JFactory::getDocument();
 		$document = &JDocument::getInstance($format);
-		
+
 		$doc = $document;
-    }
-	
+	}
+
 	/**
-     * convert Local data to GMT data
-     */
-    function local_to_GMT_data( $local_data )
-    {
+	 * convert Local data to GMT data
+	 */
+	function local_to_GMT_data( $local_data )
+	{
 		$GMT_data=$local_data ;
-		if(!empty($local_data)) 
+		if(!empty($local_data))
 		{
 			$config = JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 			$offset=0-$offset;
 			$date = date_create($local_data);
-			date_modify($date,  $offset.' hour');		
+			date_modify($date,  $offset.' hour');
 			$GMT_data= date_format($date, 'Y-m-d H:i:s');
 		}
 		return $GMT_data;
-    }
-	
+	}
+
 	/**
-     * convert GMT data to Local data
-     */
-    function GMT_to_local_data( $GMT_data )
-    {
+	 * convert GMT data to Local data
+	 */
+	function GMT_to_local_data( $GMT_data )
+	{
 		$local_data=$GMT_data ;
-		if(!empty($local_data)) 
+		if(!empty($local_data))
 		{
 			$config = JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 			$date = date_create($GMT_data);
-			date_modify($date,  $offset.' hour');		
+			date_modify($date,  $offset.' hour');
 			$local_data= date_format($date, 'Y-m-d H:i:s');
 		}
 		return $local_data;
-    }
-    
+	}
+
 	/**
-     * Generates a validation message
-     * 
-     * @param unknown_type $text
-     * @param unknown_type $type
-     * @return unknown_type
-     */
-    function validationMessage( $text, $type='fail' )
-    {
-        switch (strtolower($type))
-        {
-            case "success":
-                $src = Tienda::getUrl( 'images' ).'accept_16.png';
-                $html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Success" )."'><span class='validation-success'>".JText::_( $text )."</span></div>";
-                break;
-            default:
-                $src = Tienda::getUrl( 'images' ).'remove_16.png';
-                $html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Error" )."'><span class='validation-fail'>".JText::_( $text )."</span></div>";
-                break;
-        }
-        return $html;
-    }
+	 * Generates a validation message
+	 *
+	 * @param unknown_type $text
+	 * @param unknown_type $type
+	 * @return unknown_type
+	 */
+	function validationMessage( $text, $type='fail' )
+	{
+		switch (strtolower($type))
+		{
+			case "success":
+				$src = Tienda::getUrl( 'images' ).'accept_16.png';
+				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Success" )."'><span class='validation-success'>".JText::_( $text )."</span></div>";
+				break;
+			default:
+				$src = Tienda::getUrl( 'images' ).'remove_16.png';
+				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_( "Error" )."'><span class='validation-fail'>".JText::_( $text )."</span></div>";
+				break;
+		}
+		return $html;
+	}
+
+	/**
+	 * Generates a new secret key for Tienda
+	 * 
+	 * @param $length		Length of the word
+	 * @return 					Secret key as a string
+	 */
+	function generateSecretWord( $length = 32 )
+	{
+		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+}{|:<>?,. ";
+		$len = strlen( $salt );
+		$sw = '';
+
+		for ($i = 0; $i < $length; $i++ )
+			$sw .= $salt[mt_rand( 0, $len -1 )];
+
+		return $sw; 
+	}
 }

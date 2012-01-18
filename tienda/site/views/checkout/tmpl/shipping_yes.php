@@ -42,7 +42,6 @@
 <input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $setval ? $this->rates['0']['name'] : "";?>" />
 <input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo $setval ? $this->rates['0']['code'] : "";?>" />
 <input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $setval ? $this->rates['0']['extra'] : "";?>" />
-
     
 <?php if( !$one_page ):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
@@ -53,8 +52,9 @@
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
 
-<?php if (!empty($this->default_rate) ) : ?>
-<?php $default_rate = $this->default_rate; ?>
+<?php
+if (!empty($this->default_rate) ) :
+	$default_rate = $this->default_rate; ?>
 <script type="text/javascript">
 window.addEvent( 'domready', function() {
 	tiendaGrayOutAddressDiv();

@@ -1520,8 +1520,10 @@ class TiendaControllerCheckout extends TiendaController
 		$order->shipping = new JObject();
 		$order->shipping->shipping_price      = @$values['shipping_price'];
 		$order->shipping->shipping_extra      = @$values['shipping_extra'];
+		$order->shipping->shipping_code      	= @$values['shipping_code'];
 		$order->shipping->shipping_name       = @$values['shipping_name'];
 		$order->shipping->shipping_tax        = @$values['shipping_tax'];
+		$order->shipping->shipping_type				= @$values['shipping_plugin'];
 
 		// set the addresses
 		$this->setAddresses( $values );
@@ -1798,6 +1800,13 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the posted values
 		$values = JRequest::get('post');
+		// check shipping hash
+		if( @$values['shippingrequired'] && !$this->checkShippingHash( $values ) )
+		{
+			jexit( 'TiendaControllerCheckout::preparePayment - Invalid Shipping Values' );	
+			return false;
+		}
+		
 		// get the order object so we can populate it
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
@@ -2125,7 +2134,6 @@ class TiendaControllerCheckout extends TiendaController
 		// Get post values
 		$values = JRequest::get('post');
 		$user = JFactory::getUser();
-
 		//set to session to know that we are not doing POS order
 		JFactory::getApplication()->setUserState( 'tienda.pos_order', false );
 
@@ -2168,6 +2176,7 @@ class TiendaControllerCheckout extends TiendaController
 				if (empty($user->id))
 				{
 					// TODO what to do if creating new user failed?
+					// dont worry. world is gonna end on 21st december 2012 anyway, so we're cool :P
 				}
 
 				// but don't save the user's real email in the __users db table
@@ -2548,6 +2557,15 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
 
+		// check shipping hash
+		if( @$submitted_values['shippingrequired'] && !$this->checkShippingHash( $submitted_values ) )
+		{
+			$response['msg'] = $helper->generateMessage(JText::_("TiendaControllerCheckout::preparePayment - Invalid Shipping Values"));
+			$response['error'] = '1';
+			echo ( json_encode( $response ) );
+			return;
+		}
+		
 		if(empty($submitted_values['_checked']['payment_plugin']))
 		{
 			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD"));
@@ -3910,4 +3928,19 @@ class TiendaControllerCheckout extends TiendaController
 		$this->footer( );
 		return;
 	}
+
+	function checkShippingHash( $values )
+	{
+		$ship_values = array();
+		$ship_values['type'] = $values['shipping_plugin'];
+		$ship_values['name'] = $values['shipping_name'];
+		$ship_values['price'] = $values['shipping_price'];
+		$ship_values['tax'] = $values['shipping_tax'];
+		$ship_values['code'] = $values['shipping_code'];
+		$ship_values['extra'] = $values['shipping_extra'];
+		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
+		$gh = TiendaHelperShipping::generateShippingHash( $ship_values );
+		return $gh == @$values['shipping_hash'];
+	}
+
 }

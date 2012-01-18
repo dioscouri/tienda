@@ -213,5 +213,29 @@ class TiendaHelperShipping extends TiendaHelperBase
 		$geozones[$geozonetype][$zone_id][$zip_code] = $return;
 		return $return;
 	}
-
+	
+	/**
+	 * Generates hash from provided shipping values
+	 * @param $values Shipping values
+	 * 
+	 * @return Hash as a string
+	 */
+	public function generateShippingHash( $values )
+	{
+		static $sw = '';
+		// using values shipping_type, shipping_price, shipping_name, shipping_code, shipping_tax, shipping_extra, shipping_tracking_id
+		if( $sw == '' )
+		{
+			$config = TiendaConfig::getInstance();
+			$sw = $config->get( 'secret_word' );
+		}
+		if( !isset( $values['tracking_id'] ) )
+			$values['tracking_id'] = '';
+		
+		$hash = $values['type'].$values['price'].$values['name'].
+						$values['code'].$values['tax'].$values['extra'].
+						$values['tracking_id'];
+						
+		return sha1( $hash.$sw );
+	}
 }

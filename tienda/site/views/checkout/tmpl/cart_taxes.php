@@ -113,7 +113,16 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
 	if (!empty($this->showShipping))
+	{
 		echo JText::_("COM_TIENDA_SHIPPING_AND_HANDLING").":";
+		
+		if( isset( $order->shipping ) )
+		{
+		?>
+			<input type="hidden" name="shipping_hash" id="shipping_hash" value="<?php echo $this->generateHash( $order->shipping );?>" />
+		<?php
+		}
+	}
 	?>
 	</span>
 </span>
