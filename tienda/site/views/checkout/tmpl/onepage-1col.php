@@ -1,13 +1,16 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'tienda_checkout_onepage.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('script', 'tienda_checkout_onepage.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('behavior.mootools' ); ?>
-<?php Tienda::load('TiendaHelperImage', 'helpers.image'); ?>
-<?php $image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images')); ?>
-<?php $enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);?>
-<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'tienda_checkout_onepage.css', 'media/com_tienda/css/');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/');
+	JHTML::_('script', 'tienda_checkout_onepage.js', 'media/com_tienda/js/');
+	JHTML::_('behavior.mootools' );
+	Tienda::load('TiendaHelperImage', 'helpers.image');
+	$image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images'));
+	$enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
+	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
+?>
 <a name="tienda-method"></a> 
 
 <div id="tienda_checkout_pane">
@@ -111,12 +114,13 @@
           			<div class="reset marginbot"></div>
 					<?php if(!$this->user->id ) : ?>
 						<div class="tienda_checkout_method">
-							<input type="checkbox" id="create_account" name="create_account" value="" />
-							<label for="field-create-account"><?php echo JText::_( "COM_TIENDA_CREATE_A_NEW_ACCOUNT" );?></label>
-							<div id="tienda_user_additional_info" class="hidden">
-	                            <?php echo $this->form_user_register;?>
-	                        </div>
-	           			</div>
+					<div class="tienda_checkout_method">
+						<input type="checkbox" id="create_account" name="create_account" <?php if( !$guest_enabled ) echo 'checked disabled'; ?> value="on" />
+						<label for="field-create-account"><?php echo JText::_( "COM_TIENDA_CREATE_A_NEW_ACCOUNT" );?></label>
+						<div id="tienda_user_additional_info" <?php if( $guest_enabled ) echo 'class="hidden"'; ?>>
+               <?php echo $this->form_user_register;?>
+            </div>
+    			</div>
            			<?php endif; ?>
            		
            			<?php if($this->showShipping):?>				

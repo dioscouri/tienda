@@ -186,8 +186,11 @@ function tiendaDeleteShippingGrayDiv()
 {
 	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
 	if( el != '' )
-	{
 		el.destroy();
+
+	
+	if( $( 'onCheckoutShipping_wrapper' ).getStyle( 'color' ) != '' )
+	{
 		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
 		
 		// selected shipping rate has to be checked manually
@@ -272,8 +275,7 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 		if( obj_id.substr( 0, 8 ) == 'billing_' ) // billing input
 		{
 			tiendaGrayOutAddressDiv( text_address );
-			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping );
-			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );				
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
 		}
 	}
 }

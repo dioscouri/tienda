@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Add CSS
-$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_products/tmpl/mod_tienda_popular_products.css');
+$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_popular_products/tmpl/mod_tienda_popular_products.css');
 
 $resize = false;
 $options = array();

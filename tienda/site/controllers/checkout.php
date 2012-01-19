@@ -998,7 +998,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (!$table->check())
 		{
-			$this->setError( $table->getError() );
+			$this->setError( $table->getError().Tienda::dump( $values ) );
 			return false;
 		}
 		return true;
@@ -3928,6 +3928,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->footer( );
 		return;
 	}
+
 
 	function checkShippingHash( $values )
 	{
