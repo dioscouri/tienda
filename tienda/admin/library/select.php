@@ -54,6 +54,7 @@ class TiendaSelect extends JHTMLSelect
 		$list[] = JHTML::_('select.option',  'last_seven', JText::_( "Last Seven Days" ) );
 		$list[] = JHTML::_('select.option',  'last_thirty', JText::_( "Last Thirty Days" ) );
 		$list[] = JHTML::_('select.option',  'ytd', JText::_( "Year to Date" ) );
+		$list[] = JHTML::_('select.option',  'years', JText::_( "Years" ) );
 
 		return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
 	}

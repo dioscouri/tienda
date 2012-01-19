@@ -114,9 +114,9 @@ switch( $display_tax_checkout )
 	<?php 
 	if (!empty($this->showShipping))
 	{
+		$task = JRequest::getCmd( 'task' );
 		echo JText::_("COM_TIENDA_SHIPPING_AND_HANDLING").":";
-		
-		if( isset( $order->shipping ) )
+		if( isset( $order->shipping ) && ( $task == 'setShippingMethod' || $task == 'display' ) )
 		{
 		?>
 			<input type="hidden" name="shipping_hash" id="shipping_hash" value="<?php echo $this->generateHash( $order->shipping );?>" />
