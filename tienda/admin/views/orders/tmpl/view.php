@@ -549,7 +549,12 @@
     	    </td>
     	    <td>
     	        <input value="<?php echo JText::_( "Update Order" ); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
-    	        <?php echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id' ); ?>
+    	        <?php 
+			$url = "index.php?option=com_tienda&format=raw&controller=orders&task=updateStatusTextarea&orderstate_selected=";
+			$onchange = 'tiendaPutAjaxLoader( \'update_order\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\'new_orderstate_id\').value, \'update_order\', \'\', \'\', false );';
+			$attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>$onchange);
+			echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id',$attribs );
+		?> 
     	    </td>
     	</tr>
     	<tr>
@@ -577,8 +582,10 @@
     	        <?php echo JText::_("Comments"); ?>
     	    </td>
     	    <td>
-                <textarea name="new_orderstate_comments" rows="5" style="width: 100%;"></textarea>
-    	    </td>
+		<div id="update_order">
+			<textarea name="new_orderstate_comments" rows="5" style="width: 100%;"></textarea>
+		</div>
+	    </td>
     	</tr>
     	</table>
     	</fieldset>

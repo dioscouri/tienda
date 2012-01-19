@@ -124,7 +124,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
-		
+
 		if ($this->getTask() == 'print')
 		{
 			$view->setLayout( 'print' );
@@ -134,48 +134,48 @@ class TiendaControllerOrders extends TiendaController
 			$view->setLayout( 'view' );
 		}
 
-        $model->emptyState();
-        $this->_setModelState();
-        $surrounding = $model->getSurrounding( $model->getId() );
-        $view->assign( 'surrounding', $surrounding );
-        
-        //START onDisplayOrderItem: trigger plugins for extra orderitem information
-        if (!empty($orderitems))
-        {
+		$model->emptyState();
+		$this->_setModelState();
+		$surrounding = $model->getSurrounding( $model->getId() );
+		$view->assign( 'surrounding', $surrounding );
+
+		//START onDisplayOrderItem: trigger plugins for extra orderitem information
+		if (!empty($orderitems))
+		{
 			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-        	$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
-        		
-	        $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
-        }
-        //END onDisplayOrderItem
-		
-	    $config = TiendaConfig::getInstance();
-        $show_tax = $config->get('display_prices_with_tax');
-        $view->assign( 'show_tax', $show_tax );
-        $view->assign( 'using_default_geozone', false );
-        
-        if ($show_tax)
-        {
-            $geozones = $order->getBillingGeoZones();
-            if (empty($geozones))
-            {
-                // use the default
-                $view->assign( 'using_default_geozone', true );
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
-                $geozones = array( $table );
-            }
-            
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            foreach ($orderitems as &$item)
-            {
-                $taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);
-                $item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal;
-                $item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
-                $order->order_subtotal += ($taxtotal * $item->orderitem_quantity);
-            }
-        }        
-        $view->assign( 'order', $order );
+			$onDisplayOrderItem = TiendaHelperOrder::onDisplayOrderItems($orderitems);
+
+			$view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
+		}
+		//END onDisplayOrderItem
+
+		$config = TiendaConfig::getInstance();
+		$show_tax = $config->get('display_prices_with_tax');
+		$view->assign( 'show_tax', $show_tax );
+		$view->assign( 'using_default_geozone', false );
+
+		if ($show_tax)
+		{
+			$geozones = $order->getBillingGeoZones();
+			if (empty($geozones))
+			{
+				// use the default
+				$view->assign( 'using_default_geozone', true );
+				$table = JTable::getInstance('Geozones', 'TiendaTable');
+				$table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
+				$geozones = array( $table );
+			}
+
+			Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+			foreach ($orderitems as &$item)
+			{
+				$taxtotal = ($item->orderitem_tax / $item->orderitem_quantity);
+				$item->orderitem_price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxtotal;
+				$item->orderitem_final_price = $item->orderitem_price * $item->orderitem_quantity;
+				$order->order_subtotal += ($taxtotal * $item->orderitem_quantity);
+			}
+		}
+		$view->assign( 'order', $order );
 		$view->display();
 	}
 
@@ -298,7 +298,7 @@ class TiendaControllerOrders extends TiendaController
 		foreach (@$cids as $cid)
 		{
 			if (empty($cid)) { continue; }
-			 
+
 			if (!in_array($cid, $order_products))
 			{
 				// Add the posted products to the session variable if it doesn't exist
@@ -348,7 +348,7 @@ class TiendaControllerOrders extends TiendaController
 		$row = new JObject();
 		// TODO This needs to reflect the order's selected currency
 		$row->orderitems = $this->getProductsInfo();
-		 
+			
 		$this->set('suffix', 'orders');
 		$model = $this->getModel( $this->get('suffix') );
 		$view   = $this->getView( 'orders', 'html' );
@@ -358,7 +358,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->assign( 'row', $row );
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'orderproducts' );
-		 
+			
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
@@ -890,7 +890,7 @@ class TiendaControllerOrders extends TiendaController
 	function saveOrderInfo()
 	{
 		$order =& $this->_order;
-		 
+			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
@@ -913,7 +913,7 @@ class TiendaControllerOrders extends TiendaController
 	function saveOrderHistory()
 	{
 		$order =& $this->_order;
-		 
+			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order->order_id;
@@ -939,13 +939,13 @@ class TiendaControllerOrders extends TiendaController
 	{
 		$order =& $this->_order;
 		$items = $order->getItems();
-		 
+			
 		if (empty($items) || !is_array($items))
 		{
 			$this->setError( "saveOrderItems:: ".JText::_( "Items Array is Invalid" ) );
 			return false;
 		}
-		 
+			
 		$error = false;
 		$errorMsg = "";
 		foreach ($items as $item)
@@ -1026,7 +1026,7 @@ class TiendaControllerOrders extends TiendaController
 		$row->order_state_id = JRequest::getVar('new_orderstate_id');
 
 		$completed_tasks = JRequest::getVar('completed_tasks');
-		 
+			
 
 		if ($completed_tasks == "on" && empty($row->completed_tasks) )
 		{
@@ -1046,12 +1046,12 @@ class TiendaControllerOrders extends TiendaController
 			$history->order_state_id       = $row->order_state_id;
 			$history->notify_customer      = JRequest::getVar('new_orderstate_notify');
 			$history->comments             = JRequest::getVar('new_orderstate_comments');
-			 
+
 			if (!$history->save())
 			{
 				$this->setError( $history->getError() );
 				$this->messagetype  = 'notice';
-				 
+					
 				$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
 			}
 
@@ -1070,44 +1070,44 @@ class TiendaControllerOrders extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-    /**
-     * Displays list of orders to update their status
-     * provide diffrent functions like send mail to user update staus etc.
-     * @return void
-     */
-    function delete()
-    {
-        $confirmdelete = JRequest::getInt('confirmdelete');
-        if (!empty($confirmdelete))
-        {
-            parent::delete();
-        }
-            else 
-        {
-            $cids = JRequest::getVar('cid', array(0), 'request', 'array');
-                
-            // select only the ids from cid
-            $model  = $this->getModel( $this->get('suffix') );
-    
-            $query = $model->getQuery();
-            $query->where("tbl.order_id IN ('".implode( "', '", $cids )."') ");
-            $model->setQuery( $query );
-    
-            // create view, assign model, and display
-            $view = $this->getView( 'orders', 'html' );
-            $view->set( '_controller', 'orders' );
-            $view->set( '_view', 'orders' );
-            $view->setModel( $model, true );
-            $items = $model->getList(); 
-            $view->assign('items', $items);
-            $view->assign( 'pagination', $model->getPagination() );
-            $view->assign( 'state', $model->getState() );
-            $view->setLayout( 'confirmdelete' );
-            $view->display();
-            $this->footer();
-        }
-    }
-	
+	/**
+	 * Displays list of orders to update their status
+	 * provide diffrent functions like send mail to user update staus etc.
+	 * @return void
+	 */
+	function delete()
+	{
+		$confirmdelete = JRequest::getInt('confirmdelete');
+		if (!empty($confirmdelete))
+		{
+			parent::delete();
+		}
+		else
+		{
+			$cids = JRequest::getVar('cid', array(0), 'request', 'array');
+
+			// select only the ids from cid
+			$model  = $this->getModel( $this->get('suffix') );
+
+			$query = $model->getQuery();
+			$query->where("tbl.order_id IN ('".implode( "', '", $cids )."') ");
+			$model->setQuery( $query );
+
+			// create view, assign model, and display
+			$view = $this->getView( 'orders', 'html' );
+			$view->set( '_controller', 'orders' );
+			$view->set( '_view', 'orders' );
+			$view->setModel( $model, true );
+			$items = $model->getList();
+			$view->assign('items', $items);
+			$view->assign( 'pagination', $model->getPagination() );
+			$view->assign( 'state', $model->getState() );
+			$view->setLayout( 'confirmdelete' );
+			$view->display();
+			$this->footer();
+		}
+	}
+
 	/**
 	 * Displays list of orders to update their status
 	 * provide diffrent functions like send mail to user update staus etc.
@@ -1139,7 +1139,7 @@ class TiendaControllerOrders extends TiendaController
 	 * This method is updating the all orders on the basis of the action
 	 * @return void
 	 */
-	 
+
 	function updatebatch()
 	{
 		$model 	= $this->getModel( $this->get('suffix') );
@@ -1150,7 +1150,7 @@ class TiendaControllerOrders extends TiendaController
 		$completeTasks = JRequest::getVar('completed_tasks', array (0), 'post', 'array');
 		$states = JRequest::getVar('new_orderstate_id', array (0), 'post', 'array');
 		$comments = JRequest::getVar('new_orderstate_comments', array (0), 'post', 'array');
-		
+
 		// for the updation
 		$counter=0;
 
@@ -1161,7 +1161,7 @@ class TiendaControllerOrders extends TiendaController
 		 $row->order_state_id = $states[$counter];
 		 $completed_tasks = $completeTasks[$orderId];
 		 $is_notify=0;
-		 
+		 	
 		 if ($completed_tasks == "on" && empty($row->completed_tasks) )
 		 {
 		 	Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
@@ -1169,40 +1169,40 @@ class TiendaControllerOrders extends TiendaController
 		 	$row->completed_tasks = 1;
 		 }
 
-		// saving the row  
-		if ( $row->save())
-		{
-			$model->setId( $row->order_id );
-			$this->messagetype  = 'message';
-			$this->message      = JText::_( 'Order Saved' );
+		 // saving the row
+		 if ( $row->save())
+		 {
+		 	$model->setId( $row->order_id );
+		 	$this->messagetype  = 'message';
+		 	$this->message      = JText::_( 'Order Saved' );
 
-			$history = JTable::getInstance('OrderHistory', 'TiendaTable');
-			$history->order_id             = $row->order_id;
-			$history->order_state_id       = $row->order_state_id;
-			if($sendMails[$orderId]=="on"){
-				$is_notify=1;
-			}
-			$history->notify_customer      = $is_notify;
-			$history->comments             = $comments[$counter];
-			 
-			if (!$history->save())
-			{
-				$this->setError( $history->getError() );
-				$this->messagetype  = 'notice';
-				$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
-			}
+		 	$history = JTable::getInstance('OrderHistory', 'TiendaTable');
+		 	$history->order_id             = $row->order_id;
+		 	$history->order_state_id       = $row->order_state_id;
+		 	if($sendMails[$orderId]=="on"){
+		 		$is_notify=1;
+		 	}
+		 	$history->notify_customer      = $is_notify;
+		 	$history->comments             = $comments[$counter];
 
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
-		}
-		 	
-		else
-		{
-			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
-		}
+		 	if (!$history->save())
+		 	{
+		 		$this->setError( $history->getError() );
+		 		$this->messagetype  = 'notice';
+		 		$this->message      .= " :: ".JText::_( 'OrderHistory Save Failed' );
+		 	}
+
+		 	$dispatcher = JDispatcher::getInstance();
+		 	$dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
+		 }
+
+		 else
+		 {
+		 	$this->messagetype  = 'notice';
+		 	$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+		 }
 		 $counter++;
-		
+
 		}
 		$redirect = "index.php?option=com_tienda";
 		$redirect .= '&view='.$this->get('suffix');
@@ -1212,111 +1212,133 @@ class TiendaControllerOrders extends TiendaController
 	}
 
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @return unknown_type
 	 */
 	function resendEmail()
 	{
-        Tienda::load( 'TiendaUrl', 'library.url' );
+		Tienda::load( 'TiendaUrl', 'library.url' );
 
-        $model = $this->getModel( $this->get('suffix') );
-        $order = $model->getTable( 'orders' );
-        $order->load( $model->getId() );
-        $orderitems = &$order->getItems();
-        $row = $model->getItem();
-        
-        // send notice of new order
-        Tienda::load( "TiendaHelperBase", 'helpers._base' );
-        $helper = TiendaHelperBase::getInstance('Email');
-        $helper->sendEmailNotices($row, 'new_order');
-                
-        // track message      
-        $redirect = "index.php?option=com_tienda&view=orders";
-        $redirect .= "&task=view&id=".$model->getId();
-        $redirect = JRoute::_( $redirect, false );
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+		$model = $this->getModel( $this->get('suffix') );
+		$order = $model->getTable( 'orders' );
+		$order->load( $model->getId() );
+		$orderitems = &$order->getItems();
+		$row = $model->getItem();
+
+		// send notice of new order
+		Tienda::load( "TiendaHelperBase", 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance('Email');
+		$helper->sendEmailNotices($row, 'new_order');
+
+		// track message
+		$redirect = "index.php?option=com_tienda&view=orders";
+		$redirect .= "&task=view&id=".$model->getId();
+		$redirect = JRoute::_( $redirect, false );
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @return unknown_type
 	 */
 	function editAddresses()
 	{
-        JRequest::setVar('layout', 'form_addresses' );
-        parent::display();        
+		JRequest::setVar('layout', 'form_addresses' );
+		parent::display();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @return unknown_type
 	 */
 	function closeEditAddresses()
 	{
-	    $order_id = JRequest::getInt('id');
-	    $redirect = "index.php?option=com_tienda&view=orders";
-        $redirect .= "&task=view&id=" . $order_id;
-	    $this->redirect = $redirect;
-	    parent::cancel(); 
+		$order_id = JRequest::getInt('id');
+		$redirect = "index.php?option=com_tienda&view=orders";
+		$redirect .= "&task=view&id=" . $order_id;
+		$this->redirect = $redirect;
+		parent::cancel();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @return unknown_type
 	 */
 	function saveAddresses()
 	{
-        $redirect = "index.php?option=com_tienda&view=orders";
-	    $order_id = JRequest::getInt('id');
-	    
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-        $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
-	    $orderinfo->load( array('order_id'=>$order_id) );
-	    if (empty($order_id) || empty($orderinfo->order_id))
-        {
-            $this->message = JText::_( "Invalid Order" );
-            $this->messagetype = 'notice';
-            $redirect = JRoute::_( $redirect, false );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
-        }
-        
-        $post = JRequest::get('post');
-        $orderinfo->bind($post);
-        
-        // do the countries and zones names
-        $country = JTable::getInstance('Countries', 'TiendaTable');
-        $country->load( $post['billing_country_id'] );
-        $orderinfo->billing_country_name = $country->country_name;
-         
-        $zone = JTable::getInstance('Zones', 'TiendaTable');
-        $zone->load( $post['billing_zone_id'] );
-        $orderinfo->billing_zone_name = $zone->zone_name;
-        
-        $country->load( $post['shipping_country_id'] );
-        $orderinfo->shipping_country_name = $country->country_name;
-        
-        $zone->load( $post['shipping_zone_id'] );
-        $orderinfo->shipping_zone_name = $zone->zone_name;
-                
-        if (!$orderinfo->save())
-        {
-            $this->message = JText::_( "Save Failed" ) . " - " . $orderinfo->getError();
-            $this->messagetype = 'notice';
-            $redirect = JRoute::_( $redirect, false );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
-        }
-        
-        $redirect .= "&task=view&id=" . $order_id;
-        $this->message = JText::_( "Address Changes Saved" );
-        $redirect = JRoute::_( $redirect, false );
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
-        return;
+		$redirect = "index.php?option=com_tienda&view=orders";
+		$order_id = JRequest::getInt('id');
+	  
+		JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+		$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+		$orderinfo->load( array('order_id'=>$order_id) );
+		if (empty($order_id) || empty($orderinfo->order_id))
+		{
+			$this->message = JText::_( "Invalid Order" );
+			$this->messagetype = 'notice';
+			$redirect = JRoute::_( $redirect, false );
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );
+			return;
+		}
+
+		$post = JRequest::get('post');
+		$orderinfo->bind($post);
+
+		// do the countries and zones names
+		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country->load( $post['billing_country_id'] );
+		$orderinfo->billing_country_name = $country->country_name;
+		 
+		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone->load( $post['billing_zone_id'] );
+		$orderinfo->billing_zone_name = $zone->zone_name;
+
+		$country->load( $post['shipping_country_id'] );
+		$orderinfo->shipping_country_name = $country->country_name;
+
+		$zone->load( $post['shipping_zone_id'] );
+		$orderinfo->shipping_zone_name = $zone->zone_name;
+
+		if (!$orderinfo->save())
+		{
+			$this->message = JText::_( "Save Failed" ) . " - " . $orderinfo->getError();
+			$this->messagetype = 'notice';
+			$redirect = JRoute::_( $redirect, false );
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );
+			return;
+		}
+
+		$redirect .= "&task=view&id=" . $order_id;
+		$this->message = JText::_( "Address Changes Saved" );
+		$redirect = JRoute::_( $redirect, false );
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+		return;
 	}
+
+	function updateStatusTextarea()
+	{
+		$order_state_selected = JRequest::getInt('orderstate_selected');
+
+		$model = JModel::getInstance( 'OrderStates', 'TiendaModel' );
+		$model->setId( $order_state_selected );
+		$item = $model->getItem();
+
+		if( !$item )
+			$desc = '';
+		else 
+			$desc = $item->order_state_description;
+		$html='<textarea name="new_orderstate_comments" rows="5" style="width: 100%;">'.$desc.'</textarea>';
+		$response = array();
+		$response['msg'] = $html;
+		$response['error'] = '';
+		echo ( json_encode($response) );
+
+		return;
+	}
+
 }
 ?>

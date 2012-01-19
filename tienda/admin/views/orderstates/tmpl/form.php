@@ -16,6 +16,13 @@ JFilterOutput::objectHTMLSafe( $row );
 					<td>
 						<input name="order_state_name" id="order_state_name" value="<?php echo @$row->order_state_name; ?>" size="48" maxlength="250" type="text" />
 					</td>
+					<tr>
+					<td width="100" align="right" class="key">
+						<?php echo JText::_( 'Comments' ); ?>:
+					</td>
+					<td>
+						<textarea name="order_state_description"  id="order_state_description" rows="5" style="width: 100%;"><?php echo @$row->order_state_description; ?></textarea>
+					</td>
 				</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->order_state_id; ?>" />
