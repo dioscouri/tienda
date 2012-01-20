@@ -54,6 +54,8 @@ else
 
 $doc = JFactory::getDocument();
 $uri = JURI::getInstance();
+if( $config->getValue('config.force_ssl') )
+	$uri->setScheme( 'https' );
 $js = "var com_tienda = {};\n";
 $js.= "com_tienda.jbase = '".$uri->root()."';\n";
 $doc->addScriptDeclaration($js);
