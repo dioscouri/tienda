@@ -2943,7 +2943,7 @@ class TiendaControllerPOS extends TiendaController
         {
         	$redirect = "index.php?option=com_tienda&view=pos&task=addresses";
         	$redirect = JRoute::_( $redirect, false );
-			$this->message = JText::_( 'CANNOT EDIT ADDRESS NOTICE' );
+			$this->message = JText::_( 'COM_TIENDA_CANNOT_EDIT_ADDRESS_NOTICE' );
 			$this->messagetype = 'notice';
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;

@@ -67,7 +67,7 @@ class TiendaControllerAddresses extends TiendaController
         // if id is present then user is editing, check if user can edit this item
         if (!empty($row->address_id) && $row->user_id != JFactory::getUser()->id) 
         {
-			$this->message = JText::_( 'You Cannot Edit That Address' );
+			$this->message = JText::_( 'COM_TIENDA_CANNOT_EDIT_ADDRESS_NOTICE' );
 			$this->messagetype = 'notice';
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
