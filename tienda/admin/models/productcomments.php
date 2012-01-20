@@ -83,7 +83,7 @@ class TiendaModelProductComments extends TiendaModelBase
 		$field = array();
 		
 		$field[] = " p.product_name AS product_name ";
-		//$field[] = " m.name AS user_name ";
+		$field[] = " m.name AS user_name ";
 		
 		$query->select( $this->getState( 'select', 'tbl.*' ) );		
 		$query->select( $field );

@@ -81,6 +81,7 @@ class TiendaViewProductComments extends TiendaViewBase
 		JToolBarHelper::publishList( 'productcomment_enabled.enable' );
 		JToolBarHelper::unpublishList( 'productcomment_enabled.disable' );
 		JToolBarHelper::divider();
-		parent::_defaultToolbar();
+//		parent::_defaultToolbar();
+		JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
 	}
 }

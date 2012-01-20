@@ -16,8 +16,9 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_( 'Product Name' ); ?>:
 					</td>
 					<td>
-						 <?php echo $this->elementArticle_product; ?>
-                         <?php echo $this->resetArticle_product; ?> 
+						<?php echo $row->product_name; ?>
+						 <?php //echo $this->elementArticle_product; ?>
+                         <?php //echo $this->resetArticle_product; ?> 
 					</td>
 				</tr>
 				
@@ -26,8 +27,9 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_( 'User Name' ); ?>:
 					</td>
 					<td>
-						 <?php echo $this->elementUser_product; ?>
-                         <?php echo $this->resetUser_product; ?> 
+					<?php echo $row->user_name; ?>
+						 <?php //echo $this->elementUser_product; ?>
+                         <?php //echo $this->resetUser_product; ?> 
 					</td>
 				</tr>
 				<tr>
@@ -35,7 +37,10 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_( 'Comment' ); ?>:
 					</td>
 					<td>
-						<textarea name="productcomment_text" id="productcomment_text" style="width: 100%;" rows="10"><?php echo @$row->	productcomment_text; ?></textarea>
+					<?php echo @$row->productcomment_text; ?>
+						<!--
+							<textarea name="productcomment_text" id="productcomment_text" style="width: 100%;" rows="10"><?php echo @$row->productcomment_text; ?></textarea>
+						 -->
 					</td>
 				</tr>
 				<tr>
