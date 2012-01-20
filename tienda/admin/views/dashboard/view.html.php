@@ -470,8 +470,9 @@ class TiendaViewDashboard extends TiendaViewBase
 
 	function _theseYears()
 	{
-		$firstsale_date = $this->_getMarginalSale( 'ASC' );
-		$lastsale_date = $this->_getMarginalSale( 'DESC' );
+		Tienda::load( 'TiendaHelperOrder','helpers.order' );
+		$firstsale_date = TiendaHelperOrder::getDateMarginalOrder( $this->getStatesCSV(), 'ASC' );
+		$lastsale_date = TiendaHelperOrder::getDateMarginalOrder( $this->getStatesCSV(), 'DESC' );
 		$start_year = getdate( strtotime( $firstsale_date ) );
 		$end_year = getdate( strtotime( $lastsale_date ) );
 
@@ -523,33 +524,6 @@ class TiendaViewDashboard extends TiendaViewBase
 		$this->assign( 'graphData', $data );
 
 		return;
-	}
-
-	/**
-	 * Method to get date of the first or the last order
-	 *
-	 * @access private
-	 * @return void
-	 */
-	function _getMarginalSale( $order = 'ASC' )
-	{
-		$database = JFactory::getDBO();
-		$today = TiendaHelperBase::getToday();
-
-		$query = new TiendaQuery();
-		$query->select( 'tbl.created_date AS date' );
-		$query->from( '#__tienda_orders AS tbl' );
-		$query->where(" tbl.order_state_id IN ( ".$this->getStatesCSV()." ) " );
-		$query->order(" tbl.created_date ".$order );
-
-		$database->setQuery( (string) $query );
-		$return = $database->loadObject();
-		if( $return )
-			$return = $return->date;
-		else
-			$return = $today;
-		
-		return $return;
 	}
 
 	/**

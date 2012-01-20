@@ -775,4 +775,23 @@ class TiendaHelperBase extends JObject
 
 		return $sw; 
 	}
+
+	/**
+	 * Method which gets a correct time of beginning of a day with respect to the current time zone
+	 * 
+	 * @param $date	Joomla JDate object
+	 * 
+	 * @return Correct Datetime with respect to the current time zone
+	 */
+	function getCorrectBeginDayTime( $date )
+	{
+		$date_gmt = $date;
+		if( is_object( $date_gmt ) )
+			$date_gmt = $date_gmt->toFormat( "%Y-%m-%d %H:%M:%S" );
+
+		$date_local = TiendaHelperBase::GMT_to_local_data( ( string ) $date_gmt );
+		$startdate_gmt = date_format( date_create( $date_local ), 'Y-m-d 00:00:00' );
+		return TiendaHelperBase::local_to_GMT_data( $startdate_gmt );
+		
+	}
 }
