@@ -62,8 +62,15 @@ if (empty($controller))
 
 $doc = JFactory::getDocument();
 $uri = JURI::getInstance();
+
+$view = JRequest::getCmd( 'view', 'dashboard' );
+$config = JFactory::getConfig();
+if( $config->getValue('config.force_ssl') || ( $view == 'checkout' && TiendaConfig::getInstance()->get( 'force_ssl_checkout',0 ) ) )
+	$uri->setScheme( 'https' );
+
 $js = "var com_tienda = {};\n";
-$js.= "com_tienda.jbase = '".$uri->root()."';\n";
+$js.= "com_tienda.jbase = '".$uri->toString( array( 'scheme', 'host', 'port', 'path' ) )."';\n";
+
 $doc->addScriptDeclaration($js);
 
 // load the plugins
