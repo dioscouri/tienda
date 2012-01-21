@@ -156,7 +156,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$query->delete();
 		$query->from( "#__tienda_carts" );
 		$query->where( "`session_id` = '$session_id' " );
-		$query->where( "`user_id` = '0'" );
+		$query->where( "`user_id` <= '0'" );
 		$db->setQuery( (string) $query );
 		if (!$db->query())
 		{
@@ -180,10 +180,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 	  
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
-		$model->setState( 'filter_user', '0' );
+		$model->setState( 'filter_user_leq', '0' );
 		$model->setState( 'filter_session', $session_id );
 		$session_cartitems = $model->getList();
-
 		$this->deleteSessionCartItems( $session_id );
 
 		if (!empty($session_cartitems))
@@ -235,7 +234,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$table->user_id = $user_id;
 				$table->session_id = $session->getId();
 				$table->last_updated = $date->toMysql();
-				
+
 				if (!$table->save())
 				{
 					JError::raiseNotice('updateCart', $table->getError());
@@ -386,7 +385,6 @@ class TiendaHelperCarts extends TiendaHelperBase
 		}
 		return null;
 	}
-
 
 	/**
 	 * Given an order_id, will remove the order's items from the user's cart

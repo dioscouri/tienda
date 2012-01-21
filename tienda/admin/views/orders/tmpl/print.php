@@ -1,11 +1,14 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?> 
-<?php $order = @$this->order; ?>
-<?php $items = @$order->getItems(); ?>
-<?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
-<?php $config = TiendaConfig::getInstance(); ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	$form = @$this->form;
+	$row = @$this->row;
+	$order = @$this->order;
+	$items = @$order->getItems();
+	$histories = @$row->orderhistory ? @$row->orderhistory : array();
+	$config = TiendaConfig::getInstance();
+	$guest = $row->user_id < Tienda::getGuestIdStart();
+?>
 
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
@@ -142,7 +145,12 @@
                     <?php echo JText::_("Name"); ?>
                 </td>
                 <td>
-                    <?php echo $row->user_name; ?>
+                	<?php
+                	if( $guest )
+                		echo JText::_( 'COM_TIENDA_GUEST' );
+                	else
+                		echo $row->user_name;
+                	?>
                 </td>
             </tr>
             <tr>
@@ -150,7 +158,17 @@
                     <?php echo JText::_("Email"); ?>
                 </td>
                 <td>
-                    <?php echo $row->email; ?>
+                	<?php
+                		if( $guest ) 
+                		{
+                			if( $config->get( 'obfuscate_guest_email', 0 ) ) // obfuscate guest email
+                				echo '*****';
+                			else
+	                			echo $row->email;
+                		}
+                		else
+											echo $row->email;
+                	?>
                 </td>
             </tr>
             <?php if (@$row->customer_note) : ?>

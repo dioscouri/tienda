@@ -12,6 +12,7 @@
 <?php $config = TiendaConfig::getInstance(); ?>
 <?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
 <?php $display_credits = $config->get( 'display_credits', '0' ); ?>
+
 <div class='componentheading'>
 	<span><?php echo JText::_( "COM_TIENDA_ORDER_DETAIL" ); ?></span>
 </div>

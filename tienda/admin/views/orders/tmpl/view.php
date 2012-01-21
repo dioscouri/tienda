@@ -1,11 +1,14 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
-<?php $order = @$this->order; ?>
-<?php $items = @$order->getItems(); ?>
-<?php $surrounding = @$this->surrounding; ?>
-<?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	$form = @$this->form;
+	$row = @$this->row;
+	$order = @$this->order;
+	$items = @$order->getItems();
+	$surrounding = @$this->surrounding;
+	$histories = @$row->orderhistory ? @$row->orderhistory : array();
+	$guest = $row->user_id < Tienda::getGuestIdStart();
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
@@ -97,12 +100,24 @@
                     <?php echo JText::_("Name"); ?>
                 </td>
                 <td>
-                    <?php echo $row->user_name; ?>
-                    <?php if (!empty($row->user_id)) { ?>
-                    [
-                    <a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $row->user_id; ?>"><?php echo $row->user_id; ?></a>
-                    ]
-                    <?php } ?>
+                	<?php
+                	if( $guest )
+                	{
+                		echo JText::_( 'COM_TIENDA_GUEST' );
+                	}
+                	else
+                	{
+                		echo $row->user_name;
+                		if ( !empty( $row->user_id ) )
+                		{
+                			?>
+		                    [
+		                    <a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $row->user_id; ?>"><?php echo $row->user_id; ?></a>
+		                    ]
+                			<?php
+                		}
+                	}
+                	?>
                 </td>
             </tr>
             <tr>
@@ -110,7 +125,17 @@
                     <?php echo JText::_("Email"); ?>
                 </td>
                 <td>
-                    <?php echo $row->email; ?>
+                	<?php
+                		if( $guest ) 
+                		{
+                			if( TiendaConfig::getInstance()->get( 'obfuscate_guest_email', 0 ) ) // obfuscate guest email
+                				echo '*****';
+                			else
+	                			echo $row->email;
+                		}
+                		else
+											echo $row->email;
+                	?>
                 </td>
             </tr>
             <tr>

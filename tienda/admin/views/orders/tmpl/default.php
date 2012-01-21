@@ -108,7 +108,9 @@
 		</tfoot>
         <tbody>
 		<?php $i=0; $k=0; ?>
-        <?php foreach (@$items as $item) : ?>
+        <?php foreach (@$items as $item) :
+        	$guest = $item->user_id < Tienda::getGuestIdStart();
+        ?>
             <tr class='row<?php echo $k; ?>'>
 				<td align="center">
 					<?php echo $i + 1; ?>
@@ -132,10 +134,19 @@
                     </a>
                 </td>
 				<td style="text-align: left;">
+					<?php
+						if( $guest )
+							echo JText::_( 'COM_TIENDA_GUEST' );
+						else
+						{
+							?>
 					<a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id; ?>">
 					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
 					</a>
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
+							<?php
+						}
+					?>
 					<br/>
 					<b><?php echo JText::_( "Ship to" ); ?></b>:
 					<?php 

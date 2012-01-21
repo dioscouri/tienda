@@ -17,7 +17,13 @@ class Tienda extends JObject
 	static $_copyrightyear 	= '2011';
 	static $_name 			= 'tienda';
 	static $_min_php		= '5.2';
+	static $_guestIdStart = -10;
 
+	public static function getGuestIdStart()
+	{
+		return self::$_guestIdStart;
+	}
+	
 	/**
 	 * Get the version
 	 */
@@ -354,6 +360,25 @@ class Tienda extends JObject
 			return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
 		}
 
+	}
+
+	/**
+	 * Copy of Joomla method to fix problem with JS when SSL is turned on
+	 */
+	public static function getUriRoot()
+	{
+		$root = array();
+		$view = JRequest::getCmd( 'view', 'dashboard' );
+		$config = JFactory::getConfig();
+		$app = JFactory::getApplication();		
+		$uri =& JURI::getInstance(JURI::base());
+		if( $config->getValue('config.force_ssl') || ( $app->isSite() &&  $view == 'checkout' && TiendaConfig::getInstance()->get( 'force_ssl_checkout',0 ) ) )
+			$uri->setScheme( 'https' );
+		
+		$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
+		$root['path']   = rtrim($uri->toString( array('path') ), '/\\');
+		
+		return $root['prefix'].$root['path'].'/';
 	}
 }
 

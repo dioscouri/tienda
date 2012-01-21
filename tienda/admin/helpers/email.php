@@ -115,12 +115,9 @@ class TiendaHelperEmail extends TiendaHelperBase
 	    		$model_order->setId( $subscription->order_id );
 	    		$order = $model_order->getItem();
 	    			
-	    		$user = JUser::getInstance( $subscription->user_id );
-	
-	    		// is the email one of our guest emails?
-	    		$pos = strpos($user->email, "guest");
-	    		if ($pos === false) 
+	    		if( $subscription->user_id > 0 ) // not a guest account
 	    		{
+		    		$user = JUser::getInstance( $subscription->user_id );
 	    			// string needle NOT found in haystack
 	    			if (!in_array($user->email, $recipients))
 	    			{
@@ -151,7 +148,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 	   				}
 	   			}
 	   			
-      	   		$additional_recipients = $this->getAdditionalEmailRecipients();
+      	  $additional_recipients = $this->getAdditionalEmailRecipients();
 	   			foreach ($additional_recipients as $r)
 	   			{
 	   				if (!in_array($r, $recipients))
@@ -182,12 +179,9 @@ class TiendaHelperEmail extends TiendaHelperBase
 	   			$model->setId( $id );
 	   			$order = $model->getItem();
 	   			
-	   			$user = JUser::getInstance( $order->user_id );
-               
-	   			// is the email one of our guest emails?
-	   			$pos = strpos($user->email, "guest");
-	   			if ($pos === false) 
+	    		if( $order->user_id > 0 ) // not a guest account
 	   			{
+	   				$user = JUser::getInstance( $order->user_id );
 	   				// string needle NOT found in haystack
 	   				if (!in_array($user->email, $recipients))
 	   				{
@@ -273,7 +267,12 @@ class TiendaHelperEmail extends TiendaHelperBase
             case "subscription_new":
             case "new_subscription":
             case "subscription":
-                $user = JUser::getInstance($data->user_id);
+            		$user_name = JText::_( 'COM_TIENDA_GUEST' );
+            		if( $data->user_id > 0 )
+            		{
+	                $user = JUser::getInstance($data->user_id);
+	                $user_name = $user->name;
+            		}
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
                 $link = "<a href='{$link}'>" . $link . "</a>";
@@ -284,7 +283,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                     $return->subject = sprintf( JText::_('EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
 
                     // set the email body
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user->name).",\n\n";
+                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
                     $text .= JText::_("EMAIL_THANKS_NEW_SUBSCRIPTION")."\n\n";
                     $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
                     $text .= JText::_("EMAIL_RECEIPT_FOLLOWS")."\n\n";
@@ -303,7 +302,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                     $return->subject = JText::_( 'EMAIL_SUBSCRIPTION_STATUS_CHANGE' );
                     $last_history = count($data->history) - 1;
                     
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user->name).",\n\n";
+                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
                     $text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
                     if (!empty($data->history[$last_history]->comments))
                     {
@@ -319,14 +318,19 @@ class TiendaHelperEmail extends TiendaHelperBase
                 
                 $return->body = $text;
                 
-                $placeholders['user.name'] = $user->get('name');
+                $placeholders['user.name'] = $user_name;
                 
                 break;
                 
             case "new_order":
             case "order":
             default:
-                $user = JUser::getInstance($data->user_id);
+								$user_name = JText::_( 'COM_TIENDA_GUEST' );
+            		if( $data->user_id > 0 )
+            		{
+	                $user = JUser::getInstance($data->user_id);
+	                $user_name = $user->name;
+            		}
                 $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
                 $link = "<a href='{$link}'>" . $link . "</a>";
@@ -337,7 +341,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                     $return->subject = sprintf( JText::_('EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
 
                     // set the email body
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user->name).",\n\n";
+                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
                     $text .= JText::_("EMAIL_THANKS_NEW_ORDER")."\n\n";
                     $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
                     $text .= JText::_("EMAIL_RECEIPT_FOLLOWS")."\n\n";
@@ -356,7 +360,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                     $return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
                     $last_history = count($data->orderhistory) - 1;
 
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user->name).",\n\n";
+                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
                     $text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
                     $text .= JText::_("EMAIL_NEW_STATUS")." ".$data->orderhistory[$last_history]->order_state_name."\n\n";
                     if (!empty($data->orderhistory[$last_history]->comments))
@@ -373,7 +377,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                 
                 $return->body = $text;
                 
-                $placeholders['user.name'] = $user->get('name');
+                $placeholders['user.name'] = $user_name;
               break;
         }        
         // replace placeholders in language strings - great idea, Oleg

@@ -34,7 +34,10 @@ class TiendaHelperSQL extends TiendaHelperBase
         $orderTable->load( $order_id );
         
         $this->_order = $orderTable;
-        $this->_user = JFactory::getUser( $order->user_id );
+				if( $order->user_id < Tienda::getGuestIdStart() )
+					$this->_user = $order->user_id;
+				else
+	        $this->_user = JFactory::getUser( $order->user_id );
         $this->_date = JFactory::getDate();
         
         // find the products in the order that are integrated 

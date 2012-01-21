@@ -353,7 +353,10 @@ class TiendaTableOrders extends TiendaTable
         // then calculate shipping total
         $this->calculateShippingTotals(); 
         
-		// coupons
+        // then calcualte tax discount
+        $this->calculateTaxCouponDiscount();
+        
+				// coupons
         $this->order_discount += $this->calculatePerOrderCouponValue($this->order_subtotal + $this->order_tax, 'price' );
         
         // this goes last, to be sure it gets the fully adjusted figures 
@@ -460,22 +463,6 @@ class TiendaTableOrders extends TiendaTable
 						$this->_taxclass_amounts[$key] = 0;
 					$this->_taxclass_amounts[$key] += $applied_tax;
         }
-        if($this->order_shipping_tax)
-        	$taxes->tax_total += $this->order_shipping_tax;
-        
-        /* Per Order Tax Coupons */
-        $tax_discount = $this->calculatePerOrderCouponValue( $taxes->tax_total, 'tax' );
-        
-        if($tax_discount > $taxes->tax_total )
-        {
-        	$this->order_discount += $taxes->tax_total;
-        	$taxes->tax_total = 0;	
-        }
-        else
-        {
-        	$this->order_discount = $tax_discount;
-        	$taxes->tax_total -= $tax_discount;
-        }
 
         $this->order_tax = $taxes->tax_total;
         
@@ -483,6 +470,26 @@ class TiendaTableOrders extends TiendaTable
         // Allow this to be modified via plugins
         $dispatcher    =& JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateTaxTotals", array( $this ) );
+    }
+    
+    /**
+     * Calculates tax discount caused by coupons
+     */
+    function calculateTaxCouponDiscount()
+    {
+        /* Per Order Tax Coupons */
+        $tax_discount = $this->calculatePerOrderCouponValue( $this->order_tax, 'tax' );
+        
+        if($tax_discount > $this->order_tax )
+        {
+        	$this->order_discount += $this->order_tax;
+        	$taxes->tax_total = 0;	
+        }
+        else
+        {
+        	$this->order_discount = $tax_discount;
+        	$this->order_tax -= $tax_discount;
+        }
     }
     
     /**

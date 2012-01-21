@@ -16,9 +16,10 @@ class TiendaModelCarts extends TiendaModelEav
 {
 	protected function _buildQueryWhere(&$query)
 	{
-		$filter_user     = $this->getState('filter_user');
-		$filter_session  = $this->getState('filter_session');
-		$filter_product  = $this->getState('filter_product');
+		$filter_user      = $this->getState('filter_user');
+		$filter_user_leq  = $this->getState('filter_user_leq');
+		$filter_session   = $this->getState('filter_session');
+		$filter_product   = $this->getState('filter_product');
 		$filter_date_from	= $this->getState('filter_date_from');
 		$filter_date_to		= $this->getState('filter_date_to');
 		$filter_name	= $this->getState('filter_name');
@@ -27,7 +28,11 @@ class TiendaModelCarts extends TiendaModelEav
 		{
 			$query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
 		}
-
+		if (strlen($filter_user_leq))
+		{
+			$query->where('tbl.user_id <= '.$this->_db->Quote($filter_user_leq));
+		}
+		
 		if (strlen($filter_session))
 		{
 			$query->where( "tbl.session_id = ".$this->_db->Quote($filter_session));

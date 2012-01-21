@@ -85,7 +85,7 @@ class TiendaHelperTax extends TiendaHelperBase
 			}
 			
 			$result->product_taxes[ $item->product_id ] = $orderitem_tax;
-			$result->tax_total = $orderitem_tax;
+			$result->tax_total += $orderitem_tax;
 		}
 		return $result;
 		
