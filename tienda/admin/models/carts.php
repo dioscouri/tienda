@@ -270,7 +270,6 @@ class TiendaModelCarts extends TiendaModelEav
 		return $this->_list;
 	}
 
-
 	/**
 	 * Will check if there are any items in the cart for which shipping is required
 	 *

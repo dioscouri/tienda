@@ -54,7 +54,7 @@ else
 
 $doc = JFactory::getDocument();
 $js = "var com_tienda = {};\n";
-$js.= "com_tienda.jbase = '".Tienda::getUriRoot()."';\n";
+$js.= "com_tienda.jbase = '".Tienda::getUriRoot()."../';\n";
 $doc->addScriptDeclaration($js);
 
 // load the plugins
