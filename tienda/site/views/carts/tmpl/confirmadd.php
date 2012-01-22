@@ -9,25 +9,25 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "COM_TIENDA_SHOPPING_CART_SUMMARY" ); ?></span>
+    <span><?php echo JText::_( "Shopping Cart Summary" ); ?></span>
 </div>
     
 <div class="cartitems">
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_("COM_TIENDA_BEGIN CHECKOUT"); ?>" name="begincheckout" type="submit" class="button" />
+            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('Begin Checkout'); ?>" name="begincheckout" type="submit" class="button" />
         </div>
         <div style="float: left;">
-            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_("COM_TIENDA_VIEW_SHOPPING_CART"); ?>" name="begincheckout" type="submit" class="button" />
+            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_('View Shopping Cart'); ?>" name="begincheckout" type="submit" class="button" />
         </div>
                                 
         <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>
-                    <th style="text-align: left;"><?php echo JText::_( "COM_TIENDA_PRODUCT" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "COM_TIENDA_QUANTITY" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "COM_TIENDA_TOTAL" ); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
                             <br/>
                         <?php endif; ?>
                         
-                        <?php echo JText::_( "COM_TIENDA_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?> 
+                        <?php echo JText::_( "Price" ); ?>: <?php echo TiendaHelperBase::currency($item->product_price); ?> 
                     </td>
                     <td style="width: 50px; text-align: center;">
                         <?php echo $item->product_qty; ?>
@@ -61,7 +61,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
             <tfoot>
                 <tr>
                     <td colspan="2" style="font-weight: bold;">
-                        <?php echo JText::_( "COM_TIENDA_SUBTOTAL" ); ?>
+                        <?php echo JText::_( "Subtotal" ); ?>
                     </td>
                     <td style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($subtotal); ?>

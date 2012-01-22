@@ -23,8 +23,8 @@
 <div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form">
 	<?php if( !$this->guest && $elements['address_name'][0] ) { ?>
 
-	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( "COM_TIENDA_ADDRESS_TITLE" ); ?>
-		<span class="block"><?php echo JText::_( "COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE" ); ?>
+	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'Address Title' ); ?>
+		<span class="block"><?php echo JText::_( 'Address Title For Your Reference' ); ?>
 		<?php if( !$this->guest && $elements['address_name'][1] ): ?>
 			<?php echo TiendaGrid::required(); ?>
 		<?php endif;?>
@@ -34,13 +34,13 @@
 
 	<?php }
 	else
-		echo '<input value="'.JText::_( "COM_TIENDA_TEMPORARY" ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+		echo '<input value="'.JText::_( 'Temporary' ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
 	?>
 	<div class="floatbox">
 	<?php if( $elements['first_name'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>first_name">
-				<?php echo JText::_( "COM_TIENDA_FIRST_NAME" ); ?>
+				<?php echo JText::_( 'First name' ); ?>
 				<?php if( $elements['first_name'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>			
@@ -52,7 +52,7 @@
 		<?php if( $elements['middle_name'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>middle_name">
-				<?php echo JText::_( "COM_TIENDA_MIDDLE_NAME" ); ?> 
+				<?php echo JText::_( 'Middle name' ); ?> 
 				<?php if( $elements['middle_name'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -65,7 +65,7 @@
 	<?php if( $elements['last_name'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>last_name">
-			<?php echo JText::_( "COM_TIENDA_LAST_NAME" ); ?>
+			<?php echo JText::_( 'Last name' ); ?>
 			<?php if( $elements['last_name'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -77,7 +77,7 @@
 	<?php if( $elements['address1'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>address_1">
-			<?php echo JText::_( "COM_TIENDA_ADDRESS_LINE_1" ); ?>
+			<?php echo JText::_( 'Address Line 1' ); ?>
 			<?php if( $elements['address1'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -89,7 +89,7 @@
 	<?php if( $elements['address2'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>address_2">
-			<?php echo JText::_( "COM_TIENDA_ADDRESS_LINE_2" ); ?>
+			<?php echo JText::_( 'Address Line 2' ); ?>
 			<?php if( $elements['address2'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -101,7 +101,7 @@
 	<?php if( $elements['country'][0] ) :?>
 	<div>
 		<label class="key">
-			<?php echo JText::_( "COM_TIENDA_COUNTRY" ); ?>
+			<?php echo JText::_( 'Country' ); ?>
 			<?php if( $elements['country'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -114,7 +114,7 @@
 		{
 			$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );'.
 									'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, '.
-									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_CART" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_ADDRESS" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_PAYMENT_METHODS" ).'\' ); '.
+									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' ); '.
 									'	});';
 		}
 
@@ -127,7 +127,7 @@
 	<?php if( $elements['city'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>city">
-			<?php echo JText::_( "COM_TIENDA_CITY" ); ?>
+			<?php echo JText::_( 'City' ); ?>
 			<?php if( $elements['city'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>		
@@ -141,7 +141,7 @@
 		<?php if( $elements['zone'][0] ) :?>
 		<div>
 			<label class="key">
-				<?php echo JText::_( "COM_TIENDA_ZONE" ); ?>
+				<?php echo JText::_( 'Zone' ); ?>
 				<?php if( $elements['zone'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -151,7 +151,7 @@
 				if (!empty($this->zones)) {
 					echo $this->zones;
 				} else {
-					echo JText::_( "COM_TIENDA_SELECT_COUNTRY_FIRST" );
+					echo JText::_( "Select Country First" );
 				}
 				?>
 			</div>
@@ -162,7 +162,7 @@
 	<?php if( $elements['zip'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
-				<?php echo JText::_( "COM_TIENDA_POSTAL_CODE" ); ?>
+				<?php echo JText::_( 'Postal code' ); ?>
 				<?php if( $elements['zip'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -170,10 +170,10 @@
 			<?php
 			$onchange = '';
 			if( $one_page )
-				$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_CART" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_ADDRESS" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_PAYMENT_METHODS" ).'\' )';
+				$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\', \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', \''.JText::_( 'Updating Address' ).'\', \''.JText::_( 'Updating Payment Methods' ).'\' )';
 			else
 				if( !empty($this->showShipping)&& $this->forShipping )
-					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( "COM_TIENDA_UPDATING_ADDRESS" ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', document.adminForm,  \''.JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_CART" ).'\', tiendaDeleteAddressGrayDiv );';
+					$onchange = 'tiendaGrayOutAddressDiv( \''.JText::_( 'Updating Address' ).'\' ); tiendaGetShippingRates( \'onCheckoutShipping_wrapper\', document.adminForm,  \''.JText::_( 'Updating Shipping Rates' ).'\', \''.JText::_( 'Updating Cart' ).'\', tiendaDeleteAddressGrayDiv );';
 			?>
 			<input type="text" name="<?php echo $this->form_prefix; ?>postal_code" id="<?php echo $this->form_prefix; ?>postal_code" class="inputbox" size="25" maxlength="250" <?php if ( strlen( $onchange ) ) { ?> onchange="<?php echo $onchange; ?>" <?php } ?> />
 		</div>
@@ -182,7 +182,7 @@
 	<?php if( $elements['phone'][0] ) :?>
 	<div>
 		<label class="key" name="<?php echo $this->form_prefix; ?>phone_1">
-			<?php echo JText::_( "COM_TIENDA_PHONE" ); ?>
+			<?php echo JText::_( 'Phone' ); ?>
 			<?php if( $elements['phone'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -195,7 +195,7 @@
 	<?php if( $elements['company'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>company">
-				<?php echo JText::_( "COM_TIENDA_COMPANY" ); ?>
+				<?php echo JText::_( 'Company' ); ?>
 				<?php if($elements['company'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -206,7 +206,7 @@
 		<?php if( $elements['tax_number'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
-				<?php echo JText::_( "COM_TIENDA_CO_TAX_NUMBER" ); ?>
+				<?php echo JText::_( 'Co. Tax Number' ); ?>
 				<?php if( $elements['tax_number'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>

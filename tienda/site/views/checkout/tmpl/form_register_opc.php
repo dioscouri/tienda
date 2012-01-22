@@ -3,7 +3,7 @@
 <div style="clear: both;width:100%;">
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( "COM_TIENDA_PASSWORD" ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( 'Password' ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 1st   -->
@@ -13,7 +13,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( "COM_TIENDA_VERIFY_PASSWORD" ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_( 'Verify Password' ).': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 2nd   -->

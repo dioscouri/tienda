@@ -15,9 +15,9 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 <div class="cartitems">
 	<div class="adminlist">
 		<div id="cartitems_header" class="floatbox">
-			<span class="left50"><?php echo JText::_( "COM_TIENDA_PRODUCT" ); ?></span>
-			<span class="left20 center"><?php echo JText::_( "COM_TIENDA_QUANTITY" ); ?></span>
-			<span class="left30 right"><?php echo JText::_( "COM_TIENDA_TOTAL" ); ?></span>
+			<span class="left50"><?php echo JText::_( "Product" ); ?></span>
+			<span class="left20 center"><?php echo JText::_( "Quantity" ); ?></span>
+			<span class="left30 right"><?php echo JText::_( "Total" ); ?></span>
 		</div>
             <?php $i=0; $k=0; ?> 
             <?php foreach ($items as $item) : ?>
@@ -35,28 +35,28 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 	                        <?php endif; ?>
 	                        
 	                        <?php if (!empty($item->orderitem_sku)) : ?>
-	                            <b><?php echo JText::_( "COM_TIENDA_SKU" ); ?>:</b>
+	                            <b><?php echo JText::_( "SKU" ); ?>:</b>
 	                            <?php echo $item->orderitem_sku; ?>
 	                            <br/>
 	                        <?php endif; ?>
 	
 	                        <?php if ($item->orderitem_recurs) : ?>
 	                            <?php $recurring_subtotal = $item->recurring_price; ?>
-	                            <?php echo JText::_( "COM_TIENDA_RECURRING_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-	                            (<?php echo $item->recurring_payments . " " . JText::_( "COM_TIENDA_PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIODS" ); ?>) 
+	                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+	                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
 											            <?php if( $item->subscription_prorated ) : ?>
 	                                <br/>
-			                                <?php echo JText::_( "COM_TIENDA_INITIAL_PERIOD_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-			                                (<?php echo "1 " . JText::_( "COM_TIENDA_PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIODS" ); ?>)
+			                                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
 											            <?php else : ?>
 				                            <?php if ($item->recurring_trial) : ?>
 			                                <br/>
-			                                <?php echo JText::_( "COM_TIENDA_TRIAL_PERIOD_PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-			                                (<?php echo "1 " . JText::_( "COM_TIENDA_PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "COM_TIENDA_PERIODS" ); ?>)
+			                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
 											            <?php endif;?>
 	                            <?php endif; ?>    
 	                        <?php else : ?>
-	                            <?php echo JText::_( "COM_TIENDA_PRICE" ); ?>:
+	                            <?php echo JText::_( "Price" ); ?>:
 	                            <?php echo TiendaHelperBase::currency($item->price); ?>                         
 	                        <?php endif; ?> 
 	                        
@@ -67,7 +67,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 						    <?php endif; ?>  
 	
 	                        <?php if( in_array($item->product_id, $coupons) ){ ?>
-	                        	<span style="float: right;"><?php echo JText::_("COM_TIENDA_COUPLE_DISCOUNT_APPLIED"); ?></span>
+	                        	<span style="float: right;"><?php echo JText::_("Coupon Discount Applied!"); ?></span>
 	                        <?php } ?>
                     	</div>                      
                     </div>
@@ -87,7 +87,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <div class="floatbox">
                     <span class="left50 header">
                     	<span class="inner">
-                    		<?php echo JText::_( "COM_TIENDA_SUBTOTAL" ); ?>
+                    		<?php echo JText::_( "Subtotal" ); ?>
                     	</span>
                     </span>
                     <span class="right">
@@ -101,7 +101,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <div class="floatbox">
                     <span class="left50 header">
                     	<span class="inner">
-                    		<?php echo JText::_( "COM_TIENDA_DISCOUNT" ); ?>
+                    		<?php echo JText::_( "Discount" ); ?>
                     	</span>
                     </span>
                     <span class="left50 right">
@@ -136,7 +136,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
         <div class="floatbox">
         	<span class="left50 header">
         		<span class="inner">
-        			<?php echo JText::_( "COM_TIENDA_TOTAL" ); ?>
+        			<?php echo JText::_( "Total" ); ?>
         		</span>
             </span>
             <span class="left50 right">
