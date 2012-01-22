@@ -8,7 +8,7 @@ $order = &$this->order;
 ?>
 
 <span class="header">
-	<span class="inner"><?php echo JText::_( "COM_TIENDA_TAX_AND_SHIPPING_TOTALS" ); ?></span><br/>
+	<span class="inner"><?php echo JText::_( "TAX AND SHIPPING TOTALS" ); ?></span><br/>
 </span>
 
 <?php
@@ -115,7 +115,7 @@ switch( $display_tax_checkout )
 	if (!empty($this->showShipping))
 	{
 		$task = JRequest::getCmd( 'task' );
-		echo JText::_("COM_TIENDA_SHIPPING_AND_HANDLING").":";
+		echo JText::_("SHIPPING AND HANDLING").":";
 		if( isset( $order->shipping ) && ( $task == 'setShippingMethod' || $task == 'display' ) )
 		{
 		?>
@@ -139,7 +139,7 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
 		if( !empty($this->showShipping) && $display_shipping_tax && $order->order_shipping_tax )
-			echo JText::_("COM_TIENDA_SHIPPING_TAX").":";
+			echo JText::_("SHIPPING TAX").":";
 	?>
 	</span>
 </span>                  
