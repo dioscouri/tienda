@@ -3,7 +3,7 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 
 <div class='componentheading'>
-	<span><?php echo JText::_( "COM_TIENDA_MY_PROFILE" ); ?></span>
+	<span><?php echo JText::_( "My Profile" ); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -16,14 +16,14 @@
             <thead>
             <tr>
                 <th colspan="3">
-                    <?php echo JText::_( "COM_TIENDA_PROFILE_INFORMATION" ); ?>
+                    <?php echo JText::_( "Profile Information" ); ?>
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_BASICS" ); ?>
+                    <?php echo JText::_( "Basics" ); ?>
                 </th>
                 <td>
                     <?php
@@ -31,7 +31,7 @@
                     $userinfo = TiendaHelperUser::getBasicInfo( JFactory::getUser()->id );
                     if (empty($userinfo->user_id))
                     {
-                    	echo JText::_( "COM_TIENDA_PLEASE_CLICK_EDIT_TO_DEFINE_YOUR_BASIC_PROFILE_INFORMATION" );
+                    	echo JText::_( "Please click edit to define your basic profile information" );
                     }
                     else
                     {
@@ -41,33 +41,33 @@
                 </td>
                 <td>
                     <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=accounts&task=edit"); ?>">
-                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                        <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_EMAIL" ); ?>
+                    <?php echo JText::_( "Email" ); ?>
                 </th>
                 <td>
                     <?php echo JFactory::getUser()->email; ?>
                 </td>
                 <td>
                     <a href="<?php echo JRoute::_( $this->url_profile ); ?>">
-                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                        <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_PASSWORD" ); ?>
+                    <?php echo JText::_( "Password" ); ?>
                 </th>
                 <td>
                     **********
                 </td>
                 <td>
                     <a href="<?php echo JRoute::_( $this->url_profile ); ?>">
-                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                        <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
             </tr>
@@ -84,7 +84,7 @@
             <?php endif; ?>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_PRIMARY_SHIPPING_ADDRESS" ); ?>
+                    <?php echo JText::_( "Primary Shipping Address" ); ?>
                 </th>
                 <td>
                     <?php
@@ -99,19 +99,19 @@
                     } 
                     else
                     {
-                        echo JText::_("COM_TIENDA_NONE_SELECTED");	
+                        echo JText::_("None Selected");	
                     }
                     ?>
                 </td>
                 <td>
                     <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses"); ?>">
-                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                        <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_PRIMARY_BILLING_ADDRESS" ); ?>
+                    <?php echo JText::_( "Primary Billing Address" ); ?>
                 </th>
                 <td>
                     <?php 
@@ -125,13 +125,13 @@
                     } 
                     else
                     {
-                        echo JText::_("COM_TIENDA_NONE_SELECTED"); 
+                        echo JText::_("None Selected"); 
                     }
                     ?>
                 </td>
                 <td>
                     <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses"); ?>">
-                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                        <?php echo JText::_( "Edit" ); ?>
                     </a>
                 </td>
             </tr>

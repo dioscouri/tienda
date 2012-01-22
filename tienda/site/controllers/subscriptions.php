@@ -80,7 +80,7 @@ class TiendaControllerSubscriptions extends TiendaController
             else
         {
             $this->messagetype  = 'notice';
-            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED" )." - ".$row->getError();
+            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
         }
 
         $redirect = "index.php?option=com_tienda";
@@ -107,7 +107,7 @@ class TiendaControllerSubscriptions extends TiendaController
         if (empty($user_id) || $user_id != $row->user_id)
         {
         	$this->messagetype  = 'notice';
-        	$this->message      = JText::_( "COM_TIENDA_INVALID_SUBSCRIPTIONS" );
+        	$this->message      = JText::_( 'Invalid subscriptions' );
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );

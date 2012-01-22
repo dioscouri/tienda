@@ -24,7 +24,7 @@ class TiendaControllerProductCompare extends TiendaController
 
 		if(!TiendaConfig::getInstance()->get('enable_product_compare', '1'))
 		{
-			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "COM_TIENDA_PRODUCT_COMPARE_DISABLED" ) );
+			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Product Compare Disabled" ) );
 			return;
 		}
 
@@ -236,7 +236,7 @@ class TiendaControllerProductCompare extends TiendaController
 		$quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
 		$post = JRequest::get('post');
 
-		$msg = JText::_("COM_TIENDA_QUANTITIES_UPDATED");
+		$msg = JText::_("Quantities Updated");
 
 		$remove = JRequest::getVar('remove');
 		if ($remove)
@@ -325,7 +325,7 @@ class TiendaControllerProductCompare extends TiendaController
 						{
 							if ($value > $max )
 							{
-								$msg = JText::_("COM_TIENDA_YOU_HAVE_REACHED_THE_MAXIMUM_QUANTITY_FOR_THIS_OBJECT: ").$max;
+								$msg = JText::_("You have reached the maximum quantity for this object: ").$max;
 								$value = $max;
 							}
 						}
@@ -333,7 +333,7 @@ class TiendaControllerProductCompare extends TiendaController
 						{
 							if ($value < $min )
 							{
-								$msg = JText::_("COM_TIENDA_YOU_HAVE_REACHED_THE_MINIMUM_QUANTITY_FOR_THIS_OBJECT: ").$min;
+								$msg = JText::_("You have reached the minimum quantity for this object: ").$min;
 								$value = $min;
 							}
 						}

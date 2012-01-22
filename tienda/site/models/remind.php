@@ -34,7 +34,7 @@ class TiendaModelRemind extends JModel
 		// Validate the e-mail address
 		if (!JMailHelper::isEmailAddress($email))
 		{
-			$this->setError(JText::_("COM_TIENDA_INVALID_EMAIL_ADDRESS"));
+			$this->setError(JText::_('INVALID_EMAIL_ADDRESS'));
 			return false;
 		}
 
@@ -44,7 +44,7 @@ class TiendaModelRemind extends JModel
 		// Get the username
 		if (!($username = $db->loadResult()))
 		{
-			$this->setError(JText::_("COM_TIENDA_COULD_NOT_FIND_EMAIL"));
+			$this->setError(JText::_('COULD_NOT_FIND_EMAIL'));
 			return false;
 		}
 
@@ -75,7 +75,7 @@ class TiendaModelRemind extends JModel
 
 		$from		= $config->getValue('mailfrom');
 		$fromname	= $config->getValue('fromname');
-		$subject	= JText::sprintf("COM_TIENDA_TIENDA_USER_EMAIL_REMINDER", $config->getValue('sitename'));
+		$subject	= JText::sprintf('Tienda User Email Reminder', $config->getValue('sitename'));
 		$body		= JText::sprintf('USERNAME_REMINDER_EMAIL_TEXT', $config->getValue('sitename'), $username, $url);
 
 		if (!JUtility::sendMail($from, $fromname, $email, $subject, $body))

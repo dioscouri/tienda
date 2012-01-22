@@ -7,16 +7,16 @@ JFilterOutput::objectHTMLSafe( $row );
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "COM_TIENDA_EDIT_BASIC_INFORMATION" ); ?></span>
+    <span><?php echo JText::_( "Edit Basic Information" ); ?></span>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" onsubmit="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', document.adminForm.task.value, document.adminForm )" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
     <div style="float: right;">
-        <input type="button" onclick="tiendaSubmitForm('save');" value="<?php echo JText::_("COM_TIENDA_SUBMIT"); ?>" />    
+        <input type="button" onclick="tiendaSubmitForm('save');" value="<?php echo JText::_('Submit'); ?>" />    
     </div>
 
     <?php
-    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=accounts")."'>".JText::_( "COM_TIENDA_CANCEL_AND_RETURN_TO_PROFILE")."</a>";
+    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=accounts")."'>".JText::_( 'Cancel and Return to Profile' )."</a>";
     ?>
     
     <div id="validationmessage"></div>
@@ -25,7 +25,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    <tbody>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	            <?php echo JText::_( "COM_TIENDA_TITLE" ); ?>
+	            <?php echo JText::_( 'Title' ); ?>
 	        </th>
 	        <td>
 	            <input name="title" id="title"
@@ -35,7 +35,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	             <?php echo JText::_( "COM_TIENDA_FIRST_NAME" ); ?>
+	             <?php echo JText::_( 'First name' ); ?>
 	        </th>
 	        <td>
 	            <input name="first_name" id="first_name" 
@@ -45,7 +45,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	             <?php echo JText::_( "COM_TIENDA_MIDDLE_NAME" ); ?>
+	             <?php echo JText::_( 'Middle name' ); ?>
 	        </th>
 	        <td>
 	           <input type="text" name="middle_name"
@@ -55,7 +55,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	             <?php echo JText::_( "COM_TIENDA_LAST_NAME" ); ?>
+	             <?php echo JText::_( 'Last name' ); ?>
 	        </th>
 	        <td>
 	           <input type="text" name="last_name"
@@ -65,7 +65,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key"> 
-	          <?php echo JText::_( "COM_TIENDA_COMPANY" ); ?>
+	          <?php echo JText::_( 'Company' ); ?>
 	        </th>
 	        <td><input type="text" name="company" id="company"
 	            size="48" maxlength="250"
@@ -73,7 +73,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	            <?php echo JText::_( "COM_TIENDA_PHONE" ); ?>
+	            <?php echo JText::_( 'Phone' ); ?>
 	        </th>
 	        <td>
 	            <input type="text" name="phone_1" id="phone_1"
@@ -83,7 +83,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	            <?php echo JText::_( "COM_TIENDA_CELL" ); ?>
+	            <?php echo JText::_( 'Cell' ); ?>
 	        </th>
 	        <td>
 	            <input type="text" name="phone_2" id="phone_2"
@@ -93,7 +93,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
 	    <tr>
 	        <th style="width: 100px; text-align: right;" class="key">
-	            <?php echo JText::_( "COM_TIENDA_FAX" ); ?>
+	            <?php echo JText::_( 'Fax' ); ?>
 	        </th>
 	        <td>
 	            <input type="text" name="fax" id="fax" 
@@ -103,16 +103,16 @@ JFilterOutput::objectHTMLSafe( $row );
 	    </tr>
         <tr>
             <th style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_( "COM_TIENDA_EMAIL_FORMAT" ); ?>
+                <?php echo JText::_( 'Email Format' ); ?>
             </th>
             <td>
-                <?php echo TiendaSelect::booleans( @$row->html_emails, 'html_emails', '', '', '', '', JText::_("HTML"), JText::_("COM_TIENDA_PLAIN_TEXT") ); ?>
+                <?php echo TiendaSelect::booleans( @$row->html_emails, 'html_emails', '', '', '', '', JText::_("HTML"), JText::_("Plain Text") ); ?>
             </td>
         </tr>
 	    </tbody>
 	</table>
 
-    <input type="button" onclick="tiendaSubmitForm('save');" value="<?php echo JText::_("COM_TIENDA_SUBMIT"); ?>" />
+    <input type="button" onclick="tiendaSubmitForm('save');" value="<?php echo JText::_('Submit'); ?>" />
 
     <input type="hidden" name="id" value="<?php echo @$row->user_id; ?>" />
     <input type="hidden" name="task" id="task" value="" />
