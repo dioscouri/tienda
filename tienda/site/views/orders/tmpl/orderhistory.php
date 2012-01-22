@@ -13,19 +13,19 @@
 	<table class="adminlist">
 		<thead>
 			<th style="text-align: center; width: 200px;">
-				<?php echo JText::_("COM_TIENDA_ORDER_DATE"); ?>
+				<?php echo JText::_("Order Date"); ?>
 			</th>	
 			<th style="width: 60px;">
-				<?php echo JText::_("COM_TIENDA_ORDER_NUMBER"); ?>
+				<?php echo JText::_("Order Number"); ?>
 			</th>
 			<th style="text-align: center; width: 80px">
-				<?php echo JText::_("COM_TIENDA_TOTAL"); ?>
+				<?php echo JText::_("Total"); ?>
 			</th>
 			<th style="text-align: center; width: 160px;">
-				<?php echo JText::_("COM_TIENDA_STATUS");  ?>
+				<?php echo JText::_("Status");  ?>
 			</th>
 			<th style="text-align: center">
-				<?php echo JText::_("COM_TIENDA_CONTACT_US"); ?>
+				<?php echo JText::_("Contact Us"); ?>
 			</th>
 		</thead>
 		<tfoot>
@@ -56,7 +56,7 @@
                 </td>
               <td style="text-align: center;">
               	<a href="index.php/contact-us.html?view=rsform">
-              		<?php echo JText::_("COM_TIENDA_CONTACT_US"); ?>
+              		<?php echo JText::_("Contact Us"); ?>
               	</a>                	
             </td>
 		</tr>
@@ -66,7 +66,7 @@
 		<?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_("COM_TIENDA_NO_ITEMS_FOUND"); ?>
+                    <?php echo JText::_('No items found'); ?>
                 </td>
             </tr>
             <?php endif; ?>

@@ -23,33 +23,33 @@
 		<?php echo $config->get('shop_owner_name', ''); ?><br />
 		
 		<?php if ($config->get('shop_address_1', '')) { ?>
-            <strong><?php echo JText::_("COM_TIENDA_ADDRESS"); ?></strong>: <br />
+            <strong><?php echo JText::_("Address"); ?></strong>: <br />
             <?php echo $config->get('shop_address_1', ''); ?>, <?php echo $config->get('shop_address_2', ''); ?><br />
             <?php echo $config->get('shop_city', ''); ?>, <?php echo $shop_info->shop_zone_name; ?>, <?php echo $config->get('shop_zip', ''); ?>, <?php echo $shop_info->shop_country_name; ?><br />		
 		<?php } ?>
 		
 		<?php if ($config->get('shop_phone', '')) { ?>
-            <strong><?php echo JText::_("COM_TIENDA_PHONE"); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
+            <strong><?php echo JText::_("Phone"); ?></strong>: <?php echo $config->get('shop_phone', ''); ?><br />
 		<?php } ?>
         <?php if ($config->get('shop_tax_number_1', '')) { ?>
-            <strong><?php echo JText::_("COM_TIENDA_TAX_NUMBER_1"); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
+            <strong><?php echo JText::_("Tax Number 1"); ?></strong>:<?php echo $config->get('shop_tax_number_1', ''); ?><br />
         <?php } ?>
         <?php if ($config->get('shop_tax_number_2', '')) { ?>
-            <strong><?php echo JText::_("COM_TIENDA_TAX_NUMBER_2"); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
+            <strong><?php echo JText::_("Tax Number 2"); ?></strong>:<?php echo $config->get('shop_tax_number_2', ''); ?>
         <?php } ?>
 	</div>
 		
     <div id="order_info">
-        <h3><?php echo JText::_("COM_TIENDA_ORDER_INFORMATION"); ?></h3>
-        <strong><?php echo JText::_("COM_TIENDA_ORDER_ID"); ?></strong>: <?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?><br/>
-        <strong><?php echo JText::_("COM_TIENDA_DATE"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
-        <strong><?php echo JText::_("COM_TIENDA_STATUS"); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
+        <h3><?php echo JText::_("Order Information"); ?></h3>
+        <strong><?php echo JText::_("Order ID"); ?></strong>: <?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?><br/>
+        <strong><?php echo JText::_("Date"); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
+        <strong><?php echo JText::_("Status"); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
     </div>
     
     <div id="payment_info">
-        <h3><?php echo JText::_("COM_TIENDA_PAYMENT_INFORMATION"); ?></h3>
-        <strong><?php echo JText::_("COM_TIENDA_AMOUNT"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
-        <strong><?php echo JText::_("COM_TIENDA_BILLING_ADDRESS"); ?></strong>: 
+        <h3><?php echo JText::_("Payment Information"); ?></h3>
+        <strong><?php echo JText::_("Amount"); ?></strong>: <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?><br/>
+        <strong><?php echo JText::_("Billing Address"); ?></strong>: 
                     <?php
                     echo $row->billing_first_name." ".$row->billing_last_name."<br/>";
                     echo $row->billing_address_1.", ";
@@ -60,14 +60,14 @@
                     echo $row->billing_country_name;
                     ?>
         <br/>
-        <strong><?php echo JText::_("COM_TIENDA_ASSOCIATED_PAYMENT_RECORDS"); ?></strong>:
+        <strong><?php echo JText::_("Associated Payment Records"); ?></strong>:
             <div>
                 <?php
                 if (!empty($row->orderpayments))
                 {
                     foreach ($row->orderpayments as $orderpayment)
                     {
-                        echo JText::_( "COM_TIENDA_PAYMENT_ID" ).": ".$orderpayment->orderpayment_id."<br/>";
+                        echo JText::_( "Payment ID" ).": ".$orderpayment->orderpayment_id."<br/>";
                     }
                 } 
                 ?>
@@ -77,9 +77,9 @@
 
     <?php if ($row->order_ships) { ?>
         <div id="shipping_info">
-            <h3><?php echo JText::_("COM_TIENDA_SHIPPING_INFORMATION"); ?></h3>
-            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_METHOD"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
-            <strong><?php echo JText::_("COM_TIENDA_SHIPPING_ADDRESS"); ?></strong>: 
+            <h3><?php echo JText::_("Shipping Information"); ?></h3>
+            <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $row->ordershipping_name ); ?><br/>
+            <strong><?php echo JText::_("Shipping Address"); ?></strong>: 
                         <?php
                         echo $row->shipping_first_name." ".$row->shipping_last_name."<br/>";
                         echo $row->shipping_address_1.", ";
@@ -99,14 +99,14 @@
     ?>
     
     <div id="items_info">
-        <h3><?php echo JText::_("COM_TIENDA_ITEMS_IN_ORDER"); ?></h3>
+        <h3><?php echo JText::_("Items in Order"); ?></h3>
         
         <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
-                <th style="text-align: left;"><?php echo JText::_("COM_TIENDA_ITEM"); ?></th>
-                <th style="width: 150px; text-align: center;"><?php echo JText::_("COM_TIENDA_QUANTITY"); ?></th>
-                <th style="width: 150px; text-align: right;"><?php echo JText::_("COM_TIENDA_AMOUNT"); ?></th>
+                <th style="text-align: left;"><?php echo JText::_("Item"); ?></th>
+                <th style="width: 150px; text-align: center;"><?php echo JText::_("Quantity"); ?></th>
+                <th style="width: 150px; text-align: right;"><?php echo JText::_("Amount"); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -123,12 +123,12 @@
                     <?php endif; ?>
                     
                     <?php if (!empty($item->orderitem_sku)) : ?>
-                        <b><?php echo JText::_( "COM_TIENDA_SKU" ); ?>:</b>
+                        <b><?php echo JText::_( "SKU" ); ?>:</b>
                         <?php echo $item->orderitem_sku; ?>
                         <br/>
                     <?php endif; ?>
                     
-                    <b><?php echo JText::_( "COM_TIENDA_PRICE" ); ?>:</b>
+                    <b><?php echo JText::_( "Price" ); ?>:</b>
                     <?php echo TiendaHelperBase::currency( $item->orderitem_price, $row->currency ); ?>
                     
                     <!-- onDisplayOrderItem event: plugins can extend order item information -->
@@ -151,7 +151,7 @@
         <?php if (empty($items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_("COM_TIENDA_NO_ITEMS_FOUND"); ?>
+                    <?php echo JText::_("No items found"); ?>
                 </td>
             </tr>
         <?php endif; ?>
@@ -159,7 +159,7 @@
         <tfoot>
         <tr>
             <th colspan="2" style="text-align: right;">
-            <?php echo JText::_( "COM_TIENDA_SUBTOTAL" ); ?>
+            <?php echo JText::_( "Subtotal" ); ?>
             </th>
             <th style="text-align: right;">
             <?php echo TiendaHelperBase::currency($order->order_subtotal, $row->currency); ?>
@@ -168,7 +168,7 @@
         <?php echo $this->displayTaxes(); ?>
         <tr>
             <th colspan="2" style="font-size: 120%; text-align: right;">
-            <?php echo JText::_( "COM_TIENDA_TOTAL" ); ?>
+            <?php echo JText::_( "Total" ); ?>
             </th>
             <th style="font-size: 120%; text-align: right;">
             <?php echo TiendaHelperBase::currency($row->order_total, $row->currency); ?>
@@ -185,7 +185,7 @@
 
     <?php if (!empty($row->customer_note)) : ?>
         <div id="customer_note">
-            <h3><?php echo JText::_("COM_TIENDA_NOTE"); ?></h3>
+            <h3><?php echo JText::_("Note"); ?></h3>
             <span><?php echo @$row->customer_note; ?></span>
         </div>
     <?php endif; ?>

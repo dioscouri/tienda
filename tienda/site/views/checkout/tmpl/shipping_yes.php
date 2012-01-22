@@ -1,11 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $shipping_rates_text = JText::_( "COM_TIENDA_GETTING_SHIPPING_RATES" ); ?>
+<?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
 <?php $one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ); ?>
 
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
-<h3><?php echo JText::_("COM_TIENDA_SELECT_A_SHIPPING_METHOD"); ?></h3>
+<h3><?php echo JText::_("Select a Shipping Method"); ?></h3>
 <?php endif; ?>
-<p><?php echo JText::_("COM_TIENDA_PLEASE_SELECT_YOUR_PREFERRED_SHIPPING_METHOD_BELOW"); ?>:</p>
+<p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
 <?php
@@ -20,7 +20,7 @@
             	$checked = "checked";                        
             }        	        		
             ?>
-            <input id="shipping_<?php echo $rate['element']; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );" <?php echo $checked; ?> />
+            <input id="shipping_<?php echo $rate['element']; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', true );" <?php echo $checked; ?> />
             <label for="shipping_<?php echo $rate['element']; ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )</label><br />
             <br/>
             <?php
@@ -30,7 +30,7 @@
     {
         ?>
         <div class="note">
-	        <?php echo JText::_( "COM_TIENDA_NO_SHIPPING_RATES_FOUND" ); ?>
+	        <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
         </div>
         <?php
     }
@@ -46,8 +46,8 @@
 <?php if( !$one_page ):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
-<h3><?php echo JText::_("COM_TIENDA_SHIPPING_NOTES") ?></h3>
-<?php echo JText::_( "COM_TIENDA_ADD_OPTIONAL_NOTES_FOR_SHIPMENT_HERE" ); ?>:
+<h3><?php echo JText::_("Shipping Notes") ?></h3>
+<?php echo JText::_( "Add optional notes for shipment here" ); ?>:
 <br/>
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
@@ -58,7 +58,7 @@ if (!empty($this->default_rate) ) :
 <script type="text/javascript">
 window.addEvent( 'domready', function() {
 	tiendaGrayOutAddressDiv();
-	tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );
+	tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>', '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', true );
 });
 </script>
 <?php endif; ?>

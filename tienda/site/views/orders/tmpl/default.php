@@ -6,7 +6,7 @@
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
 <div class='componentheading'>
-	<span><?php echo JText::_( "COM_TIENDA_ORDER_HISTORY" ); ?></span>
+	<span><?php echo JText::_( "Order History" ); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -16,12 +16,12 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php echo JText::_( "COM_TIENDA_SEARCH_BY_APPLYING_FILTERS" ); ?>
+                <?php echo JText::_( "Search by applying filters" ); ?>
             </td>
             <td nowrap="nowrap" style="text-align: right;">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_("COM_TIENDA_SEARCH"); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_("COM_TIENDA_RESET"); ?></button>
+                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
+                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
             </td>
         </tr>
     </table>
@@ -50,7 +50,7 @@
                     <?php echo TiendaGrid::sort( 'Date', "tbl.created_date", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_ITEM" ); ?>
+                    <?php echo JText::_( "Items" ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'Total', "tbl.order_total", @$state->direction, @$state->order ); ?>
@@ -84,7 +84,7 @@
                 </td>
                 <td style="text-align: center;">
                     <a href="<?php echo JRoute::_( $item->link_view ); ?>">
-                        <?php echo $item->items_count." ".JText::_( "COM_TIENDA_ITEMS" ); ?>
+                        <?php echo $item->items_count." ".JText::_( "Items" ); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
@@ -100,7 +100,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_("COM_TIENDA_NO_ITEMS_FOUND"); ?>
+                    <?php echo JText::_('No items found'); ?>
                 </td>
             </tr>
             <?php endif; ?>

@@ -5,7 +5,7 @@
 <?php Tienda::load( "TiendaHelperBase", 'helpers._base' ); ?>
 <?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
-	<span><?php echo JText::_( "COM_TIENDA_MY_ACCOUNT" ); ?></span>
+	<span><?php echo JText::_( "My Account" ); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -15,54 +15,54 @@
 	<td style="width: 70%; vertical-align: top; padding-right: 5px;">
 	
         <h3>
-        <?php echo sprintf( JText::_("COM_TIENDA_WELCOME_USER"), $user->name ); ?>
+        <?php echo sprintf( JText::_("Welcome User"), $user->name ); ?>
         </h3>
         
-        <?php echo JText::_( "COM_TIENDA_DASHBOARD_TEXT" ); ?>
+        <?php echo JText::_( "Dashboard Text" ); ?>
         
             <table class="adminlist" style="margin-bottom: 5px;">
             <thead>
             <tr>
                 <th colspan="2">
-                    <?php echo JText::_( "COM_TIENDA_ACCOUNT_INFORMATION" ); ?>
+                    <?php echo JText::_( "Account Information" ); ?>
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_ORDER_HISTORY" ); ?>
+                    <?php echo JText::_( "Order History" ); ?>
                 </th>
                 <td>
 	                <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=orders"); ?>">
-	                    <?php echo JText::_( "COM_TIENDA_VIEW_ORDERS_PRINT_RECEIPTS" ); ?>
+	                    <?php echo JText::_( "VIEW ORDERS PRINT RECEIPTS" ); ?>
 	                </a>
                 </td>
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_PROFILE" ); ?>
+                    <?php echo JText::_( "Profile" ); ?>
                 </th>
                 <td>
                     <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=accounts"); ?>">
-                        <?php echo JText::_( "COM_TIENDA_MODIFY_ACCOUNT_INFO" ); ?>
+                        <?php echo JText::_( "MODIFY ACCOUNT INFO" ); ?>
                     </a>
                 </td>
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_ADDRESSES" ); ?>
+                    <?php echo JText::_( "Addresses" ); ?>
                 </th>
                 <td>
                     <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses"); ?>">
-                        <?php echo JText::_( "COM_TIENDA_MANAGE_BILLING_AND_SHIPPING_ADDRESSES" ); ?>
+                        <?php echo JText::_( "Manage Billing and Shipping Addresses" ); ?>
                     </a>
                 </td>
             </tr>
             <?php if( $display_credits ): ?>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "COM_TIENDA_AVAILABLE_STORE_CREDIT" ); ?>
+                    <?php echo JText::_( "Available Store Credit" ); ?>
                 </th>
                 <td>
                     <?php echo TiendaHelperBase::currency( $this->userinfo->credits_total ); ?>
