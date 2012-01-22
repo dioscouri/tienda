@@ -30,7 +30,7 @@ class TiendaControllerCheckout extends TiendaController
 		parent::__construct();
 		if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
 		{
-			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "COM_TIENDA_CHECKOUT_DISABLED" ) );
+			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Checkout Disabled" ) );
 			return;
 		}
 
@@ -42,7 +42,7 @@ class TiendaControllerCheckout extends TiendaController
 		$task = JRequest::getVar('task');
 		if (empty($items) && $task != 'confirmPayment' && $task != 'poscheckout' )
 		{
-			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "COM_TIENDA_YOUR_CART_IS_EMPTY" ) );
+			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Your Cart is Empty" ) );
 			return;
 		}
 
@@ -686,7 +686,7 @@ class TiendaControllerCheckout extends TiendaController
 			// do form validation
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_ERROR_WHILE_VALIDATING_THE_PARAMETERS"));
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
 			echo ( json_encode( $response ) );
 			return;
 		}
@@ -705,14 +705,14 @@ class TiendaControllerCheckout extends TiendaController
 				{
 					jimport('joomla.mail.helper');
 					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
-						$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_PLEASE_INSERT_A_CORRECT_EMAIL_ADDRESS") );
+						$response['msg'] = $helper->generateMessage( JText::_("Please insert a correct email address") );
 						$response['error'] = '1';
 						echo ( json_encode( $response ) );
 						return;
 					}
 					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
-						$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_THIS_EMAIL_ADDRESS_IS_ALREADY_REGISTERED!_LOGIN_TO_CHECKOUT_AS_A_USER!") );
+						$response['msg'] = $helper->generateMessage( JText::_("This email address is already registered! Login to checkout as a user!") );
 						$response['error'] = '1';
 						echo ( json_encode( $response ) );
 						return;
@@ -725,21 +725,21 @@ class TiendaControllerCheckout extends TiendaController
 					if (empty($submitted_values['email_address']) || empty($submitted_values['name']) || empty($submitted_values['username']) || empty($submitted_values['password'] ) || empty ($submitted_values['password2']) )
 					{
 						$response['error'] = '1';
-						$response['msg'] .= $helper->generateMessage(JText::_("COM_TIENDA_ALL_FIELDS_OF_REGISTRATION_SECTIONS_ARE_MANDATORY"));
+						$response['msg'] .= $helper->generateMessage(JText::_("All Fields of registration sections are Mandatory"));
 						echo ( json_encode( $response ) );
 						return;
 					}
 
 					jimport('joomla.mail.helper');
 					if(!JMailHelper::isEmailAddress($submitted_values['email_address'])){
-						$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_PLEASE_INSERT_A_CORRECT_EMAIL_ADDRESS") );
+						$response['msg'] = $helper->generateMessage( JText::_("Please insert a correct email address") );
 						$response['error'] = '1';
 						echo ( json_encode( $response ) );
 						return;
 					}
 					Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 					if(TiendaHelperUser::emailExists($submitted_values['email_address'])){
-						$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_THIS_EMAIL_ADDRESS_IS_ALREADY_REGISTERED!_LOGIN_TO_CHECKOUT_AS_A_USER!") );
+						$response['msg'] = $helper->generateMessage( JText::_("This email address is already registered! Login to checkout as a user!") );
 						$response['error'] = '1';
 						echo ( json_encode( $response ) );
 						return;
@@ -747,7 +747,7 @@ class TiendaControllerCheckout extends TiendaController
 					if (TiendaHelperUser::usernameExists($submitted_values['username']))
 					{
 						$response['error'] = '1';
-						$response['msg'] .= $helper->generateMessage(JText::_("COM_TIENDA_USER_NAME_ALREADY_EXIST"));
+						$response['msg'] .= $helper->generateMessage(JText::_("User Name Already exist"));
 						echo ( json_encode( $response ) );
 						return;
 						// TODO user already exists
@@ -756,7 +756,7 @@ class TiendaControllerCheckout extends TiendaController
 					if (strcmp($submitted_values['password'],$submitted_values['password2'] ) )
 					{
 						$response['error'] = '1';
-						$response['msg'] .= $helper->generateMessage(JText::_("COM_TIENDA_PASSWORDS_ARE_NOT_MATCHING"));
+						$response['msg'] .= $helper->generateMessage(JText::_("Passwords are not matching"));
 						echo ( json_encode( $response ) );
 						return;
 						// TODO user already exists
@@ -776,7 +776,7 @@ class TiendaControllerCheckout extends TiendaController
 				break;
 			default:
 				$response['error'] = '1';
-				$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_INVALID_STEP_IN_CHECKOUT_PROCESS"));
+				$response['msg'] = $helper->generateMessage(JText::_("INVALID STEP IN CHECKOUT PROCESS"));
 				echo ( json_encode( $response ) );
 				break;
 		}
@@ -802,7 +802,7 @@ class TiendaControllerCheckout extends TiendaController
 			if (empty($submitted_values['_checked']['shipping_plugin']))
 			{
 					
-				$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_PLEASE_SELECT_SHIPPING_METHOD") );
+				$response['msg'] = $helper->generateMessage( JText::_("Please select shipping method") );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return false;
@@ -828,7 +828,7 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{
-			$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_BILLING_ADDRESS_ERROR" )." :: ".$this->getError() );
+			$response['msg'] = $helper->generateMessage( JText::_( "BILLING ADDRESS ERROR" )." :: ".$this->getError() );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return false;
@@ -839,7 +839,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
-				$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_SHIPPING_ADDRESS_ERROR" ).$this->shipping_input_prefix." :: ".$this->getError() );
+				$response['msg'] = $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" ).$this->shipping_input_prefix." :: ".$this->getError() );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return false;
@@ -900,7 +900,7 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if not checked terms & condition
 		if( TiendaConfig::getInstance()->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_CHECK_THE_TERMS_AND_CONDITIONS"));
+			$response['msg'] = $helper->generateMessage(JText::_("Please Check the Terms & Conditions"));
 			$response['error'] = '1';
 		}
 		else
@@ -909,7 +909,7 @@ class TiendaControllerCheckout extends TiendaController
 			// fail if no payment method selected
 			if (empty($submitted_values['_checked']['payment_plugin']) && !empty($submitted_values['order_total']) )
 			{
-				$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD"));
+				$response['msg'] = $helper->generateMessage(JText::_("Please select payment method"));
 				$response['error'] = '1';
 			}
 			elseif ( (float)$submitted_values['order_total'] == (float)'0.00' )
@@ -1024,11 +1024,11 @@ class TiendaControllerCheckout extends TiendaController
 		$attribs['disabled'] = 'disabled';
 		
 		if( $this->onepage_checkout )
-			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_CART" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_ADDRESS" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_PAYMENT_METHOD" ).'\' ); ';
+			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( "Updating Shipping Rates" ).'\', \''.JText::_( "Updating Cart" ).'\', \''.JText::_( "Updating Address" ).'\', \''.JText::_( "Updating Payment Methods" ).'\' ); ';
 
 		if (empty($country_id))
 		{
-			$html = JText::_( "COM_TIENDA_SELECT_A_COUNTRY" );
+			$html = JText::_( "Select a Country" );
 		}
 		else
 		{
@@ -1218,7 +1218,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		$attribs = array('class' => 'inputbox','size' => '1' );
 		if( $this->onepage_checkout )
-			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_CART" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_ADDRESS" ).'\', \''.JText::_( "COM_TIENDA_UPDATING_PAYMENT_METHOD" ).'\' ); ';
+			$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_( "Updating Shipping Rates" ).'\', \''.JText::_( "Updating Cart" ).'\', \''.JText::_( "Updating Address" ).'\', \''.JText::_( "Updating Payment Methods" ).'\' ); ';
 				
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		$zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id , $attribs );
@@ -1310,7 +1310,7 @@ class TiendaControllerCheckout extends TiendaController
 			$response['msg'] = '<form action="index.php?option=com_tienda&view=checkout" method="post" id="tienda_registration_form" name="adminForm" enctype="multipart/form-data">';
 			$response['msg'] .= "<div class='tienda_registration'>".$html."</div>";
 			$response['msg'] .= "</form>";
-			$response['label'] = JText::_("COM_TIENDA_REGISTER");
+			$response['label'] = JText::_("Register");
 
 			// encode and echo (need to echo to send back to browser)
 			echo json_encode($response);
@@ -1398,7 +1398,7 @@ class TiendaControllerCheckout extends TiendaController
 			// if it fails check, return message
 			$response['error'] = '1';
 			$response['msg'] = $this->getShippingHtml('shipping_calculate');
-			$response['msg'] .= $helper->generateMessage(JText::_("COM_TIENDA_ERROR_WHILE_VALIDATING_THE_PARAMETERS"));
+			$response['msg'] .= $helper->generateMessage(JText::_("Error while validating the parameters"));
 			echo ( json_encode( $response ) );
 			return;
 		}
@@ -1436,7 +1436,7 @@ class TiendaControllerCheckout extends TiendaController
 			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
 				$response['msg'] = $this->getShippingHtml('shipping_calculate');
-				$response['msg'] .= $helper->generateMessage( JText::_( "COM_TIENDA_SHIPPING_ADDRESS_ERROR" )." :: ".$this->getError());
+				$response['msg'] .= $helper->generateMessage( JText::_( "SHIPPING ADDRESS ERROR" )." :: ".$this->getError());
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return;
@@ -1715,7 +1715,7 @@ class TiendaControllerCheckout extends TiendaController
 			// do form validation
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_ERROR_WHILE_VALIDATING_THE_PARAMETERS"));
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
 		}
 
 		// convert elements to array that can be binded
@@ -1729,7 +1729,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->setAddresses( $submitted_values );
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix, @$submitted_values['billing_address_id'] ))
 		{
-			$error_message = $helper->generateMessage( JText::_( "COM_TIENDA_BILLING_ADDRESS_ERROR" )." :: ".$this->getError());
+			$error_message = $helper->generateMessage( JText::_( "BILLING ADDRESS ERROR" )." :: ".$this->getError());
 			$response['error'] = '1';
 		}
 
@@ -2069,12 +2069,12 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		$orderpayment_type = $values['payment_plugin'];
-		$transaction_status = JText::_( "COM_TIENDA_INCOMPLETE" );
+		$transaction_status = JText::_( "Incomplete" );
 		// in the case of orders with a value of 0.00, use custom values
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "COM_TIENDA_COMPLETE" );
+			$transaction_status = JText::_( "Complete" );
 		}
 
 		// Save an orderpayment with an Incomplete status
@@ -2203,7 +2203,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		$orderpayment_type = $values['payment_plugin'];
-		$transaction_status = JText::_( "COM_TIENDA_INCOMPLETE" );
+		$transaction_status = JText::_( "Incomplete" );
 		// in the case of orders with a value of 0.00, use custom values
 
 		if( $order->isRecurring() )
@@ -2211,14 +2211,14 @@ class TiendaControllerCheckout extends TiendaController
 			if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
 			{
 				$orderpayment_type = 'free';
-				$transaction_status = JText::_( "COM_TIENDA_COMPLETE" );
+				$transaction_status = JText::_( "Complete" );
 			}
 		}
 		else
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "COM_TIENDA_COMPLETE" );
+			$transaction_status = JText::_( "Complete" );
 		}
 
 		// Save an orderpayment with an Incomplete status
@@ -2514,7 +2514,7 @@ class TiendaControllerCheckout extends TiendaController
 			// do form validation
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_ERROR_WHILE_VALIDATING_THE_PARAMETERS"));
+			$response['msg'] = $helper->generateMessage(JText::_("Error while validating the parameters"));
 			echo ( json_encode( $response ) );
 			return;
 		}
@@ -2535,7 +2535,7 @@ class TiendaControllerCheckout extends TiendaController
 		
 		if(empty($submitted_values['_checked']['payment_plugin']))
 		{
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD"));
+			$response['msg'] = $helper->generateMessage(JText::_("Please select payment method"));
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -2543,7 +2543,7 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if not checked terms & condition
 		if( TiendaConfig::getInstance()->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_CHECK_THE_TERMS_AND_CONDITIONS"));
+			$response['msg'] = $helper->generateMessage(JText::_("Please Check the Terms & Conditions"));
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -2574,7 +2574,7 @@ class TiendaControllerCheckout extends TiendaController
 		jimport('joomla.mail.helper');
 		if(!JMailHelper::isEmailAddress($submitted_values['email_address']))
 		{
-			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PLEASE_ENTER_CORRECT_EMAIL"));
+			$response['msg'] = $helper->generateMessage(JText::_("Please enter correct email."));
 			$response['error'] = '1';
 			echo json_encode($response);
 			return;
@@ -2588,7 +2588,7 @@ class TiendaControllerCheckout extends TiendaController
 
 			if ($userHelper->emailExists($submitted_values['email_address']))
 			{
-				$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_EMAIL_ALREADY_EXIST"));
+				$response['msg'] = $helper->generateMessage(JText::_("Email already exist."));
 				$response['error'] = '1';
 				echo ( json_encode($response) );
 				return false;
@@ -2635,7 +2635,7 @@ class TiendaControllerCheckout extends TiendaController
 	
 				if ($userHelper->emailExists($submitted_values['email_address']))
 				{
-					$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_EMAIL_ALREADY_EXIST"));
+					$response['msg'] = $helper->generateMessage(JText::_("Email already exist."));
 					$response['error'] = '1';
 					echo ( json_encode($response) );
 					return false;
@@ -2823,7 +2823,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($items) || !is_array($items))
 		{
-			$this->setError( "saveOrderItems:: ".JText::_( "COM_TIENDA_ITEMS_ARRAY_IS_INVALID" ) );
+			$this->setError( "saveOrderItems:: ".JText::_( "Items Array is Invalid" ) );
 			return false;
 		}
 
@@ -2912,7 +2912,7 @@ class TiendaControllerCheckout extends TiendaController
 					$subscriptionhistory->subscriptionhistory_type = 'creation';
 					$subscriptionhistory->created_datetime = $date->toMySQL();
 					$subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-					$subscriptionhistory->comments = JText::_( "COM_TIENDA_NEW_SUBSCRIPTION_CREATED" );
+					$subscriptionhistory->comments = JText::_( "NEW SUBSCRIPTION CREATED" );
 					$subscriptionhistory->save();
 				}
 
@@ -3225,7 +3225,7 @@ class TiendaControllerCheckout extends TiendaController
 		if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_THIS_COUPON_HAS_ALREADY_BEEN_ADDED_TO_THE_ORDER" ) );
+			$response['msg'] = $helper->generateMessage( JText::_( "This Coupon Has Already Been Added to the Order" ) );
 			echo json_encode($response);
 			return;
 		}
@@ -3235,7 +3235,7 @@ class TiendaControllerCheckout extends TiendaController
 		if (!$can_add)
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_CONNOT_ADD_THIS_COUPON_TO_ORDER" ) );
+			$response['msg'] = $helper->generateMessage( JText::_( "Cannot Add This Coupon to Order" ) );
 			echo json_encode($response);
 			return;
 		}
@@ -3253,7 +3253,7 @@ class TiendaControllerCheckout extends TiendaController
 			if(!$check)
 			{
 				$response['error'] = '1';
-				$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_THIS_COUPON_IS_NOT_RELATED_TO_A_PRODUCT_IN_YOUR_CART" ) );
+				$response['msg'] = $helper->generateMessage( JText::_( "This Coupon is not related to a product in your cart!" ) );
 				echo json_encode($response);
 				return;
 			}
@@ -3618,7 +3618,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			// TODO user already exists
 			$response['error'] = '1';
-			$response['msg'] = JText::_("COM_TIENDA_EMAIL_ALREADY_EXIST");
+			$response['msg'] = JText::_("Email already exist!");
 			$response['key'] = 'email_address';
 			return $response;
 		}
@@ -3709,7 +3709,7 @@ class TiendaControllerCheckout extends TiendaController
 		$tmpl = JRequest::getVar('tmpl');
 		if(empty($tmpl))
 		{
-			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "COM_TIENDA_REGISTERED_ACCESS" ) );
+			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_( "Restricted Access" ) );
 			return;
 		}
 
