@@ -359,7 +359,7 @@ class TiendaHelperRoute extends TiendaHelperBase
                 if ($count == '2')
                 {
                     $vars['filter_category'] = $segments[1];
-                    if ($segments[1] == 'validate')
+                    if ( strpos( $segments[1], 'validate' ) !== null )
                     {
                         $vars['task'] = $segments[1];
                     }    

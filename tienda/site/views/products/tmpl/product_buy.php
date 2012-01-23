@@ -11,6 +11,7 @@ if( strlen( @$values['return'] ) )
 	
 $working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product', 1);
 $display_wishlist = TiendaConfig::getInstance()->get( 'display_wishlist', 0);
+
 ?>
 
 <div>

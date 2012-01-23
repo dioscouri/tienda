@@ -17,7 +17,7 @@ $Itemid = JRequest::getInt('Itemid', '0');
 $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD";
 $baseurl=$this->baseurl;
 $user = JFactory::getUser();
-$url_validate = JRoute::_( 'index.php?option=com_tienda&controller=products&task=validateReview&format=raw' );
+$url_validate = JRoute::_( 'index.php?option=com_tienda&controller=products&view=products&task=validateReview&format=raw' );
 
 
 if (($review_enable==1)&&($result == 1 || $count > 0 ) ) { 	
