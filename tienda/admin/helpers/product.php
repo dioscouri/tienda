@@ -1660,7 +1660,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		$tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
-		return $tableProduct;
 		
 		$tableProduct->load( $id, true, false );
 		if ( empty( $tableProduct->product_check_inventory ) )

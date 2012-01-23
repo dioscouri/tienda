@@ -366,18 +366,18 @@ class TiendaHelperCarts extends TiendaHelperBase
 			$query->where( "`session_id` = '$session_id' " );
 		}
 		$query->where( "`user_id` = '".$user_id."'" );
-
 		$query->where( "`product_id` = '".$product_id."'" );
 
 		$q_select = clone( $query );
+		$q_select->select( 'cart_id, product_id' );
+		$db->setQuery( (string) $q_select );
+		$items = $db->loadObjectList();
+		
 		$query->delete();
 		$db->setQuery( (string) $query );
-
 		// TODO Make this report errors and return boolean
 		$db->query();
 
-		$q_select->select( 'cart_id, product_id' );
-		$db->setQuery( (string) $q_select );
 		$dispatcher = JDispatcher::getInstance();
 		for( $i = 0, $c = count( $items ); $i < $c; $i++ )
 		{
@@ -541,11 +541,12 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
 		$session =& JFactory::getSession();
+		$session_id = $session->getId();
 		$user =& JFactory::getUser();
 		$model->setState('filter_user', $user->id );
 		if (empty($user->id))
 		{
-			$model->setState('filter_session', $session->getId() );
+			$model->setState('filter_session', $session_id );
 		}
 
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );

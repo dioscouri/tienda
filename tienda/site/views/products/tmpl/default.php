@@ -117,7 +117,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
       
         <div id="tienda_products">
             <?php foreach ($items as $item) : ?>
-            <div class="product_item">adfalsd
+            <div class="product_item">
                 <?php if (!empty($item->product_full_image) || ($product_compare && $item->product_parameters->get('show_product_compare', '1') ) ) : ?>
                 <div class="product_thumb">
                 		<?php if( !empty($item->product_full_image) ): ?>
