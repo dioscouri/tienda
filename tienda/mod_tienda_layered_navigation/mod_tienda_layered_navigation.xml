@@ -49,6 +49,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
+		<param name="attributes_case_insensitive" type="list" default="1" label="ATTRIBUTES CASE INSENSITIVE" description="ATTRIBUTES CASE INSENSITIVE DESC">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="auto_price_range" type="list" default="1" label="AUTOMATIC PRICE RANGE" description="AUTOMATIC PRICE RANGE DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>

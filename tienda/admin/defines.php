@@ -307,7 +307,7 @@ class Tienda extends JObject
 		$instance = new JObject();
 		return $instance;
 	}
-
+	
 	/**
 	 * Method to dump the structure of a variable for debugging purposes
 	 *

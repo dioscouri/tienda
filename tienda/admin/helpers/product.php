@@ -1947,6 +1947,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if( !$clickable )
 			$rating->rating = $id;
 		$rating->count = $num;
+    
+    if( $view === null ) // if nothing is specified, load products view
+      $view = TiendaHelperProduct::getProductViewObject();
+
 		$view->rating =  $rating;
 		$view->setLayout( $layout ); 
 		
@@ -2306,6 +2310,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 	{
 		$share_data = new stdClass();
 		$share_data->product_id = $product_id;
+    if( $view === null ) // if nothing is specified, load products view
+      $view = TiendaHelperProduct::getProductViewObject();
 		$view->share_data = $share_data;
 		
 		$lt = $view->getLayout();
@@ -2392,6 +2398,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 		{
 			$values = JRequest::get( 'post' );
 		}
+    if( $view === null ) // if nothing is specified, load products view
+      $view = TiendaHelperProduct::getProductViewObject();
 		
 		$path = TiendaHelperProduct::getGalleryPath( $product_id );
 		$images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude' => $exclude ) );
@@ -2419,4 +2427,20 @@ class TiendaHelperProduct extends TiendaHelperBase
 		unset( $view->gallery_data );
 		return $html;
 	}
+
+  public static function getProductViewObject( $model = null, $hidemenu = true, $dotask = true )
+  {
+   		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );		
+		  $view = new TiendaViewProducts( );
+  		$view->set( '_controller', 'products' );
+	 	  $view->set( '_view', 'products' );
+	 	  $view->set( '_doTask', $dotask );
+		  $view->set( 'hidemenu', $hidemenu );
+      
+      if( $model === null )
+     		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+		  $view->setModel( $model, true );
+
+      return $view;  
+  }
 }

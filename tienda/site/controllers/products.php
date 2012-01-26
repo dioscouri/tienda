@@ -45,9 +45,21 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_published'] = 1;
 		$state['filter_published_date'] = $date->toMySQL( );
 		$state['filter_enabled'] = 1;
+		$state['filter_category'] = $app->getUserStateFromRequest( $ns . '.category', 'filter_category', '', 'int' );
+    $prev_cat_id = $app->getUserState( $ns . 'prev_cat_id' );
+    if( $prev_cat_id && $prev_cat_id != $state['filter_category'] ) // drop all filters
+    {
+  		$app->setUserState( $ns . 'price_from', 0 );
+  		$app->setUserState( $ns . 'price_to', '' );
+  		$app->setUserState( $ns . 'attribute', '' );
+  		$app->setUserState( $ns . 'manufacturer', 0 );
+  		$app->setUserState( $ns . 'manufacturer_set', '' );
+  		$app->setUserState( $ns . 'attributeoptionname', array( ) );		
+  		$app->setUserState( $ns . 'rating', '' );
+    }
+
 		$state['search'] = $app->getUserStateFromRequest( $ns . '.search', 'search', '', '' );
 		$state['search_type'] = $app->getUserStateFromRequest( $ns . '.search_type', 'search_type', '', '' );
-		$state['filter_category'] = $app->getUserStateFromRequest( $ns . '.category', 'filter_category', '', 'int' );
 		$state['filter_price_from'] = $app->getUserStateFromRequest( $ns . 'price_from', 'filter_price_from', '0', 'int' );
 		$state['filter_price_to'] = $app->getUserStateFromRequest( $ns . 'price_to', 'filter_price_to', '', '' );
 		$state['filter_attribute_set'] = $app->getUserStateFromRequest( $ns . 'attribute', 'filter_attribute_set', '', '' );

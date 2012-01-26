@@ -25,13 +25,12 @@
 <?php if($trackcatcount > 0):?>
 
 	<?php $rootTxt = $params->get('roottext'); ?>
-	<h4><?php echo $categories[0]->isroot && !empty( $rootTxt ) ? $rootTxt : $categories[0]->category_name;?></h4>	
+	<h4><?php echo $helper->category_current->isroot && !empty( $rootTxt ) ? $rootTxt : $helper->category_current->category_name;?></h4>	
 	
 	<ul id="tienda_browse_category">
-	
 	<?php foreach($categories as $category):?>
 
-		<?php if($category->category_id != $categories[0]->category_id && $category->product_total > 0):?>
+		<?php if($category->category_id != $helper->category_current->category_id && $category->product_total > 0):?>
 		<li>
 			<a href="<?php echo $category->link;?>">
 				<span class="refinementLink">
