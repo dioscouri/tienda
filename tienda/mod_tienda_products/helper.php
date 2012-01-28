@@ -80,7 +80,10 @@ class modTiendaProductsHelper extends JObject
 		if ($this->params->get('random', '0') == '1'){
 			$model->setState('order', 'RAND()');
 		}
-		 
+		else {
+			$model->setState('order', 'ordering ASC');
+		}
+		
 		$order = $this->params->get('order');
 		$direction = $this->params->get('direction', 'ASC');
 		switch ($order)
