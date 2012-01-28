@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
     <name>Tienda</name>
-    <version>0.8.3 PRE-RELEASE D Community</version>
-    <creationDate>January 2012</creationDate>
+    <version>0.8.3 PRE-RELEASE E Community</version>
+    <creationDate>January 28 2012</creationDate>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
