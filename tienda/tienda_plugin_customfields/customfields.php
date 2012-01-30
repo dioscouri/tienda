@@ -311,10 +311,4 @@ class plgTiendaCustomFields extends TiendaPluginBase
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		TiendaHelperEav::deleteEavValuesFromEntity( 'products', $item->product_id, 'carts', $item->cart_id );
 	}
-
-	function onRemoveOrderItem( $item )
-	{
-		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
-		TiendaHelperEav::deleteEavValuesFromEntity( 'products', $item->product_id, 'orderitems', $item->orderitem_id );
-	}
 }
