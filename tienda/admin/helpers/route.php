@@ -352,14 +352,14 @@ class TiendaHelperRoute extends TiendaHelperBase
         $vars = array();
         $count = count($segments);
         
-        $vars['view'] = $segments[0];        
+        $vars['view'] = $segments[0];
         switch ($segments[0])
         {
             case 'products':
                 if ($count == '2')
                 {
                     $vars['filter_category'] = $segments[1];
-                    if ( strpos( $segments[1], 'validate' ) !== null )
+                    if ( strpos( $segments[1], 'validate' ) !== false )
                     {
                         $vars['task'] = $segments[1];
                     }    
@@ -392,7 +392,7 @@ class TiendaHelperRoute extends TiendaHelperBase
                 }
                 break;
         }        
-
+        
         
         //echo "vars:<br /><pre>";
         //print_r($vars);
