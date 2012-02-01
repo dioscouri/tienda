@@ -113,7 +113,6 @@ class modTiendaProductsHelper extends JObject
 			 
 		}
 		// using the set filters, get a list of products
-		echo $model->getQuery();
 		if ($products = $model->getList(true, false ))
 		{
 			if( $show_tax )
