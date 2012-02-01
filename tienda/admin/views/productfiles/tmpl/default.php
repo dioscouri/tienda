@@ -42,7 +42,7 @@
                 <input name="createproductfile_file" type="file" size="40" />
             </td>
             <td style="text-align: center;">
-                <input type="text" name="max_download" id="max_download" value="-1" size="10" maxlength="250" />
+                <input type="text" name="createproductfile_max_download" id="createproductfile_max_download" value="-1" size="10" maxlength="250" />
             </td>
     	</tr>
     	</tbody>
@@ -72,13 +72,13 @@
     	<tbody>
     	<tr>
     		<td style="text-align: center;">
-    			<input id="createproductfile_name" name="createproductfile_name" value="" size="40" />
+    			<input id="createproductfileserver_name" name="createproductfileserver_name" value="" size="40" />
     		</td>
             <td style="text-align: center;">
-                <?php echo JHTML::_('select.booleanlist', 'createproductfile_purchaserequired', '', '' ); ?>
+                <?php echo JHTML::_('select.booleanlist', 'createproductfileserver_purchaserequired', '', '' ); ?>
             </td>
     		<td style="text-align: center;">
-    		    <?php echo JHTML::_('select.booleanlist', 'createproductfile_enabled', '', '' ); ?>
+    		    <?php echo JHTML::_('select.booleanlist', 'createproductfileserver_enabled', '', '' ); ?>
     		</td>
             <td style="text-align: center;">
                 <?php 
@@ -91,11 +91,11 @@
 						$list[] =  TiendaSelect::option( $file, $file );
 					}
 					
-					echo JHTMLSelect::genericlist($list, 'createproductfile_file');
+					echo JHTMLSelect::genericlist($list, 'createproductfileserver_file');
                 ?>
             </td>
             <td style="text-align: center;">
-                <input type="text" name="max_download" id="max_download" value="-1" size="10" maxlength="250" />
+                <input type="text" name="createproductfileserver_max_download" id="createproductfileserver_max_download" value="-1" size="10" maxlength="250" />
             </td>
             
     	</tr>

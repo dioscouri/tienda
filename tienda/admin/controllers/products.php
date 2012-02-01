@@ -1472,7 +1472,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->productfile_name = JRequest::getVar( 'createproductfile_name' );
 		$row->productfile_enabled = JRequest::getVar( 'createproductfile_enabled' );
 		$row->purchase_required = JRequest::getVar( 'createproductfile_purchaserequired' );
-
+		$row->max_download = JRequest::getInt( 'createproductfile_max_download', -1 );
+		
 		$fieldname = 'createproductfile_file';
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$path = TiendaHelperProduct::getFilePath( $row->product_id );
@@ -1496,7 +1497,9 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
-		}
+			$this->messagetype  = 'notice';
+			$this->message      = JText::_( 'Uplad was successfull' );
+					}
 		else
 		{
 			$this->messagetype  = 'notice';
@@ -1519,14 +1522,15 @@ class TiendaControllerProducts extends TiendaController
 		$this->set('suffix', 'productfiles');
 		$model  = $this->getModel( $this->get('suffix') );
 
-		$file = JRequest::getVar( 'createproductfile_file' );
+		$file = JRequest::getVar( 'createproductfileserver_file' );
 
 		$row = $model->getTable();
 		$row->product_id = JRequest::getVar( 'id' );
-		$row->productfile_name = JRequest::getVar( 'createproductfile_name' );
-		$row->productfile_enabled = JRequest::getVar( 'createproductfile_enabled' );
-		$row->purchase_required = JRequest::getVar( 'createproductfile_purchaserequired' );
-
+		$row->productfile_name = JRequest::getVar( 'createproductfileserver_name' );
+		$row->productfile_enabled = JRequest::getVar( 'createproductfileserver_enabled' );
+		$row->purchase_required = JRequest::getVar( 'createproductfileserver_purchaserequired' );
+		$row->max_download = JRequest::getInt( 'createproductfileserver_max_download', -1 );
+		
 		if(empty($row->productfile_name))
 		$row->productfile_name = $file;
 
@@ -1542,6 +1546,8 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+			$this->messagetype  = 'notice';
+			$this->message      = JText::_( 'Uplad was successfull' );
 		}
 		else
 		{
