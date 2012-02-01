@@ -56,7 +56,8 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_taxclass']   = $app->getUserStateFromRequest($ns.'taxclass', 'filter_taxclass', '', '');
 		$state['filter_ships']   = $app->getUserStateFromRequest($ns.'ships', 'filter_ships', '', '');
 		$state['filter_group']   = TiendaConfig::getInstance()->get('default_user_group', '1'); 
-			
+		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.ordering', 'cmd');
+		
 		foreach (@$state as $key=>$value)
 		{
 			$model->setState( $key, $value );
