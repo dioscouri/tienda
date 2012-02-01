@@ -76,14 +76,7 @@ class modTiendaProductsHelper extends JObject
 		$model->setState('filter_price_from', $this->params->get( 'price_from', '-1' ));
 		if($this->params->get( 'price_to', '-1' ) != '-1')
 		$model->setState('filter_price_to', $this->params->get( 'price_to', '-1' ));
-		 
-		if ($this->params->get('random', '0') == '1'){
-			$model->setState('order', 'RAND()');
-		}
-		else {
-			$model->setState('order', 'ordering ASC');
-		}
-		
+
 		$order = $this->params->get('order');
 		$direction = $this->params->get('direction', 'ASC');
 		switch ($order)
@@ -102,6 +95,9 @@ class modTiendaProductsHelper extends JObject
 				$model->setState('order', 'tbl.ordering');
 				break;
 		}
+		if ($this->params->get('random', '0') == '1')
+				$model->setState('order', 'RAND()');
+		
 		$model->setState('direction', $direction);
 		 
 		$config = TiendaConfig::getInstance();
@@ -117,7 +113,7 @@ class modTiendaProductsHelper extends JObject
 			 
 		}
 		// using the set filters, get a list of products
-
+		echo $model->getQuery();
 		if ($products = $model->getList(true, false ))
 		{
 			if( $show_tax )
