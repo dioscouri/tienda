@@ -563,17 +563,15 @@ class TiendaControllerCheckout extends TiendaController
 
 		$tax_sum = 0;
 		$orderitems = $order->getItems();
-   	$taxes = TiendaHelperTax::calculateTax( $orderitems, 3, $order->getBillingAddress(), $order->getShippingAddress() );
+   	$taxes = TiendaHelperTax::calculateTax( $orderitems, 4, $order->getBillingAddress(), $order->getShippingAddress() );
 
 		foreach( $orderitems as $item )
 		{
-			$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price );
-			if( $show_tax )
-			{
-				$item->price = $item->orderitem_price + floatval( $item->orderitem_attributes_price ) + $taxes->product_taxes[$item->product_id];
-
-				$order->order_subtotal += ( $taxes->product_taxes[$item->product_id] * $item->orderitem_quantity );
-			}
+      $item->price = $item->orderitem_final_price / $item->orderitem_quantity;
+      if( $show_tax )
+      {
+        $order->order_subtotal += $item->orderitem_tax;
+      }
 		} 
 
 		$view->assign( 'orderitems', $orderitems );
@@ -1586,6 +1584,11 @@ class TiendaControllerCheckout extends TiendaController
 
 		// bind what you can from the post
 		$order->bind( $values );
+		$order->shipping = new JObject();
+		$order->shipping->shipping_price      = @$values['shipping_price'];
+		$order->shipping->shipping_extra      = @$values['shipping_extra'];
+		$order->shipping->shipping_name       = @$values['shipping_name'];
+		$order->shipping->shipping_tax        = @$values['shipping_tax'];
 
 		// set the currency
 		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected

@@ -100,10 +100,11 @@ function tiendaGetCurrencyTotals()
  * 
  * @return
  */
-function tiendaRefreshTotalAmountDue()
+function tiendaRefreshTotalAmountDue( text_billing )
 {
 	var url = 'index.php?option=com_tienda&view=checkout&task=totalAmountDue&format=raw';
-    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false );
+	tiendaGrayOutAjaxDiv( 'payment_info', text_billing ); 
+    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false, tiendaDeleteTotalAmountDueGrayDiv );
 }
 
 /**
@@ -182,8 +183,20 @@ function tiendaDeletePaymentGrayDiv()
 		tiendaSetColorInContainer( 'onCheckoutPayment_wrapper', '' );
 }
 
+function tiendaDeleteTotalAmountDueGrayDiv()
+{
+	el = $ES( '.tiendaAjaxGrayDiv', 'payment_info' );
+	if( el != '' )
+		el.destroy();
+	
+	tiendaSetColorInContainer( 'payment_info', '' );
+}
+
 function tiendaDeleteShippingGrayDiv()
 {
+	if( $( 'onCheckoutShipping_wrapper' ) == null )
+		return;
+
 	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
 	if( el != '' )
 		el.destroy();
@@ -208,8 +221,8 @@ function tiendaDeleteShippingGrayDiv()
 
 function tiendaDeleteCartGrayDiv()
 {
-	if( el = $('onCheckoutCart_wrapper') )
-		el.setStyle( 'color', '' );
+	if( $('onCheckoutCart_wrapper') )
+		tiendaSetColorInContainer( 'onCheckoutCart_wrapper', '' );
 }
 
 function tiendaDeleteCombinedGrayDiv()

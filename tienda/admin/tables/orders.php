@@ -353,9 +353,6 @@ class TiendaTableOrders extends TiendaTable
         // then calculate shipping total
         $this->calculateShippingTotals(); 
         
-        // then calcualte tax discount
-        $this->calculateTaxCouponDiscount();
-        
 				// coupons
         $this->order_discount += $this->calculatePerOrderCouponValue($this->order_subtotal + $this->order_tax, 'price' );
         
@@ -399,16 +396,17 @@ class TiendaTableOrders extends TiendaTable
             return;
         }
         
-        $coupons_before_tax = TiendaConfig::getInstance()->get('coupons_before_tax'); 
+//        $coupons_before_tax = TiendaConfig::getInstance()->get('coupons_before_tax'); 
         // calculate product subtotal
         foreach ($items as $item)
         {
             // track the subtotal
         	$item->orderitem_final_price = ( $item->orderitem_price + $item->orderitem_attributes_price ) * $item->orderitem_quantity;
-	        if ($coupons_before_tax)
-            {
+//	        if ($coupons_before_tax)
+//            {
             	$item->orderitem_final_price = $this->calculatePerProductCouponValue( $item->product_id, $item->orderitem_final_price, 'price' );       	
-            }
+//            	$item->price = $this->calculatePerProductCouponValue( $item->product_id, $item->price, 'price' );       	
+//            }
         	$subtotal += $item->orderitem_final_price;
         }
 
@@ -432,10 +430,10 @@ class TiendaTableOrders extends TiendaTable
         $items = &$this->getItems();
         $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
 				$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');
-        /* Per Product Tax Coupons */
-        foreach( $items as $item )
+
+				foreach( $items as $item )
         {
-          $item->orderitem_tax = $this->calculatePerProductCouponValue( $item->product_id, $taxes->product_taxes[ $item->product_id ], 'tax' );
+          $item->orderitem_tax = $taxes->product_taxes[ $item->product_id ];
           if( $show_tax )
 	          $item->orderitem_final_price += $item->orderitem_tax;
         }
@@ -470,26 +468,6 @@ class TiendaTableOrders extends TiendaTable
         // Allow this to be modified via plugins
         $dispatcher    =& JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateTaxTotals", array( $this ) );
-    }
-    
-    /**
-     * Calculates tax discount caused by coupons
-     */
-    function calculateTaxCouponDiscount()
-    {
-        /* Per Order Tax Coupons */
-        $tax_discount = $this->calculatePerOrderCouponValue( $this->order_tax, 'tax' );
-        
-        if($tax_discount > $this->order_tax )
-        {
-        	$this->order_discount += $this->order_tax;
-        	$taxes->tax_total = 0;	
-        }
-        else
-        {
-        	$this->order_discount = $tax_discount;
-        	$this->order_tax -= $tax_discount;
-        }
     }
     
     /**
@@ -1191,19 +1169,6 @@ class TiendaTableOrders extends TiendaTable
             	// Only Per Order
                 $this->addOrderCoupon( $coupon, 'shipping' );          
                 break;
-            case 'tax':
-                switch ($coupon->coupon_type)
-                {
-                    case "1":
-                        // per product
-                         $this->addProductCoupon( $coupon, 'tax' );
-                        break;
-                    case "0":
-                        // per order
-                        $this->addOrderCoupon( $coupon, 'tax' );
-                        break;
-                }
-                break;                
             case 'price':
             default:
                switch ($coupon->coupon_type)
@@ -1233,13 +1198,6 @@ class TiendaTableOrders extends TiendaTable
     {
     	switch($type)
     	{
-    		case 'tax':
-    			if (empty($this->_coupons['order_tax']))
-        		{
-            		$this->_coupons['order_tax'] = array();
-        		}
-        		$this->_coupons['order_tax'][$coupon->coupon_id] = $coupon;
-    			break;
     		case 'shipping':
     			if (empty($this->_coupons['order_shipping']))
         		{
@@ -1271,13 +1229,6 @@ class TiendaTableOrders extends TiendaTable
     {
     	switch($type)
     	{
-    		case 'tax':
-    			if (empty($this->_coupons['product_tax']))
-        		{
-            		$this->_coupons['product_tax'] = array();
-        		}
-        		$this->_coupons['product_tax'][$coupon->coupon_id] = $coupon;
-    			break;
     		case 'shipping':
     			if (empty($this->_coupons['product_shipping']))
         		{
@@ -1310,9 +1261,6 @@ class TiendaTableOrders extends TiendaTable
     	
     	switch($type)
     	{
-    		case 'tax':
-    			$coupons = !empty($this->_coupons['product_tax']) ? $this->_coupons['product_tax'] : array();
-    			break;
     		case 'shipping':
     			$coupons = !empty($this->_coupons['product_shipping']) ? $this->_coupons['product_shipping'] : array();
     			break;
@@ -1388,9 +1336,6 @@ class TiendaTableOrders extends TiendaTable
         
         switch($type)
         {
-        	case 'tax':
-        		$coupons = !empty($this->_coupons['order_tax']) ? $this->_coupons['order_tax'] : array();
-        		break;
         	case 'shipping':
         		$coupons = !empty($this->_coupons['order_shipping']) ? $this->_coupons['order_shipping'] : array();
         		break;

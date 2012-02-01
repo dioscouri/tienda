@@ -11,6 +11,5 @@ $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 
-echo $items
-
+echo TiendaHelperBase::currency( $items );
 ?>

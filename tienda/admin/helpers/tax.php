@@ -127,7 +127,7 @@ class TiendaHelperTax extends TiendaHelperBase
 		}
 
 		//load the defaul geozones when user is logout and the config is to show tax
-		if (empty( $billing_zones ) && TiendaConfig::getInstance()->get( 'display_prices_with_tax' ) )
+		if (empty( $billing_zones ) )
 		{
 			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
       if( empty( $geozones ) )

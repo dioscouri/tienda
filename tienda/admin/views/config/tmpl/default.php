@@ -1114,17 +1114,6 @@
                                 
                             </td>
                         </tr>
-                        <tr>
-                            <th style="width: 25%;">
-                                <?php echo JText::_( 'Apply Coupon Discount Before Tax' ); ?>
-                            </th>
-                            <td>
-                                <?php echo JHTML::_('select.booleanlist', 'coupons_before_tax', 'class="inputbox"', $this->row->get('coupons_before_tax', '1') ); ?>
-                            </td>
-                            <td>
-
-                            </td>
-                        </tr>
                     </tbody>
                     </table>
                     <?php

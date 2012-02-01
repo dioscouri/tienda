@@ -617,7 +617,7 @@ function tiendaAddProductToCompare(id, container, obj, doModal, msgAdd, msgRemov
 /**
  * 
  */
-function tiendaAddCoupon( form, mult_enabled )
+function tiendaAddCoupon( form, mult_enabled, text_billing, text_cart, text_coupon )
 {
     var new_coupon_code = document.getElementById('new_coupon_code').value;
     
@@ -637,6 +637,7 @@ function tiendaAddCoupon( form, mult_enabled )
         str[i] = postvar;
     }
     
+    tiendaGrayOutAjaxDiv( 'coupon_code_area', text_coupon );
     // execute Ajax request to server
     var a=new Ajax(url,{
         method:"post",
@@ -655,8 +656,9 @@ function tiendaAddCoupon( form, mult_enabled )
                 document.getElementById('new_coupon_code').value = '';
                 
                 // Update the summary
-                tiendaGetCheckoutTotals();
-                tiendaRefreshTotalAmountDue();
+                tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart );
+                tiendaGetCheckoutTotals( true );
+                tiendaRefreshTotalAmountDue( text_billing );
                 
                 if (mult_enabled != 1)
                 {
@@ -667,6 +669,11 @@ function tiendaAddCoupon( form, mult_enabled )
             {
                 if ($(container)) { $(container).setHTML(resp.msg); }
             }
+            
+        	el = $ES( '.tiendaAjaxGrayDiv', 'coupon_code_area' );
+        	if( el != '' )
+        		el.destroy();
+      		tiendaSetColorInContainer( 'coupon_code_area', '' );
         }
     }).request();
 }
@@ -738,7 +745,7 @@ function tiendaAddCartCoupon( form, mult_enabled )
 function tiendaGetCartCheckoutTotals()
 {
     var url = 'index.php?option=com_tienda&view=carts&task=saveOrderCoupons&format=raw';
-    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', false );    
+    tiendaDoTask( url, 'onCheckoutCart_wrapper', document.adminForm, '', true );    
 }
 
 /**
@@ -748,10 +755,12 @@ function tiendaGetCartCheckoutTotals()
  * 
  * @return
  */
-function tiendaRefreshCartTotalAmountDue()
+function tiendaRefreshCartTotalAmountDue( text_billing )
 {
 	var url = 'index.php?option=com_tienda&view=carts&task=totalAmountDue&format=raw';
-    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false );
+    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false, function() {} );
+
+//url, container, form, msg, doModal, execFunc
 }
 
 /**

@@ -43,7 +43,7 @@
             <div id="coupon_code_help"><?php echo JText::_($string); ?></div>
             <div id="coupon_code_message"></div>
             <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
+            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>', '<?php echo JText::_('COM_TIENDA_UPDATING_BILLING'); ?>', '<?php echo JText::_('UPDATING CART'); ?>', '<?php echo JText::_('COM_TIENDA_CHECKING_COUPON'); ?>' );"/>
             </div>
             <div id='coupon_codes' style="display: none;"></div>
         </div>
