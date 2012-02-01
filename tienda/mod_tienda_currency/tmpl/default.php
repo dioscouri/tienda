@@ -18,7 +18,7 @@ $helper = TiendaHelperBase::getInstance();
 
 $url = JRoute::_( 'index.php?option=com_tienda&view=products&task=setCurrency&return='.base64_encode( JURI::getInstance()->toString() ) , false);
 // Check the currently selected currency
-$selected = TiendaHelperBase::getSessionVariable('currency_id', '' );
+$selected = TiendaHelperBase::getSessionVariable('currency_id', TiendaConfig::getInstance()->get( 'default_currencyid', 1 ) );
 ?>
 
 <div id="currency">
