@@ -2664,8 +2664,13 @@ class TiendaControllerPOS extends TiendaController
 		// Get Addresses
 		$shipping_address = $order->getShippingAddress();
 		$billing_address = $order->getBillingAddress();
-		
+
 		// billing infos
+		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone->load( @$billing_address->zone_id );
+		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country->load( @$billing_address->country_id );
+
 		$row->billing_company = $billing_address->company;		
 		$row->billing_first_name = $billing_address->first_name;
 		$row->billing_last_name = $billing_address->last_name;		
@@ -2679,7 +2684,15 @@ class TiendaControllerPOS extends TiendaController
 		$row->billing_postal_code = $billing_address->postal_code;
 		$row->billing_zone_id = $billing_address->zone_id;
 		$row->billing_country_id = $billing_address->country_id;
+    $row->billing_country_name = @$country->country_name;
+    $row->billing_zone_name = @$zone->zone_name;
+    
 		// shipping infos
+		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone->load( @$shipping_address->zone_id );
+		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country->load( @$shipping_address->country_id );
+
 		$row->shipping_company = $shipping_address->company;		
 		$row->shipping_first_name = $shipping_address->first_name;
 		$row->shipping_last_name = $shipping_address->last_name;		
@@ -2693,6 +2706,8 @@ class TiendaControllerPOS extends TiendaController
 		$row->shipping_postal_code = $shipping_address->postal_code;
 		$row->shipping_zone_id = $shipping_address->zone_id;
 		$row->shipping_country_id = $shipping_address->country_id;
+    $row->shipping_country_name = @$country->country_name;
+    $row->shipping_zone_name = @$zone->zone_name;
 	
 		if(!$row->save())
 		{			
