@@ -439,8 +439,8 @@ class TiendaHelperEmail extends TiendaHelperBase
         $query = "
             SELECT tbl.email
             FROM #__users AS tbl
-            WHERE tbl.sendEmail = '1';
-        "; 
+						WHERE tbl.sendEmail = 1 AND tbl.block = 0
+				        "; 
         $db->setQuery( $query );
         $items = $db->loadObjectList();
         if (empty($items))
