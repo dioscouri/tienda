@@ -2376,7 +2376,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$result = array();
 		$values = explode( ',', $values_csv );
 		for( $i = 0, $c = count( $list ); $i < $c; $i++ )
-			$result []= array( $list[$i]->productattribute_id, $values[$i] );
+		{
+			if( isset( $values[$i]) )
+				$result []= array( $list[$i]->productattribute_id, $values[$i] );
+		}
 			
 		return $result;
 	}

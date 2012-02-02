@@ -10,6 +10,8 @@
 	$enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
 	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
+	
+	$this->section = 1;
 ?>
 <a name="tienda-method"></a> 
 
@@ -45,7 +47,7 @@
 		<div class="inner col3">
 			
 			<div class="contentheading">
-				1. <?php echo JText::_("Customer Information")?>
+				<?php echo $this->section.'. '.JText::_("Customer Information"); $this->section++; ?>
 				<?php if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
 					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_("Help"); ?>' />
@@ -179,7 +181,7 @@
 				<?php if($this->showShipping):?>	
 				<div class="tienda-expanded" id="shippingcost-pane">
 					<div class="contentheading">
-						2. <?php echo JText::_("Select a Shipping Method")?>
+						<?php echo $this->section.'. '.JText::_("Select a Shipping Method"); $this->section++; ?>
 					</div>
 					<div id="onCheckoutShipping_wrapper">
 						<?php echo $this->shipping_method_form;?>
@@ -200,7 +202,7 @@
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="contentheading">
-						3. <?php echo JText::_("Select a Payment Method")?>
+						<?php echo $this->section.'. '.JText::_("Select a Payment Method"); $this->section++;?>
 								<?php if( $enable_tooltips ) : ?>
 								<a class="img_tooltip" href="" > 
 									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_("Help"); ?>' />
@@ -234,7 +236,7 @@
 				
 				<!--    ORDER SUMMARY   -->
 				<h3 class="contentheading">
-					4. <?php echo JText::_("REVIEW & PLACE ORDER") ?>
+					<?php echo $this->section.'. '.JText::_("REVIEW & PLACE ORDER");$this->section++; ?>
 				</h3>
 				<div id='onCheckoutCart_wrapper'> 
 					<?php echo @$this->orderSummary; 	?> 
