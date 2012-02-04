@@ -115,7 +115,6 @@
 					</div>
           			<div class="reset marginbot"></div>
 					<?php if(!$this->user->id ) : ?>
-						<div class="tienda_checkout_method">
 					<div class="tienda_checkout_method">
 						<input type="checkbox" id="create_account" name="create_account" <?php if( !$guest_enabled ) echo 'checked disabled'; ?> value="on" />
 						<label for="field-create-account"><?php echo JText::_( "Create a New Account" );?></label>

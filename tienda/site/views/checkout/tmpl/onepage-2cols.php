@@ -115,14 +115,13 @@
           			<div class="reset marginbot"></div>
 					<?php if(!$this->user->id ) : ?>
 						<div class="tienda_checkout_method">
-					<div class="tienda_checkout_method">
-						<input type="checkbox" id="create_account" name="create_account" <?php if( !$guest_enabled ) echo 'checked disabled'; ?> value="on" />
-						<label for="field-create-account"><?php echo JText::_( "Create a New Account" );?></label>
-						<div id="tienda_user_additional_info" <?php if( $guest_enabled ) echo 'class="hidden"'; ?>>
-	                            <?php echo $this->form_user_register;?>
-	                        </div>
-	           			</div>
-           			<?php endif; ?>
+							<input type="checkbox" id="create_account" name="create_account" <?php if( !$guest_enabled ) echo 'checked disabled'; ?> value="on" />
+							<label for="field-create-account"><?php echo JText::_( "Create a New Account" );?></label>
+							<div id="tienda_user_additional_info" <?php if( $guest_enabled ) echo 'class="hidden"'; ?>>
+	            	<?php echo $this->form_user_register;?>
+							</div>
+						</div>
+          <?php endif; ?>
            		
            			<?php if($this->showShipping):?>				
           			<div class="reset marginbot"></div>
