@@ -265,3 +265,39 @@ ul#submenu ul.submenu_dropdown li span {
 	margin-bottom: 10px;
 	padding: 10px;
 }
+
+/* *********** CUSTOM FIELDS *************** */
+div.tienda_custom_fields{
+	width : 100%;
+	float : left;
+	clear : none;
+}
+
+div.tienda_custom_fields div.tienda_custom_fields_line{
+	width : 100%;
+	float : left;
+	clear : right;
+	padding : 5px 0px;
+}
+
+
+div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_key{
+	float : left;
+	clear : right;
+	width : 150px;
+	text-align : right;
+	background : silver;
+	border-right : 1px solid black;
+	padding : 5px;
+}
+
+div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_key span{
+	font-weight : bold;
+}
+
+div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_value{
+	float : left;
+	clear : right;
+	width : auto;
+	padding : 5px 10px;
+}
