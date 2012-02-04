@@ -451,7 +451,8 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		$order =& $this->_order;
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+		$order->currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
 		// set the shipping method
 		$order->shipping_method_id = $this->defaultShippingMethod;
 
@@ -1054,8 +1055,9 @@ class TiendaControllerCheckout extends TiendaController
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
 		// Get the currency from the configuration
-		$currency_id			= TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-		$billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
+    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+		$currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
+    $billing_address_id     = (!empty($values['billing_address_id'])) ? $values['billing_address_id'] : 0;
 		$shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
 		//$shipping_method_id     = $values['shipping_method_id'];
 		$same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
@@ -1511,7 +1513,8 @@ class TiendaControllerCheckout extends TiendaController
 		$order->bind( $values );
 
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+		$order->currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
 
 		// set the shipping method
 		$order->shipping = new JObject();
@@ -1591,7 +1594,8 @@ class TiendaControllerCheckout extends TiendaController
 		$order->shipping->shipping_tax        = @$values['shipping_tax'];
 
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+		$order->currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
@@ -3318,8 +3322,9 @@ class TiendaControllerCheckout extends TiendaController
         $order->order_credit = '0';
         
         // set the currency
-        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
-
+        Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+    		$order->currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
+        
         // set the shipping method
         $order->shipping = new JObject();
         $order->shipping->shipping_price      = @$values['shipping_price'];

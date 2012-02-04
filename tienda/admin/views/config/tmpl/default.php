@@ -323,61 +323,6 @@
                         </tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Number of Decimal Places' ); ?>
-							</th>
-			                <td>
-			                	<input type="text" name="currency_num_decimals" value="<?php echo $this->row->get('currency_num_decimals', '2'); ?>" />
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Thousands Separator' ); ?>
-							</th>
-			                <td>
-			                	<input type="text" name="currency_thousands" value="<?php echo $this->row->get('currency_thousands', ','); ?>" />
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Decimal Separator' ); ?>
-							</th>
-			                <td>
-			                	<input type="text" name="currency_decimal" value="<?php echo $this->row->get('currency_decimal', '.'); ?>" />
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Prefix' ); ?>
-							</th>
-			                <td>
-			                	<input type="text" name="currency_symbol_pre" value="<?php echo $this->row->get('currency_symbol_pre', '$'); ?>" />
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Suffix' ); ?>
-							</th>
-			                <td>
-			                	<input type="text" name="currency_symbol_post" value="<?php echo $this->row->get('currency_symbol_post', ''); ?>" />
-			                </td>
-                            <td>
-                                
-                            </td>
-						</tr>
-						<tr>
-			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Auto Update Exchange Rates' ); ?>
 							</th>
 			                <td>

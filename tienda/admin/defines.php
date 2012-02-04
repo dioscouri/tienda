@@ -414,11 +414,6 @@ class TiendaConfig extends JObject
 	var $display_dashboard_thismonth_logs	= '1';
 	var $display_dashboard_conversions		= '1';
 	var $display_dashboard_statistics		= '1';
-	var $currency_num_decimals				= '2';
-	var $currency_thousands					= ',';
-	var $currency_decimal					= '.';
-	var $currency_symbol_pre				= '$';
-	var $currency_symbol_post				= null;
 	var $default_currencyid					= '1'; // USD
 	var $currency_exchange_autoupdate		= '1'; // yes
 	var $login_url_redirect					= 'index.php';

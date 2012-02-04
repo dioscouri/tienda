@@ -37,12 +37,19 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $options = (array) $options;
 
         $default_currencyid = $config->get('default_currencyid', '1');
-        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
-        $thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
-        $decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
-        $pre = isset($options['pre']) ? $options['pre'] : $config->get('currency_symbol_pre', '$');
-        $post = isset($options['post']) ? $options['post'] : $config->get('currency_symbol_post', '');
-
+        if ( !isset( $currencies[$default_currencyid] ) )
+				{
+					// if currency is an integer, load the object for its id
+					JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+					$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
+        	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
+				}
+        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $currencies[$default_currencyid]->currency_decimals;
+        $thousands = isset($options['thousands']) ? $options['thousands'] : $currencies[$default_currencyid]->thousands_separator;
+        $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
+        $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
+        $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
+				
         // Now check the session variable to see if there is a currency setting there
         $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
         if( $session_currency )
@@ -336,11 +343,19 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $config = TiendaConfig::getInstance();
         $options = (array) $options;
             
-        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
-        $thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
-        $decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
-        $pre = isset($options['pre']) ? $options['pre'] : $config->get('currency_symbol_pre', '$');
-        $post = isset($options['post']) ? $options['post'] : $config->get('currency_symbol_post', '');
+        $default_currencyid = $config->get('default_currencyid', '1');
+        if ( !isset( $currencies[$default_currencyid] ) )
+				{
+					// if currency is an integer, load the object for its id
+					JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+					$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
+        	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
+				}
+        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $currencies[$default_currencyid]->currency_decimals;
+        $thousands = isset($options['thousands']) ? $options['thousands'] : $currencies[$default_currencyid]->thousands_separator;
+        $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
+        $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
+        $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
 
         // Now check the session variable to see if there is a currency setting there
         $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
@@ -424,4 +439,16 @@ class TiendaHelperCurrency extends TiendaHelperBase
         }
         return $this->currencies[$id];
     }
+
+    /*
+     * Returns ID of the currency which is currently used to display prices
+     */
+		function getCurrentCurrency()
+		{
+        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
+        if( $session_currency )
+        	return $session_currency;
+        	
+        return TiendaConfig::getInstance()->get('default_currencyid', '1');
+		}
 }
