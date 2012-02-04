@@ -441,14 +441,14 @@ class TiendaHelperCurrency extends TiendaHelperBase
     }
 
     /*
-     * Returns ID of the currency which is currently used to display prices
+     * Returns ID of the currency which will be saved along with order
      */
 		function getCurrentCurrency()
 		{
-        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
-        if( $session_currency )
-        	return $session_currency;
-        	
+//        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
+//        if( $session_currency )
+//        	return $session_currency;
+      	
         return TiendaConfig::getInstance()->get('default_currencyid', '1');
 		}
 }
