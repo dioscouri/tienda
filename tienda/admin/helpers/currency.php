@@ -51,12 +51,15 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
 				
         // Now check the session variable to see if there is a currency setting there
-        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
-        if( $session_currency )
-        {
-            // Let the code below deal with currency loading
-            $currency = $session_currency;
-        }   
+				if( $currency == '' )
+				{
+	        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
+	        if( $session_currency )
+	        {
+	            // Let the code below deal with currency loading
+	            $currency = $session_currency;
+	        }
+				}
             
         // if currency is an object, use it's properties
         if (is_object($currency))
@@ -342,28 +345,32 @@ class TiendaHelperCurrency extends TiendaHelperBase
         // default to whatever is in config
         $config = TiendaConfig::getInstance();
         $options = (array) $options;
-            
-        $default_currencyid = $config->get('default_currencyid', '1');
-        if ( !isset( $currencies[$default_currencyid] ) )
-				{
-					// if currency is an integer, load the object for its id
-					JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-					$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
-        	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
-				}
-        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $currencies[$default_currencyid]->currency_decimals;
-        $thousands = isset($options['thousands']) ? $options['thousands'] : $currencies[$default_currencyid]->thousands_separator;
-        $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
-        $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
-        $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
 
-        // Now check the session variable to see if there is a currency setting there
-        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
-        if( $session_currency )
+        // unless we specified the currency with we want to work, use the default one
+        if( $currency == '' )
         {
-            // Let the code below deal with currency loading
-            $currency = $session_currency;
-        }   
+	        $default_currencyid = $config->get('default_currencyid', '1');
+	        if ( !isset( $currencies[$default_currencyid] ) )
+					{
+						// if currency is an integer, load the object for its id
+						JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+						$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
+	        	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
+					}
+	        $num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $currencies[$default_currencyid]->currency_decimals;
+	        $thousands = isset($options['thousands']) ? $options['thousands'] : $currencies[$default_currencyid]->thousands_separator;
+	        $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
+	        $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
+	        $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
+	
+	        // Now check the session variable to see if there is a currency setting there
+	        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
+	        if( $session_currency )
+	        {
+	            // Let the code below deal with currency loading
+	            $currency = $session_currency;
+	        }
+        }
             
         // if currency is an object, use it's properties
         if (is_object($currency))

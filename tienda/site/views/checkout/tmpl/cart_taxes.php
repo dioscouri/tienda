@@ -4,8 +4,11 @@ $config = TiendaConfig::getInstance();
 $display_tax_checkout = $config->get('show_tax_checkout', '1');
 $display_shipping_tax = $config->get('display_shipping_tax', '1');
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+
 $order = &$this->order;
-?>
+if( $order->currency == '' )
+	$order->currency = $config->get( 'default_currencyid', 1);
+	?>
 
 <span class="header">
 	<span class="inner"><?php echo JText::_( "TAX AND SHIPPING TOTALS" ); ?></span><br/>
@@ -102,7 +105,7 @@ switch( $display_tax_checkout )
 				</span>
 			</span>
 			<span class="left38 right">
-				<span class="inner"><?php echo TiendaHelperBase::currency($order->order_tax) ?></span>
+				<span class="inner"><?php echo TiendaHelperBase::currency($order->order_tax, $order->currency ) ?></span>
 			</span>
 		<?php
 	  }

@@ -1050,7 +1050,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @param boolean - save the addresses
 	 * @return unknown_type
 	 */
-	function setAddresses( $values, $saved = false )
+	function setAddresses( &$values, $saved = false )
 	{
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
@@ -1068,7 +1068,7 @@ class TiendaControllerCheckout extends TiendaController
 		// Guest checkout
 		if ($user_id == 0 && TiendaConfig::getInstance()->get('guest_checkout_enabled', '1'))
 		{
-			$user_id = 9999;
+			$user_id = -1;
 		}
 
 		$billing_zone_id = 0;
@@ -1107,14 +1107,26 @@ class TiendaControllerCheckout extends TiendaController
 		// set the order billing address
 		$billingAddress->bind( $billingAddressArray );
 		$billingAddress->user_id = $user_id;
-		if($saved) $billingAddress->save();
+    $billingAddress->addresstype_id = 1;
+		if($saved)
+    {
+      $billingAddress->save();
+      if( !$billing_address_id )
+        $values['billing_address_id'] = $billingAddress->address_id;
+    }
 
 		$order->setAddress( $billingAddress);
 
 		// set the order shipping address
 		$shippingAddress->bind( $shippingAddressArray );
 		$shippingAddress->user_id = $user_id;
-		if($saved) $shippingAddress->save();
+    $shippingAddress->addresstype_id = 2;
+ 		if($saved)
+    {
+      $shippingAddress->save();
+      if( !$shipping_address_id )
+        $values['shipping_address_id'] = $shippingAddress->address_id;
+    }
 
 		$order->setAddress( $shippingAddress, 'shipping' );
 
@@ -2046,7 +2058,6 @@ class TiendaControllerCheckout extends TiendaController
 
 		// Get Order Object
 		$order =& $this->_order;
-		$user = JFactory::getUser();
 
 		// Update the addresses' user id!
 		$shippingAddress = $order->getShippingAddress();
@@ -2588,10 +2599,10 @@ class TiendaControllerCheckout extends TiendaController
 		}		
 		
     $user_id = -1;
+		$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
 		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && !JFactory::getUser()->id ) // guest checkout
 		{
 			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-			$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
 
 			if ($userHelper->emailExists($submitted_values['email_address']))
 			{
@@ -2600,27 +2611,7 @@ class TiendaControllerCheckout extends TiendaController
 				echo ( json_encode($response) );
 				return false;
 			}
-			$guest = !isset( $submitted_values['_checked']['create_account'] );
-      
-      if( !$guest )
-      {
-        // create a new user from billing info
-        $details = array(
-                'email' => $submitted_values['email_address'],
-                'name' => @$submitted_values['billing_input_first_name'].' '.@$submitted_values['billing_input_middle_name'].' '.@$submitted_values['billing_input_last_name'],
-                'username' => $submitted_values['email_address']
-        );
-        $details['password']    = $submitted_values['password'];
-        $details['password2']   = $submitted_values['password2'];
-        $user = $userHelper->createNewUser( $details, $guest );
-        $userHelper->login(
-           array('username' => $user->username, 'password' => $details['password'])
-        );
-        $user_id = $user->id;
-      }
-      else
-        $user_id = $userHelper->getNextGuestUserId();
-      
+      $user_id = $userHelper->getNextGuestUserId();      
 			$email_user = $submitted_values['email_address'];
 			// save the real user's info in the userinfo table
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -2628,45 +2619,81 @@ class TiendaControllerCheckout extends TiendaController
 			$userinfo->user_id = $user_id;
 			$userinfo->email = $submitted_values['email_address'];
 			$userinfo->save();
-      $user_id = $userinfo->user_id;
+ 			$this->setAddresses($submitted_values, true);    
 		}
-		else // registered user
+		else // register or the user is already logged in
 		{
-			$this->setAddresses($submitted_values, true);
-			
-			$user = JFactory::getUser();
-			if( $user->email != $submitted_values['email_address'] ) // user wants to change his email
-			{
-				Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-				$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
-	
-				if ($userHelper->emailExists($submitted_values['email_address']))
-				{
-					$response['msg'] = $helper->generateMessage(JText::_("Email already exist."));
-					$response['error'] = '1';
-					echo ( json_encode($response) );
-					return false;
-				}
-				
-				// save the new email
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-				$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
-				$userinfo->load( array('user_id' => $user->id) );
-				$userinfo->email = $submitted_values['email_address'];
-				$userinfo->save();
-				if( $user->username == $user->email ) // user is using email as his login
-					$user->set('username', $submitted_values['email_address']);
-	      $user->set('email', $submitted_values['email_address']);
-	      
-	      if ( !$user->save() ) 
-	      {
-						$response['msg'] = $helper->generateMessage( $user->getError() );
-						$response['error'] = '1';
-						echo ( json_encode($response) );
-						return false;
-	      }
-			}
-      $user_id = JFactory::getUser()->id;
+      if( JFactory::getUser()->id ) // user is logged in
+      {
+        $user = JFactory::getUser();
+        $user_id = $user->id;
+        if( $user->email != $submitted_values['email_address'] ) // user wants to change his email
+        {
+          if ($userHelper->emailExists($submitted_values['email_address']))
+          {
+            $response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_EMAIL_ALREADY_EXIST"));
+            $response['error'] = '1';
+            echo ( json_encode($response) );
+            return false;
+          }
+
+          JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+          $userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+          $userinfo->load( array('user_id' => $user_id ) );
+          $userinfo->email = $submitted_values['email_address'];
+          $userinfo->save();
+
+          if( $user->username == $user->email ) // user is using email as his login
+            $user->username = $submitted_values['email_address'];
+          $user->email = $submitted_values['email_address'];
+
+          if ( !$user->save() ) 
+          {
+            $response['msg'] = $helper->generateMessage( $user->getError() );
+            $response['error'] = '1';
+            echo ( json_encode($response) );
+            return false;
+          }
+        }
+      }
+      else // user wants to register
+      {
+        // create a new user from billing info
+        $details = array(
+                'email' => $submitted_values['email_address'],
+                'name' => @$submitted_values['billing_input_first_name'].' '.@$submitted_values['billing_input_middle_name'].' '.@$submitted_values['billing_input_last_name'],
+                'username' => $submitted_values['email_address']
+        );
+        if( $details['name'] == '  ' ) // both first and last name are empty -> use a generic name
+          $details['name'] = JText::_( 'COM_TIENDA_USER' );
+  
+        $details['password']    = $submitted_values['password'];
+        $details['password2']   = $submitted_values['password2'];
+        $user = $userHelper->createNewUser( $details, false );
+        if ( !$user ) 
+        {
+  				$response['msg'] = $helper->generateMessage( $user->getError() );
+  				$response['error'] = '1';
+  				echo ( json_encode($response) );
+  				return false;
+        }
+        $userHelper->login(
+           array('username' => $user->username, 'password' => $details['password'])
+        );
+        $user_id = $user->id;      
+        // save userinfo
+	 		  JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+  			$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+        $userinfo->user_id = $user_id;
+        $userinfo->first_name = @$values['billing_input_first_name'];
+        $userinfo->last_name = @$values['billing_input_last_name'];
+        $userinfo->company = @$values['billing_input_company'];
+        $userinfo->middle_name = @$values['billing_input_middle_name'];
+        $userinfo->phone_1 = @$values['billing_input_phone_1'];
+  			$userinfo->email = $submitted_values['email_address'];
+	   		$userinfo->save();
+      }
+ 			$this->setAddresses($submitted_values, true);    
 		}
 
 		//save order
@@ -2681,7 +2708,6 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		$data = $this->preparePaymentOnepage($submitted_values, $user_id);
-
 		if(!empty($data->_errors))
 		{
 			$response['msg'] = $helper->generateMessage($data->_errors);

@@ -66,7 +66,7 @@ function copyBillingAdToShippingAd(checkbox, form, text_shipping, text_cart, tex
 
 function tiendaSaveOnepageOrder(container, errcontainer, form, valid_text)
 {
-	var url = 'index.php?option=com_tienda&view=checkout&task=saveOrderOnePage&format=raw';	
+	var url = 'index.php?option=com_tienda&view=checkout&controller=checkout&task=saveOrderOnePage&format=raw';	
 	var str = new Array();
     for(i=0; i<form.elements.length; i++)
     {

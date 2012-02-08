@@ -6,11 +6,14 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
 Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
 $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 $coupons = @$this->coupons;
 $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+
+$default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
 ?>
 <div class="cartitems">
 	<div class="adminlist">
@@ -42,22 +45,22 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 	
 	                        <?php if ($item->orderitem_recurs) : ?>
 	                            <?php $recurring_subtotal = $item->recurring_price; ?>
-	                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+	                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_price, $default_currency ); ?>
 	                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
 											            <?php if( $item->subscription_prorated ) : ?>
 	                                <br/>
-			                                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+			                                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperCurrency::format( $item->recurring_trial_price, $default_currency ); ?>
 			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
 											            <?php else : ?>
 				                            <?php if ($item->recurring_trial) : ?>
 			                                <br/>
-			                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+			                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_trial_price, $default_currency ); ?>
 			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
 											            <?php endif;?>
 	                            <?php endif; ?>    
 	                        <?php else : ?>
 	                            <?php echo JText::_( "Price" ); ?>:
-	                            <?php echo TiendaHelperBase::currency($item->price); ?>                         
+	                            <?php echo TiendaHelperCurrency::format( $item->price, $default_currency ); ?>
 	                        <?php endif; ?> 
 	                        
 						    <?php if (!empty($this->onDisplayOrderItem) && (!empty($this->onDisplayOrderItem[$i]))) : ?>
@@ -76,7 +79,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     </div>
                     <div class="left30 right">
                     	<div class="inner">
-                    		<?php echo TiendaHelperBase::currency($item->orderitem_final_price); ?>
+                    		<?php echo TiendaHelperCurrency::format($item->orderitem_final_price, $default_currency ); ?>
                     	</div>
                     </div>
                 </div>
@@ -92,7 +95,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     </span>
                     <span class="right">
                     	<span class="inner">
-                    		<?php echo TiendaHelperBase::currency($order->order_subtotal); ?>
+                    		<?php echo TiendaHelperCurrency::format($order->order_subtotal,$default_currency); ?>
                     	</span>
                     </span>
                 </div>
@@ -106,7 +109,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     </span>
                     <span class="left50 right">
                     	<span class="inner">
-                    		<?php echo TiendaHelperBase::currency($order->order_discount); ?>
+                    		<?php echo TiendaHelperCurrency::format( $order->order_discount, $default_currency ); ?>
                     	</span>
                     </span>
                 </div>
@@ -126,7 +129,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
             </span>
             <span class="left50 right">
             	<span class="inner">
-            		- <?php echo TiendaHelperBase::currency($order->order_credit); ?>
+            		- <?php echo TiendaHelperCurrency::format( $order->order_credit, $default_currency ); ?>
             	</span>
             </span>
         </div>        
@@ -141,7 +144,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
             </span>
             <span class="left50 right">
             	<span class="inner">
-            		<?php echo TiendaHelperBase::currency($order->order_total); ?>
+            		<?php echo TiendaHelperCurrency::format( $order->order_total, $default_currency ); ?>
             	</span>
             </span>
         </div>
