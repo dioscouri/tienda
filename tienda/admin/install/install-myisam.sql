@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_config` (
   PRIMARY KEY (`config_id`) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -25,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_countries` (
   INDEX `idx_country_name` (`country_name` ASC) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Dumping data for table `#__tienda_countries`
@@ -286,7 +288,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_geozones` (
   INDEX `fk_geozonetype` (`geozonetype_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_geozonetypes`
@@ -324,7 +327,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_manufacturers` (
   PRIMARY KEY (`manufacturer_id`) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -340,7 +344,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_taxclasses` (
   PRIMARY KEY (`tax_class_id`) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Dumping data for table `#__tienda_taxclasses`
@@ -360,6 +365,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_taxrates` (
   `tax_class_id` INT(11) NOT NULL ,
   `tax_rate` DECIMAL(7,4) NOT NULL DEFAULT '0.0000' ,
   `tax_rate_description` VARCHAR(255) NOT NULL DEFAULT '' ,
+  `level` INT NOT NULL DEFAULT '0',
   `created_date` DATETIME NOT NULL ,
   `modified_date` DATETIME NOT NULL ,
   PRIMARY KEY (`tax_rate_id`) ,
@@ -367,7 +373,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_taxrates` (
   INDEX `fk_geozones_taxrates` (`geozone_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -387,7 +394,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_carts` (
   INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -405,8 +413,11 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   `lft` int(11) NOT NULL,
   `rgt` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL,
   `category_enabled` tinyint(1) NOT NULL,
   `isroot` tinyint(1) NOT NULL,
+	`display_name_category` TINYINT NOT NULL DEFAULT  '1',
+	`display_name_subcategory` TINYINT NOT NULL DEFAULT  '1',
   `category_params` text,
   `category_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this category',
   `categoryproducts_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for all products in this category',
@@ -415,7 +426,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_categories` (
   KEY `parent_id` (`parent_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -440,7 +452,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_currencies` (
   INDEX `idx_currency_code` (`currency_code` ASC) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_currencies` default data
@@ -448,9 +461,9 @@ DEFAULT CHARACTER SET = utf8;
 
 INSERT IGNORE INTO `#__tienda_currencies` (`currency_id`, `currency_name`, `currency_code`, `symbol_left`, `symbol_right`, `currency_decimals`, `decimal_separator`, `thousands_separator`, `created_date`, `modified_date`, `currency_enabled`) VALUES
 (1, 'US Dollar', 'USD', '$', '', 2, '.', ',', NOW(), NOW(), 1),
-(2, 'Japanese Yen', 'JPY', '�', '', 3, '.', ',', NOW(), NOW(), 1),
-(3, 'Euro', 'EUR', '�', '', 2, '.', ',', NOW(), NOW(), 1),
-(4, 'British Pound', 'GBP', '�', '', 2, '.', ',', NOW(), NOW(), 1);
+(2, 'Japanese Yen', 'JPY', '¥', '', 3, '.', ',', NOW(), NOW(), 1),
+(3, 'Euro', 'EUR', '€', '', 2, '.', ',', NOW(), NOW(), 1),
+(4, 'British Pound', 'GBP', '£', '', 2, '.', ',', NOW(), NOW(), 1);
 
 
 -- -----------------------------------------------------
@@ -464,7 +477,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderstates` (
   PRIMARY KEY (`order_state_id`) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Dumping data for table `#__tienda_orderstates`
@@ -501,6 +515,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `order_shipping` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_shipping_tax` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_discount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' ,
+  `order_credit` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'Stores the sum of all credits applied to this order',
   `order_currency` TEXT NOT NULL COMMENT 'Stores a JParameter formatted version of the current currency. Used to maintain the order integrity' ,
   `currency_id` INT(11) NULL DEFAULT NULL ,
   `order_state_id` INT(11) NULL DEFAULT NULL ,
@@ -526,7 +541,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   INDEX `fk_currencies_orders` (`currency_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 
@@ -545,7 +561,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
   INDEX `fk_Orders_OrderHistory` (`order_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -563,7 +580,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productquantities` (
   KEY `vendor_id` (`vendor_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -572,13 +590,15 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `#__tienda_productattributes` (
   `productattribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `productattribute_name` varchar(255) NOT NULL,
+  `parent_productattributeoption_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`productattribute_id`),
   KEY `product_id` (`product_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -588,15 +608,36 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptions` (
   `productattributeoption_id` int(11) NOT NULL AUTO_INCREMENT,
   `productattribute_id` int(11) NOT NULL,
   `productattributeoption_name` varchar(255) NOT NULL,
+  `parent_productattributeoption_id` int(11) NOT NULL,
   `productattributeoption_price` decimal(12,5) NOT NULL,
   `productattributeoption_code` varchar(255) NOT NULL,
   `productattributeoption_prefix` varchar(1) NOT NULL,
+  `is_blank` TINYINT( 1 ) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`productattributeoption_id`),
-  KEY `productattribute_id` (`productattribute_id`)
+  KEY `productattribute_id` (`productattribute_id`),
+  KEY `parent_productattributeoption_id` (`parent_productattributeoption_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productattributeoptionvalues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptionvalues` (
+  `productattributeoptionvalue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `productattributeoption_id` int(11) NOT NULL,
+  `productattributeoptionvalue_field` varchar(255) NOT NULL,
+  `productattributeoptionvalue_operator` varchar(255) NOT NULL,
+  `productattributeoptionvalue_value` varchar(255) NOT NULL,
+  PRIMARY KEY (`productattributeoptionvalue_id`),
+  INDEX `fk_paov_pao` (`productattributeoption_id` ASC)
+) 
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -618,6 +659,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_model` varchar(255) DEFAULT NULL,
   `product_check_inventory` tinyint(1) DEFAULT '0' COMMENT 'Check Inventory for this Product?',
   `product_ships` tinyint(1) DEFAULT '0' COMMENT 'Product Requires Shipping?',
+  `product_article` INT(11) NOT NULL,
   `ordering` int(11) NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
@@ -642,6 +684,10 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `recurring_trial_period_interval` int(3) NOT NULL COMMENT 'How many trial-period-units before payments begin?',
   `recurring_trial_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `recurring_trial_price` decimal(12,5) NOT NULL COMMENT 'Cost of trial period',
+  `subscription_prorated` TINYINT( 1 ) NOT NULL DEFAULT  '0',
+	`subscription_prorated_date` VARCHAR( 5 ) NULL DEFAULT NULL,
+	`subscription_prorated_charge` TINYINT( 1 ) NOT NULL DEFAULT  '0',
+	`subscription_prorated_term` VARCHAR( 1 ) NOT NULL DEFAULT  'M',
   `product_params` text,
   `product_layout` varchar(255) DEFAULT '' COMMENT 'The layout file for this product',
   `product_subscription` tinyint(1) NOT NULL COMMENT 'Product creates a subscription?',
@@ -659,7 +705,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   INDEX `fk_taxclasses_products` (`tax_class_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- --------------------------------------------------------
@@ -677,8 +724,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_orderitemattributes` (
   PRIMARY KEY (`orderitemattribute_id`),
   KEY `productattribute_id` (`productattributeoption_id`)
 ) 
-ENGINE=MyISAM 
-DEFAULT CHARACTER SET = utf8;
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -712,6 +760,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `recurring_trial_period_interval` int(3) NOT NULL COMMENT 'How many trial-period-units before payments begin?',
   `recurring_trial_period_unit` varchar(1) NOT NULL COMMENT 'D, W, M, Y = Day, Week, Month, Year',
   `recurring_trial_price` decimal(12,5) NOT NULL COMMENT 'Cost of trial period',
+  `subscription_prorated` TINYINT( 1 ) NOT NULL DEFAULT  '0',
   `orderitem_subscription` tinyint(1) NOT NULL COMMENT 'Orderitem creates a subscription?',
   `subscription_lifetime` tinyint(1) NOT NULL COMMENT 'Lifetime subscription?',
   `subscription_period_interval` int(3) NOT NULL COMMENT 'How many period-units does the subscription last?',
@@ -724,7 +773,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   INDEX `fk_Product_OrderItem` (`product_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -747,7 +797,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordervendors` (
   KEY `idx_orders_order_id` (`order_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -764,7 +815,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxclasses` (
   KEY `tax_class_id` (`tax_class_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -776,13 +828,16 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_ordertaxrates` (
   `ordertaxrate_rate` decimal(7,4) DEFAULT '0.0000',
   `ordertaxrate_amount` decimal(15,5) DEFAULT '0.00000',
   `ordertaxrate_description` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Display name of the tax rate',
+  `ordertaxrate_level` INT NOT NULL DEFAULT '0',
+  `ordertaxclass_id` INT NOT NULL DEFAULT '0',
   `tax_rate_id` INT(11) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`ordertaxrate_id`),
   KEY `order_id` (`order_id`),
   KEY `tax_rate_id` (`tax_rate_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -802,7 +857,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
   PRIMARY KEY (`orderpayment_id`)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_ordershippings`
@@ -823,8 +879,9 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordershippings` (
   KEY `idx_order_shipping_order_id` (`order_id`),
   KEY `fk_Orders_OrderShipping` (`order_id`)
 ) 
-ENGINE=MyISAM 
-DEFAULT CHARSET=utf8 
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci
 COMMENT='Stores each of the shipping records for orders' ;
 
 
@@ -844,7 +901,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_ordercoupons` (
   `ordercoupon_value_type` tinyint(1) NOT NULL COMMENT '0=Flat-rate, 1=Percentage',
   `ordercoupon_amount` decimal(12,5) NOT NULL COMMENT 'The total discount amount of this coupon',
   PRIMARY KEY (`ordercoupon_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -868,6 +928,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `billing_zone_id` INT(11) NOT NULL DEFAULT '0' ,
   `billing_country_id` INT(11) NOT NULL DEFAULT '0' ,
   `billing_postal_code` VARCHAR(32) NOT NULL DEFAULT '' ,
+  `billing_tax_number` VARCHAR( 32 ) NULL ,
   `shipping_company` VARCHAR(64) NULL DEFAULT NULL ,
   `shipping_last_name` VARCHAR(32) NULL DEFAULT NULL ,
   `shipping_first_name` VARCHAR(32) NULL DEFAULT NULL ,
@@ -883,15 +944,16 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderinfo` (
   `shipping_zone_id` INT(11) NOT NULL DEFAULT '0' ,
   `shipping_country_id` INT(11) NOT NULL DEFAULT '0' ,
   `shipping_postal_code` VARCHAR(32) NOT NULL DEFAULT '' ,
+  `shipping_tax_number` VARCHAR( 32 ) NULL ,
   `user_email` VARCHAR(255) NOT NULL DEFAULT '' ,
-  `zone_id` INT(11) NOT NULL DEFAULT '0' ,
   `user_id` INT(11) NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`orderinfo_id`) ,
   INDEX `idx_orderinfo_order_id` (`order_id` ASC) ,
   INDEX `fk_Orders_OrderInfo` (`order_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -906,8 +968,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productcategoryxref` (
   INDEX `fk_Category_ProductCategory` (`category_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_groups`
@@ -916,10 +978,14 @@ CREATE TABLE IF NOT EXISTS `#__tienda_groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) NOT NULL,
   `group_description` text NOT NULL,
+  `ordering` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -932,7 +998,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_usergroupxref` (
   INDEX `idx_user_group_xref_user_id` (`user_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARSET=utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -951,7 +1018,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloads` (
   INDEX `fk_Product_ProductDownload` (`product_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productfiles`
@@ -967,6 +1035,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productfiles` (
   `productfile_mimetype` varchar(64) NOT NULL DEFAULT '',
   `productfile_url` varchar(255) NOT NULL DEFAULT '',
   `productfile_enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `max_download` INT NULL DEFAULT '-1' ,
   `ordering` int(11) NOT NULL,
   `created_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT Only' ,
@@ -974,7 +1043,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productfiles` (
   INDEX `fk_Product_ProductFiles` (`product_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productdownloadlogs`
@@ -989,7 +1059,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productdownloadlogs` (
   INDEX `fk_ProductFile_ProductDownloadLog` (`productfile_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_productprices`
@@ -1011,7 +1082,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productprices` (
   INDEX `fk_Product_ProductPrice` (`product_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -1027,7 +1099,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_productrelations` (
   INDEX `fk_Product_ProductRelationsB` (`product_id_to` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -1044,7 +1117,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingmethods` (
   KEY `fk_taxclasses_shippingmethods` (`tax_class_id`)
 ) 
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -1065,8 +1139,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates` (
 )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
-;
-
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -1085,12 +1158,15 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_userinfo` (
   `fax` VARCHAR(32) NULL DEFAULT NULL ,
   `html_emails` TINYINT(1) NOT NULL DEFAULT '0' ,
   `email` VARCHAR(255) NULL DEFAULT NULL ,
+  `sub_number` INT NULL,
+  `credits_total` DECIMAL(12,5) NOT NULL,
+  `credits_withdrawable_total` DECIMAL(12,5) NOT NULL,
   PRIMARY KEY (`user_info_id`) ,
   INDEX `idx_user_info_user_id` (`user_id` ASC) 
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- -----------------------------------------------------
 -- Table `#__tienda_addresses`
@@ -1114,6 +1190,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_addresses` (
   `postal_code` VARCHAR(32) NULL ,
   `country_id` INT(11) NOT NULL ,
   `zone_id` INT(11) NULL ,
+  `tax_number` VARCHAR( 32 ) NOT NULL ,
   `is_default_shipping` TINYINT(1) NULL ,
   `is_default_billing` TINYINT(1) NULL ,
   `is_deleted` TINYINT(1) NOT NULL DEFAULT '0' ,
@@ -1123,7 +1200,199 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_addresses` (
   INDEX `fk_zones_addresses` (`zone_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavattributes`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributes` (
+  `eavattribute_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'Suffix of the Table we are extending',
+  `eaventity_id` int(11) NOT NULL COMMENT 'PK of the entity we are extending',
+  `eavattribute_type` VARCHAR( 255 ) NOT NULL COMMENT  'type of the variable (int, varchar, etc)',
+  `enum_type` VARCHAR( 255 ) NOT NULL COMMENT  'If it is a list, what type of list',
+  `is_multiple` BOOL NOT NULL COMMENT  'If it is a list, are multiple choices allowed?',
+  `ordering` INT NOT NULL ,
+  `created_date` DATETIME NOT NULL ,
+  `modified_date` DATETIME NOT NULL ,
+  `enabled` BOOL NOT NULL ,
+  `editable_by` TINYINT( 1 ) NOT NULL,
+  `eavattribute_required` TINYINT( 1 ) NOT NULL,
+  `eavattribute_label` VARCHAR( 255 ) NOT NULL ,
+  `eavattribute_alias` VARCHAR( 255 ) NOT NULL ,
+  KEY `eaventity_id` (`eaventity_id`)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavattributeentityxref`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributeentityxref` (
+`eavattribute_id` INT NOT NULL,
+`eaventity_id` INT NOT NULL,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT  'For example: if eavattribute is for products, this could be product, category, etc',
+  INDEX `fk_EavAttribute_EavAttributes` (`eavattribute_id` ASC) ,
+  INDEX `fk_entity_entities` (`eaventity_id` ASC) ,
+  CONSTRAINT `fk_EavAttribute_EavAttributes`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavattributeoptions`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavattributeoptions` (
+`eavattributeoption_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL COMMENT  'FK to eavattributes',
+`eavattributeoption_label` VARCHAR( 255 ) NOT NULL ,
+`eavattributeoption_value` VARCHAR( 255 ) NOT NULL ,
+`ordering` INT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+`enabled` BOOL NOT NULL ,
+INDEX (  `eavattribute_id` ),
+CONSTRAINT `fk_eavattributeoptions_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesvarchar`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesvarchar` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` VARCHAR( 255 ) NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluesvarchar_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesint`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesint` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` INT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluesint_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluestext`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestext` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` TEXT NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluestext_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesdatetime`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdatetime` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` DATETIME NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluesdatetime_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluesdecimal`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluesdecimal` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` DECIMAL( 10,2 ) NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluesdecimal_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- --------------------------------------------------------
@@ -1139,7 +1408,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_zones` (
   INDEX `fk_countries_zones` (`country_id` ASC)
 )
 ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 -- --------------------------------------------------------
 -- Dumping data for table `#__tienda_groups`
@@ -1352,7 +1622,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (197, 13, 'VIC', 'Victoria'),
 (198, 13, 'WA', 'Western Australia'),
 (199, 14, 'BUR', 'Burgenland'),
-(200, 14, 'KAR', 'K�rnten'),
+(200, 14, 'KAR', 'Kärnten'),
 (201, 14, 'NOS', 'Nieder&ouml;esterreich'),
 (202, 14, 'OOS', 'Ober&ouml;esterreich'),
 (203, 14, 'SAL', 'Salzburg'),
@@ -1792,7 +2062,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (643, 41, 'HMB', 'Haut-Mbomou'),
 (644, 41, 'KEM', 'Kemo'),
 (645, 41, 'LOB', 'Lobaye'),
-(646, 41, 'MKD', 'Mambere-Kade�'),
+(646, 41, 'MKD', 'Mambéré-Kadéï'),
 (647, 41, 'MBO', 'Mbomou'),
 (648, 41, 'NMM', 'Nana-Mambere'),
 (649, 41, 'OMP', 'Ombella-M''Poko'),
@@ -3284,35 +3554,35 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (2143, 136, 'PL', 'Port Louis'),
 (2144, 136, 'RR', 'Riviere du Rempart'),
 (2145, 136, 'SA', 'Savanne'),
-(2146, 138, 'BN', 'Baja California Norte'),
-(2147, 138, 'BS', 'Baja California Sur'),
-(2148, 138, 'CA', 'Campeche'),
+(2146, 138, 'BA', 'Baja California Norte'),
+(2147, 138, 'BJ', 'Baja California Sur'),
+(2148, 138, 'CE', 'Campeche'),
 (2149, 138, 'CI', 'Chiapas'),
 (2150, 138, 'CH', 'Chihuahua'),
-(2151, 138, 'CZ', 'Coahuila de Zaragoza'),
+(2151, 138, 'CU', 'Coahuila de Zaragoza'),
 (2152, 138, 'CL', 'Colima'),
 (2153, 138, 'DF', 'Distrito Federal'),
-(2154, 138, 'DU', 'Durango'),
-(2155, 138, 'GA', 'Guanajuato'),
-(2156, 138, 'GE', 'Guerrero'),
-(2157, 138, 'HI', 'Hidalgo'),
-(2158, 138, 'JA', 'Jalisco'),
-(2159, 138, 'ME', 'Mexico'),
-(2160, 138, 'MI', 'Michoacan de Ocampo'),
-(2161, 138, 'MO', 'Morelos'),
+(2154, 138, 'DO', 'Durango'),
+(2155, 138, 'GX', 'Guanajuato'),
+(2156, 138, 'GR', 'Guerrero'),
+(2157, 138, 'HL', 'Hidalgo'),
+(2158, 138, 'JL', 'Jalisco'),
+(2159, 138, 'MX', 'Estado de México'),
+(2160, 138, 'MC', 'Michoacan de Ocampo'),
+(2161, 138, 'MR', 'Morelos'),
 (2162, 138, 'NA', 'Nayarit'),
-(2163, 138, 'NL', 'Nuevo Leon'),
+(2163, 138, 'NN', 'Nuevo Leon'),
 (2164, 138, 'OA', 'Oaxaca'),
 (2165, 138, 'PU', 'Puebla'),
-(2166, 138, 'QA', 'Queretaro de Arteaga'),
+(2166, 138, 'QU', 'Queretaro de Arteaga'),
 (2167, 138, 'QR', 'Quintana Roo'),
-(2168, 138, 'SA', 'San Luis Potosi'),
+(2168, 138, 'SL', 'San Luis Potosi'),
 (2169, 138, 'SI', 'Sinaloa'),
 (2170, 138, 'SO', 'Sonora'),
 (2171, 138, 'TB', 'Tabasco'),
-(2172, 138, 'TM', 'Tamaulipas'),
+(2172, 138, 'TA', 'Tamaulipas'),
 (2173, 138, 'TL', 'Tlaxcala'),
-(2174, 138, 'VE', 'Veracruz-Llave'),
+(2174, 138, 'VC', 'Veracruz-Llave'),
 (2175, 138, 'YU', 'Yucatan'),
 (2176, 138, 'ZA', 'Zacatecas'),
 (2177, 139, 'C', 'Chuuk'),
@@ -3329,7 +3599,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (2188, 140, 'SO', 'Soroca'),
 (2189, 140, 'TI', 'Tighina'),
 (2190, 140, 'UN', 'Ungheni'),
-(2191, 140, 'SN', 'St�nga Nistrului'),
+(2191, 140, 'SN', 'Stînga Nistrului'),
 (2192, 141, 'FV', 'Fontvieille'),
 (2193, 141, 'LC', 'La Condamine'),
 (2194, 141, 'MV', 'Monaco-Ville'),
@@ -5088,7 +5358,7 @@ INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_nam
 (3949, 105, 'VV', 'Vibo Valentia'),
 (3950, 105, 'VI', 'Vicenza'),
 (3951, 105, 'VT', 'Viterbo');
-INSERT INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
+INSERT IGNORE INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VALUES
 (3952, 240, 'VO', 'Vojvodina'),
 (3953, 240, 'BG', 'Beograd'),
 (3954, 240, 'ZA', 'Šumadija i Zapadna Srbija'),
@@ -5114,7 +5384,14 @@ INSERT INTO `#__tienda_zones` (`zone_id`, `country_id`, `code`, `zone_name`) VAL
 (3974, 241, 'ŠN', 'Šavnik'),
 (3975, 241, 'TV', 'Tivat'),
 (3976, 241, 'UL', 'Ulcinj'),
-(3977, 241, 'ŽB', 'Žabljak');
+(3977, 241, 'ŽB', 'Žabljak'),
+(3978, 138, 'AG', 'Aguascalientes'),
+(3979, 83,  '83', 'Gibraltar'),
+(3980, 188, '188','Singapore'),
+(3981, 190, '190','Slovenia'),
+(9999, 9999, '!!', 'Dummy Zone');
+
+
 -- -----------------------------------------------------
 -- Table `#__tienda_zonerelations`
 -- -----------------------------------------------------
@@ -5122,13 +5399,16 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_zonerelations` (
   `zonerelation_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `zone_id` INT(11) NULL ,
   `geozone_id` INT(11) NULL ,
+  `zip_range` VARCHAR(255) NOT NULL ,
   `created_date` DATETIME NULL ,
   `modified_date` DATETIME NULL ,
   PRIMARY KEY (`zonerelation_id`) ,
   INDEX `fk_geozone_zonerelations` (`geozone_id` ASC) ,
   INDEX `fk_geozone_zones` (`zone_id` ASC)
 )
-ENGINE = MyISAM;
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -5146,8 +5426,13 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptions` (
   `subscription_enabled` tinyint(1) NOT NULL,
   `lifetime_enabled` tinyint(1) NOT NULL,
   `checkedfiles_datetime` datetime NOT NULL COMMENT 'When were this subscriptions files last checked?',
+  `sub_number` INT NULL,
+  `subscription_issue_end_id` INT NULL,
   PRIMARY KEY (`subscription_id`)
-) ENGINE=MyISAM ;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -5161,7 +5446,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_subscriptionhistory` (
   `notify_customer` tinyint(1) NOT NULL,
   `comments` text NOT NULL,
   PRIMARY KEY (`subscriptionhistory_id`)
-) ENGINE=MyISAM ;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -5188,10 +5476,13 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcomments` (
   `reported_count` int(11) NOT NULL DEFAULT '0',
   `rating_updated` tinyint(1) NOT NULL COMMENT 'Was the product overall rating updated?',
   PRIMARY KEY (`productcomment_id`),  
-  UNIQUE KEY `user_email` (`user_email`),
   KEY `fk_Product_ProductReview` (`product_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
 
 -- -----------------------------------------------------
 -- Table structure for table `#__tienda_productcommentshelpfulness`
@@ -5204,7 +5495,10 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productcommentshelpfulness` (
   `reported` tinyint(1) NOT NULL COMMENT 'Is the user reporting this comment as inappropriate?',
   PRIMARY KEY (`productcommentshelpfulness_id`),
   UNIQUE KEY `review_id` (`productcomment_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
@@ -5231,5 +5525,126 @@ CREATE TABLE IF NOT EXISTS `#__tienda_coupons` (
   `coupon_max_uses` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
   `coupon_max_uses_per_user` int(11) NOT NULL DEFAULT '-1' COMMENT '-1=Infinite',
   PRIMARY KEY (`coupon_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
+-- -----------------------------------------------------
+-- Table `#__tienda_credits`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_credits` (
+  `credit_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `user_id` INT(11) NOT NULL ,
+  `order_id` INT(11) NOT NULL COMMENT 'if this credit is related to an order',
+  `currency_id` INT(11) NOT NULL ,
+  `credit_code` VARCHAR(45) NULL ,
+  `credittype_code` VARCHAR(255) NOT NULL ,
+  `credit_enabled` TINYINT(1) NULL ,
+  `credit_withdrawable` TINYINT(1) NULL ,
+  `credit_amount` DECIMAL(12,5) NOT NULL COMMENT 'can be negative',
+  `credit_balance_before` DECIMAL(12,5) NULL ,
+  `credit_balance_after` DECIMAL(12,5) NULL ,
+  `withdrawable_balance_before` DECIMAL(12,5) NULL ,
+  `withdrawable_balance_after` DECIMAL(12,5) NULL ,
+  `credit_comments` TEXT NULL ,
+  `created_date` DATETIME NOT NULL COMMENT 'GMT Only',
+  `modified_date` DATETIME NOT NULL COMMENT 'GMT Only',
+  `expiration_date` DATETIME NULL COMMENT 'GMT Only',
+  `credits_updated` TINYINT(1) NULL COMMENT 'Were the users credit totals updated by this credit?',
+  PRIMARY KEY (`credit_id`) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_credittypes`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_credittypes` (
+  `credittype_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `credittype_code` VARCHAR(255) NOT NULL ,
+  `credittype_name` VARCHAR(255) NOT NULL ,
+  `created_date` DATETIME NULL ,
+  `modified_date` DATETIME NULL ,
+  PRIMARY KEY (`credittype_id`),
+  UNIQUE KEY `credittype_code` (`credittype_code`)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Dumping data for table `#__tienda_credittypes`
+-- -----------------------------------------------------
+INSERT IGNORE INTO `#__tienda_credittypes` (`credittype_id`, `credittype_code`, `credittype_name`) VALUES
+(1, 'refund', 'Refund'),
+(2, 'coupon', 'Coupon'),
+(3, 'giftcard', 'Gift Card'),
+(4, 'vendorcredit', 'Vendor Credit'),
+(5, 'usage', 'Usage History'),
+(6, 'credit', 'Other Credit');
+
+
+-- -----------------------------------------------------
+-- Table structure for table `#__tienda_productcompare`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productcompare` (
+  `productcompare_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `session_id` varchar(200) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`productcompare_id`),
+  KEY `idx_user_product` (`user_id`,`product_id`)
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_productcouponxref`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productcouponxref` (
+  `coupon_id` INT(11) NOT NULL DEFAULT '0' ,
+  `product_id` INT(11) NOT NULL DEFAULT '0' ,
+  INDEX `idx_product_coupon_xref_coupon_id` (`coupon_id` ASC) ,
+  INDEX `idx_product_coupon_xref_product_id` (`product_id` ASC) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `#__tienda_productissues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_productissues` (
+	`product_issue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	`product_id` INT NOT NULL ,
+	`issue_num` VARCHAR( 10 ) NOT NULL ,
+	`volume_num` VARCHAR( 10 ) NOT NULL ,
+	`publishing_date` DATETIME NOT NULL ,
+	`created_date` DATETIME NOT NULL ,
+	`modified_date` DATETIME NOT NULL )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `#__tienda_wishlists`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__tienda_wishlists` (
+  `wishlist_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `user_id` INT(11) NOT NULL ,
+  `session_id` VARCHAR(255) NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  `vendor_id` INT(11) NOT NULL ,
+  `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
+  `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `wishlistitem_params` text COMMENT 'Params for the wishlist item',
+  INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;

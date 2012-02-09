@@ -1858,7 +1858,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	
 	/**
 	 * 
-	 * Enter description here ...
+	 * Used in diagnostic helper
 	 * @param $product_id
 	 * @return unknown_type
 	 */
@@ -1965,7 +1965,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	
 	/**
 	 * 
-	 * Enter description here ...
+	 * Used in Diagnostic helper
 	 * @return unknown_type
 	 */
 	function updatePriceUserGroups( )

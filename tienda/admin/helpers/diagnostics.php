@@ -459,6 +459,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		{
 			return $this->redirect( JText::_('DIAGNOSTIC checkSecretWord FAILED') .' :: '. $this->getError(), 'error' );
 		}
+    
+    if( !$this->dropZoneIdOrderInfo() )
+    {
+			return $this->redirect( JText::_('DIAGNOSTIC dropZoneIdOrderInfo FAILED') .' :: '. $this->getError(), 'error' );    
+    }
 	}
 
 	/**
@@ -3549,17 +3554,6 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		
 		Tienda::load( 'TiendaHelperBase', 'helper._base' );
 		$config->value = TiendaHelperBase::generateSecretWord();
-		$fields = array();
-
-		$fields[] = "ordertaxrate_level";                     
-		$fields[] = 'ordertaxclass_id';
-		
-		$definitions["ordertaxrate_level"] = "INT NOT NULL DEFAULT '0'";
-		$definitions["ordertaxclass_id"] = "INT NOT NULL DEFAULT '0'";
-		
-		if ($this->insertTableFields( $table, $fields, $definitions ))
-
-
 		if ( $config->save() )
 		{
 			unset( $config->config_id );
