@@ -2999,6 +2999,7 @@ class TiendaControllerCheckout extends TiendaController
 		$row->user_email = JFactory::getUser()->get('email');
 		$row->bind( $this->_orderinfoBillingAddressArray );
 		$row->bind( $this->_orderinfoShippingAddressArray );
+    $row->user_id = $order->user_id;
 
 		// Get Addresses
 		$shipping_address = $order->getShippingAddress();
