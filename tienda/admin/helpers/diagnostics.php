@@ -3549,12 +3549,52 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		
 		Tienda::load( 'TiendaHelperBase', 'helper._base' );
 		$config->value = TiendaHelperBase::generateSecretWord();
+		$fields = array();
+
+		$fields[] = "ordertaxrate_level";                     
+		$fields[] = 'ordertaxclass_id';
+		
+		$definitions["ordertaxrate_level"] = "INT NOT NULL DEFAULT '0'";
+		$definitions["ordertaxclass_id"] = "INT NOT NULL DEFAULT '0'";
+		
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+
+
 		if ( $config->save() )
 		{
 			unset( $config->config_id );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkSecretWord') );
 			$config->config_name = 'checkSecretWord';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+		
+	}
+
+	/**
+	 * Drops zone_id from OrderInfo table
+	 * 
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function dropZoneIdOrderInfo()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('dropZoneIdOrderInfo', '0')) return true;
+
+		$fields = array();
+		$fields[] = "zone_id";
+    $table = '#__tienda_orderinfo';
+		if ($this->dropTableFields( $table, $fields ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'dropZoneIdOrderInfo') );
+			$config->config_name = 'dropZoneIdOrderInfo';
 			$config->value = '1';
 			$config->save();
 			return true;
