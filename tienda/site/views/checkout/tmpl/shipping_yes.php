@@ -1,8 +1,12 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
-<?php $one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' ); ?>
+<?php 
+	defined('_JEXEC') or die('Restricted access');
+	$shipping_rates_text = JText::_( "Getting Shipping Rates" );
+	$one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' );
 
-<?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
+	$currency = TiendaConfig::getInstance()->get( 'default_currencyid', 1);
+	
+if(!$one_page ): ?>
+
 <h3><?php echo JText::_("Select a Shipping Method"); ?></h3>
 <?php endif; ?>
 <p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
@@ -21,7 +25,7 @@
             }        	        		
             ?>
             <input id="shipping_<?php echo $rate['element']; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', true );" <?php echo $checked; ?> />
-            <label for="shipping_<?php echo $rate['element']; ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'] ); ?> )</label><br />
+            <label for="shipping_<?php echo $rate['element']; ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )</label><br />
             <br/>
             <?php
         }
