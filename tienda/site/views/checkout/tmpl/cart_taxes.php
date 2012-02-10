@@ -134,7 +134,7 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
   if (!empty($this->showShipping))
-  	echo TiendaHelperBase::currency($order->order_shipping);
+  	echo TiendaHelperBase::currency($order->order_shipping, $order->currency );
 	?>
 	</span>
 </span>                  
@@ -150,7 +150,7 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
 		if( !empty($this->showShipping) && $display_shipping_tax && $order->order_shipping_tax )
-			echo TiendaHelperBase::currency( (float) $order->order_shipping_tax);
+			echo TiendaHelperBase::currency( (float) $order->order_shipping_tax, $order->currency );
 	?>
 	</span>
 </span>
