@@ -855,6 +855,267 @@
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/mod_tienda_search_admin/languages" />
 	    	</copy>
+		
+			<!--Std Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_bug_report/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_charts_fusioncharts/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_content_product/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_genericexporter/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_googleanalytics/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_googleproducts/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_abandoned_cart/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_subscriptions/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_system/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_user/languages" />
+	    	</copy>
+		
+			<!--Payment Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_2checkout/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_authorizedotnet/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_googlecheckout/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_offline/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_paypalpro/languages" />
+	    	</copy>
+		
+			<!--Report Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_bestsellers/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_cart/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_highestvolumeandspender/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_inventory_levels/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_lowstock/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_mostdownloadedfiles/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_ordered_products/languages" />
+			</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_prepayments/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_sales/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_salesbymanufacturer/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_report_subscriptions/languages" />
+	    	</copy>
+		
+			<!--Shipping Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_shipping_fedex/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_shipping_standard/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_shipping_ups/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_shipping_usps/languages" />
+	    	</copy>
+		
+
+		
+			<!--Tool Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_csvimporter/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_installsampledata/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_redshopmigration/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_virtuemartmigration/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_xcartmigration/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_tool_xmlimporter/languages" />
+	    	</copy>
+
+		
+		
+	<!--Aux Plugins-->
+
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_checkoutexample/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_cpanelredirect/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_editorsxtd/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_genericexport/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_notaxeu/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_product_customfields/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_requirephonenumber/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_requiretaxnumber/languages" />
+	    	</copy>
+		
+			<!--Payment Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_alphauserpoints/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_ambrapoints/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_cardpay/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_ccoffline/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_cmcic_v30/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_ctriv/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_flo2cash/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_moneris/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_moneybookers/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_pagseguro/languages" />
+			</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_payson/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_sagepay/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_sagepayments/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_sips_atos/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_tatrapay/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_virtualmerchant/languages" />
+	    	</copy>
+
+		
+			<!--Report Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_report_dailysales/languages" />
+	    	</copy>
+		
+			<!--Shipping Plugins-->		
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_shipping_canada/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_shipping_dhl/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_shipping_edeliver/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_shipping_unex/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_shipping_weightbased/languages" />
+	    	</copy>
+		
+			<!--Tool Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_tool_genericimporter/languages" />
+	    	</copy>
+		
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_usersubnum/languages" />
+	    	</copy>
+		
+			<!--Dioscouri Product Integration Plugins-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_ambrapoints/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_ambrasubs/languages" />
+	    	</copy>
+	
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_award_ambrapoints/languages" />
+	    	</copy>	
+		
+			<!--3rd Party Integration Plugins -->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_award_alphauserpoints/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_idevaffiliate/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.aux}/tienda_plugin_k2/languages" />
+	    	</copy>
+				<!--NOTE: 3rd party integrations for payments are in the 'payment plugins' area above-->
 			
 
 		
