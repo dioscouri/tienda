@@ -628,89 +628,113 @@
     	<mkdir dir="${cfg.buildDir}/apps" />
     </target>
 
-	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins, build_languages, build_apps, build_core_package" />
+	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins_standard, build_plugins_aux, build_languages, build_apps, build_core_package" />
 
     <target name="build_component" depends="init" description="packages the final component file">
         <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
     </target>
 
-    <target name="build_plugins" depends="init" description="packages any plugins">
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrapoints" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}ambrasubs.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrasubs" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}award_alphauserpoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}award_alphauserpoints" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}award_ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}award_ambrapoints" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}bug_report.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}bug_report" />
+	<target name="build_plugins_standard" depends="init" description="packages standard plugins">
+
+		<!--General Plugins-->
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}bug_report.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}bug_report" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}charts_fusioncharts" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}checkoutexample.zip" basedir="${cfg.aux}/${cfg.plgPrefix}checkoutexample" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}content_product.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}content_product" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}editorsxtd.zip" basedir="${cfg.aux}/${cfg.plgPrefix}editorsxtd" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}cpanelredirect.zip" basedir="${cfg.aux}/${cfg.plgPrefix}cpanelredirect" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}search.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}search" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}subscriptions" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}system.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}system" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}user.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}user" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}customfields.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}customfields" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}googleanalytics.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}googleanalytics" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}googleproducts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}googleproducts" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_abandoned_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_abandoned_cart" />
+
+		<!--Payment Plugins-->
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_2checkout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_2checkout" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_alphauserpoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_alphauserpoints" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_ccoffline.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ccoffline" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_ctriv.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ctriv" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_moneybookers.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneybookers" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ambrapoints" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_authorizedotnet.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_authorizedotnet" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cmcic_v30.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cmcic_v30" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_firstdata" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_googlecheckout.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_googlecheckout" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_offline.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_offline" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_moneris.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneris" />
-		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_pagseguro.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_pagseguro" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_payson.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_payson" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sagepay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sagepay" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sagepayments.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sagepayments" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_sips_atos.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sips_atos" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypal.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypal" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_paypalpro.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}payment_paypalpro" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_tatrapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_tatrapay" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_cardapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cardpay" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_virtualmerchant.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_virtualmerchant" />
   		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}payment_flo2cash.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_flo2cash" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_abandoned_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_abandoned_cart" />
-        <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
+	
+		<!--Report Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_bestsellers.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_bestsellers" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_highestvolumeandspender.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_highestvolumeandspender" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_lowstock.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_lowstock" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_inventory_levels.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_inventory_levels" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_mostdownloadedfiles.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_mostdownloadedfiles" />
+    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_inventory_levels.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_inventory_levels" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_cart.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_cart" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_ordered_products.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_ordered_products" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_prepayments.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_prepayments" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_subscriptions" />
         <zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_sales.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_sales" />
       	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_salesbymanufacturer.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}report_salesbymanufacturer" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}report_dailysales.zip" basedir="${cfg.aux}/${cfg.plgPrefix}report_dailysales" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requirephonenumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requirephonenumber" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}search.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}search" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_canada.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_canada" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_dhl.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_dhl" />
+
+		<!--Shipping Plugins-->
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_fedex.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_fedex" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_standard.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_standard" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_unex.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_unex" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_ups.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_ups" />
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_usps.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}shipping_usps" />
-  		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_weightbased.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_weightbased" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}subscriptions.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}subscriptions" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}system.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}system" />
+		
+		<!--Tool Plugins-->
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_virtuemartmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_virtuemartmigration" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_xcartmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_xcartmigration" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_csvimporter.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_csvimporter" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_genericimporter.zip" basedir="${cfg.aux}/${cfg.plgPrefix}tool_genericimporter" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_installsampledata.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_installsampledata" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_redshopmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_redshopmigration" />
-		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}user.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}user" />
-  		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}usersubnum.zip" basedir="${cfg.aux}/${cfg.plgPrefix}usersubnum" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}requiretaxnumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requiretaxnumber" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}product_customfields.zip" basedir="${cfg.aux}/${cfg.plgPrefix}product_customfields" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}customfields.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}customfields" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}genericexport.zip" basedir="${cfg.aux}/${cfg.plgPrefix}genericexport" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}idevaffiliate.zip" basedir="${cfg.aux}/${cfg.plgPrefix}idevaffiliate" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}k2.zip" basedir="${cfg.aux}/${cfg.plgPrefix}k2" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}googleanalytics.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}googleanalytics" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}googleproducts.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}googleproducts" />
+	</target>
+	
+    <target name="build_plugins_aux" depends="init" description="packages aux plugins">
+    	
+    	<!--General Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrapoints" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}ambrasubs.zip" basedir="${cfg.aux}/${cfg.plgPrefix}ambrasubs" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}award_alphauserpoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}award_alphauserpoints" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}award_ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}award_ambrapoints" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}checkoutexample.zip" basedir="${cfg.aux}/${cfg.plgPrefix}checkoutexample" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}cpanelredirect.zip" basedir="${cfg.aux}/${cfg.plgPrefix}cpanelredirect" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}requirephonenumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requirephonenumber" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}usersubnum.zip" basedir="${cfg.aux}/${cfg.plgPrefix}usersubnum" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}requiretaxnumber.zip" basedir="${cfg.aux}/${cfg.plgPrefix}requiretaxnumber" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}notaxeu.zip" basedir="${cfg.aux}/${cfg.plgPrefix}notaxeu" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}product_customfields.zip" basedir="${cfg.aux}/${cfg.plgPrefix}product_customfields" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}genericexport.zip" basedir="${cfg.aux}/${cfg.plgPrefix}genericexport" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}idevaffiliate.zip" basedir="${cfg.aux}/${cfg.plgPrefix}idevaffiliate" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}k2.zip" basedir="${cfg.aux}/${cfg.plgPrefix}k2" />
+    	
+    	<!--Payment Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_alphauserpoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_alphauserpoints" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_ccoffline.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ccoffline" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_ctriv.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ctriv" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_moneybookers.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneybookers" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_ambrapoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_ambrapoints" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_cmcic_v30.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cmcic_v30" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_firstdata.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_firstdata" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_moneris.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_moneris" />
+		<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_pagseguro.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_pagseguro" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_payson.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_payson" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_sagepay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sagepay" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_sagepayments.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sagepayments" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_sips_atos.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_sips_atos" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_tatrapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_tatrapay" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_cardapay.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_cardpay" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_virtualmerchant.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_virtualmerchant" />
+    	
+    	<!--Report Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}report_dailysales.zip" basedir="${cfg.aux}/${cfg.plgPrefix}report_dailysales" />
+    	
+    	<!--Shipping Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}shipping_canada.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_canada" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}shipping_dhl.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_dhl" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}shipping_unex.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_unex" />
+  		<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}shipping_weightbased.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_weightbased" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}shipping_edeliver.zip" basedir="${cfg.aux}/${cfg.plgPrefix}shipping_edeliver" />
+ 	
+    	<!--Tool Plugins-->
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}tool_genericimporter.zip" basedir="${cfg.aux}/${cfg.plgPrefix}tool_genericimporter" />
+  		
     </target>
 
     <target name="build_modules" depends="init" description="packages any modules">
@@ -736,6 +760,7 @@
     </target>
 
     <target name="build_languages" depends="init" description="packages any languages">
+    	<zip destfile="${cfg.buildDir}/languages/$cfg.langPrefix}AAA-LanguageTranslationBase.zip" basedir="${cfg.langDir}/AAA-LanguageTranslationBase" />
         <zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}cs-CZ.zip" basedir="${cfg.langDir}/cs-CZ" />
     	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}da-DK.zip" basedir="${cfg.langDir}/da-DK" />
     	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}de-DE.zip" basedir="${cfg.langDir}/de-DE" />
@@ -745,8 +770,8 @@
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}nl-NL.zip" basedir="${cfg.langDir}/nl-NL" />
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}ru-RU.zip" basedir="${cfg.langDir}/ru-RU" />
 		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sv-SE.zip" basedir="${cfg.langDir}/sv-SE" />
-  	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sk-SK.zip" basedir="${cfg.langDir}/sk-SK" />
-   	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}nb-NO.zip" basedir="${cfg.langDir}/nb-NO" />
+  		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}sk-SK.zip" basedir="${cfg.langDir}/sk-SK" />
+   		<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}nb-NO.zip" basedir="${cfg.langDir}/nb-NO" />
     </target>
 	
 	<!-- BUILD EXTRA APPS -->
@@ -754,15 +779,84 @@
 	    	<!-- Example: <zip destfile="${cfg.buildDir}/apps/app.zip" basedir="${cfg.apps}/app" />-->
 	</target>
 
-    <target name="build_extensions" depends="clean, init, build_plugins, build_modules" description="builds installable packages of both modules and plugins">
+    <target name="build_extensions" depends="clean, init, build_plugins_standard, build_plugins_aux, build_modules" description="builds installable packages of both modules and plugins">
     </target>
 	
 	
 	<target name="build_base_language_package" description="builds a package of the current language files (en-GB) for use in translating">
 	        <!-- CORE  SITE LANGUAGE FILE -->
-	        <copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+	        <copy todir="${cfg.buildDir}/BaseLanguagePackage" preservelastmodified="true" overwrite="true">
 	            <fileset dir="${cfg.comDir}/languages" />
 	        </copy>
+		
+		
+			<!--Front-End Std Modules-->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_breadcrumbs/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_cart/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_categories/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_compared_products/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_currency/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_layered_navigation/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_manufacturers/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_my_orderitems/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_my_orders/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_popular_products/languages" />
+			</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_pricefilters/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_products/languages" />
+	    	</copy>
+
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_recentorders/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_salestatistics/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_search/languages" />
+        	</copy>
+
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_useraddress/languages" />
+	    	</copy>
+		
+		
+			<!--Front-End Aux Modules-->
+		
+			<!--Admin Modules-->
+        	<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+        		<fileset dir="${cfg.comDir}/mod_tienda_admin_submenu/languages" />
+        	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_quickicon/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_search_admin/languages" />
+	    	</copy>
+			
+
 		
 	</target> <!--END OF BaseLanugagePackage-->
 
