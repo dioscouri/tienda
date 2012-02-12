@@ -12,6 +12,10 @@
 	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
 	
 	$this->section = 1;
+	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address', 
+												'Updating Payment Methods', 'VALIDATING', 'COM_TIENDA_CHECKING_COUPON',
+												'COM_TIENDA_UPDATING_BILLING' );
+	TiendaHelperImage::addJsTranslationStrings( $js_strings );
 ?>
 <a name="tienda-method"></a> 
 
@@ -92,7 +96,7 @@
 	            		$billattribs = array(
 	                		'class' => 'inputbox',    
 	                    	'size' => '1',
-	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form, '".JText::_( "Updating Shipping Rates" )."', '".JText::_( "Updating Cart" )."', '".JText::_( "Updating Address" )."' );"
+	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form );"
 	                	);
 	                        
 	                	// display select list of stored addresses
@@ -110,7 +114,6 @@
 								endif;
 							?>
 						</div>
-						
 						<?php echo @$this->billing_address_form; ?>
 					</div>
      			<div class="reset marginbot"></div>
@@ -142,7 +145,7 @@
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
 		                   'size' => '1',
-		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '".JText::_( "Updating Shipping Rates" )."', '".JText::_( "Updating Cart" )."', '".JText::_( "Updating Address" )."', this.form, this.options[this.selectedIndex].value ); "
+		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', this.form, this.options[this.selectedIndex].value ); "
 		                );
 		                
 		                // display select list of stored addresses
@@ -279,7 +282,7 @@
 		            <div id="credits_area" class="address">
 		                <div id="credits_form">
 		                <h3><?php echo JText::_("Store Credit"); ?></h3>
-		                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 		                <div id="credit_message"></div>
 		                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 		                <input type="button" name="credit_submit" value="<?php echo JText::_("Apply Credit to Order"); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
@@ -327,7 +330,7 @@
 				</div>
 				<div id="validationmessage" style="padding-top: 10px;"></div> 
 				<div id="tienda_btns">
-					<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form, '<?php echo JText::_( "VALIDATING" ); ?>')" value="<?php echo JText::_("Click Here to Continue"); ?>" />
+					<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form )" value="<?php echo JText::_("Click Here to Continue"); ?>" />
 					<div class="reset marginbot"></div>	
 					<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_("Return to Shopping Cart"); ?></a> 
 				</div>
@@ -360,7 +363,7 @@ window.addEvent('domready', function() {
 <?php if( $this->showShipping  ):?>	
 	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php if( !@$this->shipping_address->address_id ): ?>
-		$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', '<?php echo JText::_( "Updating Address" )?>', '<?php echo JText::_( "Updating Payment Methods" )?>' ) } );
+		$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm ) } );
 	<?php endif; ?>
 <?php endif; ?>
 

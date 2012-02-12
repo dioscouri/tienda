@@ -24,8 +24,8 @@ if(!$one_page ): ?>
             	$checked = "checked";                        
             }        	        		
             ?>
-            <input id="shipping_<?php echo $rate['element']; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', true );" <?php echo $checked; ?> />
-            <label for="shipping_<?php echo $rate['element']; ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_SHIPPING_RATES" )?>', '<?php echo JText::_( "COM_TIENDA_UPDATING_CART" )?>', true );"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )</label><br />
+            <input id="shipping_<?php echo $rate['element']; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', true );" <?php echo $checked; ?> />
+            <label for="shipping_<?php echo $rate['element']; ?>" onClick="tiendaGrayOutAddressDiv(); tiendaSetShippingRate('<?php echo $rate['name']; ?>','<?php echo $rate['price']; ?>',<?php echo $rate['tax']; ?>,<?php echo $rate['extra']; ?>, '<?php echo $rate['code']; ?>', true );"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )</label><br />
             <br/>
             <?php
         }

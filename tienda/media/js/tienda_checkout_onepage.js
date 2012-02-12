@@ -23,7 +23,7 @@ window.addEvent("domready", function() {
 		};
 });
 
-function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
+function tiendaGetPaymentOptions(container, form, msg, callback )
 {
 	var payment_plugin = $E( 'input[name=payment_plugin]:checked' );
 	
@@ -35,7 +35,7 @@ function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
 	else
 		tiendaDoTask( url, container, form, msg, false, tiendaDeletePaymentGrayDiv );
 
-	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', text_payment );
+	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', Joomla.JText._( 'Updating Payment Methods' ) );
 
 	if( payment_plugin )
 	{
@@ -52,25 +52,25 @@ function tiendaGetPaymentOptions(container, form, msg, text_payment, callback )
  * @param shippingprefix
  * @return
  */
-function copyBillingAdToShippingAd(checkbox, form, text_shipping, text_cart, text_address, text_payment )
+function copyBillingAdToShippingAd(checkbox, form )
 {	
 	var disable = false;
     if (checkbox.checked)
     {
     	disable = true;
-    	tiendaGrayOutAddressDiv( text_address );
-    	tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
-    	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form, text_payment );
+    	tiendaGrayOutAddressDiv();
+    	tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, tiendaDeleteAddressGrayDiv );
+    	tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form );
     }
 }
 
-function tiendaSaveOnepageOrder(container, errcontainer, form, valid_text)
+function tiendaSaveOnepageOrder(container, errcontainer, form )
 {
 	var url = 'index.php?option=com_tienda&view=checkout&controller=checkout&task=saveOrderOnePage&format=raw';	
     var str = tiendaGetFormInputData( form );
      
      // execute Ajax request to server
-     tiendaPutAjaxLoader( errcontainer, valid_text );
+     tiendaPutAjaxLoader( errcontainer, Joomla.JText._( 'VALIDATING' ) );
      var a=new Ajax(url,{
          method:"post",
          data:{"elements":Json.toString(str)},
@@ -137,7 +137,7 @@ function tiendaHideBillingFields()
 	});
 }
 
-function tiendaCheckoutSetBillingAddress(url, container, selected, form, text_shipping, text_cart, text_address )
+function tiendaCheckoutSetBillingAddress(url, container, selected, form )
 {
 	var divContainer = document.getElementById( container );
 	var divForm = document.getElementById( 'billing_input_addressForm' );
@@ -147,11 +147,11 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, form, text_sh
     	values = tiendaStoreFormInputs( form );
 		divContainer.style.display = "";
 		divForm.style.display = "none";
-		tiendaGrayOutAddressDiv( text_address );
+		tiendaGrayOutAddressDiv();
 		tiendaDoTask( url, container, '', '', false );
 		if( $( 'onCheckoutShipping_wrapper' ) )
-			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
-		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );
+			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
+		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );
 
 		tiendaGetCheckoutTotals( true );
     	tiendaRestoreFormInputs( form, values );
@@ -163,7 +163,7 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, form, text_sh
 	}
 }
 
-function tiendaCheckoutSetShippingAddress(url, container, text_shipping, text_cart, text_address, form, selected )
+function tiendaCheckoutSetShippingAddress(url, container, form, selected )
 {
 	var divContainer = document.getElementById( container );
 	var divForm = document.getElementById( 'shipping_input_addressForm' );
@@ -172,10 +172,10 @@ function tiendaCheckoutSetShippingAddress(url, container, text_shipping, text_ca
     	values = tiendaStoreFormInputs( form );
 		divContainer.style.display = "";
 		divForm.style.display = "none";
-		tiendaGrayOutAddressDiv( text_address );
+		tiendaGrayOutAddressDiv();
 		tiendaDoTask( url, container, '', '', false );
-		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
-		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
+		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
+		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, tiendaDeleteAddressGrayDiv );
     	tiendaRestoreFormInputs( form, values );
 	}
 	else // user wants to create a new address

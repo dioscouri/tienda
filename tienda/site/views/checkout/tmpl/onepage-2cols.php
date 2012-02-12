@@ -10,7 +10,12 @@
 	$enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
 	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
+	
 	$this->section = 1;
+	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address', 
+												'Updating Payment Methods', 'VALIDATING', 'COM_TIENDA_CHECKING_COUPON',
+												'COM_TIENDA_UPDATING_BILLING' );
+		TiendaHelperImage::addJsTranslationStrings( $js_strings );
 ?>
 <a name="tienda-method"></a> 
 
@@ -68,7 +73,7 @@
 					?>
 
 					<?php echo JText::_("E-mail address");?>:<br/>
-						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm, '<?php echo JText::_( "VALIDATING" ); ?>' )"/> *
+						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm )"/> *
 				</div>
 				<div id="user_email_validation"></div>
 			</div>
@@ -91,7 +96,7 @@
 	            		$billattribs = array(
 	                		'class' => 'inputbox',    
 	                    	'size' => '1',
-	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form, '".JText::_( "Updating Shipping Rates" )."', '".JText::_( "Updating Cart" )."', '".JText::_( "Updating Address" )."' );"
+	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form );"
 	                	);
 	                        
 	                	// display select list of stored addresses
@@ -141,7 +146,7 @@
 		                $shipattribs = array(
 		                   'class' => 'inputbox',    
 		                   'size' => '1',
-		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '".JText::_( "Updating Shipping Rates" )."', '".JText::_( "Updating Cart" )."', '".JText::_( "Updating Address" )."', this.form, this.options[this.selectedIndex].value ); "
+		                   'onchange' => "tiendaCheckoutSetShippingAddress('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', this.form, this.options[this.selectedIndex].value ); "
 		                );
 		                
 		                // display select list of stored addresses
@@ -279,7 +284,7 @@
 		            <div id="credits_area" class="address">
 		                <div id="credits_form">
 		                <h3><?php echo JText::_("COM_TIENDA_STORE_CREDIT"); ?></h3>
-		                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 		                <div id="credit_message"></div>
 		                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 		                <input type="button" name="credit_submit" value="<?php echo JText::_("Apply Credit to Order"); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
@@ -360,7 +365,7 @@ window.addEvent('domready', function() {
 <?php if( $this->showShipping  ):?>	
 	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php if( !@$this->shipping_address->address_id ): ?>
-		$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', '<?php echo JText::_( "Updating Address" )?>', '<?php echo JText::_( "Updating Payment Methods" )?>' ) } );
+		$( 'sameasbilling' ).addEvent( 'change', function() { copyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm ) } );
 	<?php endif; ?>
 <?php endif; ?>
 

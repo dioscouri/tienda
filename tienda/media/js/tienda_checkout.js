@@ -5,23 +5,23 @@
  * 
  * @return
  */
-function tiendaGetPaymentForm( element, container, text )
+function tiendaGetPaymentForm( element, container )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=getPaymentForm&format=raw&payment_element=' + element;
 
-   	tiendaGrayOutAjaxDiv( container, text, '' );
+   	tiendaGrayOutAjaxDiv( container, Joomla.JText._( 'Updating Payment Methods' ) );
 	tiendaDoTask( url, container, document.adminForm, '', false, tiendaDeletePaymentGrayDiv );    	
 }
 
 
-function tiendaGetShippingRates( container, form, text_shipping, text_cart, callback )
+function tiendaGetShippingRates( container, form, callback )
 {
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
     
 	// loop through form elements and prepare an array of objects for passing to server
 	var str = tiendaGetFormInputData( form );
 	// execute Ajax request to server
-   	tiendaGrayOutAjaxDiv( container, text_shipping, '' );
+   	tiendaGrayOutAjaxDiv( container, Joomla.JText._( 'Updating Shipping Rates' ) );
     var a=new Ajax(url,{
         method:"post",
 		data:{"elements":Json.toString(str)},
@@ -29,7 +29,7 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart, call
             var resp=Json.evaluate(response, false);
             $( container ).setHTML( resp.msg );
             if( resp.default_rate != null ) // if only one rate was found - set it as default
-               	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], text_shipping, text_cart, callback != null );
+               	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], callback != null );
             else
             	{
             		tiendaDeleteShippingGrayDiv();
@@ -41,7 +41,7 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart, call
     }).request();
 }
 
-function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, text_cart, combined )
+function tiendaSetShippingRate(name, price, tax, extra, code, combined )
 {
 	$('shipping_name').value = name;
 	$('shipping_code').value = code;
@@ -49,8 +49,8 @@ function tiendaSetShippingRate(name, price, tax, extra, code, text_shipping, tex
 	$('shipping_tax').value = tax;
 	$('shipping_extra').value = extra;
 
-	tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping, '' );
-	tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );		
+	tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
+	tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );		
 	tiendaGetCheckoutTotals( combined ); // combined = true - both shipping rates and addresses are updating at the same time
 }
 
@@ -90,11 +90,14 @@ function tiendaGetCurrencyTotals()
  * 
  * @return
  */
-function tiendaRefreshTotalAmountDue( text_billing )
+function tiendaRefreshTotalAmountDue()
 {
-	var url = 'index.php?option=com_tienda&view=checkout&task=totalAmountDue&format=raw';
-	tiendaGrayOutAjaxDiv( 'payment_info', text_billing ); 
-    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false, tiendaDeleteTotalAmountDueGrayDiv );
+	if( $( 'payment_info' ) )
+	{
+		var url = 'index.php?option=com_tienda&view=checkout&task=totalAmountDue&format=raw';
+		tiendaGrayOutAjaxDiv( 'payment_info', Joomla.JText._( 'COM_TIENDA_UPDATING_BILLING' ) ); 
+	    tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false, tiendaDeleteTotalAmountDueGrayDiv );		
+	}
 }
 
 /**
@@ -225,14 +228,14 @@ function tiendaDeleteCombinedGrayDiv()
 		tiendaDeleteCartGrayDiv();
 }
 
-function tiendaGrayOutAddressDiv( text_address, prefix )
+function tiendaGrayOutAddressDiv( prefix )
 {
 	if( !$( 'shippingAddress' ) )
 		return;
 	values = tiendaStoreFormInputs( document.adminForm );
-	tiendaGrayOutAjaxDiv( 'billingAddress', text_address, prefix );
+	tiendaGrayOutAjaxDiv( 'billingAddress', Joomla.JText._( 'Updating Address' ), prefix );
 	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
-		tiendaGrayOutAjaxDiv( 'shippingAddress', text_address, prefix );
+		tiendaGrayOutAjaxDiv( 'shippingAddress', Joomla.JText._( 'Updating Address' ), prefix );
 	tiendaRestoreFormInputs( document.adminForm , values );
 }
 
@@ -240,7 +243,7 @@ function tiendaGrayOutAddressDiv( text_address, prefix )
  * Method to disable UI and update shipping rates
  * 
  */
-function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text_cart, text_address, text_payment )
+function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 {
 	obj = document.getElementById( obj_id );
 	// see, if you find can find payment_wrapper and update payment methods
@@ -248,11 +251,11 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 	{
 		if( !$( 'shippingAddress' ) ) // no shipping
 		{
-			tiendaGrayOutAddressDiv( text_address );
-			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '',text_payment, tiendaDeleteAddressGrayDiv );
+			tiendaGrayOutAddressDiv();
+			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '', tiendaDeleteAddressGrayDiv );
 		}
 		else
-			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '', text_payment );
+			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '' );
 	}
 
 	if( !$( 'shippingAddress' ) ) // no shipping
@@ -261,15 +264,15 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 	only_shipping = !$( 'sameasbilling' ) || !$( 'sameasbilling' ).get( 'checked' );
 	if( only_shipping )
 	{
-		tiendaGrayOutAddressDiv( text_address );
-		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', text_shipping );
+		tiendaGrayOutAddressDiv();
+		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
 		if( obj_id.substr( 0, 9 ) == 'shipping_' ) // shipping input
 		{
-			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteAddressGrayDiv );
 		}
 		else // billing input
 		{
-			tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart, '' );
+			tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );
 			tiendaGetCheckoutTotals( true );
 		}
 	}
@@ -277,8 +280,8 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 	{
 		if( obj_id.substr( 0, 8 ) == 'billing_' ) // billing input
 		{
-			tiendaGrayOutAddressDiv( text_address );
-			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, text_shipping, text_cart, tiendaDeleteAddressGrayDiv );
+			tiendaGrayOutAddressDiv();
+			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteAddressGrayDiv );
 		}
 	}
 }
@@ -366,7 +369,7 @@ function tiendaCheckPassword2( container, form, psw1, psw2 )
 /*
  * This method checks availability of the email address
  */
-function tiendaCheckoutCheckEmail( container, form, valid_text )
+function tiendaCheckoutCheckEmail( container, form )
 {
 	user_email = 'email_address';
 	// send AJAX request to validate the email address against other users
@@ -375,7 +378,7 @@ function tiendaCheckoutCheckEmail( container, form, valid_text )
 	// loop through form elements and prepare an array of objects for passing to server
     var str = tiendaGetFormInputData( form );
     // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
+    tiendaPutAjaxLoader( container, Joomla.JText._( 'VALIDATING' ) );
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},

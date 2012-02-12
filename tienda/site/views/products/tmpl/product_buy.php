@@ -12,6 +12,9 @@ if( strlen( @$values['return'] ) )
 $working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product', 1);
 $display_wishlist = TiendaConfig::getInstance()->get( 'display_wishlist', 0);
 
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+$js_strings = array( 'Updating Attributes' );
+TiendaHelperBase::addJsTranslationStrings( $js_strings );
 ?>
 
 <div>
@@ -70,7 +73,7 @@ $display_wishlist = TiendaConfig::getInstance()->get( 'display_wishlist', 0);
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
         
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_( 'Updating Attributes' )."' );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName.", ".$working_image." );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
     
         ?>

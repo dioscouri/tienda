@@ -407,7 +407,7 @@ function tiendaAddToCart( url, container, form, msg )
     }).request();
 }
 
-function tiendaUpdateAddToCart( page, container, form, working, working_text, callback )
+function tiendaUpdateAddToCart( page, container, form, working, callback )
 {
     var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page='+page;
     
@@ -415,7 +415,7 @@ function tiendaUpdateAddToCart( page, container, form, working, working_text, ca
     var str = tiendaGetFormInputData( form ); 
     // execute Ajax request to server
     if( working )
-    	tiendaGrayOutAjaxDiv( container , working_text, '');
+    	tiendaGrayOutAjaxDiv( container , Joomla.JText._( 'Updating Attributes' ), '');
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -423,7 +423,7 @@ function tiendaUpdateAddToCart( page, container, form, working, working_text, ca
             var resp=Json.evaluate(response, false);
             if ($(container)) { $(container).setHTML(resp.msg); }
         	$( container ).setStyle( 'color', '' );            
-        	if( callback !== null )
+        	if( typeof callback === 'function' )
         		callback();
             return true;
         }
@@ -566,7 +566,7 @@ function tiendaAddProductToCompare(id, container, obj, doModal, msgAdd, msgRemov
 /**
  * 
  */
-function tiendaAddCoupon( form, mult_enabled, text_billing, text_cart, text_coupon )
+function tiendaAddCoupon( form, mult_enabled )
 {
     var new_coupon_code = document.getElementById('new_coupon_code').value;
     
@@ -576,7 +576,7 @@ function tiendaAddCoupon( form, mult_enabled, text_billing, text_cart, text_coup
     // loop through form elements and prepare an array of objects for passing to server
     var str = tiendaGetFormInputData( form );
     
-    tiendaGrayOutAjaxDiv( 'coupon_code_area', text_coupon );
+    tiendaGrayOutAjaxDiv( 'coupon_code_area', Joomla.JText._( 'COM_TIENDA_CHECKING_COUPON' ) );
     // execute Ajax request to server
     var a=new Ajax(url,{
         method:"post",
@@ -595,9 +595,9 @@ function tiendaAddCoupon( form, mult_enabled, text_billing, text_cart, text_coup
                 document.getElementById('new_coupon_code').value = '';
                 
                 // Update the summary
-                tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', text_cart );
+                tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );
                 tiendaGetCheckoutTotals( true );
-                tiendaRefreshTotalAmountDue( text_billing );
+                tiendaRefreshTotalAmountDue();
                 
                 if (mult_enabled != 1)
                 {
@@ -684,7 +684,7 @@ function tiendaGetCartCheckoutTotals()
  * 
  * @return
  */
-function tiendaRefreshCartTotalAmountDue( text_billing )
+function tiendaRefreshCartTotalAmountDue()
 {
 	var url = 'index.php?option=com_tienda&view=carts&task=totalAmountDue&format=raw';
     tiendaDoTask( url, 'totalAmountDue', document.adminForm, '', false, function() {} );
