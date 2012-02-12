@@ -100,7 +100,7 @@
                 {	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaGrayOutAddressDiv('".JText::_( 'Updating Address' )."');tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, '".JText::_( 'Updating Shipping Rates' )."', '".JText::_( 'Updating Cart' )."', tiendaDeleteCombinedGrayDiv ); "
+	                   'onchange' => "tiendaGrayOutAddressDiv('".JText::_( 'Updating Address' )."');tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteCombinedGrayDiv ); "
 	                ); // tiendaGetCheckoutTotals();
 	                
 	                // display select list of stored addresses

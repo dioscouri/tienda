@@ -19,7 +19,7 @@
 	}
 	$elements  = TiendaHelperAddresses::getAddressElementsData( $address_type );
 	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address',  'Updating Payment Methods' );
-	TiendaHelperImage::addJsTranslationStrings( $js_strings );
+	TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 ?>
 
 <div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form">

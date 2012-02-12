@@ -18,6 +18,8 @@ Tienda::load( 'TiendaConfig', 'defines' );
 
 class TiendaHelperBase extends JObject
 {
+		static $added_strings = null;
+	
 	/**
 	 * constructor
 	 * make it protected where necessary
@@ -803,16 +805,24 @@ class TiendaHelperBase extends JObject
 	 */
 	function addJsTranslationStrings( $strings )
 	{
-		static $add_js_file = true;
+		if( self::$added_strings === null )
+			self::$added_strings = array();
 		
-		if( $add_js_file ) // adds JS file to maintain compatibility (J1.5 does not support JText in JS)
-			JHTML::_('script', 'tienda_lang.js', 'media/com_tienda/js/');  
-		
+		JHTML::_('script', 'tienda_lang.js', 'media/com_tienda/js/');  
 		$js_strings = array();
 		for( $i = 0, $c = count( $strings ); $i < $c; $i++ )
-			$js_strings [] = '"'.$strings[$i].'":"'.JText::_( $strings[$i] ).'"';
+		{
+			if( in_array( strtoupper( $strings[$i] ), self::$added_strings ) === false )
+			{
+				$js_strings []= '"'.strtoupper( $strings[$i] ).'":"'.JText::_( $strings[$i] ).'"';
+				self::$added_strings []= strtoupper( $strings[$i] );
+			}
+		}
 		
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration( 'Joomla.JText.load({'.implode( ',', $js_strings ).'});' );
+		if( count( $js_strings ) )
+		{
+			$doc = JFactory::getDocument();
+			$doc->addScriptDeclaration( 'Joomla.JText.load({'.implode( ',', $js_strings ).'});' );
+		}
 	}
 }

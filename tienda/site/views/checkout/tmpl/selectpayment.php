@@ -1,13 +1,19 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/'); ?>
-<?php $form = @$this->form; ?>
-<?php $shipping_info = @$this->shipping_info; ?>
-<?php $billing_info = @$this->billing_info; ?>
-<?php $items = @$this->items ? @$this->items : array();?>
-<?php $values = @$this->values; ?>
-<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
+<?php 
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/');
+	$form = @$this->form;
+	$shipping_info = @$this->shipping_info;
+	$billing_info = @$this->billing_info;
+	$items = @$this->items ? @$this->items : array();
+	$values = @$this->values;
+	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); 
+	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+	$js_strings = array( 'Updating Cart', 'COM_TIENDA_CHECKING_COUPON', 'COM_TIENDA_UPDATING_BILLING' );	
+	TiendaHelperBase::addJsTranslationStrings( $js_strings );
+?>
+
 <div class='componentheading'>
     <span><?php echo JText::_( "Select Payment Method" ); ?></span>
 </div>
@@ -43,7 +49,7 @@
             <div id="coupon_code_help"><?php echo JText::_($string); ?></div>
             <div id="coupon_code_message"></div>
             <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>', '<?php echo JText::_('COM_TIENDA_UPDATING_BILLING'); ?>', '<?php echo JText::_('UPDATING CART'); ?>', '<?php echo JText::_('COM_TIENDA_CHECKING_COUPON'); ?>' );"/>
+            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
             </div>
             <div id='coupon_codes' style="display: none;"></div>
         </div>
@@ -56,7 +62,7 @@
 	            <div id="credits_area" class="address">
 	                <div id="credits_form">
 	                <h3><?php echo JText::_("Store Credit"); ?></h3>
-	                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+	                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 	                <div id="credit_message"></div>
 	                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 	                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>

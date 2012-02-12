@@ -19,7 +19,7 @@ if (typeof(Joomla) === 'undefined')
 		},
 		load: function(object) {
 			for (var key in object) {
-				this.strings[key.toUpperCase()] = object[key];
+				this.strings[key] = object[key];
 			}
 			return this;
 		}
