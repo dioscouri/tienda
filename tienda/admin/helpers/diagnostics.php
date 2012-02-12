@@ -3446,7 +3446,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductAttributeOptionBlank()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionBlank', '0')) return true;
+		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionsBlank', '0')) return true;
 		 
 		$table = '#__tienda_productattributeoptions';
 		$definitions = array();
@@ -3461,7 +3461,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Update config to say this has been done already
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$config = JTable::getInstance( 'Config', 'TiendaTable' );
-			$config->load( array( 'config_name'=>'checkProductAttributeOptionBlank') );
+			$config->load( array( 'config_name'=>'checkProductAttributeOptionsBlank') );
 			$config->config_name = 'checkProductAttributeOptionsBlank';
 			$config->value = '1';
 			$config->save();

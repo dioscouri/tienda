@@ -1282,6 +1282,57 @@
                                 <?php echo JText::_( 'CHOOSE MULTI UPLOAD SCRIPT DESC' ); ?>
                             </td>
 						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_LENGTH' ); ?>
+							</th>
+							<td style="width: 150px;">
+		            <input type="text" name="password_min_length" value="<?php echo $this->row->get('password_min_length', '5'); ?>" />
+							</td>
+              <td>
+              </td>
+						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_NUMBER' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'password_req_num', 'class="inputbox"', $this->row->get('password_req_num', '1') ); ?>
+							</td>
+              <td>
+              </td>
+						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_ALPHA' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'password_req_alpha', 'class="inputbox"', $this->row->get('password_req_alpha', '1') ); ?>
+							</td>
+              <td>
+              </td>
+						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_SPECIAL' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'password_req_spec', 'class="inputbox"', $this->row->get('password_req_spec', '1') ); ?>
+							</td>
+              <td>
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_SPECIAL_DESC' ); ?>
+              </td>
+						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_VALDATE_PHP' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'password_php_validate', 'class="inputbox"', $this->row->get('password_php_validate', '1') ); ?>
+							</td>
+              <td>
+              </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

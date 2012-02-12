@@ -67,17 +67,7 @@ function copyBillingAdToShippingAd(checkbox, form, text_shipping, text_cart, tex
 function tiendaSaveOnepageOrder(container, errcontainer, form, valid_text)
 {
 	var url = 'index.php?option=com_tienda&view=checkout&controller=checkout&task=saveOrderOnePage&format=raw';	
-	var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
+    var str = tiendaGetFormInputData( form );
      
      // execute Ajax request to server
      tiendaPutAjaxLoader( errcontainer, valid_text );

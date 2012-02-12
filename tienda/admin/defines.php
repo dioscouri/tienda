@@ -594,6 +594,11 @@ class TiendaConfig extends JObject
 	// since 0.8.3
 	var $show_tax_checkout = '3';
 	var $secret_word = '';
+	var $password_min_length = '5';
+	var $password_req_alpha = '1';
+	var $password_req_num = '1';
+  var $password_req_spec = '1';
+  var $password_php_validate = '1';
 	
 	/**
 	 * constructor

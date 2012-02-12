@@ -75,18 +75,7 @@ function tiendaFormValidation( url, container, task, form, doModal, msg )
     
     if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' || task== 'addReview') 
     {
-        // loop through form elements and prepare an array of objects for passing to server
-        var str = new Array();
-        for(i=0; i<form.elements.length; i++)
-        {
-            postvar = {
-                name : form.elements[i].name,
-                value : form.elements[i].value,
-                checked : form.elements[i].checked,
-                id : form.elements[i].id
-            };
-            str[i] = postvar;
-        }
+        var str = tiendaGetFormInputData( form );
         
         // execute Ajax request to server
         var a=new Ajax(url,{
@@ -221,18 +210,8 @@ function tiendaDoTask( url, container, form, msg, doModal, execFunc )
 	// if url is present, do validation
 	if (url && form) 
 	{	
-		// loop through form elements and prepare an array of objects for passing to server
-		var str = new Array();
-		for(i=0; i<form.elements.length; i++)
-		{
-			postvar = {
-				name : form.elements[i].name,
-				value : form.elements[i].value,
-				checked : form.elements[i].checked,
-				id : form.elements[i].id
-			};
-			str[i] = postvar;
-		}
+		var str = tiendaGetFormInputData( form );
+
 		// execute Ajax request to server
         var a=new Ajax(url,{
             method:"post",
@@ -405,18 +384,8 @@ function tiendaAddToCart( url, container, form, msg )
     var cartUrl = 'index.php?option=com_tienda&format=raw&view=carts&task=displayCart';
 
     // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    
+    var str = tiendaGetFormInputData( form );
+
     // execute Ajax request to server
     var a=new Ajax(url,{
         method:"post",
@@ -443,17 +412,7 @@ function tiendaUpdateAddToCart( page, container, form, working, working_text, ca
     var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page='+page;
     
     // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
+    var str = tiendaGetFormInputData( form ); 
     // execute Ajax request to server
     if( working )
     	tiendaGrayOutAjaxDiv( container , working_text, '');
@@ -547,18 +506,8 @@ function tiendaValidation( url, container, task, form, doModal, msg )
     if (doModal == true) { tiendaNewModal(msg); }
 
     // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    
+    var str = tiendaGetFormInputData( form );
+
     // execute Ajax request to server
     var a=new Ajax(url,{
         method:"post",
@@ -625,17 +574,7 @@ function tiendaAddCoupon( form, mult_enabled, text_billing, text_cart, text_coup
     var container = 'coupon_code_message';
     
     // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
+    var str = tiendaGetFormInputData( form );
     
     tiendaGrayOutAjaxDiv( 'coupon_code_area', text_coupon );
     // execute Ajax request to server
@@ -689,17 +628,7 @@ function tiendaAddCartCoupon( form, mult_enabled )
     var container = 'coupon_code_message';
     
     // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
+    var str = tiendaGetFormInputData( form );
     
     // execute Ajax request to server
     var a=new Ajax(url,{
@@ -851,4 +780,27 @@ function tiendaRestoreFormInputs( form, values )
     		if( $( form.elements[i].id ) )
     			$( form.elements[i].id ).set( 'value',  values[form.elements[i].name].value );
     }
+}
+
+/*
+ * Method to get value from all form inputs and put it in an array which will be passed via AJAX request
+ * 
+ * @param form		Form with inputs
+ * 
+ * @return Array with all data from all inputs on the form
+ */
+function tiendaGetFormInputData( form )
+{
+    var str = new Array();
+    for(i=0; i<form.elements.length; i++)
+    {
+        postvar = {
+            name : form.elements[i].name,
+            value : form.elements[i].value,
+            checked : form.elements[i].checked,
+            id : form.elements[i].id
+        };
+        str[i] = postvar;
+    }
+    return str;
 }

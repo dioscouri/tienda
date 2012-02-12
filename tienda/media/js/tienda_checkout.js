@@ -19,17 +19,7 @@ function tiendaGetShippingRates( container, form, text_shipping, text_cart, call
     var url = 'index.php?option=com_tienda&view=checkout&task=updateShippingRates&format=raw';
     
 	// loop through form elements and prepare an array of objects for passing to server
-	var str = new Array();
-	for(i=0; i<form.elements.length; i++)
-	{
-		postvar = {
-			name : form.elements[i].name,
-			value : form.elements[i].value,
-			checked : form.elements[i].checked,
-			id : form.elements[i].id
-		};
-		str[i] = postvar;
-	}
+	var str = tiendaGetFormInputData( form );
 	// execute Ajax request to server
    	tiendaGrayOutAjaxDiv( container, text_shipping, '' );
     var a=new Ajax(url,{
@@ -295,68 +285,83 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id, text_shipping, text
 
 /**
  * Simple function to check a password strength
+ * 
  */
-function tiendaCheckPassword( container, form, valid_text )
+function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alpha, req_spec )
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
+	var pass_ok = true;
+		
+	act_pass = $( psw ).get( 'value' );
+	if( act_pass.length < min_length ) // password is not long enough
+	{
+		pass_ok = false;
+	}
+	else
+	{
+		if( req_num ) // checks, if the password contains a number
+		{
+			var patt_num = /\d/;
+			pass_ok = patt_num.test( act_pass );
+		}
+		
+		if( pass_ok && req_alpha ) // checks, if the password contains an alphabetical character
+		{
+			var patt_alpha = /[a-zA-Z]/;
+			pass_ok = patt_alpha.test( act_pass );
+		}
+
+		if( pass_ok && req_spec ) // checks, if the password contains a special character ?!@#$%^&*{}[]()-=+.,:\\/\"<>'_;|
+		{
+			var patt_spec = /[\\/\|_\-\+=\.\"':;\[\]~<>!@?#$%\^&\*()]/;
+			pass_ok = patt_spec.test( act_pass );
+		}
+	}
+
+	if( pass_ok )
+	{
+		val_img 	= 'accept_16.png';
+		val_alt	 	= Joomla.JText._( 'COM_TIENDA_SUCCESS' );
+		val_text 	= Joomla.JText._( 'COM_TIENDA_PASSWORD_VALID' );
+		val_class	= 'validation-success';
+	}
+	else
+	{
+		val_img 	= 'remove_16.png';
+		val_alt	 	= Joomla.JText._( 'COM_TIENDA_ERROR' );
+		val_text 	= Joomla.JText._( 'COM_TIENDA_PASSWORD_INVALID' );
+		val_class	= 'validation-fail';
+	}
+
+	content = '<div class="tienda_validation"><img src="'+window.com_tienda.jbase+'media/com_tienda/images/'+val_img+'" alt="'+val_alt+'"><span class="'+val_class+'">'+val_text+'</span></div>';
+	if( $( container ) )
+		$( container ).setHTML( content );
 }
 
 /**
  * Simple function to compare passwords
  */
-function tiendaCheckPassword2( container, form, valid_text )
+function tiendaCheckPassword2( container, form, psw1, psw2 )
 {
-    var url = 'index.php?option=com_tienda&controller=checkout&task=checkPassword2&format=raw';
-    
-    // loop through form elements and prepare an array of objects for passing to server
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
-    // execute Ajax request to server
-    tiendaPutAjaxLoader( container, valid_text );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
-            return true;
-        }
-    }).request();
-    
+	if( $( psw1 ).get( 'value' ) == $( psw2 ).get( 'value' ) )
+	{
+		val_img 	= 'accept_16.png';
+		val_alt	 	= Joomla.JText._( 'COM_TIENDA_SUCCESS' );
+		val_text 	= Joomla.JText._( 'COM_TIENDA_PASSWORD_MATCH' );
+		val_class	= 'validation-success';
+	}
+	else
+	{
+		val_img 	= 'remove_16.png';
+		val_alt	 	= Joomla.JText._( 'COM_TIENDA_ERROR' );
+		val_text 	= Joomla.JText._( 'COM_TIENDA_PASSWORD_DO_NOT_MATCH' );
+		val_class	= 'validation-fail';
+	}
+	
+	content = '<div class="tienda_validation"><img src="'+window.com_tienda.jbase+'media/com_tienda/images/'+val_img+'" alt="'+val_alt+'"><span class="'+val_class+'">'+val_text+'</span></div>';
+	if( $( container ) )
+		$( container ).setHTML( content );
 }
+
 
 /*
  * This method checks availability of the email address
@@ -368,17 +373,7 @@ function tiendaCheckoutCheckEmail( container, form, valid_text )
 	var url = 'index.php?option=com_tienda&controller=checkout&task=checkEmail&format=raw';
 		    
 	// loop through form elements and prepare an array of objects for passing to server
-	var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        postvar = {
-            name : form.elements[i].name,
-            value : form.elements[i].value,
-            checked : form.elements[i].checked,
-            id : form.elements[i].id
-        };
-        str[i] = postvar;
-    }
+    var str = tiendaGetFormInputData( form );
     // execute Ajax request to server
     tiendaPutAjaxLoader( container, valid_text );
     var a=new Ajax(url,{

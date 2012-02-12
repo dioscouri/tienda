@@ -2669,6 +2669,16 @@ class TiendaControllerCheckout extends TiendaController
   
         $details['password']    = $submitted_values['password'];
         $details['password2']   = $submitted_values['password2'];
+        
+        $validate_pass = $userHelper->validateUserPassword( $details['password'] );
+        if( !$validate_pass[0] )
+        {
+  				$response['msg'] = $helper->generateMessage( JText::_( 'COM_TIENDA_PASSWORD_INVALID' ) );
+  				$response['error'] = '1';
+  				echo ( json_encode($response) );
+  				return false;        
+        }
+        
         $user = $userHelper->createNewUser( $details, false );
         if ( !$user ) 
         {
@@ -3026,7 +3036,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @return unknown_type
 	 */
 	function saveOrderHistory( )
-	{
+	{                                                         
 		$order =& $this->_order;
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );

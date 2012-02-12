@@ -794,4 +794,25 @@ class TiendaHelperBase extends JObject
 		return TiendaHelperBase::local_to_GMT_data( $startdate_gmt );
 		
 	}
+
+	/**
+	 * Method to add translation strings to JS translation object
+	 * 
+	 * @param $strings	Associative array with list of strings to translate
+	 * 
+	 */
+	function addJsTranslationStrings( $strings )
+	{
+		static $add_js_file = true;
+		
+		if( $add_js_file ) // adds JS file to maintain compatibility (J1.5 does not support JText in JS)
+			JHTML::_('script', 'tienda_lang.js', 'media/com_tienda/js/');  
+		
+		$js_strings = array();
+		for( $i = 0, $c = count( $strings ); $i < $c; $i++ )
+			$js_strings [] = '"'.$strings[$i].'":"'.JText::_( $strings[$i] ).'"';
+		
+		$doc = JFactory::getDocument();
+		$doc->addScriptDeclaration( 'Joomla.JText.load({'.implode( ',', $js_strings ).'});' );
+	}
 }

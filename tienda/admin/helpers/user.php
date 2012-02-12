@@ -744,4 +744,53 @@ class TiendaHelperUser extends TiendaHelperBase
 		else
 			return $res - 1; // the last guest account id -1
 	}
+
+	/**
+	 * 
+	 * Method to validate a user password via PHP
+	 * @param $pass								Password for validation
+	 * @param $force_validation		Can forces this method to validate the password, even thought PHP validation is turned off
+	 * 
+	 * @return	Array with result of password validation (position 0) and list of requirements which the password does not fullfil (position 1)
+	 */
+	function validateUserPassword( $pass, $force_validation = '' )
+	{
+		$errors = array();
+		$result = true;
+		
+		$validate_php = $force_validation ||  TiendaConfig::getInstance()->get( 'password_php_validate', 1 );
+		if( !$validate_php )
+			return array( $result, $errors );
+
+		$min_length = TiendaConfig::getInstance()->get( 'password_min_length', 5 );
+		$req_num = TiendaConfig::getInstance()->get( 'password_req_num', 1 );
+		$req_alpha = TiendaConfig::getInstance()->get( 'password_req_alpha', 1 );
+		$req_spec = TiendaConfig::getInstance()->get( 'password_req_spec', 1 );
+		
+		if( strlen( $pass ) < $min_length )
+		{
+			$result = false;
+			$errors []= 'length';
+		}
+
+		if( $req_num && !preg_match( '/[0-9]/', $pass ) )
+		{
+			$result = false;
+			$errors []= 'number';
+		}
+		
+		if( $req_alpha && !preg_match( '/[a-zA-Z]/', $pass ) )
+		{
+			$result = false;
+			$errors []= 'alpha';
+		}
+		
+		if( $req_spec && !preg_match( '/[\\/\|_\-\+=\."\':;\[\]~<>!@?#$%\^&\*()]/', $pass ) )
+		{
+			$result = false;
+			$errors []= 'spec';
+		}
+		
+		return array( $result, $errors );
+	}
 }

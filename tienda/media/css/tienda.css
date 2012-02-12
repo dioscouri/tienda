@@ -169,3 +169,18 @@ div.tienda_custom_fields div.tienda_custom_fields_line:last-child{ border-bottom
 div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_key{ float : left; clear : right; width : 150px; text-align : right; border-right : 1px solid #CCC; padding : 5px; }
 div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_key span{ font-weight : bold; }
 div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_value{ float : left; clear : right;	width : auto;	padding : 5px 10px;}
+
+/* *********** Tooltips *************** */
+a.img_tooltip{position:relative;}
+a.img_tooltip:hover{z-index:25;cursor:default;}
+a.img_tooltip span{
+	display: none;position:absolute;top:1em;left:1em;
+	/* formatting */
+	width:225px;font-size:12px;background-color:#FFFFDD;border:1px solid #DDDDBB;border-collapse:collapse;border-spacing:0;margin-bottom:0px;margin-top:0px;padding:10px;text-align:justify; 
+}
+a.img_tooltip span.img_tooltip_left{
+	display: none;position:absolute;top:1em;left:-18em;
+	/* formatting */
+	width:200px;font-size:12px;background-color:#FFFFDD;border:1px solid #DDDDBB;border-collapse:collapse;border-spacing:0;margin-bottom:0px;margin-top:0px;padding:10px;text-align:justify; 
+}
+a.img_tooltip:hover span{display:block;}
