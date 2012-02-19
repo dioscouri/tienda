@@ -100,7 +100,6 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 			$result[ $man_id ]->subtotal += $item->orderitem_final_price;
 			$result[ $man_id ]->total_tax += $item->orderitem_tax;
 		}
-		echo Tienda::dump( $result );
 		return $result;
 	}
 }
