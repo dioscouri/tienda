@@ -45,14 +45,14 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             <div class="product_numbers">
                 <?php if ( !empty( $item->product_model ) ) : ?>
                     <span class="model">
-                        <span class="title"><?php echo JText::_( 'Model' ); ?>:</span> 
+                        <span class="title"><?php echo JText::_( 'COM_TIENDA_MODEL' ); ?>:</span> 
                         <?php echo $item->product_model; ?>
                     </span>
                 <?php endif; ?>
                 
                 <?php if ( !empty( $item->product_sku ) ) : ?>
                     <span class="sku">
-                        <span class="title"><?php echo JText::_( 'SKU' ); ?>:</span> 
+                        <span class="title"><?php echo JText::_( 'COM_TIENDA_SKU' ); ?>:</span> 
                         <?php echo $item->product_sku; ?>
                     </span>
                 <?php endif; ?>

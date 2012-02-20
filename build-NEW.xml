@@ -1031,9 +1031,6 @@
 		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_firstdata/languages" />
 	    	</copy>
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
-		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_flo2cash/languages" />
-	    	</copy>
-			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.aux}/tienda_plugin_payment_moneris/languages" />
 	    	</copy>
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
@@ -1117,7 +1114,8 @@
 	    	</copy>
 				<!--NOTE: 3rd party integrations for payments are in the 'payment plugins' area above-->
 			
-
+			<!--Now create a zip file of all of the baseLangaugePackage for uploading-->
+			<zip destfile="${cfg.buildDir}/BaseLanguagePackage.zip" basedir="${cfg.buildDir}/BaseLanguagePackage/" />
 		
 	</target> <!--END OF BaseLanugagePackage-->
 
