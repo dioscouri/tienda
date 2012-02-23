@@ -76,56 +76,9 @@ class TiendaTableEav extends TiendaTable
 		}
 		 
 		$custom_fields = array();
-
-		// If there are Custom Fields
-		if(count($eavs))
-		{
-			foreach($eavs as $eav)
-			{
-				$key = $eav->eavattribute_alias;
-
-				// Check if the key exists in this object (could be a ->load() ->set() ->store() workflow)
-				if( property_exists($this, $key))
-				{
-					// Fetch the value from the post (if any) and overwrite the object value if it exists
-					if( $eav->eavattribute_type == 'text' )
-						$value = JRequest::getVar($key, null, 'post','string', JREQUEST_ALLOWHTML );
-					else
-						$value = JRequest::getVar($key, null, 'post');
-					if($value === null)
-					{
-						// If not, use the object value
-						$value = $this->$key;
-					}
-						
-					unset($this->$key);
-						
-					// Store it into the array for eav values
-					$custom_fields[] = array('eav' => $eav, 'value' => $value);
-				}
-				// It wasn't in the object, but is it in the post? (new value)
-				else
-				{
-					if( $id === null || $post_id == $id ) // read post only if the post variables belong to this entity
-					{
-						// Fetch the value from the post (if any)
-						$value = JRequest::getVar($key, null, 'post');
-					}
-					else
-					{
-						$value = null;
-					}
-
-					if($value !== null)
-					{
-						// Store it into the array for eav values
-						$custom_fields[] = array('eav' => $eav, 'value' => $value);
-					}
-				}
-			}
-		}
-
+		
 		// Is this a mirrored table (see decription at the beginning of this file)
+		// Get is eavs first, and then override them with values from the request
 		if(strlen($this->_linked_table) && $this->_linked_table_key)
 		{
 			// Copy the custom field value to this table
@@ -149,18 +102,66 @@ class TiendaTableEav extends TiendaTable
 
 						// Store it into the array for eav values
 						if( $value !== null )
-						$custom_fields[] = array('eav' => $eav, 'value' => $value);
+						$custom_fields[$key] = array('eav' => $eav, 'value' => $value);
 					}
 					else
 					{
 						$value = $this->$key;
 						unset($this->$key);
 						// Store it into the array for eav values
-						$custom_fields[] = array('eav' => $eav, 'value' => $value);
+						$custom_fields[$key] = array('eav' => $eav, 'value' => $value);
 					}
 				}
 			}
 
+		}
+
+		// If there are Custom Fields in this object
+		if(count($eavs))
+		{
+			foreach($eavs as $eav)
+			{
+				$key = $eav->eavattribute_alias;
+
+				// Check if the key exists in this object (could be a ->load() ->set() ->store() workflow)
+				if( property_exists($this, $key))
+				{
+					// Fetch the value from the post (if any) and overwrite the object value if it exists
+					if( $eav->eavattribute_type == 'text' )
+						$value = JRequest::getVar($key, null, 'post','string', JREQUEST_ALLOWHTML );
+					else
+						$value = JRequest::getVar($key, null, 'post');
+					if($value === null)
+					{
+						// If not, use the object value
+						$value = $this->$key;
+					}
+						
+					unset($this->$key);
+						
+					// Store it into the array for eav values
+					$custom_fields[$key] = array('eav' => $eav, 'value' => $value);
+				}
+				// It wasn't in the object, but is it in the post? (new value)
+				else
+				{
+					if( $id === null || $post_id == $id ) // read post only if the post variables belong to this entity
+					{
+						// Fetch the value from the post (if any)
+						$value = JRequest::getVar($key, null, 'post');
+					}
+					else
+					{
+						$value = null;
+					}
+
+					if($value !== null)
+					{
+						// Store it into the array for eav values
+						$custom_fields[$key] = array('eav' => $eav, 'value' => $value);
+					}
+				}
+			}
 		}
 
 		if ( $return = parent::store( $updateNulls ))
