@@ -1422,7 +1422,8 @@
 					<tbody>					
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_( 'Show Address Name Field' ); ?>
+								<?php echo JText::_( 'Show Address Name Field' ); ?><br />
+                <small><?php echo JText::_( 'COM_TIENDA_CONFIG_SHOW_ADDRESS_TITLE_NOTE' );?></small>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address_name', '3'), 'show_field_address_name');?>
