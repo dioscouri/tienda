@@ -1422,6 +1422,20 @@
 					<tbody>					
 						<tr>
 			            	<th style="width: 25%;">
+								<?php echo JText::_( 'Show Address Name Field' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address_name', '3'), 'show_field_address_name');?>
+							</td>
+                            <th>
+                               	<?php echo JText::_( 'Validate Address Name Field' ); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address_name', '3'), 'validate_field_address_name');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
 								<?php echo JText::_( 'Show Title Field' ); ?>
 							</th>
 							<td style="width: 150px;">

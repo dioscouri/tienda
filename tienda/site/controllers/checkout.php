@@ -2694,6 +2694,7 @@ class TiendaControllerCheckout extends TiendaController
         // save userinfo
 	 		  JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
   			$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+        $userinfo->load( array('user_id' => $user_id ) );
         $userinfo->user_id = $user_id;
         $userinfo->first_name = @$values['billing_input_first_name'];
         $userinfo->last_name = @$values['billing_input_last_name'];

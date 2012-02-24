@@ -75,7 +75,7 @@ class TiendaTableAddresses extends TiendaTable
 	function check()
 	{
 		$config = TiendaConfig::getInstance();
-
+		
 		if(!$this->addresstype_id)
 		{
 			$this->addresstype_id = '1';
@@ -91,76 +91,54 @@ class TiendaTableAddresses extends TiendaTable
 				return false;
 			}
 		}
-		if (empty($this->address_name) && ( ($config->get('validate_field_title', '3') == '3' || $config->get('validate_field_title', '3') == $address_type )) )
+		Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
+		$elements  = TiendaHelperAddresses::getAddressElementsData( $address_type );
+		
+		if (empty($this->address_name) && $elements['address_name'][1] )
 		{
 			$this->setError( JText::_("Please include an Address Title".$address_type) );
 			return false;
 		}
-		if (empty($this->first_name) && ( ($config->get('validate_field_name', '3') == '3' || $config->get('validate_field_name', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("First Name Required") );
-			return false;
-		}
-		if (empty($this->middle_name) && ( ($config->get('validate_field_middle', '3') == '3' || $config->get('validate_field_middle', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Middle Name Required") );
-			return false;
-		}
-		if (empty($this->last_name) && ( ($config->get('validate_field_last', '3') == '3' || $config->get('validate_field_last', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Last Name Required") );
-			return false;
-		}
-		if (empty($this->address_1) && ( ($config->get('validate_field_address1', '3') == '3' || $config->get('validate_field_address1', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("At Least One Address Line is Required") );
-			return false;
-		}
-		if (empty($this->address_2) && ( ($config->get('validate_field_address2', '3') == '3' || $config->get('validate_field_address2', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Second Address Line is Required") );
-			return false;
-		}
-		if (empty($this->company) && ( ($config->get('validate_field_company', '3') == '3' || $config->get('validate_field_company', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Company Required") );
-			return false;
-		}
-
-		if (empty($this->tax_number) && ( ($config->get('validate_field_tax_number', '3') == '3' || $config->get('validate_field_tax_number', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Company Tax Number Required") );
-			return false;
-		}
-
-		if (empty($this->city) && ( ($config->get('validate_field_city', '3') == '3' || $config->get('validate_field_city', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("City Required") );
-			return false;
-		}
-		if (empty($this->postal_code) && ( ($config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type )) )
-		{
-			$this->setError( JText::_("Postal Code Required") );
-			return false;
-		}
 		
-		if( empty( $this->country_id ) )
+		$address_checks = array( 
+												array( 'first_name' ,'name', "First Name Required" ),
+												array( 'middle_name' ,'middle', "Middle Name Required" ),
+												array( 'last_name', 'last', "Last Name Required" ),
+												array( 'address_1', 'address1', "At Least One Address Line is Required" ),
+												array( 'address_2' ,'address2', "Second Address Line is Required" ),
+												array( 'company', 'company', "Company Required" ),
+												array( 'tax_number', 'tax_number', "Company Tax Number Required" ),
+												array( 'city', 'city', "City Required" ),
+												array( 'postal_code', 'zip', "Postal Code Required" ),
+												array( 'phone_1', 'phone', "Phone Required" )
+													);
+	for( $i = 0, $c = count( $address_checks ); $i < $c; $i++ )
+	{
+		$current = $address_checks[$i];
+		if( empty( $this->$current[0] ) && $elements[ $current[1] ][1] )
 		{
-			if ( ($config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type ) )
-			{
-				$this->setError( JText::_("Country Required") );
-				return false;
-			}
-			else
-			{
-				$this->country_id = 9999;
-			}
+			$this->setError( JText::_($current[2]) );
+			return false;
 		}
+	}
+
+	if( empty( $this->country_id ) )
+	{
+		if ( $elements['country'][1] )
+		{
+			$this->setError( JText::_("Country Required") );
+			return false;
+		}
+		else
+		{
+			$this->country_id = 9999;
+		}
+	}
 
 		$countryA = explode(',', trim($config->get('ignored_countries', '83,188,190')));
 		if ( empty( $this->zone_id ) && !in_array( $this->country_id, $countryA ) )
 		{
-			if( ( ( $config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type ) ) )
+			if( $elements['zone'][1] )
 			{
 				$this->setError( JText::_("Zone Required") );
 				return false;				
@@ -169,12 +147,6 @@ class TiendaTableAddresses extends TiendaTable
 			{
 				$this->zone_id = 9999;					
 			}
-		}
-		
-		if (empty($this->phone_1) && ( ( $config->get('validate_field_phone', '3') == '3' ) || ( $config->get('validate_field_phone', '3') == $address_type ) ) )
-		{
-			$this->setError( JText::_("Phone Required") );
-			return false;
 		}
 		return true;
 	}

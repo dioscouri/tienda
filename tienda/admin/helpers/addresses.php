@@ -25,60 +25,20 @@ class TiendaHelperAddresses extends TiendaHelperBase
 	static function getAddressElementsData( $address_type )
 	{
 		$config = TiendaConfig::getInstance();
+		$address_fields = array( 'address_name', 'title', 'name', 'middle',
+															'last', 'address1', 'address2', 'country', 'city',
+															'zip', 'zone', 'phone', 'company', 'tax_number' );
 		$elements = array();
-		$elements['address_name'] = array( 
-				$config->get('show_field_title', '3') == '3' || $config->get('show_field_title', '3') == $address_type,
-		 		$config->get('validate_field_title', '3') == '3' || $config->get('validate_field_title', '3') == $address_type
-																			);
-		$elements['first_name'] = array( 
-				$config->get('show_field_name', '3') == '3' || $config->get('show_field_name', '3') == $address_type,
-		 		$config->get('validate_field_name', '3') == '3' || $config->get('validate_field_name', '3') == $address_type
-																			);
-	
-		$elements['middle_name'] = array( 
-				$config->get('show_field_middle', '3') == '3' || $config->get('show_field_middle', '3') == $address_type,
-		 		$config->get('validate_field_middle', '3') == '3' || $config->get('validate_field_middle', '3') == $address_type
-																			);
-		$elements['last_name'] = array( 
-				$config->get('show_field_last', '3') == '3' || $config->get('show_field_last', '3') == $address_type,
-		 		$config->get('validate_field_last', '3') == '3' || $config->get('validate_field_last', '3') == $address_type
-																			);
-		$elements['address1'] = array( 
-				$config->get('show_field_address1', '3') == '3' || $config->get('show_field_address1', '3') == $address_type,
-		 		$config->get('validate_field_address1', '3') == '3' || $config->get('validate_field_address1', '3') == $address_type
-																			);
-		$elements['address2'] = array( 
-				$config->get('show_field_address2', '3') == '3' || $config->get('show_field_address2', '3') == $address_type,
-		 		$config->get('validate_field_address2', '3') == '3' || $config->get('validate_field_address2', '3') == $address_type
-																			);
-		$elements['country'] = array( 
-				$config->get('show_field_country', '3') == '3' || $config->get('show_field_country', '3') == $address_type,
-		 		$config->get('validate_field_country', '3') == '3' || $config->get('validate_field_country', '3') == $address_type
-																			);
-		$elements['city'] = array( 
-				$config->get('show_field_city', '3') == '3' || $config->get('show_field_city', '3') == $address_type,
-		 		$config->get('validate_field_city', '3') == '3' || $config->get('validate_field_city', '3') == $address_type
-																			);
-		$elements['zip'] = array( 
-				$config->get('show_field_zip', '3') == '3' || $config->get('show_field_zip', '3') == $address_type,
-		 		$config->get('validate_field_zip', '3') == '3' || $config->get('validate_field_zip', '3') == $address_type
-																			);
-		$elements['zone'] = array( 
-				$config->get('show_field_zone', '3') == '3' || $config->get('show_field_zone', '3') == $address_type,
-		 		$config->get('validate_field_zone', '3') == '3' || $config->get('validate_field_zone', '3') == $address_type
-																			);
-		$elements['phone'] = array( 
-				$config->get('show_field_phone', '3') == '3' || $config->get('show_field_phone', '3') == $address_type,
-		 		$config->get('validate_field_phone', '3') == '3' || $config->get('validate_field_phone', '3') == $address_type
-																			);
-		$elements['company'] = array( 
-				$config->get('show_field_company', '3') == '3' || $config->get('show_field_company', '3') == $address_type,
-		 		$config->get('validate_field_company', '3') == '3' || $config->get('validate_field_company', '3') == $address_type
-																			);
-		$elements['tax_number'] = array( 
-				$config->get('show_field_tax_number', '3') == '3' || $config->get('show_field_tax_number', '3') == $address_type,
-		 		$config->get('validate_field_tax_number', '3') == '3' || $config->get('validate_field_tax_number', '3') == $address_type
-																			);
+		for( $i = 0, $c = count( $address_fields ); $i < $c; $i++ )
+		{
+			$f = $address_fields[$i];
+			$show = $config->get('show_field_'.$f, '3');
+			$valid = $config->get('validate_field_'.$f, '3');
+			$elements[ $f ] = array(
+																$show == '3' || $show == $address_type,
+																$valid == '3' || $valid == $address_type,		
+															);
+		}
 		return $elements;
 	}
 }

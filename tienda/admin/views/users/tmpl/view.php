@@ -1,16 +1,16 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $form = @$this->form; ?>
-<?php $row = @$this->row; ?>
-<?php $carts = @$this->carts; ?>
-<?php $procoms=@$this->procoms; ?>
-<?php $orders=@$this->orders; ?>
-<?php $subs=@$this->subs; ?>
-<?php $surrounding = @$this->surrounding; ?>
-<?php $total_cart=@$this->total_cart; ?>
-
-<?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
-<?php Tienda::load( 'TiendaHelperUser', 'helpers.user' ); ?>
+<?php defined('_JEXEC') or die('Restricted access');
+JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+$form = @$this->form;
+$row = @$this->row;
+$carts = @$this->carts;
+$procoms=@$this->procoms;
+$orders=@$this->orders;
+$subs=@$this->subs;
+$surrounding = @$this->surrounding;
+$total_cart=@$this->total_cart;
+Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>

@@ -512,6 +512,7 @@ class TiendaConfig extends JObject
 	var $ask_question_modal					= '1';
 
 	//address management
+	var $show_field_address_name					= '3';
 	var $show_field_title					= '3';
 	var $show_field_name					= '3';
 	var $show_field_middle					= '3';
@@ -527,6 +528,7 @@ class TiendaConfig extends JObject
 	var $show_field_phone					= '3';
 
 	// address validation management
+	var $validate_field_address_name				= '3';
 	var $validate_field_title				= '3';
 	var $validate_field_name				= '3';
 	var $validate_field_middle				= '0';

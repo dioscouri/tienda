@@ -55,6 +55,7 @@ class TiendaControllerManufacturers extends TiendaController
 	 */
 	function save()
 	{
+		$error = false;
 		$task = JRequest::getVar('task');
 		$model 	= $this->getModel( $this->get('suffix') );
 
@@ -123,7 +124,6 @@ class TiendaControllerManufacturers extends TiendaController
 		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
-
 
 	/**
 	 * Adds a thumbnail image to item

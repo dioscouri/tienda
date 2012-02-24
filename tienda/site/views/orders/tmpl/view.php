@@ -11,6 +11,10 @@
 	$histories = @$row->orderhistory ? @$row->orderhistory : array();
 	Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+	
+	Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
+	$helperMan = new TiendaHelperManufacturer();
+	$helperMan->calculateStatsOrder( $items );
 ?>
 
 <?php if (JRequest::getVar('task') == 'print') : ?>

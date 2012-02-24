@@ -6,6 +6,7 @@
 	Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
 	$config = TiendaConfig::getInstance();
 	$one_page =$config->get('one_page_checkout', 0);
+	$guest_enabled = $config->get('guest_checkout_enabled', 0);
 	
 	switch($this->form_prefix)
 	{
@@ -23,8 +24,16 @@
 ?>
 
 <div id="<?php echo $this->form_prefix; ?>addressForm" class="address_form">
-	<?php if( !$this->guest && $elements['address_name'][0] ) { ?>
-
+	<?php
+		if( $elements['address_name'][0] ) 
+		{
+			if( $this->guest && !$one_page )
+			{
+				echo '<input value="'.JText::_( 'Temporary' ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+			}
+			else
+			{
+				?>
 	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'Address Title' ); ?>
 		<span class="block"><?php echo JText::_( 'Address Title For Your Reference' ); ?>
 		<?php if( !$this->guest && $elements['address_name'][1] ): ?>
@@ -33,17 +42,32 @@
 		</span>
 	</label>
 	<input name="<?php echo $this->form_prefix; ?>address_name" id="<?php echo $this->form_prefix; ?>address_name" class="inputbox" type="text" maxlength="250" />&nbsp;
+				<?php
+			}
+		}
+		?>
 
-	<?php }
-	else
-		echo '<input value="'.JText::_( 'Temporary' ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
-	?>
 	<div class="floatbox">
-	<?php if( $elements['first_name'][0] ) :?>
+	<?php if( $elements['title'][0] ) :?>
+		<div>
+			<label class="key" for="<?php echo $this->form_prefix; ?>title">
+				<?php 
+					echo JText::_( 'Title' );
+					if( $elements['title'][1] ):
+						echo TiendaGrid::required();
+					endif;
+				?>
+			</label>
+			<input name="<?php echo $this->form_prefix; ?>title"	id="<?php echo $this->form_prefix; ?>title" class="inputbox"	type="text" maxlength="250" />
+		</div>
+		<?php endif; ?>
+
+
+	<?php if( $elements['name'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>first_name">
 				<?php echo JText::_( 'First name' ); ?>
-				<?php if( $elements['first_name'][1] ): ?>
+				<?php if( $elements['name'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>			
 			</label>
@@ -51,11 +75,11 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if( $elements['middle_name'][0] ) :?>
+		<?php if( $elements['middle'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>middle_name">
 				<?php echo JText::_( 'Middle name' ); ?> 
-				<?php if( $elements['middle_name'][1] ): ?>
+				<?php if( $elements['middle'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
 			</label>
@@ -64,11 +88,11 @@
 		<?php endif; ?>
 	</div>
 
-	<?php if( $elements['last_name'][0] ) :?>
+	<?php if( $elements['last'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>last_name">
 			<?php echo JText::_( 'Last name' ); ?>
-			<?php if( $elements['last_name'][1] ): ?>
+			<?php if( $elements['last'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
 		</label>

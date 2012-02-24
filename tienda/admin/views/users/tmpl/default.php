@@ -1,10 +1,11 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $state = @$this->state; ?>
-<?php $form = @$this->form; ?>
-<?php $items = @$this->items; ?>
-<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
-<?php $display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); ?>
+<?php defined('_JEXEC') or die('Restricted access');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	$state = @$this->state;
+	$form = @$this->form;
+	$items = @$this->items;
+	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+	$display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); 
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -131,7 +132,7 @@
 					<?php echo $item->username; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo $item->email; ?>
+					<?php echo @$item->email; ?>
 				</td>
                 <td style="text-align: center;">
                     <?php echo $item->group_name; ?>
