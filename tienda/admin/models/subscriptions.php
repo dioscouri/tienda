@@ -186,6 +186,11 @@ class TiendaModelSubscriptions extends TiendaModelBase
         if( empty( $list ) ){
             return array();
         }
+        $db = JFactory::getDbo();
+        Tienda::load( 'TiendaQuery', 'library.query' );
+        $q = new TiendaQuery();
+        $q->select( 'order_hash' );
+        $q->from( '#__tienda_orders' );
         
         Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
         foreach ($list as $item)
@@ -193,6 +198,10 @@ class TiendaModelSubscriptions extends TiendaModelBase
             $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
             $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );
+            $q->_where = null;
+            $q->where( 'order_id = '.$item->order_id );
+            $db->setQuery( $q );
+            $item->order_hash = $db->loadResult();
         }
         
         return $list;
@@ -205,7 +214,16 @@ class TiendaModelSubscriptions extends TiendaModelBase
         {
             $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
-            $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );            
+            $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );           
+
+            Tienda::load( 'TiendaQuery', 'library.query' );
+            $q = new TiendaQuery();
+            $q->select( 'order_hash' );
+            $q->from( '#__tienda_orders' );
+            $q->where( 'order_id = '.$item->order_id );
+            $db = JFactory::getDbo();
+            $db->setQuery( $q );
+            $item->order_hash = $db->loadResult();
         }
         
         $dispatcher = JDispatcher::getInstance();

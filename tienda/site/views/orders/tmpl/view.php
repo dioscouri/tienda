@@ -29,7 +29,10 @@
 <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
 <div style="float: right;">
 <?php
-	$url = JRoute::_( "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id );
+	if( $row->user_id > 0 )
+		$url = JRoute::_( "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id );
+	else
+		$url = JRoute::_( "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id ).'&h='.$row->order_hash;
 	$text = JText::_( "Print Invoice" );
 	echo TiendaUrl::popup( $url, $text );
 ?>

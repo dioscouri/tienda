@@ -116,6 +116,18 @@ class TiendaTableOrders extends TiendaTable
 		return true;
 	}
 
+  function store()
+  {
+    // add hash to orders which are placed by guests
+    if( !$this->order_id && !strlen( $this->order_hash ) && $this->user_id < Tienda::getGuestIdStart() )
+    {
+      Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+      $this->order_hash = TiendaHelperOrder::getHashInvoice( $this );
+    }
+
+    return parent::store();
+  }
+
     /**
      * Saves the order to the db table
      * 

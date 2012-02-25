@@ -17,16 +17,7 @@ class TiendaControllerOrders extends TiendaController
 	 * constructor
 	 */
 	function __construct()
-	{
-        if (empty(JFactory::getUser()->id))
-        {
-            $url = JRoute::_( "index.php?option=com_tienda&view=orders" );
-            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
-            $redirect = JRoute::_( $redirect, false );
-            JFactory::getApplication()->redirect( $redirect );
-            return;
-        }
-		
+	{		
 		parent::__construct();
 		$this->set('suffix', 'orders');
 		$this->registerTask( 'print', 'printOrder' );
@@ -84,6 +75,15 @@ class TiendaControllerOrders extends TiendaController
      */
     function display()
     {
+        if (empty(JFactory::getUser()->id))
+        {
+            $url = JRoute::_( "index.php?option=com_tienda&view=orders" );
+            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
+            $redirect = JRoute::_( $redirect, false );
+            JFactory::getApplication()->redirect( $redirect );
+            return;
+        }
+
         $model  = $this->getModel( $this->get('suffix') );
         $this-> _setModelState();
         $config = TiendaConfig::getInstance();
@@ -117,15 +117,31 @@ class TiendaControllerOrders extends TiendaController
         $row =& $model->getItem();
         $row->order_ships = $order->order_ships;
     	                
-        $user_id = JFactory::getUser()->id;
-        if (empty($user_id) || $user_id != $row->user_id)
+        if( $row->user_id > 0 ) // orders of users with joomla accounts
         {
-        	$this->messagetype  = 'notice';
-        	$this->message      = JText::_( "Invalid Order" );
+	        $user_id = JFactory::getUser()->id;
+	        if (empty($user_id) || $user_id != $row->user_id)
+	        {
+	        	$this->messagetype  = 'notice';
+	        	$this->message      = JText::_( "Invalid Order" );
+	            $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+	            $redirect = JRoute::_( $redirect, false );
+	            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+	            return;
+	        }
+        }
+        else // guest user orders
+        {
+        	$hash = JRequest::getString( 'h', '' );
+					if( $row->order_hash != $hash )
+					{
+	        	$this->messagetype  = 'notice';
+	        	$this->message      = JText::_( "Invalid Order" );
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
+					}
         }
         
         Tienda::load( 'TiendaUrl', 'library.url' );
@@ -181,14 +197,30 @@ class TiendaControllerOrders extends TiendaController
         $orderitems = $order->getItems();
         
         $user_id = JFactory::getUser()->id;
-        if (empty($user_id) || $user_id != $row->user_id)
+        if( $row->user_id > 0 ) // orders of users with joomla accounts
         {
-            $this->messagetype  = 'notice';
-            $this->message      = JText::_( "Invalid Order");
+	        if (empty($user_id) || $user_id != $row->user_id)
+	        {
+	            $this->messagetype  = 'notice';
+	            $this->message      = JText::_( "Invalid Order");
+	            $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+	            $redirect = JRoute::_( $redirect, false );
+	            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+	            return;
+	        }
+        }
+        else // guest user orders
+        {
+        	$hash = JRequest::getString( 'h', '' );
+					if( $row->order_hash != $hash )
+					{
+	        	$this->messagetype  = 'notice';
+	        	$this->message      = JText::_( "Invalid Order" );
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
+					}
         }
         Tienda::load( 'TiendaUrl', 'library.url' );
         

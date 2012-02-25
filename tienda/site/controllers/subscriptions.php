@@ -16,13 +16,23 @@ class TiendaControllerSubscriptions extends TiendaController
 	 * constructor
 	 */
 	function __construct() 
-	{   parent::__construct();
+	{ 
+		if (empty(JFactory::getUser()->id))
+		{
+			$url = JRoute::_( "index.php?option=com_tienda&view=orders" );
+			$redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
+			$redirect = JRoute::_( $redirect, false );
+			JFactory::getApplication()->redirect( $redirect );
+			return;
+		}
+		
+		parent::__construct();
 		$this->set('suffix', 'subscriptions');
-        $this->registerTask( 'subscription_enabled.enable', 'boolean' );
-        $this->registerTask( 'subscription_enabled.disable', 'boolean' );
-        $this->registerTask( 'lifetime_enabled.enable', 'boolean' );
-        $this->registerTask( 'lifetime_enabled.disable', 'boolean' );
-        $this->registerTask( 'update_subscription', 'update' );
+    $this->registerTask( 'subscription_enabled.enable', 'boolean' );
+    $this->registerTask( 'subscription_enabled.disable', 'boolean' );
+    $this->registerTask( 'lifetime_enabled.enable', 'boolean' );
+    $this->registerTask( 'lifetime_enabled.disable', 'boolean' );
+    $this->registerTask( 'update_subscription', 'update' );
 	}
 	
 	/**

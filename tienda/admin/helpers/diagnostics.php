@@ -464,6 +464,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     {
 			return $this->redirect( JText::_('DIAGNOSTIC dropZoneIdOrderInfo FAILED') .' :: '. $this->getError(), 'error' );    
     }
+    
+    if( !$this->checkOrderHashField() )
+    {
+			return $this->redirect( JText::_('DIAGNOSTIC checkOrderHashField FAILED') .' :: '. $this->getError(), 'error' );    
+    }
 	}
 
 	/**
@@ -2813,16 +2818,17 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		$fields[] = "user_name";
 		$definitions["user_name"] = "VARCHAR(255) NOT NULL";
 
-		if ($this->insertTableFields( $table, $fields, $definitions )):
-		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
-		$config->load( array( 'config_name'=>'checkProductCommentsUserName') );
-		$config->config_name = 'checkProductCommentsUserName';
-		$config->value = '1';
-		$config->save();
-		return true;
-		endif;
+		if ($this->insertTableFields( $table, $fields, $definitions ))
+ 		{
+      // Update config to say this has been done already
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+  		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		$config->load( array( 'config_name'=>'checkProductCommentsUserName') );
+  		$config->config_name = 'checkProductCommentsUserName';
+  		$config->value = '1';
+  		$config->save();
+  		return true;
+		}
 		return false;
 	}
 
@@ -3581,6 +3587,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 
 		$fields = array();
 		$fields[] = "zone_id";
+    
     $table = '#__tienda_orderinfo';
 		if ($this->dropTableFields( $table, $fields ) )
 		{
@@ -3594,7 +3601,37 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			return true;
 		}
 		return false;
-		
+	}
+
+	/**
+	 * Adds a new field for order has into Orders table
+	 * 
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function checkOrderHashField()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderHashField', '0')) return true;
+
+		$fields = array();
+		$fields[] = "order_hash";
+    $definitions = array();
+    $definitions['order_hash'] = 'VARCHAR( 40 ) NOT NULL , ADD INDEX (  `order_hash` )';
+    
+    $table = '#__tienda_orders';
+		if ($this->insertTableFields( $table, $fields, $definitions ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkOrderHashField') );
+			$config->config_name = 'checkOrderHashField';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
 	}
 }
 

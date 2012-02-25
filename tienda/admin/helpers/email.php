@@ -273,7 +273,10 @@ class TiendaHelperEmail extends TiendaHelperBase
 	                $user = JUser::getInstance($data->user_id);
 	                $user_name = $user->name;
             		}
-                $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
+            		if( $data->user_id < Tienda::getGuestIdStart() )
+            			$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id.'&h='.$data->order_hash;
+            		else
+            			$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
                 $link = JRoute::_( $link, false );
                 $link = "<a href='{$link}'>" . $link . "</a>";
                                 
@@ -331,7 +334,12 @@ class TiendaHelperEmail extends TiendaHelperBase
 	                $user = JUser::getInstance($data->user_id);
 	                $user_name = $user->name;
             		}
-                $link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
+            		if( $data->user_id < Tienda::getGuestIdStart() )
+            			$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id.'&h='.$data->order_hash;
+            		else
+            			$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
+            			
+            		JFactory::getApplication()->enqueueMessage( $link );
                 $link = JRoute::_( $link, false );
                 $link = "<a href='{$link}'>" . $link . "</a>";
                 
