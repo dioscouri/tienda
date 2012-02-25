@@ -149,7 +149,7 @@
                 	if( $guest )
                 		echo JText::_( 'COM_TIENDA_GUEST' );
                 	else
-                		echo $row->user_name;
+                		echo $row->user_name." [".$row->user_id."]";
                 	?>
                 </td>
             </tr>
