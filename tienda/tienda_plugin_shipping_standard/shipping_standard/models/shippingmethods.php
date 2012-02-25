@@ -76,6 +76,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
     	if ( strlen($filter_subtotal ))
         {
             $query->where('tbl.subtotal_minimum <= '. $filter_subtotal);
+            $query->where('( ( tbl.subtotal_maximum = -1 ) OR ( ( tbl.subtotal_maximum <> -1 ) AND ( tbl.subtotal_maximum >= '.$filter_subtotal.' ) ) )');
         }
     }
 
@@ -101,7 +102,6 @@ class TiendaModelShippingMethods extends TiendaModelBase
         if( empty( $list ) ){
         	return array();
         }
-        
         foreach($list as $item)
         {
             $item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.@$_GET['id'].'&shippingTask=view&sid='.$item->shipping_method_id;

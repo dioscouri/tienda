@@ -1115,6 +1115,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingmethods` (
   `shipping_method_enabled` tinyint(1) NOT NULL,
   `shipping_method_type` tinyint(1) NOT NULL COMMENT '0=weight-based, 1=per-item, 2=per-order',
   `subtotal_minimum` decimal(12,5) NOT NULL COMMENT 'Minimum Subtotal required for shipping method to be active',
+  `subtotal_maximum` decimal(12,5) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`shipping_method_id`) ,
   KEY `fk_taxclasses_shippingmethods` (`tax_class_id`)
 ) 

@@ -76,6 +76,7 @@ class TiendaModelShippingMethods extends TiendaModelBase
         if ( strlen($filter_subtotal ))
         {
             $query->where('tbl.subtotal_minimum <= '.$filter_subtotal);
+            $query->where('( ( tbl.subtotal_maximum = -1 ) OR ( ( tbl.subtotal_maximum <> -1 ) AND ( tbl.subtotal_maximum >= '.$filter_subtotal.' ) ) )');
         }
     }
 

@@ -1350,6 +1350,16 @@ class TiendaControllerCheckout extends TiendaController
 
 		$rates = array();
 
+    // add taxes, even thought they aren't displayed 
+    $order_tax = 0;    
+    $orderitems = $this->_order->getItems();
+		foreach( $orderitems as $item )
+		{
+      $this->_order->order_subtotal += $item->orderitem_tax;
+      $order_tax += $item->orderitem_tax;
+		}
+    
+
 		if ($plugins)
 		{
 			foreach ($plugins as $plugin)
@@ -1382,6 +1392,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
+    $this->_order->order_subtotal -= $order_tax;
 		return $rates;
 	}
 

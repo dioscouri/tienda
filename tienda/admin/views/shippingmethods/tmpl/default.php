@@ -110,11 +110,11 @@
                         }
                         if ($item->subtotal_minimum > '0')
                         {
-                        	?>
-                        	<br/>
-                        	<?php echo "<b>".JText::_( "Minimum Order Required" )."</b> "; ?>:
-                            <?php echo TiendaHelperBase::currency( $item->subtotal_minimum ); ?>
-                            <?php	
+                        	echo "<br/><b>".JText::_( "Minimum Order Required" )."</b>: ".TiendaHelperBase::currency( $item->subtotal_minimum );
+                        }
+                        if( $item->subtotal_maximum > '-1' )
+                        {
+                        	echo "<br/><b>".JText::_( "COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX" )."</b>: ".TiendaHelperBase::currency( $item->subtotal_maximum );
                         }
                         ?>
                     </div>

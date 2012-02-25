@@ -469,6 +469,11 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     {
 			return $this->redirect( JText::_('DIAGNOSTIC checkOrderHashField FAILED') .' :: '. $this->getError(), 'error' );    
     }
+
+    if( !$this->checkSubtotalMax() )
+    {
+			return $this->redirect( JText::_('DIAGNOSTIC checkSubtotalMax FAILED') .' :: '. $this->getError(), 'error' );    
+    }
 	}
 
 	/**
@@ -3604,7 +3609,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	}
 
 	/**
-	 * Adds a new field for order has into Orders table
+	 * Adds a new field for order hash into Orders table
 	 * 
 	 * @version 0.8.3
 	 * @return boolean
@@ -3633,5 +3638,37 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
+
+	/**
+	 * Adds a new field for shipping methods into Shipping Methods table
+	 * 
+	 * @version 0.8.3
+	 * @return boolean
+	 */
+	function checkSubtotalMax()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkSubtotalMax', '0')) return true;
+
+		$fields = array();
+		$fields[] = "subtotal_maximum";
+    $definitions = array();
+    $definitions['subtotal_maximum'] = 'DECIMAL( 12, 5 ) NOT NULL DEFAULT \'-1\'';
+    
+    $table = '#__tienda_shippingmethods';
+		if ($this->insertTableFields( $table, $fields, $definitions ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkSubtotalMax') );
+			$config->config_name = 'checkSubtotalMax';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
 }
 

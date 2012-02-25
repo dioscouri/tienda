@@ -61,6 +61,16 @@ JFilterOutput::objectHTMLSafe( $row );
                 <input type="text" name="subtotal_minimum" id="subtotal_minimum" value="<?php echo @$row->subtotal_minimum; ?>" size="10" />
             </td>
         </tr>
+        <tr>
+            <td width="100" align="right" class="key">
+                <label for="subtotal_maximum">
+                <?php echo JText::_( 'COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX' ); ?>:
+                </label>
+            </td>
+            <td>
+                <input type="text" name="subtotal_maximum" id="subtotal_maximum" value="<?php echo @$row->subtotal_maximum; ?>" size="10" />
+            </td>
+        </tr>
 	</table>
     </div>
     
