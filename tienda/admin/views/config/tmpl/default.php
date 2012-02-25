@@ -938,7 +938,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( 'Process Content Plugins on Product Short Description' ); ?>
+                                <?php echo JText::_( 'COM_TIENDA_CONFIG_PROCESS_CONTENT_PLUGIN_PRODUCT_DESC' ); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'content_plugins_product_desc', 'class="inputbox"', $this->row->get('content_plugins_product_desc', '0') ); ?>
@@ -1305,7 +1305,7 @@
 						</tr>
 						<tr>
             	<th style="width: 25%;">
-								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_NUMBER' ); ?>
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_PASSWORD_REQUIRE_DIGIT' ); ?>
 							</th>
 							<td style="width: 150px;">
                 <?php echo JHTML::_('select.booleanlist', 'password_req_num', 'class="inputbox"', $this->row->get('password_req_num', '1') ); ?>
