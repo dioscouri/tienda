@@ -5,7 +5,7 @@ JHTML::_( 'script', 'tienda_inventory_check.js', 'media/com_tienda/js/' );
 $state = @$this->state;
 $item = @$this->row;
 
-$product_image = TiendaHelperProduct::getImage($item->product_id, '', '', 'full', false, false, array(), true );
+$product_image = TiendaHelperProduct::getImage($item->product_id, '', '', 'full', true, false, array(), true );
 $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name, 'thumb', false, false, array(), true );
 ?>  
 
