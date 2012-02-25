@@ -5,12 +5,13 @@ $state = @$this->state;
 $items = @$this->items;
 $citems = @$this->citems;
 Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-
-$product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1');
+$config = TiendaConfig::getInstance();
+$product_compare = $config->get('enable_product_compare', '1');
+$plugins_short_desc = $config->get( 'content_plugins_product_desc', '0' );
 ?>
 <div id="tienda" class="products default">
 
-    <?php if ($this->level > 1 && TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
+    <?php if ($this->level > 1 && $config->get('display_tienda_pathway')) : ?>
         <div id='tienda_breadcrumb'>
             <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
         </div>
@@ -30,7 +31,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
     <div id="tienda_categories">    
         <div id='tienda_category_header'>
             <?php if (isset($state->category_name)) : ?>
-                <?php if (!empty($this->cat->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
+                <?php if (!empty($this->cat->category_full_image) || $config->get('use_default_category_image', '1')) : ?>
                     <img src="<?php echo TiendaHelperCategory::getImage($this->cat->category_id, '', '', '', true); ?>" alt="" class="category image" />
                 <?php endif; ?>
             <?php endif; ?>
@@ -46,7 +47,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
                 <?php
                 $i = 0;
-                $subcategories_per_line = TiendaConfig::getInstance()->get('subcategories_per_line', '5'); 
+                $subcategories_per_line = $config->get('subcategories_per_line', '5'); 
                 foreach ($citems as $citem) : 
                 ?>
                     <div class="subcategory">
@@ -57,7 +58,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
                             </a>
                         </div>
                         <?php endif; ?>
-                        <?php if (!empty($citem->category_full_image) || TiendaConfig::getInstance()->get('use_default_category_image', '1')) : ?>
+                        <?php if (!empty($citem->category_full_image) || $config->get('use_default_category_image', '1')) : ?>
                             <div class="subcategory_thumb">
                                 <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
                                 <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
@@ -85,7 +86,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
     </div>
     <?php if (!empty($items)) : ?>
     
-     <?php if(TiendaConfig::getInstance()->get('display_sort_by', '1')) :?>
+     <?php if($config->get('display_sort_by', '1')) :?>
       <form action="<?php echo JRoute::_("&limitstart=".@$state->limitstart )?>" method="post" name="adminForm_sort" enctype="multipart/form-data">        
      	<div class="tienda_sortby" style="margin: 20px 0; text-align:right;">
     	<?php Tienda::load('TiendaSelect', 'libray.select');?>
@@ -153,7 +154,7 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
                             </a>
                         </span>
                     </div>
-                     <?php if ( TiendaConfig::getInstance()->get('product_review_enable', '0') ) { ?>
+                     <?php if ( $config->get('product_review_enable', '0') ) { ?>
                     <div class="product_rating">
                        <?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>
                        <?php if (!empty($item->product_comments)) : ?>
@@ -182,18 +183,23 @@ $product_compare = TiendaConfig::getInstance()->get('enable_product_compare', '1
                     <?php
                         if (!empty($item->product_description_short))
                         {
-                            echo $item->product_description_short;
+                        	$product_desc = $item->product_description_short;
                         }
                             else
                         {                  
                             $str = wordwrap($item->product_description, 200, '`|+');
                             $wrap_pos = strpos($str, '`|+');
                             if ($wrap_pos !== false) {
-                                echo substr($str, 0, $wrap_pos).'...';
+                                $product_desc = substr($str, 0, $wrap_pos).'...';
                             } else {
-                                echo $str;
+                                $product_desc = $str;
                             }    
                         }
+                        
+                        if( $plugins_short_desc )
+                        	echo JHTML::_('content.prepare', $product_desc);
+                        else
+                           echo $product_desc;
                     ?>
                     </div>
                     <div class="reset"></div>

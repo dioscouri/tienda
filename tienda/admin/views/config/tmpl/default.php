@@ -936,6 +936,17 @@
                                 </a>                                
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 25%;">
+                                <?php echo JText::_( 'Process Content Plugins on Product Short Description' ); ?>
+                            </th>
+                            <td>
+                                <?php echo JHTML::_('select.booleanlist', 'content_plugins_product_desc', 'class="inputbox"', $this->row->get('content_plugins_product_desc', '0') ); ?>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
                         
 						
 					</tbody>
