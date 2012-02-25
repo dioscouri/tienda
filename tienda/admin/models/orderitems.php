@@ -34,16 +34,34 @@ class TiendaModelOrderItems extends TiendaModelEav
         $filter_subscriptions_datetype = $this->getState('filter_subscriptions_datetype');
         $filter_orderstates = $this->getState('filter_orderstates');
         $filter_paymentstatus = $this->getState('filter_paymentstatus') ;
-
+				$filter_id_from = $this->getState( 'filter_id_from' );
+				$filter_id_to = $this->getState( 'filter_id_to' );
+        
         if ($filter)
        	{
-			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+					$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+		
+					$where = array();
+					$where[] = 'LOWER(tbl.orderitem_id) LIKE '.$key;
+					$where[] = 'LOWER(tbl.orderitem_name) LIKE '.$key;
+					
+					$query->where('('.implode(' OR ', $where).')');
+       	}
 
-			$where = array();
-			$where[] = 'LOWER(tbl.orderitem_id) LIKE '.$key;
-			$where[] = 'LOWER(tbl.orderitem_name) LIKE '.$key;
-			
-			$query->where('('.implode(' OR ', $where).')');
+				if ( strlen( $filter_id_from ) )
+				{
+					if ( strlen( $filter_id_to ) )
+					{
+						$query->where( 'tbl.orderitem_id >= ' . ( int ) $filter_id_from );
+					}
+					else
+					{
+						$query->where( 'tbl.orderitem_id = ' . ( int ) $filter_id_from );
+					}
+				}
+       	else if( strlen( $filter_id_to ) )
+       	{
+						$query->where( 'tbl.orderitem_id <= ' . ( int ) $filter_id_to );
        	}
 
        	if ($filter_productname)
