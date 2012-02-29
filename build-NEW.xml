@@ -60,7 +60,7 @@
 
     <target name="build" depends="update_localhost" />
 
-    <target name="build_core_package" description="builds a package of just the core component without any other extensions">
+    <target name="build_core_package" depends="init" description="builds a package of just the core component without any other extensions">
     	
     	<!-- INSTALLATION MANIFEST -->
     	<copy todir="${cfg.buildDir}/core/files" preservelastmodified="true" overwrite="true">
@@ -125,7 +125,7 @@
     	
     	
     	<!-- CREATE THE DISTRIBUTABLE ZIP FILE -->
-    	<zip destfile="${cfg.buildDir}/core/${cfg.name}_core.zip" basedir="${cfg.buildDir}/core/files" />
+    	<zip destfile="${cfg.buildDir}/core/${cfg.name}${cfg.versionprefix}${ver.no}${ver.pre}_core.zip" basedir="${cfg.buildDir}/core/files" />
     </target>
 	
 	
@@ -670,12 +670,21 @@
         <mkdir dir="${cfg.buildDir}/components" />
     	<mkdir dir="${cfg.buildDir}/languages" />
     	<mkdir dir="${cfg.buildDir}/apps" />
+    	<mkdir dir="${cfg.buildDir}/plugins_aux" />
+    	<input
+    		message="Please enter version you are building - #.#.#:"
+    		addproperty="ver.no"
+    	/>
+    	<input
+    		message="Please enter the PRE-RELEASE letter - if any:"
+    		addproperty="ver.pre"
+    	/>
     </target>
 
 	<target name="build_packages" depends="clean, init, build_component, build_modules, build_plugins_standard, build_plugins_aux, build_languages, build_apps, build_core_package" />
 
     <target name="build_component" depends="init" description="packages the final component file">
-        <zip destfile="${cfg.buildDir}/components/${cfg.name}.zip" basedir="${cfg.comDir}" />
+        <zip destfile="${cfg.buildDir}/components/${cfg.name}${cfg.versionprefix}${ver.no}${ver.pre}.zip" basedir="${cfg.comDir}" />
     </target>
 
 	<target name="build_plugins_standard" depends="init" description="packages standard plugins">
@@ -728,6 +737,8 @@
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_csvimporter.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_csvimporter" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_installsampledata.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_installsampledata" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_redshopmigration.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_redshopmigration" />
+		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}tool_xmlimporter.zip" basedir="${cfg.comDir}/${cfg.plgPrefix}tool_xmlimporter" />
+			
 	</target>
 	
     <target name="build_plugins_aux" depends="init" description="packages aux plugins">
@@ -747,6 +758,7 @@
     	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}genericexport.zip" basedir="${cfg.aux}/${cfg.plgPrefix}genericexport" />
     	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}idevaffiliate.zip" basedir="${cfg.aux}/${cfg.plgPrefix}idevaffiliate" />
     	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}k2.zip" basedir="${cfg.aux}/${cfg.plgPrefix}k2" />
+    	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}change_layout.zip" basedir="${cfg.aux}/${cfg.plgPrefix}change_layout" />
     	
     	<!--Payment Plugins-->
     	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}payment_alphauserpoints.zip" basedir="${cfg.aux}/${cfg.plgPrefix}payment_alphauserpoints" />
@@ -780,6 +792,7 @@
     	<zip destfile="${cfg.buildDir}/plugins_aux/${cfg.plgPrefix}tool_genericimporter.zip" basedir="${cfg.aux}/${cfg.plgPrefix}tool_genericimporter" />
   		
     </target>
+	
 
     <target name="build_modules" depends="init" description="packages any modules">
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}admin_submenu.zip" basedir="${cfg.comDir}/${cfg.modPrefix}admin_submenu" />
@@ -1057,6 +1070,7 @@
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.aux}/tienda_plugin_requiretaxnumber/languages" />
 	    	</copy>
+			
 		
 			<!--Payment Plugins-->
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
@@ -1180,6 +1194,7 @@
         <delete dir="${cfg.buildDir}/components" />
         <delete dir="${cfg.buildDir}/languages" />
     	<delete dir="${cfg.buildDir}/core" />
+    	<delete dir="${cfg.buildDir}/plugins_aux" />
     </target>
 
     <target name="rsync" description="attemps to synchronize files on a remote server with files from working directory">
