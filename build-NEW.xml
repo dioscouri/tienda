@@ -760,7 +760,6 @@
     </target>
 
     <target name="build_languages" depends="init" description="packages any languages">
-    	<zip destfile="${cfg.buildDir}/languages/$cfg.langPrefix}AAA-LanguageTranslationBase.zip" basedir="${cfg.langDir}/AAA-LanguageTranslationBase" />
         <zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}cs-CZ.zip" basedir="${cfg.langDir}/cs-CZ" />
     	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}da-DK.zip" basedir="${cfg.langDir}/da-DK" />
     	<zip destfile="${cfg.buildDir}/languages/${cfg.langPrefix}de-DE.zip" basedir="${cfg.langDir}/de-DE" />
@@ -826,6 +825,9 @@
 	    	</copy>
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/mod_tienda_products/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/mod_tienda_quickicon/languages" />
 	    	</copy>
 
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/site" preservelastmodified="true" overwrite="true">
@@ -905,8 +907,12 @@
 		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_offline/languages" />
 	    	</copy>
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_paypal/languages" />
+	    	</copy>
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/tienda_plugin_payment_paypalpro/languages" />
 	    	</copy>
+
 		
 			<!--Report Plugins-->
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
@@ -1113,6 +1119,11 @@
 		        		<fileset dir="${cfg.aux}/tienda_plugin_k2/languages" />
 	    	</copy>
 				<!--NOTE: 3rd party integrations for payments are in the 'payment plugins' area above-->
+		
+			<!--include the readme instructions and the manifest.xml file -->
+			<copy todir="${cfg.buildDir}/BaseLanguagePackage/" preservelastmodified="true" overwrite="true">
+		        		<fileset dir="${cfg.langDir}/BaseLanguagePackage" />
+	    	</copy>
 			
 			<!--Now create a zip file of all of the baseLangaugePackage for uploading-->
 			<zip destfile="${cfg.buildDir}/BaseLanguagePackage.zip" basedir="${cfg.buildDir}/BaseLanguagePackage/" />

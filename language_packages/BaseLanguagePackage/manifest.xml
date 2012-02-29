@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" client="both" type="language" method="upgrade">
+    <name>BASE Tienda</name>
+    <tag>xx-XX</tag>
+    <version>0.9.0 Community</version>
+    <creationDate>March 2012</creationDate>
+    <author>Dioscouri Staff</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>www.dioscouri.com</authorUrl>
+    <copyright>2012 Dioscouri.com</copyright>
+    <copyrightHolder>Dioscouri.com</copyrightHolder>
+    <license>GNU General Public License v2</license>
+    <description>LANGUAGE language package for Tienda</description>
+
+	<site>
+		<files folder="site">
+			<filename>xx-XX.com_tienda.ini</filename>
+			<filename>xx-XX.mod_tienda_breadcrumbs.ini</filename>
+			<filename>xx-XX.mod_tienda_cart.ini</filename>
+			<filename>xx-XX.mod_tienda_categories.ini</filename>
+			<filename>xx-XX.com_tienda_compared_products.ini</filename>
+			<filename>xx-XX.mod_tienda_currency.ini</filename>
+			<filename>xx-XX.com_tienda_layered_navigation.ini</filename>
+			<filename>xx-XX.mod_tienda_manufacturers.ini</filename>
+			<filename>xx-XX.mod_tienda_my_orderitems.ini</filename>
+			<filename>xx-XX.mod_tienda_my_orders.ini</filename>
+			<filename>xx-XX.mod_tienda_popular_products.ini</filename>
+			<filename>xx-XX.mod_tienda_pricefilters.ini</filename>
+			<filename>xx-XX.mod_tienda_products.ini</filename>
+			<filename>xx-XX.mod_tienda_quickicon.ini</filename>
+			<filename>xx-XX.mod_tienda_recentorders.ini</filename>
+			<filename>xx-XX.mod_tienda_salestatistics.ini</filename>
+			<filename>xx-XX.mod_tienda_search.ini</filename>
+			<filename>xx-XX.mod_tienda_useraddress.ini</filename>
+		</files>
+	</site>
+
+    <!-- Application/administrator -->
+    <administration>
+        <files folder="admin">
+            <filename>xx-XX.com_tienda.ini</filename>
+            <filename>xx-XX.mod_tienda_admin_submenu.ini</filename>
+            <filename>xx-XX.mod_tienda_quickicon.ini</filename>
+			<filename>xx-XX.mod_tienda_search_admin.ini</filename>
+			<filename>xx-XX.plg_content_tienda_content_product.ini</filename>
+			<filename>xx-XX.plg_editors-xtd_tienda_.ini</filename>
+			<filename>xx-XX.plg_k2_tienda.ini</filename>
+            <filename>xx-XX.plg_search_tienda.ini</filename>
+            <filename>xx-XX.plg_system_tienda.ini</filename>
+            <filename>xx-XX.plg_system_tienda_cpanelredirect.ini</filename>
+			<filename>xx-XX.plg_system_tienda_subscriptions.ini</filename>
+			<filename>xx-XX.plg_tienda_ambrapoints.ini</filename>
+			<filename>xx-XX.plg_tienda_award_alphauserpoints.ini</filename>
+            <filename>xx-XX.plg_tienda_bug_report.ini</filename>
+            <filename>xx-XX.plg_tienda_charts_fusioncharts.ini</filename>
+			<filename>xx-XX.plg_tienda_checkoutexample.ini</filename>
+			<filename>xx-XX.plg_tienda_genericexporter.ini</filename>
+			<filename>xx-XX.plg_tienda_googleanalytics.ini</filename>
+			<filename>xx-XX.plg_tienda_googleproducts.ini</filename>
+			<filename>xx-XX.plg_tienda_idevaffiliate.ini</filename>
+			<filename>xx-XX.plg_tienda_notaxeu.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_2checkout.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_alphauserpoints.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_ambrapoints.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_authorizedotnet.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_ccoffline.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_cmcic_v30.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_ctriv.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_firstdata.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_googlecheckout.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_moneris.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_moneybookers.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_offline.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_pagseguro.ini</filename>
+            <filename>xx-XX.plg_tienda_payment_paypal.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_paypalpro.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_payson.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_sagepay.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_sagepayments.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_sips.ini</filename>
+			<filename>xx-XX.plg_tienda_payment_virtualmerchant.ini</filename>
+			<filename>xx-XX.plg_tienda_product_customfields.ini</filename>
+			<filename>xx-XX.plg_tienda_report_abandoned_cart.ini</filename>
+            <filename>xx-XX.plg_tienda_report_bestsellers.ini</filename>
+			<filename>xx-XX.plg_tienda_report_cart.ini</filename>
+			<filename>xx-XX.plg_tienda_report_dailysales.ini</filename>
+			<filename>xx-XX.plg_tienda_report_highestvolumeandspender.ini</filename>
+			<filename>xx-XX.plg_tienda_report_inventory_levels.ini</filename>
+			<filename>xx-XX.plg_tienda_report_lowstock.ini</filename>
+			<filename>xx-XX.plg_tienda_report_mostdownloadedfiles.ini</filename>
+			<filename>xx-XX.plg_tienda_report_ordered_products.ini</filename>
+			<filename>xx-XX.plg_tienda_report_prepayments.ini</filename>
+			<filename>xx-XX.plg_tienda_report_sales.ini</filename>
+			<filename>xx-XX.plg_tienda_report_salesbymanufacturer.ini</filename>
+			<filename>xx-XX.plg_tienda_report_subscriptions.ini</filename>
+			<filename>xx-XX.plg_tienda_requirephonenumber.ini</filename>
+			<filename>xx-XX.plg_tienda_requiretaxnumber.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_canada.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_dhl.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_edeliver.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_fedex.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_standard.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_unex.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_ups.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_usps.ini</filename>
+			<filename>xx-XX.plg_tienda_shipping_weightbased.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_csvimporter.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_genericimporter.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_installsampledata.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_redshopmigration.ini</filename>
+            <filename>xx-XX.plg_tienda_tool_virtuemartmigration.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_xcartmigration.ini</filename>
+			<filename>xx-XX.plg_tienda_tool_xmlimporter.ini</filename>
+			<filename>xx-XX.plg_user_tienda.ini</filename>
+			<filename>xx-XX.plg_user_usersubnum_.ini</filename>
+        </files>
+    </administration>
+
+</install>
