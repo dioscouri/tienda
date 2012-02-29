@@ -69,5 +69,20 @@
         <folder>templates</folder>
 		<file>index.html</file>
 	</media>
+	
+	<!-- Modules -->	
+	<modules>
+		<module module="mod_tienda_admin_submenu" position="submenu" publish="true" client="administrator"/>	
+	</modules>
+
+
+	<!-- Plugins -->
+	<plugins>
+		<plugin plugin="tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
+		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
+		<plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
+        <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
+        <plugin plugin="tienda_plugin_shipping_standard" publish="true" group="tienda" element="shipping_standard" />		
+	</plugins>
 
 </install>

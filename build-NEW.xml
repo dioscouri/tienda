@@ -8,7 +8,7 @@
  @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 -->
 <project name="tienda-community" default="build" basedir=".">
-    <description>Ant Build File for Joomla</description>
+    <description>Ant Build File for Joomla Tienda</description>
 
     <!-- load variables from config file -->
     <property name="cfg.configFile" location="antconfig.txt" />
@@ -61,32 +61,75 @@
     <target name="build" depends="update_localhost" />
 
     <target name="build_core_package" description="builds a package of just the core component without any other extensions">
+    	
     	<!-- INSTALLATION MANIFEST -->
     	<copy todir="${cfg.buildDir}/core/files" preservelastmodified="true" overwrite="true">
-            <fileset file="${cfg.aux}/manifest.xml" />
+            <fileset file="${cfg.aux}/core_version_files/manifest.xml" />
         </copy>
-        <!-- MAIN COMPONENT -->
+        
+    	<!-- MAIN COMPONENT -->
         <copy todir="${cfg.buildDir}/core/files/admin" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/admin" />
         </copy>
         <copy todir="${cfg.buildDir}/core/files/site" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/site" />
         </copy>
+    	
         <!-- MEDIA FILES -->
         <copy todir="${cfg.buildDir}/core/files/media" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/media" />
         </copy>
+    	
         <!-- LANGUAGE FILES -->
         <copy todir="${cfg.buildDir}/core/files/languages" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/languages" />
         </copy>
+    	
     	<!-- INSTALL FILES -->
         <copy todir="${cfg.buildDir}/core/files/install" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/install" />
         </copy>
+    	
+    	<!-- Core Modules -->
+    	<!-- ADMIN SUBMENU -->
+        <copy todir="${cfg.buildDir}/core/files/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/mod_tienda_admin_submenu" />
+        </copy>
+
+    	
+    	<!-- Core Plugins -->
+    	<!-- BUG REPORT -->
+        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_bug_report" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/tienda_plugin_bug_report" />
+        </copy>
+    	<!-- CHARTS PLUGINS -->
+        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_charts_fusioncharts" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
+        </copy>
+    	
+    	
+    	<!-- BASIC PAYMENT GATEWAYS: OFFLINE & PAYPAL STD -->
+    	<!-- OFFLINE -->
+        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_payment_offline" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_offline" />
+        </copy>
+    	<!-- PAYPAL -->
+        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_payment_paypal" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginPaymentDir}_paypal" />
+        </copy>
+    	<!-- SHIPPING PLUGINS -->
+    	<!-- STANDARD -->
+        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_shipping_standard" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.pluginShippingDir}_standard" />
+        </copy>
+    	
+    	
+    	<!-- CREATE THE DISTRIBUTABLE ZIP FILE -->
     	<zip destfile="${cfg.buildDir}/core/${cfg.name}_core.zip" basedir="${cfg.buildDir}/core/files" />
     </target>
 	
+	
+	<!-- ************ UPDATE LOCALHOST *********************** -->
     <target name="update_localhost" description="attemps to update files on localhost server with files from working directory">
         <condition property="destdir" value="${tmpdir}" else="${cfg.localhostRoot}" >
             <available file="${tmpdir}" type="dir" />
@@ -112,7 +155,8 @@
         <copy todir="${destdir}/language/en-GB" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.siteLangDir}" />
         </copy>
-    <!-- MODULES -->
+    	
+    	<!-- MODULES -->
         <!-- ADMIN SUBMENU -->
         <copy todir="${destdir}/administrator/modules/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/mod_tienda_admin_submenu" />
@@ -240,7 +284,7 @@
             <fileset dir="${cfg.comDir}/mod_tienda_layered_navigation/languages" />
         </copy>
 
-    <!-- PLUGINS -->
+    	<!-- PLUGINS -->
         <!-- AMBRA POINTS -->
          <copy todir="${destdir}/plugins/tienda" preservelastmodified="true" overwrite="true">
              <fileset dir="${cfg.aux}/tienda_plugin_ambrapoints" />
@@ -299,7 +343,7 @@
             <fileset dir="${cfg.aux}/tienda_plugin_product_customfields/languages" />
         </copy>
 
-    <!-- PAYMENT PLUGINS -->
+    	<!-- PAYMENT PLUGINS -->
     	<!-- 2CHECKOUT -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginPaymentDir}_2checkout" />
@@ -408,7 +452,7 @@
     	    <fileset dir="${cfg.aux}/tienda_plugin_payment_flo2cash" />
     	</copy>
 
-    <!-- REPORT PLUGINS -->
+    	<!-- REPORT PLUGINS -->
     	<!-- BEST SELLERS -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginReportDir}_bestsellers" />
@@ -473,7 +517,7 @@
             <fileset dir="${cfg.pluginReportDir}_prepayments/languages" />
         </copy>    	
     	
-    <!-- SEARCH -->
+    	<!-- SEARCH -->
         <copy todir="${destdir}/plugins/search" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_search" />
         </copy>
@@ -481,7 +525,7 @@
             <fileset dir="${cfg.comDir}/tienda_plugin_search/languages" />
         </copy>
 
-    <!-- SHIPPING PLUGINS -->
+    	<!-- SHIPPING PLUGINS -->
     	<!-- STANDARD -->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginShippingDir}_standard" />
@@ -518,7 +562,7 @@
             <fileset dir="${cfg.aux}/tienda_plugin_shipping_edeliver/languages" />
         </copy>
 
-    <!-- SYSTEM PLUGINS -->
+    	<!-- SYSTEM PLUGINS -->
     	<!-- OVERRIDES -->
         <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/tienda_plugin_system" />
@@ -541,7 +585,7 @@
             <fileset dir="${cfg.aux}/tienda_plugin_cpanelredirect/languages" />
         </copy>
 
-    <!-- TOOL PLUGINS -->
+    	<!-- TOOL PLUGINS -->
     	<!-- VIRTUEMART MIGRATION-->
         <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.pluginToolDir}_virtuemartmigration" />
@@ -596,7 +640,7 @@
             <fileset dir="${cfg.comDir}/tienda_plugin_customfields" />
         </copy>
     	
-    <!-- AUXILIARY EXTENSIONS -->
+    	<!-- AUXILIARY EXTENSIONS -->
     	<!-- POINTS AWARDING PLUGINS -->
     	<!-- ALPHAUSERPOINTS -->
     	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
@@ -613,7 +657,7 @@
     		<fileset dir="${cfg.aux}/tienda_plugin_award_ambrapoints/languages" />
     	</copy>
     	
-    <!-- APPS -->
+    	<!-- APPS -->
     	 <!-- Example: <copy todir="${destdir}" preservelastmodified="true" overwrite="true">
            <fileset dir="${cfg.apps}/app" />
         </copy>-->
