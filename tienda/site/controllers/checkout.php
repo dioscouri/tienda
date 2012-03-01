@@ -3480,11 +3480,19 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			$user_id = JFactory::getUser()->id;
 			$user_email = $checker->getBasicInfo( $user_id )->email;
-			if( $user_id && $user_email != $email )
-			{
+			if( $user_id && $user_id > Tienda::getGuestIdStart() )
+      {
+        if( $user_email != $email )
+  			{               
+  				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
+  				$response['error'] = '1';
+  			} 
+      }
+      else
+      {
 				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
-				$response['error'] = '1';
-			}
+				$response['error'] = '1';      
+      } 
 		}
 
 		if ($response['error'] == '0')
