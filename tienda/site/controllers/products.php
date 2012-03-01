@@ -1109,7 +1109,7 @@ class TiendaControllerProducts extends TiendaController
 		$results = $dispatcher->trigger( "onBeforeAddToCart", array(
 					&$item, $values
 				) );
-		
+				
 		for ( $i = 0; $i < count( $results ); $i++ )
 		{
 			$result = $results[$i];
@@ -1138,7 +1138,7 @@ class TiendaControllerProducts extends TiendaController
 		$dispatcher->trigger( 'onAfterAddToCart', array(
 					$cartitem, $values
 				) );
-		
+				
 		// get the 'success' redirect url
 		switch ( TiendaConfig::getInstance( )->get( 'addtocartaction', 'redirect' ) )
 		{
@@ -1174,8 +1174,7 @@ class TiendaControllerProducts extends TiendaController
 					{
 						$returnUrl = base64_encode( $return_url );
 					}
-				}
-				
+				}				
 				// if a base64_encoded url is present as redirect, redirect there,
 				// otherwise redirect to the cart
 				$itemid = $router->findItemid( array(

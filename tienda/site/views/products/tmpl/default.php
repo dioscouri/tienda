@@ -8,6 +8,9 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 $config = TiendaConfig::getInstance();
 $product_compare = $config->get('enable_product_compare', '1');
 $plugins_short_desc = $config->get( 'content_plugins_product_desc', '0' );
+
+$js_strings = array( 'Adding Product for Comparison', 'Removing Product' );
+TiendaHelperBase::addJsTranslationStrings( $js_strings );
 ?>
 <div id="tienda" class="products default">
 
@@ -131,7 +134,7 @@ $plugins_short_desc = $config->get( 'content_plugins_product_desc', '0' );
                     	endif;
                     	if( $product_compare && $item->product_parameters->get('show_product_compare', '1')):?>
                     <div id="tiendaProductCompare">
-	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true, '<?php echo JText::_('Adding Product for Comparison');?>', '<?php echo JText::_('Removing Product');?>');">
+	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true);">
 	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
 	               	 		<?php echo JText::_('Compare')?>
 	               	 		<span class="arrow" >»</span>  

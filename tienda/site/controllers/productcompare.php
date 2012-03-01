@@ -447,4 +447,18 @@ class TiendaControllerProductCompare extends TiendaController
 		$cartObj->subtotal = $subtotal;
 		return $cartObj;
 	}
+
+	/**
+	 * Verifies the fields in a submitted form.
+	 * Then adds the item to the users cart 
+	 * 
+	 * @return unknown_type
+	 */
+	function addToCart()
+	{
+		Tienda::load( 'TiendaControllerProducts', 'controllers.products', array( 'site' => 'site', 'type'=>'components', 'ext'=>'com_tienda' ) );
+		$controller = new TiendaControllerProducts();
+		$controller->addToCart();
+		$controller->redirect();
+	}
 }

@@ -440,6 +440,10 @@ class TiendaFile extends JObject
 			$name = explode('.', $this->proper_name);
 			$this->physicalname = $this->cleanTitle( $name[0] ).'.'.$this->getExtension();
 		}
+
+		$lower_filename = TiendaConfig::getInstance()->get( 'lower_filename', '1'  );		
+		if( $lower_filename )
+			$this->physicalname = strtolower( $this->physicalname );
 		
 		return $this->physicalname;
 	}
@@ -453,7 +457,7 @@ class TiendaFile extends JObject
 	function cleanTitle( $title, $length='64' ) 
 	{
 		// trim whitespace
-		$trim_title = strtolower( trim( str_replace( " ", "", $title ) ) );
+		$trim_title = trim( str_replace( " ", "", $title ) );
 		
 		// strip all html tags
 		$wc = strip_tags($trim_title);

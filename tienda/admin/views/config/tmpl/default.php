@@ -1344,6 +1344,17 @@
               <td>
               </td>
 						</tr>
+						<tr>
+            	<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_CONFIG_LOWER_FILENAME' ); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo JHTML::_('select.booleanlist', 'lower_filename', 'class="inputbox"', $this->row->get('lower_filename', '1') ); ?>
+							</td>
+              <td>
+                <?php echo JText::_( 'COM_TIENDA_CONFIG_LOWER_FILENAME_DESC' ); ?>
+              </td>
+						</tr>
 					</tbody>
 					</table>
 					<?php

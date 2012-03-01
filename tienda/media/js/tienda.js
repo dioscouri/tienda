@@ -536,11 +536,11 @@ function tiendaClearInput( element, value )
     }
 }
 
-function tiendaAddProductToCompare(id, container, obj, doModal, msgAdd, msgRemove)
+function tiendaAddProductToCompare(id, container, obj, doModal)
 {	
 	var add = 0;
-	var msg = msgRemove;
-	if(obj.checked == true) { add = 1; msg = msgAdd;}			
+	var msg = Joomla.JText._( "Removing Product" );
+	if(obj.checked == true) { add = 1; msg = Joomla.JText._( "Adding Product for Comparison" );}
 	if (doModal == true) { tiendaNewModal(msg); }
 	var url = 'index.php?option=com_tienda&view=productcompare&task=addProductToCompare&format=raw&product_id='+id+'&add='+add;
 	 

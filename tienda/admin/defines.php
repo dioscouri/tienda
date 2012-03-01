@@ -602,6 +602,7 @@ class TiendaConfig extends JObject
   var $password_req_spec = '1';
   var $password_php_validate = '1';
   var $content_plugins_product_desc = '0';
+  var $lower_filename = '1';
 	
 	/**
 	 * constructor
