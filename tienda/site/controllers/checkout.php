@@ -2415,6 +2415,8 @@ class TiendaControllerCheckout extends TiendaController
 		$html = "";
 		$order =& $this->_order;
 		$order->load( array('order_id'=>$order_id) );
+    if( !empty( $order->order_hash ) )
+      $order_link .= '&h='.$order->order_hash;
 
 		if ( (!empty($order_id)) && (float) $order->order_total == (float)'0.00' )
 		{

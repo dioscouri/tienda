@@ -115,7 +115,7 @@ class TiendaArticle
 		 * Handle display events
 		 */
 			$article->event = new stdClass();
-			$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
+			$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $article, &$params, $limitstart));
 			$article->event->afterDisplayTitle = trim(implode("\n", $results));
 	
 			$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
