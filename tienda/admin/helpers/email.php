@@ -339,7 +339,6 @@ class TiendaHelperEmail extends TiendaHelperBase
             		else
             			$link = JURI::root()."index.php?option=com_tienda&view=orders&task=view&id=".$data->order_id;
             			
-            		JFactory::getApplication()->enqueueMessage( $link );
                 $link = JRoute::_( $link, false );
                 $link = "<a href='{$link}'>" . $link . "</a>";
                 
