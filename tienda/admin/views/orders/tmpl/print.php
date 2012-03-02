@@ -164,7 +164,7 @@
                 			if( $config->get( 'obfuscate_guest_email', 0 ) ) // obfuscate guest email
                 				echo '*****';
                 			else
-	                			echo $row->email;
+	                			echo $row->userinfo_email;
                 		}
                 		else
 											echo $row->email;
