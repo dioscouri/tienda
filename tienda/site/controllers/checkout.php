@@ -3484,13 +3484,13 @@ class TiendaControllerCheckout extends TiendaController
       {
         if( $user_email != $email )
   			{               
-  				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
+  				$message .= $helper->validationMessage( JText::_( "COM_TIENDA_EMAIL_ALREADY_REGISTERED"), 'fail' );
   				$response['error'] = '1';
   			} 
       }
       else
       {
-				$message .= $helper->validationMessage( "Email Already Registered", 'fail' );
+				$message .= $helper->validationMessage( JText::_( "COM_TIENDA_EMAIL_ALREADY_REGISTERED"), 'fail' );
 				$response['error'] = '1';      
       } 
 		}
