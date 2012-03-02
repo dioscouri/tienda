@@ -122,7 +122,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 			// Display the onepage checkout view
 			
-			$opc_layout = TiendaConfig::getInstance()->get('one_page_checkout_layout');			
+			$opc_layout = TiendaConfig::getInstance()->get('one_page_checkout_layout', 'onepage-opc' );			
 			JRequest::setVar('layout', $opc_layout);
 			$view = $this->getView( 'checkout', 'html' );
 
