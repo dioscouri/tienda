@@ -115,7 +115,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 	 */
 	function _today()
 	{		
-		return $this->_getDateDb( TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() ), '', true, false, false );;
+		return $this->_getDateDb( TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() ), '', true, false, false );
 	}
 
 	/**
@@ -141,13 +141,13 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 	function _lastSeven()
 	{
 		$database = JFactory::getDBO();
-		$startdate=TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
+		$enddate=TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
 
 		$query = new TiendaQuery();
-		$query = " SELECT DATE_SUB('".$startdate."', INTERVAL 7 DAY) ";
+		$query = " SELECT DATE_SUB('".$enddate."', INTERVAL 7 DAY) ";
 		$database->setQuery( $query );
-		$enddate = $database->loadResult();
-		$return = $this->_getDateDb( $startdate, $enddate, true );
+		$startdate = $database->loadResult();
+		$return = $this->_getDateDb( $startdate, $enddate,  true, true );
 		
 		$days = ($return->days_in_business > 0) ? $return->days_in_business : 1;
 		$return->average_daily = $return->num / $days;
@@ -163,8 +163,10 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$database = JFactory::getDBO();
 
 		$date = JFactory::getDate(); //get local data
-		$today = TiendaHelperBase::getCorrectBeginDayTime( $date );
-		$startdate=TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
+		$today = $date->toFormat( "%Y-%m-%d %H:%M:%S" );
+		$start_month = $date->toFormat( "%Y-%m-01 00:00:00" );
+		$startdate = TiendaHelperBase::getCorrectBeginDayTime( $start_month );
+		
 		$return = $this->_getDateDb( $startdate, $today, true );
 
 		$days = ($return->days_in_business > 0) ? $return->days_in_business : 1;
@@ -186,9 +188,10 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$enddate = TiendaHelperBase::getCorrectBeginDayTime( $last_day );
 
 		$query = new TiendaQuery();
-		$query = " SELECT DATE_SUB('".$enddate."', INTERVAL 1 MONTH) ";
+		$query = " SELECT DATE_SUB('".$last_day."', INTERVAL 1 MONTH) ";
 		$database->setQuery( $query );
-		$startdate = $database->loadResult();
+		$first_day = $database->loadResult();				
+		$startdate = TiendaHelperBase::getCorrectBeginDayTime( $first_day );
 		$return = $this->_getDateDb( $startdate, $enddate, true, true );
 
 		$days = ($return->days_in_business > 0) ? $return->days_in_business : 1;
@@ -205,7 +208,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$database = JFactory::getDBO();
 
 		$date = JFactory::getDate(); //get local data
-		$today = TiendaHelperBase::getCorrectBeginDayTime( $date );
+		$today = $date->toFormat( "%Y-%m-%d %H:%M:%S" );
 		$start_year = $date->toFormat( "%Y-01-01 00:00:00" );
 		$startdate = TiendaHelperBase::getCorrectBeginDayTime( $start_year );
 
