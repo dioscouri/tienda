@@ -173,7 +173,7 @@ class TiendaHelperUser extends TiendaHelperBase
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get( 'new_usertype' );
-		if (!) { $newUsertype = 'Registered'; }
+		if (!$newUsertype) { $newUsertype = 'Registered'; }
 
 		// Bind the post array to the user object
 		if (!$user->bind( $details ))
