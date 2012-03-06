@@ -173,7 +173,7 @@ class TiendaHelperUser extends TiendaHelperBase
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get( 'new_usertype' );
-		if (!$newUsertype) { $newUsertype = 'Registered'; }
+		if (!) { $newUsertype = 'Registered'; }
 
 		// Bind the post array to the user object
 		if (!$user->bind( $details ))
@@ -190,7 +190,7 @@ class TiendaHelperUser extends TiendaHelperBase
 
 		// Set some initial user values
 		$user->set('id', 0);
-		$user->set('usertype', '');
+		$user->set('usertype', $newUsertype);
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 
 		$date =& JFactory::getDate();

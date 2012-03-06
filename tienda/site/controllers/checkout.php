@@ -2531,6 +2531,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['msg'] = '';
 		$response['error'] = '';
 		$response['anchor'] = '';
+    $config = TiendaConfig::getInstance();
 
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance();
@@ -2572,7 +2573,7 @@ class TiendaControllerCheckout extends TiendaController
 			return;
 		}
 		// fail if not checked terms & condition
-		if( TiendaConfig::getInstance()->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
+		if( $config->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
 		{
 			$response['msg'] = $helper->generateMessage(JText::_("Please Check the Terms & Conditions"));
 			$response['error'] = '1';
@@ -2613,7 +2614,9 @@ class TiendaControllerCheckout extends TiendaController
 		
     $user_id = -1;
 		$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
-		if (TiendaConfig::getInstance()->get('guest_checkout_enabled', '1') && !JFactory::getUser()->id ) // guest checkout
+    $create_account = !empty($submitted_values['_checked']['create_account']);
+    $guest_checkout = $config->get('guest_checkout_enabled', '1');
+		if ( !$create_account && $guest_checkout && !JFactory::getUser()->id ) // guest checkout
 		{
 			Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 
@@ -2669,7 +2672,8 @@ class TiendaControllerCheckout extends TiendaController
           }
         }
       }
-      else // user wants to register
+      else 
+      if( $create_account )// user wants to register
       {
         // create a new user from billing info
         $details = array(
@@ -2709,13 +2713,20 @@ class TiendaControllerCheckout extends TiendaController
   			$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
         $userinfo->load( array('user_id' => $user_id ) );
         $userinfo->user_id = $user_id;
-        $userinfo->first_name = @$values['billing_input_first_name'];
-        $userinfo->last_name = @$values['billing_input_last_name'];
-        $userinfo->company = @$values['billing_input_company'];
-        $userinfo->middle_name = @$values['billing_input_middle_name'];
-        $userinfo->phone_1 = @$values['billing_input_phone_1'];
+        $userinfo->first_name = @$submitted_values['billing_input_first_name'];
+        $userinfo->last_name = @$submitted_values['billing_input_last_name'];
+        $userinfo->company = @$submitted_values['billing_input_company'];
+        $userinfo->middle_name = @$submitted_values['billing_input_middle_name'];
+        $userinfo->phone_1 = @$submitted_values['billing_input_phone_1'];
   			$userinfo->email = $submitted_values['email_address'];
 	   		$userinfo->save();
+      }
+      else
+      {
+  			$response['msg'] = $helper->generateMessage( 'COM_TIENDA_CHECKOUT_USER_ACCOUNT_REQUIRED' );
+  			$response['error'] = '1';
+  			echo ( json_encode($response) );
+  			return false;      
       }
  			$this->setAddresses($submitted_values, true);    
 		}
