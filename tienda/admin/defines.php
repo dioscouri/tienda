@@ -452,7 +452,8 @@ class TiendaConfig extends JObject
 	var $weight_unit						= 'kg';
 	var $date_format                        = '%a, %d %b %Y, %I:%M%p';
 	var $use_default_category_image         = '1';
-	var $lightbox_width                     = '';
+	var $lightbox_width                     = '480';
+	var $lightbox_height                    = '480';
 	var $require_terms                      = '0';
 	var $article_terms                      = '';
 	var $order_number_prefix                = '';

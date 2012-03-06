@@ -89,15 +89,21 @@ class TiendaUrl {
 		  : $handler_string;
 
 		$lightbox_width = TiendaConfig::getInstance()->get('lightbox_width');
+		$lightbox_height = TiendaConfig::getInstance()->get('lightbox_height');
 		//filter non numeric character to avoid mootools error on modal
 		$lightbox_width = preg_replace ('/[^\d\s]/', '', $lightbox_width);
+		$lightbox_height = preg_replace ('/[^\d\s]/', '', $lightbox_height);
 		if(empty($options['width']) && !empty($lightbox_width))
 			$options['width'] = $lightbox_width;
 		  		
 		if(!empty($options['width']))
 		{
-			if (empty($options['height']))
-				$options['height'] = 480;	
+			if(empty($options['height']) && !empty($lightbox_height)){
+			$options['height'] = $lightbox_height;}
+			else if (empty($options['height'])){
+			$options['height'] = 480;}
+			
+			
 			
 			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";	
 		}			
