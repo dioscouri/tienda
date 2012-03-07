@@ -326,8 +326,6 @@ class TiendaViewDashboard extends TiendaViewBase
 	 */
 	function _lastSeven()
 	{
-
-
 		$database = JFactory::getDBO();
 		$base = new TiendaHelperBase();
 		$date = JFactory::getDate();
@@ -406,7 +404,6 @@ class TiendaViewDashboard extends TiendaViewBase
 		$year = gmdate('Y');
 		 
 		$base = new TiendaHelperBase();
-		$newyear = $base->local_to_GMT_data( "$year-01-01 00:00:00" );
 		$database = JFactory::getDBO();
 
 		$runningtotal = 0;
@@ -418,17 +415,13 @@ class TiendaViewDashboard extends TiendaViewBase
 		for ($curmonth = 1; $curmonth <= 12; $curmonth++)
 		{
 			$thismonth = $curmonth < 10 ? '0'.$curmonth : $curmonth;
-
-			$start_ts = $base->local_to_GMT_data( "$year-$thismonth-01 00:00:00" );
-			$database =& JFactory::getDBO();
+			$start_ts = $year."-".$thismonth."-01 00:00:00";
 			$database->setQuery("SELECT ADDDATE('".$start_ts."', INTERVAL 1 MONTH)");
-			$nextmonth = $database->loadResult();
-			$end_ts = $base->local_to_GMT_data( $nextmonth );
 
 			// grab all records
 			$model = JModel::getInstance( 'Orders', 'TiendaModel' );
-			$model->setState( 'filter_date_from', $start_ts );
-			$model->setState( 'filter_date_to', $end_ts );
+			$model->setState( 'filter_date_from', $base->local_to_GMT_data( $start_ts ) );
+			$model->setState( 'filter_date_to', $base->local_to_GMT_data( $database->loadResult().' 00:00:00' ) );
 			// set query for orderstate range
 			$ordersQuery = $model->getQuery();
 			$ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
