@@ -439,6 +439,8 @@ class TiendaTableOrders extends TiendaTable
     function calculateTaxTotals()
     {
         Tienda::load( "TiendaHelperTax", 'helpers.tax' );
+        $this->_taxrate_amounts = array();
+        $this->_taxclass_amounts = array();
         $items = &$this->getItems();
         $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
 				$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');
@@ -450,6 +452,7 @@ class TiendaTableOrders extends TiendaTable
 	          $item->orderitem_final_price += $item->orderitem_tax;
         }
 
+        
         foreach( @$taxes->tax_rate_rates as $key => $value )
         {
         	$applied_tax = $value->applied_tax;

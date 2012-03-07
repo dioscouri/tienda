@@ -2807,7 +2807,7 @@ class TiendaControllerCheckout extends TiendaController
 		$this->addCoupons($values);
 
 		$order->order_state_id = $this->initial_order_state;
-		$order->calculateTotals();
+    $order->calculateTotals();
 		$order->getShippingTotal();
 		$order->getInvoiceNumber();
 

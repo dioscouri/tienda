@@ -84,7 +84,7 @@ class TiendaControllerOrders extends TiendaController
 		$order->load( $model->getId() );
 		$orderitems = &$order->getItems();
 		$row = $model->getItem();
-
+		
 		// Get the shop country name
 		$row->shop_country_name = "";
 		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
