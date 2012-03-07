@@ -87,11 +87,11 @@ class TiendaControllerCategories extends TiendaController
 
         if ($error)
         {
-            $this->message = JText::_('Error') . " - " . $this->message;
+            $this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
         }
         else
         {
-            $this->message = JText::_('Items Ordered');
+            $this->message = JText::_('COM_TIENDA_ITEMS_ORDERED');
         }
 
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -149,7 +149,7 @@ class TiendaControllerCategories extends TiendaController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( 'COM_TIENDA_SAVED' );
 			if ($error)
 			{
 				$this->messagetype 	= 'notice';
@@ -162,7 +162,7 @@ class TiendaControllerCategories extends TiendaController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( 'COM_TIENDA_SAVE_FAILED' )." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";
@@ -236,11 +236,11 @@ class TiendaControllerCategories extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
-			$this->message = JText::_('Items Deleted');
+			$this->message = JText::_('COM_TIENDA_ITEMS_DELETED');
 		}
 
 		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );
@@ -342,7 +342,7 @@ class TiendaControllerCategories extends TiendaController
 				break;
 			default:
 				$this->messagetype  = 'notice';
-				$this->message      = JText::_( "Invalid Task" );
+				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -407,7 +407,7 @@ class TiendaControllerCategories extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		else
 		{
@@ -474,7 +474,7 @@ class TiendaControllerCategories extends TiendaController
 			
 		$redirect = JRoute::_( $redirect, false );
 
-		$this->setRedirect( $redirect, JText::_('Done'), 'notice' );
+		$this->setRedirect( $redirect, JText::_('COM_TIENDA_DONE'), 'notice' );
 		return;
 	}
 }

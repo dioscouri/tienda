@@ -29,7 +29,7 @@
             <table>
             <tr>
                 <td style="height: 20px;">
-                    <?php echo JText::_('USERNAME'); ?> <span class>*</span>
+                    <?php echo JText::_("COM_TIENDA_USERNAME"); ?> <span class>*</span>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />

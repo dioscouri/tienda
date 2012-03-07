@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'USERNAME' ); ?>:
+                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
                     </td>
                     <td>
                         <?php echo @$state->user; ?>

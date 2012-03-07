@@ -55,7 +55,7 @@
                         <?php echo JText::_( 'Skip First Row' ); ?>?:
                     </td>
                     <td>
-                    	<?php if(@$state->skip_first) echo JText::_('Yes'); else echo JText::_('No') ; ?>
+                    	<?php if(@$state->skip_first) echo JText::_('COM_TIENDA_YES'); else echo JText::_('COM_TIENDA_NO') ; ?>
                         <input type="hidden" name="skip_first" id="skip_first" value="<?php echo @$state->skip_first; ?>" />
                     </td>
                     <td>

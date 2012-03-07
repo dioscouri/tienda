@@ -16,7 +16,7 @@
                     <?php echo JText::_("Billing Address"); ?>
                 </th>                
                 <th style="width: 150px;">
-                    <?php echo JText::_("Email"); ?>
+                    <?php echo JText::_("COM_TIENDA_EMAIL"); ?>
                 </th>
                 <th style="width: 70px;">
                     <?php echo JText::_("Total"); ?>

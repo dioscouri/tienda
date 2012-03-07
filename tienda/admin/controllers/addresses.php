@@ -61,7 +61,7 @@ class TiendaControllerAddresses extends TiendaController
 		$item = $model->getItem();
 		if(!empty($item)){
 			$fulladdress = '<br/><ul class=\'addresslist\'>';
-			$fulladdress .= '<li><b>'.JText::_('Using Selected Address:').'</b></li>';
+			$fulladdress .= '<li><b>'.JText::_('COM_TIENDA_USING_SELECTED_ADDRESS').'</b></li>';
 			$fulladdress .= $this->setAddressOption($item->company);
 			
 			$fulladdress .= '<li>';

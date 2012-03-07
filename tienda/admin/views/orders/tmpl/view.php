@@ -122,7 +122,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_("Email"); ?>
+                    <?php echo JText::_("COM_TIENDA_EMAIL"); ?>
                 </td>
                 <td>
                 	<?php

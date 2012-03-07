@@ -103,7 +103,7 @@ class TiendaFile extends JObject
 		$this->proper_name = TiendaFile::getProperName($userFileName);
 		
 		if ($userfile['size'] == 0) {
-			$this->setError( JText::_( 'Invalid File' ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
 			return $success;
 		}
 		
@@ -112,7 +112,7 @@ class TiendaFile extends JObject
 		
 		if (!is_uploaded_file($userfile['tmp_name'])) 
 		{
-			$this->setError( JText::_( 'Invalid File' ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
 			return $success;
 	    } 
 	    	else 
@@ -185,7 +185,7 @@ class TiendaFile extends JObject
 		$this->proper_name = TiendaFile::getProperName($userFileName);
 		
 		if ($userfile['size'][$num] == 0) {
-			$this->setError( JText::_( 'Invalid File' ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
 			return $success;
 		}
 		
@@ -200,7 +200,7 @@ class TiendaFile extends JObject
 		
 		if (!is_uploaded_file($userfile['tmp_name'][$num])) 
 		{
-			$this->setError( JText::_( 'Invalid File' ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
 			return $success;
 	    } 
 	    	else 
@@ -230,7 +230,7 @@ class TiendaFile extends JObject
 		// save path and filename or just filename
 		if (!JFile::upload($this->file_path, $dest))
 		{
-        	$this->setError( sprintf( JText::_("Move failed from"), $this->file_path, $dest) );
+        	$this->setError( sprintf( JText::_("COM_TIENDA_MOVE_FAILED_FROM"), $this->file_path, $dest) );
         	return false;			
 		}
 		

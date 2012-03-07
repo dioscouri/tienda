@@ -32,7 +32,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
             <table>
             <tr>
                 <td style="height: 40px;">
-                    <?php echo JText::_('USERNAME'); ?>
+                    <?php echo JText::_("COM_TIENDA_USERNAME"); ?>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />

@@ -51,7 +51,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
             <?php if ($user->guest || !$user->id) {?>
             <div><?php echo JText::_( 'Name' ); ?>: *</div>
             <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('rn', ''));?>" size="40" name="user_name" id="user_name"/></div>
-        	<div><?php echo JText::_( 'Email' ); ?>: *</div>
+        	<div><?php echo JText::_("COM_TIENDA_EMAIL"); ?>: *</div>
             <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('re', ''));?>" size="40" name="user_email" id="user_email"/></div>
         	<?php }else{?>
         	<input type="hidden" maxlength="100" class="inputbox" value="<?php echo $user->email;?>" size="40" name="user_email" id="user_email"/>

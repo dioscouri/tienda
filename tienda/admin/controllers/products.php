@@ -180,7 +180,7 @@ class TiendaControllerProducts extends TiendaController
 			$row->product_id = $row->id;
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( "COM_TIENDA_SAVED");
 
 			// check it's new entry or empty price but not save as 
 			if (( $row->_isNew || empty($prices) ) && ! $isSaveAs)
@@ -451,7 +451,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";
@@ -459,7 +459,7 @@ class TiendaControllerProducts extends TiendaController
 		{
             case "save_as":
                 $redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$row->product_id;
-                $this->message .= " - " . JText::_( "and you are now editing the new product" );
+                $this->message .= " - " . JText::_( "COM_TIENDA_YOU_ARE_NOW_EDITING_NEW_PRODUCT" );
                 break;
 			case "saveprev":
 				$redirect .= '&view='.$this->get('suffix');
@@ -659,7 +659,7 @@ class TiendaControllerProducts extends TiendaController
 				break;
 			default:
 				$this->messagetype 	= 'notice';
-				$this->message 		= JText::_( "Invalid Task" );
+				$this->message 		= JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -724,7 +724,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		else
 		{
@@ -810,7 +810,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -881,7 +881,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setprices&id={$row->product_id}&tmpl=component";
@@ -932,7 +932,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1001,7 +1001,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setissues&id={$row->product_id}&tmpl=component";
@@ -1046,7 +1046,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1117,7 +1117,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributes&id={$row->product_id}&tmpl=component";
@@ -1163,7 +1163,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1272,7 +1272,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component";
@@ -1305,7 +1305,7 @@ class TiendaControllerProducts extends TiendaController
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&id={$row->productattributeoption_id}&tmpl=component";
@@ -1359,7 +1359,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1409,7 +1409,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1498,12 +1498,12 @@ class TiendaControllerProducts extends TiendaController
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Uplad was successfull' );
+			$this->message      = JText::_("COM_TIENDA_UPLOAD_WAS_SUCCESSFULL");
 					}
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setfiles&id={$row->product_id}&tmpl=component";
@@ -1547,12 +1547,12 @@ class TiendaControllerProducts extends TiendaController
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Uplad was successfull' );
+			$this->message      = JText::_("COM_TIENDA_UPLOAD_WAS_SUCCESSFULL");
 		}
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda&view=products&task=setfiles&id={$row->product_id}&tmpl=component";
@@ -1585,7 +1585,7 @@ class TiendaControllerProducts extends TiendaController
 		// save path and filename or just filename
 		if (!JFile::upload($upload->file_path, $dest))
 		{
-			$this->setError( sprintf( JText::_("Move failed from"), $upload->file_path, $dest) );
+			$this->setError( sprintf( JText::_("COM_TIENDA_MOVE_FAILED_FROM"), $upload->file_path, $dest) );
 			return false;
 		}
 
@@ -1633,7 +1633,7 @@ class TiendaControllerProducts extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -1669,7 +1669,7 @@ class TiendaControllerProducts extends TiendaController
 		// Check if the data is ok
 		if (empty($product_id) || empty($image))
 		{
-			$msg = JText::_('Input Data not Valid');
+			$msg = JText::_("COM_TIENDA_INPUT_DATA_NOT_VALID");
 
 			$redirect = "index.php?option=com_tienda&view=products";
 			$redirect = JRoute::_( $redirect, false );
@@ -1688,11 +1688,11 @@ class TiendaControllerProducts extends TiendaController
 				if (JFile::exists($path.'thumbs'.DS.$image))
 				{
 					JFile::delete($path.'thumbs'.DS.$image);
-					$msg = JText::_('Image Deleted');
+					$msg = JText::_("COM_TIENDA_IMAGE_DELETED");
 				}
 				else
 				{
-					$msg = JText::_('Cannot Delete the Image Thumbnail: '.$path.'thumbs'.DS.$image);
+					$msg = JText::_("COM_TIENDA_CANNOT_DELETE_IMAGE_THUMBNAIL".$path.'thumbs'.DS.$image);
 				}
 
 				// if it is the primary image, let's clear the product_image field in the db
@@ -1714,7 +1714,7 @@ class TiendaControllerProducts extends TiendaController
 		}
 		else
 		{
-			$msg = JText::_('Image does not Exist: '.$path.$image);
+			$msg = JText::_("COM_TIENDA_CANNOT_DELETE_IMAGE".$path.$image);
 		}
 		$this->setRedirect( $redirect, $msg, 'notice' );
 		return;
@@ -1735,7 +1735,7 @@ class TiendaControllerProducts extends TiendaController
 		// Check if the data is ok
 		if (empty($product_id) || empty($image))
 		{
-			$msg = JText::_('Input Data not Valid');
+			$msg = JText::_("COM_TIENDA_INPUT_DATA_NOT_VALID");
 			$redirect = "index.php?option=com_tienda&view=products&task=viewGallery&id={$product_id}&tmpl=component";
 			$redirect = JRoute::_( $redirect, false );
 			$this->setRedirect( $redirect, $msg, 'notice' );
@@ -1755,12 +1755,12 @@ class TiendaControllerProducts extends TiendaController
 				JFactory::getApplication()->enqueueMessage( $row->getError(), 'notice' );
 			}
 
-			$this->message = JText::_('Update Successful');
+			$this->message = JText::_("COM_TIENDA_UPDATE_SUCCESSFUL");
 			$this->messagetype = 'message';
 		}
 		else
 		{
-			$this->message = JText::_('Image does not Exist: '.$path.$image);
+			$this->message = JText::_("COM_TIENDA_IMAGE_DOES_NOT_EXIST".$path.$image);
 			$this->messagetype = 'notice';
 		}
 			
@@ -1845,7 +1845,7 @@ class TiendaControllerProducts extends TiendaController
 			
 		$redirect = JRoute::_( $redirect, false );
 
-		$this->setRedirect( $redirect, JText::_('Done'), 'notice' );
+		$this->setRedirect( $redirect, JText::_('COM_TIENDA_DONE'), 'notice' );
 		return;
 	}
 

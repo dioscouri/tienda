@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
             </tr>            
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_( 'Email' ); ?>:
+                     <?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
                 </th>
                 <td>
                     <input type="text" name="user_email"

@@ -1027,7 +1027,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($country_id))
 		{
-			$html = JText::_( "Select a Country" );
+			$html = JText::_("COM_TIENDA_SELECT_COUNTRY");
 		}
 		else
 		{
@@ -2098,12 +2098,12 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		$orderpayment_type = $values['payment_plugin'];
-		$transaction_status = JText::_( "Incomplete" );
+		$transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
 		// in the case of orders with a value of 0.00, use custom values
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "Complete" );
+			$transaction_status = JText::_("COM_TIENDA_COMPLETE");
 		}
 
 		// Save an orderpayment with an Incomplete status
@@ -2232,7 +2232,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		$orderpayment_type = $values['payment_plugin'];
-		$transaction_status = JText::_( "Incomplete" );
+		$transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
 		// in the case of orders with a value of 0.00, use custom values
 
 		if( $order->isRecurring() )
@@ -2240,14 +2240,14 @@ class TiendaControllerCheckout extends TiendaController
 			if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
 			{
 				$orderpayment_type = 'free';
-				$transaction_status = JText::_( "Complete" );
+				$transaction_status = JText::_("COM_TIENDA_COMPLETE");
 			}
 		}
 		else
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "Complete" );
+			$transaction_status = JText::_("COM_TIENDA_COMPLETE");
 		}
 
 		// Save an orderpayment with an Incomplete status
@@ -2891,7 +2891,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($items) || !is_array($items))
 		{
-			$this->setError( "saveOrderItems:: ".JText::_( "Items Array is Invalid" ) );
+			$this->setError( "saveOrderItems:: ".JText::_("COM_TIENDA_ITEMS_ARRAY_INVALID") );
 			return false;
 		}
 
@@ -3092,7 +3092,7 @@ class TiendaControllerCheckout extends TiendaController
 		if (empty($items) || !is_array($items))
 		{
 			// No vendors other than store owner, so just skip this
-			//$this->setError( "saveOrderVendors:: ".JText::_( "Vendors Array is Invalid" ) );
+			//$this->setError( "saveOrderVendors:: ".JText::_("COM_TIENDA_VENDORS_ARRAY_INVALID") );
 			//return false;
 			return true;
 		}
@@ -3360,7 +3360,7 @@ class TiendaControllerCheckout extends TiendaController
         if ($apply_credit_amount < (float) '0.00')
         {
             $response['error'] = '1';
-            $response['msg'] = $helper->generateMessage( JText::_( "Please specify a valid credit amount" ) );
+            $response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_PLEASE_SPECIFY_VALID_CREDIT_AMOUNT") );
             echo json_encode($response);
             return;
         }

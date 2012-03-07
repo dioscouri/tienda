@@ -64,12 +64,12 @@ class TiendaControllerProductComments extends TiendaController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( "COM_TIENDA_SAVED");
 		}
 		else 
 		{
 			$this->messagetype 	= 'notice';			
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 		$redirect = "index.php?option=com_tienda";
     	$task = JRequest::getVar('task');

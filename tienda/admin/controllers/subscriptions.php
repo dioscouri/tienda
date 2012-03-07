@@ -84,7 +84,7 @@ class TiendaControllerSubscriptions extends TiendaController
             else
         {
             $this->messagetype  = 'notice';
-            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
         }
 
         $redirect = "index.php?option=com_tienda";

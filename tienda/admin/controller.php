@@ -349,7 +349,7 @@ class TiendaController extends JController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( "COM_TIENDA_SAVED");
 
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -357,7 +357,7 @@ class TiendaController extends JController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";
@@ -434,11 +434,11 @@ class TiendaController extends JController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
-			$this->message = JText::_('Items Deleted');
+			$this->message = JText::_('COM_TIENDA_ITEMS_DELETED');
 		}
 
 		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );
@@ -505,7 +505,7 @@ class TiendaController extends JController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -556,7 +556,7 @@ class TiendaController extends JController
 				break;
 			default:
 				$this->messagetype 	= 'notice';
-				$this->message 		= JText::_( "Invalid Task" );
+				$this->message 		= JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -597,7 +597,7 @@ class TiendaController extends JController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		else
 		{
@@ -712,7 +712,7 @@ class TiendaController extends JController
 
 		if (!$table->save())
 		{
-			$msg->message = JText::_('Error') . ": " . $table->getError();
+			$msg->message = JText::_('COM_TIENDA_ERROR') . ": " . $table->getError();
 		}
 
 		$this->setRedirect( $msg->link, $msg->message, $msg->type );

@@ -278,7 +278,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		
 		if ( empty( $product->product_enabled ) || empty( $product->product_id ) )
 		{
-			$this->setError( JText::_( "Invalid Product" ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID_PRODUCT") );
 			return false;
 		}
 		

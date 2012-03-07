@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'USERNAME' ); ?>: *
+                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>: *
                     </td>
                     <td>
                         <input type="text" name="user" id="user" size="48" maxlength="250" value="<?php echo @$state->user; ?>" />

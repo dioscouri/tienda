@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echo JText::_( "Email" ); ?>
+                    <?php echo JText::_("COM_TIENDA_EMAIL"); ?>
                 </th>
                 <td>
                     <?php echo JFactory::getUser()->email; ?>

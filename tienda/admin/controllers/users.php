@@ -147,16 +147,16 @@ class TiendaControllerUsers extends TiendaController
 		$res = $db->loadResult();
 		if( $res !== null )
 		{
-			$this->setRedirect( $url, JText::_( 'Couldnt change sub number' ), 'error' );
+			$this->setRedirect( $url, JText::_("COM_TIENDA_COULD_NOT_CHANGE_SUB_NUMBER"), 'error' );
 			return;
 		}
 		$q = 'UPDATE `#__tienda_userinfo` SET `sub_number` = '.$sub_num.' WHERE `user_id` = '.$id;
 		$db->setQuery( $q );
 		$db->query( $q );
 		if( $db->getAffectedRows() == 1 )
-			$this->setRedirect( $url, JText::_( 'Sub number changed' ) );
+			$this->setRedirect( $url, JText::_("COM_TIENDA_SUB_NUMBER_CHANGED") );
 		else
-			$this->setRedirect( $url, JText::_( 'No Sub number changed' ), 'notice' );
+			$this->setRedirect( $url, JText::_("COM_TIENDA_NO_SUB_NUMBER_CHANGED"), 'notice' );
 		return;
 	}
 }

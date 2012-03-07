@@ -182,7 +182,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->order_id = $order->order_id;
         $orderpayment->orderpayment_type = $this->_element;
-        $orderpayment->transaction_status = JText::_( "Incomplete" );
+        $orderpayment->transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
         $amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
         $orderpayment->orderpayment_amount = $amount;
         if (!$orderpayment->save())

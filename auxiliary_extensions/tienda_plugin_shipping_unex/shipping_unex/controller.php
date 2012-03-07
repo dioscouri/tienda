@@ -75,11 +75,11 @@ class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin
     	$success =  $table->store($values);
 		if($success){
         	$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( "COM_TIENDA_SAVED");
         }
         else{
         	$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
         }
         
         $redirect = $this->baseLink();    	

@@ -16,7 +16,7 @@
 <div style="clear: both;width:100%;">
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_("Email").': '.TiendaGrid::required(); ?>
+			<?php echo JText::_("COM_TIENDA_EMAIL").': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Email Address   --> 
@@ -35,7 +35,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( 'Username' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_("COM_TIENDA_USERNAME").': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Username   -->

@@ -45,7 +45,7 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 	function getAdminTableHtml($step) {
 		$state = $this->get('state');
 		$checked = array('', '\'checked\'');
-		$answer = array(JText::_('No'), JText::_('Yes'));
+		$answer = array(JText::_('COM_TIENDA_NO'), JText::_('COM_TIENDA_YES'));
 		$rows = array();
 		$only_value = $step == 2;
 		$skip_first_value = strcmp($state->skip_first, 'on') == 0;

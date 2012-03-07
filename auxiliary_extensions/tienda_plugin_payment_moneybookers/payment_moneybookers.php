@@ -249,12 +249,12 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$order->save();
 		
 		$orderpayment_type = $this->_element;
-		$transaction_status = JText::_( "Incomplete" );
+		$transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
 		// in the case of orders with a value of 0.00, use custom values
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "Complete" );
+			$transaction_status = JText::_("COM_TIENDA_COMPLETE");
 		}
 
 		// Save an orderpayment with an Incomplete status

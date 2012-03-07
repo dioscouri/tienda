@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Email' ); ?>:
+                        <?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
                     </td>
                     <td>
                         <?php echo @$row->email; ?>
@@ -97,7 +97,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Username' ); ?>:
+                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_username; ?>

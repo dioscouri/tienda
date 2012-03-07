@@ -29,7 +29,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key">
 		                        <label for="name">
-		                        	<?php echo JText::_( 'Username' ); ?>:
+		                        	<?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
 		                        </label>
 	                    	</td>
 	                    	<td style="width:120px;">
@@ -59,7 +59,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td align="right" class="key" key">
 		                        <label for="email">
-		                        	<?php echo JText::_( 'Email' ); ?>:
+		                        	<?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
 		                        </label>
 	                    	</td>
 	                    	<td>

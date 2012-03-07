@@ -125,7 +125,7 @@ class TiendaControllerCoupons extends TiendaController
 				break;
 			default:
 				$this->messagetype  = 'notice';
-				$this->message      = JText::_( "Invalid Task" );
+				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -190,7 +190,7 @@ class TiendaControllerCoupons extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		else
 		{

@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="email">
-			<?php echo JText::_( 'email' ); ?>:
+			<?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
 		</label>
 	</td>
 	<td>

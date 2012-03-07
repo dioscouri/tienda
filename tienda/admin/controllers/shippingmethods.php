@@ -104,7 +104,7 @@ class TiendaControllerShippingMethods extends TiendaController
             else 
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
         }
         
         $redirect = "index.php?option=com_tienda&controller=shippingmethods&task=setrates&id={$row->shipping_method_id}&tmpl=component";
@@ -153,7 +153,7 @@ class TiendaControllerShippingMethods extends TiendaController
         
         if ($error)
         {
-            $this->message = JText::_('Error') . " - " . $this->message;
+            $this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
         }
             else
         {

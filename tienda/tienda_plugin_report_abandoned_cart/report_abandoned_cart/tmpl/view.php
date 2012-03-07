@@ -11,7 +11,7 @@
 			</th>
 			<th style="text-align: left;"><?php echo JText::_("Name"); ?>
 			</th>
-			<th style="text-align: left; width: 267px;"><?php echo JText::_("Email"); ?>
+			<th style="text-align: left; width: 267px;"><?php echo JText::_("COM_TIENDA_EMAIL"); ?>
 			</th>
 			<th style="text-align: left;"><?php echo JText::_("Date"); ?>
 			</th>

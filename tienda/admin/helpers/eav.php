@@ -218,11 +218,11 @@ class TiendaHelperEav extends TiendaHelperBase
     		case "bool":
     			if($value)
     			{
-    				echo JText::_('Yes');
+    				echo JText::_('COM_TIENDA_YES');
     			}
     			else
     			{
-    				echo JText::_('No');
+    				echo JText::_('COM_TIENDA_NO');
     			}
     			break;
     		case "datetime":

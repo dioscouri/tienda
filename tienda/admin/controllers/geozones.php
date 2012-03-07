@@ -129,7 +129,7 @@ class TiendaControllerGeozones extends TiendaController
 				break;
 			default:
 				$this->messagetype  = 'notice';
-				$this->message      = JText::_( "Invalid Task" );
+				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -194,7 +194,7 @@ class TiendaControllerGeozones extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		else
 		{
@@ -245,7 +245,7 @@ class TiendaControllerGeozones extends TiendaController
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -294,7 +294,7 @@ class TiendaControllerGeozones extends TiendaController
 				break;
 			default:
 				$this->messagetype  = 'notice';
-				$this->message      = JText::_( "Invalid Task" );
+				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
 				$this->setRedirect( $redirect, $this->message, $this->messagetype );
 				return;
 				break;
@@ -355,7 +355,7 @@ class TiendaControllerGeozones extends TiendaController
 
 		if($error)
 		{
-			$this->message = JText::_('Error') . ": " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
 		}
 		 
 		$redirect = JRoute::_( "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$id, false );

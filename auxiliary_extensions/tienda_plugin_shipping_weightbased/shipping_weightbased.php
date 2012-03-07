@@ -383,11 +383,11 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
-			$this->message = JText::_('Items Deleted');
+			$this->message = JText::_('COM_TIENDA_ITEMS_DELETED');
 		}
 
 		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );

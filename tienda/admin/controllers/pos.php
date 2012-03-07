@@ -88,7 +88,7 @@ class TiendaControllerPOS extends TiendaController
 			$userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
 			if($post['user_type'] == 'new')
 			{
-				$text = JText::_('USERNAME');
+				$text = JText::_("COM_TIENDA_USERNAME");
 				$email = $post['new_email'];								
 				$username = !empty($post['new_username_create']) ?  $email : $post['new_username'];
 				$details = array('email' => $post['new_email'],
@@ -295,12 +295,12 @@ class TiendaControllerPOS extends TiendaController
 		}
 		
 		$orderpayment_type = $values['payment_plugin'];
-		$transaction_status = JText::_( "INCOMPLETE" );
+		$transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
 		// in the case of orders with a value of 0.00, use custom values
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_( "COMPLETE" );
+			$transaction_status = JText::_("COM_TIENDA_COMPLETE");
 		}
 		
 		// Save an orderpayment with an Incomplete status
@@ -486,7 +486,7 @@ class TiendaControllerPOS extends TiendaController
 		$session = JFactory::getSession();
 		if(empty($values['payment_plugin']))
 		{
-			$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3", JText::_('Payment method is required'), 'notice');
+			$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3", JText::_("COM_TIENDA_PAYMENT_METHOD_REQUIRED"), 'notice');
 		}
 
 		$session->set('payment_plugin', $values['payment_plugin'], 'tienda_pos');
@@ -511,16 +511,16 @@ class TiendaControllerPOS extends TiendaController
 		{
 			case "existing" :
 				$user = JFactory::getUser($session->get('user_id', '', 'tienda_pos'));
-				$step1_inactive = JText::_("EXISTING USER") . ": " . $user->name . " - " . $user->email . " [" . $user->id . "]";
+				$step1_inactive = JText::_("COM_TIENDA_EXISTING_USER") . ": " . $user->name . " - " . $user->email . " [" . $user->id . "]";
 				break;
 			case "new" :
-				$step1_inactive = JText::_("NEW USER") . ": " . $session->get('new_name', '', 'tienda_pos') . " - " . $session->get('new_email', '', 'tienda_pos');
+				$step1_inactive = JText::_("COM_TIENDA_NEW_USER") . ": " . $session->get('new_name', '', 'tienda_pos') . " - " . $session->get('new_email', '', 'tienda_pos');
 				break;
 			case "anonymous" :
-				$step1_inactive = JText::_("ANONYMOUS USER");
+				$step1_inactive = JText::_("COM_TIENDA_ANONYMOUS_USER");
 				break;
 			default :
-				$step1_inactive = JText::_("NAME AND EMAIL OF USER");
+				$step1_inactive = JText::_("COM_TIENDA_NAME_AND_EMAIL_OF_USER");
 				break;
 		}
 
@@ -563,7 +563,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("COULD NOT PROCESS FORM"));
+			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_COULD_NOT_PROCESS_FORM"));
 			echo( json_encode($response));
 			return ;
 		}
@@ -613,27 +613,27 @@ class TiendaControllerPOS extends TiendaController
 				if(empty($values['user_id']))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("PLEASE SELECT A USER");
+					$msg[] = JText::_("COM_TIENDA_PLEASE_SELECT_USER");
 
 				}
 				break;
 			case "new" :
-				if(empty($values['new_email']) || $values['new_email'] == JText::_('Email'))
+				if(empty($values['new_email']) || $values['new_email'] == JText::_("COM_TIENDA_EMAIL"))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("PLEASE PROVIDE AN EMAIL");
+					$msg[] = JText::_("COM_TIENDA_PLEASE_PROVIDE_EMAIL");
 				}
 
-				if(empty($values['new_name']) || $values['new_name'] == JText::_('Full Name'))
+				if(empty($values['new_name']) || $values['new_name'] == JText::_("COM_TIENDA_FULLNAME"))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("PLEASE PROVIDE A NAME");
+					$msg[] = JText::_("COM_TIENDA_PLEASE_PROVIDE_NAME");
 				}
 
-				if(empty($values['_checked']['new_username_create']) && (empty($values['new_username']) || $values['new_username'] == JText::_('Username')))
+				if(empty($values['_checked']['new_username_create']) && (empty($values['new_username']) || $values['new_username'] == JText::_("COM_TIENDA_USERNAME")))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("PLEASE PROVIDE A USERNAME");
+					$msg[] = JText::_("COM_TIENDA_PLEASE_PROVIDE_USERNAME");
 				}
 
 				$userhelper = $helper->getInstance('User');
@@ -642,7 +642,7 @@ class TiendaControllerPOS extends TiendaController
 				if($userhelper->emailExists($values['new_email']))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("THIS EMAIL ALREADY EXISTS");
+					$msg[] = JText::_("COM_TIENDA_EMAIL_ALREADY_EXISTS");
 				}
 				
 				  // Send the reminder
@@ -652,21 +652,21 @@ class TiendaControllerPOS extends TiendaController
 		        if (!JMailHelper::isEmailAddress($values['new_email']))
 		        {
 		          	 $response['error'] = '1';
-					$msg[] = JText::_("Invalid email address");
+					$msg[] = JText::_("COM_TIENDA_INVALID_EMAIL_ADDRESS");
 		        }
 
 				// Is this username already used?
 				if(empty($values['_checked']['new_username_create']) && $userhelper->usernameExists($values['new_username']))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("THIS USERNAME ALREADY EXISTS");
+					$msg[] = JText::_("COM_TIENDA_USERNAME_ALREADY_EXISTS");
 				}
 				break;
 			case "anonymous" :
-				if(!empty($values['_checked']['anon_emails']) && (empty($values['anon_email']) || $values['anon_email'] == JText::_("Email")))
+				if(!empty($values['_checked']['anon_emails']) && (empty($values['anon_email']) || $values['anon_email'] == JText::_("COM_TIENDA_EMAIL")))
 				{
 					$response['error'] = '1';
-					$msg[] = JText::_("PLEASE PROVIDE AN EMAIL");
+					$msg[] = JText::_("COM_TIENDA_PLEASE_PROVIDE_EMAIL");
 				}
 				else
 				{
@@ -676,7 +676,7 @@ class TiendaControllerPOS extends TiendaController
 			        if (!JMailHelper::isEmailAddress($values['anon_email']))
 			        {
 			          	$response['error'] = '1';
-						$msg[] = JText::_("INVALID EMAIL ADDRESS");
+						$msg[] = JText::_("COM_TIENDA_INVALID_EMAIL_ADDRESS");
 			        }
 				}				
 				 
@@ -705,7 +705,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!isset($values['cid']))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("NO ITEMS IN CART NOTICE"), false);
+			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_NO_ITEMS_IN_CART"), false);
 		}
 
 		return $response;
@@ -757,7 +757,7 @@ class TiendaControllerPOS extends TiendaController
 					if(empty($values['shipping_name']))
 					{
 						$response['error'] = '1';
-						$msg[] = JText::_('PLEASE SELECT SHIPPING METHOD');						
+						$msg[] = JText::_("COM_TIENDA_PLEASE_SELECT_SHIPPING_METHOD");						
 					}
 				}				
 				break;
@@ -768,7 +768,7 @@ class TiendaControllerPOS extends TiendaController
 					if(empty($values['payment_plugin']))
 					{							
 						$response['error'] = '1';
-						$msg[] = JText::_('PLEASE SELECT PAYMENT METHOD');										
+						$msg[] = JText::_("COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD");										
 					}
 				}
 				
@@ -834,51 +834,51 @@ class TiendaControllerPOS extends TiendaController
 				
 		if( ($field_title == $validate_id || $field_title == '3')  AND empty($values["{$prefix}title"]) )
 		{					
-			$msg[] = JText::sprintf("%s title field is required",$text);			
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_TITLE_FIELD_REQUIRED",$text);			
 		}
 		if( ($field_name == $validate_id || $field_name == '3') AND empty($values["{$prefix}first_name"]) )
 		{			
-			$msg[] = JText::sprintf("%s first name field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_FIRST_NAME_FIELD_REQUIRED", $text);
 		}
 		if( ($field_middle == $validate_id || $field_middle == '3') AND empty($values["{$prefix}middle_name"]) )
 		{			
-			$msg[] = JText::sprintf("%s middle name field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_MIDDLE_NAME_FIELD_REQUIRED", $text);
 		}
 		if( ($field_last == $validate_id || $field_last == '3') AND empty($values["{$prefix}last_name"]) )
 		{			
-			$msg[] = JText::sprintf("%s last name field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_LAST_NAME_FIELD_REQUIRED", $text);
 		}
 		if( ($field_company == $validate_id || $field_company == '3') AND empty($values["{$prefix}company"]) )
 		{			
-			$msg[] = JText::sprintf("%s company field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_COMPANY_FIELD_REQUIRED", $text);
 		}
 		if( ($field_address1 == $validate_id || $field_address1 == '3') AND empty($values["{$prefix}address_1"]) )
 		{			
-			$msg[] = JText::sprintf("%s address line 1 field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ADDRESS_LINE_1_FIELD_REQUIRED", $text);
 		}
 		if( ($field_address2 == $validate_id || $field_address2 == '3') AND empty($values["{$prefix}address_2"]) )
 		{			
-			$msg[] = JText::sprintf("%s address line 2 field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ADDRESS_LINE_2_FIELD_REQUIRED", $text);
 		}
 		if( ($field_city == $validate_id || $field_city == '3') AND empty($values["{$prefix}city"]) )
 		{			
-			$msg[] = JText::sprintf("%s city field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_CITY_FIELD_REQUIRED", $text);
 		}
 		if( ($field_country == $validate_id || $field_country == '3') AND empty($values["{$prefix}country_id"]) )
 		{			
-			$msg[] = JText::sprintf("%s country field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_COUNTRY_FIELD_REQUIRED", $text);
 		}
 		if( ($field_zone == $validate_id || $field_zone == '3') AND empty($values["{$prefix}zone_id"]) )
 		{			
-			$msg[] = JText::sprintf("%s zone field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ZONE_FIELD_REQUIRED", $text);
 		}		
 		if( ($field_zip == $validate_id || $field_zip == '3') AND empty($values["{$prefix}postal_code"]) )
 		{			
-			$msg[] = JText::sprintf("%s postal code field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_POSTAL_CODE_FIELD_REQUIRED", $text);
 		}
 		if( ($field_phone == $validate_id || $field_phone == '3') AND empty($values["{$prefix}phone_1"]) )
 		{			
-			$msg[] = JText::sprintf("%s phone field is required", $text);
+			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_PHONE_FIELD_REQUIRED", $text);
 		}
 			
 		return $msg;
@@ -923,7 +923,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("COUPON NOTICE"));
+			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_COUPON_NOTICE"));
 			echo json_encode($response);
 			return ;
 		}
@@ -933,7 +933,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!$can_add)
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("CANNOT ADD COUPON NOTICE"));
+			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_CANNOT_ADD_COUPON_NOTICE"));
 			echo json_encode($response);
 			return ;
 		}
@@ -971,7 +971,7 @@ class TiendaControllerPOS extends TiendaController
         if ($apply_credit_amount < (float) '0.00')
         {
             $response['error'] = '1';
-            $response['msg'] = $helper->generateMessage( JText::_( "Please specify a valid credit amount" ) );
+            $response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_PLEASE_SPECIFY_VALID_CREDIT_AMOUNT") );
             echo json_encode($response);
             return;
         }
@@ -1187,7 +1187,7 @@ class TiendaControllerPOS extends TiendaController
 		if($availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity)
 		{
 			$messagetype = 'notice';
-			$message = JText::_(JText::sprintf('NOT AVAILABLE QUANTITY NOTICE', $availableQuantity->product_name, $product_qty));
+			$message = JText::_(JText::sprintf('COM_TIENDA_NOT_AVAILABLE_QUANTITY_NOTICE', $availableQuantity->product_name, $product_qty));
 			$this->setRedirect('index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component', $message, $messagetype);
 			return ;
 		}
@@ -1200,7 +1200,7 @@ class TiendaControllerPOS extends TiendaController
 		if($product->product_notforsale)
 		{
 			$messagetype = 'notice';
-			$message = JText::_("PRODUCT NOT FOR SALE NOTICE");
+			$message = JText::_("COM_TIENDA_PRODUCT_NOT_FOR_SALE_NOTICE");
 			$this->setRedirect('index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component', $message, $messagetype);
 			return ;
 		}
@@ -1248,7 +1248,7 @@ class TiendaControllerPOS extends TiendaController
 			if(!empty($result->error))
 			{
 				$messagetype = 'notice';
-				$message = JText::_(JText::sprintf('NOT AVAILABLE QUANTITY NOTICE', $availableQuantity->product_name, $product_qty));
+				$message = JText::_(JText::sprintf('COM_TIENDA_NOT_AVAILABLE_QUANTITY_NOTICE', $availableQuantity->product_name, $product_qty));
 				$this->setRedirect('index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component', $result->message, 'notice');
 				return ;
 			}
@@ -1322,7 +1322,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			$this->fixQuantities($item->user_id);
 		}
-		$this->setRedirect('index.php?option=com_tienda&view=pos&task=addproducts&added=1&tmpl=component', JText::_('Successfullty Added Item to Cart'), 'success');
+		$this->setRedirect('index.php?option=com_tienda&view=pos&task=addproducts&added=1&tmpl=component', JText::_('COM_TIENDA_SUCCESSFULLY_ADDED_ITEM_TO_CART'), 'success');
 	}
 
 	function getCartView()
@@ -1367,7 +1367,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 		else
 		{
-			$html = JText::_('NO ITEMS IN CART');
+			$html = JText::_("COM_TIENDA_NO_ITEMS_IN_CART");
 		}
 
 		return $html;
@@ -1426,7 +1426,7 @@ class TiendaControllerPOS extends TiendaController
 				$availableQuantity = Tienda::getClass('TiendaHelperProduct', 'helpers.product')->getAvailableQuantity($product_id, $product_attributes[$cart_id]);
 				if($availableQuantity->product_check_inventory && $value > $availableQuantity->quantity)
 				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('NOT AVAILABLE QUANTITY NOTICE', $availableQuantity->product_name, $value));
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_NOT_AVAILABLE_QUANTITY_NOTICE', $availableQuantity->product_name, $value));
 					continue ;
 				}
 
@@ -1443,7 +1443,7 @@ class TiendaControllerPOS extends TiendaController
 						{
 							if($value > $max)
 							{
-								$msg = JText::_('MAX QUANTITY REACHED MESSAGE') .': '. $max;
+								$msg = JText::_("COM_TIENDA_MAX_QUANTITY_REACHED_MESSAGE") .': '. $max;
 								$value = $max;
 							}
 						}
@@ -1451,7 +1451,7 @@ class TiendaControllerPOS extends TiendaController
 						{
 							if($value < $min)
 							{
-								$msg = JText::_('MIN QTY REACHED MESSAGE') .': '. $min;
+								$msg = JText::_("COM_TIENDA_MIN_QTY_REACHED_MESSAGE") .': '. $min;
 								$value = $min;
 							}
 						}
@@ -1578,7 +1578,7 @@ class TiendaControllerPOS extends TiendaController
 						if($cartitem->product_qty > $product->quantity)
 						{
 							// enqueu a system message
-							JFactory::getApplication()->enqueueMessage(JText::sprintf('NOT AVAILABLE QUANTITY NOTICE', $cartitem->product_name, $cartitem->product_qty));
+							JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_NOT_AVAILABLE_QUANTITY_NOTICE', $cartitem->product_name, $cartitem->product_qty));
 
 							// load table to adjust quantity in cart
 							$table = JTable::getInstance('Carts', 'TiendaTable');
@@ -2125,7 +2125,7 @@ class TiendaControllerPOS extends TiendaController
 			// do form validation
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_("PARAMETER VALIDATION ERROR"));
+			$response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_PARAMETER_VALIDATION_ERROR"));
 			echo( json_encode($response));
 			return ;
 		}
@@ -2316,7 +2316,7 @@ class TiendaControllerPOS extends TiendaController
 					$availableQuantity = $product_helper->getAvailableQuantity($productItem->product_id, $cartitem->product_attributes);
 					if($availableQuantity->product_check_inventory && $cartitem->product_qty > $availableQuantity->quantity && $availableQuantity->quantity >= 1)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('CART_QUANTITY_ADJUSTED', $productItem->product_name, $cartitem->product_qty, $availableQuantity->quantity));
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_CART_QUANTITY_ADJUSTED', $productItem->product_name, $cartitem->product_qty, $availableQuantity->quantity));
 						$cartitem->product_qty = $availableQuantity->quantity;
 					}
 
@@ -2331,7 +2331,7 @@ class TiendaControllerPOS extends TiendaController
 						{
 							TiendaHelperCarts::removeCartItem($cartitem->session_id, $cartitem->user_id, $cartitem->product_id);
 						}
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('Not available') . " " . $productItem->product_name);
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_NOT_AVAILABLE') . " " . $productItem->product_name);
 						continue ;
 					}
 				}
@@ -2382,7 +2382,7 @@ class TiendaControllerPOS extends TiendaController
 		
 		if (empty($country_id))
 		{
-		    $html = JText::_( "Select a Country" );
+		    $html = JText::_("COM_TIENDA_SELECT_COUNTRY");
 		}
     		else
 		{
@@ -2526,7 +2526,7 @@ class TiendaControllerPOS extends TiendaController
 
 		if(empty($items) || !is_array($items))
 		{
-			$this->setError("saveOrderItems:: " . JText::_("Items Array is Invalid"));
+			$this->setError("saveOrderItems:: " . JText::_("COM_TIENDA_ITEMS_ARRAY_INVALID"));
 			return false;
 		}
 
@@ -2607,7 +2607,7 @@ class TiendaControllerPOS extends TiendaController
 					$subscriptionhistory->created_datetime = $date->toMySQL();
 					$subscriptionhistory->notify_customer = '0';
 					// notify customer of new trial subscription?
-					$subscriptionhistory->comments = JText::_('NEW SUBSCRIPTION CREATED');
+					$subscriptionhistory->comments = JText::_("COM_TIENDA_NEW_SUBSCRIPTION_CREATED");
 					$subscriptionhistory->save();
 				}
 
@@ -2754,7 +2754,7 @@ class TiendaControllerPOS extends TiendaController
 		if(empty($items) || !is_array($items))
 		{
 			// No vendors other than store owner, so just skip this
-			//$this->setError( "saveOrderVendors:: ".JText::_( "Vendors Array is Invalid" ) );
+			//$this->setError( "saveOrderVendors:: ".JText::_("COM_TIENDA_VENDORS_ARRAY_INVALID") );
 			//return false;
 			return true;
 		}
@@ -2999,7 +2999,7 @@ class TiendaControllerPOS extends TiendaController
         elseif ($row->user_id != $user_id)
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( 'You are not authorized to edit this item' );
+            $this->message      = JText::_("COM_TIENDA_NOT_AUTHORIZED_TO_EDIT_ITEM");
         	$this->setRedirect( $redirect, $this->message, $this->messagetype );
         	return;
         }
@@ -3008,7 +3008,7 @@ class TiendaControllerPOS extends TiendaController
         {
             $model->setId( $row->address_id );
             $this->messagetype  = 'message';
-            $this->message      = JText::_( 'Saved' );
+            $this->message      = JText::_( "COM_TIENDA_SAVED");
                 
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -3016,7 +3016,7 @@ class TiendaControllerPOS extends TiendaController
             else 
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
         }
 
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -3046,7 +3046,7 @@ class TiendaControllerPOS extends TiendaController
         $actions = explode( '_', $task );
         if (!is_array($actions)) 
         {
-            $this->message = JText::_( 'Invalid Task' );
+            $this->message = JText::_("COM_TIENDA_INVALID_TASK");
             $this->messagetype = 'notice';
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -3070,7 +3070,7 @@ class TiendaControllerPOS extends TiendaController
                     $flag = "is_deleted"; $value = "1";
                   break;
                 default:
-                    $this->message = JText::_( 'Invalid Act' );
+                    $this->message = JText::_("COM_TIENDA_INVALID_ACT");
                     $this->messagetype = 'notice';
                     $redirect = JRoute::_( $redirect, false );
                     $this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -3098,7 +3098,7 @@ class TiendaControllerPOS extends TiendaController
         
         if ($error)
         {
-            $this->message = JText::_( "UNABLE TO CHANGE" ).": ".implode(", ", $errors);
+            $this->message = JText::_("COM_TIENDA_UNABLE_TO_CHANGE").": ".implode(", ", $errors);
         }
             else
         {

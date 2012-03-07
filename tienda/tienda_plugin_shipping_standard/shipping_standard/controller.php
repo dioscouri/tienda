@@ -54,11 +54,11 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$success =  $table->store($values);
 		if($success){
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( 'Saved' );
+			$this->message  	= JText::_( "COM_TIENDA_SAVED");
 		}
 		else{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = $this->baseLink();
@@ -173,11 +173,11 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
-			$this->message = JText::_('Items Deleted');
+			$this->message = JText::_('COM_TIENDA_ITEMS_DELETED');
 		}
 
 		$this->redirect = $this->baseLink();
@@ -207,7 +207,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( 'Save Failed' )." - ".$row->getError();
+			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
 		}
 
 		$redirect = $this->baseLink()."&shippingTask=setrates&sid={$row->shipping_method_id}&tmpl=component";
@@ -258,7 +258,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
@@ -298,7 +298,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 
 		if ($error)
 		{
-			$this->message = JText::_('Error') . " - " . $this->message;
+			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
 		}
 		else
 		{
