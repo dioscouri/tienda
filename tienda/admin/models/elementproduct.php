@@ -141,7 +141,7 @@ class TiendaModelElementProduct extends JModel
 		$html = "";
 		$doc 		=& JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		$title = JText::_('Select products');
+		$title = JText::_("COM_TIENDA_SELECT_PRODUCTS");
 		if ($value) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$tbl = JTable::getInstance( 'Products', 'TiendaTable' );
@@ -150,7 +150,7 @@ class TiendaModelElementProduct extends JModel
 		}
 		else
 		{
-			$title=JText::_('Select a Product');
+			$title=JText::_("COM_TIENDA_SELECT_A_PRODUCT");
 		}
 
  $js = "
