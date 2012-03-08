@@ -242,8 +242,8 @@ class TiendaHelperEmail extends TiendaHelperBase
         switch ($type) 
         {
             case "subscription_expiring":
-                $return->subject    = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_SUBJECT' );
-                $return->body       = JText::_( 'EMAIL_EXPIRING_SUBSCRIPTION_BODY' );
+                $return->subject    = JText::_( 'COM_TIENDA_EMAIL_EXPIRING_SUBSCRIPTION_SUBJECT' );
+                $return->body       = JText::_( 'COM_TIENDA_EMAIL_EXPIRING_SUBSCRIPTION_BODY' );
                 if ($this->use_html)
                 {
                     $return->body = nl2br( $return->body );
@@ -253,8 +253,8 @@ class TiendaHelperEmail extends TiendaHelperBase
               break;
 
             case "subscription_expired":
-                $return->subject    = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_SUBJECT');
-                $return->body       = JText::_( 'EMAIL_EXPIRED_SUBSCRIPTION_BODY' );
+                $return->subject    = JText::_( 'COM_TIENDA_EMAIL_EXPIRED_SUBSCRIPTION_SUBJECT');
+                $return->body       = JText::_( 'COM_TIENDA_EMAIL_EXPIRED_SUBSCRIPTION_BODY' );
                 if ($this->use_html)
                 {
                     $return->body = nl2br( $return->body );
@@ -283,13 +283,13 @@ class TiendaHelperEmail extends TiendaHelperBase
                 if ( count($data->history) == 1 )
                 {
                     // new order
-                    $return->subject = sprintf( JText::_('EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
+                    $return->subject = sprintf( JText::_('COM_TIENDA_EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
 
                     // set the email body
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
-                    $text .= JText::_("EMAIL_THANKS_NEW_SUBSCRIPTION")."\n\n";
-                    $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
-                    $text .= JText::_("EMAIL_RECEIPT_FOLLOWS")."\n\n";
+                    $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$user_name).",\n\n";
+                    $text .= JText::_("COM_TIENDA_EMAIL_THANKS_NEW_SUBSCRIPTION")."\n\n";
+                    $text .= sprintf(JText::_("COM_TIENDA_EMAIL_CHECK"),$link)."\n\n";
+                    $text .= JText::_("COM_TIENDA_EMAIL_RECEIPT_FOLLOWS")."\n\n";
                     if ($this->use_html)
                     {
                         $text = nl2br( $text );
@@ -302,16 +302,16 @@ class TiendaHelperEmail extends TiendaHelperBase
                     else
                 {
                     // Status Change
-                    $return->subject = JText::_( 'EMAIL_SUBSCRIPTION_STATUS_CHANGE' );
+                    $return->subject = JText::_( 'COM_TIENDA_EMAIL_SUBSCRIPTION_STATUS_CHANGE' );
                     $last_history = count($data->history) - 1;
                     
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
-                    $text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
+                    $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$user_name).",\n\n";
+                    $text .= sprintf( JText::_("COM_TIENDA_EMAIL_ORDER_UPDATED"), $data->order_id );
                     if (!empty($data->history[$last_history]->comments))
                     {
-                        $text .= sprintf( JText::_("EMAIL_ADDITIONAL_COMMENTS"), $data->history[$last_history]->comments );
+                        $text .= sprintf( JText::_("COM_TIENDA_EMAIL_ADDITIONAL_COMMENTS"), $data->history[$last_history]->comments );
                     }
-                    $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
+                    $text .= sprintf(JText::_("COM_TIENDA_EMAIL_CHECK"),$link)."\n\n";
 
                     if ($this->use_html)
                     {
@@ -345,13 +345,13 @@ class TiendaHelperEmail extends TiendaHelperBase
                 if ( $type == 'new_order' )
                 {
                     // new order
-                    $return->subject = sprintf( JText::_('EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
+                    $return->subject = sprintf( JText::_('COM_TIENDA_EMAIL_NEW_ORDER_SUBJECT'), $data->order_id );
 
                     // set the email body
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
-                    $text .= JText::_("EMAIL_THANKS_NEW_ORDER")."\n\n";
-                    $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
-                    $text .= JText::_("EMAIL_RECEIPT_FOLLOWS")."\n\n";
+                    $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$user_name).",\n\n";
+                    $text .= JText::_("COM_TIENDA_EMAIL_THANKS_NEW_ORDER")."\n\n";
+                    $text .= sprintf(JText::_("COM_TIENDA_EMAIL_CHECK"),$link)."\n\n";
+                    $text .= JText::_("COM_TIENDA_EMAIL_RECEIPT_FOLLOWS")."\n\n";
                     if ($this->use_html)
                     {
                         $text = nl2br( $text );
@@ -364,17 +364,17 @@ class TiendaHelperEmail extends TiendaHelperBase
                     else
                 {
                     // Status Change
-                    $return->subject = JText::_( 'EMAIL_ORDER_STATUS_CHANGE' );
+                    $return->subject = JText::_( 'COM_TIENDA_EMAIL_ORDER_STATUS_CHANGE' );
                     $last_history = count($data->orderhistory) - 1;
 
-                    $text = sprintf(JText::_('EMAIL_DEAR'),$user_name).",\n\n";
-                    $text .= sprintf( JText::_("EMAIL_ORDER_UPDATED"), $data->order_id );
-                    $text .= JText::_("EMAIL_NEW_STATUS")." ".$data->orderhistory[$last_history]->order_state_name."\n\n";
+                    $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$user_name).",\n\n";
+                    $text .= sprintf( JText::_("COM_TIENDA_EMAIL_ORDER_UPDATED"), $data->order_id );
+                    $text .= JText::_("COM_TIENDA_EMAIL_NEW_STATUS")." ".$data->orderhistory[$last_history]->order_state_name."\n\n";
                     if (!empty($data->orderhistory[$last_history]->comments))
                     {
-                        $text .= sprintf( JText::_("EMAIL_ADDITIONAL_COMMENTS"), $data->orderhistory[$last_history]->comments );
+                        $text .= sprintf( JText::_("COM_TIENDA_EMAIL_ADDITIONAL_COMMENTS"), $data->orderhistory[$last_history]->comments );
                     }
-                    $text .= sprintf(JText::_("EMAIL_CHECK"),$link)."\n\n";
+                    $text .= sprintf(JText::_("COM_TIENDA_EMAIL_CHECK"),$link)."\n\n";
 
                     if ($this->use_html)
                     {
@@ -562,23 +562,23 @@ class TiendaHelperEmail extends TiendaHelperBase
 		$lang = &JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
     	//set the email subject
-    	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('Product')." #{$sendObject->item->product_id} ] ";
-    	$subject .= JText::_('Product Inquiries!');
+    	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('COM_TIENDA_PRODUCT')." #{$sendObject->item->product_id} ] ";
+    	$subject .= JText::_('COM_TIENDA_PRODUCT_INQUIRIES=');
     	$sendObject->subject = $subject;
     	
     	$vendor_name = $config->get('shop_owner_name', 'Admin');
     	// set the email body
-        $text = sprintf(JText::_('EMAIL_DEAR'),$vendor_name).",\n\n".$vendor_name;
-     	$text .= $sendObject->namefrom.JText::_(' has some inquiries about the product')." ".$sendObject->item->product_name." #{$sendObject->item->product_id} ".JText::_("and here's what he has to say")."-\n\n";
+        $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$vendor_name).",\n\n".$vendor_name;
+     	$text .= $sendObject->namefrom.JText::_('COM_TIENDA__HAS_SOME_INQUIRIES_ABOUT_THE_PRODUCT')." ".$sendObject->item->product_name." #{$sendObject->item->product_id} ".JText::_("COM_TIENDA_AND_HERES_WHAT_HE_HAS_TO_SAY")."-\n\n";
 		$text .= "------------------------------------------------------------------------------------------\n";
      	$text .= $sendObject->body;
      	$text .= "\n------------------------------------------------------------------------------------------";
 		$text .= "\n\n";
-		$text .= JText::_('Please use the link below to view the product.')."\n\n";		
-		$text .= JText::_('Click this link to');
+		$text .= JText::_('COM_TIENDA_PLEASE_USE_THE_LINK_BELOW_TO_VIEW_THE_PRODUCT')."\n\n";		
+		$text .= JText::_('COM_TIENDA_CLICK_THIS_LINK_TO');
 		$link = JURI::root().$sendObject->item->link;
 		$text .= " <a href='{$link}'>";
-		$text .= JText::_('view product').".";
+		$text .= JText::_('COM_TIENDA_EMAIL_VIEW_PRODUCT').".";
 		$text .= "</a>";
      	
         if ($this->use_html)
@@ -644,11 +644,11 @@ class TiendaHelperEmail extends TiendaHelperBase
 		$productsTable = JTable::getInstance('Products', 'TiendaTable');
 		$productsTable -> load( $product_id, true, false );
 		$product_name = $productsTable-> product_name;
-		$subject = "[" . $config -> get('shop_name', 'SHOP') . " - " . JText::sprintf('LOW STOCK MAIL SUBJECT NAME AND ID', $product_name, $product_id) . "]";
+		$subject = "[" . $config -> get('shop_name', 'SHOP') . " - " . JText::sprintf('COM_TIENDA_LOW_STOCK_MAIL_SUBJECT_NAME_AND_ID', $product_name, $product_id) . "]";
 
 		// set the email body
-		$text = JText::sprintf('EMAIL_DEAR', $vendor_name) . ",\n\n";
-		$text .= JText::sprintf("LOW STOCK MAIL PRODUCT NAME AND ID", $product_name, $product_id) . "\n";
+		$text = JText::sprintf('COM_TIENDA_EMAIL_DEAR', $vendor_name) . ",\n\n";
+		$text .= JText::sprintf("COM_TIENDA_LOW_STOCK_MAIL_PRODUCT_NAME_AND_ID", $product_name, $product_id) . "\n";
 		if (!empty($productattributeoption_id_array))
 		{
 			foreach ($productattributeoption_id_array as $productattributeoption_id)
@@ -660,12 +660,12 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$productattributesTable = JTable::getInstance('Productattributes', 'TiendaTable');
 				$productattributesTable -> load($productattribute_id);
 				$productattribute_name = $productattributesTable -> productattribute_name;
-				$text .= JText::sprintf( "LOW STOCK MAIL OPTION DETAILS", $productattribute_name, $productattributeoption_name ) . "\n";
+				$text .= JText::sprintf( "COM_TIENDA_LOW_STOCK_MAIL_OPTION_DETAILS", $productattribute_name, $productattributeoption_name ) . "\n";
 			}
 		}
 
 		$text .= "\n------------------------------------------------------------------------------------------\n";
-		$text .= JText::sprintf("LOW STOCK MAIL ITEMS AVAILABLE", $quantity) . "\n";
+		$text .= JText::sprintf("COM_TIENDA_LOW_STOCK_MAIL_ITEMS_AVAILABLE", $quantity) . "\n";
 		$text .= "------------------------------------------------------------------------------------------";
 		$text .= "\n\n";
 
