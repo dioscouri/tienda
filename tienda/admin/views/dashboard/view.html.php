@@ -420,8 +420,8 @@ class TiendaViewDashboard extends TiendaViewBase
 
 			// grab all records
 			$model = JModel::getInstance( 'Orders', 'TiendaModel' );
-			$model->setState( 'filter_date_from', $base->local_to_GMT_data( $start_ts ) );
-			$model->setState( 'filter_date_to', $base->local_to_GMT_data( $database->loadResult().' 00:00:00' ) );
+			$model->setState( 'filter_date_from', $start_ts );
+			$model->setState( 'filter_date_to', $database->loadResult().' 00:00:00' );
 			// set query for orderstate range
 			$ordersQuery = $model->getQuery();
 			$ordersQuery->where("tbl.order_state_id IN (".$this->getStatesCSV().")");
