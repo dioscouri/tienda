@@ -119,7 +119,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 	    		{
 		    		$user = JUser::getInstance( $subscription->user_id );
 	    			// string needle NOT found in haystack
-	    			if (!in_array($user->email, $recipients))
+	    			if (!in_array($user->email, $recipients) && JMailHelper::isEmailAddress($user->email))
 	    			{
 	    				$recipients[] = $user->email;    
 	    			}
@@ -127,13 +127,13 @@ class TiendaHelperEmail extends TiendaHelperBase
 	    		else 
 	    		{
 	    			// add the userinfo email to the list of recipients
-	    			if (!in_array($order->userinfo_email, $recipients))
+	    			if (!in_array($order->userinfo_email, $recipients) && JMailHelper::isEmailAddress($order->userinfo_email))
 	    			{
 	    				$recipients[] = $order->userinfo_email;    
 	    			}
 	    		}
 	   			// add the order user_email to the list of recipients
-	   			if (!in_array($order->user_email, $recipients))
+	   			if (!in_array($order->user_email, $recipients) && JMailHelper::isEmailAddress($order->user_email))
 	   			{
 	   				$recipients[] = $order->user_email;    
 	   			}
@@ -191,14 +191,14 @@ class TiendaHelperEmail extends TiendaHelperBase
 	   			else 
 	   			{
 	   				// add the userinfo email to the list of recipients
-	   				if (!in_array($order->userinfo_email, $recipients))
+	   				if (!in_array($order->userinfo_email, $recipients) && JMailHelper::isEmailAddress($order->userinfo_email))
 	   				{
 	   					$recipients[] = $order->userinfo_email;    
 	   				}
 	   			}
                
 	   			// add the order user_email to the list of recipients
-	   			if (!in_array($order->user_email, $recipients))
+	   			if (!in_array($order->user_email, $recipients) && JMailHelper::isEmailAddress($order->user_email))
 	   			{
 	   				$recipients[] = $order->user_email;    
 	   			}
@@ -479,6 +479,7 @@ class TiendaHelperEmail extends TiendaHelperBase
                 $email = trim($email);
                 if (!in_array($email, $items))
                 {
+                	if( strlen( $email ) )
                     $items[] = $email;
                 }
             }
@@ -491,7 +492,8 @@ class TiendaHelperEmail extends TiendaHelperBase
                 $email = trim($email);
                 if (!in_array($email, $items))
                 {
-                    $items[] = $email;
+                	if( strlen( $email ) )
+                		$items[] = $email;
                 }
             }
         }
