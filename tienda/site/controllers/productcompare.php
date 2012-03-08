@@ -308,7 +308,7 @@ class TiendaControllerProductCompare extends TiendaController
 				$availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity ( $product_id, $product_attributes[$cart_id] );
 				if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity )
 				{
-					JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $value ));
+					JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $value ));
 					continue;
 				}
 

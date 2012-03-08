@@ -836,7 +836,7 @@ class TiendaControllerProducts extends TiendaController
 		$availableQuantity = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getAvailableQuantity( $product_id, $attributes_csv );
 		if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
 		{
-			$response['msg'] = $helper->generateMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+			$response['msg'] = $helper->generateMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $product_qty ) );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return false;
@@ -1016,7 +1016,7 @@ class TiendaControllerProducts extends TiendaController
 		if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
 		{
 			$this->messagetype = 'notice';
-			$this->message = JText::_( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+			$this->message = JText::_( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $product_qty ) );
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
 		}
@@ -1388,7 +1388,7 @@ class TiendaControllerProducts extends TiendaController
 				if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
 				{
 					$response['msg'] = $helper
-							->generateMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+							->generateMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $product_qty ) );
 					$response['error'] = '1';
 					echo ( json_encode( $response ) );
 					return false;
@@ -1563,7 +1563,7 @@ class TiendaControllerProducts extends TiendaController
 				if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
 				{
 					$this->messagetype = 'notice';
-					$this->message = JText::_( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $product_qty ) );
+					$this->message = JText::_( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $product_qty ) );
 					$this->setRedirect( $redirect, $this->message, $this->messagetype );
 					return;
 				}

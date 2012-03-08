@@ -18,7 +18,7 @@
                 	<?php echo JText::_( 'Relationship' ); ?>
                 </th>
                 <th style="text-align: left;">
-    	            <?php echo JText::_( 'Product' ); ?>
+    	            <?php echo JText::_("COM_TIENDA_PRODUCT"); ?>
                 </th>
                 <th style="text-align: center;">
                     <?php echo JText::_( 'Price' ); ?>

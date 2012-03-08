@@ -104,7 +104,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
     {
         if (!$this->isInstalled())
         {
-            $this->setError( JText::_( "Amigos Not Installed" ) );
+            $this->setError( JText::_("COM_TIENDA_AMIGOS_NOT_INSTALLED") );
             return null;
         }
         
@@ -116,7 +116,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         $referral = $this->getReferralStatus($order->user_id);
         if (empty($order->user_id) || empty($referral))
         {
-            $this->setError( JText::_( "User Not a Referral" ) );
+            $this->setError( JText::_( "COM_TIENDA_AMIGOS_USER_NOT_A_REFERRAL" ) );
             return null;            
         }
         

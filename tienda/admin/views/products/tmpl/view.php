@@ -12,7 +12,7 @@
 
 
 		<fieldset>
-			<legend><?php echo JText::_('Product'); ?></legend>
+			<legend><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></legend>
 				<table class="admintable">
 					<tr>
 						<td width="100" align="right" class="key">

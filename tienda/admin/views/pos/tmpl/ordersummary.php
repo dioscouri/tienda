@@ -14,7 +14,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
            <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>
-                    <th style="text-align: left;"><?php echo JText::_( "PRODUCT" ); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "QUANTITY" ); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "TOTAL" ); ?></th>
                 </tr>

@@ -38,7 +38,7 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
                     <th style="width: 20px;">
                 	   <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
-                    <th colspan="2" style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
+                    <th colspan="2" style="text-align: left;"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
                 </tr>

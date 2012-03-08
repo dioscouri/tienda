@@ -48,7 +48,7 @@ class TiendaHelperJuga extends TiendaHelperBase
     {
         if (!$this->isInstalled())
         {
-            $this->setError( JText::_( "Juga Not Installed" ) );
+            $this->setError( JText::_( "COM_TIENDA_JUGA_NOT_INSTALLED" ) );
             return null;
         }
         
@@ -105,7 +105,7 @@ class TiendaHelperJuga extends TiendaHelperBase
         
         if (empty($subscription->subscription_id) || !is_object($subscription))
         {
-            $this->setError( JText::_( 'Invalid Subscription' ) );
+            $this->setError( JText::_( 'COM_TIENDA_JUGA_INVALID_SUBSCRIPTION' ) );
             return false;
         }
         

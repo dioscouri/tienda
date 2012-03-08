@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Product' ); ?>:
+                        <?php echo JText::_("COM_TIENDA_PRODUCT"); ?>:
                     </td>
                     <td>
                         <?php echo @$row->product_name; ?>

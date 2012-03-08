@@ -38,7 +38,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		if (empty($order->order_id))
 		{
 			// TODO we must make sure this class is always instantiated
-			$this->setError( JText::_( "Invalid Order ID" ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID_ORDER_ID") );
 			return false;
 		}
 
@@ -47,7 +47,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$row->order_id = $order_id;
 		$row->order_state_id = $order->order_state_id;
 		$row->notify_customer = TiendaConfig::getInstance()->get( 'autonotify_onSetOrderPaymentReceived', '0');
-		$row->comments = JText::_( "Payment Received" );
+		$row->comments = JText::_("COM_TIENDA_PAYMENT_RECEIVED");
 		if (!$row->save())
 		{
 			$errors[] = $row->getError();
@@ -340,7 +340,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		if (empty($order->order_id))
 		{
 			// TODO we must make sure this class is always instantiated
-			$this->setError( JText::_( "Invalid Order ID" ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID_ORDER_ID") );
 			return false;
 		}
 

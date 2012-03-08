@@ -49,21 +49,21 @@ class TiendaHelperCoupon extends TiendaHelperBase
 		// do we need individualized error reporting?
 		if (empty($coupon->coupon_id))
 		{
-			$this->setError( JText::_( "Invalid Coupon" ) );
+			$this->setError( JText::_("COM_TIENDA_INVALID_COUPON") );
 			return false;
 		}
 
 		// is the coupon enabled?
 		if (empty($coupon->coupon_enabled))
 		{
-			$this->setError( JText::_( "Coupon Not Enabled" ) );
+			$this->setError( JText::_( "COM_TIENDA_COUPON_NOT_ENABLED" ) );
 			return false;
 		}
 
 		$date = JFactory::getDate();
 		if ($date->toMySQL() < $coupon->start_date)
 		{
-			$this->setError( JText::_( "Coupon Not Valid for Today" ) );
+			$this->setError( JText::_( "COM_TIENDA_COUPON_NOT_VALID_TODAY" ) );
 			return false;
 		}
 
@@ -71,13 +71,13 @@ class TiendaHelperCoupon extends TiendaHelperBase
 		$nullDate = $db->getNullDate();
 		if ($coupon->expiration_date != $nullDate && $date->toMySQL() > $coupon->expiration_date)
 		{
-			$this->setError( JText::_( "Coupon Has Expired" ) );
+			$this->setError( JText::_( "COM_TIENDA_COUPON_EXPIRED" ) );
 			return false;
 		}
 
 		if ($coupon->coupon_max_uses > '-1' && $coupon->coupon_uses >= $coupon->coupon_max_uses)
 		{
-			$this->setError( JText::_( "Coupon Maximum Uses Reached" ) );
+			$this->setError( JText::_( "COM_TIENDA_COUPON_MAXIMUM_USES_REACHED" ) );
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class TiendaHelperCoupon extends TiendaHelperBase
 			$user_uses = $model->getResult();
 			if ($coupon->coupon_max_uses_per_user > '-1' && $user_uses >= $coupon->coupon_max_uses_per_user)
 			{
-				$this->setError( JText::_( "You Have Used This Coupon the Maximum Number of Times" ) );
+				$this->setError( JText::_( "COM_TIENDA_COUPON_USED_MAXIMUM_NUMBER_OF_TIMES" ) );
 				return false;
 			}
 		}

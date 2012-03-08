@@ -48,7 +48,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
     {
         if (!$this->isInstalled())
         {
-            $this->setError( JText::_( "Ambrasubs Not Installed" ) );
+            $this->setError( JText::_("COM_TIENDA_AMBRASUBS_NOT_INSTALLED") );
             return null;
         }
         
@@ -91,7 +91,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
         
         if (empty($subscription->subscription_id) || !is_object($subscription))
         {
-            $this->setError( JText::_( 'Invalid Subscription' ) );
+            $this->setError( JText::_( 'COM_TIENDA_AMBRASUBS_INVALID_SUBSCRIPTION' ) );
             return false;
         }
         
@@ -152,7 +152,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
         if ( ! ($already = AmbrasubsHelperPayment::getInstance( $payment->payment_id, $payment->payment_type, '1', 'payment_id' )) ) 
         { 
             if ( ! $payment->save()) {
-                $paymentError = JText::_( 'Ambrasubs Message Payment Save Failed' );
+                $paymentError = JText::_( 'COM_TEINDA_AMBRASUBS_MESSAGE_PAYMENT_SAVE_FAILED' );
             }
         } 
             else

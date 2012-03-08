@@ -51,428 +51,428 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Check default currency
 			if (!$this->checkDefaultCurrency())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKDEFAULTCURRENCY FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_("COM_TIENDA_DIAGNOSTIC_CHECKDEFAULTCURRENCY_FAILED") .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the productfiles table
 			// deprecate this check eventually, b/c it is only needed it the admin installed 0.2.0
 			if (!$this->checkProductFiles())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTFILES FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTFILES_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the orders table
 			if (!$this->checkOrdersOrderCurrency())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERCURRENCY FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERSORDERCURRENCY_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsInventory())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsInventory FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSINVENTORY_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the category root
 			if (!$this->checkCategoriesRootDesc())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESROOTDESC FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCATEGORIESROOTDESC_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the products table
 			if (!$this->checkProductsParamsLayout())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTSPARAMSLAYOUT FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSPARAMSLAYOUT_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the categories table
 			if (!$this->checkCategoriesParamsLayout())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCATEGORIESPARAMSLAYOUT FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCATEGORIESPARAMSLAYOUT_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the countries table
 			if (!$this->checkCountriesEnabled())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESENABLED FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCOUNTRIESENABLED_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			if (!$this->checkCountriesOrdering())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCOUNTRIESORDERING FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCOUNTRIESORDERING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// Check order history table
 			if (!$this->checkOrderHistory())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERHISTORY FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERHISTORY_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsShortDesc())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKPRODUCTSSHORTDESC FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSSHORTDESC_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkTaxclassesOrdering())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKTAXCLASSESORDERING FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKTAXCLASSESORDERING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrdersOrderNumber())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERSORDERNUMBER FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERSORDERNUMBER_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderInfoZones())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERINFOZONES FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERINFOZONES_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkCurrenciesExchange())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCURRENCIESEXCHANGE FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCURRENCIESEXCHANGE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkCartsSessionId())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKCARTSSESSIONID FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCARTSSESSIONID_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderZoneAndUser())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERZONEANDUSER FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERZONEANDUSER_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderCompletedTasks())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERCOMPLETEDTASKS FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERCOMPLETEDTASKS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderQuantitiesUpdated())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC CHECKORDERQUANTITIESUPDATED FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERQUANTITIESUPDATED_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrdersOrderShips())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrdersOrderShips FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERSORDERSHIPS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the products table
 			if (!$this->checkProductsName())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsName FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSNAME_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the user info table
 			if (!$this->checkUserInfoEmailDropId())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoEmailDropId FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKUSERINFOEMAILDROPID_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the user info table
 			if (!$this->checkProductsOrdering())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsOrdering FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSORDERING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the user info table
 			if (!$this->checkOrderitemsRecurringPrice())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsRecurringPrice FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSRECURRINGPRICE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsCheckInventory())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsCheckInventory FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSCHECKINVENTORY_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductRelationsExisting())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductRelationsExisting FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTRELATIONSEXISTING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductRelationsType())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductRelationsType FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTRELATIONSTYPE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkSubscriptionsExpire())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionsExpire FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBSCRIPTIONSEXPIRE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsSubscriptions())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSSUBSCRIPTIONS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderItemsSubscriptions())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemsSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSSUBSCRIPTIONS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductsNotForSale())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsNotForSale FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSNOTFORSALE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkSubscriptionsCheckFiles())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionsCheckFiles FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBSCRIPTIONSCHECKFILES_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsSQL())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsSQL FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSSQL_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductcommentshelpful_votes())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductcommentshelpful_votes FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTCOMMENTSHELPFUL_VOTES_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkOrderitemsDiscount())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemsDiscount FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSDISCOUNT_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrdershippings())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrdershippings FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERSHIPPINGS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductCommentsReported())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsReported FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTCOMMENTSREPORTED_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductFilesMaxDownload())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductFilesMaxDownload FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTFILESMAXDOWNLOAD_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductsProductListprice())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsProductListprice FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSPRODUCTLISTPRICE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductCommentsRatingUpdated())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsRatingUpdated FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTCOMMENTSRATINGUPDATED_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkProductsOverallRating())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductsOverallRating FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSOVERALLRATING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->updateOverallRatings())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC updateOverallRatings FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_UPDATEOVERALLRATINGS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkCartParams())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkCartParams FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCARTPARAMS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkOrderitemParams())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemParams FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMPARAMS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 			if (!$this->checkPricesGroupId())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkPricesGroupId FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRICESGROUPID_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->updatePriceUserGroups())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC updatePriceUserGroups FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_UPDATEPRICEUSERGROUPS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductQuantityLimits())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductQuantityLimits FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTQUANTITYLIMITS_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductAttributeOptionCode())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionCode FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTATTRIBUTEOPTIONCODE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkOrderItemAttributeCode())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkOrderItemAttributeCode FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMATTRIBUTECODE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkZoneRelationsZipRange())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkZoneRelationsZipRange FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKZONERELATIONSZIPRANGE_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkProductCommentsUserEmail())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsUserEmail FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTCOMMENTSUSEREMAIL_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			if (!$this->checkCategoriesOrdering())
 			{
-				return $this->redirect( JText::_('DIAGNOSTIC checkCategoriesOrdering FAILED') .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCATEGORIESORDERING_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 
 		}
 
 		if (!$this->checkProductsArticle())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProductsArticle FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTSARTICLE_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkEavEntityID())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityID FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEAVENTITYID_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkEavEditableBy())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEavEditableBy FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEAVEDITABLEBY_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkEavEntityType())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEavEntityType FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEAVENTITYTYPE_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkProductCommentsUserName())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProductCommentsUserName FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTCOMMENTSUSERNAME_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkCartsCartId())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkCartsCartId FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCARTSCARTID_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkManufacturersDescParams())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkManufacturersDescParams FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKMANUFACTURERSDESCPARAMS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkGroupsOrdering())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkManufacturersDescParams FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKMANUFACTURERSDESCPARAMS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkParentAttributeOption())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkParentAttributeOption FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPARENTATTRIBUTEOPTION_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkEavRequired())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEavRequired FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEAVREQUIRED_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkParentAttributeOption2())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkParentAttributeOption2 FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPARENTATTRIBUTEOPTION2_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkEavAlias())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEavAlias FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEAVALIAS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 		if (!$this->checkProRatedSubscriptionProducts())
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProRatedSubscriptionProducts FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRORATEDSUBSCRIPTIONPRODUCTS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		if (!$this->checkProRatedSubscriptionOrderitems() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProRatedSubscriptionOrderitems FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRORATEDSUBSCRIPTIONORDERITEMS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 		if (!$this->checkSubscriptionByIssue() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkSubscriptionByIssue FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBSCRIPTIONBYISSUE_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 		if (!$this->checkSubNumUserInfo() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkSubNumUserInfo FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBNUMUSERINFO_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		if (!$this->checkSubNumSubscriptions() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkSubNumSubscriptions FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBNUMSUBSCRIPTIONS_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 		
 		if (!$this->checkOrderInfoTaxNumber() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkOrderInfoTaxNumber FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERINFOTAXNUMBER_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 
 		if (!$this->checkAddressTaxNumber() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkAddressTaxNumber FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKADDRESSTAXNUMBER_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 
 		if (!$this->checkSubByIssueGtmField() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkSubByIssueGtmField FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBBYISSUEGTMFIELD_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 
 		if (!$this->checkCategoryDisplayFields() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkCategoryDisplayFields FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKCATEGORYDISPLAYFIELDS_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 		
 		if (!$this->checkEmptyEavTable() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkEmptyEavTable FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKEMPTYEAVTABLE_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 		
 		if (!$this->checkOrderCreditFields() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkOrderCreditFields FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERCREDITFIELDS_FAILED') .' :: '. $this->getError(), 'error' );
 		}		
 		
 		if (!$this->checkUserInfoCreditFields() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkUserInfoCreditFields FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKUSERINFOCREDITFIELDS_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if (!$this->checkProductAttributeOptionBlank() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkProductAttributeOptionBlank FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTATTRIBUTEOPTIONBLANK_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 
 		if( !$this->checkLevelTaxes() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkLevelTaxes FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKLEVELTAXES_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 		if( !$this->checkOrderitemLevelTaxes() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkOrderitemLevelTaxes FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMLEVELTAXES_FAILED') .' :: '. $this->getError(), 'error' );
 		}
 		
 		if( !$this->checkSecretWord() )
 		{
-			return $this->redirect( JText::_('DIAGNOSTIC checkSecretWord FAILED') .' :: '. $this->getError(), 'error' );
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSECRETWORD_FAILED') .' :: '. $this->getError(), 'error' );
 		}
     
     if( !$this->dropZoneIdOrderInfo() )
     {
-			return $this->redirect( JText::_('DIAGNOSTIC dropZoneIdOrderInfo FAILED') .' :: '. $this->getError(), 'error' );    
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_DROPZONEIDORDERINFO_FAILED') .' :: '. $this->getError(), 'error' );    
     }
     
     if( !$this->checkOrderHashField() )
     {
-			return $this->redirect( JText::_('DIAGNOSTIC checkOrderHashField FAILED') .' :: '. $this->getError(), 'error' );    
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERHASHFIELD_FAILED') .' :: '. $this->getError(), 'error' );    
     }
 
     if( !$this->checkSubtotalMax() )
     {
-			return $this->redirect( JText::_('DIAGNOSTIC checkSubtotalMax FAILED') .' :: '. $this->getError(), 'error' );    
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBTOTALMAX_FAILED') .' :: '. $this->getError(), 'error' );    
     }
 	}
 
@@ -640,7 +640,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		$default_currencyid = TiendaConfig::getInstance()->get('default_currencyid', '-1');
 		if ($default_currencyid == '-1')
 		{
-			JError::raiseNotice( 'checkDefaultCurrency', JText::_("No Default Currency Selected") );
+			JError::raiseNotice( 'checkDefaultCurrency', JText::_("COM_TIENDA_NO_DEFAULT_CURRENCY_SELECTED") );
 			// do not return false here to enable users to actually change the default currency
 			return true;
 		}
@@ -652,7 +652,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Check if the currency exists
 			if ( empty($currency->currency_id) )
 			{
-				JError::raiseNotice( 'checkDefaultCurrency', JText::_("Currency does not exists") );
+				JError::raiseNotice( 'checkDefaultCurrency', JText::_("COM_TIENDA_CURRENCY_DOES_NOT_EXISTS") );
 				// do not return false here to enable users to actually change the default currency
 				return true;
 			}

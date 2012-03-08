@@ -216,7 +216,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		$availableQuantity = $product_helper->getAvailableQuantity( $this->product_id, $this->product_attributes );
 		if ( $availableQuantity->product_check_inventory && $item->product_qty > $availableQuantity->quantity )
 		{
-			$this->setError( JText::_( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $item->product_qty ) ) );
+			$this->setError( JText::_( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $item->product_qty ) ) );
 			return false;
 		}
 		
@@ -293,7 +293,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		$availableQuantity = $product_helper->getAvailableQuantity( $item->product_id, $item->product_attributes );
 		if ( $availableQuantity->product_check_inventory && $item->product_qty > $availableQuantity->quantity )
 		{
-		    $this->setError( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $availableQuantity->product_name, $item->product_qty ) );
+		    $this->setError( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $item->product_qty ) );
 			return false;
 		}
 		

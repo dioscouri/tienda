@@ -669,7 +669,7 @@ class UserController extends JController
         $fromname       = $mainframe->getCfg( 'fromname' );
         $siteURL        = JURI::base();
 
-        $subject    = sprintf ( JText::_( 'Account details for' ), $name, $sitename);
+        $subject    = sprintf ( JText::_("COM_TIENDA_ACCOUNT_DETAILS_FOR"), $name, $sitename);
         $subject    = html_entity_decode($subject, ENT_QUOTES);
 
         if ( $useractivation == 1 ){
@@ -696,7 +696,7 @@ class UserController extends JController
         JUtility::sendMail($mailfrom, $fromname, $email, $subject, $message);
 
         // Send notification to all administrators
-        $subject2 = sprintf ( JText::_( 'Account details for' ), $name, $sitename);
+        $subject2 = sprintf ( JText::_("COM_TIENDA_ACCOUNT_DETAILS_FOR"), $name, $sitename);
         $subject2 = html_entity_decode($subject2, ENT_QUOTES);
 
         // get superadministrators id

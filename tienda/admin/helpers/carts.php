@@ -505,7 +505,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 						if ($cartitem->product_qty > $product->quantity )
 						{
 							// enqueu a system message
-							JFactory::getApplication()->enqueueMessage( JText::sprintf( 'NOT_AVAILABLE_QUANTITY', $cartitem->product_name, $cartitem->product_qty ));
+							JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $cartitem->product_name, $cartitem->product_qty ));
 
 							// load table to adjust quantity in cart
 							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
@@ -586,7 +586,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// using a helper file,To determine the product's information related to inventory
 					$availableQuantity = $product_helper->getAvailableQuantity( $productItem->product_id, $cartitem->product_attributes );
 					if( $availableQuantity->product_check_inventory && $cartitem->product_qty >$availableQuantity->quantity && $availableQuantity->quantity >=1) {
-						JFactory::getApplication()->enqueueMessage(JText::sprintf( 'CART_QUANTITY_ADJUSTED',$productItem->product_name, $cartitem->product_qty, $availableQuantity-> quantity ));
+						JFactory::getApplication()->enqueueMessage(JText::sprintf("COM_TIENDA_CART_QUANTITY_ADJUSTED",$productItem->product_name, $cartitem->product_qty, $availableQuantity-> quantity ));
 						$cartitem->product_qty = $availableQuantity->quantity;
 					}
 
@@ -601,7 +601,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 						{
 							TiendaHelperCarts::removeCartItem( $cartitem->session_id, $cartitem->user_id, $cartitem->product_id );
 						}
-						JFactory::getApplication()->enqueueMessage( JText::sprintf( 'Not available') . " " .$productItem->product_name );
+						JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE") . " " .$productItem->product_name );
 						continue;
 					}
 				}
@@ -780,7 +780,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// cart must already have required item in it
 					if (!in_array($relation->product_id_to, $cart))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
 						return false;
 					}
 					break;
@@ -789,7 +789,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// or user must have purchased it some time in the past
 					if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $ordered_items))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
 						return false;
 					}
 					break;
@@ -798,7 +798,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// or user must have active subscription
 					if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $active_subs))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_( "is Required" ) );
+						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
 						return false;
 					}
 					break;
@@ -852,7 +852,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 			{
 				if (!$carthelper->canAddItem( $citem, $cart_id, $id_type ))
 				{
-					JFactory::getApplication()->enqueueMessage( JText::_( 'Removing Item From Cart for Failed Dependencies' ) . " - " . $citem->product_name, 'message' );
+					JFactory::getApplication()->enqueueMessage( JText::_( 'COM_TIENDA_REMOVING_ITEM_FROM_CART_FOR_FAILED_DEPENDENCIES' ) . " - " . $citem->product_name, 'message' );
 					$carthelper->removeCartItem($session_id, $user_id, $citem->product_id);
 				}
 			}

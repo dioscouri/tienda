@@ -252,7 +252,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
                 else
             {
                 // invalid currency, fail
-                JError::raiseError('1', JText::_("Invalid Currency Type"));
+                JError::raiseError('1', JText::_("COM_TIENDA_INVALID_CURRENCY_TYPE"));
                 return;                
             }
         }
@@ -290,7 +290,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
        		else
             {
                 // invalid currency, fail
-                JError::raiseError('1', JText::_("Invalid Currency Type"));
+                JError::raiseError('1', JText::_("COM_TIENDA_INVALID_CURRENCY_TYPE"));
                 return;                
             }
         }

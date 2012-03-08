@@ -178,7 +178,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		if (empty($shippingmethod->shipping_method_id))
 		{
 			// TODO if this is an object, setError, otherwise return false, or 0.000?
-			$return->setError( JText::_( "Undefined Shipping Method" ) );
+			$return->setError( JText::_("COM_TIENDA_UNDEFINED_SHIPPING_METHOD") );
 			return $return;
 		}
 		
@@ -347,7 +347,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             	}
                 break;
             default:
-	            $this->setError( JText::_( "Invalid Shipping Method Type" ) );
+	            $this->setError( JText::_("COM_TIENDA_INVALID_SHIPPING_METHOD_TYPE") );
 	            return false;
                 break;
 		}

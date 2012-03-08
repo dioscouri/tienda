@@ -18,7 +18,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
 <div class="cartitems">
 	<div class="adminlist">
 		<div id="cartitems_header" class="floatbox">
-			<span class="left50"><?php echo JText::_( "Product" ); ?></span>
+			<span class="left50"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></span>
 			<span class="left20 center"><?php echo JText::_( "Quantity" ); ?></span>
 			<span class="left30 right"><?php echo JText::_( "Total" ); ?></span>
 		</div>

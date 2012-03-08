@@ -25,7 +25,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>
-                    <th style="text-align: left;"><?php echo JText::_( "Product" ); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Quantity" ); ?></th>
                     <th style="width: 50px;"><?php echo JText::_( "Total" ); ?></th>
                 </tr>
