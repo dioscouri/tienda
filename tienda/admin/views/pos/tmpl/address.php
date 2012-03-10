@@ -19,12 +19,12 @@
 				<tr>
 					<td align="center">
 					<a onclick="javascript:submitbutton('addaddress'); return false;" href="#" >
-					<span class="icon-32-save" title="<?php echo JText::_('Save', true);?>"></span><?php echo JText::_('Save');?>
+					<span class="icon-32-save" title="<?php echo JText::_('COM_TIENDA_SAVE', true);?>"></span><?php echo JText::_('COM_TIENDA_SAVE');?>
 					</a>
 					</td>
 					<td align="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=pos&task=addresses&tmpl=component');?>" >
-					<span class="icon-32-cancel" title="<?php echo JText::_('Cancel', true);?>"></span><?php echo JText::_('Cancel');?>
+					<span class="icon-32-cancel" title="<?php echo JText::_('COM_TIENDA_CANCEL', true);?>"></span><?php echo JText::_('COM_TIENDA_CANCEL');?>
 					</a>
 					</td>
 				</tr>
@@ -38,10 +38,10 @@
 			<?php if($config->get('show_field_title', '3') != '0' ): ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('ADDRESS TITLE');?>
+				<?php echo JText::_('COM_TIENDA_ADDRESS_TITLE');?>
 				</th>
 				<td>
-				<?php echo JText::_('ADDRESS TITLE FOR YOUR REFERENCE');?>
+				<?php echo JText::_('COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE');?>
 				<br/>
 				<input name="address_name" id="address_name"
 				type="text" size="48" maxlength="250"
@@ -68,7 +68,7 @@
 			<?php if($config->get('show_field_name', '3') != '0' ): ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('FIRST NAME');?>
+				<?php echo JText::_('COM_TIENDA_FIRST_NAME');?>
 				</th>
 				<td>
 				<input name="first_name" id="first_name"
@@ -79,7 +79,7 @@
 			<?php endif;?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('MIDDLE NAME');?>
+				<?php echo JText::_('COM_TIENDA_MIDDLE_NAME');?>
 				</th>
 				<td>
 				<input type="text" name="middle_name"
@@ -89,7 +89,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('LAST NAME');?>
+				<?php echo JText::_('COM_TIENDA_LAST_NAME');?>
 				</th>
 				<td>
 				<input type="text" name="last_name"
@@ -99,7 +99,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('COMPANY NAME');?>
+				<?php echo JText::_('COM_TIENDA_COMPANY');?>
 				</th>
 				<td>
 				<input type="text" name="company" id="company"
@@ -109,7 +109,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('ADDRESS LINE 1');?>
+				<?php echo JText::_('COM_TIENDA_ADDRESS_LINE_1');?>
 				</th>
 				<td>
 				<input type="text" name="address_1"
@@ -119,7 +119,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('ADDRESS LINE 2');?>
+				<?php echo JText::_('COM_TIENDA_ADDRESS_LINE_2');?>
 				</th>
 				<td>
 				<input type="text" name="address_2"
@@ -129,7 +129,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('CITY');?>
+				<?php echo JText::_('COM_TIENDA_CITY');?>
 				</th>
 				<td>
 				<input type="text" name="city" id="city"
@@ -139,7 +139,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('COUNTRY');?>
+				<?php echo JText::_('COM_TIENDA_COUNTRY');?>
 				</th>
 				<td>
 				<?php
@@ -155,14 +155,14 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('ZONE');?>
+				<?php echo JText::_('COM_TIENDA_ZONE');?>
 				</th>
 				<td>
 				<div id="zones_wrapper">
 					<?php
 					if(empty($row->zone_id))
 					{
-						echo JText::_("SELECT COUNTRY FIRST");
+						echo JText::_("COM_TIENDA_SELECT_COUNTRY_FIRST");
 					}
 					else
 					{
@@ -174,7 +174,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('POSTAL CODE');?>
+				<?php echo JText::_('COM_TIENDA_POSTAL_CODE');?>
 				</th>
 				<td>
 				<input type="text" name="postal_code"
@@ -184,7 +184,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('PHONE');?>
+				<?php echo JText::_('COM_TIENDA_PHONE');?>
 				</th>
 				<td>
 				<input type="text" name="phone_1" id="phone_1"
@@ -194,7 +194,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('CELL');?>
+				<?php echo JText::_('COM_TIENDA_CELL');?>
 				</th>
 				<td>
 				<input type="text" name="phone_2" id="phone_2"
@@ -204,7 +204,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('FAX');?>
+				<?php echo JText::_('COM_TIENDA_FAX');?>
 				</th>
 				<td>
 				<input type="text" name="fax" id="fax"

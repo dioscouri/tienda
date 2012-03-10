@@ -28,11 +28,11 @@
 		<tbody>
 			<?php if( $elements['address_name'][0] ) :
 				if( $guest ) : ?>
-			<input type="hidden" value="<?php echo JText::_('TEMPORARY');?>" name="<?php echo $this->form_prefix;?>address_name" id="<?php echo $this->form_prefix;?>address_name" />
+			<input type="hidden" value="<?php echo JText::_('COM_TIENDA_TEMPORARY');?>" name="<?php echo $this->form_prefix;?>address_name" id="<?php echo $this->form_prefix;?>address_name" />
 				<?php else: ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-					<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'Address Title' ); ?>
+					<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'COM_TIENDA_ADDRESS_TITLE' ); ?>
 					<?php if( !$this->guest && $elements['address_name'][1] ): ?>
 						<?php echo TiendaGrid::required(); ?>
 					<?php endif;?>
@@ -50,7 +50,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('TITLE');
+					echo JText::_('COM_TIENDA_TITLE');
 					if( $elements['title'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -67,7 +67,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php 
-					echo JText::_('FIRST NAME');
+					echo JText::_('COM_TIENDA_FIRST_NAME');
 					if( $elements['name'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -84,7 +84,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php 
-					echo JText::_('MIDDLE NAME');
+					echo JText::_('COM_TIENDA_MIDDLE_NAME');
 					if( $elements['middle'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -101,7 +101,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php 
-					echo JText::_('LAST NAME');
+					echo JText::_('COM_TIENDA_LAST_NAME');
 					if( $elements['last'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -118,7 +118,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php 
-					echo JText::_('COMPANY NAME');
+					echo JText::_('COM_TIENDA_COMPANY');
 					if( $elements['company'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -135,7 +135,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php 
-					echo JText::_('ADDRESS LINE 1');
+					echo JText::_('COM_TIENDA_ADDRESS_LINE_1');
 					if( $elements['address1'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -152,7 +152,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('ADDRESS LINE 2');
+					echo JText::_('COM_TIENDA_ADDRESS_LINE_2');
 					if( $elements['address2'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -169,7 +169,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('CITY');
+					echo JText::_('COM_TIENDA_CITY');
 					if( $elements['city'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -186,7 +186,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('COUNTRY');
+					echo JText::_('COM_TIENDA_COUNTRY');
 					if( $elements['country'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -209,7 +209,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('Zone');
+					echo JText::_('COM_TIENDA_ZONE');
 					if( $elements['zone'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -224,7 +224,7 @@
 					}
 					else
 					{
-						echo JText::_("SELECT COUNTRY FIRST");
+						echo JText::_("COM_TIENDA_SELECT_COUNTRY_FIRST");
 					}
 					?>
 				</div>
@@ -237,7 +237,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('POSTAL CODE');
+					echo JText::_('COM_TIENDA_POSTAL_CODE');
 					if( $elements['zip'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -255,7 +255,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('PHONE');
+					echo JText::_('COM_TIENDA_PHONE');
 					if( $elements['phone'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -272,7 +272,7 @@
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
 				<?php
-					echo JText::_('Co. Tax Number');
+					echo JText::_('COM_TIENDA_CO_TAX_NUMBER');
 					if( $elements['tax_number'][1] ):
 						echo TiendaGrid::required();
 					endif;
