@@ -35,7 +35,7 @@ function tiendaGetPaymentOptions(container, form, msg, callback )
 	else
 		tiendaDoTask( url, container, form, msg, false, tiendaDeletePaymentGrayDiv );
 
-	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', Joomla.JText._( 'Updating Payment Methods' ) );
+	tiendaGrayOutAjaxDiv( 'onCheckoutPayment_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_PAYMENT_METHODS' ) );
 
 	if( payment_plugin )
 	{
@@ -70,7 +70,7 @@ function tiendaSaveOnepageOrder(container, errcontainer, form )
     var str = tiendaGetFormInputData( form );
      
      // execute Ajax request to server
-     tiendaPutAjaxLoader( errcontainer, Joomla.JText._( 'VALIDATING' ) );
+     tiendaPutAjaxLoader( errcontainer, Joomla.JText._( 'COM_TIENDA_VALIDATING' ) );
      var a=new Ajax(url,{
          method:"post",
          data:{"elements":Json.toString(str)},
@@ -150,8 +150,8 @@ function tiendaCheckoutSetBillingAddress(url, container, selected, form )
 		tiendaGrayOutAddressDiv();
 		tiendaDoTask( url, container, '', '', false );
 		if( $( 'onCheckoutShipping_wrapper' ) )
-			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
-		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );
+			tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_SHIPPING_RATES' ) );
+		tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_CART' ) );
 
 		tiendaGetCheckoutTotals( true );
     	tiendaRestoreFormInputs( form, values );
@@ -174,7 +174,7 @@ function tiendaCheckoutSetShippingAddress(url, container, form, selected )
 		divForm.style.display = "none";
 		tiendaGrayOutAddressDiv();
 		tiendaDoTask( url, container, '', '', false );
-		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'Updating Shipping Rates' ) );
+		tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_SHIPPING_RATES' ) );
 		tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form, tiendaDeleteAddressGrayDiv );
     	tiendaRestoreFormInputs( form, values );
 	}

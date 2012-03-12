@@ -415,7 +415,7 @@ function tiendaUpdateAddToCart( page, container, form, working, callback )
     var str = tiendaGetFormInputData( form ); 
     // execute Ajax request to server
     if( working )
-    	tiendaGrayOutAjaxDiv( container , Joomla.JText._( 'Updating Attributes' ), '');
+    	tiendaGrayOutAjaxDiv( container , Joomla.JText._( 'COM_TIENDA_UPDATING_ATTRIBUTES' ), '');
     var a=new Ajax(url,{
         method:"post",
         data:{"elements":Json.toString(str)},
@@ -539,8 +539,8 @@ function tiendaClearInput( element, value )
 function tiendaAddProductToCompare(id, container, obj, doModal)
 {	
 	var add = 0;
-	var msg = Joomla.JText._( "Removing Product" );
-	if(obj.checked == true) { add = 1; msg = Joomla.JText._( "Adding Product for Comparison" );}
+	var msg = Joomla.JText._( "COM_TIENDA_REMOVING_PRODUCT" );
+	if(obj.checked == true) { add = 1; msg = Joomla.JText._( "COM_TIENDA_ADDING_PRODUCT_FOR_COMPARISON" );}
 	if (doModal == true) { tiendaNewModal(msg); }
 	var url = 'index.php?option=com_tienda&view=productcompare&task=addProductToCompare&format=raw&product_id='+id+'&add='+add;
 	 
@@ -595,7 +595,7 @@ function tiendaAddCoupon( form, mult_enabled )
                 document.getElementById('new_coupon_code').value = '';
                 
                 // Update the summary
-                tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'Updating Cart' ) );
+                tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_CART' ) );
                 tiendaGetCheckoutTotals( true );
                 tiendaRefreshTotalAmountDue();
                 
