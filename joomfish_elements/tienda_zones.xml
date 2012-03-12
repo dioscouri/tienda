@@ -4,7 +4,7 @@
   <author>Ivo Apostolov</author>
   <version>0.44</version>
   <description>Definition for the Tienda Zones table</description>
-  <copyright>2010 Dioscouri.com</copyright>
+  <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_zones">
   	<table name="tienda_zones">
   		<field type="referenceid" name="zone_id" translate="0">ID</field>

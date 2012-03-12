@@ -4,7 +4,7 @@
   <author>Ivo Apostolov</author>
   <version>0.44</version>
   <description>Definition for the Tienda Product Attributes table</description>
-  <copyright>2010 Dioscouri.com</copyright>
+  <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_productattributes">
   	<table name="tienda_productattributes">
   		<field type="referenceid" name="productattribute_id" translate="0">ID</field>

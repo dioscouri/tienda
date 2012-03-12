@@ -4,7 +4,7 @@
   <author>Ivo Apostolov</author>
   <version>0.44</version>
   <description>Definition for the Tienda Manufacturers table</description>
-  <copyright>2010 Dioscouri.com</copyright>
+  <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_manufacturers">
   	<table name="tienda_manufacturers">
   		<field type="referenceid" name="manufacturer_id" translate="0">ID</field>

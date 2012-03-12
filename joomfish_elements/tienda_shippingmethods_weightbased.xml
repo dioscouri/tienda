@@ -2,9 +2,9 @@
 <joomfish type="contentelement">
   <name>Tienda - Weight-based Shipping Methods</name>
   <author>Lukas Polak</author>
-  <version>0.8.2</version>
+  <version>0.9.0</version>
   <description>Definition for the Tienda Weight-based Shipping Methods table</description>
-  <copyright>2011 Dioscouri.com</copyright>
+  <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_shippingmethodsweightbased">
   	<table name="tienda_shippingmethods_weightbased">
   		<field type="referenceid" name="shipping_method_weightbased_id" translate="0">ID</field>

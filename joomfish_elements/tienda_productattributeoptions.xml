@@ -4,7 +4,7 @@
   <author>Ivo Apostolov</author>
   <version>0.44</version>
   <description>Definition for the Product Attribute Options table</description>
-  <copyright>2010 Dioscouri.com</copyright>
+  <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_productattributeoptions">
   	<table name="tienda_productattributeoptions">
   		<field type="referenceid" name="productattributeoption_id" translate="0">ID</field>
