@@ -1278,7 +1278,7 @@ class TiendaControllerOrders extends TiendaController
 		$orderinfo->load( array('order_id'=>$order_id) );
 		if (empty($order_id) || empty($orderinfo->order_id))
 		{
-			$this->message = JText::_("COM_TINEDA_INVALID_ORDER");
+			$this->message = JText::_("COM_TIENDA_INVALID_ORDER");
 			$this->messagetype = 'notice';
 			$redirect = JRoute::_( $redirect, false );
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );

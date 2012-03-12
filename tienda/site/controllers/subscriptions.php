@@ -117,7 +117,7 @@ class TiendaControllerSubscriptions extends TiendaController
         if (empty($user_id) || $user_id != $row->user_id)
         {
         	$this->messagetype  = 'notice';
-        	$this->message      = JText::_( 'Invalid subscriptions' );
+        	$this->message      = JText::_( 'COM_TIENDA_INVALID_SUBSCRIPTIONS' );
             $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
             $redirect = JRoute::_( $redirect, false );
             $this->setRedirect( $redirect, $this->message, $this->messagetype );

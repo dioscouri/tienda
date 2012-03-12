@@ -19,7 +19,7 @@ $citems = @$this->citems;
             <?php if (isset($state->category_name)) : ?>
                 <span><?php echo @$this->title; ?></span>
             <?php else : ?>
-                <span><?php echo JText::_( "All Categories" ); ?></span>
+                <span><?php echo JText::_( "COM_TIENDA_ALL_CATEGORIES" ); ?></span>
             <?php endif; ?>
                         
             <div class='category_description'><?php echo $this->cat->category_description; ?></div>

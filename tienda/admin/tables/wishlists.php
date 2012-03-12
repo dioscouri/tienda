@@ -227,7 +227,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		$canAddToCart = $carthelper->canAddItem( $item, $this->user_id, 'user_id' );
 		if ( !$canAddToCart )
 		{
-			$this->setError( JText::_( "Cannot Add Item to Cart" ) . " - " . $carthelper->getError( ) );
+			$this->setError( JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $carthelper->getError( ) );
 			return false;
 		}
 		
@@ -240,7 +240,7 @@ class TiendaTableWishlists extends TiendaTableEav
 			$result = $results[$i];
 			if ( !empty( $result->error ) )
 			{
-    			$this->setError( JText::_( "Cannot Add Item to Cart" ) . " - " . $result->message );
+    			$this->setError( JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $result->message );
     			return false;
 			}
 		}
@@ -284,7 +284,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		
 		if ( $product->product_notforsale )
 		{
-			$this->setError( JText::_( "Product Not For Sale" ) );
+			$this->setError( JText::_("COM_TIENDA_PRODUCT_NOT_FOR_SALE") );
 			return false;
 		}
 		

@@ -232,7 +232,7 @@ class TiendaController extends JController
             {
                 // if it fails check, return message
                 $response['error'] = '1';
-                $response['msg'] = $helper->generateMessage(JText::_("Could not process form"));
+                $response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_COULD_NOT_PROCESS_FORM"));
                 echo ( json_encode( $response ) );
                 return;
             }
