@@ -12,7 +12,6 @@
 	
 	<files>
 		<filename plugin="customfields">customfields.php</filename>
-		<filename>customfields.xml</filename>
 		<folder>customfields</folder>	
 	</files>
 

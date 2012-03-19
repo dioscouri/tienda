@@ -131,7 +131,7 @@ class TiendaControllerProductCompare extends TiendaController
 				Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 				$helper = TiendaHelperBase::getInstance();
 				$limit = TiendaConfig::getInstance()->get('compared_products', '5');
-				$response['msg'] = $helper->generateMessage(JText::_("Only {$limit} products can be added to compare."));
+				$response['msg'] = $helper->generateMessage( JText::sprintf( "COM_TIENDA_ONLY_N_PRODUCTS_CAN_BE_ADDED_TO_COMPARE", $limit ) );
 				$response['error'] = '1';
 				echo json_encode($response);
 				return;

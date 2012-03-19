@@ -906,7 +906,7 @@
                                 <?php echo JText::_( 'COM_TIENDA_WIDTH_OF_UI_LIGHTBOXES' ); ?>
                             </th>
                             <td>
-                                <input type="text" name="lightbox_width" value="<?php echo $this->row->get('lightbox_width', '480'); ?>" class="inputbox" size="10" />
+                                <input type="text" name="lightbox_width" value="<?php echo $this->row->get('lightbox_width', '800'); ?>" class="inputbox" size="10" />
                             </td>
                             <td>
                                 <?php echo JText::_( 'COM_TIENDA_WIDTH_OF_UI_LIGHTBOXES_DESC' ); ?>
