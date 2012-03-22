@@ -4,16 +4,16 @@
 	<thead>
 		<tr>
 			<th style="width: 5px;">
-			<?php	echo JText::_("NUM");?>
+			<?php	echo JText::_('NUM');?>
 			</th>
 			<th style="text-align: left;">
-			<?php	echo JText::_("TITLE");?>
+			<?php	echo JText::_('TITLE');?>
 			</th>
 			<th style="width: 50px;">
-			<?php	echo JText::_("AFFECTED ROWS");?>
+			<?php	echo JText::_('AFFECTED ROWS');?>
 			</th>
 			<th>
-			<?php	echo JText::_("ERRORS");?>
+			<?php	echo JText::_('ERRORS');?>
 			</th>
 		</tr>
 	</thead>
@@ -57,7 +57,7 @@
 		<?php if (!count(@$items)) : ?>
 		<tr>
 			<td colspan="10" align="center">
-			<?php	echo JText::_('NO ITEMS FOUND');?>
+			<?php	echo JText::_('COM_TIENDA_NO_ITEMS_FOUND');?>
 			</td>
 		</tr>
 		<?php endif;?>

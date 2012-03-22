@@ -15,15 +15,15 @@
 		<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Ship It"); ?>
+    	        <?php echo JText::_('Ship It'); ?>
     	    </td>
     	    <td>
-    	        <input value="<?php echo JText::_( "Ship This Order With Ups" ); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'upsResult');" style="float: right;" type="button" />
+    	        <input value="<?php echo JText::_('Ship This Order With Ups'); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'upsResult');" style="float: right;" type="button" />
     	    </td>
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Result"); ?>
+    	        <?php echo JText::_('Result'); ?>
     	    </td>
     	    <td>
     	        <div id="upsResult"><?php echo JText::_('Ready')?></div>
@@ -44,13 +44,13 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Id"); ?>
+                    <?php echo JText::_('Id'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_( 'Name' ); ?>
+                    <?php echo JText::_('Name'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_( 'Code' ); ?>
+                    <?php echo JText::_('Code'); ?>
                 </th>
             </tr>
         </thead>
@@ -86,7 +86,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

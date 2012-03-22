@@ -7,17 +7,17 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style=" width : 100px;">
-                    <?php echo JText::_("Data"); ?>
+                    <?php echo JText::_('Data'); ?>
                 </th>
                 
                 <th style="width: 20px;">
-                    <?php echo JText::_("Orders Quantity"); ?>
+                    <?php echo JText::_('Orders Quantity'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Total Daily Amout"); ?>
+                    <?php echo JText::_('Total Daily Amout'); ?>
                 </th>
                 <th >
                     
@@ -67,7 +67,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="8" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

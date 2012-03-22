@@ -90,7 +90,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		if (empty($product->product_id) || $product_id == $product_to)
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_INVALID_PRODUCT") );
+			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_INVALID_PRODUCT') );
 			$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 			echo ( json_encode( $response ) );
 			return;
@@ -101,7 +101,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		if ($producthelper->relationshipExists( $product_id, $product_to, $relation_type ))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_RELATIONSHIP_ALREADY_EXISTS") );
+			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_RELATIONSHIP_ALREADY_EXISTS') );
 			$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 			echo ( json_encode( $response ) );
 			return;
@@ -126,7 +126,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 				if ($producthelper->relationshipExists( $product_to, $product_id, $rtype ))
 				{
 					$response['error'] = '1';
-					$response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_RELATIONSHIP_ALREADY_EXISTS") );
+					$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_RELATIONSHIP_ALREADY_EXISTS') );
 					$response['msg'] .= $this->getRelationshipsHtml( null, $product_id );
 					echo ( json_encode( $response ) );
 					return;

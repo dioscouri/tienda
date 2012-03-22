@@ -51,7 +51,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Check default currency
 			if (!$this->checkDefaultCurrency())
 			{
-				return $this->redirect( JText::_("COM_TIENDA_DIAGNOSTIC_CHECKDEFAULTCURRENCY_FAILED") .' :: '. $this->getError(), 'error' );
+				return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKDEFAULTCURRENCY_FAILED') .' :: '. $this->getError(), 'error' );
 			}
 			 
 			// check the productfiles table
@@ -640,7 +640,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		$default_currencyid = TiendaConfig::getInstance()->get('default_currencyid', '-1');
 		if ($default_currencyid == '-1')
 		{
-			JError::raiseNotice( 'checkDefaultCurrency', JText::_("COM_TIENDA_NO_DEFAULT_CURRENCY_SELECTED") );
+			JError::raiseNotice( 'checkDefaultCurrency', JText::_('COM_TIENDA_NO_DEFAULT_CURRENCY_SELECTED') );
 			// do not return false here to enable users to actually change the default currency
 			return true;
 		}
@@ -652,7 +652,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Check if the currency exists
 			if ( empty($currency->currency_id) )
 			{
-				JError::raiseNotice( 'checkDefaultCurrency', JText::_("COM_TIENDA_CURRENCY_DOES_NOT_EXISTS") );
+				JError::raiseNotice( 'checkDefaultCurrency', JText::_('COM_TIENDA_CURRENCY_DOES_NOT_EXISTS') );
 				// do not return false here to enable users to actually change the default currency
 				return true;
 			}

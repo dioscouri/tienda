@@ -32,7 +32,7 @@
 				<?php else: ?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-					<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'COM_TIENDA_ADDRESS_TITLE' ); ?>
+					<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE'); ?>
 					<?php if( !$this->guest && $elements['address_name'][1] ): ?>
 						<?php echo TiendaGrid::required(); ?>
 					<?php endif;?>
@@ -224,7 +224,7 @@
 					}
 					else
 					{
-						echo JText::_("COM_TIENDA_SELECT_COUNTRY_FIRST");
+						echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
 					}
 					?>
 				</div>

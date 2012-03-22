@@ -96,7 +96,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$cat->load( $filter_manufacturer );
 
 		// set the title based on the selected manufacturer
-		$title = (empty($cat->manufacturer_name)) ? JText::_("COM_TIENDA_ALL_MANUFACTURERS") : JText::_($cat->manufacturer_name);
+		$title = (empty($cat->manufacturer_name)) ? JText::_('COM_TIENDA_ALL_MANUFACTURERS') : JText::_($cat->manufacturer_name);
 
         // breadcrumb support
         $app = JFactory::getApplication();
@@ -159,7 +159,7 @@ class TiendaControllerManufacturers extends TiendaController
 		{
 			$redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=".$filter_category;
 			$redirect = JRoute::_( $redirect, false );
-			$this->message = JText::_("COM_TIENDA_CANNOT_VIEW_DISABLED_PRODUCT");
+			$this->message = JText::_('COM_TIENDA_CANNOT_VIEW_DISABLED_PRODUCT');
 			$this->messagetype = 'notice';
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
@@ -202,7 +202,7 @@ class TiendaControllerManufacturers extends TiendaController
                 // redirect
                 $redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=".$filter_category;
                 $redirect = JRoute::_( $redirect, false );
-                $this->message = JText::_("COM_TIENDA_CANNOT_VIEW_PRODUCT");
+                $this->message = JText::_('COM_TIENDA_CANNOT_VIEW_PRODUCT');
                 $this->messagetype = 'notice';
                 $this->setRedirect( $redirect, $this->message, $this->messagetype );
                 return;
@@ -622,7 +622,7 @@ class TiendaControllerManufacturers extends TiendaController
 		if ( !$canView = $helper->canDownload( $productfile_id, JFactory::getUser()->id ) )
 		{
 			$this->messagetype = 'notice';
-			$this->message = JText::_("COM_TIENDA_NOT_AUTHORIZED_TO_DOWNLOAD_FILE");
+			$this->message = JText::_('COM_TIENDA_NOT_AUTHORIZED_TO_DOWNLOAD_FILE');
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}
@@ -632,7 +632,7 @@ class TiendaControllerManufacturers extends TiendaController
 		if (empty($productfile->productfile_id))
 		{
 			$this->messagetype = 'notice';
-			$this->message = JText::_("COM_TIENDA_INVALID FILE");
+			$this->message = JText::_('COM_TIENDA_INVALID FILE');
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}
@@ -701,7 +701,7 @@ class TiendaControllerManufacturers extends TiendaController
         {
             // if it fails check, return message
             $response['error'] = '1';
-            $response['msg'] = $helper->generateMessage(JText::_("COM_TIENDA_COULD_NOT_PROCESS_FORM"));
+            $response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_COULD_NOT_PROCESS_FORM'));
             echo ( json_encode( $response ) );
             return;
         }
@@ -867,7 +867,7 @@ class TiendaControllerManufacturers extends TiendaController
         if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_("COM_TIENDA_SHOP_DISABLED");
+            $this->message      = JText::_('COM_TIENDA_SHOP_DISABLED');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
@@ -907,7 +907,7 @@ class TiendaControllerManufacturers extends TiendaController
         if ($product->product_notforsale)
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_("COM_TIENDA_PRODUCT_NOT_FOR_SALE");
+            $this->message      = JText::_('COM_TIENDA_PRODUCT_NOT_FOR_SALE');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
@@ -929,7 +929,7 @@ class TiendaControllerManufacturers extends TiendaController
         if ($product->product_recurs && $cart_recurs)
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_("COM_TIENDA_CART_ALREADY_RECURS");
+            $this->message      = JText::_('COM_TIENDA_CART_ALREADY_RECURS');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;            
         }
@@ -964,7 +964,7 @@ class TiendaControllerManufacturers extends TiendaController
         if (!$canAddToCart)
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $carthelper->getError();
+            $this->message      = JText::_('COM_TIENDA_CANNOT_ADD_ITEM_TO_CART') . " - " . $carthelper->getError();
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;            
         }
@@ -1045,7 +1045,7 @@ class TiendaControllerManufacturers extends TiendaController
         }
         
         $this->messagetype  = 'message';
-        $this->message      = JText::_("COM_TIENDA_ITEM_ADDED_TO_YOUR_CART");
+        $this->message      = JText::_('COM_TIENDA_ITEM_ADDED_TO_YOUR_CART');
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
         
@@ -1262,7 +1262,7 @@ class TiendaControllerManufacturers extends TiendaController
                 $canAddToCart = $carthelper->canAddItem( $item, $cart_id, $id_type );
                 if (!$canAddToCart)
                 {
-                    $response['msg'] = $helper->generateMessage( JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $carthelper->getError() );
+                    $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_CANNOT_ADD_ITEM_TO_CART') . " - " . $carthelper->getError() );
                     $response['error'] = '1';
                     echo ( json_encode( $response ) );
                     return false;
@@ -1333,7 +1333,7 @@ class TiendaControllerManufacturers extends TiendaController
         if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_("COM_TIENDA_SHOP_DISABLED");
+            $this->message      = JText::_('COM_TIENDA_SHOP_DISABLED');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
@@ -1393,7 +1393,7 @@ class TiendaControllerManufacturers extends TiendaController
                 if ($product->product_notforsale)
                 {
                     $this->messagetype  = 'notice';         
-                    $this->message      = JText::_("COM_TIENDA_PRODUCT_NOT_FOR_SALE");
+                    $this->message      = JText::_('COM_TIENDA_PRODUCT_NOT_FOR_SALE');
                     $this->setRedirect( $redirect, $this->message, $this->messagetype );
                     return;
                 }
@@ -1401,7 +1401,7 @@ class TiendaControllerManufacturers extends TiendaController
                 if ($product->product_recurs && $cart_recurs)
                 {
                     $this->messagetype  = 'notice';         
-                    $this->message      = JText::_("COM_TIENDA_CART_ALREADY_RECURS");
+                    $this->message      = JText::_('COM_TIENDA_CART_ALREADY_RECURS');
                     $this->setRedirect( $redirect, $this->message, $this->messagetype );
                     return;            
                 }
@@ -1424,7 +1424,7 @@ class TiendaControllerManufacturers extends TiendaController
                 if (!$canAddToCart)
                 {
                     $this->messagetype  = 'notice';         
-                    $this->message      = JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $carthelper->getError();
+                    $this->message      = JText::_('COM_TIENDA_CANNOT_ADD_ITEM_TO_CART') . " - " . $carthelper->getError();
                     $this->setRedirect( $redirect, $this->message, $this->messagetype );
                     return;            
                 }
@@ -1466,7 +1466,7 @@ class TiendaControllerManufacturers extends TiendaController
             }
             
             $this->messagetype  = 'message';
-            $this->message      = JText::_("COM_TIENDA_ITEMS_ADDED_TO_YOUR_CART");                
+            $this->message      = JText::_('COM_TIENDA_ITEMS_ADDED_TO_YOUR_CART');                
         }
         
         // After login, session_id is changed by Joomla, so store this for reference
@@ -1541,20 +1541,20 @@ class TiendaControllerManufacturers extends TiendaController
      		if (!$productreviews->save())
      		{
      			$this->messagetype  = 'message';
-            	$this->message      = JText::_("COM_TIENDA_UNABLE_TO_SAVE_REVIEW")." :: ".$productreviews->getError();        	
+            	$this->message      = JText::_('COM_TIENDA_UNABLE_TO_SAVE_REVIEW')." :: ".$productreviews->getError();        	
      		}
          		else
      		{
      			$dispatcher =& JDispatcher::getInstance();
                 $dispatcher->trigger( 'onAfterSaveProductComments', array( $productreviews ) );
      			$this->messagetype  = 'message';
-            	$this->message      = JText::_("COM_TIENDA_SUCCESSFULLY_SUBMITTED_REVIEW");
+            	$this->message      = JText::_('COM_TIENDA_SUCCESSFULLY_SUBMITTED_REVIEW');
      		}	
  		}
             else
 		{
     		$this->messagetype  = 'message';
-            $this->message      = JText::_("COM_TIENDA_INCORRECT_CAPTCHA");	
+            $this->message      = JText::_('COM_TIENDA_INCORRECT_CAPTCHA');	
 		}
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}

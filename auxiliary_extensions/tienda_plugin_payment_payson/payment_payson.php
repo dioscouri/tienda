@@ -133,11 +133,11 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
                 $app->close();
               break;
             case "cancel":
-                $vars->message = JText::_( 'Payson Message Cancel' );
+                $vars->message = JText::_('Payson Message Cancel');
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Payson Message Invalid Action' );
+                $vars->message = JText::_('Payson Message Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }

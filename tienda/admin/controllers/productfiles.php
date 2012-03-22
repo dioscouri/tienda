@@ -44,7 +44,7 @@ class TiendaControllerProductFiles extends TiendaController
 		if ( empty( $productfile->productfile_id ) )
 		{
 			$this->messagetype = 'notice';
-			$this->message = JText::_("COM_TIENDA_INVALID FILE");
+			$this->message = JText::_('COM_TIENDA_INVALID FILE');
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}

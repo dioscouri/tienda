@@ -11,7 +11,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input type="text" name="eavattribute_label" id="eavattribute_label" size="48" maxlength="250" value="<?php echo @$row->eavattribute_label; ?>" />
@@ -19,7 +19,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Alias' ); ?>:
+						<?php echo JText::_('Alias'); ?>:
 					</td>
 					<td>
 						<input type="text" name="eavattribute_alias" id="eavattribute_alias" size="48" maxlength="250" value="<?php echo @$row->eavattribute_alias; ?>" />
@@ -28,7 +28,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="enabled">
-                        <?php echo JText::_( 'Enabled' ); ?>:
+                        <?php echo JText::_('Enabled'); ?>:
                         </label>
                     </td>
                     <td>
@@ -38,7 +38,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eaventity_type">
-						<?php echo JText::_( 'Entity Type' ); ?>:
+						<?php echo JText::_('Entity Type'); ?>:
 						</label>
 					</td>
 					<td>
@@ -48,7 +48,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eaventity_id">
-						<?php echo JText::_( 'Entity' ); ?>:
+						<?php echo JText::_('Entity'); ?>:
 						</label>
 					</td>
 					<td>
@@ -76,7 +76,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eavattribute_type">
-						<?php echo JText::_( 'Data Type' ); ?>:
+						<?php echo JText::_('Data Type'); ?>:
 						</label>
 					</td>
 					<td>
@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="editable_by">
-						<?php echo JText::_( 'Editable By' ); ?>:
+						<?php echo JText::_('Editable By'); ?>:
 						</label>
 					</td>
 					<td>
@@ -96,7 +96,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eavattribute_required">
-						<?php echo JText::_( 'Required' ); ?>:
+						<?php echo JText::_('Required'); ?>:
 						</label>
 					</td>
 					<td>

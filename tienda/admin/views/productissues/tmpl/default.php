@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Issues for" ); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Issues for'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -20,9 +20,9 @@
 	<table class="adminlist">
     	<thead>
         	<tr>
-        		<th><?php echo JText::_( "Volume Num" ); ?></th>
-        		<th><?php echo JText::_( "Issue Num" ); ?></th>
-        		<th><?php echo JText::_( "Publishing Date" ); ?></th>
+        		<th><?php echo JText::_('Volume Num'); ?></th>
+        		<th><?php echo JText::_('Issue Num'); ?></th>
+        		<th><?php echo JText::_('Publishing Date'); ?></th>
         	</tr>
         	</thead>
         	<tbody>
@@ -87,7 +87,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

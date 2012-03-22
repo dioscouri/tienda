@@ -100,10 +100,10 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
      */
     function getUSPSServices()
     {
-        $uspsService['FIRST CLASS']         = JText::_( 'FIRST CLASS' );
-        $uspsService['PRIORITY']            = JText::_( 'PRIORITY' );
-        $uspsService['EXPRESS']             = JText::_( 'EXPRESS' );
-        $uspsService['PARCEL']              = JText::_( 'PARCEL' );
+        $uspsService['FIRST CLASS']         = JText::_('FIRST CLASS');
+        $uspsService['PRIORITY']            = JText::_('PRIORITY');
+        $uspsService['EXPRESS']             = JText::_('EXPRESS');
+        $uspsService['PARCEL']              = JText::_('PARCEL');
         
         return $uspsService;
     }

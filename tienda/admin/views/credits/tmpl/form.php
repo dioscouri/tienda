@@ -10,7 +10,7 @@
 			<table class="admintable">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'User' ); ?>:
+                        <?php echo JText::_('User'); ?>:
                     </td>
                     <td>
                         <?php $user_element = TiendaSelect::userelement( @$row->user_id, 'user_id' ); ?>
@@ -20,15 +20,15 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Amount' ); ?>:
+                        <?php echo JText::_('Amount'); ?>:
                     </td>
                     <td>
                         <input name="credit_amount" type="text" size="20" value="<?php echo @$row->credit_amount ?> "size="48" maxlength="250" />
                     </td>
                 </tr>
 				<tr>
-					<td title="<?php echo JText::_("Credit Type").'::'.JText::_( "Credit Type Tip" ); ?>" class="key hasTip" style="width: 100px; text-align: right;">
-						<?php echo JText::_( 'Type' ); ?>:
+					<td title="<?php echo JText::_('Credit Type').'::'.JText::_('Credit Type Tip'); ?>" class="key hasTip" style="width: 100px; text-align: right;">
+						<?php echo JText::_('Type'); ?>:
 					</td>
 					<td>
 						<?php echo TiendaSelect::credittype( @$row->credittype_code, 'credittype_code' ); ?>
@@ -36,7 +36,7 @@
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Enabled' ); ?>:
+                        <?php echo JText::_('Enabled'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'credit_enabled', '', @$row->credit_enabled ); ?>
@@ -44,15 +44,15 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Can be Withdrawn' ); ?>:
+                        <?php echo JText::_('Can be Withdrawn'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'credit_withdrawable', '', @$row->credit_withdrawable ); ?>
                     </td>
                 </tr>
 				<tr>
-					<td title="<?php echo JText::_("Credit Code").'::'.JText::_( "Credit Code Tip" ); ?>" class="key hasTip" style="width: 100px; text-align: right;">
-						<?php echo JText::_( 'Code' ); ?>:
+					<td title="<?php echo JText::_('Credit Code').'::'.JText::_('Credit Code Tip'); ?>" class="key hasTip" style="width: 100px; text-align: right;">
+						<?php echo JText::_('Code'); ?>:
 					</td>
 					<td>
 						<input name="credit_code" type="text" size="40" value="<?php echo @$row->credit_code ?> "size="48" maxlength="250" />
@@ -60,7 +60,7 @@
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Comments' ); ?>:
+						<?php echo JText::_('Comments'); ?>:
 					</td>
 					<td>
 						<textarea name="credit_comments" rows="10" cols="35"><?php echo @$row->credit_comments ?></textarea>
@@ -68,24 +68,24 @@
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Order ID' ); ?>:
+                        <?php echo JText::_('Order ID'); ?>:
                     </td>
                     <td>
                         <?php 
                         if (!empty($row->order_id))
                         {
                             ?>
-                            <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>" target="_blank"><?php echo JText::_( "View Order" ).": " .$row->order_id; ?></a>
+                            <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>" target="_blank"><?php echo JText::_('View Order').": " .$row->order_id; ?></a>
                             <?php
                         } else {
-                            echo JText::_( "None" );
+                            echo JText::_('None');
                         }
                         ?>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Balance Updated' ); ?>:
+                        <?php echo JText::_('Balance Updated'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaGrid::boolean( @$row->credits_updated ); ?>
@@ -93,7 +93,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Balance Before' ); ?>:
+                        <?php echo JText::_('Balance Before'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->credit_balance_before; ?>
@@ -101,7 +101,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Balance After' ); ?>:
+                        <?php echo JText::_('Balance After'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->credit_balance_after; ?>
@@ -109,7 +109,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Withdrawable Balance Before' ); ?>:
+                        <?php echo JText::_('Withdrawable Balance Before'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->withdrawable_balance_before; ?>
@@ -117,7 +117,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Withdrawable Balance After' ); ?>:
+                        <?php echo JText::_('Withdrawable Balance After'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->withdrawable_balance_after; ?>

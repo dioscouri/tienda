@@ -16,7 +16,7 @@ onload=setTimeout("window.parent.document.getElementById( 'sbox-window' ).close(
 <form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 	<label for="sender_name"><?php echo JText::_('Name');?></label>
 	<br><input type="text" value="<?php echo $sender_name;?>" class="inputbox" size="30" id="sender_name" name="sender_name"><br><br>
-	<label for="sender_mail"><?php echo JText::_('E-mail Address');?></label>
+	<label for="sender_mail"><?php echo JText::_('COM_TIENDA_E-MAIL_ADDRESS');?></label>
 	<br><input type="text" value="<?php echo $sender_mail;?>" class="inputbox" label="Your email" size="30" name="sender_mail" id="sender_mail"><br><br>
 	<label for="sender_message"><?php echo JText::_('Enter your Message');?></label><br>
 	<textarea class="inputbox" id="sender_message" name="sender_message" cols="60" rows="10"><?php echo $sender_message;?></textarea><br>

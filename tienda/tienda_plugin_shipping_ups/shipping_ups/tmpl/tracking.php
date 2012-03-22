@@ -16,7 +16,7 @@
 		<tr>
     		
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Shipment Id"); ?>
+    	        <?php echo JText::_('Shipment Id'); ?>
     	    </td>
     	    <td>
     	       	<?php echo $shipping_id; ?> 	    		
@@ -26,7 +26,7 @@
     	<tr>
     		
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Tracking Id"); ?>
+    	        <?php echo JText::_('Tracking Id'); ?>
     	    </td>
     	    <td>
     	       	<?php echo $t; ?> 
@@ -53,13 +53,13 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Id"); ?>
+                    <?php echo JText::_('Id'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_( 'Name' ); ?>
+                    <?php echo JText::_('Name'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_( 'Code' ); ?>
+                    <?php echo JText::_('Code'); ?>
                 </th>
             </tr>
         </thead>
@@ -95,7 +95,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

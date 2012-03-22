@@ -123,11 +123,11 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
                 $app->close();
               break;
             case "cancel":
-                $vars->message = JText::_( 'Paypal Message Cancel' );
+                $vars->message = JText::_('Paypal Message Cancel');
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Paypal Message Invalid Action' );
+                $vars->message = JText::_('Paypal Message Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -288,11 +288,11 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
             elseif (strpos($data['txn_type'], 'subscr_') === 0) {
                 // TODO Complete this
                 //$payment_error = $this->_processSubscription( $data, $error );
-                $payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE SUBSCRIPTIONS UNSUPPORTED" ).": ".$data['txn_type'];
+                $payment_error = JText::_('PAYPAL ERROR INVALID TRANSACTION TYPE SUBSCRIPTIONS UNSUPPORTED').": ".$data['txn_type'];
             }
             else {
                 // other methods not supported right now
-                $payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE" ).": ".$data['txn_type'];
+                $payment_error = JText::_('PAYPAL ERROR INVALID TRANSACTION TYPE').": ".$data['txn_type'];
             }
 
             if ($payment_error) {
@@ -557,7 +557,7 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
      * Created: A German ELV payment is made using Express Checkout.
      * Denied: You denied the payment. This happens only if the payment was previously pending because of possible reasons described for the pending_reason variable or the Fraud_Management_Filters_x variable.
      * Expired: This authorization has expired and cannot be captured.
-     * Failed: The payment has failed. This happens only if the payment was made from your customer’s bank account.
+     * Failed: The payment has failed. This happens only if the payment was made from your customerï¿½s bank account.
      * Pending: The payment is pending. See pending_reason for more information.
      * Refunded: You refunded the payment.
      * Reversed: A payment was reversed due to a chargeback or other type of reversal. The funds have been removed from your account balance and returned to the buyer. The reason for the reversal is specified in the ReasonCode element.

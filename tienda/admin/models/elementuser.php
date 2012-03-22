@@ -90,8 +90,8 @@ class TiendaModelElementUser extends TiendaModelUsers
         $html = '
         <div class="button2-left">
             <div class="blank">
-                <a href="javascript::void();" onclick="resetElementUser( \''.$value.'\', \''.JText::_( 'Select a User' ).'\', \''.$name.'\' )">' . 
-                JText::_( 'Clear Selection' ) . '
+                <a href="javascript::void();" onclick="resetElementUser( \''.$value.'\', \''.JText::_('Select a User').'\', \''.$name.'\' )">' . 
+                JText::_('Clear Selection') . '
                 </a>
             </div>
         </div>

@@ -16,7 +16,7 @@ class JElementQuantity extends JElement {
 	function fetchElement($name, $value, & $node, $control_name) {
 
 		$output = '
-		<span class="k2Note">'.JText::_( "Click apply to be able to create product quantities" ).'</span>
+		<span class="k2Note">'.JText::_('Click apply to be able to create product quantities').'</span>
 		';
 
 		$id = JRequest::getInt('cid');

@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 			<!--quantity-->
 			<div id='product_quantity_input'>
-				<span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
+				<span class="title"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?>:</span>
 				<input type="text" name="product_qty" value="1" size="5" />
 			</div>
 

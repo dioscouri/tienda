@@ -93,7 +93,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     	}
     		else 
     	{
-    		$vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE' ) . $errors;
+    		$vars->message = JText::_('TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE') . $errors;
     		$vars->errors = $errors;
 			$html = $this->_getLayout('message', $vars);
     	}
@@ -112,7 +112,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         // Render the form for collecting payment info
          
         $vars = new JObject();        
-        $vars->message = JText::_( 'TIENDA AMBRAPOINTS PAYMENT MESSAGE' );
+        $vars->message = JText::_('TIENDA AMBRAPOINTS PAYMENT MESSAGE');
 		
         $html = $this->_getLayout('message', $vars);
         
@@ -222,10 +222,10 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	  	$pointhistory->points = "-".$data['amount_points'];
 	 	$pointhistory->points_updated = 0;
 		$pointhistory->pointhistory_enabled = 1;
-	 	$pointhistory->pointhistory_name = JText::_( "For making purchase in Tienda" );
+	 	$pointhistory->pointhistory_name = JText::_('For making purchase in Tienda');
 		$pointhistory->pointhistory_description = 
-		JText::_( "Payment ID" ) . ": " . $orderpayment_id . "\n" .
-		JText::_( "Transaction ID" ) . ": " . $orderpayment->transaction_id;
+		JText::_('Payment ID') . ": " . $orderpayment_id . "\n" .
+		JText::_('Transaction ID') . ": " . $orderpayment->transaction_id;
 	            
 		// save it and move on
 		if (!$pointhistory->save())

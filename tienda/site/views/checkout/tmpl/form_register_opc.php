@@ -18,20 +18,20 @@
 	<div class="form_item">
 		<div class="form_key">
 			<?php 
-				echo JText::_( 'Password' ).': '.TiendaGrid::required();
+				echo JText::_('Password').': '.TiendaGrid::required();
 				if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
-					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_("Help"); ?>' />
+					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
 					<span>
-						<?php echo JText::_("COM_TIENDA_PASSWORD_REQUIREMENTS"); ?>: <br />
+						<?php echo JText::_('COM_TIENDA_PASSWORD_REQUIREMENTS'); ?>: <br />
 						<?php 
 							echo '- '.JText::sprintf( "COM_TIENDA_PASSWORD_MIN_LENGTH", $min_length ).'<br />';
 							if( $req_num )
-								echo '- '.JText::_( "COM_TIENDA_PASSWORD_REQ_NUMBER" ).'<br />';
+								echo '- '.JText::_('COM_TIENDA_PASSWORD_REQ_NUMBER').'<br />';
 							if( $req_alpha )
-								echo '- '.JText::_( "COM_TIENDA_PASSWORD_REQ_ALPHA" ).'<br />';
+								echo '- '.JText::_('COM_TIENDA_PASSWORD_REQ_ALPHA').'<br />';
 							if( $req_spec )
-								echo '- '.JText::_( "COM_TIENDA_PASSWORD_REQ_SPEC" ).'<br />';
+								echo '- '.JText::_('COM_TIENDA_PASSWORD_REQ_SPEC').'<br />';
 						?>
 					</span>
 				</a>
@@ -45,7 +45,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_( 'Verify Password' ).': '.TiendaGrid::required(); ?>
+			<?php echo JText::_('Verify Password').': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 2nd   -->

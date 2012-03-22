@@ -13,7 +13,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="geozone_name">
-                        <?php echo JText::_( 'Name' ); ?>:
+                        <?php echo JText::_('Name'); ?>:
                         </label>
                     </td>
                     <td>
@@ -23,7 +23,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="geozone_description">
-                        <?php echo JText::_( 'Description' ); ?>:
+                        <?php echo JText::_('Description'); ?>:
                         </label>
                     </td>
                     <td>
@@ -33,7 +33,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="geozone_type">
-                        <?php echo JText::_( 'Type' ); ?>:
+                        <?php echo JText::_('Type'); ?>:
                         </label>
                     </td>
                     <td>

@@ -55,7 +55,7 @@ class TiendaGenericExporterModelProducts extends TiendaGenericExporterModelBase
 		$filters = array();
 		$filters['filter_id_from'] = 'Product ID From';
 		$filters['filter_id_to'] = 'Product ID To';
-		$filters['filter_name'] = JText::_("Product Name");	
+		$filters['filter_name'] = JText::_('Product Name');	
 		$filters['filter_price_from'] = 'Price From';
 		$filters['filter_price_to'] = 'Price To';
 		$filters['filter_quantity_from'] = 'Quantity From';

@@ -27,7 +27,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -64,10 +64,10 @@
                 	<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
@@ -83,20 +83,20 @@
                 <th>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
                 <th>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_quantity_from" name="filter_quantity_from" value="<?php echo @$state->filter_quantity_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_quantity_from" name="filter_quantity_from" value="<?php echo @$state->filter_quantity_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_quantity_to" name="filter_quantity_to" value="<?php echo @$state->filter_quantity_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_quantity_to" name="filter_quantity_to" value="<?php echo @$state->filter_quantity_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
@@ -152,25 +152,25 @@
 					</div>
 					
 					<div class="product_categories">
-						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_("Select Categories"), array('update' => true) ); ?>]</span>
+						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_('Select Categories'), array('update' => true) ); ?>]</span>
 						<?php $categories = $helper_product->getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
 							<?php $category = $categories[$n]; ?>
 							<?php echo $helper_category->getPathName( $category ); ?>
 							<br/>
 						<?php endfor; ?>
-						<?php if (count($categories) > $n) { echo sprintf( JText::_( "And x More" ), count($categories) - $n ); } ?>
+						<?php if (count($categories) > $n) { echo sprintf( JText::_('And x More'), count($categories) - $n ); } ?>
 					</div>
 
                     <div class="product_images_path">
-                        <b><?php echo JText::_( "Image Gallery Path" ); ?>:</b> <?php echo str_replace( JPATH_SITE, '', $helper_product->getGalleryPath( $item->product_id ) ); ?>
+                        <b><?php echo JText::_('Image Gallery Path'); ?>:</b> <?php echo str_replace( JPATH_SITE, '', $helper_product->getGalleryPath( $item->product_id ) ); ?>
                     </div>
 
                     <?php 
                     $layout = $helper_product->getLayout( $item->product_id );
                     if ($layout != 'view') 
                     {
-                        echo "<b>".JText::_( "Layout Override" )."</b>: ".$layout; 
+                        echo "<b>".JText::_('Layout Override')."</b>: ".$layout; 
                     }
                     ?>
                 </td>
@@ -181,7 +181,7 @@
 				<td style="text-align: right;">
 					<?php echo TiendaHelperBase::currency($item->price); ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", JText::_("Set Prices"), array('update' => true) ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", JText::_('Set Prices'), array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					
@@ -191,7 +191,7 @@
 					} else {
 						echo (int) $item->product_quantity; ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", JText::_("Set Quantities"), array('update' => true) ); ?>]
+                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", JText::_('Set Quantities'), array('update' => true) ); ?>]
                     
                     <?php } ?>
 				</td>
@@ -209,7 +209,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

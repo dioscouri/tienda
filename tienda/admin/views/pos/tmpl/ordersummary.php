@@ -14,9 +14,9 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
            <table class="adminlist" style="clear: both;">
             <thead>
                 <tr>
-                    <th style="text-align: left;"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "QUANTITY" ); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_( "TOTAL" ); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,22 +35,22 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                         <?php endif; ?>
                         
                         <?php if (!empty($item->orderitem_sku)) : ?>
-                            <b><?php echo JText::_( "SKU" ); ?>:</b>
+                            <b><?php echo JText::_('COM_TIENDA_SKU'); ?>:</b>
                             <?php echo $item->orderitem_sku; ?>
                             <br/>
                         <?php endif; ?>
 
                         <?php if ($item->orderitem_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
-                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+                            <?php echo JText::_('COM_TIENDA_RECURRING_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+                            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('$item->recurring_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
                             <?php if ($item->recurring_trial) : ?>
                                 <br/>
-                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+                                <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
                             <?php endif; ?>    
                         <?php else : ?>
-                            <?php echo JText::_( "Price" ); ?>:
+                            <?php echo JText::_('COM_TIENDA_PRICE'); ?>:
                             <?php echo TiendaHelperBase::currency($item->price); ?>                         
                         <?php endif; ?> 
                         
@@ -76,7 +76,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
             <tfoot>
                 <tr>
                     <td colspan="2" style="text-align: left;font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "Subtotal" ); ?>
+                        <?php echo JText::_('COM_TIENDA_SUBTOTAL'); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($order->order_subtotal); ?>
@@ -86,7 +86,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <?php if (!empty($order->_coupons['order_price'])) : ?>
                 <tr>
                     <td colspan="2" style="text-align: left;font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "DISCOUNT" ); ?>
+                        <?php echo JText::_('COM_TIENDA_DISCOUNT'); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($order->order_discount); ?>
@@ -98,7 +98,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
         <table class="adminlist" style="clear: both;">
                 <tr>
                     <td colspan="2" style="white-space: nowrap;">
-                        <b><?php echo JText::_( "TAX AND SHIPPING TOTALS" ); ?></b>
+                        <b><?php echo JText::_('COM_TIENDA_TAX_AND_SHIPPING_TOTALS'); ?></b>
                         <br/>
                     </td>
                     <td colspan="2" style="text-align: right;">
@@ -152,9 +152,9 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
 	              	case 4 : // All in One Line
 	                	if( $order->order_tax )
 	                    {
-												if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED").":<br/>"; }
-					              	elseif (!empty($this->using_default_geozone)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_ESTIMATE").":<br/>"; } 
-					                	else { echo JText::_("COM_TIENDA_PRODUCT_TAX").":<br/>"; }    
+												if (!empty($this->show_tax)) { echo JText::_('COM_TIENDA_PRODUCT_TAX_INCLUDED').":<br/>"; }
+					              	elseif (!empty($this->using_default_geozone)) { echo JText::_('COM_TIENDA_PRODUCT_TAX_ESTIMATE').":<br/>"; } 
+					                	else { echo JText::_('COM_TIENDA_PRODUCT_TAX').":<br/>"; }    
 	                    }
 	              		break;
 	              }
@@ -162,9 +162,9 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
    						
                     	if (!empty($this->showShipping))
                     	{
-                            echo JText::_("Shipping and Handling").":";
+                            echo JText::_('Shipping and Handling').":";
                             if ($display_shipping_tax && $order->order_shipping_tax ) {
-                                echo "<br>".JText::_("SHIPPING TAX").":";
+                                echo "<br>".JText::_('SHIPPING TAX').":";
                             }                    	    
                     	}
 
@@ -229,7 +229,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <?php if( $display_credits ): ?>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "Store Credit" ); ?>
+                        <?php echo JText::_('Store Credit'); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                        - <?php echo TiendaHelperBase::currency($order->order_credit); ?>
@@ -238,7 +238,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <?php endif; ?>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_( "TOTAL" ); ?>
+                        <?php echo JText::_('COM_TIENDA_TOTAL'); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                         <?php echo TiendaHelperBase::currency($order->order_total); ?>

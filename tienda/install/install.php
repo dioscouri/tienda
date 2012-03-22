@@ -62,10 +62,10 @@ if (is_a($templates, 'JSimpleXMLElement') && count($templates->children())) {
 		// track the message and status of installation from dscInstaller
 		if ($result) 
 		{
-			$alt = JText::_( "Installed" );
+			$alt = JText::_('Installed');
 			$mstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />";
 		} else {
-			$alt = JText::_( "Failed" );
+			$alt = JText::_('Failed');
 			$error = $dscInstaller->getError();
 			$mstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' />";
 			$mstatus .= " - ".$error;
@@ -122,10 +122,10 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 				$database->setQuery($query);
 				$database->query();
 			}
-			$alt = JText::_( "Installed" );
+			$alt = JText::_('Installed');
 			$mstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />";
 		} else {
-			$alt = JText::_( "Failed" );
+			$alt = JText::_('Failed');
 			$error = $dscInstaller->getError();
 			$mstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' />";
 			$mstatus .= " - ".$error;
@@ -172,10 +172,10 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		
 		// track the message and status of installation from dscInstaller
 		if ($result) {
-			$alt = JText::_( "Installed" );
+			$alt = JText::_('Installed');
 			$pstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />";	
 		} else {
-			$alt = JText::_( "Failed" );
+			$alt = JText::_('Failed');
 			$error = $dscInstaller->getError();
 			$pstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' /> ";
 			$pstatus .= " - ".$error;	

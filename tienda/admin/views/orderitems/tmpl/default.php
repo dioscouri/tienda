@@ -25,7 +25,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -60,21 +60,21 @@
 	                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span>
+                            <span class="label"><?php echo JText::_('From'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span>
+                            <span class="label"><?php echo JText::_('To'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                     </div>
@@ -89,10 +89,10 @@
                 <!--
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_total_from" name="filter_total_from" value="<?php echo @$state->filter_total_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_total_from" name="filter_total_from" value="<?php echo @$state->filter_total_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_total_to" name="filter_total_to" value="<?php echo @$state->filter_total_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_total_to" name="filter_total_to" value="<?php echo @$state->filter_total_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 -->
@@ -155,7 +155,7 @@
                     <?php echo $item->orderitem_name .' [ '.$item->product_id.' ]'; ?>
                     <?php if (!empty($item->orderitem_sku)) { ?>
                         <br/>
-                        <b><?php echo JText::_( "SKU" ); ?></b>: <?php echo $item->orderitem_sku; ?>
+                        <b><?php echo JText::_('COM_TIENDA_SKU'); ?></b>: <?php echo $item->orderitem_sku; ?>
                     <?php } ?>
 				</td>
                 <td style="text-align: center;">
@@ -177,7 +177,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

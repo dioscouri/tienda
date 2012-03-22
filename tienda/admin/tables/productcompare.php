@@ -47,13 +47,13 @@ class TiendaTableProductCompare extends TiendaTableEav
     {        
         if (empty($this->user_id) && empty($this->session_id))
         {
-            $this->setError( JText::_( "User or Session Required" ) );
+            $this->setError( JText::_('User or Session Required') );
             return false;
         }
         
         if (empty($this->product_id))
         {
-            $this->setError( JText::_( "Product Required" ) );
+            $this->setError( JText::_('Product Required') );
             return false;
         }        
     
@@ -78,7 +78,7 @@ class TiendaTableProductCompare extends TiendaTableEav
             if (empty($oid))
             {
                 // if still empty, fail
-                $this->setError( JText::_( "Cannot delete with empty key" ) );
+                $this->setError( JText::_('Cannot delete with empty key') );
                 return false;
             }
         }

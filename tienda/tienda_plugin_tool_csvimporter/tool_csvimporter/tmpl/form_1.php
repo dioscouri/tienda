@@ -3,11 +3,11 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_( "THIS TOOL IMPORTS DATA FROM A CSV FILE TO TIENDA" ); ?></p>
+    <p><?php echo JText::_('THIS TOOL IMPORTS DATA FROM A CSV FILE TO TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP ONE OF THREE" ); ?></span>
-        <p><?php echo JText::_( "PLEASE PROVIDE THE REQUESTED INFORMATION" ); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP ONE OF THREE'); ?></span>
+        <p><?php echo JText::_('PLEASE PROVIDE THE REQUESTED INFORMATION'); ?></p>
     </div>
     
     <fieldset>
@@ -15,7 +15,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'File' ); ?>: *
+                        <?php echo JText::_('File'); ?>: *
                     </td>
                     <td>
                         <input type="file" name="file" id="file" size="48" value="<?php echo @$state->file; ?>" />
@@ -27,7 +27,7 @@
                
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Field Separator' ); ?>: *
+                        <?php echo JText::_('Field Separator'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="field_separator" id="field_separator" size="5" maxlength="5" value="<?php echo @$state->field_separator; ?>" />
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'SubField Separator' ); ?>: *
+                        <?php echo JText::_('SubField Separator'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="subfield_separator" id="subfield_separator" size="5" maxlength="5" value="<?php echo @$state->subfield_separator; ?>" />
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Skip First Row' ); ?>?:
+                        <?php echo JText::_('Skip First Row'); ?>?:
                     </td>
                     <td>
                         <input type="checkbox" name="skip_first" id="skip_first" value="1" />

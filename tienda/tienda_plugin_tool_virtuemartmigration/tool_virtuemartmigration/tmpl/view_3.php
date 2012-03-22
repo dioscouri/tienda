@@ -1,27 +1,27 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = @$vars->results; ?>
 
-<p><?php echo JText::_( "THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA" ); ?></p>
+<p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "FINAL" ); ?></span>
-        <p><?php echo JText::_( "MIGRATION RESULTS"); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('FINAL'); ?></span>
+        <p><?php echo JText::_('MIGRATION RESULTS'); ?></p>
     </div>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("NUM"); ?>
+                    <?php echo JText::_('NUM'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("TITLE"); ?>
+                    <?php echo JText::_('TITLE'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("AFFECTED ROWS"); ?>
+                    <?php echo JText::_('AFFECTED ROWS'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_("ERRORS"); ?>
+                    <?php echo JText::_('ERRORS'); ?>
                 </th>
             </tr>
         </thead>
@@ -55,7 +55,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('NO ITEMS FOUND'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

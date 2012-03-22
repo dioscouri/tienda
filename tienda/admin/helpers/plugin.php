@@ -95,7 +95,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 			case "vertical":
 				for ($i=0; $i<count($results); $i++) {
 					$result = $results[$i];
-					$title = $result[1] ? JText::_( $result[1] ) : JText::_( 'Info' );
+					$title = $result[1] ? JText::_( $result[1] ) : JText::_('Info');
 					$content = $result[0];
 					
 		            // Vertical

@@ -283,7 +283,7 @@ class TiendaController extends JController
 		{
 			if ($row->checkin())
 			{
-				$this->message = JText::_( "Item Released" );
+				$this->message = JText::_('Item Released');
 			}
 		}
 
@@ -307,7 +307,7 @@ class TiendaController extends JController
 		switch (strtolower($task))
 		{
 			case "cancel":
-				$msg = JText::_( 'Operation Cancelled' );
+				$msg = JText::_('Operation Cancelled');
 				$type = "notice";
 				break;
 			case "close":
@@ -349,7 +349,7 @@ class TiendaController extends JController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( "COM_TIENDA_SAVED");
+			$this->message  	= JText::_('COM_TIENDA_SAVED');
 
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -357,7 +357,7 @@ class TiendaController extends JController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";
@@ -465,7 +465,7 @@ class TiendaController extends JController
 		if ( !$row->move( $change ) )
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( 'Ordering Failed' )." - ".$row->getError();
+			$this->message 		= JText::_('Ordering Failed')." - ".$row->getError();
 		}
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -565,7 +565,7 @@ class TiendaController extends JController
 		if ( !in_array( $field, array_keys( $row->getProperties() ) ) )
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( "Invalid Field" ).": {$field}";
+			$this->message 		= JText::_('Invalid Field').": {$field}";
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
 		}

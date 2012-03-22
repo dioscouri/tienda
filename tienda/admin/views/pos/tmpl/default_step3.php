@@ -7,13 +7,13 @@
 
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos">
-				<?php echo JText::_("Go Back");?>
+				<?php echo JText::_('Go Back');?>
 				</a>
 			</div>
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP1_SELECT_USER");?>
+			<?php echo JText::_('POS_STEP1_SELECT_USER');?>
 			</h2>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 		<div class="cell step_body inactive">
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos&nextstep=step2">
-				<?php echo JText::_("GO BACK");?>
+				<?php echo JText::_('GO BACK');?>
 				</a>
 			</div>
 			<div id="orderSummary">
@@ -30,7 +30,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP2_SELECT_PRODUCTS");?>
+			<?php echo JText::_('POS_STEP2_SELECT_PRODUCTS');?>
 			</h2>
 		</div>
 	</div>
@@ -42,7 +42,7 @@
         <!-- COUPON CODE -->
         <div id="coupon_code_area" class="address">
             <div id="coupon_code_form">
-            <h3><?php echo JText::_("Coupon Code");?></h3>
+            <h3><?php echo JText::_('Coupon Code');?></h3>
             <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
             <?php $string = "Coupon Code Help";
 				if($mult_enabled)
@@ -74,8 +74,8 @@
             	<!-- STORE CREDITS -->
 		<div id="credits_area" class="address">
 			<div id="credits_form">
-		        <h3><?php echo JText::_("Store Credit"); ?></h3>
-		        <div id="credit_help"><?php echo sprintf( JText::_( "YOU HAVE X STORE CREDIT" ), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		        <h3><?php echo JText::_('Store Credit'); ?></h3>
+		        <div id="credit_help"><?php echo sprintf( JText::_('YOU HAVE X STORE CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
 		       	<div id="credit_message"></div>
 		        <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 		    	<input type="button" name="credit_submit" value="<?php echo JText::_('APPLY CREDIT TO ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
@@ -89,17 +89,17 @@
         
 			<div id="addresses">
 				<h3>
-            		<?php echo JText::_("SELECT SHIPPING AND BILLING ADDRESS") ?>
+            		<?php echo JText::_('SELECT SHIPPING AND BILLING ADDRESS') ?>
         		</h3>
         		 <div class='note'>
-	                <?php $text = JText::_( "MANAGE USERS STORED ADDRESSES" )."."; ?>
+	                <?php $text = JText::_('MANAGE USERS STORED ADDRESSES')."."; ?>
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
-                    <?php echo JText::_( "USERS STORED ADDRESSES NOTE" ); ?>
+                    <?php echo JText::_('USERS STORED ADDRESSES NOTE'); ?>
                 </div>
 				<div class="reset"></div>
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">
-					<?php echo JText::_("BILLING ADDRESS") ?>
+					<?php echo JText::_('BILLING ADDRESS') ?>
 					</h4>
 					<?php if (!empty($this->billingAddress)): ?>
 					<p>
@@ -119,7 +119,7 @@
 				<?php if($this->showShipping):?>
 				<div style="float: left; margin-left: 30px;">
 					<h4 id='shipping_address_header' class="address_header">
-					<?php echo JText::_("SHIPPING ADDRESS") ?>
+					<?php echo JText::_('SHIPPING ADDRESS') ?>
 					</h4>
 					<?php if(!empty($this->shippingAddress)):?>
 
@@ -169,7 +169,7 @@
 		</div>
 		<div class="cell step_title active">
 			<h2>
-			<?php echo JText::_("POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS");?>
+			<?php echo JText::_('POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
 			</h2>
 		</div>
 	</div>
@@ -178,7 +178,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP4_REVIEW_SUBMIT_ORDER");?>
+			<?php echo JText::_('POS_STEP4_REVIEW_SUBMIT_ORDER');?>
 			</h2>
 		</div>
 	</div>
@@ -187,7 +187,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP5_PAYMENT_CONFIRMATION");?>
+			<?php echo JText::_('POS_STEP5_PAYMENT_CONFIRMATION');?>
 			</h2>
 		</div>
 	</div>

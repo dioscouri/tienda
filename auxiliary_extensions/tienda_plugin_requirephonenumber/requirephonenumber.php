@@ -40,7 +40,7 @@ class plgTiendaRequirePhonenumber extends TiendaPluginBase
         if (empty($values['billing_address_id']) && empty($values['billing_input_phone_1']))
         {
             $return->error = true; // boolean
-            $return->message = JText::_( "Please Include a Phone Number with Your Billing Address" ); // string
+            $return->message = JText::_('Please Include a Phone Number with Your Billing Address'); // string
         }
         
         if (!empty($values['billing_address_id']))
@@ -55,7 +55,7 @@ class plgTiendaRequirePhonenumber extends TiendaPluginBase
             if (empty($address->phone_1))
             {
                 $return->error = true; // boolean
-                $return->message = JText::_( "Stored Address Missing Phone Number" ); // string                
+                $return->message = JText::_('Stored Address Missing Phone Number'); // string                
             }
 
         }

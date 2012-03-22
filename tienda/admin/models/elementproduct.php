@@ -141,7 +141,7 @@ class TiendaModelElementProduct extends JModel
 		$html = "";
 		$doc 		=& JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		$title = JText::_("COM_TIENDA_SELECT_PRODUCTS");
+		$title = JText::_('COM_TIENDA_SELECT_PRODUCTS');
 		if ($value) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$tbl = JTable::getInstance( 'Products', 'TiendaTable' );
@@ -150,7 +150,7 @@ class TiendaModelElementProduct extends JModel
 		}
 		else
 		{
-			$title=JText::_("COM_TIENDA_SELECT_A_PRODUCT");
+			$title=JText::_('COM_TIENDA_SELECT_A_PRODUCT');
 		}
 
  $js = "
@@ -200,7 +200,7 @@ class TiendaModelElementProduct extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'select products' ).'\', \''.$name.'\' )">'.JText::_( 'Clear selection' ).'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('select products').'\', \''.$name.'\' )">'.JText::_('Clear selection').'</span>
 		</div></div>'."\n";
 
 		return $html;

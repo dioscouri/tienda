@@ -98,7 +98,7 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Invalid Action' );
+                $vars->message = JText::_('Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -174,12 +174,12 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
 						break;
 
     			case 'TOUT' : // Time out
-						$errors[] = JText::_( "TIENDA CARDPAY MESSAGE PAYMENT TIMEOUT" );
+						$errors[] = JText::_('TIENDA CARDPAY MESSAGE PAYMENT TIMEOUT');
 						break;
 
     			default :	 // something went wrong
     			case 'FAIL' : // transaction failed
-						$errors[] = JText::_( "TIENDA CARDPAY MESSAGE PAYMENT FAIL" );
+						$errors[] = JText::_('TIENDA CARDPAY MESSAGE PAYMENT FAIL');
 						break;
     		}
     		$send_email = true; // send email!
@@ -248,7 +248,7 @@ class plgTiendaPayment_cardpay extends TiendaPaymentPlugin
 		
 			if (empty($errors))
 			{
-				$return = JText::_( "TIENDA CARDPAY MESSAGE PAYMENT SUCCESS" );
+				$return = JText::_('TIENDA CARDPAY MESSAGE PAYMENT SUCCESS');
 				return $return;                
 			}
     	

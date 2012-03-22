@@ -21,7 +21,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_name">
-    						<?php echo JText::_( 'Name' ); ?>:
+    						<?php echo JText::_('Name'); ?>:
     						</label>
     					</td>
     					<td>
@@ -30,7 +30,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				</tr>
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Alias' ); ?>:
+                            <?php echo JText::_('Alias'); ?>:
                         </td>
                         <td>
                             <input name="category_alias" id="category_alias" value="<?php echo @$row->category_alias; ?>" type="text" size="48" maxlength="250" />
@@ -39,7 +39,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="parent_id">
-    						<?php echo JText::_( 'Parent' ); ?>:
+    						<?php echo JText::_('Parent'); ?>:
     						</label>
     					</td>
     					<td>
@@ -49,7 +49,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="enabled">
-    						<?php echo JText::_( 'Enabled' ); ?>:
+    						<?php echo JText::_('Enabled'); ?>:
     						</label>
     					</td>
     					<td>
@@ -59,7 +59,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="enabled">
-    						<?php echo JText::_( 'Category Name in Categories Listing' ); ?>:
+    						<?php echo JText::_('Category Name in Categories Listing'); ?>:
     						</label>
     					</td>
     					<td>
@@ -69,7 +69,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="enabled">
-    						<?php echo JText::_( 'Category Name in Subcategories Listing' ); ?>:
+    						<?php echo JText::_('Category Name in Subcategories Listing'); ?>:
     						</label>
     					</td>
     					<td>
@@ -79,7 +79,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_full_image">
-    						<?php echo JText::_( 'Current Image' ); ?>:
+    						<?php echo JText::_('Current Image'); ?>:
     						</label>
     					</td>
     					<td>
@@ -97,7 +97,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_full_image_new">
-    						<?php echo JText::_( 'Upload New Image' ); ?>:
+    						<?php echo JText::_('Upload New Image'); ?>:
     						</label>
     					</td>
     					<td>
@@ -106,30 +106,30 @@ JFilterOutput::objectHTMLSafe( $row );
     				</tr>
                     <tr>
                         <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Category Layout File' ); ?>:
+                            <?php echo JText::_('Category Layout File'); ?>:
                         </td>
                         <td>
                             <?php echo TiendaSelect::categorylayout( @$row->category_layout, 'category_layout' ); ?>
                             <div class="note">
-                                <?php echo JText::_( "CATEGORY LAYOUT FILE DESC" ); ?>
+                                <?php echo JText::_('CATEGORY LAYOUT FILE DESC'); ?>
                             </div>                        
                         </td>
                     </tr>
                     <tr>
                         <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Category Products Layout File' ); ?>:
+                            <?php echo JText::_('Category Products Layout File'); ?>:
                         </td>
                         <td>
                             <?php echo TiendaSelect::productlayout( @$row->categoryproducts_layout, 'categoryproducts_layout' ); ?>
                             <div class="note">
-                                <?php echo JText::_( "CATEGORY PRODUCTS LAYOUT FILE DESC" ); ?>
+                                <?php echo JText::_('CATEGORY PRODUCTS LAYOUT FILE DESC'); ?>
                             </div>                        
                         </td>
                     </tr>
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_description">
-    						<?php echo JText::_( 'Description' ); ?>:
+    						<?php echo JText::_('Description'); ?>:
     						</label>
     					</td>
     					<td>
@@ -139,7 +139,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				</tr>
                     <tr>
                         <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Category Params' ); ?>:
+                            <?php echo JText::_('Category Params'); ?>:
                         </td>
                         <td>
                             <textarea name="category_params" id="category_params" rows="10" cols="35"><?php echo @$row->category_params; ?></textarea>
@@ -153,7 +153,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="shippingPlugins">
-    						<?php echo JText::_( 'Shipping Information' ); ?>:
+    						<?php echo JText::_('Shipping Information'); ?>:
     						</label>
     					</td>
     					<td>

@@ -9,9 +9,9 @@
                     <th style="width: 20px;">
                         <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
-                    <th style="text-align: left;"><?php echo JText::_("Product"); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_("Quantity"); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_("Total"); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_('Product'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('Quantity'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('Total'); ?></th>
                 </tr>
                 <?php endif; ?>
             </thead>
@@ -25,12 +25,12 @@
                     <td style="text-align: left;">
 	                    <?php echo $item->orderitem_name; ?>
 	                    <br />
-	                    <b><?php echo JText::_("Price"); ?>:</b>
+	                    <b><?php echo JText::_('Price'); ?>:</b>
 	                    <?php echo TiendaHelperBase::currency( $item->orderitem_price ); ?>
 	                     
 	                    <?php if (!empty($item->orderitem_sku)) : ?>
 		                    <br />
-		                    <b><?php echo JText::_("SKU"); ?>:</b>
+		                    <b><?php echo JText::_('SKU'); ?>:</b>
 		                    <?php echo $item->orderitem_sku; ?>
 		                <?php endif; ?>
 	                </td>
@@ -55,7 +55,7 @@
             <?php if (count($items)) : ?>
                 <tr>
                     <td colspan="2" style="text-align: left;">
-                        <input onclick="tiendaRemoveProducts('<?php echo JText::_( "Please Select an Item to Remove" ); ?>');" value="<?php echo JText::_('Remove Selected'); ?>" class="button" type="button" />
+                        <input onclick="tiendaRemoveProducts('<?php echo JText::_('Please Select an Item to Remove'); ?>');" value="<?php echo JText::_('Remove Selected'); ?>" class="button" type="button" />
                     </td>
                     <td colspan="2" style="text-align: right;">
                         <input onclick="tiendaUpdateProductQuantities();" value="<?php echo JText::_('Update Quantities'); ?>" class="button" style="float: right;" type="button" />

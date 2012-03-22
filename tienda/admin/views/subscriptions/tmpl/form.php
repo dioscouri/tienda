@@ -9,7 +9,7 @@
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Subscription Enabled' ); ?>:
+                        <?php echo JText::_('Subscription Enabled'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'subscription_enabled', '', @$row->subscription_enabled ); ?>
@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Lifetime Subscription' ); ?>:
+                        <?php echo JText::_('Lifetime Subscription'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'lifetime_enabled', '', @$row->lifetime_enabled ); ?>
@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'User ID' ); ?>:
+                        <?php echo JText::_('User ID'); ?>:
                     </td>
                     <td>
                         <input name="user_id" value="<?php echo @$row->user_id; ?>" size="15" maxlength="250" type="text" />
@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Product ID' ); ?>:
+                        <?php echo JText::_('Product ID'); ?>:
                     </td>
                     <td>
                         <input name="product_id" value="<?php echo @$row->product_id; ?>" size="15" maxlength="250" type="text" />
@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Order ID' ); ?>:
+                        <?php echo JText::_('Order ID'); ?>:
                     </td>
                     <td>
                         <input name="order_id" value="<?php echo @$row->order_id; ?>" size="15" maxlength="250" type="text" />
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Orderitem ID' ); ?>:
+                        <?php echo JText::_('Orderitem ID'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_id" value="<?php echo @$row->orderitem_id; ?>" size="15" maxlength="250" type="text" />
@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Created' ); ?>:
+                        <?php echo JText::_('Created'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->created_datetime, "created_datetime", "created_datetime", '%Y-%m-%d %H:%M:%S' ); ?>
@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Expiration Date' ); ?>:
+                        <?php echo JText::_('Expiration Date'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->expires_datetime, "expires_datetime", "expires_datetime", '%Y-%m-%d %H:%M:%S' ); ?>
@@ -73,7 +73,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Transaction ID' ); ?>:
+                        <?php echo JText::_('Transaction ID'); ?>:
                     </td>
                     <td>
                         <input name="transaction_id" value="<?php echo @$row->transaction_id; ?>" size="48" maxlength="250" type="text" />

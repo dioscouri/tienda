@@ -85,7 +85,7 @@ class TiendaTableXref extends TiendaTable
             if (empty($oid))
             {
                 // if still empty, fail
-                $this->setError( JText::_( "Cannot delete with empty key" ) );
+                $this->setError( JText::_('Cannot delete with empty key') );
                 return false;
             }
         }

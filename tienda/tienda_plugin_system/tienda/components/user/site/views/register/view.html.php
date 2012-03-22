@@ -33,7 +33,7 @@ class UserViewRegister extends JView
         // Check if registration is allowed
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
-            JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+            JError::raiseError( 403, JText::_('Access Forbidden'));
             return;
         }
 
@@ -50,14 +50,14 @@ class UserViewRegister extends JView
         if (is_object( $menu )) {
             $menu_params = new JParameter( $menu->params );
             if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',  JText::_( 'Registration' ));
+                $params->set('page_title',  JText::_('Registration'));
             }
         } else {
-            $params->set('page_title',  JText::_( 'Registration' ));
+            $params->set('page_title',  JText::_('Registration'));
         }
         $document->setTitle( $params->get( 'page_title' ) );
 
-        $pathway->addItem( JText::_( 'New' ));
+        $pathway->addItem( JText::_('New'));
 
         // Load the form validation behavior
         JHTML::_('behavior.formvalidation');

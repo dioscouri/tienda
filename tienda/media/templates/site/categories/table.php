@@ -19,7 +19,7 @@ $citems = @$this->citems;
             <?php if (isset($state->category_name)) : ?>
                 <span><?php echo @$this->title; ?></span>
             <?php else : ?>
-                <span><?php echo JText::_( "COM_TIENDA_ALL_CATEGORIES" ); ?></span>
+                <span><?php echo JText::_('COM_TIENDA_ALL_CATEGORIES'); ?></span>
             <?php endif; ?>
                         
             <div class='category_description'><?php echo $this->cat->category_description; ?></div>
@@ -45,7 +45,7 @@ $citems = @$this->citems;
                             <?php echo $citem->category_name; ?>
                         </th>
                         <th class="subcategory_price" style="background-color: #DDDDDD;">
-                            <?php echo JText::_( "Price" ); ?>
+                            <?php echo JText::_('COM_TIENDA_PRICE'); ?>
                         </th>
                     </tr>
                     </thead>
@@ -87,7 +87,7 @@ $citems = @$this->citems;
                 <?php echo $this->cat->category_name; ?>
             </th>
             <th class="subcategory_price" style="background-color: #DDDDDD;">
-                <?php echo JText::_( "Price" ); ?>
+                <?php echo JText::_('COM_TIENDA_PRICE'); ?>
             </th>
         </tr>
         </thead>

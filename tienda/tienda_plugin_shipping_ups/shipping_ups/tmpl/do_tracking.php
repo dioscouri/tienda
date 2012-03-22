@@ -37,14 +37,14 @@ table.admintable td.key.vtop { vertical-align: top; }
     	<?php foreach($results as $result) {?>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Activity"); ?>
+    	        <?php echo JText::_('Activity'); ?>
     	    </td>
     	    <td>
     	      
     	      <table class="admintable" style="clear: both; width: 100%;">
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_("Date"); ?>
+			    	        <?php echo JText::_('Date'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['date']?>
 				    
@@ -52,7 +52,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_("Time"); ?>
+			    	        <?php echo JText::_('Time'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['time']?>
 				    
@@ -60,7 +60,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_("Description"); ?>
+			    	        <?php echo JText::_('Description'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['description']?>
 				    
@@ -68,7 +68,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_("Location"); ?>
+			    	        <?php echo JText::_('Location'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['location']?>
 				    

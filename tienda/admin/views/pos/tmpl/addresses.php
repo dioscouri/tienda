@@ -69,7 +69,7 @@
         <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('NO ITEMS FOUND'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
         <?php else: ?>
@@ -95,22 +95,22 @@
                     <?php echo @$item->country_name; ?><br/>
                     <!-- PHONE NUMBERS -->
                     <?php // if ($item->phone_1 || $item->phone_2 || $item->fax) { echo "<hr/>"; } ?>
-                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "PHONE" )."</b>: ".$item->phone_1; ?><br/><?php } ?>
-                    <?php if (!empty($item->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Alt Phone" )."</b>: ".$item->phone_2; ?><br/><?php } ?>
-                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "FAX" )."</b>: ".$item->fax; ?><br/><?php } ?>
+                    <?php if (!empty($item->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_PHONE')."</b>: ".$item->phone_1; ?><br/><?php } ?>
+                    <?php if (!empty($item->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_ALT_PHONE')."</b>: ".$item->phone_2; ?><br/><?php } ?>
+                    <?php if (!empty($item->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_FAX')."</b>: ".$item->fax; ?><br/><?php } ?>
                 </td>
                 <td style="text-align: center;">
                     <?php if ($item->is_default_shipping && $item->is_default_billing)
                     {
-                        echo JText::_( "DEFAULT BILLING AND SHIPPING ADDRESS" );
+                        echo JText::_('COM_TIENDA_DEFAULT_BILLING_AND_SHIPPING_ADDRESS');
                     }
                     elseif ($item->is_default_shipping) 
                     {
-                    	echo JText::_( "DEFAULT SHIPPING ADDRESS" );
+                    	echo JText::_('COM_TIENDA_DEFAULT_SHIPPING_ADDRESS');
                     }
                     elseif ($item->is_default_billing) 
                     {
-                    	echo JText::_( "DEFAULT BILLING ADDRESS" );
+                    	echo JText::_('COM_TIENDA_DEFAULT_BILLING_ADDRESS');
                     }
                     ?>
                 </td>

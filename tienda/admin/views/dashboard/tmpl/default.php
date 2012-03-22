@@ -15,9 +15,9 @@
 			<table class="adminlist" style="margin-bottom: 5px;">
 			<thead>
 			<tr>
-				<th><?php echo JText::_( "Range" ); ?></th>
-				<th><?php echo JText::_( "Revenue" ); ?></th>
-				<th><?php echo JText::_( "Orders" ); ?></th>
+				<th><?php echo JText::_('Range'); ?></th>
+				<th><?php echo JText::_('Revenue'); ?></th>
+				<th><?php echo JText::_('Orders'); ?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -35,13 +35,13 @@
 			$tabs = JPane::getInstance( 'tabs' );
 
 			echo $tabs->startPane("tabone");
-			echo $tabs->startPanel( JText::_( 'Orders' ), "orders" );
+			echo $tabs->startPanel( JText::_('Orders'), "orders" );
 
 				echo "<h2>".@$this->graph->title."</h2>";
 				echo @$this->graph->image;
 
 			echo $tabs->endPanel();
-			echo $tabs->startPanel( JText::_( 'Amounts' ), "amounts" );
+			echo $tabs->startPanel( JText::_('Amounts'), "amounts" );
 
 				echo "<h2>".@$this->graphSum->title."</h2>";
 				echo @$this->graphSum->image;

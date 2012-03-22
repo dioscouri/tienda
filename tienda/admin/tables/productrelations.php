@@ -29,19 +29,19 @@ class TiendaTableProductRelations extends TiendaTable
 	{
 		if (empty($this->product_id_from))
 		{
-			$this->setError( JText::_( "Product From Required" ) );
+			$this->setError( JText::_('Product From Required') );
 			return false;
 		}
 
 		if (empty($this->product_id_to))
         {
-            $this->setError( JText::_( "Product To Required" ) );
+            $this->setError( JText::_('Product To Required') );
             return false;
         }
         
 	    if (empty($this->relation_type))
         {
-            $this->setError( JText::_( "Relation Type Required" ) );
+            $this->setError( JText::_('Relation Type Required') );
             return false;
         }
 		

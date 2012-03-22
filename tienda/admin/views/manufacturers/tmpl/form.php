@@ -12,7 +12,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 			<table class="admintable">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input type="text" name="manufacturer_name" id="manufacturer_name" value="<?php echo @$row->manufacturer_name; ?>" size="48" maxlength="250" />
@@ -20,7 +20,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Enabled' ); ?>:
+						<?php echo JText::_('Enabled'); ?>:
 					</td>
 					<td>
 						<?php echo JHTML::_('select.booleanlist', 'manufacturer_enabled', '', @$row->manufacturer_enabled ); ?>
@@ -28,7 +28,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Current Image' ); ?>:
+						<?php echo JText::_('Current Image'); ?>:
 					</td>
 					<td>
 						<?php
@@ -44,7 +44,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Upload New Image' ); ?>:
+						<?php echo JText::_('Upload New Image'); ?>:
 					</td>
 					<td>
 						<input name="manufacturer_image_new" type="file" size="40" />
@@ -52,7 +52,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Description' ); ?>:
+                        <?php echo JText::_('Description'); ?>:
                     </td>
                     <td>
                         <?php $editor = &JFactory::getEditor(); ?>
@@ -61,7 +61,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
                 </tr>
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Parameters' ); ?>:
+                        <?php echo JText::_('Parameters'); ?>:
                     </td>
                     <td>
                         <textarea name="manufacturer_params" id="manufacturer_params" rows="10" cols="35"><?php echo @$row->manufacturer_params; ?></textarea>

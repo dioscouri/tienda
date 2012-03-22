@@ -12,7 +12,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -21,13 +21,13 @@
                 	<?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo JText::_( 'Name' ); ?>
+                	<?php echo JText::_('Name'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_( 'Tax Class' ); ?>
+                    <?php echo JText::_('Tax Class'); ?>
                 </th>
                 <th style="width: 100px;">
-    	            <?php echo JText::_( 'Enabled' ); ?>
+    	            <?php echo JText::_('Enabled'); ?>
                 </th>
             </tr>
 		</thead>
@@ -63,19 +63,19 @@
                         $id = JRequest::getInt('id', '0');
                         ?>
                         <span style="float: right;">[<?php 
-                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&tmpl=component&sid={$item->shipping_method_id}",JText::_( "Set Rates" ) ); ?>]</span>
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&tmpl=component&sid={$item->shipping_method_id}",JText::_('Set Rates') ); ?>]</span>
                         <?php 
                         if ($shipping_method_type = TiendaHelperShipping::getType($item->shipping_method_type))
                         {
-                        	echo "<b>".JText::_( "Type" )."</b>: ".$shipping_method_type->title; 
+                        	echo "<b>".JText::_('Type')."</b>: ".$shipping_method_type->title; 
                         }
                         if ($item->subtotal_minimum > '0')
                         {
-                        	echo "<br/><b>".JText::_( "Minimum Order Required" )."</b>: ".TiendaHelperBase::currency( $item->subtotal_minimum );
+                        	echo "<br/><b>".JText::_('Minimum Order Required')."</b>: ".TiendaHelperBase::currency( $item->subtotal_minimum );
                         }
                         if( $item->subtotal_maximum > '-1' )
                         {
-                        	echo "<br/><b>".JText::_( "COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX" )."</b>: ".TiendaHelperBase::currency( $item->subtotal_maximum );
+                        	echo "<br/><b>".JText::_('COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX')."</b>: ".TiendaHelperBase::currency( $item->subtotal_maximum );
                         }
                         ?>
                     </div>
@@ -93,7 +93,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

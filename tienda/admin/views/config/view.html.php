@@ -49,7 +49,7 @@ class TiendaViewConfig extends TiendaViewBase
 		
 		// add toolbar buttons
 			JToolBarHelper::save('save');
-			JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+			JToolBarHelper::cancel( 'close', JText::_('Close') );
 			
 		// plugins
         	$filtered = array();
@@ -82,7 +82,7 @@ class TiendaViewConfig extends TiendaViewBase
 		// set the required image
 		// TODO Fix this to use defines
 			$required = new stdClass();
-			$required->text = JText::_( 'Required' );
+			$required->text = JText::_('Required');
 			$required->image = "<img src='".JURI::root()."/media/com_tienda/images/required_16.png' alt='{$required->text}'>";
 			$this->assign('required', $required );
 			

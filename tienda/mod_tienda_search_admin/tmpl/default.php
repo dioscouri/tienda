@@ -17,7 +17,7 @@ $document->addStyleSheet( JURI::root(true).'/administrator/modules/mod_tienda_se
     <div class="mod_tienda_search_admin<?php echo $class_suffix; ?>">
         <input type="text" name="tienda_search_admin_keyword" class="tienda_search_admin_keyword<?php echo $class_suffix; ?>" value="" />
         <?php echo TiendaSelect::view( "", "tienda_search_admin_view" ); ?>
-        <input type="submit" class="button" value="<?php echo JText::_( "Quick Search" ); ?>" name="tienda_search_admin_submit" />
+        <input type="submit" class="button" value="<?php echo JText::_('Quick Search'); ?>" name="tienda_search_admin_submit" />
         <?php if (empty($display_outside)) : ?>
             <input type="hidden" name="task" value="search" />
         <?php endif; ?>

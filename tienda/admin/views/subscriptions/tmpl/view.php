@@ -19,7 +19,7 @@
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Subscription Enabled' ); ?>:
+                        <?php echo JText::_('Subscription Enabled'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaGrid::boolean( @$row->subscription_enabled ); ?>
@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Lifetime Subscription' ); ?>?
+                        <?php echo JText::_('Lifetime Subscription'); ?>?
                     </td>
                     <td>
                         <?php echo TiendaGrid::boolean( @$row->lifetime_enabled ); ?>
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Created' ); ?>:
+                        <?php echo JText::_('Created'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('date', $row->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
@@ -43,7 +43,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Expiration Date' ); ?>:
+                        <?php echo JText::_('Expiration Date'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('date', $row->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Transaction ID' ); ?>:
+                        <?php echo JText::_('Transaction ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->transaction_id; ?>
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_("COM_TIENDA_PRODUCT"); ?>:
+                        <?php echo JText::_('COM_TIENDA_PRODUCT'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->product_name; ?>
@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Product ID' ); ?>:
+                        <?php echo JText::_('Product ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->product_id; ?>
@@ -81,7 +81,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'User' ); ?>:
+                        <?php echo JText::_('User'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_name; ?>
@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
+                        <?php echo JText::_('COM_TIENDA_EMAIL'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->email; ?>
@@ -97,7 +97,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
+                        <?php echo JText::_('COM_TIENDA_USERNAME'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_username; ?>
@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'User ID' ); ?>:
+                        <?php echo JText::_('User ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_id; ?>
@@ -114,7 +114,7 @@
 		            <?php if ( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) : ?>
 		            <tr>
                     <td width="100" align="right" class="key">
-		                    <?php echo JText::_( "Sub Num" ); ?>
+		                    <?php echo JText::_('COM_TIENDA_SUB_NUM'); ?>
 		                </td>
 		                <td colspan="2">
 				            	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
@@ -130,7 +130,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Order ID' ); ?>:
+                        <?php echo JText::_('Order ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->order_id; ?>
@@ -138,7 +138,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Orderitem ID' ); ?>:
+                        <?php echo JText::_('Orderitem ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->orderitem_id; ?>
@@ -165,9 +165,9 @@
                 <table class="adminlist" style="clear: both;">
                 <thead>
                     <tr>
-                        <th style="text-align: left;"><?php echo JText::_("Date"); ?></th>
-                        <th style="text-align: center;"><?php echo JText::_("Type"); ?></th>
-                        <th style="text-align: center;"><?php echo JText::_("Notification Sent"); ?></th>
+                        <th style="text-align: left;"><?php echo JText::_('Date'); ?></th>
+                        <th style="text-align: center;"><?php echo JText::_('Type'); ?></th>
+                        <th style="text-align: center;"><?php echo JText::_('Notification Sent'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,7 +195,7 @@
                         ?>
                         <tr class='row<?php echo $k; ?>'>
                             <td colspan="3" style="text-align: left; padding-left: 10px;">
-                                <b><?php echo JText::_( "Comments" ); ?></b>:
+                                <b><?php echo JText::_('Comments'); ?></b>:
                                 <?php echo $history->comments; ?>
                             </td>
                         </tr>               
@@ -225,16 +225,16 @@
         <table class="admintable" style="clear: both; width: 100%;">
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_("New Entry Type"); ?>
+                <?php echo JText::_('New Entry Type'); ?>
             </td>
             <td>
-                <input value="<?php echo JText::_( "Add Entry to History" ); ?>" onclick="document.getElementById('task').value='update_subscription'; this.form.submit();" style="float: right;" type="button" />
+                <input value="<?php echo JText::_('Add Entry to History'); ?>" onclick="document.getElementById('task').value='update_subscription'; this.form.submit();" style="float: right;" type="button" />
                 <input type='text' name="subscriptionhistory_type" size="25" />
             </td>
         </tr>
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_("Notify Customer about Change in Subscription"); ?>
+                <?php echo JText::_('Notify Customer about Change in Subscription'); ?>
             </td>
             <td>
                 <?php echo JHTML::_('select.booleanlist', 'notify_customer' ); ?>
@@ -242,7 +242,7 @@
         </tr>
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_("Comments"); ?>
+                <?php echo JText::_('Comments'); ?>
             </td>
             <td>
                 <textarea name="comments" rows="5" style="width: 100%;"></textarea>

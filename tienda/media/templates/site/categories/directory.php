@@ -9,7 +9,7 @@ $citems = @$this->citems;
 <div id="tienda" class="products directory">
     <div id="tienda_categories">    
         <div id='tienda_category_header'>
-            <h3><?php echo JText::_( "Browse Categories" ); ?></h3>
+            <h3><?php echo JText::_('Browse Categories'); ?></h3>
             <div class='category_description'><?php echo $this->cat->category_description; ?></div>
         </div>
         

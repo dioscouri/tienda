@@ -12,7 +12,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="zone_name">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 						</label>
 					</td>
 					<td>
@@ -22,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="code">
-						<?php echo JText::_( 'Code' ); ?>:
+						<?php echo JText::_('Code'); ?>:
 						</label>
 					</td>
 					<td>
@@ -32,7 +32,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_id">
-						<?php echo JText::_( 'Country' ); ?>:
+						<?php echo JText::_('COM_TIENDA_COUNTRY'); ?>:
 						</label>
 					</td>
 					<td>

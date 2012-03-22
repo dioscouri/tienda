@@ -24,7 +24,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'ID', "tbl.id", @$state->direction, @$state->order ); ?>
@@ -45,10 +45,10 @@
                     <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 </th>
@@ -100,14 +100,14 @@
                 <td style="text-align: center;">
                     [
                     <a href="<?php echo $item->link; ?>">
-                        <?php echo JText::_( "View Plugin Options" ); ?>
+                        <?php echo JText::_('View Plugin Options'); ?>
                     </a>
                     ]
 				</td>
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link_edit; ?>">
-						<?php echo JText::_( "Edit Plugin Parameters" ); ?>
+						<?php echo JText::_('Edit Plugin Parameters'); ?>
 					</a>
 					]
 				</td>
@@ -121,7 +121,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

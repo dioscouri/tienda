@@ -167,7 +167,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
     	// is user_id valid?
         if (empty(JFactory::getUser( $user_id )->id ))
         {   
-            JFactory::getApplication()->enqueueMessage( JText::_( "Invalid User" ), 'notice' );
+            JFactory::getApplication()->enqueueMessage( JText::_('Invalid User'), 'notice' );
             return false;
         }
        
@@ -191,7 +191,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         $max_points = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPoints( JFactory::getUser( $user_id )->id );
         if ($max_points != '-1' && $userdata->points_total > $max_points)
         {         die("here");
-            JFactory::getApplication()->enqueueMessage( JText::_( "User Exceeded Max Points" ), 'notice' );
+            JFactory::getApplication()->enqueueMessage( JText::_('User Exceeded Max Points'), 'notice' );
             return false;            
         } 
                  
@@ -200,7 +200,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         $max_points_per_day = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPointsPerDay( JFactory::getUser( $user_id )->id );
         if ($max_points_per_day != '-1' && $pointhistory_today > $max_points_per_day)
         { 
-            JFactory::getApplication()->enqueueMessage( JText::_( "User Exceeded Max Points for the Day" ), 'notice' );
+            JFactory::getApplication()->enqueueMessage( JText::_('User Exceeded Max Points for the Day'), 'notice' );
             return false;            
         }         
         
@@ -217,7 +217,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
        
         if (!$pointrules = $model->getList())
         { 
-            JFactory::getApplication()->enqueueMessage( JText::_( 'No Valid Points Found for this Event' ), 'notice' );
+            JFactory::getApplication()->enqueueMessage( JText::_('No Valid Points Found for this Event'), 'notice' );
             return false;
         }
         
@@ -340,7 +340,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         }
         
         // shouldn't end up here
-        JFactory::getApplication()->enqueueMessage( JText::_( 'Something Wrong Happened' ), 'notice' );
+        JFactory::getApplication()->enqueueMessage( JText::_('Something Wrong Happened'), 'notice' );
         return false;   
     }
 }  

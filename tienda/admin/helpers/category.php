@@ -342,7 +342,7 @@ class TiendaHelperCategory extends TiendaHelperBase
                 if ($include_root)
                 {
                     $link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );
-                    $name .= " <a href='$link'>".JText::_("COM_TIENDA_ALL_CATEGORIES").'</a> ';
+                    $name .= " <a href='$link'>".JText::_('COM_TIENDA_ALL_CATEGORIES').'</a> ';
                 }
                 
 			    foreach (@$path as $cat) 

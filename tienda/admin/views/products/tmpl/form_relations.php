@@ -9,19 +9,19 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
-                	<?php echo JText::_( 'ID' ); ?>
+                	<?php echo JText::_('ID'); ?>
                 </th>                
                 <th style="text-align: center; width: 200px;">
-                	<?php echo JText::_( 'Relationship' ); ?>
+                	<?php echo JText::_('Relationship'); ?>
                 </th>
                 <th style="text-align: left;">
-    	            <?php echo JText::_("COM_TIENDA_PRODUCT"); ?>
+    	            <?php echo JText::_('COM_TIENDA_PRODUCT'); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo JText::_( 'Price' ); ?>
+                    <?php echo JText::_('Price'); ?>
                 </th>
                 <th style="width: 50px;">
                 </th>
@@ -89,10 +89,10 @@
                     
                     #<?php echo $product_id; ?>: <?php echo $product_name; ?><br/>
                     <?php if (!empty($product_sku)) : ?>
-                        <?php echo JText::_( "SKU" ).": ".$product_sku; ?><br/>
+                        <?php echo JText::_('COM_TIENDA_SKU').": ".$product_sku; ?><br/>
                     <?php endif; ?>
                     <?php if (!empty($product_model)) : ?>
-                        <?php echo JText::_( "Model" ).": ".$product_model; ?><br/>
+                        <?php echo JText::_('Model').": ".$product_model; ?><br/>
                     <?php endif; ?>
                     
 				</td>
@@ -100,7 +100,7 @@
                     <?php echo TiendaHelperBase::currency($product_price); ?>
                 </td>
 				<td style="text-align: center;">
-				    <input type="button" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_( "Deleting" ); ?>');" value="<?php echo JText::_( "Delete" ); ?>" />
+				    <input type="button" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_('Deleting'); ?>');" value="<?php echo JText::_('Delete'); ?>" />
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
@@ -109,7 +109,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

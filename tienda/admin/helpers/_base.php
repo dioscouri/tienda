@@ -100,14 +100,14 @@ class TiendaHelperBase extends JObject
 				if (!$return = &JFolder::create( $dir ))
 				{
 					$this->setError( "Attempted to Create Dir But Failed" );
-					//JFactory::getApplication( )->enqueueMessage( JText::_("COM_TIENDA_CREATE_DIR_FAILED") . " " . $dir );
+					//JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_CREATE_DIR_FAILED') . " " . $dir );
 				}
 			}
 			else
 			{
 				$return = false;
 				$this->setError( "Dir Does Not Exist and Did Not Attempt to Create" );
-				//JFactory::getApplication( )->enqueueMessage( JText::_("COM_TIENDA_DIR_DOES_NOT_EXIST_NOT_CREATED") . " " . $dir );
+				//JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_DIR_DOES_NOT_EXIST_NOT_CREATED') . " " . $dir );
 			}
 		}
 
@@ -116,7 +116,7 @@ class TiendaHelperBase extends JObject
 			if (!$change = &JPath::setPermissions( $dir ))
 			{
 				$this->setError( "Changing Permissions on Dir Failed" );
-				//JFactory::getApplication( )->enqueueMessage( JText::_("COM_TIENDA_CHANGING_DIR_PERMISSIONS_FAILED") . " " . $dir );
+				//JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_CHANGING_DIR_PERMISSIONS_FAILED') . " " . $dir );
 			}
 		}
 
@@ -638,7 +638,7 @@ class TiendaHelperBase extends JObject
 	{
 		$html = '
 		<dl id="system-message">
-            <dt class="notice">'.JText::_("COM_TIENDA_NOTICE").'</dt>
+            <dt class="notice">'.JText::_('COM_TIENDA_NOTICE').'</dt>
             <dd class="notice message fade">
                 <ul>';
 
@@ -750,11 +750,11 @@ class TiendaHelperBase extends JObject
 		{
 			case "success":
 				$src = Tienda::getUrl( 'images' ).'accept_16.png';
-				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_("COM_TIENDA_SUCCESS")."'><span class='validation-success'>".JText::_( $text )."</span></div>";
+				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_('COM_TIENDA_SUCCESS')."'><span class='validation-success'>".JText::_( $text )."</span></div>";
 				break;
 			default:
 				$src = Tienda::getUrl( 'images' ).'remove_16.png';
-				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_("COM_TIENDA_ERROR")."'><span class='validation-fail'>".JText::_( $text )."</span></div>";
+				$html = "<div class='tienda_validation'><img src='$src' alt='".JText::_('COM_TIENDA_ERROR')."'><span class='validation-fail'>".JText::_( $text )."</span></div>";
 				break;
 		}
 		return $html;

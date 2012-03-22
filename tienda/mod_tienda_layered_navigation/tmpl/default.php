@@ -6,7 +6,7 @@
 <span class="tienda_layered_nav_<?php echo $params->get('multi_mode', 1) ? 'multi' : 'single'?>">
 
 <?php if(count($filters)):?>
-<h3><?php echo JText::_("CURRENTLY SHOPPING BY");?></h3>
+<h3><?php echo JText::_('CURRENTLY SHOPPING BY');?></h3>
 	<ul class="tienda_browse_currently" id="tienda_browse_currently">
 		<?php foreach($filters as $filter):?>
 		<li>
@@ -19,7 +19,7 @@
 <?php endif;?>
 
 <?php if($trackcatcount || $priceRanges || $attributes || $manufacturers):?>
-<h3><?php echo JText::_("SHOPPING OPTIONS");?></h3>
+<h3><?php echo JText::_('SHOPPING OPTIONS');?></h3>
 <?php endif;?>
 
 <?php if($trackcatcount > 0):?>

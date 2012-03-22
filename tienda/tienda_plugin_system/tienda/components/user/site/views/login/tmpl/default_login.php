@@ -10,7 +10,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
     <td style="vertical-align: top; padding: 5px;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "Returning Users" ); ?></span>
+            <span><?php echo JText::_('Returning Users'); ?></span>
         </div>
             
         <!-- LOGIN FORM -->
@@ -18,9 +18,9 @@ $lang->load( 'com_tienda', JPATH_SITE );
         <?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
                 $lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
                 $langScript =   'var JLanguage = {};'.
-                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-                                ' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
+                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_('WHAT_IS_OPENID').'\';'.
+                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('LOGIN_WITH_OPENID').'\';'.
+                                ' JLanguage.NORMAL_LOGIN = \''.JText::_('NORMAL_LOGIN').'\';'.
                                 ' var modlogin = 1;';
                 $document = &JFactory::getDocument();
                 $document->addScriptDeclaration( $langScript );
@@ -32,7 +32,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
             <table>
             <tr>
                 <td style="height: 40px;">
-                    <?php echo JText::_("COM_TIENDA_USERNAME"); ?>
+                    <?php echo JText::_('COM_TIENDA_USERNAME'); ?>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />
@@ -89,19 +89,19 @@ $lang->load( 'com_tienda', JPATH_SITE );
     <td style="vertical-align: top; padding: 5px; width: 50%;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "New Users" ); ?></span>
+            <span><?php echo JText::_('New Users'); ?></span>
         </div>
         <!-- REGISTRATION -->
 
         <table>
         <tr>
             <td style="height: 40px; padding: 5px;">
-                <?php echo JTEXT::_('PLEASE REGISTER TO CONTINUE SHOPPING'); ?>
+                <?php echo JText::_('PLEASE REGISTER TO CONTINUE SHOPPING'); ?>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register" ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
+                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register" ); ?>'" value="<?php echo JText::_('REGISTER'); ?>" />
             </td>
         </tr>
         </table>

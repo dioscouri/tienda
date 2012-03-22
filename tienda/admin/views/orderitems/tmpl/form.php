@@ -19,19 +19,19 @@
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Order ID' ); ?>:
+                        <?php echo JText::_('Order ID'); ?>:
                     </td>
                     <td>
                         <input name="order_id" value="<?php echo @$row->order_id; ?>" size="48" maxlength="250" type="text" />
                         <?php if (!empty($row->order_id)) { ?>
                         <br/>
-                        <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>"><?php echo JText::_( "View Order"); ?></a>
+                        <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>"><?php echo JText::_('View Order'); ?></a>
                         <?php } ?>
                     </td>
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Product ID' ); ?>:
+                        <?php echo JText::_('Product ID'); ?>:
                     </td>
                     <td>
                         <input name="product_id" value="<?php echo @$row->product_id; ?>" size="48" maxlength="250" type="text" />
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'OrderItem Name' ); ?>:
+                        <?php echo JText::_('OrderItem Name'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_name" value="<?php echo @$row->orderitem_name; ?>" size="48" maxlength="250" type="text" />
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'OrderItem SKU' ); ?>:
+                        <?php echo JText::_('OrderItem SKU'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_sku" value="<?php echo @$row->orderitem_sku; ?>" size="48" maxlength="250" type="text" />
@@ -55,7 +55,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'OrderItem Quantity' ); ?>:
+                        <?php echo JText::_('OrderItem Quantity'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_quantity" value="<?php echo @$row->orderitem_quantity; ?>" size="48" maxlength="250" type="text" />
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'OrderItem Final Price' ); ?>:
+                        <?php echo JText::_('OrderItem Final Price'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_final_price" value="<?php echo @$row->orderitem_final_price; ?>" size="48" maxlength="250" type="text" />

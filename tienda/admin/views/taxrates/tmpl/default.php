@@ -6,7 +6,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Rates for" ); ?>: <?php echo $row->tax_class_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Rates for'); ?>: <?php echo $row->tax_class_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -22,10 +22,10 @@
     <table class="adminlist">
         <thead>
             <tr>
-                <th><?php echo JText::_( "Geozone" ); ?></th>
-                <th><?php echo JText::_( "Predecessor" ); ?></th>
-                <th><?php echo JText::_( "Description" ); ?></th>
-                <th><?php echo JText::_( "Rate" ); ?></th>
+                <th><?php echo JText::_('Geozone'); ?></th>
+                <th><?php echo JText::_('Predecessor'); ?></th>
+                <th><?php echo JText::_('Description'); ?></th>
+                <th><?php echo JText::_('Rate'); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -106,7 +106,7 @@
                 </td>
                 <td style="text-align: center;">
                     [<a href="index.php?option=com_tienda&controller=taxrates&task=delete&cid[]=<?php echo $item->tax_rate_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=taxclasses&task=setrates&id={$row->tax_class_id}&tmpl=component"); ?>">
-                        <?php echo JText::_( "Delete Rate" ); ?>   
+                        <?php echo JText::_('Delete Rate'); ?>   
                     </a>
                     ]
                 </td>
@@ -117,7 +117,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

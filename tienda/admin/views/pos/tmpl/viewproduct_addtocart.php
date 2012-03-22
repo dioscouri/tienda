@@ -33,13 +33,13 @@
         </div>
     <?php endif; ?>
     
-    <?php echo JText::_( "Quantity" ); ?>
+    <?php echo JText::_('COM_TIENDA_QUANTITY'); ?>
     <input type="text" name="quantity" value="1" size="10" />
     <br/>
-    <?php echo JText::_( "Base Price" ); ?>: <?php echo TiendaHelperBase::currency( $row->price ); ?>
+    <?php echo JText::_('Base Price'); ?>: <?php echo TiendaHelperBase::currency( $row->price ); ?>
     <br/>
     
-    <input type="submit" name="add_to_cart" value="<?php echo JText::_( "ADD_TO_ORDER" ); ?>" class="button" />
+    <input type="submit" name="add_to_cart" value="<?php echo JText::_('ADD_TO_ORDER'); ?>" class="button" />
     <input type="hidden" name="task" id="task" value="addtocart" />
     <input type="hidden" name="product_id" value="<?php echo $row->product_id; ?>" />
 </div>

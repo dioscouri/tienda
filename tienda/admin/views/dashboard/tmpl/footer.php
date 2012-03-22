@@ -22,20 +22,20 @@
 	<tbody>
 	<tr>
 		<td style="text-align: left; width: 33%;">
-			<a href="<?php echo $url; ?>" target="_blank"><?php echo JText::_( 'Dioscouri.com Support Center' ); ?></a>
+			<a href="<?php echo $url; ?>" target="_blank"><?php echo JText::_('Dioscouri.com Support Center'); ?></a>
 			<br/>
-			<a href="http://twitter.com/dioscouri" target="_blank"><?php echo JText::_( "Follow Us on Twitter" ); ?></a>
+			<a href="http://twitter.com/dioscouri" target="_blank"><?php echo JText::_('Follow Us on Twitter'); ?></a>
 			<br/>
-			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_( "Leave JED Feedback" ); ?></a>
+			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_('Leave JED Feedback'); ?></a>
 			<br/>
 			<?php echo $this->extraHtml; ?>
 		</td>
 		<td style="text-align: center; width: 33%;">
-			<?php echo JText::_( "Tienda" ); ?>: <?php echo JText::_( "Tienda Desc" ); ?>
+			<?php echo JText::_('Tienda'); ?>: <?php echo JText::_('Tienda Desc'); ?>
 			<br/>
-			<?php echo JText::_( "Copyright" ); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
+			<?php echo JText::_('Copyright'); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
 			<br/>
-			<?php echo JText::_( "Version" ); ?>: <?php echo Tienda::getVersion(); ?>
+			<?php echo JText::_('Version'); ?>: <?php echo Tienda::getVersion(); ?>
 			<br/>
 			<?php echo sprintf( JText::_('PHP_VERSION_LINE'), Tienda::getMinPhp(), Tienda::getServerPhp() );?>
 		</td>

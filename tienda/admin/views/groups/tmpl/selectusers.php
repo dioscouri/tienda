@@ -5,18 +5,18 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Select Users for" ); ?>: <?php echo $row->group_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Users for'); ?>: <?php echo $row->group_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
-    <?php echo JText::_( "For Checked Items" ); ?>:
-    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "Change Status" ); ?></button>
+    <?php echo JText::_('For Checked Items'); ?>:
+    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('Change Status'); ?></button>
 
     <table class="adminlist" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -41,10 +41,10 @@
                     <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 </th>
@@ -61,7 +61,7 @@
                     <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
                 </th>
                  <th>
-	                <?php echo JText::_( 'Status' ); ?>
+	                <?php echo JText::_('Status'); ?>
                 </th>
             </tr>
             <tr>
@@ -122,7 +122,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

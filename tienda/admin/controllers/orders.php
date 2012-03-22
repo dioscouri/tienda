@@ -232,7 +232,7 @@ class TiendaControllerOrders extends TiendaController
 		{
 			$redirect = 'index.php?option=com_tienda&view=users';
 			$redirect = JRoute::_( $redirect, false );
-			$this->setRedirect( $redirect, JText::_("COM_TIENDA_PLEASE_SELECT_USER_THEN_CLICK_CREATE_ORDER"), 'message' );
+			$this->setRedirect( $redirect, JText::_('COM_TIENDA_PLEASE_SELECT_USER_THEN_CLICK_CREATE_ORDER'), 'message' );
 		}
 		else
 		{
@@ -842,7 +842,7 @@ class TiendaControllerOrders extends TiendaController
 			}
 
 			$this->messagetype  = 'message';
-			$this->message      = JText::_( "COM_TIENDA_SAVED");
+			$this->message      = JText::_('COM_TIENDA_SAVED');
 			if ($error)
 			{
 				$this->messagetype  = 'notice';
@@ -855,7 +855,7 @@ class TiendaControllerOrders extends TiendaController
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$order->getError();
+			$this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$order->getError();
 		}
 
 		// clear the session of the stored items
@@ -942,7 +942,7 @@ class TiendaControllerOrders extends TiendaController
 			
 		if (empty($items) || !is_array($items))
 		{
-			$this->setError( "saveOrderItems:: ".JText::_("COM_TIENDA_ITEMS_ARRAY_INVALID") );
+			$this->setError( "saveOrderItems:: ".JText::_('COM_TIENDA_ITEMS_ARRAY_INVALID') );
 			return false;
 		}
 			
@@ -982,7 +982,7 @@ class TiendaControllerOrders extends TiendaController
 		if (empty($items) || !is_array($items))
 		{
 			// No vendors other than store owner, so just skip this
-			//$this->setError( "saveOrderVendors:: ".JText::_("COM_TIENDA_VENDORS_ARRAY_INVALID") );
+			//$this->setError( "saveOrderVendors:: ".JText::_('COM_TIENDA_VENDORS_ARRAY_INVALID') );
 			//return false;
 			return true;
 		}
@@ -1039,7 +1039,7 @@ class TiendaControllerOrders extends TiendaController
 		{
 			$model->setId( $row->order_id );
 			$this->messagetype  = 'message';
-			$this->message      = JText::_("COM_TIENDA_ORDER_SAVED");
+			$this->message      = JText::_('COM_TIENDA_ORDER_SAVED');
 
 			$history = JTable::getInstance('OrderHistory', 'TiendaTable');
 			$history->order_id             = $row->order_id;
@@ -1052,7 +1052,7 @@ class TiendaControllerOrders extends TiendaController
 				$this->setError( $history->getError() );
 				$this->messagetype  = 'notice';
 					
-				$this->message      .= " :: ".JText::_("COM_TIENDA_ORDERHISTORY_SAVE_FAILED");
+				$this->message      .= " :: ".JText::_('COM_TIENDA_ORDERHISTORY_SAVE_FAILED');
 			}
 
 			$dispatcher = JDispatcher::getInstance();
@@ -1061,7 +1061,7 @@ class TiendaControllerOrders extends TiendaController
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";
@@ -1174,7 +1174,7 @@ class TiendaControllerOrders extends TiendaController
 		 {
 		 	$model->setId( $row->order_id );
 		 	$this->messagetype  = 'message';
-		 	$this->message      = JText::_("COM_TIENDA_ORDER_SAVED");
+		 	$this->message      = JText::_('COM_TIENDA_ORDER_SAVED');
 
 		 	$history = JTable::getInstance('OrderHistory', 'TiendaTable');
 		 	$history->order_id             = $row->order_id;
@@ -1189,7 +1189,7 @@ class TiendaControllerOrders extends TiendaController
 		 	{
 		 		$this->setError( $history->getError() );
 		 		$this->messagetype  = 'notice';
-		 		$this->message      .= " :: ".JText::_("COM_TIENDA_ORDERHISTORY_SAVE_FAILED");
+		 		$this->message      .= " :: ".JText::_('COM_TIENDA_ORDERHISTORY_SAVE_FAILED');
 		 	}
 
 		 	$dispatcher = JDispatcher::getInstance();
@@ -1199,7 +1199,7 @@ class TiendaControllerOrders extends TiendaController
 		 else
 		 {
 		 	$this->messagetype  = 'notice';
-		 	$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+		 	$this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		 }
 		 $counter++;
 
@@ -1278,7 +1278,7 @@ class TiendaControllerOrders extends TiendaController
 		$orderinfo->load( array('order_id'=>$order_id) );
 		if (empty($order_id) || empty($orderinfo->order_id))
 		{
-			$this->message = JText::_("COM_TIENDA_INVALID_ORDER");
+			$this->message = JText::_('COM_TIENDA_INVALID_ORDER');
 			$this->messagetype = 'notice';
 			$redirect = JRoute::_( $redirect, false );
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1305,7 +1305,7 @@ class TiendaControllerOrders extends TiendaController
 
 		if (!$orderinfo->save())
 		{
-			$this->message = JText::_("COM_TIENDA_SAVE_FAILED") . " - " . $orderinfo->getError();
+			$this->message = JText::_('COM_TIENDA_SAVE_FAILED') . " - " . $orderinfo->getError();
 			$this->messagetype = 'notice';
 			$redirect = JRoute::_( $redirect, false );
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -1313,7 +1313,7 @@ class TiendaControllerOrders extends TiendaController
 		}
 
 		$redirect .= "&task=view&id=" . $order_id;
-		$this->message = JText::_("COM_TIENDA_ADDRESS_CHANGES_SAVED");
+		$this->message = JText::_('COM_TIENDA_ADDRESS_CHANGES_SAVED');
 		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 		return;

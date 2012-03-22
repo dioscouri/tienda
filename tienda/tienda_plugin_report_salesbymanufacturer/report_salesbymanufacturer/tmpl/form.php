@@ -2,28 +2,28 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-<p><?php echo JText::_( "This report displays the sales by each manufacturer during a selected time period." ); ?></p>
+<p><?php echo JText::_('This report displays the sales by each manufacturer during a selected time period.'); ?></p>
 
 <div>
 	<table class="adminlist">
 	<thead>   
 		<tr>
 			<th style="text-align: center;" class="key">
-                <?php echo JText::_("Select Date Range"); ?>
+                <?php echo JText::_('Select Date Range'); ?>
             </th>
             <th style="text-align: center;" class="key">
-                <?php echo JText::_("Manufacturer Name"); ?>
+                <?php echo JText::_('Manufacturer Name'); ?>
             </th>
         </tr>
         <tr>
         	<th align="left" style="text-align: left;" class="key">
         		<?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>	
 				<?php echo TiendaSelect::reportrange( @$state->filter_range ? $state->filter_range : 'custom', 'filter_range', $attribs, 'range', true ); ?>	
-				<span class="label"><?php echo JText::_("From"); ?>:</span>
+				<span class="label"><?php echo JText::_('From'); ?>:</span>
 				<?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
-				<span class="label"><?php echo JText::_("To"); ?>:</span>
+				<span class="label"><?php echo JText::_('To'); ?>:</span>
 				<?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
-        <span class="label"><?php echo JText::_("Type"); ?>:</span>
+        <span class="label"><?php echo JText::_('Type'); ?>:</span>
        <?php echo TiendaSelect::subdatetype( @$state->filter_datetype, 'filter_datetype', '', 'filter_datetype' ); ?>
         	</th>
         	<th class="key">

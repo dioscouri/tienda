@@ -40,12 +40,12 @@ class TiendaTableUserGroups extends TiendaTableXref
 	{
 		if (empty($this->group_id))
 		{
-			$this->setError( JText::_( "Group Required" ) );
+			$this->setError( JText::_('Group Required') );
 			return false;
 		}
 		if (empty($this->user_id))
 		{
-			$this->setError( JText::_( "User Required" ) );
+			$this->setError( JText::_('User Required') );
 			return false;
 		}
 		

@@ -191,7 +191,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			{
 				if ( strtolower( $upload->getExtension( ) ) != 'xml' )
 				{
-					$this->setError( JText::_( 'This is not an XML file' ) );
+					$this->setError( JText::_('This is not an XML file') );
 					return false;
 				}
 				
@@ -219,7 +219,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					
 					if ( !in_array( strtolower( $zip_images_upload->getExtension( ) ), $allowed_archives ) )
 					{
-						$this->setError( JText::_( 'This is not a supported archive file' ) );
+						$this->setError( JText::_('This is not a supported archive file') );
 						return false;
 					}
 					
@@ -245,7 +245,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					
 					if ( !in_array( strtolower( $zip_files_upload->getExtension( ) ), $allowed_archives ) )
 					{
-						$this->setError( JText::_( 'This is not a supported archive file' ) );
+						$this->setError( JText::_('This is not a supported archive file') );
 						return false;
 					}
 					

@@ -9,11 +9,11 @@
     <h3><?php echo JText::_('COM_TIENDA_EDIT_ADDRESSES_FOR_ORDER') . " " . $row->order_id; ?></h3>
     
     <fieldset style="width: 48%; float: left;">
-        <legend><?php echo JText::_( "COM_TIENDA_BILLING_ADDRESS" ); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_BILLING_ADDRESS'); ?></legend>
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_FIRST_NAME' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_FIRST_NAME'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_first_name" value="<?php echo @$row->billing_first_name; ?>" size="48" maxlength="250" />
@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_LAST_NAME' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_LAST_NAME'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_last_name" value="<?php echo @$row->billing_last_name; ?>" size="48" maxlength="250" />
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_COMPANY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_COMPANY'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_company" value="<?php echo @$row->billing_company; ?>" size="48" maxlength="250" />
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ADDRESS_LINE_1' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ADDRESS_LINE_1'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_address_1" value="<?php echo @$row->billing_address_1; ?>" size="48" maxlength="250" />
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ADDRESS_LINE_2' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ADDRESS_LINE_2'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_address_2" value="<?php echo @$row->billing_address_2; ?>" size="48" maxlength="250" />
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_CITY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_CITY'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_city" value="<?php echo @$row->billing_city; ?>" size="48" maxlength="250" />
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_POSTAL_CODE' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_POSTAL_CODE'); ?>:
                 </td>
                 <td>
                     <input type="text" name="billing_postal_code" value="<?php echo @$row->billing_postal_code; ?>" size="48" maxlength="250" />
@@ -69,7 +69,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_COUNTRY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_COUNTRY'); ?>:
                 </td>
                 <td>
                     <?php
@@ -81,14 +81,14 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ZONE' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ZONE'); ?>:
                 </td>
                 <td>
                     <div id="billing_zones_wrapper">
                         <?php 
                         if (empty($row->orderinfo->billing_zone_id)) 
                         {
-                            echo JText::_( "COM_TIENDA_SELECT_COUNTRY_FIRST" ); 
+                            echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST'); 
                         }
                         else
                         {
@@ -102,11 +102,11 @@
     </fieldset>
     
     <fieldset style="width: 48%; float: left;">
-        <legend><?php echo JText::_( "COM_TIENDA_SHIPPING_ADDRESS" ); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS'); ?></legend>
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_FIRST_NAME' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_FIRST_NAME'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_first_name" value="<?php echo @$row->shipping_first_name; ?>" size="48" maxlength="250" />
@@ -114,7 +114,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_LAST_NAME' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_LAST_NAME'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_last_name" value="<?php echo @$row->shipping_last_name; ?>" size="48" maxlength="250" />
@@ -122,7 +122,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_COMPANY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_COMPANY'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_company" value="<?php echo @$row->shipping_company; ?>" size="48" maxlength="250" />
@@ -130,7 +130,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ADDRESS_LINE_1' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ADDRESS_LINE_1'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_address_1" value="<?php echo @$row->shipping_address_1; ?>" size="48" maxlength="250" />
@@ -138,7 +138,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ADDRESS_LINE_2' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ADDRESS_LINE_2'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_address_2" value="<?php echo @$row->shipping_address_2; ?>" size="48" maxlength="250" />
@@ -146,7 +146,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_CITY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_CITY'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_city" value="<?php echo @$row->shipping_city; ?>" size="48" maxlength="250" />
@@ -154,7 +154,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_POSTAL_CODE' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_POSTAL_CODE'); ?>:
                 </td>
                 <td>
                     <input type="text" name="shipping_postal_code" value="<?php echo @$row->shipping_postal_code; ?>" size="48" maxlength="250" />
@@ -162,7 +162,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_COUNTRY' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_COUNTRY'); ?>:
                 </td>
                 <td>
                     <?php
@@ -174,14 +174,14 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'COM_TIENDA_ZONE' ); ?>:
+                    <?php echo JText::_('COM_TIENDA_ZONE'); ?>:
                 </td>
                 <td>
                     <div id="shipping_zones_wrapper">
                         <?php 
                         if (empty($row->orderinfo->shipping_zone_id)) 
                         {
-                            echo JText::_( "COM_TIENDA_SELECT_COUNTRY_FIRST" ); 
+                            echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST'); 
                         }
                         else
                         {

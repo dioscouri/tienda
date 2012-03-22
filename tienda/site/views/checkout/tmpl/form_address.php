@@ -29,13 +29,13 @@
 		{
 			if( $this->guest && !$one_page )
 			{
-				echo '<input value="'.JText::_( 'Temporary' ).'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+				echo '<input value="'.JText::_('Temporary').'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
 			}
 			else
 			{
 				?>
-	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_( 'Address Title' ); ?>
-		<span class="block"><?php echo JText::_( 'Address Title For Your Reference' ); ?>
+	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE'); ?>
+		<span class="block"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE'); ?>
 		<?php if( !$this->guest && $elements['address_name'][1] ): ?>
 			<?php echo TiendaGrid::required(); ?>
 		<?php endif;?>
@@ -52,7 +52,7 @@
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>title">
 				<?php 
-					echo JText::_( 'Title' );
+					echo JText::_('COM_TIENDA_TITLE');
 					if( $elements['title'][1] ):
 						echo TiendaGrid::required();
 					endif;
@@ -66,7 +66,7 @@
 	<?php if( $elements['name'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>first_name">
-				<?php echo JText::_( 'First name' ); ?>
+				<?php echo JText::_('COM_TIENDA_FIRST_NAME'); ?>
 				<?php if( $elements['name'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>			
@@ -78,7 +78,7 @@
 		<?php if( $elements['middle'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>middle_name">
-				<?php echo JText::_( 'Middle name' ); ?> 
+				<?php echo JText::_('COM_TIENDA_MIDDLE_NAME'); ?> 
 				<?php if( $elements['middle'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -91,7 +91,7 @@
 	<?php if( $elements['last'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>last_name">
-			<?php echo JText::_( 'Last name' ); ?>
+			<?php echo JText::_('COM_TIENDA_LAST_NAME'); ?>
 			<?php if( $elements['last'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -103,7 +103,7 @@
 	<?php if( $elements['address1'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>address_1">
-			<?php echo JText::_( 'Address Line 1' ); ?>
+			<?php echo JText::_('COM_TIENDA_ADDRESS_LINE_1'); ?>
 			<?php if( $elements['address1'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -115,7 +115,7 @@
 	<?php if( $elements['address2'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>address_2">
-			<?php echo JText::_( 'Address Line 2' ); ?>
+			<?php echo JText::_('COM_TIENDA_ADDRESS_LINE_2'); ?>
 			<?php if( $elements['address2'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -127,7 +127,7 @@
 	<?php if( $elements['country'][0] ) :?>
 	<div>
 		<label class="key">
-			<?php echo JText::_( 'Country' ); ?>
+			<?php echo JText::_('COM_TIENDA_COUNTRY'); ?>
 			<?php if( $elements['country'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -153,7 +153,7 @@
 	<?php if( $elements['city'][0] ) :?>
 	<div>
 		<label class="key" for="<?php echo $this->form_prefix; ?>city">
-			<?php echo JText::_( 'City' ); ?>
+			<?php echo JText::_('COM_TIENDA_CITY'); ?>
 			<?php if( $elements['city'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>		
@@ -167,7 +167,7 @@
 		<?php if( $elements['zone'][0] ) :?>
 		<div>
 			<label class="key">
-				<?php echo JText::_( 'Zone' ); ?>
+				<?php echo JText::_('COM_TIENDA_ZONE'); ?>
 				<?php if( $elements['zone'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -177,7 +177,7 @@
 				if (!empty($this->zones)) {
 					echo $this->zones;
 				} else {
-					echo JText::_( "Select Country First" );
+					echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
 				}
 				?>
 			</div>
@@ -188,7 +188,7 @@
 	<?php if( $elements['zip'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>postal_code">
-				<?php echo JText::_( 'Postal code' ); ?>
+				<?php echo JText::_('COM_TIENDA_POSTAL_CODE'); ?>
 				<?php if( $elements['zip'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -210,7 +210,7 @@
 	<?php if( $elements['phone'][0] ) :?>
 	<div>
 		<label class="key" name="<?php echo $this->form_prefix; ?>phone_1">
-			<?php echo JText::_( 'Phone' ); ?>
+			<?php echo JText::_('COM_TIENDA_PHONE'); ?>
 			<?php if( $elements['phone'][1] ): ?>
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
@@ -223,7 +223,7 @@
 	<?php if( $elements['company'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>company">
-				<?php echo JText::_( 'Company' ); ?>
+				<?php echo JText::_('COM_TIENDA_COMPANY'); ?>
 				<?php if($elements['company'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
@@ -234,7 +234,7 @@
 		<?php if( $elements['tax_number'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
-				<?php echo JText::_( 'Co. Tax Number' ); ?>
+				<?php echo JText::_('Co. Tax Number'); ?>
 				<?php if( $elements['tax_number'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>

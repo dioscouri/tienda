@@ -12,11 +12,11 @@
 
 
 		<fieldset>
-			<legend><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></legend>
+			<legend><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></legend>
 				<table class="admintable">
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_( 'Name' ); ?>:
+							<?php echo JText::_('Name'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_name; ?>
@@ -24,7 +24,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_( 'Model' ); ?>:
+							<?php echo JText::_('Model'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_model; ?>
@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_( 'SKU' ); ?>:
+							<?php echo JText::_('SKU'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_sku; ?>
@@ -40,7 +40,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_( 'Enabled' ); ?>:
+							<?php echo JText::_('Enabled'); ?>:
 						</td>
 						<td>
 							<?php echo TiendaGrid::boolean( $row->product_enabled ); ?>
@@ -48,7 +48,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_( 'Current Image' ); ?>:
+							<?php echo JText::_('Current Image'); ?>:
 						</td>
 						<td>
 							<?php

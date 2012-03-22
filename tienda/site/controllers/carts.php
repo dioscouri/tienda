@@ -379,7 +379,7 @@ class TiendaControllerCarts extends TiendaController
               if ( $availableQuantity->product_check_inventory && $value > $availableQuantity->quantity ) 
               {
               	JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $availableQuantity->product_name, $value ));
-              	$msg = JText::_( 'COM_TIENDA_QUANTITY_UPDATE_FAILED' );
+              	$msg = JText::_('COM_TIENDA_QUANTITY_UPDATE_FAILED');
                 continue;
               }
                 
@@ -556,7 +556,7 @@ class TiendaControllerCarts extends TiendaController
 			if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
 			{
 				$response['error'] = '1';
-				$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_THIS_COUPON_ALREADY_ADDED_TO_THE_ORDER" ) );
+				$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_THIS_COUPON_ALREADY_ADDED_TO_THE_ORDER') );
 				echo json_encode($response);
 				return;
 			}
@@ -566,7 +566,7 @@ class TiendaControllerCarts extends TiendaController
 			if (!$can_add)
 			{
 				$response['error'] = '1';
-				$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_CANNOT_ADD_THIS_COUPON_TO_ORDER" ) );
+				$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_CANNOT_ADD_THIS_COUPON_TO_ORDER') );
 				echo json_encode($response);
 				return;
 			}
@@ -584,7 +584,7 @@ class TiendaControllerCarts extends TiendaController
 				if(!$check)
 				{
 					$response['error'] = '1';
-					$response['msg'] = $helper->generateMessage( JText::_( "COM_TIENDA_THIS_COUPON_NOT_RELATED_TO_PRODUCT_IN_YOUR_CART" ) );
+					$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_THIS_COUPON_NOT_RELATED_TO_PRODUCT_IN_YOUR_CART') );
 					echo json_encode($response);
 					return;
 				}

@@ -18,10 +18,10 @@ JFilterOutput::objectHTMLSafe( $row );
             <thead>
                 <tr>
                     <th style="text-align: left;">
-                       <?php echo JText::_( "Products in Order" ); ?>
+                       <?php echo JText::_('Products in Order'); ?>
                     </th>
                     <th style="text-align: center; width: 20%;" >
-                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component", JText::_( "Add Products to Order" ) ); ?>
+                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component", JText::_('Add Products to Order') ); ?>
                     </th>
                 </tr>
             </thead>
@@ -62,13 +62,13 @@ JFilterOutput::objectHTMLSafe( $row );
         <table class="adminlist">
         <thead>
            <tr>
-               <th colspan="2" style="text-align: left;"><?php echo JText::_( "General Information" ); ?></th>
+               <th colspan="2" style="text-align: left;"><?php echo JText::_('General Information'); ?></th>
            </tr>
         </thead>
         <tbody>
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_( 'Order Currency' ); ?>:
+                     <?php echo JText::_('Order Currency'); ?>:
                 </th>
                 <td>
                     <?php echo TiendaSelect::currency( @$row->order_currency_id, 'order_currency_id', '', 'order_currency_id', false ); ?>          
@@ -76,7 +76,7 @@ JFilterOutput::objectHTMLSafe( $row );
             </tr>
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_( 'Customer Information' ); ?>:
+                     <?php echo JText::_('Customer Information'); ?>:
                 </th>
                 <td>
                     <?php echo $row->userinfo->name .' [ '.$row->user_id.' ]'; ?>
@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
             </tr>            
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
+                     <?php echo JText::_('COM_TIENDA_EMAIL'); ?>:
                 </th>
                 <td>
                     <input type="text" name="user_email"
@@ -97,7 +97,7 @@ JFilterOutput::objectHTMLSafe( $row );
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <?php echo JText::_( "Email Order Confirmation to User" ); ?>
+                    <?php echo JText::_('Email Order Confirmation to User'); ?>
                     <input id="emailorderconfirmation" name="emailorderconfirmation" type="checkbox" checked="checked"/>
                 </td>
             </tr>
@@ -109,13 +109,13 @@ JFilterOutput::objectHTMLSafe( $row );
 		<table class="adminlist">
 		<thead>
 		    <tr>
-		        <th colspan="4" style="text-align: left;"><?php echo JText::_( "Shipping Method" ); ?></th>
+		        <th colspan="4" style="text-align: left;"><?php echo JText::_('Shipping Method'); ?></th>
 		    </tr>
 		</thead>
 		<tbody>
 		    <tr>
 		        <th style="width: 100px;" class="key">
-		            <?php echo JText::_( 'Select' ); ?>:
+		            <?php echo JText::_('Select'); ?>:
 		        </th>
 		        <td>
 			        <?php $attribs = array( 'class' => 'inputbox', 'size' => '1', 'onchange' => 'tiendaGetOrderTotals();' ); ?>
@@ -137,7 +137,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <table class="adminlist">
         <thead>
             <tr>
-                <th style="text-align: left;"><?php echo JText::_( "Order Comment" ); ?></th>
+                <th style="text-align: left;"><?php echo JText::_('Order Comment'); ?></th>
             </tr>
         </thead>
         <tbody>

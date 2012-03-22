@@ -1,10 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $shipping_rates_text = JText::_( "Getting Shipping Rates" ); ?>
+<?php $shipping_rates_text = JText::_('Getting Shipping Rates'); ?>
 
-<h3><?php echo JText::_("Select a Shipping Method") ?></h3>
+<h3><?php echo JText::_('Select a Shipping Method') ?></h3>
 
 <input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update customer's shipping rates"); ?>" />
-<p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
+<p><?php echo JText::_('Please select your preferred shipping method below'); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
 
@@ -28,7 +28,7 @@
     {
         ?>
         <div class="note">
-        <?php echo JText::_( "NO SHIPPING NOTE" ); ?>
+        <?php echo JText::_('NO SHIPPING NOTE'); ?>
         </div>
         <?php
     }
@@ -45,8 +45,8 @@
 <?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
-<h3><?php echo JText::_("SHIPPING NOTES") ?></h3>
-<?php echo JText::_( "ADD OPTIONAL NOTES FOR SHIPMENT HERE" ); ?>:
+<h3><?php echo JText::_('SHIPPING NOTES') ?></h3>
+<?php echo JText::_('ADD OPTIONAL NOTES FOR SHIPMENT HERE'); ?>:
 <br/>
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>

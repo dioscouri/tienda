@@ -8,7 +8,7 @@
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "Checkout Results" ); ?></span>
+    <span><?php echo JText::_('Checkout Results'); ?></span>
 </div>
 
 <?php if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') ) : ?>
@@ -26,7 +26,7 @@
 
 <div class="note">
 	<a href="<?php echo JRoute::_($order_link); ?>">
-        <?php echo JText::_( "Click Here to View and Print an Invoice" ); ?>
+        <?php echo JText::_('Click Here to View and Print an Invoice'); ?>
 	</a>
 </div>
 

@@ -24,7 +24,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -56,10 +56,10 @@
                 	<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>                
@@ -71,25 +71,25 @@
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_amount_from" name="filter_amount_from" value="<?php echo @$state->filter_amount_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_amount_from" name="filter_amount_from" value="<?php echo @$state->filter_amount_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_amount_to" name="filter_amount_to" value="<?php echo @$state->filter_amount_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_amount_to" name="filter_amount_to" value="<?php echo @$state->filter_amount_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 </th>
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span>
+                            <span class="label"><?php echo JText::_('From'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span>
+                            <span class="label"><?php echo JText::_('To'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("Type"); ?>:</span>
+                            <span class="label"><?php echo JText::_('Type'); ?>:</span>
                             <?php echo TiendaSelect::datetype( @$state->filter_datetype, 'filter_datetype', '', 'datetype' ); ?>
                         </div>
                     </div>
@@ -139,8 +139,8 @@
                     <?php
                     if (!empty($item->credit_enabled))
                     {
-                        echo "<b>" . JText::_( "Balance Before" ) . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_before ). "<br/>";
-                        echo "<b>" . JText::_( "Balance After" ) . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_after );
+                        echo "<b>" . JText::_('Balance Before') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_before ). "<br/>";
+                        echo "<b>" . JText::_('Balance After') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_after );
                     }
                     ?>
                     
@@ -148,7 +148,7 @@
                     if (!empty($item->credit_withdrawable))
                     {
                         echo "<br/>";
-                        echo "<b>" . JText::_( "Withdrawable Balance After" ) . ":</b> " . TiendaHelperBase::currency( $item->withdrawable_balance_after );
+                        echo "<b>" . JText::_('Withdrawable Balance After') . ":</b> " . TiendaHelperBase::currency( $item->withdrawable_balance_after );
                     }
                     ?>
                 </td>
@@ -176,7 +176,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

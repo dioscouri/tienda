@@ -40,7 +40,7 @@ class TiendaControllerZonerelations extends TiendaController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( "COM_TIENDA_SAVED");
+			$this->message  	= JText::_('COM_TIENDA_SAVED');
 			
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -48,7 +48,7 @@ class TiendaControllerZonerelations extends TiendaController
 			else 
 		{
 			$this->messagetype 	= 'notice';			
-			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 		
     	$redirect = "index.php?option=com_tienda&tmpl=component&geozoneid=$geozoneid";

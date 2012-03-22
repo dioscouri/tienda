@@ -54,11 +54,11 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		$success =  $table->store($values);
 		if($success){
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( "COM_TIENDA_SAVED");
+			$this->message  	= JText::_('COM_TIENDA_SAVED');
 		}
 		else{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 
 		$redirect = $this->baseLink();
@@ -168,7 +168,7 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		else
 		{
 			$this->messagetype  = 'notice';
-			$this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 
 		$redirect = $this->baseLink()."&shippingTask=setrates&sid={$row->shipping_method_weightbased_id}&tmpl=component";

@@ -7,22 +7,22 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("ID"); ?>
+                    <?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Name"); ?>
+                    <?php echo JText::_('Name'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("Model"); ?>
+                    <?php echo JText::_('Model'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("SKU"); ?>
+                    <?php echo JText::_('SKU'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("Quantity"); ?>
+                    <?php echo JText::_('Quantity'); ?>
                 </th>
             </tr>
         </thead>
@@ -47,7 +47,7 @@
                 	<a href="index.php?option=com_tienda&view=products&task=edit&id=<?php echo $item->product_id; ?>">
                         <?php echo JText::_($item->product_name); ?>                      
                     </a>
-                      <?php if($item->product_quantity < 1) echo '<span style="color: #F00; font-style: italic; margin-left: 40px;">'.JText::_("Out of stock!").'</span>';?>
+                      <?php if($item->product_quantity < 1) echo '<span style="color: #F00; font-style: italic; margin-left: 40px;">'.JText::_('Out of stock!').'</span>';?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->product_model; ?>
@@ -65,7 +65,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

@@ -88,7 +88,7 @@ class modTiendaPriceFiltersHelper extends JObject
     	//check if we dont have product in the category	
 		if ( empty($items) )
 		{	
-			$ranges[$link] = JText::_("NO AVAILABLE PRODUCT");		
+			$ranges[$link] = JText::_('NO AVAILABLE PRODUCT');		
 			return $ranges;			
 		}
 		
@@ -113,7 +113,7 @@ class modTiendaPriceFiltersHelper extends JObject
     	$ranges[$link.'&filter_price_from='.$roundRange.'&filter_price_to='.($roundRange*2)] = TiendaHelperBase::currency($roundRange).' - '.TiendaHelperBase::currency( ( $roundRange*2 ) );
     	$ranges[$link.'&filter_price_from='.($roundRange*2).'&filter_price_to='.($roundRange*3)] = TiendaHelperBase::currency( ( $roundRange*2 ) ).' - '.TiendaHelperBase::currency( ( $roundRange*3 ) );
     	$ranges[$link.'&filter_price_from='.($roundRange*3).'&filter_price_to='.($upperPrice)] = TiendaHelperBase::currency( ( $roundRange*3 ) ).' - '.TiendaHelperBase::currency( $upperPrice );
-    	$ranges[$link.'&filter_price_from='.$upperPrice] = JText::_("more than ").TiendaHelperBase::currency( $upperPrice );
+    	$ranges[$link.'&filter_price_from='.$upperPrice] = JText::_('more than ').TiendaHelperBase::currency( $upperPrice );
       
     	return $ranges;
     }

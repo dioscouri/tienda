@@ -12,23 +12,23 @@ $form = @$this->form;
 
     <div id="product_children">
         <div id="product_children_header" class="tienda_header">
-            <span><?php echo JText::_("Select the Items to Add to Your Cart"); ?></span>
+            <span><?php echo JText::_('Select the Items to Add to Your Cart'); ?></span>
         </div>
         
         <table class="adminlist">
         <thead>
         <tr>
             <th style="text-align: left;">
-                <?php echo JText::_("Product Name"); ?>
+                <?php echo JText::_('Product Name'); ?>
             </th>
             <th style="text-align: left;">
-                <?php echo JText::_("SKU"); ?>
+                <?php echo JText::_('SKU'); ?>
             </th>
             <th style="text-align: center;">
-                <?php echo JText::_("Price"); ?>
+                <?php echo JText::_('Price'); ?>
             </th>
             <th style="text-align: center;">
-                <?php echo JText::_("Quantity"); ?>
+                <?php echo JText::_('Quantity'); ?>
             </th>
         </tr>
         </thead>

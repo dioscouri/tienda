@@ -108,7 +108,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$vars->type_id = JRequest::getInt('id');
 		//$vars->post_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_element}&paction=proceed&tmpl=component");
 		$vars->button_url = $this->_getPostUrl(false);
-		$vars->note = JText::_( 'GoogleCheckout Note Default' );
+		$vars->note = JText::_('GoogleCheckout Note Default');
 		$uri =& JFactory::getURI();
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$vars->r = base64_encode($url);
@@ -148,7 +148,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$totalDiscount = 0;	
 				foreach($coupons as $coupon)
 				{		
-					$orderitem_name = $coupon->coupon_code." ".JText::_( "(Discount)" );					
+					$orderitem_name = $coupon->coupon_code." ".JText::_('(Discount)');					
 					
 				  	if (empty($coupon->coupon_type))
 		            {		            	
@@ -290,11 +290,11 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$app->close();
 				break;
 			case "cancel":
-				$vars->message = JText::_( 'Goolge Checkout Message Cancel' );
+				$vars->message = JText::_('Goolge Checkout Message Cancel');
 				$html = $this->_getLayout('message', $vars);
 				break;
 			default:
-				$vars->message = JText::_( 'Goolge Checkout Message Invalid Action' );
+				$vars->message = JText::_('Goolge Checkout Message Invalid Action');
 				$html = $this->_getLayout('message', $vars);
 				break;
 		}

@@ -13,4 +13,4 @@
 <p><?php
 // Ici on peut proposer le paiment plusieurs fois
 
-//echo JText::_( "Tienda SIPS Payment Standard Form Message" ); ?></p>
+//echo JText::_('Tienda SIPS Payment Standard Form Message'); ?></p>

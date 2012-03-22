@@ -53,8 +53,8 @@ class TiendaViewPayment extends TiendaViewBase
 	
     function _viewToolbar()
     {
-    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('Submit'), false );
-    	JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
+    	JToolBarHelper::cancel( 'close', JText::_('Close') );
     }
     
     /**
@@ -69,12 +69,12 @@ class TiendaViewPayment extends TiendaViewBase
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('Save + Prev'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('Save + Next'), false);
         }
         if ($divider)
         {
@@ -90,7 +90,7 @@ class TiendaViewPayment extends TiendaViewBase
         }
             else
         {
-            JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+            JToolBarHelper::cancel( 'close', JText::_('Close') );
         }
     }
 }

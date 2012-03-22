@@ -169,7 +169,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		if( empty( $shippingmethod->shipping_method_weightbased_id ) )
 		{
 			// TODO if this is an object, setError, otherwise return false, or 0.000?
-			$return->setError( JText::_("COM_TIENDA_UNDEFINED_SHIPPING_METHOD") );
+			$return->setError( JText::_('COM_TIENDA_UNDEFINED_SHIPPING_METHOD') );
 			return $return;
 		}
 
@@ -202,7 +202,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 
 		if (!$rate_exists)
 		{
-			$this->setError( JText::_( "No Rate Found" ) );
+			$this->setError( JText::_('No Rate Found') );
 			return false;
 		}
 

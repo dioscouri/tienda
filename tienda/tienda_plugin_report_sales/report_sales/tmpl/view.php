@@ -7,28 +7,28 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="text-align: left; width : 150px;">
-                    <?php echo JText::_("Name"); ?>
+                    <?php echo JText::_('Name'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Billing Address"); ?>
+                    <?php echo JText::_('Billing Address'); ?>
                 </th>                
                 <th style="width: 150px;">
-                    <?php echo JText::_("COM_TIENDA_EMAIL"); ?>
+                    <?php echo JText::_('COM_TIENDA_EMAIL'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("Total"); ?>
+                    <?php echo JText::_('Total'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("Date"); ?>
+                    <?php echo JText::_('Date'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("Shipping costs"); ?>
+                    <?php echo JText::_('Shipping costs'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_("Tax"); ?>
+                    <?php echo JText::_('Tax'); ?>
                 </th>
             </tr>
         </thead>
@@ -82,7 +82,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="8" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

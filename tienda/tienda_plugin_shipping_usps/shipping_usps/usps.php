@@ -131,7 +131,7 @@ class TiendaUSPS extends JObject
         }
 		
    		if ($this->show_debug):
-			$sendStr = JText::_("Sent Request").": ";
+			$sendStr = JText::_('Sent Request').": ";
 			echo Tienda::dump($sendStr.$str);			
 		endif;
         
@@ -219,13 +219,13 @@ class TiendaUSPS extends JObject
             	
      	if ($this->show_debug)
      	{
-     		$msg = JText::_("Result").": ";
+     		$msg = JText::_('Result').": ";
      		$msg .= $price->mailservice;
      		$msg .= " - ";
      		$msg .= $price->rate;
      		$msg .= $error->description;     		
      				
-			echo $price || $error ? Tienda::dump($msg) : Tienda::dump(JText::_("No Result"));	
+			echo $price || $error ? Tienda::dump($msg) : Tienda::dump(JText::_('No Result'));	
 		}
 		
         return $this;

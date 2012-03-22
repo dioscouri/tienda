@@ -28,13 +28,13 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     	 <!-- For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates) -->       
     	<br />
     	<?php if(TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
-    	<?php echo TiendaUrl::popup( JRoute::_($this->shipping_cost_link.'&tmpl=component'), JText::_( "LINK_TO_SHIPPING_COST" ) ); ?>
+    	<?php echo TiendaUrl::popup( JRoute::_($this->shipping_cost_link.'&tmpl=component'), JText::_('LINK_TO_SHIPPING_COST') ); ?>
     	<?php endif;?>        
     </span>
 
     <?php if (!empty($item->product_listprice_enabled)) : ?>
         <div class="product_listprice">
-        <span class="title"><?php echo JText::_( "List Price" ); ?>:</span>
+        <span class="title"><?php echo JText::_('List Price'); ?>:</span>
         <del><?php echo TiendaHelperBase::currency($item->product_listprice); ?></del>
         </div>                                
     <?php endif; ?>
@@ -97,7 +97,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         <?php } elseif ($item->quantity_restriction && $item->quantity_min == $item->quantity_max) { ?>
             <input type="hidden" name="product_qty" value="<?php echo $item->quantity_min; ?>" />
         <?php } else { ?>
-        <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
+        <span class="title"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?>:</span>
         <input type="text" name="product_qty" value="<?php echo $item->_product_quantity; ?>" size="5" />
         <?php } ?>
     </div>
@@ -113,7 +113,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         <?php echo JHTML::_( 'form.token' ); ?>
         <input type="hidden" name="return" value="<?php echo $return; ?>" />
    
-        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_( 'Validating' )."' );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_('Validating')."' );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
@@ -141,19 +141,19 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     
     <?php if (!empty($item->product_recurs)) : ?> 
         <div id='product_recurs_<?php echo $item->product_id; ?>' class="product_recurs"> 
-            <span class="title"><?php echo JText::_("THIS PRODUCTS CHARGES RECUR"); ?></span>
+            <span class="title"><?php echo JText::_('THIS PRODUCTS CHARGES RECUR'); ?></span>
             <div id="product_recurs_prices_<?php echo $item->product_id; ?>" class="product_recurs_prices"> 
-            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+            <?php echo JText::_('COM_TIENDA_RECURRING_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('$item->recurring_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
 	            <?php if( $item->subscription_prorated ) : ?>
                 <br/>
-	                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperBase::currency($item->prorated_price); ?>
-	                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->prorated_interval." ". JText::_( "$item->prorated_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+	                <?php echo JText::_('COM_TIENDA_INITIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->prorated_price); ?>
+	                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->prorated_interval." ". JText::_('$item->prorated_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
 	            <?php else : ?>            
             <?php if ($item->recurring_trial) : ?>
                 <br/>
-	                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-	                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+	                <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+	                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
 	            <?php endif;?>
             <?php endif; ?> 
             </div>
@@ -163,7 +163,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     <?php if (!empty($item->product_check_inventory)) : ?>
         <?php if (TiendaConfig::getInstance()->get('display_product_quantity', '1')) : ?> 
         <div id='available_stock_<?php echo $item->product_id; ?>' class="available_stock"> 
-          <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $this->availableQuantity->quantity; ?></label> 
+          <?php echo JText::_('AVAILABLE_STOCK'); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $this->availableQuantity->quantity; ?></label> 
         </div>
         <?php endif; ?>
     <?php endif; ?>
@@ -171,7 +171,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     <?php if (!empty($item->product_check_inventory) && !empty($this->invalidQuantity) ) : ?>
         <!-- Not avilable in stock  --->  
         <div id='out_of_stock_<?php echo $item->product_id; ?>' class="out_of_stock"> 
-          <?php echo JText::_("OUT_OF_STOCK"); ?> 
+          <?php echo JText::_('OUT_OF_STOCK'); ?> 
         </div>
     <?php endif; ?>
 

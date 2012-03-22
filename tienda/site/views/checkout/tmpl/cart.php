@@ -18,9 +18,9 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
 <div class="cartitems">
 	<div class="adminlist">
 		<div id="cartitems_header" class="floatbox">
-			<span class="left50"><?php echo JText::_("COM_TIENDA_PRODUCT"); ?></span>
-			<span class="left20 center"><?php echo JText::_( "Quantity" ); ?></span>
-			<span class="left30 right"><?php echo JText::_( "Total" ); ?></span>
+			<span class="left50"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></span>
+			<span class="left20 center"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?></span>
+			<span class="left30 right"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></span>
 		</div>
             <?php $i=0; $k=0; ?> 
             <?php foreach ($items as $item) : ?>
@@ -38,28 +38,28 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
 	                        <?php endif; ?>
 	                        
 	                        <?php if (!empty($item->orderitem_sku)) : ?>
-	                            <b><?php echo JText::_( "SKU" ); ?>:</b>
+	                            <b><?php echo JText::_('COM_TIENDA_SKU'); ?>:</b>
 	                            <?php echo $item->orderitem_sku; ?>
 	                            <br/>
 	                        <?php endif; ?>
 	
 	                        <?php if ($item->orderitem_recurs) : ?>
 	                            <?php $recurring_subtotal = $item->recurring_price; ?>
-	                            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_price, $default_currency ); ?>
-	                            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+	                            <?php echo JText::_('COM_TIENDA_RECURRING_PRICE'); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_price, $default_currency ); ?>
+	                            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('$item->recurring_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
 											            <?php if( $item->subscription_prorated ) : ?>
 	                                <br/>
-			                                <?php echo JText::_( "Initial Period Price" ); ?>: <?php echo TiendaHelperCurrency::format( $item->recurring_trial_price, $default_currency ); ?>
-			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+			                                <?php echo JText::_('COM_TIENDA_INITIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperCurrency::format( $item->recurring_trial_price, $default_currency ); ?>
+			                                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
 											            <?php else : ?>
 				                            <?php if ($item->recurring_trial) : ?>
 			                                <br/>
-			                                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_trial_price, $default_currency ); ?>
-			                                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+			                                <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperCurrency::format($item->recurring_trial_price, $default_currency ); ?>
+			                                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
 											            <?php endif;?>
 	                            <?php endif; ?>    
 	                        <?php else : ?>
-	                            <?php echo JText::_( "Price" ); ?>:
+	                            <?php echo JText::_('COM_TIENDA_PRICE'); ?>:
 	                            <?php echo TiendaHelperCurrency::format( $item->price, $default_currency ); ?>
 	                        <?php endif; ?> 
 	                        
@@ -70,7 +70,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
 						    <?php endif; ?>  
 	
 	                        <?php if( in_array($item->product_id, $coupons) ){ ?>
-	                        	<span style="float: right;"><?php echo JText::_("Coupon Discount Applied!"); ?></span>
+	                        	<span style="float: right;"><?php echo JText::_('COM_TIENDA_COUPON_DISCOUNT_APPLIED'); ?></span>
 	                        <?php } ?>
                     	</div>                      
                     </div>
@@ -90,7 +90,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
                 <div class="floatbox">
                     <span class="left50 header">
                     	<span class="inner">
-                    		<?php echo JText::_( "Subtotal" ); ?>
+                    		<?php echo JText::_('COM_TIENDA_SUBTOTAL'); ?>
                     	</span>
                     </span>
                     <span class="right">
@@ -104,7 +104,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
                 <div class="floatbox">
                     <span class="left50 header">
                     	<span class="inner">
-                    		<?php echo JText::_( "Discount" ); ?>
+                    		<?php echo JText::_('COM_TIENDA_DISCOUNT'); ?>
                     	</span>
                     </span>
                     <span class="left50 right">
@@ -124,7 +124,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
         <div class="floatbox">
         	<span class="left50 header">
         		<span class="inner">
-        			 <?php echo JText::_( "COM_TIENDA_STORE_CREDIT" ); ?>
+        			 <?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?>
         		</span>
             </span>
             <span class="left50 right">
@@ -139,7 +139,7 @@ $default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
         <div class="floatbox">
         	<span class="left50 header">
         		<span class="inner">
-        			<?php echo JText::_( "Total" ); ?>
+        			<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
         		</span>
             </span>
             <span class="left50 right">

@@ -7,7 +7,7 @@
     <td style="vertical-align: top; padding: 5px; border-right: 1px solid #CCC;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "Returning Users" ); ?></span>
+            <span><?php echo JText::_('Returning Users'); ?></span>
         </div>
             
         <!-- LOGIN FORM -->
@@ -15,9 +15,9 @@
         <?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
                 $lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
                 $langScript =   'var JLanguage = {};'.
-                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-                                ' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
+                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_('WHAT_IS_OPENID').'\';'.
+                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('LOGIN_WITH_OPENID').'\';'.
+                                ' JLanguage.NORMAL_LOGIN = \''.JText::_('NORMAL_LOGIN').'\';'.
                                 ' var modlogin = 1;';
                 $document = &JFactory::getDocument();
                 $document->addScriptDeclaration( $langScript );
@@ -29,7 +29,7 @@
             <table>
             <tr>
                 <td style="height: 40px;">
-                    <?php echo JText::_("COM_TIENDA_USERNAME"); ?> <span class>*</span>
+                    <?php echo JText::_('COM_TIENDA_USERNAME'); ?> <span class>*</span>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />
@@ -92,22 +92,22 @@
     <td style="vertical-align: top; padding: 5px; width: 50%;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "New Users" ); ?></span>
+            <span><?php echo JText::_('New Users'); ?></span>
         </div>
         <!-- REGISTRATION -->
 
         <table>
         <tr>
             <td style="height: 40px; padding: 5px;">
-                <?php echo JTEXT::_('PLEASE REGISTER TO CONTINUE SHOPPING'); ?>
+                <?php echo JText::_('PLEASE REGISTER TO CONTINUE SHOPPING'); ?>
             </td>
         </tr>
         <tr>
             <td>            
             <?php if (TiendaConfig::getInstance()->get('one_page_checkout')){ ?>	
-             	<input type="button" class="button" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_( "REGISTER" ); ?>" />
+             	<input type="button" class="button" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_('REGISTER'); ?>" />
             <?php }else{?>	
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "REGISTER" ); ?>" />
+                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('REGISTER'); ?>" />
             <?php }?>
             </td>
         </tr>
@@ -117,23 +117,23 @@
         
         <?php if (TiendaConfig::getInstance()->get('guest_checkout_enabled')) : ?>
             <div class='componentheading' style="margin-top:15px;">
-                <span><?php echo JText::_( "Checkout as a Guest" ); ?></span>
+                <span><?php echo JText::_('Checkout as a Guest'); ?></span>
             </div>
             <!-- REGISTRATION -->
         
             <table>
             <tr>
                 <td style="height: 40px; padding: 5px;">
-                    <?php echo JTEXT::_('CHECKOUT AS A GUEST DESC'); ?>
+                    <?php echo JText::_('CHECKOUT AS A GUEST DESC'); ?>
                 </td>
             </tr>
             <tr>
                 <td>
                 <?php  if (TiendaConfig::getInstance()->get('one_page_checkout')){?>
-				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
+				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_('Checkout as a Guest'); ?>" />
           
 				<?php }else{?>
-                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_( "Checkout as a Guest" ); ?>" />
+                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('Checkout as a Guest'); ?>" />
                	<?php }?>
                 </td>
             </tr>

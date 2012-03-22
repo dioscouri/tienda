@@ -41,7 +41,7 @@ class TiendaViewSubscriptions extends TiendaViewBase
      */
     function _viewToolbar( $isNew=null )
     {
-        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_( 'Edit' ), false);
+        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_('COM_TIENDA_EDIT'), false);
         JToolBarHelper::divider();
         parent::_viewToolbar($isNew);
     }

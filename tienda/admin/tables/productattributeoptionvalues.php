@@ -35,12 +35,12 @@ class TiendaTableProductAttributeOptionValues extends TiendaTable
 	{
 		if (empty($this->productattributeoption_id))
 		{
-			$this->setError( JText::_( "Product Attribute Option Association Required" ) );
+			$this->setError( JText::_('Product Attribute Option Association Required') );
 			return false;
 		}
         if (empty($this->productattributeoptionvalue_value))
         {
-            $this->setError( JText::_( "Attribute Option Value Required" ) );
+            $this->setError( JText::_('Attribute Option Value Required') );
             return false;
         }
 		return true;

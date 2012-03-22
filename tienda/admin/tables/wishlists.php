@@ -62,12 +62,12 @@ class TiendaTableWishlists extends TiendaTableEav
     {        
         if (empty($this->user_id))
         {
-            $this->setError( JText::_( "User Required" ) );
+            $this->setError( JText::_('User Required') );
             return false;
         }
         if (empty($this->product_id))
         {
-            $this->setError( JText::_( "Product Required" ) );
+            $this->setError( JText::_('Product Required') );
             return false;
         }
         
@@ -115,7 +115,7 @@ class TiendaTableWishlists extends TiendaTableEav
             if (empty($oid))
             {
                 // if still empty, fail
-                $this->setError( JText::_( "Cannot delete with empty key" ) );
+                $this->setError( JText::_('Cannot delete with empty key') );
                 return false;
             }
         }
@@ -227,7 +227,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		$canAddToCart = $carthelper->canAddItem( $item, $this->user_id, 'user_id' );
 		if ( !$canAddToCart )
 		{
-			$this->setError( JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $carthelper->getError( ) );
+			$this->setError( JText::_('COM_TIENDA_CANNOT_ADD_ITEM_TO_CART') . " - " . $carthelper->getError( ) );
 			return false;
 		}
 		
@@ -240,7 +240,7 @@ class TiendaTableWishlists extends TiendaTableEav
 			$result = $results[$i];
 			if ( !empty( $result->error ) )
 			{
-    			$this->setError( JText::_("COM_TIENDA_CANNOT_ADD_ITEM_TO_CART") . " - " . $result->message );
+    			$this->setError( JText::_('COM_TIENDA_CANNOT_ADD_ITEM_TO_CART') . " - " . $result->message );
     			return false;
 			}
 		}
@@ -278,13 +278,13 @@ class TiendaTableWishlists extends TiendaTableEav
 		
 		if ( empty( $product->product_enabled ) || empty( $product->product_id ) )
 		{
-			$this->setError( JText::_("COM_TIENDA_INVALID_PRODUCT") );
+			$this->setError( JText::_('COM_TIENDA_INVALID_PRODUCT') );
 			return false;
 		}
 		
 		if ( $product->product_notforsale )
 		{
-			$this->setError( JText::_("COM_TIENDA_PRODUCT_NOT_FOR_SALE") );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_NOT_FOR_SALE') );
 			return false;
 		}
 		

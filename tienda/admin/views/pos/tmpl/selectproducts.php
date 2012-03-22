@@ -5,12 +5,12 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "SELECT PRODUCTS FOR" ); ?>: <?php echo $row->category_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('SELECT PRODUCTS FOR'); ?>: <?php echo $row->category_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
-    <?php echo JText::_( "For Checked Items" ); ?>:
-    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_( "CHANGE STATUS" ); ?></button>
+    <?php echo JText::_('For Checked Items'); ?>:
+    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('CHANGE STATUS'); ?></button>
 
     <table>
         <tr>
@@ -29,7 +29,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -41,7 +41,7 @@
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-	                <?php echo JText::_( 'STATUS' ); ?>
+	                <?php echo JText::_('STATUS'); ?>
                 </th>
             </tr>
 		</thead>
@@ -78,7 +78,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('NO ITEMS FOUND'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

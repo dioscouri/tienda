@@ -23,7 +23,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
        	<!-- For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates) -->       
     	<br />
     	<?php if(TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
-    	<?php echo TiendaUrl::popup( JRoute::_($vars->shipping_cost_link.'&tmpl=component'), JText::_( "LINK_TO_SHIPPING_COST" ) ); ?>
+    	<?php echo TiendaUrl::popup( JRoute::_($vars->shipping_cost_link.'&tmpl=component'), JText::_('LINK_TO_SHIPPING_COST') ); ?>
     	<?php endif;?> 
     </span>
     <?php endif; ?>
@@ -43,7 +43,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
         Tienda::load('TiendaSelect', 'library.select');
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_( 'Updating Attributes' )."' );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_('Updating Attributes')."' );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>
@@ -66,7 +66,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
     </div>
     <?php else : ?>
     <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
-        <span class="title"><?php echo JText::_( "Quantity" ); ?>:</span>
+        <span class="title"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?>:</span>
         <input type="text" name="product_qty" value="1" size="5" />
     </div>
     <?php endif; ?>
@@ -87,7 +87,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
         <input type="hidden" name="return" value="<?php echo $return; ?>" />
         <?php echo JHTML::_( 'form.token' ); ?>
         
-        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_( 'Validating' )."' );"; ?>
+        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_('Validating')."' );"; ?>
         <?php //$onclick = "tiendaFormValidation( '".JRoute::_( @$vars->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName." );"; ?>
         
         <?php 
@@ -115,14 +115,14 @@ $return = base64_encode( JUri::getInstance()->toString() );
     
     <?php if (!empty($item->product_recurs)) : ?> 
         <div id='product_recurs_<?php echo $item->product_id; ?>' class="product_recurs"> 
-            <span class="title"><?php echo JText::_("THIS PRODUCTS CHARGES RECUR"); ?></span>
+            <span class="title"><?php echo JText::_('THIS PRODUCTS CHARGES RECUR'); ?></span>
             <div id="product_recurs_prices_<?php echo $item->product_id; ?>" class="product_recurs_prices">
-            <?php echo JText::_( "RECURRING PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-            (<?php echo $item->recurring_payments . " " . JText::_( "PAYMENTS" ); ?>, <?php echo $item->recurring_period_interval." ". JText::_( "$item->recurring_period_unit PERIOD UNIT" )." ".JText::_( "PERIODS" ); ?>) 
+            <?php echo JText::_('COM_TIENDA_RECURRING_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
+            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('$item->recurring_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
             <?php if ($item->recurring_trial) : ?>
                 <br/>
-                <?php echo JText::_( "TRIAL PERIOD PRICE" ); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-                (<?php echo "1 " . JText::_( "PAYMENT" ); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_( "$item->recurring_trial_period_unit PERIOD UNIT" )." ".JText::_( "PERIOD" ); ?>)
+                <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
+                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
             <?php endif; ?> 
             </div>
         </div>
@@ -131,7 +131,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
     <?php if (!empty($item->product_check_inventory)) : ?>
         <?php if (TiendaConfig::getInstance()->get('display_product_quantity', '1')) : ?> 
         <div id='available_stock_<?php echo $item->product_id; ?>' class="available_stock"> 
-          <?php echo JText::_("AVAILABLE_STOCK"); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $vars->availableQuantity->quantity; ?></label> 
+          <?php echo JText::_('AVAILABLE_STOCK'); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $vars->availableQuantity->quantity; ?></label> 
         </div>
         <?php endif; ?>
     <?php endif; ?>
@@ -139,7 +139,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
     <?php if (!empty($item->product_check_inventory) && !empty($vars->invalidQuantity) ) : ?>
         <!-- Not avilable in stock  --->  
         <div id='out_of_stock_<?php echo $item->product_id; ?>'> 
-          <?php echo JText::_("OUT_OF_STOCK"); ?> 
+          <?php echo JText::_('OUT_OF_STOCK'); ?> 
         </div>
     <?php endif; ?>
     

@@ -6,7 +6,7 @@
 <?php $row = @$this->row; ?>
 <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Attributes for" ); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Attributes for'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -23,7 +23,7 @@
 	<table class="adminlist">
     	<thead>
     	<tr>
-    		<th><?php echo JText::_( "Attribute Name" ); ?></th>
+    		<th><?php echo JText::_('Attribute Name'); ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -71,7 +71,7 @@
 				</td>
 				<td style="text-align: left;">
 					<input type="text" name="name[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->productattribute_name; ?>" />
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ) ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", JText::_('Set Attribute Options') ); ?>]
 				</td>
 				<td style="text-align: left;">
 					<?php
@@ -110,7 +110,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=<?php echo $item->productattribute_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributes&id={$row->product_id}&tmpl=component"); ?>">
-						<?php echo JText::_( "Delete Attribute" ); ?>	
+						<?php echo JText::_('Delete Attribute'); ?>	
 					</a>
 					]
 				</td>
@@ -121,7 +121,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

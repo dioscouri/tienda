@@ -3,10 +3,10 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "Tienda Offline Payment Preparation Message" ); ?>
+        <?php echo JText::_('Tienda Offline Payment Preparation Message'); ?>
     
         <p>
-            <strong><?php echo JText::_( "Offline Payment Method");?>:</strong> 
+            <strong><?php echo JText::_('Offline Payment Method');?>:</strong> 
             <?php echo JText::_( $vars->offline_payment_method ); ?>
         </p>
     </div>

@@ -37,7 +37,7 @@ class TiendaModelReset extends JModel
 		// Make sure the e-mail address is valid
 		if (!JMailHelper::isEmailAddress($email))
 		{
-			$this->setError(JText::_( "COM_TIENDA_EMAIL_ADDRESS_IS_INVALID" ));
+			$this->setError(JText::_('COM_TIENDA_EMAIL_ADDRESS_IS_INVALID'));
 			return false;
 		}
 
@@ -51,7 +51,7 @@ class TiendaModelReset extends JModel
 		// Check the results
 		if (!($id = $db->loadResult()))
 		{
-			$this->setError(JText::_( "COM_TIENDA_COULD_NOT_FIND_USER" ));
+			$this->setError(JText::_('COM_TIENDA_COULD_NOT_FIND_USER'));
 			return false;
 		}
 
@@ -68,7 +68,7 @@ class TiendaModelReset extends JModel
 		// Save the token
 		if (!$db->query())
 		{
-			$this->setError(JText::_( "COM_TIENDA_DATABASE_ERROR" ));
+			$this->setError(JText::_('COM_TIENDA_DATABASE_ERROR'));
 			return false;
 		}
 
@@ -95,7 +95,7 @@ class TiendaModelReset extends JModel
 		global $mainframe;
 
 		if(strlen($token) != 32) {
-			$this->setError(JText::_( "COM_TIENDA_INVALID_TOKEN" ));
+			$this->setError(JText::_('COM_TIENDA_INVALID_TOKEN'));
 			return false;
 		}
 
@@ -105,7 +105,7 @@ class TiendaModelReset extends JModel
 		// Verify the token
 		if (!($id = $db->loadResult()))
 		{
-			$this->setError(JText::_( "COM_TIENDA_INVALID_TOKEN" ));
+			$this->setError(JText::_('COM_TIENDA_INVALID_TOKEN'));
 			return false;
 		}
 
@@ -135,14 +135,14 @@ class TiendaModelReset extends JModel
 		// Make sure that we have a pasword
 		if ( ! $password1 )
 		{
-			$this->setError(JText::_( "COM_TIENDA_MUST_SUPPLY_PASSWORD" ));
+			$this->setError(JText::_('COM_TIENDA_MUST_SUPPLY_PASSWORD'));
 			return false;
 		}
 
 		// Verify that the passwords match
 		if ($password1 != $password2)
 		{
-			$this->setError(JText::_( "COM_TIENDA_PASSWORDS_DO_NOT_MATCH_LOW" ));
+			$this->setError(JText::_('COM_TIENDA_PASSWORDS_DO_NOT_MATCH_LOW'));
 			return false;
 		}
 
@@ -175,7 +175,7 @@ class TiendaModelReset extends JModel
 		// Save the password
 		if (!$result = $db->query())
 		{
-			$this->setError(JText::_( "COM_TIENDA_DATABASE_ERROR" ));
+			$this->setError(JText::_('COM_TIENDA_DATABASE_ERROR'));
 			return false;
 		}
 

@@ -50,7 +50,7 @@ class TiendaViewTools extends TiendaViewBase
 	
     function _viewToolbar()
     {
-    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('Submit'), false );
-    	JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
+    	JToolBarHelper::cancel( 'close', JText::_('Close') );
     }
 }

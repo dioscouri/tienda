@@ -33,37 +33,37 @@ class TiendaHelperShipping extends TiendaHelperBase
 		{
 			$object = new JObject();
 			$object->id = '0';
-			$object->title = JText::_("COM_TIENDA_FLAT_RATE_PER_ITEM");
+			$object->title = JText::_('COM_TIENDA_FLAT_RATE_PER_ITEM');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '1';
-			$object->title = JText::_("COM_TIENDA_WEIGHT_BASED_PER_ITEM");
+			$object->title = JText::_('COM_TIENDA_WEIGHT_BASED_PER_ITEM');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '2';
-			$object->title = JText::_("COM_TIENDA_WEIGHT_BASED_PER_ORDER");
+			$object->title = JText::_('COM_TIENDA_WEIGHT_BASED_PER_ORDER');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '3';
-			$object->title = JText::_("COM_TIENDA_FLAT_RATE_PER_ORDER");
+			$object->title = JText::_('COM_TIENDA_FLAT_RATE_PER_ORDER');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '4';
-			$object->title = JText::_("COM_TIENDA_PRICE_BASED_PER_ITEM");
+			$object->title = JText::_('COM_TIENDA_PRICE_BASED_PER_ITEM');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '5';
-			$object->title = JText::_("COM_TIENDA_QUANTITY_BASED_PER_ORDER");
+			$object->title = JText::_('COM_TIENDA_QUANTITY_BASED_PER_ORDER');
 			$instance[$object->id] = $object;
 
 			$object = new JObject();
 			$object->id = '6';
-			$object->title = JText::_("COM_TIENDA_PRICE_BASED_PER_ORDER");
+			$object->title = JText::_('COM_TIENDA_PRICE_BASED_PER_ORDER');
 			$instance[$object->id] = $object;
 		}
 
@@ -109,7 +109,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 		if (empty($shippingmethod->shipping_method_id))
 		{
 			// TODO if this is an object, setError, otherwise return false, or 0.000?
-			$return->setError( JText::_("COM_TIENDA_UNDEFINED_SHIPPING_METHOD") );
+			$return->setError( JText::_('COM_TIENDA_UNDEFINED_SHIPPING_METHOD') );
 			return $return;
 		}
 
@@ -155,7 +155,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 				break;
 			default:
 				// TODO if this is an object, setError, otherwise return false, or 0.000?
-				$return->setError( JText::_("COM_TIENDA_INVALID_SHIPPING_METHOD_TYPE") );
+				$return->setError( JText::_('COM_TIENDA_INVALID_SHIPPING_METHOD_TYPE') );
 				return $return;
 				break;
 		}

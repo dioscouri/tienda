@@ -3,25 +3,25 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
-<h2><?php echo JText::_( "Results"); ?></h2>
+<h2><?php echo JText::_('Results'); ?></h2>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("ID"); ?>
+                    <?php echo JText::_('ID'); ?>
                 </th>
                 <th style=" width: 200px;">
-                    <?php echo JText::_("Date of Order"); ?>
+                    <?php echo JText::_('Date of Order'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Customer"); ?>
+                    <?php echo JText::_('Customer'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Total"); ?>
+                    <?php echo JText::_('Total'); ?>
                 </th>
             </tr>
         </thead>
@@ -53,11 +53,11 @@
 					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
 					<br/>
-					<b><?php echo JText::_( "Ship to" ); ?></b>:
+					<b><?php echo JText::_('Ship to'); ?></b>:
 					<?php 
 					if (empty($item->shipping_address_1)) 
 					{
-					   echo JText::_( "Undefined Shipping Address" ); 
+					   echo JText::_('Undefined Shipping Address'); 
 					}
 					   else
 					{
@@ -72,7 +72,7 @@
                     <?php 
                     if (!empty($item->order_number))
                     {
-                        echo "<br/><b>".JText::_( "Order Number" )."</b>: ".$item->order_number;
+                        echo "<br/><b>".JText::_('Order Number')."</b>: ".$item->order_number;
                     }
                     ?>
 				</td>
@@ -82,7 +82,7 @@
                         <br/>
                         <?php JHTML::_('behavior.tooltip'); ?>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
-                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_( "Order Has a Commission" ); ?>::<?php echo JText::_( "View Commission Records" ); ?>" class="hasTip" />
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>::<?php echo JText::_('View Commission Records'); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
 				</td>
@@ -93,7 +93,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

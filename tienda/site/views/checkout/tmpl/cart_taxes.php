@@ -11,7 +11,7 @@ if( $order->currency == '' )
 	?>
 
 <span class="header">
-	<span class="inner"><?php echo JText::_( "TAX AND SHIPPING TOTALS" ); ?></span><br/>
+	<span class="inner"><?php echo JText::_('COM_TIENDA_TAX_AND_SHIPPING_TOTALS'); ?></span><br/>
 </span>
 
 <?php
@@ -98,9 +98,9 @@ switch( $display_tax_checkout )
 			<span class="left62">
 				<span class="inner">
 				<?php
-					if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED").":"; }
-						elseif (!empty($this->using_default_geozone)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_ESTIMATE").":"; } 
-					  	else { echo JText::_("COM_TIENDA_PRODUCT_TAX").":"; }    
+					if (!empty($this->show_tax)) { echo JText::_('COM_TIENDA_PRODUCT_TAX_INCLUDED').":"; }
+						elseif (!empty($this->using_default_geozone)) { echo JText::_('COM_TIENDA_PRODUCT_TAX_ESTIMATE').":"; } 
+					  	else { echo JText::_('COM_TIENDA_PRODUCT_TAX').":"; }    
 				?>
 				</span>
 			</span>
@@ -118,7 +118,7 @@ switch( $display_tax_checkout )
 	if (!empty($this->showShipping))
 	{
 		$task = JRequest::getCmd( 'task' );
-		echo JText::_("SHIPPING AND HANDLING").":";
+		echo JText::_('SHIPPING AND HANDLING').":";
 		if( isset( $order->shipping ) && ( $task == 'setShippingMethod' || $task == 'display' ) )
 		{
 		?>
@@ -142,7 +142,7 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
 		if( !empty($this->showShipping) && $display_shipping_tax && $order->order_shipping_tax )
-			echo JText::_("SHIPPING TAX").":";
+			echo JText::_('SHIPPING TAX').":";
 	?>
 	</span>
 </span>                  

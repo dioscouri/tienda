@@ -128,7 +128,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 	{
 		if( strtolower( $this->_vars->upload->getExtension() ) != 'csv' ) // not a CSV file?!
 		{
-			$this->setError( JText::_( 'This is not a Supported file' ) );
+			$this->setError( JText::_('This is not a Supported file') );
 			return false;
 		}
 		return true;
@@ -189,7 +189,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 	
 	   	if( !$data ) // an error during parsing data
 	   	{
-	   		$this->setError( JText::_( 'ERROR IN INTEGRITY OF DATA' ) );
+	   		$this->setError( JText::_('ERROR IN INTEGRITY OF DATA') );
 	   		return false;
 	   	}
 	

@@ -211,7 +211,7 @@ class TiendaModelElementProductMultiple extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'Add products' ).'\', \''.$name.'\' )">'.JText::_( 'Remove products' ).'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('Add products').'\', \''.$name.'\' )">'.JText::_('Remove products').'</span>
 		</div></div>'."\n";
 
 		return $html;

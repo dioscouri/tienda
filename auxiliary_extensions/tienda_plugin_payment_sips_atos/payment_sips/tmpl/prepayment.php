@@ -23,7 +23,7 @@ $sips_values = explode("!", "$sips_result");
 
 if (( $sips_values['1'] =='0')) {
 
-    echo JText::_("TIENDA_SIPS_PAYMENT_STANDARD_PREPARATION");
+    echo JText::_('TIENDA_SIPS_PAYMENT_STANDARD_PREPARATION');
     echo $sips_values['3'];
 
 } else {

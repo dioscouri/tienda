@@ -25,9 +25,9 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
 	<?php endif;?>
     <?php if (!empty($this->pricefilter_applied)) : ?>
         <div id='tienda_pricefilter'>
-            <b><?php echo JText::_( "Displaying Price Range" ) . ": "; ?></b>
+            <b><?php echo JText::_('Displaying Price Range') . ": "; ?></b>
             <?php echo $this->filterprice_from .  " - " . $this->filterprice_to; ?>
-            <a href="<?php echo JRoute::_( $this->remove_pricefilter_url ); ?>"><?php echo JText::_( "Remove Filter" ) ?></a>
+            <a href="<?php echo JRoute::_( $this->remove_pricefilter_url ); ?>"><?php echo JText::_('Remove Filter') ?></a>
         </div>
     <?php endif; ?>
 

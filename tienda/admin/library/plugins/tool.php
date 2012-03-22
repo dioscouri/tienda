@@ -85,7 +85,7 @@ class TiendaToolPlugin extends TiendaPluginBase
 
         if (!$option['host'] || !$option['database'] || !$option['user'] || !$option['password'] || !$option['driver'] ) 
         {
-            $this->setError( JText::_( 'PLEASE PROVIDE ALL REQUIRED INFORMATION' ) );
+            $this->setError( JText::_('PLEASE PROVIDE ALL REQUIRED INFORMATION') );
             return false;
         }
 
@@ -94,14 +94,14 @@ class TiendaToolPlugin extends TiendaPluginBase
         // check that $newdatabase is_object and has method setQuery
         if (!is_object($database) || !method_exists($database, 'setQuery'))
         {
-            $this->setError( JText::_( 'COULD NOT CREATE DATABASE INSTANCE' ) );
+            $this->setError( JText::_('COULD NOT CREATE DATABASE INSTANCE') );
             return false;
         }
             
         $database->setQuery(" SELECT NOW(); ");
         if (!$result = $database->loadResult()) 
         {
-            $this->setError( JText::_( 'COULD NOT PROPERLY QUERY THE DATABASE' ) );
+            $this->setError( JText::_('COULD NOT PROPERLY QUERY THE DATABASE') );
             return false;
         }
 
@@ -113,7 +113,7 @@ class TiendaToolPlugin extends TiendaPluginBase
             
             if (!in_array($table_name, $tables))
             {
-                $this->setError( JText::_( 'COULD NOT FIND APPROPRIATE TABLES USING PROVIDED PREFIX' ) );
+                $this->setError( JText::_('COULD NOT FIND APPROPRIATE TABLES USING PROVIDED PREFIX') );
                 return false;
             }
         }

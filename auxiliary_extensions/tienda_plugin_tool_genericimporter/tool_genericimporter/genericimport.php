@@ -227,7 +227,7 @@ abstract class TiendaToolPluginImport extends JObject
 			return $html;
 		}
 		else // otherwise inform user that there are no additional information required
-			return JText::_( 'NO ADDITIONAL INFORMATION REQUIRED' );
+			return JText::_('NO ADDITIONAL INFORMATION REQUIRED');
 	}
 	
 	/*

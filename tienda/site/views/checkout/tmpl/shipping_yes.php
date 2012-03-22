@@ -1,15 +1,15 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access');
-	$shipping_rates_text = JText::_( "Getting Shipping Rates" );
+	$shipping_rates_text = JText::_('Getting Shipping Rates');
 	$one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' );
 
 	$currency = TiendaConfig::getInstance()->get( 'default_currencyid', 1);
 	
 if(!$one_page ): ?>
 
-<h3><?php echo JText::_("Select a Shipping Method"); ?></h3>
+<h3><?php echo JText::_('Select a Shipping Method'); ?></h3>
 <?php endif; ?>
-<p><?php echo JText::_("Please select your preferred shipping method below"); ?>:</p>
+<p><?php echo JText::_('Please select your preferred shipping method below'); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
 <?php
@@ -34,7 +34,7 @@ if(!$one_page ): ?>
     {
         ?>
         <div class="note">
-	        <?php echo JText::_( "NO SHIPPING RATES FOUND" ); ?>
+	        <?php echo JText::_('NO SHIPPING RATES FOUND'); ?>
         </div>
         <?php
     }
@@ -50,8 +50,8 @@ if(!$one_page ): ?>
 <?php if( !$one_page ):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
-<h3><?php echo JText::_("Shipping Notes") ?></h3>
-<?php echo JText::_( "Add optional notes for shipment here" ); ?>:
+<h3><?php echo JText::_('Shipping Notes') ?></h3>
+<?php echo JText::_('Add optional notes for shipment here'); ?>:
 <br/>
 <textarea id="customer_note" name="customer_note" rows="5" cols="70"></textarea>
 <?php endif;?>
@@ -62,7 +62,7 @@ if (!empty($this->default_rate) ) :
 <script type="text/javascript">
 window.addEvent( 'domready', function() {
 	tiendaGrayOutAddressDiv();
-	tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>', '<?php echo JText::_( "Updating Shipping Rates" )?>', '<?php echo JText::_( "Updating Cart" )?>', true );
+	tiendaSetShippingRate('<?php echo $default_rate['name']; ?>','<?php echo $default_rate['price']; ?>',<?php echo $default_rate['tax']; ?>,<?php echo $default_rate['extra']; ?>, '<?php echo $default_rate['code']; ?>', '<?php echo JText::_('Updating Shipping Rates')?>', '<?php echo JText::_('Updating Cart')?>', true );
 });
 </script>
 <?php endif; ?>

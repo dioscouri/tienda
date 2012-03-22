@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/'); ?>
 
-<?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">'.JText::_( "System Information" ).'</a>'; ?>
+<?php $link = '<a href="'.JRoute::_('index.php?option=com_admin&task=sysinfo').'">'.JText::_('System Information').'</a>'; ?>
 
 <div class="note">
 	<?php echo sprintf( JText::_('SUBMIT BUG TIP'), $link); ?>
@@ -15,7 +15,7 @@
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="title">
-                        <?php echo JText::_( 'Bug Title' ); ?>:
+                        <?php echo JText::_('Bug Title'); ?>:
                         </label>
                     </td>
                     <td>
@@ -25,7 +25,7 @@
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="body">
-                        <?php echo JText::_( 'Bug Description' ); ?>:
+                        <?php echo JText::_('Bug Description'); ?>:
                         </label>
                     </td>
                     <td>

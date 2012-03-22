@@ -6,8 +6,8 @@
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
 <div class="note_pink">
-    <span class="alert"><?php echo JText::_( "Warning" ); ?></span>
-    <?php echo JText::_( "Deleting Orders Cannot be Undone" ); ?>
+    <span class="alert"><?php echo JText::_('Warning'); ?></span>
+    <?php echo JText::_('Deleting Orders Cannot be Undone'); ?>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -16,19 +16,19 @@
 		<thead>
             <tr>
                 <th style="width: 20px;">
-                	<?php echo JText::_("ID"); ?>
+                	<?php echo JText::_('ID'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Date"); ?>
+                    <?php echo JText::_('Date'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo JText::_("Order"); ?>
+                	<?php echo JText::_('Order'); ?>
                 </th>
 				<th>
-                	<?php echo JText::_("Customer"); ?>
+                	<?php echo JText::_('Customer'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_("Status"); ?>
+                    <?php echo JText::_('Status'); ?>
                 </th>
             </tr>
 		</thead>
@@ -45,19 +45,19 @@
 				</td>
 				<td style="text-align: left;">
                     <?php 
-                    echo "<b>".JText::_( "Order ID" )."</b>: ".$item->order_id."<br>";
-                    echo "<b>".JText::_( "Order Amount" )."</b>: ".TiendaHelperBase::currency( $item->order_total )."<br>";
+                    echo "<b>".JText::_('Order ID')."</b>: ".$item->order_id."<br>";
+                    echo "<b>".JText::_('Order Amount')."</b>: ".TiendaHelperBase::currency( $item->order_total )."<br>";
                     ?>
 				</td>
                 <td>
                     <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
                     &nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
                     <br/>
-                    <b><?php echo JText::_( "Ship to" ); ?></b>:
+                    <b><?php echo JText::_('Ship to'); ?></b>:
                     <?php 
                     if (empty($item->shipping_address_1)) 
                     {
-                       echo JText::_( "Undefined Shipping Address" ); 
+                       echo JText::_('Undefined Shipping Address'); 
                     }
                        else
                     {
@@ -80,7 +80,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

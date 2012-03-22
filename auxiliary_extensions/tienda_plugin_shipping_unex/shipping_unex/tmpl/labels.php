@@ -16,15 +16,15 @@
 		<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Fetch Labels"); ?>
+    	        <?php echo JText::_('Fetch Labels'); ?>
     	    </td>
     	    <td>
-    	        <input value="<?php echo JText::_( "Fetch Labels" ); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'unexResult');" style="float: right;" type="button" />
+    	        <input value="<?php echo JText::_('Fetch Labels'); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'unexResult');" style="float: right;" type="button" />
     	    </td>
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_("Result"); ?>
+    	        <?php echo JText::_('Result'); ?>
     	    </td>
     	    <td>
     	        <div id="unexResult">

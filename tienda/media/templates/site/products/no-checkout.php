@@ -66,7 +66,7 @@ $item = @$this->row;
             <div id="product_description">
                 <?php if (TiendaConfig::getInstance()->get('display_product_description_header', '1')) : ?>
                     <div id="product_description_header" class="tienda_header">
-                        <span><?php echo JText::_("Description"); ?></span>
+                        <span><?php echo JText::_('Description'); ?></span>
                     </div>
                 <?php endif; ?>
                 <?php echo $this->product_description; ?>
@@ -88,7 +88,7 @@ $item = @$this->row;
             <div class="reset"></div>
             <div class="product_gallery">
                 <div id="product_gallery_header" class="tienda_header">
-                    <span><?php echo JText::_("Images"); ?></span>
+                    <span><?php echo JText::_('Images'); ?></span>
                 </div>
                 <?php            
                 $uri = TiendaHelperProduct::getUriFromPath( $path );

@@ -51,7 +51,7 @@ class modTiendaBreadcrumbsHelper extends JObject
         	$pathway .= $this->getSeparator(); 
         	$link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );
             $rootText = $this->params->get('roottext');           
-    		$rootText = empty($rootText) ? JText::_("COM_TIENDA_ALL_CATEGORIES") : $rootText;    
+    		$rootText = empty($rootText) ? JText::_('COM_TIENDA_ALL_CATEGORIES') : $rootText;    
         	$pathway .= " <a href='$link'>".$rootText.'</a> ';
         }
                

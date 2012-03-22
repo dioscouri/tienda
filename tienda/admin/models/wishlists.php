@@ -300,7 +300,7 @@ class TiendaModelWishlists extends TiendaModelEav
                 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
                 $router = new TiendaHelperRoute();
     		    $url = "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') );
-        		$message = JText::sprintf( JText::_( "COM_TIENDA_ADDED_TO_WISHLIST" ), $url );
+        		$message = JText::sprintf( JText::_('COM_TIENDA_ADDED_TO_WISHLIST'), $url );
 	            JFactory::getApplication()->enqueueMessage( $message );
 	        }
 	    }

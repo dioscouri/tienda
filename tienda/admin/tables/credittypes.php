@@ -30,7 +30,7 @@ class TiendaTableCreditTypes extends TiendaTable
 	{
 	    if (empty($this->credittype_code))
         {
-            $this->setError( JText::_( "Credit Type Code Cannot Be Empty" ) );
+            $this->setError( JText::_('Credit Type Code Cannot Be Empty') );
             return false;
         }
         

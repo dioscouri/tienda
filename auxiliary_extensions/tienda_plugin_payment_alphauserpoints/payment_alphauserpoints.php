@@ -81,7 +81,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     	}
     		else 
     	{
-    		$vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE' ) . $errors;
+    		$vars->message = JText::_('TIENDA ALPHAUSERPOINTS PAYMENT ERROR MESSAGE') . $errors;
     		$vars->errors = $errors;
 			$html = $this->_getLayout('message', $vars);
     	}
@@ -101,7 +101,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
          
         $vars = new JObject();
         
-        $vars->message = JText::_( 'TIENDA ALPHAUSERPOINTS PAYMENT MESSAGE' );
+        $vars->message = JText::_('TIENDA ALPHAUSERPOINTS PAYMENT MESSAGE');
 		$html = $this->_getLayout('message', $vars);
         
         return $html;

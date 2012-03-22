@@ -11,7 +11,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input type="text" name="group_name" id="group_name" value="<?php echo @$row->group_name; ?>" size="48" maxlength="250" />
@@ -21,7 +21,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
     				<td style="width: 100px; text-align: right;" class="key">
     					<label for="group_description">
-    					<?php echo JText::_( 'Description' ); ?>:
+    					<?php echo JText::_('Description'); ?>:
     					</label>
     				</td>
     				<td>

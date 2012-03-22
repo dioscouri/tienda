@@ -11,7 +11,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input type="text" name="country_name" id="country_name" size="48" maxlength="250" value="<?php echo @$row->country_name; ?>" />
@@ -20,7 +20,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="enabled">
-                        <?php echo JText::_( 'Enabled' ); ?>:
+                        <?php echo JText::_('Enabled'); ?>:
                         </label>
                     </td>
                     <td>
@@ -30,7 +30,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_isocode_2">
-						<?php echo JText::_( 'ISO Code 2' ); ?>:
+						<?php echo JText::_('ISO Code 2'); ?>:
 						</label>
 					</td>
 					<td>
@@ -40,7 +40,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_isocode_3">
-						<?php echo JText::_( 'ISO Code 3' ); ?>:
+						<?php echo JText::_('ISO Code 3'); ?>:
 						</label>
 					</td>
 					<td>
@@ -50,7 +50,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="address_format">
-						<?php echo JText::_( 'Address Format' ); ?>:
+						<?php echo JText::_('Address Format'); ?>:
 						</label>
 					</td>
 					<td>

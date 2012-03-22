@@ -7,7 +7,7 @@ $items = @$vars->items;
 
     <div id="product_relations">
         <div id="product_relations_header" class="tienda_header">
-            <span><?php echo JText::_("You May Also Be Interested in"); ?></span>
+            <span><?php echo JText::_('You May Also Be Interested in'); ?></span>
         </div>
        
         <?php

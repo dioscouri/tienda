@@ -21,6 +21,6 @@
 		</tr>
 	</table>
 
-	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
+	<button type="submit" class="validate"><?php echo JText::_('COM_TIENDA_SUBMIT'); ?></button>
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

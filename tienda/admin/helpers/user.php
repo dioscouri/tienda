@@ -328,21 +328,21 @@ class TiendaHelperUser extends TiendaHelperBase
 		$fromname       = $mainframe->getCfg( 'fromname' );
 		$siteURL        = JURI::base();
 
-		$subject    = sprintf ( JText::_("COM_TIENDA_ACCOUNT_DETAILS_FOR"), $name, $sitename);
+		$subject    = sprintf ( JText::_('COM_TIENDA_ACCOUNT_DETAILS_FOR'), $name, $sitename);
 		$subject    = html_entity_decode($subject, ENT_QUOTES);
 
 		if ( $useractivation == 1 )
 		{
-			$message = sprintf ( JText::_("COM_TIENDA_EMAIL_MESSAGE_ACTIVATION"), $sitename, $siteURL, $username, $password, $activation );
+			$message = sprintf ( JText::_('COM_TIENDA_EMAIL_MESSAGE_ACTIVATION'), $sitename, $siteURL, $username, $password, $activation );
 		}
 		else
 		{
-			$message = sprintf ( JText::_("COM_TIENDA_EMAIL_MESSAGE"), $sitename, $siteURL, $username, $password );
+			$message = sprintf ( JText::_('COM_TIENDA_EMAIL_MESSAGE'), $sitename, $siteURL, $username, $password );
 		}
 
 		if ($guest)
 		{
-			$message = sprintf ( JText::_("COM_TIENDA_EMAIL_MESSAGE_GUEST"), $sitename, $siteURL, $username, $password );
+			$message = sprintf ( JText::_('COM_TIENDA_EMAIL_MESSAGE_GUEST'), $sitename, $siteURL, $username, $password );
 		}
 
 		$message = html_entity_decode($message, ENT_QUOTES);
@@ -432,7 +432,7 @@ class TiendaHelperUser extends TiendaHelperBase
 	{
 		$object = new JObject();
 		$object->value = '';
-		$object->text = JText::_("COM_TIENDA_NO_CHANGE");
+		$object->text = JText::_('COM_TIENDA_NO_CHANGE');
 		$gtree = JFactory::getACL()->get_group_children_tree( null, 'USERS', false );
 		foreach ($gtree as $key=>$item)
 		{

@@ -14,13 +14,13 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_( 'Name' )." (".JText::_( "Key" ).")"; ?>
+                    <?php echo JText::_('Name')." (".JText::_('Key').")"; ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_( 'Enabled' ); ?>
+                    <?php echo JText::_('Enabled'); ?>
                 </th>
             </tr>
         </thead>
@@ -51,7 +51,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

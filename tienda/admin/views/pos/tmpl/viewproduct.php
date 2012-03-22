@@ -26,7 +26,7 @@
     </div>
     <div style="text-align: left;">
     	<a href="index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component">
-        	<?php echo JText::_( "RETURN_TO_SEARCH_RESULTS" ); ?>
+        	<?php echo JText::_('RETURN_TO_SEARCH_RESULTS'); ?>
         </a>
     </div>
     

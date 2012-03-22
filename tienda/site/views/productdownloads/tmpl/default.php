@@ -5,7 +5,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <div class='componentheading'>
-	<span><?php echo JText::_( "My Downloads" ); ?></span>
+	<span><?php echo JText::_('My Downloads'); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -15,7 +15,7 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php echo JText::_( "Search by applying filters" ); ?>
+                <?php echo JText::_('Search by applying filters'); ?>
             </td>
             <td nowrap="nowrap" style="text-align: right;">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
@@ -49,7 +49,7 @@
                     <?php echo TiendaGrid::sort( 'Product', "product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_( "Max Downloads" ); ?>
+                    <?php echo JText::_('Max Downloads'); ?>
                 </th>
             </tr>
         </thead>

@@ -51,7 +51,7 @@ class TiendaControllerConfig extends TiendaController
                 if ( !$row->save() ) 
                 {
                     $error = true;
-                    $errorMsg .= JText::_( "COM_TIENDA_COULD_NOT_STORE")." $key :: ".$row->getError()." - ";   
+                    $errorMsg .= JText::_('COM_TIENDA_COULD_NOT_STORE')." $key :: ".$row->getError()." - ";   
                 }
             }
         }
@@ -59,7 +59,7 @@ class TiendaControllerConfig extends TiendaController
         if ( !$error ) 
         {
             $this->messagetype  = 'message';
-            $this->message      = JText::_( "COM_TIENDA_SAVED");
+            $this->message      = JText::_('COM_TIENDA_SAVED');
             
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
@@ -67,7 +67,7 @@ class TiendaControllerConfig extends TiendaController
             else 
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$errorMsg;
+            $this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$errorMsg;
         }
         
         $redirect = "index.php?option=com_tienda";

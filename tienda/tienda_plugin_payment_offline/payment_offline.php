@@ -169,7 +169,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Offline Payment Type Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Offline Payment Type Invalid')."</li>";
                     } 
                   break;
                 default:
@@ -200,22 +200,22 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
     {
         $types = array();
         if ($this->params->get('enable_check')) {
-            $types[] = JHTML::_('select.option', 'check', JText::_( "Check" ) );    
+            $types[] = JHTML::_('select.option', 'check', JText::_('Check') );    
         }
         if ($this->params->get('enable_moneyorder')) {
-            $types[] = JHTML::_('select.option', 'moneyorder', JText::_( "Money Order" ) ); 
+            $types[] = JHTML::_('select.option', 'moneyorder', JText::_('Money Order') ); 
         }
         if ($this->params->get('enable_cash')) {
-            $types[] = JHTML::_('select.option', 'cash', JText::_( "Cash" ) );    
+            $types[] = JHTML::_('select.option', 'cash', JText::_('Cash') );    
         }
         if ($this->params->get('enable_wire')) {
-            $types[] = JHTML::_('select.option', 'wire', JText::_( "Wire Transfer" ) ); 
+            $types[] = JHTML::_('select.option', 'wire', JText::_('Wire Transfer') ); 
         }
         if ($this->params->get('enable_invoice')) {
-            $types[] = JHTML::_('select.option', 'invoice', JText::_( "Invoice" ) ); 
+            $types[] = JHTML::_('select.option', 'invoice', JText::_('Invoice') ); 
         }
         if ($this->params->get('enable_other')) {
-            $types[] = JHTML::_('select.option', 'other', JText::_( "Other" ) );    
+            $types[] = JHTML::_('select.option', 'other', JText::_('Other') );    
         }       
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;

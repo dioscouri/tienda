@@ -74,12 +74,12 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 	function _getCardTypesInput( $field = 'cardtype', $default = '', $options = '' )
 	{		
 		$types = array();
-		$types[] = JHTML::_('select.option', 'Visa', JText::_( 'Visa' ) );
-		$types[] = JHTML::_('select.option', 'MasterCard', JText::_( 'Mastercard' ) );
-		$types[] = JHTML::_('select.option', 'Amex', JText::_( 'American Express' ) );
-		$types[] = JHTML::_('select.option', 'Discover', JText::_( 'Discover' ) );
-		//$types[] = JHTML::_('select.option', 'Maestro', JText::_( 'Maestro' ) );		
-		//$types[] = JHTML::_('select.option', 'Solo', JText::_( 'Solot' ) );
+		$types[] = JHTML::_('select.option', 'Visa', JText::_('Visa') );
+		$types[] = JHTML::_('select.option', 'MasterCard', JText::_('Mastercard') );
+		$types[] = JHTML::_('select.option', 'Amex', JText::_('American Express') );
+		$types[] = JHTML::_('select.option', 'Discover', JText::_('Discover') );
+		//$types[] = JHTML::_('select.option', 'Maestro', JText::_('Maestro') );		
+		//$types[] = JHTML::_('select.option', 'Solo', JText::_('Solot') );
 		
 		$return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
 		return $return;
@@ -97,9 +97,9 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 	function _getCountriesInput( $field = 'country', $default = '', $options = '' )
 	{		
 		$types = array();
-		$types[] = JHTML::_('select.option', 'US', JText::_( 'United States' ) );
-		$types[] = JHTML::_('select.option', 'CA', JText::_( 'Canada ' ) );
-		$types[] = JHTML::_('select.option', 'GB', JText::_( 'United Kingdom' ) );
+		$types[] = JHTML::_('select.option', 'US', JText::_('United States') );
+		$types[] = JHTML::_('select.option', 'CA', JText::_('Canada ') );
+		$types[] = JHTML::_('select.option', 'GB', JText::_('United Kingdom') );
 		
 		$return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
 		return $return;

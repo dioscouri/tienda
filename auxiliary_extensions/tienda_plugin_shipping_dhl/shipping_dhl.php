@@ -57,26 +57,26 @@ class plgTiendaShipping_Dhl extends TiendaShippingPlugin
     
     function getDhlServices()
     {
-        $dhlService['EUROPE_FIRST_INTERNATIONAL_PRIORITY'] = JText::_( 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' );
-        $dhlService['FEDEX_1_DAY_FREIGHT']    = JText::_( 'FEDEX_1_DAY_FREIGHT' );
-        $fedexService['FEDEX_2_DAY']            = JText::_( 'FEDEX_2_DAY' );
-        $fedexService['FEDEX_2_DAY_FREIGHT']    = JText::_( 'FEDEX_2_DAY_FREIGHT' );
-        $fedexService['FEDEX_3_DAY_FREIGHT']    = JText::_( 'FEDEX_3_DAY_FREIGHT' );
-        $fedexService['FEDEX_EXPRESS_SAVER']    = JText::_( 'FEDEX_EXPRESS_SAVER' );
-        $fedexService['FEDEX_GROUND']           = JText::_( 'FEDEX_GROUND' );
-        $fedexService['FIRST_OVERNIGHT']        = JText::_( 'FIRST_OVERNIGHT' );
-        $fedexService['GROUND_HOME_DELIVERY']   = JText::_( 'GROUND_HOME_DELIVERY' );
-        $fedexService['INTERNATIONAL_ECONOMY']  = JText::_( 'INTERNATIONAL_ECONOMY' );
-        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT'] = JText::_( 'INTERNATIONAL_ECONOMY_FREIGHT' );
-        $fedexService['INTERNATIONAL_FIRST']    = JText::_( 'INTERNATIONAL_FIRST' );
-        $fedexService['INTERNATIONAL_PRIORITY'] = JText::_( 'INTERNATIONAL_PRIORITY' );
-        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT'] = JText::_( 'INTERNATIONAL_PRIORITY_FREIGHT' );
-        $fedexService['PRIORITY_OVERNIGHT']     = JText::_( 'PRIORITY_OVERNIGHT' );
-        $fedexService['SMART_POST']             = JText::_( 'SMART_POST' );
-        $fedexService['STANDARD_OVERNIGHT']     = JText::_( 'STANDARD_OVERNIGHT' );
-        $fedexService['FEDEX_FREIGHT']          = JText::_( 'FEDEX_FREIGHT' );
-        $fedexService['FEDEX_NATIONAL_FREIGHT'] = JText::_( 'FEDEX_NATIONAL_FREIGHT' );
-        $fedexService['INTERNATIONAL_GROUND']   = JText::_( 'INTERNATIONAL_GROUND' );
+        $dhlService['EUROPE_FIRST_INTERNATIONAL_PRIORITY'] = JText::_('EUROPE_FIRST_INTERNATIONAL_PRIORITY');
+        $dhlService['FEDEX_1_DAY_FREIGHT']    = JText::_('FEDEX_1_DAY_FREIGHT');
+        $fedexService['FEDEX_2_DAY']            = JText::_('FEDEX_2_DAY');
+        $fedexService['FEDEX_2_DAY_FREIGHT']    = JText::_('FEDEX_2_DAY_FREIGHT');
+        $fedexService['FEDEX_3_DAY_FREIGHT']    = JText::_('FEDEX_3_DAY_FREIGHT');
+        $fedexService['FEDEX_EXPRESS_SAVER']    = JText::_('FEDEX_EXPRESS_SAVER');
+        $fedexService['FEDEX_GROUND']           = JText::_('FEDEX_GROUND');
+        $fedexService['FIRST_OVERNIGHT']        = JText::_('FIRST_OVERNIGHT');
+        $fedexService['GROUND_HOME_DELIVERY']   = JText::_('GROUND_HOME_DELIVERY');
+        $fedexService['INTERNATIONAL_ECONOMY']  = JText::_('INTERNATIONAL_ECONOMY');
+        $fedexService['INTERNATIONAL_ECONOMY_FREIGHT'] = JText::_('INTERNATIONAL_ECONOMY_FREIGHT');
+        $fedexService['INTERNATIONAL_FIRST']    = JText::_('INTERNATIONAL_FIRST');
+        $fedexService['INTERNATIONAL_PRIORITY'] = JText::_('INTERNATIONAL_PRIORITY');
+        $fedexService['INTERNATIONAL_PRIORITY_FREIGHT'] = JText::_('INTERNATIONAL_PRIORITY_FREIGHT');
+        $fedexService['PRIORITY_OVERNIGHT']     = JText::_('PRIORITY_OVERNIGHT');
+        $fedexService['SMART_POST']             = JText::_('SMART_POST');
+        $fedexService['STANDARD_OVERNIGHT']     = JText::_('STANDARD_OVERNIGHT');
+        $fedexService['FEDEX_FREIGHT']          = JText::_('FEDEX_FREIGHT');
+        $fedexService['FEDEX_NATIONAL_FREIGHT'] = JText::_('FEDEX_NATIONAL_FREIGHT');
+        $fedexService['INTERNATIONAL_GROUND']   = JText::_('INTERNATIONAL_GROUND');
         
         return $dhlService;
     }

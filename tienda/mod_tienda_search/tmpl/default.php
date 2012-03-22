@@ -15,7 +15,7 @@ Tienda::load( 'TiendaSelect', 'library.select' );
 ?>
 
 <div id="productSearch">
-    <form action="<?php echo JRoute::_( 'index.php', false); ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_( 'SKU, Model # or Keyword' ); ?>') this.elements['filter'].value = '';">
+    <form action="<?php echo JRoute::_( 'index.php', false); ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_('SKU, Model # or Keyword'); ?>') this.elements['filter'].value = '';">
         <?php echo JText::_('Search').': '; ?>
         <?php if ($category_filter != '0') : ?>
             <?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?>
@@ -23,7 +23,7 @@ Tienda::load( 'TiendaSelect', 'library.select' );
             <input type="hidden" name="filter_category" value="1" />    
         <?php endif; ?>
         <input type="text" name="filter" value="<?php echo JText::_( $filter_text ); ?>" onclick="this.value='';"/> 
-        <input type="submit" value="<?php echo JText::_( "Submit" ); ?>" />
+        <input type="submit" value="<?php echo JText::_('Submit'); ?>" />
         <input type="hidden" name="option" value="com_tienda" />
         <input type="hidden" name="view" value="products" />
         <input type="hidden" name="task" value="search" />

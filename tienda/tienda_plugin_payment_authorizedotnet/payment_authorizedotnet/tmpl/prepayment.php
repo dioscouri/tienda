@@ -9,23 +9,23 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "TIENDA AUTHORIZEDOTNET PAYMENT PREPARATION MESSAGE" ); ?>
+        <?php echo JText::_('TIENDA AUTHORIZEDOTNET PAYMENT PREPARATION MESSAGE'); ?>
         
         <table id="authorizedotnet_form">            
             <tr>
-                <td class="field_name"><?php echo JText::_( 'Credit Card Type' ) ?></td>
+                <td class="field_name"><?php echo JText::_('Credit Card Type') ?></td>
                 <td><?php echo $vars->cardtype; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'Card Number' ) ?></td>
+                <td class="field_name"><?php echo JText::_('Card Number') ?></td>
                 <td>************<?php echo $vars->cardnum_last4; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'Expiration Date' ) ?></td>
+                <td class="field_name"><?php echo JText::_('Expiration Date') ?></td>
                 <td><?php echo $vars->cardexp; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'Card CVV Number' ) ?></td>
+                <td class="field_name"><?php echo JText::_('Card CVV Number') ?></td>
                 <td>****</td>
             </tr>
         </table>

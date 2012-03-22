@@ -7,7 +7,7 @@ $prefix = @$vars->prefix;
 ?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key"> 
-          <?php echo JText::_( 'Tax Number' ); ?>
+          <?php echo JText::_('Tax Number'); ?>
         </th>
         <td>
             <input type="text" name="<?php echo $prefix; ?>tax_number" id="<?php $prefix; ?>tax_number"
@@ -16,7 +16,7 @@ $prefix = @$vars->prefix;
     </tr>
     <tr>
         <th style="width: 100px; text-align: right;" class="key"> 
-          <?php echo JText::_( 'Personal Identification Number' ); ?>
+          <?php echo JText::_('Personal Identification Number'); ?>
         </th>
         <td>
             <input type="text" name="<?php echo $prefix; ?>personal_id_number" id="<?php echo $prefix; ?>personal_id_number"

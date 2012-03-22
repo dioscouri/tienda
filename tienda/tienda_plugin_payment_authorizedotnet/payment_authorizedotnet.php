@@ -115,7 +115,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Invalid Action' );
+                $vars->message = JText::_('Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -164,28 +164,28 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Type Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Authorizedotnet Card Type Invalid')."</li>";
                     }
                   break;
                 case "cardnum":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Number Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Authorizedotnet Card Number Invalid')."</li>";
                     } 
                   break;
                 case "cardexp":
                     if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 4) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card Expiration Date Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Authorizedotnet Card Expiration Date Invalid')."</li>";
                     } 
                   break;
                 case "cardcvv":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Authorizedotnet Card CVV Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Authorizedotnet Card CVV Invalid')."</li>";
                     } 
                   break;
                 default:
@@ -215,12 +215,12 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
     function _cardTypesField( $field='cardtype', $default='', $options='' )
     {       
         $types = array();
-        $types[] = JHTML::_('select.option', 'Visa', JText::_( "Visa" ) );
-        $types[] = JHTML::_('select.option', 'Mastercard', JText::_( "Mastercard" ) );
-        $types[] = JHTML::_('select.option', 'AmericanExpress', JText::_( "AmericanExpress" ) );
-        $types[] = JHTML::_('select.option', 'Discover', JText::_( "Discover" ) );
-        $types[] = JHTML::_('select.option', 'DinersClub', JText::_( "DinersClub" ) );
-        $types[] = JHTML::_('select.option', 'JCB', JText::_( "JCB" ) );
+        $types[] = JHTML::_('select.option', 'Visa', JText::_('Visa') );
+        $types[] = JHTML::_('select.option', 'Mastercard', JText::_('Mastercard') );
+        $types[] = JHTML::_('select.option', 'AmericanExpress', JText::_('AmericanExpress') );
+        $types[] = JHTML::_('select.option', 'Discover', JText::_('Discover') );
+        $types[] = JHTML::_('select.option', 'DinersClub', JText::_('DinersClub') );
+        $types[] = JHTML::_('select.option', 'JCB', JText::_('JCB') );
         
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
@@ -356,7 +356,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
          * perform initial checks 
          */
         if ( ! JRequest::checkToken() ) {
-            return $this->_renderHtml( JText::_( 'Invalid Token' ) );
+            return $this->_renderHtml( JText::_('Invalid Token') );
         }
         
         $data = JRequest::get('post');
@@ -366,14 +366,14 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         if ( empty($order->order_id) ) {
-            return JText::_( 'Authorizedotnet Message Invalid Order' );
+            return JText::_('Authorizedotnet Message Invalid Order');
         }
          
         if ( empty($this->login_id)) {
-            return JText::_( 'Authorizedotnet Message Missing Merchant Login ID' );
+            return JText::_('Authorizedotnet Message Missing Merchant Login ID');
         }
         if ( empty($this->tran_key)) {
-            return JText::_( 'Authorizedotnet Message Missing Transaction Key' );
+            return JText::_('Authorizedotnet Message Missing Transaction Key');
         }
         
         // prepare the form for submission to auth.net
@@ -455,7 +455,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $auth_description           = JText::_( "Order Number" ).": ".$order->order_id;
+        $auth_description           = JText::_('Order Number').": ".$order->order_id;
         $auth_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $auth_invoice_num           = $data['orderpayment_id']; 
         
@@ -648,14 +648,14 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                             // Declined
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "Card was declined" );
+                            $errors[] = JText::_('Card was declined');
                           break;
                         case "3":
                         default:
                             // Error
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "TIENDA AUTHORIZEDOTNET PAYMENT ERROR PROCESSING PAYMENT MESSAGE" ) . $exploded[3];
+                            $errors[] = JText::_('TIENDA AUTHORIZEDOTNET PAYMENT ERROR PROCESSING PAYMENT MESSAGE') . $exploded[3];
                           break;
                     }
                   break;
@@ -821,7 +821,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                             $cvv_status = '0';
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "CVV Did Not Match" );
+                            $errors[] = JText::_('CVV Did Not Match');
                           break;
                         case "P":
                             // Not Processed
@@ -832,14 +832,14 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
                             $cvv_status = '0';
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "CVV Should have been present" );
+                            $errors[] = JText::_('CVV Should have been present');
                           break;
                         case "U":
                             // Issuer unable to process request
                             $cvv_status = '0';
                             $payment_status = '0';
                             $order_status = '0';
-                            $errors[] = JText::_( "CVV Issuer unable to process request" );
+                            $errors[] = JText::_('CVV Issuer unable to process request');
                           break;
                         default:
                             // No Value returned
@@ -973,7 +973,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
 
             if (empty($errors))
             {
-                $return = JText::_( "TIENDA AUTHORIZEDOTNET MESSAGE PAYMENT SUCCESS" );
+                $return = JText::_('TIENDA AUTHORIZEDOTNET MESSAGE PAYMENT SUCCESS');
                 return $return;                
             }
             

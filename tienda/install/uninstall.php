@@ -69,12 +69,12 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
         // track the message and status of installation from dscInstaller
         if ($result) 
         {
-            $alt = JText::_( "Uninstalled" );
+            $alt = JText::_('Uninstalled');
             $mstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />";
         } 
             else 
         {
-            $alt = JText::_( "Failed" );
+            $alt = JText::_('Failed');
             $error = $dscInstaller->getError();
             $mstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' />";
             $mstatus .= " - ".$error;
@@ -122,12 +122,12 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
         // track the message and status of installation from dscInstaller
         if ($result) 
         {
-            $alt = JText::_( "Uninstalled" );
+            $alt = JText::_('Uninstalled');
             $pstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />"; 
         } 
             else 
         {
-            $alt = JText::_( "Failed" );
+            $alt = JText::_('Failed');
             $error = $dscInstaller->getError();
             $pstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' /> ";
             $pstatus .= " - ".$error;   

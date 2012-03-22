@@ -14,10 +14,10 @@ else
 <form action="<?php echo @$vars->redirect; ?>" method="post" name="adminForm" enctype="application/www-form-urlencoded">
 
     <div class="note">
-        <?php echo JText::_( "Consorzio Triveneto Payment" ); ?>
+        <?php echo JText::_('Consorzio Triveneto Payment'); ?>
     
         <p>
-            <strong><?php echo JText::_( "Consorzio Triveneto Payment");?>:</strong> 
+            <strong><?php echo JText::_('Consorzio Triveneto Payment');?>:</strong> 
         </p>
     </div>
     

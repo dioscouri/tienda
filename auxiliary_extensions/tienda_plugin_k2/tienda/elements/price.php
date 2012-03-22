@@ -17,7 +17,7 @@ class JElementPrice extends JElement {
 
 		$output = '
 		<input type="text" class="text_area" value="" id="pluginstiendaproductPrice" name="plugins[tiendaproductPrice]">
-		<span class="k2Note">'.JText::_( "Set Normal Price Now Special Prices Later" ).'</span>
+		<span class="k2Note">'.JText::_('Set Normal Price Now Special Prices Later').'</span>
 		';
 
 		$id = JRequest::getInt('cid');
@@ -38,7 +38,7 @@ class JElementPrice extends JElement {
 						$output.='
 						<div>
 							<span>'.TiendaHelperBase::currency( $price->product_price ).'</span>
-							<div class="tiendaButton"><a href="'.$price->link_remove.'&return='.base64_encode("index.php?option=com_k2&view=item&cid=".$id).'">'.JText::_("Remove").'</a></div>
+							<div class="tiendaButton"><a href="'.$price->link_remove.'&return='.base64_encode("index.php?option=com_k2&view=item&cid=".$id).'">'.JText::_('Remove').'</a></div>
 						</div>';
 					}
 					$output.= '</div>';

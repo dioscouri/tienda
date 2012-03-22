@@ -13,7 +13,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_name">
-				<?php echo JText::_( 'Name' ); ?>:
+				<?php echo JText::_('Name'); ?>:
 				</label>
 			</td>
 			<td>
@@ -23,7 +23,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="tax_class_id">
-                <?php echo JText::_( 'Tax Class' ); ?>:
+                <?php echo JText::_('Tax Class'); ?>:
                 </label>
             </td>
             <td>
@@ -33,7 +33,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_enabled">
-				<?php echo JText::_( 'Enabled' ); ?>:
+				<?php echo JText::_('Enabled'); ?>:
 				</label>
 			</td>
 			<td>
@@ -43,7 +43,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="shipping_method_type">
-                <?php echo JText::_( 'Type' ); ?>:
+                <?php echo JText::_('Type'); ?>:
                 </label>
             </td>
             <td>
@@ -53,7 +53,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="subtotal_minimum">
-                <?php echo JText::_( 'Minimum Subtotal Required' ); ?>:
+                <?php echo JText::_('Minimum Subtotal Required'); ?>:
                 </label>
             </td>
             <td>

@@ -42,14 +42,14 @@ class plgTiendaTool_CsvOrders extends TiendaToolPluginImportCsv
 	{
 		$state = $this->get( 'state' );
 		$checked = array( '', '\'checked\'' );
-		$answer = array( JText::_( 'No' ), JText::_( 'Yes' ) );
+		$answer = array( JText::_('No'), JText::_('Yes') );
 		$rows = array();
 		$only_value = $step == 2;
 		$skip_first_value = strcmp( $state->skip_first, 'on') == 0;
 
-		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Source Import' ).': *' ,'file', 'source_import', $this->source_import );
-		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Separator' ) ,'text', 'field_separator', $state->field_separator, 10 );
-		$rows[] = $this->generateRowInput( $only_value, JText::_( 'Skip First Row' ).'?' ,'checkbox', 'skip_first', $skip_first_value, null, $answer[$skip_first_value], null, $checked[$skip_first_value] );
+		$rows[] = $this->generateRowInput( $only_value, JText::_('Source Import').': *' ,'file', 'source_import', $this->source_import );
+		$rows[] = $this->generateRowInput( $only_value, JText::_('Separator') ,'text', 'field_separator', $state->field_separator, 10 );
+		$rows[] = $this->generateRowInput( $only_value, JText::_('Skip First Row').'?' ,'checkbox', 'skip_first', $skip_first_value, null, $answer[$skip_first_value], null, $checked[$skip_first_value] );
 
 		$this->set( 'table_rows', $rows );
 		return parent::getAdminTableHtml( $step );

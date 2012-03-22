@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php echo JText::_( "Tienda Paypal Payment Stadard Preparation Message" ); ?>
+<?php echo JText::_('Tienda Paypal Payment Stadard Preparation Message'); ?>
 
 <form target="pagseguro" method="post" action="https://pagseguro.uol.com.br/checkout/checkout.jhtml">
 

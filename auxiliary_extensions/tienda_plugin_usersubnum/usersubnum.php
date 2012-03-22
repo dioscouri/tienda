@@ -94,8 +94,8 @@ class plgUserUserSubNum extends JPlugin {
 
 			if( !$tblUser->save() )
 			{
-				$this->sendNotification( JText::_( 'Error during saving subscription number' ), $user['id'] );
-				JError::raiseError(500, JText::_( 'Error during saving subscription number' ) );
+				$this->sendNotification( JText::_('Error during saving subscription number'), $user['id'] );
+				JError::raiseError(500, JText::_('Error during saving subscription number') );
 				return;
 			}
 
@@ -106,7 +106,7 @@ class plgUserUserSubNum extends JPlugin {
 				$tblAddress = JTable::getInstance( 'Addresses', 'TiendaTable' );				
 				$tblAddress->user_id = $user['id'];
 				$tblAddress->addresstype_id = 1;
-				$tblAddress->address_name = $this->params->get( 'address_title', JText::_( 'Main Address Default' ) );
+				$tblAddress->address_name = $this->params->get( 'address_title', JText::_('Main Address Default') );
 				$tblAddress->country_id = $this->params->get( 'default_country',0 );
 				$tblAddress->zone_id = $this->params->get( 'default_zone',0 );
 				$tblAddress->is_default_billing	 = 1;
@@ -116,8 +116,8 @@ class plgUserUserSubNum extends JPlugin {
 
 				if( !$tblAddress->store() )
 				{
-					$this->sendNotification( JText::_( 'Error during creating an empty address' ), $user['id'] );
-					JError::raiseError(500, JText::_( 'Error during creating an empty address' ) );
+					$this->sendNotification( JText::_('Error during creating an empty address'), $user['id'] );
+					JError::raiseError(500, JText::_('Error during creating an empty address') );
 					return;
 				}
 			}
@@ -143,7 +143,7 @@ class plgUserUserSubNum extends JPlugin {
 		$mailer = JFactory::getMailer();
 		$mailer->addRecipient( $toemail );
 		$mailer->setSubject( sprintf( $this->params->get( 'email_subject' ), $user_id ) );
-		$mailer->setBody( htmlspecialchars_decode( $msg ).' - '.JText::_( 'User' ).'='.$user_id );
+		$mailer->setBody( htmlspecialchars_decode( $msg ).' - '.JText::_('User').'='.$user_id );
 		$sender = array( $from, $fromname );
 		$mailer->setSender($sender);
 		$mailer->send();

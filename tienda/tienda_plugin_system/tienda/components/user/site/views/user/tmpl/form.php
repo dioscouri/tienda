@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="email">
-			<?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
+			<?php echo JText::_('COM_TIENDA_EMAIL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="username">
-			<?php echo JText::_( 'User Name' ); ?>:
+			<?php echo JText::_('User Name'); ?>:
 		</label>
 	</td>
 	<td>
@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td width="120">
 		<label for="name">
-			<?php echo JText::_( 'Your Name' ); ?>:
+			<?php echo JText::_('Your Name'); ?>:
 		</label>
 	</td>
 	<td>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="password">
-			<?php echo JText::_( 'Password' ); ?>:
+			<?php echo JText::_('Password'); ?>:
 		</label>
 	</td>
 	<td>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="password2">
-			<?php echo JText::_( 'Verify Password' ); ?>:
+			<?php echo JText::_('Verify Password'); ?>:
 		</label>
 	</td>
 	<td>

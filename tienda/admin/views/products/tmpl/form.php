@@ -19,12 +19,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 <form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
     <fieldset>
-    <legend><?php echo JText::_( "Basic Information" ); ?></legend>
+    <legend><?php echo JText::_('Basic Information'); ?></legend>
         <div style="float: left;">
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Name' ); ?>:
+                    <?php echo JText::_('Name'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
@@ -32,7 +32,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Alias' ); ?>:
+                    <?php echo JText::_('Alias'); ?>:
                 </td>
                 <td>
                     <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
@@ -40,14 +40,14 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'ID' ); ?>:
+                    <?php echo JText::_('ID'); ?>:
                 </td>
                 <td>
                     <?php 
                     if (empty($row->product_id)) 
                     {
                         ?>
-                        <div style="color: grey;"><?php echo JText::_( "Automatically Generated" ); ?></div>
+                        <div style="color: grey;"><?php echo JText::_('Automatically Generated'); ?></div>
                         <?php
                     }
                     else
@@ -63,7 +63,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Model' ); ?>:
+                    <?php echo JText::_('Model'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
@@ -71,7 +71,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'SKU' ); ?>:
+                    <?php echo JText::_('SKU'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
@@ -79,7 +79,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Enabled' ); ?>:
+                    <?php echo JText::_('Enabled'); ?>:
                 </td>
                 <td>
                     <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
@@ -91,7 +91,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Overall Rating' ); ?>:
+                    <?php echo JText::_('Overall Rating'); ?>:
                 </td>
                 <td>
                     <?php echo TiendaHelperProduct::getRatingImage( $this, @$row->product_rating ); ?>
@@ -99,7 +99,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_( 'Comments' ); ?>:
+                    <?php echo JText::_('Comments'); ?>:
                 </td>
                 <td>
                     <?php echo @$row->product_comments; ?>
@@ -130,7 +130,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->startPane( "pane_tienda" );
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Product Properties' ), "panel_product_properties");
+    echo $tabs->startPanel( JText::_('Product Properties'), "panel_product_properties");
     ?>
 
 	<table style="width: 100%">
@@ -138,14 +138,14 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		<td style="vertical-align: top; width: 65%;">
 		
             <fieldset>
-            <legend><?php echo JText::_( "Additional Information" ); ?></legend>
+            <legend><?php echo JText::_('Additional Information'); ?></legend>
             
             <div style='float: left; width: 50%;'>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="manufacturer_id">
-                        <?php echo JText::_( 'Manufacturer' ); ?>:
+                        <?php echo JText::_('Manufacturer'); ?>:
                         </label>
                     </td>
                     <td>
@@ -159,10 +159,10 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     ?>
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
-                            <?php echo JText::_( 'Product Attributes' ); ?>:
+                            <?php echo JText::_('Product Attributes'); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_( "Click Apply to be able to create product attributes" ); ?></div>
+                            <div class="note"><?php echo JText::_('Click Apply to be able to create product attributes'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -173,17 +173,17 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     ?>
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Product Attributes' ); ?>:
+                            <?php echo JText::_('Product Attributes'); ?>:
                         </td>
                         <td>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_( "Set Attributes" ), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...').'\'); submitbutton(\'apply\');}') ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_('Set Attributes'), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...').'\'); submitbutton(\'apply\');}') ); ?>]
                             <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
-                                        <?php echo JText::_("Remove"); ?>
+                                        <?php echo JText::_('Remove'); ?>
                                     </a>]
-                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_( "Set Attribute Options" ), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...').'\'); submitbutton(\'apply\');}') ); ?>]
+                                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_('Set Attribute Options'), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('Saving the Product...').'\'); submitbutton(\'apply\');}') ); ?>]
                                     <?php echo $attribute->productattribute_name; ?>
                                     <?php echo "(".$attribute->option_names_csv.")"; ?>
                                     <br/>
@@ -196,12 +196,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 ?>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Requires Shipping' ); ?>:
+                        <?php echo JText::_('Requires Shipping'); ?>:
                     </td>
                     <td>
                         <?php // Make the shipping options div only display if yes ?>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/><label for="product_ships0"><?php echo JText::_("No"); ?></label>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_("Yes"); ?></label>
+                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/><label for="product_ships0"><?php echo JText::_('No'); ?></label>
+                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_('Yes'); ?></label>
                     </td>
                 </tr>
                 </table>
@@ -213,7 +213,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_weight">
-                        <?php echo JText::_( 'Weight' ); ?>:
+                        <?php echo JText::_('Weight'); ?>:
                         </label>
                     </td>
                     <td>
@@ -223,7 +223,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_length">
-                        <?php echo JText::_( 'Length' ); ?>:
+                        <?php echo JText::_('Length'); ?>:
                         </label>
                     </td>
                     <td>
@@ -234,7 +234,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_width">
-                        <?php echo JText::_( 'Width' ); ?>:
+                        <?php echo JText::_('Width'); ?>:
                         </label>
                     </td>
                     <td>
@@ -244,7 +244,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_height">
-                        <?php echo JText::_( 'Height' ); ?>:
+                        <?php echo JText::_('Height'); ?>:
                         </label>
                     </td>
                     <td>
@@ -259,12 +259,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 		
             <fieldset>
-            <legend><?php echo JText::_( "Description" ); ?></legend>
+            <legend><?php echo JText::_('Description'); ?></legend>
             
             <table class="admintable" style="width: 100%;">
 				<tr>
 					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-						<?php echo JText::_( 'Full Description' ); ?>:
+						<?php echo JText::_('Full Description'); ?>:
 					</td>
 					<td>
 						<?php $editor = &JFactory::getEditor(); ?>
@@ -273,7 +273,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-                        <?php echo JText::_( 'Short Description' ); ?>:
+                        <?php echo JText::_('Short Description'); ?>:
                     </td>
                     <td>
                         <?php $editor = &JFactory::getEditor(); ?>
@@ -283,7 +283,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
                 <tr>
                 	<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
-                        <?php echo JText::_( 'Tags' ); ?>:
+                        <?php echo JText::_('Tags'); ?>:
                     </td>
                 	<td>                	
                 	<?php
@@ -307,11 +307,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		<td style="max-width: 35%; min-width: 35%; width: 35%; vertical-align: top;">
 
             <fieldset>
-            <legend><?php echo JText::_( "Publication Dates" ); ?></legend>
+            <legend><?php echo JText::_('Publication Dates'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Publish Up' ); ?>:
+                        <?php echo JText::_('Publish Up'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->publish_date, "publish_date", "publish_date", '%Y-%m-%d %H:%M:%S', array('size'=>25) ); ?>
@@ -319,7 +319,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Publish Down' ); ?>:
+                        <?php echo JText::_('Publish Down'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->unpublish_date, "unpublish_date", "unpublish_date", '%Y-%m-%d %H:%M:%S', array('size'=>25) ); ?>
@@ -329,7 +329,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 
             <fieldset>
-            <legend><?php echo JText::_( "Categories" ); ?></legend>
+            <legend><?php echo JText::_('Categories'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <?php 
                 if (empty($row->product_id)) 
@@ -339,12 +339,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
                             <label for="category_id">
-                            <?php echo JText::_( 'Product Category' ); ?>:
+                            <?php echo JText::_('Product Category'); ?>:
                             </label>
                         </td>
                         <td>
                             <?php echo TiendaSelect::category( '', 'category_id', '', 'category_id' ); ?>
-                            <div class="note"><?php echo JText::_( "Set Initial Category Now Additional Ones Later" ); ?></div>
+                            <div class="note"><?php echo JText::_('Set Initial Category Now Additional Ones Later'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -356,18 +356,18 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
                             <label for="product_categories">
-                            <?php echo JText::_( 'Categories' ); ?>:
+                            <?php echo JText::_('Categories'); ?>:
                             </label>
                         </td>
                         <td>
                             <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
                             <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_( "Select Categories" )); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_('Select Categories')); ?>]
                             <?php $categories = TiendaHelperProduct::getCategories( $row->product_id ); ?>
                             <div id="current_categories">
                                 <?php foreach (@$categories as $category) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=products&task=selected_disable&id=".$row->product_id."&cid[]=".$category."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
-                                        <?php echo JText::_("Remove"); ?>
+                                        <?php echo JText::_('Remove'); ?>
                                     </a>]
                                     <?php echo TiendaHelperCategory::getPathName( $category ); ?>
                                     <br/>
@@ -382,12 +382,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 		
             <fieldset>
-            <legend><?php echo JText::_( "Images" ); ?></legend>
+            <legend><?php echo JText::_('Images'); ?></legend>
             <table class="admintable" style="width: 100%;">            
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_full_image">
-                        <?php echo JText::_( 'Current Default Image' ); ?>:
+                        <?php echo JText::_('Current Default Image'); ?>:
                         </label>
                     </td>
                     <td>
@@ -401,20 +401,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_image_gallery">
-                        <?php echo JText::_( 'Current Images' ); ?>:
+                        <?php echo JText::_('Current Images'); ?>:
                         </label>
                     </td>
                     <td>
                         [
                         <?php
-                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", JText::_( "View Gallery" ) ); 
+                        echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=viewGallery&id=".@$row->product_id."&tmpl=component", JText::_('View Gallery') ); 
                         ?>
                         ]
                         <br/>
                         <?php $images = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getGalleryImages( TiendaHelperProduct::getGalleryPath( @$row->product_id ) ); ?> 
                         <?php foreach (@$images as $image) : ?>
                             [<a href="<?php echo "index.php?option=com_tienda&view=products&task=deleteImage&product_id=".@$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".@$row->product_id); ?>">
-                                <?php echo JText::_("Remove"); ?>
+                                <?php echo JText::_('Remove'); ?>
                             </a>]
                             <?php echo $image; ?>
                             <br/>
@@ -424,7 +424,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_full_image_new">
-                        <?php echo JText::_( 'Upload New Image' ); ?>:
+                        <?php echo JText::_('Upload New Image'); ?>:
                         </label>
                     </td>
                     <td>
@@ -437,18 +437,18 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 							<div id="uploadify-status-message"></div>
                         </div>
                         <div class="note" style="clear:both">
-	                    	<?php echo JText::_( "Upload Zip Images Message" ); ?>
+	                    	<?php echo JText::_('Upload Zip Images Message'); ?>
 	                    </div>
                     </td>
                 </tr>
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Images Gallery Path Override' ); ?>:
+                        <?php echo JText::_('Images Gallery Path Override'); ?>:
                     </td>
                     <td>
                         <input name="product_images_path" id="product_images_path" value="<?php echo @$row->product_images_path; ?>" size="75" maxlength="255" type="text" />
                         <div class="note">
-                            <?php echo JText::_( "If no image path override is specified message" ); ?>
+                            <?php echo JText::_('If no image path override is specified message'); ?>
                             <ul>
                                 <li>/images/com_tienda/products/[SKU]</li>
                                 <li>/images/com_tienda/products/[ID]</li>
@@ -460,7 +460,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
             
             <fieldset>
-            <legend><?php echo JText::_( "Files" ); ?></legend>
+            <legend><?php echo JText::_('Files'); ?></legend>
             <table class="admintable" style="width: 100%;">
              
                 <?php 
@@ -470,10 +470,10 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     ?>
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
-                            <?php echo JText::_( 'Product Files' ); ?>:
+                            <?php echo JText::_('Product Files'); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_( "Click Apply to be able to add files to the product" ); ?></div>
+                            <div class="note"><?php echo JText::_('Click Apply to be able to add files to the product'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -484,22 +484,22 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     ?>
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Product Files' ); ?>:
+                            <?php echo JText::_('Product Files'); ?>:
                         </td>
                         <td>
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", JText::_( "Manage Files" ) ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", JText::_('Manage Files') ); ?>]
                             <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>
                             <div id="current_files">
                                 <?php foreach (@$files as $file) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
-                                        <?php echo JText::_("Remove"); ?>
+                                        <?php echo JText::_('Remove'); ?>
                                     </a>]
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=downloadfile&id=".$file->productfile_id."&product_id=".$row->product_id; ?>">
-                                    <?php echo JText::_( 'Download' );?>
+                                    <?php echo JText::_('Download');?>
                                     </a>]
                                     <?php echo $file->productfile_name; ?>
                                     <br/>
@@ -509,17 +509,17 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     </tr>
                     <tr>
                         <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                            <?php echo JText::_( 'Product Files Path Override' ); ?>:
+                            <?php echo JText::_('Product Files Path Override'); ?>:
                         </td>
                         <td>
                             <input name="product_files_path" id="product_files_path" value="<?php echo @$row->product_files_path; ?>" size="75" maxlength="255" type="text" />
                             <div class="note">
-                                <?php echo JText::_( "If no file path override is specified message" ); ?>
+                                <?php echo JText::_('If no file path override is specified message'); ?>
                                 <ul>
                                     <li>/images/com_tienda/files/[SKU]</li>
                                     <li>/images/com_tienda/files/[ID]</li>
                                 </ul>
-                                <?php echo JText::_( "Changing file path note" ); ?>
+                                <?php echo JText::_('Changing file path note'); ?>
                             </div>                        
                         </td>
                     </tr>
@@ -542,19 +542,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Pricing and Inventory' ), "panel_pricing"); 
+    echo $tabs->startPanel( JText::_('Pricing and Inventory'), "panel_pricing"); 
     ?>
 
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Prices and Inventory" ); ?></legend>
+            <legend><?php echo JText::_('Prices and Inventory'); ?></legend>
             
             <table class="admintable">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Item for Sale' ); ?>
+                        <?php echo JText::_('Item for Sale'); ?>
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'product_notforsale', '', @$row->product_notforsale, 'no', 'yes' ); ?>
@@ -570,12 +570,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
                             <label for="product_price">
-                            <?php echo JText::_( 'Normal Price' ); ?>:
+                            <?php echo JText::_('Normal Price'); ?>:
                             </label>
                         </td>
                         <td>
                             <input type="text" name="product_price" id="product_price" value="<?php echo @$row->product_price; ?>" size="25" maxlength="25" />
-                            <div class="note"><?php echo JText::_( "Set Normal Price Now Special Prices Later" ); ?></div>
+                            <div class="note"><?php echo JText::_('Set Normal Price Now Special Prices Later'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -587,18 +587,18 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
                             <label for="product_prices">
-                            <?php echo JText::_( 'Prices' ); ?>:
+                            <?php echo JText::_('Prices'); ?>:
                             </label>
                         </td>
                         <td>
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
                             ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setprices&id=".$row->product_id."&tmpl=component", JText::_( "Set Prices" ) ); ?>]
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setprices&id=".$row->product_id."&tmpl=component", JText::_('Set Prices') ); ?>]
                             <div id="current_prices">
                                 <?php foreach (@$prices as $price) : ?>
                                     [<a href="<?php echo $price->link_remove."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
-                                        <?php echo JText::_("Remove"); ?>
+                                        <?php echo JText::_('Remove'); ?>
                                     </a>]
                                     <?php echo TiendaHelperBase::currency( $price->product_price ); ?>
                                     <br/>
@@ -611,7 +611,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 ?>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Tax Class' ); ?>:
+                        <?php echo JText::_('Tax Class'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
@@ -619,7 +619,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Check Product Inventory' ); ?>:
+                        <?php echo JText::_('Check Product Inventory'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'product_check_inventory', '', @$row->product_check_inventory ); ?>
@@ -633,10 +633,10 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 ?>
                 <tr>
                         <td width="100" align="right" class="key" style="vertical-align: top;">
-                            <?php echo JText::_( 'Product Quantities' ); ?>:
+                            <?php echo JText::_('Product Quantities'); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_( "Product Inventory is disabled. Enable it to set Quantities" ); ?></div>
+                            <div class="note"><?php echo JText::_('Product Inventory is disabled. Enable it to set Quantities'); ?></div>
                         </td>
                 </tr>
                 <?php
@@ -649,7 +649,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         ?>
                         <tr>
                             <td width="100" align="right" class="key" style="vertical-align: top;">
-                                <?php echo JText::_( 'Starting Quantity' ); ?>:
+                                <?php echo JText::_('Starting Quantity'); ?>:
                             </td>
                             <td>
                                 <input type="text" name="product_quantity" value="" size="15" maxlength="11" />
@@ -663,7 +663,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         ?>
                         <tr>
                             <td style="width: 100px; text-align: right;" class="key">
-                                <?php echo JText::_( 'Product Quantities' ); ?>:
+                                <?php echo JText::_('Product Quantities'); ?>:
                             </td>
                             <td>
                                 <?php
@@ -672,7 +672,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                                 Tienda::load( 'TiendaUrl', 'library.url' );
                                 $options = array('update' => true ); 
                                 ?>
-                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setquantities&id=".$row->product_id."&tmpl=component", JText::_( "Set Quantities" ), $options); ?>]
+                                [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setquantities&id=".$row->product_id."&tmpl=component", JText::_('Set Quantities'), $options); ?>]
                             </td>
                         </tr>
                         <?php
@@ -680,19 +680,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 }
                 ?>
                 <tr>
-                    <td title="<?php echo JText::_("Purchase Quantity Restriction").'::'.JText::_( "Purchase Quantity Restriction Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Purchase Quantity Restriction' ); ?>:
+                    <td title="<?php echo JText::_('Purchase Quantity Restriction').'::'.JText::_('Purchase Quantity Restriction Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Purchase Quantity Restriction'); ?>:
                     </td>
                     <td>
-                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_("No"); ?></label>
-                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_("Yes"); ?></label>
+                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_('No'); ?></label>
+                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_('Yes'); ?></label>
                         	 <?php // Only display if quantity restriction ?>
                         <div id="quantity_restrictions" style='float: right; width: 50%; <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
                         <table class="admintable" style="width: 100%;">
                         <tr>
                             <td style="width: 100px; text-align: right;" class="key">
                                 <label for="quantity_min">
-                                <?php echo JText::_( 'Minimum Quantity' ); ?>:
+                                <?php echo JText::_('Minimum Quantity'); ?>:
                                 </label>
                             </td>
                             <td>
@@ -702,7 +702,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <tr>
                             <td style="width: 100px; text-align: right;" class="key">
                                 <label for="quantity_max">
-                                <?php echo JText::_( 'Maxium Quantity' ); ?>:
+                                <?php echo JText::_('Maxium Quantity'); ?>:
                                 </label>
                             </td>
                             <td>
@@ -713,7 +713,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <tr>
                             <td style="width: 100px; text-align: right;" class="key">
                                 <label for="quantity_step">
-                                <?php echo JText::_( 'Step Quantity' ); ?>:
+                                <?php echo JText::_('Step Quantity'); ?>:
                                 </label>
                             </td>
                             <td>
@@ -726,7 +726,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Hide Quantity Input on Product Form' ); ?>:
+                        <?php echo JText::_('Hide Quantity Input on Product Form'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'param_hide_quantity_input', '', @$row->product_parameters->get('hide_quantity_input') ); ?>
@@ -734,7 +734,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Default Quantity if Input Hidden on Product Form' ); ?>:
+                        <?php echo JText::_('Default Quantity if Input Hidden on Product Form'); ?>:
                     </td>
                     <td>
                         <input type="text" name="param_default_quantity" id="param_default_quantity" value="<?php echo @$row->product_parameters->get('default_quantity'); ?>" size="10" maxlength="250" />
@@ -742,7 +742,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Disable Ability to Update Quantity in Cart' ); ?>:
+                        <?php echo JText::_('Disable Ability to Update Quantity in Cart'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'param_hide_quantity_cart', '', @$row->product_parameters->get('hide_quantity_cart') ); ?>
@@ -754,19 +754,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Product List Price" ); ?></legend>
+            <legend><?php echo JText::_('Product List Price'); ?></legend>
             <table class="admintable">
                 <tr>
-                    <td title="<?php echo JText::_("Display Product List Price").'::'.JText::_( "Display Product List Price Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Display Product List Price' ); ?>:
+                    <td title="<?php echo JText::_('Display Product List Price').'::'.JText::_('Display Product List Price Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Display Product List Price'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td title="<?php echo JText::_("Product List Price").'::'.JText::_( "Product List Price Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Product List Price' ); ?>
+                    <td title="<?php echo JText::_('Product List Price').'::'.JText::_('Product List Price Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Product List Price'); ?>
                     </td>
                     <td>
                         <input type="text" name="product_listprice" value="<?php echo @$row->product_listprice; ?>" size="15" maxlength="11" />
@@ -783,38 +783,38 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Subscriptions' ), "subscriptions"); 
+    echo $tabs->startPanel( JText::_('Subscriptions'), "subscriptions"); 
     ?>
 
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Non Recurring Subscription" ); ?></legend>
+            <legend><?php echo JText::_('Non Recurring Subscription'); ?></legend>
             
-            <div class="note"><?php echo JText::_( "Non Recurring Subscription NOTE" ); ?></div>
+            <div class="note"><?php echo JText::_('Non Recurring Subscription NOTE'); ?></div>
             
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Creates Subscription' ); ?>:
+                        <?php echo JText::_('Product Creates Subscription'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_("No"); ?></label>
-                        <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_("Yes"); ?></label>
+                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_('No'); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_('Yes'); ?></label>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Lifetime Subscription' ); ?>:
+                        <?php echo JText::_('Lifetime Subscription'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td title="<?php echo JText::_("Subscription Period Interval").'::'.JText::_( "Subscription Period Interval Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Subscription Period Interval' ); ?>:
+                    <td title="<?php echo JText::_('Subscription Period Interval').'::'.JText::_('Subscription Period Interval Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Subscription Period Interval'); ?>:
                     </td>
                     <td>
                         <input name="subscription_period_interval" id="subscription_period_interval" value="<?php echo @$row->subscription_period_interval; ?>" size="10" maxlength="10" type="text" />
@@ -822,7 +822,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Period Unit' ); ?>:
+                        <?php echo JText::_('Subscription Period Unit'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::periodUnit( @$row->subscription_period_unit, 'subscription_period_unit' ); ?>
@@ -830,7 +830,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>          
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Issues List' ); ?>:
+                        <?php echo JText::_('Issues List'); ?>:
                     </td>
                     <td>
 		                <?php 
@@ -838,7 +838,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		                {
                     // doing a new product, so display a note
                     ?>
-                      <div class="note"><?php echo JText::_( "Click Apply to be able to add issues to the product" ); ?></div>
+                      <div class="note"><?php echo JText::_('Click Apply to be able to add issues to the product'); ?></div>
                     <?php
 		                } 
                     else
@@ -848,14 +848,14 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		                	$last_issue = TiendaHelperSubscription::getMarginalIssue( $row->product_id, 'DESC' );
 		                	$num_issues = TiendaHelperSubscription::getNumberIssues( $row->product_id );
                     ?>
-                       [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setissues&id=".$row->product_id."&tmpl=component", JText::_( "Set Issues" ) ); ?>]<br />
+                       [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setissues&id=".$row->product_id."&tmpl=component", JText::_('Set Issues') ); ?>]<br />
 
                        <?php 
                        		if( isset( $next_issue ) )
-	                       		echo '<b>'.JText::_( 'Next Issue Published' ).':</b> '.JHTML::_('date', $next_issue->publishing_date, JText::_( 'DATE_FORMAT_LC4' ) ).'<br />'; 
+	                       		echo '<b>'.JText::_('Next Issue Published').':</b> '.JHTML::_('date', $next_issue->publishing_date, JText::_('DATE_FORMAT_LC4') ).'<br />'; 
                        		if( isset( $last_issue ) )
-	                       		echo '<b>'.JText::_( 'Last Issue Published' ).':</b> '.JHTML::_('date', $last_issue->publishing_date, JText::_( 'DATE_FORMAT_LC4' ) ).'<br />'; 
-                       		echo '<b>'.JText::_( 'Issues Left' ).':</b> '.@$num_issues;?><br />
+	                       		echo '<b>'.JText::_('Last Issue Published').':</b> '.JHTML::_('date', $last_issue->publishing_date, JText::_('DATE_FORMAT_LC4') ).'<br />'; 
+                       		echo '<b>'.JText::_('Issues Left').':</b> '.@$num_issues;?><br />
                     <?php } ?>
                     </td>
                 </tr>          
@@ -863,32 +863,32 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
                         
         <fieldset>
-            <legend><?php echo JText::_( "Subscription with pro-rated Charges" ); ?></legend>
-            <div class="note"><?php echo JText::_( "Subscription with pro-rated Charges NOTE" ); ?></div>
+            <legend><?php echo JText::_('Subscription with pro-rated Charges'); ?></legend>
+            <div class="note"><?php echo JText::_('Subscription with pro-rated Charges NOTE'); ?></div>
             <table class="admintable" style="width: 100%;">
             		<?php $onclick_prorated = 'showProRatedFields();'; ?>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Charges Pro-rated' ); ?>:
+                        <?php echo JText::_('Product Charges Pro-rated'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_("No"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_("Yes"); ?></label>
+                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_('No'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_('Yes'); ?></label>
                     </td>
                 </tr>
                 <tr class="prorated_related">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Initial Charge' ); ?>:
+                        <?php echo JText::_('Subscription Pro-rated Initial Charge'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_("Subscription Pro-rated charge Full"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_("Subscription Pro-rated charge Pro-rated"); ?></label>
+                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_('Subscription Pro-rated charge Full'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_('Subscription Pro-rated charge Pro-rated'); ?></label>
                     </td>
                 </tr>
                 <tr class="prorated_related">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Date' ); ?>:<br />
-                        <?php echo JText::_( 'SUBSCRIPTION PRO-RATED DATE NOTE' );?>
+                        <?php echo JText::_('Subscription Pro-rated Date'); ?>:<br />
+                        <?php echo JText::_('SUBSCRIPTION PRO-RATED DATE NOTE');?>
                     </td>
                     <td>
                         <input name="subscription_prorated_date" id="subscription_prorated_date" value="<?php echo @$row->subscription_prorated_date; ?>" size="8" maxlength="5" type="text" />
@@ -896,11 +896,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr class="prorated_related">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Subscription Pro-rated Term' ); ?>:
+                        <?php echo JText::_('Subscription Pro-rated Term'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_("Day"); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_("Month"); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_('Day'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_('Month'); ?></label>
                     </td>
                 </tr>
             </table>
@@ -909,20 +909,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Subscription with Recurring Charges" ); ?></legend>
+            <legend><?php echo JText::_('Subscription with Recurring Charges'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Charges Recur' ); ?>:
+                        <?php echo JText::_('Product Charges Recur'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_("No"); ?></label>
-                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_("Yes"); ?></label>
+                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_('No'); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_('Yes'); ?></label>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Number of Recurring Charges' ); ?>:
+                        <?php echo JText::_('Number of Recurring Charges'); ?>:
                     </td>
                     <td>
                         <input name="recurring_payments" id="recurring_payments" value="<?php echo @$row->recurring_payments; ?>" size="10" maxlength="10" type="text" />
@@ -930,7 +930,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Recurring Period Interval' ); ?>:
+                        <?php echo JText::_('Recurring Period Interval'); ?>:
                     </td>
                     <td>
                         <input name="recurring_period_interval" id="recurring_period_interval" value="<?php echo @$row->recurring_period_interval; ?>" size="10" maxlength="10" type="text" />
@@ -938,7 +938,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Recurring Period Units' ); ?>:
+                        <?php echo JText::_('Recurring Period Units'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::periodUnit( @$row->recurring_period_unit, 'recurring_period_unit' ); ?>
@@ -946,7 +946,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Trial Period' ); ?>:
+                        <?php echo JText::_('Trial Period'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'recurring_trial', '', @$row->recurring_trial ); ?>
@@ -954,7 +954,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key trial_price">
-                        <?php echo JText::_( 'Trial Period Price' ); ?>:
+                        <?php echo JText::_('Trial Period Price'); ?>:
                     </td>
                     <td>
                         <input name="recurring_trial_price" id="recurring_trial_price" value="<?php echo @$row->recurring_trial_price; ?>" size="10" maxlength="10" type="text" />
@@ -962,7 +962,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Trial Period Interval' ); ?>:
+                        <?php echo JText::_('Trial Period Interval'); ?>:
                     </td>
                     <td>
                         <input name="recurring_trial_period_interval" id="recurring_trial_period_interval" value="<?php echo @$row->recurring_trial_period_interval; ?>" size="10" maxlength="10" type="text" />
@@ -970,7 +970,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </tr>
                 <tr class="prorated_unrelated">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Trial Period Units' ); ?>:
+                        <?php echo JText::_('Trial Period Units'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::periodUnit( @$row->recurring_trial_period_unit, 'recurring_trial_period_unit' ); ?>
@@ -988,19 +988,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
 
     // Tab
-    echo $tabs->startPanel( JText::_( 'Related Items' ), "panel_relations"); 
+    echo $tabs->startPanel( JText::_('Related Items'), "panel_relations"); 
     ?>
         <div style="clear: both;"></div>
         
         <div style="width: 100%;">
             <fieldset>
-            <legend><?php echo JText::_( "Add New Relationship" ); ?></legend>
+            <legend><?php echo JText::_('Add New Relationship'); ?></legend>
                 <div id="new_relationship" style="float: left;">
                     <?php echo TiendaSelect::relationship('', 'new_relationship_type'); ?>
-                    <?php echo JText::_( "Product ID" ).": "; ?>
+                    <?php echo JText::_('Product ID').": "; ?>
                     <input name="new_relationship_productid_to" size="15" type="text" />
                     <input name="new_relationship_productid_from" value="<?php echo @$row->product_id; ?>" type="hidden" />
-                    <input value="<?php echo JText::_( "Add" ); ?>" type="button" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_( "Updating Relationships" ); ?>');" />
+                    <input value="<?php echo JText::_('Add'); ?>" type="button" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('Updating Relationships'); ?>');" />
                 </div>
                 <div style="clear: both;"></div>
             </fieldset>
@@ -1008,7 +1008,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="width: 100%;">
             <fieldset>
-            <legend><?php echo JText::_( "Existing Relationships" ); ?></legend>
+            <legend><?php echo JText::_('Existing Relationships'); ?></legend>
                 <div id="existing_relationships">
                 <?php echo $this->product_relations; ?>
                 </div>
@@ -1026,22 +1026,22 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Display' ), "panel_display"); 
+    echo $tabs->startPanel( JText::_('Display'), "panel_display"); 
     ?>
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Template" ); ?></legend>
+            <legend><?php echo JText::_('Template'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Layout File' ); ?>:
+                        <?php echo JText::_('Product Layout File'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::productlayout( @$row->product_layout, 'product_layout' ); ?>
                         <div class="note">
-                            <?php echo JText::_( "PRODUCT LAYOUT FILE DESC" ); ?>
+                            <?php echo JText::_('PRODUCT LAYOUT FILE DESC'); ?>
                         </div>                        
                     </td>
                 </tr>
@@ -1049,11 +1049,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
             
             <fieldset>
-            <legend><?php echo JText::_( "Extra" ); ?></legend>
+            <legend><?php echo JText::_('Extra'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Feature Comparison' ); ?>:
+                        <?php echo JText::_('Feature Comparison'); ?>:
                     </td>
                     <td>
                          <?php echo JHTML::_('select.booleanlist', 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
@@ -1065,11 +1065,11 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: right; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Post Purchase Article" ); ?></legend>
+            <legend><?php echo JText::_('Post Purchase Article'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Select an Article to Display After Purchase' ); ?>:
+                        <?php echo JText::_('Select an Article to Display After Purchase'); ?>:
                     </td>
                     <td>
                         <?php echo $this->elementArticleModel->_fetchElement( 'product_article', @$row->product_article ); ?>
@@ -1091,19 +1091,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Integrations' ), "panel_integrations"); 
+    echo $tabs->startPanel( JText::_('Integrations'), "panel_integrations"); 
     ?>
 
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "AmbraSubscriptions Integration" ); ?></legend>
+            <legend><?php echo JText::_('AmbraSubscriptions Integration'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
                     <tr>
-                        <td title="<?php echo JText::_("Associated Ambrasubs Subscription Type").'::'.JText::_( "Associated Ambrasubs Subscription Type Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Associated Ambrasubs Subscription Type' ); ?>:
+                        <td title="<?php echo JText::_('Associated Ambrasubs Subscription Type').'::'.JText::_('Associated Ambrasubs Subscription Type Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('Associated Ambrasubs Subscription Type'); ?>:
                         </td>
                         <td>
                             <?php echo TiendaHelperAmbrasubs::selectTypes( $row->product_parameters->get('ambrasubs_type_id'), 'ambrasubs_type_id' ); ?>
@@ -1112,7 +1112,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Ambrasubs Installation Notice" ); ?>
+                    <?php echo JText::_('Ambrasubs Installation Notice'); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
@@ -1120,12 +1120,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Amigos Integration" ); ?></legend>
+            <legend><?php echo JText::_('Amigos Integration'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmigos', 'helpers.amigos')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
                     <tr>
-                        <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_("Commission Rate Override").'::'.JText::_( "Commission Rate Override Tip" ); ?>" >
-                            <?php echo JText::_( 'Commission Rate Override' ); ?>:
+                        <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_('Commission Rate Override').'::'.JText::_('Commission Rate Override Tip'); ?>" >
+                            <?php echo JText::_('Commission Rate Override'); ?>:
                         </td>
                         <td>
                             <input name="amigos_commission_override" id="amigos_commission_override" value="<?php echo @$row->product_parameters->get('amigos_commission_override'); ?>" size="10" maxlength="10" type="text" />
@@ -1134,7 +1134,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Amigos Installation Notice" ); ?>
+                    <?php echo JText::_('Amigos Installation Notice'); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
@@ -1142,37 +1142,37 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Billets Integration" ); ?></legend>
+            <legend><?php echo JText::_('Billets Integration'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperBillets', 'helpers.billets')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
                     <tr>
-                        <td title="<?php echo JText::_("Ticket Limit Increase").'::'.JText::_( "Ticket Limit Increase Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Ticket Limit Increase' ); ?>:
+                        <td title="<?php echo JText::_('Ticket Limit Increase').'::'.JText::_('Ticket Limit Increase Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('Ticket Limit Increase'); ?>:
                         </td>
                         <td>
                             <input name="billets_ticket_limit_increase" value="<?php echo @$row->product_parameters->get('billets_ticket_limit_increase'); ?>" size="10" maxlength="10" type="text" />
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("Excludes User From Ticket Limits").'::'.JText::_( "Excludes User From Ticket Limits Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Excludes User From Ticket Limits' ); ?>:
+                        <td title="<?php echo JText::_('Excludes User From Ticket Limits').'::'.JText::_('Excludes User From Ticket Limits Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('Excludes User From Ticket Limits'); ?>:
                         </td>
                         <td>
                             <?php echo JHTML::_('select.booleanlist', 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("Hour Limit Increase").'::'.JText::_( "Hour Limit Increase Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Hour Limit Increase' ); ?>:
+                        <td title="<?php echo JText::_('Hour Limit Increase').'::'.JText::_('Hour Limit Increase Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('Hour Limit Increase'); ?>:
                         </td>
                         <td>
                             <input name="billets_hour_limit_increase" value="<?php echo @$row->product_parameters->get('billets_hour_limit_increase'); ?>" size="10" maxlength="10" type="text" />
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("Excludes User From Hour Limits").'::'.JText::_( "Excludes User From Hour Limits Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'Excludes User From Hour Limits' ); ?>:
+                        <td title="<?php echo JText::_('Excludes User From Hour Limits').'::'.JText::_('Excludes User From Hour Limits Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('Excludes User From Hour Limits'); ?>:
                         </td>
                         <td>
                             <?php echo JHTML::_('select.booleanlist', 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
@@ -1181,7 +1181,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Billets Version Notice" ); ?>
+                    <?php echo JText::_('Billets Version Notice'); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
@@ -1189,21 +1189,21 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "JUGA Integration" ); ?></legend>
+            <legend><?php echo JText::_('JUGA Integration'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperJuga', 'helpers.juga')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
                     <tr>
-                        <td title="<?php echo JText::_("JUGA Group IDs").'::'.JText::_( "JUGA Group IDs Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'JUGA Group IDs' ); ?>:
+                        <td title="<?php echo JText::_('JUGA Group IDs').'::'.JText::_('JUGA Group IDs Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('JUGA Group IDs'); ?>:
                         </td>
                         <td>
                             <textarea name="juga_group_csv_add" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_add'); ?></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("JUGA Group IDs REMOVE").'::'.JText::_( "JUGA Group IDs REMOVE Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'JUGA Group IDs REMOVE' ); ?>:
+                        <td title="<?php echo JText::_('JUGA Group IDs REMOVE').'::'.JText::_('JUGA Group IDs REMOVE Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('JUGA Group IDs REMOVE'); ?>:
                         </td>
                         <td>
                             <textarea name="juga_group_csv_remove" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove'); ?></textarea>
@@ -1213,20 +1213,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <td style="width: 125px; text-align: right;" class="key" >
                         </td>
                         <td>
-                            <?php echo JText::_( "Actions for When Subscription Expires" ); ?>
+                            <?php echo JText::_('Actions for When Subscription Expires'); ?>
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("JUGA Group IDs EXPIRATION").'::'.JText::_( "JUGA Group IDs EXPIRATION Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'JUGA Group IDs EXPIRATION' ); ?>:
+                        <td title="<?php echo JText::_('JUGA Group IDs EXPIRATION').'::'.JText::_('JUGA Group IDs EXPIRATION Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('JUGA Group IDs EXPIRATION'); ?>:
                         </td>
                         <td>
                             <textarea name="juga_group_csv_add_expiration" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_add_expiration'); ?></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td title="<?php echo JText::_("JUGA Group IDs REMOVE EXPIRATION").'::'.JText::_( "JUGA Group IDs REMOVE EXPIRATION Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                            <?php echo JText::_( 'JUGA Group IDs REMOVE EXPIRATION' ); ?>:
+                        <td title="<?php echo JText::_('JUGA Group IDs REMOVE EXPIRATION').'::'.JText::_('JUGA Group IDs REMOVE EXPIRATION Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                            <?php echo JText::_('JUGA Group IDs REMOVE EXPIRATION'); ?>:
                         </td>
                         <td>
                             <textarea name="juga_group_csv_remove_expiration" cols="25"><?php echo @$row->product_parameters->get('juga_group_csv_remove_expiration'); ?></textarea>
@@ -1235,7 +1235,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Juga Version Notice" ); ?>
+                    <?php echo JText::_('Juga Version Notice'); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
@@ -1243,20 +1243,20 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Tags Integration" ); ?></legend>
+            <legend><?php echo JText::_('Tags Integration'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
                 <table class="admintable" style="width: 100%;">
                     <tr>                        
                         <td>
 							<div class="note">
-		                    	<?php echo JText::_( "Tags is installed" ); ?>
+		                    	<?php echo JText::_('Tags is installed'); ?>
 		                	</div>
                         </td>
                     </tr>
                 </table>
             <?php else : ?>
                 <div class="note">
-                    <?php echo JText::_( "Tags Installation Notice" ); ?>
+                    <?php echo JText::_('Tags Installation Notice'); ?>
                 </div>
             <?php endif; ?>
             </fieldset>
@@ -1264,19 +1264,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Core Joomla User Integration" ); ?></legend>
+            <legend><?php echo JText::_('Core Joomla User Integration'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
-                    <td title="<?php echo JText::_("Change Joomla ACL").'::'.JText::_( "Change Joomla ACL Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Change Joomla ACL' ); ?>:
+                    <td title="<?php echo JText::_('Change Joomla ACL').'::'.JText::_('Change Joomla ACL Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Change Joomla ACL'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td title="<?php echo JText::_("New Joomla ACL").'::'.JText::_( "New Joomla ACL Tip" ); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'New Joomla ACL' ); ?>:
+                    <td title="<?php echo JText::_('New Joomla ACL').'::'.JText::_('New Joomla ACL Tip'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('New Joomla ACL'); ?>:
                     </td>
                     <td>
                         <?php
@@ -1300,23 +1300,23 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_( 'Advanced' ), "panel_advanced"); 
+    echo $tabs->startPanel( JText::_('Advanced'), "panel_advanced"); 
     ?>
         <div style="clear: both;"></div>
         
         <div class="note">
-            <?php echo JText::_( "Advanced Panel Notice" ); ?>
+            <?php echo JText::_('Advanced Panel Notice'); ?>
         </div>
         
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "Product Parameters" ); ?></legend>
+            <legend><?php echo JText::_('Product Parameters'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_( 'Product Params' ); ?>:
+                        <?php echo JText::_('Product Params'); ?>:
                     </td>
                     <td>
                         <textarea name="product_params" id="product_params" rows="10" cols="55"><?php echo @$row->product_params; ?></textarea>
@@ -1328,19 +1328,19 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_( "SQL for After Purchase" ); ?></legend>
+            <legend><?php echo JText::_('SQL for After Purchase'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
-                    <td title="<?php echo JText::_("Product SQL").'::'.JText::_( "Product SQL Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Product SQL' ); ?>:
+                    <td title="<?php echo JText::_('Product SQL').'::'.JText::_('Product SQL Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Product SQL'); ?>:
                     </td>
                     <td>
                         <textarea name="product_sql" rows="10" cols="55"><?php echo @$row->product_sql; ?></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td title="<?php echo JText::_("Available Objects").'::'.JText::_( "Available Objects Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Available Objects' ); ?>:
+                    <td title="<?php echo JText::_('Available Objects').'::'.JText::_('Available Objects Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Available Objects'); ?>:
                     </td>
                     <td>
                         {user} = JFactory::getUser( <?php echo "$"."order->user_id"; ?> )<br/>
@@ -1352,8 +1352,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     </td>
                 </tr>
                 <tr>
-                    <td title="<?php echo JText::_("Normal Usage").'::'.JText::_( "Normal Usage Tip" ); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
-                        <?php echo JText::_( 'Normal Usage' ); ?>:
+                    <td title="<?php echo JText::_('Normal Usage').'::'.JText::_('Normal Usage Tip'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
+                        <?php echo JText::_('Normal Usage'); ?>:
                     </td>
                     <td>
                         <br/>
@@ -1486,13 +1486,13 @@ function showProRatedFields()
 	{
 		jQuery( '.prorated_unrelated' ).hide( 'fast' );
 		jQuery( '.prorated_related' ).show( 'fast' );
-		jQuery( '.trial_price' ).text( '<?php echo JText::_( 'INITIAL PERIOD PRICE' );?>:' );
+		jQuery( '.trial_price' ).text( '<?php echo JText::_('INITIAL PERIOD PRICE');?>:' );
 	}
 	else
 	{
 		jQuery( '.prorated_unrelated' ).show( 'fast' );
 		jQuery( '.prorated_related' ).hide( 'fast' );
-		jQuery( '.trial_price' ).text( '<?php echo JText::_( 'Trial Period Price' );?>:' );
+		jQuery( '.trial_price' ).text( '<?php echo JText::_('Trial Period Price');?>:' );
 	}
 }
 

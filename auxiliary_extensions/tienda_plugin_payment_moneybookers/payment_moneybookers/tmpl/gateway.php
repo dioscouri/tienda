@@ -10,15 +10,15 @@
 	       			<?php
 	       				if ( $vars->is_recurring )
 	       				{
-	       					echo "<b>".JText::_( "Recurring Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->rec_amount ); 
+	       					echo "<b>".JText::_('Recurring Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->rec_amount ); 
 	       				}
 	       				elseif ( $vars->mixed_cart )
        					{
-       						echo "<b>".JText::_( "Non-recurring Items Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );
+       						echo "<b>".JText::_('Non-recurring Items Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->amount );
        					}
        					else //Only Non-Recurring
        					{
-       						echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );	
+       						echo "<b>".JText::_('Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->amount );	
        					}       					
 	       				
 	       			?>

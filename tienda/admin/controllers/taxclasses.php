@@ -71,12 +71,12 @@ class TiendaControllerTaxclasses extends TiendaController
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
             $this->messagetype  = 'notice';
-            $this->message = JText::_( "COM_TIENDA_SAVED");
+            $this->message = JText::_('COM_TIENDA_SAVED');
         } 
             else 
         {
             $this->messagetype  = 'notice';         
-            $this->message      = JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+            $this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
         }
         
         $redirect = "index.php?option=com_tienda&controller=taxclasses&task=setrates&id={$row->tax_class_id}&tmpl=component";

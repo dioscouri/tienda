@@ -7,13 +7,13 @@
 
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos">
-				<?php echo JText::_("Go Back");?>
+				<?php echo JText::_('Go Back');?>
 				</a>
 			</div>
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP1_SELECT_USER");?>
+			<?php echo JText::_('POS_STEP1_SELECT_USER');?>
 			</h2>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 		<div class="cell step_body inactive">
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos&nextstep=step2">
-				<?php echo JText::_("GO BACK");?>
+				<?php echo JText::_('GO BACK');?>
 				</a>
 			</div>
 			<div id="orderSummary">
@@ -30,7 +30,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP2_SELECT_PRODUCTS");?>
+			<?php echo JText::_('POS_STEP2_SELECT_PRODUCTS');?>
 			</h2>
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS");?>
+			<?php echo JText::_('POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
 			</h2>
 		</div>
 	</div>
@@ -48,10 +48,10 @@
 			<?php if (!empty($this->showBilling)) { ?>
 			<div id="payment_info" class="address">
 				<h3>
-				<?php echo JText::_("BILLING INFO");?>
+				<?php echo JText::_('BILLING INFO');?>
 				</h3>
 				<strong>
-				<?php echo JText::_("BILLING ADDRESS");?>
+				<?php echo JText::_('BILLING ADDRESS');?>
 				</strong>:
 				<br/>
 				<?php
@@ -69,14 +69,14 @@
 			<?php if (!empty($this->showShipping)) { ?>
 			<div id="shipping_info" class="address">
 				<h3>
-				<?php echo JText::_("SHIPPING INFO");?>
+				<?php echo JText::_('SHIPPING INFO');?>
 				</h3>
 				<strong>
-				<?php echo JText::_("SHIPPING METHOD");?>
+				<?php echo JText::_('SHIPPING METHOD');?>
 				</strong>: <?php echo JText::_($this->shipping_method_name);?>
 				<br/>
 				<strong>
-				<?php echo JText::_("SHIPPING ADDRESS");?>
+				<?php echo JText::_('SHIPPING ADDRESS');?>
 				</strong>:
 				<br/>
 				<?php
@@ -96,7 +96,7 @@
 			<?php if(!empty($this->order->customer_note)):?>
 			<div id="shipping_comments">
 				<h3>
-				<?php echo JText::_("SHIPPING NOTES");?>
+				<?php echo JText::_('SHIPPING NOTES');?>
 				</h3>
 				<?php echo $this->order->customer_note;?>
 			</div>
@@ -121,7 +121,7 @@
 		</div>
 		<div class="cell step_title active">
 			<h2>
-			<?php echo JText::_("POS_STEP4_REVIEW_SUBMIT_ORDER");?>
+			<?php echo JText::_('POS_STEP4_REVIEW_SUBMIT_ORDER');?>
 			</h2>
 		</div>
 	</div>
@@ -130,7 +130,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_("POS_STEP5_PAYMENT_CONFIRMATION");?>
+			<?php echo JText::_('POS_STEP5_PAYMENT_CONFIRMATION');?>
 			</h2>
 		</div>
 	</div>

@@ -3,11 +3,11 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_( "THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA" ); ?></p>
+    <p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM VIRTUEMART TO TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP ONE OF THREE" ); ?></span>
-        <p><?php echo JText::_( "PLEASE PROVIDE THE REQUESTED INFORMATION" ); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP ONE OF THREE'); ?></span>
+        <p><?php echo JText::_('PLEASE PROVIDE THE REQUESTED INFORMATION'); ?></p>
     </div>
     
     <fieldset>
@@ -15,7 +15,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'HOST' ); ?>: *
+                        <?php echo JText::_('HOST'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="host" id="host" size="48" maxlength="250" value="<?php echo @$state->host; ?>" />
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>: *
+                        <?php echo JText::_('COM_TIENDA_USERNAME'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="user" id="user" size="48" maxlength="250" value="<?php echo @$state->user; ?>" />
@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'PASSWORD' ); ?>: *
+                        <?php echo JText::_('PASSWORD'); ?>: *
                     </td>
                     <td>
                         <input type="password" name="password" id="password" size="48" maxlength="250" value="<?php echo @$state->password; ?>" />
@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE NAME' ); ?>: *
+                        <?php echo JText::_('DATABASE NAME'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="database" id="database" size="48" maxlength="250" value="<?php echo @$state->database; ?>" />
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'JOOMLA! TABLE PREFIX' ); ?>: *
+                        <?php echo JText::_('JOOMLA! TABLE PREFIX'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="prefix" id="prefix" size="48" maxlength="250" value="<?php echo @$state->prefix; ?>" />
@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'VIRTUEMART TABLE PREFIX' ); ?>: *
+                        <?php echo JText::_('VIRTUEMART TABLE PREFIX'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="vm_prefix" id="vm_prefix" size="48" maxlength="250" value="<?php echo @$state->vm_prefix; ?>" />
@@ -81,7 +81,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE TYPE' ); ?>:
+                        <?php echo JText::_('DATABASE TYPE'); ?>:
                     </td>
                     <td>
                         <input type="text" name="driver" id="driver" size="48" maxlength="250" value="<?php echo @$state->driver; ?>" />
@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE PORT' ); ?>:
+                        <?php echo JText::_('DATABASE PORT'); ?>:
                     </td>
                     <td>
                         <input type="text" name="port" id="port" size="48" maxlength="250" value="<?php echo @$state->port; ?>" />
@@ -103,7 +103,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'EXTERNAL SITE URL' ); ?>:
+                        <?php echo JText::_('EXTERNAL SITE URL'); ?>:
                     </td>
                     <td>
                         <input type="text" name="external_site_url" id="external_site_url" size="48" maxlength="250" value="<?php echo @$state->external_site_url; ?>" />

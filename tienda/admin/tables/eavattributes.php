@@ -29,17 +29,17 @@ class TiendaTableEavAttributes extends TiendaTable
     {      
     	if (empty($this->eavattribute_label))
         {
-            $this->setError( JText::_( "Label Required" ) );
+            $this->setError( JText::_('Label Required') );
             return false;
         }  
         if (empty($this->eaventity_type))
         {
-            $this->setError( JText::_( "Entity Type Required" ) );
+            $this->setError( JText::_('Entity Type Required') );
             return false;
         }
     	if (empty($this->eavattribute_type))
         {
-            $this->setError( JText::_( "Type Required" ) );
+            $this->setError( JText::_('Type Required') );
             return false;
         }
         if (empty($this->eavattribute_alias)) 

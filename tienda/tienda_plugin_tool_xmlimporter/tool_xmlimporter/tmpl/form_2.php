@@ -3,11 +3,11 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_( "THIS TOOL IMPORTS DATA FROM A XML FILE TO TIENDA" ); ?></p>
+    <p><?php echo JText::_('THIS TOOL IMPORTS DATA FROM A XML FILE TO TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP TWO OF THREE" ); ?></span>
-        <p><?php echo JText::_( "PLEASE REVIEW THE FOLLOWING INFORMATION" ); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP TWO OF THREE'); ?></span>
+        <p><?php echo JText::_('PLEASE REVIEW THE FOLLOWING INFORMATION'); ?></p>
     </div>
     
     <fieldset>
@@ -15,7 +15,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'XML File' ); ?>: *
+                        <?php echo JText::_('XML File'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_file; ?>
@@ -27,7 +27,7 @@
                 </tr>
                <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Images ZIP File' ); ?>: *
+                        <?php echo JText::_('Images ZIP File'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_images_zip_file; ?>
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'Files ZIP File' ); ?>: *
+                        <?php echo JText::_('Files ZIP File'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_files_zip_file; ?>

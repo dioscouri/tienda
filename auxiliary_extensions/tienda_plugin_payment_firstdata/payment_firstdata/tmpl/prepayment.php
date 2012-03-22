@@ -3,23 +3,23 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "TIENDA LINKPOINT FIRSTDATA PAYMENT PREPARATION MESSAGE" ); ?>
+        <?php echo JText::_('TIENDA LINKPOINT FIRSTDATA PAYMENT PREPARATION MESSAGE'); ?>
         
         <table id="firstdata_form">            
             <tr>
-                <td class="field_name"><?php echo JText::_( 'CARD NUMBER' ) ?></td>
+                <td class="field_name"><?php echo JText::_('CARD NUMBER') ?></td>
                 <td>************<?php echo $vars->cardnum_last4; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'EXPIRATION MONTH' ) ?></td>
+                <td class="field_name"><?php echo JText::_('EXPIRATION MONTH') ?></td>
                 <td><?php echo $vars->cardexpmonth; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'EXPIRATION YEAR' ) ?></td>
+                <td class="field_name"><?php echo JText::_('EXPIRATION YEAR') ?></td>
                 <td><?php echo $vars->cardexpyear; ?></td>
             </tr>            
             <tr>
-                <td class="field_name"><?php echo JText::_( 'CARD CVV NUMBER' ) ?></td>
+                <td class="field_name"><?php echo JText::_('CARD CVV NUMBER') ?></td>
                 <td>****</td>
             </tr>
 		</table>

@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Prices for" ); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Prices for'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -20,22 +20,22 @@
 	<table class="adminlist">
     	<thead>
         	<tr>
-        		<th><?php echo JText::_( "Date Range" ); ?></th>
-        		<th><?php echo JText::_( "Quantity Range" ); ?></th>
-        		<th><?php echo JText::_( "Group" ); ?></th>
-        		<th><?php echo JText::_( "Price" ); ?></th>
+        		<th><?php echo JText::_('Date Range'); ?></th>
+        		<th><?php echo JText::_('Quantity Range'); ?></th>
+        		<th><?php echo JText::_('Group'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
         	</tr>
         	</thead>
         	<tbody>
         	<tr>
         		<td style="text-align: center;">
             		<?php echo JHTML::calendar( "", "createprice_date_start", "createprice_date_start", '%Y-%m-%d %H:%M:%S' ); ?>
-            		<?php echo JText::_("to"); ?>
+            		<?php echo JText::_('to'); ?>
             		<?php echo JHTML::calendar( "", "createprice_date_end", "createprice_date_end", '%Y-%m-%d %H:%M:%S' ); ?>
         		</td>
         		<td style="text-align: center;">
         			<input id="createprice_quantity_start" name="createprice_quantity_start" value="" size="5" />
-        			<?php echo JText::_("to"); ?>
+        			<?php echo JText::_('to'); ?>
             		<input id="createprice_quantity_end" name="createprice_quantity_end" value="" size="5" />
             	</td>
             	<td style="text-align: center;">
@@ -89,12 +89,12 @@
 				</td>
 				<td style="text-align: center;">
                 	<?php echo JHTML::calendar( $item->product_price_startdate, "date_start[{$item->product_price_id}]", "date_start_{$item->product_price_id}", '%Y-%m-%d %H:%M:%S' ); ?>
-                	<?php echo JText::_("to"); ?>
+                	<?php echo JText::_('to'); ?>
                 	<?php echo JHTML::calendar( $item->product_price_enddate, "date_end[{$item->product_price_id}]", "date_end_{$item->product_price_id}", '%Y-%m-%d %H:%M:%S' ); ?>
 				</td>
 				<td style="text-align: center;">
 					<input type="text" name="quantity_start[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_start; ?>" size="5" />
-					<?php echo JText::_("to"); ?>
+					<?php echo JText::_('to'); ?>
 					<input type="text" name="quantity_end[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_end; ?>" size="5" />
 				</td>
 				<td style="text-align: center;">
@@ -102,7 +102,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productprices&task=delete&cid[]=<?php echo $item->product_price_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setprices&id={$row->product_id}&tmpl=component"); ?>">
-						<?php echo JText::_( "Delete Price" ); ?>	
+						<?php echo JText::_('Delete Price'); ?>	
 					</a>
 					]
 				</td>
@@ -113,7 +113,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

@@ -162,7 +162,7 @@
 					<?php
 					if(empty($row->zone_id))
 					{
-						echo JText::_("COM_TIENDA_SELECT_COUNTRY_FIRST");
+						echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
 					}
 					else
 					{

@@ -17,5 +17,5 @@
 	<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=productcompare");?>" title="<?php echo JText::_('COMPARED PRODUCTS')?>"><?php echo JText::_('COMPARE NOW');?></a>
 </div>
 	<?php }else{?>
-		<?php echo JText::_("NO COMPARED PRODUCTS"); ?>
+		<?php echo JText::_('NO COMPARED PRODUCTS'); ?>
 	<?php }?>

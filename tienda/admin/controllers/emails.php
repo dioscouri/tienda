@@ -78,7 +78,7 @@ class TiendaControllerEmails extends TiendaController
 		$lang = $model->getItem( $id );
 		$path = $lang->path;
 		
-		$msg = JText::_( "COM_TIENDA_SAVED");
+		$msg = JText::_('COM_TIENDA_SAVED');
 		
 		jimport('joomla.filesystem.file');
 
@@ -100,7 +100,7 @@ class TiendaControllerEmails extends TiendaController
 			$success = JFile::write($path, $txt);
 
 			if(!$success)
-				$msg = JText::_( "COM_TIENDA_ERROR_SAVING_NEW_LANGUAGE_FILE");
+				$msg = JText::_('COM_TIENDA_ERROR_SAVING_NEW_LANGUAGE_FILE');
 				
 		}
 

@@ -182,7 +182,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->order_id = $order->order_id;
         $orderpayment->orderpayment_type = $this->_element;
-        $orderpayment->transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
+        $orderpayment->transaction_status = JText::_('COM_TIENDA_INCOMPLETE');
         $amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
         $orderpayment->orderpayment_amount = $amount;
         if (!$orderpayment->save())
@@ -287,11 +287,11 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 $app->close();
               break;
             case "cancel":
-                $vars->message = JText::_( 'Paypal Message Cancel' );
+                $vars->message = JText::_('Paypal Message Cancel');
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Paypal Message Invalid Action' );
+                $vars->message = JText::_('Paypal Message Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -453,7 +453,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
             else {
                 // other methods not supported right now
-                $payment_error = JText::_( "PAYPAL ERROR INVALID TRANSACTION TYPE" ).": ".$data['txn_type'];                
+                $payment_error = JText::_('PAYPAL ERROR INVALID TRANSACTION TYPE').": ".$data['txn_type'];                
             }
             
             if ($payment_error) {
@@ -793,7 +793,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         {
             $orderpayment->transaction_details  = $data['transaction_details'];
             $orderpayment->transaction_id       = $data['subscr_id'];
-            $orderpayment->transaction_status   = JText::_( "Created" );
+            $orderpayment->transaction_status   = JText::_('Created');
             if (!$orderpayment->save())
             {
                 $errors[] = $orderpayment->getError(); 
@@ -886,7 +886,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $subscriptionhistory->subscriptionhistory_type = 'creation';
             $subscriptionhistory->created_datetime = $date->toMySQL();
             $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-            $subscriptionhistory->comments = JText::_( 'NEW TRIAL SUBSCRIPTION CREATED' );
+            $subscriptionhistory->comments = JText::_('NEW TRIAL SUBSCRIPTION CREATED');
             $subscriptionhistory->save();
         }
         
@@ -1012,7 +1012,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $subscriptionhistory->subscriptionhistory_type = 'creation';
             $subscriptionhistory->created_datetime = $date->toMySQL();
             $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-            $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION CREATED' );
+            $subscriptionhistory->comments = JText::_('NEW SUBSCRIPTION CREATED');
             $subscriptionhistory->save();
         }
             else
@@ -1053,7 +1053,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $subscriptionhistory->subscriptionhistory_type = 'payment';
             $subscriptionhistory->created_datetime = $date->toMySQL();
             $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-            $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION PAYMENT RECEIVED' );
+            $subscriptionhistory->comments = JText::_('NEW SUBSCRIPTION PAYMENT RECEIVED');
             $subscriptionhistory->save();
         }
 

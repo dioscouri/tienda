@@ -11,22 +11,22 @@
 		<thead>
             <tr>
                 <th style="width: 20px;">
-                	<?php echo JText::_("Id"); ?>
+                	<?php echo JText::_('Id'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo JText::_("Order"); ?>
+                	<?php echo JText::_('Order'); ?>
                 </th>
                 <th>
-                	<?php echo JText::_("Order Status"); ?>
+                	<?php echo JText::_('Order Status'); ?>
                 </th>
 				 <th>
-                	<?php echo JText::_("Do Completed Order Tasks"); ?>?
+                	<?php echo JText::_('Do Completed Order Tasks'); ?>?
                 </th>
                 <th>
-                	<?php echo JText::_("Notify Customer"); ?>
+                	<?php echo JText::_('Notify Customer'); ?>
                 </th>
                  <th>
-                	<?php echo JText::_("Comments"); ?>                	
+                	<?php echo JText::_('Comments'); ?>                	
                 </th>
             </tr>
 		</thead>
@@ -49,11 +49,11 @@
                     <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
                     &nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
                     <br/>
-                    <b><?php echo JText::_( "Ship to" ); ?></b>:
+                    <b><?php echo JText::_('Ship to'); ?></b>:
                     <?php 
                     if (empty($item->shipping_address_1)) 
                     {
-                       echo JText::_( "Undefined Shipping Address" ); 
+                       echo JText::_('Undefined Shipping Address'); 
                     }
                        else
                     {
@@ -68,7 +68,7 @@
                     <?php 
                     if (!empty($item->order_number))
                     {
-                        echo "<br/><b>".JText::_( "Order Number" )."</b>: ".$item->order_number;
+                        echo "<br/><b>".JText::_('Order Number')."</b>: ".$item->order_number;
                     }
                     ?>
 				</td>
@@ -100,7 +100,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

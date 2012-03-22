@@ -42,7 +42,7 @@ $item = @$this->row;
     
     <div class="reset"></div>
     <div class="productdesc">
-       <div class="productdesctitle"><?php echo JText::_("Description"); ?></div>
+       <div class="productdesctitle"><?php echo JText::_('Description'); ?></div>
         <?php echo $item->product_description; ?>
     </div>
 </div>

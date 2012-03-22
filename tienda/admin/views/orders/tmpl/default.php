@@ -25,7 +25,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -51,25 +51,25 @@
 	                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span>
+                            <span class="label"><?php echo JText::_('From'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d 00:00:00' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span>
+                            <span class="label"><?php echo JText::_('To'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d 00:00:00' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("Type"); ?>:</span>
+                            <span class="label"><?php echo JText::_('Type'); ?>:</span>
                             <?php echo TiendaSelect::datetype( @$state->filter_datetype, 'filter_datetype', '', 'datetype' ); ?>
                         </div>
                     </div>
@@ -80,10 +80,10 @@
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_total_from" name="filter_total_from" value="<?php echo @$state->filter_total_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_total_from" name="filter_total_from" value="<?php echo @$state->filter_total_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_total_to" name="filter_total_to" value="<?php echo @$state->filter_total_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_total_to" name="filter_total_to" value="<?php echo @$state->filter_total_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 </th>
@@ -130,13 +130,13 @@
                 </td>
                 <td style="text-align: center; width: 50px;">
                     <a href="<?php echo $item->link_view; ?>">
-                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_( "Order Dashboard" ); ?>"/>
+                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_('Order Dashboard'); ?>"/>
                     </a>
                 </td>
 				<td style="text-align: left;">
 					<?php
 						if( $guest )
-							echo JText::_( 'COM_TIENDA_GUEST' );
+							echo JText::_('COM_TIENDA_GUEST');
 						else
 						{
 							?>
@@ -148,11 +148,11 @@
 						}
 					?>
 					<br/>
-					<b><?php echo JText::_( "Ship to" ); ?></b>:
+					<b><?php echo JText::_('Ship to'); ?></b>:
 					<?php 
 					if ((empty($item->shipping_address_1) and (empty($item->shipping_address_2))))
 					{
-					   echo JText::_( "Undefined Shipping Address" ); 
+					   echo JText::_('Undefined Shipping Address'); 
 					}
 					   else
 					{
@@ -167,7 +167,7 @@
                     <?php 
                     if (!empty($item->order_number))
                     {
-                        echo "<br/><b>".JText::_( "Order Number" )."</b>: ".$item->order_number;
+                        echo "<br/><b>".JText::_('Order Number')."</b>: ".$item->order_number;
                     }
                     ?>
 				</td>
@@ -177,7 +177,7 @@
                         <br/>
                         <?php JHTML::_('behavior.tooltip'); ?>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
-                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_( "Order Has a Commission" ); ?>::<?php echo JText::_( "View Commission Records" ); ?>" class="hasTip" />
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>::<?php echo JText::_('View Commission Records'); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
 				</td>
@@ -191,7 +191,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

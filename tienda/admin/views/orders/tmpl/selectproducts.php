@@ -17,7 +17,7 @@ if (JRequest::getVar('windowtask') == 'close')
 ?>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-    <button onclick="document.getElementById('task').value='addproducts'; document.adminForm.submit();"> <?php echo JText::_( "Add Selected Products to Order" ); ?></button>
+    <button onclick="document.getElementById('task').value='addproducts'; document.adminForm.submit();"> <?php echo JText::_('Add Selected Products to Order'); ?></button>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -40,7 +40,7 @@ if (JRequest::getVar('windowtask') == 'close')
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -55,7 +55,7 @@ if (JRequest::getVar('windowtask') == 'close')
                     <?php echo TiendaGrid::sort( 'Price', "price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-                    <?php echo JText::_( "Quantity" ); ?>
+                    <?php echo JText::_('COM_TIENDA_QUANTITY'); ?>
                 </th>
             </tr>
         </thead>
@@ -88,7 +88,7 @@ if (JRequest::getVar('windowtask') == 'close')
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

@@ -7,19 +7,19 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Product Name"); ?>
+                    <?php echo JText::_('Product Name'); ?>
                 </th>
                 <th style="text-align: center; width : 200px;">
-                    <?php echo JText::_("Manufacturer"); ?>
+                    <?php echo JText::_('Manufacturer'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Attributes"); ?>
+                    <?php echo JText::_('Attributes'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Quantity"); ?>
+                    <?php echo JText::_('Quantity'); ?>
                 </th>               
             </tr>
         </thead>
@@ -56,7 +56,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

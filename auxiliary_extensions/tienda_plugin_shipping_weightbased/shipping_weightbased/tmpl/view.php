@@ -15,7 +15,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-					<label for="shipping_method_weightbased_name"><?php echo JText::_( 'Name' ); ?>: </label>
+					<label for="shipping_method_weightbased_name"><?php echo JText::_('Name'); ?>: </label>
 					</td>
 					<td>
 						<input type="text" name="shipping_method_weightbased_name" id="shipping_method_weightbased_name" value="<?php echo @$row->shipping_method_weightbased_name; ?>" size="48" maxlength="250" />
@@ -23,7 +23,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><label for="tax_class_id">
-						<?php echo JText::_( 'Tax Class' ); ?>: </label>
+						<?php echo JText::_('Tax Class'); ?>: </label>
 					</td>
 					<td>
 						<?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>
@@ -31,7 +31,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="shipping_method_weightbased_enabled"> <?php echo JText::_( 'Enabled' ); ?>:</label>
+						<label for="shipping_method_weightbased_enabled"> <?php echo JText::_('Enabled'); ?>:</label>
 					</td>
 					<td>
 						<?php echo JHTML::_('select.booleanlist', 'shipping_method_weightbased_enabled', '', @$row->shipping_method_weightbased_enabled ); ?>
@@ -39,7 +39,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="shipping_method_price_start"> <?php echo JText::_( 'Price Start' ); ?>:</label>
+						<label for="shipping_method_price_start"> <?php echo JText::_('Price Start'); ?>:</label>
 					</td>
 					<td>
 						<input type="text" name="shipping_method_price_start" id="shipping_method_price_start" value="<?php echo @$row->shipping_method_price_start; ?>" size="10" />
@@ -47,7 +47,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="shipping_method_price_end"> <?php echo JText::_( 'Price End' ); ?>:</label>
+						<label for="shipping_method_price_end"> <?php echo JText::_('Price End'); ?>:</label>
 					</td>
 					<td>
 						<input type="text" name="shipping_method_price_end" id="shipping_method_price_end" value="<?php echo @$row->shipping_method_price_end; ?>" size="10" />

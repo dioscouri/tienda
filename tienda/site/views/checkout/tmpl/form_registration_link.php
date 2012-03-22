@@ -7,7 +7,7 @@
     <td style="vertical-align: top; padding: 5px;">
     
         <div class='componentheading'>
-            <span><?php echo JText::_( "Returning Users" ); ?></span>
+            <span><?php echo JText::_('Returning Users'); ?></span>
         </div>
             
         <!-- LOGIN FORM -->
@@ -15,9 +15,9 @@
         <?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
                 $lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
                 $langScript =   'var JLanguage = {};'.
-                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-                                ' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
+                                ' JLanguage.WHAT_IS_OPENID = \''.JText::_('WHAT_IS_OPENID').'\';'.
+                                ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('LOGIN_WITH_OPENID').'\';'.
+                                ' JLanguage.NORMAL_LOGIN = \''.JText::_('NORMAL_LOGIN').'\';'.
                                 ' var modlogin = 1;';
                 $document = &JFactory::getDocument();
                 $document->addScriptDeclaration( $langScript );
@@ -29,7 +29,7 @@
             <table>
             <tr>
                 <td style="height: 20px;">
-                    <?php echo JText::_("COM_TIENDA_USERNAME"); ?> <span class>*</span>
+                    <?php echo JText::_('COM_TIENDA_USERNAME'); ?> <span class>*</span>
                 </td>
                 <td>
                     <input type="text" name="username" class="inputbox" size="18" alt="username" />

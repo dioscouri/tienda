@@ -12,7 +12,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="tax_class_name">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 						</label>
 					</td>
 					<td>
@@ -22,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="tax_class_description">
-						<?php echo JText::_( 'Description' ); ?>:
+						<?php echo JText::_('Description'); ?>:
 						</label>
 					</td>
 					<td>

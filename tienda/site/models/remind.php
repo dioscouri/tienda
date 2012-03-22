@@ -34,7 +34,7 @@ class TiendaModelRemind extends JModel
 		// Validate the e-mail address
 		if (!JMailHelper::isEmailAddress($email))
 		{
-			$this->setError(JText::_( "COM_TIENDA_INVALID_EMAIL_ADDRESS" ));
+			$this->setError(JText::_('COM_TIENDA_INVALID_EMAIL_ADDRESS'));
 			return false;
 		}
 
@@ -44,7 +44,7 @@ class TiendaModelRemind extends JModel
 		// Get the username
 		if (!($username = $db->loadResult()))
 		{
-			$this->setError(JText::_( "COM_TIENDA_COULD_NOT_FIND_EMAIL" ));
+			$this->setError(JText::_('COM_TIENDA_COULD_NOT_FIND_EMAIL'));
 			return false;
 		}
 

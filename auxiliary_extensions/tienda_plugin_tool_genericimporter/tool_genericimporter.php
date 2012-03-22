@@ -150,7 +150,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 					// migrate the data and output the results
 					if( !$this->isLoaded() ) // no importer loaded
 					{
-						$this->setError( JText::_( 'No Importer Loaded' ) );
+						$this->setError( JText::_('No Importer Loaded') );
 						$html .= $this->_renderForm( '1' );
 					}
 					else
@@ -226,7 +226,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 
 		if( !$this->isLoaded() ) // no importer
 		{
-			$response['msg'] = JText::_( 'No Additional Information' );
+			$response['msg'] = JText::_('No Additional Information');
 			echo json_encode( $response );
 			return;
 		}
@@ -249,7 +249,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 	function getHtmlStep( $step, $type )
 	{
 		if( !$this->isLoaded() ) // no importer
-			return JText::_( 'No Additional Information' );
+			return JText::_('No Additional Information');
 
 		return $this->_importer->getHtmlStep( $step, $type );
 	}
@@ -333,7 +333,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 	{
 		if( !$this->isLoaded() ) // no importer loaded :(
 		{
-			$this->setError( JText::_( 'No Importer Loaded' ) );
+			$this->setError( JText::_('No Importer Loaded') );
 			return false;
 		}
 		
@@ -343,7 +343,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 			$success = $this->_importer->prepareData();
 			if( !$success ) // error during preparing data
 			{
-				$this->setError( JText::_( 'Error during preparing data for importing' ).' '.$this->_importer->getError() );
+				$this->setError( JText::_('Error during preparing data for importing').' '.$this->_importer->getError() );
 				return false;
 			}
 			
@@ -351,7 +351,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 			$success = $this->_importer->checkSourceFormat();
 			if( !$success ) // error during checking initial format
 			{
-				$this->setError( JText::_( 'Error during checking format of source' ).' '.$this->_importer->getError() );
+				$this->setError( JText::_('Error during checking format of source').' '.$this->_importer->getError() );
 				return false;
 			}
 			
@@ -363,7 +363,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 			$success = $this->_importer->loadImportingData();
 			if( !$success ) // error during loading importing format
 			{
-				$this->setError( JText::_( 'Error during loading importing data' ).' '.$this->_importer->getError() );
+				$this->setError( JText::_('Error during loading importing data').' '.$this->_importer->getError() );
 				return false;
 			}
 
@@ -371,14 +371,14 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 			$success = $this->_importer->checkIntegrityDb();
 			if( !$success ) // error during checking integrity of data
 			{
-				$this->setError( JText::_( 'Error during checking integirty of db' ).' '.$this->_importer->getError() );
+				$this->setError( JText::_('Error during checking integirty of db').' '.$this->_importer->getError() );
 				return false;
 			}
 			
 			$success = $this->_importer->parseData();
 			if( !$success ) // error during parsing importing format
 			{
-				$this->setError( JText::_( 'Error during parsing importing data' ).' '.$this->_importer->getError() );
+				$this->setError( JText::_('Error during parsing importing data').' '.$this->_importer->getError() );
 				return false;
 			}
 			

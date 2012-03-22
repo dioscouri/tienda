@@ -3,38 +3,38 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
-<h2><?php echo JText::_( "Results"); ?></h2>
+<h2><?php echo JText::_('Results'); ?></h2>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_("ID"); ?>
+                    <?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_("Product Name"); ?>
+                    <?php echo JText::_('Product Name'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Price"); ?>
+                    <?php echo JText::_('Price'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Created"); ?>
+                    <?php echo JText::_('Created'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Expires"); ?>
+                    <?php echo JText::_('Expires'); ?>
                 </th>
                 
                 <th style="text-align: left;">
-                    <?php echo JText::_("User"); ?>
+                    <?php echo JText::_('User'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Order ID"); ?>
+                    <?php echo JText::_('Order ID'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_("Order State"); ?>
+                    <?php echo JText::_('Order State'); ?>
                 </th>
             </tr>
         </thead>
@@ -95,7 +95,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

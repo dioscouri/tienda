@@ -93,12 +93,12 @@ class TiendaViewProducts extends TiendaViewBase
     	$model = $this->getModel();
     	if ($model->getId())
     	{
-    	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_( 'Dashboard' ), false);
+    	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_('Dashboard'), false);
             JToolBarHelper::divider();	
     	}
     	if (!$isNew)
     	{
-        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_( 'Save As' ), false);
+        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('Save As'), false);
     	}
         parent::_formToolbar($isNew);
     }
@@ -109,7 +109,7 @@ class TiendaViewProducts extends TiendaViewBase
      */
 	function _viewToolbar( $isNew=null )
 	{
-        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_( 'Edit' ), false);
+        JToolBarHelper::custom( 'edit', 'edit', 'edit', JText::_('COM_TIENDA_EDIT'), false);
         JToolBarHelper::divider();
         parent::_viewToolbar($isNew);
 	}

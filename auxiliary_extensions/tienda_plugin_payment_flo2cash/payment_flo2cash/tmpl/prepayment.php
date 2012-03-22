@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 <form action='<?php echo $vars->post_url; ?>' method='post'>
 
     <div class="note">
-        <?php echo JText::_( "Flo2Cash secure payment" ); ?>
+        <?php echo JText::_('Flo2Cash secure payment'); ?>
     </div>
    
 	<input type='hidden' name='cmd' value='_xclick'/>	

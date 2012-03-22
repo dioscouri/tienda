@@ -123,7 +123,7 @@ if (!class_exists( 'dscInstaller' )) {
 			if (!$this->setupExtensionsInstall()) {
 				//$this->abort(JText::_('unable to find any packages'));
 				$this->msg->type = 'notice';
-				$this->msg->message = JText::_( 'No Packages Found At' )." ".$this->_extensionsPath;
+				$this->msg->message = JText::_('No Packages Found At')." ".$this->_extensionsPath;
 				return false;
 			}
 	
@@ -289,14 +289,14 @@ if (!class_exists( 'dscInstaller' )) {
 			if ($package['dir'] && JFolder::exists($package['dir'])) {
 				$installer->setPath('source', $package['dir']);
 			} else {
-				$this->setError( "dscInstaller::installExtension: ".JText::_( "Package dir does not exist" ) );
+				$this->setError( "dscInstaller::installExtension: ".JText::_('Package dir does not exist') );
 				return false;
 			}
 	
 			//this makes sure the manifest file is loaded into the installer object
 			if (!$installer->setupInstall()) 
 			{
-				$this->setError( "dscInstaller::installExtension: ".JText::_( "Could not load manifest file" ) );
+				$this->setError( "dscInstaller::installExtension: ".JText::_('Could not load manifest file') );
 				return false;
 			}
 	
@@ -403,7 +403,7 @@ if (!class_exists( 'dscInstaller' )) {
 	                $installer->setPath('source', dirname($file));
 	            }
 	        } else {
-	            $this->setError(JText::_( "Unable to locate manifest file" ));
+	            $this->setError(JText::_('Unable to locate manifest file'));
 	            return false;
 	        }
 	
@@ -420,17 +420,17 @@ if (!class_exists( 'dscInstaller' )) {
 	            //uninstall the extension using the joomla uninstaller
 	            if ($installer->uninstall($manifestInformation["type"], $elementID, $clientid))
 	            {
-	            	$this->setError(JText::_( "ELEMENT UNINSTALLED" ));
+	            	$this->setError(JText::_('ELEMENT UNINSTALLED'));
 	            	return true;
 	            }
                    else
                 {
-                    $this->setError(JText::_( "ELEMENT UNINSTALL FAILED" )." :: ".$installer->getError());
+                    $this->setError(JText::_('ELEMENT UNINSTALL FAILED')." :: ".$installer->getError());
                     return false;
                 }
             }
             
-            $this->setError(JText::_( "ELEMENT NOT UNINSTALLED" ));
+            $this->setError(JText::_('ELEMENT NOT UNINSTALLED'));
             return false;
 	    }
 	    
@@ -805,15 +805,15 @@ if (!class_exists( 'dscInstaller' )) {
 		function _formatMessage() {
 			if (sizeof($this->_installedExtensions) > 0) {
 				$this->msg->type = 'message';
-				$this->msg->message = JText::_( 'Installation Completed' );
+				$this->msg->message = JText::_('Installation Completed');
 				foreach ($this->_installedExtensions as $extension) {
 					$this->msg->message .= "</li>";
-					$this->msg->message .= "<li>".JText::_( 'Installed' )." ".$extension["type"]." ".$extension["element"];
+					$this->msg->message .= "<li>".JText::_('Installed')." ".$extension["type"]." ".$extension["element"];
 				}
 				$this->msg->message .= "</li>";
 			} else {
 				$this->msg->type = 'notice';
-				$this->msg->message = JText::_( 'Nothing Installed');
+				$this->msg->message = JText::_('Nothing Installed');
 			}
 		}
 	

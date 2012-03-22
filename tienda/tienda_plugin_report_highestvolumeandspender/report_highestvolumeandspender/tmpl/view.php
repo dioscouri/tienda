@@ -3,25 +3,25 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
-<h2><?php echo JText::_( "Results"); ?></h2>
+<h2><?php echo JText::_('Results'); ?></h2>
 
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
 			<th style="width: 10px;">
-				<?php echo JText::_("Num"); ?>
+				<?php echo JText::_('Num'); ?>
 			</th>
 			<th>
-				<?php echo JText::_("Customer"); ?>
+				<?php echo JText::_('Customer'); ?>
 			</th>
 			<th style="text-align: center;  width: 200px;">
-				<?php echo JText::_("Total Number Of Orders"); ?>
+				<?php echo JText::_('Total Number Of Orders'); ?>
 			</th>
 			<th style="text-align: center;  width: 200px;">
-				<?php echo JText::_("Total Number Of Purchases"); ?>
+				<?php echo JText::_('Total Number Of Purchases'); ?>
 			</th>
 			<th style="width: 200px;; text-align: right;">
-				<?php echo JText::_("Total Amount Spent"); ?>
+				<?php echo JText::_('Total Amount Spent'); ?>
 			</th>
 		</tr>
 	</thead>
@@ -60,7 +60,7 @@
 
 		<?php if (!count(@$items)) : ?>
 		<tr>
-			<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+			<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 			</td>
 		</tr>
 		<?php endif; ?>

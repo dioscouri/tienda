@@ -42,18 +42,18 @@ class TiendaTableCoupons extends TiendaTable
 		$this->filterHTML( 'coupon_name' );
 		if ( empty( $this->coupon_name ) )
 		{
-			$this->setError( JText::_( "Name Required" ) );
+			$this->setError( JText::_('Name Required') );
 			return false;
 		}
 		$this->filterHTML( 'coupon_code' );
 		if (empty($this->coupon_code) && $this->coupon_automatic != 1)
         {
-            $this->setError( JText::_( "Code Required" ) );
+            $this->setError( JText::_('Code Required') );
             return false;
         }
         if($this->coupon_group == 'shipping' && $this->coupon_type != "0")
         {
-        	$this->setError( JText::_( "Shipping can only be Per Order" ) );
+        	$this->setError( JText::_('Shipping can only be Per Order') );
             return false;
         }
 		return true;

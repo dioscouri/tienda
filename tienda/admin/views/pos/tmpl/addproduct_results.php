@@ -5,7 +5,7 @@
 <div class="table">
     <div class="row">
         <div class="cell step_body">
-            <h2><?php echo JText::_( "SEARCH_RESULTS" ); ?></h2>
+            <h2><?php echo JText::_('SEARCH_RESULTS'); ?></h2>
             
             <table class="adminlist">
                 <thead>
@@ -40,7 +40,7 @@
                         </td>
                         <td style="text-align: center;">
                             <a href="index.php?option=com_tienda&view=pos&task=viewproduct&id=<?php echo $item->product_id; ?>&tmpl=component">
-                                <?php echo JText::_( "ADD_PRODUCT" ) ?>
+                                <?php echo JText::_('ADD_PRODUCT') ?>
                             </a>
                         </td>
                     </tr>
@@ -50,7 +50,7 @@
                     <?php if (!count(@$items)) : ?>
                     <tr>
                         <td colspan="10" align="center">
-                            <?php echo JText::_('NO ITEMS FOUND'); ?>
+                            <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                         </td>
                     </tr>
                     <?php endif; ?>

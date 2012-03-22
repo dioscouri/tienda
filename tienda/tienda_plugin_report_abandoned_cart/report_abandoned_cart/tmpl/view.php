@@ -5,20 +5,20 @@
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
-			<th style="width: 5px;"><?php echo JText::_("Num"); ?>
+			<th style="width: 5px;"><?php echo JText::_('Num'); ?>
 			</th>
-			<th style="width: 50px;"><?php echo JText::_("ID"); ?>
+			<th style="width: 50px;"><?php echo JText::_('ID'); ?>
 			</th>
-			<th style="text-align: left;"><?php echo JText::_("Name"); ?>
+			<th style="text-align: left;"><?php echo JText::_('Name'); ?>
 			</th>
-			<th style="text-align: left; width: 267px;"><?php echo JText::_("COM_TIENDA_EMAIL"); ?>
+			<th style="text-align: left; width: 267px;"><?php echo JText::_('COM_TIENDA_EMAIL'); ?>
 			</th>
-			<th style="text-align: left;"><?php echo JText::_("Date"); ?>
+			<th style="text-align: left;"><?php echo JText::_('Date'); ?>
 			</th>
 
-			<th style="width: 100px;"><?php echo JText::_("Numbers of Items"); ?>
+			<th style="width: 100px;"><?php echo JText::_('Numbers of Items'); ?>
 			</th>
-			<th style="width: 85px;"><?php echo JText::_("Subtotal"); ?>
+			<th style="width: 85px;"><?php echo JText::_('Subtotal'); ?>
 			</th>
 		</tr>
 	</thead>
@@ -55,7 +55,7 @@
 
 		<?php if (!count(@$items)) : ?>
 		<tr>
-			<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+			<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 			</td>
 		</tr>
 		<?php endif; ?>

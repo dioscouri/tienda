@@ -49,12 +49,12 @@ class TiendaSelect extends JHTMLSelect
 			$list[] =  self::option('', "- ".JText::_( $title )." -" );
 		}
 
-		$list[] = JHTML::_('select.option',  'today', JText::_( "Today" ) );
-		$list[] = JHTML::_('select.option',  'yesterday', JText::_( "Yesterday" ) );
-		$list[] = JHTML::_('select.option',  'last_seven', JText::_( "Last Seven Days" ) );
-		$list[] = JHTML::_('select.option',  'last_thirty', JText::_( "Last Thirty Days" ) );
-		$list[] = JHTML::_('select.option',  'ytd', JText::_( "Year to Date" ) );
-		$list[] = JHTML::_('select.option',  'years', JText::_( "Years" ) );
+		$list[] = JHTML::_('select.option',  'today', JText::_('Today') );
+		$list[] = JHTML::_('select.option',  'yesterday', JText::_('Yesterday') );
+		$list[] = JHTML::_('select.option',  'last_seven', JText::_('Last Seven Days') );
+		$list[] = JHTML::_('select.option',  'last_thirty', JText::_('Last Thirty Days') );
+		$list[] = JHTML::_('select.option',  'ytd', JText::_('Year to Date') );
+		$list[] = JHTML::_('select.option',  'years', JText::_('Years') );
 
 		return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
 	}
@@ -74,12 +74,12 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'custom', JText::_( "Custom" ) );
-        $list[] = JHTML::_('select.option',  'yesterday', JText::_( "Yesterday" ) );
-        $list[] = JHTML::_('select.option',  'last_week', JText::_( "Last Week" ) );
-        $list[] = JHTML::_('select.option',  'last_month', JText::_( "Last Month" ) );
-        $list[] = JHTML::_('select.option',  'ytd', JText::_( "Year to Date" ) );
-        $list[] = JHTML::_('select.option',  'all', JText::_( "All Time" ) );
+        $list[] = JHTML::_('select.option',  'custom', JText::_('Custom') );
+        $list[] = JHTML::_('select.option',  'yesterday', JText::_('Yesterday') );
+        $list[] = JHTML::_('select.option',  'last_week', JText::_('Last Week') );
+        $list[] = JHTML::_('select.option',  'last_month', JText::_('Last Month') );
+        $list[] = JHTML::_('select.option',  'ytd', JText::_('Year to Date') );
+        $list[] = JHTML::_('select.option',  'all', JText::_('All Time') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -99,9 +99,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created', JText::_( "Created" ) );
-        $list[] = JHTML::_('select.option',  'modified', JText::_( "Modified" ) );
-        $list[] = JHTML::_('select.option',  'shipped', JText::_( "Shipped" ) );
+        $list[] = JHTML::_('select.option',  'created', JText::_('Created') );
+        $list[] = JHTML::_('select.option',  'modified', JText::_('Modified') );
+        $list[] = JHTML::_('select.option',  'shipped', JText::_('Shipped') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -121,7 +121,7 @@ class TiendaSelect extends JHTMLSelect
         $list = array();
 		if ($allowAny) {
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'category_id', 'category_name' );
-			$list[] =  self::option('none', "- ".JText::_( 'Orphan products' )." -", 'category_id', 'category_name' );
+			$list[] =  self::option('none', "- ".JText::_('Orphan products')." -", 'category_id', 'category_name' );
 		}
  	 	if ($allowNone) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
@@ -240,7 +240,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select Country' )." -", 'country_id', 'country_name' );
+			$list[] =  self::option('', "- ".JText::_('Select Country')." -", 'country_id', 'country_name' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -273,7 +273,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select Geo Zone Type' )." -", 'geozonetype_id', 'geozonetype_name' );
+			$list[] =  self::option('', "- ".JText::_('Select Geo Zone Type')." -", 'geozonetype_id', 'geozonetype_name' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -303,7 +303,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select Zone' )." -", 'zone_id', 'zone_name' );
+			$list[] =  self::option('', "- ".JText::_('Select Zone')." -", 'zone_id', 'zone_name' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -348,7 +348,7 @@ class TiendaSelect extends JHTMLSelect
  		
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select Geo Zone' )." -", 'geozone_id', 'geozone_name' );
+			$list[] =  self::option('', "- ".JText::_('Select Geo Zone')." -", 'geozone_id', 'geozone_name' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -378,7 +378,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select Currency' )." -", 'currency_id', 'currency_code' );
+			$list[] =  self::option('', "- ".JText::_('Select Currency')." -", 'currency_id', 'currency_code' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -408,9 +408,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created_date', JText::_( "Date" ) );
-        $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_( "Rating" ) );
-        $list[] = JHTML::_('select.option',  'helpful_votes_total', JText::_( "Helpfulness" ) );
+        $list[] = JHTML::_('select.option',  'created_date', JText::_('Date') );
+        $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_('Rating') );
+        $list[] = JHTML::_('select.option',  'helpful_votes_total', JText::_('Helpfulness') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }	
@@ -468,7 +468,7 @@ class TiendaSelect extends JHTMLSelect
         }
         
 		if($addNew) {
-			$list[] =  self::option('0',JText::_( 'New Address' ), 'address_id', 'address_name' );
+			$list[] =  self::option('0',JText::_('New Address'), 'address_id', 'address_name' );
 		}
         if (count($list) == 1)
         {
@@ -496,7 +496,7 @@ class TiendaSelect extends JHTMLSelect
     {
         if (empty($user_id))
         {
-            return JText::_("Invalid User");
+            return JText::_('Invalid User');
         }
 
         $list = array();
@@ -537,9 +537,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -", 'value', 'text' );
         }
 
-        $list[] = JHTML::_('select.option',  'flag_shipping', JText::_( "Use as Default for Shipping" ) );
-        $list[] = JHTML::_('select.option',  'flag_billing', JText::_( "Use as Default for Billing" ) );
-        $list[] = JHTML::_('select.option',  'flag_deleted', JText::_( "Delete" ) );
+        $list[] = JHTML::_('select.option',  'flag_shipping', JText::_('Use as Default for Shipping') );
+        $list[] = JHTML::_('select.option',  'flag_billing', JText::_('Use as Default for Billing') );
+        $list[] = JHTML::_('select.option',  'flag_deleted', JText::_('Delete') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -557,7 +557,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( 'Select State' )." -", 'order_state_id', 'order_state_name' );
+			$list[] =  self::option('', "- ".JText::_('Select State')." -", 'order_state_id', 'order_state_name' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -767,11 +767,11 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'D', JText::_( "Day" ) );
-        $list[] = JHTML::_('select.option',  'W', JText::_( "Week" ) );
-        $list[] = JHTML::_('select.option',  'M', JText::_( "Month" ) );
-        $list[] = JHTML::_('select.option',  'Y', JText::_( "Year" ) );
-        $list[] = JHTML::_('select.option',  'I', JText::_( "UNIT ISSUE" ) );
+        $list[] = JHTML::_('select.option',  'D', JText::_('Day') );
+        $list[] = JHTML::_('select.option',  'W', JText::_('Week') );
+        $list[] = JHTML::_('select.option',  'M', JText::_('Month') );
+        $list[] = JHTML::_('select.option',  'Y', JText::_('Year') );
+        $list[] = JHTML::_('select.option',  'I', JText::_('UNIT ISSUE') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -794,13 +794,13 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'relates', JText::_( "Relationship Relates" ) );
-        $list[] = JHTML::_('select.option',  'requires', JText::_( "Relationship Requires" ) );
-        $list[] = JHTML::_('select.option',  'required_by', JText::_( "Relationship required_by" ) );
-        $list[] = JHTML::_('select.option',  'requires_past', JText::_( "Relationship requires_past" ) );
-        $list[] = JHTML::_('select.option',  'requires_current', JText::_( "Relationship requires_current" ) );
-        $list[] = JHTML::_('select.option',  'child', JText::_( "Relationship Child" ) );
-        $list[] = JHTML::_('select.option',  'parent', JText::_( "Relationship Parent" ) );
+        $list[] = JHTML::_('select.option',  'relates', JText::_('Relationship Relates') );
+        $list[] = JHTML::_('select.option',  'requires', JText::_('Relationship Requires') );
+        $list[] = JHTML::_('select.option',  'required_by', JText::_('Relationship required_by') );
+        $list[] = JHTML::_('select.option',  'requires_past', JText::_('Relationship requires_past') );
+        $list[] = JHTML::_('select.option',  'requires_current', JText::_('Relationship requires_current') );
+        $list[] = JHTML::_('select.option',  'child', JText::_('Relationship Child') );
+        $list[] = JHTML::_('select.option',  'parent', JText::_('Relationship Parent') );
                 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -878,10 +878,10 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "Redirect to Product Page" ) );
-        // $list[] = JHTML::_('select.option',  'lightbox', JText::_( "Display Minicart in Lightbox" ) );
-        $list[] = JHTML::_('select.option',  'redirect', JText::_( "Redirect to Cart" ) );
-        $list[] = JHTML::_('select.option',  'samepage', JText::_( "Return on the same page" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_('Redirect to Product Page') );
+        // $list[] = JHTML::_('select.option',  'lightbox', JText::_('Display Minicart in Lightbox') );
+        $list[] = JHTML::_('select.option',  'redirect', JText::_('Redirect to Cart') );
+        $list[] = JHTML::_('select.option',  'samepage', JText::_('Return on the same page') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -901,11 +901,11 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "Do Not Display Tax" ) );
-        $list[] = JHTML::_('select.option',  '1', JText::_( "Display Tax Next to Price" ) );
-        $list[] = JHTML::_('select.option',  '2', JText::_( "Sum the Tax and Product Price" ) );
-        $list[] = JHTML::_('select.option',  '3', JText::_( "Sum the Tax and Product Price Including Text" ) );
-        $list[] = JHTML::_('select.option',  '4', JText::_( "Display Both Price without Tax and Price Including Tax" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_('Do Not Display Tax') );
+        $list[] = JHTML::_('select.option',  '1', JText::_('Display Tax Next to Price') );
+        $list[] = JHTML::_('select.option',  '2', JText::_('Sum the Tax and Product Price') );
+        $list[] = JHTML::_('select.option',  '3', JText::_('Sum the Tax and Product Price Including Text') );
+        $list[] = JHTML::_('select.option',  '4', JText::_('Display Both Price without Tax and Price Including Tax') );
                 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -925,8 +925,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'image', JText::_( "Image" ) );
-        $list[] = JHTML::_('select.option',  'button', JText::_( "Button" ) );
+        $list[] = JHTML::_('select.option',  'image', JText::_('Image') );
+        $list[] = JHTML::_('select.option',  'button', JText::_('Button') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1011,8 +1011,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'price', JText::_( "Price" ) );
-        $list[] = JHTML::_('select.option',  'shipping', JText::_( "Shipping" ) );
+        $list[] = JHTML::_('select.option',  'price', JText::_('COM_TIENDA_PRICE') );
+        $list[] = JHTML::_('select.option',  'shipping', JText::_('Shipping') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1035,8 +1035,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "Per Order" ) );
-        $list[] = JHTML::_('select.option',  '1', JText::_( "Per Product" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_('Per Order') );
+        $list[] = JHTML::_('select.option',  '1', JText::_('Per Product') );
 
         return self::radiolist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1056,8 +1056,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created', JText::_( "Created" ) );
-        $list[] = JHTML::_('select.option',  'expires', JText::_( "Expires" ) );
+        $list[] = JHTML::_('select.option',  'created', JText::_('Created') );
+        $list[] = JHTML::_('select.option',  'expires', JText::_('Expires') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1077,8 +1077,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'products', JText::_( "Products" ) );
-        //$list[] = JHTML::_('select.option',  'addresses', JText::_( "Addresses" ) );
+        $list[] = JHTML::_('select.option',  'products', JText::_('Products') );
+        //$list[] = JHTML::_('select.option',  'addresses', JText::_('Addresses') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1098,13 +1098,13 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'int', JText::_( "Int" ) );
-        $list[] = JHTML::_('select.option',  'varchar', JText::_( "String" ) );
-        $list[] = JHTML::_('select.option',  'hidden', JText::_( "Hidden" ) );
-        $list[] = JHTML::_('select.option',  'text', JText::_( "Textarea" ) );
-        $list[] = JHTML::_('select.option',  'decimal', JText::_( "Decimal" ) );
-        $list[] = JHTML::_('select.option',  'datetime', JText::_( "Date / Time" ) );
-        $list[] = JHTML::_('select.option',  'bool', JText::_( "Boolean" ) );
+        $list[] = JHTML::_('select.option',  'int', JText::_('Int') );
+        $list[] = JHTML::_('select.option',  'varchar', JText::_('String') );
+        $list[] = JHTML::_('select.option',  'hidden', JText::_('Hidden') );
+        $list[] = JHTML::_('select.option',  'text', JText::_('Textarea') );
+        $list[] = JHTML::_('select.option',  'decimal', JText::_('Decimal') );
+        $list[] = JHTML::_('select.option',  'datetime', JText::_('Date / Time') );
+        $list[] = JHTML::_('select.option',  'bool', JText::_('Boolean') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1124,9 +1124,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  0, JText::_( "None" ) );
-        $list[] = JHTML::_('select.option',  1, JText::_( "Admin" ) );
-        $list[] = JHTML::_('select.option',  2, JText::_( "User" ) );
+        $list[] = JHTML::_('select.option',  0, JText::_('None') );
+        $list[] = JHTML::_('select.option',  1, JText::_('Admin') );
+        $list[] = JHTML::_('select.option',  2, JText::_('User') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1148,14 +1148,14 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'orders', JText::_( "Orders" ) );
-        $list[] = JHTML::_('select.option',  'orderitems', JText::_( "Ordered Items" ) );
-        $list[] = JHTML::_('select.option',  'products', JText::_( "Products" ) );
-        $list[] = JHTML::_('select.option',  'orderpayments', JText::_( "Payments" ) );
-        $list[] = JHTML::_('select.option',  'subscriptions', JText::_( "Subscriptions" ) );
-        $list[] = JHTML::_('select.option',  'coupons', JText::_( "Coupons" ) );
-        $list[] = JHTML::_('select.option',  'users', JText::_( "Users" ) );
-        $list[] = JHTML::_('select.option',  'categories', JText::_( "Categories" ) );
+        $list[] = JHTML::_('select.option',  'orders', JText::_('Orders') );
+        $list[] = JHTML::_('select.option',  'orderitems', JText::_('Ordered Items') );
+        $list[] = JHTML::_('select.option',  'products', JText::_('Products') );
+        $list[] = JHTML::_('select.option',  'orderpayments', JText::_('COM_TIENDA_PAYMENTS') );
+        $list[] = JHTML::_('select.option',  'subscriptions', JText::_('Subscriptions') );
+        $list[] = JHTML::_('select.option',  'coupons', JText::_('Coupons') );
+        $list[] = JHTML::_('select.option',  'users', JText::_('Users') );
+        $list[] = JHTML::_('select.option',  'categories', JText::_('Categories') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1203,7 +1203,7 @@ class TiendaSelect extends JHTMLSelect
     {
         $list = array();
         if($allowAny) {
-            $list[] =  self::option('', JText::_( 'Ordering' ) );
+            $list[] =  self::option('', JText::_('Ordering') );
         }
 
       	$products = JTable::getInstance( 'Products', 'TiendaTable' ); 
@@ -1235,10 +1235,10 @@ class TiendaSelect extends JHTMLSelect
     public static function addressShowList( $selected, $name = 'show_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null )
     {
         $list = array();
-        $list[] = JHTML::_('select.option',  '0', JText::_( "None" ) );
-        $list[] = JHTML::_('select.option',  '1', JText::_( "Billing" ) );
-        $list[] = JHTML::_('select.option',  '2', JText::_( "Shipping" ) );
-        $list[] = JHTML::_('select.option',  '3', JText::_( "Both" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_('None') );
+        $list[] = JHTML::_('select.option',  '1', JText::_('Billing') );
+        $list[] = JHTML::_('select.option',  '2', JText::_('Shipping') );
+        $list[] = JHTML::_('select.option',  '3', JText::_('Both') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1339,9 +1339,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  '0', JText::_( "Detect Automatically" ) );
-        $list[] = JHTML::_('select.option',  'multiupload', JText::_( "MultiUpload" ) );
-        $list[] = JHTML::_('select.option',  'uploadify', JText::_( "Uploadify" ) );
+        $list[] = JHTML::_('select.option',  '0', JText::_('Detect Automatically') );
+        $list[] = JHTML::_('select.option',  'multiupload', JText::_('MultiUpload') );
+        $list[] = JHTML::_('select.option',  'uploadify', JText::_('Uploadify') );
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1388,10 +1388,10 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'active', JText::_( "Active" ) );
-        $list[] = JHTML::_('select.option',  'disabled', JText::_( "Disabled" ) );
-        $list[] = JHTML::_('select.option',  'used', JText::_( "Used" ) );
-        $list[] = JHTML::_('select.option',  'withdrawable', JText::_( "Withdrawable" ) );
+        $list[] = JHTML::_('select.option',  'active', JText::_('Active') );
+        $list[] = JHTML::_('select.option',  'disabled', JText::_('Disabled') );
+        $list[] = JHTML::_('select.option',  'used', JText::_('Used') );
+        $list[] = JHTML::_('select.option',  'withdrawable', JText::_('Withdrawable') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1424,7 +1424,7 @@ class TiendaSelect extends JHTMLSelect
 		public static function taxratespredecessors( $selected, $name = 'level', $tax_class_id = null, $geozone_id = null, $tax_type = null, $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
 		{
         $list = array();
-        $list[] =  self::option( 0, JText::_( 'Root' ) );
+        $list[] =  self::option( 0, JText::_('Root') );
 
         $db = JFactory::getDbo();
         Tienda::load( 'TiendaQuery', 'library.query' );

@@ -228,7 +228,7 @@ class TiendaViewBase extends JView
 		// set the required image
 		// TODO Fix this
 			$required = new stdClass();
-			$required->text = JText::_( 'Required' );
+			$required->text = JText::_('Required');
 			$required->image = "<img src='".JURI::root()."/media/com_tienda/images/required_16.png' alt='{$required->text}'>";
 			$this->assign('required', $required );
 	}
@@ -240,7 +240,7 @@ class TiendaViewBase extends JView
 	function _defaultToolbar()
 	{
 		JToolBarHelper::editList();
-		JToolBarHelper::deleteList( JText::_( 'VALIDDELETEITEMS' ) );
+		JToolBarHelper::deleteList( JText::_('VALIDDELETEITEMS') );
 		JToolBarHelper::addnew();
 	}
 
@@ -256,19 +256,19 @@ class TiendaViewBase extends JView
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_( 'Save + Prev' ), false);
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('Save + Prev'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_( 'Save + Next' ), false);
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('Save + Next'), false);
         }
         if ($divider)
         {
             JToolBarHelper::divider();
         }
 	    
-		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_( 'Save + New' ), false);
+		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_('Save + New'), false);
 		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
 
@@ -278,7 +278,7 @@ class TiendaViewBase extends JView
 		}
 			else
 		{
-			JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+			JToolBarHelper::cancel( 'close', JText::_('Close') );
 		}
 	}
 
@@ -294,18 +294,18 @@ class TiendaViewBase extends JView
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('prev', "prev", "prev", JText::_( 'Prev' ), false);
+            JToolBarHelper::custom('prev', "prev", "prev", JText::_('Prev'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('next', "next", "next", JText::_( 'Next' ), false);  
+            JToolBarHelper::custom('next', "next", "next", JText::_('Next'), false);  
         }
         if ($divider)
         {
             JToolBarHelper::divider();
         }
         
-        JToolBarHelper::cancel( 'close', JText::_( 'Close' ) );
+        JToolBarHelper::cancel( 'close', JText::_('Close') );
 	}
 }

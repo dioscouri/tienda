@@ -166,7 +166,7 @@ class TiendaTable extends JTable
 			if (empty($oid))
 			{
 				// if still empty, fail
-				$this->setError( JText::_( "Cannot load with empty key" ) );
+				$this->setError( JText::_('Cannot load with empty key') );
                 return false;
 			}
 		}

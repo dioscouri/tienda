@@ -14,7 +14,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="service_name">
-				<?php echo JText::_( 'Name' ); ?>:
+				<?php echo JText::_('Name'); ?>:
 				</label>
 			</td>
 			<td>
@@ -24,7 +24,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="service_code">
-                <?php echo JText::_( 'Service Code' ); ?>:
+                <?php echo JText::_('Service Code'); ?>:
                 </label>
             </td>
             <td>

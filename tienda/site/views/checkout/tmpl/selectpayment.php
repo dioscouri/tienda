@@ -15,7 +15,7 @@
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_( "Select Payment Method" ); ?></span>
+    <span><?php echo JText::_('Select Payment Method'); ?></span>
 </div>
     
     <!-- Progress Bar -->
@@ -25,7 +25,7 @@
 
     <div id='onCheckoutReview_wrapper'>
         <!--    ORDER SUMMARY   -->
-        <h3><?php echo JText::_("Order Summary") ?></h3>
+        <h3><?php echo JText::_('Order Summary') ?></h3>
         <div id='onCheckoutCart_wrapper'> 
             <?php
                 echo @$this->orderSummary;
@@ -43,7 +43,7 @@
         <!-- COUPON CODE -->
         <div id="coupon_code_area">
             <div id="coupon_code_form">
-            <h3><?php echo JText::_("Coupon Code"); ?></h3>
+            <h3><?php echo JText::_('Coupon Code'); ?></h3>
             <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
             <?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
             <div id="coupon_code_help"><?php echo JText::_($string); ?></div>
@@ -61,8 +61,8 @@
 	            <!-- STORE CREDITS -->
 	            <div id="credits_area" class="address">
 	                <div id="credits_form">
-	                <h3><?php echo JText::_("Store Credit"); ?></h3>
-	                <div id="credit_help"><?php echo sprintf( JText::_( "You Have x Store Credit" ), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
+	                <h3><?php echo JText::_('Store Credit'); ?></h3>
+	                <div id="credit_help"><?php echo sprintf( JText::_('You Have x Store Credit'), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 	                <div id="credit_message"></div>
 	                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 	                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
@@ -74,10 +74,10 @@
         <?php endif; ?>
         
 	   <div id="payment_info" class="address">
-		<h3><?php echo JText::_("Billing Information"); ?></h3>
-		<strong><?php echo JText::_("Total Amount Due"); ?></strong>:<span id='totalAmountDue'><?php echo TiendaHelperBase::currency( @$this->order->order_total ); ?></span><br/>
+		<h3><?php echo JText::_('Billing Information'); ?></h3>
+		<strong><?php echo JText::_('Total Amount Due'); ?></strong>:<span id='totalAmountDue'><?php echo TiendaHelperBase::currency( @$this->order->order_total ); ?></span><br/>
 		<?php if (!empty($this->showBilling)) { ?>
-        <strong><?php echo JText::_("Billing Address"); ?></strong>:<br/> 
+        <strong><?php echo JText::_('Billing Address'); ?></strong>:<br/> 
                     <?php
                     echo @$billing_info['first_name']." ". @$billing_info['last_name']."<br/>";
                     echo @$billing_info['address_1'].", ";
@@ -92,10 +92,10 @@
 	   </div>
 
         <div id="shipping_info" class="address">
-        <h3><?php echo JText::_("Shipping Information"); ?></h3>
+        <h3><?php echo JText::_('Shipping Information'); ?></h3>
         <?php if (!empty($this->showShipping)) { ?>
-        <strong><?php echo JText::_("Shipping Method"); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
-        <strong><?php echo JText::_("Shipping Address"); ?></strong>:<br/> 
+        <strong><?php echo JText::_('Shipping Method'); ?></strong>: <?php echo JText::_( $this->shipping_method_name ); ?><br/>
+        <strong><?php echo JText::_('Shipping Address'); ?></strong>:<br/> 
                     <?php
                     echo @$shipping_info['first_name']." ". @$shipping_info['last_name']."<br/>";
                     echo @$shipping_info['address_1'].", ";
@@ -106,7 +106,7 @@
                     echo @$shipping_info['country_name'];
                     ?>
         <?php } else { ?>
-        <?php echo JText::_( "No Shipping Required" ); ?>
+        <?php echo JText::_('No Shipping Required'); ?>
         <?php } ?>
         </div>
     
@@ -115,7 +115,7 @@
 	    	if(!empty($this->customer_note)){
 	    		?>
 	   			<div id="shipping_comments">
-	    		<h3><?php echo JText::_("Shipping Notes"); ?></h3><br/>
+	    		<h3><?php echo JText::_('Shipping Notes'); ?></h3><br/>
 	 			<?php echo $this->customer_note; ?>
 	    		</div>
 	    	<?php } ?>
@@ -128,7 +128,7 @@
 	    		$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
 	    		?>
         	 	<div id="shipping_terms">
-            		<h3><?php echo JText::_("Terms & Conditions"); ?></h3>
+            		<h3><?php echo JText::_('Terms & Conditions'); ?></h3>
          			<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
          			<br/>
          			<br/>
@@ -137,7 +137,7 @@
         
         <?php if (!empty($this->showPayment)) { ?>
             <!--    PAYMENT METHODS   -->        
-            <h3><?php echo JText::_("Payment Method") ?></h3>
+            <h3><?php echo JText::_('Payment Method') ?></h3>
             <?php echo $this->payment_options_html; ?>
         <?php } ?>
     </div>
@@ -149,7 +149,7 @@
         <?php endif; ?>
 
     <p>
-        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm ); tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_( 'VALIDATING' );?>' );" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
+        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm ); tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_('VALIDATING');?>' );" value="<?php echo JText::_('Click Here to Review Order Before Submitting Payment'); ?>" />
         <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a>
     </p>
         

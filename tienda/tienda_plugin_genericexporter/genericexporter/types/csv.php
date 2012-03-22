@@ -34,7 +34,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 		$export = new JObject();
 		if(empty($this->_model))
 		{
-			$this->_errors = JText::_("PLEASE SET A MODEL IN THE PLUGIN METHOD PROCESSEXPORT");
+			$this->_errors = JText::_('PLEASE SET A MODEL IN THE PLUGIN METHOD PROCESSEXPORT');
 			return $this;
 		}
 		
@@ -49,7 +49,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
       	
 		if(empty($list))
 		{
-			$this->_errors = JText::_("No Data Found");
+			$this->_errors = JText::_('No Data Found');
 			return $this;
 		}
   
@@ -76,7 +76,7 @@ class TiendaGenericExporterTypeCSV extends TiendaGenericExporterTypeBase
 	     	
 	     if(!$res = TiendaCSV::FromArrayToFile( 'tmp'.DS.$f_name, $arr, $header ))
 	     {
-	     	$this->_errors = JText::_("UNABLE TO WRITE FILE");	     	
+	     	$this->_errors = JText::_('UNABLE TO WRITE FILE');	     	
 	     }
 	     
 	     return $this;

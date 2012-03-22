@@ -189,28 +189,28 @@ class plgTiendaPayment_ccoffline extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA CC OFFLINE PAYMENT TYPE INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA CC OFFLINE PAYMENT TYPE INVALID')."</li>";
                     }
                   break;
                 case "cardnum":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA CC OFFLINE PAYMENT NUMBER INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA CC OFFLINE PAYMENT NUMBER INVALID')."</li>";
                     } 
                   break;
                 case "cardexp":
                     if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 4) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA CC OFFLINE PAYMENT EXPIRATION DATE INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA CC OFFLINE PAYMENT EXPIRATION DATE INVALID')."</li>";
                     } 
                   break;
                 case "cardcvv":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA CC OFFLINE PAYMENT CVV INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA CC OFFLINE PAYMENT CVV INVALID')."</li>";
                     } 
                   break;
                 default:

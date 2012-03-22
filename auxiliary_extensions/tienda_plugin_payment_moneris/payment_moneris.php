@@ -176,11 +176,11 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				$html = $this->_getLayout('message', $vars);
 				break;
 			case "cancel":
-				$vars->message = JText::_( 'MONERIS Message Cancel' );
+				$vars->message = JText::_('MONERIS Message Cancel');
 				$html = $this->_getLayout('message', $vars);
 				break;
 			default:
-				$vars->message = JText::_( 'Paypal Message Invalid Action' );
+				$vars->message = JText::_('Paypal Message Invalid Action');
 				$html = $this->_getLayout('MONERIS', $vars);
 				break;
 		}
@@ -197,12 +197,12 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	function _cardTypesField( $field='card_type', $default='', $options='' )
 	{
 		$types = array();
-		$types[] = JHTML::_('select.option', 'Visa', JText::_( "Visa" ) );
-		$types[] = JHTML::_('select.option', 'Mastercard', JText::_( "Mastercard" ) );
-		$types[] = JHTML::_('select.option', 'AmericanExpress', JText::_( "American Express" ) );
-		$types[] = JHTML::_('select.option', 'Discover', JText::_( "Discover" ) );
-		$types[] = JHTML::_('select.option', 'DinersClub', JText::_( "Diners Club" ) );
-		$types[] = JHTML::_('select.option', 'JCB', JText::_( "JCB" ) );
+		$types[] = JHTML::_('select.option', 'Visa', JText::_('Visa') );
+		$types[] = JHTML::_('select.option', 'Mastercard', JText::_('Mastercard') );
+		$types[] = JHTML::_('select.option', 'AmericanExpress', JText::_('American Express') );
+		$types[] = JHTML::_('select.option', 'Discover', JText::_('Discover') );
+		$types[] = JHTML::_('select.option', 'DinersClub', JText::_('Diners Club') );
+		$types[] = JHTML::_('select.option', 'JCB', JText::_('JCB') );
 
 		$return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
 		return $return;
@@ -256,16 +256,16 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
             			if (!$user->id) {
             				if (!isset($data[$key]) || !JString::strlen($data[$key])) {
             					$object->error = true;
-            					$object->message .= "<li>".JText::_( "Email Address Required" )."</li>";
+            					$object->message .= "<li>".JText::_('Email Address Required')."</li>";
             				}
             				if ($emailExists = TiendaHelperUser::emailExists($data[$key])) {
             					$object->error = true;
-            					$object->message .= '<li>'.JText::_( 'Email Exists' ).'</li>';
+            					$object->message .= '<li>'.JText::_('Email Exists').'</li>';
             				}
             				jimport( 'joomla.mail.helper' );
             				if (!$isValidEmail = JMailHelper::isEmailAddress($data[$key])) {
             					$object->error = true;
-            					$object->message .= "<li>".JText::_( "Email Address Invalid" )."</li>";
+            					$object->message .= "<li>".JText::_('Email Address Invalid')."</li>";
             				}
             			}
             			break;
@@ -523,7 +523,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			{
 				// not sent
 				// invalid
-				$error = JText::_( "Payment Request Not Sent" );
+				$error = JText::_('Payment Request Not Sent');
 			}
 			elseif ($responseCode < '50')
 			{
@@ -546,7 +546,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				if (empty($error))
 				{
 					// payment processed successfully
-					$error = JText::_( " Processed Successfully" );
+					$error = JText::_(' Processed Successfully');
 					$error .= $this->_displayArticle();
 				}
 
@@ -573,21 +573,21 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				else {
 					// TODO when the response is comming null
 
-				 $error = JText::_( "Payment Declined Recipit could not recived or null  " );
+				 $error = JText::_('Payment Declined Recipit could not recived or null  ');
 				 // saving the orderpayment_id which will use to update the Transaction fail condition
 				 //                $session =& JFactory::getSession();
 				 //                var_dump($session);
 				 //				$data->orderpayment_id=; // Set the order pament Id from session which saved at the time of payment creation
 				 return $error ;
 				}
-				$error = $this->_saveTransaction( $data, array(JText::_( "Payment Declined" )) );
-				$error = JText::_( "Payment Declined" );
+				$error = $this->_saveTransaction( $data, array(JText::_('Payment Declined')) );
+				$error = JText::_('Payment Declined');
 			}
 			else
 			{
 				// should never end up here,
 				// but is invalid if it does
-				$error = JText::_( "Payment Invalid" );
+				$error = JText::_('Payment Invalid');
 			}
 
 			return $error;

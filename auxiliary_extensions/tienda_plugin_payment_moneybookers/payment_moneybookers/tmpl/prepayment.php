@@ -19,13 +19,13 @@ defined('_JEXEC') or die('Restricted access');
 	
 	 	<?php  if ($vars->mixed_cart) { ?>
 	    	<div class="note_green">
-	        	<span class="alert"><?php  echo JText::_( "TIENDA MONEYBOOKERS PLEASE NOTE" ) ?></span>
-	            <?php echo JText::_( "TIENDA MONEYBOOKERS MIXED CART MESSAGE" ); ?>
+	        	<span class="alert"><?php  echo JText::_('TIENDA MONEYBOOKERS PLEASE NOTE') ?></span>
+	            <?php echo JText::_('TIENDA MONEYBOOKERS MIXED CART MESSAGE'); ?>
 	        </div>
 	    <?php }  ?>
 	    <div align="center" id="payment_moneybookers">
 	    	<div align="center" class="prepayment_message">
-	       		<?php  echo JText::_( "Tienda Moneybookers Payment Standard Preparation Message" ); ?>
+	       		<?php  echo JText::_('Tienda Moneybookers Payment Standard Preparation Message'); ?>
 	       	</div>
 	       	<div class="prepayment_action">
 	           	<div align="center">
@@ -35,15 +35,15 @@ defined('_JEXEC') or die('Restricted access');
 	       			<?php /*
 	       				if ( $vars->is_recurring )
 	       				{
-	       					echo "<b>".JText::_( "Recurring Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->rec_amount ); 
+	       					echo "<b>".JText::_('Recurring Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->rec_amount ); 
 	       				}
 	       				elseif ( $vars->mixed_cart )
        					{
-       						echo "<b>".JText::_( "Non-recurring Items Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );
+       						echo "<b>".JText::_('Non-recurring Items Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->amount );
        					}
        					else //Only Non-Recurring
        					{
-       						echo "<b>".JText::_( "Checkout Amount").":</b> ".TiendaHelperBase::currency( @$vars->amount );	
+       						echo "<b>".JText::_('Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->amount );	
        					}       					
 	       				*/
 	       			?>

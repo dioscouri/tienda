@@ -49,7 +49,7 @@ class UserViewLogin extends JView
 		// Set some default page parameters if not set
 		$params->def( 'show_page_title', 				1 );
 		if (!$params->get( 'page_title')) {
-				$params->set('page_title',	JText::_( 'Login' ));
+				$params->set('page_title',	JText::_('Login'));
 			}
 		if(!$item)
 		{
@@ -62,8 +62,8 @@ class UserViewLogin extends JView
 		$params->def( 'logout', 				'index.php' );
 		$params->def( 'description_login', 		1 );
 		$params->def( 'description_logout', 		1 );
-		$params->def( 'description_login_text', 	JText::_( 'LOGIN_DESCRIPTION' ) );
-		$params->def( 'description_logout_text',	JText::_( 'LOGOUT_DESCRIPTION' ) );
+		$params->def( 'description_login_text', 	JText::_('LOGIN_DESCRIPTION') );
+		$params->def( 'description_logout_text',	JText::_('LOGOUT_DESCRIPTION') );
 		$params->def( 'image_login', 				'key.jpg' );
 		$params->def( 'image_logout', 				'key.jpg' );
 		$params->def( 'image_login_align', 			'right' );
@@ -73,7 +73,7 @@ class UserViewLogin extends JView
 
 		if ( !$user->get('guest') )
 		{
-			$title = JText::_( 'Logout');
+			$title = JText::_('Logout');
 
 			// pathway item
 			$pathway->addItem($title, '' );
@@ -82,7 +82,7 @@ class UserViewLogin extends JView
 		}
 		else
 		{
-			$title = JText::_( 'Login');
+			$title = JText::_('Login');
 
 			// pathway item
 			$pathway->addItem($title, '' );

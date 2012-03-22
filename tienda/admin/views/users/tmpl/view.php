@@ -29,7 +29,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key">
 		                        <label for="name">
-		                        	<?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_USERNAME'); ?>:
 		                        </label>
 	                    	</td>
 	                    	<td style="width:120px;">
@@ -37,7 +37,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	                    	</td>
 	                    	<td  align="right" class="key">
 		                        <label for="registerDate">
-		                        	<?php echo JText::_( 'Registered' ); ?>:
+		                        	<?php echo JText::_('Registered'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
@@ -59,7 +59,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td align="right" class="key" key">
 		                        <label for="email">
-		                        	<?php echo JText::_("COM_TIENDA_EMAIL"); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_EMAIL'); ?>:
 		                        </label>
 	                    	</td>
 	                    	<td>
@@ -67,7 +67,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	                    	</td>  
 	                    	<td align="right" class="key">
 		                        <label for="lastvisitDate">
-		                        	<?php echo JText::_( 'Last Visited' ); ?>:
+		                        	<?php echo JText::_('Last Visited'); ?>:
 		                        </label>
 		                    </td>
 		                    <td colspan="3">
@@ -77,7 +77,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="id">
-		                        	<?php echo JText::_( 'ID' ); ?>:
+		                        	<?php echo JText::_('ID'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
@@ -85,7 +85,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                    </td>
 		                    <td align="right" class="key" style="width:85px;">
 		                        <label for="group_name">
-		                        	<?php echo JText::_( 'User Group' ); ?>:
+		                        	<?php echo JText::_('User Group'); ?>:
 		                        </label>
 		                    </td>
 		                    <td colspan="3">
@@ -96,14 +96,14 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="sub_number">
-		                        	<?php echo JText::_( 'Sub Num' ); ?>:
+		                        	<?php echo JText::_('Sub Num'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
 		                        <div class="sub_number"><input name="sub_number" id="sub_number" value="<?php echo @$row->sub_number; ?>" /></div>
 		                    </td>
 	                    	<td >
-	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_( 'Change Sub Num' ); ?></button>
+	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_('Change Sub Num'); ?></button>
 		                    </td>
 		                    <td colspan="3">
 		                    </td>
@@ -121,7 +121,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<table class="admintable"  width="100%">
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_( 'Number of Completed Orders' ); ?>:
+									<?php echo JText::_('Number of Completed Orders'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo count($orders); ?></div>
@@ -129,7 +129,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							</tr>
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_( 'Total Amount Spent' ); ?>:
+									<?php echo JText::_('Total Amount Spent'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo TiendaHelperBase::currency (@$this->spent); ?></div>
@@ -137,7 +137,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							</tr>
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_( 'Total User Reviews' ); ?>:
+									<?php echo JText::_('Total User Reviews'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo count($procoms); ?></div>
@@ -152,13 +152,13 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_("ID"); ?>
+									<?php echo JText::_('ID'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Date"); ?>
+									<?php echo JText::_('Date'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
-									<?php echo JText::_("Total"); ?>
+									<?php echo JText::_('Total'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -188,7 +188,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							<?php endforeach; ?>
 							<?php if (!count(@$order)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -204,16 +204,16 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_("Num"); ?>
+									<?php echo JText::_('Num'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Type"); ?>
+									<?php echo JText::_('Type'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Order"); ?>
+									<?php echo JText::_('Order'); ?>
 								</th>
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_("Expires"); ?>
+									<?php echo JText::_('Expires'); ?>
 								</th>								
 							</tr>
 						</thead>
@@ -243,7 +243,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" >											
 											<?php if($sub->subscription_lifetime == 1)
 												{
-													 echo JText::_("Lifetime"); 
+													 echo JText::_('Lifetime'); 
 												}
 											?>											
 											<?php echo JHTML::_('date', $sub->expires_datetime, "%a, %d %b %Y, %H:%M"); ?>
@@ -254,7 +254,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							<?php endforeach; ?>
 							<?php if (!count(@$sub)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -267,19 +267,19 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_("Num"); ?>
+									<?php echo JText::_('Num'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Products"); ?>
+									<?php echo JText::_('Products'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("Price"); ?>
+									<?php echo JText::_('Price'); ?>
 								</th>
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_("Quantity"); ?>
+									<?php echo JText::_('Quantity'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
-									<?php echo JText::_("Total"); ?>
+									<?php echo JText::_('Total'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -314,7 +314,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							<?php endforeach; ?>
 							<?php if (!count(@$cart)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -332,7 +332,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 								</th>
 
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_("Total"); ?>
+									<?php echo JText::_('Total'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
 									<?php echo TiendaHelperBase::currency(@$total_cart); ?>	
@@ -347,13 +347,13 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_("Num"); ?>
+									<?php echo JText::_('Num'); ?>
 								</th>
 								<th>
-									<?php echo JText::_("Products + Comments"); ?>
+									<?php echo JText::_('Products + Comments'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_("User Rating"); ?>
+									<?php echo JText::_('User Rating'); ?>
 								</th>													
 							</tr>
 						</thead>		
@@ -382,7 +382,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							<?php endforeach; ?>
 							<?php if (!count(@$procom)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>

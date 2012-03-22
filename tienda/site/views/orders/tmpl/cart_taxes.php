@@ -75,8 +75,8 @@ switch( $display_tax_checkout )
     <tr>
 	    <th colspan="2" style="text-align: right;">
      	<?php
-     	if (!empty($this->show_tax)) { echo JText::_("COM_TIENDA_PRODUCT_TAX_INCLUDED").":"; }
-       	else { echo JText::_("COM_TIENDA_PRODUCT_TAX").":"; }    
+     	if (!empty($this->show_tax)) { echo JText::_('COM_TIENDA_PRODUCT_TAX_INCLUDED').":"; }
+       	else { echo JText::_('COM_TIENDA_PRODUCT_TAX').":"; }    
 	   	?>
 			</th>
    		<th style="text-align: right;"><?php echo TiendaHelperBase::currency($row->order_tax) ?></th>

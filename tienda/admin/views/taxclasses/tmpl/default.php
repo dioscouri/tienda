@@ -26,7 +26,7 @@ $items = @$this->items;
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -42,7 +42,7 @@ $items = @$this->items;
                     <?php echo JHTML::_('grid.order', @$items ); ?>
                 </th>
                 <th>
-                	<?php echo JText::_( "Assigned Tax Rates" ); ?>
+                	<?php echo JText::_('Assigned Tax Rates'); ?>
                 </th>
             </tr>
 		</thead>
@@ -73,10 +73,10 @@ $items = @$this->items;
                     <?php echo TiendaGrid::ordering($item->tax_class_id, $item->ordering ); ?>
                 </td>
 				<td style="text-align: center;">
-					<?php echo JText::_( "Tax Rates Assigned" ); ?>:
+					<?php echo JText::_('Tax Rates Assigned'); ?>:
 					<?php echo $item->taxrates_assigned ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( @$item->link_taxrates, JText::_( "Set Tax Rates" ), array( 'update'=>true ) ); ?>]
+					[<?php echo TiendaUrl::popup( @$item->link_taxrates, JText::_('Set Tax Rates'), array( 'update'=>true ) ); ?>]
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
@@ -85,7 +85,7 @@ $items = @$this->items;
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

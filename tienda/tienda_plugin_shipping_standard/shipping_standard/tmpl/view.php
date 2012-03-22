@@ -14,7 +14,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_name">
-				<?php echo JText::_( 'Name' ); ?>:
+				<?php echo JText::_('Name'); ?>:
 				</label>
 			</td>
 			<td>
@@ -24,7 +24,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="tax_class_id">
-                <?php echo JText::_( 'Tax Class' ); ?>:
+                <?php echo JText::_('Tax Class'); ?>:
                 </label>
             </td>
             <td>
@@ -34,7 +34,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_enabled">
-				<?php echo JText::_( 'Enabled' ); ?>:
+				<?php echo JText::_('Enabled'); ?>:
 				</label>
 			</td>
 			<td>
@@ -44,7 +44,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="shipping_method_type">
-                <?php echo JText::_( 'Type' ); ?>:
+                <?php echo JText::_('Type'); ?>:
                 </label>
             </td>
             <td>
@@ -54,7 +54,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="subtotal_minimum">
-                <?php echo JText::_( 'Minimum Subtotal Required' ); ?>:
+                <?php echo JText::_('Minimum Subtotal Required'); ?>:
                 </label>
             </td>
             <td>
@@ -64,7 +64,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="subtotal_maximum">
-                <?php echo JText::_( 'COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX' ); ?>:
+                <?php echo JText::_('COM_TIENDA_SHIPPING_METHODS_SUBTOTAL_MAX'); ?>:
                 </label>
             </td>
             <td>
@@ -75,16 +75,16 @@ JFilterOutput::objectHTMLSafe( $row );
     </div>
     
     <div class="note" style="width: 25%; float: left; padding-right: 20px;">
-        <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_( "Note" ); ?>:</span>
-        <?php echo JText::_( "Shipping Type Help Text" ); ?>:
+        <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_('Note'); ?>:</span>
+        <?php echo JText::_('Shipping Type Help Text'); ?>:
         <ul>
-            <li><?php echo JText::_( "Flat Rate Per Item HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Weight-Based Per Item HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Flat Rate Per Order HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Weight-Based Per Order HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Price-Based Per Item HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Quantity-Based Per Order HELP TEXT" ); ?></li>
-            <li><?php echo JText::_( "Price-Based Per Order HELP TEXT" ); ?></li>
+            <li><?php echo JText::_('Flat Rate Per Item HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Weight-Based Per Item HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Flat Rate Per Order HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Weight-Based Per Order HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Price-Based Per Item HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Quantity-Based Per Order HELP TEXT'); ?></li>
+            <li><?php echo JText::_('Price-Based Per Order HELP TEXT'); ?></li>
         </ul>
     </div>    						
     

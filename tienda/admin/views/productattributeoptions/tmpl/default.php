@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Options for" ); ?>: <?php echo $row->productattribute_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Options for'); ?>: <?php echo $row->productattribute_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -21,18 +21,18 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th><?php echo JText::_( "Name" ); ?></th>
-                    <th style="width: 15px;"><?php echo JText::_( "Prefix" ); ?></th>
-                    <th><?php echo JText::_( "Price" ); ?></th>
-                    <th><?php echo JText::_( "Code" ); ?></th>
-                    <th><?php echo JText::_( "Is Blank?" ); ?></th>
+                    <th><?php echo JText::_('Name'); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_('Prefix'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
+                    <th><?php echo JText::_('Code'); ?></th>
+                    <th><?php echo JText::_('Is Blank?'); ?></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>
-                        <?php echo JText::_( "Complete this form to add a new option" ); ?>:
+                        <?php echo JText::_('Complete this form to add a new option'); ?>:
                     </td>
                     <td>
                         <input id="createproductattributeoption_name" name="createproductattributeoption_name" value="" />
@@ -87,7 +87,7 @@
                 	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo JText::_( "Is Blank?" ); ?>
+                	<?php echo JText::_('Is Blank?'); ?>
                 </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
@@ -156,11 +156,11 @@
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
 				</td>
 				<td style="text-align: center;">
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_( "Set Values" ) ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_('Set Values') ); ?>]
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributeoptions&task=delete&cid[]=<?php echo $item->productattributeoption_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component"); ?>">
-						<?php echo JText::_( "Delete Option" ); ?>	
+						<?php echo JText::_('Delete Option'); ?>	
 					</a>
 					]
 				</td>
@@ -171,7 +171,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

@@ -15,7 +15,7 @@ class JElementAttribute extends JElement {
 
 	function fetchElement($name, $value, & $node, $control_name) {
 
-		$output = '<span class="k2Note">'.JText::_( "Click Apply to be able to create product attributes" ).'</span>';
+		$output = '<span class="k2Note">'.JText::_('Click Apply to be able to create product attributes').'</span>';
 
 		$id = JRequest::getInt('cid');
 		if($id){
@@ -35,7 +35,7 @@ class JElementAttribute extends JElement {
 					<div>
 						<span>'.$attribute->productattribute_name.'('.$attribute->option_names_csv.')</span>
 						<div class="tiendaButton">'.TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$attribute->productattribute_id."&tmpl=component", JText::_('Set Attribute Options') ).'</div>
-						<div class="tiendaButton"><a href="'."index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_k2&view=item&cid=".$id).'">'.JText::_("Remove").'</a></div>
+						<div class="tiendaButton"><a href="'."index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_k2&view=item&cid=".$id).'">'.JText::_('Remove').'</a></div>
 					</div>';
 				}
 				$output.= '</div>';

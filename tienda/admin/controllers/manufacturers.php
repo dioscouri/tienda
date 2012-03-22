@@ -89,7 +89,7 @@ class TiendaControllerManufacturers extends TiendaController
 		{
 			$model->setId( $row->id );
 			$this->messagetype 	= 'message';
-			$this->message  	= JText::_( "COM_TIENDA_SAVED");
+			$this->message  	= JText::_('COM_TIENDA_SAVED');
 			if ($error)
 			{
 				$this->messagetype 	= 'notice';
@@ -102,7 +102,7 @@ class TiendaControllerManufacturers extends TiendaController
 		else
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_( "COM_TIENDA_SAVE_FAILED")." - ".$row->getError();
+			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
 
 		$redirect = "index.php?option=com_tienda";

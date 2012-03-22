@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th style="width: 10px;">
-                    <?php echo JText::_("Num"); ?>
+                    <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo TiendaGrid::sort( 'ID', "tbl.productfile_id", @$state->direction, @$state->order ); ?>
@@ -51,7 +51,7 @@
                 </td>
                 <td style="text-align: left;">                	
                          <span style="font-weight:bold;"><?php echo $item->productfile_name; ?></span><br/>
-                        <span style="font-style:italic;"><?php echo JText::_("File Path")?>: </span><?php echo $item->productfile_path; ?>                    
+                        <span style="font-style:italic;"><?php echo JText::_('File Path')?>: </span><?php echo $item->productfile_path; ?>                    
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->productfile_extension; ?>
@@ -69,7 +69,7 @@
                     <?php } ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo $item->max_download == "-1" ? JText::_("UNLIMITED"): $item->max_download; ?>
+                    <?php echo $item->max_download == "-1" ? JText::_('UNLIMITED'): $item->max_download; ?>
                 </td>
                  <td style="text-align: center;">
                     <?php echo $item->file_downloads; ?>
@@ -81,7 +81,7 @@
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No items found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

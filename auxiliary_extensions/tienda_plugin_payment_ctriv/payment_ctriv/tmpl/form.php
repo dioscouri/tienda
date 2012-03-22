@@ -1,3 +1,3 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php echo JText::_( "Tienda Ctriv" ); ?>
+<?php echo JText::_('Tienda Ctriv'); ?>

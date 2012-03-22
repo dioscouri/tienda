@@ -239,9 +239,9 @@ class UserController extends JController
         $model = $this->getModel('user');
 
         if ($model->store($post)) {
-            $msg    = JText::_( 'Your settings have been saved.' );
+            $msg    = JText::_('Your settings have been saved.');
         } else {
-            //$msg  = JText::_( 'Error saving your settings.' );
+            //$msg  = JText::_('Error saving your settings.');
             $msg    = $model->getError();
         }
 
@@ -344,7 +344,7 @@ class UserController extends JController
     {
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
-            JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+            JError::raiseError( 403, JText::_('Access Forbidden'));
             return;
         }
 
@@ -380,7 +380,7 @@ class UserController extends JController
         // If user registration is not allowed, show 403 not authorized.
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if ($usersConfig->get('allowUserRegistration') == '0') {
-            JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+            JError::raiseError( 403, JText::_('Access Forbidden'));
             return;
         }
 
@@ -428,11 +428,11 @@ class UserController extends JController
 
         // Everything went fine, set relevant message depending upon user activation state and display message
         //        if ( $useractivation == 1 ) {
-        //            $message  = JText::_( 'REG_COMPLETE_ACTIVATE' );
+        //            $message  = JText::_('REG_COMPLETE_ACTIVATE');
         //        } else {
-        //            $message = JText::_( 'REG_COMPLETE' );
+        //            $message = JText::_('REG_COMPLETE');
         //        }
-        $message = JText::_( 'REG_COMPLETE' );
+        $message = JText::_('REG_COMPLETE');
 
         // if there is a return URL base64encoded, then redirect to there
         if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
@@ -486,7 +486,7 @@ class UserController extends JController
         }
 
         if ($allowUserRegistration == '0' || $userActivation == '0') {
-            JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+            JError::raiseError( 403, JText::_('Access Forbidden'));
             return;
         }
 
@@ -503,12 +503,12 @@ class UserController extends JController
         if (empty( $activation ))
         {
             // Page Title
-            $document->setTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+            $document->setTitle( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+            $pathway->addItem( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE'));
 
-            $message->title = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
-            $message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+            $message->title = JText::_('REG_ACTIVATE_NOT_FOUND_TITLE');
+            $message->text = JText::_('REG_ACTIVATE_NOT_FOUND');
             $view->assign('message', $message);
             $view->display('message');
             return;
@@ -519,22 +519,22 @@ class UserController extends JController
         if (JUserHelper::activateUser($activation))
         {
             // Page Title
-            $document->setTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
+            $document->setTitle( JText::_('REG_ACTIVATE_COMPLETE_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
+            $pathway->addItem( JText::_('REG_ACTIVATE_COMPLETE_TITLE'));
 
-            $message->title = JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' );
-            $message->text = JText::_( 'REG_ACTIVATE_COMPLETE' );
+            $message->title = JText::_('REG_ACTIVATE_COMPLETE_TITLE');
+            $message->text = JText::_('REG_ACTIVATE_COMPLETE');
         }
         else
         {
             // Page Title
-            $document->setTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+            $document->setTitle( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+            $pathway->addItem( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE'));
 
-            $message->title = JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' );
-            $message->text = JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+            $message->title = JText::_('REG_ACTIVATE_NOT_FOUND_TITLE');
+            $message->text = JText::_('REG_ACTIVATE_NOT_FOUND');
         }
 
         $view->assign('message', $message);
@@ -669,13 +669,13 @@ class UserController extends JController
         $fromname       = $mainframe->getCfg( 'fromname' );
         $siteURL        = JURI::base();
 
-        $subject    = sprintf ( JText::_("COM_TIENDA_ACCOUNT_DETAILS_FOR"), $name, $sitename);
+        $subject    = sprintf ( JText::_('COM_TIENDA_ACCOUNT_DETAILS_FOR'), $name, $sitename);
         $subject    = html_entity_decode($subject, ENT_QUOTES);
 
         if ( $useractivation == 1 ){
-            $message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $sitename, $siteURL."index.php?option=com_user&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
+            $message = sprintf ( JText::_('SEND_MSG_ACTIVATE'), $name, $sitename, $siteURL."index.php?option=com_user&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
         } else {
-            $message = sprintf ( JText::_( 'SEND_MSG' ), $name, $sitename, $siteURL);
+            $message = sprintf ( JText::_('SEND_MSG'), $name, $sitename, $siteURL);
         }
 
         $message = html_entity_decode($message, ENT_QUOTES);
@@ -696,7 +696,7 @@ class UserController extends JController
         JUtility::sendMail($mailfrom, $fromname, $email, $subject, $message);
 
         // Send notification to all administrators
-        $subject2 = sprintf ( JText::_("COM_TIENDA_ACCOUNT_DETAILS_FOR"), $name, $sitename);
+        $subject2 = sprintf ( JText::_('COM_TIENDA_ACCOUNT_DETAILS_FOR'), $name, $sitename);
         $subject2 = html_entity_decode($subject2, ENT_QUOTES);
 
         // get superadministrators id
@@ -704,7 +704,7 @@ class UserController extends JController
         {
             if ($row->sendEmail)
             {
-                $message2 = sprintf ( JText::_( 'SEND_MSG_ADMIN' ), $row->name, $sitename, $name, $email, $username);
+                $message2 = sprintf ( JText::_('SEND_MSG_ADMIN'), $row->name, $sitename, $name, $email, $username);
                 $message2 = html_entity_decode($message2, ENT_QUOTES);
                 JUtility::sendMail($mailfrom, $fromname, $row->email, $subject2, $message2);
             }

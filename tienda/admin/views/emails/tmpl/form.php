@@ -28,7 +28,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			</table>
 	</fieldset>
 	<fieldset>
-		<legend><?php echo JText::_( 'Strings' ); ?></legend>
+		<legend><?php echo JText::_('Strings'); ?></legend>
 			<table class="admintable">
 			<?php foreach($row->strings['strings'] as $k => $v){ ?>
 				<tr>

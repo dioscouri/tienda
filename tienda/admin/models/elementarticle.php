@@ -228,7 +228,7 @@ class TiendaModelElementArticle extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_( 'Select an Article' ).'\', \''.$name.'\' )">'.JText::_( 'Clear Selection' ).'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('Select an Article').'\', \''.$name.'\' )">'.JText::_('Clear Selection').'</span>
 		</div></div>'."\n";
 
 		return $html;

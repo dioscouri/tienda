@@ -12,26 +12,26 @@
 		<thead>
 			<tr>
 				<th style="width: 5px;">
-					<?php echo JText::_("Num"); ?>
+					<?php echo JText::_('Num'); ?>
 				</th>
 				<th style="width: 20px;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" /></th>
 				<th style="width: 50px;">
 					<?php echo JText::_('ID'); ?>
 				</th>
 				<th style="text-align: left;">
-					<?php echo JText::_( 'Name' ); ?>
+					<?php echo JText::_('Name'); ?>
 				</th>
 				<th style="text-align: center; width: 100px;">
-					<?php echo JText::_( 'Price Start' ); ?>
+					<?php echo JText::_('Price Start'); ?>
 				</th>
 				<th style="text-align: center; width: 100px;">
-					<?php echo JText::_( 'Price End' ); ?>
+					<?php echo JText::_('Price End'); ?>
 				</th>
 				<th style="width: 100px;">
-					<?php echo JText::_( 'Tax Class' ); ?>
+					<?php echo JText::_('Tax Class'); ?>
 				</th>
 				<th style="width: 100px;">
-					<?php echo JText::_( 'Enabled' ); ?>
+					<?php echo JText::_('Enabled'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -60,14 +60,14 @@
 						$id = JRequest::getInt('id', '0');
 					?>
 					<span style="float: right;">
-						[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&tmpl=component&sid={$item->shipping_method_weightbased_id}",JText::_( "Set Rates" ) ); ?>]
+						[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=shipping&task=view&id={$id}&shippingTask=setRates&tmpl=component&sid={$item->shipping_method_weightbased_id}",JText::_('Set Rates') ); ?>]
 					</span>
 				</td>
 				<td style="text-align: center;">
 					<?php echo TiendaHelperBase::currency( $item->shipping_method_price_start ); ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo ( float )$item->shipping_method_price_end ?  TiendaHelperBase::currency( $item->shipping_method_price_end ) : JText::_( 'Infinity' ); ?>
+					<?php echo ( float )$item->shipping_method_price_end ?  TiendaHelperBase::currency( $item->shipping_method_price_end ) : JText::_('Infinity'); ?>
 				</td>
 				<td style="text-align: center;"><?php echo $item->tax_class_name; ?>
 				</td>
@@ -79,7 +79,7 @@
 
 			<?php if (!count(@$items)) : ?>
 			<tr>
-				<td colspan="10" align="center"><?php echo JText::_('No items found'); ?>
+				<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

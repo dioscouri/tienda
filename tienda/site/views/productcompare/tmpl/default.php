@@ -22,7 +22,7 @@ $show_sku = TiendaConfig::getInstance()->get('show_sku_productcompare', '1');
 				</td>
 					<?php foreach($items as $item):?>
 				<td align="center" valign="top" class="border-left">
-					<a title="<?php echo JText::_( 'Remove product comparison' ); ?>" class="close-img" href="<?php echo JRoute::_('index.php?index.php?option=com_tienda&view=productcompare&task=remove&id='.$item->productcompare_id);?>">
+					<a title="<?php echo JText::_('Remove product comparison'); ?>" class="close-img" href="<?php echo JRoute::_('index.php?index.php?option=com_tienda&view=productcompare&task=remove&id='.$item->productcompare_id);?>">
 						<img src="<?php echo Tienda::getURL('images');?>closebox.gif">
 					</a>
 						<?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>

@@ -17,14 +17,14 @@ if ($num > 0 && $addresses)
     <table class="adminlist" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th colspan="3"><?php echo JText::_( "User Addresses" ); ?></th>
+        <th colspan="3"><?php echo JText::_('User Addresses'); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th><?php echo JText::_( "Name" ); ?></th>
-        <th><?php echo JText::_( "Address" ); ?></th>
-        <th><?php echo JText::_( "Default" ); ?></th>
+        <th><?php echo JText::_('Name'); ?></th>
+        <th><?php echo JText::_('Address'); ?></th>
+        <th><?php echo JText::_('Default'); ?></th>
     </tr>
     <?php
     foreach ($addresses as $address)
@@ -45,22 +45,22 @@ if ($num > 0 && $addresses)
                 <?php echo @$address->country_name; ?><br/>
                 <!-- PHONE NUMBERS -->
                 <?php // if ($address->phone_1 || $address->phone_2 || $address->fax) { echo "<hr/>"; } ?>
-                <?php if (!empty($address->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Phone" )."</b>: ".$address->phone_1; ?><br/><?php } ?>
-                <?php if (!empty($address->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Alt Phone" )."</b>: ".$address->phone_2; ?><br/><?php } ?>
-                <?php if (!empty($address->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_( "Fax" )."</b>: ".$address->fax; ?><br/><?php } ?>
+                <?php if (!empty($address->phone_1)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_PHONE')."</b>: ".$address->phone_1; ?><br/><?php } ?>
+                <?php if (!empty($address->phone_2)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_ALT_PHONE')."</b>: ".$address->phone_2; ?><br/><?php } ?>
+                <?php if (!empty($address->fax)) { echo "&nbsp;&bull;&nbsp;<b>".JText::_('COM_TIENDA_FAX')."</b>: ".$address->fax; ?><br/><?php } ?>
             </td>
             <td style="text-align: center;">
                 <?php if ($address->is_default_shipping && $address->is_default_billing)
                 {
-                    echo JText::_( "Default Billing and Shipping Address" );
+                    echo JText::_('COM_TIENDA_DEFAULT_BILLING_AND_SHIPPING_ADDRESS');
                 }
                 elseif ($address->is_default_shipping) 
                 {
-                echo JText::_( "Default Shipping Address" );
+                echo JText::_('COM_TIENDA_DEFAULT_SHIPPING_ADDRESS');
                 }
                 elseif ($address->is_default_billing) 
                 {
-                echo JText::_( "Default Billing Address" );
+                echo JText::_('COM_TIENDA_DEFAULT_BILLING_ADDRESS');
                 }
                 ?>
             </td>

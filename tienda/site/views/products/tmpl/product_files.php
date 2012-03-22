@@ -8,7 +8,7 @@ $nondownloadItems = @$this->product_file_data->nondownloadItems;
 
     <div id="product_files">
         <div id="product_files_header" class="tienda_header">
-            <span><?php echo JText::_("Files"); ?></span>
+            <span><?php echo JText::_('Files'); ?></span>
         </div>
        
         <?php

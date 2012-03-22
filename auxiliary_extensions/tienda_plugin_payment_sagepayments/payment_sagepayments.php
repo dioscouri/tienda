@@ -117,7 +117,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'Invalid Action' );
+                $vars->message = JText::_('Invalid Action');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -166,7 +166,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key]))  // the field is required
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Sagepayments Card Type Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Sagepayments Card Type Invalid')."</li>";
                     }
                   break;
             	case "cardholder":
@@ -175,7 +175,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                     	(!isset($submitted_values[$key]) || !$len || $len > 50))  // the date has to have exactly 50 digits max
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Sagepayments Card Holder Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Sagepayments Card Holder Invalid')."</li>";
                     }
                   break;
                 case "cardnum":
@@ -184,7 +184,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                 	(!isset($submitted_values[$key]) || !$len || $len > 20))   // the date has to have 20 digits max
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "Sagepayments Card Number Invalid" )."</li>";
+                        $object->message .= "<li>".JText::_('Sagepayments Card Number Invalid')."</li>";
                     }
                   break;
                 case "cardexp":
@@ -194,7 +194,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                 		if($len != 4) // the date has to have exactly 4 digits
 	                	{
 	                        $object->error = true;
-	                        $object->message .= "<li>".JText::_( "Sagepayments Card Expiration Date Invalid" )."</li>";
+	                        $object->message .= "<li>".JText::_('Sagepayments Card Expiration Date Invalid')."</li>";
 	                    }
                     	else
                     	{
@@ -202,11 +202,11 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                     		{
                     			case 0 : // invalid format
 			                        $object->error = true;
-			                        $object->message .= "<li>".JText::_( "Sagepayments Card Expiration Date Invalid" )."</li>";
+			                        $object->message .= "<li>".JText::_('Sagepayments Card Expiration Date Invalid')."</li>";
 		                    		break;
                     			case 2 : // not valid anymore
 			                        $object->error = true;
-			                        $object->message .= "<li>".JText::_( "Sagepayments Card Expiration Date Invalid Card" )."</li>";
+			                        $object->message .= "<li>".JText::_('Sagepayments Card Expiration Date Invalid Card')."</li>";
 		                    		break;
                     		}
                     	}
@@ -220,7 +220,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
             			   ($submitted_values['cardtype'] != 'AMEX' && $len != 3))
             			{            			
 	                        $object->error = true;
-	                        $object->message .= "<li>".JText::_( "Sagepayments Card CV2 Invalid" )."</li>";
+	                        $object->message .= "<li>".JText::_('Sagepayments Card CV2 Invalid')."</li>";
             			}
                     } 
                   break;
@@ -287,18 +287,18 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
     function _cardTypesField( $field='cardtype', $default='', $options='' )
     {       
         $types = array();
-        $types[] = JHTML::_('select.option', 'VISA', JText::_( "Visa" ) );
-//        $types[] = JHTML::_('select.option', 'DELTA', JText::_( "Visa Delta" ) );
-//        $types[] = JHTML::_('select.option', 'UKE', JText::_( "Visa Electron" ) );
-        $types[] = JHTML::_('select.option', 'MC', JText::_( "Mastercard" ) );
-        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_( "Maestro" ) );
-//        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_( "International Maestro" ) );
-//        $types[] = JHTML::_('select.option', 'SOLO', JText::_( "Solo" ) );
-        $types[] = JHTML::_('select.option', 'Amex', JText::_( "American Express" ) );
-//        $types[] = JHTML::_('select.option', 'DINERS', JText::_( "DinersClub" ) );
-//        $types[] = JHTML::_('select.option', 'JCB', JText::_( "JCB" ) );
-//        $types[] = JHTML::_('select.option', 'LASER', JText::_( "Laser" ) );
-//        $types[] = JHTML::_('select.option', 'PAYPAL', JText::_( "Paypal" ) );
+        $types[] = JHTML::_('select.option', 'VISA', JText::_('Visa') );
+//        $types[] = JHTML::_('select.option', 'DELTA', JText::_('Visa Delta') );
+//        $types[] = JHTML::_('select.option', 'UKE', JText::_('Visa Electron') );
+        $types[] = JHTML::_('select.option', 'MC', JText::_('Mastercard') );
+        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_('Maestro') );
+//        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_('International Maestro') );
+//        $types[] = JHTML::_('select.option', 'SOLO', JText::_('Solo') );
+        $types[] = JHTML::_('select.option', 'Amex', JText::_('American Express') );
+//        $types[] = JHTML::_('select.option', 'DINERS', JText::_('DinersClub') );
+//        $types[] = JHTML::_('select.option', 'JCB', JText::_('JCB') );
+//        $types[] = JHTML::_('select.option', 'LASER', JText::_('Laser') );
+//        $types[] = JHTML::_('select.option', 'PAYPAL', JText::_('Paypal') );
         
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
@@ -455,7 +455,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
          * perform initial checks 
          */
         if ( ! JRequest::checkToken() ) {
-            return $this->_renderHtml( JText::_( 'Invalid Token' ) );
+            return $this->_renderHtml( JText::_('Invalid Token') );
         }
         
         $data = JRequest::get('post');
@@ -465,15 +465,15 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         if ( empty($order->order_id) ) {
-            return JText::_( 'Tienda Sagepayments Message Invalid Order' );
+            return JText::_('Tienda Sagepayments Message Invalid Order');
         }
          
         if ( empty($this->merchant_id)) {
-            return JText::_( 'Tienda Sagepayments Message Missing Merchant Id' );
+            return JText::_('Tienda Sagepayments Message Missing Merchant Id');
         }
         
         if ( empty($this->merchant_key)) {
-            return JText::_( 'Tienda Sagepayments Message Missing Merchant Key' );
+            return JText::_('Tienda Sagepayments Message Missing Merchant Key');
         }
 		
         // prepare the form for submission to sagepayments.com
@@ -517,7 +517,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
 		$country->load( array( 'country_id'=>$orderinfo->billing_country_id) );
 		
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $sagepayments_description           = JText::_( "Order Number" ).": ".$order->order_id;
+        $sagepayments_description           = JText::_('Order Number').": ".$order->order_id;
         $sagepayments_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $sagepayments_invoice_num           = $data['orderpayment_id']; 
         
@@ -764,13 +764,13 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                 //                            // Error
                 //                            $payment_status = '0';
                 //                            $order_status = '0';
-                //                            $errors[] = JText::_( "Tienda Sagepayments Error processing payment" );
+                //                            $errors[] = JText::_('Tienda Sagepayments Error processing payment');
                 //                          break;
                 //                        case "REJECTED":
                 //                            // Declined
                 //                            $payment_status = '0';
                 //                            $order_status = '0';
-                //                            $errors[] = JText::_( "Tienda Sagepayments Card was declined" );
+                //                            $errors[] = JText::_('Tienda Sagepayments Card was declined');
                 //                          break;
                 //                        case "REGISTERED":
                 //                        case "OK":
@@ -850,7 +850,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
 		
 		if (empty($errors))
 		{
-			$return = JText::_( "TIENDA SAGEPAYMENTS MESSAGE PAYMENT SUCCESS" );
+			$return = JText::_('TIENDA SAGEPAYMENTS MESSAGE PAYMENT SUCCESS');
 			return $return;                
 		}
 

@@ -34,13 +34,13 @@ class TiendaTableProductFiles extends TiendaTable
 	{
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_( "Product Association Required" ) );
+			$this->setError( JText::_('Product Association Required') );
 			return false;
 		}
 		
         if (empty($this->productfile_name))
         {
-            $this->setError( JText::_( "File Name Required" ) );
+            $this->setError( JText::_('File Name Required') );
             return false;
         }
 

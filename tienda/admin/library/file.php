@@ -79,13 +79,13 @@ class TiendaFile extends JObject
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
-			$this->setError( JText::_( 'Uploads Disabled' ) );
+			$this->setError( JText::_('Uploads Disabled') );
 			return $success;
 		}
 	
 		// Check that the zlib is available
 		if(!extension_loaded('zlib')) {
-			$this->setError( JText::_( 'ZLib Unavailable' ) );
+			$this->setError( JText::_('ZLib Unavailable') );
 			return $success;
 		}
 
@@ -94,7 +94,7 @@ class TiendaFile extends JObject
 		
 		if (!$userfile) 
 		{
-			$this->setError( JText::_( 'No File' ) );
+			$this->setError( JText::_('No File') );
 			return $success;
 		}
 		
@@ -103,7 +103,7 @@ class TiendaFile extends JObject
 		$this->proper_name = TiendaFile::getProperName($userFileName);
 		
 		if ($userfile['size'] == 0) {
-			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
+			$this->setError( JText::_('COM_TIENDA_INVALID FILE') );
 			return $success;
 		}
 		
@@ -112,7 +112,7 @@ class TiendaFile extends JObject
 		
 		if (!is_uploaded_file($userfile['tmp_name'])) 
 		{
-			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
+			$this->setError( JText::_('COM_TIENDA_INVALID FILE') );
 			return $success;
 	    } 
 	    	else 
@@ -159,13 +159,13 @@ class TiendaFile extends JObject
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
-			$this->setError( JText::_( 'Uploads Disabled' ) );
+			$this->setError( JText::_('Uploads Disabled') );
 			return $success;
 		}
 	
 		// Check that the zlib is available
 		if(!extension_loaded('zlib')) {
-			$this->setError( JText::_( 'ZLib Unavailable' ) );
+			$this->setError( JText::_('ZLib Unavailable') );
 			return $success;
 		}
 
@@ -174,7 +174,7 @@ class TiendaFile extends JObject
 		
 		if (!$userfile) 
 		{
-			$this->setError( JText::_( 'No File' ) );
+			$this->setError( JText::_('No File') );
 			return $success;
 		}
 		
@@ -185,7 +185,7 @@ class TiendaFile extends JObject
 		$this->proper_name = TiendaFile::getProperName($userFileName);
 		
 		if ($userfile['size'][$num] == 0) {
-			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
+			$this->setError( JText::_('COM_TIENDA_INVALID FILE') );
 			return $success;
 		}
 		
@@ -193,14 +193,14 @@ class TiendaFile extends JObject
 		// check size of upload against max set in config
 		if($this->size > $config->get( 'files_maxsize', '3000' ) ) 
 		{
-			$this->setError( JText::_( 'Invalid File Size' ) );
+			$this->setError( JText::_('Invalid File Size') );
 			return $success;
 	    }
 	    $this->size = number_format( $this->size, 2 ).' Kb';
 		
 		if (!is_uploaded_file($userfile['tmp_name'][$num])) 
 		{
-			$this->setError( JText::_("COM_TIENDA_INVALID FILE") );
+			$this->setError( JText::_('COM_TIENDA_INVALID FILE') );
 			return $success;
 	    } 
 	    	else 
@@ -230,7 +230,7 @@ class TiendaFile extends JObject
 		// save path and filename or just filename
 		if (!JFile::upload($this->file_path, $dest))
 		{
-        	$this->setError( sprintf( JText::_("COM_TIENDA_MOVE_FAILED_FROM"), $this->file_path, $dest) );
+        	$this->setError( sprintf( JText::_('COM_TIENDA_MOVE_FAILED_FROM'), $this->file_path, $dest) );
         	return false;			
 		}
 		

@@ -5,21 +5,21 @@
 <?php	$state = @$vars->state;?>
 <?php	echo @$vars->token;?>
 <p>
-	<?php	echo JText::_("THIS TOOL INSTALL SAMPLE DATA TO TIENDA");?>
+	<?php	echo JText::_('THIS TOOL INSTALL SAMPLE DATA TO TIENDA');?>
 </p>
 <div class="note">
 	<span style="float: right; font-size: large; font-weight: bold;">
-		<?php	echo JText::_("STEP ONE OF THREE");?>
+		<?php	echo JText::_('STEP ONE OF THREE');?>
 	</span>
 	<p>
-		<?php	echo JText::_("Please provide the requested information.");?>
+		<?php	echo JText::_('Please provide the requested information.');?>
 	</p>
 </div>
 <fieldset>
 	<?php
 	$options = array();
-	$options[] = JHTML::_('select.option', 'electronic', JText::_("ELECTRONIC STORE"));
-	$options[] = JHTML::_('select.option', 'clothing', JText::_("CLOTHING STORE"));
+	$options[] = JHTML::_('select.option', 'electronic', JText::_('ELECTRONIC STORE'));
+	$options[] = JHTML::_('select.option', 'clothing', JText::_('CLOTHING STORE'));
 	?>
 	<table class="admintable">
 		<tr id="sampledataupload" >

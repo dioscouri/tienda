@@ -3,7 +3,7 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "TIENDA ALPHAUSERPOINTS PAYMENT PREPARATION MESSAGE" ); ?> 
+        <?php echo JText::_('TIENDA ALPHAUSERPOINTS PAYMENT PREPARATION MESSAGE'); ?> 
     </div>
        
     <input type="submit" class="button" value="<?php echo JText::_('TIENDA ALPHAUSERPOINTS PAYMENT BUTTON'); ?>" />

@@ -11,14 +11,14 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input name="order_state_name" id="order_state_name" value="<?php echo @$row->order_state_name; ?>" size="48" maxlength="250" type="text" />
 					</td>
 					<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Comments' ); ?>:
+						<?php echo JText::_('Comments'); ?>:
 					</td>
 					<td>
 						<textarea name="order_state_description"  id="order_state_description" rows="5" style="width: 100%;"><?php echo @$row->order_state_description; ?></textarea>

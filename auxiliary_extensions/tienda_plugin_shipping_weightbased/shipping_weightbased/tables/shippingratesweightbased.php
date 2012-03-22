@@ -36,12 +36,12 @@ class TiendaTableShippingRatesWeightbased extends TiendaTable
 	{
 		if ( empty( $this->shipping_method_weightbased_id ) )
 		{
-			$this->setError( JText::_( "Weightbased Shipping Method Required" ) );
+			$this->setError( JText::_('Weightbased Shipping Method Required') );
 			return false;
 		}
 		if ( empty( $this->geozone_id ) )
 		{
-			$this->setError( JText::_( "GeoZone Required" ) );
+			$this->setError( JText::_('GeoZone Required') );
 			return false;
 		}
 

@@ -43,7 +43,7 @@ class TiendaTableGroups extends TiendaTable
 		$this->filterHTML( 'group_name' );
 		if (empty($this->group_name))
 		{
-			$this->setError( JText::_( "Name Required" ) );
+			$this->setError( JText::_('Name Required') );
 			return false;
 		}
 		$this->filterHTML( 'group_description' );

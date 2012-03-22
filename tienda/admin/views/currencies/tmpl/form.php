@@ -12,7 +12,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_name">
-						<?php echo JText::_( 'Title' ); ?>:
+						<?php echo JText::_('COM_TIENDA_TITLE'); ?>:
 						</label>
 					</td>
 					<td>
@@ -22,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_code">
-						<?php echo JText::_( 'Currency Code' ); ?>:
+						<?php echo JText::_('Currency Code'); ?>:
 						</label>
 					</td>
 					<td>
@@ -32,7 +32,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="symbol_left">
-						<?php echo JText::_( 'Left Symbol' ); ?>:
+						<?php echo JText::_('Left Symbol'); ?>:
 						</label>
 					</td>
 					<td>
@@ -42,7 +42,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="symbol_right">
-						<?php echo JText::_( 'Right Symbol' ); ?>:
+						<?php echo JText::_('Right Symbol'); ?>:
 						</label>
 					</td>
 					<td>
@@ -52,7 +52,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_decimals">
-						<?php echo JText::_( 'Decimals' ); ?>:
+						<?php echo JText::_('Decimals'); ?>:
 						</label>
 					</td>
 					<td>
@@ -62,7 +62,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="decimal_separator">
-                        <?php echo JText::_( 'Decimal Separator' ); ?>:
+                        <?php echo JText::_('Decimal Separator'); ?>:
                         </label>
                     </td>
                     <td>
@@ -72,7 +72,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="thousands_separator">
-                        <?php echo JText::_( 'Thousands Separator' ); ?>:
+                        <?php echo JText::_('Thousands Separator'); ?>:
                         </label>
                     </td>
                     <td>
@@ -82,7 +82,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="exchange_rate">
-                        <?php echo JText::_( 'Exchange Rate' ); ?>:
+                        <?php echo JText::_('Exchange Rate'); ?>:
                         </label>
                     </td>
                     <td>
@@ -97,7 +97,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_enabled">
-						<?php echo JText::_( 'Enabled' ); ?>:
+						<?php echo JText::_('Enabled'); ?>:
 						</label>
 					</td>
 					<td>

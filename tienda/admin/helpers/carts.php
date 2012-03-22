@@ -780,7 +780,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// cart must already have required item in it
 					if (!in_array($relation->product_id_to, $cart))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
+						$this->setError( $relation->product_name_to . " " .JText::_('COM_TIENDA_IS_REQUIRED') );
 						return false;
 					}
 					break;
@@ -789,7 +789,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// or user must have purchased it some time in the past
 					if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $ordered_items))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
+						$this->setError( $relation->product_name_to . " " .JText::_('COM_TIENDA_IS_REQUIRED') );
 						return false;
 					}
 					break;
@@ -798,7 +798,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					// or user must have active subscription
 					if (!in_array($relation->product_id_to, $cart) && !in_array($relation->product_id_to, $active_subs))
 					{
-						$this->setError( $relation->product_name_to . " " .JText::_("COM_TIENDA_IS_REQUIRED") );
+						$this->setError( $relation->product_name_to . " " .JText::_('COM_TIENDA_IS_REQUIRED') );
 						return false;
 					}
 					break;
@@ -852,7 +852,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 			{
 				if (!$carthelper->canAddItem( $citem, $cart_id, $id_type ))
 				{
-					JFactory::getApplication()->enqueueMessage( JText::_( 'COM_TIENDA_REMOVING_ITEM_FROM_CART_FOR_FAILED_DEPENDENCIES' ) . " - " . $citem->product_name, 'message' );
+					JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_REMOVING_ITEM_FROM_CART_FOR_FAILED_DEPENDENCIES') . " - " . $citem->product_name, 'message' );
 					$carthelper->removeCartItem($session_id, $user_id, $citem->product_id);
 				}
 			}

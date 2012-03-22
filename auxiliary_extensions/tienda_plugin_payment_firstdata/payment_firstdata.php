@@ -179,7 +179,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_( 'TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID ACTION' );
+                $vars->message = JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID ACTION');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -227,28 +227,28 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA LINKPOINT FIRSTDATA CARD NUMBER INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA LINKPOINT FIRSTDATA CARD NUMBER INVALID')."</li>";
                     } 
                   break;
                 case "cardexpmonth":
                     if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 2) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA LINKPOINT FIRSTDATA CARD EXPIRATION MONTH INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA LINKPOINT FIRSTDATA CARD EXPIRATION MONTH INVALID')."</li>";
                     } 
                   break;
                 case "cardexpyear":
                     if (!isset($submitted_values[$key]) || JString::strlen($submitted_values[$key]) != 2) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA LINKPOINT FIRSTDATA CARD EXPIRATION YEAR INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA LINKPOINT FIRSTDATA CARD EXPIRATION YEAR INVALID')."</li>";
                     } 
                   break;                  
                 case "cardcvv":
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_( "TIENDA LINKPOINT FIRSTDATA CARD CVV INVALID" )."</li>";
+                        $object->message .= "<li>".JText::_('TIENDA LINKPOINT FIRSTDATA CARD CVV INVALID')."</li>";
                     } 
                   break;
                 default:
@@ -282,15 +282,15 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
          * perform initial checks 
          */
         if ( ! JRequest::checkToken() ) {
-            return $this->_renderHtml( JText::_( 'TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID TOKEN' ) );
+            return $this->_renderHtml( JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID TOKEN') );
         }
         
         //validate plugin parameters have been set
 		if ( empty($this->store_number)) {
-            return JText::_( 'TIENDA LINKPOINT FIRSTDATA MESSAGE MISSING STORE NUMBER' );
+            return JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE MISSING STORE NUMBER');
         }
         if ( empty($this->key_file)) {
-            return JText::_( 'TIENDA LINKPOINT FIRSTDATA MESSAGE MISSING CERTIFICATE FILE' );
+            return JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE MISSING CERTIFICATE FILE');
         }             
 
 		//get the information to send to LinkPoint / FirstData        
@@ -310,7 +310,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
         $orderinfo->load( array( 'order_id'=>$order_id) );
         
         if ( empty($order->order_id) || empty($orderpayment) || empty($orderinfo)) {
-            return JText::_( 'TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID ORDER' );
+            return JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE INVALID ORDER');
         }        
 
         //setting up the payment gateway information
@@ -453,7 +453,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
 
 		if (empty($errors) && $approved)
         {
-        	return JText::_( "TIENDA LINKPOINT FIRSTDATA MESSAGE PAYMENT SUCCESS" );
+        	return JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE PAYMENT SUCCESS');
     	}            
         return count($errors) ? implode("\n", $errors) : '';
     }

@@ -10,14 +10,14 @@ $tabs = &JPane::getInstance( 'tabs' );
     // start tab pane
     echo $tabs->startPane( "Pane_Payment" );
     // Tab
-    echo $tabs->startPanel( JText::_( 'Plugin Details' ), "plugin_properties");
+    echo $tabs->startPanel( JText::_('Plugin Details'), "plugin_properties");
     ?>
     <fieldset>
-    <legend><?php echo JText::_( "Basic Information" ); ?></legend>
+    <legend><?php echo JText::_('Basic Information'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Name' ); ?>:
+						<?php echo JText::_('Name'); ?>:
 					</td>
 					<td>
 						<input name="name" id="name" value="<?php echo @$row->name; ?>" size="48" maxlength="250" type="text" />
@@ -25,7 +25,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_( 'Ordering' ); ?>:
+						<?php echo JText::_('Ordering'); ?>:
 					</td>
 					<td>
 						<input name="ordering" id="ordering" value="<?php echo @$row->ordering; ?>" size="10" maxlength="250" type="text" />
@@ -34,7 +34,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_enabled">
-						<?php echo JText::_( 'Enabled' ); ?>:
+						<?php echo JText::_('Enabled'); ?>:
 						</label>
 					</td>
 					<td>
@@ -44,7 +44,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 			</table>
 			</fieldset>
 			<fieldset>
-    		<legend><?php echo JText::_( "Parameters" ); ?></legend>
+    		<legend><?php echo JText::_('Parameters'); ?></legend>
 			<?php 
 			if ($output = $this->params->render('params')) :
 				echo $output;

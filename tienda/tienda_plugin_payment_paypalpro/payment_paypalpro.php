@@ -88,7 +88,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		$helper_renderer = $this->_getRenderer('helper');
 		
 		$vars = new JObject();
-		$vars->note = JText::_( 'PAYPALPRO Note Default' );
+		$vars->note = JText::_('PAYPALPRO Note Default');
 		$vars->document =& JFactory::getDocument();	
 
 		$vars->expresscheckout_form = $expresscheckout_renderer->renderForm( $data, array() );
@@ -217,11 +217,11 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //				  break;
 //				  
 				case "cancel":
-					$text = JText::_( 'PAYPALPRO Message Cancel' );
+					$text = JText::_('PAYPALPRO Message Cancel');
 					$html .= $helper_renderer->renderHtml( $text );
 				  break;
 				default:
-					$text = JText::_( 'PAYPALPRO Message Invalid Action' );
+					$text = JText::_('PAYPALPRO Message Invalid Action');
 					$html .= $helper_renderer->renderHtml( $text );
 				  break;
 			}
@@ -259,11 +259,11 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //                $app->close();
 //              break;
 //            case "cancel":
-//                $vars->message = JText::_( 'Paypal Message Cancel' );
+//                $vars->message = JText::_('Paypal Message Cancel');
 //                $html = $this->_getLayout('message', $vars);
 //              break;
 //            default:
-//                $vars->message = JText::_( 'Paypal Message Invalid Action' );
+//                $vars->message = JText::_('Paypal Message Invalid Action');
 //                $html = $this->_getLayout('message', $vars);
 //              break;
 //        }

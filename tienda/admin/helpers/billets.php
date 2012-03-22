@@ -49,7 +49,7 @@ class TiendaHelperBillets extends TiendaHelperBase
     {
         if (!$this->isInstalled())
         {
-            $this->setError( JText::_( "COM_TIENDA_BILLETS_NOT_INSTALLED" ) );
+            $this->setError( JText::_('COM_TIENDA_BILLETS_NOT_INSTALLED') );
             return null;
         }
         

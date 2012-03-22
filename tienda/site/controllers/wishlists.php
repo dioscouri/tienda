@@ -138,7 +138,7 @@ class TiendaControllerWishlists extends TiendaController
 	            $remove = JRequest::getVar('remove');
 	            if ($remove)
 	            {
-	                $msg = JText::_( "COM_TIENDA_WISHLIST_UPDATED" );
+	                $msg = JText::_('COM_TIENDA_WISHLIST_UPDATED');
 	                
 	            	$product_attributes = $row->product_attributes;
     	            $product_id = $row->product_id;
@@ -158,7 +158,7 @@ class TiendaControllerWishlists extends TiendaController
 	            $addtocart = JRequest::getVar('addtocart');
 	        	if ($addtocart)
 	            {
-	                $msg = JText::_( "COM_TIENDA_WISHLIST_ITEMS_ADDED_TO_CART" );
+	                $msg = JText::_('COM_TIENDA_WISHLIST_ITEMS_ADDED_TO_CART');
 	                
 	            	$product_attributes = $row->product_attributes;
     	            $product_id = $row->product_id;
@@ -177,7 +177,7 @@ class TiendaControllerWishlists extends TiendaController
                     }
                         else
                     {
-                        $msg = JText::_( "COM_TIENDA_NOT_ALL_WISHLIST_ITEMS_ADDED_TO_CART" );
+                        $msg = JText::_('COM_TIENDA_NOT_ALL_WISHLIST_ITEMS_ADDED_TO_CART');
                     }
 	            }
 	        }
@@ -211,7 +211,7 @@ class TiendaControllerWishlists extends TiendaController
         if (empty($cids))
         {
             $this->messagetype = 'notice';
-            $this->message = JText::_( "COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE" );
+            $this->message = JText::_('COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;            
         }
@@ -263,7 +263,7 @@ class TiendaControllerWishlists extends TiendaController
         if (empty($recipients))
         {
             $this->messagetype = 'notice';
-            $this->message = JText::_( "COM_TIENDA_PLEASE_PROVIDE_EMAIL_RECIPIENTS" );
+            $this->message = JText::_('COM_TIENDA_PLEASE_PROVIDE_EMAIL_RECIPIENTS');
             $this->setRedirect( $redirect, $this->message, $this->messagetype );
             return;
         }
@@ -343,7 +343,7 @@ class TiendaControllerWishlists extends TiendaController
         
         // redirect to wishlist with message 
         $this->messagetype = 'message';
-        $this->message = JText::_( "COM_TIENDA_EMAILS_SENT" );
+        $this->message = JText::_('COM_TIENDA_EMAILS_SENT');
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
     }

@@ -7,12 +7,12 @@
 <?php $baseLink = $this->baseLink; ?>
 
 <h3>
-<?php echo JText::_( "Set Rates for" ); ?> :
+<?php echo JText::_('Set Rates for'); ?> :
 	<?php echo $row->shipping_method_weightbased_name; ?>
 </h3>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-	<?php echo JText::_( "Be Sure to Save Your Work" ); ?>:
+	<?php echo JText::_('Be Sure to Save Your Work'); ?>:
 	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('shippingTask').value='saverates'; document.adminForm.submit();">
 		<?php echo JText::_('Save Changes'); ?>
 	</button>
@@ -29,19 +29,19 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th><?php echo JText::_( "GeoZone" ); ?></th>
-							<th><?php echo JText::_( "Base Price" ); ?></th>
-							<th><?php echo JText::_( "Price Step" ); ?></th>
-							<th><?php echo JText::_( "Weight Range" ); ?></th>
-							<th><?php echo JText::_( "Weight Step" ); ?></th>
-							<th><?php echo JText::_( "Handling Fee" ); ?></th>
+							<th><?php echo JText::_('GeoZone'); ?></th>
+							<th><?php echo JText::_('Base Price'); ?></th>
+							<th><?php echo JText::_('Price Step'); ?></th>
+							<th><?php echo JText::_('Weight Range'); ?></th>
+							<th><?php echo JText::_('Weight Step'); ?></th>
+							<th><?php echo JText::_('Handling Fee'); ?></th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>
-								<?php echo JText::_( "Complete this form to add a new rate" ); ?>:
+								<?php echo JText::_('Complete this form to add a new rate'); ?>:
 							</td>
 							<td>
 								<?php echo TiendaSelect::geozone("", "geozone_id"); ?>
@@ -54,7 +54,7 @@
 								<input id="price_step" name="price_step" value="" />
 							</td>
 							<td>
-								<input id="weight_start" name="weight_start" value="" size="5" /> <?php echo JText::_("to"); ?>
+								<input id="weight_start" name="weight_start" value="" size="5" /> <?php echo JText::_('to'); ?>
 								<input id="weight_end" name="weight_end" value="" size="5" />
 							</td>
 							<td>
@@ -116,7 +116,7 @@
 					<input type="text" name="price_steps[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->price_step; ?>" />
 				</td>
 				<td style="text-align: center;">
-					<input type="text" name="weight_starts[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_start; ?>" /> <?php echo JText::_("to"); ?>
+					<input type="text" name="weight_starts[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_start; ?>" /> <?php echo JText::_('to'); ?>
 					<input type="text" name="weight_ends[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_end; ?>" />
 				</td>
 				<td style="text-align: center;">
@@ -127,7 +127,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="<?php echo $baseLink; ?>&shippingTask=deleterate&cid[]=<?php echo $item->shipping_rate_weightbased_id; ?>&return=<?php echo base64_encode($baseLink."&shippingTask=setrates&sid={$row->shipping_method_weightbased_id}&tmpl=component"); ?>">
-						<?php echo JText::_( "Delete Rate" ); ?>
+						<?php echo JText::_('Delete Rate'); ?>
 					</a> ]
 				</td>
 			</tr>
@@ -137,7 +137,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

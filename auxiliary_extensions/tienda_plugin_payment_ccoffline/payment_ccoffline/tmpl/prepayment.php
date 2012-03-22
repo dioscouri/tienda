@@ -9,23 +9,23 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "TIENDA CC OFFLINE PAYMENT PREPARATION MESSAGE" ); ?>
+        <?php echo JText::_('TIENDA CC OFFLINE PAYMENT PREPARATION MESSAGE'); ?>
         
         <table id="ccoffline_form">            
             <tr>
-                <td class="field_name"><?php echo JText::_( 'TIENDA CC OFFLINE PAYMENT TYPE' ) ?></td>
+                <td class="field_name"><?php echo JText::_('TIENDA CC OFFLINE PAYMENT TYPE') ?></td>
                 <td><?php echo $vars->cardtype; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'TIENDA CC OFFLINE PAYMENT NUMBER' ) ?></td>
+                <td class="field_name"><?php echo JText::_('TIENDA CC OFFLINE PAYMENT NUMBER') ?></td>
                 <td>************<?php echo $vars->cardnum_last4; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'TIENDA CC OFFLINE PAYMENT EXPIRATION DATE' ) ?></td>
+                <td class="field_name"><?php echo JText::_('TIENDA CC OFFLINE PAYMENT EXPIRATION DATE') ?></td>
                 <td><?php echo $vars->cardexp; ?></td>
             </tr>
             <tr>
-                <td class="field_name"><?php echo JText::_( 'TIENDA CC OFFLINE PAYMENT ID' ) ?></td>
+                <td class="field_name"><?php echo JText::_('TIENDA CC OFFLINE PAYMENT ID') ?></td>
                 <td>****</td>
             </tr>
         </table>

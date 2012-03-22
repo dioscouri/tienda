@@ -91,7 +91,7 @@ class plgSystemTienda_Subscriptions extends JPlugin
         {
             if (JFactory::getApplication()->isAdmin() && !empty(JFactory::getUser()->id) )
             {
-                JError::raiseNotice('plgSystemTienda_Subscriptions::canRun', sprintf(JTEXT::_("TIENDA MSG SENDING SUBSCRIPTION EMAIL NOTICES" ), $lastchecked, $today));     
+                JError::raiseNotice('plgSystemTienda_Subscriptions::canRun', sprintf(JText::_('TIENDA MSG SENDING SUBSCRIPTION EMAIL NOTICES'), $lastchecked, $today));     
             }
             $success = true;
         }

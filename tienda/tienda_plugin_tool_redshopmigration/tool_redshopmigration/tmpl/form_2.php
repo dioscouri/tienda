@@ -2,11 +2,11 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
-    <p><?php echo JText::_( "THIS TOOL MIGRATES DATA FROM REDSHOP TO TIENDA" ); ?></p>
+    <p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM REDSHOP TO TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_( "STEP TWO OF THREE" ); ?></span>
-        <p><?php echo JText::_( "YOU PROVIDED THE FOLLOWING INFORMATION" ); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP TWO OF THREE'); ?></span>
+        <p><?php echo JText::_('YOU PROVIDED THE FOLLOWING INFORMATION'); ?></p>
     </div>
 
     <fieldset>
@@ -14,7 +14,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'HOST' ); ?>:
+                        <?php echo JText::_('HOST'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->host; ?>
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_("COM_TIENDA_USERNAME"); ?>:
+                        <?php echo JText::_('COM_TIENDA_USERNAME'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->user; ?>
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'PASSWORD' ); ?>:
+                        <?php echo JText::_('PASSWORD'); ?>:
                     </td>
                     <td>
                        *****
@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE NAME' ); ?>:
+                        <?php echo JText::_('DATABASE NAME'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->database; ?>
@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'JOOMLA! TABLE PREFIX' ); ?>:
+                        <?php echo JText::_('JOOMLA! TABLE PREFIX'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->prefix; ?>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'REDSHOP TABLE PREFIX' ); ?>:
+                        <?php echo JText::_('REDSHOP TABLE PREFIX'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->redshop_prefix; ?>
@@ -86,7 +86,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE TYPE' ); ?>:
+                        <?php echo JText::_('DATABASE TYPE'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->driver; ?>
@@ -98,7 +98,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'DATABASE PORT' ); ?>:
+                        <?php echo JText::_('DATABASE PORT'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->port; ?>
@@ -110,7 +110,7 @@
                 </tr>
                  <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_( 'REDSHOP EXTERNAL SITE URL' ); ?>:
+                        <?php echo JText::_('REDSHOP EXTERNAL SITE URL'); ?>:
                     </td>
                     <td>
                     	<?php echo @$state->external_site_url; ?>

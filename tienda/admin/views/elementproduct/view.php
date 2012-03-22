@@ -65,13 +65,13 @@ class TiendaViewElementProduct extends JView
 
 <table>
 	<tr>
-		<td width="100%" ><?php echo JText::_( 'Filter' ); ?>: <input
+		<td width="100%" ><?php echo JText::_('Filter'); ?>: <input
 			type="text" name="search" id="search"
 			value="<?php echo $lists['search'];?>" class="text_area"
 			onchange="document.adminForm.submit();" />
-		<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 		<button
-			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 		</td>
 		
 	</tr>
@@ -84,7 +84,7 @@ class TiendaViewElementProduct extends JView
 			
 			<th width="2%" class="title"><?php echo JHTML::_('grid.sort',   'ID', 'c.product_id', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
-			<th style="width:50px;"><?php echo JText::_( 'Image' ); ?></th>
+			<th style="width:50px;"><?php echo JText::_('Image'); ?></th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Name', 'c.product_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Description', 'c.product_description', @$lists['order_Dir'], @$lists['order'] ); ?>

@@ -26,7 +26,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_("Num"); ?>
+                	<?php echo JText::_('Num'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -70,10 +70,10 @@
 	                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
 	                	</div>
                 	</div>
                 </th>
@@ -85,11 +85,11 @@
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span>
+                            <span class="label"><?php echo JText::_('From'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span>
+                            <span class="label"><?php echo JText::_('To'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                     </div>
@@ -101,13 +101,13 @@
                 	<?php if( $display_subnum ) : ?>
                 	<div class="range">
                     <div class="rangeline">
-		                		<span class="label"><?php echo JText::_( 'Name or ID' )?></span>:
+		                		<span class="label"><?php echo JText::_('Name or ID')?></span>:
                 	<?php endif; ?>
                 	<input id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="<?php echo $display_subnum ? '10' : '25' ?>"/>
                 	<?php if( $display_subnum ) : ?>
   		              </div>
                     <div class="rangeline">
-	                		<span class="label"><?php echo JText::_( 'Sub Num' )?></span>:
+	                		<span class="label"><?php echo JText::_('Sub Num')?></span>:
   		              	<input id="filter_subnum" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
   		              </div>
   		            </div>
@@ -116,11 +116,11 @@
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span>
+                            <span class="label"><?php echo JText::_('From'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_from_expires, "filter_date_from_expires", "filter_date_from_expires", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span>
+                            <span class="label"><?php echo JText::_('To'); ?>:</span>
                             <?php echo JHTML::calendar( @$state->filter_date_to_expires, "filter_date_to_expires", "filter_date_to_expires", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
 				</td>
                 <td style="text-align: center; width: 50px;">
                     <a href="<?php echo $item->link; ?>">
-                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_( "Edit" ); ?>"/>
+                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_('COM_TIENDA_EDIT'); ?>"/>
                     </a>
                 </td>
                 <td style="text-align: center;">
@@ -188,7 +188,7 @@
 				<td style="text-align: left;">
             <?php if( $display_subnum && strlen( $item->sub_number ) ) : ?>
             	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
-            	<b><?php echo JText::_( 'Sub Num' ); ?>:</b> <?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?><br />
+            	<b><?php echo JText::_('Sub Num'); ?>:</b> <?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?><br />
             <?php endif; ?>
 				    <?php if (!empty($item->user_name)) { ?>
     					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
@@ -218,7 +218,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="20" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

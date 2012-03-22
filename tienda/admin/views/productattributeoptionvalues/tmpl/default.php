@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_( "Set Values for" ); ?>: <?php echo $row->productattributeoption_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Values for'); ?>: <?php echo $row->productattributeoption_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -21,9 +21,9 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th style="width: 15px;"><?php echo JText::_( "Field" ); ?></th>
-                     <th><?php echo JText::_( "Operator" ); ?></th>
-                    <th><?php echo JText::_( "Value" ); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_('Field'); ?></th>
+                     <th><?php echo JText::_('Operator'); ?></th>
+                    <th><?php echo JText::_('Value'); ?></th>
                     <th></th>
                     
                 </tr>
@@ -31,7 +31,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <?php echo JText::_( "Complete this form to add a new option value" ); ?>:
+                        <?php echo JText::_('Complete this form to add a new option value'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::productattributeoptionvaluefield( "product_full_image", 'createproductattributeoptionvalue_field' ); ?>
@@ -95,7 +95,7 @@
                 </td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributeoptionvalues&task=delete&cid[]=<?php echo $item->productattributeoptionvalue_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id={$row->productattributeoption_id}&tmpl=component"); ?>">
-						<?php echo JText::_( "Delete Value" ); ?>	
+						<?php echo JText::_('Delete Value'); ?>	
 					</a>
 					]
 				</td>
@@ -106,7 +106,7 @@
 			<?php if (!count(@$items)) : ?>
 			<tr>
 				<td colspan="10" align="center">
-					<?php echo JText::_('No items found'); ?>
+					<?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 				</td>
 			</tr>
 			<?php endif; ?>

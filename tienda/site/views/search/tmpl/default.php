@@ -11,66 +11,66 @@
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
     <div id="tienda_searchfilters">
-        <h2><?php echo JText::_("Advanced Search"); ?></h2>
+        <h2><?php echo JText::_('Advanced Search'); ?></h2>
         <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
         
         <div class="row filtername" >
-            <span class="label"><?php echo JText::_("Name"); ?>:</span> 
+            <span class="label"><?php echo JText::_('Name'); ?>:</span> 
             <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25" class="text_area" />
         </div>            
 
         <div class="row filtermulticategory" >
-            <span class="label"><?php echo JText::_("Category"); ?>: </span> 
+            <span class="label"><?php echo JText::_('Category'); ?>: </span> 
             <?php $catattribut = array('class' => 'inputbox', 'size' => '1','multiple' => 'yes' , 'size'=>5 );?>
             <?php echo TiendaSelect::category( @$state->filter_multicategory, 'filter_multicategory[]',$catattribut , 'filter_multicategory', true ); ?>
         </div>
         
         <div class="row filtershipping" >
-            <span class="label"><?php echo JText::_("Requires Shipping"); ?>: </span> 
+            <span class="label"><?php echo JText::_('Requires Shipping'); ?>: </span> 
             <?php echo TiendaSelect::booleans( @$state->filter_ships, 'filter_ships', '', 'ships', true, "Doesn't Matter", 'Yes', 'No' ); ?>
         </div>
         
         <div class="row filtersku" >   
-            <span class="label"><?php echo JText::_("SKU"); ?>: </span>         	                
+            <span class="label"><?php echo JText::_('SKU'); ?>: </span>         	                
             <input id="filter_sku" name="filter_sku" value="<?php echo @$state->filter_sku; ?>" size="15" class="text_area" />
         </div>
         
         <div class="row price">
-        	<span class="label"><?php echo JText::_("Price Range"); ?>: </span> 
+        	<span class="label"><?php echo JText::_('Price Range'); ?>: </span> 
             <div class="range">
-            	<div><span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input" class="text_area" /></div>
-                <div><span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input" class="text_area" /></div>
+            	<div><span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input" class="text_area" /></div>
+                <div><span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input" class="text_area" /></div>
         	</div>
         </div>
         
         <div class="reset"></div>
         
         <div class="row quantity">
-            <span class="label"><?php echo JText::_("Show only Items that are in Stock"); ?>: </span>
+            <span class="label"><?php echo JText::_('Show only Items that are in Stock'); ?>: </span>
             <?php echo TiendaSelect::booleanlist( 'filter_stock', '', @$state->filter_stock ); ?> 
         </div>
         
         <div class="row filterdescription" >   
-            <span class="label"><?php echo JText::_("Description"); ?>: </span>         	                
+            <span class="label"><?php echo JText::_('Description'); ?>: </span>         	                
             <input id="filter_description" name="filter_description" value="<?php echo @$state->filter_description; ?>" size="15" class="text_area" />
         </div>
         
         <div class="row filtermanufacturer" >   
-            <span class="label"><?php echo JText::_("Manufacturer"); ?>: </span>         	                
+            <span class="label"><?php echo JText::_('Manufacturer'); ?>: </span>         	                
             <input id="filter_manufacturer" name="filter_manufacturer" value="<?php echo @$state->filter_manufacturer; ?>" size="15" class="text_area" />
         </div>
         
         <div class="row submit" >   
-            <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_("Search") ?>" class="button" />
+            <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_('Search') ?>" class="button" />
         </div>
         
         <div class="reset"></div>
     </div>
 	
     <div id="tienda_searchresults">
-        <h2><?php echo JText::_("Search Results"); ?></h2>
+        <h2><?php echo JText::_('Search Results'); ?></h2>
         <div id="searchresults_sort">
-            <div class="sortresults title"><?php echo JText::_("Sort Results By"); ?>:</div>
+            <div class="sortresults title"><?php echo JText::_('Sort Results By'); ?>:</div>
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?></div>
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'SKU', "tbl.product_sku", @$state->direction, @$state->order ); ?></div>
             <div class="sortresults option"><?php echo TiendaGrid::sort( 'Price', "price", @$state->direction, @$state->order ); ?></div>
@@ -94,7 +94,7 @@
 
                         <?php if (!empty($item->product_listprice_enabled)) : ?>
                             <div class="product_listprice">
-                            <span class="title"><?php echo JText::_( "List Price" ); ?>:</span>
+                            <span class="title"><?php echo JText::_('List Price'); ?>:</span>
                             <del><?php echo TiendaHelperBase::currency($item->product_listprice); ?></del>
                             </div>                                
                         <?php endif; ?>
@@ -219,7 +219,7 @@
 
             <?php if (!count(@$items)) : ?>
             <div class="product_item">
-                <?php echo JText::_('No items found'); ?>
+                <?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
             </div>
             <?php endif; ?>
         </div>

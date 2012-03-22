@@ -13,7 +13,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 			<table class="admintable" style="width: 100%">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Product Name' ); ?>:
+						<?php echo JText::_('Product Name'); ?>:
 					</td>
 					<td>
 						<?php echo $row->product_name; ?>
@@ -24,7 +24,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'User Name' ); ?>:
+						<?php echo JText::_('User Name'); ?>:
 					</td>
 					<td>
 					<?php echo $row->user_name; ?>
@@ -34,7 +34,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Comment' ); ?>:
+						<?php echo JText::_('Comment'); ?>:
 					</td>
 					<td>
 					<?php echo @$row->productcomment_text; ?>
@@ -45,7 +45,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'User Rating' ); ?>:
+						<?php echo JText::_('User Rating'); ?>:
 					</td>
 					<td>
                         <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
@@ -55,7 +55,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_( 'Published' ); ?>:
+						<?php echo JText::_('Published'); ?>:
 					</td>
 					<td>
 							<?php echo JHTML::_('select.booleanlist', 'productcomment_enabled', '', @$row->productcomment_enabled ); ?>

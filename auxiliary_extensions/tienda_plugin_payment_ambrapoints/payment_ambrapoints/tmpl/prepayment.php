@@ -3,7 +3,7 @@
 <form action="<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout" ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <div class="note">
-        <?php echo JText::_( "Tienda Ambrapoints Payment Preparation Message" ); ?> 
+        <?php echo JText::_('Tienda Ambrapoints Payment Preparation Message'); ?> 
     </div>
        
     <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />

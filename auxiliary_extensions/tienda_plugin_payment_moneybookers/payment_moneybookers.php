@@ -67,7 +67,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
         $vars->status_url2 = 'mailto:bojan.programer@gmail.com'; //$this->_getParam( 'receiver_email' );
         $vars->language = $this->_getParam( 'language', 'EN' );
-        $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
+        $vars->confirmation_note = JText::_('TIENDA MONEYBOOKERS CONFIRMATION NOTE');
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
         $vars->user_id = JFactory::getUser()->id;
 		$vars->order_id = $data['order_id'];
@@ -75,7 +75,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	    $vars->orderpayment_type = $this->_element;	
 	    $vars->currency = $this->_getParam( 'currency', 'EUR' ); //A
 	    $vars->detail1_description = $data['order_id'];
-     	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
+     	$vars->detail1_text = JText::_('TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION');
 	    $vars->detail2_description = $data['orderpayment_id'];
 	    $billing_address = TiendaHelperUser::getPrimaryAddress( $vars->user_id , 'billing' );
      	$vars->first_name       = $billing_address->first_name;
@@ -249,12 +249,12 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$order->save();
 		
 		$orderpayment_type = $this->_element;
-		$transaction_status = JText::_("COM_TIENDA_INCOMPLETE");
+		$transaction_status = JText::_('COM_TIENDA_INCOMPLETE');
 		// in the case of orders with a value of 0.00, use custom values
 		if ( (float) $order->order_total == (float)'0.00' )
 		{
 			$orderpayment_type = 'free';
-			$transaction_status = JText::_("COM_TIENDA_COMPLETE");
+			$transaction_status = JText::_('COM_TIENDA_COMPLETE');
 		}
 
 		// Save an orderpayment with an Incomplete status
@@ -296,14 +296,14 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->status_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=process&tmpl=component";
         $vars->status_url2 = 'mailto:bojan.programer@gmail.com';
         $vars->language = $this->_getParam( 'language', 'EN' );
-        $vars->confirmation_note = JText::_( 'TIENDA MONEYBOOKERS CONFIRMATION NOTE' );
+        $vars->confirmation_note = JText::_('TIENDA MONEYBOOKERS CONFIRMATION NOTE');
         $vars->logo_url = JURI::root().$this->_getParam( 'logo_image' );
         
 	    $vars->currency = $this->_getParam( 'currency', 'EUR' );
 	    $vars->detail1_description = $order->order_id;
-     	$vars->detail1_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION' );
+     	$vars->detail1_text = JText::_('TIENDA MONEYBOOKERS DETAIL1 DESCRIPTION');
 	    $vars->detail2_description = $orderpayment->orderpayment_id;
-	    $vars->detail2_text = JText::_( 'TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION' );
+	    $vars->detail2_text = JText::_('TIENDA MONEYBOOKERS DETAIL2 DESCRIPTION');
 	    
 		//pay from email + All Customer Details to prefill MoneyBookers form
 		//MD5 and other comparison
@@ -399,7 +399,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
                     }
                     	else 
                    	{
-                    	$text =  JText::_( 'TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS' );
+                    	$text =  JText::_('TIENDA MONEYBOOKERS MESSAGE PAYMENT SUCCESS');
 						$html .= "<div align='center'><strong>".$this->_renderHtml( $text )."<strong></div>";
 						$html .= $this->_displayArticle(); 	
                    	}									
@@ -410,11 +410,11 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 					$app->close();
 				  break;
 				case "cancel":					
-					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE CANCEL' );
+					$text = JText::_('TIENDA MONEYBOOKERS MESSAGE CANCEL');
 					$html .= $this->_renderHtml( $text );
 				  break;				
 				default:
-					$text = JText::_( 'TIENDA MONEYBOOKERS MESSAGE INVALID ACTION' );
+					$text = JText::_('TIENDA MONEYBOOKERS MESSAGE INVALID ACTION');
 					$html .= $this->_renderHtml( $text );
 				  break;
 			}
@@ -754,7 +754,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	            $subscriptionhistory->subscriptionhistory_type = 'creation';
 	            $subscriptionhistory->created_datetime = $date->toMySQL();
 	            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-	            $subscriptionhistory->comments = JText::_( 'TIENDA MONEYBOOKERS NEW SUBSCRIPTION CREATED' );
+	            $subscriptionhistory->comments = JText::_('TIENDA MONEYBOOKERS NEW SUBSCRIPTION CREATED');
 	            $subscriptionhistory->save();
 	            
 	        }
@@ -796,7 +796,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	            $subscriptionhistory->subscriptionhistory_type = 'payment';
 	            $subscriptionhistory->created_datetime = $date->toMySQL();
 	            $subscriptionhistory->notify_customer = '0'; // notify customer of new trial subscription?
-	            $subscriptionhistory->comments = JText::_( 'NEW SUBSCRIPTION PAYMENT RECEIVED' );
+	            $subscriptionhistory->comments = JText::_('NEW SUBSCRIPTION PAYMENT RECEIVED');
 	            $subscriptionhistory->save();
 	        }
         }
