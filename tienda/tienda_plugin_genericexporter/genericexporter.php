@@ -133,7 +133,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		$bar->appendButton( 'Custom', $btnhtml );
 
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
-		$bar->prependButton( 'link', 'cancel', JText::_('BACK'), $url );
+		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
 
 		$classname = 'TiendaGenericExporterModel'.$model;
 		Tienda::load( $classname, 'genericexporter.models.'.$model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
@@ -183,7 +183,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		 
 		//add toolbar
 		$bar = & JToolBar::getInstance('toolbar');
-		$bar->prependButton( 'link', 'cancel', JText::_('BACK'), $url );
+		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
 		JToolBarHelper::title( JText::_('GENERIC EXPORT')." : ". ucfirst($model));
 		 
 		$export = $this->processExport($type, $model);

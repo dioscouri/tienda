@@ -18,10 +18,10 @@
 	<div class="form_item">
 		<div class="form_key">
 			<?php 
-				echo JText::_('Password').': '.TiendaGrid::required();
+				echo JText::_('COM_TIENDA_PASSWORD').': '.TiendaGrid::required();
 				if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
-					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />
 					<span>
 						<?php echo JText::_('COM_TIENDA_PASSWORD_REQUIREMENTS'); ?>: <br />
 						<?php 
@@ -45,7 +45,7 @@
 	</div>
 	<div class="form_item">
 		<div class="form_key">
-			<?php echo JText::_('Verify Password').': '.TiendaGrid::required(); ?>
+			<?php echo JText::_('COM_TIENDA_VERIFY_PASSWORD').': '.TiendaGrid::required(); ?>
 		</div>
 		<div class="form_input">
 			<!--   Password 2nd   -->

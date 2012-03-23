@@ -21,7 +21,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_name">
-    						<?php echo JText::_('Name'); ?>:
+    						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
     						</label>
     					</td>
     					<td>
@@ -129,7 +129,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_description">
-    						<?php echo JText::_('Description'); ?>:
+    						<?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?>:
     						</label>
     					</td>
     					<td>
@@ -153,7 +153,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="shippingPlugins">
-    						<?php echo JText::_('Shipping Information'); ?>:
+    						<?php echo JText::_('COM_TIENDA_SHIPPING_INFORMATION'); ?>:
     						</label>
     					</td>
     					<td>

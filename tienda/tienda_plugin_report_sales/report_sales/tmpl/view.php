@@ -10,19 +10,19 @@
                     <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="text-align: left; width : 150px;">
-                    <?php echo JText::_('Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Billing Address'); ?>
+                    <?php echo JText::_('COM_TIENDA_BILLING_ADDRESS'); ?>
                 </th>                
                 <th style="width: 150px;">
                     <?php echo JText::_('COM_TIENDA_EMAIL'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('Total'); ?>
+                    <?php echo JText::_('COM_TIENDA_TOTAL'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('Date'); ?>
+                    <?php echo JText::_('COM_TIENDA_DATE'); ?>
                 </th>
                 <th style="width: 70px;">
                     <?php echo JText::_('Shipping costs'); ?>

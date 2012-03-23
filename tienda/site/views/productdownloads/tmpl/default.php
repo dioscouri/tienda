@@ -5,7 +5,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <div class='componentheading'>
-	<span><?php echo JText::_('My Downloads'); ?></span>
+	<span><?php echo JText::_('COM_TIENDA_MY_DOWNLOADS'); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -15,12 +15,12 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php echo JText::_('Search by applying filters'); ?>
+                <?php echo JText::_('COM_TIENDA_SEARCH_BY_APPLYING_FILTERS'); ?>
             </td>
             <td nowrap="nowrap" style="text-align: right;">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+                <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
         </tr>
     </table>
@@ -49,7 +49,7 @@
                     <?php echo TiendaGrid::sort( 'Product', "product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_('Max Downloads'); ?>
+                    <?php echo JText::_('COM_TIENDA_MAX_DOWNLOADS'); ?>
                 </th>
             </tr>
         </thead>
@@ -69,10 +69,10 @@
         	switch($item->productdownload_max)
         	{
         		case -1 :
-        			$downloadable = JText::_('Unlimited');
+        			$downloadable = JText::_('COM_TIENDA_UNLIMITED');
         			break;
         		case 0 : 
-        			$downloadable = JText::_('Not available');
+        			$downloadable = JText::_('COM_TIENDA_NOT_AVAILABLE');
         			break;
         		default:
         			$downloadable = $item->productdownload_max;
@@ -82,7 +82,7 @@
         	<td style="text-align: center;">
                 <span class="productfile_image">
                     <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=downloadfile&format=raw&id='.$item->productfile_id."&product_id=".$item->product_id); ?>">
-                        <img src="<?php echo Tienda::getURL( 'images' )."download.png"; ?>" alt="<?php echo JText::_('Download') ?>" style="height: 24px; padding: 5px; vertical-align: middle;" />
+                        <img src="<?php echo Tienda::getURL( 'images' )."download.png"; ?>" alt="<?php echo JText::_('COM_TIENDA_DOWNLOAD') ?>" style="height: 24px; padding: 5px; vertical-align: middle;" />
                     </a>
                 </span>
         	</td>

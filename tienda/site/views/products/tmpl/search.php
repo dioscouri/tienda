@@ -8,7 +8,7 @@ $items = @$this->items;
 ?>
 
 <div class='categoryheading'>
-<?php echo JText::_('Search Results for').': '.$state->filter; ?>
+<?php echo JText::_('COM_TIENDA_SEARCH_RESULTS_FOR').': '.$state->filter; ?>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -25,7 +25,7 @@ $items = @$this->items;
       <tbody>
 <?php
 if (empty($items)) {
-    echo JText::_('No matching items found.');
+    echo JText::_('COM_TIENDA_NO_MATCHING_ITEMS_FOUND');
 } else {
     foreach ($items as $item) {
 ?>
@@ -44,11 +44,11 @@ if (empty($items)) {
                 <?php
                     $sep = '';
                     if (!empty($item->product_model)) {
-                        echo '<b>'.JText::_('Model').":</b> $item->product_model";
+                        echo '<b>'.JText::_('COM_TIENDA_MODEL').":</b> $item->product_model";
                         $sep = "&nbsp;&nbsp;";
                     }
                     if (!empty($item->product_sku)) {
-                        echo "$sep <b>".JText::_('SKU').":</b> $item->product_sku";
+                        echo "$sep <b>".JText::_('COM_TIENDA_SKU').":</b> $item->product_sku";
                     }
                 ?>
                 </span><br />

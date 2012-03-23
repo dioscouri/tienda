@@ -43,14 +43,14 @@ function shippingPerOrder()
 			<table class="admintable">
 				<tr>
 					<td style="width: 125px; text-align: right;" class="key">
-						<?php echo JText::_('Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 					</td>
 					<td>
 						<input type="text" name="coupon_name" id="coupon_name" value="<?php echo @$row->coupon_name; ?>" size="48" maxlength="250" />
 					</td>
 				</tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('Coupon Code').'::'.JText::_('Coupon Code Tip'); ?>" style="width: 125px; text-align: right;">
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COUPON_CODE').'::'.JText::_('Coupon Code Tip'); ?>" style="width: 125px; text-align: right;">
                         <?php echo JText::_('Code'); ?>:
                     </td>
                     <td>
@@ -169,7 +169,7 @@ function shippingPerOrder()
                 </tr>                
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Description'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?>:
                     </td>
                     <td>
                         <textarea name="coupon_description" rows="10" cols="55"><?php echo @$row->coupon_description; ?></textarea>

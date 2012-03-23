@@ -224,7 +224,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 		$pointhistory->pointhistory_enabled = 1;
 	 	$pointhistory->pointhistory_name = JText::_('For making purchase in Tienda');
 		$pointhistory->pointhistory_description = 
-		JText::_('Payment ID') . ": " . $orderpayment_id . "\n" .
+		JText::_('COM_TIENDA_PAYMENT_ID') . ": " . $orderpayment_id . "\n" .
 		JText::_('Transaction ID') . ": " . $orderpayment->transaction_id;
 	            
 		// save it and move on

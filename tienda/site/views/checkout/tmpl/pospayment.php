@@ -5,8 +5,8 @@
 <div style="padding: 20px;">	
 
 	<div id="payment_info" class="address">
-		<h3><?php echo JText::_('Billing Information');?></h3>
-		<strong><?php echo JText::_('Billing Address');?></strong>:
+		<h3><?php echo JText::_('COM_TIENDA_BILLING_INFORMATION');?></h3>
+		<strong><?php echo JText::_('COM_TIENDA_BILLING_ADDRESS');?></strong>:
 		<br/>
 		<?php
 		echo $this->values['orderinfo']->billing_first_name . " " . $this->values['orderinfo']->billing_last_name . "<br/>";
@@ -21,11 +21,11 @@
 	<div class="reset"></div>
 	<?php if($this->values['shippingrequired']):?>
 	<div id="shipping_info" class="address">
-		<h3><?php echo JText::_('Shipping Information');?></h3>
-		<strong><?php echo JText::_('Shipping Method');?></strong>: 
+		<h3><?php echo JText::_('COM_TIENDA_SHIPPING_INFORMATION');?></h3>
+		<strong><?php echo JText::_('COM_TIENDA_SHIPPING_METHOD');?></strong>: 
 		<?php echo JText::_($this->values['shipping_name']);?>
 		<br/>
-		<strong><?php echo JText::_('Shipping Address');?></strong>:
+		<strong><?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS');?></strong>:
 		<br/>
 		<?php
 		echo $this->values['orderinfo']->shipping_first_name . " " . $this->values['orderinfo']->shipping_last_name . "<br/>";
@@ -39,7 +39,7 @@
 	</div>
 	<?php if(!empty($this->order->customer_note)):?>
 	<div id="shipping_comments">
-		<h3><?php echo JText::_('Shipping Notes');?></h3>
+		<h3><?php echo JText::_('COM_TIENDA_SHIPPING_NOTES');?></h3>
 		<?php echo $this->order->customer_note;?>
 	</div>	
 	<?php endif;?>
@@ -47,7 +47,7 @@
 	<?php endif;?>	
 	<div class="reset"></div>	
 	<h3>
-	<?php echo JText::_('Payment Method');?>
+	<?php echo JText::_('COM_TIENDA_PAYMENT_METHOD');?>
 	</h3>
 	<?php echo $this->plugin_html;?>
 

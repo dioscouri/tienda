@@ -162,9 +162,9 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
    						
                     	if (!empty($this->showShipping))
                     	{
-                            echo JText::_('Shipping and Handling').":";
+                            echo JText::_('COM_TIENDA_SHIPPING_AND_HANDLING').":";
                             if ($display_shipping_tax && $order->order_shipping_tax ) {
-                                echo "<br>".JText::_('SHIPPING TAX').":";
+                                echo "<br>".JText::_('COM_TIENDA_SHIPPING_TAX').":";
                             }                    	    
                     	}
 
@@ -229,7 +229,7 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                 <?php if( $display_credits ): ?>
                 <tr>
                 	<td colspan="3" style="font-weight: bold; white-space: nowrap;">
-                        <?php echo JText::_('Store Credit'); ?>
+                        <?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?>
                     </td>
                     <td colspan="3" style="text-align: right;">
                        - <?php echo TiendaHelperBase::currency($order->order_credit); ?>

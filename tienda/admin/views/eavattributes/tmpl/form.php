@@ -11,7 +11,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 					</td>
 					<td>
 						<input type="text" name="eavattribute_label" id="eavattribute_label" size="48" maxlength="250" value="<?php echo @$row->eavattribute_label; ?>" />
@@ -96,7 +96,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eavattribute_required">
-						<?php echo JText::_('Required'); ?>:
+						<?php echo JText::_('COM_TIENDA_REQUIRED'); ?>:
 						</label>
 					</td>
 					<td>

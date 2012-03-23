@@ -9,7 +9,7 @@
 	<input type='hidden' name='BuyerEmail' value='<?php echo @$vars->BuyerEmail; ?>'>
     <input type='hidden' name='BuyerFirstName' value='<?php echo @$vars->BuyerFirstName; ?>'>
     <input type='hidden' name='BuyerLastName' value='<?php echo @$vars->BuyerLastName; ?>'>
-    <input type='hidden' name='Description' value='<?php echo JText::_('Order Number').": ".$vars->order_id; ?>'>
+    <input type='hidden' name='Description' value='<?php echo JText::_('COM_TIENDA_ORDER_NUMBER').": ".$vars->order_id; ?>'>
     <input type='hidden' name='Cost' value='<?php echo  @$vars->Cost; ?>'>
     <input type="hidden" name="ExtraCost" value="<?php echo $vars->ExtraCost; ?>" />
     <input type='hidden' name='RefNr' value='<?php echo $vars->RefNr; ?>'>

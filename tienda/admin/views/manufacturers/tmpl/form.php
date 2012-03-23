@@ -12,7 +12,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 			<table class="admintable">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 					</td>
 					<td>
 						<input type="text" name="manufacturer_name" id="manufacturer_name" value="<?php echo @$row->manufacturer_name; ?>" size="48" maxlength="250" />
@@ -52,7 +52,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Description'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?>:
                     </td>
                     <td>
                         <?php $editor = &JFactory::getEditor(); ?>

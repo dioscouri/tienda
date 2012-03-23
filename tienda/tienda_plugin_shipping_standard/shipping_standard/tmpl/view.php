@@ -14,7 +14,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_name">
-				<?php echo JText::_('Name'); ?>:
+				<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 				</label>
 			</td>
 			<td>
@@ -75,7 +75,7 @@ JFilterOutput::objectHTMLSafe( $row );
     </div>
     
     <div class="note" style="width: 25%; float: left; padding-right: 20px;">
-        <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_('Note'); ?>:</span>
+        <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_('COM_TIENDA_NOTE'); ?>:</span>
         <?php echo JText::_('Shipping Type Help Text'); ?>:
         <ul>
             <li><?php echo JText::_('Flat Rate Per Item HELP TEXT'); ?></li>

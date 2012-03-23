@@ -13,7 +13,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 ?>
 
 <div class='componentheading'>
-    <span><?php echo JText::_('My Wishlist'); ?></span>
+    <span><?php echo JText::_('COM_TIENDA_MY_WISHLIST'); ?></span>
 </div>
 
     <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
@@ -36,8 +36,8 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
                 	   <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
                     <th colspan="2" style="text-align: left;"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_('Date Added'); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_('Buy Now'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_DATE_ADDED'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_BUY_NOW'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -116,7 +116,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             <tfoot>
                 <tr>
                     <td colspan="20" style="text-align: left;">
-                        <input type="submit" class="button" value="<?php echo JText::_('ADD TO CART'); ?>" name="addtocart" />
+                        <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" name="addtocart" />
                         <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_REMOVE'); ?>" name="remove" />
                         <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_SHARE'); ?>" name="share" />
                     </td>

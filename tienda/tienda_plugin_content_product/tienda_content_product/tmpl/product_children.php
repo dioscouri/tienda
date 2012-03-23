@@ -12,23 +12,23 @@ $form = @$this->form;
 
     <div id="product_children">
         <div id="product_children_header" class="tienda_header">
-            <span><?php echo JText::_('Select the Items to Add to Your Cart'); ?></span>
+            <span><?php echo JText::_('COM_TIENDA_SELECT_THE_ITEMS_TO_ADD_TO_YOUR_CART'); ?></span>
         </div>
         
         <table class="adminlist">
         <thead>
         <tr>
             <th style="text-align: left;">
-                <?php echo JText::_('Product Name'); ?>
+                <?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
             </th>
             <th style="text-align: left;">
-                <?php echo JText::_('SKU'); ?>
+                <?php echo JText::_('COM_TIENDA_SKU'); ?>
             </th>
             <th style="text-align: center;">
-                <?php echo JText::_('Price'); ?>
+                <?php echo JText::_('COM_TIENDA_PRICE'); ?>
             </th>
             <th style="text-align: center;">
-                <?php echo JText::_('Quantity'); ?>
+                <?php echo JText::_('COM_TIENDA_QUANTITY'); ?>
             </th>
         </tr>
         </thead>
@@ -74,13 +74,13 @@ $form = @$this->form;
                 {
                     case "button":
                         ?>
-                        <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Add to Cart'); ?>" type="button" class="button" />
+                        <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="button" />
                         <?php
                         break;
                     case "image":
                     default:
                         ?> 
-                        <img class='addcart' src='<?php echo Tienda::getUrl('images')."addcart.png"; ?>' alt='<?php echo JText::_('Add to Cart'); ?>' onclick="<?php echo $onclick; ?>" />
+                        <img class='addcart' src='<?php echo Tienda::getUrl('images')."addcart.png"; ?>' alt='<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>' onclick="<?php echo $onclick; ?>" />
                         <?php
                         break;
                 }

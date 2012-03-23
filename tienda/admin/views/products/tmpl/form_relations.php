@@ -21,7 +21,7 @@
     	            <?php echo JText::_('COM_TIENDA_PRODUCT'); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo JText::_('Price'); ?>
+                    <?php echo JText::_('COM_TIENDA_PRICE'); ?>
                 </th>
                 <th style="width: 50px;">
                 </th>
@@ -92,7 +92,7 @@
                         <?php echo JText::_('COM_TIENDA_SKU').": ".$product_sku; ?><br/>
                     <?php endif; ?>
                     <?php if (!empty($product_model)) : ?>
-                        <?php echo JText::_('Model').": ".$product_model; ?><br/>
+                        <?php echo JText::_('COM_TIENDA_MODEL').": ".$product_model; ?><br/>
                     <?php endif; ?>
                     
 				</td>

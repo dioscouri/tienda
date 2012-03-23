@@ -69,7 +69,7 @@
                     <?php } ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo $item->max_download == "-1" ? JText::_('UNLIMITED'): $item->max_download; ?>
+                    <?php echo $item->max_download == "-1" ? JText::_('COM_TIENDA_UNLIMITED'): $item->max_download; ?>
                 </td>
                  <td style="text-align: center;">
                     <?php echo $item->file_downloads; ?>

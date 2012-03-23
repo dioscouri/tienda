@@ -76,7 +76,7 @@ JFilterOutput::objectHTMLSafe( $row );
             </tr>
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_('Customer Information'); ?>:
+                     <?php echo JText::_('COM_TIENDA_CUSTOMER_INFORMATION'); ?>:
                 </th>
                 <td>
                     <?php echo $row->userinfo->name .' [ '.$row->user_id.' ]'; ?>
@@ -109,7 +109,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<table class="adminlist">
 		<thead>
 		    <tr>
-		        <th colspan="4" style="text-align: left;"><?php echo JText::_('Shipping Method'); ?></th>
+		        <th colspan="4" style="text-align: left;"><?php echo JText::_('COM_TIENDA_SHIPPING_METHOD'); ?></th>
 		    </tr>
 		</thead>
 		<tbody>

@@ -11,7 +11,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 					</td>
 					<td>
 						<input type="text" name="country_name" id="country_name" size="48" maxlength="250" value="<?php echo @$row->country_name; ?>" />

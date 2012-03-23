@@ -42,7 +42,7 @@
             </div>
             
             <div class="continue">
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_('VALIDATING')."' );"; ?> 
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?> 
                 <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('Continue'); ?>" type="button" class="button" />
             </div>
         </div>

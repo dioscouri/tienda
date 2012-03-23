@@ -82,7 +82,7 @@ class TiendaViewConfig extends TiendaViewBase
 		// set the required image
 		// TODO Fix this to use defines
 			$required = new stdClass();
-			$required->text = JText::_('Required');
+			$required->text = JText::_('COM_TIENDA_REQUIRED');
 			$required->image = "<img src='".JURI::root()."/media/com_tienda/images/required_16.png' alt='{$required->text}'>";
 			$this->assign('required', $required );
 			

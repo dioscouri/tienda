@@ -13,7 +13,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 			<table class="admintable" style="width: 100%">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Product Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>:
 					</td>
 					<td>
 						<?php echo $row->product_name; ?>
@@ -34,7 +34,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Comment'); ?>:
+						<?php echo JText::_('COM_TIENDA_COMMENT'); ?>:
 					</td>
 					<td>
 					<?php echo @$row->productcomment_text; ?>

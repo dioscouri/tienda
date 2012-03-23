@@ -68,7 +68,7 @@
                     <?php 
                     if (!empty($item->order_number))
                     {
-                        echo "<br/><b>".JText::_('Order Number')."</b>: ".$item->order_number;
+                        echo "<br/><b>".JText::_('COM_TIENDA_ORDER_NUMBER')."</b>: ".$item->order_number;
                     }
                     ?>
 				</td>

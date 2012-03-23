@@ -22,8 +22,8 @@ if ($num > 0 && $addresses)
     </thead>
     <tbody>
     <tr>
-        <th><?php echo JText::_('Name'); ?></th>
-        <th><?php echo JText::_('Address'); ?></th>
+        <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
+        <th><?php echo JText::_('COM_TIENDA_ADDRESS'); ?></th>
         <th><?php echo JText::_('Default'); ?></th>
     </tr>
     <?php

@@ -71,7 +71,7 @@ class TiendaViewElementProduct extends JView
 			onchange="document.adminForm.submit();" />
 		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 		<button
-			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 		</td>
 		
 	</tr>

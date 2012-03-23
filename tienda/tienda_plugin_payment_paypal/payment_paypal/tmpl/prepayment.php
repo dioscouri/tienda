@@ -24,7 +24,7 @@
             <?php // for cart Paypal payments, custom is the product_id? ?>
             <input type='hidden' name='custom' value='<?php echo @$vars->orderpayment_id; ?>'>
             <input type='hidden' name='invoice' value='<?php echo @$vars->orderpayment_id; ?>'>
-            <input type='hidden' name='item_name' value='<?php echo JText::_('Order Number').": ".$vars->order_id; ?>'>
+            <input type='hidden' name='item_name' value='<?php echo JText::_('COM_TIENDA_ORDER_NUMBER').": ".$vars->order_id; ?>'>
             <input type='hidden' name='item_number' value='<?php echo $vars->order_id; ?>'>
             
             <!--SUB INFO-->

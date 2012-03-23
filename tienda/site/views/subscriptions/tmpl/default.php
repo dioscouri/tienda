@@ -6,7 +6,7 @@
 <?php $items = @$this->items; ?>
 
 <div class='componentheading'>
-	<span><?php echo JText::_('Subscriptions'); ?></span>
+	<span><?php echo JText::_('COM_TIENDA_SUBSCRIPTIONS'); ?></span>
 </div>
 
 	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -16,12 +16,12 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php echo JText::_('Search by applying filters'); ?>
+                <?php echo JText::_('COM_TIENDA_SEARCH_BY_APPLYING_FILTERS'); ?>
             </td>
             <td nowrap="nowrap" style="text-align: right;">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+                <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
             
         </tr>

@@ -634,7 +634,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		if(!empty($this->_filter_category) && !empty($this->category_current))
 		{
 			$catObj = new stdClass();
-			$catObj->label = JText::_('Category');
+			$catObj->label = JText::_('COM_TIENDA_CATEGORY');
 			$catObj->value = $this->category_current->category_name;
 			$catObj->link = $this->_link.'&filter_category=';
 			$filters[] = $catObj;
@@ -643,7 +643,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		if(!empty($this->_filter_price_from) || !empty($this->_filter_price_to))
 		{
 			$priceObj = new stdClass();
-			$priceObj->label = JText::_('Price');
+			$priceObj->label = JText::_('COM_TIENDA_PRICE');
 			$priceObj->value = TiendaHelperBase::currency($this->_filter_price_from).' - '.TiendaHelperBase::currency($this->_filter_price_to);
 			$priceObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_price_from=0&filter_price_to=';
 			$filters[] = $priceObj;
@@ -703,7 +703,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		if($this->_filter_rating && $this->_params->get('filter_rating'))
 		{
 			$ratingObj = new stdClass();
-			$ratingObj->label = JText::_('Rating');
+			$ratingObj->label = JText::_('COM_TIENDA_RATING');
 			$ratingObj->value = TiendaHelperProduct::getRatingImage( null, (float) $this->_filter_rating ).' '.JText::_('& Up');
 			$ratingObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_rating=0';
 			$filters[] = $ratingObj;
@@ -718,7 +718,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 				foreach($brandSet as $brand)
 				{
 					$brandObj = new stdClass();
-					$brandObj->label = JText::_('Manufacturer');
+					$brandObj->label = JText::_('COM_TIENDA_MANUFACTURER');
 					$brandObj->value = $this->brands[$brand];
 					$brandObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_manufacturer_set='.implode(',',array_diff($brandSet, array($brand)));
 					$filters[] = $brandObj;
@@ -730,7 +730,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 			if(!empty($this->_filter_manufacturer))
 			{
 				$brandObj = new stdClass();
-				$brandObj->label = JText::_('Manufacturer');
+				$brandObj->label = JText::_('COM_TIENDA_MANUFACTURER');
 				$brandObj->value = $this->brands[$this->_filter_manufacturer];
 				$brandObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_manufacturer=';
 				$filters[] = $brandObj;

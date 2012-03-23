@@ -189,7 +189,7 @@ class TiendaController extends JController
 		switch (strtolower($task))
 		{
 			case "cancel":
-				$msg = JText::_('Operation Cancelled');
+				$msg = JText::_('COM_TIENDA_OPERATION_CANCELLED');
 				$type = "notice";
 			  break;
 			case "close":

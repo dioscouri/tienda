@@ -8,9 +8,9 @@
 	    <?php echo JText::_('SELECT DATE RANGE'); ?>:
 	    <?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>
 	    
-	            <span class="label"><?php echo JText::_('FROM'); ?>:</span>
+	            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span>
 	            <?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d 00:00:00' ); ?>
-	            <span class="label"><?php echo JText::_('TO'); ?>:</span>
+	            <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span>
 	            <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d 00:00:00' ); ?>
     </div>
         

@@ -245,7 +245,7 @@ class TiendaGrid extends JHTMLGrid
 	
 	public static function required()
 	{
-	    $html = '<img src="'.Tienda::getUrl( 'images' ).'required_16.png" alt="'.JText::_('Required').'">';
+	    $html = '<img src="'.Tienda::getUrl( 'images' ).'required_16.png" alt="'.JText::_('COM_TIENDA_REQUIRED').'">';
         return $html;
 	}
 }

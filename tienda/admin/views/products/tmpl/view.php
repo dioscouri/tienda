@@ -16,7 +16,7 @@
 				<table class="admintable">
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_('Name'); ?>:
+							<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_name; ?>
@@ -24,7 +24,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_('Model'); ?>:
+							<?php echo JText::_('COM_TIENDA_MODEL'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_model; ?>
@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_('SKU'); ?>:
+							<?php echo JText::_('COM_TIENDA_SKU'); ?>:
 						</td>
 						<td>
 							<?php echo @$row->product_sku; ?>

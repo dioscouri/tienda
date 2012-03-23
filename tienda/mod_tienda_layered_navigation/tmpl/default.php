@@ -49,7 +49,7 @@
 <?php endif;?>
 
 <?php if(count($priceRanges) > 0):?>
-	<h4><?php echo JText::_('PRICE');?></h4>
+	<h4><?php echo JText::_('COM_TIENDA_PRICE');?></h4>
 	<ul id="tienda_browse_pricerange">
 		<?php foreach($priceRanges as $priceRange):?>	
 			<?php if($priceRange->total > 0):?>		

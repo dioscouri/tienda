@@ -25,9 +25,9 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
 	<?php endif;?>
     <?php if (!empty($this->pricefilter_applied)) : ?>
         <div id='tienda_pricefilter'>
-            <b><?php echo JText::_('Displaying Price Range') . ": "; ?></b>
+            <b><?php echo JText::_('COM_TIENDA_DISPLAYING_PRICE_RANGE') . ": "; ?></b>
             <?php echo $this->filterprice_from .  " - " . $this->filterprice_to; ?>
-            <a href="<?php echo JRoute::_( $this->remove_pricefilter_url ); ?>"><?php echo JText::_('Remove Filter') ?></a>
+            <a href="<?php echo JRoute::_( $this->remove_pricefilter_url ); ?>"><?php echo JText::_('COM_TIENDA_REMOVE_FILTER') ?></a>
         </div>
     <?php endif; ?>
 
@@ -47,7 +47,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         
         <?php if (!empty($citems)) : ?>
             <div id="tienda_subcategories">
-                <?php if ($this->level > 1) { echo '<h3>'.JText::_('Subcategories').'</h3>'; } ?>
+                <?php if ($this->level > 1) { echo '<h3>'.JText::_('COM_TIENDA_SUBCATEGORIES').'</h3>'; } ?>
                 <?php
                 $i = 0;
                 $subcategories_per_line = $config->get('subcategories_per_line', '5'); 
@@ -94,9 +94,9 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
      	<div class="tienda_sortby" style="margin: 20px 0; text-align:right;">
     	<?php Tienda::load('TiendaSelect', 'libray.select');?>
     	<span class="sort_by_label" style="font-size: 1.15em;">
-    	<?php echo JText::_('Sort By');?>
+    	<?php echo JText::_('COM_TIENDA_SORT_BY');?>
     	</span>
-    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('Default Order'));?>
+    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('COM_TIENDA_DEFAULT_ORDER'));?>
     	<span>
     		<?php 
     			if(strtolower($state->filter_dir) == 'asc')
@@ -136,7 +136,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                     <div id="tiendaProductCompare">
 	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true);">
 	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
-	               	 		<?php echo JText::_('Compare')?>
+	               	 		<?php echo JText::_('COM_TIENDA_COMPARE')?>
 	               	 		<span class="arrow" >»</span>  
 	               	 	</a>             	 	              
                 	</div>

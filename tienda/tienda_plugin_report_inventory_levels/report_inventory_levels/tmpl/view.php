@@ -13,16 +13,16 @@
                     <?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text -align: left; width:150px;">
-                	<?php echo JText::_('Product name'); ?>
+                	<?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('Attributes + Options'); ?>
                 </th>
 				<th style="width: 80px;">
-                    <?php echo JText::_('Model'); ?>
+                    <?php echo JText::_('COM_TIENDA_MODEL'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('SKU'); ?>
+                    <?php echo JText::_('COM_TIENDA_SKU'); ?>
                 </th>
                 <th style="width: 70px;">
                     <?php echo JText::_('Total Price'); ?>

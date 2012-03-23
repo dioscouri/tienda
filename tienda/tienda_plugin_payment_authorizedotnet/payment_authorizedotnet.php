@@ -455,7 +455,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $auth_description           = JText::_('Order Number').": ".$order->order_id;
+        $auth_description           = JText::_('COM_TIENDA_ORDER_NUMBER').": ".$order->order_id;
         $auth_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $auth_invoice_num           = $data['orderpayment_id']; 
         

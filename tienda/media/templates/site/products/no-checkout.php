@@ -34,14 +34,14 @@ $item = @$this->row;
             <div class="product_numbers">
                 <?php if (!empty($item->product_model)) : ?>
                     <span class="model">
-                        <span class="title"><?php echo JText::_('Model'); ?>:</span> 
+                        <span class="title"><?php echo JText::_('COM_TIENDA_MODEL'); ?>:</span> 
                         <?php echo $item->product_model; ?>
                     </span>
                 <?php endif; ?>
                 
                 <?php if (!empty($item->product_sku)) : ?>
                     <span class="sku">
-                        <span class="title"><?php echo JText::_('SKU'); ?>:</span> 
+                        <span class="title"><?php echo JText::_('COM_TIENDA_SKU'); ?>:</span> 
                         <?php echo $item->product_sku; ?>
                     </span>
                 <?php endif; ?>
@@ -66,7 +66,7 @@ $item = @$this->row;
             <div id="product_description">
                 <?php if (TiendaConfig::getInstance()->get('display_product_description_header', '1')) : ?>
                     <div id="product_description_header" class="tienda_header">
-                        <span><?php echo JText::_('Description'); ?></span>
+                        <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>
                 <?php endif; ?>
                 <?php echo $this->product_description; ?>
@@ -88,7 +88,7 @@ $item = @$this->row;
             <div class="reset"></div>
             <div class="product_gallery">
                 <div id="product_gallery_header" class="tienda_header">
-                    <span><?php echo JText::_('Images'); ?></span>
+                    <span><?php echo JText::_('COM_TIENDA_IMAGES'); ?></span>
                 </div>
                 <?php            
                 $uri = TiendaHelperProduct::getUriFromPath( $path );

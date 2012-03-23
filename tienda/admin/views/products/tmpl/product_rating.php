@@ -19,69 +19,69 @@ else
 	{
 		case "5":
 				$src = Tienda::getURL( 'ratings' )."five.png";
-				$alt = JText::_('Great');
-				$title = JText::_('Great');
-				$name = JText::_('Great');
+				$alt = JText::_('COM_TIENDA_GREAT');
+				$title = JText::_('COM_TIENDA_GREAT');
+				$name = JText::_('COM_TIENDA_GREAT');
 			break;
 		case "4.5":
 				$src = Tienda::getURL( 'ratings' )."four_half.png";
-				$alt = JText::_('Great');
-				$title = JText::_('Great');
-				$name = JText::_('Great');
+				$alt = JText::_('COM_TIENDA_GREAT');
+				$title = JText::_('COM_TIENDA_GREAT');
+				$name = JText::_('COM_TIENDA_GREAT');
 			break;
 		case "4":
 				$src = Tienda::getURL( 'ratings' )."four.png";
-				$alt = JText::_('Good');
-				$title = JText::_('Good');
-				$name = JText::_('Good');
+				$alt = JText::_('COM_TIENDA_GOOD');
+				$title = JText::_('COM_TIENDA_GOOD');
+				$name = JText::_('COM_TIENDA_GOOD');
 			break;
 		case "3.5":
 				$src = Tienda::getURL( 'ratings' )."three_half.png";
-				$alt = JText::_('Great');
-				$title = JText::_('Great');
-				$name = JText::_('Great');
+				$alt = JText::_('COM_TIENDA_GREAT');
+				$title = JText::_('COM_TIENDA_GREAT');
+				$name = JText::_('COM_TIENDA_GREAT');
 			break;
 		case "3":
 				$src = Tienda::getURL( 'ratings' )."three.png";
-				$alt = JText::_('Average');
-				$title = JText::_('Average');
-				$name = JText::_('Average');
+				$alt = JText::_('COM_TIENDA_AVERAGE');
+				$title = JText::_('COM_TIENDA_AVERAGE');
+				$name = JText::_('COM_TIENDA_AVERAGE');
 			break;
 		case "2.5":
 				$src = Tienda::getURL( 'ratings' )."two_half.png";
-				$alt = JText::_('Average');
-				$title = JText::_('Average');
-				$name = JText::_('Average');
+				$alt = JText::_('COM_TIENDA_AVERAGE');
+				$title = JText::_('COM_TIENDA_AVERAGE');
+				$name = JText::_('COM_TIENDA_AVERAGE');
 			break;
 		case "2":
 				$src = Tienda::getURL( 'ratings' )."two.png";
-				$alt = JText::_('Poor');
-				$title = JText::_('Poor');
-				$name = JText::_('Poor');
+				$alt = JText::_('COM_TIENDA_POOR');
+				$title = JText::_('COM_TIENDA_POOR');
+				$name = JText::_('COM_TIENDA_POOR');
 			break;
 		case "1.5":
 				$src = Tienda::getURL( 'ratings' )."one_half.png";
-				$alt = JText::_('Poor');
-				$title = JText::_('Poor');
-				$name = JText::_('Poor');
+				$alt = JText::_('COM_TIENDA_POOR');
+				$title = JText::_('COM_TIENDA_POOR');
+				$name = JText::_('COM_TIENDA_POOR');
 			break;
 		case "1":
 				$src = Tienda::getURL( 'ratings' )."one.png";
-				$alt = JText::_('Unsatisfactory');
-				$title = JText::_('Unsatisfactory');
-				$name = JText::_('Unsatisfactory');
+				$alt = JText::_('COM_TIENDA_UNSATISFACTORY');
+				$title = JText::_('COM_TIENDA_UNSATISFACTORY');
+				$name = JText::_('COM_TIENDA_UNSATISFACTORY');
 			break;
 		case "0.5":
 				$src = Tienda::getURL( 'ratings' )."zero_half.png";
-				$alt = JText::_('Unsatisfactory');
-				$title = JText::_('Unsatisfactory');
-				$name = JText::_('Unsatisfactory');
+				$alt = JText::_('COM_TIENDA_UNSATISFACTORY');
+				$title = JText::_('COM_TIENDA_UNSATISFACTORY');
+				$name = JText::_('COM_TIENDA_UNSATISFACTORY');
 			break;
 		default:
 				$src = Tienda::getURL( 'ratings' )."zero.png";
-				$alt = JText::_('Unrated');
-				$title = JText::_('Unrated');
-				$name = JText::_('Unrated');
+				$alt = JText::_('COM_TIENDA_UNRATED');
+				$title = JText::_('COM_TIENDA_UNRATED');
+				$name = JText::_('COM_TIENDA_UNRATED');
 			break;
 	}
 	

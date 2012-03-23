@@ -47,7 +47,7 @@
                     <?php echo JText::_('Id'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('Code'); ?>

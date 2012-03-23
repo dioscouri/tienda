@@ -24,7 +24,7 @@
             <tr>
                 <th><?php echo JText::_('Geozone'); ?></th>
                 <th><?php echo JText::_('Predecessor'); ?></th>
-                <th><?php echo JText::_('Description'); ?></th>
+                <th><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></th>
                 <th><?php echo JText::_('Rate'); ?></th>
             </tr>
         </thead>

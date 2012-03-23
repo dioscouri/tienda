@@ -43,7 +43,7 @@
             		</td>
             		<td>
             			<input id="shipping_rate_weight_start" name="shipping_rate_weight_start" value="" size="5" />
-            			<?php echo JText::_('to'); ?>
+            			<?php echo JText::_('COM_TIENDA_TO'); ?>
                 		<input id="shipping_rate_weight_end" name="shipping_rate_weight_end" value="" size="5" />
                 	</td>
             		<td>
@@ -99,7 +99,7 @@
 				</td>
 				<td style="text-align: center;">
 				    <input type="text" name="weight_start[<?php echo $item->shipping_rate_id; ?>]" value="<?php echo $item->shipping_rate_weight_start; ?>" />
-				    <?php echo JText::_('to'); ?>
+				    <?php echo JText::_('COM_TIENDA_TO'); ?>
 				    <input type="text" name="weight_end[<?php echo $item->shipping_rate_id; ?>]" value="<?php echo $item->shipping_rate_weight_end; ?>" />
 				</td>
 				<td style="text-align: center;">

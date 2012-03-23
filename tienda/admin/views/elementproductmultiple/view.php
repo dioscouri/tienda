@@ -71,7 +71,7 @@ class TiendaViewElementProductMultiple extends JView
 			onchange="document.adminForm.submit();" />
 		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 		<button
-			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 		</td>
 		<td nowrap="nowrap">
     		<button onclick="tiendaSetItemsToOrder(<?php echo count( $rows ); ?>, '<?php echo JText::_('Unable to retrieve product selection.'); ?>');return false;"><?php echo JText::_('Add Selected Product(s) to Order'); ?></button>

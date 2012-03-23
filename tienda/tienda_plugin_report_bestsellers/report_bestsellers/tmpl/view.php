@@ -13,13 +13,13 @@
                     <?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('Model'); ?>
+                    <?php echo JText::_('COM_TIENDA_MODEL'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('SKU'); ?>
+                    <?php echo JText::_('COM_TIENDA_SKU'); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo JText::_('Sales'); ?>

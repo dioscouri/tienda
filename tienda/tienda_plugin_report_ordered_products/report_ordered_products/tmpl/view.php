@@ -10,16 +10,16 @@
                     <?php echo JText::_('Num'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Product Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
                 </th>
                 <th style="text-align: center; width : 200px;">
-                    <?php echo JText::_('Manufacturer'); ?>
+                    <?php echo JText::_('COM_TIENDA_MANUFACTURER'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('Attributes'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Quantity'); ?>
+                    <?php echo JText::_('COM_TIENDA_QUANTITY'); ?>
                 </th>               
             </tr>
         </thead>

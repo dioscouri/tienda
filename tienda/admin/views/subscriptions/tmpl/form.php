@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Order ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
                     </td>
                     <td>
                         <input name="order_id" value="<?php echo @$row->order_id; ?>" size="15" maxlength="250" type="text" />
@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Created'); ?>:
+                        <?php echo JText::_('COM_TIENDA_CREATED'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->created_datetime, "created_datetime", "created_datetime", '%Y-%m-%d %H:%M:%S' ); ?>

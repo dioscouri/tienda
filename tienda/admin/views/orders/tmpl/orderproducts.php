@@ -9,9 +9,9 @@
                     <th style="width: 20px;">
                         <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                     </th>
-                    <th style="text-align: left;"><?php echo JText::_('Product'); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_('Quantity'); ?></th>
-                    <th style="width: 50px;"><?php echo JText::_('Total'); ?></th>
+                    <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?></th>
+                    <th style="width: 50px;"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></th>
                 </tr>
                 <?php endif; ?>
             </thead>
@@ -25,12 +25,12 @@
                     <td style="text-align: left;">
 	                    <?php echo $item->orderitem_name; ?>
 	                    <br />
-	                    <b><?php echo JText::_('Price'); ?>:</b>
+	                    <b><?php echo JText::_('COM_TIENDA_PRICE'); ?>:</b>
 	                    <?php echo TiendaHelperBase::currency( $item->orderitem_price ); ?>
 	                     
 	                    <?php if (!empty($item->orderitem_sku)) : ?>
 		                    <br />
-		                    <b><?php echo JText::_('SKU'); ?>:</b>
+		                    <b><?php echo JText::_('COM_TIENDA_SKU'); ?>:</b>
 		                    <?php echo $item->orderitem_sku; ?>
 		                <?php endif; ?>
 	                </td>

@@ -15,7 +15,7 @@
     ?>
     
 	<fieldset>
-		<legend><?php echo JText::_('Subscription Information'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_INFORMATION'); ?></legend>
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Created'); ?>:
+                        <?php echo JText::_('COM_TIENDA_CREATED'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('date', $row->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
@@ -126,11 +126,11 @@
     </fieldset>
     
     <fieldset>
-        <legend><?php echo JText::_('Order Information'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ORDER_INFORMATION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Order ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->order_id; ?>
@@ -165,7 +165,7 @@
                 <table class="adminlist" style="clear: both;">
                 <thead>
                     <tr>
-                        <th style="text-align: left;"><?php echo JText::_('Date'); ?></th>
+                        <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
                         <th style="text-align: center;"><?php echo JText::_('Type'); ?></th>
                         <th style="text-align: center;"><?php echo JText::_('Notification Sent'); ?></th>
                     </tr>

@@ -50,10 +50,10 @@ class UserViewRegister extends JView
         if (is_object( $menu )) {
             $menu_params = new JParameter( $menu->params );
             if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',  JText::_('Registration'));
+                $params->set('page_title',  JText::_('COM_TIENDA_REGISTRATION'));
             }
         } else {
-            $params->set('page_title',  JText::_('Registration'));
+            $params->set('page_title',  JText::_('COM_TIENDA_REGISTRATION'));
         }
         $document->setTitle( $params->get( 'page_title' ) );
 

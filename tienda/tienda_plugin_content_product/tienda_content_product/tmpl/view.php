@@ -30,14 +30,14 @@ Tienda::load('TiendaUrl', 'library.url');
             <div class="product_numbers">
                 <?php if (!empty($item->product_model) && @$params['show_model']) : ?>
                     <span class="model">
-                        <span class="title"><?php echo JText::_('Model'); ?>:</span> 
+                        <span class="title"><?php echo JText::_('COM_TIENDA_MODEL'); ?>:</span> 
                         <?php echo $item->product_model; ?>
                     </span>
                 <?php endif; ?>
                 
                 <?php if (!empty($item->product_sku) && @$params['show_sku']) : ?>
                     <span class="sku">
-                        <span class="title"><?php echo JText::_('SKU'); ?>:</span> 
+                        <span class="title"><?php echo JText::_('COM_TIENDA_SKU'); ?>:</span> 
                         <?php echo $item->product_sku; ?>
                     </span>
                 <?php endif; ?>
@@ -81,7 +81,7 @@ Tienda::load('TiendaUrl', 'library.url');
 		                    else
 		                {
 		                    echo TiendaHelperBase::currency($item->price);
-		                    echo sprintf( JText::_('INCLUDE_TAX'), TiendaHelperBase::currency($vars->tax));
+		                    echo sprintf( JText::_('COM_TIENDA_INCLUDE_TAX'), TiendaHelperBase::currency($vars->tax));
 		                }
 		            }
 		                else
@@ -96,7 +96,7 @@ Tienda::load('TiendaUrl', 'library.url');
 		        
 		        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
 		        {
-		            echo '<br /><a href="'.$vars->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('LINK_TO_SHIPPING_COST'), $vars->shipping_cost_link).'</a>' ;
+		            echo '<br /><a href="'.$vars->shipping_cost_link.'" target="_blank">'.sprintf( JText::_('COM_TIENDA_LINK_TO_SHIPPING_COST'), $vars->shipping_cost_link).'</a>' ;
 		        }
 		        ?>
 		    </span>
@@ -115,7 +115,7 @@ Tienda::load('TiendaUrl', 'library.url');
             <div id="product_description">
                 <?php if (TiendaConfig::getInstance()->get('display_product_description_header', '1')) : ?>
                     <div id="product_description_header" class="tienda_header">
-                        <span><?php echo JText::_('Description'); ?></span>
+                        <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>
                 <?php endif; ?>
                 <?php echo $product_description; ?>
@@ -135,7 +135,7 @@ Tienda::load('TiendaUrl', 'library.url');
             <div class="reset"></div>
             <div class="product_gallery">
                 <div id="product_gallery_header" class="tienda_header">
-                    <span><?php echo JText::_('Images'); ?></span>
+                    <span><?php echo JText::_('COM_TIENDA_IMAGES'); ?></span>
                 </div>
                 <?php            
                 $uri = TiendaHelperProduct::getUriFromPath( $path );

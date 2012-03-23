@@ -38,7 +38,7 @@
             	
             	<!--<input type="checkbox" value="1" name="skippayment" id="skippayment"> <?php echo JText::_('SKIP PAYMENT');?>--> 
             	<!--<a class="modal" href="" />[?]</a>-->
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_('VALIDATING')."' );"; ?> 
+                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?> 
                 <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('CONTINUE'); ?>" type="button" class="button" />
             </div>        
         </div>

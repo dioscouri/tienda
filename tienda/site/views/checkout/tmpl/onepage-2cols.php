@@ -30,12 +30,12 @@
 			$return_link = base64_encode( $uri->toString( ) );
 			$asklink = "index.php?option=com_tienda&view=checkout&task=registrationLink&tmpl=component&return=" . $return_link;
 				
-				$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_('Click here to login'),
+				$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_('COM_TIENDA_CLICK_HERE_TO_LOGIN'),
 						array(
 							'width' => '490', 'height' => '320'
 						) );
 				$asktxt = "<a class=\"modal\" href='{$asklink}'>";
-				$asktxt .= JText::_('Click here to login');
+				$asktxt .= JText::_('COM_TIENDA_CLICK_HERE_TO_LOGIN');
 				$asktxt .= "</a>";
 		?>
 		[<?php echo $asktxt; ?>]
@@ -51,12 +51,12 @@
 		<div class="inner col3">
 			
 			<div class="contentheading">
-				<?php echo $this->section.'. '.JText::_('Customer Information'); $this->section++; ?>
+				<?php echo $this->section.'. '.JText::_('COM_TIENDA_CUSTOMER_INFORMATION'); $this->section++; ?>
 				<?php if( $enable_tooltips ): ?>
 				<a class="img_tooltip" href="" > 
-					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+					<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />
 					<span>
-						<?php echo JText::_('Order information will be sent to your account e-mail listed below'); ?>												
+						<?php echo JText::_('COM_TIENDA_ORDER_INFORMATION_WILL_BE_SENT_TO_YOUR_ACCOUNT_E-MAIL_LISTED_BELOW'); ?>												
 					</span>
 				</a>
 				<?php endif; ?>
@@ -72,7 +72,7 @@
 							$email_address = '';
 					?>
 
-					<?php echo JText::_('E-mail address');?>:<br/>
+					<?php echo JText::_('COM_TIENDA_E-MAIL_ADDRESS');?>:<br/>
 						<input type="text" id="email_address" class="inputbox" name="email_address" value="<?php echo $email_address; ?>" onblur="tiendaCheckoutCheckEmail( 'user_email_validation',document.adminForm )"/> *
 				</div>
 				<div id="user_email_validation"></div>
@@ -83,13 +83,13 @@
 			<div class="tienda-expanded" id="billing-shipping-pane">
 				
 				<div class="contentheading">
-					<?php echo $this->showShipping ? JText::_('Billing and Shipping Information') : JText::_('Billing Information'); ?>
+					<?php echo $this->showShipping ? JText::_('COM_TIENDA_BILLING_AND_SHIPPING_INFORMATION') : JText::_('COM_TIENDA_BILLING_INFORMATION'); ?>
 				</div>
 				
 				<div id="tienda_billing-shipping">
 	        <div id="billingAddress">						
 						<div>
-							<?php echo JText::_('Billing Address')?>
+							<?php echo JText::_('COM_TIENDA_BILLING_ADDRESS')?>
 						</div>
         			<?php 
 						$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id=";                   
@@ -121,7 +121,7 @@
 					<?php if(!$this->user->id ) : ?>
 						<div class="tienda_checkout_method">
 							<input type="checkbox" id="create_account" name="create_account" <?php if( !$guest_enabled ) echo 'checked disabled'; ?> value="on" />
-							<label for="field-create-account"><?php echo JText::_('Create a New Account');?></label>
+							<label for="field-create-account"><?php echo JText::_('COM_TIENDA_CREATE_A_NEW_ACCOUNT');?></label>
 							<div id="tienda_user_additional_info" <?php if( $guest_enabled ) echo 'class="hidden"'; ?>>
 	            	<?php echo $this->form_user_register;?>
 							</div>
@@ -131,7 +131,7 @@
            			<?php if($this->showShipping):?>				
           			<div class="reset marginbot"></div>
 							<div>
-								<?php echo JText::_('Shipping Address'); ?>
+								<?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS'); ?>
 							</div>
           			<div class="reset marginbot"></div>
 		            <div id="shippingAddress">
@@ -139,7 +139,7 @@
 	                <?php if (empty($this->shipping_address)) : ?>
 	                    <div>
 	                        <input id="sameasbilling" name="sameasbilling" type="checkbox" checked="checked" onclick="tiendaShowHideDiv( 'shipping_input_addressForm' );"/>&nbsp;
-	                        <?php echo JText::_('Same As Billing Address'); ?>
+	                        <?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS'); ?>
 	                    </div>
 					<?php endif; ?>
             		<?php
@@ -185,7 +185,7 @@
 				<?php if($this->showShipping):?>	
 				<div class="tienda-expanded" id="shippingcost-pane">
 					<div class="contentheading">
-						<?php echo $this->section.'. '.JText::_('Select a Shipping Method'); $this->section++; ?>
+						<?php echo $this->section.'. '.JText::_('COM_TIENDA_SELECT_A_SHIPPING_METHOD'); $this->section++; ?>
 					</div>
 					<div id="onCheckoutShipping_wrapper">
 						<?php echo $this->shipping_method_form;?>
@@ -207,12 +207,12 @@
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="contentheading">
-						<?php echo $this->section.'. '.JText::_('Select a Payment Method'); $this->section++; ?>
+						<?php echo $this->section.'. '.JText::_('COM_TIENDA_SELECT_A_PAYMENT_METHOD'); $this->section++; ?>
 								<?php if( $enable_tooltips ) : ?>
 								<a class="img_tooltip" href="" > 
-									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+									<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />
 									<span class="img_tooltip_left">
-										<?php echo JText::_('Please select your preferred payment method below.'); ?>												
+										<?php echo JText::_('COM_TIENDA_PLEASE_SELECT_YOUR_PREFERRED_PAYMENT_METHOD_BELOW'); ?>												
 									</span>
 								</a>
 								<?php endif; ?>
@@ -220,7 +220,7 @@
 					<div id="onCheckoutPayment_wrapper">
 						<?php if(!count($this->payment_plugins)):?>
 								<div class="note">
-										<?php echo JText::_('No payment method are available for your address.  Please select a different address or contact the administrator.'); ?>
+										<?php echo JText::_('COM_TIENDA_NO_PAYMENT_METHOD_AVAILABLE_FOR_YOUR_ADDRESS'); ?>
 								</div>
 						<?php endif;?>
 						<?php echo $this->payment_options_html;?>                   
@@ -241,7 +241,7 @@
 				
 				<!--    ORDER SUMMARY   -->
 				<h3 class="contentheading">
-					<?php echo $this->section.'. '.JText::_('REVIEW & PLACE ORDER'); $this->section++; ?>
+					<?php echo $this->section.'. '.JText::_('COM_TIENDA_REVIEW_AND_PLACE_ORDER'); $this->section++; ?>
 				</h3>
 				<div id='onCheckoutCart_wrapper'> 
 					<?php echo @$this->orderSummary; 	?> 
@@ -256,12 +256,12 @@
 						<div id="coupon_code_area">
 		            	 	<div id="coupon_code_form">  
 		            	 		<div class="contentheading">
-									<?php echo JText::_('Coupon Code')?>
+									<?php echo JText::_('COM_TIENDA_COUPON_CODE')?>
 									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
 			            			<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
 			            	<?php if( $enable_tooltips ) : ?>
 			            			<a class="img_tooltip" href="" > 
-										<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+										<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />
 										<span>
 											<?php echo JText::_($string); ?>												
 										</span>
@@ -270,7 +270,7 @@
 								</div>    	           	 			
 		            			<div id="coupon_code_message"></div>
 		            			<input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-		            			<input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
+		            			<input type="button" name="coupon_submit" value="<?php echo JText::_('COM_TIENDA_ADD_COUPON_TO_ORDER'); ?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php if ($mult_enabled) { echo "1"; } else { echo "0"; } ?>' );"/>
 		            		</div>
 		            		<div id='coupon_codes' style="display: none;"></div>
 		        		</div>	
@@ -284,10 +284,10 @@
 		            <div id="credits_area" class="address">
 		                <div id="credits_form">
 		                <h3><?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?></h3>
-		                <div id="credit_help"><?php echo sprintf( JText::_('You Have x Store Credit'), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
+		                <div id="credit_help"><?php echo sprintf( JText::_('COM_TIENDA_YOU_HAVE_STORE_CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 		                <div id="credit_message"></div>
 		                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
-		                <input type="button" name="credit_submit" value="<?php echo JText::_('Apply Credit to Order'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
+		                <input type="button" name="credit_submit" value="<?php echo JText::_('COM_TIENDA_APPLY_CREDIT_TO_ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
 		                </div>
 		            </div>
 		        <?php endif; ?>
@@ -297,12 +297,12 @@
 								
 				<div class="tienda-expanded" id="comments-pane">
 				<div class="contentheading">
-					<?php echo JText::_('Order Comments')?>
+					<?php echo JText::_('COM_TIENDA_ORDER_COMMENTS')?>
 					<?php if( $enable_tooltips ): ?>
 					<a class="img_tooltip" href="" > 
-						<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('Help'); ?>' />
+						<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />
 						<span>
-							<?php echo JText::_('Use this area for special instructions or questions regarding your order.');?>												
+							<?php echo JText::_('COM_TIENDA_USE_THIS_AREA_FOR_SPECIAL_INSTRUCTIONS_OR_QUESTIONS_REGARDING_YOUR_ORDER');?>												
 						</span>
 					</a>
 					<?php endif; ?>
@@ -321,10 +321,10 @@
 		    			$terms_article = TiendaConfig::getInstance()->get('article_terms');
 		    			$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
 		    		?>
-	            	<div><?php echo JText::_('Terms & Conditions'); ?></div>
+	            	<div><?php echo JText::_('COM_TIENDA_TERMS_AND_CONDITIONS'); ?></div>
 					<div id="shipping_terms" >
 						<br/>
-						<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('Accept Terms & Conditions');?></a>
+						<input type="checkbox" name="shipping_terms" value="1" /> <a href="<?php echo $terms_link; ?>" target="_blank"><?php echo JText::_('COM_TIENDA_ACCEPT_TERMS_AND_CONDITIONS');?></a>
 	         			<br/>
 	            	</div>
 					
@@ -332,9 +332,9 @@
 				</div>
 				<div id="validationmessage" style="padding-top: 10px;"></div> 
 				<div id="tienda_btns">
-					<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form, '<?php echo JText::_('VALIDATING'); ?>')" value="<?php echo JText::_('Click Here to Continue'); ?>" />
+					<input type="button" class="button" onclick="tiendaSaveOnepageOrder('tienda_checkout_pane', 'validationmessage', this.form, '<?php echo JText::_('COM_TIENDA_VALIDATING'); ?>')" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_CONTINUE'); ?>" />
 					<div class="reset marginbot"></div>	
-					<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a> 
+					<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('COM_TIENDA_RETURN_TO_SHOPPING_CART'); ?></a> 
 				</div>
 			</div>
 		</div> 
@@ -354,7 +354,7 @@
 <?php echo JHTML::_( 'form.token' ); ?>
 
 </form>
-<div id="refreshpage" style="display: none; text-align: right;"><a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout')?>"><?php echo JText::_('Back')?></a></div>
+<div id="refreshpage" style="display: none; text-align: right;"><a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout')?>"><?php echo JText::_('COM_TIENDA_BACK')?></a></div>
 
 <script type="text/javascript">
 window.addEvent('domready', function() {

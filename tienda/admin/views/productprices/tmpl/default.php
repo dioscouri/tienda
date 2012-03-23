@@ -30,12 +30,12 @@
         	<tr>
         		<td style="text-align: center;">
             		<?php echo JHTML::calendar( "", "createprice_date_start", "createprice_date_start", '%Y-%m-%d %H:%M:%S' ); ?>
-            		<?php echo JText::_('to'); ?>
+            		<?php echo JText::_('COM_TIENDA_TO'); ?>
             		<?php echo JHTML::calendar( "", "createprice_date_end", "createprice_date_end", '%Y-%m-%d %H:%M:%S' ); ?>
         		</td>
         		<td style="text-align: center;">
         			<input id="createprice_quantity_start" name="createprice_quantity_start" value="" size="5" />
-        			<?php echo JText::_('to'); ?>
+        			<?php echo JText::_('COM_TIENDA_TO'); ?>
             		<input id="createprice_quantity_end" name="createprice_quantity_end" value="" size="5" />
             	</td>
             	<td style="text-align: center;">
@@ -89,12 +89,12 @@
 				</td>
 				<td style="text-align: center;">
                 	<?php echo JHTML::calendar( $item->product_price_startdate, "date_start[{$item->product_price_id}]", "date_start_{$item->product_price_id}", '%Y-%m-%d %H:%M:%S' ); ?>
-                	<?php echo JText::_('to'); ?>
+                	<?php echo JText::_('COM_TIENDA_TO'); ?>
                 	<?php echo JHTML::calendar( $item->product_price_enddate, "date_end[{$item->product_price_id}]", "date_end_{$item->product_price_id}", '%Y-%m-%d %H:%M:%S' ); ?>
 				</td>
 				<td style="text-align: center;">
 					<input type="text" name="quantity_start[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_start; ?>" size="5" />
-					<?php echo JText::_('to'); ?>
+					<?php echo JText::_('COM_TIENDA_TO'); ?>
 					<input type="text" name="quantity_end[<?php echo $item->product_price_id; ?>]" value="<?php echo $item->price_quantity_end; ?>" size="5" />
 				</td>
 				<td style="text-align: center;">

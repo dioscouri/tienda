@@ -6,26 +6,26 @@
 <?php $items = @$this->items; ?>
 
 <div class='componentheading'>	
-	<span><?php echo JText::_('Order History'); ?></span>
+	<span><?php echo JText::_('COM_TIENDA_ORDER_HISTORY'); ?></span>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
 	<table class="adminlist">
 		<thead>
 			<th style="text-align: center; width: 200px;">
-				<?php echo JText::_('Order Date'); ?>
+				<?php echo JText::_('COM_TIENDA_ORDER_DATE'); ?>
 			</th>	
 			<th style="width: 60px;">
-				<?php echo JText::_('Order Number'); ?>
+				<?php echo JText::_('COM_TIENDA_ORDER_NUMBER'); ?>
 			</th>
 			<th style="text-align: center; width: 80px">
-				<?php echo JText::_('Total'); ?>
+				<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
 			</th>
 			<th style="text-align: center; width: 160px;">
-				<?php echo JText::_('Status');  ?>
+				<?php echo JText::_('COM_TIENDA_STATUS');  ?>
 			</th>
 			<th style="text-align: center">
-				<?php echo JText::_('Contact Us'); ?>
+				<?php echo JText::_('COM_TIENDA_CONTACT_US'); ?>
 			</th>
 		</thead>
 		<tfoot>
@@ -56,7 +56,7 @@
                 </td>
               <td style="text-align: center;">
               	<a href="index.php/contact-us.html?view=rsform">
-              		<?php echo JText::_('Contact Us'); ?>
+              		<?php echo JText::_('COM_TIENDA_CONTACT_US'); ?>
               	</a>                	
             </td>
 		</tr>

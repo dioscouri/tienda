@@ -151,7 +151,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 	<thead>
 		<tr>
 			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
-			<th width="30%"><?php echo JText::_('Status'); ?></th>
+			<th width="30%"><?php echo JText::_('COM_TIENDA_STATUS'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>

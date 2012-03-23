@@ -51,7 +51,7 @@
 				<?php echo JText::_('BILLING INFO');?>
 				</h3>
 				<strong>
-				<?php echo JText::_('BILLING ADDRESS');?>
+				<?php echo JText::_('COM_TIENDA_BILLING_ADDRESS');?>
 				</strong>:
 				<br/>
 				<?php
@@ -72,11 +72,11 @@
 				<?php echo JText::_('SHIPPING INFO');?>
 				</h3>
 				<strong>
-				<?php echo JText::_('SHIPPING METHOD');?>
+				<?php echo JText::_('COM_TIENDA_SHIPPING_METHOD');?>
 				</strong>: <?php echo JText::_($this->shipping_method_name);?>
 				<br/>
 				<strong>
-				<?php echo JText::_('SHIPPING ADDRESS');?>
+				<?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS');?>
 				</strong>:
 				<br/>
 				<?php
@@ -96,7 +96,7 @@
 			<?php if(!empty($this->order->customer_note)):?>
 			<div id="shipping_comments">
 				<h3>
-				<?php echo JText::_('SHIPPING NOTES');?>
+				<?php echo JText::_('COM_TIENDA_SHIPPING_NOTES');?>
 				</h3>
 				<?php echo $this->order->customer_note;?>
 			</div>

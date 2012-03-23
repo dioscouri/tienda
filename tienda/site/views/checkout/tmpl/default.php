@@ -8,7 +8,7 @@
 	$baseurl = "index.php?option=com_tienda&format=raw&controller=addresses&task=getAddress&address_id="; 
 ?>
 <div class='componentheading'>
-    <span><?php echo JText::_('Select Addresses and Shipping Method'); ?></span>
+    <span><?php echo JText::_('COM_TIENDA_SELECT_ADDRESSES_AND_SHIPPING_METHOD'); ?></span>
 </div>
 
     <?php // if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
@@ -21,7 +21,7 @@
     <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
         
         <!--    ORDER SUMMARY   -->
-        <h3><?php echo JText::_('Order Summary') ?></h3>
+        <h3><?php echo JText::_('COM_TIENDA_ORDER_SUMMARY') ?></h3>
         <div id='onCheckoutCart_wrapper'> 
 			<?php
                 echo @$this->orderSummary;
@@ -35,16 +35,16 @@
         <?php endif; ?>
 
         <h3>
-            <?php echo JText::_('Select Shipping and Billing Addresses') ?>
+            <?php echo JText::_('COM_TIENDA_SELECT_SHIPPING_AND_BILLING_ADDRESSES') ?>
         </h3>
 
         <table>
         <tr>
             <td colspan="2">
                 <div class='note'>
-	                <?php $text = JText::_('Click Here to Manage Your Stored Addresses')."."; ?>
+	                <?php $text = JText::_('COM_TIENDA_CLICK_HERE_TO_MANAGE_YOUR_STORED_ADDRESSES')."."; ?>
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=addresses&tmpl=component", $text, array('update' => true) );  ?>
-                    <?php echo JText::_('CHECKOUT MANAGE ADDRESSES INSTRUCTIONS'); ?>
+                    <?php echo JText::_('COM_TIENDA_CHECKOUT_MANAGE_ADDRESSES_INSTRUCTIONS'); ?>
                 </div>
             </td>
         </tr>
@@ -54,7 +54,7 @@
             	<div id="billingAddress">
                 <!--    BILLING ADDRESS   -->             
                 <h4 id='billing_address_header' class="address_header">
-                    <?php echo JText::_('Billing Address') ?>
+                    <?php echo JText::_('COM_TIENDA_BILLING_ADDRESS') ?>
                 </h4>
                 <?php 
                     if (!empty($this->addresses))
@@ -92,7 +92,7 @@
                 <?php if($this->showShipping) { ?>
               <div id="shippingAddress">
 	            <h4 id='shipping_address_header' class="address_header">
-	               <?php echo JText::_('Shipping Address') ?>
+	               <?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS') ?>
 	            </h4>
                 
 	            <?php
@@ -100,7 +100,7 @@
                 {	                $shipattribs = array(
 	                   'class' => 'inputbox',    
 	                   'size' => '1',
-	                   'onchange' => "tiendaGrayOutAddressDiv('".JText::_('Updating Address')."');tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteCombinedGrayDiv ); "
+	                   'onchange' => "tiendaGrayOutAddressDiv('".JText::_('COM_TIENDA_UPDATING_ADDRESS')."');tiendaDoTask('$baseurl'+this.options[this.selectedIndex].value, 'shippingDefaultAddress', '', '', false); tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteCombinedGrayDiv ); "
 	                ); // tiendaGetCheckoutTotals();
 	                
 	                // display select list of stored addresses
@@ -116,7 +116,7 @@
                 <?php if (empty($this->addresses)) : ?>
                     <div>
                         <input id="sameasbilling" name="sameasbilling" type="checkbox" onclick="tiendaDisableShippingAddressControls(this,this.form);" />&nbsp;
-                        <?php echo JText::_('Same As Billing Address'); ?>:
+                        <?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS'); ?>:
                     </div>
 				<?php endif; ?>
 				
@@ -145,13 +145,13 @@
             </div>
         <?php endif; ?>
             
-        <h3><?php echo JText::_('Continue Checkout') ?></h3>
+        <h3><?php echo JText::_('COM_TIENDA_CONTINUE_CHECKOUT') ?></h3>
         
         <div id="validationmessage"></div>
         
         <!--    SUBMIT   -->    
-            <input type="button" class="button" onclick="tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_('VALIDATING');?>' ); tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('Select Payment Method'); ?>" />
-            <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('Return to Shopping Cart'); ?></a>
+            <input type="button" class="button" onclick="tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_('COM_TIENDA_VALIDATING');?>' ); tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'selectpayment', document.adminForm )" value="<?php echo JText::_('COM_TIENDA_SELECT_PAYMENT_METHOD'); ?>" />
+            <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('COM_TIENDA_RETURN_TO_SHOPPING_CART'); ?></a>
             	
     		<input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id; ?>" />
     		<input type="hidden" id="step" name="step" value="selectshipping" />

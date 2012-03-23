@@ -113,11 +113,11 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $product->load( array('product_id'=>$item->product_id) );
             if (!empty($product->product_model))
             {
-                $desc .= ' | ('.JText::_('Model').': '.$product->product_model;
+                $desc .= ' | ('.JText::_('COM_TIENDA_MODEL').': '.$product->product_model;
             }
             if (!empty($item->orderitem_sku))
             {
-                $desc .= ' |'.JText::_('SKU').': '.$item->orderitem_sku.')';
+                $desc .= ' |'.JText::_('COM_TIENDA_SKU').': '.$item->orderitem_sku.')';
             }
             $item->_description = $desc;        
         }
@@ -793,7 +793,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         {
             $orderpayment->transaction_details  = $data['transaction_details'];
             $orderpayment->transaction_id       = $data['subscr_id'];
-            $orderpayment->transaction_status   = JText::_('Created');
+            $orderpayment->transaction_status   = JText::_('COM_TIENDA_CREATED');
             if (!$orderpayment->save())
             {
                 $errors[] = $orderpayment->getError(); 

@@ -50,7 +50,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="password">
-			<?php echo JText::_('Password'); ?>:
+			<?php echo JText::_('COM_TIENDA_PASSWORD'); ?>:
 		</label>
 	</td>
 	<td>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="password2">
-			<?php echo JText::_('Verify Password'); ?>:
+			<?php echo JText::_('COM_TIENDA_VERIFY_PASSWORD'); ?>:
 		</label>
 	</td>
 	<td>

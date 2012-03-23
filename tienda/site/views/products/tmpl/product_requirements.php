@@ -9,11 +9,11 @@ $items = @$this->product_relations_data->items;
 
     <div id="product_requirements">
         <div id="product_requirements_header" class="tienda_header">
-            <span><?php echo JText::_('Required Items'); ?></span>
+            <span><?php echo JText::_('COM_TIENDA_REQUIRED_ITEMS'); ?></span>
         </div>
        
         <div class="note">
-        <?php echo JText::_('Required Products Note'); ?>
+        <?php echo JText::_('COM_TIENDA_REQUIRED_PRODUCTS_NOTE'); ?>
         </div>
         
         <?php

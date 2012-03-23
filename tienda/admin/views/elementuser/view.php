@@ -65,7 +65,7 @@ class TiendaViewElementUser extends JView
 						<?php echo JText::_('Filter'); ?>:
 						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 						<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-						<button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+						<button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 					</td>
 					<td nowrap="nowrap">
 					</td>

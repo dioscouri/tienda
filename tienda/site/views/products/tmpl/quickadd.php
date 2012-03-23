@@ -16,11 +16,11 @@ $item = @$this->row;
     <?php
         $sep = '';
         if (!empty($item->product_model)) {
-            echo '<b>'.JText::_('Model').":</b> $item->product_model";
+            echo '<b>'.JText::_('COM_TIENDA_MODEL').":</b> $item->product_model";
             $sep = "&nbsp;&nbsp;";
         }
         if (!empty($item->product_sku)) {
-            echo "$sep <b>".JText::_('SKU').":</b> $item->product_sku";
+            echo "$sep <b>".JText::_('COM_TIENDA_SKU').":</b> $item->product_sku";
         }
     ?>
     </span>
@@ -42,7 +42,7 @@ $item = @$this->row;
     
     <div class="reset"></div>
     <div class="productdesc">
-       <div class="productdesctitle"><?php echo JText::_('Description'); ?></div>
+       <div class="productdesctitle"><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></div>
         <?php echo $item->product_description; ?>
     </div>
 </div>

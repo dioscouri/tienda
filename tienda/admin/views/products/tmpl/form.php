@@ -24,7 +24,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Name'); ?>:
+                    <?php echo JText::_('COM_TIENDA_NAME'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
@@ -63,7 +63,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         <table class="admintable">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Model'); ?>:
+                    <?php echo JText::_('COM_TIENDA_MODEL'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
@@ -71,7 +71,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('SKU'); ?>:
+                    <?php echo JText::_('COM_TIENDA_SKU'); ?>:
                 </td>
                 <td>
                     <input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
@@ -145,7 +145,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="manufacturer_id">
-                        <?php echo JText::_('Manufacturer'); ?>:
+                        <?php echo JText::_('COM_TIENDA_MANUFACTURER'); ?>:
                         </label>
                     </td>
                     <td>
@@ -196,12 +196,12 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 ?>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Requires Shipping'); ?>:
+                        <?php echo JText::_('COM_TIENDA_REQUIRES_SHIPPING'); ?>:
                     </td>
                     <td>
                         <?php // Make the shipping options div only display if yes ?>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/><label for="product_ships0"><?php echo JText::_('No'); ?></label>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_('Yes'); ?></label>
+                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/><label for="product_ships0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
                     </td>
                 </tr>
                 </table>
@@ -259,7 +259,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 		
             <fieldset>
-            <legend><?php echo JText::_('Description'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></legend>
             
             <table class="admintable" style="width: 100%;">
 				<tr>
@@ -382,7 +382,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 		
             <fieldset>
-            <legend><?php echo JText::_('Images'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_IMAGES'); ?></legend>
             <table class="admintable" style="width: 100%;">            
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
@@ -460,7 +460,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
             
             <fieldset>
-            <legend><?php echo JText::_('Files'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_FILES'); ?></legend>
             <table class="admintable" style="width: 100%;">
              
                 <?php 
@@ -499,7 +499,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                                         <?php echo JText::_('Remove'); ?>
                                     </a>]
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=downloadfile&id=".$file->productfile_id."&product_id=".$row->product_id; ?>">
-                                    <?php echo JText::_('Download');?>
+                                    <?php echo JText::_('COM_TIENDA_DOWNLOAD');?>
                                     </a>]
                                     <?php echo $file->productfile_name; ?>
                                     <br/>
@@ -684,8 +684,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('Purchase Quantity Restriction'); ?>:
                     </td>
                     <td>
-                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_('No'); ?></label>
-                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_('Yes'); ?></label>
+                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
                         	 <?php // Only display if quantity restriction ?>
                         <div id="quantity_restrictions" style='float: right; width: 50%; <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
                         <table class="admintable" style="width: 100%;">
@@ -783,7 +783,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
     echo $tabs->endPanel();
     
     // Tab
-    echo $tabs->startPanel( JText::_('Subscriptions'), "subscriptions"); 
+    echo $tabs->startPanel( JText::_('COM_TIENDA_SUBSCRIPTIONS'), "subscriptions"); 
     ?>
 
         <div style="clear: both;"></div>
@@ -800,8 +800,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('Product Creates Subscription'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_('No'); ?></label>
-                        <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_('Yes'); ?></label>
+                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
                     </td>
                 </tr>
                 <tr>
@@ -872,8 +872,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('Product Charges Pro-rated'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_('No'); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_('Yes'); ?></label>
+                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
                     </td>
                 </tr>
                 <tr class="prorated_related">
@@ -916,8 +916,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('Product Charges Recur'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_('No'); ?></label>
-                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_('Yes'); ?></label>
+                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
                     </td>
                 </tr>
                 <tr>

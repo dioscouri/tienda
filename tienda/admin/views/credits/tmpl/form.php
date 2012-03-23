@@ -20,7 +20,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Amount'); ?>:
+                        <?php echo JText::_('COM_TIENDA_AMOUNT'); ?>:
                     </td>
                     <td>
                         <input name="credit_amount" type="text" size="20" value="<?php echo @$row->credit_amount ?> "size="48" maxlength="250" />
@@ -68,7 +68,7 @@
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Order ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
                     </td>
                     <td>
                         <?php 

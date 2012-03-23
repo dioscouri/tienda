@@ -108,7 +108,7 @@ class plgTiendaGenericExport extends JPlugin
       // add 'Back' button
       $url = 'index.php?option=com_tienda&view=$'.$view;
       $bar = & JToolBar::getInstance('toolbar');
-      $bar->prependButton( 'link', 'cancel', JText::_('Back'), $url );
+      $bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
       JToolBarHelper::title( JText::_('Generic export') );
 
       echo JText::_('The export is complete! You can download it');

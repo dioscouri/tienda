@@ -16,7 +16,7 @@ Tienda::load( 'TiendaSelect', 'library.select' );
 
 <div id="productSearch">
     <form action="<?php echo JRoute::_( 'index.php', false); ?>" method="post" name="productSearch" onSubmit="if(this.elements['filter'].value == '<?php echo JText::_('SKU, Model # or Keyword'); ?>') this.elements['filter'].value = '';">
-        <?php echo JText::_('Search').': '; ?>
+        <?php echo JText::_('COM_TIENDA_SEARCH').': '; ?>
         <?php if ($category_filter != '0') : ?>
             <?php echo TiendaSelect::category('', 'filter_category', '', '', false, false, 'All Categories', '', '1'); ?>
         <?php else: ?>

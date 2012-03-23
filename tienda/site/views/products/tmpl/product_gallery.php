@@ -8,7 +8,7 @@ if ( $gallery_data->show_gallery )
 <div class="reset"></div>
 <div class="product_gallery" id="product_gallery">
 	<div id="product_gallery_header" class="tienda_header">
-		<span><?php echo JText::_('Images'); ?> </span>
+		<span><?php echo JText::_('COM_TIENDA_IMAGES'); ?> </span>
 	</div>
 	<?php
 	$i = 1;

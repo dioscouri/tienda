@@ -43,7 +43,7 @@
     </tr>
 	<tr>
 		<th style="width: 100px;" class="key">
-			 <?php echo JText::_('Shipping tax'); ?>:
+			 <?php echo JText::_('COM_TIENDA_SHIPPING_TAX'); ?>:
 		</th>
 		<td>
 		    <?php echo TiendaHelperBase::currency( @$this->shipping_total->shipping_tax_total ); ?>

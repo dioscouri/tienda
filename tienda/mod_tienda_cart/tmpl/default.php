@@ -25,7 +25,7 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
             $qty = $qty + $item->orderitem_quantity;
         }
         $html .= '<span class="qty">'.$qty.'</span> ';
-        $html .= ($qty == 1) ? JText::_('Item') : JText::_('Items'); 
+        $html .= ($qty == 1) ? JText::_('COM_TIENDA_ITEM') : JText::_('COM_TIENDA_ITEMS'); 
     } 
        elseif ($display_null == '1') 
     {

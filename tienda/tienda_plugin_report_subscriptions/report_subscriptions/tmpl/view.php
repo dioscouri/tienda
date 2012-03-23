@@ -15,23 +15,23 @@
                     <?php echo JText::_('ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Product Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Price'); ?>
+                    <?php echo JText::_('COM_TIENDA_PRICE'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Created'); ?>
+                    <?php echo JText::_('COM_TIENDA_CREATED'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Expires'); ?>
+                    <?php echo JText::_('COM_TIENDA_EXPIRES'); ?>
                 </th>
                 
                 <th style="text-align: left;">
                     <?php echo JText::_('User'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Order ID'); ?>
+                    <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('Order State'); ?>

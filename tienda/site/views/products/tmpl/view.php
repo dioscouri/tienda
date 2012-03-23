@@ -70,7 +70,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 	            <?php
 				if ( isset( $item->product_full_image ) )
 				{
-					echo TiendaUrl::popup( $product_image, JText::_('View Larger'),
+					echo TiendaUrl::popup( $product_image, JText::_('COM_TIENDA_VIEW_LARGER'),
 							array(
 								'update' => false, 'img' => true
 							) );
@@ -96,7 +96,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 				if ( TiendaConfig::getInstance( )->get( 'ask_question_modal', '1' ) )
 				{
 					$height = TiendaConfig::getInstance( )->get( 'ask_question_showcaptcha', '1' ) ? '570' : '440';
-					$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_('Ask a question about this product'),
+					$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_('COM_TIENDA_ASK_A_QUESTION_ABOUT_THIS_PRODUCT'),
 							array(
 								'width' => '490', 'height' => "{$height}"
 							) );
@@ -104,7 +104,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 				else
 				{
 					$asktxt = "<a href='{$asklink}'>";
-					$asktxt .= JText::_('Ask a question about this product');
+					$asktxt .= JText::_('COM_TIENDA_ASK_A_QUESTION_ABOUT_THIS_PRODUCT');
 					$asktxt .= "</a>";
 				}
 			?>
@@ -121,7 +121,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             <div id="product_description">
                 <?php if ( TiendaConfig::getInstance( )->get( 'display_product_description_header', '1' ) ) : ?>
                     <div id="product_description_header" class="tienda_header">
-                        <span><?php echo JText::_('Description'); ?></span>
+                        <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>
                 <?php endif; ?>
                 <?php echo $this->product_description; ?>

@@ -7,7 +7,7 @@ $items = @$this->product_relations_data->items;
 
     <div id="product_relations">
         <div id="product_relations_header" class="tienda_header">
-            <span><?php echo JText::_('You May Also Be Interested in'); ?></span>
+            <span><?php echo JText::_('COM_TIENDA_YOU_MAY_ALSO_BE_INTERESTED_IN'); ?></span>
         </div>
        
         <?php

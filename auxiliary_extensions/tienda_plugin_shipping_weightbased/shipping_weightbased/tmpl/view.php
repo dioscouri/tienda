@@ -15,7 +15,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-					<label for="shipping_method_weightbased_name"><?php echo JText::_('Name'); ?>: </label>
+					<label for="shipping_method_weightbased_name"><?php echo JText::_('COM_TIENDA_NAME'); ?>: </label>
 					</td>
 					<td>
 						<input type="text" name="shipping_method_weightbased_name" id="shipping_method_weightbased_name" value="<?php echo @$row->shipping_method_weightbased_name; ?>" size="48" maxlength="250" />

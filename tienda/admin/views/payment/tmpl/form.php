@@ -17,7 +17,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 					</td>
 					<td>
 						<input name="name" id="name" value="<?php echo @$row->name; ?>" size="48" maxlength="250" type="text" />

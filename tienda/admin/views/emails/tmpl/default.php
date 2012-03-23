@@ -16,7 +16,7 @@
                 	<?php echo JText::_('Num'); ?>
                 </th>           
                 <th>
-                	<?php echo JText::_('Name'); ?>
+                	<?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th>
     	            <?php echo JText::_('Code'); ?>

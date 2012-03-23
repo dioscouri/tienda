@@ -44,7 +44,7 @@ table.admintable td.key.vtop { vertical-align: top; }
     	      <table class="admintable" style="clear: both; width: 100%;">
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_('Date'); ?>
+			    	        <?php echo JText::_('COM_TIENDA_DATE'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['date']?>
 				    
@@ -60,7 +60,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_('Description'); ?>
+			    	        <?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['description']?>
 				    

@@ -16,8 +16,8 @@
         <tr>
             <td align="left" width="100%">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+                <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
             <td nowrap="nowrap">
                 <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>              
@@ -41,7 +41,7 @@
                 	<?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-	                <?php echo JText::_('STATUS'); ?>
+	                <?php echo JText::_('COM_TIENDA_STATUS'); ?>
                 </th>
             </tr>
 		</thead>

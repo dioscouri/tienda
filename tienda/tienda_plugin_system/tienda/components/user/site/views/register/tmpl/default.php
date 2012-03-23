@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
     <td width="30%" height="40">
         <label id="namemsg" for="name">
-            <?php echo JText::_('Name'); ?>:
+            <?php echo JText::_('COM_TIENDA_NAME'); ?>:
         </label>
     </td>
     <td>
@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
     <td height="40">
         <label id="pwmsg" for="password">
-            <?php echo JText::_('Password'); ?>:
+            <?php echo JText::_('COM_TIENDA_PASSWORD'); ?>:
         </label>
     </td>
     <td>
@@ -64,7 +64,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
     <td height="40">
         <label id="pw2msg" for="password2">
-            <?php echo JText::_('Verify Password'); ?>:
+            <?php echo JText::_('COM_TIENDA_VERIFY_PASSWORD'); ?>:
         </label>
     </td>
     <td>
@@ -77,7 +77,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     </td>
 </tr>
 </table>
-    <button class="button validate" type="submit"><?php echo JText::_('Register'); ?></button>
+    <button class="button validate" type="submit"><?php echo JText::_('COM_TIENDA_REGISTER'); ?></button>
     <input type="hidden" name="task" value="register_save" />
     <input type="hidden" name="id" value="0" />
     <input type="hidden" name="gid" value="0" />

@@ -49,7 +49,7 @@ class UserViewLogin extends JView
 		// Set some default page parameters if not set
 		$params->def( 'show_page_title', 				1 );
 		if (!$params->get( 'page_title')) {
-				$params->set('page_title',	JText::_('Login'));
+				$params->set('page_title',	JText::_('COM_TIENDA_LOGIN'));
 			}
 		if(!$item)
 		{
@@ -82,7 +82,7 @@ class UserViewLogin extends JView
 		}
 		else
 		{
-			$title = JText::_('Login');
+			$title = JText::_('COM_TIENDA_LOGIN');
 
 			// pathway item
 			$pathway->addItem($title, '' );

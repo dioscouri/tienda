@@ -554,7 +554,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
 		$country->load( array( 'country_id'=>$orderinfo->billing_country_id) );
 		
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $sagepay_description           = JText::_('Order Number').": ".$order->order_id;
+        $sagepay_description           = JText::_('COM_TIENDA_ORDER_NUMBER').": ".$order->order_id;
         $sagepay_amount                = TiendaHelperBase::number( $orderpayment->orderpayment_amount, array( 'thousands'=>'' ) );
         $sagepay_invoice_num           = $data['orderpayment_id']; 
         

@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('PASSWORD'); ?>:
+                        <?php echo JText::_('COM_TIENDA_PASSWORD'); ?>:
                     </td>
                     <td>
                        *****

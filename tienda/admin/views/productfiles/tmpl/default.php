@@ -20,7 +20,7 @@
     <table class="adminlist">
     	<thead>
     	<tr>
-    		<th><?php echo JText::_('Name'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
     		<th><?php echo JText::_('Purchase Required'); ?></th>
     		<th><?php echo JText::_('Enabled'); ?></th>
     		<th></th>
@@ -60,7 +60,7 @@
     <table class="adminlist">
     	<thead>
     	<tr>
-    		<th><?php echo JText::_('Name'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
     		<th><?php echo JText::_('Purchase Required'); ?></th>
     		<th><?php echo JText::_('Enabled'); ?></th>
     		<th></th>

@@ -54,7 +54,7 @@
 								<input id="price_step" name="price_step" value="" />
 							</td>
 							<td>
-								<input id="weight_start" name="weight_start" value="" size="5" /> <?php echo JText::_('to'); ?>
+								<input id="weight_start" name="weight_start" value="" size="5" /> <?php echo JText::_('COM_TIENDA_TO'); ?>
 								<input id="weight_end" name="weight_end" value="" size="5" />
 							</td>
 							<td>
@@ -116,7 +116,7 @@
 					<input type="text" name="price_steps[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->price_step; ?>" />
 				</td>
 				<td style="text-align: center;">
-					<input type="text" name="weight_starts[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_start; ?>" /> <?php echo JText::_('to'); ?>
+					<input type="text" name="weight_starts[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_start; ?>" /> <?php echo JText::_('COM_TIENDA_TO'); ?>
 					<input type="text" name="weight_ends[<?php echo $item->shipping_rate_weightbased_id; ?>]" value="<?php echo $item->weight_end; ?>" />
 				</td>
 				<td style="text-align: center;">

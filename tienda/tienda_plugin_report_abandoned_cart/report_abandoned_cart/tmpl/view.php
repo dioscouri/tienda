@@ -9,11 +9,11 @@
 			</th>
 			<th style="width: 50px;"><?php echo JText::_('ID'); ?>
 			</th>
-			<th style="text-align: left;"><?php echo JText::_('Name'); ?>
+			<th style="text-align: left;"><?php echo JText::_('COM_TIENDA_NAME'); ?>
 			</th>
 			<th style="text-align: left; width: 267px;"><?php echo JText::_('COM_TIENDA_EMAIL'); ?>
 			</th>
-			<th style="text-align: left;"><?php echo JText::_('Date'); ?>
+			<th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?>
 			</th>
 
 			<th style="width: 100px;"><?php echo JText::_('Numbers of Items'); ?>

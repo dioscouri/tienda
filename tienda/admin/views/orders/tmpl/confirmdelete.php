@@ -19,7 +19,7 @@
                 	<?php echo JText::_('ID'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Date'); ?>
+                    <?php echo JText::_('COM_TIENDA_DATE'); ?>
                 </th>
                 <th style="text-align: left;">
                 	<?php echo JText::_('Order'); ?>
@@ -28,7 +28,7 @@
                 	<?php echo JText::_('Customer'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('Status'); ?>
+                    <?php echo JText::_('COM_TIENDA_STATUS'); ?>
                 </th>
             </tr>
 		</thead>
@@ -45,7 +45,7 @@
 				</td>
 				<td style="text-align: left;">
                     <?php 
-                    echo "<b>".JText::_('Order ID')."</b>: ".$item->order_id."<br>";
+                    echo "<b>".JText::_('COM_TIENDA_ORDER_ID')."</b>: ".$item->order_id."<br>";
                     echo "<b>".JText::_('Order Amount')."</b>: ".TiendaHelperBase::currency( $item->order_total )."<br>";
                     ?>
 				</td>

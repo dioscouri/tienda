@@ -206,7 +206,7 @@ $rows = 0;
 	<thead>
 		<tr>
 			<th colspan="2"><?php echo JText::_('Extension'); ?></th>
-			<th width="30%"><?php echo JText::_('Status'); ?></th>
+			<th width="30%"><?php echo JText::_('COM_TIENDA_STATUS'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>

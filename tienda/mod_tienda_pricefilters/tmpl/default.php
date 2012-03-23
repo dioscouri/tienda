@@ -28,6 +28,6 @@
 
 <div style="float: right;">
 <?php if (!empty($show_remove)) : ?>
-    <a href="<?php echo JRoute::_( $remove_pricefilter_url ); ?>"><?php echo JText::_('Remove Filter') ?></a>
+    <a href="<?php echo JRoute::_( $remove_pricefilter_url ); ?>"><?php echo JText::_('COM_TIENDA_REMOVE_FILTER') ?></a>
 <?php endif; ?>
 </div>

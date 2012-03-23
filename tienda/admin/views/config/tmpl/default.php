@@ -151,7 +151,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Tax Number 1'); ?>
+								<?php echo JText::_('COM_TIENDA_TAX_NUMBER_1'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="shop_tax_number_1" value="<?php echo $this->row->get('shop_tax_number_1', ''); ?>" size="25" />
@@ -162,7 +162,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Tax Number 2'); ?>
+								<?php echo JText::_('COM_TIENDA_TAX_NUMBER_2'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="shop_tax_number_2" value="<?php echo $this->row->get('shop_tax_number_2', ''); ?>" size="25" />

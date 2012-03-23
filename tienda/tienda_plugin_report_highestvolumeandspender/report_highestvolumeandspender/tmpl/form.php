@@ -18,18 +18,18 @@
 		</tr>
 		<tr>
 			<th class="key" style="text-align: center; width:500px;">				
-				<span class="label"><?php echo JText::_('From'); ?>:</span>
+				<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span>
                	<?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
-				 <span class="label"><?php echo JText::_('To'); ?>:</span>
+				 <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span>
 				 <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?> 				 
 			</th>
 			<th class="key">
-					<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_totalpurchase_from" name="filter_totalpurchase_from"  value="<?php echo @$state->filter_totalpurchase_from; ?>" size="5" class="input" />
-	   				<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_totalpurchase_to" name="filter_totalpurchase_to" value="<?php echo @$state->filter_totalpurchase_to; ?>" size="5" class="input" />
+					<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_totalpurchase_from" name="filter_totalpurchase_from"  value="<?php echo @$state->filter_totalpurchase_from; ?>" size="5" class="input" />
+	   				<span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_totalpurchase_to" name="filter_totalpurchase_to" value="<?php echo @$state->filter_totalpurchase_to; ?>" size="5" class="input" />
 			</th>
 			<th class="key" style="text-align: center;">
-				<span class="label"><?php echo JText::_('From'); ?>:</span> <input id="filter_totalspent_from" name="filter_totalspent_from" value="<?php echo @$state->filter_totalspent_from; ?>" size="5" class="input" />
-	   			<span class="label"><?php echo JText::_('To'); ?>:</span> <input id="filter_totalspent_to" name="filter_totalspent_to" value="<?php echo @$state->filter_totalspent_to; ?>" size="5" class="input" />	   				
+				<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_totalspent_from" name="filter_totalspent_from" value="<?php echo @$state->filter_totalspent_from; ?>" size="5" class="input" />
+	   			<span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_totalspent_to" name="filter_totalspent_to" value="<?php echo @$state->filter_totalspent_to; ?>" size="5" class="input" />	   				
 			</th>
 		</tr>		
 	</thead>

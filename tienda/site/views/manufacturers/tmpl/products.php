@@ -51,13 +51,13 @@ $citems = @$this->citems;
                         <div class="product_numbers">
                             <span class="model">
                                 <?php if (!empty($item->product_model)) : ?>
-                                    <span class="title"><?php echo JText::_('Model'); ?>:</span> 
+                                    <span class="title"><?php echo JText::_('COM_TIENDA_MODEL'); ?>:</span> 
                                     <?php echo $item->product_model; ?>
                                 <?php endif; ?>
                             </span>
                             <span class="sku">
                                 <?php if (!empty($item->product_sku)) : ?>
-                                    <span class="title"><?php echo JText::_('SKU'); ?>:</span> 
+                                    <span class="title"><?php echo JText::_('COM_TIENDA_SKU'); ?>:</span> 
                                     <?php echo $item->product_sku; ?>
                                 <?php endif; ?>
                             </span>

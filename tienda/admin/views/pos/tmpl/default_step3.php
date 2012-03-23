@@ -42,7 +42,7 @@
         <!-- COUPON CODE -->
         <div id="coupon_code_area" class="address">
             <div id="coupon_code_form">
-            <h3><?php echo JText::_('Coupon Code');?></h3>
+            <h3><?php echo JText::_('COM_TIENDA_COUPON_CODE');?></h3>
             <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
             <?php $string = "Coupon Code Help";
 				if($mult_enabled)
@@ -53,7 +53,7 @@
             <div id="coupon_code_help"><?php echo JText::_($string);?></div>
             <div id="coupon_code_message"></div>
             <input type="text" name="new_coupon_code" id="new_coupon_code" value="" />
-            <input type="button" name="coupon_submit" value="<?php echo JText::_('Add Coupon to Order');?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php
+            <input type="button" name="coupon_submit" value="<?php echo JText::_('COM_TIENDA_ADD_COUPON_TO_ORDER');?>"  onClick="tiendaAddCoupon( document.adminForm, '<?php
 			if($mult_enabled)
 			{
 				echo "1";
@@ -74,11 +74,11 @@
             	<!-- STORE CREDITS -->
 		<div id="credits_area" class="address">
 			<div id="credits_form">
-		        <h3><?php echo JText::_('Store Credit'); ?></h3>
-		        <div id="credit_help"><?php echo sprintf( JText::_('YOU HAVE X STORE CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
+		        <h3><?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?></h3>
+		        <div id="credit_help"><?php echo sprintf( JText::_('COM_TIENDA_YOU_HAVE_STORE_CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total ) ); ?></div>
 		       	<div id="credit_message"></div>
 		        <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
-		    	<input type="button" name="credit_submit" value="<?php echo JText::_('APPLY CREDIT TO ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
+		    	<input type="button" name="credit_submit" value="<?php echo JText::_('COM_TIENDA_APPLY_CREDIT_TO_ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
 			</div>
 		</div>
 		<?php endif; ?>
@@ -99,7 +99,7 @@
 				<div class="reset"></div>
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">
-					<?php echo JText::_('BILLING ADDRESS') ?>
+					<?php echo JText::_('COM_TIENDA_BILLING_ADDRESS') ?>
 					</h4>
 					<?php if (!empty($this->billingAddress)): ?>
 					<p>
@@ -119,7 +119,7 @@
 				<?php if($this->showShipping):?>
 				<div style="float: left; margin-left: 30px;">
 					<h4 id='shipping_address_header' class="address_header">
-					<?php echo JText::_('SHIPPING ADDRESS') ?>
+					<?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS') ?>
 					</h4>
 					<?php if(!empty($this->shippingAddress)):?>
 
@@ -136,7 +136,7 @@
 					<?php else:?>
 						<?php if($this->showShipping):?>
 							<input type="checkbox" name="sameasbilling" id="sameasbilling">
-							<?php echo JText::_('SAME AS BILLING ADDRESS')?>
+							<?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS')?>
 							<?php echo $this->shippingForm;?>
 						<?php endif;?>
 					<?php endif;?>
@@ -158,11 +158,11 @@
 				<?php endif;?>
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
-					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('VALIDATING') . "' );";?> 
+					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
 					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
 				<?php else:?>
 					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
-                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('VALIDATING') . "' );";?> 
+                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
                 	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
 				<?php endif;?>				
             </div>

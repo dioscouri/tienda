@@ -118,7 +118,7 @@ switch( $display_tax_checkout )
 	if (!empty($this->showShipping))
 	{
 		$task = JRequest::getCmd( 'task' );
-		echo JText::_('SHIPPING AND HANDLING').":";
+		echo JText::_('COM_TIENDA_SHIPPING_AND_HANDLING').":";
 		if( isset( $order->shipping ) && ( $task == 'setShippingMethod' || $task == 'display' ) )
 		{
 		?>
@@ -142,7 +142,7 @@ switch( $display_tax_checkout )
 	<span class="inner">
 	<?php 
 		if( !empty($this->showShipping) && $display_shipping_tax && $order->order_shipping_tax )
-			echo JText::_('SHIPPING TAX').":";
+			echo JText::_('COM_TIENDA_SHIPPING_TAX').":";
 	?>
 	</span>
 </span>                  

@@ -29,7 +29,7 @@
 		{
 			if( $this->guest && !$one_page )
 			{
-				echo '<input value="'.JText::_('Temporary').'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
+				echo '<input value="'.JText::_('COM_TIENDA_TEMPORARY').'" name="'.$this->form_prefix.'address_name" id="'.$this->form_prefix.'address_name" type="hidden" />';
 			}
 			else
 			{
@@ -234,7 +234,7 @@
 		<?php if( $elements['tax_number'][0] ) :?>
 		<div>
 			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
-				<?php echo JText::_('Co. Tax Number'); ?>
+				<?php echo JText::_('COM_TIENDA_CO_TAX_NUMBER'); ?>
 				<?php if( $elements['tax_number'][1] ): ?>
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>

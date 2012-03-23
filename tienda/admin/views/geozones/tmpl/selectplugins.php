@@ -17,8 +17,8 @@
 
 	<div style="text-align: right;">
 			<input name="filter" size="40" value="<?php echo @$state->filter; ?>" />
-            <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-            <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+            <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+            <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 	</div>
 	
 	<table class="adminlist" style="clear: both;">
@@ -37,7 +37,7 @@
                     <?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-	                <?php echo JText::_('Status'); ?>
+	                <?php echo JText::_('COM_TIENDA_STATUS'); ?>
                 </th>               
             </tr>
 		</thead>

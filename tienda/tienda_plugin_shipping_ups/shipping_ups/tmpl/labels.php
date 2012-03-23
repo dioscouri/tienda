@@ -25,7 +25,7 @@
 	        <div class="productfile">
 	            <span class="productfile_image">
 	                <a href="<?php echo JRoute::_( $url.'&label='.$item); ?>">
-	                    <img src="<?php echo Tienda::getURL('images')."download.png"; ?>" alt="<?php echo JText::_('Download') ?>" style="height: 24px; padding: 5px; vertical-align: middle;" />
+	                    <img src="<?php echo Tienda::getURL('images')."download.png"; ?>" alt="<?php echo JText::_('COM_TIENDA_DOWNLOAD') ?>" style="height: 24px; padding: 5px; vertical-align: middle;" />
 	                </a>
 	            </span>            
 	            <span class="productfile_link" style="vertical-align: middle;" >
@@ -58,7 +58,7 @@
                     <?php echo JText::_('Id'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('Code'); ?>

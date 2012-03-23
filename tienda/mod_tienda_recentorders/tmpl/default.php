@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 <tbody>
 <tr>
     <th><?php echo JText::_('Customer'); ?></th>
-    <th style="text-align: center;"><?php echo JText::_('Date'); ?></th>
+    <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
     <th style="text-align: right;"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></th>
 </tr>
 <?php

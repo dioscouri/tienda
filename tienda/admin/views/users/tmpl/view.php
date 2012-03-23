@@ -155,10 +155,10 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('ID'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('Date'); ?>
+									<?php echo JText::_('COM_TIENDA_DATE'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
-									<?php echo JText::_('Total'); ?>
+									<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -213,7 +213,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('Order'); ?>
 								</th>
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_('Expires'); ?>
+									<?php echo JText::_('COM_TIENDA_EXPIRES'); ?>
 								</th>								
 							</tr>
 						</thead>
@@ -273,13 +273,13 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('Products'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('Price'); ?>
+									<?php echo JText::_('COM_TIENDA_PRICE'); ?>
 								</th>
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_('Quantity'); ?>
+									<?php echo JText::_('COM_TIENDA_QUANTITY'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
-									<?php echo JText::_('Total'); ?>
+									<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -332,7 +332,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 								</th>
 
 								<th style="text-align: center;  width: 200px;">
-									<?php echo JText::_('Total'); ?>
+									<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
 								</th>
 								<th style="width: 150px; text-align: right;">
 									<?php echo TiendaHelperBase::currency(@$total_cart); ?>	

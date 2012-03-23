@@ -8,6 +8,6 @@ if ($amigosid = TiendaConfig::getInstance()->get( 'amigosid', '' ))
 ?>
 
 <p align="center">
-	<?php echo JText::_('Powered by')." <a href='{$url}' target='_blank'>".JText::_('Tienda Ecommerce')."</a>"; ?>
+	<?php echo JText::_('COM_TIENDA_POWERED_BY')." <a href='{$url}' target='_blank'>".JText::_('COM_TIENDA_TIENDA_ECOMMERCE')."</a>"; ?>
 </p>
 

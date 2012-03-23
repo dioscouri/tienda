@@ -21,7 +21,7 @@
                     <?php echo JText::_('Customer'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Total'); ?>
+                    <?php echo JText::_('COM_TIENDA_TOTAL'); ?>
                 </th>
             </tr>
         </thead>
@@ -72,7 +72,7 @@
                     <?php 
                     if (!empty($item->order_number))
                     {
-                        echo "<br/><b>".JText::_('Order Number')."</b>: ".$item->order_number;
+                        echo "<br/><b>".JText::_('COM_TIENDA_ORDER_NUMBER')."</b>: ".$item->order_number;
                     }
                     ?>
 				</td>

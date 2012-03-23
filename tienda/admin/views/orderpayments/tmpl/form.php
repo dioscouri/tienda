@@ -9,7 +9,7 @@
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Order ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
                     </td>
                     <td>
                         <input name="order_id" value="<?php echo @$row->order_id; ?>" size="48" maxlength="250" type="text" />

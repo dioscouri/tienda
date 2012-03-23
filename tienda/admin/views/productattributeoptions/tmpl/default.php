@@ -21,7 +21,7 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th><?php echo JText::_('Name'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
                     <th style="width: 15px;"><?php echo JText::_('Prefix'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
                     <th><?php echo JText::_('Code'); ?></th>

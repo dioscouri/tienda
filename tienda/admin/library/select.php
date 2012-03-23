@@ -99,7 +99,7 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created', JText::_('Created') );
+        $list[] = JHTML::_('select.option',  'created', JText::_('COM_TIENDA_CREATED') );
         $list[] = JHTML::_('select.option',  'modified', JText::_('Modified') );
         $list[] = JHTML::_('select.option',  'shipped', JText::_('Shipped') );
         
@@ -408,8 +408,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created_date', JText::_('Date') );
-        $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_('Rating') );
+        $list[] = JHTML::_('select.option',  'created_date', JText::_('COM_TIENDA_DATE') );
+        $list[] = JHTML::_('select.option',  'productcomment_rating', JText::_('COM_TIENDA_RATING') );
         $list[] = JHTML::_('select.option',  'helpful_votes_total', JText::_('Helpfulness') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
@@ -444,7 +444,7 @@ class TiendaSelect extends JHTMLSelect
 				$address_type = JText::_('Billing');
 				break;
 			case 2:
-				$address_type = JText::_('Shipping');
+				$address_type = JText::_('COM_TIENDA_SHIPPING');
 				break;
 		} 		
 	
@@ -1012,7 +1012,7 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'price', JText::_('COM_TIENDA_PRICE') );
-        $list[] = JHTML::_('select.option',  'shipping', JText::_('Shipping') );
+        $list[] = JHTML::_('select.option',  'shipping', JText::_('COM_TIENDA_SHIPPING') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1056,8 +1056,8 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'created', JText::_('Created') );
-        $list[] = JHTML::_('select.option',  'expires', JText::_('Expires') );
+        $list[] = JHTML::_('select.option',  'created', JText::_('COM_TIENDA_CREATED') );
+        $list[] = JHTML::_('select.option',  'expires', JText::_('COM_TIENDA_EXPIRES') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1078,7 +1078,7 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'products', JText::_('Products') );
-        //$list[] = JHTML::_('select.option',  'addresses', JText::_('Addresses') );
+        //$list[] = JHTML::_('select.option',  'addresses', JText::_('COM_TIENDA_ADDRESSES') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1152,7 +1152,7 @@ class TiendaSelect extends JHTMLSelect
         $list[] = JHTML::_('select.option',  'orderitems', JText::_('Ordered Items') );
         $list[] = JHTML::_('select.option',  'products', JText::_('Products') );
         $list[] = JHTML::_('select.option',  'orderpayments', JText::_('COM_TIENDA_PAYMENTS') );
-        $list[] = JHTML::_('select.option',  'subscriptions', JText::_('Subscriptions') );
+        $list[] = JHTML::_('select.option',  'subscriptions', JText::_('COM_TIENDA_SUBSCRIPTIONS') );
         $list[] = JHTML::_('select.option',  'coupons', JText::_('Coupons') );
         $list[] = JHTML::_('select.option',  'users', JText::_('Users') );
         $list[] = JHTML::_('select.option',  'categories', JText::_('Categories') );
@@ -1237,7 +1237,7 @@ class TiendaSelect extends JHTMLSelect
         $list = array();
         $list[] = JHTML::_('select.option',  '0', JText::_('None') );
         $list[] = JHTML::_('select.option',  '1', JText::_('Billing') );
-        $list[] = JHTML::_('select.option',  '2', JText::_('Shipping') );
+        $list[] = JHTML::_('select.option',  '2', JText::_('COM_TIENDA_SHIPPING') );
         $list[] = JHTML::_('select.option',  '3', JText::_('Both') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );

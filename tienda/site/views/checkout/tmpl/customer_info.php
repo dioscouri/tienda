@@ -3,7 +3,7 @@
 	<legend class="tienda-collapse-processed"><?php echo JText::_('COM_TIENDA_CUSTOMER_INFORMATION')?></legend>
 	<div id="tienda_customer">
 		<div class="note">
-			<?php echo JText::_('COM_TIENDA_ORDER_INFORMATION_WILL_BE_SENT_TO_YOUR_ACCOUNT_E-MAIL_LISTED_BELOW.')?>	
+			<?php echo JText::_('COM_TIENDA_ORDER_INFORMATION_WILL_BE_SENT_TO_YOUR_ACCOUNT_E-MAIL_LISTED_BELOW')?>	
 		</div>
 			<div class="tienda_checkout_method_user_email">
 				<?php

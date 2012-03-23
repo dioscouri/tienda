@@ -13,7 +13,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_name">
-				<?php echo JText::_('Name'); ?>:
+				<?php echo JText::_('COM_TIENDA_NAME'); ?>:
 				</label>
 			</td>
 			<td>
