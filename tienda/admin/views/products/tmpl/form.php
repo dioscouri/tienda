@@ -1032,7 +1032,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_('Template'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_TEMPLATE'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">

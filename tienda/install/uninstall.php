@@ -56,7 +56,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
         if (!empty ($mname)) {
             $this->parent->setPath('extension_root', $mclient->path.DS.'modules'.DS.$mname);
         } else {
-            $this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Install Module File Missing'));
+            $this->parent->abort(JText::_('COM_TIENDA_MODULE').' '.JText::_('COM_TIENDA_INSTALL').': '.JText::_('COM_TIENDA_INSTALL_MODULE_FILE_MISSING'));
             return false;
         }
         
@@ -69,12 +69,12 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
         // track the message and status of installation from dscInstaller
         if ($result) 
         {
-            $alt = JText::_('Uninstalled');
+            $alt = JText::_('COM_TIENDA_UNINSTALLED');
             $mstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />";
         } 
             else 
         {
-            $alt = JText::_('Failed');
+            $alt = JText::_('COM_TIENDA_UNINSTALLATION_FAILED');
             $error = $dscInstaller->getError();
             $mstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' />";
             $mstatus .= " - ".$error;
@@ -109,7 +109,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
         if (!empty($pname) && !empty($pgroup)) {
             $this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$pgroup);
         } else {
-            $this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Install Plugin File Missing'));
+            $this->parent->abort(JText::_('COM_TIENDA_PLUGIN').' '.JText::_('COM_TIENDA_INSTALL').': '.JText::_('COM_TIENDA_INSTALL_PLUGIN_FILE_MISSING'));
             return false;
         }
         
@@ -122,12 +122,12 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
         // track the message and status of installation from dscInstaller
         if ($result) 
         {
-            $alt = JText::_('Uninstalled');
+            $alt = JText::_('COM_TIENDA_UNINSTALLED');
             $pstatus = "<img src='images/tick.png' border='0' alt='{$alt}' />"; 
         } 
             else 
         {
-            $alt = JText::_('Failed');
+            $alt = JText::_('COM_TIENDA_UNINSTALLATION_FAILED');
             $error = $dscInstaller->getError();
             $pstatus = "<img src='images/publish_x.png' border='0' alt='{$alt}' /> ";
             $pstatus .= " - ".$error;   
@@ -146,11 +146,11 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
  $rows = 0;
 ?>
 
-<h2><?php echo JText::_('Uninstallation Results'); ?></h2>
+<h2><?php echo JText::_('COM_TIENDA_UNINSTALLATION_RESULTS'); ?></h2>
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
+			<th class="title" colspan="2"><?php echo JText::_('COM_TIENDA_EXTENSION'); ?></th>
 			<th width="30%"><?php echo JText::_('COM_TIENDA_STATUS'); ?></th>
 		</tr>
 	</thead>
@@ -161,13 +161,13 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 	</tfoot>
 	<tbody>
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo JText::_('Component'); ?></td>
-			<td><center><strong><?php echo JText::_('Removed'); ?></strong></center></td>
+			<td class="key" colspan="2"><?php echo JText::_('COM_TIENDA_COMPONENT'); ?></td>
+			<td><center><strong><?php echo JText::_('COM_TIENDA_REMOVED'); ?></strong></center></td>
 		</tr>
 <?php if (count($status->modules)) : ?>
 		<tr>
-			<th><?php echo JText::_('Module'); ?></th>
-			<th><?php echo JText::_('Client'); ?></th>
+			<th><?php echo JText::_('COM_TIENDA_MODULE'); ?></th>
+			<th><?php echo JText::_('COM_TIENDA_CLIENT'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->modules as $module) : ?>
@@ -181,8 +181,8 @@ endif;
 
 if (count($status->plugins)) : ?>
 		<tr>
-			<th><?php echo JText::_('Plugin'); ?></th>
-			<th><?php echo JText::_('Group'); ?></th>
+			<th><?php echo JText::_('COM_TIENDA_PLUGIN'); ?></th>
+			<th><?php echo JText::_('COM_TIENDA_GROUP'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->plugins as $plugin) : ?>

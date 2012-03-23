@@ -22,7 +22,7 @@
         	<tr>
         		<th><?php echo JText::_('Date Range'); ?></th>
         		<th><?php echo JText::_('Quantity Range'); ?></th>
-        		<th><?php echo JText::_('Group'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_GROUP'); ?></th>
         		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
         	</tr>
         	</thead>

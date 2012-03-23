@@ -4,7 +4,7 @@
 
     <div class="note">
         <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('FINAL'); ?></span>
-        <p><?php echo JText::_('INSTALLATION RESULTS'); ?></p>
+        <p><?php echo JText::_('COM_TIENDA_INSTALLATION_RESULTS'); ?></p>
     </div>
 
     <table class="adminlist" style="clear: both;">

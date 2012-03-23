@@ -808,7 +808,7 @@ if (!class_exists( 'dscInstaller' )) {
 				$this->msg->message = JText::_('Installation Completed');
 				foreach ($this->_installedExtensions as $extension) {
 					$this->msg->message .= "</li>";
-					$this->msg->message .= "<li>".JText::_('Installed')." ".$extension["type"]." ".$extension["element"];
+					$this->msg->message .= "<li>".JText::_('COM_TIENDA_INSTALLED')." ".$extension["type"]." ".$extension["element"];
 				}
 				$this->msg->message .= "</li>";
 			} else {
