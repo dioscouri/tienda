@@ -8,7 +8,7 @@
     <creationDate>October 2011</creationDate>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description>Display a set of Popular Products based on Parameters</description>
+    <description>MOD_TIENDA_POPULAR_PRODUCTS_MODULEDESC</description>
     
     <files>
         <filename module="mod_tienda_popular_products">mod_tienda_popular_products.php</filename>
@@ -30,35 +30,35 @@
         <!--<param name="price_to" type="text" default="" label="Price To" description="PRICE_TO" />-->
 
         <param type="spacer" />
-        <param name="display_title" type="list" default="1" label="Show Title" description="Show Title Desc">
+        <param name="display_title" type="list" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_TITLE" description="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_TITLE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image" type="list" default="1" label="Show Image" description="Show Image Desc">
+        <param name="display_image" type="list" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_IMAGE" description="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_IMAGE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image_link" type="list" default="1" label="Link Image" description="Link Image Desc">
+        <param name="display_image_link" type="list" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_LINK_IMAGE" description="MOD_TIENDA_POPULAR_PRODUCTS_LINK_IMAGE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image_width" type="text" default="" label="Image Width" description="Image Width Desc" />
-        <param name="display_image_height" type="text" default="" label="Image Height" description="Image Height Desc" />
-        <param name="display_description" type="list" default="1" label="Show Short" description="Show Short Desc">
+        <param name="display_image_width" type="text" default="" label="MOD_TIENDA_POPULAR_PRODUCTS_IMAGE_WIDTH" description="MOD_TIENDA_POPULAR_PRODUCTS_IMAGE_WIDTH_DESC" />
+        <param name="display_image_height" type="text" default="" label="MOD_TIENDA_POPULAR_PRODUCTS_IMAGE_HEIGHT" description="MOD_TIENDA_POPULAR_PRODUCTS_IMAGE_HEIGHT_DESC" />
+        <param name="display_description" type="list" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_SHORT" description="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_SHORT_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_price" type="list" default="1" label="Show Price" description="Show Price Desc">
+        <param name="display_price" type="list" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_PRICE" description="MOD_TIENDA_POPULAR_PRODUCTS_SHOW_PRICE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="max_number" type="text" default="" label="Max Number" description="MAX_NUMBER" />
+        <param name="max_number" type="text" default="" label="MOD_TIENDA_POPULAR_PRODUCTS_MAX_NUMBER" description="MOD_TIENDA_POPULAR_PRODUCTS_MAX_NUMBER_DESC" />
         <param type="spacer" />
-        <param name="display_style" type="list" default="flat" label="Display Style" description="Display Style Desc">
+        <param name="display_style" type="list" default="flat" label="MOD_TIENDA_POPULAR_PRODUCTS_DISPLAY_STYLE" description="MOD_TIENDA_POPULAR_PRODUCTS_DISPLAY_STYLE_DESC">
             <option value="flat">Column</option>
             <option value="grid">Grid</option>
         </param>
-        <param name="display_grid_items" type="list" default="3" label="Grid Items" description="Grid Items Desc">
+        <param name="display_grid_items" type="list" default="3" label="MOD_TIENDA_POPULAR_PRODUCTS_GRID_ITEMS" description="MOD_TIENDA_POPULAR_PRODUCTS_GRID_ITEMS_DESC">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -68,10 +68,10 @@
         </param>
         <param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
         <param type="spacer" />
-        <param name="display_null" type="radio" default="1" label="Display No Products" description="Display No Products Desc">
+        <param name="display_null" type="radio" default="1" label="MOD_TIENDA_POPULAR_PRODUCTS_DISPLAY_NO_PRODUCTS" description="MOD_TIENDA_POPULAR_PRODUCTS_DISPLAY_NO_PRODUCTS_DESC">
           <option value="0">No</option>
           <option value="1">Yes</option>
         </param>
-        <param name="null_text" type="text" size="50" default="No Products Set" label="No Products Set" description="No Products Text Desc"></param>
+        <param name="null_text" type="text" size="50" default="No Products Set" label="MOD_TIENDA_POPULAR_PRODUCTS_NO_PRODUCTS_SET" description="MOD_TIENDA_POPULAR_PRODUCTS_NO_PRODUCTS_SET_DESC"></param>
     </params>
 </install>
