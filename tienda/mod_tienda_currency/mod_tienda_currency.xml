@@ -8,7 +8,7 @@
     <creationDate>October 2011</creationDate>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description></description>
+    <description>MOD_TIENDA_CURRENCY_MODULEDESC</description>
     <files>
         <filename module="mod_tienda_currency">mod_tienda_currency.php</filename>
         <filename>index.html</filename>
