@@ -66,7 +66,7 @@
             <option value="5">5</option>
             <option value="6">6</option>
         </param>
-        <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+        <param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
         <param type="spacer" />
         <param name="display_null" type="radio" default="1" label="Display No Products" description="Display No Products Desc">
           <option value="0">No</option>
