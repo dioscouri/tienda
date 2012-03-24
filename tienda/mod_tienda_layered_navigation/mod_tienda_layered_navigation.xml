@@ -23,41 +23,41 @@
 	</languages>
 	
     <params>   
-		<param name="multi_mode" type="list" default="1" label="COM_TIENDA_MULTI_MODE" description="COM_TIENDA_MULTI_MODE_DESC">
+		<param name="multi_mode" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_MULTI_MODE" description="MOD_TIENDA_LAYERED_NAV_MULTI_MODE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="filter_category" type="list" default="1" label="COM_TIENDA_FILTER_BY_CATEGORY" description="COM_TIENDA_FILTER_BY_CATEGORY_DESC">
+		<param name="filter_category" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
-		<param name="roottext" size="35" type="text" default="" label="COM_TIENDA_TEXT_FOR_ROOT_CATEGORY" description="COM_TIENDA_TEXT_FOR_ROOT_CATEGORY_DESC" />	
-		<param name="filter_manufacturer" type="list" default="1" label="COM_TIENDA_FILTER_BY_MANUFACTURER" description="COM_TIENDA_FILTER_BY_MANUFACTURER_DESC">
+		<param name="roottext" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY_DESC" />	
+		<param name="filter_manufacturer" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>		
-		<param name="filter_rating" type="list" default="1" label="COM_TIENDA_FILTER_BY_RATING" description="COM_TIENDA_FILTER_BY_RATING_DESC">
+		<param name="filter_rating" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="filter_attributes" type="list" default="1" label="COM_TIENDA_FILTER_BY_ATTRIBUTES" description="COM_TIENDA_FILTER_BY_ATTRIBUTES_DESC">
+		<param name="filter_attributes" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_ATTRIBUTES_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="excluded_attributes" size="35" type="text" default="" label="COM_TIENDA_EXCLUDED_ATTRIBUTES" description="COM_TIENDA_EXCLUDED_ATTRIBUTES_DESC" />	
-		<param name="filter_price" type="list" default="1" label="COM_TIENDA_FILTER_BY_PRICE" description="COM_TIENDA_FILTER_BY_PRICE_DESC">
+		<param name="excluded_attributes" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES_DESC" />	
+		<param name="filter_price" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>	
-		<param name="attributes_case_insensitive" type="list" default="1" label="COM_TIENDA_ATTRIBUTES_CASE_INSENSITIVE" description="COM_TIENDA_ATTRIBUTES_CASE_INSENSITIVE_DESC">
+		<param name="attributes_case_insensitive" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE" description="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="auto_price_range" type="list" default="1" label="COM_TIENDA_AUTOMATIC_PRICE_RANGE" description="COM_TIENDA_AUTOMATIC_PRICE_RANGE_DESC">
+		<param name="auto_price_range" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_AUTOMATIC_PRICE_RANGE" description="MOD_TIENDA_LAYERED_NAV_AUTOMATIC_PRICE_RANGE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="price_range_set" size="50" type="text" default="" label="COM_TIENDA_PRICE_RANGE_INCREMENTS" description="COM_TIENDA_PRICE_RANGE_INCREMENTS_DESC" />		
+		<param name="price_range_set" size="50" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS" description="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS_DESC" />		
 	</params>    
     <params group="advanced">
 		<param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
