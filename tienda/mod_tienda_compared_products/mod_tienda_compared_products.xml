@@ -8,7 +8,7 @@
     <creationDate>October 2011</creationDate>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description>Display a List of compared products of current user.</description>
+    <description>MOD_TIENDA_COMPARED_PRODUCTS_MODULEDESC</description>
     
     <files>
         <filename module="mod_tienda_compared_products">mod_tienda_compared_products.php</filename>
