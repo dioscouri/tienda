@@ -8,7 +8,7 @@
     <creationDate>October 2011</creationDate>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description>Displays recent orders made by a user</description>
+    <description>MOD_TIENDA_MY_ORDERITEMS_MODULEDESC</description>
     
     <files>
         <filename module="mod_tienda_my_orders">mod_tienda_my_orders.php</filename>
@@ -23,33 +23,33 @@
     
     <params>
         <param type="spacer" />
-        <param name="display_id" type="list" default="1" label="Show Id" description="Show ID of the Order ">
+        <param name="display_id" type="list" default="1" label="MOD_TIENDA_MY_ORDERS_SHOW_ID" description="MOD_TIENDA_MY_ORDERS_SHOW_ID_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_date" type="list" default="1" label="Show Date" description="Show Date Desc">
+        <param name="display_date" type="list" default="1" label="MOD_TIENDA_MY_ORDERS_SHOW_DATE" description="MOD_TIENDA_MY_ORDERS_SHOW_DATE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
-        <param name="display_image_link" type="list" default="1" label="Link Image" description="Link Image Desc">
-            <option value="1">ENABLED</option>
-            <option value="0">DISABLED</option>
-        </param>
-       
-        <param name="display_amount" type="list" default="1" label="Show Amount" description="Show Amount Desc">
+        <param name="display_image_link" type="list" default="1" label="MOD_TIENDA_MY_ORDERS_LINK_IMAGE" description="MOD_TIENDA_MY_ORDERS_LINK_IMAGE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
        
-        <param name="display_state" type="list" default="1" label="Show State" description="Show State">
+        <param name="display_amount" type="list" default="1" label="MOD_TIENDA_MY_ORDERS_SHOW_AMOUNT" description="MOD_TIENDA_MY_ORDERS_SHOW_AMOUNT_DESC">
+            <option value="1">ENABLED</option>
+            <option value="0">DISABLED</option>
+        </param>
+       
+        <param name="display_state" type="list" default="1" label="MOD_TIENDA_MY_ORDERS_SHOW_STATE" description="MOD_TIENDA_MY_ORDERS_SHOW_STATE_DESC">
             <option value="1">ENABLED</option>
             <option value="0">DISABLED</option>
         </param>
 
-        <param name="max_number" type="text" default="5" label="Max Number" description="MAX_NUMBER" />
+        <param name="max_number" type="text" default="5" label="MOD_TIENDA_MY_ORDERS_MAX_NUMBER" description="MOD_TIENDA_MY_ORDERS_MAX_NUMBER_DESC" />
         <param type="spacer" />
         <param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
         <param type="spacer" />
-        <param name="null_text" type="text" size="50" default="No Orders Found" label="Null Text" description="Null Text Desc"></param>
+        <param name="null_text" type="text" size="50" default="MOD_TIENDA_MY_ORDERS_NO_ITEMS_TEXT_DEFAULT" label="MOD_TIENDA_MY_ORDERS_NO_ITEMS_TEXT" description="MOD_TIENDA_MY_ORDERS_NO_ITEMS_TEXT_DESC"></param>
     </params>
 </install>
