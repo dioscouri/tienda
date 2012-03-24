@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 <table class="adminlist" style="margin-bottom: 5px;">
 <thead>
 <tr>
-    <th colspan="5"><?php echo JText::_('SUMMARY STATISTICS'); ?></th>
+    <th colspan="5"><?php echo JText::_('COM_TIENDA_SUMMARY_STATISTICS'); ?></th>
 </tr>
 </thead>
 <tbody>

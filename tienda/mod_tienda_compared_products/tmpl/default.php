@@ -14,8 +14,8 @@
 	</ul>
 </div>
 <div class="compared-right">	
-	<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=productcompare");?>" title="<?php echo JText::_('COMPARED PRODUCTS')?>"><?php echo JText::_('COMPARE NOW');?></a>
+	<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=productcompare");?>" title="<?php echo JText::_('COM_TIENDA_COMPARED_PRODUCTS')?>"><?php echo JText::_('COM_TIENDA_COMPARE_NOW');?></a>
 </div>
 	<?php }else{?>
-		<?php echo JText::_('NO COMPARED PRODUCTS'); ?>
+		<?php echo JText::_('COM_TIENDA_NO_COMPARED_PRODUCTS'); ?>
 	<?php }?>

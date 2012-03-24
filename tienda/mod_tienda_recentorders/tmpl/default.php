@@ -17,12 +17,12 @@ defined('_JEXEC') or die('Restricted access');
 <table class="adminlist" style="margin-bottom: 5px;">
 <thead>
 <tr>
-    <th colspan="3"><?php echo JText::_('Recent Orders'); ?></th>
+    <th colspan="3"><?php echo JText::_('COM_TIENDA_RECENT_ORDERS'); ?></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-    <th><?php echo JText::_('Customer'); ?></th>
+    <th><?php echo JText::_('COM_TIENDA_CUSTOMER'); ?></th>
     <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
     <th style="text-align: right;"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></th>
 </tr>

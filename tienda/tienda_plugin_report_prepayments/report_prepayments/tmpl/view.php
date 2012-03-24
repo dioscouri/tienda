@@ -18,7 +18,7 @@
                     <?php echo JText::_('Date of Order'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Customer'); ?>
+                    <?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('COM_TIENDA_TOTAL'); ?>

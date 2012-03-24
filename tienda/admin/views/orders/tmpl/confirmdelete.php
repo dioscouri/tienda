@@ -25,7 +25,7 @@
                 	<?php echo JText::_('Order'); ?>
                 </th>
 				<th>
-                	<?php echo JText::_('Customer'); ?>
+                	<?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
                 </th>
                 <th>
                     <?php echo JText::_('COM_TIENDA_STATUS'); ?>

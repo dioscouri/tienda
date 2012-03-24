@@ -12,7 +12,7 @@
 				<?php echo JText::_('Num'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('Customer'); ?>
+				<?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
 			</th>
 			<th style="text-align: center;  width: 200px;">
 				<?php echo JText::_('Total Number Of Orders'); ?>

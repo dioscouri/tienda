@@ -6,11 +6,11 @@
 <span class="tienda_layered_nav_<?php echo $params->get('multi_mode', 1) ? 'multi' : 'single'?>">
 
 <?php if(count($filters)):?>
-<h3><?php echo JText::_('CURRENTLY SHOPPING BY');?></h3>
+<h3><?php echo JText::_('COM_TIENDA_CURRENTLY_SHOPPING_BY');?></h3>
 	<ul class="tienda_browse_currently" id="tienda_browse_currently">
 		<?php foreach($filters as $filter):?>
 		<li>
-			<a class="btn-remove" title="<?php echo JText::_('REMOVE THIS ITEM');?>" href="<?php echo JRoute::_($filter->link);?>"><?php echo JText::_('REMOVE THIS ITEM');?></a>
+			<a class="btn-remove" title="<?php echo JText::_('COM_TIENDA_REMOVE_THIS_ITEM');?>" href="<?php echo JRoute::_($filter->link);?>"><?php echo JText::_('COM_TIENDA_REMOVE_THIS_ITEM');?></a>
 			<span class="label"><?php echo $filter->label;?>:</span>		
 			<span class="value"><?php echo $filter->value;?></span>					
 		</li>
@@ -19,7 +19,7 @@
 <?php endif;?>
 
 <?php if($trackcatcount || $priceRanges || $attributes || $manufacturers):?>
-<h3><?php echo JText::_('SHOPPING OPTIONS');?></h3>
+<h3><?php echo JText::_('COM_TIENDA_SHOPPING_OPTIONS');?></h3>
 <?php endif;?>
 
 <?php if($trackcatcount > 0):?>
@@ -89,7 +89,7 @@
 <?php endif;?>
 
 <?php if(count($ratings) > 0):?>
-	<h4><?php echo JText::_('Avg. Customer Rating');?></h4>
+	<h4><?php echo JText::_('COM_TIENDA_AVG_CUSTOMER_RATING');?></h4>
 	<ul id="tienda_browse_rating">
 		<?php foreach($ratings as $rating):?>		
 			<li>
@@ -100,7 +100,7 @@
 				</a>
 				<a href="<?php echo JRoute::_($rating->link);?>">
 					<span class="refinementLink">
-						<?php echo JText::_('& Up');?>
+						<?php echo JText::_('COM_TIENDA_AND_UP');?>
 					</span>
 				</a>				
 				<span class="narrowValue">
@@ -112,7 +112,7 @@
 <?php endif;?>
 
 <?php if(count($manufacturers) > 0):?>
-	<h4><?php echo JText::_('MANUFACTURERS');?></h4>
+	<h4><?php echo JText::_('COM_TIENDA_MANUFACTURERS');?></h4>
 	<ul id="tienda_browse_manufacturer">
 		<?php foreach($manufacturers as $manufacturer):?>
 			<?php if($manufacturer->total > 0):?>

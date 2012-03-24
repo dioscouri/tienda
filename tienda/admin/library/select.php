@@ -378,7 +378,7 @@ class TiendaSelect extends JHTMLSelect
  	{
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_('Select Currency')." -", 'currency_id', 'currency_code' );
+			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_CURRENCY')." -", 'currency_id', 'currency_code' );
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );

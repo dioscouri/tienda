@@ -23,7 +23,7 @@ $selected = TiendaHelperBase::getSessionVariable('currency_id', TiendaConfig::ge
 
 <div id="currency">
     <form action="<?php echo $url; ?>" method="post" name="currencySwitch">
-        <?php echo JText::_('Select Currency').': '; ?>
+        <?php echo JText::_('COM_TIENDA_SELECT_CURRENCY').': '; ?>
         <?php $attribs = array( 'onChange' => 'document.currencySwitch.submit(); '); ?>
         <?php echo TiendaSelect::currency($selected, 'currency_id', $attribs); ?> 
     </form>

@@ -704,7 +704,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		{
 			$ratingObj = new stdClass();
 			$ratingObj->label = JText::_('COM_TIENDA_RATING');
-			$ratingObj->value = TiendaHelperProduct::getRatingImage( null, (float) $this->_filter_rating ).' '.JText::_('& Up');
+			$ratingObj->value = TiendaHelperProduct::getRatingImage( null, (float) $this->_filter_rating ).' '.JText::_('COM_TIENDA_AND_UP');
 			$ratingObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_rating=0';
 			$filters[] = $ratingObj;
 		}

@@ -36,7 +36,7 @@ class modTiendaBreadcrumbsHelper extends JObject
     	if($this->params->get('showhome'))
     	{
     		$homeText = $this->params->get('hometext');
-    		$homeText = empty($homeText) ? JText::_('Home') : $homeText;    		
+    		$homeText = empty($homeText) ? JText::_('COM_TIENDA_HOME') : $homeText;    		
     		$pathway .= " <a href='index.php'>".$homeText.'</a> ';    		
     	}
     	    	
