@@ -195,7 +195,7 @@
 			</label>
 			<?php
 			$onchange = '';
-			if( !empty($this->showShipping)&& $this->forShipping )
+			if( !empty( $this->showShipping ) )
       {
         if( $one_page )
 		  		$onchange = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'postal_code\' )';
