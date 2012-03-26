@@ -594,7 +594,7 @@ class TiendaConfig extends JObject
 	var $display_subscriptions = '1';
 	var $display_mydownloads = '1';
 	
-	// since 0.8.3
+	// since 0.9.0
 	var $show_tax_checkout = '3';
 	var $secret_word = '';
 	var $password_min_length = '5';
@@ -604,7 +604,9 @@ class TiendaConfig extends JObject
   var $password_php_validate = '1';
   var $content_plugins_product_desc = '0';
   var $lower_filename = '1';
-	
+
+  // since 0.9.1
+  var $eavtext_content_plugin = '1';	
 	/**
 	 * constructor
 	 * @return void

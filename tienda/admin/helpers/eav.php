@@ -233,8 +233,19 @@ class TiendaHelperEav extends TiendaHelperBase
     			$item = new JObject();
 		        $item->text = &$value;  
 		        $item->params = array();
-		        JPluginHelper::importPlugin('content'); 
-		        $dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
+		        if( TiendaConfig::getInstance()->get( 'eavtext_content_plugin', 1 ) )
+		        {
+		        	if( $eav->editable_by == 1 )
+		        	{
+			        	JPluginHelper::importPlugin('content'); 
+			        	$dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
+		        	}
+		        }
+		        else // trigger the event on all fields
+		        {
+		        	JPluginHelper::importPlugin('content'); 
+		        	$dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
+		        }
 		        return $value;
     		case "decimal":
     			return self::number( $value );

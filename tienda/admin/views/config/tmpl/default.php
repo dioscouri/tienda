@@ -1810,6 +1810,16 @@
 							<td>								
 							</td>
 						</tr>					
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_EAV_CONTENT_PLUGIN_TEXTAREA' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'eavtext_content_plugin', 'class="inputbox"', $this->row->get('eavtext_content_plugin', '1') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>					
 					</tbody>
 					</table>										
 					<?php
