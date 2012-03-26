@@ -1129,8 +1129,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 	/**
 	 * Returns a list of a product's attributes
 	 * 
-	 * @param int $id
-	 * @param int $parent_option the id of the parent option. Use -1 for "all"
+	 * @param int      $id
+	 * @param int      $parent_option the id of the parent option. Use -1 for "all"
 	 * @return unknown_type
 	 */
 	function getAttributes( $id, $parent_option = "-1" )

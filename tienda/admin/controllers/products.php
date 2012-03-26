@@ -260,34 +260,38 @@ class TiendaControllerProducts extends TiendaController
     		    
 			   	// TODO Save Attributes
 				
-				// An array to map attribute id  old attribute id  are as key and new attribute id are as value
-				$attrbuteMappingArray = array();
-				
-			    $attributes  = TiendaHelperProduct::getAttributes($oldPk);			 
+				  // An array to map attribute id  old attribute id  are as key and new attribute id are as value
+				  $attrbuteMappingArray = array();
+				  $attrbuteParentMappingArray = array();
+
+			    $attributes  = TiendaHelperProduct::getAttributes($oldPk);
 			   
 			    foreach ($attributes as $attribute)
 			    {
 			    	$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
-    			   	$attributeTable->productattribute_name = $attribute->productattribute_name;
-    			   	$attributeTable->product_id = $row->id;
-    			   	$attributeTable->ordering = $attribute->ordering;
-    			   
-    			    if ($attributeTable->save())
-    			    {
-                        $attrbuteMappingArray[$attribute->productattribute_id] = $attributeTable->productattribute_id;
-    			    }
-        			    else 
-    			    {
-    			    	$this->messagetype 	= 'notice';
+    			  $attributeTable->productattribute_name = $attribute->productattribute_name;
+    			  $attributeTable->product_id = $row->id;
+    			  $attributeTable->ordering = $attribute->ordering;
+
+            if ($attributeTable->save())
+    			  {
+              $attrbuteMappingArray[$attribute->productattribute_id] = $attributeTable->productattribute_id;
+    			    $attrbuteParentMappingArray[$attributeTable->productattribute_id] = $attribute->parent_productattributeoption_id;
+            }
+        		else 
+    			  {
+    			    $this->messagetype 	= 'notice';
     					$this->message .= " :: ".$attributeTable->getError();
-    			    }
+    			  }
 			    }
+          
 				
 			    // set Attribute options
 				
 				$attrbuteOptionsMappingArray = array();
 				foreach ($attrbuteMappingArray as $oldAttrbuteId => $newAttributeId) 
 				{
+            // set Attribute options
     				$options  = TiendaHelperProduct::getAttributeOptionsObjects($oldAttrbuteId);
     				foreach ($options as $option)
     				{
@@ -309,6 +313,19 @@ class TiendaControllerProducts extends TiendaController
         					$this->message .= " :: ".$attributeOptionsTable->getError();
         				}
     			    }
+
+            // save parent relationship
+            if( $attrbuteParentMappingArray [ $newAttributeId ] )
+            {
+  			    	$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
+              $attributeTable->load( $newAttributeId );
+              $attributeTable->parent_productattributeoption_id = $attrbuteOptionsMappingArray[ $attrbuteParentMappingArray [ $newAttributeId ] ];
+              if (!$attributeTable->save())
+      			  {
+      			    $this->messagetype 	= 'notice';
+      					$this->message .= " :: ".$attributeTable->getError();
+      			  }
+            }
 				}
 
 				// set quantity
