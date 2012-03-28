@@ -8,7 +8,7 @@
     <creationDate>October 2011</creationDate>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License</license>
-    <description>Filter the category listing based on the selected price range.</description>
+    <description>MOD_TIENDA_PRICEFILTERS_MODULEDESC</description>
     
     <files>
         <filename module="mod_tienda_pricefilters">mod_tienda_pricefilters.php</filename>
@@ -22,8 +22,8 @@
 	</languages>
 	
     <params>    
-        <param name="filter_upper_limit" type="text" default="1000" label="UPPER LIMIT FILTER" description="UPPER LIMIT FILTER DESC" />
-    	 <param name="round_digit" type="list" default="100" label="ROUND PRICE BY" description="ROUND PRICE DESC">
+        <param name="filter_upper_limit" type="text" default="1000" label="MOD_TIENDA_PRICEFILTERS_UPPER_LIMIT_FILTER" description="MOD_TIENDA_PRICEFILTERS_UPPER_LIMIT_FILTER_DESC" />
+    	 <param name="round_digit" type="list" default="100" label="MOD_TIENDA_PRICEFILTERS_ROUND_PRICE_BY" description="MOD_TIENDA_PRICEFILTERS_ROUND_PRICE_DESC">
             <option value="10">10</option>
             <option value="100">100</option>
             <option value="1000">1000</option>            

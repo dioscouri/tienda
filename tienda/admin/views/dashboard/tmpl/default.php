@@ -15,7 +15,7 @@
 			<table class="adminlist" style="margin-bottom: 5px;">
 			<thead>
 			<tr>
-				<th><?php echo JText::_('Range'); ?></th>
+				<th><?php echo JText::_('COM_TIENDA_RANGE'); ?></th>
 				<th><?php echo JText::_('Revenue'); ?></th>
 				<th><?php echo JText::_('Orders'); ?></th>
 			</tr>

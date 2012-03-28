@@ -49,9 +49,9 @@ class TiendaSelect extends JHTMLSelect
 			$list[] =  self::option('', "- ".JText::_( $title )." -" );
 		}
 
-		$list[] = JHTML::_('select.option',  'today', JText::_('Today') );
-		$list[] = JHTML::_('select.option',  'yesterday', JText::_('Yesterday') );
-		$list[] = JHTML::_('select.option',  'last_seven', JText::_('Last Seven Days') );
+		$list[] = JHTML::_('select.option',  'today', JText::_('COM_TIENDA_TODAY') );
+		$list[] = JHTML::_('select.option',  'yesterday', JText::_('COM_TIENDA_YESTERDAY') );
+		$list[] = JHTML::_('select.option',  'last_seven', JText::_('COM_TIENDA_LAST_SEVEN_DAYS') );
 		$list[] = JHTML::_('select.option',  'last_thirty', JText::_('Last Thirty Days') );
 		$list[] = JHTML::_('select.option',  'ytd', JText::_('Year to Date') );
 		$list[] = JHTML::_('select.option',  'years', JText::_('Years') );
@@ -75,9 +75,9 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'custom', JText::_('Custom') );
-        $list[] = JHTML::_('select.option',  'yesterday', JText::_('Yesterday') );
+        $list[] = JHTML::_('select.option',  'yesterday', JText::_('COM_TIENDA_YESTERDAY') );
         $list[] = JHTML::_('select.option',  'last_week', JText::_('Last Week') );
-        $list[] = JHTML::_('select.option',  'last_month', JText::_('Last Month') );
+        $list[] = JHTML::_('select.option',  'last_month', JText::_('COM_TIENDA_LAST_MONTH') );
         $list[] = JHTML::_('select.option',  'ytd', JText::_('Year to Date') );
         $list[] = JHTML::_('select.option',  'all', JText::_('All Time') );
         

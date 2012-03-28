@@ -17,14 +17,14 @@ if ($num > 0 && $addresses)
     <table class="adminlist" style="margin-bottom: 5px;">
     <thead>
     <tr>
-        <th colspan="3"><?php echo JText::_('User Addresses'); ?></th>
+        <th colspan="3"><?php echo JText::_('COM_TIENDA_USER_ADDRESSES'); ?></th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
         <th><?php echo JText::_('COM_TIENDA_ADDRESS'); ?></th>
-        <th><?php echo JText::_('Default'); ?></th>
+        <th><?php echo JText::_('COM_TIENDA_DEFAULT'); ?></th>
     </tr>
     <?php
     foreach ($addresses as $address)

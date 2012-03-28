@@ -54,7 +54,7 @@
             </table>
             <!--  
             <input type='hidden' name='item_number' value='<?php //echo $vars->item->id; ?>'>
-            <input type='submit' name='submit' value='<?php echo JText::_('Submit'); ?>'>
+            <input type='submit' name='submit' value='<?php echo JText::_('COM_TIENDA_SUBMIT'); ?>'>
             -->
             <?php echo JHTML::_( 'form.token' ); ?>
            
