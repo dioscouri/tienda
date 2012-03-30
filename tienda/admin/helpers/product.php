@@ -2128,7 +2128,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if ( $row->product_notforsale || TiendaConfig::getInstance( )->get( 'shop_enabled' ) == '0' )
 		{
 			return $html;
+		
 		}
+		// This enable this helper method to be used outside of tienda
+		$view->addTemplatePath( JPATH_SITE . DS . 'components' . DS . 'com_tienda' . DS . 'views' . DS . 'products' . DS . 'tmpl' );
+		// add extra templates
 		$view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
 		$view->set( '_controller', 'products' );
 		$view->set( '_view', 'products' );
