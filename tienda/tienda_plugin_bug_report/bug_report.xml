@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>PLUGINDESC</description>
+	<description>COM_TIENDA_BUG_REPORT_PLUGINDESC</description>
 	
 	<files>
 		<filename plugin="bug_report">bug_report.php</filename>

@@ -58,7 +58,7 @@ class plgTiendaBug_report extends JPlugin
 		JRequest::setVar('tienda_display_submenu', 1 );
 		Tienda::load( 'TiendaViewBase', 'views._base' );
 		$view = new TiendaViewBase();
-		$view->displayTitle(JText::_('SUBMIT BUG'));
+		$view->displayTitle(JText::_('COM_TIENDA_SUBMIT_BUG'));
 
 		unset($view);
 		
@@ -148,10 +148,10 @@ class plgTiendaBug_report extends JPlugin
 		JFile::delete($file);
 		
 		if($success ){
-			$msg = JText::_('SUBMIT OK');
+			$msg = JText::_('COM_TIENDA_BUG_SUBMIT_OK');
 			$msgtype = 'message'; 
 		} else{
-			$msg = JText::_('SUBMIT FAIL');
+			$msg = JText::_('COM_TIENDA_BUG_SUBMIT_FAIL');
 			$msgtype = 'notice';
 		}
 		

@@ -8,9 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>Shows a product in the content. 
-	Usage: {tiendaproduct id=1 attribute_1=2 layout=view quantity_restriction=0 show_price=1 show_description=1 show_name=1 show_sku=1 show_model=1 show_buy=1 show_image=1 show_price=1 show_children=1 show_files=1 show_relations=1 show_requirements=1}
-	</description>
+	<description>PLG_TIENDA_CONTENT_PRODUCT_CONTENT_PRODUCT_PLUGINDESC</description>
 	
 	<files>
 		<filename plugin="tienda_content_product">tienda_content_product.php</filename>
@@ -22,61 +20,61 @@
     </languages>
 
 	<params>
-		<param name="quantity_restriction" type="radio" default="0" label="Quantity Restriction" description="Restrict quantity to 1">
+		<param name="quantity_restriction" type="radio" default="0" label="PLG_TIENDA_CONTENT_PRODUCT_QUANTITY_RESTRICTION" description="PLG_TIENDA_CONTENT_PRODUCT_QUANTITY_RESTRICTION_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_description" type="radio" default="1" label="Show Product Description">
+		<param name="show_description" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_DESCRIPTION" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_DESCRIPTION_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_name" type="radio" default="1" label="Show Product Name">
+		<param name="show_name" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_NAME" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_NAME_DESCR">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_model" type="radio" default="1" label="Show Product Model">
+		<param name="show_model" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_MODEL" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_MODEL_DESCR">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_sku" type="radio" default="1" label="Show Product SKU">
+		<param name="show_sku" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_SKU" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_SKU_DESCR">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_image" type="radio" default="1" label="Show Product Image">
+		<param name="show_image" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_IMAGE" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_IMAGE_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_price" type="radio" default="1" label="Show Product Price">
+		<param name="show_price" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_PRICE" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_PRICE_DESCR">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_buy" type="radio" default="1" label="Show Product Buy Form">
+		<param name="show_buy" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_BUY_FORM" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_BUY_FORM_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_children" type="radio" default="1" label="Show Product Children">
+		<param name="show_children" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_CHILDREN" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_CHILDREN_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_files" type="radio" default="1" label="Show Product Files">
+		<param name="show_files" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_FILES" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_FILES_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_relations" type="radio" default="1" label="Show Product Relations">
+		<param name="show_relations" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_RELATIONS" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_RELATIONS_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="show_requirements" type="radio" default="1" label="Show Product Requirement">
+		<param name="show_requirements" type="radio" default="1" label="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_REQUIREMENT" description="PLG_TIENDA_CONTENT_PRODUCT_SHOW_PRODUCT_REQUIREMENT_DESC">
 		  <option value="0">No</option>
 		  <option value="1">Yes</option>
 		</param>
-		<param name="layout" type="list" default="view" label="Layout" description="Layout for the product view">
-		  <option value="view">Complete View</option>
-		  <option value="product_children">Children Products</option>
-		  <option value="product_files">Product Files</option>
-		  <option value="product_relations">Product Relations</option>
-		  <option value="product_requirements">Product Requirements</option>
-		  <option value="product_buy">Product Buy</option>
+		<param name="layout" type="list" default="view" label="PLG_TIENDA_CONTENT_PRODUCT_LAYOUT" description="PLG_TIENDA_CONTENT_PRODUCT_LAYOUT_DESC">
+		  <option value="view">PLG_TIENDA_CONTENT_PRODUCT_COMPLETE_VIEW</option>
+		  <option value="product_children">PLG_TIENDA_CONTENT_PRODUCT_CHILDREN_PRODUCTS</option>
+		  <option value="product_files">PLG_TIENDA_CONTENT_PRODUCT_PRODUCT_FILES</option>
+		  <option value="product_relations">PLG_TIENDA_CONTENT_PRODUCT_PRODUCT_RELATIONS</option>
+		  <option value="product_requirements">PLG_TIENDA_CONTENT_PRODUCT_PRODUCT_REQUIREMENTS</option>
+		  <option value="product_buy">PLG_TIENDA_CONTENT_PRODUCT_PRODUCT_BUY</option>
 		</param>
 	</params>
 			

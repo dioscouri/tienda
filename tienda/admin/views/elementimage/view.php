@@ -91,7 +91,7 @@ class TiendaViewElementImage extends JView
 				</div>
 				<div style="float: right">
 					<button type="button" onclick="ImageManager.onok();window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Insert') ?></button>
-					<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Cancel') ?></button>
+					<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('COM_TIENDA_CANCEL') ?></button>
 				</div>
 			</fieldset>
 			<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>"></iframe>
