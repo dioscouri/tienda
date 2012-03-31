@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>GOOGLE ANALYTICS PLUGIN DESC</description>
+	<description>PLG_TIENDA_GOOGLE_ANALYTICS_PLUGIN_DESC</description>
 	
 	<files>
 		<filename plugin="googleanalytics">googleanalytics.php</filename>
@@ -19,10 +19,10 @@
     </languages>
     
 	<params>
-		<param name="webid" type="text" default="" label="GOOGLE ANALYTICS UA CODE" description="GOOGLE ANALYTICS UA CODE DESC" />
-		<param name="inccategory" type="radio" default="0" label="INCLUDE PRODUCT CATEGORY" description="INCLUDE PRODUCT CATEGORY DESC">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="webid" type="text" default="" label="PLG_TIENDA_GOOGLE_ANALYTICS_GOOGLE_ANALYTICS_UA_CODE" description="GOOGLE ANALYTICS UA CODE DESC" />
+		<param name="inccategory" type="radio" default="0" label="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY" description="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>	
 	</params>	
 				

@@ -29,7 +29,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 	function onAfterDisplayAdminComponentTienda()
 	{
 		$name='revert';
-		$text= JText::_('GENERIC EXPORT');
+		$text= JText::_('COM_TIENDA_GENERIC_EXPORT');
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
 		 
 		$bar = & JToolBar::getInstance('toolbar');
@@ -43,7 +43,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 	function display()
 	{
 		require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
-		JToolBarHelper::title( JText::_('GENERIC EXPORT') );
+		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT') );
 		 
 		$bar = & JToolBar::getInstance('toolbar');
 		$btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
@@ -123,7 +123,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		 
 		if(empty($type) || empty($model))
 		{
-			JFactory::getApplication()->redirect('index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display', JText::_('Model or Export Type is empty!'), 'notice');
+			JFactory::getApplication()->redirect('index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display', JText::_('COM_TIENDA_MODEL_OR_EXPORT_TYPE_IS_EMPTY'), 'notice');
 		}
 
 		$bar = & JToolBar::getInstance('toolbar');
@@ -148,11 +148,11 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 			{
 				JFactory::getApplication()->redirect("index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=doExport&model={$model}&type={$type}");
 			}
-			JToolBarHelper::title( JText::_('GENERIC EXPORT').': '.$class->getName() );
+			JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT').': '.$class->getName() );
 		}
 		else
 		{
-			JToolBarHelper::title( JText::_('GENERIC EXPORT').': '.ucfirst($model) );
+			JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT').': '.ucfirst($model) );
 			JFactory::getApplication()->enqueueMessage( JText::_( "Class ".$classname." not found!" ), 'notice' );
 		}
 
@@ -184,7 +184,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		//add toolbar
 		$bar = & JToolBar::getInstance('toolbar');
 		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
-		JToolBarHelper::title( JText::_('GENERIC EXPORT')." : ". ucfirst($model));
+		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT')." : ". ucfirst($model));
 		 
 		$export = $this->processExport($type, $model);
 
@@ -194,7 +194,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 			return;
 		}
 		//success message
-		JFactory::getApplication()->enqueueMessage( JText::_('EXPORT IS COMPLETE PLEASE CLICK THE LINK BELOW TO DOWNLOAD'), 'message' );
+		JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_EXPORT_IS_COMPLETE_PLEASE_CLICK_THE_LINK_BELOW_TO_DOWNLOAD'), 'message' );
 
 		$vars = new JObject();
 		$vars->name = $export->_name;

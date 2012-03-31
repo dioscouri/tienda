@@ -98,7 +98,7 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_('Invalid Action');
+                $vars->message = JText::_('COM_TIENDA_INVALID_ACTION');
                 $html = $this->_getLayout('message', $vars);
               break;
         }

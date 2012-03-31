@@ -265,7 +265,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     		$user =& JFactory::getUser();
     	}
     	
-    	$desc =  $subscr_obj->get('id') . ':' . $subscr_obj->get('title') . (' - [ ' . ($user->get('id') ? $user->get('username') : JText::_('PAYPALPRO NEW USER'))  . ' ]');
+    	$desc =  $subscr_obj->get('id') . ':' . $subscr_obj->get('title') . (' - [ ' . ($user->get('id') ? $user->get('username') : JText::_('COM_TIENDA_PAYPALPRO_NEW_USER='))  . ' ]');
     	
     	return $desc;
     }

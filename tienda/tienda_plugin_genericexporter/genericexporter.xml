@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>Generic Data Export</description>
+	<description>PLG_TIENDA_GENERICEXPORT_PLUGINDESC</description>
 
 	<files>
 		<filename plugin="genericexporter">genericexporter.php</filename>

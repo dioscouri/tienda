@@ -21,12 +21,12 @@
     
     <params>
         <param name="disable_error_reporting" type="radio" default="0" label="Disable Error Reporting" description="Disable Error Reporting">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="site_override_user" type="radio" default="0" label="Override Site User" description="Override Site User">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
     </params>       
 </install>

@@ -33,7 +33,7 @@
 	<tr>
 		<td style="vertical-align:top"><input type="radio" id="direct_payment" name="payment_method" value="direct_payment" /></td>
 		<td>
-			<label for="direct_payment"><?php echo JText::_('PAYPALPRO DIRECT PAYMENT TITLE') ?></label>
+			<label for="direct_payment"><?php echo JText::_('COM_TIENDA_PAYPALPRO_DIRECT_PAYMENT_TITLE') ?></label>
 			<?php echo $vars->directpayment_form ?>
 		</td>
 	</tr>

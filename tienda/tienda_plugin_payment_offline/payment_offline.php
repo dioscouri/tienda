@@ -169,7 +169,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
                     if (!isset($submitted_values[$key]) || !JString::strlen($submitted_values[$key])) 
                     {
                         $object->error = true;
-                        $object->message .= "<li>".JText::_('Offline Payment Type Invalid')."</li>";
+                        $object->message .= "<li>".JText::_('COM_TIENDA_OFFLINE_PAYMENT_TYPE_INVALID')."</li>";
                     } 
                   break;
                 default:

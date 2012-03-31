@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin enables Authorize.net payments</description>
+	<description>PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_PLGDESC</description>
 	
 	<files>
 		<filename plugin="payment_authorizedotnet">payment_authorizedotnet.php</filename>
@@ -20,23 +20,23 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-        <param name="login_id" type="text" size="50" default="" label="AuthorizeDotNet Login ID" description="AuthorizeDotNet Login ID Desc"/>
-        <param name="tran_key" type="textarea" default="" label="AuthorizeDotNet Transaction Key" description="AuthorizeDotNet Transaction Key Desc" rows="5" cols="30" />
-        <param name="md5_hash" type="text" size="50" default="" label="AuthorizeDotNet MD5 Hash" description="AuthorizeDotNet MD5 Hash Desc" />
-        <param name="secure_post" type="radio" default="0" label="AuthorizeDotNet Secure Post" description="AuthorizeDotNet Secure Post Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+        <param name="login_id" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_LOGIN_ID" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_LOGIN_ID_DESC"/>
+        <param name="tran_key" type="textarea" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_TRANSACTION_KEY" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_TRANSACTION_KEY_DESC" rows="5" cols="30" />
+        <param name="md5_hash" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_MD5_HASH" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_MD5_HASH_DESC" />
+        <param name="secure_post" type="radio" default="0" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SECURE_POST" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SECURE_POST_DESC">
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>        
         <param type="spacer" />
-        <param name="sandbox" type="radio" default="0" label="AuthorizeDotNet Use Sandbox" description="AuthorizeDotNet Use Sandbox Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+        <param name="sandbox" type="radio" default="0" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_USE_SANDBOX" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_USE_SANDBOX_DESC">
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
-        <param name="sandbox_login_id" type="text" size="50" default="" label="AuthorizeDotNet Sandbox Login ID" description="AuthorizeDotNet Sandbox Login ID Desc"/>
-        <param name="sandbox_tran_key" type="textarea" default="" label="AuthorizeDotNet Sandbox Transaction Key" description="AuthorizeDotNet Sandbox Transaction Key Desc" rows="5" cols="30" />
-        <param name="sandbox_md5_hash" type="text" size="50" default="" label="AuthorizeDotNet Sandbox MD5 Hash" description="AuthorizeDotNet Sandbox MD5 Hash Desc" />
-        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
-   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+        <param name="sandbox_login_id" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_LOGIN_ID" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_LOGIN_ID_DESC"/>
+        <param name="sandbox_tran_key" type="textarea" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_TRANSACTION_KEY" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_TRANSACTION_KEY_DESC" rows="5" cols="30" />
+        <param name="sandbox_md5_hash" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_MD5_HASH" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_TIENDA_AUTHORIZEDOTNET_SANDBOX_MD5_HASH_DESC" />
+        <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_FAILED_ORDER_STATE" description="SPLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_FAILED_ORDER_STATE_DESC" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_AUTHORIZEDOTNET_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
 	</params>
 			
 </install>

@@ -88,7 +88,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		$helper_renderer = $this->_getRenderer('helper');
 		
 		$vars = new JObject();
-		$vars->note = JText::_('PAYPALPRO Note Default');
+		$vars->note = JText::_('COM_TIENDA_PAYPALPRO_NOTE_DEFAULT');
 		$vars->document =& JFactory::getDocument();	
 
 		$vars->expresscheckout_form = $expresscheckout_renderer->renderForm( $data, array() );
@@ -193,7 +193,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 
 			switch ($paction) {
 				case "display_message":					
- 					$html .= $helper_renderer->renderHtml( JText::_('PAYPALPRO MESSAGE PAYMENT ACCEPTED FOR VALIDATION') ); 
+ 					$html .= $helper_renderer->renderHtml( JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION') ); 
 					$html .= $helper_renderer->displayArticle();			
 				  break;
 				case "process_express_checkout":
@@ -217,11 +217,11 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //				  break;
 //				  
 				case "cancel":
-					$text = JText::_('PAYPALPRO Message Cancel');
+					$text = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CANCEL');
 					$html .= $helper_renderer->renderHtml( $text );
 				  break;
 				default:
-					$text = JText::_('PAYPALPRO Message Invalid Action');
+					$text = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_INVALID_ACTION');
 					$html .= $helper_renderer->renderHtml( $text );
 				  break;
 			}
@@ -246,7 +246,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //                }
 //                    else
 //                {
-//                    $vars->message = JText::_('PAYPAL MESSAGE PAYMENT ACCEPTED FOR VALIDATION');
+//                    $vars->message = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION');
 //                    $html = $this->_getLayout('message', $vars);
 //                    $html .= $this->_displayArticle();                    
 //                }     
@@ -259,11 +259,11 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //                $app->close();
 //              break;
 //            case "cancel":
-//                $vars->message = JText::_('Paypal Message Cancel');
+//                $vars->message = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CANCEL');
 //                $html = $this->_getLayout('message', $vars);
 //              break;
 //            default:
-//                $vars->message = JText::_('Paypal Message Invalid Action');
+//                $vars->message = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_INVALID_ACTION');
 //                $html = $this->_getLayout('message', $vars);
 //              break;
 //        }
@@ -353,13 +353,13 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		
 		// validate the form data
 		if (!$processor->validateData()) {			
-			$text  = JText::_('PaypalPro Message Payment Failed');
+			$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_FAILED');
 			$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');	
 		}
 		else {
 			if (!$processor->processSetExpressCheckout()) {
 				// payment wasn't processed, no order was created
-				$text  = JText::_('PaypalPro Message Payment Failed');
+				$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_FAILED');
 				$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');		
 			}			
 		}
@@ -400,16 +400,16 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		
 		if (!$processor->process()) {
 			// payment wasn't processed, no subscription was created
-			$text  = JText::_('PaypalPro Message Payment Failed');
+			$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_FAILED');
 			$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');		
 		}
 		elseif (count($processor->getErrors())) {
 			// payment was processed with warnings
-			$text  = JText::_('PaypalPro Message Payment Success with Warnings');
+			$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_SUCCESS_WITH_WARNINGS');
 			$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');
 		}	
 		else {
-			$text = JText::_('PaypalPro Message Payment Success');
+			$text = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_SUCCESS');
 		}
 
 		$helper_renderer = $this->_getRenderer('helper');
@@ -437,22 +437,22 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		// validate the form data
 		if (!$processor->validateData(false)) {
 		
-			$text  = JText::_('PaypalPro Message Payment Failed');
+			$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_FAILED');
 			$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');	
 		}
 		else {
 			if (!$processor->processDoExpressCheckout()) {
 				// payment wasn't processed, no order was created
-				$text  = JText::_('PaypalPro Message Payment Failed');
+				$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_FAILED');
 				$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');		
 			}
 			elseif (count($processor->getErrors())) {
 				// payment was processed with warnings
-				$text  = JText::_('PaypalPro Message Payment Success with Warnings');
+				$text  = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_SUCCESS_WITH_WARNINGS');
 				$text .= $this->_getFormattedErrorMsg($processor->getErrors(), 'text');
 			}	
 			else {
-				$text = JText::_('PaypalPro Message Payment Success');
+				$text = JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_SUCCESS');
 			}	
 		}
 

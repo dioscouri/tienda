@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <?php echo JText::_('Card Number'); ?>
+                        <?php echo JText::_('COM_TIENDA_CARD_NUMBER'); ?>
                     </td>
                     <td>
                         <input name='card_number' value='<?php echo @$vars->card_number; ?>' type='text' size='35' />

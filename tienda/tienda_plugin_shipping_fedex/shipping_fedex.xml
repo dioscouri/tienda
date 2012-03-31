@@ -21,8 +21,8 @@
 
 	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="site_mode" type="list" default="0" label="Production/Live" description="YES if the site is in production and NO if still in development stage.">
-			<option value="0">No</option>
-            <option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="key" type="text" size="50" default="" label="API Key" description="API Key Desc"/>
 		<param name="password" type="text" size="50" default="" label="API Password" description="API Password Desc"/>
@@ -55,8 +55,8 @@
 			<option value="IN">IN</option>
 		</param>
 		<param name="charge_tax" type="list" default="0" label="Charge Tax" description="Enable to charge shipping tax.">
-			<option value="0">No</option>
-            <option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="taxclass" type="tiendataxclass" size="50" default="" label="Tax Class" description="Specify the tax class to charge tax on shipping."/>		
 	</params>

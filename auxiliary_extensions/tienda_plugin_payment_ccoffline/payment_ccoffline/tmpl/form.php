@@ -34,7 +34,7 @@
         <td>
             <input type="text" name="cardcvv" size="10" value="" />
             <br/>
-            <a href="javascript:void(0);" onclick="window.open('index.php?option=com_tienda&view=checkout&task=doTask&element=payment_ccoffline&elementTask=showCVV&tmpl=component', '<?php echo JText::_('Where is My Card ID') . "?"; ?>', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=600, height=550');"><?php echo JText::_('Where is my card ID') . "?"; ?></a>
+            <a href="javascript:void(0);" onclick="window.open('index.php?option=com_tienda&view=checkout&task=doTask&element=payment_ccoffline&elementTask=showCVV&tmpl=component', '<?php echo JText::_('COM_TIENDA_WHERE_IS_MY_CARD_ID') . "?"; ?>', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=600, height=550');"><?php echo JText::_('COM_TIENDA_WHERE_IS_MY_CARD_ID') . "?"; ?></a>
         </td>
     </tr>
 </table>

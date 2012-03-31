@@ -7,7 +7,7 @@
         
         <table id="firstdata_form">            
             <tr>
-                <td class="field_name"><?php echo JText::_('CARD NUMBER') ?></td>
+                <td class="field_name"><?php echo JText::_('COM_TIENDA_CARD_NUMBER') ?></td>
                 <td>************<?php echo $vars->cardnum_last4; ?></td>
             </tr>
             <tr>
@@ -19,7 +19,7 @@
                 <td><?php echo $vars->cardexpyear; ?></td>
             </tr>            
             <tr>
-                <td class="field_name"><?php echo JText::_('CARD CVV NUMBER') ?></td>
+                <td class="field_name"><?php echo JText::_('COM_TIENDA_CARD_CVV_NUMBER') ?></td>
                 <td>****</td>
             </tr>
 		</table>
@@ -30,7 +30,7 @@
     <input type='hidden' name='cardexpyear' value='<?php echo @$vars->cardexpyear; ?>'>    
     <input type='hidden' name='cardcvv' value='<?php echo @$vars->cardcvv; ?>'>
 
-    <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />
+    <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_COMPLETE_ORDER'); ?>" />
 
     <input type='hidden' name='order_id' value='<?php echo @$vars->order_id; ?>'>
     <input type='hidden' name='orderpayment_id' value='<?php echo @$vars->orderpayment_id; ?>'>

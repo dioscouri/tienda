@@ -43,7 +43,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Expiration Date'); ?>:
+                        <?php echo JText::_('COM_TIENDA_EXPIRATION_DATE'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('date', $row->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>

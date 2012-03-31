@@ -25,8 +25,8 @@
 		<param name="password" type="text"  size ="10" default="" label="Password (Production)" description="Your Ctriv password (production)" />
 		<param name="password_demo" type="text"  size ="10" default="" label="Password (Demo)" description="Your Ctriv password (demo)" />
 		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not enable for live sales">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="action" type="radio" default="4" label="Contabilizzazione" description="Tipo di Contabilizzazione">
 		  <option value="1">Immediata</option>

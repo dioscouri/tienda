@@ -35,25 +35,25 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		 * perform initial checks 
 		 */
 		if (!count($this->_data)) {
-			$this->setError(JText::_('PaypalPro No Data is Provided'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_DATA_IS_PROVIDED'));
 			return false;
 		}
 		
 		
 		if ($validate_token) {
 			if (!JRequest::checkToken()) {
-				$this->setError(JText::_('Invalid Token'));
+				$this->setError(JText::_('COM_TIENDA_INVALID_TOKEN'));
 				return false;
 			}
 		}
 		
 //		if (!$this->getSubscrTypeObj()) {
-//			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
+//			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_INVALID_ITEM_TYPE'));
 //			return false;
 //		}
 		
 		if (!$this->_getParam('api_username') || !$this->_getParam('api_password') || !$this->_getParam('api_signature')) {
-			$this->setError(JText::_('PaypalPro Message Merchant Credentials are invalid'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_MERCHANT_CREDENTIALS_ARE_INVALID'));
 			return false;	
 		}		
 		return true;
@@ -154,12 +154,12 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		 */
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
@@ -202,12 +202,12 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		 */
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
@@ -275,12 +275,12 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		 */
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
@@ -360,18 +360,18 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	{
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
 			if ( ! ($user =& $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {			
-				$this->setError(JText::_('PaypalPro Message Unknown User'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
 				$user =& JFactory::getUser();
 				$user->set('id', 0);
@@ -381,7 +381,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			$subsrc_type_obj = $this->getSubscrTypeObj();
 			
 			if ((float)$this->_response['PAYMENTINFO_0_AMT'] < (float)$subsrc_type_obj->get('value')) {
-				$this->setError(JText::_('PaypalPro Message Payment Amount Invalid'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_AMOUNT_INVALID'));
 			}
 			
 			// prepare a new payment entry for storing
@@ -460,12 +460,12 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		 */
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
@@ -496,18 +496,18 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	{
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
 			if ( ! ($user =& $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {		
-				$this->setError(JText::_('PaypalPro Message Unknown User'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
 				$user =& JFactory::getUser();
 				$user->set('id', 0);
@@ -515,7 +515,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			
 			// check the profile status
 			if (strtolower($this->_response['PROFILESTATUS']) != 'activeprofile') {
-				$this->setError(JText::_('PaypalPro Message Profile Not Active'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PROFILE_NOT_ACTIVE'));
 			}			
 			
 			$subscr_type_obj = $this->getSubscrTypeObj();

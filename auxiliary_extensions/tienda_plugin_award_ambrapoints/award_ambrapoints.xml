@@ -24,8 +24,8 @@
   		<param name="percentage_value" type="text" size="10" default="1" label="TIENDA AMBRAPOINTS AWARD PERCENTAGE" description="TIENDA AMBRAPOINTS AWARD PERCENTAGE DESC" />
   		<param type="spacer" />
 		<param name="allpayments_awarded" type="radio" default="0" label="TIENDA AMBRAPOINTS AWARD ALL PAYMENTS" description="TIENDA AMBRAPOINTS AWARD ALL PAYMENTS DESC">
-  			<option value="0">No</option> 
-			<option value="1">Yes</option> 
+  			<option value="0">COM_TIENDA_NO</option> 
+			<option value="1">COM_TIENDA_YES</option> 
   		</param>
   		<param name="min_purchase_value" type="text" size="10" default="1" label="TIENDA AMBRAPOINTS AWARD MINIMUM PURCHASE" description="TIENDA AMBRAPOINTS AWARD MINIMUM PURCHASE DESC" />
     </params>		

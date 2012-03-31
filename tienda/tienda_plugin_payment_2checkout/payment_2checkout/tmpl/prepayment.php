@@ -5,11 +5,11 @@ defined('_JEXEC') or die('Restricted access');
 <form action="<?php echo @$vars->url; ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 	<div class="prepayment_message">
-    	<?php echo JText::_('Tienda 2Checkout Preparation Message'); ?>
+    	<?php echo JText::_('COM_TIENDA_TIENDA_2CHECKOUT_PREPARATION_MESSAGE'); ?>
     </div>
     <div class="prepayment_action">
-    	<div style="float: left; padding: 10px;"><input type="submit" class="button" value="<?php echo JText::_('Click Here to Pay using 2Checkout'); ?>" /></div>
-        <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_('Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->total ); ?></div>
+    	<div style="float: left; padding: 10px;"><input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_COM_TIENDA_TIENDA_2CHECKOUT_PREPARATION_MESSAGE'); ?>" /></div>
+        <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_('COM_TIENDA_CHECKOUT_AMOUNT').":</b> ".TiendaHelperBase::currency( @$vars->total ); ?></div>
           <div style="clear: both;"></div>
     </div>    
     <input type='hidden' name='cart_order_id' value='<?php echo @$vars->cart_order_id; ?>'>

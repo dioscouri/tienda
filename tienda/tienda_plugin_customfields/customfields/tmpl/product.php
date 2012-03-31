@@ -3,12 +3,12 @@
 	$tabs = @$vars->tabs;
 	$row = @$vars->row;
 	// Tab
-	echo $tabs->startPanel( JText::_('Custom Fields'), "panel_custom_fields"); 
+	echo $tabs->startPanel( JText::_('COM_TIENDA_CUSTOM_FIELDS'), "panel_custom_fields"); 
 	Tienda::load('TiendaHelperEav', 'helpers.eav');
 ?>
 		<div class="tienda_custom_fields">
 			<fieldset>
-			<legend><?php echo JText::_('Custom Fields'); ?></legend>
+			<legend><?php echo JText::_('COM_TIENDA_CUSTOM_FIELDS'); ?></legend>
 <?php foreach (@$vars->fields as $field): ?>
 			<div class="tienda_custom_fields_line">
 				<div class="tienda_custom_fields_key">

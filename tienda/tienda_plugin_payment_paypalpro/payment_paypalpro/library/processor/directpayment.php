@@ -44,22 +44,22 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 		 * perform initial checks 
 		 */
 		if (!count($this->_data)) {
-			$this->setError(JText::_('PaypalPro No Data is Provided'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_DATA_IS_PROVIDED'));
 			return false;
 		}
 		
 		if (!JRequest::checkToken()) {
-			$this->setError(JText::_('Invalid Token'));
+			$this->setError(JText::_('COM_TIENDA_INVALID_TOKEN'));
 			return false;
 		}
 		
 //		if (!$this->getSubscrTypeObj()) {
-//			$this->setError(JText::_('Paypalpro Message Invalid Item Type'));
+//			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_INVALID_ITEM_TYPE'));
 //			return false;
 //		}
 		
 		if (!$this->_getParam('api_username') || !$this->_getParam('api_password') || !$this->_getParam('api_signature')) {
-			$this->setError(JText::_('PaypalPro Message Merchant Credentials are invalid'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_MERCHANT_CREDENTIALS_ARE_INVALID'));
 			return false;	
 		}
 		
@@ -70,14 +70,14 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 		// check required fields
 		foreach ($this->_required as $required_field) {
 			if (empty($this->_data[$required_field])) {
-				$this->setError(JText::_('PayPalPro Message Fill in Required Fields'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_FILL_IN_REQUIRED_FIELDS'));
 				return false;
 			}
 		}
 		
 		// check some specific fields
 		if (JString::strlen($this->_data['state']) != 2) {
-			$this->setError(JText::_('PayPalPro Message State Invalid'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_STATE_INVALID'));
 			return false;
 		}
 		
@@ -87,18 +87,18 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			jimport( 'joomla.mail.helper' ); 
 			
 			if (empty($this->_data['email']) || !JMailHelper::isEmailAddress($this->_data['email'])) {
-				$this->setError(JText::_('PaypalPro Message Email Address Required'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_EMAIL_ADDRESS_REQUIRED'));
 				return false;
 			}
 
 			if (TiendaHelperUser::emailExists($this->_data['email'])) {				
-				$this->setError(JText::_('PaypalPro Message Email Exists'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_EMAIL_EXISTS'));
 				return false;
 			}
 		}
 		
 		if (JString::strlen($this->_data['cardexp_month']) != 2 || JString::strlen($this->_data['cardexp_year']) != 4) {
-			$this->setError(JText::_('PayPalPro Message Expiration Date Invalid'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_EXPIRATION_DATE_INVALID='));
 			return false;
 		}
 		return true;
@@ -198,18 +198,18 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 	{
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
 			if ( ! ($user =& $this->_getUser($this->_getUserEmail()))) {			
-				$this->setError(JText::_('PaypalPro Message Unknown User'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
 				$user =& JFactory::getUser();
 				$user->set('id', 0);
@@ -219,7 +219,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			$subsrc_type_obj = $this->getSubscrTypeObj();
 			
 			if ((float)$this->_response['AMT'] < (float)$subsrc_type_obj->get('value')) {
-				$this->setError(JText::_('PaypalPro Message Payment Amount Invalid'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PAYMENT_AMOUNT_INVALID'));
 			}
 			
 			// prepare a new payment entry for storing
@@ -330,18 +330,18 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 	{
 		if (!is_array($this->_response)) {
 			// nothing to process
-			$this->setError(JText::_('PaypalPro No Response Received from PayPal'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_RESPONSE_RECEIVED_FROM_PAYPAL'));
 			return false;
 		}
 		
 		if (isset($this->_response['curl_error_no'])) {
-			$this->setError(JText::_('PaypalPro Message Caller Error'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_CALLER_ERROR'));
 			return false;
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
 			if ( ! ($user =& $this->_getUser($this->_getUserEmail()))) {			
-				$this->setError(JText::_('PaypalPro Message Unknown User'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
 				$user =& JFactory::getUser();
 				$user->set('id', 0);
@@ -349,7 +349,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			
 			// check the profile status
 			if (strtolower($this->_response['PROFILESTATUS']) != 'activeprofile') {
-				$this->setError(JText::_('PaypalPro Message Profile Not Active'));
+				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_PROFILE_NOT_ACTIVE'));
 			}			
 			
 			$subscr_type_obj = $this->getSubscrTypeObj();

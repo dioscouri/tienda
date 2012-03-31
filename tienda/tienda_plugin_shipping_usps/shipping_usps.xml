@@ -38,13 +38,13 @@
 			<option value="IN">IN</option>
 		</param>
 		<param name="charge_tax" type="list" default="0" label="Charge Tax" description="Enable to charge shipping tax.">
-			<option value="0">No</option>
-            <option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="taxclass" type="tiendataxclass" size="50" default="" label="Tax Class" description="Specify the tax class to charge tax on shipping."/>
 		<param name="show_debug" type="list" default="0" label="Show Debug Messages" description="Show Debug Messages For USPS">
-			<option value="0">No</option>
-            <option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
 		</param>
 	</params>
 			

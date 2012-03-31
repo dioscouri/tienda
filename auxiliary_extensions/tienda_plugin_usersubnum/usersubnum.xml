@@ -19,12 +19,12 @@
 
 	<params>
 		<param name="create_address" type="radio" default="0" label="CREATE ADDRESS" description="CREATE ADDRESS DESC">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="notify_person" type="radio" default="1" label="NOTIFY Person" description="NOTIFY Person DESC">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="person_email" type="text" size="50" default="" label="Person Email" description="Person Email Desc"/>		
 		<param name="email_subject" type="text" size="50" default="" label="Email Subject" description="Email Subject Desc"/>		

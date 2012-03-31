@@ -43,20 +43,20 @@
         
        <param type="spacer" />
         <param name="payment_means_sips" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_VISA" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="payment_means_mastercard" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_MASTERCARD" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="payment_means_cb" type="radio" default="1" label="TIENDA_SIPS_PAYMENT_MEANS_CB" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="payment_means_amex" type="radio" default="0" label="TIENDA_SIPS_PAYMENT_MEANS_AMEX" description="">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
         <param type="spacer" />
 
@@ -71,8 +71,8 @@
 
       <param type="spacer" />
         <param name="payment_sips_debug" type="radio" default="0" label="TIENDA_SIPS_PAYMENT_DEGUG" description="TIENDA_SIPS_PAYMENT_DEGUG_DESC">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
 
     </params>

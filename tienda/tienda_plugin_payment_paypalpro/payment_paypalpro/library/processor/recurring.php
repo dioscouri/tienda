@@ -44,23 +44,23 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 		 * perform initial checks 
 		 */
 		if (!count($this->_data)) {
-			$this->setError(JText::_('PaypalPro No Data is Provided'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_NO_DATA_IS_PROVIDED'));
 			return false;
 		}
 		
 		if (!$this->getSubscrTypeObj()) {
-			$this->setError(JText::_('PaypalPro Message Invalid Item Type'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_INVALID_ITEM_TYPE'));
 			return false;
 		}
 		
 		$subscr_params = $this->getSubscrTypeParams();
 		if (!$subscr_params->get('is_recurring')) {
-			$this->setError(JText::_('PaypalPro Message Subscription is not Recurring'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_SUBSCRIPTION_IS_NOT_RECURRING'));
 			return false;
 		}
 		
 		if (!$this->_getParam('api_username') || !$this->_getParam('api_password') || !$this->_getParam('api_signature')) {
-			$this->setError(JText::_('PaypalPro Message Merchant Credentials are invalid'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_MERCHANT_CREDENTIALS_ARE_INVALID'));
 			return false;	
 		}		
 		
@@ -121,15 +121,15 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 		
 		// check the regular amount and two possible trial amounts as well
 		if ((float)$subscr_type_obj->get('value') > (float)$this->_response['mc_gross'] && (float)$subscr_type_obj->get('paypalpro_trial_1_price') > (float)$this->_response['mc_gross']) {
-			$this->setError(JText::_('PAYPALPRO MESSAGE AMOUNT INVALID'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_AMOUNT_INVALID'));
 		}
 		
 		if (empty($this->_response['payment_status']) || ($this->_response['payment_status'] != 'Completed')) {
-			$this->setError(JText::sprintf('PAYPALPRO MESSAGE STATUS INVALID', @$this->_data['payment_status']));
+			$this->setError(JText::sprintf('COM_TIENDA_PAYPALPRO_MESSAGE_STATUS_INVALID', @$this->_data['payment_status']));
 		}
 
 		if (!($user =& $this->_getUser($this->_response['payer_email'], $this->_response['recurring_payment_id']))) {			
-			$this->setError(JText::_('PaypalPro Message Unknown User'));
+			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
 			$user =& JFactory::getUser();
 			$user->set('id', 0);
@@ -247,7 +247,7 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 		}
 		
         if ( ! $fp) {            
-            return JText::sprintf('PAYPALPRO ERROR POSTING IPN DATA BACK', $errstr, $errno);
+            return JText::sprintf('COM_TIENDA_PAYPALPRO_ERROR_POSTING_IPN_DATA_BACK', $errstr, $errno);
         }
         else {
             fputs ($fp, $header . $req);
@@ -257,7 +257,7 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 					return '';
 				}
 				elseif (strcmp ($res, 'INVALID') == 0) {
-					return JText::_('PAYPALPRO ERROR IPN VALIDATION');
+					return JText::_('COM_TIENDA_PAYPALPRO_ERROR_IPN_VALIDATION');
 				}
             }        
         }

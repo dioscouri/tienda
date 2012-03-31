@@ -24,12 +24,12 @@
         <param name="key_file" type="text" size="150" default="" label="TIENDA LINKPOINT FIRSTDATA KEY FILE" description="TIENDA LINKPOINT FIRSTDATA KEY FILE DESC"/>
         <param type="spacer" />
         <param name="sandbox" type="radio" default="0" label="TIENDA LINKPOINT FIRSTDATA USE SANDBOX" description="TIENDA LINKPOINT FIRSTDATA USE SANDBOX DESC">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="debug" type="radio" default="0" label="TIENDA LINKPOINT FIRSTDATA DEBUG" description="TIENDA LINKPOINT FIRSTDATA DEBUG DESC">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>        
         <param name="sandbox_store_number" type="text" size="50" default="" label="TIENDA LINKPOINT FIRSTDATA SANDBOX STORE NUMBER" description="TIENDA LINKPOINT FIRSTDATA SANDBOX STORE NUMBER DESC"/>
         <param name="sandbox_key_file" type="text" size="150" default="" label="TIENDA LINKPOINT FIRSTDATA SANDBOX KEY FILE" description="TIENDA LINKPOINT FIRSTDATA SANDBOX KEY FILE DESC"/>

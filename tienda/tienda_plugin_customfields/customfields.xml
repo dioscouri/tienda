@@ -8,12 +8,16 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin shows Custom Fields in the "Edit View" of the extended entity</description>
+	<description>PLG_TIENDA_CUSTOMFIELDS_PLUGINDESC</description>
 	
 	<files>
 		<filename plugin="customfields">customfields.php</filename>
 		<folder>customfields</folder>	
 	</files>
+	
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_tienda_customfields.ini</language>
+    </languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
 	</params>

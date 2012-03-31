@@ -25,22 +25,22 @@
         <param name="ssl_pin" type="text" size="50" default="" label="Pin" description="Pin Desc"/>
 		<param name="transaction_type" type="text" size="50" default="CCSALE" label="Type of transaction" description="Type of transaction"/>
         <param name="test_mode" type="radio" default="0" label="Test Mode" description="Test Mode Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
 		<param name="merchant_demo_mode" type="radio" default="0" label="Merchant Demo account" description="Merchant Demo account will use demo.myvirtualpayment.com instead of www.myvirtualpayment.com, you will need to have a account at demo.myvirtualpayment.com">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
 		<param name="inline_creditcard_form" type="radio" default="0" label="Show creditcard form on website" description="Instead of redirecting to myvirutalmerchant your users will be shown a webform with fields Creditcard, Expiry dates, CVV2 number">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param type="spacer" />
         <param name="articleid" type="text" size="10" default="" label="Article Number" description="Article Number Desc"/>
         <param name="display_article_title" type="radio" default="0" label="Display Article Title" description="Display Article Title Desc" >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
         <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />

@@ -108,7 +108,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		$vars->type_id = JRequest::getInt('id');
 		//$vars->post_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_element}&paction=proceed&tmpl=component");
 		$vars->button_url = $this->_getPostUrl(false);
-		$vars->note = JText::_('GoogleCheckout Note Default');
+		$vars->note = JText::_('COM_TIENDA_GOOGLECHECKOUT_NOTE_DEFAULT');
 		$uri =& JFactory::getURI();
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$vars->r = base64_encode($url);
@@ -148,7 +148,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$totalDiscount = 0;	
 				foreach($coupons as $coupon)
 				{		
-					$orderitem_name = $coupon->coupon_code." ".JText::_('(Discount)');					
+					$orderitem_name = $coupon->coupon_code." ".JText::_('COM_TIENDA_DISCOUNT');					
 					
 				  	if (empty($coupon->coupon_type))
 		            {		            	
@@ -279,7 +279,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		switch ($paction)
 		{
 			case "display_message":
-				$html .= $this->_renderHtml( JText::_('GOOGLECHECKOUT MESSAGE PAYMENT ACCEPTED FOR VALIDATION') );
+				$html .= $this->_renderHtml( JText::_('COM_TIENDA_GOOGLECHECKOUT_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION') );
 				$html .= $this->_displayArticle();
 				break;
 			case "process":
@@ -290,11 +290,11 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$app->close();
 				break;
 			case "cancel":
-				$vars->message = JText::_('Goolge Checkout Message Cancel');
+				$vars->message = JText::_('COM_TIENDA_GOOGLECHECKOUT_MESSAGE_CANCEL');
 				$html = $this->_getLayout('message', $vars);
 				break;
 			default:
-				$vars->message = JText::_('Goolge Checkout Message Invalid Action');
+				$vars->message = JText::_('COM_TIENDA_GOOGLECHECKOUT_MESSAGE_INVALID_ACTION');
 				$html = $this->_getLayout('message', $vars);
 				break;
 		}
@@ -471,7 +471,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$orderpayment->load($oredrPaymentId);
 			if (empty($orderpayment->orderpayment_id))
 			{
-				$errors[] = JText::_('GOOGLE CHECKOUT INVALID ORDERPAYMENTID');
+				$errors[] = JText::_('COM_TIENDA_GOOGLECHECKOUT_CHECKOUT_INVALID_ORDERPAYMENTID');
 				return count($errors) ? implode("\n", $errors) : '';
 			}
 		
@@ -544,7 +544,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		
 			if (empty($orderpayment->orderpayment_id))
 			{
-				$errors[] = JText::_('GOOGLE CHECKOUT INVALID GOOGLE CHECKOUT ORDER ID');
+				$errors[] = JText::_('COM_TIENDA_GOOGLECHECKOUT_INVALID_GOOGLE_CHECKOUT_ORDER_ID');
 				return count($errors) ? implode("\n", $errors) : '';
 			}
 				

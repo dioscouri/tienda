@@ -197,12 +197,12 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	function _cardTypesField( $field='card_type', $default='', $options='' )
 	{
 		$types = array();
-		$types[] = JHTML::_('select.option', 'Visa', JText::_('Visa') );
-		$types[] = JHTML::_('select.option', 'Mastercard', JText::_('Mastercard') );
-		$types[] = JHTML::_('select.option', 'AmericanExpress', JText::_('American Express') );
-		$types[] = JHTML::_('select.option', 'Discover', JText::_('Discover') );
+		$types[] = JHTML::_('select.option', 'Visa', JText::_('COM_TIENDA_VISA') );
+		$types[] = JHTML::_('select.option', 'Mastercard', JText::_('COM_TIENDA_MASTERCARD') );
+		$types[] = JHTML::_('select.option', 'AmericanExpress', JText::_('COM_TIENDA_AMERICANEXPRESS') );
+		$types[] = JHTML::_('select.option', 'Discover', JText::_('COM_TIENDA_DISCOVER') );
 		$types[] = JHTML::_('select.option', 'DinersClub', JText::_('Diners Club') );
-		$types[] = JHTML::_('select.option', 'JCB', JText::_('JCB') );
+		$types[] = JHTML::_('select.option', 'JCB', JText::_('COM_TIENDA_JCB') );
 
 		$return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
 		return $return;

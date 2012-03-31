@@ -2,14 +2,14 @@
 <?php JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/');?>
 <?php $models = @$vars->models;?>
 <?php $types = @$vars->types;?>
-<h3><?php echo JText::_('PLEASE PROVIDE THE INFO BELOW TO PROCESS THE EXPORT'); ?></h3>
+<h3><?php echo JText::_('COM_TIENDA_PLEASE_PROVIDE_THE_INFO_BELOW_TO_PROCESS_THE_EXPORT'); ?></h3>
 
 <form enctype="multipart/form-data" name="adminForm" method="post" action="index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=filters">
 	<table class="adminlist">
 		<tbody>
 			<tr>
 				<th style="width: 25%;">
-					<?php echo JText::_('DATA TO BE EXPORTED');?>
+					<?php echo JText::_('COM_TIENDA_DATA_TO_BE_EXPORTED');?>
 				</th>
 				<td>
 					<?php $list = array();?>
@@ -21,7 +21,7 @@
 			</tr>
 			<tr>
 				<th style="width: 25%;">
-					<?php echo JText::_('EXPORT TYPE')?>
+					<?php echo JText::_('COM_TIENDA_EXPORT_TYPE')?>
 				</th>
 				<td>
 					<?php $list = array();?>

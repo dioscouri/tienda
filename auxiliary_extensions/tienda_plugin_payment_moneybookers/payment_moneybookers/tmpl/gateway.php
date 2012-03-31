@@ -18,7 +18,7 @@
        					}
        					else //Only Non-Recurring
        					{
-       						echo "<b>".JText::_('Checkout Amount').":</b> ".TiendaHelperBase::currency( @$vars->amount );	
+       						echo "<b>".JText::_('COM_TIENDA_CHECKOUT_AMOUNT').":</b> ".TiendaHelperBase::currency( @$vars->amount );	
        					}       					
 	       				
 	       			?>

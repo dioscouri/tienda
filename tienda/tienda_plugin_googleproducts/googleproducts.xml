@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin sends Tienda products to Google Products database (Google Base / Froogle)</description>
+	<description>PLG_TIENDA_GOOGLEPRODUCTS_PLUGINDESC</description>
 	
 	<files>
 		<filename plugin="googleproducts">googleproducts.php</filename>
@@ -20,17 +20,17 @@
     </languages>
     
 	<params>
-		<param type="text" name="username" label="Google Account Username" description="The Google Products Account ID" default="" />
-		<param type="text" name="password" label="Google Account Password" description="The Google Products Password" default="" />
-		<param type="text" name="account_id" label="Account ID" description="The Google Products Account ID" default="" />
-		<param name="taxonomy" type="radio" default="tienda" label="Taxonomy (category) System" description="What Taxonomy (category) system should this plugin use when sending products to google?">
-		  <option value="tienda">Tienda</option>
-		  <option value="google">Google</option>
-		  <option value="both">Both</option>
+		<param type="text" name="username" label="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_USERNAME" description="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_USERNAME_DESC" default="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_USERNAME_DEFAULT" />
+		<param type="text" name="password" label="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_PASSWORD" description="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_PASSWORD_DESC" default="PLG_TIENDA_GOOGLEPRODUCTS_GOOGLE_ACCOUNT_PASSWORD_DEFAULT" />
+		<param type="text" name="account_id" label="PLG_TIENDA_GOOGLEPRODUCTS_ACCOUNT_ID" description="The Google Products Account ID" default="PLG_TIENDA_GOOGLEPRODUCTS_ACCOUNT_ID_DEFAULT" />
+		<param name="taxonomy" type="radio" default="PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_SYSTEM_DEFAULT" label="PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_SYSTEM" description="PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_SYSTEM_DESCR">
+		  <option value="tienda">PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_DEFAULT_TIENDA</option>
+		  <option value="google">PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_DEFAULT_GOOGLE</option>
+		  <option value="both">PLG_TIENDA_GOOGLEPRODUCTS_TAXONOMY_DEFAULT_BOTH</option>
 		</param>
-		<param name="auto_sync" type="radio" default="1" label="Enalbe Automatic Sending?" description="Enable Automatic inserting / updating / deleting products on google products upon saving in Tienda?">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="auto_sync" type="radio" default="1" label="PLG_TIENDA_GOOGLEPRODUCTS_ENABLE_AUTOMATIC_SENDING" description="PLG_TIENDA_GOOGLEPRODUCTS_ENABLE_AUTOMATIC_SENDING_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
 	</params>
 			

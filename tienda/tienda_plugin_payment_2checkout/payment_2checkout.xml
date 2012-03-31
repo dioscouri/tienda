@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin enables 2Checkout payments</description>
+	<description>PLG_TIENDA_PAYMENT_2CHECKOUT_PLGDESCR</description>
 	
 	<files>
 		<filename plugin="payment_2checkout">payment_2checkout.php</filename>
@@ -20,54 +20,54 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="sid" type="text"  size ="10" default="" label="Account Number" description="Your 2Checkout vendor account number" />
-		<param name="secret_word" type="text"  size ="10" default="" label="Secret Word" description="Your 2Checkout secret word" />
-		<param name="demo" type="radio" default="1" label="Demo Mode" description="Enables demo mode. Do not enable for live sales">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="sid" type="text"  size ="10" default="" label="PLG_TIENDA_PAYMENT_2CHECKOUT_ACCOUNT_NUMBER" description="PLG_TIENDA_PAYMENT_2CHECKOUT_ACCOUNT_NUMBER_DESC" />
+		<param name="secret_word" type="text"  size ="10" default="" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SECRET_WORD" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SECRET_WORD_DESC" />
+		<param name="demo" type="radio" default="1" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEMO_MODE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEMO_MODE_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="sandbox" type="radio" default="0" label="Sandbox Mode" description="Enables sandbox mode. Do not enable for live sales. Allows you to use the 2CO test script">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="sandbox" type="radio" default="0" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SANDBOX_MODE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SANDBOX_MODE_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="automatic_language" type="radio" default="1" label="Automatic Language Selection" description="Automatically set 2checkout language based on the user current language">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="automatic_language" type="radio" default="1" label="PLG_TIENDA_PAYMENT_2CHECKOUT_AUTOMATIC_LANGUAGE_SELECTION" description="PLG_TIENDA_PAYMENT_2CHECKOUT_AUTOMATIC_LANGUAGE_SELECTION_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="default_language" type="list" default="en" label="Default Language" description="Default 2Checkout Language (Ignored if Auto is on)">
-		  <option value="en">English</option>
-		  <option value="zh">Chinese</option>
-		  <option value="da">Danish</option>
-		  <option value="nl">Dutch</option>
-		  <option value="fr">French</option>
-		  <option value="gr">German</option>
-		  <option value="el">Greek</option>
-		  <option value="it">Italian</option>
-		  <option value="jp">Japanese</option>
-		  <option value="no">Norwegian</option>
-		  <option value="pt">Portoguese</option>
-		  <option value="sl">Slovenian</option>
-		  <option value="es_ib">Spanish (ib)</option>
-		  <option value="es_la">Spanish (la)</option>
-		  <option value="sv">Swedish</option>
+		<param name="default_language" type="list" default="en" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_LANGUAGE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_LANGUAGE_DESC">
+		  <option value="en">PLG_TIENDA_PAYMENT_2CHECKOUT_ENGLISH</option>
+		  <option value="zh">PLG_TIENDA_PAYMENT_2CHECKOUT_CHINESE</option>
+		  <option value="da">PLG_TIENDA_PAYMENT_2CHECKOUT_DANISH</option>
+		  <option value="nl">PLG_TIENDA_PAYMENT_2CHECKOUT_DUTCH</option>
+		  <option value="fr">PLG_TIENDA_PAYMENT_2CHECKOUT_FRENCH</option>
+		  <option value="gr">PLG_TIENDA_PAYMENT_2CHECKOUT_GERMAN</option>
+		  <option value="el">PLG_TIENDA_PAYMENT_2CHECKOUT_GREEK</option>
+		  <option value="it">PLG_TIENDA_PAYMENT_2CHECKOUT_ITALIAN</option>
+		  <option value="jp">PLG_TIENDA_PAYMENT_2CHECKOUT_JAPANESE</option>
+		  <option value="no">PLG_TIENDA_PAYMENT_2CHECKOUT_NORWEGIAN</option>
+		  <option value="pt">PLG_TIENDA_PAYMENT_2CHECKOUT_PORTOGUESE</option>
+		  <option value="sl">PLG_TIENDA_PAYMENT_2CHECKOUT_SLOVENIAN</option>
+		  <option value="es_ib">PLG_TIENDA_PAYMENT_2CHECKOUT_SPANISH_IB</option>
+		  <option value="es_la">PLG_TIENDA_PAYMENT_2CHECKOUT_SPANISH_LA</option>
+		  <option value="sv">PLG_TIENDA_PAYMENT_2CHECKOUT_SWEDISH</option>
 		</param>
-		<param name="default_payment" type="list" default="CC" label="Default Payment Method" description="This will set the default selection on the payment method step during the checkout process.">
-		  <option value="CC">Credit Card</option>
-		  <option value="CK">Check</option>
-		  <option value="AL">Acculynk PIN-debit</option>
-		  <option value="PPI">Paypal</option>
-		  <option value="PPL">Paypal Later</option>
+		<param name="default_payment" type="list" default="CC" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_PAYMENT_METHOD" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_PAYMENT_METHOD_DESC">
+		  <option value="CC">PLG_TIENDA_PAYMENT_2CHECKOUT_CREDIT_CARD</option>
+		  <option value="CK">PLG_TIENDA_PAYMENT_2CHECKOUT_CHECK</option>
+		  <option value="AL">PLG_TIENDA_PAYMENT_2CHECKOUT_ACCULYNK_PIN_DEBIT</option>
+		  <option value="PPI">PLG_TIENDA_PAYMENT_2CHECKOUT_PAYPAL</option>
+		  <option value="PPL">PLG_TIENDA_PAYMENT_2CHECKOUT_PAYPAL_LATER</option>
 		</param>
-		<param name="skip_landing" type="radio" default="0" label="Skip Landing" description="skip the order review page of the purchase routine?">
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		<param name="skip_landing" type="radio" default="0" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SKIP_LANDING" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SKIP_LANDING_DESC">
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="page" type="radio" default="multi" label="Page type" description="set the payment page type">
-		  <option value="single">Single Page Payment Routine (Only supports credit card payments and intangible products/services.)</option>
-		  <option value="mutiple">Multi-page Payment Routine (Supports all payment methods. Supports tangible and intangible products/services.)</option>
+		<param name="page" type="radio" default="multi" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE_DESC">
+		  <option value="single">PLG_TIENDA_PAYMENT_2CHECKOUT_SINGLE_PAGE_TYPE</option>
+		  <option value="mutiple">PLG_TIENDA_PAYMENT_2CHECKOUT_MULTI-PAGE_TYPE</option>
 		</param>
-  		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
-   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />
+  		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE_DESC" />
+   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
 
 		
 	</params>

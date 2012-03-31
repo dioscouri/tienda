@@ -76,13 +76,13 @@
 			<option value="04">Retail</option>
 		</param>
 		<param name="declare_value" type="radio" default="1" label="Declare Value" description="Declare Value Desc">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">COM_TIENDA_YES</option>
+			<option value="0">COM_TIENDA_NO</option>
 		</param>
 		<param name="currency_code" type="text" default="USD" label="Currency Code" description="Currency Code Desc" />
 		<param name="charge_tax" type="list" default="0" label="Charge Tax" description="Enable to charge shipping tax.">
-			<option value="0">No</option>
-            <option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="taxclass" type="tiendataxclass" size="50" default="" label="Tax Class" description="Specify the tax class to charge tax on shipping."/>
 	</params>

@@ -25,12 +25,12 @@
 		<param default="" name="payson_agent_id" description="Payson Agent ID" label="Payson Agent ID" type="text" />
 		<param default="" name="payson_seller_email" description="Payson seller email" label="Payson seller email" type="text" />
 		<param default="1" name="payson_guarantee" description="Payson Guarantee" label="Payson Guarantee" type="radio">
-			<option value="2">Yes</option>
-			<option value="1">No</option>
+			<option value="2">COM_TIENDA_YES</option>
+			<option value="1">COM_TIENDA_NO</option>
 		</param>
 		<param default="0" name="sandbox" description="Sandbox mode" label="Sandbox mode" type="radio">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">COM_TIENDA_YES</option>
+			<option value="0">COM_TIENDA_NO</option>
 		</param>
 		<param default="0" name="PaymentMethod" description="Payment methods accepted" label="Payment methods accepted" type="list">
 			<option value="1">Card (VISA/MasterCard)</option>

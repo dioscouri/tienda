@@ -48,8 +48,8 @@
 			<option value="2">Beginning of Next Period</option>							  
 		</param>
         <param name="sandbox" type="radio" default="0" label="Moneybookers Use Sandbox" description="Moneybookers Use Sandbox Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="sendbox_receiver_email" type="text" size="50" default="" label="Moneybookers Sandbox Email" description="Moneybookers Sandbox Email Desc"/>
 		<param name="sendbox_customer_id" type="text" size="50" default="" label="Moneybookers Sandbox Customer ID" description="Moneybookers Sandbox Customer ID Desc" />
@@ -57,8 +57,8 @@
 		<param type="spacer" />
 		<param name="articleid" type="text" size="10" default="" label="Tienda Moneybookers Article Number" description="Tienda Moneybookers Article Number Desc"/>
 		<param name="display_article_title" type="radio" default="0" label="Tienda Moneybookers Display Article Title" description="Tienda Moneybookers Display Article Title Desc" >
-		  <option value="0">No</option>
-		  <option value="1">Yes</option>
+		  <option value="0">COM_TIENDA_NO</option>
+		  <option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
         <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />

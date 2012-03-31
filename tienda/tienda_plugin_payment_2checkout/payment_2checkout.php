@@ -196,7 +196,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     	
     		if(empty($return))
     		{
-    			$vars->message = JText::_('TIENDA 2CHECKOUT MESSAGE PAYMENT ACCEPTED FOR VALIDATION');  
+    			$vars->message = JText::_('COM_TIENDA_TIENDA_2CHECKOUT_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION');  
     		}
     		else {
     			$vars->message = $return;
@@ -205,7 +205,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     	else 
     	{
     		$this->_processSale($data_temp, $vars);
-    		$vars->message = JText::_('TIENDA 2CHECKOUT MESSAGE PAYMENT SECURITY ERROR');
+    		$vars->message = JText::_('COM_TIENDA_TIENDA_2CHECKOUT_MESSAGE_PAYMENT_SECURITY_ERROR');
     	}
     	
     	// Process the payment
@@ -235,7 +235,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         $stored_amount = TiendaHelperBase::number( $orderpayment->get('orderpayment_amount'), array( 'thousands'=>'' ) );
         $respond_amount = TiendaHelperBase::number( $data['total'], array( 'thousands'=>'' ) );
         if ($stored_amount != $respond_amount ) {
-        	$errors[] = JText::_('2CO MESSAGE AMOUNT INVALID');
+        	$errors[] = JText::_('COM_TIENDA_2CO_MESSAGE_AMOUNT_INVALID');
         	$errors[] = $stored_amount . " != " . $respond_amount;
         }   
         

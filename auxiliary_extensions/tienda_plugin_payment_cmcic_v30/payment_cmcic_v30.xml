@@ -61,8 +61,8 @@
 
         <param type="spacer" />
         <param name="payment_cmcic_debug" type="radio" default="0" label="TIENDA_CMCIC_DEGUG" description="TIENDA_CMCIC_PAYMENT_DEGUG_DESC">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
+            <option value="0">COM_TIENDA_NO</option>
+            <option value="1">COM_TIENDA_YES</option>
         </param>
 
     </params>

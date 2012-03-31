@@ -97,7 +97,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 			else
 			{
 				// Something went wrong
-				JError::raiseWarning('GOOGLE_UPDATE_ERR', JText::_('Error while updating on google products: ') . $this->getError());
+				JError::raiseWarning('GOOGLE_UPDATE_ERR', JText::_('COM_TIENDA_ERROR_WHILE_UPDATING_ON_GOOGLE_PRODUCTS') . $this->getError());
 				return false;
 			}
 		}
@@ -114,7 +114,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 			else
 			{
 				// Something went wrong
-				JError::raiseWarning('GOOGLE_INSERT_ERR', JText::_('Error while inserting in google products: ') . $this->getError());
+				JError::raiseWarning('GOOGLE_INSERT_ERR', JText::_('COM_TIENDA_ERROR_WHILE_INSERTING_IN_GOOGLE_PRODUCTS') . $this->getError());
 				return false;
 			}
 		}
@@ -147,7 +147,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 			else
 			{
 				// Something went wrong
-				JError::raiseWarning('GOOGLE_DELETE_ERR', JText::_('Error while deleting in google products: ') . $this->getError());
+				JError::raiseWarning('GOOGLE_DELETE_ERR', JText::_('COM_TIENDA_ERROR_WHILE_DELETING_IN_GOOGLE_PRODUCTS') . $this->getError());
 				return false;
 			}
 		}
@@ -173,7 +173,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Error
 		if(!$header)
 		{
-			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			JError::raiseWarning('ERR', JText::_('COM_TIENDA_AUTHENTICATION_ERROR' . $this->getError()));
 			return false;
 		}
 		
@@ -276,7 +276,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Error
 		if(!$header)
 		{
-			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			JError::raiseWarning('ERR', JText::_('COM_TIENDA_AUTHENTICATION_ERROR' . $this->getError()));
 			return false;
 		}
 		
@@ -311,7 +311,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 				$etag = $attrs['gd:etag'];
 			}
 		else {
-				JError::raiseWarning('ERR', JText::_('Update request error: ' . $this->getError()));
+				JError::raiseWarning('ERR', JText::_('COM_TIENDA_UPDATE_REQUEST_ERROR' . $this->getError()));
 				return false;
 			}
 			
@@ -349,7 +349,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 				return true;
 			}
 		else{
-				JError::raiseWarning('ERR', JText::_('Etag error: ' . $this->getError()));
+				JError::raiseWarning('ERR', JText::_('COM_TIENDA_ETAG_ERROR' . $this->getError()));
 				return false;
 			}
 		// perform the update
@@ -428,7 +428,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Error
 		if(!$header)
 		{
-			JError::raiseWarning('ERR', JText::_('Authentication Error: ' . $this->getError()));
+			JError::raiseWarning('ERR', JText::_('COM_TIENDA_AUTHENTICATION_ERROR' . $this->getError()));
 			return false;
 		}
 		

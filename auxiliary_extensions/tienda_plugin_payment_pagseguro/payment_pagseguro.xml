@@ -23,13 +23,13 @@
         <param name="merchant_email" type="text" size="50" default="" label="Pagseguro Email" description="Pagseguro Email Desc"/>
         <param name="currency" type="text" size="10" default="USD" label="Pagseguro Currency" description="Pagseguro Currency Desc"/>
         <param name="secure_post" type="radio" default="0" label="Pagseguro Secure Post" description="Pagseguro Secure Post Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param type="spacer" />
         <param name="sandbox" type="radio" default="0" label="Pagseguro Use Sandbox" description="Pagseguro Use Sandbox Desc">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="sandbox_merchant_email" type="text" size="50" default="" label="Pagseguro Sandbox Merchant Email" description="Pagseguro Sandbox Merchant Email Desc"/>
         <param name="sandbox_customer_email" type="text" size="50" default="" label="Pagseguro Sandbox Customer Email" description="Pagseguro Sandbox Customer Email Desc"/>
@@ -38,8 +38,8 @@
         <param type="spacer" />
         <param name="articleid" type="text" size="10" default="" label="Pagseguro Article Number" description="Pagseguro Article Number Desc"/>
         <param name="display_article_title" type="radio" default="0" label="Pagseguro Display Article Title" description="Pagseguro Display Article Title Desc" >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
+          <option value="0">COM_TIENDA_NO</option>
+          <option value="1">COM_TIENDA_YES</option>
         </param>
         <param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="Failed Order State" description="State to put the order in when the payment fails" />
         <param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="Payment Received Order State" description="State to put the order in when the payment goes well" />

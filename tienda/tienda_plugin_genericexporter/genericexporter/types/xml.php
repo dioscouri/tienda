@@ -47,7 +47,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 		$export = new JObject();
 		if(empty($this->_model))
 		{
-			$this->_errors = JText::_('PLEASE SET A MODEL IN THE PLUGIN METHOD PROCESSEXPORT');
+			$this->_errors = JText::_('COM_TIENDA_PLEASE_SET_A_MODEL_IN_THE_PLUGIN_METHOD_PROCESSEXPORT');
 			return $this;
 		}
 		
@@ -60,7 +60,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
       	      	
 		if(empty($items))
 		{
-			$this->_errors = JText::_('NO DATA FOUND');
+			$this->_errors = JText::_('COM_TIENDA_NO_DATA_FOUND');
 			return $this;
 		}
 
@@ -72,7 +72,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 	  
 	    if(!$res = $this->fromXMLToFile( 'tmp'.DS.$f_name, $items ))
 	   	{
-	    	$this->_errors = JText::_('ERROR SAVING FILE');	     	
+	    	$this->_errors = JText::_('COM_TIENDA_ERROR_SAVING_FILE');	     	
 		}
 	     	     
 	     return $this;
@@ -141,7 +141,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 	
 		if(!$countA = count($array))
 		{
-			$this->_errors = JText::_('NO DATA AVAILABLE FOR XML CREATION');			
+			$this->_errors = JText::_('COM_TIENDA_NO_DATA_AVAILABLE_FOR_XML_CREATION');			
 			return $this;
 		}	
 

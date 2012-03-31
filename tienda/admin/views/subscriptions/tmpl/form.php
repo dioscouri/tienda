@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Expiration Date'); ?>:
+                        <?php echo JText::_('COM_TIENDA_EXPIRATION_DATE'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->expires_datetime, "expires_datetime", "expires_datetime", '%Y-%m-%d %H:%M:%S' ); ?>

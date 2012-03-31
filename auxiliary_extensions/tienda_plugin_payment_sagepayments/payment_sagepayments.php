@@ -117,7 +117,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_('Invalid Action');
+                $vars->message = JText::_('COM_TIENDA_INVALID_ACTION');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -287,16 +287,16 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
     function _cardTypesField( $field='cardtype', $default='', $options='' )
     {       
         $types = array();
-        $types[] = JHTML::_('select.option', 'VISA', JText::_('Visa') );
+        $types[] = JHTML::_('select.option', 'VISA', JText::_('COM_TIENDA_VISA') );
 //        $types[] = JHTML::_('select.option', 'DELTA', JText::_('Visa Delta') );
 //        $types[] = JHTML::_('select.option', 'UKE', JText::_('Visa Electron') );
-        $types[] = JHTML::_('select.option', 'MC', JText::_('Mastercard') );
-        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_('Maestro') );
+        $types[] = JHTML::_('select.option', 'MC', JText::_('COM_TIENDA_MASTERCARD') );
+        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_('COM_TIENDA_MAESTRO') );
 //        $types[] = JHTML::_('select.option', 'MAESTRO', JText::_('International Maestro') );
 //        $types[] = JHTML::_('select.option', 'SOLO', JText::_('Solo') );
-        $types[] = JHTML::_('select.option', 'Amex', JText::_('American Express') );
-//        $types[] = JHTML::_('select.option', 'DINERS', JText::_('DinersClub') );
-//        $types[] = JHTML::_('select.option', 'JCB', JText::_('JCB') );
+        $types[] = JHTML::_('select.option', 'Amex', JText::_('COM_TIENDA_AMERICANEXPRESS') );
+//        $types[] = JHTML::_('select.option', 'DINERS', JText::_('COM_TIENDA_DINERSCLUB') );
+//        $types[] = JHTML::_('select.option', 'JCB', JText::_('COM_TIENDA_JCB') );
 //        $types[] = JHTML::_('select.option', 'LASER', JText::_('Laser') );
 //        $types[] = JHTML::_('select.option', 'PAYPAL', JText::_('Paypal') );
         
@@ -455,7 +455,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
          * perform initial checks 
          */
         if ( ! JRequest::checkToken() ) {
-            return $this->_renderHtml( JText::_('Invalid Token') );
+            return $this->_renderHtml( JText::_('COM_TIENDA_INVALID_TOKEN') );
         }
         
         $data = JRequest::get('post');

@@ -38,7 +38,7 @@
     <input type='hidden' name='ssl_test_mode' value='false' />
     <?php endif;?>
 
-    <input type="submit" class="button" value="<?php echo JText::_('Click Here to Complete Order'); ?>" />
+    <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_COMPLETE_ORDER'); ?>" />
     
     <input type='hidden' name='ssl_receipt_apprvl_method' value='POST' />
     <input type='hidden' name='ssl_receipt_apprvl_post_url' value='<?php echo JRoute::_(@$vars->receipt_url); ?>' />

@@ -27,14 +27,14 @@
   		<param name="points_value" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD VALUE" description="TIENDA ALPHAUSERPOINTS AWARD VALUE DESC" />
   		<param type="spacer" />
 		<param name="allpayments_awarded" type="radio" default="0" label="TIENDA ALPHAUSERPOINTS AWARD ALL PAYMENTS" description="TIENDA ALPHAUSERPOINTS AWARD ALL PAYMENTS DESC">
-  			<option value="0">No</option> 
-			<option value="1">Yes</option> 
+  			<option value="0">COM_TIENDA_NO</option> 
+			<option value="1">COM_TIENDA_YES</option> 
   		</param>
   		<param name="min_purchase_value" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD MINIMUM PURCHASE" description="TIENDA ALPHAUSERPOINTS AWARD MINIMUM PURCHASE DESC" />
   		<param type="spacer" />
   		<param name="award_points_reviews" type="radio" default="1" label="TIENDA ALPHAUSERPOINTS AWARD REVIEWS" description="TIENDA ALPHAUSERPOINTS AWARD REVIEWS DESC">
-  			<option value="0">No</option> 
-			<option value="1">Yes</option> 
+  			<option value="0">COM_TIENDA_NO</option> 
+			<option value="1">COM_TIENDA_YES</option> 
   		</param>
   		<param name="points_per_review" type="text" size="10" default="1" label="TIENDA ALPHAUSERPOINTS AWARD POINTS PER REVIEW" description="TIENDA ALPHAUSERPOINTS AWARD POINTS PER REVIEW DESC" />
    </params>

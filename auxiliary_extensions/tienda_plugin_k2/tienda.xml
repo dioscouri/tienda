@@ -36,12 +36,12 @@
 		<param name="productAttributes" type="attribute" label="Product Attributes"/>
 		<param name="productQuantities" type="quantity" label="Product Quantities"/>
 		<param name="productShipping" default="0" type="radio" label="Product Shipping">
-			<option value="0">No</option>
-      		<option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+      		<option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="productEnabled" default="1" type="radio" label="Product Enabled">
-			<option value="0">No</option>
-      		<option value="1">Yes</option>
+			<option value="0">COM_TIENDA_NO</option>
+      		<option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="tools" type="tools" label="Tools"/>
 		<param name="productID" type="hidden" label="Product ID"/>

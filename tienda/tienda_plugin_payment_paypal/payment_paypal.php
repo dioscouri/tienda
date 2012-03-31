@@ -274,7 +274,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 }
                     else
                 {
-                    $vars->message = JText::_('PAYPAL MESSAGE PAYMENT ACCEPTED FOR VALIDATION');
+                    $vars->message = JText::_('COM_TIENDA_PAYPAL_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION=');
                     $html = $this->_getLayout('message', $vars);
                     $html .= $this->_displayArticle();                    
                 }     
@@ -287,11 +287,11 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 $app->close();
               break;
             case "cancel":
-                $vars->message = JText::_('Paypal Message Cancel');
+                $vars->message = JText::_('COM_TIENDA_PAYPAL_MESSAGE_CANCEL');
                 $html = $this->_getLayout('message', $vars);
               break;
             default:
-                $vars->message = JText::_('Paypal Message Invalid Action');
+                $vars->message = JText::_('COM_TIENDA_PAYPAL_MESSAGE_INVALID_ACTION');
                 $html = $this->_getLayout('message', $vars);
               break;
         }
@@ -399,7 +399,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         }
         
         if ( ! $fp) {            
-            return JText::sprintf('PAYPAL ERROR POSTING IPN DATA BACK', $errstr, $errno);
+            return JText::sprintf('COM_TIENDA_PAYPAL_ERROR_POSTING_IPN_DATA_BACK', $errstr, $errno);
         }
         else {
             fputs ($fp, $header . $req);
@@ -409,7 +409,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                     return '';
                 }
                 elseif (strcmp ($res, 'INVALID') == 0) {
-                    return JText::_('PAYPAL ERROR IPN VALIDATION');
+                    return JText::_('COM_TIENDA_PAYPAL_ERROR_IPN_VALIDATION');
                 }
             }        
         }
