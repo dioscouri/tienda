@@ -29,6 +29,6 @@
           <option value="0">COM_TIENDA_NO</option>
           <option value="1">COM_TIENDA_YES</option>
         </param>
-		<param name="null_text" type="text" size="50" default="MOD_TIENDA_CART_NO_ITEMS_DEFAULT" label="MOD_TIENDA_CART_NO_ITEMS_TEXT" description="MOD_TIENDA_CART_NO_ITEMS_TEXT_DESC"></param>
+		<param name="null_text" type="text" size="50" default="No items in your cart" label="MOD_TIENDA_CART_NO_ITEMS_TEXT" description="MOD_TIENDA_CART_NO_ITEMS_TEXT_DESC"></param>
     </params>
 </install>

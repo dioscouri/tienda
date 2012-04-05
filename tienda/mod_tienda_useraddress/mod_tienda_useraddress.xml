@@ -28,6 +28,6 @@
 		  <option value="0">COM_TIENDA_NO</option>
 		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="null_text" type="text" size="50" default="MOD_TIENDA_USERADDRESS_NO_ADDRESSES_SET_DEFAULT" label="MOD_TIENDA_USERADDRESS_NO_ADDRESSES_SET" description="MOD_TIENDA_USERADDRESS_NO_ADDRESSES_TEXT_DESC"></param>
+		<param name="null_text" type="text" size="50" default="No Addresses Set" label="MOD_TIENDA_USERADDRESS_NO_ADDRESSES_SET" description="MOD_TIENDA_USERADDRESS_NO_ADDRESSES_TEXT_DESC"></param>
     </params>
 </install>

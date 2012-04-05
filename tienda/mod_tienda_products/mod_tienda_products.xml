@@ -94,6 +94,6 @@
 		  <option value="0">COM_TIENDA_NO</option>
 		  <option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="null_text" type="text" size="50" default="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_SET_DEFAULT" label="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_SET" description="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_TEXT_DESC"></param>
+		<param name="null_text" type="text" size="50" default="No Products Set" label="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_SET" description="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_TEXT_DESC"></param>
     </params>
 </install>

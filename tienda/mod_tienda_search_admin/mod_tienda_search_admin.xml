@@ -27,6 +27,6 @@
             <option value="0">MOD_TIENDA_SEARCH_ADMIN_NO</option>
             <option value="1">MOD_TIENDA_SEARCH_ADMIN_YES</option>
         </param>
-        <param name="text" type="text" size="50" default="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DEFAULT" label="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK" description="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DESC"></param>
+        <param name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK" description="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DESC"></param>
     </params>
 </install>
