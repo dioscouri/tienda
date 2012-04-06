@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
     <td height="40">
         <label id="usernamemsg" for="username">
-            <?php echo JText::_('User name'); ?>:
+            <?php echo JText::_('COM_TIENDA_USER_NAME'); ?>:
         </label>
     </td>
     <td>

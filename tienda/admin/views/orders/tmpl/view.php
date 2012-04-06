@@ -78,11 +78,11 @@
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <?php echo JText::_('Commissions'); ?>
-                        <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>" class="hasTip" />
+                        <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('COM_TIENDA_ORDER_HAS_A_COMMISSION'); ?>" class="hasTip" />
                     </td>
                     <td>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $row->order_id; ?>" target="_blank">
-                            <?php echo JText::_('View Commission Records'); ?>
+                            <?php echo JText::_('COM_TIENDA_VIEW_COMMISSION_RECORDS'); ?>
                         </a>
                     </td>
                 </tr>

@@ -2,16 +2,16 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-<p><?php echo JText::_('This report displays the quantity of each product that was ordered during a selected time period.'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_REPORT_DISPLAYS_THE_QUANTITY_OF_EACH_PRODUCT_THAT_WAS_ORDERED_DURING_A_SELECTED_TIME_PERIOD'); ?></p>
 
 <div class="note">
-	<?php echo JText::_('Enter Product Name'); ?>:
+	<?php echo JText::_('COM_TIENDA_ENTER_PRODUCT_NAME'); ?>:
 	<input type="text" name="filter_product_name" id="filter_product_name" value="<?php echo @$state->filter_product_name; ?>" style="width: 250px;" />
 	<br /><br />
 	<?php echo JText::_('COM_TIENDA_MANUFACTURER'); ?>:
 	<?php echo TiendaSelect::manufacturer( @$state->filter_manufacturer_id, 'filter_manufacturer_id', array('class' => 'inputbox', 'size' => '1'), null, true ) ?>
 	<br/><br/>
-	<?php echo JText::_('Select Date Range'); ?>:	
+	<?php echo JText::_('COM_TIENDA_SELECT_DATE_RANGE'); ?>:	
 	<?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>	
 	<?php echo TiendaSelect::reportrange( @$state->filter_range ? $state->filter_range : 'custom', 'filter_range', $attribs, 'range', true ); ?>	
 	<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span>

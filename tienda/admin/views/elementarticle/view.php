@@ -80,7 +80,7 @@ class TiendaViewElementArticle extends JView
 			<thead>
 				<tr>
 					<th width="5">
-						<?php echo JText::_('Num'); ?>
+						<?php echo JText::_('COM_TIENDA_NUM'); ?>
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>

@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-<p><?php echo JText::_('This report lists all users who opened a new subscription during the selected time period.'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_REPORT_LISTS_ALL_USERS_WHO_OPENED_A_NEW_SUBSCRIPTION_DURING_THE_SELECTED_TIME_PERIOD'); ?></p>
 
 
 
@@ -11,10 +11,10 @@
 	<thead>   
 		<tr>
 			<th style="text-align: center; width: 485px;" class="key">
-				<?php echo JText::_('Select Date Range'); ?>
+				<?php echo JText::_('COM_TIENDA_SELECT_DATE_RANGE'); ?>
 			</th>
 			<th style="text-align: left;" class="key">
-				<?php echo JText::_('Order State'); ?>
+				<?php echo JText::_('COM_TIENDA_ORDER_STATE'); ?>
 			</th>
 		</tr>
 		<tr>

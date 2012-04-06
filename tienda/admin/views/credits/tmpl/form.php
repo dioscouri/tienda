@@ -10,7 +10,7 @@
 			<table class="admintable">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('User'); ?>:
+                        <?php echo JText::_('COM_TIENDA_USER'); ?>:
                     </td>
                     <td>
                         <?php $user_element = TiendaSelect::userelement( @$row->user_id, 'user_id' ); ?>
@@ -28,7 +28,7 @@
                 </tr>
 				<tr>
 					<td title="<?php echo JText::_('Credit Type').'::'.JText::_('Credit Type Tip'); ?>" class="key hasTip" style="width: 100px; text-align: right;">
-						<?php echo JText::_('Type'); ?>:
+						<?php echo JText::_('COM_TIENDA_TYPE'); ?>:
 					</td>
 					<td>
 						<?php echo TiendaSelect::credittype( @$row->credittype_code, 'credittype_code' ); ?>
@@ -36,7 +36,7 @@
 				</tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Enabled'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'credit_enabled', '', @$row->credit_enabled ); ?>

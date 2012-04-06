@@ -25,7 +25,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
                 	<?php echo TiendaGrid::sort( 'ID', "tbl.id", @$state->direction, @$state->order ); ?>

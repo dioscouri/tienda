@@ -21,7 +21,7 @@
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
-			<th style="width: 5px;"><?php echo JText::_('Num'); ?></th>
+			<th style="width: 5px;"><?php echo JText::_('COM_TIENDA_NUM'); ?></th>
 			<th style="width: 20px;">
                 <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
 			</th>

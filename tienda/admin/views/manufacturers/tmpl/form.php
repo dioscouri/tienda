@@ -20,7 +20,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Enabled'); ?>:
+						<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 					</td>
 					<td>
 						<?php echo JHTML::_('select.booleanlist', 'manufacturer_enabled', '', @$row->manufacturer_enabled ); ?>

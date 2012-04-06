@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This reports the inventory levels</description>
+	<description>COM_TIENDA_THIS_REPORTS_THE_INVENTORY_LEVELS</description>
 
 	<files>
 		<filename plugin="report_inventory_levels">report_inventory_levels.php</filename>

@@ -2,16 +2,16 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-    <p><?php echo JText::_('THIS REPORTS ON PRE-PAYMENT ORDERS'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_REPORTS_ON_PRE-PAYMENT_ORDERS'); ?></p>
 <div>
 <table class="adminlist">
 	<thead>
 		<tr>
 			<th style="text-align: center;" class="key">
-                <?php echo JText::_('ID'); ?>
+                <?php echo JText::_('COM_TIENDA_ID'); ?>
             </th>
             <th style="text-align: center;" class="key">
-                <?php echo JText::_('DATE OF ORDER'); ?>
+                <?php echo JText::_('COM_TIENDA_DATE_OF_ORDER'); ?>
             </th>
             <th style="text-align: center;" class="key">
                 <?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
@@ -30,7 +30,7 @@
                	<?php echo JHTML::calendar( @$state->filter_date_from, "filter_date_from", "filter_date_from", '%Y-%m-%d %H:%M:%S' ); ?>
 				 <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span>
 				 <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
- 				 <span class="label"><?php echo JText::_('Type'); ?>:</span>
+ 				 <span class="label"><?php echo JText::_('COM_TIENDA_TYPE'); ?>:</span>
                  <?php echo TiendaSelect::datetype( @$state->filter_datetype, 'filter_datetype', '', 'datetype' ); ?>
 			</th>
 			<th class="key">

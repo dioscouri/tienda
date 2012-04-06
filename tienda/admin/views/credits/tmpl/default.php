@@ -24,7 +24,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -89,7 +89,7 @@
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d %H:%M:%S' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('Type'); ?>:</span>
+                            <span class="label"><?php echo JText::_('COM_TIENDA_TYPE'); ?>:</span>
                             <?php echo TiendaSelect::datetype( @$state->filter_datetype, 'filter_datetype', '', 'datetype' ); ?>
                         </div>
                     </div>

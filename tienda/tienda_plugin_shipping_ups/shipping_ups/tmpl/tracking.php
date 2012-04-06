@@ -53,7 +53,7 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Id'); ?>
+                    <?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('COM_TIENDA_NAME'); ?>

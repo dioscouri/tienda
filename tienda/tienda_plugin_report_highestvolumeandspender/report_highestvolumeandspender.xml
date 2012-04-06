@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This reports on highest volume and biggest spenders</description>
+	<description>COM_TIENDA_THIS_REPORTS_ON_HIGHEST_VOLUME_AND_BIGGEST_SPENDERS</description>
 
 	<files>
 		<filename plugin="report_highestvolumeandspender">report_highestvolumeandspender.php</filename>

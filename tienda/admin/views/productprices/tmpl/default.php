@@ -20,7 +20,7 @@
 	<table class="adminlist">
     	<thead>
         	<tr>
-        		<th><?php echo JText::_('Date Range'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_DATE_RANGE'); ?></th>
         		<th><?php echo JText::_('Quantity Range'); ?></th>
         		<th><?php echo JText::_('COM_TIENDA_GROUP'); ?></th>
         		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>

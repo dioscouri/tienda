@@ -59,7 +59,7 @@ function shippingPerOrder()
                 </tr>
 				<tr>
 					<td style="width: 125px; text-align: right;" class="key">
-						<?php echo JText::_('Enabled'); ?>:
+						<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 					</td>
 					<td>
 						<?php echo JHTML::_('select.booleanlist', 'coupon_enabled', '', @$row->coupon_enabled ); ?>
@@ -161,7 +161,7 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Type'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TYPE'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::booleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'User Submitted' );?>

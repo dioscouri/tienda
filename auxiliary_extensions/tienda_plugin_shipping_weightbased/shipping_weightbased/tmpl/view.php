@@ -31,7 +31,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="shipping_method_weightbased_enabled"> <?php echo JText::_('Enabled'); ?>:</label>
+						<label for="shipping_method_weightbased_enabled"> <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:</label>
 					</td>
 					<td>
 						<?php echo JHTML::_('select.booleanlist', 'shipping_method_weightbased_enabled', '', @$row->shipping_method_weightbased_enabled ); ?>

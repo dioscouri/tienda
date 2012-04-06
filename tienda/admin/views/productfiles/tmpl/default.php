@@ -22,7 +22,7 @@
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
     		<th><?php echo JText::_('Purchase Required'); ?></th>
-    		<th><?php echo JText::_('Enabled'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_ENABLED'); ?></th>
     		<th></th>
     		<th><?php echo JText::_('Max number of Downloads'); ?><br><?php echo "(".JText::_('Use -1 for unlimted downloading ').")" ?></th>
     	</tr>
@@ -62,7 +62,7 @@
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
     		<th><?php echo JText::_('Purchase Required'); ?></th>
-    		<th><?php echo JText::_('Enabled'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_ENABLED'); ?></th>
     		<th></th>
     		<th><?php echo JText::_('Max number of Downloads'); ?>
     		<br><?php echo "(".JText::_('Use -1 for unlimted downloading ').")" ?>

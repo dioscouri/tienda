@@ -33,7 +33,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="geozone_type">
-                        <?php echo JText::_('Type'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TYPE'); ?>:
                         </label>
                     </td>
                     <td>

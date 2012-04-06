@@ -24,7 +24,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -106,7 +106,7 @@
                         <?php 
                         if ($shipping_method_type = TiendaHelperShipping::getType($item->shipping_method_type))
                         {
-                        	echo "<b>".JText::_('Type')."</b>: ".$shipping_method_type->title; 
+                        	echo "<b>".JText::_('COM_TIENDA_TYPE')."</b>: ".$shipping_method_type->title; 
                         }
                         if ($item->subtotal_minimum > '0')
                         {

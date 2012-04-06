@@ -5,9 +5,9 @@
 <table class="adminlist" style="clear: both;">
 	<thead>
 		<tr>
-			<th style="width: 5px;"><?php echo JText::_('Num'); ?>
+			<th style="width: 5px;"><?php echo JText::_('COM_TIENDA_NUM'); ?>
 			</th>
-			<th style="width: 50px;"><?php echo JText::_('ID'); ?>
+			<th style="width: 50px;"><?php echo JText::_('COM_TIENDA_ID'); ?>
 			</th>
 			<th style="text-align: left;"><?php echo JText::_('COM_TIENDA_NAME'); ?>
 			</th>
@@ -16,9 +16,9 @@
 			<th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?>
 			</th>
 
-			<th style="width: 100px;"><?php echo JText::_('Numbers of Items'); ?>
+			<th style="width: 100px;"><?php echo JText::_('COM_TIENDA_NUMBERS_OF_ITEMS'); ?>
 			</th>
-			<th style="width: 85px;"><?php echo JText::_('Subtotal'); ?>
+			<th style="width: 85px;"><?php echo JText::_('COM_TIENDA_SUBTOTAL'); ?>
 			</th>
 		</tr>
 	</thead>

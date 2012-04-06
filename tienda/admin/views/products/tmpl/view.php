@@ -40,7 +40,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_('Enabled'); ?>:
+							<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 						</td>
 						<td>
 							<?php echo TiendaGrid::boolean( $row->product_enabled ); ?>

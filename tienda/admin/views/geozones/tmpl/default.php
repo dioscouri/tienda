@@ -25,7 +25,7 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 20px;">
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -43,7 +43,7 @@
                     <?php echo JText::_('Assigned Payment/Shipping'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('Type'); ?>
+                    <?php echo JText::_('COM_TIENDA_TYPE'); ?>
                 </th>
             </tr>
             <tr class="filterline">

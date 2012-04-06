@@ -76,7 +76,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" style="border-bottom: 1px solid #E5E5E5;  text-align: right; font-weight: bold;">
-				<?php echo JText::_('SUBTOTAL');?>
+				<?php echo JText::_('COM_TIENDA_SUBTOTAL');?>
 				</td>
 				<td style="border-bottom: 1px solid #E5E5E5; text-align: right;">
 				<?php echo TiendaHelperBase::currency($subtotal);?>

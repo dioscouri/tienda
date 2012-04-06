@@ -5,7 +5,7 @@
     <p><?php echo JText::_('DAILY REPORT DESC'); ?></p>
 
     <div class="note">
-	    <?php echo JText::_('SELECT DATE RANGE'); ?>:
+	    <?php echo JText::_('COM_TIENDA_SELECT_DATE_RANGE'); ?>:
 	    <?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>
 	    
 	            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span>

@@ -82,7 +82,7 @@ class TiendaViewElementProductMultiple extends JView
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>
-			<th width="5"><?php echo JText::_('Num'); ?></th>
+			<th width="5"><?php echo JText::_('COM_TIENDA_NUM'); ?></th>
 			<th style="width: 20px;"><input type="checkbox" name="toggle"
 				value="" onclick="checkAll(<?php echo count( $rows ); ?>);" /></th>
 			<th width="2%" class="title"><?php echo JHTML::_('grid.sort',   'ID', 'c.product_id', @$lists['order_Dir'], @$lists['order'] ); ?>

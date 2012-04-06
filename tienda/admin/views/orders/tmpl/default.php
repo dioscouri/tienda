@@ -25,7 +25,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -69,7 +69,7 @@
                             <?php echo JHTML::calendar( @$state->filter_date_to, "filter_date_to", "filter_date_to", '%Y-%m-%d 00:00:00' ); ?>
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('Type'); ?>:</span>
+                            <span class="label"><?php echo JText::_('COM_TIENDA_TYPE'); ?>:</span>
                             <?php echo TiendaSelect::datetype( @$state->filter_datetype, 'filter_datetype', '', 'datetype' ); ?>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
 					<?php 
 					if ((empty($item->shipping_address_1) and (empty($item->shipping_address_2))))
 					{
-					   echo JText::_('Undefined Shipping Address'); 
+					   echo JText::_('COM_TIENDA_UNDEFINED_SHIPPING_ADDRESS'); 
 					}
 					   else
 					{
@@ -177,7 +177,7 @@
                         <br/>
                         <?php JHTML::_('behavior.tooltip'); ?>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
-                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>::<?php echo JText::_('View Commission Records'); ?>" class="hasTip" />
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('COM_TIENDA_ORDER_HAS_A_COMMISSION'); ?>::<?php echo JText::_('COM_TIENDA_VIEW_COMMISSION_RECORDS'); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
 				</td>

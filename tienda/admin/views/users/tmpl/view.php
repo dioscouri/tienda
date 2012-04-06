@@ -77,7 +77,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="id">
-		                        	<?php echo JText::_('ID'); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_ID'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
@@ -129,7 +129,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							</tr>
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('Total Amount Spent'); ?>:
+									<?php echo JText::_('COM_TIENDA_TOTAL_AMOUNT_SPENT'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo TiendaHelperBase::currency (@$this->spent); ?></div>
@@ -152,7 +152,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_('ID'); ?>
+									<?php echo JText::_('COM_TIENDA_ID'); ?>
 								</th>
 								<th style="width: 200px;">
 									<?php echo JText::_('COM_TIENDA_DATE'); ?>
@@ -204,10 +204,10 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_('Num'); ?>
+									<?php echo JText::_('COM_TIENDA_NUM'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('Type'); ?>
+									<?php echo JText::_('COM_TIENDA_TYPE'); ?>
 								</th>
 								<th style="width: 200px;">
 									<?php echo JText::_('Order'); ?>
@@ -267,7 +267,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_('Num'); ?>
+									<?php echo JText::_('COM_TIENDA_NUM'); ?>
 								</th>
 								<th style="width: 200px;">
 									<?php echo JText::_('Products'); ?>
@@ -347,7 +347,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<thead>
 							<tr>
 								<th style="width: 5px;">
-									<?php echo JText::_('Num'); ?>
+									<?php echo JText::_('COM_TIENDA_NUM'); ?>
 								</th>
 								<th>
 									<?php echo JText::_('Products + Comments'); ?>

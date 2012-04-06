@@ -1126,7 +1126,7 @@ class TiendaSelect extends JHTMLSelect
 
         $list[] = JHTML::_('select.option',  0, JText::_('None') );
         $list[] = JHTML::_('select.option',  1, JText::_('Admin') );
-        $list[] = JHTML::_('select.option',  2, JText::_('User') );
+        $list[] = JHTML::_('select.option',  2, JText::_('COM_TIENDA_USER') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1389,7 +1389,7 @@ class TiendaSelect extends JHTMLSelect
         }
 
         $list[] = JHTML::_('select.option',  'active', JText::_('Active') );
-        $list[] = JHTML::_('select.option',  'disabled', JText::_('Disabled') );
+        $list[] = JHTML::_('select.option',  'disabled', JText::_('COM_TIENDA_DISABLED') );
         $list[] = JHTML::_('select.option',  'used', JText::_('Used') );
         $list[] = JHTML::_('select.option',  'withdrawable', JText::_('Withdrawable') );
         

@@ -81,7 +81,7 @@
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('User'); ?>:
+                        <?php echo JText::_('COM_TIENDA_USER'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_name; ?>
@@ -166,7 +166,7 @@
                 <thead>
                     <tr>
                         <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
-                        <th style="text-align: center;"><?php echo JText::_('Type'); ?></th>
+                        <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_TYPE'); ?></th>
                         <th style="text-align: center;"><?php echo JText::_('Notification Sent'); ?></th>
                     </tr>
                 </thead>

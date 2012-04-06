@@ -9,10 +9,10 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                	<?php echo JText::_('ID'); ?>
+                	<?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>                
                 <th style="text-align: center; width: 200px;">
                 	<?php echo JText::_('Relationship'); ?>

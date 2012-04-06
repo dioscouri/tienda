@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th style="width: 10px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo TiendaGrid::sort( 'ID', "tbl.productfile_id", @$state->direction, @$state->order ); ?>
@@ -51,7 +51,7 @@
                 </td>
                 <td style="text-align: left;">                	
                          <span style="font-weight:bold;"><?php echo $item->productfile_name; ?></span><br/>
-                        <span style="font-style:italic;"><?php echo JText::_('File Path')?>: </span><?php echo $item->productfile_path; ?>                    
+                        <span style="font-style:italic;"><?php echo JText::_('COM_TIENDA_FILE_PATH')?>: </span><?php echo $item->productfile_path; ?>                    
                 </td>
                 <td style="text-align: center;">
                     <?php echo $item->productfile_extension; ?>

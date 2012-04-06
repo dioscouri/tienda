@@ -49,7 +49,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="enabled">
-    						<?php echo JText::_('Enabled'); ?>:
+    						<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
     						</label>
     					</td>
     					<td>

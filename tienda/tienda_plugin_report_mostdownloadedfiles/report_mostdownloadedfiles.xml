@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>THIS REPORTS ON MOST DOWNLOADED FILES</description>
+	<description>COM_TIENDA_THIS_REPORTS_ON_MOST_DOWNLOADED_FILES</description>
 
 	<files>
 		<filename plugin="report_mostdownloadedfiles">report_mostdownloadedfiles.php</filename>

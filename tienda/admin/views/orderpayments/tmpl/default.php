@@ -25,7 +25,7 @@
 		<thead>
             <tr>
                 <th style="width: 5px;">
-                	<?php echo JText::_('Num'); ?>
+                	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 20px;">
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
@@ -154,7 +154,7 @@
                         <br/>
                         <?php JHTML::_('behavior.tooltip'); ?>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
-                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>::<?php echo JText::_('View Commission Records'); ?>" class="hasTip" />
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('COM_TIENDA_ORDER_HAS_A_COMMISSION'); ?>::<?php echo JText::_('COM_TIENDA_VIEW_COMMISSION_RECORDS'); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
 				</td>

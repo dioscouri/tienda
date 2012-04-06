@@ -3,19 +3,19 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
-<h2><?php echo JText::_('Results'); ?></h2>
+<h2><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h2>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_('ID'); ?>
+                    <?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>
                 <th style=" width: 200px;">
-                    <?php echo JText::_('Date of Order'); ?>
+                    <?php echo JText::_('COM_TIENDA_DATE_OF_ORDER'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
@@ -57,7 +57,7 @@
 					<?php 
 					if (empty($item->shipping_address_1)) 
 					{
-					   echo JText::_('Undefined Shipping Address'); 
+					   echo JText::_('COM_TIENDA_UNDEFINED_SHIPPING_ADDRESS'); 
 					}
 					   else
 					{
@@ -82,7 +82,7 @@
                         <br/>
                         <?php JHTML::_('behavior.tooltip'); ?>
                         <a href="index.php?option=com_amigos&view=commissions&filter_orderid=<?php echo $item->order_id; ?>" target="_blank">
-                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('Order Has a Commission'); ?>::<?php echo JText::_('View Commission Records'); ?>" class="hasTip" />
+                            <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('COM_TIENDA_ORDER_HAS_A_COMMISSION'); ?>::<?php echo JText::_('COM_TIENDA_VIEW_COMMISSION_RECORDS'); ?>" class="hasTip" />
                         </a>
                     <?php } ?>
 				</td>

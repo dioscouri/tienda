@@ -34,7 +34,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_enabled">
-				<?php echo JText::_('Enabled'); ?>:
+				<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 				</label>
 			</td>
 			<td>
@@ -44,7 +44,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="shipping_method_type">
-                <?php echo JText::_('Type'); ?>:
+                <?php echo JText::_('COM_TIENDA_TYPE'); ?>:
                 </label>
             </td>
             <td>

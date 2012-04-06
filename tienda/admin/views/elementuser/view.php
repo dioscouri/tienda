@@ -76,7 +76,7 @@ class TiendaViewElementUser extends JView
 			<thead>
 				<tr>
 					<th width="5">
-						<?php echo JText::_('Num'); ?>
+						<?php echo JText::_('COM_TIENDA_NUM'); ?>
 					</th>
 					<th width="2%" class="title">
 						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>

@@ -3,16 +3,16 @@
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
 
-<h2><?php echo JText::_('Results'); ?></h2>
+<h2><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h2>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_('ID'); ?>
+                    <?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
@@ -28,13 +28,13 @@
                 </th>
                 
                 <th style="text-align: left;">
-                    <?php echo JText::_('User'); ?>
+                    <?php echo JText::_('COM_TIENDA_USER'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Order State'); ?>
+                    <?php echo JText::_('COM_TIENDA_ORDER_STATE'); ?>
                 </th>
             </tr>
         </thead>

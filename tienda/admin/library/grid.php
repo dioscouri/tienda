@@ -124,7 +124,7 @@ class TiendaGrid extends JHTMLGrid
 	{
 		$img 	= $enable ? $imgY : $imgX;
 		$task 	= $enable ? 'disable' : 'enable';
-		$alt 	= $enable ? JText::_('Enabled') : JText::_('Disabled');
+		$alt 	= $enable ? JText::_('COM_TIENDA_ENABLED') : JText::_('COM_TIENDA_DISABLED');
 		$action = $enable ? JText::_('Disable Item') : JText::_('Enable Item');
 		
         $href = '

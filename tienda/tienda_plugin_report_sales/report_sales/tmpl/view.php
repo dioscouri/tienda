@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="text-align: left; width : 150px;">
                     <?php echo JText::_('COM_TIENDA_NAME'); ?>
@@ -25,10 +25,10 @@
                     <?php echo JText::_('COM_TIENDA_DATE'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('Shipping costs'); ?>
+                    <?php echo JText::_('COM_TIENDA_SHIPPING_COSTS'); ?>
                 </th>
                 <th style="width: 70px;">
-                    <?php echo JText::_('Tax'); ?>
+                    <?php echo JText::_('COM_TIENDA_TAX'); ?>
                 </th>
             </tr>
         </thead>

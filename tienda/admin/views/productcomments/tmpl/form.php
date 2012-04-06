@@ -24,7 +24,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('User Name'); ?>:
+						<?php echo JText::_('COM_TIENDA_USER_NAME'); ?>:
 					</td>
 					<td>
 					<?php echo $row->user_name; ?>

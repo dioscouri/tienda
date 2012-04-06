@@ -2,22 +2,22 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
-<h2><?php echo JText::_('Results'); ?></h2>
+<h2><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h2>
 
     <table class="adminlist" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo JText::_('Manufacturer Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_MANUFACTURER_NAME'); ?>
                 </th>
                 <th style="text-align: center; width : 200px;">
-                    <?php echo JText::_('Count of Items'); ?>
+                    <?php echo JText::_('COM_TIENDA_COUNT_OF_ITEMS'); ?>
                 </th>
                 <th style="text-align: center; width : 200px;">
-                    <?php echo JText::_('Sales Amount'); ?>
+                    <?php echo JText::_('COM_TIENDA_SALES_AMOUNT'); ?>
                 </th>
             </tr>
         </thead>
@@ -36,7 +36,7 @@
                     <?php echo $i++; ?>
                 </td>
                 <td style="text-align: left;">
-                    <?php if( strlen( $item->manufacturer_name ) ) echo $item->manufacturer_name; else echo ' - '.JText::_('No Manufacturer').' - ';?>
+                    <?php if( strlen( $item->manufacturer_name ) ) echo $item->manufacturer_name; else echo ' - '.JText::_('COM_TIENDA_NO_MANUFACTURER').' - ';?>
                 </td>    
                 <td style="text-align: center;">
                     <?php echo @$item->count_items; ?>                    

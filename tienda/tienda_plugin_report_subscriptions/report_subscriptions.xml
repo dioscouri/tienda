@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This report lists all users who opened a new subscription during the selected time period.</description>
+	<description>COM_TIENDA_THIS_REPORT_LISTS_ALL_USERS_WHO_OPENED_A_NEW_SUBSCRIPTION_DURING_THE_SELECTED_TIME_PERIOD</description>
 	
 	<files>
 		<filename plugin="report_subscriptions">report_subscriptions.php</filename>

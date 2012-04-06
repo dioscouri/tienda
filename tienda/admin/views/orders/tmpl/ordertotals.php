@@ -11,7 +11,7 @@
 <tbody>
 	<tr>
 		<th style="width: 100px;" class="key">
-			<?php echo JText::_('Subtotal'); ?>:
+			<?php echo JText::_('COM_TIENDA_SUBTOTAL'); ?>:
 		</th>
 		<td>
             <?php echo TiendaHelperBase::currency( @$totals->order_subtotal) ?>
@@ -19,7 +19,7 @@
 	</tr>
 	<tr>
 		<th style="width: 100px;" class="key">
-			 <?php echo JText::_('Tax'); ?>:
+			 <?php echo JText::_('COM_TIENDA_TAX'); ?>:
 		</th>
 		<td>
             <?php echo TiendaHelperBase::currency( @$totals->order_tax) ?>
@@ -27,7 +27,7 @@
 	</tr>
 	<tr>
 		<th style="width: 100px;" class="key">
-			 <?php echo JText::_('Shipping costs'); ?>:
+			 <?php echo JText::_('COM_TIENDA_SHIPPING_COSTS'); ?>:
 		</th>
 		<td>
 		    <?php echo TiendaHelperBase::currency( @$this->shipping_total->shipping_rate_price ); ?>

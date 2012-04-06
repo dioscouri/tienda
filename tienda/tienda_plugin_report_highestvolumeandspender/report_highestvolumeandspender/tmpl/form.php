@@ -1,19 +1,19 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
-<p><?php echo JText::_('THIS REPORTS ON HIGHEST VOLUME AND BIGGEST SPENDERS'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_REPORTS_ON_HIGHEST_VOLUME_AND_BIGGEST_SPENDERS'); ?></p>
 <div>
 <table class="adminlist">
 	<thead>
 		<tr>
             <th style="text-align: center;" class="key">
-                <?php echo JText::_('Date Range'); ?>
+                <?php echo JText::_('COM_TIENDA_DATE_RANGE'); ?>
             </th>
             <th style="text-align: center;" class="key">
-                <?php echo JText::_('Total Number of Purchases'); ?>
+                <?php echo JText::_('COM_TIENDA_TOTAL_NUMBER_OF_PURCHASES'); ?>
             </th> 
             <th style="text-align: center;" class="key">
-                <?php echo JText::_('Total Amount Spent'); ?>
+                <?php echo JText::_('COM_TIENDA_TOTAL_AMOUNT_SPENT'); ?>
             </th>
 		</tr>
 		<tr>

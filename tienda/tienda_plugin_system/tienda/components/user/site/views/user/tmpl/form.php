@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<label for="username">
-			<?php echo JText::_('User Name'); ?>:
+			<?php echo JText::_('COM_TIENDA_USER_NAME'); ?>:
 		</label>
 	</td>
 	<td>

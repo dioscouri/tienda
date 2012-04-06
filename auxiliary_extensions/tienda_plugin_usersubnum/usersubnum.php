@@ -143,7 +143,7 @@ class plgUserUserSubNum extends JPlugin {
 		$mailer = JFactory::getMailer();
 		$mailer->addRecipient( $toemail );
 		$mailer->setSubject( sprintf( $this->params->get( 'email_subject' ), $user_id ) );
-		$mailer->setBody( htmlspecialchars_decode( $msg ).' - '.JText::_('User').'='.$user_id );
+		$mailer->setBody( htmlspecialchars_decode( $msg ).' - '.JText::_('COM_TIENDA_USER').'='.$user_id );
 		$sender = array( $from, $fromname );
 		$mailer->setSender($sender);
 		$mailer->send();

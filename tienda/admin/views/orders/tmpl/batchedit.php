@@ -11,7 +11,7 @@
 		<thead>
             <tr>
                 <th style="width: 20px;">
-                	<?php echo JText::_('Id'); ?>
+                	<?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>
                 <th style="text-align: left;">
                 	<?php echo JText::_('Order'); ?>
@@ -53,7 +53,7 @@
                     <?php 
                     if (empty($item->shipping_address_1)) 
                     {
-                       echo JText::_('Undefined Shipping Address'); 
+                       echo JText::_('COM_TIENDA_UNDEFINED_SHIPPING_ADDRESS'); 
                     }
                        else
                     {

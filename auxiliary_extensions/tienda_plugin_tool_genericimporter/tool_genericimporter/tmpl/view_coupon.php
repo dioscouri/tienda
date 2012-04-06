@@ -4,7 +4,7 @@
 	<thead>
 		<tr>
 			<th style="width: 5px;">
-			<?php	echo JText::_('NUM');?>
+			<?php	echo JText::_('COM_TIENDA_NUM');?>
 			</th>
 			<th style="text-align: left;">
 			<?php	echo JText::_('TITLE');?>

@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th style="width: 5px;">
-                    <?php echo JText::_('Num'); ?>
+                    <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="text-align: left;">
                     <?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>
@@ -16,7 +16,7 @@
                     <?php echo JText::_('COM_TIENDA_MANUFACTURER'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Attributes'); ?>
+                    <?php echo JText::_('COM_TIENDA_ATTRIBUTES'); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('COM_TIENDA_QUANTITY'); ?>

@@ -2,10 +2,10 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-    <p><?php echo JText::_('This reports on best selling products'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_REPORTS_ON_BEST_SELLING_PRODUCTS'); ?></p>
 
     <div class="note">
-	    <?php echo JText::_('Select Date Range'); ?>:
+	    <?php echo JText::_('COM_TIENDA_SELECT_DATE_RANGE'); ?>:
 	    <?php $attribs = array('class' => 'inputbox', 'size' => '1'); ?>
 	    <?php echo TiendaSelect::reportrange( @$state->filter_range ? $state->filter_range : 'custom', 'filter_range', $attribs, 'range', true ); ?>
 	            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span>

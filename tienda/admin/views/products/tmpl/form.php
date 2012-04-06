@@ -40,7 +40,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('ID'); ?>:
+                    <?php echo JText::_('COM_TIENDA_ID'); ?>:
                 </td>
                 <td>
                     <?php 
@@ -79,7 +79,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Enabled'); ?>:
+                    <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                 </td>
                 <td>
                     <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>

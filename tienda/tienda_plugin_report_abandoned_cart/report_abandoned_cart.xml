@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This reports displays list of users with items in their carts that have not been purchased yet. </description>
+	<description>COM_TIENDA_THIS_REPORTS_ON_DISPLAYING_LIST_OF_USERS_WITH_ITEMS_NOT_PURCHASED</description>
 
 	<files>
 		<filename plugin="report_abandoned_cart">report_abandoned_cart.php</filename>
