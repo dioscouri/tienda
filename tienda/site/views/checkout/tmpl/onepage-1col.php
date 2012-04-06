@@ -12,10 +12,10 @@
 	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
 
 	$this->section = 1;	
-	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address', 
-												'Updating Payment Methods', 'VALIDATING', 'COM_TIENDA_CHECKING_COUPON',
-												'COM_TIENDA_UPDATING_BILLING' );
-	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address', 'Updating Payment Methods', 'VALIDATING' );
+	$js_strings = array( 'COM_TIENDA_UPDATING_PAYMENT_METHODS', 'COM_TIENDA_CHECKING_COUPON',
+											 'COM_TIENDA_UPDATING_BILLING', 'COM_TIENDA_UPDATING_SHIPPING_RATES', 
+											 'COM_TIENDA_UPDATING_CART', 'COM_TIENDA_UPDATING_ADDRESS', 'COM_TIENDA_VALIDATING' );
+	
 	TiendaHelperImage::addJsTranslationStrings( $js_strings );
 ?>
 <a name="tienda-method"></a> 
@@ -97,7 +97,7 @@
 	            		$billattribs = array(
 	                		'class' => 'inputbox',    
 	                    	'size' => '1',
-	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form, '".JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES')."', '".JText::_('COM_TIENDA_UPDATING_CART')."', '".JText::_('COM_TIENDA_UPDATING_ADDRESS')."' );"
+	                    	'onchange' => "tiendaCheckoutSetBillingAddress('$baseurl'+this.options[this.selectedIndex].value, 'billingDefaultAddress', this.options[this.selectedIndex].value, this.form );"
 	                	);
 	                        
 	                	// display select list of stored addresses

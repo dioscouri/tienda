@@ -12,10 +12,11 @@
 	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
 	
 	$this->section = 1;
-	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address', 
-												'Updating Payment Methods', 'VALIDATING', 'COM_TIENDA_CHECKING_COUPON',
-												'COM_TIENDA_UPDATING_BILLING' );
-		TiendaHelperImage::addJsTranslationStrings( $js_strings );
+	$js_strings = array( 'COM_TIENDA_UPDATING_PAYMENT_METHODS', 'COM_TIENDA_CHECKING_COUPON',
+											 'COM_TIENDA_UPDATING_BILLING', 'COM_TIENDA_UPDATING_SHIPPING_RATES', 
+											 'COM_TIENDA_UPDATING_CART', 'COM_TIENDA_UPDATING_ADDRESS', 'COM_TIENDA_VALIDATING' );
+	
+	TiendaHelperImage::addJsTranslationStrings( $js_strings );
 ?>
 <a name="tienda-method"></a> 
 
