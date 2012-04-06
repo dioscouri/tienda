@@ -255,6 +255,18 @@ class TiendaModelOrders extends TiendaModelBase
             
             foreach(@$list as $item)
             {
+            		if( $item->user_id < Tienda::getGuestIdStart() ) // guest user
+            		{
+            			if( strlen( $item->billing_first_name ) || strlen( $item->billing_last_name ) )
+            			{
+	            			$item->user_name = JText::_( 'COM_TIENDA_GUEST' ).' - '.$item->billing_first_name.' '.$item->billing_last_name;
+            			}
+	            		else
+            			{
+	            			$item->user_name = JText::_( 'COM_TIENDA_GUEST' ).' - '.$item->userinfo_email;
+            			}
+            		}
+            	
                 $item->link = 'index.php?option=com_tienda&controller=orders&view=orders&task=edit&id='.$item->order_id;
                 $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
                 

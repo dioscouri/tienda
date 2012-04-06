@@ -1832,7 +1832,7 @@ class TiendaControllerCheckout extends TiendaController
 		// check shipping hash
 		if( @$values['shippingrequired'] && !$this->checkShippingHash( $values ) )
 		{
-			jexit( 'TiendaControllerCheckout::preparePayment - Invalid Shipping Values' );	
+			jexit( JText::_( 'COM_TIENDA_INVALID_SHIPPING_VALUES' ) );	
 			return false;
 		}
 		
@@ -2556,15 +2556,6 @@ class TiendaControllerCheckout extends TiendaController
 		$helper = TiendaHelperBase::getInstance();
 		$submitted_values = $helper->elementsToArray( $elements );
 
-		// check shipping hash
-		if( @$submitted_values['shippingrequired'] && !$this->checkShippingHash( $submitted_values ) )
-		{
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_INVALID_SHIPPING_VALUES'));
-			$response['error'] = '1';
-			echo ( json_encode( $response ) );
-			return;
-		}
-		
 		if(empty($submitted_values['_checked']['payment_plugin']))
 		{
 			$response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
@@ -2595,6 +2586,15 @@ class TiendaControllerCheckout extends TiendaController
 
 		if(!$this->validateSelectShipping($submitted_values))
 		{
+			return;
+		}
+
+		// check shipping hash
+		if( @$submitted_values['shippingrequired'] && !$this->checkShippingHash( $submitted_values ) )
+		{
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_INVALID_SHIPPING_VALUES'));
+			$response['error'] = '1';
+			echo ( json_encode( $response ) );
 			return;
 		}
 
@@ -3473,7 +3473,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($email))
 		{
-			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_EMAIL_CANNOT_BE_EMPTY', 'fail' );
+			$response['msg'] = $helper->validationMessage( "COM_TIENDA_EMAIL_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3483,7 +3483,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (!$checker->isEmailAddress($email))
 		{
-			$message .= $helper->validationMessage( 'COM_TIENDA_EMAIL_INVALID', 'fail' );
+			$message .= $helper->validationMessage( "COM_TIENDA_EMAIL_INVALID", 'fail' );
 			$response['error'] = '1';
 		}
 		
@@ -3542,7 +3542,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($username))
 		{
-			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_USERNAME_CANNOT_BE_EMPTY', 'fail' );
+			$response['msg'] = $helper->validationMessage( "COM_TIENDA_USERNAME_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3551,7 +3551,7 @@ class TiendaControllerCheckout extends TiendaController
 		$message = "";
 		if ($checker->usernameExists($username))
 		{
-			$message .= $helper->validationMessage( 'COM_TIENDA_USERNAME_UNAVAILABLE', 'fail' );
+			$message .= $helper->validationMessage( "COM_TIENDA_USERNAME_UNAVAILABLE", 'fail' );
 		}
 		else
 		{
@@ -3591,7 +3591,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password))
 		{
-			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY', 'fail' );
+			$response['msg'] = $helper->validationMessage( "COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3645,7 +3645,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password))
 		{
-			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY', 'fail' );
+			$response['msg'] = $helper->validationMessage( "COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3653,7 +3653,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password2))
 		{
-			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_VERIFY_CANNOT_BE_EMPTY', 'fail' );
+			$response['msg'] = $helper->validationMessage( "COM_TIENDA_PASSWORD_VERIFY_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3920,12 +3920,12 @@ class TiendaControllerCheckout extends TiendaController
 	function checkShippingHash( $values )
 	{
 		$ship_values = array();
-		$ship_values['type'] = $values['shipping_plugin'];
-		$ship_values['name'] = $values['shipping_name'];
-		$ship_values['price'] = $values['shipping_price'];
-		$ship_values['tax'] = $values['shipping_tax'];
-		$ship_values['code'] = $values['shipping_code'];
-		$ship_values['extra'] = $values['shipping_extra'];
+		$ship_values['type'] = @$values['shipping_plugin'];
+		$ship_values['name'] = @$values['shipping_name'];
+		$ship_values['price'] = @$values['shipping_price'];
+		$ship_values['tax'] = @$values['shipping_tax'];
+		$ship_values['code'] = @$values['shipping_code'];
+		$ship_values['extra'] = @$values['shipping_extra'];
 		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
 		$gh = TiendaHelperShipping::generateShippingHash( $ship_values );
 		return $gh == @$values['shipping_hash'];

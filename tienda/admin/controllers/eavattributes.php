@@ -43,6 +43,7 @@ class TiendaControllerEavAttributes extends TiendaController
         $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
         $state['filter_name']         = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
         $state['filter_entitytype']         = $app->getUserStateFromRequest($ns.'entitytype', 'filter_entitytype', '', '');
+				$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.ordering', 'cmd');
         
         foreach (@$state as $key=>$value)
         {
