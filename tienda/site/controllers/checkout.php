@@ -3473,7 +3473,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($email))
 		{
-			$response['msg'] = $helper->validationMessage( "Email cannot be empty", 'fail' );
+			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_EMAIL_CANNOT_BE_EMPTY', 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3483,7 +3483,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (!$checker->isEmailAddress($email))
 		{
-			$message .= $helper->validationMessage( "Email Invalid", 'fail' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_EMAIL_INVALID', 'fail' );
 			$response['error'] = '1';
 		}
 		
@@ -3509,7 +3509,7 @@ class TiendaControllerCheckout extends TiendaController
 		if ($response['error'] == '0')
 		{
 			// no error
-			$message .= $helper->validationMessage( 'Email OK', 'success' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_VALID_EMAIL', 'success' );
 		}
 
 		$response['msg'] = $message;
@@ -3542,7 +3542,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($username))
 		{
-			$response['msg'] = $helper->validationMessage( "Username cannot be empty", 'fail' );
+			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_USERNAME_CANNOT_BE_EMPTY', 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3551,12 +3551,12 @@ class TiendaControllerCheckout extends TiendaController
 		$message = "";
 		if ($checker->usernameExists($username))
 		{
-			$message .= $helper->validationMessage( "Username Unavailable", 'fail' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_USERNAME_UNAVAILABLE', 'fail' );
 		}
 		else
 		{
 			// no error
-			$message .= $helper->validationMessage( 'Valid Username', 'success' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_VALID_USERNAME', 'success' );
 		}
 
 		$response['msg'] = $message;
@@ -3591,7 +3591,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password))
 		{
-			$response['msg'] = $helper->validationMessage( "Password cannot be empty", 'fail' );
+			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY', 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3612,7 +3612,7 @@ class TiendaControllerCheckout extends TiendaController
 		else
 		{
 			// no error
-			$message .= $helper->validationMessage( 'Strong Password', 'success' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_STRONG_PASSWORD', 'success' );
 		}
 
 		$response['msg'] = $message;
@@ -3645,7 +3645,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password))
 		{
-			$response['msg'] = $helper->validationMessage( "Password cannot be empty", 'fail' );
+			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_CANNOT_BE_EMPTY', 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3653,7 +3653,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if (empty($password2))
 		{
-			$response['msg'] = $helper->validationMessage( "Verify Password field cannot be empty", 'fail' );
+			$response['msg'] = $helper->validationMessage( 'COM_TIENDA_PASSWORD_VERIFY_CANNOT_BE_EMPTY', 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
@@ -3662,12 +3662,12 @@ class TiendaControllerCheckout extends TiendaController
 		$message = "";
 		if ($password != $password2)
 		{
-			$message .= $helper->validationMessage( 'Passwords do not match', 'fail' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_PASSWORD_DO_NOT_MATCH', 'fail' );
 		}
 		else
 		{
 			// no error
-			$message .= $helper->validationMessage( 'Password Verified', 'success' );
+			$message .= $helper->validationMessage( 'COM_TIENDA_PASSWORD_VALID', 'success' );
 		}
 
 		$response['msg'] = $message;
