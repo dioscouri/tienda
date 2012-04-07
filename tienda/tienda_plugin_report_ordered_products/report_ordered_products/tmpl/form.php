@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 
-<p><?php echo JText::_('COM_TIENDA_THIS_REPORT_DISPLAYS_THE_QUANTITY_OF_EACH_PRODUCT_THAT_WAS_ORDERED_DURING_A_SELECTED_TIME_PERIOD'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_REPORT_DISPLAYS_ORDERED_PRODUCTS'); ?></p>
 
 <div class="note">
 	<?php echo JText::_('COM_TIENDA_ENTER_PRODUCT_NAME'); ?>:

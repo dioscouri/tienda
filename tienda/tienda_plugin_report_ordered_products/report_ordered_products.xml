@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>COM_TIENDA_THIS_REPORT_DISPLAYS_THE_QUANTITY_OF_EACH_PRODUCT_THAT_WAS_ORDERED_DURING_A_SELECTED_TIME_PERIOD</description>
+	<description>COM_TIENDA_THIS_REPORT_DISPLAYS_ORDERED_PRODUCTS</description>
 	
 	<files>
 		<filename plugin="report_ordered_products">report_ordered_products.php</filename>
