@@ -4,11 +4,11 @@
 <?php $form = @$vars->form; ?>
 <?php $items = @$vars->list; ?>
 
-<p><?php echo sprintf( JText::_('SHIPPING_PLUGIN_DHL_CONFIG_HELP'), $vars->link ); ?></p>
+<p><?php echo sprintf( JText::_('SHIPPING_PLUGIN_UPS_CONFIG_HELP'), $vars->link ); ?></p>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>
-        <legend><?php echo JText::_('Enabled Services'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ENABLED_SERVICES'); ?></legend>
         
     <table class="adminlist" style="clear: both;">
         <thead>
@@ -20,7 +20,7 @@
 <!--                    <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />-->
 <!--                </th>-->
                 <th style="text-align: left;">
-                    <?php echo JText::_('COM_TIENDA_NAME')." (".JText::_('Key').")"; ?>
+                    <?php echo JText::_('COM_TIENDA_NAME')." (".JText::_('COM_TIENDA_KEY').")"; ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo JText::_('COM_TIENDA_ENABLED'); ?>

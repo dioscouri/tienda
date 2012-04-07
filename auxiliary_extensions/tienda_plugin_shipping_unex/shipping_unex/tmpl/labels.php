@@ -24,7 +24,7 @@
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Result'); ?>
+    	        <?php echo JText::_('COM_TIENDA_RESULT'); ?>
     	    </td>
     	    <td>
     	        <div id="unexResult">

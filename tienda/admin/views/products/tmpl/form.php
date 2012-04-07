@@ -611,7 +611,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 ?>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Tax Class'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TAX_CLASS'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::taxclass( @$row->tax_class_id, 'tax_class_id', '', 'tax_class_id', false ); ?>

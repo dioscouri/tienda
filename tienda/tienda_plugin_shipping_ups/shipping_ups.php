@@ -187,7 +187,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		
 		if ( $this->sendShipment( $order ) )
 		{
-			$html = JText::_('Shipment Sent') . '<br />';
+			$html = JText::_('COM_TIENDA_SHIPMENT_SENT')) . '<br />';
 			$path = Tienda::getPath( 'order_files' ) . DS . $order->order_id;
 			
 			$helper = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' );
@@ -206,7 +206,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		}
 		else
 		{
-			return JText::_('Shipment Failed!') . '<br />' . $this->getError( );
+			return JText::_('COM_TIENDA_SHIPMENT_FAILED')) . '<br />' . $this->getError( );
 		}
 	}
 	
@@ -320,11 +320,11 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 	function getUpsServices( )
 	{
 		$services = array(
-				'01' => JText::_('UPS Next Day Air'), '02' => JText::_('UPS Second Day Air'), '03' => JText::_('UPS Ground'),
-				'07' => JText::_('UPS Worldwide Express'), '08' => JText::_('UPS Worldwide Expedited'), '11' => JText::_('UPS Standard'),
-				'12' => JText::_('UPS Three-Day Select'), '13' => JText::_('UPS Next Day Air Saver'),
-				'14' => JText::_('UPS Next Day Air Early AM'), '54' => JText::_('UPS Worldwide Express Plus'),
-				'59' => JText::_('UPS Second Day Air AM'), '65' => JText::_('UPS Saver'),
+				'01' => JText::_('COM_TIENDA_UPS_NEXT_DAY_AIR'), '02' => JText::_('COM_TIENDA_UPS_SECOND_DAY_AIR'), '03' => JText::_('COM_TIENDA_UPS_GROUND'),
+				'07' => JText::_('COM_TIENDA_UPS_WORLDWIDE_EXPRESS'), '08' => JText::_('COM_TIENDA_UPS_WORLDWIDE_EXPEDITED'), '11' => JText::_('COM_TIENDA_UPS_STANDARD'),
+				'12' => JText::_('COM_TIENDA_UPS_THREE-DAY_SELECT'), '13' => JText::_('COM_TIENDA_UPS_NEXT_DAY_AIR_SAVER'),
+				'14' => JText::_('COM_TIENDA_UPS_NEXT_DAY_AIR_EARLY_AM'), '54' => JText::_('COM_TIENDA_UPS_WORLDWIDE_EXPRESS_PLUS'),
+				'59' => JText::_('COM_TIENDA_UPS_SECOND_DAY_AIR_AM'), '65' => JText::_('COM_TIENDA_UPS_SAVER'),
 		);
 		
 		return $services;

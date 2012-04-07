@@ -100,7 +100,7 @@
                     <?php echo TiendaHelperBase::currency($product_price); ?>
                 </td>
 				<td style="text-align: center;">
-				    <input type="button" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_('Deleting'); ?>');" value="<?php echo JText::_('Delete'); ?>" />
+				    <input type="button" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_('Deleting'); ?>');" value="<?php echo JText::_('COM_TIENDA_DELETE'); ?>" />
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

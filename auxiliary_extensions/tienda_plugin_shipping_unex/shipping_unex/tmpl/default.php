@@ -8,7 +8,7 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>
-        <legend><?php echo JText::_('Enabled Services'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ENABLED_SERVICES'); ?></legend>
         
     <table class="adminlist" style="clear: both;">
         <thead>

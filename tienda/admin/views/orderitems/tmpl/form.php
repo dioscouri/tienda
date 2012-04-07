@@ -15,7 +15,7 @@
     ?>
     
 	<fieldset>
-		<legend><?php echo JText::_('Form'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">

@@ -24,7 +24,7 @@
                 	<?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Tax Class'); ?>
+                    <?php echo JText::_('COM_TIENDA_TAX_CLASS'); ?>
                 </th>
                 <th style="width: 100px;">
     	            <?php echo JText::_('COM_TIENDA_ENABLED'); ?>
@@ -71,7 +71,7 @@
                         }
                         if ($item->subtotal_minimum > '0')
                         {
-                        	echo "<br/><b>".JText::_('Minimum Order Required')."</b>: ".TiendaHelperBase::currency( $item->subtotal_minimum );
+                        	echo "<br/><b>".JText::_('COM_TIENDA_MINIMUM_ORDER_REQUIRED')."</b>: ".TiendaHelperBase::currency( $item->subtotal_minimum );
                         }
                         if( $item->subtotal_maximum > '-1' )
                         {

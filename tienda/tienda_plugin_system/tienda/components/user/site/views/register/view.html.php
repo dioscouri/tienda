@@ -57,7 +57,7 @@ class UserViewRegister extends JView
         }
         $document->setTitle( $params->get( 'page_title' ) );
 
-        $pathway->addItem( JText::_('New'));
+        $pathway->addItem( JText::_('COM_TIENDA_NEW'));
 
         // Load the form validation behavior
         JHTML::_('behavior.formvalidation');

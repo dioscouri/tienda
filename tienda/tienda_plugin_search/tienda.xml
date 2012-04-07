@@ -8,7 +8,7 @@
     <authorUrl>http://www.dioscouri.com</authorUrl>
     <copyright>2012 Dioscouri.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>Enables searching Tienda products and categories in core search component</description>
+    <description>COM_TIENDA_ENABLES_SEARCHING_TIENDA_PRODUCTS_AND_CATEGORIES_IN_CORE_SEARCH_COMPONENT</description>
 
 	<files>
 		<filename plugin="tienda">tienda.php</filename>
@@ -19,14 +19,14 @@
     </languages>
 	
 	<params>
-        <param name="title" type="text" size="50" default="Tienda" label="Search Category Title" description="Search Category Title"/>
-		<param name="density_flag" type="radio" default="1" label="Keyword density" description="Enables results based on keyword density (overrides Joomla sort).">
+        <param name="title" type="text" size="50" default="Tienda" label="COM_TIENDA_SEARCH_CATEGORY_TITLE" description="COM_TIENDA_SEARCH_CATEGORY_TITLE_DESC"/>
+		<param name="density_flag" type="radio" default="1" label="COM_TIENDA_KEYWORD_DENSITY" description="COM_TIENDA_KEYWORD_DENSITY_DESC">
 			<option value="0">COM_TIENDA_NO</option>
 			<option value="1">COM_TIENDA_YES</option>
 		</param>
-		<param name="link_behaviour" type="radio" default="1" label="Link Behaviour" description="Link Behaviour Desc">
-			<option value="0">Open in the Same Tab</option>
-			<option value="1">Open in a New Tab</option>
+		<param name="link_behaviour" type="radio" default="1" label="COM_TIENDA_LINK_BEHAVIOR" description="COM_TIENDA_LINK_BEHAVIOR_DESC">
+			<option value="0">COM_TIENDA_OPEN_IN_THE_SAME_TAB</option>
+			<option value="1">COM_TIENDA_OPEN_IN_A_NEW_TAB</option>
 		</param>
 	</params>
 </install>

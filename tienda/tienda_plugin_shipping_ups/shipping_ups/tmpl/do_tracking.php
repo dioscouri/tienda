@@ -37,7 +37,7 @@ table.admintable td.key.vtop { vertical-align: top; }
     	<?php foreach($results as $result) {?>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Activity'); ?>
+    	        <?php echo JText::_('COM_TIENDA_ACTIVITY'); ?>
     	    </td>
     	    <td>
     	      
@@ -52,7 +52,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_('Time'); ?>
+			    	        <?php echo JText::_('COM_TIENDA_TIME'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['time']?>
 				    
@@ -68,7 +68,7 @@ table.admintable td.key.vtop { vertical-align: top; }
 			    	</tr>
 			    	<tr>
 			    	    <td style="width: 100px; text-align: right;" class="key">
-			    	        <?php echo JText::_('Location'); ?>
+			    	        <?php echo JText::_('COM_TIENDA_LOCATION'); ?>
 			    	    </td>
 			    	    <td><?php echo $result['location']?>
 				    

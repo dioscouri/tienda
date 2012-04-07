@@ -7,7 +7,7 @@ JFilterOutput::objectHTMLSafe( $row );
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
 <fieldset>
-	<legend><?php echo JText::_('Form'); ?></legend>
+	<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
 	
 	<table class="admintable">
 		<tr>
@@ -23,7 +23,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="tax_class_id">
-                <?php echo JText::_('Tax Class'); ?>:
+                <?php echo JText::_('COM_TIENDA_TAX_CLASS'); ?>:
                 </label>
             </td>
             <td>
@@ -53,7 +53,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <tr>
             <td width="100" align="right" class="key">
                 <label for="subtotal_minimum">
-                <?php echo JText::_('Minimum Subtotal Required'); ?>:
+                <?php echo JText::_('COM_TIENDA_MINIMUM_SUBTOTAL_REQUIRED'); ?>:
                 </label>
             </td>
             <td>

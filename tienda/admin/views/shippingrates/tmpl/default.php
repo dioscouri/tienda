@@ -5,11 +5,11 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h3><?php echo JText::_('Set Rates for'); ?>: <?php echo $row->shipping_method_name; ?></h3>
+<h3><?php echo JText::_('COM_TIENDA_SET_RATES_FOR'); ?>: <?php echo $row->shipping_method_name; ?></h3>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-	<?php echo JText::_('Be Sure to Save Your Work'); ?>:
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('Save Changes'); ?></button>
+	<?php echo JText::_('COM_TIENDA_BE_SURE_TO_SAVE_YOUR_WORK'); ?>:
+	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_CHANGES'); ?></button>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -25,17 +25,17 @@
             	<thead>
             	<tr>
             		<th></th>
-                    <th><?php echo JText::_('GeoZone'); ?></th>
-            		<th><?php echo JText::_('Weight Range'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_GEOZONE'); ?></th>
+            		<th><?php echo JText::_('COM_TIENDA_WEIGHT_RANGE'); ?></th>
             		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
-            		<th><?php echo JText::_('Handling Fee'); ?></th>
+            		<th><?php echo JText::_('COM_TIENDA_HANDLING_FEE'); ?></th>
             		<th></th>
             	</tr>
             	</thead>
             	<tbody>
             	<tr>
             		<td>
-            			<?php echo JText::_('Complete this form to add a new rate'); ?>:
+            			<?php echo JText::_('COM_TIENDA_COMPLETE_THIS_FORM_TO_ADD_A_NEW_RATE'); ?>:
                 	</td>
             		<td>
                 		<?php echo TiendaSelect::geozone("", "geozone_id", 2); ?>
@@ -53,7 +53,7 @@
                         <input id="shipping_rate_handling" name="shipping_rate_handling" value="" />
                     </td>
             		<td>
-            			<input type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('Create Rate'); ?>" class="button" />
+            			<input type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?>" class="button" />
             		</td>
             	</tr>
             	</tbody>
@@ -107,7 +107,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=shippingrates&task=delete&cid[]=<?php echo $item->shipping_rate_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=shippingmethods&task=setrates&id={$row->shipping_method_id}&tmpl=component"); ?>">
-						<?php echo JText::_('Delete Rate'); ?>	
+						<?php echo JText::_('COM_TIENDA_DELETE_RATE'); ?>	
 					</a>
 					]
 				</td>

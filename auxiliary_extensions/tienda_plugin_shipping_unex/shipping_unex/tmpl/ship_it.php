@@ -15,7 +15,7 @@
 		<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Ship It'); ?>
+    	        <?php echo JText::_('COM_TIENDA_SHIP_IT'); ?>
     	    </td>
     	    <td>
     	        <input value="<?php echo JText::_('Ship This Order With Unex'); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'unexResult');" style="float: right;" type="button" />
@@ -23,10 +23,10 @@
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Result'); ?>
+    	        <?php echo JText::_('COM_TIENDA_RESULT'); ?>
     	    </td>
     	    <td>
-    	        <div id="unexResult"><?php echo JText::_('Ready')?></div>
+    	        <div id="unexResult"><?php echo JText::_('COM_TIENDA_READY')?></div>
     	    </td>
     	</tr>
 		</table>		

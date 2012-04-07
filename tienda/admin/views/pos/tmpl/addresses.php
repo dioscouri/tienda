@@ -31,12 +31,12 @@
 					</td>
 					<td align="center">
 					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to delete');?>');}else{if(confirm('<?php echo JText::_('Are you sure you want to delete the selected Items')?>?')){submitbutton('flag_deleted');}}" href="#" >
-					<span class="icon-32-delete" title="<?php echo JText::_('Delete', true);?>"></span><?php echo JText::_('Delete');?>
+					<span class="icon-32-delete" title="<?php echo JText::_('Delete', true);?>"></span><?php echo JText::_('COM_TIENDA_DELETE');?>
 					</a>
 					</td>
 					<td align="center">
 					<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=pos&task=address&tmpl=component"); ?>" >
-					<span class="icon-32-new" title="<?php echo JText::_('New', true);?>"></span><?php echo JText::_('New');?>
+					<span class="icon-32-new" title="<?php echo JText::_('New', true);?>"></span><?php echo JText::_('COM_TIENDA_NEW');?>
 					</a>
 					</td>
 					<td class="divider"> </td>

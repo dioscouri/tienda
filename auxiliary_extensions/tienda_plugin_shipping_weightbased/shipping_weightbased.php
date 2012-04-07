@@ -118,8 +118,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		JModel::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'models' );
 		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'tables' );
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('New'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('Delete'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('COM_TIENDA_DELETE'), false, 'shippingTask' );
 		TiendaToolBarHelper::cancel( 'close', 'Close' );
 
 		$vars = new JObject();
@@ -202,7 +202,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 
 		if (!$rate_exists)
 		{
-			$this->setError( JText::_('No Rate Found') );
+			$this->setError( JText::_('COM_TIENDA_NO_RATE_FOUND') );
 			return false;
 		}
 

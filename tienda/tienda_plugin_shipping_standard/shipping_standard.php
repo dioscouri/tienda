@@ -122,8 +122,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         $html = "";
         
         JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('New'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('Delete'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('COM_TIENDA_DELETE'), false, 'shippingTask' );
 		TiendaToolBarHelper::cancel( 'close', 'Close' );
 		
         $vars = new JObject();
@@ -354,7 +354,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		
 		if (!$rate_exists)
 		{
-            $this->setError( JText::_('No Rate Found') );
+            $this->setError( JText::_('COM_TIENDA_NO_RATE_FOUND') );
             return false;
 		}
 		

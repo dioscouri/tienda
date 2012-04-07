@@ -39,7 +39,7 @@ function shippingPerOrder()
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" id="couponForm" name="adminForm" enctype="multipart/form-data" >
 
 	<fieldset>
-		<legend><?php echo JText::_('Form'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td style="width: 125px; text-align: right;" class="key">

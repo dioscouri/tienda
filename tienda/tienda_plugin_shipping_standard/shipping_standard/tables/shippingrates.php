@@ -36,12 +36,12 @@ class TiendaTableShippingRates extends TiendaTable
 	{
         if (empty($this->shipping_method_id))
         {
-            $this->setError( JText::_('Shipping Method Required') );
+            $this->setError( JText::_('COM_TIENDA_SHIPPING_METHOD_REQUIRED') );
             return false;
         }
         if (empty($this->geozone_id))
         {
-            $this->setError( JText::_('GeoZone Required') );
+            $this->setError( JText::_('COM_TIENDA_GEOZONE_REQUIRED') );
             return false;
         }
 

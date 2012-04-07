@@ -539,7 +539,7 @@ class TiendaSelect extends JHTMLSelect
 
         $list[] = JHTML::_('select.option',  'flag_shipping', JText::_('Use as Default for Shipping') );
         $list[] = JHTML::_('select.option',  'flag_billing', JText::_('Use as Default for Billing') );
-        $list[] = JHTML::_('select.option',  'flag_deleted', JText::_('Delete') );
+        $list[] = JHTML::_('select.option',  'flag_deleted', JText::_('COM_TIENDA_DELETE') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

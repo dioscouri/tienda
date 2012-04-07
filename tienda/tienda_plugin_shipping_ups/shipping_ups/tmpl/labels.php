@@ -9,12 +9,12 @@
 
 <div id="ups_labels">
         <fieldset>
-            <legend><?php echo JText::_('Ups Labels'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_UPS_LABELS'); ?></legend>
 
 		<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Labels'); ?>
+    	        <?php echo JText::_('COM_TIENDA_LABELS'); ?>
     	    </td>
     	    <td>
     	        <div id="product_files">
@@ -49,7 +49,7 @@
 <?php /*
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>
-        <legend><?php echo JText::_('Enabled Services'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ENABLED_SERVICES'); ?></legend>
         
     <table class="adminlist" style="clear: both;">
         <thead>

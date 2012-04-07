@@ -6,7 +6,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Rates for'); ?>: <?php echo $row->tax_class_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_RATES_FOR'); ?>: <?php echo $row->tax_class_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -16,13 +16,13 @@
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Add a New Tax Rate'); ?></div>
     <div style="float: right;">
         <input type="hidden" name="tax_class_id" value="<?php echo $row->tax_class_id; ?>" />
-        <button onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('Create Rate'); ?></button>
+        <button onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?></button>
     </div>
     <div class="reset"></div>
     <table class="adminlist">
         <thead>
             <tr>
-                <th><?php echo JText::_('Geozone'); ?></th>
+                <th><?php echo JText::_('COM_TIENDA_GEOZONE'); ?></th>
                 <th><?php echo JText::_('Predecessor'); ?></th>
                 <th><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></th>
                 <th><?php echo JText::_('Rate'); ?></th>
@@ -106,7 +106,7 @@
                 </td>
                 <td style="text-align: center;">
                     [<a href="index.php?option=com_tienda&controller=taxrates&task=delete&cid[]=<?php echo $item->tax_rate_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=taxclasses&task=setrates&id={$row->tax_class_id}&tmpl=component"); ?>">
-                        <?php echo JText::_('Delete Rate'); ?>   
+                        <?php echo JText::_('COM_TIENDA_DELETE_RATE'); ?>   
                     </a>
                     ]
                 </td>

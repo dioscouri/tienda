@@ -488,11 +488,11 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     	
  		if($this->sendShipment($order))
  		{
- 			return JText::_('Shipment Sent');
+ 			return JText::_('COM_TIENDA_SHIPMENT_SENT'));
  		}	
  		else
  		{
- 			$html  = JText::_('Shipment Failed!');
+ 			$html  = JText::_('COM_TIENDA_SHIPMENT_FAILED'));
  			$html .= '<br />'.$this->getError(); 
  			return $html;
  		}
@@ -657,7 +657,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         // TODO Finish this
         //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
         //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
-        TiendaToolBarHelper::custom( 'edit', 'new', 'new', JText::_('New'), false, 'shippingTask' );
+        TiendaToolBarHelper::custom( 'edit', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
         TiendaToolBarHelper::cancel( 'close', 'Close' );
         
         $vars = new JObject();

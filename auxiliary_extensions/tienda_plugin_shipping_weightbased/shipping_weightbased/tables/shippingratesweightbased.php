@@ -41,7 +41,7 @@ class TiendaTableShippingRatesWeightbased extends TiendaTable
 		}
 		if ( empty( $this->geozone_id ) )
 		{
-			$this->setError( JText::_('GeoZone Required') );
+			$this->setError( JText::_('COM_TIENDA_GEOZONE_REQUIRED') );
 			return false;
 		}
 

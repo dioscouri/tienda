@@ -10,13 +10,13 @@
 
 <div id="ups_tracking">
         <fieldset>
-            <legend><?php echo JText::_('Ups Tracking'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_UPS_TRACKING'); ?></legend>
 
 		<table class="admintable" style="clear: both; width: 100%;">
 		<tr>
     		
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Shipment Id'); ?>
+    	        <?php echo JText::_('COM_TIENDA_SHIPMENT_ID'); ?>
     	    </td>
     	    <td>
     	       	<?php echo $shipping_id; ?> 	    		
@@ -26,12 +26,12 @@
     	<tr>
     		
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Tracking Id'); ?>
+    	        <?php echo JText::_('COM_TIENDA_TRACKING_ID'); ?>
     	    </td>
     	    <td>
     	       	<?php echo $t; ?> 
     	       	<span style="float:right;">
-    	       	<?php echo TiendaUrl::popup($url.$t, JText::_('Track It!')); ?>
+    	       	<?php echo TiendaUrl::popup($url.$t, JText::_('COM_TIENDA_TRACK_IT')); ?>
     	       	</span>	    		
     	    </td>
     	</tr>
@@ -47,7 +47,7 @@
 <?php /*
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>
-        <legend><?php echo JText::_('Enabled Services'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ENABLED_SERVICES'); ?></legend>
         
     <table class="adminlist" style="clear: both;">
         <thead>

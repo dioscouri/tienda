@@ -565,7 +565,7 @@ class TiendaController extends JController
 		if ( !in_array( $field, array_keys( $row->getProperties() ) ) )
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_('Invalid Field').": {$field}";
+			$this->message 		= JText::_('COM_TIENDA_INVALID_FIELD').": {$field}";
 			$this->setRedirect( $redirect, $this->message, $this->messagetype );
 			return;
 		}
@@ -601,7 +601,7 @@ class TiendaController extends JController
 		}
 		else
 		{
-			$this->message = JText::_('Status Changed');
+			$this->message = JText::_('COM_TIENDA_STATUS_CHANGED');
 		}
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );

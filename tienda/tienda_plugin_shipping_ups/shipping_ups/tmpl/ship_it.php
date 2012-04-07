@@ -10,23 +10,23 @@
         <form name="upsForm" id="upsForm" method="get">
         
         <fieldset>
-            <legend><?php echo JText::_('Ups Shipment'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_UPS_SHIPMENT'); ?></legend>
 
 		<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Ship It'); ?>
+    	        <?php echo JText::_('COM_TIENDA_SHIP_IT'); ?>
     	    </td>
     	    <td>
-    	        <input value="<?php echo JText::_('Ship This Order With Ups'); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'upsResult');" style="float: right;" type="button" />
+    	        <input value="<?php echo JText::_('COM_TIENDA_SHIP_THIS_ORDER_WITH_UPS'); ?>" onclick="tiendaDoTask('<?php echo $url; ?>', 'upsResult');" style="float: right;" type="button" />
     	    </td>
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Result'); ?>
+    	        <?php echo JText::_('COM_TIENDA_RESULT'); ?>
     	    </td>
     	    <td>
-    	        <div id="upsResult"><?php echo JText::_('Ready')?></div>
+    	        <div id="upsResult"><?php echo JText::_('COM_TIENDA_READY')?></div>
     	    </td>
     	</tr>
 		</table>		
@@ -38,7 +38,7 @@
 <?php /*
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
     <fieldset>
-        <legend><?php echo JText::_('Enabled Services'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_ENABLED_SERVICES'); ?></legend>
         
     <table class="adminlist" style="clear: both;">
         <thead>

@@ -28,7 +28,7 @@
 					<?php echo JText::_('Price End'); ?>
 				</th>
 				<th style="width: 100px;">
-					<?php echo JText::_('Tax Class'); ?>
+					<?php echo JText::_('COM_TIENDA_TAX_CLASS'); ?>
 				</th>
 				<th style="width: 100px;">
 					<?php echo JText::_('COM_TIENDA_ENABLED'); ?>

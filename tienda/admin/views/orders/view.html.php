@@ -76,7 +76,7 @@ class TiendaViewOrders extends TiendaViewBase
 		JToolBarHelper::divider();
 		JToolBarHelper::deleteList(JText::_('VALIDDELETEITEMS'));		
 		$class_name = 'new';
-		$text = JText::_('New');
+		$text = JText::_('COM_TIENDA_NEW');
 		$url = "index.php?option=com_tienda&view=pos";
 		$bar = &JToolBar::getInstance('toolbar');
 		$bar->appendButton('link', $class_name, $text, $url);

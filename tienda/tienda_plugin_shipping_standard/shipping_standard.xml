@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin is for the standard shipping methods created by admins</description>
+	<description>COM_TIENDA_PLUGIN_SHIPPING_STANDARD_DESC</description>
 	
 	<files>
 		<filename plugin="shipping_standard">shipping_standard.php</filename>

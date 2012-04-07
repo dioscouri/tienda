@@ -319,7 +319,7 @@ class TiendaUpsRate extends TiendaUps
         }
             else 
         {
-            $this->setError( JText::_('UPS_ERRORCODE_NOT_RATEDSHIPMENT') );
+            $this->setError( JText::_('COM_TIENDA_UPS_ERRORCODE_NOT_RATEDSHIPMENT') );
             return false;
         }
         
@@ -441,7 +441,7 @@ class TiendaUpsShipment extends TiendaUps
                     }
                     else
                     {
-                    	$this->setError( JText::_('UPS_ERRORCODE2') );
+                    	$this->setError( JText::_('COM_TIENDA_UPS_ERRORCODE2') );
                     	return false;
                     }
                     	
@@ -450,7 +450,7 @@ class TiendaUpsShipment extends TiendaUps
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
+                    $this->setError( 'E1', JText::_('COM_TIENDA_UPS_ERRORCODE1') );
                     return false;
                 } 
                 
@@ -545,7 +545,7 @@ class TiendaUpsTracking extends TiendaUps
                 }
                     else
                 {
-                    $this->setError( 'E1', JText::_('UPS_ERRORCODE1') );
+                    $this->setError( 'E1', JText::_('COM_TIENDA_UPS_ERRORCODE1') );
                     return false;
                 } 
                 

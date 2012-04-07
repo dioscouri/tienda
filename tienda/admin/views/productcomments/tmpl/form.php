@@ -9,7 +9,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
 	<fieldset>
-		<legend><?php echo JText::_('Form'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
 			<table class="admintable" style="width: 100%">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">

@@ -16,7 +16,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <td style="vertical-align: top; width: 65%;">
 
     	   <fieldset>
-    		<legend><?php echo JText::_('Form'); ?></legend>
+    		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
     			<table class="admintable">
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
