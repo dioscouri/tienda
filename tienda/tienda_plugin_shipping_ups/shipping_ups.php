@@ -187,7 +187,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		
 		if ( $this->sendShipment( $order ) )
 		{
-			$html = JText::_('COM_TIENDA_SHIPMENT_SENT')) . '<br />';
+			$html = JText::_('COM_TIENDA_SHIPMENT_SENT') . '<br />';
 			$path = Tienda::getPath( 'order_files' ) . DS . $order->order_id;
 			
 			$helper = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' );
@@ -206,7 +206,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin
 		}
 		else
 		{
-			return JText::_('COM_TIENDA_SHIPMENT_FAILED')) . '<br />' . $this->getError( );
+			return JText::_('COM_TIENDA_SHIPMENT_FAILED') . '<br />' . $this->getError( );
 		}
 	}
 	
