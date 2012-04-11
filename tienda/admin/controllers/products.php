@@ -1278,6 +1278,8 @@ class TiendaControllerProducts extends TiendaController
 		$row->productattributeoption_price = JRequest::getVar( 'createproductattributeoption_price' );
 		$row->productattributeoption_code = JRequest::getVar( 'createproductattributeoption_code' );
 		$row->productattributeoption_prefix = JRequest::getVar( 'createproductattributeoption_prefix' );
+		$row->productattributeoption_weight = JRequest::getVar( 'createproductattributeoption_weight' );
+		$row->productattributeoption_prefix_weight = JRequest::getVar( 'createproductattributeoption_prefix_weight' );
 		$row->is_blank = JRequest::getVar( 'createproductattributeoption_blank' );
 		$row->ordering = '99';
         
@@ -1349,6 +1351,8 @@ class TiendaControllerProducts extends TiendaController
 		$name = JRequest::getVar('name', array(0), 'request', 'array');
 		$prefix = JRequest::getVar('prefix', array(0), 'request', 'array');
 		$price = JRequest::getVar('price', array(0), 'request', 'array');
+		$prefix_weight = JRequest::getVar('prefix_weight', array(0), 'request', 'array');
+		$weight = JRequest::getVar('weight', array(0), 'request', 'array');
 		$code = JRequest::getVar('code', array(0), 'request', 'array');
 		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
@@ -1360,6 +1364,8 @@ class TiendaControllerProducts extends TiendaController
 			$row->productattributeoption_name = $name[$cid];
 			$row->productattributeoption_prefix = $prefix[$cid];
 			$row->productattributeoption_price = $price[$cid];
+			$row->productattributeoption_prefix_weight = $prefix_weight[$cid];
+			$row->productattributeoption_weight = $weight[$cid];
 			$row->productattributeoption_code = @$code[$cid];
 			$row->parent_productattributeoption_id = $parent[$cid];
 			$row->ordering = $ordering[$cid];

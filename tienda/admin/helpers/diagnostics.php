@@ -474,6 +474,22 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     {
 			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBTOTALMAX_FAILED') .' :: '. $this->getError(), 'error' );    
     }
+
+    if( !$this->checkProductAttributesWeight() )
+    {
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+    }
+
+    if( !$this->checkOrderItemAttributesWeight() )
+    {
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+    }
+
+    if( !$this->checkOrderItemsWeight() )
+    {
+			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+    }
+
 	}
 
 	/**
@@ -3663,6 +3679,105 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkSubtotalMax') );
 			$config->config_name = 'checkSubtotalMax';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+  /**
+	 * Adds new fields for calculating weight into Order Items table
+	 * 
+	 * @version 0.9.1
+	 * @return boolean                                         
+	 */
+	function checkOrderItemsWeight()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderItemsWeight', '0')) return true;
+
+		$fields = array();
+		$fields[] = "orderitem_weight";
+    $fields[] = "orderitem_attributes_weight";
+    $definitions = array();
+    $definitions['orderitem_weight'] = 'DECIMAL( 12, 5) NULL';
+    $definitions['orderitem_attributes_weight'] = 'VARCHAR( 64 ) NOT NULL';
+    
+    $table = '#__tienda_orderitems';
+		if ($this->insertTableFields( $table, $fields, $definitions ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkOrderItemsWeight') );
+			$config->config_name = 'checkOrderItemsWeight';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds new fields for calculating weight into Order Item Attributes table
+	 * 
+	 * @version 0.9.1
+	 * @return boolean                                         
+	 */
+	function checkOrderItemAttributesWeight()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkOrderItemAttributesWeight', '0')) return true;
+
+		$fields = array();
+		$fields[] = "orderitemattribute_weight";
+    $fields[] = "orderitemattribute_prefix_weight";
+    $definitions = array();
+    $definitions['orderitemattribute_weight'] = 'DECIMAL( 12, 5 ) NOT NULL DEFAULT  \'0\'';
+    $definitions['orderitemattribute_prefix_weight'] = 'VARCHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  \'+\'';
+    
+    $table = '#__tienda_orderitemattributes';
+		if ($this->insertTableFields( $table, $fields, $definitions ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkOrderItemAttributesWeight') );
+			$config->config_name = 'checkOrderItemAttributesWeight';
+			$config->value = '1';
+			$config->save();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds new fields for calculating weight into Product Attributes table
+	 * 
+	 * @version 0.9.1
+	 * @return boolean                                         
+	 */
+	function checkProductAttributesWeight()
+	{
+		//if this has already been done, don't repeat
+		if (TiendaConfig::getInstance()->get('checkProductAttributesWeight', '0')) return true;
+
+		$fields = array();
+		$fields[] = "productattributeoption_weight";
+    $fields[] = "productattributeoption_prefix_weight";
+    $definitions = array();
+    $definitions['productattributeoption_weight'] = 'DECIMAL( 12, 5 ) NOT NULL DEFAULT  \'0\'';
+    $definitions['productattributeoption_prefix_weight'] = 'VARCHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  \'+\'';
+    
+    $table = '#__tienda_productattributeoptions';
+		if ($this->insertTableFields( $table, $fields, $definitions ) )
+		{
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+			// Update config to say this has been done already
+			$config->load( array( 'config_name'=>'checkProductAttributesWeight') );
+			$config->config_name = 'checkProductAttributesWeight';
 			$config->value = '1';
 			$config->save();
 			return true;

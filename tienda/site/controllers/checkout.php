@@ -3001,6 +3001,8 @@ class TiendaControllerCheckout extends TiendaController
 						$orderitemattribute->orderitemattribute_price = $productattribute->productattributeoption_price;
 						$orderitemattribute->orderitemattribute_code = $productattribute->productattributeoption_code;
 						$orderitemattribute->orderitemattribute_prefix = $productattribute->productattributeoption_prefix;
+						$orderitemattribute->orderitemattribute_weight = $productattribute->productattributeoption_weight;
+						$orderitemattribute->orderitemattribute_prefix_weight = $productattribute->productattributeoption_prefix_weight;
 						if (!$orderitemattribute->save())
 						{
 							// track error

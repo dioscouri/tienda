@@ -616,6 +616,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$orderItem->orderitem_attributes            = $cartitem->product_attributes;
 				$orderItem->orderitem_attribute_names       = $cartitem->attributes_names;
 				$orderItem->orderitem_attributes_price      = $cartitem->orderitem_attributes_price;
+        $orderItem->orderitem_attributes_weight     = $cartitem->orderitem_attributes_weight;
+        $orderItem->orderitem_weight                = $cartitem->product_weight;
 				$orderItem->orderitem_final_price           = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
 				$orderItem->orderitem_recurs                = $productItem->product_recurs;
 				if( $productItem->product_recurs )

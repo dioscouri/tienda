@@ -24,6 +24,8 @@
                     <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
                     <th style="width: 15px;"><?php echo JText::_('Prefix'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_WEIGHT_PREFIX'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_WEIGHT'); ?></th>
                     <th><?php echo JText::_('Code'); ?></th>
                     <th><?php echo JText::_('Is Blank?'); ?></th>
                     <th></th>
@@ -42,6 +44,12 @@
                     </td>
                     <td>
                         <input id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
+                    </td>
+                    <td>
+                        <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix_weight' ); ?>
+                    </td>
+                    <td>
+                        <input id="createproductattributeoption_weight" name="createproductattributeoption_weight" value="" size="10" />
                     </td>
                     <td>
                         <input id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
@@ -80,6 +88,12 @@
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Price', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 100px;">
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_PREFIX', "tbl.productattributeoption_prefix_weight", @$state->direction, @$state->order ); ?>
+                </th>
+                <th style="text-align: center;">
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT', "tbl.productattributeoption_weight", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Code', "tbl.productattributeoption_code", @$state->direction, @$state->order ); ?>
                 </th>
@@ -106,13 +120,19 @@
 					<?php echo TiendaGrid::checkedout( $item, $i, 'productattributeoption_id' ); ?>
 				</td>
 				<td style="text-align: left;">
-					<input type="text" name="name[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_name; ?>" />
+					<input type="text" size="" name="name[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_name; ?>" />
 				</td>
                 <td style="text-align: center;">
                     <?php echo TiendaSelect::productattributeoptionprefix( $item->productattributeoption_prefix, "prefix[{$item->productattributeoption_id}]" ); ?>
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="price[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_price; ?>" size="10" />
+                </td>
+                <td style="text-align: center;">
+                    <?php echo TiendaSelect::productattributeoptionprefix( $item->productattributeoption_prefix_weight, "prefix_weight[{$item->productattributeoption_id}]" ); ?>
+                </td>
+                <td style="text-align: center;">
+                    <input type="text" name="weight[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_weight; ?>" size="10" />
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="code[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_code; ?>" size="10" />

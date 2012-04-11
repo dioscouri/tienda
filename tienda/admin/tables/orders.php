@@ -63,7 +63,8 @@ class TiendaTableOrders extends TiendaTable
     
     /** @var array An array of TiendaTableOrderCoupons objects */
     protected $_ordercoupons = array();
-    
+
+    protected $_weight = 0;    
 	/**
 	 * @param $db
 	 * @return unknown_type
@@ -982,6 +983,34 @@ class TiendaTableOrders extends TiendaTable
         }
         
         return $amount;        
+    }
+
+    /**
+     * Gets the total order weight 
+     * 
+     * @return number Total order weight
+     */
+    function getOrderWeight()
+    {
+        if (empty($this->_weight))
+        {
+            $this->calculateOrderWeight();
+        }
+        
+        return $this->_weight;    
+    }
+
+
+    function calculateOrderWeight()
+    {
+      $items = &$this->getItems();
+      $result = 0;
+      foreach( $items as $item )
+      {
+        $result += $item->orderitem_weight * $item->orderitem_quantity ;
+      }    
+
+      return $result;
     }
     
     /**

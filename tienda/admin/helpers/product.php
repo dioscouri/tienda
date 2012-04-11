@@ -2221,26 +2221,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 		
 		// adjust the displayed price based on the selected or default attributes
-		$table = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
-		foreach ( $attributes as $attrib_id )
-		{
-			// load the attrib's object
-			$table->load( $attrib_id );
-			// update the price
-			//$row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
-			
-			// is not + or -
-			if ( $table->productattributeoption_prefix == '=' )
-			{
-				$row->price = floatval( $table->productattributeoption_price );
-			}
-			else
-			{
-				$row->price = $row->price + floatval( "$table->productattributeoption_prefix" . "$table->productattributeoption_price" );
-			}
-			$row->sku .= $table->productattributeoption_code;
-		}
-
+    TiendaHelperProduct::calculateProductAttributeProperty( $row, $attributes, 'price', 'product_weight' );
 		$show_tax = $config->get( 'display_prices_with_tax' );
 		$show_product = $config->get( 'display_category_cartbuttons' );
 		$view->show_tax = $show_tax;
@@ -2449,5 +2430,45 @@ class TiendaHelperProduct extends TiendaHelperBase
 		  $view->setModel( $model, true );
 
       return $view;  
+  }
+  
+  public static function calculateProductAttributeProperty( &$product, $attributes, $product_price, $product_weight )
+  {
+    Tienda::load( 'TiendaQuery', 'library.query' );
+    $q = new TiendaQuery();
+    $q->select( 'tbl.`productattributeoption_price` , tbl.`productattributeoption_prefix` ' );
+    $q->select( 'tbl.`productattributeoption_code`, tbl.`productattributeoption_weight`, tbl.`productattributeoption_prefix_weight`' );
+    $q->from( '`#__tienda_productattributeoptions` tbl' );
+    $q->join( 'left','`#__tienda_productattributes` atr ON tbl.	productattribute_id = atr.productattribute_id' );
+    $q->where( 'tbl.productattributeoption_id IN ('.implode( ',', $attributes ).')' );
+    $q->order( 'atr.ordering ASC' );
+    $db = JFactory::getDbo();
+    $db->setQuery( $q );
+    $res = $db->loadObjectList();
+  
+		for( $i = 0, $c = count( $res ); $i < $c; $i++ )
+		{
+      // update product price
+			// is not + or -
+			if ( $res[$i]->productattributeoption_prefix == '=' )
+			{
+				$product->$product_price = floatval( $res[$i]->productattributeoption_price );
+			}
+			else
+			{
+				$product->$product_price = $product->$product_price + floatval( $res[$i]->productattributeoption_prefix.$res[$i]->productattributeoption_price );
+			}
+      
+      // update product weight
+			if ( $res[$i]->productattributeoption_prefix_weight == '=' )
+			{
+				$product->$product_weight = floatval( $res[$i]->productattributeoption_weight );
+			}
+			else
+			{
+				$product->$product_weight = $product->$product_weight + floatval( $res[$i]->productattributeoption_prefix_weight.$res[$i]->productattributeoption_weight );
+			}
+			$product->sku .= $res[$i]->productattributeoption_code;
+		}  
   }
 }

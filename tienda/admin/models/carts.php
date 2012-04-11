@@ -195,6 +195,7 @@ class TiendaModelCarts extends TiendaModelEav
 				$item->product_parameters = new JParameter( $item->product_params );
 
 				$item->orderitem_attributes_price = '0.00000';
+        $item->orderitem_attributes_weight = '0.00000';
 				$attributes_names = array();
 				if(!empty($item->product_attributes))
 				{
@@ -229,8 +230,28 @@ class TiendaModelCarts extends TiendaModelEav
 							$item->orderitem_attributes_price = "0.00000";
 							$item->product_price_override->override = false;
 						}
+
+						// update the weight
+						// + or -
+						if($table->productattributeoption_prefix_weight != '=')
+						{
+							$item->product_weight = $item->product_weight + floatval( "$table->productattributeoption_prefix_weight"."$table->productattributeoption_weight");
+							// store the attribute's price impact
+							$item->orderitem_attributes_weight = $item->orderitem_attributes_weight + floatval( "$table->productattributeoption_prefix_weight"."$table->productattributeoption_weight");
+						}
+						// only if prefix is =
+						else
+						{
+							// assign the product attribute price as the product price
+							//then set the orderitem_attributes_price to 0.0000
+							$item->product_weight = $table->productattributeoption_weight; //
+							// store the attribute's price impact
+							$item->orderitem_attributes_weight = "0.00000";
+						}
+
 							
 						$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
+						$item->orderitem_attributes_weight = number_format($item->orderitem_attributes_weight, '5', '.', '');
 						$item->product_sku .= $table->productattributeoption_code;
 							
 						// store a csv of the attrib names, built by Attribute name + Attribute option name
