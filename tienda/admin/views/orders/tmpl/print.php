@@ -476,6 +476,14 @@
             <?php echo TiendaHelperBase::currency($row->order_shipping, $row->currency); ?>
             </th>
         </tr>
+        <tr>
+            <th colspan="2" style="text-align: right;">
+            <?php echo JText::_('COM_TIENDA_SHIPPING_TAX'); ?>
+            </th>
+            <th style="text-align: right;">
+            <?php echo TiendaHelperBase::currency($row->order_shipping_tax, $row->currency); ?>
+            </th>
+        </tr>
         <?php if ((float) $row->order_credit > (float) '0.00') : ?>
         <tr>
             <th colspan="2" style="text-align: right;">
