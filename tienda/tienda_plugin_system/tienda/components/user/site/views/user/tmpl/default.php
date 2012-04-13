@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
-		<?php echo nl2br($this->escape($this->params->get('welcome_desc', JText::_('WELCOME_DESC')))); ?>
+		<?php echo nl2br($this->escape($this->params->get('welcome_desc', JText::_('COM_TIENDA_WELCOME_DESC')))); ?>
 	</td>
 </tr>
 </table>

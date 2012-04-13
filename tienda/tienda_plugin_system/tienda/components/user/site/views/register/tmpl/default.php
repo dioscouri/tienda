@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
     <td colspan="2" height="40">
-        <?php echo JText::_('REGISTER_REQUIRED'); ?>
+        <?php echo JText::_('COM_TIENDA_REGISTER_REQUIRED'); ?>
     </td>
 </tr>
 </table>

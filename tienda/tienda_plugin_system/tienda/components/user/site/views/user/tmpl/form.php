@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td width="120">
 		<label for="name">
-			<?php echo JText::_('Your Name'); ?>:
+			<?php echo JText::_('COM_TIENDA_YOUR_NAME'); ?>:
 		</label>
 	</td>
 	<td>
@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 </table>
 <?php if(isset($this->params)) :  echo $this->params->render( 'params' ); endif; ?>
-	<button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?php echo JText::_('Save'); ?></button>
+	<button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?php echo JText::_('COM_TIENDA_SAVE'); ?></button>
 
 	<input type="hidden" name="username" value="<?php echo $this->user->get('username');?>" />
 	<input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />

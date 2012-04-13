@@ -9,11 +9,11 @@
 		<name>Default Login Layout</name>
 		<description>DEFAULT LOGIN LAYOUT DESC</description>
 		<params>
-			<param name="show_login_title" type="radio" default="1" label="Show Login Page Title" description="Show/Hide the Login Page Title">
+			<param name="show_login_title" type="radio" default="1" label="SHOW/HIDE THE LOGIN PAGE TITLE" description="SHOW/HIDE THE LOGIN PAGE TITLE">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMPAGETITLE" />
+			<param name="header_login" type="text" size="30" default="" label="LOGIN PAGE TITLE" description="PARAMPAGETITLE" />
 			<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
 			<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
 				<option value="0">Hide</option>

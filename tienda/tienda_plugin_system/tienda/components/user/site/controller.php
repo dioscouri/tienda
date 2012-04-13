@@ -175,7 +175,7 @@ class UserController extends JController
         $user   =& JFactory::getUser();
 
         if ( $user->get('guest')) {
-            JError::raiseError( 403, JText::_('Access Forbidden') );
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN') );
             return;
         }
 
@@ -200,7 +200,7 @@ class UserController extends JController
 
         // preform security checks
         if ($user->get('id') == 0 || $userid == 0 || $userid <> $user->get('id')) {
-            JError::raiseError( 403, JText::_('Access Forbidden') );
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN') );
             return;
         }
 
@@ -216,7 +216,7 @@ class UserController extends JController
         // do a password safety check
         if(strlen($post['password']) || strlen($post['password2'])) { // so that "0" can be used as password e.g.
             if($post['password'] != $post['password2']) {
-                $msg    = JText::_('PASSWORDS_DO_NOT_MATCH');
+                $msg    = JText::_('COM_TIENDA_PASSWORDS_DO_NOT_MATCH');
                 // something is wrong. we are redirecting back to edit form.
                 // TODO: HTTP_REFERER should be replaced with a base64 encoded form field in a later release
                 $return = str_replace(array('"', '<', '>', "'"), '', @$_SERVER['HTTP_REFERER']);
@@ -239,9 +239,9 @@ class UserController extends JController
         $model = $this->getModel('user');
 
         if ($model->store($post)) {
-            $msg    = JText::_('Your settings have been saved.');
+            $msg    = JText::_('COM_TIENDA_YOUR_SETTINGS_HAVE_BEEN_SAVED');
         } else {
-            //$msg  = JText::_('Error saving your settings.');
+            //$msg  = JText::_('COM_TIENDA_ERROR_SAVING_YOUR_SETTINGS');
             $msg    = $model->getError();
         }
 
@@ -344,7 +344,7 @@ class UserController extends JController
     {
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
-            JError::raiseError( 403, JText::_('Access Forbidden'));
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
         }
 
@@ -353,7 +353,7 @@ class UserController extends JController
         if ( $user->get('guest')) {
             JRequest::setVar('view', 'register');
         } else {
-            $this->setredirect('index.php?option=com_user&task=edit',JText::_('You are already registered.'));
+            $this->setredirect('index.php?option=com_user&task=edit',JText::_('COM_TIENDA_COM_TIENDA_YOUR_SETTINGS_HAVE_BEEN_SAVED'));
         }
 
         parent::display();
@@ -380,7 +380,7 @@ class UserController extends JController
         // If user registration is not allowed, show 403 not authorized.
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if ($usersConfig->get('allowUserRegistration') == '0') {
-            JError::raiseError( 403, JText::_('Access Forbidden'));
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
         }
 
@@ -428,11 +428,11 @@ class UserController extends JController
 
         // Everything went fine, set relevant message depending upon user activation state and display message
         //        if ( $useractivation == 1 ) {
-        //            $message  = JText::_('REG_COMPLETE_ACTIVATE');
+        //            $message  = JText::_('COM_TIENDA_REG_COMPLETE_ACTIVATE');
         //        } else {
-        //            $message = JText::_('REG_COMPLETE');
+        //            $message = JText::_('COM_TIENDA_REG_COMPLETE');
         //        }
-        $message = JText::_('REG_COMPLETE');
+        $message = JText::_('COM_TIENDA_REG_COMPLETE');
 
         // if there is a return URL base64encoded, then redirect to there
         if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
@@ -486,7 +486,7 @@ class UserController extends JController
         }
 
         if ($allowUserRegistration == '0' || $userActivation == '0') {
-            JError::raiseError( 403, JText::_('Access Forbidden'));
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
         }
 
@@ -503,12 +503,12 @@ class UserController extends JController
         if (empty( $activation ))
         {
             // Page Title
-            $document->setTitle( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE') );
+            $document->setTitle( JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE'));
+            $pathway->addItem( JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE'));
 
-            $message->title = JText::_('REG_ACTIVATE_NOT_FOUND_TITLE');
-            $message->text = JText::_('REG_ACTIVATE_NOT_FOUND');
+            $message->title = JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE');
+            $message->text = JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND');
             $view->assign('message', $message);
             $view->display('message');
             return;
@@ -519,22 +519,22 @@ class UserController extends JController
         if (JUserHelper::activateUser($activation))
         {
             // Page Title
-            $document->setTitle( JText::_('REG_ACTIVATE_COMPLETE_TITLE') );
+            $document->setTitle( JText::_('COM_TIENDA_REG_ACTIVATE_COMPLETE_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_('REG_ACTIVATE_COMPLETE_TITLE'));
+            $pathway->addItem( JText::_('COM_TIENDA_REG_ACTIVATE_COMPLETE_TITLE'));
 
-            $message->title = JText::_('REG_ACTIVATE_COMPLETE_TITLE');
-            $message->text = JText::_('REG_ACTIVATE_COMPLETE');
+            $message->title = JText::_('COM_TIENDA_REG_ACTIVATE_COMPLETE_TITLE');
+            $message->text = JText::_('COM_TIENDA_REG_ACTIVATE_COMPLETE');
         }
         else
         {
             // Page Title
-            $document->setTitle( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE') );
+            $document->setTitle( JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE') );
             // Breadcrumb
-            $pathway->addItem( JText::_('REG_ACTIVATE_NOT_FOUND_TITLE'));
+            $pathway->addItem( JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE'));
 
-            $message->title = JText::_('REG_ACTIVATE_NOT_FOUND_TITLE');
-            $message->text = JText::_('REG_ACTIVATE_NOT_FOUND');
+            $message->title = JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND_TITLE');
+            $message->text = JText::_('COM_TIENDA_REG_ACTIVATE_NOT_FOUND');
         }
 
         $view->assign('message', $message);
@@ -560,7 +560,7 @@ class UserController extends JController
         // Request a reset
         if ($model->requestReset($email) === false)
         {
-            $message = JText::sprintf('PASSWORD_RESET_REQUEST_FAILED', $model->getError());
+            $message = JText::sprintf('COM_TIENDA_PASSWORD_RESET_REQUEST_FAILED', $model->getError());
             $this->setRedirect('index.php?option=com_user&view=reset', $message);
             return false;
         }
@@ -587,7 +587,7 @@ class UserController extends JController
         // Verify the token
         if ($model->confirmReset($token) === false)
         {
-            $message = JText::sprintf('PASSWORD_RESET_CONFIRMATION_FAILED', $model->getError());
+            $message = JText::sprintf('COM_TIENDA_PASSWORD_RESET_CONFIRMATION_FAILED', $model->getError());
             $this->setRedirect('index.php?option=com_user&view=reset&layout=confirm', $message);
             return false;
         }
@@ -615,12 +615,12 @@ class UserController extends JController
         // Reset the password
         if ($model->completeReset($password1, $password2) === false)
         {
-            $message = JText::sprintf('PASSWORD_RESET_FAILED', $model->getError());
+            $message = JText::sprintf('COM_TIENDA_PASSWORD_RESET_FAILED', $model->getError());
             $this->setRedirect('index.php?option=com_user&view=reset&layout=complete', $message);
             return false;
         }
 
-        $message = JText::_('PASSWORD_RESET_SUCCESS');
+        $message = JText::_('COM_TIENDA_PASSWORD_RESET_SUCCESS');
         $this->setRedirect('index.php?option=com_user&view=login', $message);
     }
 
@@ -643,12 +643,12 @@ class UserController extends JController
         // Send the reminder
         if ($model->remindUsername($email) === false)
         {
-            $message = JText::sprintf('USERNAME_REMINDER_FAILED', $model->getError());
+            $message = JText::sprintf('COM_TIENDA_USERNAME_REMINDER_FAILED', $model->getError());
             $this->setRedirect('index.php?option=com_user&view=remind', $message);
             return false;
         }
 
-        $message = JText::sprintf('USERNAME_REMINDER_SUCCESS', $email);
+        $message = JText::sprintf('COM_TIENDA_USERNAME_REMINDER_SUCCESS', $email);
         $this->setRedirect('index.php?option=com_user&view=login', $message);
     }
 
@@ -673,9 +673,9 @@ class UserController extends JController
         $subject    = html_entity_decode($subject, ENT_QUOTES);
 
         if ( $useractivation == 1 ){
-            $message = sprintf ( JText::_('SEND_MSG_ACTIVATE'), $name, $sitename, $siteURL."index.php?option=com_user&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
+            $message = sprintf ( JText::_('COM_TIENDA_SEND_MSG_ACTIVATE'), $name, $sitename, $siteURL."index.php?option=com_user&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
         } else {
-            $message = sprintf ( JText::_('SEND_MSG'), $name, $sitename, $siteURL);
+            $message = sprintf ( JText::_('COM_TIENDA_SEND_MSG'), $name, $sitename, $siteURL);
         }
 
         $message = html_entity_decode($message, ENT_QUOTES);
@@ -704,7 +704,7 @@ class UserController extends JController
         {
             if ($row->sendEmail)
             {
-                $message2 = sprintf ( JText::_('SEND_MSG_ADMIN'), $row->name, $sitename, $name, $email, $username);
+                $message2 = sprintf ( JText::_('COM_TIENDA_SEND_MSG_ADMIN'), $row->name, $sitename, $name, $email, $username);
                 $message2 = html_entity_decode($message2, ENT_QUOTES);
                 JUtility::sendMail($mailfrom, $fromname, $row->email, $subject2, $message2);
             }

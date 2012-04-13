@@ -20,11 +20,11 @@
     </languages>
     
     <params>
-        <param name="disable_error_reporting" type="radio" default="0" label="Disable Error Reporting" description="Disable Error Reporting">
+        <param name="disable_error_reporting" type="radio" default="0" label="COM_TIENDA_DISABLE_ERROR_REPORTING" description="COM_TIENDA_DISABLE_ERROR_REPORTING_DESC">
           <option value="0">COM_TIENDA_NO</option>
           <option value="1">COM_TIENDA_YES</option>
         </param>
-        <param name="site_override_user" type="radio" default="0" label="Override Site User" description="Override Site User">
+        <param name="site_override_user" type="radio" default="0" label="COM_TIENDA_OVERRIDE_SITE_USER" description="COM_TIENDA_OVERRIDE_SITE_USER_DESC">
           <option value="0">COM_TIENDA_NO</option>
           <option value="1">COM_TIENDA_YES</option>
         </param>

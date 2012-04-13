@@ -18,6 +18,12 @@
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_shipping_fedex.ini</language>
 	</languages>
+	
+	<administration>
+		<languages folder="languages">
+			<language tag="en-GB">en-GB.plg_tienda_shipping_fedex_admin.ini</language>
+		</languages>
+	</administration>
 
 	<params addpath="/administrator/components/com_tienda/elements">
 		<param name="site_mode" type="list" default="0" label="COM_TIENDA_PRODUCTION_LIVE" description="COM_TIENDA_PRODUCTION_LIVE_DESC">

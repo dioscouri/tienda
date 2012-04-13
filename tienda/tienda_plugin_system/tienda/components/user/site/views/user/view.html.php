@@ -55,10 +55,10 @@ class UserViewUser extends JView
         if (is_object( $menu )) {
             $menu_params = new JParameter( $menu->params );
             if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',  JText::_('Registered Area'));
+                $params->set('page_title',  JText::_('COM_TIENDA_REGISTERED_AREA'));
             }
         } else {
-            $params->set('page_title',  JText::_('Registered Area'));
+            $params->set('page_title',  JText::_('COM_TIENDA_REGISTERED_AREA'));
         }
         $document   = &JFactory::getDocument();
         $document->setTitle( $params->get( 'page_title' ) );
@@ -99,10 +99,10 @@ class UserViewUser extends JView
         if (is_object( $menu )) {
             $menu_params = new JParameter( $menu->params );
             if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',  JText::_('Edit Your Details'));
+                $params->set('page_title',  JText::_('COM_TIENDA_EDIT_YOUR_DETAILS'));
             }
         } else {
-            $params->set('page_title',  JText::_('Edit Your Details'));
+            $params->set('page_title',  JText::_('COM_TIENDA_EDIT_YOUR_DETAILS'));
         }
         $document   = &JFactory::getDocument();
         $document->setTitle( $params->get( 'page_title' ) );

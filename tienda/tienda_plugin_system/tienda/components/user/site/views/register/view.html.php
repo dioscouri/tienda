@@ -33,7 +33,7 @@ class UserViewRegister extends JView
         // Check if registration is allowed
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
-            JError::raiseError( 403, JText::_('Access Forbidden'));
+            JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
         }
 

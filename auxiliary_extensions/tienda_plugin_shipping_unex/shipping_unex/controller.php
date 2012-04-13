@@ -28,7 +28,7 @@ class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin
     function edit()
     {
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('Save'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('COM_TIENDA_SAVE'), false, 'shippingTask' );
 		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('Close'), false, 'shippingTask' );
     	
     	$id = JRequest::getInt('id', '0');
