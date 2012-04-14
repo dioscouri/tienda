@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>	
 <div class="note">
-	<?php echo count($this->payment_plugins) ? JText::_('PAYMENT NOTE 1').":" : JText::_('PAYMENT NOTE 2');?>
+	<?php echo count($this->payment_plugins) ? JText::_('COM_TIENDA_PAYMENT_NOTE_1').":" : JText::_('COM_TIENDA_PAYMENT_NOTE_2');?>
 </div>
 <?php if(count($this->payment_plugins)):?>
 	<?php foreach($this->payment_plugins as $payment_plugin):?>

@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Options for'); ?>: <?php echo $row->productattribute_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_OPTIONS_FOR'); ?>: <?php echo $row->productattribute_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -13,7 +13,7 @@
 
 	<div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
 	
-	    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Add a New Attribute Option'); ?></div>
+	    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_ATTRIBUTE_OPTION'); ?></div>
 
 	    <div class="reset"></div>
 	    
@@ -22,19 +22,19 @@
                 <tr>
                     <th></th>
                     <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
-                    <th style="width: 15px;"><?php echo JText::_('Prefix'); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_PREFIX'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
                     <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_WEIGHT_PREFIX'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_WEIGHT'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_CODE'); ?></th>
-                    <th><?php echo JText::_('Is Blank?'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_IS_BLANK'); ?></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>
-                        <?php echo JText::_('Complete this form to add a new option'); ?>:
+                        <?php echo JText::_('COM_TIENDA_COMPLETE_THIS_FORM_TO_ADD_A_NEW_OPTION'); ?>:
                     </td>
                     <td>
                         <input id="createproductattributeoption_name" name="createproductattributeoption_name" value="" />
@@ -58,7 +58,7 @@
 	                    <?php echo TiendaSelect::booleans( 0, 'createproductattributeoption_blank', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
                     </td>
                     <td>
-                        <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('Create Option'); ?></button>
+                        <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_OPTION'); ?></button>
                     </td>
                 </tr>
                 </tbody>
@@ -67,9 +67,9 @@
 	</div>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Attribute Options'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_ATTRIBUTE_OPTIONS'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='saveattributeoptions'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.getElementById('task').value='saveattributeoptions'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
         
@@ -101,7 +101,7 @@
                 	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo JText::_('Is Blank?'); ?>
+                	<?php echo JText::_('COM_TIENDA_IS_BLANK'); ?>
                 </th>
                 <th style="width: 100px;">
                 	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
@@ -176,11 +176,11 @@
 					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
 				</td>
 				<td style="text-align: center;">
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_('Set Values') ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_('COM_TIENDA_SET_VALUES') ); ?>]
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributeoptions&task=delete&cid[]=<?php echo $item->productattributeoption_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributeoptions&id={$row->productattribute_id}&tmpl=component"); ?>">
-						<?php echo JText::_('Delete Option'); ?>	
+						<?php echo JText::_('COM_TIENDA_DELETE_OPTION'); ?>	
 					</a>
 					]
 				</td>

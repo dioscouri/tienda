@@ -11,7 +11,7 @@
 </div>
     
 <fieldset>
-	<legend><?php echo JText::_('BASIC INFORMATION'); ?></legend>
+	<legend><?php echo JText::_('COM_TIENDA_BASIC_INFORMATION'); ?></legend>
 	<table class="admintable">
 		<tr>
 			<td width="100" align="right" class="key">

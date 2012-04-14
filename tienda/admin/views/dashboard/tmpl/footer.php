@@ -22,22 +22,22 @@
 	<tbody>
 	<tr>
 		<td style="text-align: left; width: 33%;">
-			<a href="<?php echo $url; ?>" target="_blank"><?php echo JText::_('Dioscouri.com Support Center'); ?></a>
+			<a href="<?php echo $url; ?>" target="_blank"><?php echo JText::_('COM_TIENDA_DIOSCOURICOM_SUPPORT_CENTER'); ?></a>
 			<br/>
-			<a href="http://twitter.com/dioscouri" target="_blank"><?php echo JText::_('Follow Us on Twitter'); ?></a>
+			<a href="http://twitter.com/dioscouri" target="_blank"><?php echo JText::_('COM_TIENDA_FOLLOW_US_ON_TWITTER'); ?></a>
 			<br/>
-			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_('Leave JED Feedback'); ?></a>
+			<a href="http://extensions.joomla.org/extensions/owner/dioscouri" target="_blank"><?php echo JText::_('COM_TIENDA_LEAVE_JED_FEEDBACK'); ?></a>
 			<br/>
 			<?php echo $this->extraHtml; ?>
 		</td>
 		<td style="text-align: center; width: 33%;">
-			<?php echo JText::_('Tienda'); ?>: <?php echo JText::_('Tienda Desc'); ?>
+			<?php echo JText::_('COM_TIENDA_TIENDA'); ?>: <?php echo JText::_('COM_TIENDA_TIENDA_DESC'); ?>
 			<br/>
-			<?php echo JText::_('Copyright'); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
+			<?php echo JText::_('COM_TIENDA_COPYRIGHT'); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
 			<br/>
-			<?php echo JText::_('Version'); ?>: <?php echo Tienda::getVersion(); ?>
+			<?php echo JText::_('COM_TIENDA_VERSION'); ?>: <?php echo Tienda::getVersion(); ?>
 			<br/>
-			<?php echo sprintf( JText::_('PHP_VERSION_LINE'), Tienda::getMinPhp(), Tienda::getServerPhp() );?>
+			<?php echo sprintf( JText::_('COM_TIENDA_PHP_VERSION_LINE'), Tienda::getMinPhp(), Tienda::getServerPhp() );?>
 		</td>
 		<td style="text-align: right; width: 33%;">
 			<a href="<?php echo $url; ?>" target="_blank"><img src="<?php echo $img_path."/".$img_file;?>"></img></a>

@@ -69,12 +69,12 @@ class TiendaViewPayment extends TiendaViewBase
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('Save + Prev'), false);
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('COM_TIENDA_SAVE_PLUS_PREV'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('Save + Next'), false);
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('COM_TIENDA_SAVE_PLUS_NEXT'), false);
         }
         if ($divider)
         {

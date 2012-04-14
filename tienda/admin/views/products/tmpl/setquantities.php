@@ -5,16 +5,16 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Quantities for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_QUANTITIES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
     <?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Quantities'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_QUANTITIES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='savequantities'; document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='savequantities'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
     <table class="adminlist" style="clear: both;">
@@ -27,7 +27,7 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('Attribute Names'); ?>
+                    <?php echo JText::_('COM_TIENDA_ATTRIBUTE_NAMES'); ?>
                 </th>
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Quantity', "tbl.quantity", @$state->direction, @$state->order ); ?>

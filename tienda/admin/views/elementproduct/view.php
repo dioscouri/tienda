@@ -65,11 +65,11 @@ class TiendaViewElementProduct extends JView
 
 <table>
 	<tr>
-		<td width="100%" ><?php echo JText::_('Filter'); ?>: <input
+		<td width="100%" ><?php echo JText::_('COM_TIENDA_FILTER'); ?>: <input
 			type="text" name="search" id="search"
 			value="<?php echo $lists['search'];?>" class="text_area"
 			onchange="document.adminForm.submit();" />
-		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+		<button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_GO'); ?></button>
 		<button
 			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 		</td>

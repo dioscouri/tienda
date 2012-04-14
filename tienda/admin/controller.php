@@ -283,7 +283,7 @@ class TiendaController extends JController
 		{
 			if ($row->checkin())
 			{
-				$this->message = JText::_('Item Released');
+				$this->message = JText::_('COM_TIENDA_ITEM_RELEASED');
 			}
 		}
 
@@ -465,7 +465,7 @@ class TiendaController extends JController
 		if ( !$row->move( $change ) )
 		{
 			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_('Ordering Failed')." - ".$row->getError();
+			$this->message 		= JText::_('COM_TIENDA_ORDERING_FAILED')." - ".$row->getError();
 		}
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
@@ -509,7 +509,7 @@ class TiendaController extends JController
 		}
 		else
 		{
-			$this->message = JText::_('Items Ordered');
+			$this->message = JText::_('COM_TIENDA_ITEMS_ORDERED');
 		}
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );

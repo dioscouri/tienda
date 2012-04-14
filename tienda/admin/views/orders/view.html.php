@@ -29,7 +29,7 @@ class TiendaViewOrders extends TiendaViewBase
 		switch(strtolower($layout))
 		{
 			case "confirmdelete":
-				JToolBarHelper::deleteList(JText::_('VALIDDELETEITEMS'));
+				JToolBarHelper::deleteList(JText::_('COM_TIENDA_VALID_DELETE_ITEMS'));
 				JToolBarHelper::cancel('close', JText::_('COM_TIENDA_CLOSE'));
 				$validate = JUtility::getToken();
 				$form = array();
@@ -72,9 +72,9 @@ class TiendaViewOrders extends TiendaViewBase
 	 */
 	function _defaultToolbar()
 	{
-		JToolBarHelper::custom('batchedit', "forward", "forward", JText::_('Batch Edit'), false);
+		JToolBarHelper::custom('batchedit', "forward", "forward", JText::_('COM_TIENDA_BATCH_EDIT'), false);
 		JToolBarHelper::divider();
-		JToolBarHelper::deleteList(JText::_('VALIDDELETEITEMS'));		
+		JToolBarHelper::deleteList(JText::_('COM_TIENDA_VALID_DELETE_ITEMS'));		
 		$class_name = 'new';
 		$text = JText::_('COM_TIENDA_NEW');
 		$url = "index.php?option=com_tienda&view=pos";

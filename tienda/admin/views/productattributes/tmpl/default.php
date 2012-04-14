@@ -6,7 +6,7 @@
 <?php $row = @$this->row; ?>
 <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Attributes for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_ATTRIBUTES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -14,16 +14,16 @@
 	
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
 
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Add a New Attribute'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_ATTRIBUTE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createattribute'; document.adminForm.submit();"><?php echo JText::_('Create Attribute'); ?></button>
+        <button onclick="document.getElementById('task').value='createattribute'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ATTRIBUTE'); ?></button>
     </div>
     <div class="reset"></div>
     
 	<table class="adminlist">
     	<thead>
     	<tr>
-    		<th><?php echo JText::_('Attribute Name'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_COM_TIENDA_ATTRIBUTE_NAME'); ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -37,9 +37,9 @@
 </div>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Attributes'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_ATTRIBUTES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='saveattributes'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.getElementById('task').value='saveattributes'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
     
@@ -71,7 +71,7 @@
 				</td>
 				<td style="text-align: left;">
 					<input type="text" name="name[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->productattribute_name; ?>" />
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", JText::_('Set Attribute Options') ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptions&id=".$item->productattribute_id."&tmpl=component", JText::_('COM_TIENDA_SET_ATTRIBUTE_OPTIONS') ); ?>]
 				</td>
 				<td style="text-align: left;">
 					<?php
@@ -110,7 +110,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=<?php echo $item->productattribute_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributes&id={$row->product_id}&tmpl=component"); ?>">
-						<?php echo JText::_('Delete Attribute'); ?>	
+						<?php echo JText::_('COM_TIENDA_DELETE_ATTRIBUTE'); ?>	
 					</a>
 					]
 				</td>

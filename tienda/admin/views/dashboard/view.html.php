@@ -244,8 +244,8 @@ class TiendaViewDashboard extends TiendaViewBase
 		$data->total        = $runningtotal;    // Int
 		$data->sum          = $runningsum;      // Int
 
-		$this->getChartHourly( $data,  JText::sprintf('DASHBOARD_TODAY', $today_strg), 'graph' );
-		$this->getChartHourly( $data,  JText::sprintf('DASHBOARD_TODAY', $today_strg), 'graphSum', 'sumdata', 'Line' );
+		$this->getChartHourly( $data,  JText::sprintf('COM_TIENDA_DASHBOARD_TODAY', $today_strg), 'graph' );
+		$this->getChartHourly( $data,  JText::sprintf('COM_TIENDA_DASHBOARD_TODAY', $today_strg), 'graphSum', 'sumdata', 'Line' );
 
 
 		$this->assign( 'graphData', $data );
@@ -312,8 +312,8 @@ class TiendaViewDashboard extends TiendaViewBase
 		$data->total        = $runningtotal;    // Int
 		$data->sum          = $runningsum;      // Int
 
-		$this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday_strg), 'graph' );
-		$this->getChartHourly( $data, JText::sprintf('DASHBOARD_YESTERDAY', $yesterday_strg), 'graphSum', 'sumdata', 'Line' );
+		$this->getChartHourly( $data, JText::sprintf('COM_TIENDA_DASHBOARD_YESTERDAY', $yesterday_strg), 'graph' );
+		$this->getChartHourly( $data, JText::sprintf('COM_TIENDA_DASHBOARD_YESTERDAY', $yesterday_strg), 'graphSum', 'sumdata', 'Line' );
 
 		$this->assign( 'graphData', $data );
 
@@ -389,8 +389,8 @@ class TiendaViewDashboard extends TiendaViewBase
 		$data->total        = $runningtotal;    // Int
 		$data->sum          = $runningsum;      // Int
 
-		$this->getChartDaily( $data, JText::sprintf('LAST SEVEN DAYS'), 'graph' );
-		$this->getChartDaily( $data, JText::sprintf('LAST SEVEN DAYS'), 'graphSum', 'sumdata', 'Line' );
+		$this->getChartDaily( $data, JText::sprintf('COM_TIENDA_LAST_SEVEN_DAYS'), 'graph' );
+		$this->getChartDaily( $data, JText::sprintf('COM_TIENDA_LAST_SEVEN_DAYS'), 'graphSum', 'sumdata', 'Line' );
 
 		$this->assign( 'graphData', $data );
 	}
@@ -453,8 +453,8 @@ class TiendaViewDashboard extends TiendaViewBase
 		$data->total        = $runningtotal;    // Int
 		$data->sum          = $runningsum;      // Int
 
-		$this->getChartHourly( $data, JText::sprintf('YEAR TO DATE (MONTHLY)'), 'graph' );
-		$this->getChartHourly( $data, JText::sprintf('YEAR TO DATE (MONTHLY)'), 'graphSum', 'sumdata', 'Line' );
+		$this->getChartHourly( $data, JText::sprintf('COM_TIENDA_YEAR_TO_DATE_MONTHLY'), 'graph' );
+		$this->getChartHourly( $data, JText::sprintf('COM_TIENDA_YEAR_TO_DATE_MONTHLY'), 'graphSum', 'sumdata', 'Line' );
 
 		$this->assign( 'graphData', $data );
 

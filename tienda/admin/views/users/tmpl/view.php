@@ -23,7 +23,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	<tr>
 		<td colspan="2">
 			<fieldset>
-				<legend><?php echo JText::_('Basic User Info'); ?></legend>
+				<legend><?php echo JText::_('COM_TIENDA_BASIC_USER_INFO'); ?></legend>
 				<div id="tienda_header">
 					<table class="admintable" style="width: 100%;" border="0">					
 						<tr>
@@ -37,7 +37,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	                    	</td>
 	                    	<td  align="right" class="key">
 		                        <label for="registerDate">
-		                        	<?php echo JText::_('Registered'); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_REGISTERED'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
@@ -51,7 +51,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                        $config = TiendaConfig::getInstance();
 		                        $url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
 		                        $url .= @$row->id; 
-		                        $text = "<button>".JText::_('Edit User')."</button>"; 
+		                        $text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>"; 
 		                        ?>		                        
 		                        <div ><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
 		                    </td>  
@@ -67,7 +67,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	                    	</td>  
 	                    	<td align="right" class="key">
 		                        <label for="lastvisitDate">
-		                        	<?php echo JText::_('Last Visited'); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_LAST_VISITED'); ?>:
 		                        </label>
 		                    </td>
 		                    <td colspan="3">
@@ -85,7 +85,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                    </td>
 		                    <td align="right" class="key" style="width:85px;">
 		                        <label for="group_name">
-		                        	<?php echo JText::_('User Group'); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_USER_GROUP'); ?>:
 		                        </label>
 		                    </td>
 		                    <td colspan="3">
@@ -96,14 +96,14 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="sub_number">
-		                        	<?php echo JText::_('Sub Num'); ?>:
+		                        	<?php echo JText::_('COM_TIENDA_SUB_NUM'); ?>:
 		                        </label>
 		                    </td>
 		                    <td>
 		                        <div class="sub_number"><input name="sub_number" id="sub_number" value="<?php echo @$row->sub_number; ?>" /></div>
 		                    </td>
 	                    	<td >
-	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_('Change Sub Num'); ?></button>
+	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_('COM_TIENDA_CHANGE_SUB_NUM'); ?></button>
 		                    </td>
 		                    <td colspan="3">
 		                    </td>
@@ -117,11 +117,11 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	<tr>
 		<td width="50%" valign="top">
 				<fieldset>
-					<legend><?php echo JText::_('Summary Data'); ?></legend>
+					<legend><?php echo JText::_('COM_TIENDA_SUMMARY_DATA'); ?></legend>
 						<table class="admintable"  width="100%">
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('Number of Completed Orders'); ?>:
+									<?php echo JText::_('COM_TIENDA_NUMBER_OF_COMPLETED_ORDERS'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo count($orders); ?></div>
@@ -137,7 +137,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 							</tr>
 							<tr>
 								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('Total User Reviews'); ?>:
+									<?php echo JText::_('COM_TIENDA_TOTAL_USER_REVIEWS'); ?>:
 								</td>
 								<td align="right">
 									<div class="id"><?php echo count($procoms); ?></div>
@@ -146,7 +146,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 						</table>
 				</fieldset>			
 			<fieldset>
-					<legend><?php echo JText::_('Last 5 Completed Orders'); ?></legend>
+					<legend><?php echo JText::_('COM_TIENDA_LAST_5_COMPLETED_ORDERS'); ?></legend>
 					<div id="tienda_header">
 					<table class="adminlist" style="width: 100%;">
 						<thead>
@@ -199,7 +199,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		</td>
 		<td width="50%" valign="top">					
 			<fieldset>
-					<legend><?php echo JText::_('List of Active Subscriptions'); ?></legend>
+					<legend><?php echo JText::_('COM_TIENDA_LIST_OF_ACTIVE_SUBSCRIPTIONS'); ?></legend>
 					<table class="adminlist" style="width: 100%;">
 						<thead>
 							<tr>
@@ -210,7 +210,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('COM_TIENDA_TYPE'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('Order'); ?>
+									<?php echo JText::_('COM_TIENDA_ORDER'); ?>
 								</th>
 								<th style="text-align: center;  width: 200px;">
 									<?php echo JText::_('COM_TIENDA_EXPIRES'); ?>
@@ -243,7 +243,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 										<a href="	index.php?option=com_tienda&view=subscriptions&task=view&id=<?php echo $sub->subscription_id; ?>" >											
 											<?php if($sub->subscription_lifetime == 1)
 												{
-													 echo JText::_('Lifetime'); 
+													 echo JText::_('COM_TIENDA_LIFETIME'); 
 												}
 											?>											
 											<?php echo JHTML::_('date', $sub->expires_datetime, "%a, %d %b %Y, %H:%M"); ?>
@@ -262,7 +262,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 					</table>
 				</fieldset>
 			<fieldset>
-					<legend><?php echo JText::_('Cart'); ?></legend>
+					<legend><?php echo JText::_('COM_TIENDA_CART'); ?></legend>
 					<table class="adminlist" style="width: 100%;">
 						<thead>
 							<tr>
@@ -342,7 +342,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 					</table>
 				</fieldset>
 			<fieldset>
-					<legend><?php echo JText::_('Last 5 Reviews Posted'); ?></legend>
+					<legend><?php echo JText::_('COM_TIENDA_LAST_5_REVIEWS_POSTED'); ?></legend>
 					<table class="adminlist" style="width: 100%;">
 						<thead>
 							<tr>
@@ -350,10 +350,10 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('COM_TIENDA_NUM'); ?>
 								</th>
 								<th>
-									<?php echo JText::_('Products + Comments'); ?>
+									<?php echo JText::_('COM_TIENDA_PRODUCTS_PLUS_COMMENTS'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('User Rating'); ?>
+									<?php echo JText::_('COM_TIENDA_USER_RATING'); ?>
 								</th>													
 							</tr>
 						</thead>		

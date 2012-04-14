@@ -7,13 +7,13 @@
 
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos">
-				<?php echo JText::_('Go Back');?>
+				<?php echo JText::_('COM_TIENDA_GO_BACK');?>
 				</a>
 			</div>
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP1_SELECT_USER');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER');?>
 			</h2>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 		<div class="cell step_body inactive">
 			<div class="go_back">
 				<a href="index.php?option=com_tienda&view=pos&nextstep=step2">
-				<?php echo JText::_('GO BACK');?>
+				<?php echo JText::_('COM_TIENDA_GO_BACK');?>
 				</a>
 			</div>
 			<div id="orderSummary">
@@ -30,7 +30,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP2_SELECT_PRODUCTS');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP2_SELECT_PRODUCTS');?>
 			</h2>
 		</div>
 	</div>
@@ -89,12 +89,12 @@
         
 			<div id="addresses">
 				<h3>
-            		<?php echo JText::_('SELECT SHIPPING AND BILLING ADDRESS') ?>
+            		<?php echo JText::_('COM_TIENDA_SELECT_SHIPPING_AND_BILLING_ADDRESS') ?>
         		</h3>
         		 <div class='note'>
-	                <?php $text = JText::_('MANAGE USERS STORED ADDRESSES')."."; ?>
+	                <?php $text = JText::_('COM_TIENDA_MANAGE_USERS_STORED_ADDRESSES')."."; ?>
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
-                    <?php echo JText::_('USERS STORED ADDRESSES NOTE'); ?>
+                    <?php echo JText::_('COM_TIENDA_USERS_STORED_ADDRESSES_NOTE'); ?>
                 </div>
 				<div class="reset"></div>
 				<div style="float: left;">
@@ -159,17 +159,17 @@
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
 					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
+					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE');?>" type="button" class="button" />
 				<?php else:?>
 					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
                 	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('CONTINUE');?>" type="button" class="button" />
+                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE');?>" type="button" class="button" />
 				<?php endif;?>				
             </div>
 		</div>
 		<div class="cell step_title active">
 			<h2>
-			<?php echo JText::_('POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
 			</h2>
 		</div>
 	</div>
@@ -178,7 +178,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP4_REVIEW_SUBMIT_ORDER');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP4_REVIEW_SUBMIT_ORDER');?>
 			</h2>
 		</div>
 	</div>
@@ -187,7 +187,7 @@
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP5_PAYMENT_CONFIRMATION');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION');?>
 			</h2>
 		</div>
 	</div>

@@ -47,7 +47,7 @@
             if (empty($items)) { ?>
 	            <tr>
 	            <td colspan="5" align="center">
-	            <?php echo JText::_('No items in order'); ?>
+	            <?php echo JText::_('COM_TIENDA_NO_ITEMS_IN_ORDER'); ?>
 	            </td>
 	            </tr>
             <?php } ?>
@@ -55,10 +55,10 @@
             <?php if (count($items)) : ?>
                 <tr>
                     <td colspan="2" style="text-align: left;">
-                        <input onclick="tiendaRemoveProducts('<?php echo JText::_('Please Select an Item to Remove'); ?>');" value="<?php echo JText::_('Remove Selected'); ?>" class="button" type="button" />
+                        <input onclick="tiendaRemoveProducts('<?php echo JText::_('COM_TIENDA_PLEASE_SELECT_AN_ITEM_TO_REMOVE'); ?>');" value="<?php echo JText::_('COM_TIENDA_REMOVE SELECTED'); ?>" class="button" type="button" />
                     </td>
                     <td colspan="2" style="text-align: right;">
-                        <input onclick="tiendaUpdateProductQuantities();" value="<?php echo JText::_('Update Quantities'); ?>" class="button" style="float: right;" type="button" />
+                        <input onclick="tiendaUpdateProductQuantities();" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES'); ?>" class="button" style="float: right;" type="button" />
                     </td>
                 </tr>
             <?php endif; ?>

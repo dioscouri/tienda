@@ -30,7 +30,7 @@
 						<tr>
 							<th></th>
 							<th><?php echo JText::_('COM_TIENDA_GEOZONE'); ?></th>
-							<th><?php echo JText::_('Base Price'); ?></th>
+							<th><?php echo JText::_('COM_TIENDA_BASE_PRICE'); ?></th>
 							<th><?php echo JText::_('Price Step'); ?></th>
 							<th><?php echo JText::_('COM_TIENDA_WEIGHT_RANGE'); ?></th>
 							<th><?php echo JText::_('Weight Step'); ?></th>

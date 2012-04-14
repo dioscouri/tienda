@@ -17,7 +17,7 @@ if (JRequest::getVar('windowtask') == 'close')
 ?>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-    <button onclick="document.getElementById('task').value='addproducts'; document.adminForm.submit();"> <?php echo JText::_('Add Selected Products to Order'); ?></button>
+    <button onclick="document.getElementById('task').value='addproducts'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_ADD_SELECTED_PRODUCTS_TO_ORDER'); ?></button>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">

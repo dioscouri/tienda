@@ -53,7 +53,7 @@
 					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
 					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
 					<br/>
-					<b><?php echo JText::_('Ship to'); ?></b>:
+					<b><?php echo JText::_('COM_TIENDA_SHIP_TO'); ?></b>:
 					<?php 
 					if (empty($item->shipping_address_1)) 
 					{

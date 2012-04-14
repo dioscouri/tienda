@@ -32,7 +32,7 @@ class JElementQuantity extends JElement {
 				$db->setQuery($query);
 				$quantities = $db->loadResult();
 				Tienda::load( 'TiendaUrl', 'library.url' );
-				$output = '<span>'.$quantities.'</span><div class="tiendaButton">'.TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$productID."&tmpl=component", JText::_('Set Quantities')).'</div>';
+				$output = '<span>'.$quantities.'</span><div class="tiendaButton">'.TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$productID."&tmpl=component", JText::_('COM_TIENDA_SET_QUANTITIES')).'</div>';
 			}
 		}
 

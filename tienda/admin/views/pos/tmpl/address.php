@@ -9,7 +9,7 @@
 	<fieldset>
 		<div class="header icon-48-tienda" style="float: left;">
 			<?php if($row->address_id):?>
-			<?php echo JText::_('EDIT ADDRESS') . ": " . $row->address_name;?>	
+			<?php echo JText::_('COM_TIENDA_EDIT_ADDRESS') . ": " . $row->address_name;?>	
 			<?php else:?>
 			<?php echo JText::_('COM_TIENDA_NEW_ADDRESS');?>	
 			<?php endif;?>
@@ -51,7 +51,7 @@
 			<?php endif;?>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('SET AS DEFAULT SHIPPING');?>
+				<?php echo JText::_('COM_TIENDA_SET_AS_DEFAULT_SHIPPING');?>
 				</th>
 				<td>
 				<?php echo JHTML::_('select.booleanlist', 'is_default_shipping', '', @$row->is_default_shipping);?>
@@ -59,7 +59,7 @@
 			</tr>
 			<tr>
 				<th style="width: 100px; text-align: right;" class="key">
-				<?php echo JText::_('SET AS DEFAUTL BILLING');?>
+				<?php echo JText::_('COM_TIENDA_SET_AS_DEFAUTL_BILLING');?>
 				</th>
 				<td>
 				<?php echo JHTML::_('select.booleanlist', 'is_default_billing', '', @$row->is_default_billing);?>

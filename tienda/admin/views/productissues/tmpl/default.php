@@ -5,24 +5,24 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Issues for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_ISSUES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Add a New Issue'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_ISSUE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createissue'; document.adminForm.submit();"><?php echo JText::_('Create Issue'); ?></button>
+        <button onclick="document.getElementById('task').value='createissue'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ISSUE'); ?></button>
     </div>
     <div class="reset"></div>
 	<table class="adminlist">
     	<thead>
         	<tr>
-        		<th><?php echo JText::_('Volume Num'); ?></th>
-        		<th><?php echo JText::_('Issue Num'); ?></th>
-        		<th><?php echo JText::_('Publishing Date'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_VOLUME_NUM'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_ISSUE_NUM'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_PUBLISHING_DATE'); ?></th>
         	</tr>
         	</thead>
         	<tbody>
@@ -42,9 +42,9 @@
 </div>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Issue List'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ISSUE_LIST'); ?></div>
     <div style="float: right;">
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveissues'; document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveissues'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
 	<table class="adminlist" style="clear: both;">

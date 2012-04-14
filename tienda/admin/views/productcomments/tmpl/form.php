@@ -45,7 +45,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('User Rating'); ?>:
+						<?php echo JText::_('COM_TIENDA_USER_RATING'); ?>:
 					</td>
 					<td>
                         <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>

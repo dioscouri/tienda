@@ -65,16 +65,16 @@ class TiendaViewElementProductMultiple extends JView
 
 <table>
 	<tr>
-		<td width="100%"><?php echo JText::_('Filter'); ?>: <input
+		<td width="100%"><?php echo JText::_('COM_TIENDA_FILTER'); ?>: <input
 			type="text" name="search" id="search"
 			value="<?php echo $lists['search'];?>" class="text_area"
 			onchange="document.adminForm.submit();" />
-		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+		<button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_GO'); ?></button>
 		<button
 			onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 		</td>
 		<td nowrap="nowrap">
-    		<button onclick="tiendaSetItemsToOrder(<?php echo count( $rows ); ?>, '<?php echo JText::_('Unable to retrieve product selection.'); ?>');return false;"><?php echo JText::_('Add Selected Product(s) to Order'); ?></button>
+    		<button onclick="tiendaSetItemsToOrder(<?php echo count( $rows ); ?>, '<?php echo JText::_('COM_TIENDA_UNABLE_TO_RETRIEVE_PRODUCT_SELECTION'); ?>');return false;"><?php echo JText::_('COM_TIENDA_ADD_SELECTED_PRODUCTS_TO_ORDER'); ?></button>
 		</td>
 	</tr>
 </table>
@@ -92,7 +92,7 @@ class TiendaViewElementProductMultiple extends JView
 			</th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Price', 'pp.product_price', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
-			<th class="title"><?php echo JText::_('Qty'); ?></th>
+			<th class="title"><?php echo JText::_('COM_TIENDA_QTY'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>

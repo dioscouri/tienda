@@ -100,14 +100,14 @@
                 <td style="text-align: center;">
                     [
                     <a href="<?php echo $item->link; ?>">
-                        <?php echo JText::_('View Plugin Options'); ?>
+                        <?php echo JText::_('COM_TIENDA_VIEW_PLUGIN_OPTIONS'); ?>
                     </a>
                     ]
 				</td>
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link_edit; ?>">
-						<?php echo JText::_('Edit Plugin Parameters'); ?>
+						<?php echo JText::_('COM_TIENDA_EDIT_PLUGIN_PARAMETERS'); ?>
 					</a>
 					]
 				</td>

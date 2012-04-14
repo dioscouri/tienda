@@ -5,23 +5,23 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Set Prices for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_PRICES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Add a New Price'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_PRICE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createprice'; document.adminForm.submit();"><?php echo JText::_('Create Price'); ?></button>
+        <button onclick="document.getElementById('task').value='createprice'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_PRICE'); ?></button>
     </div>
     <div class="reset"></div>
 	<table class="adminlist">
     	<thead>
         	<tr>
         		<th><?php echo JText::_('COM_TIENDA_DATE_RANGE'); ?></th>
-        		<th><?php echo JText::_('Quantity Range'); ?></th>
+        		<th><?php echo JText::_('COM_TIENDA_QUANTITY_RANGE'); ?></th>
         		<th><?php echo JText::_('COM_TIENDA_GROUP'); ?></th>
         		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
         	</tr>
@@ -50,9 +50,9 @@
 </div>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Prices'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_PRICES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveprices'; document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveprices'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
 	<table class="adminlist" style="clear: both;">
@@ -102,7 +102,7 @@
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productprices&task=delete&cid[]=<?php echo $item->product_price_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setprices&id={$row->product_id}&tmpl=component"); ?>">
-						<?php echo JText::_('Delete Price'); ?>	
+						<?php echo JText::_('COM_TIENDA_DELETE_PRICE'); ?>	
 					</a>
 					]
 				</td>

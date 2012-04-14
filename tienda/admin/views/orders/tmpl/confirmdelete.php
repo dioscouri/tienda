@@ -6,8 +6,8 @@
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
 <div class="note_pink">
-    <span class="alert"><?php echo JText::_('Warning'); ?></span>
-    <?php echo JText::_('Deleting Orders Cannot be Undone'); ?>
+    <span class="alert"><?php echo JText::_('COM_TIENDA_WARNING'); ?></span>
+    <?php echo JText::_('COM_TIENDA_DELETING_ORDERS_CANNOT_BE_UNDONE'); ?>
 </div>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
                     <?php echo JText::_('COM_TIENDA_DATE'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo JText::_('Order'); ?>
+                	<?php echo JText::_('COM_TIENDA_ORDER'); ?>
                 </th>
 				<th>
                 	<?php echo JText::_('COM_TIENDA_CUSTOMER'); ?>
@@ -46,14 +46,14 @@
 				<td style="text-align: left;">
                     <?php 
                     echo "<b>".JText::_('COM_TIENDA_ORDER_ID')."</b>: ".$item->order_id."<br>";
-                    echo "<b>".JText::_('Order Amount')."</b>: ".TiendaHelperBase::currency( $item->order_total )."<br>";
+                    echo "<b>".JText::_('COM_TIENDA_ORDER_AMOUNT')."</b>: ".TiendaHelperBase::currency( $item->order_total )."<br>";
                     ?>
 				</td>
                 <td>
                     <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
                     &nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
                     <br/>
-                    <b><?php echo JText::_('Ship to'); ?></b>:
+                    <b><?php echo JText::_('COM_TIENDA_SHIP_TO'); ?></b>:
                     <?php 
                     if (empty($item->shipping_address_1)) 
                     {

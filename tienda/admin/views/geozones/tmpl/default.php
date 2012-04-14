@@ -37,10 +37,10 @@
                     <?php echo TiendaGrid::sort( 'Name', "tbl.geozone_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('Assigned Zones'); ?>
+                    <?php echo JText::_('COM_TIENDA_ASSIGNED_ZONES'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('Assigned Payment/Shipping'); ?>
+                    <?php echo JText::_('COM_TIENDA_ASSIGNED_PAYMENT_SHIPPING'); ?>
                 </th>
                 <th>
                     <?php echo JText::_('COM_TIENDA_TYPE'); ?>
@@ -107,21 +107,21 @@
                     <?php echo $item->geozone_description; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php echo JText::_('Zones Assigned'); ?>:
+                    <?php echo JText::_('COM_TIENDA_ZONES_ASSIGNED'); ?>:
                     <?php $model = JModel::getInstance( 'Zonerelations', 'TiendaModel' ); ?>
                     <?php $model->setState( 'filter_geozoneid', $item->geozone_id); ?>
                     <?php echo $model->getTotal(); ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( @$item->link_zones, JText::_('Select Zones'), array('update' => true) ); ?>]
+                    [<?php echo TiendaUrl::popup( @$item->link_zones, JText::_('COM_TIENDA_SELECT_ZONES'), array('update' => true) ); ?>]
                 </td>
                 <td style="text-align: center;">
                 	<?php $text = '';?>
                 	<?php if($item->geozonetype_id == 1):?>
-                		<?php echo JText::_('Payments Assigned');?>
-                		<?php $text = JText::_('Select Payments');?>
+                		<?php echo JText::_('COM_TIENDA_PAYMENTS_ASSIGNED');?>
+                		<?php $text = JText::_('COM_TIENDA_SELECT_PAYMENTS');?>
                 	<?php elseif($item->geozonetype_id == 2):?>
-                		<?php echo JText::_('Shippings Assigned');?>
-                		<?php $text = JText::_('Select Shippings');?>
+                		<?php echo JText::_('COM_TIENDA_SHIPPINGS_ASSIGNED');?>
+                		<?php $text = JText::_('COM_TIENDA_SELECT_SHIPPINGS');?>
                 	<?php endif;?>:                	
                     <?php echo TiendaHelperPlugin::countPlgtoGeozone($item); ?>
                     <br/>

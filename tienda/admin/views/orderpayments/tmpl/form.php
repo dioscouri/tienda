@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderPayment Type'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERPAYMENT_TYPE'); ?>:
                     </td>
                     <td>
                         <input name="orderpayment_type" value="<?php echo @$row->orderpayment_type; ?>" size="48" maxlength="250" type="text" />
@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderPayment Amount'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERPAYMENT_AMOUNT'); ?>:
                     </td>
                     <td>
                         <input name="orderpayment_amount" value="<?php echo @$row->orderpayment_amount; ?>" size="48" maxlength="250" type="text" />
@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('OrderPayment Date'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERPAYMENT_DATE'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->created_date, "created_date", "created_date", '%Y-%m-%d %H:%M:%S' ); ?>
@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Transaction ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TRANSACTION_ID'); ?>:
                     </td>
                     <td>
                         <input name="transaction_id" value="<?php echo @$row->transaction_id; ?>" size="48" maxlength="250" type="text" />
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Transaction Status'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TRANSACTION_STATUS'); ?>:
                     </td>
                     <td>
                         <input name="transaction_status" value="<?php echo @$row->transaction_status; ?>" size="48" maxlength="250" type="text" />
@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Transaction Details'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TRANSACTION_DETAILS'); ?>:
                     </td>
                     <td>
                         <textarea cols="50" rows="10" name="transaction_details"><?php echo @$row->transaction_details; ?></textarea>

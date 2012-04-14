@@ -3,7 +3,7 @@
 
 <h3><?php echo JText::_('COM_TIENDA_SELECT_A_SHIPPING_METHOD') ?></h3>
 
-<input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("Click here to update customer's shipping rates"); ?>" />
+<input type="button" onclick="tiendaGetShippingRates( 'onCheckoutShipping_wrapper', this.form, '<?php echo $shipping_rates_text; ?>' )" value="<?php echo JText::_("COM_TIENDA_CLICK_HERE_TO_UPDATE_CUSTOMERS_SHIPPING_RATES"); ?>" />
 <p><?php echo JText::_('COM_TIENDA_PLEASE_SELECT_YOUR_PREFERRED_SHIPPING_METHOD_BELOW'); ?>:</p>
 
 <input type="hidden" id="shippingrequired" name="shippingrequired" value="1" />
@@ -28,7 +28,7 @@
     {
         ?>
         <div class="note">
-        <?php echo JText::_('NO SHIPPING NOTE'); ?>
+        <?php echo JText::_('COM_TIENDA_NO_SHIPPING_NOTE'); ?>
         </div>
         <?php
     }

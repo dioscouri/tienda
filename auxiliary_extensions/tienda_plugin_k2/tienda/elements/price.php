@@ -32,7 +32,7 @@ class JElementPrice extends JElement {
 				Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 				$prices = TiendaHelperProduct::getPrices( $productID );
 				if(count($prices)){
-					$output = '<div class="tiendaButton">'.TiendaUrl::popup("index.php?option=com_tienda&controller=products&task=setprices&id=".$productID."&tmpl=component", JText::_('Set Prices') ).'</div>';
+					$output = '<div class="tiendaButton">'.TiendaUrl::popup("index.php?option=com_tienda&controller=products&task=setprices&id=".$productID."&tmpl=component", JText::_('COM_TIENDA_SET_PRICES') ).'</div>';
 					$output.= '<div>';
 					foreach (@$prices as $price){
 						$output.='

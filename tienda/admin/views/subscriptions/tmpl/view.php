@@ -19,7 +19,7 @@
 			<table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Subscription Enabled'); ?>:
+                        <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_ENABLED'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaGrid::boolean( @$row->subscription_enabled ); ?>
@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Lifetime Subscription'); ?>?
+                        <?php echo JText::_('COM_TIENDA_LIFETIME_SUBSCRIPTION'); ?>?
                     </td>
                     <td>
                         <?php echo TiendaGrid::boolean( @$row->lifetime_enabled ); ?>
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Transaction ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TRANSACTION_ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->transaction_id; ?>
@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Product ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_PRODUCT_ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->product_id; ?>
@@ -77,7 +77,7 @@
     </fieldset>
     
     <fieldset>
-        <legend><?php echo JText::_('User Information'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_USER_INFORMATION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('User ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_USER_ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->user_id; ?>
@@ -138,7 +138,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Orderitem ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERITEM_ID'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->orderitem_id; ?>
@@ -161,13 +161,13 @@
         ?>
     
         <fieldset>
-            <legend><?php echo JText::_('Subscription History'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_HISTORY'); ?></legend>
                 <table class="adminlist" style="clear: both;">
                 <thead>
                     <tr>
                         <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
                         <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_TYPE'); ?></th>
-                        <th style="text-align: center;"><?php echo JText::_('Notification Sent'); ?></th>
+                        <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_NOTIFICATION_SENT'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -211,7 +211,7 @@
                 <?php if (empty($histories)) : ?>
                     <tr>
                         <td colspan="10" align="center">
-                            <?php echo JText::_('No subscription history found'); ?>
+                            <?php echo JText::_('COM_TIENDA_NO_SUBSCRIPTION_HISTORY_FOUND'); ?>
                         </td>
                     </tr>
                 <?php endif; ?>
@@ -220,21 +220,21 @@
         </fieldset>
     
         <fieldset>
-        <legend><?php echo JText::_('Update Subscription'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_UPDATE_SUBSCRIPTION'); ?></legend>
         
         <table class="admintable" style="clear: both; width: 100%;">
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_('New Entry Type'); ?>
+                <?php echo JText::_('COM_TIENDA_NEW_ENTRY_TYPE'); ?>
             </td>
             <td>
-                <input value="<?php echo JText::_('Add Entry to History'); ?>" onclick="document.getElementById('task').value='update_subscription'; this.form.submit();" style="float: right;" type="button" />
+                <input value="<?php echo JText::_('COM_TIENDA_ADD_ENTRY_TO_HISTORY'); ?>" onclick="document.getElementById('task').value='update_subscription'; this.form.submit();" style="float: right;" type="button" />
                 <input type='text' name="subscriptionhistory_type" size="25" />
             </td>
         </tr>
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_('Notify Customer about Change in Subscription'); ?>
+                <?php echo JText::_('COM_TIENDA_NOTIFY_CUSTOMER_ABOUT_CHANGE_IN_SUBSCRIPTION'); ?>
             </td>
             <td>
                 <?php echo JHTML::_('select.booleanlist', 'notify_customer' ); ?>

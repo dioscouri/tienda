@@ -10,7 +10,7 @@ $plugin_html = @$this->plugin_html;
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP1_SELECT_USER');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER');?>
 			</h2>
 		</div>
 	</div>
@@ -19,7 +19,7 @@ $plugin_html = @$this->plugin_html;
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP2_SELECT_PRODUCTS');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP2_SELECT_PRODUCTS');?>
 			</h2>
 		</div>
 	</div>
@@ -28,7 +28,7 @@ $plugin_html = @$this->plugin_html;
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS');?>
 			</h2>
 		</div>
 	</div>
@@ -37,7 +37,7 @@ $plugin_html = @$this->plugin_html;
 		</div>
 		<div class="cell step_title inactive">
 			<h2>
-			<?php echo JText::_('POS_STEP4_REVIEW_SUBMIT_ORDER');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP4_REVIEW_SUBMIT_ORDER');?>
 			</h2>
 		</div>
 	</div>
@@ -47,7 +47,7 @@ $plugin_html = @$this->plugin_html;
 			
 			<div class="note">
 				<a href="<?php echo JRoute::_($order_link);?>">
-				<?php echo JText::_('CLICK TO VIEW OR EDIT ORDER');?>
+				<?php echo JText::_('COM_TIENDA_CLICK_TO_VIEW_OR_EDIT_ORDER');?>
 				</a>
 			</div>
 			<?php foreach ($this->articles as $article) : ?>
@@ -58,7 +58,7 @@ $plugin_html = @$this->plugin_html;
 		</div>
 		<div class="cell step_title active">
 			<h2>
-			<?php echo JText::_('POS_STEP5_PAYMENT_CONFIRMATION');?>
+			<?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION');?>
 			</h2>
 		</div>
 	</div>

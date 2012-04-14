@@ -11,7 +11,7 @@
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
 	<button onclick="document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button><br />	
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('Toggle All Status'); ?></button>
+	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_TOGGLE_ALL_STATUS'); ?></button>
 	
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 

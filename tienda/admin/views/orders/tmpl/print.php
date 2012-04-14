@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Shop Owner'); ?>
+                    <?php echo JText::_('COM_TIENDA_SHOP_OWNER'); ?>
                 </td>
                 <td>
                     <?php echo $config->get('shop_owner_name', '') ?>
@@ -127,7 +127,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Order Status'); ?>
+                    <?php echo JText::_('COM_TIENDA_ORDER_STATUS'); ?>
                 </td>
                 <td>
                     <?php echo $row->order_state_name; ?>
@@ -227,7 +227,7 @@
             <table class="admintable" style="clear: both;">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Payment Amount'); ?>
+                    <?php echo JText::_('COM_TIENDA_PAYMENT_AMOUNT'); ?>
                 </td>
                 <td>
                     <?php echo TiendaHelperBase::currency( $row->order_total, $row->currency ); ?>

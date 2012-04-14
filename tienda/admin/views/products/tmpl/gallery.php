@@ -38,7 +38,7 @@ if (!empty($update_parent))
 		?>
 		<td>
 			<a href="index.php?option=com_tienda&controller=products&task=deleteImage&product_id=<?php echo $product_id?>&image=<?php echo $i; ?>"><?php echo JText::_('COM_TIENDA_DELETE'); ?></a><br />
-			<a href="index.php?option=com_tienda&controller=products&task=setDefaultImage&product_id=<?php echo $product_id?>&image=<?php echo $i; ?>"><?php echo JText::_('Make Default'); ?></a>
+			<a href="index.php?option=com_tienda&controller=products&task=setDefaultImage&product_id=<?php echo $product_id?>&image=<?php echo $i; ?>"><?php echo JText::_('COM_TIENDA_MAKE_DEFAULT'); ?></a>
 		</td>
 		<?php 	
 		}

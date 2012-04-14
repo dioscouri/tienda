@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Product ID'); ?>:
+                        <?php echo JText::_('COM_TIENDA_PRODUCT_ID'); ?>:
                     </td>
                     <td>
                         <input name="product_id" value="<?php echo @$row->product_id; ?>" size="48" maxlength="250" type="text" />
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderItem Name'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERITEM_NAME'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_name" value="<?php echo @$row->orderitem_name; ?>" size="48" maxlength="250" type="text" />
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderItem SKU'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERITEM_SKU'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_sku" value="<?php echo @$row->orderitem_sku; ?>" size="48" maxlength="250" type="text" />
@@ -55,7 +55,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderItem Quantity'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERITEM_QUANTITY'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_quantity" value="<?php echo @$row->orderitem_quantity; ?>" size="48" maxlength="250" type="text" />
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('OrderItem Final Price'); ?>:
+                        <?php echo JText::_('COM_TIENDA_ORDERITEM_FINAL_PRICE'); ?>:
                     </td>
                     <td>
                         <input name="orderitem_final_price" value="<?php echo @$row->orderitem_final_price; ?>" size="48" maxlength="250" type="text" />

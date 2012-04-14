@@ -5,15 +5,15 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
                             
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Manage Files for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_MANAGE_FILES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Upload a New File'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_UPLOAD_A_NEW_FILE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createfile'; document.adminForm.submit();"><?php echo JText::_('Upload File'); ?></button>
+        <button onclick="document.getElementById('task').value='createfile'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_UPLOAD_FILE'); ?></button>
     </div>
     <div class="reset"></div>
 
@@ -21,10 +21,10 @@
     	<thead>
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
-    		<th><?php echo JText::_('Purchase Required'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_PURCHASE_REQUIRED'); ?></th>
     		<th><?php echo JText::_('COM_TIENDA_ENABLED'); ?></th>
     		<th></th>
-    		<th><?php echo JText::_('Max number of Downloads'); ?><br><?php echo "(".JText::_('Use -1 for unlimted downloading ').")" ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_MAX_NUMBER_OF_DOWNLOADS'); ?><br><?php echo "(".JText::_('COM_TIENDA_USE_MINUS_ONE_FOR_UNLIMTED_DOWNLOADING').")" ?></th>
     	</tr>
     	</thead>
     	<tbody>
@@ -51,9 +51,9 @@
 </div>
 
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Choose a New File from Server'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CHOOSE_A_NEW_FILE_FROM_SERVER'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createfilefromdisk'; document.adminForm.submit();"><?php echo JText::_('Create File'); ?></button>
+        <button onclick="document.getElementById('task').value='createfilefromdisk'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_FILE'); ?></button>
     </div>
     <div class="reset"></div>
 
@@ -61,11 +61,11 @@
     	<thead>
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
-    		<th><?php echo JText::_('Purchase Required'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_PURCHASE_REQUIRED'); ?></th>
     		<th><?php echo JText::_('COM_TIENDA_ENABLED'); ?></th>
     		<th></th>
-    		<th><?php echo JText::_('Max number of Downloads'); ?>
-    		<br><?php echo "(".JText::_('Use -1 for unlimted downloading ').")" ?>
+    		<th><?php echo JText::_('COM_TIENDA_MAX_NUMBER_OF_DOWNLOADS'); ?>
+    		<br><?php echo "(".JText::_('COM_TIENDA_USE_MINUS_ONE_FOR_UNLIMTED_DOWNLOADING').")" ?>
     		</th>
     	</tr>
     	</thead>
@@ -105,9 +105,9 @@
 </div>
 
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
-    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('Current Files'); ?></div>
+    <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_FILES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='savefiles'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('Save All Changes'); ?></button>
+        <button onclick="document.getElementById('task').value='savefiles'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
 
@@ -134,8 +134,8 @@
                      <?php
                       //TODO for sorting 
                      //echo TiendaGrid::sort( 'Max download', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
-                    <?php echo JText::_('Max Download');  ?>
-                    <br><?php echo "(".JText::_('Use -1 for unlimted downloading ').")" ?>
+                    <?php echo JText::_('COM_TIENDA_MAX_DOWNLOAD');  ?>
+                    <br><?php echo "(".JText::_('COM_TIENDA_USE_MINUS_ONE_FOR_UNLIMTED_DOWNLOADING').")" ?>
                 </th>
 				<th style="width: 100px;">
 				</th>
@@ -165,7 +165,7 @@
                 </td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productfiles&task=delete&cid[]=<?php echo $item->productfile_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setfiles&id={$row->product_id}&tmpl=component"); ?>">
-						<?php echo JText::_('Delete File'); ?>	
+						<?php echo JText::_('COM_TIENDA_DELETE_FILE'); ?>	
 					</a>
 					]
 				</td>

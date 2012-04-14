@@ -8,41 +8,41 @@
 <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&view=pos&tmpl=component' ); ?>" method="post" class="adminForm" name="adminForm" >
 	<fieldset>
 		<div class="header icon-48-tienda" style="float: left;">
-			<?php echo JText::_('Manage Addresses');?>
+			<?php echo JText::_('COM_TIENDA_MANAGE_ADDRESSES');?>
 		</div>
 		<div class="toolbar" id="toolbar" style="float: right;">
 			<table class="toolbar">
 				<tr>
 					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to set as Billing default')?>');}else{  submitbutton('flag_billing')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('BILLING DEFAULT');?>
+					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_BILLING_DEFAULT')?>');}else{  submitbutton('flag_billing')}" href="#" >
+					<span class="icon-32-default" title="<?php echo JText::_('COM_TIENDA_DEFAULT', true);?>"></span><?php echo JText::_('COM_TIENDA_BILLING_DEFAULT');?>
 					</a>
 					</td>
 					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to set as Shipping default')?>');}else{  submitbutton('flag_shipping')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('Default', true);?>"></span><?php echo JText::_('SHIPPING DEFAULT');?>
+					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_SHIPPING_DEFAULT')?>');}else{  submitbutton('flag_shipping')}" href="#" >
+					<span class="icon-32-default" title="<?php echo JText::_('COM_TIENDA_DEFAULT', true);?>"></span><?php echo JText::_('COM_TIENDA_SHIPPING_DEFAULT');?>
 					</a>
 					</td>
 					<td class="divider"> </td>
 					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to edit')?>');}else{  submitbutton('address')}" href="#" >
-					<span class="icon-32-edit" title="<?php echo JText::_('Edit', true);?>"></span><?php echo JText::_('Edit');?>
+					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_EDIT')?>');}else{  submitbutton('address')}" href="#" >
+					<span class="icon-32-edit" title="<?php echo JText::_('COM_TIENDA_EDIT', true);?>"></span><?php echo JText::_('COM_TIENDA_EDIT');?>
 					</a>
 					</td>
 					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('Please make a selection from the list to delete');?>');}else{if(confirm('<?php echo JText::_('Are you sure you want to delete the selected Items')?>?')){submitbutton('flag_deleted');}}" href="#" >
-					<span class="icon-32-delete" title="<?php echo JText::_('Delete', true);?>"></span><?php echo JText::_('COM_TIENDA_DELETE');?>
+					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_DELETE');?>');}else{if(confirm('<?php echo JText::_('COM_TIENDA_ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_SELECTED_ITEMS')?>?')){submitbutton('flag_deleted');}}" href="#" >
+					<span class="icon-32-delete" title="<?php echo JText::_('COM_TIENDA_DELETE', true);?>"></span><?php echo JText::_('COM_TIENDA_DELETE');?>
 					</a>
 					</td>
 					<td align="center">
 					<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=pos&task=address&tmpl=component"); ?>" >
-					<span class="icon-32-new" title="<?php echo JText::_('New', true);?>"></span><?php echo JText::_('COM_TIENDA_NEW');?>
+					<span class="icon-32-new" title="<?php echo JText::_('COM_TIENDA_NEW', true);?>"></span><?php echo JText::_('COM_TIENDA_NEW');?>
 					</a>
 					</td>
 					<td class="divider"> </td>
 					<td align="center">
 					<a onclick="window.parent.document.getElementById( 'sbox-window' ).close();" href="#" >
-					<span class="icon-32-cancel" title="<?php echo JText::_('Close', true);?>"></span><?php echo JText::_('COM_TIENDA_CLOSE');?>
+					<span class="icon-32-cancel" title="<?php echo JText::_('COM_TIENDA_CLOSE', true);?>"></span><?php echo JText::_('COM_TIENDA_CLOSE');?>
 					</a>
 					</td>
 				</tr>

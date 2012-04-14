@@ -69,7 +69,7 @@ $javascript = 'onchange="document.adminForm.submit();"';
             <?php if (!count(@$items)) : ?>
             <tr>
                 <td colspan="10" align="center">
-                    <?php echo JText::_('No users found'); ?>
+                    <?php echo JText::_('COM_TIENDA_NO_USERS_FOUND'); ?>
                 </td>
             </tr>
             <?php endif; ?>

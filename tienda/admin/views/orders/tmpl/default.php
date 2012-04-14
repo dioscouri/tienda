@@ -130,7 +130,7 @@
                 </td>
                 <td style="text-align: center; width: 50px;">
                     <a href="<?php echo $item->link_view; ?>">
-                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_('Order Dashboard'); ?>"/>
+                        <img src="<?php echo Tienda::getURL('images').'page_edit.png' ?>" title="<?php echo JText::_('COM_TIENDA_ORDER_DASHBOARD'); ?>"/>
                     </a>
                 </td>
 				<td style="text-align: left;">
@@ -148,7 +148,7 @@
 						}
 					?>
 					<br/>
-					<b><?php echo JText::_('Ship to'); ?></b>:
+					<b><?php echo JText::_('COM_TIENDA_SHIP_TO'); ?></b>:
 					<?php 
 					if ((empty($item->shipping_address_1) and (empty($item->shipping_address_2))))
 					{

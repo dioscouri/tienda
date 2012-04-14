@@ -15,7 +15,7 @@
         <tr>
             <td align="left" width="100%">
                 <?php $link = "index.php?option=com_users&task=add"; ?>
-                <?php $button = "<input type='button' class='button' value='".JText::_('Create New User')."' />"; ?>
+                <?php $button = "<input type='button' class='button' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />"; ?>
                 <?php echo TiendaUrl::popup( $link, $button, array('update' => true) ); ?>
             </td>
             <td nowrap="nowrap">
@@ -140,7 +140,7 @@
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link; ?>">
-						<?php echo JText::_('View Dashboard'); ?>
+						<?php echo JText::_('COM_TIENDA_VIEW_DASHBOARD'); ?>
 					</a>
 					]
 				</td>

@@ -18,10 +18,10 @@ JFilterOutput::objectHTMLSafe( $row );
             <thead>
                 <tr>
                     <th style="text-align: left;">
-                       <?php echo JText::_('Products in Order'); ?>
+                       <?php echo JText::_('COM_TIENDA_PRODUCTS_IN_ORDER'); ?>
                     </th>
                     <th style="text-align: center; width: 20%;" >
-                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component", JText::_('Add Products to Order') ); ?>
+                       <?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component", JText::_('COM_TIENDA_ADD_PRODUCTS_TO_ORDER') ); ?>
                     </th>
                 </tr>
             </thead>
@@ -62,13 +62,13 @@ JFilterOutput::objectHTMLSafe( $row );
         <table class="adminlist">
         <thead>
            <tr>
-               <th colspan="2" style="text-align: left;"><?php echo JText::_('General Information'); ?></th>
+               <th colspan="2" style="text-align: left;"><?php echo JText::_('COM_TIENDA_GENERAL_INFORMATION'); ?></th>
            </tr>
         </thead>
         <tbody>
             <tr>
                 <th style="width: 100px;" class="key">
-                     <?php echo JText::_('Order Currency'); ?>:
+                     <?php echo JText::_('COM_TIENDA_ORDER_CURRENCY'); ?>:
                 </th>
                 <td>
                     <?php echo TiendaSelect::currency( @$row->order_currency_id, 'order_currency_id', '', 'order_currency_id', false ); ?>          
@@ -97,7 +97,7 @@ JFilterOutput::objectHTMLSafe( $row );
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <?php echo JText::_('Email Order Confirmation to User'); ?>
+                    <?php echo JText::_('COM_TIENDA_EMAIL_ORDER_CONFIRMATION_TO_USER'); ?>
                     <input id="emailorderconfirmation" name="emailorderconfirmation" type="checkbox" checked="checked"/>
                 </td>
             </tr>
@@ -137,7 +137,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <table class="adminlist">
         <thead>
             <tr>
-                <th style="text-align: left;"><?php echo JText::_('Order Comment'); ?></th>
+                <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_ORDER_COMMENT'); ?></th>
             </tr>
         </thead>
         <tbody>

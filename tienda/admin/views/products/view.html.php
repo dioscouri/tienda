@@ -93,7 +93,7 @@ class TiendaViewProducts extends TiendaViewBase
     	$model = $this->getModel();
     	if ($model->getId())
     	{
-    	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_('Dashboard'), false);
+    	    JToolBarHelper::custom( 'view', 'edit', 'edit', JText::_('COM_TIENDA_DASHBOARD'), false);
             JToolBarHelper::divider();	
     	}
     	if (!$isNew)

@@ -70,7 +70,7 @@ class Tienda extends JObject
 		}
 		//if it doesn't pass raise a Joomla Notice
 		if (!$passes) :
-		JError::raiseNotice('VERSION_ERROR',sprintf(JText::_('ERROR_PHP_VERSION'),$minV,$phpV));
+		JError::raiseNotice('VERSION_ERROR',sprintf(JText::_('COM_TIENDA_ERROR_PHP_VERSION'),$minV,$phpV));
 		endif;
 
 		//return minimum PHP version

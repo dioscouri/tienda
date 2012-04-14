@@ -20,10 +20,10 @@
 			    ?>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-                <input type="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=orders&task=editaddresses&id=" . @$row->order_id ); ?>'" value="<?php echo JText::_('Edit Addresses'); ?>"/>
+                <input type="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=orders&task=editaddresses&id=" . @$row->order_id ); ?>'" value="<?php echo JText::_('COM_TIENDA_EDIT_ADDRESSES'); ?>"/>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-                <input value="<?php echo JText::_('Resend Email Invoice'); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
+                <input value="<?php echo JText::_('COM_TIENDA_RESEND_EMAIL_INVOICE'); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
                 [<?php
@@ -67,7 +67,7 @@
 		    </tr>
 		    <tr>
 		        <td style="width: 100px; text-align: right;" class="key">
-		            <?php echo JText::_('Order Status'); ?>
+		            <?php echo JText::_('COM_TIENDA_ORDER_STATUS'); ?>
 		        </td>
 		        <td>
 		            <?php echo $row->order_state_name; ?>
@@ -77,7 +77,7 @@
                 <?php JHTML::_('behavior.tooltip'); ?>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Commissions'); ?>
+                        <?php echo JText::_('COM_TIENDA_COMMISSIONS'); ?>
                         <img src='<?php echo JURI::root(true); ?>/media/com_amigos/images/amigos_16.png' title="<?php echo JText::_('COM_TIENDA_ORDER_HAS_A_COMMISSION'); ?>" class="hasTip" />
                     </td>
                     <td>
@@ -140,7 +140,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('IP Address'); ?>
+                    <?php echo JText::_('COM_TIENDA_IP_ADDRESS'); ?>
                 </td>
                 <td>
                     <?php echo $row->ip_address; ?>
@@ -200,7 +200,7 @@
             <table class="admintable" style="clear: both;">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Payment Amount'); ?>
+                    <?php echo JText::_('COM_TIENDA_PAYMENT_AMOUNT'); ?>
                 </td>
                 <td>
                     <?php // Force to display the order currency, instead of the global one 
@@ -225,7 +225,7 @@
                             </a>
 	                        <br/>
 	                        <?php
-	                        echo JText::_('Payment Type').": ".JText::_($orderpayment->orderpayment_type)."<br/>";
+	                        echo JText::_('COM_TIENDA_PAYMENT_TYPE').": ".JText::_($orderpayment->orderpayment_type)."<br/>";
 	                        echo JText::_('COM_TIENDA_DETAILS').": ".JText::_($orderpayment->transaction_details)."<br/>";
 	                    }
 	                } 
@@ -309,7 +309,7 @@
 					        </div>
 					    <?php endif; ?>
 					    
-					    <a href="index.php?option=com_tienda&view=orderitems&task=edit&id=<?php echo $item->orderitem_id; ?>"><?php echo JText::_('View OrderItem Details'); ?></a>
+					    <a href="index.php?option=com_tienda&view=orderitems&task=edit&id=<?php echo $item->orderitem_id; ?>"><?php echo JText::_('COM_TIENDA_VIEW_ORDERITEM_DETAILS'); ?></a>
 					    
                     </td>
                     <td style="text-align: center;">
@@ -515,7 +515,7 @@
                 <tr>
                     <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
                     <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_STATUS'); ?></th>
-                    <th style="text-align: center;"><?php echo JText::_('Notification Sent'); ?></th>
+                    <th style="text-align: center;"><?php echo JText::_('COM_TIENDA_NOTIFICATION_SENT'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -552,7 +552,7 @@
             <?php if (empty($histories)) : ?>
                 <tr>
                     <td colspan="10" align="center">
-                        <?php echo JText::_('No order history found'); ?>
+                        <?php echo JText::_('COM_TIENDA_NO_ORDER_HISTORY_FOUND'); ?>
                     </td>
                 </tr>
             <?php endif; ?>
@@ -565,7 +565,7 @@
         ?>
     
     	<fieldset>
-    	<legend><?php echo JText::_('Update Order'); ?></legend>
+    	<legend><?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?></legend>
     	
     	<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
@@ -573,7 +573,7 @@
     	        <?php echo JText::_('New Status'); ?>
     	    </td>
     	    <td>
-    	        <input value="<?php echo JText::_('Update Order'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
+    	        <input value="<?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
     	        <?php 
 			$url = "index.php?option=com_tienda&format=raw&controller=orders&task=updateStatusTextarea&orderstate_selected=";
 			$onchange = 'tiendaPutAjaxLoader( \'update_order\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\'new_orderstate_id\').value, \'update_order\', \'\', \'\', false );';
@@ -584,7 +584,7 @@
     	</tr>
     	<tr>
         	<td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_('Do Completed Order Tasks')."?"; ?>
+                <?php echo JText::_('COM_TIENDA_DO_COMPLETED_ORDER_TASKS')."?"; ?>
             </td>
         	<td>
         	   <?php if (empty($order->completed_tasks)) {?>
@@ -596,7 +596,7 @@
     	</tr>	
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Send Email to Customer'); ?>
+    	        <?php echo JText::_('COM_TIENDA_SEND_EMAIL_TO_CUSTOMER'); ?>
     	    </td>
     	    <td>
     	        <?php echo TiendaSelect::booleans( '0', 'new_orderstate_notify', '', '', '', '', 'Yes', 'No' ); ?>

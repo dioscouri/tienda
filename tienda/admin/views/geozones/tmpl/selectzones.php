@@ -5,12 +5,12 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Zones for'); ?>: <?php echo $row->geozone_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_COM_TIENDA_SELECT_ZONES_FOR'); ?>: <?php echo $row->geozone_name; ?></h1>
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
 	<button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button><br />
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='savezipranges'; document.adminForm.submit();"> <?php echo JText::_('Save All Changes to Zip Ranges'); ?></button>
+	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='savezipranges'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES_TO_ZIP_RANGES'); ?></button>
 
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -53,7 +53,7 @@
 	                <?php echo JText::_('COM_TIENDA_STATUS'); ?>
                 </th>
                 <th style="width: 150px;">
-	                <?php echo JText::_('Postal Code Range'); ?>
+	                <?php echo JText::_('COM_TIENDA_POSTAL_CODE_RANGE'); ?>
                 </th>
             </tr>
 		</thead>

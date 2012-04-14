@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Users for'); ?>: <?php echo $row->group_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SELECT_USERS_FOR'); ?>: <?php echo $row->group_name; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
@@ -50,15 +50,15 @@
                 </th>
                 <th style="text-align: left;">
                     <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
-                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_FILTER');?>" />
                 </th>
                 <th>
                     <input id="filter_username" name="filter_username" value="<?php echo @$state->filter_username; ?>" size="25"/>
-                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_FILTER');?>" />
                 </th>
                 <th>
                     <input id="filter_email" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
-                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('Filter');?>" />
+                    <input type="button" name="filter-search" onclick="document.getElementById('task').value='selectusers'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_FILTER');?>" />
                 </th>
                  <th>
 	                <?php echo JText::_('COM_TIENDA_STATUS'); ?>

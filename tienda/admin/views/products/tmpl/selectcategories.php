@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Categories for'); ?>: <?php echo $row->product_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SELECT_CATEGORIES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:

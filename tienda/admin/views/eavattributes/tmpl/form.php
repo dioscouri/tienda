@@ -38,7 +38,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eaventity_type">
-						<?php echo JText::_('Entity Type'); ?>:
+						<?php echo JText::_('COM_TIENDA_ENTITY_TYPE'); ?>:
 						</label>
 					</td>
 					<td>
@@ -48,7 +48,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eaventity_id">
-						<?php echo JText::_('Entity'); ?>:
+						<?php echo JText::_('COM_TIENDA_ENTITY'); ?>:
 						</label>
 					</td>
 					<td>
@@ -59,14 +59,14 @@ JFilterOutput::objectHTMLSafe( $row );
 								if(in_array(@$row->eaventity_type, $allowed_types))
 								{
 									$url = JRoute::_("index.php?option=com_tienda&controller=eavattributes&task=selectentities&tmpl=component&eaventity_type=".@$row->eaventity_type."&id=".@$row->eavattribute_id);
-									echo TiendaUrl::popup($url, JText::_('Select Entities')); 
+									echo TiendaUrl::popup($url, JText::_('COM_TIENDA_SELECT_ENTITIES'); 
 								}
 							}
 							else
 							{
 						?>
 							<div class="note">
-								<?php echo JText::_('Click apply to add a link to an entity for this product'); ?>
+								<?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_ADD_A_LINK_TO_AN_ENTITY_FOR_THIS_PRODUCT'); ?>
 							</div>
 						<?php 
 							}
@@ -76,7 +76,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="eavattribute_type">
-						<?php echo JText::_('Data Type'); ?>:
+						<?php echo JText::_('COM_TIENDA_DATA_TYPE'); ?>:
 						</label>
 					</td>
 					<td>
@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="editable_by">
-						<?php echo JText::_('Editable By'); ?>:
+						<?php echo JText::_('COM_TIENDA_EDITABLE_BY'); ?>:
 						</label>
 					</td>
 					<td>

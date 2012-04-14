@@ -7,7 +7,7 @@ JFilterOutput::objectHTMLSafe( $row );
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
 
 	<fieldset>
-		<legend><?php echo JText::_('Language Information'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_LANGUAGE_INFORMATION'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
@@ -28,7 +28,7 @@ JFilterOutput::objectHTMLSafe( $row );
 			</table>
 	</fieldset>
 	<fieldset>
-		<legend><?php echo JText::_('Strings'); ?></legend>
+		<legend><?php echo JText::_('COM_TIENDA_STRINGS'); ?></legend>
 			<table class="admintable">
 			<?php foreach($row->strings['strings'] as $k => $v){ ?>
 				<tr>

@@ -85,7 +85,7 @@
 						<?php echo JText::_($item->group_name); ?>
 					</a>
 					<?php $select_url = "index.php?option=com_tienda&controller=groups&task=selectusers&id=".$item->group_id."&tmpl=component"; ?>
-                    <span style="float:right">[<?php echo TiendaUrl::popup( $select_url, JText::_('Select Users') ); ?>]</span>
+                    <span style="float:right">[<?php echo TiendaUrl::popup( $select_url, JText::_('COM_TIENDA_SELECT_USERS') ); ?>]</span>
 				</td>
 				<td style="text-align: center;">
                     <?php echo TiendaGrid::order($item->group_id); ?>

@@ -152,18 +152,18 @@
 					</div>
 					
 					<div class="product_categories">
-						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_('Select Categories'), array('update' => true) ); ?>]</span>
+						<span style="float: right;">[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=selectcategories&id=".$item->product_id."&tmpl=component", JText::_('COM_TIENDA_SELECT_CATEGORIES'), array('update' => true) ); ?>]</span>
 						<?php $categories = $helper_product->getCategories( $item->product_id ); ?>
 						<?php for ($n='0'; $n<count($categories) && $n<'1'; $n++) : ?>
 							<?php $category = $categories[$n]; ?>
 							<?php echo $helper_category->getPathName( $category ); ?>
 							<br/>
 						<?php endfor; ?>
-						<?php if (count($categories) > $n) { echo sprintf( JText::_('And x More'), count($categories) - $n ); } ?>
+						<?php if (count($categories) > $n) { echo sprintf( JText::_('COM_TIENDA_AND_X_MORE'), count($categories) - $n ); } ?>
 					</div>
 
                     <div class="product_images_path">
-                        <b><?php echo JText::_('Image Gallery Path'); ?>:</b> <?php echo str_replace( JPATH_SITE, '', $helper_product->getGalleryPath( $item->product_id ) ); ?>
+                        <b><?php echo JText::_('COM_TIENDA_IMAGE_GALLERY_PATH'); ?>:</b> <?php echo str_replace( JPATH_SITE, '', $helper_product->getGalleryPath( $item->product_id ) ); ?>
                     </div>
 
                     <?php 
@@ -181,17 +181,17 @@
 				<td style="text-align: right;">
 					<?php echo TiendaHelperBase::currency($item->price); ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", JText::_('Set Prices'), array('update' => true) ); ?>]
+					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setprices&id=".$item->product_id."&tmpl=component", JText::_('COM_TIENDA_SET_PRICES'), array('update' => true) ); ?>]
 				</td>
 				<td style="text-align: center;">
 					
 					<?php 
 					if(!isset($item->product_check_inventory)){
-						echo JText::_('Check Product Inventory Disabled');
+						echo JText::_('COM_TIENDA_CHECK_PRODUCT_INVENTORY_DISABLED');
 					} else {
 						echo (int) $item->product_quantity; ?>
                     <br/>
-                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", JText::_('Set Quantities'), array('update' => true) ); ?>]
+                    [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setquantities&id=".$item->product_id."&tmpl=component", JText::_('COM_TIENDA_SET_QUANTITIES'), array('update' => true) ); ?>]
                     
                     <?php } ?>
 				</td>

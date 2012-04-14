@@ -5,7 +5,7 @@
 <table class="adminlist">
 <thead>
 	<tr>
-		<th colspan="4" style="text-align: left;"><?php echo JText::_('Order Totals'); ?></th>
+		<th colspan="4" style="text-align: left;"><?php echo JText::_('COM_TIENDA_ORDER_TOTALS'); ?></th>
 	</tr>
 </thead>
 <tbody>
@@ -35,7 +35,7 @@
 	</tr>
     <tr>
         <th style="width: 100px;" class="key">
-             <?php echo JText::_('Handling costs'); ?>:
+             <?php echo JText::_('COM_TIENDA_HANDLING_COSTS'); ?>:
         </th>
         <td>
             <?php echo TiendaHelperBase::currency( @$this->shipping_total->shipping_rate_handling ); ?>
@@ -52,7 +52,7 @@
 	<tr>
 		<th style="width: 100px;" class="key">
 			<label for="grand_total" style="color:#1432F2;font-size:16px;">
-			 <?php echo JText::_('Grand total'); ?>:
+			 <?php echo JText::_('COM_TIENDA_GRAND_TOTAL'); ?>:
 			</label>
 		</th>
 		<td style="color:#1432F2;font-size:16px;">

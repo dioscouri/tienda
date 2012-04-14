@@ -240,7 +240,7 @@ class TiendaViewBase extends JView
 	function _defaultToolbar()
 	{
 		JToolBarHelper::editList();
-		JToolBarHelper::deleteList( JText::_('VALIDDELETEITEMS') );
+		JToolBarHelper::deleteList( JText::_('COM_TIENDA_VALID_DELETE_ITEMS') );
 		JToolBarHelper::addnew();
 	}
 
@@ -256,19 +256,19 @@ class TiendaViewBase extends JView
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('Save + Prev'), false);
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('COM_TIENDA_SAVE_PLUS_PREV'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('Save + Next'), false);
+            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('COM_TIENDA_SAVE_PLUS_NEXT'), false);
         }
         if ($divider)
         {
             JToolBarHelper::divider();
         }
 	    
-		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_('Save + New'), false);
+		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_('COM_TIENDA_SAVE_PLUS_NEW'), false);
 		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
 
@@ -294,12 +294,12 @@ class TiendaViewBase extends JView
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('prev', "prev", "prev", JText::_('Prev'), false);
+            JToolBarHelper::custom('prev', "prev", "prev", JText::_('COM_TIENDA_PREV'), false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('next', "next", "next", JText::_('Next'), false);  
+            JToolBarHelper::custom('next', "next", "next", JText::_('COM_TIENDA_NEXT'), false);  
         }
         if ($divider)
         {

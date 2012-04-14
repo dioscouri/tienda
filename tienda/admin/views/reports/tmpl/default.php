@@ -88,7 +88,7 @@
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link; ?>">
-						<?php echo JText::_('View Report'); ?>
+						<?php echo JText::_('COM_TIENDA_VIEW_REPORT'); ?>
 					</a>
 					]
 				</td>

@@ -10,10 +10,10 @@ $tabs = &JPane::getInstance( 'tabs' );
     // start tab pane
     echo $tabs->startPane( "Pane_Payment" );
     // Tab
-    echo $tabs->startPanel( JText::_('Plugin Details'), "plugin_properties");
+    echo $tabs->startPanel( JText::_('COM_TIENDA_PLUGIN_DETAILS'), "plugin_properties");
     ?>
     <fieldset>
-    <legend><?php echo JText::_('Basic Information'); ?></legend>
+    <legend><?php echo JText::_('COM_TIENDA_BASIC_INFORMATION'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
@@ -50,7 +50,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 				echo $output;
 				
 			else :
-				echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
+				echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('COM_TIENDA_THERE_ARE_NO_PARAMETERS_FOR_THIS_ITEM')."</div>";
 			endif;
 			?>
 			</fieldset>

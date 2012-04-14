@@ -101,13 +101,13 @@
                 	<?php if( $display_subnum ) : ?>
                 	<div class="range">
                     <div class="rangeline">
-		                		<span class="label"><?php echo JText::_('Name or ID')?></span>:
+		                		<span class="label"><?php echo JText::_('COM_TIENDA_NAME_OR_ID')?></span>:
                 	<?php endif; ?>
                 	<input id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="<?php echo $display_subnum ? '10' : '25' ?>"/>
                 	<?php if( $display_subnum ) : ?>
   		              </div>
                     <div class="rangeline">
-	                		<span class="label"><?php echo JText::_('Sub Num')?></span>:
+	                		<span class="label"><?php echo JText::_('COM_TIENDA_SUB_NUM')?></span>:
   		              	<input id="filter_subnum" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
   		              </div>
   		            </div>
@@ -188,7 +188,7 @@
 				<td style="text-align: left;">
             <?php if( $display_subnum && strlen( $item->sub_number ) ) : ?>
             	<?php Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' ); ?>
-            	<b><?php echo JText::_('Sub Num'); ?>:</b> <?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?><br />
+            	<b><?php echo JText::_('COM_TIENDA_SUB_NUM'); ?>:</b> <?php echo TiendaHelperSubscription::displaySubNum( $item->sub_number ); ?><br />
             <?php endif; ?>
 				    <?php if (!empty($item->user_name)) { ?>
     					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>

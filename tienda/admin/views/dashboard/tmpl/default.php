@@ -16,7 +16,7 @@
 			<thead>
 			<tr>
 				<th><?php echo JText::_('COM_TIENDA_RANGE'); ?></th>
-				<th><?php echo JText::_('Revenue'); ?></th>
+				<th><?php echo JText::_('COM_TIENDA_REVENUE'); ?></th>
 				<th><?php echo JText::_('COM_TIENDA_ORDERS'); ?></th>
 			</tr>
 			</thead>
@@ -41,7 +41,7 @@
 				echo @$this->graph->image;
 
 			echo $tabs->endPanel();
-			echo $tabs->startPanel( JText::_('Amounts'), "amounts" );
+			echo $tabs->startPanel( JText::_('COM_TIENDA_AMOUNTS'), "amounts" );
 
 				echo "<h2>".@$this->graphSum->title."</h2>";
 				echo @$this->graphSum->image;

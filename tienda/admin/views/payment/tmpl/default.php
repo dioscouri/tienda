@@ -97,7 +97,7 @@
 				<td style="text-align: center;">
 					[
 					<a href="<?php echo $item->link; ?>">
-						<?php echo JText::_('Edit Plugin Parameters'); ?>
+						<?php echo JText::_('COM_TIENDA_EDIT_PLUGIN_PARAMETERS'); ?>
 					</a>
 					]
 				</td>

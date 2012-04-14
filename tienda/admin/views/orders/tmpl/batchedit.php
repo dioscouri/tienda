@@ -14,16 +14,16 @@
                 	<?php echo JText::_('COM_TIENDA_ID'); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo JText::_('Order'); ?>
+                	<?php echo JText::_('COM_TIENDA_ORDER'); ?>
                 </th>
                 <th>
-                	<?php echo JText::_('Order Status'); ?>
+                	<?php echo JText::_('COM_TIENDA_ORDER_STATUS'); ?>
                 </th>
 				 <th>
-                	<?php echo JText::_('Do Completed Order Tasks'); ?>?
+                	<?php echo JText::_('COM_TIENDA_DO_COMPLETED_ORDER_TASKS'); ?>?
                 </th>
                 <th>
-                	<?php echo JText::_('Notify Customer'); ?>
+                	<?php echo JText::_('COM_TIENDA_NOTIFY_CUSTOMER'); ?>
                 </th>
                  <th>
                 	<?php echo JText::_('COM_TIENDA_COMMENTS'); ?>                	
@@ -49,7 +49,7 @@
                     <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
                     &nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
                     <br/>
-                    <b><?php echo JText::_('Ship to'); ?></b>:
+                    <b><?php echo JText::_('COM_TIENDA_SHIP_TO'); ?></b>:
                     <?php 
                     if (empty($item->shipping_address_1)) 
                     {
