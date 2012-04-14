@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This tool install sample data on Tienda</description>
+	<description>COM_TIENDA_THIS_TOOL_INSTALL_SAMPLE_DATA_TO_TIENDA</description>
 	
 	<files>
 		<filename plugin="tool_installsampledata">tool_installsampledata.php</filename>

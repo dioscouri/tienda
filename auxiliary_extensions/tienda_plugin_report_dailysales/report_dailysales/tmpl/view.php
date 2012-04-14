@@ -10,7 +10,7 @@
                     <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style=" width : 100px;">
-                    <?php echo JText::_('Data'); ?>
+                    <?php echo JText::_('COM_TIENDA_DATA'); ?>
                 </th>
                 
                 <th style="width: 20px;">

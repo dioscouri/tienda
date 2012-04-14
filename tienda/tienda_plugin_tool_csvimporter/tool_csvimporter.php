@@ -194,7 +194,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 			{
 	    		if( strtolower($upload->getExtension()) != 'csv' )
 				{
-					$this->setError(JText::_('This is not a CSV file'));
+					$this->setError(JText::_('COM_TIENDA_THIS_IS_NOT_A_CSV_FILE'));
 					return false;
 				}
 				
@@ -212,7 +212,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 			}
 	    	else
 			{
-				$this->setError(JText::_('Could Not Upload CSV File: '.$upload->getError()));
+				$this->setError(JText::_('COM_TIENDA_COULD_NOT_UPLOAD_CSV_FILE'.$upload->getError()));
 				return false;
 			}
     	}
@@ -306,7 +306,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin
 		}
 		else
 		{
-			$this->setError(JText::_('Could Not Upload CSV File: '.$upload->getError()));
+			$this->setError(JText::_('COM_TIENDA_COULD_NOT_UPLOAD_CSV_FILE'.$upload->getError()));
 			return false;
 		}
 		

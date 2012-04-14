@@ -5,26 +5,26 @@
 <?php	$state = @$vars->state;?>
 <?php	echo @$vars->token;?>
 <p>
-	<?php	echo JText::_('THIS TOOL INSTALL SAMPLE DATA TO TIENDA');?>
+	<?php	echo JText::_('COM_TIENDA_THIS_TOOL_INSTALL_SAMPLE_DATA_TO_TIENDA');?>
 </p>
 <div class="note">
 	<span style="float: right; font-size: large; font-weight: bold;">
-		<?php	echo JText::_('STEP ONE OF THREE');?>
+		<?php	echo JText::_('COM_TIENDA_STEP_ONE_OF_THREE');?>
 	</span>
 	<p>
-		<?php	echo JText::_('Please provide the requested information.');?>
+		<?php	echo JText::_('COM_TIENDA_PLEASE_PROVIDE_THE_REQUESTED_INFORMATION');?>
 	</p>
 </div>
 <fieldset>
 	<?php
 	$options = array();
-	$options[] = JHTML::_('select.option', 'electronic', JText::_('ELECTRONIC STORE'));
-	$options[] = JHTML::_('select.option', 'clothing', JText::_('CLOTHING STORE'));
+	$options[] = JHTML::_('select.option', 'electronic', JText::_('COM_TIENDA_ELECTRONIC_STORE'));
+	$options[] = JHTML::_('select.option', 'clothing', JText::_('COM_TIENDA_CLOTHING_STORE'));
 	?>
 	<table class="admintable">
 		<tr id="sampledataupload" >
 			<td width="100" align="right" class="key">
-			<?php	echo JText::_('File');?>: *
+			<?php	echo JText::_('COM_TIENDA_FILE');?>: *
 			</td>
 			<td>
 			<input type="file" name="file" id="file" size="48" value="<?php	echo @$state->file;?>" />
@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td width="100" align="right" class="key">
-			<?php	echo JText::_('Install Default Data');?>:
+			<?php	echo JText::_('COM_TIENDA_INSTALL_DEFAULT_DATA');?>:
 			</td>
 			<td>
 			<input type="checkbox" name="install_default" id="install_default" onclick="javascript:showSample();" />

@@ -49,7 +49,7 @@ class plgTiendaTool_CsvOrders extends TiendaToolPluginImportCsv
 
 		$rows[] = $this->generateRowInput( $only_value, JText::_('Source Import').': *' ,'file', 'source_import', $this->source_import );
 		$rows[] = $this->generateRowInput( $only_value, JText::_('Separator') ,'text', 'field_separator', $state->field_separator, 10 );
-		$rows[] = $this->generateRowInput( $only_value, JText::_('Skip First Row').'?' ,'checkbox', 'skip_first', $skip_first_value, null, $answer[$skip_first_value], null, $checked[$skip_first_value] );
+		$rows[] = $this->generateRowInput( $only_value, JText::_('COM_TIENDA_SKIP_FIRST_ROW').'?' ,'checkbox', 'skip_first', $skip_first_value, null, $answer[$skip_first_value], null, $checked[$skip_first_value] );
 
 		$this->set( 'table_rows', $rows );
 		return parent::getAdminTableHtml( $step );

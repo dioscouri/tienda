@@ -6,7 +6,7 @@
 <p><?php echo JText::_('THIS TOOL HANDLES GENERIC IMPORT INTO TIENDA'); ?></p>
 
 <div class="note">
-	<span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP ONE OF THREE'); ?></span>
+	<span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_STEP_ONE_OF_THREE'); ?></span>
 	<p><?php echo JText::_('PLEASE SELECT TYPE OF IMPORT FIRST'); ?></p>
 </div>
     

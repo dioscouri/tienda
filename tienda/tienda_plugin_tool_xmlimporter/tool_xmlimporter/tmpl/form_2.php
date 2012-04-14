@@ -3,19 +3,19 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_('THIS TOOL IMPORTS DATA FROM A XML FILE TO TIENDA'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_TOOL_IMPORTS_DATA_FROM_AN_XML_FILE_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP TWO OF THREE'); ?></span>
-        <p><?php echo JText::_('PLEASE REVIEW THE FOLLOWING INFORMATION'); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_STEP_TWO_OF_THREE'); ?></span>
+        <p><?php echo JText::_('COM_TIENDA_PLEASE_REVIEW_THE_FOLLOWING_INFORMATION'); ?></p>
     </div>
     
     <fieldset>
-        <legend><?php echo JText::_('FILE INFORMATION'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_FILE_INFORMATION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('XML File'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_XML_FILE'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_file; ?>
@@ -27,7 +27,7 @@
                 </tr>
                <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Images ZIP File'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_IMAGES_ZIP_FILE'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_images_zip_file; ?>
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Files ZIP File'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_FILES_ZIP_FILE'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_files_zip_file; ?>

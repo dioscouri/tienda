@@ -115,7 +115,7 @@ class TiendaViewElementImage extends JView
 						<td><input type="text" id="f_alt" value="" /></td>
 					</tr>
 					<tr>
-						<td><label for="f_title"><?php echo JText::_('Title') ?></label></td>
+						<td><label for="f_title"><?php echo JText::_('COM_TIENDA_TITLE') ?></label></td>
 						<td><input type="text" id="f_title" value="" /></td>
 						<td><label for="f_caption"><?php echo JText::_('Caption') ?></label></td>
 						<td><input type="checkbox" id="f_caption" /></td>

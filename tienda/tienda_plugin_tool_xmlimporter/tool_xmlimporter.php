@@ -191,7 +191,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			{
 				if ( strtolower( $upload->getExtension( ) ) != 'xml' )
 				{
-					$this->setError( JText::_('This is not an XML file') );
+					$this->setError( JText::_('COM_TIENDA_THIS_IS_NOT_AN_XML_FILE') );
 					return false;
 				}
 				
@@ -219,7 +219,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					
 					if ( !in_array( strtolower( $zip_images_upload->getExtension( ) ), $allowed_archives ) )
 					{
-						$this->setError( JText::_('This is not a supported archive file') );
+						$this->setError( JText::_('COM_TIENDA_THIS_IS_NOT_A_SUPPORTED_ARCHIVE_FILE') );
 						return false;
 					}
 					
@@ -245,7 +245,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					
 					if ( !in_array( strtolower( $zip_files_upload->getExtension( ) ), $allowed_archives ) )
 					{
-						$this->setError( JText::_('This is not a supported archive file') );
+						$this->setError( JText::_('COM_TIENDA_THIS_IS_NOT_A_SUPPORTED_ARCHIVE_FILE') );
 						return false;
 					}
 					
@@ -264,7 +264,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			}
 			else
 			{
-				$this->setError( JText::_( 'Could Not Upload XML File: ' . $upload->getError( ) ) );
+				$this->setError( JText::_( 'COM_TIENDA_COULD_NOT_UPLOAD_XML_FILE' . $upload->getError( ) ) );
 				return false;
 			}
 		}
@@ -312,7 +312,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 		}
 		else
 		{
-			$this->setError( JText::_( 'Could Not Upload CSV File: ' . $upload->getError( ) ) );
+			$this->setError( JText::_( 'COM_TIENDA_COULD_NOT_UPLOAD_CSV_FILE' . $upload->getError( ) ) );
 			return false;
 		}
 		

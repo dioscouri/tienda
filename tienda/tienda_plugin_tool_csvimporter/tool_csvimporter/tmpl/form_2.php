@@ -3,19 +3,19 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_('THIS TOOL IMPORTS DATA FROM A CSV FILE TO TIENDA'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_TOOL_IMPORTS_DATA_FROM_A_CSV_FILE_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP TWO OF THREE'); ?></span>
-        <p><?php echo JText::_('PLEASE REVIEW THE FOLLOWING INFORMATION'); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_STEP_TWO_OF_THREE'); ?></span>
+        <p><?php echo JText::_('COM_TIENDA_PLEASE_REVIEW_THE_FOLLOWING_INFORMATION'); ?></p>
     </div>
     
     <fieldset>
-        <legend><?php echo JText::_('CSV INFORMATION'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_CSV_INFORMATION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('File'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_FILE'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->uploaded_file; ?>
@@ -28,7 +28,7 @@
                
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Field Separator'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_FIELD_SEPARATOR'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->field_separator; ?>
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('SubField Separator'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_SUBFIELD_SEPARATOR'); ?>: *
                     </td>
                     <td>
                     	<?php echo @$state->subfield_separator; ?>
@@ -52,7 +52,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('Skip First Row'); ?>?:
+                        <?php echo JText::_('COM_TIENDA_SKIP_FIRST_ROW'); ?>?:
                     </td>
                     <td>
                     	<?php if(@$state->skip_first) echo JText::_('COM_TIENDA_YES'); else echo JText::_('COM_TIENDA_NO') ; ?>

@@ -1,11 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = @$vars->results; ?>
 
-<p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM XCART TO TIENDA'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_TOOL_MIGRATES_DATA_FROM_XCART_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('FINAL'); ?></span>
-        <p><?php echo JText::_('MIGRATION RESULTS'); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_FINAL'); ?></span>
+        <p><?php echo JText::_('COM_TIENDA_MIGRATION_RESULTS'); ?></p>
     </div>
 
     <table class="adminlist" style="clear: both;">
@@ -15,13 +15,13 @@
                     <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo JText::_('TITLE'); ?>
+                    <?php echo JText::_('COM_TIENDA_TITLE'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_('AFFECTED ROWS'); ?>
+                    <?php echo JText::_('COM_TIENDA_AFFECTED_ROWS'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('ERRORS'); ?>
+                    <?php echo JText::_('COM_TIENDA_ERRORS'); ?>
                 </th>
             </tr>
         </thead>

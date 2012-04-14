@@ -21,7 +21,7 @@
     				<?php
     					if(count($field))
     					{
-    						echo 'Total number :'. count($field);
+    						echo JText::_('COM_TIENDA_TOTAL_NUMBER'. count($field));
     					} 
     					else
     					{

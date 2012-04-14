@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This tool imports data from a xml file to Tienda</description>
+	<description>COM_TIENDA_THIS_TOOL_IMPORTS_DATA_FROM_AN_XML_FILE_TO_TIENDA</description>
 	
 	<files>
 		<filename plugin="tool_xmlimporter">tool_xmlimporter.php</filename>

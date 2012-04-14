@@ -4,10 +4,10 @@
 </p>
 <div class="note">
 	<span style="float: right; font-size: large; font-weight: bold;">
-		<?php	echo JText::_('FINAL');?>
+		<?php	echo JText::_('COM_TIENDA_FINAL');?>
 	</span>
 	<p>
-		<?php	echo JText::_('MIGRATION RESULTS');?>
+		<?php	echo JText::_('COM_TIENDA_MIGRATION_RESULTS');?>
 	</p>
 </div>
 <?php echo $this->getHtmlStep(3, 2);?>

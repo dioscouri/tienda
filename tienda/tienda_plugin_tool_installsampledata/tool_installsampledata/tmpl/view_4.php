@@ -1,8 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $errors = $vars->_errors; ?>
-<p><?php echo JText::_('THIS TOOL INSTALL SAMPLE DATA TO TIENDA'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_TOOL_INSTALL_SAMPLE_DATA_TO_TIENDA'); ?></p>
 <div style="margin-bottom: 10px; background-color:#EFE7B8;border-bottom-color:#F0DC7E;border-bottom-style:solid;border-bottom-width:3px;border-top-color:#F0DC7E;border-top-style:solid;border-top-width:3px;color:#CC0000;padding-left: 10px;">  
-	<p><?php echo JText::_('ERROR INSTALLING SAMPLE DATA TO TIENDA'); ?></p>
+	<p><?php echo JText::_('COM_TIENDA_ERROR_INSTALLING_SAMPLE_DATA_TO_TIENDA'); ?></p>
 </div>
 <table class="adminlist" style="clear: both;">
 	<thead>
@@ -11,10 +11,10 @@
             	<?php echo JText::_('COM_TIENDA_NUM'); ?>
             </th>
             <th>
-            	<?php echo JText::_('MESSAGE'); ?>
+            	<?php echo JText::_('COM_TIENDA_MESSAGE'); ?>
             </th>
             <th>
-                <?php echo JText::_('SQL QUERY'); ?>
+                <?php echo JText::_('COM_TIENDA_SQL_QUERY'); ?>
             </th>
         </tr>
         <tbody>

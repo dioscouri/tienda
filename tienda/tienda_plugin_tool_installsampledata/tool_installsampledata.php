@@ -66,7 +66,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         //check if tienda tables have data and show warning
         if(!$checkdb = $this->_checkTiendaDb())
         {
-        	JError::raiseNotice('_verifyDB', JText::_('TIENDATABLENOTEMPTY'));
+        	JError::raiseNotice('_verifyDB', JText::_('COM_TIENDA_TIENDA_TABLE_NOT_EMPTY'));
         }
         
     	$state = $this->_getState();    
@@ -266,7 +266,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 			{
 	    		if( strtolower($upload->getExtension()) != 'sql' )
 				{
-					$this->setError(JText::_('This is not a SQL file'));
+					$this->setError(JText::_('COM_TIENDA_THIS_IS_NOT_AN_SQL_FILE'));
 					return false;
 				}
 				
@@ -284,7 +284,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 			}
 	    	else
 			{
-				$this->setError(JText::_('Could Not Upload SQL File: '.$upload->getError()));
+				$this->setError(JText::_('COM_TIENDA_COULD_NOT_UPLOAD_SQL_FILE'.$upload->getError()));
 				$success = false;
 			}
     	}
@@ -318,7 +318,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     	//check db
     	if(!$this->_checkTiendaDb())
     	{
-    		JError::raiseNotice('_verifyDB', JText::_('INSTALLATION FAILED. PLEASE REMOVE PRODUCTS, CATEGORIES AND MANUFACTURERS'));
+    		JError::raiseNotice('_verifyDB', JText::_('COM_TIENDA_INSTALLATION_FAILED_PLEASE_REMOVE_PRODUCTS_CATEGORIES_AND_MANUFACTURERS'));
     		return $this->_renderForm( '1' );
     	}
  

@@ -2,19 +2,19 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
-    <p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM REDSHOP TO TIENDA'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_TOOL_MIGRATES_DATA_FROM_REDSHOP_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP TWO OF THREE'); ?></span>
-        <p><?php echo JText::_('YOU PROVIDED THE FOLLOWING INFORMATION'); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_STEP_TWO_OF_THREE'); ?></span>
+        <p><?php echo JText::_('COM_TIENDA_YOU_PROVIDED_THE_FOLLOWING_INFORMATION'); ?></p>
     </div>
 
     <fieldset>
-        <legend><?php echo JText::_('DATABASE CONNECTION'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_DATABASE_CONNECTION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('HOST'); ?>:
+                        <?php echo JText::_('COM_TIENDA_HOST'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->host; ?>
@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE NAME'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DATABASE_NAME'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->database; ?>
@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('JOOMLA! TABLE PREFIX'); ?>:
+                        <?php echo JText::_('COM_TIENDA_JOOMLA_TABLE_PREFIX'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->prefix; ?>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('REDSHOP TABLE PREFIX'); ?>:
+                        <?php echo JText::_('COM_TIENDA_REDSHOP_TABLE_PREFIX'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->redshop_prefix; ?>
@@ -86,7 +86,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE TYPE'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DATABASE_TYPE'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->driver; ?>
@@ -98,7 +98,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE PORT'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DATABASE_PORT'); ?>:
                     </td>
                     <td>
                         <?php echo @$state->port; ?>
@@ -110,7 +110,7 @@
                 </tr>
                  <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('REDSHOP EXTERNAL SITE URL'); ?>:
+                        <?php echo JText::_('COM_TIENDA_REDSHOP_EXTERNAL_SITE_URL'); ?>:
                     </td>
                     <td>
                     	<?php echo @$state->external_site_url; ?>

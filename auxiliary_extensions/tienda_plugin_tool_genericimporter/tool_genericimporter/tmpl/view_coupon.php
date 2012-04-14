@@ -7,13 +7,13 @@
 			<?php	echo JText::_('COM_TIENDA_NUM');?>
 			</th>
 			<th style="text-align: left;">
-			<?php	echo JText::_('TITLE');?>
+			<?php	echo JText::_('COM_TIENDA_TITLE');?>
 			</th>
 			<th style="width: 50px;">
-			<?php	echo JText::_('AFFECTED ROWS');?>
+			<?php	echo JText::_('COM_TIENDA_AFFECTED_ROWS');?>
 			</th>
 			<th>
-			<?php	echo JText::_('ERRORS');?>
+			<?php	echo JText::_('COM_TIENDA_ERRORS');?>
 			</th>
 		</tr>
 	</thead>

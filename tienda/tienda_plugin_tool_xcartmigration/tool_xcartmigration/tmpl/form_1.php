@@ -3,19 +3,19 @@
 <?php $state = @$vars->state; ?>
 <?php echo @$vars->token; ?>
 
-    <p><?php echo JText::_('THIS TOOL MIGRATES DATA FROM XCART TO TIENDA'); ?></p>
+    <p><?php echo JText::_('COM_TIENDA_THIS_TOOL_MIGRATES_DATA_FROM_XCART_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('STEP ONE OF THREE'); ?></span>
-        <p><?php echo JText::_('PLEASE PROVIDE THE REQUESTED INFORMATION'); ?></p>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_STEP_ONE_OF_THREE'); ?></span>
+        <p><?php echo JText::_('COM_TIENDA_PLEASE_PROVIDE_THE_REQUESTED_INFORMATION'); ?></p>
     </div>
     
     <fieldset>
-        <legend><?php echo JText::_('DATABASE CONNECTION'); ?></legend>
+        <legend><?php echo JText::_('COM_TIENDA_DATABASE_CONNECTION'); ?></legend>
             <table class="admintable">
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('HOST'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_HOST'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="host" id="host" size="48" maxlength="250" value="<?php echo @$state->host; ?>" />
@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE NAME'); ?>: *
+                        <?php echo JText::_('COM_TIENDA_DATABASE_NAME'); ?>: *
                     </td>
                     <td>
                         <input type="text" name="database" id="database" size="48" maxlength="250" value="<?php echo @$state->database; ?>" />
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('TABLE PREFIX'); ?>:
+                        <?php echo JText::_('COM_TIENDA_TABLE_PREFIX'); ?>:
                     </td>
                     <td>
                         <input type="text" name="prefix" id="prefix" size="48" maxlength="250" value="<?php echo @$state->prefix; ?>" />
@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE TYPE'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DATABASE_TYPE'); ?>:
                     </td>
                     <td>
                         <input type="text" name="driver" id="driver" size="48" maxlength="250" value="<?php echo @$state->driver; ?>" />
@@ -81,7 +81,7 @@
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
-                        <?php echo JText::_('DATABASE PORT'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DATABASE_PORT'); ?>:
                     </td>
                     <td>
                         <input type="text" name="port" id="port" size="48" maxlength="250" value="<?php echo @$state->port; ?>" />
@@ -92,6 +92,6 @@
                 </tr>
             </table>    
     <br />
-    * <?php echo JText::_('INDICATES A REQUIRED FIELD'); ?>
+    * <?php echo JText::_('COM_TIENDA_INDICATES_A_REQUIRED_FIELD'); ?>
     </fieldset>
         

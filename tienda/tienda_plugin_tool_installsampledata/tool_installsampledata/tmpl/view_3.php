@@ -1,9 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $items = @$vars->results; ?>
-<p><?php echo JText::_('THIS TOOL INSTALL SAMPLE DATA TO TIENDA'); ?></p>
+<p><?php echo JText::_('COM_TIENDA_THIS_TOOL_INSTALL_SAMPLE_DATA_TO_TIENDA'); ?></p>
 
     <div class="note">
-        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('FINAL'); ?></span>
+        <span style="float: right; font-size: large; font-weight: bold;"><?php echo JText::_('COM_TIENDA_FINAL'); ?></span>
         <p><?php echo JText::_('COM_TIENDA_INSTALLATION_RESULTS'); ?></p>
     </div>
 
@@ -14,13 +14,13 @@
                     <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo JText::_('DATA'); ?>
+                    <?php echo JText::_('COM_TIENDA_DATA'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo JText::_('AFFECTED ROWS'); ?>
+                    <?php echo JText::_('COM_TIENDA_AFFECTED_ROWS'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('ERRORS'); ?>
+                    <?php echo JText::_('COM_TIENDA_ERRORS'); ?>
                 </th>
             </tr>
         </thead>      
@@ -34,7 +34,7 @@
                     <?php echo $i + 1; ?>
                 </td>
                 <td style="text-align: center; width:50px;">
-                        <?php echo JText::_('Table '); ?> <?php echo $i + 1; ?>
+                        <?php echo JText::_('COM_TIENDA_COM_TIENDA_TABLE'); ?> <?php echo $i + 1; ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo $result->affectedRows; ?>
