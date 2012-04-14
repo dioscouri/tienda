@@ -54,7 +54,7 @@ class TiendaViewPayment extends TiendaViewBase
     function _viewToolbar()
     {
     	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
-    	JToolBarHelper::cancel( 'close', JText::_('Close') );
+    	JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
     }
     
     /**
@@ -90,7 +90,7 @@ class TiendaViewPayment extends TiendaViewBase
         }
             else
         {
-            JToolBarHelper::cancel( 'close', JText::_('Close') );
+            JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
         }
     }
 }

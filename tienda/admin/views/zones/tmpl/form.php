@@ -22,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="code">
-						<?php echo JText::_('Code'); ?>:
+						<?php echo JText::_('COM_TIENDA_CODE'); ?>:
 						</label>
 					</td>
 					<td>

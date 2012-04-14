@@ -195,7 +195,7 @@
                         ?>
                         <tr class='row<?php echo $k; ?>'>
                             <td colspan="3" style="text-align: left; padding-left: 10px;">
-                                <b><?php echo JText::_('Comments'); ?></b>:
+                                <b><?php echo JText::_('COM_TIENDA_COMMENTS'); ?></b>:
                                 <?php echo $history->comments; ?>
                             </td>
                         </tr>               
@@ -242,7 +242,7 @@
         </tr>
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
-                <?php echo JText::_('Comments'); ?>
+                <?php echo JText::_('COM_TIENDA_COMMENTS'); ?>
             </td>
             <td>
                 <textarea name="comments" rows="5" style="width: 100%;"></textarea>

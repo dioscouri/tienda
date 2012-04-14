@@ -278,7 +278,7 @@ class TiendaViewBase extends JView
 		}
 			else
 		{
-			JToolBarHelper::cancel( 'close', JText::_('Close') );
+			JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
 		}
 	}
 
@@ -306,6 +306,6 @@ class TiendaViewBase extends JView
             JToolBarHelper::divider();
         }
         
-        JToolBarHelper::cancel( 'close', JText::_('Close') );
+        JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
 	}
 }

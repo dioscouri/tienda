@@ -116,7 +116,7 @@
 					$layout = Tienda::getClass( 'TiendaHelperCategory', 'helpers.category' )->getLayout( $item->category_id );
 					if ($layout != 'default') 
 					{
-					    echo "<b>".JText::_('Layout Override')."</b>: ".$layout; 
+					    echo "<b>".JText::_('COM_TIENDA_LAYOUT_OVERRIDE')."</b>: ".$layout; 
 					}
 					?>
 				</td>

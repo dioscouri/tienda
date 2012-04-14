@@ -64,7 +64,7 @@ class TiendaViewCategories extends TiendaViewBase
      */
 	function _defaultToolbar()
 	{
-		JToolBarHelper::custom('rebuild', 'refresh', 'refresh', JText::_('Rebuild Tree'), false);
+		JToolBarHelper::custom('rebuild', 'refresh', 'refresh', JText::_('COM_TIENDA_REBUILD_TREE'), false);
 		JToolBarHelper::publishList( 'category_enabled.enable' );
 		JToolBarHelper::unpublishList( 'category_enabled.disable' );
 		JToolBarHelper::divider();
@@ -79,7 +79,7 @@ class TiendaViewCategories extends TiendaViewBase
     {
     	if (!$isNew)
     	{
-        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('Save As'), false);
+        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('COM_TIENDA_SAVE_AS'), false);
     	}
         parent::_formToolbar($isNew);
     }

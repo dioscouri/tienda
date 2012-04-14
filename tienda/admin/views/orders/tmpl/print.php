@@ -23,12 +23,12 @@
     	<td colspan="2" style="vertical-align:top;">
     	
     	 <fieldset>
-            <legend><?php echo JText::_('Shop Information'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_SHOP_INFORMATION'); ?></legend>
             
             <table class="admintable" style="float:left; width:50%;">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Shop Name'); ?>
+                    <?php echo JText::_('COM_TIENDA_SHOP_NAME'); ?>
                 </td>
                 <td>
                     <?php echo $config->get('shop_name', ''); ?>
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Company Name'); ?>
+                    <?php echo JText::_('CCOM_TIENDA_COMPANY_NAME'); ?>
                 </td>
                 <td>
                     <?php echo $config->get('shop_company_name', ''); ?>

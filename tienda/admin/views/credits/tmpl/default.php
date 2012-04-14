@@ -139,8 +139,8 @@
                     <?php
                     if (!empty($item->credit_enabled))
                     {
-                        echo "<b>" . JText::_('Balance Before') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_before ). "<br/>";
-                        echo "<b>" . JText::_('Balance After') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_after );
+                        echo "<b>" . JText::_('COM_TIENDA_BALANCE_BEFORE') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_before ). "<br/>";
+                        echo "<b>" . JText::_('COM_TIENDA_BALANCE_AFTER') . ":</b> " . TiendaHelperBase::currency( $item->credit_balance_after );
                     }
                     ?>
                     
@@ -148,7 +148,7 @@
                     if (!empty($item->credit_withdrawable))
                     {
                         echo "<br/>";
-                        echo "<b>" . JText::_('Withdrawable Balance After') . ":</b> " . TiendaHelperBase::currency( $item->withdrawable_balance_after );
+                        echo "<b>" . JText::_('COM_TIENDA_WITHDRAWABLE_BALANCE_AFTER') . ":</b> " . TiendaHelperBase::currency( $item->withdrawable_balance_after );
                     }
                     ?>
                 </td>

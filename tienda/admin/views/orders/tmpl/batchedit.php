@@ -26,7 +26,7 @@
                 	<?php echo JText::_('Notify Customer'); ?>
                 </th>
                  <th>
-                	<?php echo JText::_('Comments'); ?>                	
+                	<?php echo JText::_('COM_TIENDA_COMMENTS'); ?>                	
                 </th>
             </tr>
 		</thead>

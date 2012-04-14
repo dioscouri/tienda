@@ -50,8 +50,8 @@ function shippingPerOrder()
 					</td>
 				</tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COUPON_CODE').'::'.JText::_('Coupon Code Tip'); ?>" style="width: 125px; text-align: right;">
-                        <?php echo JText::_('Code'); ?>:
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COUPON_CODE').'::'.JText::_('COM_TIENDA_COUPON_CODE_TIP'); ?>" style="width: 125px; text-align: right;">
+                        <?php echo JText::_('COM_TIENDA_CODE'); ?>:
                     </td>
                     <td>
                         <input type="text" name="coupon_code" value="<?php echo @$row->coupon_code; ?>" size="48" maxlength="250" />
@@ -66,16 +66,16 @@ function shippingPerOrder()
 					</td>
 				</tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('Coupon Value').'::'.JText::_('Coupon Value Tip'); ?>" style="width: 125px; text-align: right;">
-                        <?php echo JText::_('Value'); ?>:
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COUPON_VALUE').'::'.JText::_('COM_TIENDA_COUPON_VALUE_TIP'); ?>" style="width: 125px; text-align: right;">
+                        <?php echo JText::_('COM_TIENDA_VALUE'); ?>:
                     </td>
                     <td>
                         <input type="text" name="coupon_value" value="<?php echo @$row->coupon_value; ?>" size="10" maxlength="250" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('Coupon Currency').'::'.JText::_('Coupon Currency Tip'); ?>" style="width: 125px; text-align: right;">
-                        <?php echo JText::_('Currency'); ?>:
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COUPON_CURRENCY').'::'.JText::_('COM_TIENDA_COUPON_CURRENCY_TIP'); ?>" style="width: 125px; text-align: right;">
+                        <?php echo JText::_('COM_TIENDA_CURRENCY'); ?>:
                     </td>
                     <td>
                         <?php echo TiendaSelect::currency( @$row->currency_id, 'currency_id' ); ?>
@@ -83,23 +83,23 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Value Type'); ?>:
+                        <?php echo JText::_('COM_TIENDA_VALUE_TYPE'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'coupon_value_type', '', @$row->coupon_value_type, 'Percentage', 'Flat Rate' ); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('Max Uses').'::'.JText::_('Max Uses Tip'); ?>" style="width: 125px; text-align: right;">
-                        <?php echo JText::_('Max Uses'); ?>:
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_MAX_USES').'::'.JText::_('COM_TIENDA_MAX_USES_TIP'); ?>" style="width: 125px; text-align: right;">
+                        <?php echo JText::_('COM_TIENDA_MAX_USES'); ?>:
                     </td>
                     <td>
                         <input type="text" name="coupon_max_uses" value="<?php echo @$row->coupon_max_uses; ?>" size="10" maxlength="250" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="key hasTip" title="<?php echo JText::_('Max Uses Per User').'::'.JText::_('Max Uses Per User Tip'); ?>" style="width: 125px; text-align: right;">
-                        <?php echo JText::_('Max Uses Per User'); ?>:
+                    <td class="key hasTip" title="<?php echo JText::_('COM_TIENDA_MAX_USES_PER_USER').'::'.JText::_('COM_TIENDA_MAX_USES_PER_USER_TIP'); ?>" style="width: 125px; text-align: right;">
+                        <?php echo JText::_('COM_TIENDA_MAX_USES_PER_USER'); ?>:
                     </td>
                     <td>
                         <input type="text" name="coupon_max_uses_per_user" value="<?php echo @$row->coupon_max_uses_per_user; ?>" size="10" maxlength="250" />
@@ -107,7 +107,7 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Valid From'); ?>:
+                        <?php echo JText::_('COM_TIENDA_VALID_FROM'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->start_date, "start_date", "start_date", '%Y-%m-%d %H:%M:%S' ); ?>
@@ -115,7 +115,7 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Expires On'); ?>:
+                        <?php echo JText::_('COM_TIENDA_EXPIRES_ON'); ?>:
                     </td>
                     <td>
                         <?php echo JHTML::calendar( @$row->expiration_date, "expiration_date", "expiration_date", '%Y-%m-%d %H:%M:%S' ); ?>
@@ -123,7 +123,7 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Discount Applied'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DISCOUNT_APPLIED'); ?>:
                     </td>
                     <td>                    
                         <?php $attribs = array(); ?>
@@ -143,7 +143,7 @@ function shippingPerOrder()
                     	{
                     		?>
                     		<div class="note">
-                    		<?php echo JText::_('Click the Apply button to add products to this coupon'); ?>
+                    		<?php echo JText::_('COM_TIENDA_CLICK_THE_APPLY_BUTTON_TO_ADD_PRODUCTS_TO_THIS_COUPON'); ?>
                 			</div>
                     		<?php 
                     	}?>
@@ -151,7 +151,7 @@ function shippingPerOrder()
                 </tr>                                
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Discount Applies To'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DISCOUNT_APPLIES_TO'); ?>:
                     </td>
                     <td>
                     	<?php $attribs = array(); ?>
@@ -177,7 +177,7 @@ function shippingPerOrder()
                 </tr>
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Parameters'); ?>:
+                        <?php echo JText::_('COM_TIENDA_PARAMETERS'); ?>:
                     </td>
                     <td>
                         <textarea name="coupon_params" rows="5" cols="55"><?php echo @$row->coupon_params; ?></textarea>

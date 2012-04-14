@@ -9,8 +9,8 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
-    <?php echo JText::_('For Checked Items'); ?>:
-    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('Change Status'); ?></button>
+    <?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
+    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button>
 
     <table class="adminlist" style="clear: both;">
 		<thead>

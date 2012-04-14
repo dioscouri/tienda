@@ -22,7 +22,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_code">
-						<?php echo JText::_('Currency Code'); ?>:
+						<?php echo JText::_('COM_TIENDA_CURRENCY_CODE'); ?>:
 						</label>
 					</td>
 					<td>
@@ -32,7 +32,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="symbol_left">
-						<?php echo JText::_('Left Symbol'); ?>:
+						<?php echo JText::_('COM_TIENDA_LEFT_SYMBOL'); ?>:
 						</label>
 					</td>
 					<td>
@@ -42,7 +42,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="symbol_right">
-						<?php echo JText::_('Right Symbol'); ?>:
+						<?php echo JText::_('COM_TIENDA_RIGHT_SYMBOL'); ?>:
 						</label>
 					</td>
 					<td>
@@ -52,7 +52,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_decimals">
-						<?php echo JText::_('Decimals'); ?>:
+						<?php echo JText::_('COM_TIENDA_DECIMALS'); ?>:
 						</label>
 					</td>
 					<td>
@@ -62,7 +62,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="decimal_separator">
-                        <?php echo JText::_('Decimal Separator'); ?>:
+                        <?php echo JText::_('COM_TIENDA_DECIMAL_SEPARATOR'); ?>:
                         </label>
                     </td>
                     <td>
@@ -72,7 +72,7 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="thousands_separator">
-                        <?php echo JText::_('Thousands Separator'); ?>:
+                        <?php echo JText::_('COM_TIENDA_THOUSANDS_SEPARATOR'); ?>:
                         </label>
                     </td>
                     <td>
@@ -82,13 +82,13 @@ JFilterOutput::objectHTMLSafe( $row );
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="exchange_rate">
-                        <?php echo JText::_('Exchange Rate'); ?>:
+                        <?php echo JText::_('COM_TIENDA_EXCHANGE_RATE'); ?>:
                         </label>
                     </td>
                     <td>
                     	<?php if( TiendaConfig::getInstance()->get('currency_exchange_autoupdate', '1') ): ?>
                     		<div class="note">
-                    			<?php echo JText::_('WARNING AUTOEXCHANGE ENABLED'); ?>
+                    			<?php echo JText::_('COM_TIENDA_WARNING_AUTOEXCHANGE_ENABLED'); ?>
                     		</div>
                     	<?php endif;?>
                         <input type="text" name="exchange_rate" id="exchange_rate" size="10" maxlength="250" value="<?php echo @$row->exchange_rate; ?>" />

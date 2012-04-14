@@ -50,7 +50,7 @@
                     <?php echo JText::_('COM_TIENDA_NAME'); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Code'); ?>
+                    <?php echo JText::_('COM_TIENDA_CODE'); ?>
                 </th>
             </tr>
         </thead>

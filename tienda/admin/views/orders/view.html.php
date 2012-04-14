@@ -30,7 +30,7 @@ class TiendaViewOrders extends TiendaViewBase
 		{
 			case "confirmdelete":
 				JToolBarHelper::deleteList(JText::_('VALIDDELETEITEMS'));
-				JToolBarHelper::cancel('close', JText::_('Close'));
+				JToolBarHelper::cancel('close', JText::_('COM_TIENDA_CLOSE'));
 				$validate = JUtility::getToken();
 				$form = array();
 				$controller = strtolower($this->get('_controller', JRequest::getVar('controller', JRequest::getVar('view'))));
@@ -142,7 +142,7 @@ class TiendaViewOrders extends TiendaViewBase
 
 		$this->displayTitle('Edit Addresses');
 		JToolBarHelper::save('saveAddresses');
-		JToolBarHelper::cancel('closeEditAddresses', JText::_('Close'));
+		JToolBarHelper::cancel('closeEditAddresses', JText::_('COM_TIENDA_CLOSE'));
 
 		// form
 		$validate = JUtility::getToken();

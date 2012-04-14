@@ -26,7 +26,7 @@
 					$pane = '1';
 					echo $this->sliders->startPane( "pane_$pane" );
 					
-					$legend = JText::_('Shop Information');
+					$legend = JText::_('COM_TIENDA_SHOP_INFORMATION');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'shop' );
 					
 					?>
@@ -35,7 +35,7 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Enable Shopping'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_SHOPPING'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'shop_enabled', 'class="inputbox"', $this->row->get('shop_enabled', '1') ); ?>
@@ -46,18 +46,18 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Shop Name'); ?>
+                                <?php echo JText::_('COM_TIENDA_SHOP_NAME'); ?>
                             </th>
                             <td>
                                <input type="text" name="shop_name" value="<?php echo $this->row->get('shop_name', ''); ?>" size="25" />
                             </td>
                             <td>
-                                <?php echo JText::_('The Name of the Shop'); ?>
+                                <?php echo JText::_('COM_TIENDA_THE_NAME_OF_THE_SHOP'); ?>
                             </td>
                         </tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Company Name'); ?>
+								<?php echo JText::_('COM_TIENDA_COMPANY_NAME'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="shop_company_name" value="<?php echo $this->row->get('shop_company_name', ''); ?>" size="25" />
@@ -117,7 +117,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('State / Region'); ?>
+								<?php echo JText::_('COM_TIENDA_STATE_REGION'); ?>
 							</th>
 			                <td>
 			                	<div id="zones_wrapper">
@@ -184,7 +184,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Shop Owner Name'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOP_OWNER_NAME'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="shop_owner_name" value="<?php echo $this->row->get('shop_owner_name', ''); ?>" size="35" />
@@ -201,7 +201,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('Images Settings');
+					$legend = JText::_('COM_TIENDA_IMAGES_SETTINGS');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'images' );
 					?>
 					
@@ -209,7 +209,7 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Default Category Image'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_DEFAULT_CATEGORY_IMAGE'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'use_default_category_image', 'class="inputbox"', $this->row->get('use_default_category_image', '1') ); ?>
@@ -217,7 +217,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Product Image Height'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_PRODUCT_IMAGE_HEIGHT'); ?>
                             </th>
                             <td>
                                 <input type="text" name="product_img_height" value="<?php echo $this->row->get('product_img_height', ''); ?>" />
@@ -225,7 +225,7 @@
                         </tr>
 						<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Product Image Width'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_PRODUCT_IMAGE_WIDTH'); ?>
                             </th>
                             <td>
                                 <input type="text" name="product_img_width" value="<?php echo $this->row->get('product_img_width', ''); ?>" />
@@ -233,7 +233,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Recreate Product Thumbnails'); ?>
+                                <?php echo JText::_('COM_TIENDA_RECREATE_PRODUCT_THUMBNAILS'); ?>
                             </th>
                             <td>
                                 <a href="index.php?option=com_tienda&view=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Product Thumbnails'); ?></a>
@@ -241,7 +241,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Category Image Height'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_CATEGORY_IMAGE_HEIGHT'); ?>
                             </th>
                             <td>
                                 <input type="text" name="category_img_height" value="<?php echo $this->row->get('category_img_height', ''); ?>" />
@@ -249,7 +249,7 @@
                         </tr>
 						<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Category Image Width'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_CATEGORY_IMAGE_WIDTH'); ?>
                             </th>
                             <td>
                                 <input type="text" name="category_img_width" value="<?php echo $this->row->get('category_img_width', ''); ?>" />
@@ -257,7 +257,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Recreate Category Thumbnails'); ?>
+                                <?php echo JText::_('COM_TIENDA_RECREATE_CATEGORY_THUMBNAILS'); ?>
                             </th>
                             <td>
                                 <a href="index.php?option=com_tienda&view=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Category Thumbnails'); ?></a>
@@ -265,7 +265,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Manufacturer Image Height'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_MANUFACTURER_IMAGE_HEIGHT'); ?>
                             </th>
                             <td>
                                 <input type="text" name="manufacturer_img_height" value="<?php echo $this->row->get('manufacturer_img_height', ''); ?>" />
@@ -273,7 +273,7 @@
                         </tr>
 						<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Manufacturer Image Width'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_MANUFACTURER_IMAGE_WIDTH'); ?>
                             </th>
                             <td>
                                 <input type="text" name="manufacturer_img_width" value="<?php echo $this->row->get('manufacturer_img_width', ''); ?>" />
@@ -281,10 +281,10 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Recreate Manufacturer Thumbnails'); ?>
+                                <?php echo JText::_('COM_TIENDA_RECREATE_MANUFACTURER_THUMBNAILS'); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&view=manufacturers&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Manufacturer Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=manufacturers&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('COM_TIENDA_ARE_YOU_SURE_REMEMBER_TO_SAVE_YOUR_NEW_CONFIGURATION_VALUES'); ?>');"><?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_RECREATE_THE_MANUFACTURER_THUMBNAILS'); ?></a>
                             </td>
                         </tr>
 					</tbody>
@@ -293,7 +293,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('Currency Units and Date Settings');
+					$legend = JText::_('COM_TIENDA_CURRENCY_UNITS_AND_DATE_SETTINGS');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'currency' );
 					?>
 					
@@ -301,40 +301,40 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('SET DATE FORMAT'); ?>
+                                <?php echo JText::_('COM_TIENDA_SET_DATE_FORMAT'); ?>
                             </th>
                             <td>
                                 <input name="date_format" value="<?php echo $this->row->get('date_format', '%a, %d %b %Y, %I:%M%p'); ?>" type="text" size="40"/>
                             </td>
                             <td>
-                                <?php echo JText::_('CONFIG SET DATE FORMAT'); ?>
+                                <?php echo JText::_('COM_TIENDA_CONFIG_SET_DATE_FORMAT'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('SELECT DEFAULT CURRENCY FOR DB VALUES'); ?>
+                                <?php echo JText::_('COM_TIENDA_SELECT_DEFAULT_CURRENCY_FOR_DB_VALUES'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::currency( $this->row->get('default_currencyid', '1'), 'default_currencyid' ); ?>
                             </td>
                             <td>
-                                <?php echo JText::_('CONFIG DEFAULT CURRENCY'); ?>
+                                <?php echo JText::_('COM_TIENDA_CONFIG_DEFAULT_CURRENCY'); ?>
                             </td>
                         </tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Auto Update Exchange Rates'); ?>
+								<?php echo JText::_('COM_TIENDA_AUTO_UPDATE_EXCHANGE_RATES'); ?>
 							</th>
 			                <td>
 				                <?php echo JHTML::_('select.booleanlist', 'currency_exchange_autoupdate', 'class="inputbox"', $this->row->get('currency_exchange_autoupdate', '1') ); ?>
 			                </td>
                             <td>
-                                <?php echo JText::_('Auto Update Exchange Rates Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_AUTO_UPDATE_EXCHANGE_RATES_DESC'); ?>
                             </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Dimensions Measure Unit'); ?>
+								<?php echo JText::_('COM_TIENDA_DIMENSIONS_MEASURE_UNIT'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="dimensions_unit" value="<?php echo $this->row->get('dimensions_unit', ''); ?>" />
@@ -345,7 +345,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Weight Measure Unit'); ?>
+								<?php echo JText::_('COM_TIENDA_WEIGHT_MEASURE_UNIT'); ?>
 							</th>
 			                <td>
 			                	<input type="text" name="weight_unit" value="<?php echo $this->row->get('weight_unit', ''); ?>" />
@@ -359,7 +359,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-                    $legend = JText::_('Order and Checkout Settings');
+                    $legend = JText::_('COM_TIENDA_ORDER_AND_CHECKOUT_SETTINGS');
                     echo $this->sliders->startPanel( JText::_( $legend ), 'orders' );
                     ?>
 
@@ -367,7 +367,7 @@
                     <tbody>
                     	<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('One Page Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_ONE_PAGE_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'one_page_checkout', 'class="inputbox"', $this->row->get('one_page_checkout', '0') ); ?>
@@ -378,7 +378,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('One Page Checkout Layout'); ?>
+                                <?php echo JText::_('COM_TIENDA_ONE_PAGE_CHECKOUT_LAYOUT'); ?>
                             </th>
                             <td>
                                 <?php
@@ -391,7 +391,7 @@
                         </tr>
                     	<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('ENABLE TOOLTIPS ONE PAGE CHECKOUT'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_TOOLTIPS_ONE_PAGE_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'one_page_checkout_tooltips_enabled', 'class="inputbox"', $this->row->get('one_page_checkout_tooltips_enabled', '0') ); ?>
@@ -402,7 +402,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Force SSL on Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_FORCE_SSL_ON_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'force_ssl_checkout', 'class="inputbox"', $this->row->get('force_ssl_checkout', '0') ); ?>
@@ -413,7 +413,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Require Acceptance of Terms on Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_REQUIRE_ACCEPTANCE_OF_TERMS_ON_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'require_terms', 'class="inputbox"', $this->row->get('require_terms', '0') ); ?>
@@ -424,30 +424,30 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Terms and Conditions Article'); ?>
+                                <?php echo JText::_('COM_TIENDA_TERMS_AND_CONDITIONS_ARTICLE'); ?>
                             </th>
                             <td style="width: 280px;">
                                 <?php echo $this->elementArticle_terms; ?>
                                 <?php echo $this->resetArticle_terms; ?>              
                             </td>
                             <td>
-                                <?php echo JText::_('Article for Terms and Conditions Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_FOR_TERMS_AND_CONDITIONS_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('No Zones Countries'); ?>
+                                <?php echo JText::_('COM_TIENDA_NO_ZONES_COUNTRIES'); ?>
                             </th>
                             <td style="width: 280px;">
                             	<input type="text" name="ignored_countries" value="<?php echo $this->row->get('ignored_countries', ''); ?>" class="inputbox" />                              
                             </td>
                             <td>
-                                <?php echo JText::_('Countries that will be ignored when validating the zones during checkout. Please input the CSV of the country id. The default is 83, 188, 190 which are the ids of Gibraltar, Singapore, and Slovenia respectively.'); ?>
+                                <?php echo JText::_('COM_TIENDA_COUNTRIES_THAT_WILL_BE_IGNORED_WHEN_VALIDATING_THE_ZONES_DURING_CHECKOUT_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Show Taxes'); ?>
+                                <?php echo JText::_('COM_TIENDA_SHOW_TAXES'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::taxdisplaycheckout($this->row->get('show_tax_checkout', '3'), 'show_tax_checkout'); ?>
@@ -458,7 +458,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Show Shipping Tax on Order Invoices and Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_SHOW_SHIPPING_TAX_ON_ORDER_INVOICES_AND_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_shipping_tax', 'class="inputbox"', $this->row->get('display_shipping_tax', '1') ); ?>
@@ -469,29 +469,29 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Initial Order State'); ?>
+                                <?php echo JText::_('COM_TIENDA_INITIAL_ORDER_STATE'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::orderstate($this->row->get('initial_order_state', '15'), 'initial_order_state'); ?>
                             </td>
                             <td>
-                                <?php echo JText::_('Initial Order State DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_INITIAL_ORDER_STATE_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Pending Order State'); ?>
+                                <?php echo JText::_('PENDING ORDER STATE'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::orderstate($this->row->get('pending_order_state', '1'), 'pending_order_state'); ?>
                             </td>
                             <td>
-                                <?php echo JText::_('Pending Order State DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_PENDING_ORDER_STATE_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Shipping Method'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_SHIPPING_METHOD'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::shippingtype($this->row->get('defaultShippingMethod', '2'), 'defaultShippingMethod'); ?>
@@ -502,7 +502,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Enable Guest Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_GUEST_CHECKOUT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'guest_checkout_enabled', 'class="inputbox"', $this->row->get('guest_checkout_enabled', '1') ); ?>
@@ -513,48 +513,48 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Order Number Prefix'); ?>
+                                <?php echo JText::_('COM_TIENDA_ORDER_NUMBER_PREFIX'); ?>
                             </th>
                             <td>
                                 <input type="text" name="order_number_prefix" value="<?php echo $this->row->get('order_number_prefix', ''); ?>" class="inputbox" size="10" />
                             </td>
                             <td>
-                                <?php echo JText::_('Order Number Prefix Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_ORDER_NUMBER_PREFIX_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Global Handling Cost'); ?>
+                                <?php echo JText::_('COM_TIENDA_GLOBAL_HANDLING_COST'); ?>
                             </th>
                             <td>
                                 <input type="text" name="global_handling" value="<?php echo $this->row->get('global_handling', ''); ?>" class="inputbox" size="10" />
                             </td>
                             <td>
-                                <?php echo JText::_('Global Handling Cost Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_GLOBAL_HANDLING_COST_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Article to Display After Successful Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_TO_DISPLAY_AFTER_SUCCESSFUL_CHECKOUT'); ?>
                             </th>
                             <td style="width: 280px;">
                                 <?php echo $this->elementArticleModel->_fetchElement( 'article_checkout', $this->row->get('article_checkout') ); ?>
                                 <?php echo $this->elementArticleModel->_clearElement( 'article_checkout', '0' ); ?>              
                             </td>
                             <td>
-                                <?php echo JText::_('Article to Display After Successful Checkout Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_TO_DISPLAY_AFTER_SUCCESSFUL_CHECKOUT_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Article to Display After Unsuccessful Checkout'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_TO_DISPLAY_AFTER_UNSUCCESSFUL_CHECKOUT'); ?>
                             </th>
                             <td style="width: 280px;">
                                 <?php echo $this->elementArticleModel->_fetchElement( 'article_default_payment_failure', $this->row->get('article_default_payment_failure') ); ?>
                                 <?php echo $this->elementArticleModel->_clearElement( 'article_default_payment_failure', '0' ); ?>              
                             </td>
                             <td>
-                                <?php echo JText::_('Article to Display After Unsuccessful Checkout Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_TO_DISPLAY_AFTER_UNSUCCESSFUL_CHECKOUT_DESC'); ?>
                             </td>
                         </tr>
                     </tbody>
@@ -563,7 +563,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('Display Settings');
+					$legend = JText::_('COM_TIENDA_DISPLAY_SETTINGS');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'display' );
 					?>
 					
@@ -571,7 +571,7 @@
 					<tbody>
 						 <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Front End Submenu'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_FRONT_END_SUBMENU'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'show_submenu_fe', 'class="inputbox"', $this->row->get('show_submenu_fe', '1') ); ?>
@@ -582,7 +582,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Out of Stock Products'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_OUT_OF_STOCK_PRODUCTS'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_out_of_stock', 'class="inputbox"', $this->row->get('display_out_of_stock', '1') ); ?>
@@ -593,7 +593,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Root Category in Joomla Breadcrumb'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_ROOT_CATEGORY_IN_JOOMLA_BREADCRUMB'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'include_root_pathway', 'class="inputbox"', $this->row->get('include_root_pathway', '0') ); ?>
@@ -604,7 +604,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Tienda Breadcrumb'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_TIENDA_BREADCRUMB'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_tienda_pathway', 'class="inputbox"', $this->row->get('display_tienda_pathway', '1') ); ?>
@@ -615,7 +615,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Product Sort By'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_SORT_BY'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_sort_by', 'class="inputbox"', $this->row->get('display_sort_by', '1') ); ?>
@@ -626,18 +626,18 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Product Sortings'); ?>
+                                <?php echo JText::_('COM_TIENDA_PRODUCT_SORTINGS'); ?>
                             </th>
                             <td>
                                 <input type="text" name="display_sortings" value="<?php echo $this->row->get('display_sortings', 'Name|product_name,Price|price,Rating|product_rating'); ?>" class="inputbox" size="45" />
                             </td>
                             <td>
-                                <?php echo JText::_('This will be the added to the "sort by" select. The format is "title|columnname" and to add another sorting, prepend "," to it. You can sort the price, product_quantity, and all the #__tienda_products columns.')?>
+                                <?php echo JText::_('COM_TIENDA_PRODUCT_SORTINGS_DESC')?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Product Quantity'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_QUANTITY'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_product_quantity', 'class="inputbox"', $this->row->get('display_product_quantity', '1') ); ?>
@@ -648,7 +648,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Related Items'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_RELATED_ITEMS'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_relateditems', 'class="inputbox"', $this->row->get('display_relateditems', '1') ); ?>
@@ -659,7 +659,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Facebook Like Button'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_FACEBOOK_LIKE_BUTTON'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_facebook_like', 'class="inputbox"', $this->row->get('display_facebook_like', '1') ); ?>
@@ -670,7 +670,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Twitter Button'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_TWITTER_BUTTON'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_tweet', 'class="inputbox"', $this->row->get('display_tweet', '1') ); ?>
@@ -681,7 +681,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Twitter Message'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_TWITTER_MESSAGE'); ?>
                             </th>
                             <td>
                                 <input type="text" name="display_tweet_message" value="<?php echo $this->row->get('display_tweet_message', 'Check this out!'); ?>" class="inputbox" size="35" />
@@ -692,7 +692,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Google +1 Buttom'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_GOOGLE_PLUS1_BUTTON'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_google_plus1', 'class="inputbox"', $this->row->get('display_google_plus1', '1') ); ?>
@@ -703,15 +703,15 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Google +1 Buttom Size'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_GOOGLE_PLUS1_BUTTON_SIZE'); ?>
                             </th>
                             <td>
                                 <?php 
                                 	$google_sizes = array();
-													        $google_sizes[] = JHTML::_('select.option',  'small', JText::_('GOOGLE Small') );
-													        $google_sizes[] = JHTML::_('select.option',  'medium', JText::_('GOOGLE Medium') );
-													        $google_sizes[] = JHTML::_('select.option',  '', JText::_('GOOGLE Standard') );
-													        $google_sizes[] = JHTML::_('select.option',  'tall', JText::_('GOOGLE Tall') );
+													        $google_sizes[] = JHTML::_('select.option',  'small', JText::_('COM_TIENDA_GOOGLE_SMALL') );
+													        $google_sizes[] = JHTML::_('select.option',  'medium', JText::_('COM_TIENDA_GOOGLE_MEDIUM') );
+													        $google_sizes[] = JHTML::_('select.option',  '', JText::_('COM_TIENDA_GOOGLE_STANDARD') );
+													        $google_sizes[] = JHTML::_('select.option',  'tall', JText::_('COM_TIENDA_GOOGLE_TALL') );
                                 	echo JHTML::_( 'select.genericlist', $google_sizes, 'display_google_plus1_size', array('class' => 'inputbox', 'size' => '1'), 'value', 'text', $this->row->get('display_google_plus1_size', 'medium') );
                                 ?>
                             </td>
@@ -721,13 +721,13 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Use URI For Social Bookmark Integration'); ?>
+                                <?php echo JText::_('COM_TIENDA_USE_URI_FOR_SOCIAL_BOOKMARK_INTEGRATION'); ?>
                             </th>
                             <td>
                                 <?php 
                                 	$social_uri_types = array();
-													        $social_uri_types[] = JHTML::_('select.option',  0, JText::_('Long URI') );
-													        $social_uri_types[] = JHTML::_('select.option',  1, JText::_('Bit.ly') );
+													        $social_uri_types[] = JHTML::_('select.option',  0, JText::_('COM_TIENDA_LONG_URI') );
+													        $social_uri_types[] = JHTML::_('select.option',  1, JText::_('COM_TIENDA_BITLY') );
                                 	echo JHTML::_( 'select.genericlist', $social_uri_types, 'display_bookmark_uri', array('class' => 'inputbox', 'size' => '1'), 'value', 'text', $this->row->get('display_bookmark_uri', 0) );
                                 ?>
                             </td>
@@ -737,7 +737,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('BitLy Login'); ?>
+                                <?php echo JText::_('COM_TIENDA_BITLY_LOGIN'); ?>
                             </th>
                             <td>
                                 <input type="text" name="bitly_login" value="<?php echo $this->row->get('bitly_login', ''); ?>" class="inputbox" size="35" />
@@ -748,7 +748,7 @@
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('BitLy Key'); ?>
+                                <?php echo JText::_('COM_TIENDA_BITLY_KEY'); ?>
                             </th>
                             <td>
                                 <input type="text" name="bitly_key" value="<?php echo $this->row->get('bitly_key', ''); ?>" class="inputbox" size="35" />
@@ -759,7 +759,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( 'Display "Ask a question about this product"' ); ?>
+                                <?php echo JText::_( 'COM_TIENDA_DISPLAY_ASK_A_QUESTION_ABOUT_THIS_PRODUCT' ); ?>
                             </th>
                            	<td>
                                 <?php echo JHTML::_('select.booleanlist', 'ask_question_enable', 'class="inputbox"', $this->row->get('ask_question_enable', '1') ); ?>
@@ -770,7 +770,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( 'Enable Captcha on "Ask a question about this product"' ); ?>
+                                <?php echo JText::_( 'COM_TIENDA_ENABLE_CAPTCHA_ON_ASK_A_QUESTION_ABOUT_THIS_PRODUCT' ); ?>
                             </th>
                            	<td>
                                 <?php echo JHTML::_('select.booleanlist', 'ask_question_showcaptcha', 'class="inputbox"', $this->row->get('ask_question_showcaptcha', '1') ); ?>
@@ -781,18 +781,18 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_( '"Ask a question about this product" in modal' ); ?>
+                                <?php echo JText::_( 'COM_TIENDA_ASK_A_QUESTION_ABOUT_THIS_PRODUCT_IN_MODAL' ); ?>
                             </th>
                            	<td>
                                 <?php echo JHTML::_('select.booleanlist', 'ask_question_modal', 'class="inputbox"', $this->row->get('ask_question_modal', '1') ); ?>
                             </td>
                             <td>
-                               <?php echo JText::_('Show the "Ask a question about this product" form in modal.');?> 
+                               <?php echo JText::_('COM_TIENDA_SHOW_THE_ASK_A_QUESTION_ABOUT_THIS_PRODUCT_FORM_IN_MODAL');?> 
                             </td>
                         </tr>                       
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Product Prices with Tax'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_PRICES_WITH_TAX'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::displaywithtax( $this->row->get('display_prices_with_tax', '0'), 'display_prices_with_tax' ); ?>
@@ -802,7 +802,7 @@
                         </tr>
 						 <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Working Image Product'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_WORKING_IMAGE_PRODUCT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'dispay_working_image_product', 'class="inputbox"', $this->row->get('dispay_working_image_product', '1') ); ?>
@@ -813,29 +813,29 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Number of Subcategories per Line'); ?>
+                                <?php echo JText::_('COM_TIENDA_NUMBER_OF_SUBCATEGORIES_PER_LINE'); ?>
                             </th>
                             <td>
                                 <input type="text" name="subcategories_per_line" id="subcategories_per_line" value="<?php echo $this->row->get('subcategories_per_line', 5); ?>" />
                             </td>
                             <td>
-                                <?php echo JText::_('Number of Subcategories per Line Desc'); ?>            
+                                <?php echo JText::_('COM_TIENDA_NUMBER_OF_SUBCATEGORIES_PER_LINE_DESC'); ?>            
                             </td>
                         </tr>      
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Tax Geozone'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_TAX_GEOZONE'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::geozone( $this->row->get('default_tax_geozone'), 'default_tax_geozone', 1 ); ?>
                             </td>
                             <td>
-                                <?php echo JText::_('Default Tax Geozone Desc'); ?>            
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_TAX_GEOZONE_DESC'); ?>            
                             </td>
                         </tr>                        
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Product Prices with Link to Shipping Costs Article'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_PRICES_WITH_LINK_TO_SHIPPING_COSTS_ARTICLE'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_prices_with_shipping', 'class="inputbox"', $this->row->get('display_prices_with_shipping', '0') ); ?>
@@ -846,19 +846,19 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Shipping Costs Article'); ?>
+                                <?php echo JText::_('COM_TIENDA_SHIPPING_COSTS_ARTICLE'); ?>
                             </th>
                             <td style="width: 280px;">
                                 <?php echo $this->elementArticle_shipping; ?>
                                 <?php echo $this->resetArticle_shipping; ?>              
                             </td>
                             <td>
-                                <?php echo JText::_('Article for Shipping Costs Desc'); ?>
+                                <?php echo JText::_('COM_TIENDA_ARTICLE_FOR_SHIPPING_COSTS_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Add to Cart Action'); ?>
+                                <?php echo JText::_('COM_TIENDA_ADD_TO_CART_ACTION'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::addtocartaction( $this->row->get('addtocartaction', 'lightbox'), 'addtocartaction' ); ?>
@@ -869,7 +869,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Add to Cart Button in Category Listings'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_ADD_TO_CART_BUTTON_IN_CATEGORY_LISTINGS'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_category_cartbuttons', 'class="inputbox"', $this->row->get('display_category_cartbuttons', '1') ); ?>
@@ -881,7 +881,7 @@
                         <!--  Add Display Add to Cart Button in Product -->
 						<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Add to Cart Button in Product'); ?>
+                                <?php echo JText::_('DISPLAY_ADD_TO_CART_BUTTON_IN_PRODUCT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_product_cartbuttons', 'class="inputbox"', $this->row->get('display_product_cartbuttons', '1') ); ?>
@@ -892,7 +892,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Select Cart Button Type'); ?>
+                                <?php echo JText::_('COM_TIENDA_SELECT_CART_BUTTON_TYPE'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::cartbutton( $this->row->get('cartbutton', 'image'), 'cartbutton' ); ?>
@@ -925,7 +925,7 @@
                         </tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Dioscouri Link in Footer'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_DIOSCOURI_LINK_IN_FOOTER'); ?>
 							</th>
 			                <td>
 								<?php echo JHTML::_('select.booleanlist', 'show_linkback', 'class="inputbox"', $this->row->get('show_linkback', '1') ); ?>
@@ -936,14 +936,14 @@
 						</tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Your Dioscouri Affiliate ID'); ?>
+                                <?php echo JText::_('COM_TIENDA_YOUR_DIOSCOURI_AFFILIATE_ID'); ?>
                             </th>
                             <td>
                                 <input type="text" name="amigosid" value="<?php echo $this->row->get('amigosid', ''); ?>" class="inputbox" />
                             </td>
                             <td>
                                 <a href='http://www.dioscouri.com/index.php?option=com_amigos' target='_blank'>
-                                <?php echo JText::_('No AmigosID'); ?>
+                                <?php echo JText::_('COM_TIENDA_NO_AMIGOSID'); ?>
                                 </a>                                
                             </td>
                         </tr>
@@ -965,7 +965,7 @@
 					<?php
 					echo $this->sliders->endPanel();
                     
-                    $legend = JText::_('Subscription Settings');
+                    $legend = JText::_('COM_TIENDA_SUBSCRIPTION_SETTINGS');
                     echo $this->sliders->startPanel( JText::_( $legend ), 'subscriptions' );
                     ?>
                     
@@ -973,18 +973,18 @@
                     <tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Expiration Notice'); ?>
+                                <?php echo JText::_('COM_TIENDA_EXPIRATION_NOTICE'); ?>
                             </th>
                             <td>
                                 <input name="subscriptions_expiring_notice_days" value="<?php echo $this->row->get('subscriptions_expiring_notice_days', '14'); ?>" type="text" />
                             </td>
                             <td>
-                                <?php echo JText::_('Expiration Notice DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_EXPIRATION_NOTICE_DESC'); ?>
                             </td>
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Subscription Number'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_SUBSCRIPTION_NUMBER'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_subnum', 'class="inputbox"', $this->row->get('display_subnum', '0') ); ?>
@@ -995,7 +995,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Subscription Number Digits'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_SUBSCRIPTION_NUMBER_DIGITS'); ?>
                             </th>
                             <td>
                                 <input type="text" name="sub_num_digits" value="<?php echo $this->row->get('sub_num_digits', ''); ?>" class="inputbox" size="10" />
@@ -1005,7 +1005,7 @@
                             </td>
                         </tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Default Subscription Number'); ?>
+                                <?php echo JText::_('COM_TIENDA_DEFAULT_SUBSCRIPTION_NUMBER'); ?>
                             </th>
                             <td>
                                 <input type="text" name="default_sub_num" value="<?php echo $this->row->get('default_sub_num', '1'); ?>" class="inputbox" size="10" />
@@ -1019,7 +1019,7 @@
                     <?php
                     echo $this->sliders->endPanel();
 
-                    $legend = JText::_('Administrator Dashboard Settings');
+                    $legend = JText::_('COM_TIENDA_ADMINISTRATOR_DASHBOARD_SETTINGS');
                     echo $this->sliders->startPanel( JText::_( $legend ), 'dashboard' );
                     ?>
                     
@@ -1027,7 +1027,7 @@
                     <tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Display Statistics'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_STATISTICS'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_dashboard_statistics', 'class="inputbox"', $this->row->get('display_dashboard_statistics', '1') ); ?>
@@ -1038,13 +1038,13 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('SELECT ORDER STATES TO REPORT ON'); ?>
+                                <?php echo JText::_('COM_TIENDA_SELECT_ORDER_STATES_TO_REPORT_ON'); ?>
                             </th>
                             <td>
                                 <input type="text" name="orderstates_csv" value="<?php echo $this->row->get('orderstates_csv', '2, 3, 5, 17'); ?>" />
                             </td>
                             <td>
-                                <?php echo JText::_('CONFIG ORDER STATES TO REPORT ON'); ?>
+                                <?php echo JText::_('COM_TIENDA_CONFIG_ORDER_STATES_TO_REPORT_ON'); ?>
                             </td>
                         </tr>
                     </tbody>
@@ -1053,7 +1053,7 @@
                     echo $this->sliders->endPanel();
 					
                     
-                    $legend = JText::_('Coupon Settings');
+                    $legend = JText::_('COM_TIENDA_COUPON_SETTINGS');
                     echo $this->sliders->startPanel( JText::_( $legend ), 'coupons' );
                     ?>
                     
@@ -1061,7 +1061,7 @@
                     <tbody>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Enable Coupons'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_COUPONS'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'coupons_enabled', 'class="inputbox"', $this->row->get('coupons_enabled', '1') ); ?>
@@ -1072,7 +1072,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Enable Multiple User Submitted Coupons Per Order'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_MULTIPLE_USER_SUBMITTED_COUPONS_PER_ORDER'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'multiple_usercoupons_enabled', 'class="inputbox"', $this->row->get('multiple_usercoupons_enabled', '0') ); ?>
@@ -1087,7 +1087,7 @@
                     echo $this->sliders->endPanel();
                     
                     
-					$legend = JText::_('Administrator ToolTips');
+					$legend = JText::_('COM_TIENDA_ADMINISTRATOR_TOOLTIPS');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
 					?>
 					
@@ -1095,7 +1095,7 @@
 					<tbody>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Hide Dashboard Note'); ?>
+								<?php echo JText::_('COM_TIENDA_HIDE_DASHBOARD_NOTE'); ?>
 							</th>
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_dashboard_disabled', 'class="inputbox"', $this->row->get('page_tooltip_dashboard_disabled', '0') ); ?>
@@ -1106,7 +1106,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Hide Configuration Note'); ?>
+								<?php echo JText::_('COM_TIENDA_HIDE_CONFIGURATION_NOTE'); ?>
 							</th>
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_config_disabled', 'class="inputbox"', $this->row->get('page_tooltip_config_disabled', '0') ); ?>
@@ -1117,7 +1117,7 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Hide Tools Note'); ?>
+								<?php echo JText::_('COM_TIENDA_HIDE_TOOLS_NOTE'); ?>
 							</th>
 							<td>
 		                        <?php echo JHTML::_('select.booleanlist', 'page_tooltip_tools_disabled', 'class="inputbox"', $this->row->get('page_tooltip_tools_disabled', '0') ); ?>
@@ -1128,7 +1128,7 @@
 						</tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Hide User Dashboard Note'); ?>
+                                <?php echo JText::_('COM_TIENDA_HIDE_USER_DASHBOARD_NOTE'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'page_tooltip_users_view_disabled', 'class="inputbox"', $this->row->get('page_tooltip_users_view_disabled', '0') ); ?>
@@ -1143,7 +1143,7 @@
 
                     echo $this->sliders->endPanel();
 					
-					$legend = JText::_('Product Reviews');
+					$legend = JText::_('COM_TIENDA_PRODUCT_REVIEWS');
 					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
 					?>
 					
@@ -1151,7 +1151,7 @@
 					<tbody>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Enable Product Reviews'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_PRODUCT_REVIEWS'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'product_review_enable', 'class="inputbox"', $this->row->get('product_review_enable', '1') ); ?>
@@ -1162,7 +1162,7 @@
 					</tr>
                     <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Automatically Approve Reviews'); ?>
+                                <?php echo JText::_('COM_TIENDA_AUTOMATICALLY_APPROVE_REVIEWS'); ?>
                             </th>
                             <td>
                                  <?php echo JHTML::_('select.booleanlist', 'product_reviews_autoapprove', 'class="inputbox"', $this->row->get('product_reviews_autoapprove', '0') ); ?>
@@ -1173,7 +1173,7 @@
                     </tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Require Login to leave review'); ?>
+								<?php echo JText::_('COM_TIENDA_REQUIRE_LOGIN_TO_LEAVE_REVIEW'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'login_review_enable', 'class="inputbox"', $this->row->get('login_review_enable', '1') ); ?>
@@ -1184,7 +1184,7 @@
                     </tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Require Purchase to leave review'); ?>
+								<?php echo JText::_('COM_TIENDA_REQUIRE_PURCHASE_TO_LEAVE_REVIEW'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'purchase_leave_review_enable', 'class="inputbox"', $this->row->get('purchase_leave_review_enable', '1') ); ?>
@@ -1195,7 +1195,7 @@
 					</tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Use captcha'); ?>
+								<?php echo JText::_('COM_TIENDA_USE_CAPTCHA'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'use_captcha', 'class="inputbox"', $this->row->get('use_captcha', '1') ); ?>
@@ -1206,7 +1206,7 @@
 					</tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Enable Review Helpfulness Voting'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_REVIEW_HELPFULNESS_VOTING'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'review_helpfulness_enable', 'class="inputbox"', $this->row->get('review_helpfulness_enable', '1') ); ?>
@@ -1217,7 +1217,7 @@
 					</tr>
 					<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Enable Share this link'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_SHARE_THIS_LINK'); ?>
 							</th>
 			                <td>
 			                	 <?php echo JHTML::_('select.booleanlist', 'share_review_enable', 'class="inputbox"', $this->row->get('share_review_enable', '1') ); ?>
@@ -1232,7 +1232,7 @@
 						echo $this->sliders->endPanel();	
 
 						
-						$legend = JText::_('Advanced Settings');
+						$legend = JText::_('COM_TIENDA_ADVANCED_SETTINGS');
 	                    echo $this->sliders->startPanel( JText::_( $legend ), 'advanced' );
 	                    ?>
                     
@@ -1240,18 +1240,18 @@
 					<tbody>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Enable Automatic Table Reordering'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_AUTOMATIC_TABLE_REORDERING'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo JHTML::_('select.booleanlist', 'enable_reorder_table', 'class="inputbox"', $this->row->get('enable_reorder_table', '1') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('ENABLE AUTOMATIC TABLE REORDERING DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_AUTOMATIC_TABLE_REORDERING_DESC'); ?>
                             </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Default User Group'); ?>
+								<?php echo JText::_('COM_TIENDA_DEFAULT_USER_GROUP'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::groups($this->row->get('default_user_group', '1'), 'default_user_group'); ?>
@@ -1262,29 +1262,29 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Load Custom Language File?'); ?>
+								<?php echo JText::_('COM_TIENDA_LOAD_CUSTOM_LANGUAGE_FILE'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo JHTML::_('select.booleanlist', 'custom_language_file', 'class="inputbox"', $this->row->get('custom_language_file', '0') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('TIENDA CUSTOM LANGUAGE FILE DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_TIENDA_CUSTOM_LANGUAGE_FILE_DESC'); ?>
                             </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Use SHA1 to store the images?'); ?>
+								<?php echo JText::_('COM_TIENDA_USE_SHA1_TO_STORE_THE_IMAGES'); ?>
 							</th>
 							<td style="width: 150px;">
 		                       <?php echo JHTML::_('select.booleanlist', 'sha1_images', 'class="inputbox"', $this->row->get('sha1_images', '0') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('TIENDA SHA1 IMAGE DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_TIENDA_SHA1_IMAGE_DESC'); ?>
                             </td>
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Max FileSize for Images / Image Archives'); ?>
+								<?php echo JText::_('COM_TIENDA_MAX_FILESIZE_FOR_IMAGES_IMAGE_ARCHIVES'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <input type="text" name="files_maxsize" value="<?php echo $this->row->get('files_maxsize', '3000'); ?>" /> Kb
@@ -1295,13 +1295,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('CHOOSE MULTI UPLOAD SCRIPT'); ?>
+								<?php echo JText::_('COM_TIENDA_CHOOSE_MULTI_UPLOAD_SCRIPT'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::multipleuploadscript($this->row->get('multiupload_script', '0'), 'multiupload_script'); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('CHOOSE MULTI UPLOAD SCRIPT DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_CHOOSE_MULTI_UPLOAD_SCRIPT_DESC'); ?>
                             </td>
 						</tr>
 						<tr>
@@ -1371,7 +1371,7 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
-						$legend = JText::_('Email Settings');
+						$legend = JText::_('COM_TIENDA_EMAIL_SETTINGS');
 	                    echo $this->sliders->startPanel( JText::_( $legend ), 'email' );
 	                    ?>
                     
@@ -1379,51 +1379,51 @@
 					<tbody>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Shop Email Address'); ?><br />
+                                <?php echo JText::_('COM_TIENDA_SHOP_EMAIL_ADDRESS'); ?><br />
                             </th>
                             <td>
                                 <input type="text" name="shop_email" value="<?php echo $this->row->get('shop_email', ''); ?>" class="inputbox" size="35" />
                             </td>
                             <td>
-                                <?php echo JText::_('Shop Email Address Desc'); ?>                                
+                                <?php echo JText::_('COM_TIENDA_SHOP_EMAIL_ADDRESS_DESC'); ?>                                
                             </td>
                         </tr>
                          <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Shop Email From Name'); ?><br />
+                                <?php echo JText::_('COM_TIENDA_SHOP_EMAIL_FROM_NAME'); ?><br />
                             </th>
                             <td>
                                 <input type="text" name="shop_email_from_name" value="<?php echo $this->row->get('shop_email_from_name', ''); ?>" class="inputbox" size="35" />
                             </td>
                             <td>
-								<?php echo JText::_('Shop Email From Name Desc'); ?>                                
+								<?php echo JText::_('COM_TIENDA_SHOP_EMAIL_FROM_NAME_DESC'); ?>                                
                             </td>
                         </tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Disable Guest Signup Email'); ?>
+								<?php echo JText::_('COM_TIENDA_DISABLE_GUEST_SIGNUP_EMAIL'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo JHTML::_('select.booleanlist', 'disable_guest_signup_email', 'class="inputbox"', $this->row->get('disable_guest_signup_email', '0') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('DISABLE GUEST SIGNUP EMAIL DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISABLE_GUEST_SIGNUP_EMAIL_DESC'); ?>
                             </td>
 						</tr>
                         <tr>
 							<th style="width: 25%;">
-								<?php echo JText::_('Obfuscate Guest Email'); ?>
+								<?php echo JText::_('COM_TIENDA_OBFUSCATE_GUEST_EMAIL'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo JHTML::_('select.booleanlist', 'obfuscate_guest_email', 'class="inputbox"', $this->row->get('obfuscate_guest_email', '0') ); ?>
 							</td>
                             <td>
-                                <?php echo JText::_('OBFUSCATE_GUEST_EMAIL_DESC'); ?>
+                                <?php echo JText::_('COM_TIENDA_OBFUSCATE_GUEST_EMAIL_DESC'); ?>
                             </td>
 						</tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Enable Order Status Update Email to User When Order Payment is Received'); ?>
+                                <?php echo JText::_('COM_TIENDA_ENABLE_ORDER_STATUS_UPDATE_EMAIL_TO_USER_WHEN_ORDER_PAYMENT_IS_RECEIVED'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'autonotify_onSetOrderPaymentReceived', 'class="inputbox"', $this->row->get('autonotify_onSetOrderPaymentReceived', '0') ); ?>
@@ -1434,13 +1434,13 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('Additional Email Addresses to Receive Order Notifications'); ?><br />
+                                <?php echo JText::_('COM_TIENDA_ADDITIONAL_EMAIL_ADDRESSES_TO_RECEIVE_ORDER_NOTIFICATIONS'); ?><br />
                             </th>
                             <td>
                                 <textarea name="order_emails" style="width: 250px;" rows="10"><?php echo $this->row->get('order_emails', ''); ?></textarea>
                             </td>
                             <td>
-                                <?php echo JText::_('Separate emails with a comma or put them on each on a new line'); ?>
+                                <?php echo JText::_('COM_TIENDA_ADDITIONAL_EMAIL_ADDRESSES_TO_RECEIVE_ORDER_NOTIFICATIONS_DESC'); ?>
                             </td>
                         </tr>
 					</tbody>
@@ -1448,21 +1448,21 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
-						$legend = JText::_('Address Fields Management');
+						$legend = JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT');
 	                    echo $this->sliders->startPanel( JText::_( $legend ), 'adrress_fields' );
 	                 ?>
 	                <table class="adminlist">
 					<tbody>					
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Address Name Field'); ?><br />
+								<?php echo JText::_('COM_TIENDA_SHOW_ADDRESS_NAME_FIELD'); ?><br />
                 <small><?php echo JText::_('COM_TIENDA_CONFIG_SHOW_ADDRESS_TITLE_NOTE');?></small>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address_name', '3'), 'show_field_address_name');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Address Name Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_ADDRESS_NAME_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address_name', '3'), 'validate_field_address_name');?>
@@ -1470,13 +1470,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Title Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_TITLE_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_title', '3'), 'show_field_title');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Title Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_TITLE_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_title', '3'), 'validate_field_title');?>
@@ -1484,13 +1484,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show First Name Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_FIRST_NAME_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_name', '3'), 'show_field_name');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate First Name Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_FIRST_NAME_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_name', '3'), 'validate_field_name');?>
@@ -1498,13 +1498,13 @@
 						</tr>
                         <tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Middle Name Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_MIDDLE_NAME_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_middle', '3'), 'show_field_middle');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Middle Name Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_MIDDLE_NAME_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_middle', '0'), 'validate_field_middle');?>
@@ -1512,13 +1512,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Last Name Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_LAST_NAME_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_last', '3'), 'show_field_last');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Last Name Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_LAST_NAME_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_last', '3'), 'validate_field_last');?>
@@ -1526,13 +1526,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Company Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_COMPANY_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_company', '3'), 'show_field_company');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Company Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_COMPANY_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_company', '0'), 'validate_field_company');?>
@@ -1540,13 +1540,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Company Tax Number Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_COMPANY_TAX_NUMBER_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_tax_number', '3'), 'show_field_tax_number');?>
 							</td>
                            <th>
-                               	<?php echo JText::_('Validate Company Tax Number Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_COMPANY_TAX_NUMBER_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_tax_number', '3'), 'validate_field_tax_number');?>
@@ -1554,13 +1554,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Address 1 Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_ADDRESS_1_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address1', '3'), 'show_field_address1');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Address 1 Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_ADDRESS_1_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address1', '3'), 'validate_field_address1');?>
@@ -1568,13 +1568,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Address 2 Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_ADDRESS_2_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_address2', '3'), 'show_field_address2');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Address 2 Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_ADDRESS_2_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_address2', '0'), 'validate_field_address2');?>
@@ -1582,13 +1582,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show City Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_CITY_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_city', '3'), 'show_field_city');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate City Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_CITY_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_city', '3'), 'validate_field_city');?>
@@ -1596,13 +1596,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Country Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_COUNTRY_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_country', '3'), 'show_field_country');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Country Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_COUNTRY_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_country', '3'), 'validate_field_country');?>
@@ -1610,13 +1610,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Zone Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_ZONE_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_zone', '3'), 'show_field_zone');?>
 							</td>
                             <th>
-                               	<?php echo JText::_('Validate Zone Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_ZONE_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_zone', '3'), 'validate_field_zone');?>
@@ -1624,13 +1624,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Postal Code Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_POSTAL_CODE_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_zip', '3'), 'show_field_zip');?>
 							</td>
                            <th>
-                               	<?php echo JText::_('Validate Postal Code Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_POSTAL_CODE_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_zip', '3'), 'validate_field_zip');?>
@@ -1638,13 +1638,13 @@
 						</tr>
 						<tr>
 			            	<th style="width: 25%;">
-								<?php echo JText::_('Show Phone Field'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_PHONE_FIELD'); ?>
 							</th>
 							<td style="width: 150px;">
 		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_phone', '3'), 'show_field_phone');?>
 							</td>
 	                            <th>
-                               	<?php echo JText::_('Validate Phone Field'); ?>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_PHONE_FIELD'); ?>
                             </th>
                             <td>
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_phone', '0'), 'validate_field_phone');?>
@@ -1654,13 +1654,13 @@
 					</table>
 					<?php
 						echo $this->sliders->endPanel();	
-	     				echo $this->sliders->startPanel( JText::_('Product Compare Settings'), 'product_compare' );
+	     				echo $this->sliders->startPanel( JText::_('COM_TIENDA_PRODUCT_COMPARE_SETTINGS'), 'product_compare' );
 	    			?>
 					<table class="adminlist">
 					<tbody>		
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Enable Product Compare'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_PRODUCT_COMPARE'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<?php echo JHTML::_('select.booleanlist', 'enable_product_compare', 'class="inputbox"', $this->row->get('enable_product_compare', '1') ); ?>
@@ -1670,18 +1670,18 @@
 						</tr>			
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Product Compared Limit'); ?>
+								<?php echo JText::_('COM_TIENDA_PRODUCT_COMPARED_LIMIT'); ?>
 							</th>
 							<td style="width: 150px;">
 												<input type="text" name="compared_products" value="<?php echo $this->row->get('compared_products', ''); ?>" />
 							</td>
 							<td>
-								<?php echo JText::_('Number of products that can be compared at once.');?>
+								<?php echo JText::_('COM_TIENDA_NUMBER_OF_PRODUCTS_THAT_CAN_BE_COMPARED_AT_ONCE');?>
 							</td>
 						</tr>
 						<tr>
 				   			<th style="width: 25%;">
-								<?php echo JText::_('Show Add To Cart'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_ADD_TO_CART'); ?>
 							</th>
 							<td style="width: 150px;">
 			      				<?php echo JHTML::_('select.booleanlist', 'show_addtocart_productcompare', 'class="inputbox"', $this->row->get('show_addtocart_productcompare', '1') ); ?>
@@ -1691,7 +1691,7 @@
 						</tr>
 						<tr>
 					   		<th style="width: 25%;">
-								<?php echo JText::_('Show Average Customer Rating'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_AVERAGE_CUSTOMER_RATING'); ?>
 							</th>
 							<td style="width: 150px;">
 			      			<?php echo JHTML::_('select.booleanlist', 'show_rating_productcompare', 'class="inputbox"', $this->row->get('show_rating_productcompare', '1') ); ?>
@@ -1701,7 +1701,7 @@
 						</tr>
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Show Manufacturer'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_MANUFACTURER'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<?php echo JHTML::_('select.booleanlist', 'show_manufacturer_productcompare', 'class="inputbox"', $this->row->get('show_manufacturer_productcompare', '1') ); ?>
@@ -1711,7 +1711,7 @@
 						</tr>	
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Show Product Model'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_PRODUCT_MODEL'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<?php echo JHTML::_('select.booleanlist', 'show_model_productcompare', 'class="inputbox"', $this->row->get('show_model_productcompare', '1') ); ?>
@@ -1721,7 +1721,7 @@
 						</tr>	
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Show Product SKU'); ?>
+								<?php echo JText::_('COM_TIENDA_SHOW_PRODUCT_SKU'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<?php echo JHTML::_('select.booleanlist', 'show_sku_productcompare', 'class="inputbox"', $this->row->get('show_sku_productcompare', '1') ); ?>
@@ -1734,7 +1734,7 @@
 					<?php
             echo $this->sliders->endPanel();
 
-            $legend = JText::_('LOW STOCK NOTIFY SETTINGS');
+            $legend = JText::_('COM_TIENDA_LOW_STOCK_NOTIFY_SETTINGS');
             echo $this->sliders->startPanel( JText::_( $legend ), 'low_stock_notify' );
             ?>
             
@@ -1742,7 +1742,7 @@
             <tbody>
                 <tr>
                     <th style="width: 25%;">
-                        <?php echo JText::_('LOW STOCK NOTIFY'); ?>
+                        <?php echo JText::_('COM_TIENDA_LOW_STOCK_NOTIFY'); ?>
                     </th>
                     <td>
                         <?php echo JHTML::_('select.booleanlist', 'low_stock_notify', 'class="inputbox"', $this->row->get('low_stock_notify', '0') ); ?>
@@ -1753,26 +1753,26 @@
                 </tr>
                 <tr>
                     <th style="width: 25%;">
-                        <?php echo JText::_('LOW STOCK NOTIFY VALUE'); ?>
+                        <?php echo JText::_('COM_TIENDA_LOW_STOCK_NOTIFY_VALUE'); ?>
                     </th>
                     <td>
                         <input ="text" name="low_stock_notify_value" value="<?php echo $this->row->get('low_stock_notify_value', '0'); ?>" />
                     </td>
                     <td>
-                        <?php echo JText::_('LOW STOCK NOTIFY VALUE DESC'); ?>
+                        <?php echo JText::_('COM_TIENDA_LOW_STOCK_NOTIFY_VALUE_DESC'); ?>
                     </td>
                 </tr>
             </tbody>
             </table>					
 					<?php
 							echo $this->sliders->endPanel();	
-	     				echo $this->sliders->startPanel( JText::_('EAV Editor Settings'), 'eav_editor_settings' );
+	     				echo $this->sliders->startPanel( JText::_('COM_TIENDA_EAV_EDITOR_SETTINGS'), 'eav_editor_settings' );
 	    			?>
 					<table class="adminlist">
 					<tbody>		
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Textarea Rows'); ?>
+								<?php echo JText::_('COM_TIENDA_TEXTAREA_ROWS'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<input type="text" name="eav_textarea_rows" value="<?php echo $this->row->get('eav_textarea_rows', '20'); ?>" />
@@ -1782,7 +1782,7 @@
 						</tr>
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Textarea Columns'); ?>
+								<?php echo JText::_('COM_TIENDA_TEXTAREA_COLUMNS'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<input type="text" name="eav_textarea_columns" value="<?php echo $this->row->get('eav_textarea_columns', '50'); ?>" />
@@ -1792,7 +1792,7 @@
 						</tr>		
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Textarea Width'); ?>
+								<?php echo JText::_('COM_TIENDA_TEXTAREA_WIDTH'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<input type="text" name="eav_textarea_width" value="<?php echo $this->row->get('eav_textarea_width', '300'); ?>" />
@@ -1802,7 +1802,7 @@
 						</tr>		
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Textarea Height'); ?>
+								<?php echo JText::_('COM_TIENDA_TEXTAREA_HEIGHT'); ?>
 							</th>
 							<td style="width: 150px;">
 		       					<input type="text" name="eav_textarea_height" value="<?php echo $this->row->get('eav_textarea_height', '200'); ?>" />
@@ -1824,35 +1824,35 @@
 					</table>										
 					<?php
 						echo $this->sliders->endPanel();				
-     				echo $this->sliders->startPanel( JText::_('Features Settings'), 'features_settings' );
+     				echo $this->sliders->startPanel( JText::_('COM_TIENDA_FEATURES_SETTINGS'), 'features_settings' );
 					?>
 					<table class="adminlist">
 					<tbody>		
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Enable Subscriptions'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_SUBSCRIPTIONS'); ?>
 							</th>
 							<td style="width: 150px;">
                 <?php echo JHTML::_('select.booleanlist', 'display_subscriptions', 'class="inputbox"', $this->row->get('display_subscriptions', '1') ); ?>
 							</td>
 							<td>								
-								<?php echo JText::_('Enable Subscriptions Note');?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_SUBSCRIPTIONS_NOTE');?>
 							</td>
 						</tr>
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Enable My Downloads'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_MY_DOWNLOADS'); ?>
 							</th>
 							<td style="width: 150px;">
                 <?php echo JHTML::_('select.booleanlist', 'display_mydownloads', 'class="inputbox"', $this->row->get('display_mydownloads', '1') ); ?>
 							</td>
 							<td>								
-								<?php echo JText::_('Enable My Downloads Note');?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_MY_DOWNLOADS_NOTE');?>
 							</td>
 						</tr>
 						<tr>
 			   				<th style="width: 25%;">
-								<?php echo JText::_('Enable Wishlist'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_WISHLIST'); ?>
 							</th>
 							<td style="width: 150px;">
                 <?php echo JHTML::_('select.booleanlist', 'display_wishlist', 'class="inputbox"', $this->row->get('display_wishlist', '0') ); ?>
@@ -1862,7 +1862,7 @@
 						</tr>		
 						<tr>
 		   				<th style="width: 25%;">
-								<?php echo JText::_('Enable Credits'); ?>
+								<?php echo JText::_('COM_TIENDA_ENABLE_CREDITS'); ?>
 							</th>
 							<td style="width: 150px;">
                 <?php echo JHTML::_('select.booleanlist', 'display_credits', 'class="inputbox"', $this->row->get('display_credits', '0') ); ?>

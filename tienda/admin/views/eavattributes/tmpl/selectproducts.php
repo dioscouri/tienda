@@ -5,12 +5,12 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Products for'); ?>: <?php echo $row->eavattribute_label; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SELECT_PRODUCTS_FOR'); ?>: <?php echo $row->eavattribute_label; ?></h1>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 <div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
-    <?php echo JText::_('For Checked Items'); ?>:
-    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('Change Status'); ?></button>
+    <?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
+    <button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button>
 
     <table>
         <tr>

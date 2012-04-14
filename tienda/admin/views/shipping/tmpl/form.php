@@ -44,7 +44,7 @@ $tabs = &JPane::getInstance( 'tabs' );
 			</table>
 			</fieldset>
 			<fieldset>
-    		<legend><?php echo JText::_('Parameters'); ?></legend>
+    		<legend><?php echo JText::_('COM_TIENDA_PARAMETERS'); ?></legend>
 			<?php 
 			if ($output = $this->params->render('params')) :
 				echo $output;

@@ -26,7 +26,7 @@
                     <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
                     <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_WEIGHT_PREFIX'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_WEIGHT'); ?></th>
-                    <th><?php echo JText::_('Code'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_CODE'); ?></th>
                     <th><?php echo JText::_('Is Blank?'); ?></th>
                     <th></th>
                 </tr>

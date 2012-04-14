@@ -48,7 +48,7 @@
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<?php echo JText::_('Current Image'); ?>:
+							<?php echo JText::_('COM_TIENDA_CURRENT_IMAGE'); ?>:
 						</td>
 						<td>
 							<?php

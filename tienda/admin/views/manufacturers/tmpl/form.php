@@ -28,7 +28,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Current Image'); ?>:
+						<?php echo JText::_('COM_TIENDA_CURRENT_IMAGE'); ?>:
 					</td>
 					<td>
 						<?php
@@ -44,7 +44,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Upload New Image'); ?>:
+						<?php echoJText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
 					</td>
 					<td>
 						<input name="manufacturer_image_new" type="file" size="40" />
@@ -61,7 +61,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
                 </tr>
                 <tr>
                     <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_('Parameters'); ?>:
+                        <?php echo JText::_('COM_TIENDA_PARAMETERS'); ?>:
                     </td>
                     <td>
                         <textarea name="manufacturer_params" id="manufacturer_params" rows="10" cols="35"><?php echo @$row->manufacturer_params; ?></textarea>

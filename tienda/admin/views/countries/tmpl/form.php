@@ -30,7 +30,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_isocode_2">
-						<?php echo JText::_('ISO Code 2'); ?>:
+						<?php echo JText::_('COM_TIENDA_ISO_CODE_2'); ?>:
 						</label>
 					</td>
 					<td>
@@ -40,7 +40,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="country_isocode_3">
-						<?php echo JText::_('ISO Code 3'); ?>:
+						<?php echo JText::_('COM_TIENDA_ISO_CODE_3'); ?>:
 						</label>
 					</td>
 					<td>
@@ -50,7 +50,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="address_format">
-						<?php echo JText::_('Address Format'); ?>:
+						<?php echo JText::_('COM_TIENDA_ADDRESS_FORMAT'); ?>:
 						</label>
 					</td>
 					<td>

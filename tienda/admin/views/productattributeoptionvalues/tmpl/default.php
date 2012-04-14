@@ -23,7 +23,7 @@
                     <th></th>
                     <th style="width: 15px;"><?php echo JText::_('Field'); ?></th>
                      <th><?php echo JText::_('Operator'); ?></th>
-                    <th><?php echo JText::_('Value'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_VALUE'); ?></th>
                     <th></th>
                     
                 </tr>

@@ -226,7 +226,7 @@
 	                        <br/>
 	                        <?php
 	                        echo JText::_('Payment Type').": ".JText::_($orderpayment->orderpayment_type)."<br/>";
-	                        echo JText::_('Details').": ".JText::_($orderpayment->transaction_details)."<br/>";
+	                        echo JText::_('COM_TIENDA_DETAILS').": ".JText::_($orderpayment->transaction_details)."<br/>";
 	                    }
 	                } 
 	                ?>
@@ -538,7 +538,7 @@
                     ?>
     	            <tr class='row<?php echo $k; ?>'>
     	                <td colspan="3" style="text-align: left; padding-left: 10px;">
-    	                    <b><?php echo JText::_('Comments'); ?></b>:
+    	                    <b><?php echo JText::_('COM_TIENDA_COMMENTS'); ?></b>:
     	                    <?php echo $history->comments; ?>
     	                </td>
     	            </tr>            	
@@ -604,7 +604,7 @@
     	</tr>
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('Comments'); ?>
+    	        <?php echo JText::_('COM_TIENDA_COMMENTS'); ?>
     	    </td>
     	    <td>
 		<div id="update_order">

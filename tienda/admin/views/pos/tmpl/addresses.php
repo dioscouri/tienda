@@ -42,7 +42,7 @@
 					<td class="divider"> </td>
 					<td align="center">
 					<a onclick="window.parent.document.getElementById( 'sbox-window' ).close();" href="#" >
-					<span class="icon-32-cancel" title="<?php echo JText::_('Close', true);?>"></span><?php echo JText::_('Close');?>
+					<span class="icon-32-cancel" title="<?php echo JText::_('Close', true);?>"></span><?php echo JText::_('COM_TIENDA_CLOSE');?>
 					</a>
 					</td>
 				</tr>

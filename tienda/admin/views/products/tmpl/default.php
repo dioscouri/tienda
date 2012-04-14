@@ -170,7 +170,7 @@
                     $layout = $helper_product->getLayout( $item->product_id );
                     if ($layout != 'view') 
                     {
-                        echo "<b>".JText::_('Layout Override')."</b>: ".$layout; 
+                        echo "<b>".JText::_('COM_TIENDA_LAYOUT_OVERRIDE')."</b>: ".$layout; 
                     }
                     ?>
                 </td>

@@ -32,7 +32,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Alias'); ?>:
+                    <?php echo JText::_('COM_TIENDA_ALIAS'); ?>:
                 </td>
                 <td>
                     <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
@@ -99,7 +99,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </tr>
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
-                    <?php echo JText::_('Comments'); ?>:
+                    <?php echo JText::_('COM_TIENDA_COMMENTS'); ?>:
                 </td>
                 <td>
                     <?php echo @$row->product_comments; ?>
@@ -424,7 +424,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <label for="product_full_image_new">
-                        <?php echo JText::_('Upload New Image'); ?>:
+                        <?php echoJText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
                         </label>
                     </td>
                     <td>

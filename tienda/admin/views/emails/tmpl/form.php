@@ -19,7 +19,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Code'); ?>
+						<?php echo JText::_('COM_TIENDA_CODE'); ?>
 					</td>
 					<td>
 						<?php echo $row->code; ?>

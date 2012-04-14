@@ -98,7 +98,7 @@ class TiendaViewProducts extends TiendaViewBase
     	}
     	if (!$isNew)
     	{
-        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('Save As'), false);
+        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('COM_TIENDA_SAVE_AS'), false);
     	}
         parent::_formToolbar($isNew);
     }

@@ -119,7 +119,7 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 	{
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
 		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('COM_TIENDA_SAVE'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('Close'), false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('COM_TIENDA_CLOSE'), false, 'shippingTask' );
 		 
 		$id = JRequest::getInt('id', '0');
 		$sid = TiendaShippingPlugin::getShippingId();

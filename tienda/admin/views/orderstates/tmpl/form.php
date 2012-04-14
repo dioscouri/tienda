@@ -18,7 +18,7 @@ JFilterOutput::objectHTMLSafe( $row );
 					</td>
 					<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Comments'); ?>:
+						<?php echo JText::_('COM_TIENDA_COMMENTS'); ?>:
 					</td>
 					<td>
 						<textarea name="order_state_description"  id="order_state_description" rows="5" style="width: 100%;"><?php echo @$row->order_state_description; ?></textarea>

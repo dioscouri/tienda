@@ -8,8 +8,8 @@
 <h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select Zones for'); ?>: <?php echo $row->geozone_name; ?></h1>
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
-	<?php echo JText::_('For Checked Items'); ?>:
-	<button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('Change Status'); ?></button><br />
+	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
+	<button onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button><br />
 	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='savezipranges'; document.adminForm.submit();"> <?php echo JText::_('Save All Changes to Zip Ranges'); ?></button>
 
 

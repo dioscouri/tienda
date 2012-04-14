@@ -19,7 +19,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
-						<?php echo JText::_('Alias'); ?>:
+						<?php echo JText::_('COM_TIENDA_ALIAS'); ?>:
 					</td>
 					<td>
 						<input type="text" name="eavattribute_alias" id="eavattribute_alias" size="48" maxlength="250" value="<?php echo @$row->eavattribute_alias; ?>" />

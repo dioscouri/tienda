@@ -51,7 +51,7 @@
                     <?php echo TiendaGrid::sort( 'Uses', "tbl.coupon_uses", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo JText::_('Details'); ?>
+                    <?php echo JText::_('COM_TIENDA_DETAILS'); ?>
                 </th>
             </tr>
             <tr class="filterline">

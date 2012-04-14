@@ -42,10 +42,10 @@
     	            <?php echo TiendaGrid::sort( 'Code', "tbl.currency_code", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo JText::_('Format'); ?>
+    	            <?php echo JText::_('COM_TIENDA_FORMAT'); ?>
                 </th>
                 <th>
-                    <?php echo JText::_('Value in USD'); ?>
+                    <?php echo JText::_('COM_TIENDA_VALUE_IN_USD'); ?>
                 </th>
                 <th>
     	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.currency_enabled", @$state->direction, @$state->order ); ?>
