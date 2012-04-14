@@ -19,7 +19,7 @@ class TiendaTableEavAttributeOptions extends TiendaTable
     {        
         if (empty($this->eavattribute_id))
         {
-            $this->setError( JText::_('Attribute Required') );
+            $this->setError( JText::_('COM_TIENDA_ATTRIBUTE_REQUIRED') );
             return false;
         }
         

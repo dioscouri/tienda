@@ -62,7 +62,7 @@ class TiendaTableProducts extends TiendaTableEav
 				$helper = TiendaHelperBase::getInstance( 'Product' );
 				if ( $helper->consolidateGalleryImages( $this ) === true )
 				{
-					JFactory::getApplication( )->enqueueMessage( JText::_('Images Consolidated Message') );
+					JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_IMAGES_CONSOLIDATED_MESSAGE') );
 				}
 			}
 		}
@@ -78,7 +78,7 @@ class TiendaTableProducts extends TiendaTableEav
 			$helper = TiendaHelperBase::getInstance( 'Product' );
 			if ( $helper->consolidateGalleryImages( $this ) === true )
 			{
-				JFactory::getApplication( )->enqueueMessage( JText::_('Images Consolidated Message') );
+				JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_IMAGES_CONSOLIDATED_MESSAGE') );
 			}
 		}
 		return $return;
@@ -270,7 +270,7 @@ class TiendaTableProducts extends TiendaTableEav
 		// If this product is already stored, we shouldn't create the product!
 		if ( $this->product_id )
 		{
-			$this->setError( JText::_('You cannot create an already existing product') );
+			$this->setError( JText::_('COM_TIENDA_YOU_CANNOT_CREATE_AN_ALREADY_EXISTING_PRODUCT') );
 			return false;
 		}
 		
@@ -400,7 +400,7 @@ class TiendaTableProducts extends TiendaTableEav
 		// If this product is already stored, we shouldn't create the product!
 		if ( !$this->product_id )
 		{
-			$this->setError( JText::_('You cannot update a non existing product') );
+			$this->setError( JText::_('COM_TIENDA_YOU_CANNOT_UPDATE_A_NON_EXISTING_PRODUCT') );
 			return false;
 		}
 		

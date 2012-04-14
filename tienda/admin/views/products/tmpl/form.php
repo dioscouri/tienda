@@ -329,7 +329,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             </fieldset>
 
             <fieldset>
-            <legend><?php echo JText::_('Categories'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_CATEGORIES'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <?php 
                 if (empty($row->product_id)) 
@@ -356,7 +356,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <tr>
                         <td style="width: 100px; text-align: right;" class="key">
                             <label for="product_categories">
-                            <?php echo JText::_('Categories'); ?>:
+                            <?php echo JText::_('COM_TIENDA_CATEGORIES'); ?>:
                             </label>
                         </td>
                         <td>
@@ -899,8 +899,8 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('Subscription Pro-rated Term'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_('Day'); ?></label>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_('Month'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_('COM_TIENDA_DAY'); ?></label>
+                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_('COM_TIENDA_MONTH'); ?></label>
                     </td>
                 </tr>
             </table>

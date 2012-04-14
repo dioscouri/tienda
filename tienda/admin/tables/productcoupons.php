@@ -40,12 +40,12 @@ class TiendaTableProductCoupons extends TiendaTableXref
 	{
 		if (empty($this->coupon_id))
 		{
-			$this->setError( JText::_('Coupon Required') );
+			$this->setError( JText::_('COM_TIENDA_COUPON_REQUIRED') );
 			return false;
 		}
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_REQUIRED') );
 			return false;
 		}
 		

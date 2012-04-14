@@ -35,12 +35,12 @@ class TiendaTableProductAttributes extends TiendaTable
 	{
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Association Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_ASSOCIATION_REQUIRED') );
 			return false;
 		}
         if (empty($this->productattribute_name))
         {
-            $this->setError( JText::_('Attribute Name Required') );
+            $this->setError( JText::_('COM_TIENDA_ATTRIBUTE_NAME_REQUIRED') );
             return false;
         }
 		return true;

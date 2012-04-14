@@ -133,12 +133,12 @@ function shippingPerOrder()
                 </tr>
                 <tr <?php if (empty($row->coupon_type)) { echo 'style="display: none;"'; } ?> id="per_product">
                     <td style="width: 125px; text-align: right;" class="key">
-                        <?php echo JText::_('Select Products'); ?>:
+                        <?php echo JText::_('COM_TIENDA_SELECT_PRODUCTS'); ?>:
                     </td>
                     <td>
                     	<?php if(@$row->coupon_id){?>
                         <?php $select_url = "index.php?option=com_tienda&controller=coupons&task=selectproducts&id=".$row->coupon_id."&tmpl=component&hidemainmenu=1"; ?>
-                    	<?php echo TiendaUrl::popup( $select_url, JText::_('Select Products') ); ?>
+                    	<?php echo TiendaUrl::popup( $select_url, JText::_('COM_TIENDA_SELECT_PRODUCTS') ); ?>
                     	<?php } else
                     	{
                     		?>

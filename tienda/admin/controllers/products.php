@@ -1732,7 +1732,7 @@ class TiendaControllerProducts extends TiendaController
 			}
 			else
 			{
-				$msg = JText::_('Cannot Delete the Image: '.$path.$image);
+				$msg = JText::_('COM_TIENDA_CANNOT_DELETE_IMAGE'.$path.$image);
 			}
 		}
 		else

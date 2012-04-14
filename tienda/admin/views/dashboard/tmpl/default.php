@@ -17,7 +17,7 @@
 			<tr>
 				<th><?php echo JText::_('COM_TIENDA_RANGE'); ?></th>
 				<th><?php echo JText::_('Revenue'); ?></th>
-				<th><?php echo JText::_('Orders'); ?></th>
+				<th><?php echo JText::_('COM_TIENDA_ORDERS'); ?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -35,7 +35,7 @@
 			$tabs = JPane::getInstance( 'tabs' );
 
 			echo $tabs->startPane("tabone");
-			echo $tabs->startPanel( JText::_('Orders'), "orders" );
+			echo $tabs->startPanel( JText::_('COM_TIENDA_ORDERS'), "orders" );
 
 				echo "<h2>".@$this->graph->title."</h2>";
 				echo @$this->graph->image;

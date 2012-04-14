@@ -141,7 +141,7 @@ class TiendaModelElementProductMultiple extends JModel
 		$doc 		=& JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		
-		$title = JText::_('Add products');
+		$title = JText::_('COM_TIENDA_ADD_PRODUCTS');
 		
 		$js = "
 		function jSelectProducts(productarray) 
@@ -211,7 +211,7 @@ class TiendaModelElementProductMultiple extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('Add products').'\', \''.$name.'\' )">'.JText::_('Remove products').'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('COM_TIENDA_ADD_PRODUCTS').'\', \''.$name.'\' )">'.JText::_('COM_TIENDA_REMOVE_PRODUCTS').'</span>
 		</div></div>'."\n";
 
 		return $html;

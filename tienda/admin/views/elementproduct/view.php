@@ -84,7 +84,7 @@ class TiendaViewElementProduct extends JView
 			
 			<th width="2%" class="title"><?php echo JHTML::_('grid.sort',   'ID', 'c.product_id', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
-			<th style="width:50px;"><?php echo JText::_('Image'); ?></th>
+			<th style="width:50px;"><?php echo JText::_('COM_TIENDA_IMAGE'); ?></th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Name', 'c.product_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th class="title"><?php echo JHTML::_('grid.sort',   'Description', 'c.product_description', @$lists['order_Dir'], @$lists['order'] ); ?>

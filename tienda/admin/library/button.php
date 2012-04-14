@@ -52,7 +52,7 @@ class JButtonTienda extends JButton{
 	function _getCommand($name, $task, $list, $hide, $taskName)
 	{
 		$todo		= JString::strtolower(JText::_( $name ));
-		$message	= JText::sprintf( 'Please make a selection from the list to', $todo );
+		$message	= JText::sprintf( 'COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo );
 		$message	= addslashes($message);
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 

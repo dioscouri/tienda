@@ -43,7 +43,7 @@ class TiendaTableUserInfo extends TiendaTable
 		
 		if( $notnew && $app->isSite() && $changed_sub_num && !( $user->usertype == 'Super Administrator'  ) )
 		{
-				$this->setError( JText::_('You do not have enough rights to perform this task') );
+				$this->setError( JText::_('COM_TIENDA_YOU_DO_NOT_HAVE_ENOUGH_RIGHTS_TO_PERFORM_THIS_TASK') );
 				return false;
 		}
 		return true;

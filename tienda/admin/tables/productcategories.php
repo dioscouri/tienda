@@ -40,12 +40,12 @@ class TiendaTableProductCategories extends TiendaTableXref
 	{
 		if (empty($this->category_id))
 		{
-			$this->setError( JText::_('Category Required') );
+			$this->setError( JText::_('COM_TIENDA_CATEGORY_REQUIRED') );
 			return false;
 		}
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_REQUIRED') );
 			return false;
 		}
 		

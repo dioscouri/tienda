@@ -115,7 +115,7 @@ JFilterOutput::objectHTMLSafe( $row );
 		<tbody>
 		    <tr>
 		        <th style="width: 100px;" class="key">
-		            <?php echo JText::_('Select'); ?>:
+		            <?php echo JText::_('COM_TIENDA_SELECT'); ?>:
 		        </th>
 		        <td>
 			        <?php $attribs = array( 'class' => 'inputbox', 'size' => '1', 'onchange' => 'tiendaGetOrderTotals();' ); ?>

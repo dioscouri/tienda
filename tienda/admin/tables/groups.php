@@ -43,7 +43,7 @@ class TiendaTableGroups extends TiendaTable
 		$this->filterHTML( 'group_name' );
 		if (empty($this->group_name))
 		{
-			$this->setError( JText::_('Name Required') );
+			$this->setError( JText::_('COM_TIENDA_NAME_REQUIRED') );
 			return false;
 		}
 		$this->filterHTML( 'group_description' );
@@ -119,7 +119,7 @@ class TiendaTableGroups extends TiendaTable
 		}
 		else
 		{
-			$this->setError(JText::_("You can't delete the default user group"));
+			$this->setError(JText::_('COM_TIENDA_COM_TIENDA_YOU_CANT_DELETE_THE_DEFAULT_USER_GROUP'));
 			return false;
 		}
 		

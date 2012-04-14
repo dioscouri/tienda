@@ -113,17 +113,17 @@ if (!class_exists( 'dscInstaller' )) {
 			if ($path && JFolder::exists($path)) {
 				$this->setExtensionsPath($path);
 			} else {
-				//$this->abort(JText::_('extensions path does not exist'));
+				//$this->abort(JText::_('COM_TIENDA_EXTENSIONS_PATH_DOES_NOT_EXIST'));
 				$this->msg->type = 'notice';
-				$this->msg->message = JText::_('extensions path does not exist');
+				$this->msg->message = JText::_('COM_TIENDA_EXTENSIONS_PATH_DOES_NOT_EXIST');
 				return false;
 			}
 	
 			//prepare for the installation
 			if (!$this->setupExtensionsInstall()) {
-				//$this->abort(JText::_('unable to find any packages'));
+				//$this->abort(JText::_('COM_TIENDA_UNABLE_TO_FIND_ANY_PACKAGES'));
 				$this->msg->type = 'notice';
-				$this->msg->message = JText::_('No Packages Found At')." ".$this->_extensionsPath;
+				$this->msg->message = JText::_('COM_TIENDA_NO_PACKAGES_FOUND_AT')." ".$this->_extensionsPath;
 				return false;
 			}
 	
@@ -289,14 +289,14 @@ if (!class_exists( 'dscInstaller' )) {
 			if ($package['dir'] && JFolder::exists($package['dir'])) {
 				$installer->setPath('source', $package['dir']);
 			} else {
-				$this->setError( "dscInstaller::installExtension: ".JText::_('Package dir does not exist') );
+				$this->setError( "dscInstaller::installExtension: ".JText::_('COM_TIENDA_PACKAGE_DIR_DOES_NOT_EXIST') );
 				return false;
 			}
 	
 			//this makes sure the manifest file is loaded into the installer object
 			if (!$installer->setupInstall()) 
 			{
-				$this->setError( "dscInstaller::installExtension: ".JText::_('Could not load manifest file') );
+				$this->setError( "dscInstaller::installExtension: ".JText::_('COM_TIENDA_COULD_NOT_LOAD_MANIFEST_FILE') );
 				return false;
 			}
 	
@@ -403,7 +403,7 @@ if (!class_exists( 'dscInstaller' )) {
 	                $installer->setPath('source', dirname($file));
 	            }
 	        } else {
-	            $this->setError(JText::_('Unable to locate manifest file'));
+	            $this->setError(JText::_('COM_TIENDA_UNABLE_TO_LOCATE_MANIFEST_FILE'));
 	            return false;
 	        }
 	
@@ -420,17 +420,17 @@ if (!class_exists( 'dscInstaller' )) {
 	            //uninstall the extension using the joomla uninstaller
 	            if ($installer->uninstall($manifestInformation["type"], $elementID, $clientid))
 	            {
-	            	$this->setError(JText::_('ELEMENT UNINSTALLED'));
+	            	$this->setError(JText::_('COM_TIENDA_ELEMENT_UNINSTALLED'));
 	            	return true;
 	            }
                    else
                 {
-                    $this->setError(JText::_('ELEMENT UNINSTALL FAILED')." :: ".$installer->getError());
+                    $this->setError(JText::_('COM_TIENDA_ELEMENT_UNINSTALL_FAILED')." :: ".$installer->getError());
                     return false;
                 }
             }
             
-            $this->setError(JText::_('ELEMENT NOT UNINSTALLED'));
+            $this->setError(JText::_('COM_TIENDA_ELEMENT_NOT_UNINSTALLED'));
             return false;
 	    }
 	    
@@ -805,7 +805,7 @@ if (!class_exists( 'dscInstaller' )) {
 		function _formatMessage() {
 			if (sizeof($this->_installedExtensions) > 0) {
 				$this->msg->type = 'message';
-				$this->msg->message = JText::_('Installation Completed');
+				$this->msg->message = JText::_('COM_TIENDA_INSTALLATION_COMPLETED');
 				foreach ($this->_installedExtensions as $extension) {
 					$this->msg->message .= "</li>";
 					$this->msg->message .= "<li>".JText::_('COM_TIENDA_INSTALLED')." ".$extension["type"]." ".$extension["element"];
@@ -813,7 +813,7 @@ if (!class_exists( 'dscInstaller' )) {
 				$this->msg->message .= "</li>";
 			} else {
 				$this->msg->type = 'notice';
-				$this->msg->message = JText::_('Nothing Installed');
+				$this->msg->message = JText::_('COM_TIENDA_NOTHING_INSTALLED');
 			}
 		}
 	

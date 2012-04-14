@@ -31,7 +31,7 @@ class TiendaGrid extends JHTMLGrid
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 
-		$html = '<a href="javascript:tiendaGridOrdering(\''.$order.'\',\''.$direction.'\');" title="'.JText::_('Click to sort this column').'">';
+		$html = '<a href="javascript:tiendaGridOrdering(\''.$order.'\',\''.$direction.'\');" title="'.JText::_('COM_TIENDA_CLICK_TO_SORT_THIS_COLUMN').'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
 			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
@@ -49,8 +49,8 @@ class TiendaGrid extends JHTMLGrid
 	{
 		JHTML::_('script', Tienda::getName().'.js', 'media/com_tienda/js/');
 		
-		$up   = 'uparrow.png'; $up_title = JText::_('Move Up');
-		$down = 'downarrow.png'; $down_title = JText::_('Move Down');
+		$up   = 'uparrow.png'; $up_title = JText::_('COM_TIENDA_MOVE_UP');
+		$down = 'downarrow.png'; $down_title = JText::_('COM_TIENDA_MOVE_DOWN');
 
 		$result =
 			'<a href="javascript:tiendaGridOrder('.$id.', -1)" >'
@@ -109,8 +109,8 @@ class TiendaGrid extends JHTMLGrid
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? JText::_('Published') : JText::_('Unpublished');
-		$action = $row->published ? JText::_('Unpublish Item') : JText::_('Publish item');
+		$alt 	= $row->published ? JText::_('COM_TIENDA_PUBLISHED') : JText::_('COM_TIENDA_UNPUBLISHED');
+		$action = $row->published ? H : JText::_('COM_TIENDA_UNPUBLISH_ITEM');
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
@@ -125,7 +125,7 @@ class TiendaGrid extends JHTMLGrid
 		$img 	= $enable ? $imgY : $imgX;
 		$task 	= $enable ? 'disable' : 'enable';
 		$alt 	= $enable ? JText::_('COM_TIENDA_ENABLED') : JText::_('COM_TIENDA_DISABLED');
-		$action = $enable ? JText::_('Disable Item') : JText::_('Enable Item');
+		$action = $enable ? JText::_('COM_TIENDA_DISABLE_ITEM') : JText::_('COM_TIENDA_ENABLE_ITEM');
 		
         $href = '
         <a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
@@ -166,7 +166,7 @@ class TiendaGrid extends JHTMLGrid
 				$text = JFactory::getUser($row->checked_out)->username;
 				$date = JHTML::_('date',  $row->checked_out_time, JText::_('DATE_FORMAT_LC1') );
 				$time = JHTML::_('date',  $row->checked_out_time, '%H:%M' );
-				$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out by') .' '. $text .' '.JText::_('on').' '. $date .' '.JText::_('at').' '. $time .'">';
+				$hover = '<span class="editlinktip hasTip" title="'. JText::_('COM_TIENDA_CHECKED_OUT_BY') .' '. $text .' '.JText::_('COM_TIENDA_ON').' '. $date .' '.JText::_('COM_TIENDA_AT').' '. $time .'">';
 				$checked = $hover .'<img src="images/checked_out.png"/></span>';
 			}
 			
@@ -192,7 +192,7 @@ class TiendaGrid extends JHTMLGrid
 			$view = strtolower( JRequest::getVar('view') );
 			$task = "page_tooltip_disable";
 			$url = JRoute::_("index.php?option=com_tienda&controller={$view}&view={$view}&task={$task}&key={$key}");
-			$link = "<a href='{$url}'>".JText::_('Hide This')."</a>";
+			$link = "<a href='{$url}'>".JText::_('COM_TIENDA_HIDE_THIS')."</a>";
 			
 			$href = '
 				<fieldset class="'.$id.'">
@@ -217,8 +217,8 @@ class TiendaGrid extends JHTMLGrid
 		{
 			$html = "
 			<div class='note'>
-				".JText::_('$title Checked Out By You')."
-				<button onclick='document.getElementById(\"task\").value=\"release\"; this.form.submit();'>".JText::_('Release $title')."</button>
+				".JText::_('COM_TIENDA_$TITLE_CHECKED_OUT_BY_YOU')."
+				<button onclick='document.getElementById(\"task\").value=\"release\"; this.form.submit();'>".JText::_('COM_TIENDA_RELEASE_$TITLE')."</button>
 			</div>
 			";
 		}
@@ -226,7 +226,7 @@ class TiendaGrid extends JHTMLGrid
 		{
 			$html = "
 			<div class='note'>
-				".sprintf( JText::_('$title Checked Out By Another'), JFactory::getUser( @$row->checked_out )->username )."
+				".sprintf( JText::_('COM_TIENDA_$TITLE_CHECKED_OUT_BY_ANOTHER'), JFactory::getUser( @$row->checked_out )->username )."
 			</div>
 			";
 		}
@@ -234,8 +234,8 @@ class TiendaGrid extends JHTMLGrid
 		{
 			$html = "
 			<div class='note'>
-				".JText::_('$title Checked Out By Nobody')."
-				<button onclick='document.getElementById(\"task\").value=\"$lock_task\"; this.form.submit();'>".JText::_('Lock $title')."</button>
+				".JText::_('COM_TIENDA_$TITLE_CHECKED_OUT_BY_NOBODY')."
+				<button onclick='document.getElementById(\"task\").value=\"$lock_task\"; this.form.submit();'>".JText::_('COM_TIENDA_LOCK_$TITLE')."</button>
 			</div>
 			";
 		}

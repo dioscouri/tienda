@@ -41,17 +41,17 @@ class TiendaTableEavAttributeEntities extends TiendaTableXref
 	{
 		if (empty($this->eavattribute_id))
 		{
-			$this->setError( JText::_('Category Required') );
+			$this->setError( JText::_('COM_TIENDA_CATEGORY_REQUIRED') );
 			return false;
 		}
 		if (empty($this->eaventity_id))
 		{
-			$this->setError( JText::_('Entity Required') );
+			$this->setError( JText::_('COM_TIENDA_ENTITY_REQUIRED') );
 			return false;
 		}
 		if (empty($this->eaventity_type))
 		{
-			$this->setError( JText::_('Entity Type Required') );
+			$this->setError( JText::_('COM_TIENDA_ENTITY_TYPE_REQUIRED') );
 			return false;
 		}
 		

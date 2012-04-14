@@ -37,7 +37,7 @@ class TiendaTableProductprices extends TiendaTable
 	{
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Association Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_ASSOCIATION_REQUIRED') );
 			return false;
 		}
 

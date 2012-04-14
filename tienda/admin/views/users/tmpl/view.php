@@ -270,7 +270,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo JText::_('COM_TIENDA_NUM'); ?>
 								</th>
 								<th style="width: 200px;">
-									<?php echo JText::_('Products'); ?>
+									<?php echo JText::_('COM_TIENDA_PRODUCTS'); ?>
 								</th>
 								<th style="width: 200px;">
 									<?php echo JText::_('COM_TIENDA_PRICE'); ?>

@@ -166,7 +166,7 @@ class TiendaModelElementProduct extends JModel
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Select a User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('Select').'</a></div></div>'."\n";
+		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_TIENDA_SELECT_A_USER').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('COM_TIENDA_SELECT').'</a></div></div>'."\n";
 		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
 
 		return $html;
@@ -200,7 +200,7 @@ class TiendaModelElementProduct extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('select products').'\', \''.$name.'\' )">'.JText::_('Clear selection').'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('COM_TIENDA_SELECT_PRODUCTS').'\', \''.$name.'\' )">'.JText::_('COM_TIENDA_CLEAR_SELECTION').'</span>
 		</div></div>'."\n";
 
 		return $html;

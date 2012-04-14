@@ -35,23 +35,23 @@ class TiendaTableProductDownloads extends TiendaTable
 	{
 		if (empty($this->productfile_id))
 		{
-			$this->setError( JText::_('Product File ID Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_FILE_ID_REQUIRED') );
 			return false;
 		}
         if (empty($this->user_id))
         {
-            $this->setError( JText::_('User ID Required') );
+            $this->setError( JText::_('COM_TIENDA_USER_ID_REQUIRED') );
             return false;
         }
 	    if (empty($this->order_id))
         {
-            $this->setError( JText::_('Order ID Required') );
+            $this->setError( JText::_('COM_TIENDA_ORDER_ID_REQUIRED') );
             return false;
         }
         // TODO This is technically unnecessary because of the join you can do with productfile_id, maybe remove it eventually?
 	    if (empty($this->product_id))
         {
-            $this->setError( JText::_('Product ID Required') );
+            $this->setError( JText::_('COM_TIENDA_PRODUCT_ID_REQUIRED') );
             return false;
         }
 	    $nullDate   = $this->_db->getNullDate();

@@ -138,7 +138,7 @@ class TiendaImage extends TiendaFile
 			
 			if ( !JFile::write( $filename, $imgToWrite ) )
 			{
-				$this->setError( JText::_('Could not write file') . ": " . $filename );
+				$this->setError( JText::_('COM_TIENDA_COULD_NOT_WRITE_FILE') . ": " . $filename );
 				return false;
 			}
 			

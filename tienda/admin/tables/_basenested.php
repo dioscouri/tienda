@@ -357,7 +357,7 @@ class TiendaTableNested extends TiendaTable
 		$key = $this->getKeyName();
 		if (empty($this->$key))
 		{
-			$this->setError( JText::_('Invalid Item') );
+			$this->setError( JText::_('COM_TIENDA_INVALID_ITEM') );
 			return false;	
 		}
 		
@@ -625,7 +625,7 @@ class TiendaTableNested extends TiendaTable
 				else 
 			{
 				// TODO what to do if there is more than one defined as root? 
-				$this->setError( JText::_('Multiple Roots Defined') );
+				$this->setError( JText::_('COM_TIENDA_MULTIPLE_ROOTS_DEFINED') );
 			}
 		}
 			
@@ -677,7 +677,7 @@ class TiendaTableNested extends TiendaTable
 				}
 					else 
 				{
-					$this->setError( JText::_('Root Not Found By Uniqueness') );
+					$this->setError( JText::_('COM_TIENDA_ROOT_NOT_FOUND_BY_UNIQUENESS') );
 					return false;
 				}
 			}			
@@ -708,7 +708,7 @@ class TiendaTableNested extends TiendaTable
 		$node->load( $oid );
 		if (empty($node->$key)) 
 		{
-			$this->setError( JText::_('Could not load node') );
+			$this->setError( JText::_('COM_TIENDA_COULD_NOT_LOAD_NODE') );
 			$this->_unlock();
 			return false;
 		}
@@ -718,13 +718,13 @@ class TiendaTableNested extends TiendaTable
 		$sibling->load( array( "rgt"=>$node->lft - 1 ) );
 		if (empty($sibling->$key)) 
 		{
-			$this->setError( JText::_('Could not load sibling') );
+			$this->setError( JText::_('COM_TIENDA_COULD_NOT_LOAD_SIBLING') );
 			$this->_unlock();
 			return false;
 		}
 	    if ($sibling->parent_id != $node->parent_id || $sibling->$key == $node->$key) 
         {
-            $this->setError( JText::_('Node cannot be ordered any higher up') );
+            $this->setError( JText::_('COM_TIENDA_NODE_CANNOT_BE_ORDERED_ANY_HIGHER_UP') );
             $this->_unlock();
             return false;
         }
@@ -817,7 +817,7 @@ class TiendaTableNested extends TiendaTable
 		}
 	    if ($sibling->parent_id != $node->parent_id || $sibling->$key == $node->$key) 
         {
-            $this->setError( JText::_('Node cannot be ordered any lower') );
+            $this->setError( JText::_('COM_TIENDA_NODE_CANNOT_BE_ORDERED_ANY_LOWER') );
             $this->_unlock();
             return false;
         }

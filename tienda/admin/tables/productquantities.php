@@ -30,7 +30,7 @@ class TiendaTableProductQuantities extends TiendaTable
 	{
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_REQUIRED') );
 			return false;
 		}
 		

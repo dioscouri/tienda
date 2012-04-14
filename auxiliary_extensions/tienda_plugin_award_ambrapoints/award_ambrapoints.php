@@ -167,7 +167,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
     	// is user_id valid?
         if (empty(JFactory::getUser( $user_id )->id ))
         {   
-            JFactory::getApplication()->enqueueMessage( JText::_('Invalid User'), 'notice' );
+            JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_INVALID_USER'), 'notice' );
             return false;
         }
        

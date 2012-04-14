@@ -37,7 +37,7 @@ class TiendaTableProductIssues extends TiendaTable
 	{
 		if (empty($this->product_id))
 		{
-			$this->setError( JText::_('Product Association Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_ASSOCIATION_REQUIRED') );
 			return false;
 		}
 
@@ -72,7 +72,7 @@ class TiendaTableProductIssues extends TiendaTable
 			$next = strtotime( $next );
 			if( $act <= $next )
 			{
-				$this->setError( JText::_('Publishing date is not preserving issue order').' - '.$this->publishing_date );
+				$this->setError( JText::_('COM_TIENDA_PUBLISHING_DATE_IS_NOT_PRESERVING_ISSUE_ORDER').' - '.$this->publishing_date );
 				return false;
 			}
 		}
@@ -100,7 +100,7 @@ class TiendaTableProductIssues extends TiendaTable
 	
 			if( ( $prev >= $act ) || ( $next && $next <= $act ) )
 			{
-				$this->setError( JText::_('Publishing date is not preserving issue order').' - '.$this->publishing_date );
+				$this->setError( JText::_('COM_TIENDA_PUBLISHING_DATE_IS_NOT_PRESERVING_ISSUE_ORDER').' - '.$this->publishing_date );
 				return false;
 			}
 		}

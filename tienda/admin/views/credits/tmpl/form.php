@@ -78,7 +78,7 @@
                             <a href="index.php?option=com_tienda&view=orders&task=view&id=<?php echo $row->order_id; ?>" target="_blank"><?php echo JText::_('View Order').": " .$row->order_id; ?></a>
                             <?php
                         } else {
-                            echo JText::_('None');
+                            echo JText::_('COM_TIENDA_NONE');
                         }
                         ?>
                     </td>

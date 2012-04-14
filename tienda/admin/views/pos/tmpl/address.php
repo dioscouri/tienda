@@ -11,7 +11,7 @@
 			<?php if($row->address_id):?>
 			<?php echo JText::_('EDIT ADDRESS') . ": " . $row->address_name;?>	
 			<?php else:?>
-			<?php echo JText::_('NEW ADDRESS');?>	
+			<?php echo JText::_('COM_TIENDA_NEW_ADDRESS');?>	
 			<?php endif;?>
 		</div>
 		<div class="toolbar" id="toolbar" style="float: right;">

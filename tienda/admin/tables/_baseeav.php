@@ -268,7 +268,7 @@ class TiendaTableEav extends TiendaTable
 			// log eav errors
 			if($error)
 			{
-				$this->setError(JText::_('EAV Delete failed: ') . $msg);
+				$this->setError(JText::_('COM_TIENDA_EAV_DELETE_FAILED') . $msg);
 				return false;
 			}
 
@@ -308,7 +308,7 @@ class TiendaTableEav extends TiendaTable
 			if (empty($oid))
 			{
 				// if still empty, fail
-				$this->setError( JText::_('Cannot load with empty key') );
+				$this->setError( JText::_('COM_TIENDA_CANNOT_LOAD_WITH_EMPTY_KEY') );
 				return false;
 			}
 		}

@@ -87,7 +87,7 @@ class TiendaTableAddresses extends TiendaTable
 			$this->user_id = JFactory::getUser()->id;
 			if (empty($this->user_id))
 			{
-				$this->setError( JText::_('User Required') );
+				$this->setError( JText::_('COM_TIENDA_USER_REQUIRED') );
 				return false;
 			}
 		}
@@ -96,7 +96,7 @@ class TiendaTableAddresses extends TiendaTable
 		
 		if (empty($this->address_name) && $elements['address_name'][1] )
 		{
-			$this->setError( JText::_("Please include an Address Title".$address_type) );
+			$this->setError( JText::_("COM_TIENDA_PLEASE_INCLUDE_AN_ADDRESS_TITLE".$address_type) );
 			return false;
 		}
 		
@@ -126,7 +126,7 @@ class TiendaTableAddresses extends TiendaTable
 	{
 		if ( $elements['country'][1] )
 		{
-			$this->setError( JText::_('Country Required') );
+			$this->setError( JText::_('COM_TIENDA_COUNTRY_REQUIRED') );
 			return false;
 		}
 		else
@@ -140,7 +140,7 @@ class TiendaTableAddresses extends TiendaTable
 		{
 			if( $elements['zone'][1] )
 			{
-				$this->setError( JText::_('Zone Required') );
+				$this->setError( JText::_('COM_TIENDA_ZONE_REQUIRED') );
 				return false;				
 			}
 			else

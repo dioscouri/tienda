@@ -43,7 +43,7 @@ class TiendaTableManufacturers extends TiendaTable
 		$this->filterHTML( 'manufacturer_name' );
 		if (empty($this->manufacturer_name))
 		{
-			$this->setError( JText::_('Name Required') );
+			$this->setError( JText::_('COM_TIENDA_NAME_REQUIRED') );
 			return false;
 		}
 		return true;

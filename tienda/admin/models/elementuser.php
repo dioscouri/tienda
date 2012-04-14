@@ -43,7 +43,7 @@ class TiendaModelElementUser extends TiendaModelUsers
         } 
             else 
         {
-            $title = JText::_('Select a User');
+            $title = JText::_('COM_TIENDA_SELECT_A_USER');
         }
         
         $js = "
@@ -60,7 +60,7 @@ class TiendaModelElementUser extends TiendaModelUsers
 
         JHTML::_('behavior.modal', 'a.modal');
         $html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-        $html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Select an User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('Select').'</a></div></div>'."\n";
+        $html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_TIENDA_SELECT_A_USER').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('COM_TIENDA_SELECT').'</a></div></div>'."\n";
         $html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
         $html .= "\n".'<input type="hidden" id="'.$name.'_name_hidden" name="'.$fieldName.'_name_hidden" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" />';
         
@@ -90,8 +90,8 @@ class TiendaModelElementUser extends TiendaModelUsers
         $html = '
         <div class="button2-left">
             <div class="blank">
-                <a href="javascript::void();" onclick="resetElementUser( \''.$value.'\', \''.JText::_('Select a User').'\', \''.$name.'\' )">' . 
-                JText::_('Clear Selection') . '
+                <a href="javascript::void();" onclick="resetElementUser( \''.$value.'\', \''.JText::_('COM_TIENDA_SELECT_A_USER').'\', \''.$name.'\' )">' . 
+                JText::_('COM_TIENDA_CLEAR_SELECTION') . '
                 </a>
             </div>
         </div>

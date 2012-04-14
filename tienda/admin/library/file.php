@@ -44,8 +44,8 @@ class TiendaFile extends JObject
 			$text = "deny from all";
 		    if ( !JFile::write( $destination, $text )) 
 		    {
-                $this->setError( JText::_('STORAGE DIRECTORY IS UNPROTECTED') );
-                return $success;
+                $this->setError(  );
+                return $success;JText::_('COM_TIENDA_STORAGE_DIRECTORY_IS_UNPROTECTED')
             }			
 		}
 
@@ -79,13 +79,13 @@ class TiendaFile extends JObject
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
-			$this->setError( JText::_('Uploads Disabled') );
+			$this->setError( JText::_('COM_TIENDA_UPLOADS_DISABLED') );
 			return $success;
 		}
 	
 		// Check that the zlib is available
 		if(!extension_loaded('zlib')) {
-			$this->setError( JText::_('ZLib Unavailable') );
+			$this->setError( JText::_('COM_TIENDA_ZLIB_UNAVAILABLE') );
 			return $success;
 		}
 
@@ -94,7 +94,7 @@ class TiendaFile extends JObject
 		
 		if (!$userfile) 
 		{
-			$this->setError( JText::_('No File') );
+			$this->setError( JText::_('COM_TIENDA_NO_FILE') );
 			return $success;
 		}
 		
@@ -159,13 +159,13 @@ class TiendaFile extends JObject
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
-			$this->setError( JText::_('Uploads Disabled') );
+			$this->setError( JText::_('COM_TIENDA_UPLOADS_DISABLED') );
 			return $success;
 		}
 	
 		// Check that the zlib is available
 		if(!extension_loaded('zlib')) {
-			$this->setError( JText::_('ZLib Unavailable') );
+			$this->setError( JText::_('COM_TIENDA_ZLIB_UNAVAILABLE') );
 			return $success;
 		}
 
@@ -174,7 +174,7 @@ class TiendaFile extends JObject
 		
 		if (!$userfile) 
 		{
-			$this->setError( JText::_('No File') );
+			$this->setError( JText::_('COM_TIENDA_NO_FILE') );
 			return $success;
 		}
 		
@@ -193,7 +193,7 @@ class TiendaFile extends JObject
 		// check size of upload against max set in config
 		if($this->size > $config->get( 'files_maxsize', '3000' ) ) 
 		{
-			$this->setError( JText::_('Invalid File Size') );
+			$this->setError( JText::_('COM_TIENDA_INVALID_FILE_SIZE') );
 			return $success;
 	    }
 	    $this->size = number_format( $this->size, 2 ).' Kb';
@@ -364,7 +364,7 @@ class TiendaFile extends JObject
         $cnt =0;
         $handle = fopen($filename, 'rb');
         if ($handle === false) {
-            JError::raiseWarning( 1, 'TiendaFile::readfileChunked: '.JText::_('Unable to open file') . ": '$filename'");
+            JError::raiseWarning( 1, 'TiendaFile::readfileChunked: '.JText::_('COM_TIENDA_UNABLE_TO_OPEN_FILE') . ": '$filename'");
             return false;
         }
         

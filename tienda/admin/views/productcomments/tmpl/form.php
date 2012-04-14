@@ -55,7 +55,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echo JText::_('Published'); ?>:
+						<?php echo JText::_('COM_TIENDA_PUBLISHED'); ?>:
 					</td>
 					<td>
 							<?php echo JHTML::_('select.booleanlist', 'productcomment_enabled', '', @$row->productcomment_enabled ); ?>

@@ -62,12 +62,12 @@ class TiendaTableWishlists extends TiendaTableEav
     {        
         if (empty($this->user_id))
         {
-            $this->setError( JText::_('User Required') );
+            $this->setError( JText::_('COM_TIENDA_USER_REQUIRED') );
             return false;
         }
         if (empty($this->product_id))
         {
-            $this->setError( JText::_('Product Required') );
+            $this->setError( JText::_('COM_TIENDA_PRODUCT_REQUIRED') );
             return false;
         }
         
@@ -115,7 +115,7 @@ class TiendaTableWishlists extends TiendaTableEav
             if (empty($oid))
             {
                 // if still empty, fail
-                $this->setError( JText::_('Cannot delete with empty key') );
+                $this->setError( JText::_('COM_TIENDA_CANNOT_DELETE_WITH_EMPTY_KEY') );
                 return false;
             }
         }

@@ -122,10 +122,10 @@
 				</td>
                 <td style="text-align: center;">
                     <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-                    <?php echo $item->products_count." ".JText::_('Products'); ?>
+                    <?php echo $item->products_count." ".JText::_('COM_TIENDA_PRODUCTS'); ?>
                     <br/>
                     <?php $select_url = "index.php?option=com_tienda&controller=categories&task=selectproducts&id=".$item->category_id."&tmpl=component"; ?>
-                    [<?php echo TiendaUrl::popup( $select_url, JText::_('Select Products'), array('update' => true) ); ?>]
+                    [<?php echo TiendaUrl::popup( $select_url, JText::_('COM_TIENDA_SELECT_PRODUCTS'), array('update' => true) ); ?>]
                 </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::order($item->category_id); ?>

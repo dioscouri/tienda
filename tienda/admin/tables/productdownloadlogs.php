@@ -35,12 +35,12 @@ class TiendaTableProductDownloadLogs extends TiendaTable
 	{
 		if (empty($this->productfile_id))
 		{
-			$this->setError( JText::_('Product File ID Required') );
+			$this->setError( JText::_('COM_TIENDA_PRODUCT_FILE_ID_REQUIRED') );
 			return false;
 		}
         if (empty($this->user_id))
         {
-            $this->setError( JText::_('User ID Required') );
+            $this->setError( JText::_('COM_TIENDA_USER_ID_REQUIRED') );
             return false;
         }
 	    $nullDate   = $this->_db->getNullDate();

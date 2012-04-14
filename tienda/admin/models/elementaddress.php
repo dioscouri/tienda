@@ -147,7 +147,7 @@ class TiendaModelElementAddress extends JModel
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		
-		$title = JText::_('Select Address');
+		$title = JText::_('COM_TIENDA_SELECT_ADDRESS');
 		
 		$js = "
 		function jSelectProduct(id, title, object) {
@@ -195,7 +195,7 @@ class TiendaModelElementAddress extends JModel
 		$html = '<div class="button2-left">
 		<div class="blank">
 		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('Add products').'\', \''.$name.'\' )">'.JText::_('Remove products').'</span>
+		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('COM_TIENDA_ADD_PRODUCTS').'\', \''.$name.'\' )">'.JText::_('COM_TIENDA_REMOVE_PRODUCTS').'</span>
 		</div></div>'."\n";
 
 		return $html;
