@@ -514,7 +514,6 @@ class TiendaControllerProducts extends TiendaController
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-
 	/**
 	 *
 	 * A separate space for working through all the different integrations

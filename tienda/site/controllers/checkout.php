@@ -1,12 +1,7 @@
-<?php
-/**
- * @version 1.5
- * @link  http://www.dioscouri.com
- * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * @author  Dioscouri Design
- * @package Tienda
- */
+<?php /** * @version 1.5 * @link http://www.dioscouri.com * @copyright 
+Copyright (C) 2007 Dioscouri Design. All rights reserved. * @license 
+http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php * @author 
+Dioscouri Design * @package Tienda */
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -3472,27 +3467,26 @@ class TiendaControllerCheckout extends TiendaController
 		$values = TiendaHelperBase::elementsToArray( $elements );
 
 		$email = $values['email_address'];
-
 		if (empty($email))
 		{
 			$response['msg'] = $helper->validationMessage( "COM_TIENDA_EMAIL_CANNOT_BE_EMPTY", 'fail' );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return;
+      
 		}
 
 		$message = "";
-
 		if (!$checker->isEmailAddress($email))
 		{
 			$message .= $helper->validationMessage( "COM_TIENDA_EMAIL_INVALID", 'fail' );
 			$response['error'] = '1';
 		}
-		
 		if ( $checker->emailExists( $email ) )
 		{
 			$user_id = JFactory::getUser()->id;
 			$user_email = $checker->getBasicInfo( $user_id )->email;
+      
 			if( $user_id && $user_id > Tienda::getGuestIdStart() )
       {
         if( $user_email != $email )

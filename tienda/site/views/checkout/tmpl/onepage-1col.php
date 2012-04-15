@@ -48,7 +48,7 @@
 <div class="floatbox">
 
 	<!-- CUSTOMER, BILLING & SHIPPING ADDRESS FORMS -->
-	<div class="1col-customer-billship-address">
+	<div class="col1-customer-billship-address">
 		<div class="inner col3">
 			
 			<div class="contentheading">
@@ -180,7 +180,7 @@
 	<div class="reset marginbot"></div>
 	
 	<!-- SHIPPING METHOD -->
-		<div class="1col-method">	
+		<div class="col1-method">	
 			<div class="inner col3">	 
 				<?php if($this->showShipping):?>	
 				<div class="tienda-expanded" id="shippingcost-pane">
@@ -203,7 +203,7 @@
         <?php endif; ?>	
 	
 	<!-- PAYMENT METHOD -->
-		<div class="1col-method">
+		<div class="col1-method">
 			<div class="inner col3">	
 				<div class="tienda-expanded" id="paymentmethod-pane">
 					<div class="contentheading">
@@ -236,7 +236,7 @@
         <?php endif; ?>		
 		
 	<!-- REVIEW & PLACE ORDER -->
-		<div class="1col-review-place-order">
+		<div class="col1-review-place-order">
 			<div class="inner col3">
 				
 				<!--    ORDER SUMMARY   -->

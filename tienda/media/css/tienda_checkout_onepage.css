@@ -57,9 +57,9 @@
 #tienda_checkout_pane .opc-method{float:left;width:33.3%;}
 #tienda_checkout_pane .opc-review-place-order{float:right;width:66.7%;}    
  
-#tienda_checkout_pane .1col-customer-billship-address{clear:both;}
-#tienda_checkout_pane .1col-method{clear:both;}
-#tienda_checkout_pane .1col-review-place-order{clear:both;}
+#tienda_checkout_pane .col1-customer-billship-address{clear:both;}
+#tienda_checkout_pane .col1-method{clear:both;}
+#tienda_checkout_pane .col1-review-place-order{clear:both;}
  
 
 
