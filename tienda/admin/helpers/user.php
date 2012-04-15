@@ -656,6 +656,8 @@ class TiendaHelperUser extends TiendaHelperBase
 	{
 		// Split the email into a local and domain
 		$atIndex    = strrpos($email, "@");
+    if($atIndex === false) // no "@" => false
+      return false;
 		$domain     = substr($email, $atIndex+1);
 		$local      = substr($email, 0, $atIndex);
 
