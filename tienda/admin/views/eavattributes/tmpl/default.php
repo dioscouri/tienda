@@ -115,7 +115,7 @@
 				<td>
 						<?php echo $item->entity_count.' '.JText::_($item->eaventity_type); ?>
 						<?php $select_url = "index.php?option=com_tienda&controller=eavattributes&task=selectentities&tmpl=component&eaventity_type=".@$item->eaventity_type."&id=".@$item->eavattribute_id; ?>
-                    [<?php echo TiendaUrl::popup( $select_url, JText::_('COM_TIENDA_SELECT_ENTITIES', array('update' => true) ); ?>]				
+                    [<?php echo TiendaUrl::popup( $select_url, JText::_('COM_TIENDA_SELECT_ENTITIES'), array('update' => true) ); ?>]				
 				</td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::order($item->eavattribute_id); ?>

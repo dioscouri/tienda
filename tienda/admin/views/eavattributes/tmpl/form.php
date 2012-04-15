@@ -59,7 +59,7 @@ JFilterOutput::objectHTMLSafe( $row );
 								if(in_array(@$row->eaventity_type, $allowed_types))
 								{
 									$url = JRoute::_("index.php?option=com_tienda&controller=eavattributes&task=selectentities&tmpl=component&eaventity_type=".@$row->eaventity_type."&id=".@$row->eavattribute_id);
-									echo TiendaUrl::popup($url, JText::_('COM_TIENDA_SELECT_ENTITIES'); 
+									echo TiendaUrl::popup($url, JText::_('COM_TIENDA_SELECT_ENTITIES')); 
 								}
 							}
 							else
