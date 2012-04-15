@@ -3735,7 +3735,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     $fields[] = "orderitemattribute_prefix_weight";
     $definitions = array();
     $definitions['orderitemattribute_weight'] = 'DECIMAL( 12, 5 ) NOT NULL DEFAULT  \'0\'';
-    $definitions['orderitemattribute_prefix_weight'] = 'VARCHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  \'+\'';
+    $definitions['orderitemattribute_prefix_weight'] = 'VARCHAR( 1 ) NOT NULL DEFAULT  \'+\'';
     
     $table = '#__tienda_orderitemattributes';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
@@ -3768,7 +3768,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
     $fields[] = "productattributeoption_prefix_weight";
     $definitions = array();
     $definitions['productattributeoption_weight'] = 'DECIMAL( 12, 5 ) NOT NULL DEFAULT  \'0\'';
-    $definitions['productattributeoption_prefix_weight'] = 'VARCHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  \'+\'';
+    $definitions['productattributeoption_prefix_weight'] = 'VARCHAR( 1 ) NOT NULL DEFAULT  \'+\'';
     
     $table = '#__tienda_productattributeoptions';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )

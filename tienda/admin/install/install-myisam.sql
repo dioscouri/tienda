@@ -614,6 +614,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptions` (
   `productattributeoption_price` decimal(12,5) NOT NULL,
   `productattributeoption_code` varchar(255) NOT NULL,
   `productattributeoption_prefix` varchar(1) NOT NULL,
+  `productattributeoption_weight` DECIMAL( 12, 5 ) NOT NULL DEFAULT  '0',
+  `productattributeoption_prefix_weight` VARCHAR( 1 ) NOT NULL DEFAULT  '+',
   `is_blank` TINYINT( 1 ) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`productattributeoption_id`),
@@ -723,6 +725,8 @@ CREATE TABLE IF NOT EXISTS `#__tienda_orderitemattributes` (
   `orderitemattribute_price` decimal(12,5) NOT NULL,
   `orderitemattribute_code` varchar(255) NOT NULL,
   `orderitemattribute_prefix` varchar(1) NOT NULL,
+  `orderitemattribute_prefix_weight` DECIMAL( 12, 5 ) NOT NULL DEFAULT  '0',
+  `orderitemattribute_weight` VARCHAR( 1 ) NOT NULL DEFAULT  '+',
   PRIMARY KEY (`orderitemattribute_id`),
   KEY `productattribute_id` (`productattributeoption_id`)
 ) 
@@ -752,6 +756,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderitems` (
   `orderitem_shipping` decimal(12,5) NOT NULL DEFAULT '0.00000',
   `orderitem_shipping_tax` decimal(12,5) NOT NULL DEFAULT '0.00000',
   `orderitem_status` CHAR(1) NULL DEFAULT NULL ,
+  `orderitem_attributes_weight` DECIMAL( 12, 5) NULL,
+  `orderitem_weight` VARCHAR( 64 ) NOT NULL,
   `modified_date` DATETIME NOT NULL COMMENT 'GMT' ,
   `orderitem_recurs` tinyint(1) NOT NULL COMMENT 'Do any payments for this orderitem recur?',
   `recurring_price` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'Recurring price of the item',
