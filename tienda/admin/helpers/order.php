@@ -34,6 +34,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
+		$lang = JFactory::getLanguage();
+		$lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
 
 		if (empty($order->order_id))
 		{
