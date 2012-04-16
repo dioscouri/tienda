@@ -248,9 +248,15 @@ class TiendaHelperEav extends TiendaHelperBase
 		        }
 		        return $value;
     		case "decimal":
-    			return self::number( $value );
+    			if( TiendaConfig::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
+    				return self::number( $value );
+    			else
+	    			return self::number( $value, array( 'thousands' => '' ) );
     		case "int":	
-    			return self::number( $value, array( 'num_decimals' => 0 ) );
+    			if( TiendaConfig::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
+	    			return self::number( $value, array( 'num_decimals' => 0 ) );
+    			else
+    				return self::number( $value, array( 'thousands' => '', 'num_decimals' => 0 ) );
     		case "hidden":
     		case "varchar":
     			default:

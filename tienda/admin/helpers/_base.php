@@ -223,13 +223,20 @@ class TiendaHelperBase extends JObject
 	 */
 	function number($number, $options='' )
 	{
+		static $default_currency = null;
 		$config = TiendaConfig::getInstance();
 		$options = (array) $options;
-
-		$thousands = isset($options['thousands']) ? $options['thousands'] : $config->get('currency_thousands', ',');
-		$decimal = isset($options['decimal']) ? $options['decimal'] : $config->get('currency_decimal', '.');
-		$num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $config->get('currency_num_decimals', '2');
-
+    if ( !$default_currency )
+    {
+			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+			$model = JModel::getInstance('Currencies', 'TiendaModel');
+     	$model->SetId(TiendaConfig::getInstance()->get('default_currencyid', '1'));
+     	$default_currency = $model->getItem();
+		}
+		
+		$thousands = isset($options['thousands']) ? $options['thousands'] : $default_currency->thousands_separator;
+		$decimal = isset($options['decimal']) ? $options['decimal'] : $default_currency->decimal_separator;
+		$num_decimals = isset($options['num_decimals']) ? $options['num_decimals'] : $default_currency->currency_decimals;
 		$return = number_format($number, $num_decimals, $decimal, $thousands);
 		return $return;
 	}

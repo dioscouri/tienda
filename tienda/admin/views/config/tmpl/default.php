@@ -1820,6 +1820,16 @@
 							<td>								
 							</td>
 						</tr>					
+						<tr>
+			   				<th style="width: 25%;">
+								<?php echo JText::_( 'COM_TIENDA_EAV_INTEGER_THOUSANDS_SEPARATOR' ); ?>
+							</th>
+							<td style="width: 150px;">
+                <?php echo JHTML::_('select.booleanlist', 'eavinteger_use_thousand_separator', 'class="inputbox"', $this->row->get('eavinteger_use_thousand_separator', '0') ); ?>
+							</td>
+							<td>								
+							</td>
+						</tr>					
 					</tbody>
 					</table>										
 					<?php

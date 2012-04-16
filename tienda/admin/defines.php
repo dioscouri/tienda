@@ -606,7 +606,8 @@ class TiendaConfig extends JObject
   var $lower_filename = '1';
 
   // since 0.9.1
-  var $eavtext_content_plugin = '1';	
+  var $eavtext_content_plugin = '1';
+  var $eavinteger_use_thousand_separator = '0';	
 	/**
 	 * constructor
 	 * @return void
