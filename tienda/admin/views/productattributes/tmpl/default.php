@@ -23,7 +23,7 @@
 	<table class="adminlist">
     	<thead>
     	<tr>
-    		<th><?php echo JText::_('COM_TIENDA_COM_TIENDA_ATTRIBUTE_NAME'); ?></th>
+    		<th><?php echo JText::_('COM_TIENDA_ATTRIBUTE_NAME'); ?></th>
     	</tr>
     	</thead>
     	<tbody>
