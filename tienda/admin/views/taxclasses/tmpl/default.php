@@ -76,7 +76,7 @@ $items = @$this->items;
 					<?php echo JText::_('COM_TIENDA_TAX_RATES_ASSIGNED'); ?>:
 					<?php echo $item->taxrates_assigned ?>
 					<br/>
-					[<?php echo TiendaUrl::popup( @$item->link_taxrates, JText::_('COM_TIENDA_COM_TIENDA_SET_TAX_RATES'), array( 'update'=>true ) ); ?>]
+					[<?php echo TiendaUrl::popup( @$item->link_taxrates, JText::_('COM_TIENDA_SET_TAX_RATES'), array( 'update'=>true ) ); ?>]
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>
