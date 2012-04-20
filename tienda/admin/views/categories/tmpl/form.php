@@ -97,7 +97,7 @@ JFilterOutput::objectHTMLSafe( $row );
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_full_image_new">
-    						<?php echoJText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
+    						<?php echo JText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
     						</label>
     					</td>
     					<td>

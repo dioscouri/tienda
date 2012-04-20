@@ -117,7 +117,7 @@
                 </tr>
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
-                        <?php echo JText::_(COM_TIENDA_WITHDRAWABLE_BALANCE_AFTER'); ?>:
+                        <?php echo JText::_('COM_TIENDA_WITHDRAWABLE_BALANCE_AFTER'); ?>:
                     </td>
                     <td>
                         <?php echo @$row->withdrawable_balance_after; ?>

@@ -20,7 +20,7 @@
 	</languages>
 
 	<params addpath="/administrator/components/com_tienda/elements">
-		<param name="key" type="text" size="50" default="" label="COM_TIENDA_COM_TIENDA_API_KEY" description="COM_TIENDA_COM_TIENDA_API_KEY_DESC"/>
+		<param name="key" type="text" size="50" default="" label="COM_TIENDA_API_KEY" description="COM_TIENDA_API_KEY_DESC"/>
 		<param name="password" type="text" size="50" default="" label="COM_TIENDA_API_PASSWORD" description="COM_TIENDA_API_PASSWORD_DESC"/>
 		<param name="account" type="text" size="50" default="" label="COM_TIENDA_API_USERNAME" description="COM_TIENDA_API_USERNAME_DESC"/>
 		<param name="shipper_number" type="text" size="50" default="" label="COM_TIENDA_API_SHIPPER_NUMBER" description="COM_TIENDA_API_SHIPPER_NUMBER_DESC"/>

@@ -881,7 +881,7 @@
                         <!--  Add Display Add to Cart Button in Product -->
 						<tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('DISPLAY_ADD_TO_CART_BUTTON_IN_PRODUCT'); ?>
+                                <?php echo JText::_('COM_TIENDA_DISPLAY_ADD_TO_CART_BUTTON_IN_PRODUCT'); ?>
                             </th>
                             <td>
                                 <?php echo JHTML::_('select.booleanlist', 'display_product_cartbuttons', 'class="inputbox"', $this->row->get('display_product_cartbuttons', '1') ); ?>

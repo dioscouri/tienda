@@ -60,7 +60,7 @@
             </tr>
             <tr>
                 <th style="width: 100px;">
-                    <?php echoJText::_('COM_TIENDA_PASSWORD'); ?>
+                    <?php echo JText::_('COM_TIENDA_PASSWORD'); ?>
                 </th>
                 <td>
                     **********

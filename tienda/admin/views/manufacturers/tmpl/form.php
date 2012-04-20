@@ -44,7 +44,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 				</tr>
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
-						<?php echoJText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
+						<?php echo JText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
 					</td>
 					<td>
 						<input name="manufacturer_image_new" type="file" size="40" />
