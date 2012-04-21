@@ -6,7 +6,8 @@
 <?php $row = @$this->row; ?>
 <?php $suffix = ucfirst(@$this->suffix);?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('Select {$suffix} Plugins for'); ?>: <?php echo $row->geozone_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::sprintf('COM_TIENDA_SELECT_SUFFIX_PLUGINS_FOR', $suffix); ?>: <?php echo $row->geozone_name; ?></h1>
+
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
