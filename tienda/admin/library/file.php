@@ -45,7 +45,7 @@ class TiendaFile extends JObject
 		    if ( !JFile::write( $destination, $text )) 
 		    {
                 $this->setError(  );
-                return $success;JText::_('COM_TIENDA_STORAGE_DIRECTORY_IS_UNPROTECTED')
+                return $success;JText::_('COM_TIENDA_STORAGE_DIRECTORY_IS_UNPROTECTED');
             }			
 		}
 
