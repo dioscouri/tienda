@@ -22,7 +22,7 @@
                 <tr>
                     <th></th>
                     <th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
-                    <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_PREFIX'); ?></th>
+                    <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_PRICE_PREFIX'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
                     <th style="width: 15px;"><?php echo JText::_('COM_TIENDA_WEIGHT_PREFIX'); ?></th>
                     <th><?php echo JText::_('COM_TIENDA_WEIGHT'); ?></th>
@@ -83,7 +83,7 @@
                 	<?php echo TiendaGrid::sort( 'Option', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Prefix', "tbl.productattributeoption_prefix", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE_PREFIX', "tbl.productattributeoption_prefix", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'Price', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
