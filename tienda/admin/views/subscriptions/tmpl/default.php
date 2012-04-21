@@ -32,37 +32,37 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.subscription_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.subscription_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
                 </th>
                 <th style="width: 150px;">
-                    <?php echo TiendaGrid::sort( 'Type', "p.product_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_TYPE', "p.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort( 'Created', "tbl.created_datetime", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_CREATED', "tbl.created_datetime", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'Order', "tbl.order_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.order_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;" <?php if( $display_subnum ) echo 'nowrap'; ?>>
-                	<?php echo TiendaGrid::sort( 'Customer', "u.name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_CUSTOMER', "u.name", @$state->direction, @$state->order ); ?>
                 <?php if( $display_subnum ) : ?>
-                    + <?php echo TiendaGrid::sort( 'Sub Num', "tbl.sub_number", @$state->direction, @$state->order ); ?>
+                    + <?php echo TiendaGrid::sort( 'COM_TIENDA_SUB_NUM', "tbl.sub_number", @$state->direction, @$state->order ); ?>
                 <?php endif; ?>
 
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort( 'Expires', "tbl.expires_datetime", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_EXPIRES', "tbl.expires_datetime", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Transaction ID', "tbl.transaction_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_TRANSACTION_ID', "tbl.transaction_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.subscription_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.subscription_enabled", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Lifetime', "tbl.lifetime_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_LIFETIME', "tbl.lifetime_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

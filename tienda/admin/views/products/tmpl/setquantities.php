@@ -30,7 +30,7 @@
                     <?php echo JText::_('COM_TIENDA_ATTRIBUTE_NAMES'); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Quantity', "tbl.quantity", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_QUANTITY', "tbl.quantity", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
         </thead>

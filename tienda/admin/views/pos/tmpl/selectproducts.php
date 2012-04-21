@@ -35,10 +35,10 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.product_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.product_id", @$state->direction, @$state->order ); ?>
                 </th>                
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
 	                <?php echo JText::_('COM_TIENDA_STATUS'); ?>

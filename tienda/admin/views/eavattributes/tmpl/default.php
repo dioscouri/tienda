@@ -30,23 +30,23 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.eavattribute_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.eavattribute_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Label', "tbl.eavattribute_label", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_LABEL', "tbl.eavattribute_label", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Type', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_TYPE', "tbl.eaventity_type", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Count', "entity_count", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_COUNT', "entity_count", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.ordering", @$state->direction, @$state->order ); ?>
                     <?php echo JHTML::_('grid.order', @$items ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.eavattribute_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.eavattribute_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

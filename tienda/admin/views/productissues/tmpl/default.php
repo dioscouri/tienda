@@ -54,13 +54,13 @@
          	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
         </th>
         <th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Volume Num', "tbl.volume_num", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_VOLUME_NUM', "tbl.volume_num", @$state->direction, @$state->order ); ?>
         </th>
         <th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Issue Num', "tbl.issue_num", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_ISSUE_NUM', "tbl.issue_num", @$state->direction, @$state->order ); ?>
         </th>
         <th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Publishing Date', "tbl.publishing_date", @$state->direction, @$state->order ); ?>
+					<?php echo echo TiendaGrid::sort( 'COM_TIENDA_PUBLISHING_DATE', "tbl.publishing_date", @$state->direction, @$state->order ); ?>
         </th>
       </tr>
 		</thead>

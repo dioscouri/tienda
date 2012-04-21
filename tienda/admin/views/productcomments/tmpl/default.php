@@ -26,34 +26,34 @@
                 <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
 			</th>
 			<th style="width: 50px;">
-                <?php echo TiendaGrid::sort( 'ID', "tbl.productcomment_id", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.productcomment_id", @$state->direction, @$state->order ); ?>
 			</th>
             <th style="width: 100px;">
-                <?php echo TiendaGrid::sort( 'Date', "tbl.created_date", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_DATE', "tbl.created_date", @$state->direction, @$state->order ); ?>
             </th>
 			<th style="text-align: left;">
-                <?php echo TiendaGrid::sort( 'Product Name', "p.product_name", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_PRODUCT_NAME', "p.product_name", @$state->direction, @$state->order ); ?>
                 +
-                <?php echo TiendaGrid::sort( 'Comment', "tbl.productcomment_text", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_COMMENT', "tbl.productcomment_text", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="text-align: left; width: 100px;">
-                <?php echo TiendaGrid::sort( 'User', "m.name", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_USER', "m.name", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="width: 150px;">
-                <?php echo TiendaGrid::sort( 'User Rating', "tbl.productcomment_rating", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_USER_RATING', "tbl.productcomment_rating", @$state->direction, @$state->order ); ?>
 			</th>
             <th style="text-align: center; width: 100px;">
-                <?php echo TiendaGrid::sort( 'Helpful Votes', "tbl.helpful_votes", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_HELPFUL_VOTES', "tbl.helpful_votes", @$state->direction, @$state->order ); ?>
                 <br/>
                 (
-                <?php echo TiendaGrid::sort( 'Total', "tbl.helpful_votes_total", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_TOTAL', "tbl.helpful_votes_total", @$state->direction, @$state->order ); ?>
                 )
             </th>
 			<th style="width: 100px;">
-                <?php echo TiendaGrid::sort( 'Reported', "tbl.reported_count", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_REPORTED', "tbl.reported_count", @$state->direction, @$state->order ); ?>
 			</th>
 			<th style="width: 100px;">
-                <?php echo TiendaGrid::sort( 'Published', "tbl.productcomment_enabled", @$state->direction, @$state->order ); ?>
+                <?php echo TiendaGrid::sort( 'COM_TIENDA_PUBLISHED', "tbl.productcomment_enabled", @$state->direction, @$state->order ); ?>
 			</th>
 		</tr>
 		<tr class="filterline">

@@ -31,28 +31,28 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.orderitem_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.orderitem_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 150px;">
-                    <?php echo TiendaGrid::sort( 'Date', "o.created_date", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_DATE', "o.created_date", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort( 'Order', "tbl.order_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.order_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Item', "tbl.orderitem_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ITEM', "tbl.orderitem_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'Quantity', "tbl.orderitem_quantity", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_QUANTITY', "tbl.orderitem_quantity", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-    	            <?php echo TiendaGrid::sort( 'Price', "tbl.orderitem_price", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "tbl.orderitem_price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'Status', "tbl.orderitem_status", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_STATUS', "tbl.orderitem_status", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'Payment Status', "op.transaction_status", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PAYMENT_STATUS', "op.transaction_status", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

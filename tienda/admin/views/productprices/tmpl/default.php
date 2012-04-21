@@ -62,16 +62,16 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Price', "tbl.product_price", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "tbl.product_price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Date Range', "tbl.product_price_startdate", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_DATE_RANGE', "tbl.product_price_startdate", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Quantity Range', "tbl.price_quantity_start", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_QUANTITY_RANGE', "tbl.price_quantity_start", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-                	<?php echo TiendaGrid::sort( 'Group', "tbl.group_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_GROUP', "tbl.group_id", @$state->direction, @$state->order ); ?>
 				</th>
 				<th>
 				</th>

@@ -10,25 +10,25 @@
                     <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'ID', "tbl.productfile_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.productfile_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo TiendaGrid::sort( 'FILE NAME & PATH', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_FILE_NAME_AND_PATH', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo TiendaGrid::sort( 'FILE EXTENSION', "tbl.productfile_extension", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_FILE_EXTENSION', "tbl.productfile_extension", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 150px;">
-                    <?php echo TiendaGrid::sort( 'ASSOCIATED PRODUCT', "tbl_products.product_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ASSOCIATED_PRODUCT', "tbl_products.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 75px;">
-                    <?php echo TiendaGrid::sort( 'PURCHASE REQUIRED', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PURCHASE_REQUIRED', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'MAX DOWNLOAD', "tbl.max_download", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_MAX_DOWNLOAD', "tbl.max_download", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'DOWNLOADS', "file_downloads", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_DOWNLOADS', "file_downloads", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>           
         </thead>

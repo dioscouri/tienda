@@ -31,10 +31,10 @@ $javascript = 'onchange="document.adminForm.submit();"';
                     <?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'ID', "tbl.user_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.user_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo TiendaGrid::sort( 'Name', "tbl.user_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.user_name", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
         </thead>

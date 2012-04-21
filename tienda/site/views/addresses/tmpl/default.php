@@ -39,10 +39,10 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Name', "tbl.address_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.address_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo TiendaGrid::sort( 'Address', "tbl.address_1", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ADDRESS', "tbl.address_1", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
                 </th>

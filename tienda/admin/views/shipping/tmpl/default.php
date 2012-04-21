@@ -27,17 +27,17 @@
                 	<?php echo JText::_('COM_TIENDA_NUM'); ?>
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.id", @$state->direction, @$state->order ); ?>
                 </th>                
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 150px;">
                 </th>
                 <th style="width: 150px;">
                 </th>
                 <th style="text-align: center; width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.published", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.published", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

@@ -30,16 +30,16 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.zone_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.zone_id", @$state->direction, @$state->order ); ?>
                 </th>                
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.zone_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.zone_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'Code', "tbl.code", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_CODE', "tbl.code", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'Country', "c.country_name", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_COUNTRY', "c.country_name", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

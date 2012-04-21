@@ -118,22 +118,22 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Display Name', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_DISPLAY_NAME', "tbl.productfile_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Purchase Required', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PURCHASE_REQUIRED', "tbl.purchase_required", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                   <!-- // TODO make it  sortable  --> 
                      <?php
                       //TODO for sorting 
-                     //echo TiendaGrid::sort( 'Max download', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
+                     //echo TiendaGrid::sort( 'COM_TIENDA_MAX_DOWNLOAD', "tbl.productfile_enabled", @$state->direction, @$state->order ); ?>
                     <?php echo JText::_('COM_TIENDA_MAX_DOWNLOAD');  ?>
                     <br><?php echo "(".JText::_('COM_TIENDA_USE_MINUS_ONE_FOR_UNLIMTED_DOWNLOADING').")" ?>
                 </th>

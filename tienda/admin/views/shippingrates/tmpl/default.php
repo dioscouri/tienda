@@ -69,16 +69,16 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Geo Zone', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_GEO_ZONE', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Price', "tbl.shipping_rate_price", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "tbl.shipping_rate_price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Weight Range', "tbl.shipping_rate_weight_start", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_RANGE', "tbl.shipping_rate_weight_start", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                	<?php echo TiendaGrid::sort( 'Handling Fee', "tbl.shipping_rate_handling", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_HANDLING_FEE', "tbl.shipping_rate_handling", @$state->direction, @$state->order ); ?>
                 </th>
 				<th>
 				</th>

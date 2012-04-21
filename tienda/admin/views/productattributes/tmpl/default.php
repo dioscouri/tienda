@@ -50,13 +50,13 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Attribute', "tbl.productattribute_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ATTRIBUTE', "tbl.productattribute_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_PARENT_OPTION', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
 				<th style="width: 100px;">
 				</th>

@@ -30,23 +30,23 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.country_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.country_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.country_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.country_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'ISO Code 2', "tbl.country_isocode_2", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_ISO_CODE_2', "tbl.country_isocode_2", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'ISO Code 3', "tbl.country_isocode_3", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_ISO_CODE_3', "tbl.country_isocode_3", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.ordering", @$state->direction, @$state->order ); ?>
                     <?php echo JHTML::_('grid.order', @$items ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Enabled', "tbl.country_enabled", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.country_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

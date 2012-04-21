@@ -33,13 +33,13 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.currency_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.currency_id", @$state->direction, @$state->order ); ?>
                 </th>                
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.currency_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.currency_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'Code', "tbl.currency_code", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_CODE', "tbl.currency_code", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
     	            <?php echo JText::_('COM_TIENDA_FORMAT'); ?>
@@ -48,7 +48,7 @@
                     <?php echo JText::_('COM_TIENDA_VALUE_IN_USD'); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.currency_enabled", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.currency_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

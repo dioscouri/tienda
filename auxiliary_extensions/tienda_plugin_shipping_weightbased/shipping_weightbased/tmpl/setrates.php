@@ -79,22 +79,22 @@
 				<th style="width: 20px;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Geo Zone', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_GEO_ZONE', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Base Price', "tbl.base_price", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_BASE_PRICE', "tbl.base_price", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Price Step', "tbl.price_step", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE_STEP', "tbl.price_step", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Weight Range', "tbl.weight_start", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_RANGE', "tbl.weight_start", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Weight Step', "tbl.weight_step", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'WEIGHT_STEP', "tbl.weight_step", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'Handling Fee', "tbl.shipping_handling", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_HANDLING_FEE', "tbl.shipping_handling", @$state->direction, @$state->order ); ?>
 				</th>
 				<th></th>
 			</tr>

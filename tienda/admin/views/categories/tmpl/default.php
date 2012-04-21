@@ -31,21 +31,21 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.category_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.category_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Name', "tbl.category_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.category_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                 </th>
                 <th style="width: 100px;">
-    	            <?php echo TiendaGrid::sort( 'Order', "tbl.lft", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.lft", @$state->direction, @$state->order ); ?>
     	            <?php echo JHTML::_('grid.order', @$items ); ?>
                 </th>
                 <th style="width: 100px;">
-    	            <?php echo TiendaGrid::sort( 'Enabled', "tbl.category_enabled", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.category_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

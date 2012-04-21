@@ -31,19 +31,19 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TiendaGrid::sort( 'ID', "tbl.order_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.order_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort( 'Date', "tbl.created_date", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_DATE', "tbl.created_date", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;" colspan="2">
-                	<?php echo TiendaGrid::sort( 'Customer', "ui.last_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_CUSTOMER', "ui.last_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                	<?php echo TiendaGrid::sort( 'Total', "tbl.order_total", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_TOTAL', "tbl.order_total", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-    	            <?php echo TiendaGrid::sort( 'State', "s.order_state_name", @$state->direction, @$state->order ); ?>
+    	            <?php echo TiendaGrid::sort( 'COM_TIENDA_STATE', "s.order_state_name", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">

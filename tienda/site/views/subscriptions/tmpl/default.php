@@ -45,19 +45,19 @@
             </tr>
             <tr>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort(  'ID', "tbl.subscription_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.subscription_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort(  'Created', "tbl.created_datetime", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_CREATED', "tbl.created_datetime", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Type', "p.product_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_TYPE', "p.product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                     <?php echo TiendaGrid::sort( 'Expires', "tbl.expires_datetime", @$state->direction, @$state->order ); ?>
+                     <?php echo TiendaGrid::sort( 'COM_TIENDA_EXPIRES', "tbl.expires_datetime", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                     <?php echo TiendaGrid::sort( 'Enabled', "tbl.subscription_enabled", @$state->direction, @$state->order ); ?>
+                     <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.subscription_enabled", @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
         </thead>

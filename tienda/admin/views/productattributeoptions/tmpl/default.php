@@ -80,13 +80,13 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Option', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
+                	<?php echo echo TiendaGrid::sort( 'COM_TIENDA_OPTION', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE_PREFIX', "tbl.productattributeoption_prefix", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Price', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "tbl.productattributeoption_price", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_PREFIX', "tbl.productattributeoption_prefix_weight", @$state->direction, @$state->order ); ?>
@@ -95,16 +95,16 @@
                     <?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT', "tbl.productattributeoption_weight", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Code', "tbl.productattributeoption_code", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_CODE', "tbl.productattributeoption_code", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Parent Option', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_PARENT_OPTION', "tbl.parent_productattributeoption_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
                 	<?php echo JText::_('COM_TIENDA_IS_BLANK'); ?>
                 </th>
                 <th style="width: 100px;">
-                	<?php echo TiendaGrid::sort( 'Order', "tbl.ordering", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_ORDER', "tbl.ordering", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
 				</th>

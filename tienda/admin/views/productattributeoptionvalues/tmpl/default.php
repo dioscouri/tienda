@@ -65,13 +65,13 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TiendaGrid::sort( 'Field', "tbl.productattributeoptionvalue_field", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_FIELD', "tbl.productattributeoptionvalue_field", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Operator', "tbl.productattributeoptionvalue_operator", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_OPERATOR', "tbl.productattributeoptionvalue_operator", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: center;">
-                    <?php echo TiendaGrid::sort( 'Value', "tbl.productattributeoptionvalue_value", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_VALUE', "tbl.productattributeoptionvalue_value", @$state->direction, @$state->order ); ?>
                 </th>
 				<th style="width: 100px;">
 				</th>

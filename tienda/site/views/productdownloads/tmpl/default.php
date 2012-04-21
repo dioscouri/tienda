@@ -43,10 +43,10 @@
                 <th style="width: 50px;">
                 </th>
                 <th style="width: 200px; text-align: left;">
-                    <?php echo TiendaGrid::sort( 'File', "filename", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_FILE', "filename", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 200px;">
-                    <?php echo TiendaGrid::sort( 'Product', "product_name", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_PRODUCT', "product_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
                     <?php echo JText::_('COM_TIENDA_MAX_DOWNLOADS'); ?>

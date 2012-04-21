@@ -61,19 +61,19 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TiendaGrid::sort( 'ID', "tbl.tax_rate_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ID', "tbl.tax_rate_id", @$state->direction, @$state->order ); ?>
                 </th>                
                 <th style="text-align: left;">
-                    <?php echo TiendaGrid::sort( 'Geo Zone', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_GEO_ZONE', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                    <?php echo TiendaGrid::sort( 'Level', "tbl.level", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_LEVEL', "tbl.level", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
-                    <?php echo TiendaGrid::sort( 'Tax Rate Description', "tbl.tax_rate_description", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_TAX_RATE_DESCRIPTION', "tbl.tax_rate_description", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
-                    <?php echo TiendaGrid::sort( 'Tax Rate', "tbl.tax_rate", @$state->direction, @$state->order ); ?>
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_TAX_RATE', "tbl.tax_rate", @$state->direction, @$state->order ); ?>
                 </th>
                 <th>
                 </th>

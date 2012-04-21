@@ -71,11 +71,11 @@
         <h2><?php echo JText::_('COM_TIENDA_SEARCH_RESULTS'); ?></h2>
         <div id="searchresults_sort">
             <div class="sortresults title"><?php echo JText::_('COM_TIENDA_SORT_RESULTS_BY'); ?>:</div>
-            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Name', "tbl.product_name", @$state->direction, @$state->order ); ?></div>
-            <div class="sortresults option"><?php echo TiendaGrid::sort( 'SKU', "tbl.product_sku", @$state->direction, @$state->order ); ?></div>
-            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Price', "price", @$state->direction, @$state->order ); ?></div>
-            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Rating', "tbl.product_rating", @$state->direction, @$state->order ); ?></div>
-            <div class="sortresults option"><?php echo TiendaGrid::sort( 'Reviews', "tbl.product_comments", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'COM_TIENDA_NAME', "tbl.product_name", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'COM_TIENDA_SKU', "tbl.product_sku", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "price", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'COM_TIENDA_RATING', "tbl.product_rating", @$state->direction, @$state->order ); ?></div>
+            <div class="sortresults option"><?php echo TiendaGrid::sort( 'COM_TIENDA_REVIEWS', "tbl.product_comments", @$state->direction, @$state->order ); ?></div>
             <div class="reset"></div>
         </div>
         
