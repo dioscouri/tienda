@@ -43,11 +43,11 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                         <?php if ($item->orderitem_recurs) : ?>
                             <?php $recurring_subtotal = $item->recurring_price; ?>
                             <?php echo JText::_('COM_TIENDA_RECURRING_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_price); ?>
-                            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('$item->recurring_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
+                            (<?php echo $item->recurring_payments . " " . JText::_('COM_TIENDA_PAYMENTS'); ?>, <?php echo $item->recurring_period_interval." ". JText::_('COM_TIENDA_PERIOD_UNIT_'.$item->recurring_period_unit)." ".JText::_('COM_TIENDA_PERIODS'); ?>) 
                             <?php if ($item->recurring_trial) : ?>
                                 <br/>
                                 <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE'); ?>: <?php echo TiendaHelperBase::currency($item->recurring_trial_price); ?>
-                                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('$item->recurring_trial_period_unit PERIOD UNIT')." ".JText::_('COM_TIENDA_PERIOD'); ?>)
+                                (<?php echo "1 " . JText::_('COM_TIENDA_PAYMENT'); ?>, <?php echo $item->recurring_trial_period_interval." ". JText::_('COM_TIENDA_PERIOD_UNIT_'.$item->recurring_period_unit)." ".JText::_('COM_TIENDA_PERIOD'); ?>)
                             <?php endif; ?>    
                         <?php else : ?>
                             <?php echo JText::_('COM_TIENDA_PRICE'); ?>:
