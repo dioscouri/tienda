@@ -153,7 +153,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		else
 		{
 			JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT').': '.ucfirst($model) );
-			JFactory::getApplication()->enqueueMessage( JText::_( "Class ".$classname." not found!" ), 'notice' );
+			JFactory::getApplication()->enqueueMessage( JText::sprintf( "COM_TIENDA_CLASSNAME_NOT_FOUND", $classname ), 'notice' );
 		}
 
 		$vars = new JObject();

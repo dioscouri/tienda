@@ -139,7 +139,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 				{
 					$error = new JObject();
 					$error->error = '1';
-					$error->message = JText::_($f['attribute']->eavattribute_label .' is required');
+					$error->message = JText::sprintf("COM_TIENDA_ATTRIBUTE_IS_REQUIRED", $f['attribute']->eavattribute_label);
 					return $error;
 				}
 			}
