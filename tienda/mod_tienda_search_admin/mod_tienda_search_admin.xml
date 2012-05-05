@@ -21,7 +21,7 @@
 	</languages>
 	
 	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
+		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 		<param type="spacer" />
         <param name="display_link" type="radio" default="0" label="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK" description="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK_DESC">
             <option value="0">MOD_TIENDA_SEARCH_ADMIN_NO</option>

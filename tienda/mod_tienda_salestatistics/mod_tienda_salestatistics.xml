@@ -21,7 +21,7 @@
 	</languages>
 
 	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="MODULE CLASS SUFFIX" description="PARAMMODULECLASSSUFFIX" />
+		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
         <param name="hide_title" type="radio" default="1" label="MOD_TIENDA_SALESTATISTICS_HIDE_MODULE_TITLE" description="MOD_TIENDA_SALESTATISTICS_HIDE_MODULE_TITLE_DESC">
             <option value="0">COM_TIENDA_NO</option>
             <option value="1">COM_TIENDA_YES</option>
