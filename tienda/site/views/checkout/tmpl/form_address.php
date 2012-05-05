@@ -19,7 +19,7 @@
 			break;
 	}
 	$elements  = TiendaHelperAddresses::getAddressElementsData( $address_type );
-	$js_strings = array( 'Updating Shipping Rates', 'Updating Cart', 'Updating Address',  'Updating Payment Methods' );
+	$js_strings = array( 'COM_TIENDA_UPDATING_SHIPPING_RATES', 'COM_TIENDA_UPDATING_CART', 'COM_TIENDA_UPDATING_ADDRESS',  'COM_TIENDA_UPDATING_PAYMENT_METHODS' );
 	TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 ?>
 

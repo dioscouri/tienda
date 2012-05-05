@@ -10,7 +10,7 @@
 	$values = @$this->values;
 	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); 
 	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-	$js_strings = array( 'Updating Cart', 'COM_TIENDA_CHECKING_COUPON', 'COM_TIENDA_UPDATING_BILLING' );	
+	$js_strings = array( 'COM_TIENDA_UPDATING_CART', 'COM_TIENDA_CHECKING_COUPON', 'COM_TIENDA_UPDATING_BILLING' );	
 	TiendaHelperBase::addJsTranslationStrings( $js_strings );
 ?>
 

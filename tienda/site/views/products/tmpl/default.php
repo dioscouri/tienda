@@ -9,7 +9,7 @@ $config = TiendaConfig::getInstance();
 $product_compare = $config->get('enable_product_compare', '1');
 $plugins_short_desc = $config->get( 'content_plugins_product_desc', '0' );
 
-$js_strings = array( 'Adding Product for Comparison', 'Removing Product' );
+$js_strings = array( 'COM_TIENDA_ADDING_PRODUCT_FOR_COMPARISON', 'COM_TIENDA_REMOVING_PRODUCT' );
 TiendaHelperBase::addJsTranslationStrings( $js_strings );
 ?>
 <div id="tienda" class="products default">

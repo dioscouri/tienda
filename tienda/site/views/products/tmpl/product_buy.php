@@ -13,7 +13,7 @@ $working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product
 $display_wishlist = TiendaConfig::getInstance()->get( 'display_wishlist', 0);
 
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-$js_strings = array( 'Updating Attributes' );
+$js_strings = array( 'COM_TIENDA_UPDATING_ATTRIBUTES' );
 TiendaHelperBase::addJsTranslationStrings( $js_strings );
 ?>
 
