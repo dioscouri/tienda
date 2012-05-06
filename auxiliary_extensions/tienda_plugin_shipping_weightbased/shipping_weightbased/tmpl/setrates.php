@@ -91,7 +91,7 @@
 					<?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_RANGE', "tbl.weight_start", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
-					<?php echo TiendaGrid::sort( 'WEIGHT_STEP', "tbl.weight_step", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_WEIGHT_STEP', "tbl.weight_step", @$state->direction, @$state->order ); ?>
 				</th>
 				<th style="text-align: center;">
 					<?php echo TiendaGrid::sort( 'COM_TIENDA_HANDLING_FEE', "tbl.shipping_handling", @$state->direction, @$state->order ); ?>
