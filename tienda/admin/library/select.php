@@ -1261,12 +1261,12 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'replace', "Replace" );
-        $list[] = JHTML::_('select.option',  'append', "Append" );
-        $list[] = JHTML::_('select.option',  'prepend', "Prepend" );
-		$list[] = JHTML::_('select.option',  '+', "+" );
-		$list[] = JHTML::_('select.option',  '-', "-" );
-		$list[] = JHTML::_('select.option',  '=', "=" );
+        $list[] = JHTML::_('select.option',  'replace', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_REPLACE') );
+        $list[] = JHTML::_('select.option',  'append', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_APPEND') );
+        $list[] = JHTML::_('select.option',  'prepend', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_PREPEND') );
+		$list[] = JHTML::_('select.option',  '+', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_PLUS') );
+		$list[] = JHTML::_('select.option',  '-', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_MINUS') );
+		$list[] = JHTML::_('select.option',  '=', JText::_('COM_TIENDA_ATTRIBOPTIONVALOP_EQUALS') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1289,9 +1289,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'product_full_image', "Main Image" );
-        $list[] = JHTML::_('select.option',  'product_model', "Model" );
-        $list[] = JHTML::_('select.option',  'product_sku', "SKU" );
+        $list[] = JHTML::_('select.option',  'product_full_image', JText::_('COM_TIENDA_MAIN_IMAGE') );
+        $list[] = JHTML::_('select.option',  'product_model', JText::_('COM_TIENDA_MODEL') );
+        $list[] = JHTML::_('select.option',  'product_sku', JText::_('COM_TIENDA_SKU') );
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1314,9 +1314,9 @@ class TiendaSelect extends JHTMLSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'onepage-opc', "Standard" );
-        $list[] = JHTML::_('select.option',  'onepage-1col', "1 Column" );
-        $list[] = JHTML::_('select.option',  'onepage-2cols', "2 Columns" );
+        $list[] = JHTML::_('select.option',  'onepage-opc', JText::_('COM_TIENDA_STANDARD') );
+        $list[] = JHTML::_('select.option',  'onepage-1col', JText::_('COM_TIENDA_1_COLUMN') );
+        $list[] = JHTML::_('select.option',  'onepage-2cols', JText::_('COM_TIENDA_2_COLUMNS') );
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
@@ -1465,10 +1465,10 @@ class TiendaSelect extends JHTMLSelect
 		public static function taxdisplaycheckout( $selected, $name = 'show_tax_checkout', $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
 		{
         $list = array();
-        $list[] = JHTML::_('select.option',  '1', "Tax Rates in Separate Lines" );
-        $list[] = JHTML::_('select.option',  '2', "Tax Classes in Separate Lines" );
-        $list[] = JHTML::_('select.option',  '3', "Tax Classes and Tax Rates in Separate Lines" );
-        $list[] = JHTML::_('select.option',  '4', "All in One Line" );
+        $list[] = JHTML::_('select.option',  '1', JText::_('COM_TIENDA_TAX_RATES_IN_SEPARATE_LINES') );
+        $list[] = JHTML::_('select.option',  '2', JText::_('COM_TIENDA_TAX_CLASSES_IN_SEPARATE_LINES') );
+        $list[] = JHTML::_('select.option',  '3', JText::_('COM_TIENDA_TAX_CLASSES_AND_TAX_RATES_IN_SEPARATE_LINES') );
+        $list[] = JHTML::_('select.option',  '4', JText::_('COM_TIENDA_ALL_IN_ONE_LINE') );
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
 		}

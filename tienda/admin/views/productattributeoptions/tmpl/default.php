@@ -80,7 +80,7 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="text-align: left;">
-                	<?php echo echo TiendaGrid::sort( 'COM_TIENDA_OPTION', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
+                	<?php echo TiendaGrid::sort( 'COM_TIENDA_OPTION', "tbl.productattributeoption_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 100px;">
                     <?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE_PREFIX', "tbl.productattributeoption_prefix", @$state->direction, @$state->order ); ?>

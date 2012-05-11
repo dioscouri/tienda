@@ -12,6 +12,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 Tienda::load( 'TiendaShippingPlugin', 'library.plugins.shipping' );
 
+
+
 class plgTiendaShipping_Fedex extends TiendaShippingPlugin
 {
 	/**
