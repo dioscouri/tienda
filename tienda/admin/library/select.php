@@ -42,7 +42,7 @@ class TiendaSelect extends JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	public static function range( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Range' )
+	public static function range( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
 	{
 	    $list = array();
 		if($allowAny) {
@@ -67,7 +67,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function reportrange( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Range' )
+    public static function reportrange( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
     {
         $list = array();
         if($allowAny) {
@@ -92,7 +92,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function datetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    public static function datetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -115,7 +115,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'No Parent', $enabled = null )
+	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -202,7 +202,7 @@ class TiendaSelect extends JHTMLSelect
  	 * @param unknown_type $title_none
  	 * @return unknown_type
  	 */
-	public static function taxclass($selected, $name = 'filter_tax_class_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Tax Class', $title_none = 'No Tax Class' )
+	public static function taxclass($selected, $name = 'filter_tax_class_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_TAX_CLASS', $title_none = 'COM_TIENDA_NO_TAX_CLASS' )
  	{
  		// Build list
         $list = array();
@@ -696,7 +696,7 @@ class TiendaSelect extends JHTMLSelect
     /**
 	 * Generates a selectlist of Product Attributes 
 	 */
-    public static function productattributes( $selected, $product_id, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'No Parent')
+    public static function productattributes( $selected, $product_id, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_NO_PARENT')
     {
         $list = array();
         
@@ -815,7 +815,7 @@ class TiendaSelect extends JHTMLSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function productlayout( $selected, $name = 'filter_productlayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='Select Layout' )
+    public static function productlayout( $selected, $name = 'filter_productlayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) 
@@ -844,7 +844,7 @@ class TiendaSelect extends JHTMLSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function categorylayout( $selected, $name = 'filter_categorylayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='Select Layout' )
+    public static function categorylayout( $selected, $name = 'filter_categorylayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) 
@@ -936,7 +936,7 @@ class TiendaSelect extends JHTMLSelect
      *
      */
      
-	public static function product($selected, $name = 'product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select product', $title_none = 'No Parent', $enabled = null )
+	public static function product($selected, $name = 'product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select product', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -957,7 +957,7 @@ class TiendaSelect extends JHTMLSelect
 	/*
 	 * getting list of users
 	 */
- 	public static function users($selected, $name = 'userid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select User', $title_none = 'No Parent', $enabled = null )
+ 	public static function users($selected, $name = 'userid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select User', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -978,7 +978,7 @@ class TiendaSelect extends JHTMLSelect
  	/*
 	 * getting list of groups
 	 */
- 	public static function groups($selected, $name = 'group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Group', $title_none = 'No Group', $enabled = null )
+ 	public static function groups($selected, $name = 'group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_GROUP', $title_none = 'No Group', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -1049,7 +1049,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function subdatetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    public static function subdatetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1070,7 +1070,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function entitytype( $selected, $name = 'filter_entitytype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    public static function entitytype( $selected, $name = 'filter_entitytype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1091,7 +1091,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function attributetype( $selected, $name = 'filter_attributetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    public static function attributetype( $selected, $name = 'filter_attributetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1307,7 +1307,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function opclayouts( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Layout' )
+    public static function opclayouts( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) {
@@ -1332,7 +1332,7 @@ class TiendaSelect extends JHTMLSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function multipleuploadscript( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Layout' )
+    public static function multipleuploadscript( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) {
@@ -1354,7 +1354,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function credittype( $selected, $name = 'credit_type', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Type' )
+    public static function credittype( $selected, $name = 'credit_type', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {

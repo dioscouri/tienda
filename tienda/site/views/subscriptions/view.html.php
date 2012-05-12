@@ -29,7 +29,7 @@ class TiendaViewSubscriptions extends TiendaViewBase
               break;
             case "default":
             default:
-                $this->set( 'leftMenu', 'leftmenu_orders' );
+                $this->set( 'leftMenu', 'COM_TIENDA_LEFTMENU_ORDERS' );
                 $this->_default($tpl);
               break;
         }

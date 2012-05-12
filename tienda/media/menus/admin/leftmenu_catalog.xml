@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-        <name>Products</name>
+        <name>COM_TIENDA_PRODUCTS</name>
         <url>index.php?option=com_tienda&#38;view=products</url>
    </link>
    <link>
-        <name>Categories</name>
+        <name>COM_TIENDA_CATEGORIES</name>
         <url>index.php?option=com_tienda&#38;view=categories</url>
    </link>
    <link>
-        <name>Manufacturers</name>
+        <name>COM_TIENDA_MANUFACTURERS</name>
         <url>index.php?option=com_tienda&#38;view=manufacturers</url>
    </link>
    <link>
-        <name>Reviews And Ratings</name>
+        <name>COM_TIENDA_REVIEWS_AND_RATINGS</name>
         <url>index.php?option=com_tienda&#38;view=productcomments</url>
    </link>
 </menu>

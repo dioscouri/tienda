@@ -570,7 +570,7 @@
     	<table class="admintable" style="clear: both; width: 100%;">
     	<tr>
     	    <td style="width: 100px; text-align: right;" class="key">
-    	        <?php echo JText::_('New Status'); ?>
+    	        <?php echo JText::_('COM_TIENDA_NEW_STATUS'); ?>
     	    </td>
     	    <td>
     	        <input value="<?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />

@@ -20,7 +20,7 @@ class JElementTiendaTaxClass extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->taxclass($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Tax Class', '', true );
+	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->taxclass($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'COM_TIENDA_SELECT_TAX_CLASS', '', true );
 		return $list;
 	}
 }

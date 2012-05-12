@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
     <link>
-        <name>Countries</name>
+        <name>COM_TIENDA_COUNTRIES</name>
         <url>index.php?option=com_tienda&#38;view=countries</url>
     </link>
     <link>
-        <name>Zones</name>
+        <name>COM_TIENDA_ZONES</name>
         <url>index.php?option=com_tienda&#38;view=zones</url>
     </link>
     <link>
-        <name>Geo Zones</name>
+        <name>COM_TIENDA_GEO_ZONES</name>
         <url>index.php?option=com_tienda&#38;view=geozones</url>
     </link>
     <link>
-        <name>Currencies</name>
+        <name>COM_TIENDA_CURRENCIES</name>
         <url>index.php?option=com_tienda&#38;view=currencies</url>
     </link>
     <link>
-        <name>Emails</name>
+        <name>COM_TIENDA_EMAILS</name>
         <url>index.php?option=com_tienda&#38;view=emails</url>
     </link>
     <link>
-        <name>Order States</name>
+        <name>COM_TIENDA_ORDER_STATES</name>
         <url>index.php?option=com_tienda&#38;view=orderstates</url>
     </link>
     <link>
-        <name>Tax Classes</name>
+        <name>COM_TIENDA_TAX_CLASSES</name>
         <url>index.php?option=com_tienda&#38;view=taxclasses</url>
     </link>
 </menu>

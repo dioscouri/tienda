@@ -152,7 +152,7 @@
 					}
 					
 					
-					echo TiendaSelect::productattributes($attribute_id, $row->product_id, $item->productattributeoption_id, array('class' => 'inputbox', 'size' => '1'), null, $allowAny = true, $title = 'No Parent');
+					echo TiendaSelect::productattributes($attribute_id, $row->product_id, $item->productattributeoption_id, array('class' => 'inputbox', 'size' => '1'), null, $allowAny = true, $title = 'COM_TIENDA_NO_PARENT');
 					
 					?>
 					

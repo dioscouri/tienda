@@ -282,7 +282,7 @@ var MultiUpload = new Class(
 	
 		// Confirm before delete
 		deleted_row = this.elements[ this.uid_lookup[ uid ] ];
-		if( confirm( 'Are you sure you want to remove the item\r\n' +  deleted_row.element.value + '\r\nfrom the upload queue?' ) ){
+		if( confirm( 'COM_TIENDA_ARE_YOU_SURE_YOU_WANT_TO_REMOVE_THE_ITEM\r\n' +  deleted_row.element.value + '\r\nCOM_TIENDA_FROM_THE_UPLOAD_QUEUE' ) ){
 			this.elements.getLast().element.disabled = false;
 			deleted_row.element.remove();
 			deleted_row.row.remove();

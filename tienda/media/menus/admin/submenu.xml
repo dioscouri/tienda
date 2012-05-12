@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-       <name>Dashboard</name>
+       <name>COM_TIENDA_DASHBOARD</name>
        <url>index.php?option=com_tienda&#38;view=dashboard</url>
    </link>
    <link>
-       <name>Orders</name>
+       <name>COM_TIENDA_ORDERS</name>
        <url>index.php?option=com_tienda&#38;view=orders</url>
    </link>
    <link>
-       <name>Catalog</name>
+       <name>COM_TIENDA_CATALOG</name>
        <url>index.php?option=com_tienda&#38;view=catalog</url>
    </link>
    <link>
-       <name>Users</name>
+       <name>COM_TIENDA_USERS</name>
        <url>index.php?option=com_tienda&#38;view=users</url>
    </link>
    <link>
-       <name>Coupons</name>
+       <name>COM_TIENDA_COUPONS</name>
        <url>index.php?option=com_tienda&#38;view=coupons</url>
    </link>
    <link>
-       <name>Custom Fields</name>
+       <name>COM_TIENDA_CUSTOM_FIELDS</name>
        <url>index.php?option=com_tienda&#38;view=eavattributes</url>
    </link>
    <link>
-       <name>Localization</name>
+       <name>COM_TIENDA_LOCALIZATION</name>
        <url>index.php?option=com_tienda&#38;view=localization</url>
    </link>
    <link>
-       <name>Tools and Reports</name>
+       <name>COM_TIENDA_TOOLS_AND_REPORTS</name>
        <url>index.php?option=com_tienda&#38;view=reports</url>
    </link>
    <link>
-       <name>Configuration</name>
+       <name>COM_TIENDA_CONFIGURATION</name>
        <url>index.php?option=com_tienda&#38;view=config</url>
    </link>
 </menu>

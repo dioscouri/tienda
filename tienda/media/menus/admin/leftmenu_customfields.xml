@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-        <name>General</name>
+        <name>COM_TIENDA_GENERAL</name>
         <url>index.php?option=com_tienda&#38;view=eavattributes</url>
    </link>
    <link>
-        <name>Products</name>
+        <name>COM_TIENDA_PRODUCTS</name>
         <url>index.php?option=com_tienda&#38;view=eavattributes&#38;filter_entitytype=products</url>
    </link>
 </menu>

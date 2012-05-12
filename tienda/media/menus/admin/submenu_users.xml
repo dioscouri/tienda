@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-        <name>Groups</name>
+        <name>COM_TIENDA_GROUPS</name>
         <url>index.php?option=com_tienda&#38;view=groups</url>
    </link>
    <link>
-        <name>Credits</name>
+        <name>COM_TIENDA_CREDITS</name>
         <url>index.php?option=com_tienda&#38;view=credits</url>
    </link>
 </menu>

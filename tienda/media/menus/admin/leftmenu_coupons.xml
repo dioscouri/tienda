@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
    <link>
-        <name>Coupons</name>
+        <name>COM_TIENDA_COUPONS</name>
         <url>index.php?option=com_tienda&#38;view=coupons</url>
    </link>
 </menu>

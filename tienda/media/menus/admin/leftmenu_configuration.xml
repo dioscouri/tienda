@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <menu>
     <link>
-       <name>General Configuration</name>
+       <name>COM_TIENDA_GENERAL_CONFIGURATION</name>
        <url>index.php?option=com_tienda&#38;view=config</url>
     </link>
     <link>
-        <name>Shipping Methods</name>
+        <name>COM_TIENDA_SHIPPING_METHODS</name>
         <url>index.php?option=com_tienda&#38;view=shipping</url>
     </link>
 	 <link>
-        <name>Payment Methods</name>
+        <name>COM_TIENDA_PAYMENT_METHODS</name>
         <url>index.php?option=com_tienda&#38;view=payment</url>
     </link>
 </menu>

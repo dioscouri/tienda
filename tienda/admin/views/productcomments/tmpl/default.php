@@ -87,7 +87,7 @@
                 <?php echo TiendaSelect::booleans( @$state->filter_reported, 'filter_reported', $attribs, 'filter_reported', true, 'Reported', 'Yes', 'No' ); ?>
             </th>
 			<th>
-                <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
+                <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'COM_TIENDA_ENABLED_STATE' ); ?>
 			</th>
 		</tr>
 		<tr>

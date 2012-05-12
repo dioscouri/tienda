@@ -909,7 +909,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         
         <div style="float: left; width: 50%;">
             <fieldset>
-            <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO_RATED_CHARGES'); ?></legend>
+            <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_RECURRING_CHARGES'); ?></legend>
             <table class="admintable" style="width: 100%;">
                 <tr>
                     <td style="width: 125px; text-align: right;" class="key">

@@ -236,7 +236,7 @@
                                 <?php echo JText::_('COM_TIENDA_RECREATE_PRODUCT_THUMBNAILS'); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&view=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Product Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=products&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_RECREATE_THE_PRODUCT_THUMBNAILS'); ?></a>
                             </td>
                         </tr>
                         <tr>
@@ -260,7 +260,7 @@
                                 <?php echo JText::_('COM_TIENDA_RECREATE_CATEGORY_THUMBNAILS'); ?>
                             </th>
                             <td>
-                                <a href="index.php?option=com_tienda&view=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('Click here to recreate the Category Thumbnails'); ?></a>
+                                <a href="index.php?option=com_tienda&view=categories&task=recreateThumbs" onClick="return confirm('<?php echo JText::_('Are you sure? Remember to save your new Configuration Values before doing this!'); ?>');"><?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_RECREATE_THE_CATEGORY_THUMBNAILS'); ?></a>
                             </td>
                         </tr>
                         <tr>
@@ -480,7 +480,7 @@
                         </tr>
                         <tr>
                             <th style="width: 25%;">
-                                <?php echo JText::_('PENDING ORDER STATE'); ?>
+                                <?php echo JText::_('COM_TIENDA_PENDING_ORDER_STATE'); ?>
                             </th>
                             <td>
                                 <?php echo TiendaSelect::orderstate($this->row->get('pending_order_state', '1'), 'pending_order_state'); ?>

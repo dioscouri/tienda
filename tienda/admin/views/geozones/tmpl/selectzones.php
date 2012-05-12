@@ -25,7 +25,7 @@
             <td>
                 <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
                 <?php
-                echo TiendaSelect::booleans( @$state->filter_associated, 'filter_associated', $attribs, $idtag = null, false, '', 'Associated Zones Only', 'All Zones' );
+                echo TiendaSelect::booleans( @$state->filter_associated, 'filter_associated', $attribs, $idtag = null, false, '', 'COM_TIENDA_ASSOCIATED_ZONES_ONLY', 'COM_TIENDA_ALL_ZONES' );
                 ?>
             </td>
             <td nowrap="nowrap">

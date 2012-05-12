@@ -183,7 +183,7 @@ class TiendaGrid extends JHTMLGrid
 	{
 		$href = '';
 		
-		$constant = 'page_tooltip_'.$key;		
+		$constant = "COM_TIENDA_PAGE_TOOLTIP_".$key;		
 		$disabled = TiendaConfig::getInstance()->get( $constant."_disabled", '0');
 		
 		$lang = JFactory::getLanguage();

@@ -101,16 +101,16 @@ class TiendaTableAddresses extends TiendaTable
 		}
 		
 		$address_checks = array( 
-												array( 'first_name' ,'name', "First Name Required" ),
-												array( 'middle_name' ,'middle', "Middle Name Required" ),
-												array( 'last_name', 'last', "Last Name Required" ),
-												array( 'address_1', 'address1', "At Least One Address Line is Required" ),
-												array( 'address_2' ,'address2', "Second Address Line is Required" ),
-												array( 'company', 'company', "Company Required" ),
-												array( 'tax_number', 'tax_number', "Company Tax Number Required" ),
-												array( 'city', 'city', "City Required" ),
-												array( 'postal_code', 'zip', "Postal Code Required" ),
-												array( 'phone_1', 'phone', "Phone Required" )
+												array( 'first_name' ,'name', "COM_TIENDA_FIRST_NAME_REQUIRED" ),
+												array( 'middle_name' ,'middle', "COM_TIENDA_MIDDLE_NAME_REQUIRED" ),
+												array( 'last_name', 'last', "COM_TIENDA_LAST_NAME_REQUIRED" ),
+												array( 'address_1', 'address1', "COM_TIENDA_AT_LEAST_ONE_ADDRESS_LINE_IS_REQUIRED" ),
+												array( 'address_2' ,'address2', "COM_TIENDA_SECOND_ADDRESS_LINE_IS_REQUIRED" ),
+												array( 'company', 'company', "COM_TIENDA_COMPANY_REQUIRED" ),
+												array( 'tax_number', 'tax_number', "COM_TIENDA_COMPANY_TAX_NUMBER_REQUIRED" ),
+												array( 'city', 'city', "COM_TIENDA_CITY_REQUIRED" ),
+												array( 'postal_code', 'zip', "COM_TIENDA_POSTAL_CODE_REQUIRED" ),
+												array( 'phone_1', 'phone', "COM_TIENDA_PHONE_REQUIRED" )
 													);
 	for( $i = 0, $c = count( $address_checks ); $i < $c; $i++ )
 	{

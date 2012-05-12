@@ -76,10 +76,10 @@
                     <input id="filter_value" name="filter_value" value="<?php echo @$state->filter_value; ?>" size="10"/>
                 </th>
                 <th>
-                    <?php echo TiendaSelect::booleans( @$state->filter_type, 'filter_type', $attribs, 'filter_type', true, 'Select Type', 'Percentage', 'Flat Rate' ); ?>
+                    <?php echo TiendaSelect::booleans( @$state->filter_type, 'filter_type', $attribs, 'filter_type', true, 'COM_TIENDA_SELECT_TYPE', 'COM_TIENDA_PERCENTAGE', 'COM_TIENDA_FLAT_RATE' ); ?>
                 </th>
                 <th>
-    	            <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
+    	            <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'COM_TIENDA_ENABLED_STATE' ); ?>
                 </th>
                 <th>
                 </th>

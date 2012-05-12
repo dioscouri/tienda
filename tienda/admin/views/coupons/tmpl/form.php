@@ -86,7 +86,7 @@ function shippingPerOrder()
                         <?php echo JText::_('COM_TIENDA_VALUE_TYPE'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'coupon_value_type', '', @$row->coupon_value_type, 'Percentage', 'Flat Rate' ); ?>
+                        <?php echo JHTML::_('select.booleanlist', 'coupon_value_type', '', @$row->coupon_value_type, 'COM_TIENDA_PERCENTAGE', 'COM_TIENDA_FLAT_RATE' ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -164,7 +164,7 @@ function shippingPerOrder()
                         <?php echo JText::_('COM_TIENDA_TYPE'); ?>:
                     </td>
                     <td>
-                        <?php echo TiendaSelect::booleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'User Submitted' );?>
+                        <?php echo TiendaSelect::booleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'COM_TIENDA_USER_SUBMITTED' );?>
                     </td>
                 </tr>                
                 <tr>

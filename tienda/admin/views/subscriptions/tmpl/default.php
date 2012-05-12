@@ -129,10 +129,10 @@
                     <input id="filter_transaction" name="filter_transactionid" value="<?php echo @$state->filter_transactionid; ?>" size="10"/>
                 </th>
                 <th>
-                    <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'Enabled State' ); ?>
+                    <?php echo TiendaSelect::booleans( @$state->filter_enabled, 'filter_enabled', $attribs, 'enabled', true, 'COM_TIENDA_ENABLED_STATE' ); ?>
                 </th>
                 <th>
-                    <?php echo TiendaSelect::booleans( @$state->filter_lifetime, 'filter_lifetime', $attribs, 'lifetime', true, 'Lifetime State' ); ?>
+                    <?php echo TiendaSelect::booleans( @$state->filter_lifetime, 'filter_lifetime', $attribs, 'lifetime', true, 'COM_TIENDA_LIFETIME_STATE' ); ?>
                 </th>
             </tr>
 			<tr>
