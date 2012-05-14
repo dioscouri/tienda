@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Report - Low Stock Products</name>
+	<name>Tienda - Report - Low Stock Products</name>
 	<version>0.9.0</version>
 	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>

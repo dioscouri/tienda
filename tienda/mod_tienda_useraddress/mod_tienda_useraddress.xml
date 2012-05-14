@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="tienda_user_main" client="administrator" method="upgrade">
-    <name>User Addresses</name>
+    <name>Tienda - User Addresses</name>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>

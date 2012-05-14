@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="system" method="upgrade">
-	<name>Tienda System Plugin for Checking Subscriptions</name>
+	<name>Tienda - System Plugin for Checking Subscriptions</name>
 	<version>0.9.0</version>
 	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>

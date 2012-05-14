@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="left" method="upgrade">
-    <name>Product Price Filters</name>
+    <name>Tienda - Product Price Filters</name>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>

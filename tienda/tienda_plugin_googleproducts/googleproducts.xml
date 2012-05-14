@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
-	<name>Tienda Plugin for sending products to Google Products</name>
+	<name>Tienda - Plugin for sending products to Google Products</name>
 	<version>0.9.0</version>
 	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>

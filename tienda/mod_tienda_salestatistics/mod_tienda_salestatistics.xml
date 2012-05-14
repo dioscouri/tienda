@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="tienda_dashboard_right" client="administrator" method="upgrade">
-    <name>Sales Statistics</name>
+    <name>Tienda - Sales Statistics</name>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
     <authorUrl>http://www.dioscouri.com</authorUrl>
