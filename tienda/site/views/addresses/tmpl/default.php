@@ -22,7 +22,7 @@
         <tr>
             <td align="left" width="100%">
                 <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => "document.getElementById('task').value=this.options[this.selectedIndex].value; document.adminForm.submit();"); ?>
-                <?php echo TiendaSelect::addressaction( '', 'apply_action', $attribs, 'apply_action', true, false, 'Select Action' ); ?>
+                <?php echo TiendaSelect::addressaction( '', 'apply_action', $attribs, 'apply_action', true, false, 'COM_TIENDA_SELECT_ACTION' ); ?>
             </td>
             <td nowrap="nowrap">
                 <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=add".$tmpl); ?>">

@@ -80,7 +80,7 @@ class TiendaModelRemind extends JModel
 
 		if (!JUtility::sendMail($from, $fromname, $email, $subject, $body))
 		{
-			$this->setError('ERROR_SENDING_REMINDER_EMAIL');
+			$this->setError('COM_TIENDA_ERROR_SENDING_REMINDER_EMAIL');
 			return false;
 		}
 

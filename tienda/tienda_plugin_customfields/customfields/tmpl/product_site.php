@@ -4,7 +4,7 @@
 ?>
 
 <div class="tienda_header">
-	<span><?php echo JText::_('Information'); ?></span>
+	<span><?php echo JText::_('COM_TIENDA_INFORMATION'); ?></span>
 </div>
 <div class="tienda_custom_fields">
 <?php foreach (@$vars->fields as $field): ?>	            

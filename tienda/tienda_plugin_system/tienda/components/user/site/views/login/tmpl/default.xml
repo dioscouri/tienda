@@ -14,7 +14,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="header_login" type="text" size="30" default="" label="LOGIN PAGE TITLE" description="PARAMPAGETITLE" />
-			<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
+			<param name="login" type="text" size="30"  default="" label="COM_TIENDA_LOGIN_REDIRECTION_URL" description="PARAMLOGINURL" />
 			<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
@@ -35,7 +35,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="PARAMLOGOUTPAGETITLE" />
-			<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="PARAMLOGOUTURL" />
+			<param name="logout" type="text" size="30"  default="" label="COM_TIENDA_LOGOUT_REDIRECTION_URL" description="PARAMLOGOUTURL" />
 			<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="PARAMLOGOUTJSMESSAGE">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>

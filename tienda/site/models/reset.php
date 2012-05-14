@@ -219,7 +219,7 @@ class TiendaModelReset extends JModel
 		// Send the e-mail
 		if (!JUtility::sendMail($from, $fromname, $email, $subject, $body))
 		{
-			$this->setError('ERROR_SENDING_CONFIRMATION_EMAIL');
+			$this->setError('COM_TIENDA_ERROR_SENDING_CONFIRMATION_EMAIL');
 			return false;
 		}
 

@@ -257,7 +257,7 @@
 		            	 		<div class="contentheading">
 									<?php echo JText::_('COM_TIENDA_COUPON_CODE')?>
 									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
-			            			<?php $string = "Coupon Code Help"; if ($mult_enabled) { $string = "Coupon Code Help Multiple"; } ?>
+			            			<?php $string = "COM_TIENDA_COUPON_CODE_HELP"; if ($mult_enabled) { $string = "COM_TIENDA_COUPON_CODE_HELP_MULTIPLE"; } ?>
 			            	<?php if( $enable_tooltips ) : ?>
 			            			<a class="img_tooltip" href="" > 
 										<img src="<?php echo Tienda::getUrl('images').$image; ?>" alt='<?php echo JText::_('COM_TIENDA_HELP'); ?>' />

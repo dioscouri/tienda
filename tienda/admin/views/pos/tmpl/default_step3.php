@@ -44,10 +44,10 @@
             <div id="coupon_code_form">
             <h3><?php echo JText::_('COM_TIENDA_COUPON_CODE');?></h3>
             <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
-            <?php $string = "Coupon Code Help";
+            <?php $string = "COM_TIENDA_COUPON_CODE_HELP";
 				if($mult_enabled)
 				{
-					$string = "Coupon Code Help Multiple";
+					$string = "COM_TIENDA_COUPON_CODE_HELP_MULTIPLE";
 				}
  ?>
             <div id="coupon_code_help"><?php echo JText::_($string);?></div>

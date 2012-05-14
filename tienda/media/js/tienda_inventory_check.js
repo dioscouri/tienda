@@ -34,12 +34,12 @@ function TiendaCheckStock()
 			if (availableQuantity < requiredQuantity) {
 				TiendaHide("add_to_cart");
 				TiendaShow("add_to_cart_deactive");
-				TiendaHide("invalid_quantity");
+				TiendaHide("COM_TIENDA_INVALID_QUANTITY");
 				document.getElementById('stock').innerHTML=availableQuantity;
 			} else {
 				TiendaShow("add_to_cart");
 				TiendaHide("add_to_cart_deactive");
-				TiendaHide("invalid_quantity");
+				TiendaHide("COM_TIENDA_INVALID_QUANTITY");
 			}
 		}
 	}
@@ -47,7 +47,7 @@ function TiendaCheckStock()
 	if ( requiredQuantity <= 0) {
 		TiendaHide("add_to_cart");
 		TiendaHide("add_to_cart_deactive");
-		TiendaShow("invalid_quantity");
+		TiendaShow("COM_TIENDA_INVALID_QUANTITY");
 	
 	} 
  	

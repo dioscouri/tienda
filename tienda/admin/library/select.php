@@ -529,7 +529,7 @@ class TiendaSelect extends JHTMLSelect
      * @param $title_none
      * @return unknown_type
      */
-    public static function addressaction($selected, $name = 'filter_action', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Action' )
+    public static function addressaction($selected, $name = 'filter_action', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_ACTION' )
     {
         $list = array();
         if($allowAny) 
@@ -871,7 +871,7 @@ class TiendaSelect extends JHTMLSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function addtocartaction( $selected, $name = 'filter_addtocartaction', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Action' )
+    public static function addtocartaction( $selected, $name = 'filter_addtocartaction', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_ACTION' )
     {
         $list = array();
         if($allowAny) {

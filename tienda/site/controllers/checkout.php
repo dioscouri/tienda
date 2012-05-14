@@ -70,10 +70,10 @@ class TiendaControllerCheckout extends TiendaController
 		$this->initial_order_state = TiendaConfig::getInstance()->get('initial_order_state', '15');
 		// Default Steps
 		$this->steps = array(
-            'STEP_SELECTSHIPPINGMETHOD',
-            'STEP_SELECTPAYMENTMETHOD',
-            'STEP_REVIEWORDER',
-            'STEP_CHECKOUTRESULTS'
+            'COM_TIENDA_STEP_SELECTSHIPPINGMETHOD',
+            'COM_TIENDA_STEP_SELECTPAYMENTMETHOD',
+            'COM_TIENDA_STEP_REVIEWORDER',
+            'COM_TIENDA_STEP_CHECKOUTRESULTS'
             );
     $this->current_step = 0;
 
