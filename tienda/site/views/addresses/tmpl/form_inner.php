@@ -6,7 +6,7 @@
 
 <table>
     <tbody>
-    <?php if($config->get('show_field_title', '3') != '0' ): ?>
+    <?php if($config->get('show_field_address_name', '3') != '0' ): ?>
     <tr>
 		<th style="width: 100px; text-align: right;" class="key">
             <?php echo JText::_('COM_TIENDA_ADDRESS_TITLE'); ?>
@@ -34,6 +34,19 @@
             <?php echo JHTML::_('select.booleanlist', 'is_default_billing', '', @$row->is_default_billing ); ?>
         </td>
     </tr>
+    
+    <?php if($config->get('show_field_title', '3') != '0' ): ?>
+    <tr>
+    	<th style="width: 100px; text-align: right;" class="key">
+    		<?php echo JText::_('COM_TIENDA_TITLE'); ?>
+    	</th>
+        <td>
+			<input name="title" id="title" type="text" size="25" maxlength="250" value="<?php echo @$row->title; ?>" />
+		</td>
+	</tr>
+	
+	<?php endif; ?>
+    
     <?php if($config->get('show_field_name', '3') != '0' ): ?>
     <tr>
         <th style="width: 100px; text-align: right;" class="key">

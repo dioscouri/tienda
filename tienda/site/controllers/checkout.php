@@ -822,7 +822,7 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if billing address is invalid
 		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
 		{
-			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR=')." :: ".$this->getError() );
+			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR')." :: ".$this->getError() );
 			$response['error'] = '1';
 			echo ( json_encode( $response ) );
 			return false;
@@ -833,7 +833,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
 			{
-				$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR=').$this->shipping_input_prefix." :: ".$this->getError() );
+				$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR').$this->shipping_input_prefix." :: ".$this->getError() );
 				$response['error'] = '1';
 				echo ( json_encode( $response ) );
 				return false;
