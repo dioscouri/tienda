@@ -103,7 +103,8 @@
 		<tfoot>
 			<tr>
 				<td colspan="20">
-					<?php echo @$this->pagination->getListFooter(); ?>
+					<div style="float: right; padding: 5px;"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+					<?php echo @$this->pagination->getPagesLinks(); ?>
 				</td>
 			</tr>
 		</tfoot>
