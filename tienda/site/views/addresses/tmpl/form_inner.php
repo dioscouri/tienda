@@ -179,6 +179,8 @@
 		</td>
 	</tr>
   <?php endif;?>
+  
+   <?php if($config->get('show_field_cell', '3') != '0' ): ?>
 	<tr>
 		<th style="width: 100px; text-align: right;" class="key">
             <?php echo JText::_('COM_TIENDA_CELL'); ?>
@@ -187,6 +189,8 @@
 			<input type="text" name="phone_2" id="phone_2" size="25" maxlength="250" value="<?php echo @$row->phone_2; ?>" />
 		</td>
 	</tr>
+	<?php endif;?>
+	<?php if($config->get('show_field_fax', '3') != '0' ): ?>
 	<tr>
 		<th style="width: 100px; text-align: right;" class="key">
 			<?php echo JText::_('COM_TIENDA_FAX'); ?>
@@ -195,6 +199,7 @@
 			<input type="text" name="fax" id="fax" size="25" maxlength="250" value="<?php echo @$row->fax; ?>" />
 		</td>
 	</tr>
+	<?php endif;?>
 	<?php 
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onAfterDisplayAddressDetails', array($row, '') );

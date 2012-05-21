@@ -527,6 +527,8 @@ class TiendaConfig extends JObject
 	var $show_field_city					= '3';
 	var $show_field_zip						= '3';
 	var $show_field_phone					= '3';
+	var $show_field_cell					= '3';
+	var $show_field_fax						= '3';
 
 	// address validation management
 	var $validate_field_address_name				= '3';
@@ -543,6 +545,8 @@ class TiendaConfig extends JObject
 	var $validate_field_city				= '3';
 	var $validate_field_zip					= '3';
 	var $validate_field_phone				= '0';
+	var $validate_field_cell				= '0';
+	var $validate_field_fax					= '0';
 
 	var $sha1_images						= '0';
 	var $files_maxsize						= '3000';

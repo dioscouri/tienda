@@ -1650,6 +1650,39 @@
                                <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_phone', '0'), 'validate_field_phone');?>
                             </td>
 						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_('COM_TIENDA_SHOW_CELL_FIELD'); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_cell', '3'), 'show_field_cell');?>
+							</td>
+	                            <th>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_CELL_FIELD'); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_cell', '0'), 'validate_field_cell');?>
+                            </td>
+						</tr>
+						<tr>
+			            	<th style="width: 25%;">
+								<?php echo JText::_('COM_TIENDA_SHOW_FAX_FIELD'); ?>
+							</th>
+							<td style="width: 150px;">
+		                        <?php echo TiendaSelect::addressShowList( $this->row->get('show_field_fax', '3'), 'show_field_fax');?>
+							</td>
+	                            <th>
+                               	<?php echo JText::_('COM_TIENDA_VALIDATE_FAX_FIELD'); ?>
+                            </th>
+                            <td>
+                               <?php echo TiendaSelect::addressShowList( $this->row->get('validate_field_fax', '0'), 'validate_field_fax');?>
+                            </td>
+						</tr>
+						
+						
+						
+						
+						
 					</tbody>
 					</table>
 					<?php
