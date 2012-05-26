@@ -100,6 +100,31 @@
 		<input type="text" name="<?php echo $this->form_prefix; ?>last_name"	id="<?php echo $this->form_prefix; ?>last_name" class="inputbox" size="45" maxlength="250" />
 	</div>
 	<?php endif; ?>
+	
+<div class="floatbox">
+	<?php if( $elements['company'][0] ) :?>
+		<div>
+			<label class="key" for="<?php echo $this->form_prefix; ?>company">
+				<?php echo JText::_('COM_TIENDA_COMPANY'); ?>
+				<?php if($elements['company'][1] ): ?>
+					<?php echo TiendaGrid::required(); ?>
+				<?php endif;?>
+			</label>
+			<input type="text" name="<?php echo $this->form_prefix; ?>company" id="<?php echo $this->form_prefix; ?>company" class="inputbox" size="48" maxlength="250" />
+		</div>
+		<?php endif; ?>
+		<?php if( $elements['tax_number'][0] ) :?>
+		<div>
+			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
+				<?php echo JText::_('COM_TIENDA_CO_TAX_NUMBER'); ?>
+				<?php if( $elements['tax_number'][1] ): ?>
+					<?php echo TiendaGrid::required(); ?>
+				<?php endif;?>
+			</label>
+			<input type="text" name="<?php echo $this->form_prefix; ?>tax_number" id="<?php echo $this->form_prefix; ?>tax_number" class="inputbox" size="48" maxlength="250" />
+		</div>
+		<?php endif; ?>
+	</div>
 
 	<?php if( $elements['address1'][0] ) :?>
 	<div>
@@ -220,30 +245,7 @@
 	</div>
 	<?php endif; ?>
 
-	<div class="floatbox">
-	<?php if( $elements['company'][0] ) :?>
-		<div>
-			<label class="key" for="<?php echo $this->form_prefix; ?>company">
-				<?php echo JText::_('COM_TIENDA_COMPANY'); ?>
-				<?php if($elements['company'][1] ): ?>
-					<?php echo TiendaGrid::required(); ?>
-				<?php endif;?>
-			</label>
-			<input type="text" name="<?php echo $this->form_prefix; ?>company" id="<?php echo $this->form_prefix; ?>company" class="inputbox" size="48" maxlength="250" />
-		</div>
-		<?php endif; ?>
-		<?php if( $elements['tax_number'][0] ) :?>
-		<div>
-			<label class="key" for="<?php echo $this->form_prefix; ?>tax_number">
-				<?php echo JText::_('COM_TIENDA_CO_TAX_NUMBER'); ?>
-				<?php if( $elements['tax_number'][1] ): ?>
-					<?php echo TiendaGrid::required(); ?>
-				<?php endif;?>
-			</label>
-			<input type="text" name="<?php echo $this->form_prefix; ?>tax_number" id="<?php echo $this->form_prefix; ?>tax_number" class="inputbox" size="48" maxlength="250" />
-		</div>
-		<?php endif; ?>
-	</div>
+
 
 	<?php
 	$data = new JObject();
