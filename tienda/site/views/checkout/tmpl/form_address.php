@@ -36,7 +36,7 @@
 				?>
 	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE'); ?>
 		<span class="block"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE'); ?>
-		<?php if( !$this->guest && $elements['address_name'][1] ): ?>
+		<?php if( $elements['address_name'][1] ): ?>
 			<?php echo TiendaGrid::required(); ?>
 		<?php endif;?>
 		</span>
