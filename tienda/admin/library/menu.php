@@ -175,7 +175,7 @@ class TiendaMenu extends JObject
 		{
 		    $view = new JView(array('name'=>'dashboard'));
 		    $view->set('items', $this->_menu->_bar);
-		    $view->set('name', $this->_name);
+		    $view->set('name', 'COM_TIENDA_'.$this->_name);
 		    $view->set('hide', $hide);
     		$view->setLayout($layout);
     		$view->display();		    
