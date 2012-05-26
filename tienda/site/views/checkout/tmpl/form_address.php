@@ -35,10 +35,11 @@
 			{
 				?>
 	<label class="key" for="<?php echo $this->form_prefix; ?>address_name"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE'); ?>
-		<span class="block"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE'); ?>
 		<?php if( $elements['address_name'][1] ): ?>
 			<?php echo TiendaGrid::required(); ?>
 		<?php endif;?>
+		<span class="block"><?php echo JText::_('COM_TIENDA_ADDRESS_TITLE_FOR_YOUR_REFERENCE'); ?>
+		
 		</span>
 	</label>
 	<input name="<?php echo $this->form_prefix; ?>address_name" id="<?php echo $this->form_prefix; ?>address_name" class="inputbox" type="text" maxlength="250" />&nbsp;
