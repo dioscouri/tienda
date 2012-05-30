@@ -195,7 +195,7 @@ class TiendaModelCarts extends TiendaModelEav
 				$item->product_parameters = new JParameter( $item->product_params );
 
 				$item->orderitem_attributes_price = '0.00000';
-        $item->orderitem_attributes_weight = '0.00000';
+        		$item->orderitem_attributes_weight = '0.00000';
 				$attributes_names = array();
 				if(!empty($item->product_attributes))
 				{
@@ -252,7 +252,6 @@ class TiendaModelCarts extends TiendaModelEav
 							
 						$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
 						$item->orderitem_attributes_weight = number_format($item->orderitem_attributes_weight, '5', '.', '');
-						$item->product_sku .= $table->productattributeoption_code;
 							
 						// store a csv of the attrib names, built by Attribute name + Attribute option name
 						if (empty($pa[$table->productattribute_id]))
@@ -273,6 +272,8 @@ class TiendaModelCarts extends TiendaModelEav
 						}
 					}
 
+					// Generate Product Sku based upon attributes
+					$item->product_sku = TiendaHelperProduct::getProductSKU($item, $attibutes_array);
 
 					// Could someone explain to me why this is necessary?
 					if ($item->orderitem_attributes_price >= 0)

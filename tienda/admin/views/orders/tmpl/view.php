@@ -244,7 +244,9 @@
                     echo $row->billing_city.", ";
                     echo $row->billing_zone_name." ";
                     echo $row->billing_postal_code." ";
-                    echo $row->billing_country_name;
+                    echo $row->billing_country_name."<br />";
+                    echo $row->billing_tax_number.'<br />';
+					echo $row->billing_phone_1;
                     ?>
                 </td>
             </tr>

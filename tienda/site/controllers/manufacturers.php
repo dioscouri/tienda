@@ -373,6 +373,7 @@ class TiendaControllerManufacturers extends TiendaController
             
             // adjust the displayed price based on the selected attributes
             $table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+			$attrs = array();
             foreach ($attributes as $attrib_id)
             {
                 // load the attrib's object
@@ -389,8 +390,9 @@ class TiendaControllerManufacturers extends TiendaController
                 {
                     $row->price = $row->price + floatval( "$table->productattributeoption_prefix"."$table->productattributeoption_price");
                 }
-                $row->sku .=  $table->productattributeoption_code;
+                $attrs[] = $table->productattributeoption_id;
             }  
+			$row->sku =  TiendaHelperProduct::getProductSKU($row, $attrs);
             $view->assign( 'item', $row );
         }
      

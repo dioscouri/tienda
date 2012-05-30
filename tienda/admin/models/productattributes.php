@@ -31,10 +31,21 @@ class TiendaModelProductAttributes extends TiendaModelBase
             $where[] = 'LOWER(tbl.product_id) LIKE '.$key;
             $query->where('('.implode(' OR ', $where).')');
         }
-		if (strlen($filter_id))
-        {
-            $query->where('tbl.productattribute_id = '.(int) $filter_id);
-       	}
+		if(is_array($filter_id))
+		{
+			foreach($filter_id as &$fid){
+				$fid = (int)$fid;
+			}
+			$query->where('tbl.productattribute_id IN ('. implode(',', $filter_id).')');
+		} 
+		else 
+		{
+			if (strlen($filter_id))
+	        {
+	            $query->where('tbl.productattribute_id = '.(int) $filter_id);
+	       	}			
+		}
+		
         if (strlen($filter_product))
         {
             $query->where('tbl.product_id = '.(int) $filter_product);

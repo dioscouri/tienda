@@ -2446,6 +2446,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     $db->setQuery( $q );
     $res = $db->loadObjectList();
   
+  		$attributes = array();
 		for( $i = 0, $c = count( $res ); $i < $c; $i++ )
 		{
       // update product price
@@ -2468,7 +2469,55 @@ class TiendaHelperProduct extends TiendaHelperBase
 			{
 				$product->$product_weight = $product->$product_weight + floatval( $res[$i]->productattributeoption_prefix_weight.$res[$i]->productattributeoption_weight );
 			}
-			$product->sku .= $res[$i]->productattributeoption_code;
+			$attributes[] = $res[$i]->productattributeoption_id;
 		}  
-  }
+		
+		$product->sku = self::getProductSKU($product, $attributes);
+ 	}
+	
+	public static function getProductSKU($product, $attributes_array = array()) 
+	{
+		$product_sku = $product->product_sku;
+		
+		// Reorder to use the attributes order
+		$attributes = array();
+		foreach($attributes_array as $id)
+		{
+			$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+			$table->load( $id );
+			
+			// Load attribute
+			$attr_id = $table->productattribute_id;
+			
+			$attributes[] = $attr_id;
+		}	
+		
+		// Load list of attributes
+		$model = JModel::getInstance('ProductAttributes', 'TiendaModel');
+		$model->setState('filter_id', $attributes);
+		$model->setState('order', 'ordering');
+		$model->setState('direction', 'ASC');
+		$list = $model->getList();
+
+
+		
+		// now that they are in order, generate sku
+		foreach($list as $attr)
+		{
+			foreach($attributes_array as $attrib_id)
+			{
+				$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+				$table->load( $attrib_id );
+				
+				if($table->productattribute_id == $attr->productattribute_id)
+				{
+					$product_sku .= $table->productattributeoption_code;
+					continue;
+				}
+			}
+		}
+		
+		return $product_sku;
+	}
+	
 }
