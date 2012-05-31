@@ -820,7 +820,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		// fail if billing address is invalid
-		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'] ))
+		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix , @$submitted_values['billing_address_id'], true ))
 		{
 			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR')." :: ".$this->getError() );
 			$response['error'] = '1';
@@ -831,7 +831,7 @@ class TiendaControllerCheckout extends TiendaController
 		// fail if shipping address is invalid
 		if($submitted_values['shippingrequired'])
 		{
-			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
+			if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'], true ))
 			{
 				$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR').$this->shipping_input_prefix." :: ".$this->getError() );
 				$response['error'] = '1';
@@ -957,7 +957,7 @@ class TiendaControllerCheckout extends TiendaController
 	/**
 	 * Validates a submitted address inputs
 	 */
-	function validateAddress( $values, $prefix, $address_id )
+	function validateAddress( $values, $prefix, $address_id, $ajax = false )
 	{
 		$table = JTable::getInstance( 'Addresses', 'TiendaTable' );
 
@@ -974,8 +974,16 @@ class TiendaControllerCheckout extends TiendaController
 			case 'shipping_input_':
 				$address_type = '2';
 				
-				if( !empty( $values['_checked']['sameasbilling'] ) )
-					$prefix = 'billing_input_';
+        if( $ajax )
+        {
+          if (!empty($values['_checked']['sameasbilling']) )
+  					$prefix = 'billing_input_';        
+        }
+        else
+        {
+  				if( !empty( $values['sameasbilling'] ) )
+  					$prefix = 'billing_input_';
+        }
 				break;
 			default:
 			case 'billing_input_':
@@ -1045,7 +1053,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @param boolean - save the addresses
 	 * @return unknown_type
 	 */
-	function setAddresses( &$values, $saved = false )
+	function setAddresses( &$values, $saved = false, $ajax = false )
 	{
 		$order =& $this->_order; // a TableOrders object (see constructor)
 
@@ -1056,6 +1064,11 @@ class TiendaControllerCheckout extends TiendaController
 		$shipping_address_id    = (!empty($values['shipping_address_id'])) ? $values['shipping_address_id'] : 0;
 		//$shipping_method_id     = $values['shipping_method_id'];
 		$same_as_billing        = (!empty($values['sameasbilling'])) ? true : false;
+    if( $ajax )
+    {
+		  $same_as_billing     = !empty($values['_checked']['sameasbilling']) ? true : false;    
+    }
+    
 		$user_id                = JFactory::getUser()->id;
 		$billing_input_prefix   = $this->billing_input_prefix;
 		$shipping_input_prefix  = $this->shipping_input_prefix;
@@ -1446,12 +1459,12 @@ class TiendaControllerCheckout extends TiendaController
 
 		$values = &$this->populateOrder($guest);
 
-		$this->setAddresses( $submitted_values );
+		$this->setAddresses( $submitted_values, false, true );
 		// fail if shipping address is invalid
 		// if we're checking shipping and the sameasbilling is checked, then this is good
 		if ($submitted_values['shippingrequired'])
 		{
-			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'] ))
+			if (!$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'], true ))
 			{
 				$response['msg'] = $this->getShippingHtml('shipping_calculate');
 				$response['msg'] .= $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR')." :: ".$this->getError());
@@ -1544,7 +1557,7 @@ class TiendaControllerCheckout extends TiendaController
 		$order->shipping->shipping_type				= @$values['shipping_plugin'];
 
 		// set the addresses
-		$this->setAddresses( $values );
+		$this->setAddresses( $values, false, true );
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
@@ -1751,8 +1764,8 @@ class TiendaControllerCheckout extends TiendaController
 		// Use AJAX to show plugins that are available
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
 
-		$this->setAddresses( $submitted_values );
-		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix, @$submitted_values['billing_address_id'] ))
+		$this->setAddresses( $submitted_values, false, true );
+		if (!$this->validateAddress( $submitted_values, $this->billing_input_prefix, @$submitted_values['billing_address_id'], true ))
 		{
 			$error_message = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR')." :: ".$this->getError());
 			$response['error'] = '1';
@@ -2079,6 +2092,7 @@ class TiendaControllerCheckout extends TiendaController
 		{
 			$showShipping = true;
 		}
+    
 
 		if ($showShipping && !$shippingAddress->save())
 		{
@@ -2566,8 +2580,9 @@ class TiendaControllerCheckout extends TiendaController
 			echo ( json_encode( $response ) );
 			return;
 		}
+
 		// check if "Same as billing address" was checked
-		if( !empty( $submitted_values['sameasbilling'] ) )
+		if( !empty( $submitted_values['_checked']['sameasbilling'] ) )
 		{
 			foreach( $submitted_values as $key => $value )
 			{
@@ -2630,7 +2645,7 @@ class TiendaControllerCheckout extends TiendaController
 			$userinfo->user_id = $user_id;
 			$userinfo->email = $submitted_values['email_address'];
 			$userinfo->save();
- 			$this->setAddresses($submitted_values, true);    
+ 			$this->setAddresses($submitted_values, true, true);    
 		}
 		else // register or the user is already logged in
 		{
@@ -2723,11 +2738,11 @@ class TiendaControllerCheckout extends TiendaController
   			echo ( json_encode($response) );
   			return false;      
       }
- 			$this->setAddresses($submitted_values, true);    
+ 			$this->setAddresses($submitted_values, true, true);    
 		}
 
 		//save order
-		if(!$this->saveOrder($submitted_values, $user_id))
+		if(!$this->saveOrder($submitted_values, $user_id, true ))
 		{
 			// Output error message and halt
 			$response['msg'] = $helper->generateMessage($this->getError());
@@ -2761,7 +2776,7 @@ class TiendaControllerCheckout extends TiendaController
 	 * @param $values
 	 * @return unknown_type
 	 */
-	function saveOrder($values, $user_id)
+	function saveOrder($values, $user_id, $ajax = false )
 	{
 		$error = false;
     $guest = $user_id < Tienda::getGuestIdStart();
@@ -2770,7 +2785,7 @@ class TiendaControllerCheckout extends TiendaController
 		$order->bind( $values );
 		$order->user_id = $user_id;
 		$order->ip_address = $_SERVER['REMOTE_ADDR'];
-		$this->setAddresses( $values );
+		$this->setAddresses( $values, false, $ajax );
 
 		// set the shipping method
 		if(@$values['shippingrequired'] || !empty($values['shipping_plugin']))
@@ -3392,7 +3407,7 @@ class TiendaControllerCheckout extends TiendaController
         $order->shipping->shipping_tax        = @$values['shipping_tax'];
 
         // set the addresses
-        $this->setAddresses( $values );
+        $this->setAddresses( $values, false, true );
 
         // get the items and add them to the order
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
