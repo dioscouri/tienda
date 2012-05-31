@@ -2436,7 +2436,7 @@ class TiendaHelperProduct extends TiendaHelperBase
   {
     Tienda::load( 'TiendaQuery', 'library.query' );
     $q = new TiendaQuery();
-    $q->select( 'tbl.`productattributeoption_price` , tbl.`productattributeoption_prefix` ' );
+    $q->select( 'tbl.`productattributeoption_price` , tbl.`productattributeoption_prefix`, tbl.`productattributeoption_id` ' );
     $q->select( 'tbl.`productattributeoption_code`, tbl.`productattributeoption_weight`, tbl.`productattributeoption_prefix_weight`' );
     $q->from( '`#__tienda_productattributeoptions` tbl' );
     $q->join( 'left','`#__tienda_productattributes` atr ON tbl.	productattribute_id = atr.productattribute_id' );
@@ -2481,6 +2481,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		// Reorder to use the attributes order
 		$attributes = array();
+    if( !count( $attributes_array ) )
+    {
+      return $product_sku;
+    }
+
 		foreach($attributes_array as $id)
 		{
 			$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
