@@ -563,7 +563,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
     	//set the email subject
     	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('COM_TIENDA_PRODUCT')." #{$sendObject->item->product_id} ] ";
-    	$subject .= JText::_('COM_TIENDA_PRODUCT_INQUIRIES=');
+    	$subject .= JText::_('COM_TIENDA_PRODUCT_INQUIRIES');
     	$sendObject->subject = $subject;
     	
     	$vendor_name = $config->get('shop_owner_name', 'Admin');
