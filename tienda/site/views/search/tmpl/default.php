@@ -102,7 +102,7 @@
                         <div class="product_price">
                         <?php
                         // For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-                        $config = TiendaConfig::getInstance();
+                        $config = Tienda::getInstance();
                         $show_tax = $config->get('display_prices_with_tax');
                         
                         $article_link = $config->get('article_shipping', '');
@@ -116,7 +116,7 @@
                             {
                                 // use the default
                                 $table = JTable::getInstance('Geozones', 'TiendaTable');
-                                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                                $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
                                 $geozones = array( $table );
                             }
                             $taxtotal = TiendaHelperProduct::getTaxTotal($item->product_id, $geozones);
@@ -144,7 +144,7 @@
                             echo TiendaHelperBase::currency($item->price); 
                         }
 
-                        if (TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
+                        if (Tienda::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships))
                         {
                             echo '<br /><a href="'.$shipping_cost_link.'" target="_blank">'.sprintf( JText::_('COM_TIENDA_LINK_TO_SHIPPING_COST'), $shipping_cost_link).'</a>' ;
                         }

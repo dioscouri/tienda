@@ -4,7 +4,7 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
-<?php $display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); ?>
+<?php $display_subnum = Tienda::getInstance()->get( 'display_subnum', 0 ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -177,7 +177,7 @@
                 </td>
                 <td style="text-align: center;">
                     <a href="<?php echo $item->link_view; ?>">
-                        <?php echo JHTML::_('date', $item->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $item->created_datetime, Tienda::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
@@ -199,7 +199,7 @@
 				</td>
                 <td style="text-align: center;">
                     <a href="<?php echo $item->link_view; ?>">
-                        <?php echo JHTML::_('date', $item->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $item->expires_datetime, Tienda::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">

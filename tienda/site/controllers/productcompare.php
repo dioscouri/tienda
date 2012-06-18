@@ -22,7 +22,7 @@ class TiendaControllerProductCompare extends TiendaController
 	{
 		parent::__construct();
 
-		if(!TiendaConfig::getInstance()->get('enable_product_compare', '1'))
+		if(!Tienda::getInstance()->get('enable_product_compare', '1'))
 		{
 			JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_PRODUCT_COMPARE_DISABLED') );
 			return;
@@ -130,7 +130,7 @@ class TiendaControllerProductCompare extends TiendaController
 			{
 				Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 				$helper = TiendaHelperBase::getInstance();
-				$limit = TiendaConfig::getInstance()->get('compared_products', '5');
+				$limit = Tienda::getInstance()->get('compared_products', '5');
 				$response['msg'] = $helper->generateMessage( JText::sprintf( "COM_TIENDA_ONLY_N_PRODUCTS_CAN_BE_ADDED_TO_COMPARE", $limit ) );
 				$response['error'] = '1';
 				echo json_encode($response);
@@ -397,7 +397,7 @@ class TiendaControllerProductCompare extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
 		$this->_setModelState();
 		$items =& $model->getList();
-		$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');
+		$show_tax = Tienda::getInstance()->get('display_prices_with_tax');
 
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
 		$view->assign('cartobj', $this->checkItems($items, $show_tax));

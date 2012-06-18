@@ -11,10 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.filter.filteroutput' );
-jimport( 'joomla.application.component.view' );
 
-class TiendaViewBase extends JView
+class TiendaViewBase extends DSCViewAdmin
 {
 	/**
 	 * Displays a layout file 
@@ -26,113 +24,20 @@ class TiendaViewBase extends JView
 	{
 		JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/');
 		
-        Tienda::load( 'TiendaUrl', 'library.url' );
+       Tienda::load( 'TiendaUrl', 'library.url' );
         Tienda::load( 'TiendaSelect', 'library.select' );
         Tienda::load( 'TiendaGrid', 'library.grid' );
         Tienda::load( 'TiendaMenu', 'library.menu' );
-                
-        $this->getLayoutVars($tpl);
-        if (empty($this->hidemenu))
-        {        
-            $this->displayTitle( $this->get('title') );
-        }
+             
         
-		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
-		{
-		    Tienda::load( 'TiendaHelperMenu', 'helpers.menu' );
-		    $helper = new TiendaHelperMenu();
-		    $helper->display( 'submenu' );
-		}
+        parent::display($tpl);
         
-        jimport( 'joomla.application.module.helper' );		
-		$modules = JModuleHelper::getModules("tienda_left");
-		if ($modules && !JRequest::getInt('hidemainmenu') || !empty($this->leftMenu) )
-		{
-			if(@$this->hideleftmenu)
-			{
-				parent::display($tpl);
-			}
-			else
-			{
-				$this->displayWithLeftMenu($tpl=null, @$this->leftMenu);
-			}
-		}
-			else
-		{
-			parent::display($tpl);
-		}
+		
 	}
 
-	/**
-	 * Displays text as the title of the page
-	 * 
-	 * @param $text
-	 * @return unknown_type
-	 */
-	function displayTitle( $text = '' )
-	{
-		$title = $text ? JText::_($text) : JText::_( ucfirst(JRequest::getVar('view')) );
-		JToolBarHelper::title( $title, Tienda::getName() );
-	}
+	
 
-	/**
-	 * Displays a layout file with room for a left menu bar
-	 * @param $tpl
-	 * @return unknown_type
-	 */
-    public function displayWithLeftMenu($tpl=null, $menuname=null)
-    {
-    	// TODO This is an ugly, quick hack - fix it
-    	echo "<table width='100%'>";
-    		echo "<tr>";
-	    		echo "<td style='width: 180px; padding-right: 5px; vertical-align: top;' >";
-
-	    		    Tienda::load( 'TiendaMenu', 'library.menu' );
-					if ($menu =& TiendaMenu::getInstance($menuname)) {
-					    $menu->display('leftmenu');
-					}
-					
-					$modules = JModuleHelper::getModules("tienda_left");
-					$document	= &JFactory::getDocument();
-					$renderer	= $document->loadRenderer('module');
-					$attribs 	= array();
-					$attribs['style'] = 'xhtml';
-					foreach ( @$modules as $mod )
-					{
-						echo $renderer->render($mod, $attribs);
-					}
-
-	    		echo "</td>";
-	    		echo "<td style='vertical-align: top;' >";
-	    			parent::display($tpl);
-	    		echo "</td>";
-    		echo "</tr>";
-    	echo "</table>";
-    }
-
-    /**
-     * Gets layout vars for the view
-     * 
-     * @return unknown_type
-     */
-    function getLayoutVars($tpl=null)
-    {
-        $layout = $this->getLayout();
-        switch(strtolower($layout))
-        {
-            case "view":
-                $this->_form($tpl);
-              break;
-            case "form":
-                JRequest::setVar('hidemainmenu', '1');
-                $this->_form($tpl);
-              break;
-            case "default":
-            default:
-                $this->_default($tpl);
-              break;
-        }
-    }
+    
     
 	/**
 	 * Basic commands for displaying a list
@@ -177,7 +82,7 @@ class TiendaViewBase extends JView
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-	function _form($tpl='')
+	/*function _form($tpl='')
 	{
 	    $model = $this->getModel();
 	    
@@ -231,7 +136,7 @@ class TiendaViewBase extends JView
 			$required->text = JText::_('COM_TIENDA_REQUIRED');
 			$required->image = "<img src='".JURI::root()."/media/com_tienda/images/required_16.png' alt='{$required->text}'>";
 			$this->assign('required', $required );
-	}
+	}*/
 
 	/**
 	 * The default toolbar for a list

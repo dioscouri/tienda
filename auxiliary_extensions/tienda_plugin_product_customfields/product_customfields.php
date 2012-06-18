@@ -91,8 +91,8 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 		    $custom_fields = $this->getCustomFields( $product_id );
 			if(!empty($custom_fields))
 			{
-				//put the customfields values from the cart into a JParameter
-				$cartitem_param = new JParameter( trim($custom_field_values) );
+				//put the customfields values from the cart into a DSCParameter
+				$cartitem_param = new DSCParameter( trim($custom_field_values) );
 				$cartitem_cf_values = $cartitem_param->toArray();
 				
 				//add the value to custom field
@@ -129,7 +129,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
     	$custom_fields = $this->getCustomFields( $item->product_id );
     	if (!empty($custom_fields))
     	{
-	    	$orderitem_param = new JParameter( trim( $item->orderitem_customfields ) );
+	    	$orderitem_param = new DSCParameter( trim( $item->orderitem_customfields ) );
 	    	$orderitem_cf_values = $orderitem_param->toArray();
 
 	    	$user_id = JFactory::getUser()->id;
@@ -211,7 +211,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 		}		
 		
     	//get custom field values
-        $params = new JParameter('');       
+        $params = new DSCParameter('');       
         foreach ($values as $key=>$value)
         {
             if (substr($key, 0, 13) == 'custom_field_')
@@ -291,7 +291,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
 		$item = $model->getItem();
         if (empty($item)) return null;
         
-        $product_param = new JParameter( trim($item->product_params) ); //todo: remove the items that are not custom fields
+        $product_param = new DSCParameter( trim($item->product_params) ); //todo: remove the items that are not custom fields
         if (empty($product_param)) return array();
 
         $params = $product_param->toArray();

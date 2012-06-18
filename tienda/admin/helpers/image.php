@@ -11,9 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperImage extends TiendaHelperBase
+class TiendaHelperImage extends DSCHelperImage
 {
 	// Default Dimensions for the images
 	var $product_img_height 		= 0;
@@ -42,7 +41,7 @@ class TiendaHelperImage extends TiendaHelperBase
 		// Parent Helper Construction
 		parent::__construct();
 		
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		
 		// Load default Parameters
 		$this->product_img_height 			= $config->get('product_img_height');

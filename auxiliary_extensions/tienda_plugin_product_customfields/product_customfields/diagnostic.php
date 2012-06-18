@@ -103,7 +103,7 @@ class TiendaHelperDiagnosticsProductCustomFields extends TiendaHelperDiagnostics
     
     function getConfig( $config_name )
     {
-		return TiendaConfig::getInstance()->get($config_name, '0');    	
+		return Tienda::getInstance()->get($config_name, '0');    	
     }
     
     function setConfig( $config_name )

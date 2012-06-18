@@ -55,7 +55,7 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_price_to'] 		= $app->getUserStateFromRequest($ns.'price_to', 'filter_price_to', '', '');
 		$state['filter_taxclass']   = $app->getUserStateFromRequest($ns.'taxclass', 'filter_taxclass', '', '');
 		$state['filter_ships']   = $app->getUserStateFromRequest($ns.'ships', 'filter_ships', '', '');
-		$state['filter_group']   = TiendaConfig::getInstance()->get('default_user_group', '1'); 
+		$state['filter_group']   = Tienda::getInstance()->get('default_user_group', '1'); 
 		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.ordering', 'cmd');
 		
 		foreach (@$state as $key=>$value)
@@ -76,7 +76,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->set( 'hidemenu', false);
 		$view->assign( 'product_relations', $this->getRelationshipsHtml($view, $model->getId()) );
 		$view->setLayout( 'form' );
-
+		$view->setTask(true);
 		parent::edit();
 	}
 
@@ -189,7 +189,7 @@ class TiendaControllerProducts extends TiendaController
 				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
 				$price->product_id = $row->id;
 				$price->product_price = JRequest::getVar( 'product_price' );
-				$price->group_id = TiendaConfig::getInstance()->get('default_user_group', '1');
+				$price->group_id = Tienda::getInstance()->get('default_user_group', '1');
 				if (!$price->save())
 				{
 					$this->messagetype 	= 'notice';
@@ -522,7 +522,7 @@ class TiendaControllerProducts extends TiendaController
 	{
 		// this row's product_params has already been set from the textarea's POST
 		// so we need to add to it
-		$params = new JParameter( trim($row->product_params) );
+		$params = new DSCParameter( trim($row->product_params) );
 		$params->set( 'amigos_commission_override', JRequest::getVar('amigos_commission_override') );
 		$params->set( 'billets_ticket_limit_increase', JRequest::getVar('billets_ticket_limit_increase') );
 		$params->set( 'billets_ticket_limit_exclusion', JRequest::getVar('billets_ticket_limit_exclusion') );
@@ -604,6 +604,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectcategories' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -635,7 +636,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'images', $images );
 		$view->assign( 'url', $gallery_url );
 		$view->setLayout( 'gallery' );
-
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -792,6 +793,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'row', $row );
 		$view->assign( 'items', $model->getList() );
 		$view->setLayout( 'setquantities' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -867,6 +869,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -990,6 +993,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -1107,6 +1111,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -1224,6 +1229,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 	
@@ -1258,6 +1264,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -1476,6 +1483,7 @@ class TiendaControllerProducts extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -1808,8 +1816,8 @@ class TiendaControllerProducts extends TiendaController
 			
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		Tienda::load( 'TiendaImage', 'library.image' );
-		$width = TiendaConfig::getInstance()->get('product_img_width', '0');
-		$height = TiendaConfig::getInstance()->get('product_img_height', '0');
+		$width = Tienda::getInstance()->get('product_img_width', '0');
+		$height = Tienda::getInstance()->get('product_img_height', '0');
 			
 		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
 

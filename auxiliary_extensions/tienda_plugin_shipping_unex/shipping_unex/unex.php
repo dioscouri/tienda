@@ -279,7 +279,7 @@ class TiendaUnexPrice extends TiendaUnex
             $rateName = JText::_($service->service_name);
 
             // Tax rate
-            $tax_class_id = TiendaConfig::getInstance()->get('shipping_tax_class', '1');
+            $tax_class_id = Tienda::getInstance()->get('shipping_tax_class', '1');
             $geozone_id = $this->geozone_id;
 	        Tienda::load( 'TiendaQuery', 'library.query' );
 	            

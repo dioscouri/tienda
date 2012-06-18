@@ -74,7 +74,7 @@ class TiendaTableAddresses extends TiendaTable
 	 */
 	function check()
 	{
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		
 		if(!$this->addresstype_id)
 		{

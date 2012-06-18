@@ -288,7 +288,7 @@ class TiendaModelProducts extends TiendaModelEav
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate( )->toMysql( );
 		
-		$default_group = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+		$default_group = Tienda::getInstance( )->get( 'default_user_group', '1' );
 		$filter_group = ( int ) $this->getState( 'filter_group' );
 		if ( empty( $filter_group ) )
 		{
@@ -365,7 +365,7 @@ class TiendaModelProducts extends TiendaModelEav
 			// This subquery returns the default price for the product and allows for sorting by price
 			$date = JFactory::getDate( )->toMysql( );
 			
-			$default_group = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+			$default_group = Tienda::getInstance( )->get( 'default_user_group', '1' );
 			$filter_group = ( int ) $this->getState( 'filter_group' );
 			if ( empty( $filter_group ) )
 			{
@@ -464,7 +464,7 @@ class TiendaModelProducts extends TiendaModelEav
 					}
 				}
 				
-				$item->product_parameters = new JParameter( $item->product_params);
+				$item->product_parameters = new DSCParameter( $item->product_params);
 				
 				$item->slug = $item->product_alias ? ":$item->product_alias" : "";
 				$item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
@@ -517,7 +517,7 @@ class TiendaModelProducts extends TiendaModelEav
 					}
 			}
 			
-			$item->product_parameters = new JParameter( $item->product_params);
+			$item->product_parameters = new DSCParameter( $item->product_params);
 			$item->slug = $item->product_alias ? ":$item->product_alias" : "";
 			$item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
 			$item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;

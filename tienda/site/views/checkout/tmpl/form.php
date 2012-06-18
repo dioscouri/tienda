@@ -24,7 +24,7 @@
                 JHTML::_('script', 'openid.js');
         endif; ?>
         
-        <form action="<?php echo JRoute::_( 'index.php', true, TiendaConfig::getInstance()->get('usesecure', '0') ); ?>" method="post" name="login" id="form-login" >
+        <form action="<?php echo JRoute::_( 'index.php', true, Tienda::getInstance()->get('usesecure', '0') ); ?>" method="post" name="login" id="form-login" >
         
             <table>
             <tr>
@@ -104,7 +104,7 @@
         </tr>
         <tr>
             <td>            
-            <?php if (TiendaConfig::getInstance()->get('one_page_checkout')){ ?>	
+            <?php if (Tienda::getInstance()->get('one_page_checkout')){ ?>	
              	<input type="button" class="button" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
             <?php }else{?>	
                 <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
@@ -115,7 +115,7 @@
 
         <div class="reset"></div>
         
-        <?php if (TiendaConfig::getInstance()->get('guest_checkout_enabled')) : ?>
+        <?php if (Tienda::getInstance()->get('guest_checkout_enabled')) : ?>
             <div class='componentheading' style="margin-top:15px;">
                 <span><?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?></span>
             </div>
@@ -129,7 +129,7 @@
             </tr>
             <tr>
                 <td>
-                <?php  if (TiendaConfig::getInstance()->get('one_page_checkout')){?>
+                <?php  if (Tienda::getInstance()->get('one_page_checkout')){?>
 				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>" />
           
 				<?php }else{?>

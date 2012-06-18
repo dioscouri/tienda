@@ -44,7 +44,7 @@ class TiendaViewConfig extends TiendaViewBase
 		Tienda::load( 'TiendaTools', 'library.tools' );
 
 		// check config
-			$row = TiendaConfig::getInstance();
+			$row = Tienda::getInstance();
 			$this->assign( 'row', $row );
 		
 		// add toolbar buttons

@@ -24,7 +24,7 @@
                 JHTML::_('script', 'openid.js');
         endif; ?>
         
-        <form action="<?php echo JRoute::_( 'index.php', true, TiendaConfig::getInstance()->get('usesecure', '0') ); ?>" method="post" name="login" id="form-login" >
+        <form action="<?php echo JRoute::_( 'index.php', true, Tienda::getInstance()->get('usesecure', '0') ); ?>" method="post" name="login" id="form-login" >
         
             <table>
             <tr>

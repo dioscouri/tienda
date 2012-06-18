@@ -66,7 +66,7 @@ class TiendaModelEmails extends TiendaModelBase
     		$result->strings = array();
     		
     		// Load File and Take only the constants that contains "EMAIL_"
-    		$file = new JRegistry();
+    		$file = new DSCParameter();
     		$file->loadFile($path);
     		$strings = $file->toArray();
     		$result_strings = array();

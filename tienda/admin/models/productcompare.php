@@ -85,7 +85,7 @@ class TiendaModelProductCompare extends TiendaModelBase
 		// This subquery returns the default price for the product and allows for sorting by price
 		$date = JFactory::getDate()->toMysql();
 		
-		$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+		$default_group = Tienda::getInstance()->get('default_user_group', '1');
 		$filter_group = (int) $this->getState('filter_group');
 		
 		if (empty($filter_group))

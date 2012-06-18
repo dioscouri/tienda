@@ -48,7 +48,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order_id;
 		$row->order_state_id = $order->order_state_id;
-		$row->notify_customer = TiendaConfig::getInstance()->get( 'autonotify_onSetOrderPaymentReceived', '0');
+		$row->notify_customer = Tienda::getInstance()->get( 'autonotify_onSetOrderPaymentReceived', '0');
 		$row->comments = JText::_('COM_TIENDA_PAYMENT_RECEIVED');
 		if (!$row->save())
 		{
@@ -195,7 +195,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 				$product->save();
 
 				// send mail to notify low quantity
-				$config = TiendaConfig::getInstance();
+				$config = Tienda::getInstance();
 				$low_stock_notify_enabled = $config->get('low_stock_notify', '0');
 				$low_stock_notify_value   = $config->get('low_stock_notify_value', '0');
 
@@ -240,7 +240,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
 		$state = array();
 
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 
 		$state['limit']     = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
 		$state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
@@ -288,10 +288,10 @@ class TiendaHelperOrder extends TiendaHelperBase
 	}
 
 	/**
-	 * Returns a JParameter Formatted string representing the currency
+	 * Returns a DSCParameter Formatted string representing the currency
 	 *
 	 * @param $currency_id currency_id
-	 * @return $string JParameter formatted string
+	 * @return $string DSCParameter formatted string
 	 */
 
 	function currencyToParameters($currency_id){
@@ -307,7 +307,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		if(!$table->load($currency_id))
 		return false;
 			
-		// Convert this into a JParameter formatted string
+		// Convert this into a DSCParameter formatted string
 		// a bit rough, but works smoothly and is extensible (works even if you add another parameter to the curremcy table
 		$currency_parameters = $table;
 		unset($table);
@@ -316,7 +316,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		unset($currency_parameters->modified_date);
 		unset($currency_parameters->currency_enabled);
 		 
-		$param = new JParameter('');
+		$param = new DSCParameter('');
 		$param->bind($currency_parameters);
 		 
 		return $param->toString();
@@ -584,7 +584,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 */
 	function getHashInvoice( $order )
 	{
-		$secret = TiendaConfig::getInstance()->get( 'secret_word', '' );
+		$secret = Tienda::getInstance()->get( 'secret_word', '' );
 		$hash = $order->shipping_method_id.$order->order_total.$order->order_id.$order->ip_address.$secret.
 						$order->order_state_id.$order->completed_task.$order->user_id;
 						

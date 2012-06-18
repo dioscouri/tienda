@@ -43,14 +43,14 @@ class TiendaModelElementArticle extends JModel
 	 */
 	function getList()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if (!empty($this->_list)) {
 			return $this->_list;
 		}
 
 		// Initialize variables
-		$db		=& $this->getDBO();
+		$db		= $this->getDBO();
 		$filter	= null;
 
 		// Get some variables from the request
@@ -167,13 +167,13 @@ class TiendaModelElementArticle extends JModel
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		$article 	=& JTable::getInstance('content');
+		$article 	= JTable::getInstance('content');
 		if ($value) {
 			$article->load($value);
 			$title = $article->title;
@@ -211,10 +211,10 @@ class TiendaModelElementArticle extends JModel
 	function _clearElement($name, $value='', $node='', $control_name='')
 	{
 		
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		

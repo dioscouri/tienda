@@ -71,7 +71,7 @@
                     </a>
                 </td>
             </tr>
-            <?php if ( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) : ?>
+            <?php if ( Tienda::getInstance()->get( 'display_subnum', 0 ) ) : ?>
             <tr>
                 <th style="width: 100px;">
                     <?php echo JText::_('COM_TIENDA_SUB_NUM'); ?>

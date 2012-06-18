@@ -49,7 +49,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('step', $step);
 		$view->assign('validation_url', $this->validation_url);
 		$view->setModel($elementUserModel);
-
+		$view->setTask(true);
 		$method_name = 'do' . $step;
 		if(method_exists($this, $method_name))
 		{
@@ -123,7 +123,7 @@ class TiendaControllerPOS extends TiendaController
 				$user = $userHelper->createNewUser($details, true);
 
 				// but don't save the user's real email in the __users db table
-				if(TiendaConfig::getInstance()->get('obfuscate_guest_email', '0'))
+				if(Tienda::getInstance()->get('obfuscate_guest_email', '0'))
 				{
 					$lastUserId = $userHelper->getLastUserId();
 					$guestId = $lastUserId + 1;
@@ -449,7 +449,7 @@ class TiendaControllerPOS extends TiendaController
 			$view->assign('order_link', $order_link );	
 			
 			// get the articles to display after checkout		
-		  $article_id = TiendaConfig::getInstance()->get( 'article_checkout' );
+		  $article_id = Tienda::getInstance()->get( 'article_checkout' );
 			$articles = array();
 	    if (!empty($article_id))
 	    {
@@ -721,7 +721,7 @@ class TiendaControllerPOS extends TiendaController
 		$response['error'] = '';
 		$msg = array();
 		
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		//check if we have billing address id
 		if(empty($values['billing_input_address_id']))
 		{		
@@ -818,7 +818,7 @@ class TiendaControllerPOS extends TiendaController
 			return $msg;
 		}
 		
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		$field_title = $config->get('validate_field_title');
 		$field_name = $config->get('validate_field_name');
 		$field_middle = $config->get('validate_field_middle');
@@ -995,7 +995,7 @@ class TiendaControllerPOS extends TiendaController
         $order->order_credit = '0';
         
         // set the currency
-        $order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+        $order->currency_id = Tienda::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 
         // set the shipping method
         $order->shipping = new JObject();
@@ -1606,10 +1606,10 @@ class TiendaControllerPOS extends TiendaController
 	{
 		$session = JFactory::getSession();
 		$order = JTable::getInstance('Orders', 'TiendaTable');
-		$order->currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
+		$order->currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		// USD is default if no currency selected
 		// set the shipping method
-		$order->shipping_method_id = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+		$order->shipping_method_id = Tienda::getInstance()->get('defaultShippingMethod', '2');
 
 		// set the order's addresses based on the form inputs
 		// set to user defaults
@@ -1642,7 +1642,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->setModel($model, true);
 		$view->assign('state', $model->getState());
 
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		$show_tax = $config->get('display_prices_with_tax');
 		$view->assign('show_tax', $show_tax);
 		$view->assign('using_default_geozone', false);
@@ -1910,7 +1910,7 @@ class TiendaControllerPOS extends TiendaController
 	function setAddresses(&$order, $values, $saved =false)
 	{
 		// Get the currency from the configuration
-		$currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
+		$currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		// USD is default if no currency selected
 		$billing_address_id = (!empty($values['billing_input_address_id'])) ? $values['billing_input_address_id'] : 0;
 		$shipping_address_id = (!empty($values['shipping_input_address_id'])) ? $values['shipping_input_address_id'] : 0;
@@ -2017,7 +2017,7 @@ class TiendaControllerPOS extends TiendaController
 							{
 								$extra = 0;
 								// here is where a global handling rate would be added
-								if($global_handling = TiendaConfig::getInstance()->get('global_handling'))
+								if($global_handling = Tienda::getInstance()->get('global_handling'))
 								{
 									$extra = $global_handling;
 								}
@@ -2059,7 +2059,7 @@ class TiendaControllerPOS extends TiendaController
 		$order->bind($values);
 
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get('default_currencyid', '1');
+		$order->currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		// USD is default if no currency selected
 
 		// set the shipping method
@@ -2434,8 +2434,8 @@ class TiendaControllerPOS extends TiendaController
 		}
 
 		// get all coupons and add them to the order
-		$coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
-		$mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
+		$coupons_enabled = Tienda::getInstance()->get('coupons_enabled');
+		$mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled');
 		if(!empty($values['coupons']) && $coupons_enabled)
 		{
 			foreach($values['coupons'] as $coupon_id)

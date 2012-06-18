@@ -54,6 +54,7 @@ class TiendaControllerElementUser extends TiendaController
         $object = JRequest::getVar('object');
         $view = $this->getView( $this->get('suffix'), 'html' );
         $view->assign( 'object', $object );
+		$view->setTask(true);
         parent::display();
     }
 }

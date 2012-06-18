@@ -80,7 +80,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
      */
     function _getUser( $submitted_values, $user_id = 0 )
     {
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         
         if ($user_id) {
             $user =& JFactory::getUser($user_id);

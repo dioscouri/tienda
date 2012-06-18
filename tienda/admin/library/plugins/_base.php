@@ -34,6 +34,54 @@ class TiendaPluginBase extends JPlugin
 	 */
 	function loadLanguage( $extension = '', $basePath = JPATH_BASE, $overwrite = false )
 	{
+		
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+    
+		if ( empty( $extension ) )
+		{
+			$extension = 'plg_' . $this->_type . '_' . $this->_name;
+		}
+		
+		$language = JFactory::getLanguage( );
+		$lang = $language->getName();
+		
+		$path = JLanguage::getLanguagePath( $basePath, $lang );
+		
+		if ( !strlen( $extension ) )
+		{
+			$extension = 'joomla';
+		}
+		
+		$filename = ( $extension == 'joomla' ) ? $lang : $lang . '.' . $extension;
+		$filename = $path . DS . $filename . '.ini';
+		
+		$result = false;
+		if ( isset( $language->_paths[$extension][$filename] ) )
+		{
+			// Strings for this file have already been loaded
+			$result = true;
+		}
+		else
+		{
+			// Load the language file
+			$result = $language->load( $filename, $extension, $overwrite );
+			
+			// Check if there was a problem with loading the file
+			if ( $result === false )
+			{
+				// No strings, which probably means that the language file does not exist
+				$path = JLanguage::getLanguagePath( $basePath, $language->getDefault() );
+				$filename = ( $extension == 'joomla' ) ? $language->getDefault() : $language->getDefault() . '.' . $extension;
+				$filename = $path . DS . $filename . '.ini';
+				
+				$result = $language->load( $filename, $extension, $overwrite );
+			}
+			
+		}
+	
+} else {
+   
+		
 		if ( empty( $extension ) )
 		{
 			$extension = 'plg_' . $this->_type . '_' . $this->_name;
@@ -75,6 +123,11 @@ class TiendaPluginBase extends JPlugin
 			}
 			
 		}
+		
+		
+		
+		}
+		
 		
 		return $result;
 		

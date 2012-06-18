@@ -46,7 +46,7 @@ class plgK2Tienda extends K2Plugin
 
 	function onRenderAdminForm( & $item, $type, $tab='') {
 
-		$plugins = new JParameter($item->plugins);
+		$plugins = new DSCParameter($item->plugins);
 		$tiendaParams = new K2Parameter($item->plugins, JPATH_SITE.DS.'plugins'.DS.'k2'.DS.$this->_name.'.xml', $this->_name);
 		$productID = $tiendaParams->get('productID', 0);
 		JPlugin::loadLanguage();
@@ -127,7 +127,7 @@ class plgK2Tienda extends K2Plugin
 		$tiendaParams = new K2Parameter($item->plugins, '', $this->_name);
 
 		//Get All plugins variables
-		$plugins = new JParameter($item->plugins);
+		$plugins = new DSCParameter($item->plugins);
 
 		//Handle assignment
 		if(JRequest::getBool('tiendaAssign')){

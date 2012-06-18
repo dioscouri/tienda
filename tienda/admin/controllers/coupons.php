@@ -85,6 +85,7 @@ class TiendaControllerCoupons extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectproducts' );
+		$view->setTask(true);
 		JRequest::setVar( 'hidemainmenu', '1' );
 		$view->display();
 	}

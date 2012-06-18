@@ -48,7 +48,7 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
             <?php foreach ($items as $item) : ?>
             	
             	<?php            	
-            		$params = new JParameter( trim(@$item->cartitem_params) );
+            		$params = new DSCParameter( trim(@$item->cartitem_params) );
             		$default_url = "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id;
             		$attributes = TiendaHelperProduct::convertAttributesToArray( $item->product_id, $item->product_attributes );
             		for( $j = 0, $c = count( $attributes ); $j < $c; $j++ )

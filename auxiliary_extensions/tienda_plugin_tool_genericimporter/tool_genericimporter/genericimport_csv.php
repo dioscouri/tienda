@@ -164,7 +164,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
    	$this->import_skip_first = $this->state->skip_first;
    	$this->import_field_separator = $this->state->field_separator;
    	
-		$params = new JRegistry();
+		$params = new DSCParameter();
 		$params->setValue( 'skip_first', $this->import_skip_first );
 		$params->setValue( 'num_records', $this->import_num_records );
 		$params->setValue( 'num_fields', $this->import_fields_num );
@@ -211,7 +211,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 			$this->import_skip_first = $this->state->skip_first;
 			$this->import_field_separator = $this->state->field_separator;
    	
-			$params = new JRegistry();
+			$params = new DSCParameter();
 			$params->setValue( 'skip_first', $this->import_skip_first );
 			$params->setValue( 'num_records', $this->import_num_records );
 			$params->setValue( 'num_fields', $this->import_fields_num );

@@ -54,9 +54,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if ( $app->isAdmin( ) )
 		{
 			// TODO This doesn't account for when templates are assigned to menu items.  Make it do so
-			$db = JFactory::getDBO( );
-			$db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
-			$template = $db->loadResult( );
+			//$db = JFactory::getDBO( );
+			//$db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
+			//$template = $db->loadResult( );
+			$template = $app->getTemplate( );
 		}
 		else
 		{
@@ -963,7 +964,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			
 			// does group_id?
 			( int ) $group_id;
-			$default_user_group = TiendaConfig::getInstance( )->get( 'default_user_group', '1' ); /* Use a default $group_id */
+			$default_user_group = Tienda::getInstance( )->get( 'default_user_group', '1' ); /* Use a default $group_id */
 			if ( $group_id <= '0' )
 			{
 				$group_id = $default_user_group;
@@ -1302,7 +1303,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$ns = $app->getName( ) . '::' . 'com.tienda.model.' . $model->getTable( )->get( '_suffix' );
 		$state = array( );
 		
-		$config = TiendaConfig::getInstance( );
+		$config = Tienda::getInstance( );
 		
 		$state['limit'] = $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg( 'list_limit' ), 'int' );
 		$state['limitstart'] = $app->getUserStateFromRequest( $ns . 'limitstart', 'limitstart', 0, 'int' );
@@ -1714,7 +1715,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if ( !class_exists( 'Tienda' ) ) JLoader::register( "Tienda",
 				JPATH_ADMINISTRATOR . DS . "components" . DS . "com_tienda" . DS . "defines.php" );
 		// load the config class
-		Tienda::load( 'TiendaConfig', 'defines' );
+		Tienda::load( 'Tienda', 'defines' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		// get the model
 		$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
@@ -2125,7 +2126,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$model->setState( 'filter_group', $filter_group );
 		
 		$row = $model->getItem( false, false );
-		if ( $row->product_notforsale || TiendaConfig::getInstance( )->get( 'shop_enabled' ) == '0' )
+		if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
 		{
 			return $html;
 		
@@ -2146,7 +2147,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view->filter_category = $filter_category;
 		$view->validation = "index.php?option=com_tienda&view=products&task=validate&format=raw";
 		
-		$config = TiendaConfig::getInstance( );
+		$config = Tienda::getInstance( );
 		// TODO What about this??
 		$show_shipping = $config->get( 'display_prices_with_shipping' );
 		if ( $show_shipping )
@@ -2235,7 +2236,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$geozones_user = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
 			if ( empty( $geozones_user ) )
 			{
-				$geozones = array( TiendaConfig::getInstance( )->get( 'default_tax_geozone' ) );
+				$geozones = array( Tienda::getInstance( )->get( 'default_tax_geozone' ) );
 			}
 			else 
 			{
@@ -2255,10 +2256,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$row->_product_quantity = $product_qty;
 		
 		if ($page == 'product') {		
-		   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_product_cartbuttons', '1' );
+		   $display_cartbutton = Tienda::getInstance( )->get( 'display_product_cartbuttons', '1' );
 		}
 		else {				
-	  	   $display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );		
+	  	   $display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );		
 		}
 
 		
@@ -2316,7 +2317,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$uri = JFactory::getUri()->toString();
 
 		static $cached_uri = array();
-		$type = TiendaConfig::getInstance()->get( 'display_bookmark_uri', 0 );
+		$type = Tienda::getInstance()->get( 'display_bookmark_uri', 0 );
 		
 		switch( $type )
 		{
@@ -2328,8 +2329,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 				{
 					if( !isset( $cached_uri[$type][$uri] ) )
 					{
-						$key = TiendaConfig::getInstance()->get( 'bitly_key', '' );
-						$logn = TiendaConfig::getInstance()->get( 'bitly_login', '' );
+						$key = Tienda::getInstance()->get( 'bitly_key', '' );
+						$logn = Tienda::getInstance()->get( 'bitly_login', '' );
 						$link = 'http://api.bit.ly/v3/shorten?apiKey='.$key.'&login='.$login.'&longURL='.urlencode($uri);
 				  	$c = curl_init();
 				  	curl_setopt( $c, CURLOPT_RETURNTRANSFER, 1 );

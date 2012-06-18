@@ -14,11 +14,31 @@ defined('_JEXEC') or die('Restricted access');
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
-class JElementTiendaProduct extends JElement
-{
-	var	$_name = 'TiendaProduct';
 
-	function fetchElement($name, $value, &$node, $control_name)
+
+if(!class_exists('JFakeElementBase')) {
+	if(version_compare(JVERSION,'1.6.0','ge')) {
+		class JFakeElementBase extends JFormField {
+			// This line is required to keep Joomla! 1.6/1.7 from complaining
+			public function getInput() {
+			}
+		}
+	} else {
+		class JFakeElementBase extends JElement {}
+	}
+}
+
+class JFakeElementTiendaProduct extends JFakeElementBase
+{
+var	$_name = 'TiendaProduct';
+	
+	public function getInput($name, $value, $node, $control_name) 
+	{
+		$this->fetchElement($name, $value, $node, $control_name);
+	}
+	
+
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 	    
 		$html = "";
@@ -54,5 +74,16 @@ class JElementTiendaProduct extends JElement
 		
 		return $html;
 	}
+	
+	
+	
 }
+
+if(version_compare(JVERSION,'1.6.0','ge')) {
+	class JFormFieldTiendaProduct extends JFakeElementTiendaProduct {}
+} else {
+	class JElementTiendaProduct extends JFakeElementTiendaProduct {}
+}
+
+
 ?>

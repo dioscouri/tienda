@@ -23,8 +23,8 @@
         <h3><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_INFORMATION'); ?></h3>
         <strong><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></strong>: <?php echo @$row->product_name; ?><br/>
         <strong><?php echo JText::_('COM_TIENDA_STATUS'); ?></strong>: <?php echo TiendaGrid::boolean( @$row->subscription_enabled ); ?><br/>
-        <strong><?php echo JText::_('COM_TIENDA_CREATED'); ?></strong>: <?php echo JHTML::_('date', $row->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?><br/>
-        <strong><?php echo JText::_('COM_TIENDA_EXPIRES'); ?></strong>: <?php echo JHTML::_('date', $row->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?><br/>
+        <strong><?php echo JText::_('COM_TIENDA_CREATED'); ?></strong>: <?php echo JHTML::_('date', $row->created_datetime, Tienda::getInstance()->get('date_format')); ?><br/>
+        <strong><?php echo JText::_('COM_TIENDA_EXPIRES'); ?></strong>: <?php echo JHTML::_('date', $row->expires_datetime, Tienda::getInstance()->get('date_format')); ?><br/>
     </div>
     
     <div id="order_info">

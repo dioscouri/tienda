@@ -105,6 +105,7 @@ class TiendaControllerGroups extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectusers' );
+		$view->setTask(true);
 		$view->display();
 	}
 

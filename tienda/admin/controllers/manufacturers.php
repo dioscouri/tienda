@@ -161,8 +161,8 @@ class TiendaControllerManufacturers extends TiendaController
 			
 		Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 		Tienda::load( 'TiendaImage', 'library.image' );
-		$width = TiendaConfig::getInstance()->get('manufacturer_img_width', '0');
-		$height = TiendaConfig::getInstance()->get('manufacturer_img_height', '0');
+		$width = Tienda::getInstance()->get('manufacturer_img_width', '0');
+		$height = Tienda::getInstance()->get('manufacturer_img_height', '0');
 
 		$model = $this->getModel('Manufacturers', 'TiendaModel');
 		$model->setState('limistart', $from_id);

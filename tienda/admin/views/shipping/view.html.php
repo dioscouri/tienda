@@ -78,7 +78,7 @@ class TiendaViewShipping extends TiendaViewBase
 		
         // load the plugin
         $row = $this->getModel()->getItem();
-        $params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+        $params = new DSCParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
         $this->assignRef('params',$params);
         
 		$this->assign('row', $model->getItem() );

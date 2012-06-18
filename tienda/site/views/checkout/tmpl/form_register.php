@@ -1,9 +1,9 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access'); 
-	$min_length = TiendaConfig::getInstance()->get( 'password_min_length', 5 );
-	$req_num = TiendaConfig::getInstance()->get( 'password_req_num', 1 );
-	$req_alpha = TiendaConfig::getInstance()->get( 'password_req_alpha', 1 );
-	$req_spec = TiendaConfig::getInstance()->get( 'password_req_spec', 1 );
+	$min_length = Tienda::getInstance()->get( 'password_min_length', 5 );
+	$req_num = Tienda::getInstance()->get( 'password_req_num', 1 );
+	$req_alpha = Tienda::getInstance()->get( 'password_req_alpha', 1 );
+	$req_spec = Tienda::getInstance()->get( 'password_req_spec', 1 );
 	Tienda::load('TiendaHelperImage', 'helpers.image');
 	$image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images'));
 	

@@ -68,7 +68,7 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
-            switch (TiendaConfig::getInstance()->get('cartbutton', 'image')) 
+            switch (Tienda::getInstance()->get('cartbutton', 'image')) 
             {
                 case "button":
                     ?>

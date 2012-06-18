@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>	
-<?php $one_page = TiendaConfig::getInstance()->get('one_page_checkout', 0); ?>
+<?php $one_page = Tienda::getInstance()->get('one_page_checkout', 0); ?>
 
 <?php if( $one_page ): ?>	
 	<?php if(count($this->payment_plugins)):?>

@@ -43,7 +43,7 @@
 				<td style="text-align: left;">
 				    <div>
 					<a href="<?php echo $item->link; ?>" target="_blank">
-						<?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+						<?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
 					</a>
 					</div>
                     <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>

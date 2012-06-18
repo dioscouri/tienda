@@ -48,7 +48,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 									<?php echo TiendaHelperUser::getAvatar($row->id);?>
 								</div>
 		                        <?php
-		                        $config = TiendaConfig::getInstance();
+		                        $config = Tienda::getInstance();
 		                        $url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
 		                        $url .= @$row->id; 
 		                        $text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>"; 
@@ -92,7 +92,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                      	<div class="id"><?php echo @$row->group_name; ?></div>		                      	
 		                    </td>
 						</tr>
-						<?php if( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) :?>
+						<?php if( Tienda::getInstance()->get( 'display_subnum', 0 ) ) :?>
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="sub_number">

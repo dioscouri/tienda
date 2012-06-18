@@ -9,7 +9,7 @@
 <?php $order = @$this->order; ?>
 <?php $items = @$order->getItems(); ?>
 <?php $histories = @$row->orderhistory ? @$row->orderhistory : array(); ?>
-<?php $config = TiendaConfig::getInstance(); ?>
+<?php $config = Tienda::getInstance(); ?>
 <?php Tienda::load( 'TiendaHelperOrder', 'helpers.order' );?>
 <?php $display_credits = $config->get( 'display_credits', '0' ); ?>
 
@@ -48,7 +48,7 @@
     <div id="order_info">
         <h3><?php echo JText::_('COM_TIENDA_ORDER_INFORMATION'); ?></h3>
         <strong><?php echo JText::_('COM_TIENDA_ORDER_ID'); ?></strong>: <?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?><br/>
-        <strong><?php echo JText::_('COM_TIENDA_DATE'); ?></strong>: <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?><br/>
+        <strong><?php echo JText::_('COM_TIENDA_DATE'); ?></strong>: <?php echo JHTML::_('date', $row->created_date, Tienda::getInstance()->get('date_format')); ?><br/>
         <strong><?php echo JText::_('COM_TIENDA_STATUS'); ?></strong>: <?php echo @$row->order_state_name; ?><br/>
     </div>
     

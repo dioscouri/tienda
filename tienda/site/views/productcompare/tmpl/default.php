@@ -3,12 +3,12 @@ JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $items = @$this->items;
 
-$show_manufacturer = TiendaConfig::getInstance()->get('show_manufacturer_productcompare', '1');
-$show_srp = TiendaConfig::getInstance()->get('show_srp_productcompare', '1');
-$show_addtocart = TiendaConfig::getInstance()->get('show_addtocart_productcompare', '1');
-$show_rating = TiendaConfig::getInstance()->get('show_rating_productcompare', '1');
-$show_model = TiendaConfig::getInstance()->get('show_model_productcompare', '1');
-$show_sku = TiendaConfig::getInstance()->get('show_sku_productcompare', '1');
+$show_manufacturer = Tienda::getInstance()->get('show_manufacturer_productcompare', '1');
+$show_srp = Tienda::getInstance()->get('show_srp_productcompare', '1');
+$show_addtocart = Tienda::getInstance()->get('show_addtocart_productcompare', '1');
+$show_rating = Tienda::getInstance()->get('show_rating_productcompare', '1');
+$show_model = Tienda::getInstance()->get('show_model_productcompare', '1');
+$show_sku = Tienda::getInstance()->get('show_sku_productcompare', '1');
 ?>
 <a name="tienda-compare"></a>
 <h1><?php echo JText::_('COM_TIENDA_COMPARE')?></h1>

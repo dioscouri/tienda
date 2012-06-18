@@ -34,7 +34,7 @@ class TiendaControllerOrders extends TiendaController
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
         
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         // adjust offset for when filter has changed
         if (
             $app->getUserState( $ns.'orderstate' ) != $app->getUserStateFromRequest($ns.'orderstate', 'filter_orderstate', '', '') 
@@ -86,7 +86,7 @@ class TiendaControllerOrders extends TiendaController
 
         $model  = $this->getModel( $this->get('suffix') );
         $this-> _setModelState();
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $model->setState('filter_orderstates', $config->get('orderstates_csv', '2, 3, 5, 17') );
         $list = $model->getList();
         
@@ -152,7 +152,7 @@ class TiendaControllerOrders extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', false);
         $view->setModel( $model, true );
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
         if( $show_tax )
         	$order->order_subtotal += $order->order_tax;
@@ -230,7 +230,7 @@ class TiendaControllerOrders extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
         $view->setModel( $model, true );
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
         if( $show_tax )
         	$order->order_subtotal += $order->order_tax;

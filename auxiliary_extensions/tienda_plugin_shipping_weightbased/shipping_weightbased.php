@@ -396,7 +396,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	function checkTable()
 	{
 		//if this has already been done, don't repeat
-		if ( TiendaConfig::getInstance()->get( 'checkWeightbasedPluginTable', '0' ) ) return true;
+		if ( Tienda::getInstance()->get( 'checkWeightbasedPluginTable', '0' ) ) return true;
 		$db = JFactory::getDbo();
 		$q = 'CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates_weightbased` (
 					`shipping_rate_weightbased_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,

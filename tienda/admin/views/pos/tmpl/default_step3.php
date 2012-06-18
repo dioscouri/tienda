@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
+<?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
 <div class="table">
 	<div class="row">
 		<div class="cell step_body inactive">
@@ -37,13 +37,13 @@
 	<div class="row">
 		<div class="cell step_body active">			
 			            <div id="validation_message"></div>		
-			  <?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');?>
+			  <?php $coupons_enabled = Tienda::getInstance()->get('coupons_enabled');?>
         <?php if ($coupons_enabled && !empty($this->coupons_present)) : ?>
         <!-- COUPON CODE -->
         <div id="coupon_code_area" class="address">
             <div id="coupon_code_form">
             <h3><?php echo JText::_('COM_TIENDA_COUPON_CODE');?></h3>
-            <?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');?>
+            <?php $mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled');?>
             <?php $string = "COM_TIENDA_COUPON_CODE_HELP";
 				if($mult_enabled)
 				{

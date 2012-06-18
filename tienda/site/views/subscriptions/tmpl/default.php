@@ -80,7 +80,7 @@
                 </td>
                 <td style="text-align: center;">
                     <a href="<?php echo JRoute::_( $item->link_view ); ?>">
-                        <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">
@@ -90,7 +90,7 @@
                 </td>
                 <td style="text-align: center;">
                      <a href="<?php echo $item->link_view; ?>">
-                        <?php echo JHTML::_('date', $item->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $item->expires_datetime, Tienda::getInstance()->get('date_format')); ?>
                     </a>
                 </td>
                 <td style="text-align: center;">

@@ -10,20 +10,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('TiendaHelperBase')) {
-    JLoader::register( "TiendaHelperBase", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."helpers".DS."_base.php" );
-}
-
-class TiendaHelperEmail extends TiendaHelperBase
+class TiendaHelperEmail extends DSCHelperEmail
 {
-    /**
-     * Protected! Use getInstance()
-     */ 
-    protected function TiendaHelperEmail() 
-    {
-        parent::__construct();
-        $this->use_html = true;
-    }
+    
     
     /**
      * Returns 
@@ -38,14 +27,15 @@ class TiendaHelperEmail extends TiendaHelperBase
         $done = array();
 
         // grab config settings for sender name and email
-        $config     = &TiendaConfig::getInstance();
+        $config     = &Tienda::getInstance();
         $mailfrom   = $config->get( 'shop_email', '' );
         if( !strlen( $mailfrom ) )
-        	$mailfrom = $mainframe->getCfg('mailfrom');
-        	
+        	$mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
+
         $fromname   = $config->get( 'shop_email_from_name', '' );
         if( !strlen( $fromname ) )
-        	$fromname = $mainframe->getCfg('fromname');
+        $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
+
         
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl    = $config->get( 'siteurl', JURI::root() );
@@ -68,7 +58,6 @@ class TiendaHelperEmail extends TiendaHelperBase
         $dispatcher=& JDispatcher::getInstance(); 
         $dispatcher->trigger('onAfterGetEmailContent', array( $data, &$content) ); 
                 
-        //$this->results = array();
         for ($i=0; $i<count($recipients); $i++) 
         {
             $recipient = $recipients[$i];
@@ -78,13 +67,9 @@ class TiendaHelperEmail extends TiendaHelperBase
                 {
                     $success = true;
                     $done[$recipient] = $recipient;
-                }
-                //$this->results[$recipient] = $send;
+                }   
             }
-        }
-        
-        //$this->recipients = $recipients;
-        //$this->content = $content;
+        } 
         
         return $success;
     }
@@ -232,7 +217,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         $return->subject = '';
 
         // get config settings
-        $config = &TiendaConfig::getInstance();
+        $config = &Tienda::getInstance();
         $sitename = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl = $config->get( 'siteurl', JURI::root() );
         
@@ -435,7 +420,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         return $success;
     }
     
-    /**
+   /**
      * Gets all targets for system emails
      * 
      * return array of objects
@@ -446,8 +431,8 @@ class TiendaHelperEmail extends TiendaHelperBase
         $query = "
             SELECT tbl.email
             FROM #__users AS tbl
-						WHERE tbl.sendEmail = 1 AND tbl.block = 0
-				        "; 
+            WHERE tbl.sendEmail = '1';
+        "; 
         $db->setQuery( $query );
         $items = $db->loadObjectList();
         if (empty($items))
@@ -466,7 +451,7 @@ class TiendaHelperEmail extends TiendaHelperBase
     {
         $items = array();
         
-        $order_emails = TiendaConfig::getInstance()->get('order_emails');
+        $order_emails = Tienda::getInstance()->get('order_emails');
         if (empty($order_emails))
         {
             return $items;
@@ -509,7 +494,7 @@ class TiendaHelperEmail extends TiendaHelperBase
     function getPlaceholderDefaults()
     {
         $mainframe = JFactory::getApplication();
-        $config = &TiendaConfig::getInstance();
+        $config = &Tienda::getInstance();
         $site_name              = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $site_url               = $config->get( 'siteurl', JURI::root() );
         $link_my_subscriptions  = $config->get( 'link_my_subscriptions', JURI::root()."/index.php?option=com_tienda&view=subscriptions" );
@@ -526,29 +511,7 @@ class TiendaHelperEmail extends TiendaHelperBase
         return $placeholders;
     }
     
-    /**
-     * Replaces placeholders with their values
-     * 
-     * @param string $text
-     * @param array $placeholders
-     * @return string
-     * @access public
-     */
-    function replacePlaceholders($text, $placeholders)
-    {
-        $plPattern = '{%key%}';
-        
-        $plKeys = array();
-        $plValues = array();
-        
-        foreach ($placeholders as $placeholder => $value) {
-            $plKeys[] = str_replace('key', $placeholder, $plPattern);
-            $plValues[] = $value;
-        }
-        
-        $text = str_replace($plKeys, $plValues, $text);     
-        return $text;
-    }
+   
     
     /**
      * Method to send the question ask by the customer to the site vendor
@@ -558,12 +521,12 @@ class TiendaHelperEmail extends TiendaHelperBase
      */
     function sendEmailToAskQuestionOnProduct($sendObject)
     {
-    	$config = &TiendaConfig::getInstance();
+    	$config = &Tienda::getInstance();
 		$lang = &JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
     	//set the email subject
     	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('COM_TIENDA_PRODUCT')." #{$sendObject->item->product_id} ] ";
-    	$subject .= JText::_('COM_TIENDA_PRODUCT_INQUIRIES');
+    	$subject .= JText::_('COM_TIENDA_PRODUCT_INQUIRIES=');
     	$sendObject->subject = $subject;
     	
     	$vendor_name = $config->get('shop_owner_name', 'Admin');
@@ -617,7 +580,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 				$recipients[] = $r->email;
 			}
 		}
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 
 		$fromname = $config->get('shop_name', 'SHOP');
 		$mailfrom = $config->get('shop_email', '');

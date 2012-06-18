@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="tienda" method="upgrade">
+	<name>Tienda - Tracking -Google Analytics</name>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_TIENDA_GOOGLE_ANALYTICS_PLUGIN_DESC</description>
+	<files>
+		<filename plugin="googleanalytics">googleanalytics.php</filename>
+	</files>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_googleanalytics.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="webid" type="text" default="" label="PLG_TIENDA_GOOGLE_ANALYTICS_GOOGLE_ANALYTICS_UA_CODE" description="GOOGLE ANALYTICS UA CODE DESC" />
+				<field name="inccategory" type="radio" default="0" label="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY" description="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<params>
+		<param name="webid" type="text" default="" label="PLG_TIENDA_GOOGLE_ANALYTICS_GOOGLE_ANALYTICS_UA_CODE" description="GOOGLE ANALYTICS UA CODE DESC" />
+		<param name="inccategory" type="radio" default="0" label="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY" description="PLG_TIENDA_GOOGLE_ANALYTICS_INCLUDE_PRODUCT_CATEGORY_DESC">
+			<option value="0">COM_TIENDA_NO</option>
+			<option value="1">COM_TIENDA_YES</option>
+		</param>
+	</params>
+</install>

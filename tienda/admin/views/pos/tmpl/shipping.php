@@ -42,7 +42,7 @@
 <input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $setval ? $this->rates['0']['extra'] : "";?>" />
 
     
-<?php if(!TiendaConfig::getInstance()->get('one_page_checkout', '0')):?>
+<?php if(!Tienda::getInstance()->get('one_page_checkout', '0')):?>
 <div id='shipping_form_div' style="padding-top: 10px;"></div>
 <!--    COMMENTS   -->     
 <h3><?php echo JText::_('COM_TIENDA_SHIPPING_NOTES') ?></h3>

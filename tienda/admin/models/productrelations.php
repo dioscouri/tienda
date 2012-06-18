@@ -71,7 +71,7 @@ class TiendaModelProductRelations extends TiendaModelBase
 		if( strlen( $filter_product ) )
 			$default_group = TiendaHelperUser::getUserGroup( JFactory::getUser()->id, (int)$filter_product );
 		else
-			$default_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+			$default_group = Tienda::getInstance()->get('default_user_group', '1');
 
 		$fields = array();
 		$fields[] = " p_from.product_name as product_name_from ";

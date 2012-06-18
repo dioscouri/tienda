@@ -60,7 +60,7 @@
 					<?php echo TiendaGrid::sort( 'COM_TIENDA_ISSUE_NUM', "tbl.issue_num", @$state->direction, @$state->order ); ?>
         </th>
         <th style="text-align: center;">
-					<?php echo echo TiendaGrid::sort( 'COM_TIENDA_PUBLISHING_DATE', "tbl.publishing_date", @$state->direction, @$state->order ); ?>
+					<?php echo TiendaGrid::sort( 'COM_TIENDA_PUBLISHING_DATE', "tbl.publishing_date", @$state->direction, @$state->order ); ?>
         </th>
       </tr>
 		</thead>

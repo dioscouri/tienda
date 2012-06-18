@@ -289,8 +289,8 @@ class plgTiendaPayment_ccoffline extends TiendaPaymentPlugin
     	if($is_me)
     	{
     		
-	    	$initial = TiendaConfig::getInstance()->get('initial_order_state', '1');
-	    	$pending = TiendaConfig::getInstance()->get('pending_order_state', '1');
+	    	$initial = Tienda::getInstance()->get('initial_order_state', '1');
+	    	$pending = Tienda::getInstance()->get('pending_order_state', '1');
 	    	
 	    	if($order->order_state_id == $pending || $order->order_state_id == $initial)
 	    	{

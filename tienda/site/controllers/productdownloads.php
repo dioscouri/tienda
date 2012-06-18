@@ -41,7 +41,7 @@ class TiendaControllerProductDownloads extends TiendaController
 		$app = JFactory::getApplication();
 		$model = &$this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		// adjust offset for when filter has changed
 		if (
 			$app->getUserState( $ns.'product_id' ) != $app->getUserStateFromRequest($ns.'product_id', 'filter_product_id', '', '') 

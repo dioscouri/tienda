@@ -55,7 +55,7 @@ class TiendaViewOrders extends TiendaViewBase
         
    		 // Get the shop country name
 		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
-		$countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
+		$countryModel->setId(Tienda::getInstance()->get('shop_country'));
 		$countryItem = $countryModel->getItem();
 		if($countryItem){
 			$shop_info['shop_country_name'] = $countryItem->country_name;
@@ -63,7 +63,7 @@ class TiendaViewOrders extends TiendaViewBase
 		
 		// Get the shop zone name
 		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
-		$zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
+		$zoneModel->setId(Tienda::getInstance()->get('shop_zone'));
 		$zoneItem = $zoneModel->getItem();
 		if($zoneItem){
 			$shop_info['shop_zone_name'] = $zoneItem->zone_name;

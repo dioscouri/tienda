@@ -75,7 +75,7 @@
 			$attribs['style'] = 'xhtml';
 			foreach ( @$modules as $mod )
 			{
-				$mod_params = new JParameter( $mod->params );
+				$mod_params = new DSCParameter( $mod->params );
 				if ($mod_params->get('hide_title', '1')) { $mod->showtitle = '0'; }
 				echo $renderer->render($mod, $attribs);
 			}

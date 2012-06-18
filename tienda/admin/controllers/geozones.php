@@ -90,6 +90,7 @@ class TiendaControllerGeozones extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectzones' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -309,7 +310,7 @@ class TiendaControllerGeozones extends TiendaController
 			$keynames["id"] = $cid;
 			$row->load( $keynames );
 			 
-			$params = new JParameter($row->params);
+			$params = new DSCParameter($row->params);
 			 
 			$geozones = explode(',',$params->get('geozones'));
 
@@ -399,7 +400,7 @@ class TiendaControllerGeozones extends TiendaController
 		$items = $model->getList();
 		foreach($items as $item)
 		{
-			$params = new JParameter($item->params);
+			$params = new DSCParameter($item->params);
 			$item->geozones = explode(',',$params->get('geozones'));
 		}
 

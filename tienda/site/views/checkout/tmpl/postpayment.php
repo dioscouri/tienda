@@ -11,7 +11,7 @@
     <span><?php echo JText::_('COM_TIENDA_CHECKOUT_RESULTS'); ?></span>
 </div>
 
-<?php if( !TiendaConfig::getInstance()->get('one_page_checkout', '0') ) : ?>
+<?php if( !Tienda::getInstance()->get('one_page_checkout', '0') ) : ?>
 <!-- Progress Bar -->
 <?php echo $this->progress; ?>
 <?php endif; ?>

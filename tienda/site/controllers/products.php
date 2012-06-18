@@ -72,7 +72,7 @@ class TiendaControllerProducts extends TiendaController
 		$state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
 		$state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
 		
-		if ( strlen( $state['filter_sortby'] ) && TiendaConfig::getInstance( )->get( 'display_sort_by', '1' ) )
+		if ( strlen( $state['filter_sortby'] ) && Tienda::getInstance( )->get( 'display_sort_by', '1' ) )
 		{
 			$state['order'] = $state['filter_sortby'];
 			$state['direction'] = strtoupper($state['filter_dir']);
@@ -154,7 +154,7 @@ class TiendaControllerProducts extends TiendaController
 		$model = $this->getModel( $this->get( 'suffix' ) );
 		$this->_setModelState( );
 		
-		if ( !TiendaConfig::getInstance( )->get( 'display_out_of_stock' ) )
+		if ( !Tienda::getInstance( )->get( 'display_out_of_stock' ) )
 		{
 			$model->setState( 'filter_quantity_from', '1' );
 		}
@@ -210,7 +210,7 @@ class TiendaControllerProducts extends TiendaController
 		if ( $items = &$model->getList( ) )
 		{
 			JRequest::setVar( 'page', 'category' ); // for "getCartButton"
-			$this->display_cartbutton = TiendaConfig::getInstance( )->get( 'display_category_cartbuttons', '1' );
+			$this->display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );
 			foreach ( $items as $item )
 			{
 				$itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
@@ -230,7 +230,7 @@ class TiendaControllerProducts extends TiendaController
 			$view->assign( 'filterprice_to', $to );
 		}
 		
-		if(TiendaConfig::getInstance()->get('enable_product_compare', '1'))
+		if(Tienda::getInstance()->get('enable_product_compare', '1'))
 		{
 			Tienda::load( "TiendaHelperProductCompare", 'helpers.productcompare' );
 			$compareitems = TiendaHelperProductCompare::getComparedProducts();		
@@ -339,7 +339,7 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$inventoryList = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getProductQuantities( $row->product_id );
 			
-			if ( !TiendaConfig::getInstance( )->get( 'display_out_of_stock' ) && empty( $inventoryList ) )
+			if ( !Tienda::getInstance( )->get( 'display_out_of_stock' ) && empty( $inventoryList ) )
 			{
 				// redirect
 				$redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=" . $filter_category;
@@ -586,7 +586,7 @@ class TiendaControllerProducts extends TiendaController
 				}
 			}
 			$userId = JFactory::getUser( )->id;
-			$config = TiendaConfig::getInstance( );
+			$config = Tienda::getInstance( );
 			$show_tax = $config->get( 'display_prices_with_tax' );
 			Tienda::load('TiendaHelperTax', 'helpers.tax');
 			if ( $show_tax )
@@ -734,7 +734,7 @@ class TiendaControllerProducts extends TiendaController
 		$model = $this->getModel( $this->get( 'suffix' ) );
 		$this->_setModelState( );
 		
-		if ( !TiendaConfig::getInstance( )->get( 'display_out_of_stock' ) )
+		if ( !Tienda::getInstance( )->get( 'display_out_of_stock' ) )
 		{
 			$model->setState( 'filter_quantity_from', '1' );
 		}
@@ -795,7 +795,7 @@ class TiendaControllerProducts extends TiendaController
 			return;
 		}
 		
-		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
+		if ( !Tienda::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
 			$response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHOP_DISABLED') );
 			$response['error'] = '1';
@@ -973,7 +973,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance( );
-		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
+		if ( !Tienda::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
 			$this->messagetype = 'notice';
 			$this->message = JText::_('COM_TIENDA_SHOP_DISABLED');
@@ -1074,7 +1074,7 @@ class TiendaControllerProducts extends TiendaController
 		// if ther is another product_url, put it into the cartitem_params, to allow custom redirect
 		if ( array_key_exists( 'product_url', $values ) )
 		{
-			$params = new JParameter( '');
+			$params = new DSCParameter( '');
 			$params->set( 'product_url', $values['product_url'] );
 			$item->cartitem_params = trim( $params->toString( ) );
 		}
@@ -1140,7 +1140,7 @@ class TiendaControllerProducts extends TiendaController
 				) );
 				
 		// get the 'success' redirect url
-		switch ( TiendaConfig::getInstance( )->get( 'addtocartaction', 'redirect' ) )
+		switch ( Tienda::getInstance( )->get( 'addtocartaction', 'redirect' ) )
 		{
 			case "0":
 			case "none":
@@ -1246,9 +1246,9 @@ class TiendaControllerProducts extends TiendaController
 		
 		$user_id = JFactory::getUser( )->id;
 		$productreview = TiendaHelperProduct::getUserAndProductIdForReview( $product_id, $user_id );
-		$purchase_enable = TiendaConfig::getInstance( )->get( 'purchase_leave_review_enable', '0' );
-		$login_enable = TiendaConfig::getInstance( )->get( 'login_review_enable', '0' );
-		$product_review_enable = TiendaConfig::getInstance( )->get( 'product_review_enable', '0' );
+		$purchase_enable = Tienda::getInstance( )->get( 'purchase_leave_review_enable', '0' );
+		$login_enable = Tienda::getInstance( )->get( 'login_review_enable', '0' );
+		$product_review_enable = Tienda::getInstance( )->get( 'product_review_enable', '0' );
 		
 		$result = 1;
 		if ( $product_review_enable == '1' )
@@ -1331,7 +1331,7 @@ class TiendaControllerProducts extends TiendaController
 			return;
 		}
 		
-		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
+		if ( !Tienda::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
 			$response['msg'] = $helper->generateMessage( "Shop Disabled" );
 			$response['error'] = '1';
@@ -1506,7 +1506,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance( );
-		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
+		if ( !Tienda::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
 			$this->messagetype = 'notice';
 			$this->message = JText::_('COM_TIENDA_SHOP_DISABLED');
@@ -1660,7 +1660,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		// get the 'success' redirect url
 		// TODO Enable redirect via base64_encoded urls?
-		switch ( TiendaConfig::getInstance( )->get( 'addtocartaction', 'redirect' ) )
+		switch ( Tienda::getInstance( )->get( 'addtocartaction', 'redirect' ) )
 		{
 			case "redirect":
 				$returnUrl = base64_encode( $redirect );
@@ -1720,7 +1720,7 @@ class TiendaControllerProducts extends TiendaController
 			return;
 		}
 		
-		if ( !TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) )
+		if ( !Tienda::getInstance( )->get( 'shop_enabled', '1' ) )
 		{
 			$response['msg'] = $helper->generateMessage( "Shop Disabled" );
 			$response['error'] = '1';
@@ -1855,7 +1855,7 @@ class TiendaControllerProducts extends TiendaController
 		}
 		
 		$captcha = true;
-		if ( TiendaConfig::getInstance( )->get( 'use_captcha', '0' ) && $valid )
+		if ( Tienda::getInstance( )->get( 'use_captcha', '0' ) && $valid )
 		{
 			$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
 			$captcha = false;
@@ -1886,7 +1886,7 @@ class TiendaControllerProducts extends TiendaController
 			$date = JFactory::getDate( );
 			$productreviews->bind( $post );
 			$productreviews->created_date = $date->toMysql( );
-			$productreviews->productcomment_enabled = TiendaConfig::getInstance( )->get( 'product_reviews_autoapprove', '0' );
+			$productreviews->productcomment_enabled = Tienda::getInstance( )->get( 'product_reviews_autoapprove', '0' );
 			
 			if ( !$productreviews->save( ) )
 			{
@@ -2022,7 +2022,7 @@ class TiendaControllerProducts extends TiendaController
 	
 	function sendAskedQuestion( )
 	{
-		$config = &TiendaConfig::getInstance( );
+		$config = &Tienda::getInstance( );
 		$post = JRequest::get( 'post' );
 		
 		$valid = true;
@@ -2110,7 +2110,7 @@ class TiendaControllerProducts extends TiendaController
 				$this->message = JText::_('COM_TIENDA_ERROR_IN_SENDING_MESSAGE');
 				$this->messagetype = 'notice';
 			}
-			if ( TiendaConfig::getInstance( )->get( 'ask_question_modal', '1' ) )
+			if ( Tienda::getInstance( )->get( 'ask_question_modal', '1' ) )
 			{
 				$url = "index.php?option=com_tienda&view=products&task=askquestion&id={$post['product_id']}&tmpl=component&return=" . $post['return']
 						. $add_link . "&success=1";

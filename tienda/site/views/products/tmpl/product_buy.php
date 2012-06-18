@@ -9,8 +9,8 @@ $return = base64_encode( JUri::getInstance()->toString() );
 if( strlen( @$values['return'] ) )
 	$return = $values['return'];
 	
-$working_image = TiendaConfig::getInstance()->get( 'dispay_working_image_product', 1);
-$display_wishlist = TiendaConfig::getInstance()->get( 'display_wishlist', 0);
+$working_image = Tienda::getInstance()->get( 'dispay_working_image_product', 1);
+$display_wishlist = Tienda::getInstance()->get( 'display_wishlist', 0);
 
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 $js_strings = array( 'COM_TIENDA_UPDATING_ATTRIBUTES' );
@@ -27,7 +27,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     	<?php  echo TiendaHelperProduct::dispayPriceWithTax($item->price, $item->tax, $this->show_tax); ?>
     	 <!-- For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates) -->       
     	<br />
-    	<?php if(TiendaConfig::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
+    	<?php if(Tienda::getInstance()->get( 'display_prices_with_shipping') && !empty($item->product_ships)):?>
     	<?php echo TiendaUrl::popup( JRoute::_($this->shipping_cost_link.'&tmpl=component'), JText::_('COM_TIENDA_LINK_TO_SHIPPING_COST') ); ?>
     	<?php endif;?>        
     </span>
@@ -117,7 +117,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
-            switch (TiendaConfig::getInstance()->get('cartbutton', 'image')) 
+            switch (Tienda::getInstance()->get('cartbutton', 'image')) 
             {
                 case "button":
                     ?>
@@ -161,7 +161,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     <?php endif; ?>
     
     <?php if (!empty($item->product_check_inventory)) : ?>
-        <?php if (TiendaConfig::getInstance()->get('display_product_quantity', '1')) : ?> 
+        <?php if (Tienda::getInstance()->get('display_product_quantity', '1')) : ?> 
         <div id='available_stock_<?php echo $item->product_id; ?>' class="available_stock"> 
           <?php echo JText::_('COM_TIENDA_AVAILABLE_STOCK'); ?> <label id="stock_<?php echo $item->product_id; ?>"><?php echo (int) $this->availableQuantity->quantity; ?></label> 
         </div>

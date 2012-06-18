@@ -11,18 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-class TiendaCountry extends JObject
+class TiendaCountry extends DSCCountry
 {
-	function getList()
-	{
-		static $items;
-		
-		if (!is_array($items))
-		{			
-			$items[0] = new JObject();
-			$items[0]->id = '0';
-			$items[0]->title = 'Not Applicable';
-		}
-		return $items;
-	}
+	
 }

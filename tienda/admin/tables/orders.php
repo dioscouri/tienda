@@ -140,7 +140,7 @@ class TiendaTableOrders extends TiendaTable
         if ($return = parent::save())
         {
             // create the order_number when the order is saved, since it is based on the auto-inc value
-            $order_number_prefix = TiendaConfig::getInstance()->get('order_number_prefix');
+            $order_number_prefix = Tienda::getInstance()->get('order_number_prefix');
             if (!empty($order_number_prefix) && empty($this->order_number) && !empty($this->order_id))
             {
                 $this->order_number = $order_number_prefix.$this->order_id;
@@ -409,7 +409,7 @@ class TiendaTableOrders extends TiendaTable
             return;
         }
         
-//        $coupons_before_tax = TiendaConfig::getInstance()->get('coupons_before_tax'); 
+//        $coupons_before_tax = Tienda::getInstance()->get('coupons_before_tax'); 
         // calculate product subtotal
         foreach ($items as $item)
         {
@@ -444,7 +444,7 @@ class TiendaTableOrders extends TiendaTable
         $this->_taxclass_amounts = array();
         $items = &$this->getItems();
         $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
-				$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');
+				$show_tax = Tienda::getInstance()->get('display_prices_with_tax');
 
 				foreach( $items as $item )
         {
@@ -567,7 +567,7 @@ class TiendaTableOrders extends TiendaTable
             return;
         }
         
-        $coupons_before_tax = TiendaConfig::getInstance()->get('coupons_before_tax');
+        $coupons_before_tax = Tienda::getInstance()->get('coupons_before_tax');
         
         // apply any after tax coupons (both shipping and tax coupons)
         // this will calculate the order_discount (sum of all per_order discounts)

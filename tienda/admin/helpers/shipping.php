@@ -226,7 +226,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 		// using values shipping_type, shipping_price, shipping_name, shipping_code, shipping_tax, shipping_extra, shipping_tracking_id
 		if( $sw == '' )
 		{
-			$config = TiendaConfig::getInstance();
+			$config = Tienda::getInstance();
 			$sw = $config->get( 'secret_word' );
 		}
 		if( !isset( $values['tracking_id'] ) )

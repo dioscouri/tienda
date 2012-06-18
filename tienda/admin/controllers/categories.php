@@ -303,6 +303,7 @@ class TiendaControllerCategories extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectproducts' );
+		$view->setTask(true);
 		$view->display();
 	}
 
@@ -433,8 +434,8 @@ class TiendaControllerCategories extends TiendaController
 			
 		Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
 		Tienda::load( 'TiendaImage', 'library.image' );
-		$width = TiendaConfig::getInstance()->get('category_img_width', '0');
-		$height = TiendaConfig::getInstance()->get('category_img_height', '0');
+		$width = Tienda::getInstance()->get('category_img_width', '0');
+		$height = Tienda::getInstance()->get('category_img_height', '0');
 
 		$model = $this->getModel('Categories', 'TiendaModel');
 		$model->setState('limistart', $from_id);

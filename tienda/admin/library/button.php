@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.toolbar.button');
 
-class JButtonTienda extends JButton{
+class JButtonTienda extends DSCButton{
 	
 	/**
 	 * Button type
@@ -25,17 +25,7 @@ class JButtonTienda extends JButton{
 
 	function fetchButton( $type='Tienda', $name = '', $text = '', $task = '', $list = true, $hideMenu = false, $taskName = 'shippingTask' )
 	{
-		$i18n_text	= JText::_($text);
-		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($text, $task, $list, $hideMenu, $taskName);
-
-		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
-		$html .= "<span class=\"$class\" title=\"$i18n_text\">\n";
-		$html .= "</span>\n";
-		$html	.= "$i18n_text\n";
-		$html	.= "</a>\n";
-
-		return $html;
+		parent::fetchButton($type, $name, $text, $task, $list, $hideMenu, $taskName);
 	}
 	/**
 	 * Get the JavaScript command for the button
@@ -81,7 +71,7 @@ class TiendaToolBarHelper extends JToolBarHelper {
 	*/
 	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false, $taskName = 'shippingTask')
 	{
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 
 		//strip extension
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
@@ -98,7 +88,7 @@ class TiendaToolBarHelper extends JToolBarHelper {
 	*/
 	function addNew($task = 'add', $alt = 'New', $taskName = 'shippingTask')
 	{
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 		// Add a new button
 		$bar->appendButton( 'Tienda', 'new', $alt, $task, false, false, $taskName );
 	}

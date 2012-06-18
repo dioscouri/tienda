@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-$config = TiendaConfig::getInstance();
+$config = Tienda::getInstance();
 $display_tax_checkout = $config->get('show_tax_checkout', '1');
 $display_shipping_tax = $config->get('display_shipping_tax', '1');
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );

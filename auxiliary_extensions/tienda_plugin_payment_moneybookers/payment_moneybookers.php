@@ -60,7 +60,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	    $items = $order->getItems();
 		
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
-        $vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$data['orderpayment_id'];
+        $vars->transaction_id = Tienda::getInstance()->get('order_number_prefix').$data['orderpayment_id'];
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
         $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
@@ -160,7 +160,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		// Use AJAX to show plugins that are available
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
 		$guest = JRequest::getVar( 'guest', '0');
-		if ($guest == '1' && TiendaConfig::getInstance()->get('guest_checkout_enabled'))
+		if ($guest == '1' && Tienda::getInstance()->get('guest_checkout_enabled'))
 		{
 			$guest = true;
 		}
@@ -172,9 +172,9 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$order = JTable::getInstance('Orders', 'TiendaTable');
         
         // set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+		$order->currency_id = Tienda::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 		// set the shipping method
-		$order->shipping_method_id = TiendaConfig::getInstance()->get('defaultShippingMethod', '2');
+		$order->shipping_method_id = Tienda::getInstance()->get('defaultShippingMethod', '2');
 
 		if (!$guest)
 		{
@@ -289,7 +289,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 
         // properties as specified in moneybookers gateway manual
         $vars->pay_to_email = $this->_getParam( 'receiver_email' );
-        $vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
+        $vars->transaction_id = Tienda::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=message&checkout=0";
         $vars->return_url_text = 'Exit Secure Payment'; //A
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type={$this->_element}&paction=cancel";
@@ -333,7 +333,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			
 		// a period of days during which the customer can still process the transaction in case it originally failed.			
 		$vars->rec_grace_period = 3;
-		$vars->transaction_id = TiendaConfig::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
+		$vars->transaction_id = Tienda::getInstance()->get('order_number_prefix').$orderpayment->orderpayment_id; // this need to be subscription id??
         
 		return $vars;
     }
@@ -914,7 +914,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $mainframe =& JFactory::getApplication();
                
         // grab config settings for sender name and email
-        $config     = &TiendaConfig::getInstance();
+        $config     = &Tienda::getInstance();
         $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
         $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );

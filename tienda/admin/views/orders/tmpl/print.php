@@ -6,7 +6,7 @@
 	$order = @$this->order;
 	$items = @$order->getItems();
 	$histories = @$row->orderhistory ? @$row->orderhistory : array();
-	$config = TiendaConfig::getInstance();
+	$config = Tienda::getInstance();
 	$guest = $row->user_id < Tienda::getGuestIdStart();
 ?>
 
@@ -370,7 +370,7 @@
             </td>
         </tr>
         <?php endif;
-	              $display_tax_checkout = TiendaConfig::getInstance()->get('show_tax_checkout', '1');
+	              $display_tax_checkout = Tienda::getInstance()->get('show_tax_checkout', '1');
 	                    	
 	              switch( $display_tax_checkout )
 	              {

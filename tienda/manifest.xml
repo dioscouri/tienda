@@ -22,13 +22,13 @@
 		<folder>views</folder>
 	</files>
 
-	<languages>
-		<language tag="en-GB">languages/site/en-GB.com_tienda.ini</language>
+	<languages folder="languages/site">
+		<language tag="en-GB">/en-GB.com_tienda.ini</language>
 	</languages>
 	
 	<!-- Application/administrator -->
 	<administration>
-		<menu img="../media/com_tienda/images/tienda_16.png">Tienda</menu>
+		<menu img="../media/com_tienda/images/tienda_16.png">COM_TIENDA</menu>
 
 		<files folder="admin">
 			<file>tienda.php</file>
@@ -45,8 +45,8 @@
 			<folder>views</folder>
 		</files>
 
-		<languages>
-			<language tag="en-GB">languages/admin/en-GB.com_tienda.ini</language>
+		<languages folder="languages/admin">
+			<language tag="en-GB">/en-GB.com_tienda.ini</language>
 		</languages>
 	</administration>
 	
@@ -57,8 +57,8 @@
 		</sql>
 	</install>
 	
-	<installfile>install/install.php</installfile>
-	<uninstallfile>install/uninstall.php</uninstallfile>
+	<installfile>install.php</installfile>
+	<uninstallfile>uninstall.php</uninstallfile>
 
 	<!--  Media -->
 	<media destination="com_tienda" folder="media">
@@ -72,71 +72,71 @@
 		
 	<!-- Modules -->	
 	<modules>
-		<!-- <module module="mod_whatever" publish="true" client="site"/> -->
-		<module module="mod_tienda_admin_submenu" position="submenu" publish="true" client="administrator"/>
-        <module module="mod_tienda_breadcrumbs" client="site" position="left" />
-        <module module="mod_tienda_cart" client="site" position="left" />
-		<module module="mod_tienda_categories" client="site" position="left" />
-        <module module="mod_tienda_compared_products" client="site" position="left" />
-        <module module="mod_tienda_currency" client="site" position="left" />
-        <module module="mod_tienda_layered_navigation" client="site" position="left" />
-        <module module="mod_tienda_manufacturers" client="site" position="left" />
-        <module module="mod_tienda_my_orderitems" client="site" position="left" />
-        <module module="mod_tienda_my_orders" client="site" position="left" />
-        <module module="mod_tienda_popular_products" client="site" position="left" />
-        <module module="mod_tienda_pricefilters" client="site" position="left" />
-        <module module="mod_tienda_products" client="site" position="left" />
-        <module module="mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
-        <module module="mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
-        <module module="mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
-        <module module="mod_tienda_search" client="site" position="left" />
-        <module module="mod_tienda_search_admin" position="tienda_dashboard_right" publish="true" client="administrator"/>
-        <module module="mod_tienda_useraddress" position="tienda_user_main" publish="true" client="administrator"/>
+		<!-- <module module="modules/mod_whatever" publish="true" client="site"/> -->
+		<module module="modules/mod_tienda_admin_submenu" position="submenu" publish="true" client="administrator"/>
+        <module module="modules/mod_tienda_breadcrumbs" client="site" position="left" />
+        <module module="modules/mod_tienda_cart" client="site" position="left" />
+		<module module="modules/mod_tienda_categories" client="site" position="left" />
+        <module module="modules/mod_tienda_compared_products" client="site" position="left" />
+        <module module="modules/mod_tienda_currency" client="site" position="left" />
+        <module module="modules/mod_tienda_layered_navigation" client="site" position="left" />
+        <module module="modules/mod_tienda_manufacturers" client="site" position="left" />
+        <module module="modules/mod_tienda_my_orderitems" client="site" position="left" />
+        <module module="modules/mod_tienda_my_orders" client="site" position="left" />
+        <module module="modules/mod_tienda_popular_products" client="site" position="left" />
+        <module module="modules/mod_tienda_pricefilters" client="site" position="left" />
+        <module module="modules/mod_tienda_products" client="site" position="left" />
+        <module module="modules/mod_tienda_quickicon" position="icon" publish="true" client="administrator"/>
+        <module module="modules/mod_tienda_recentorders" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="modules/mod_tienda_salestatistics" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="modules/mod_tienda_search" client="site" position="left" />
+        <module module="modules/mod_tienda_search_admin" position="tienda_dashboard_right" publish="true" client="administrator"/>
+        <module module="modules/mod_tienda_useraddress" position="tienda_user_main" publish="true" client="administrator"/>
 	</modules> 
 
 	<!-- Plugins -->
 	<plugins>
         <!-- Sample: -->
         <!-- Instructions: plugin="package_folder_containing_plugin_files" element="plugin_filename" -->
-		<!-- <plugin plugin="tienda_plugin_user" publish="false" group="user" element="tienda" /> -->
+		<!-- <plugin plugin="plugins/tienda_plugin_user" publish="false" group="user" element="tienda" /> -->
         
-        <plugin plugin="tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
-		<plugin plugin="tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
-        <plugin plugin="tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
-        <plugin plugin="tienda_plugin_customfields" publish="true" group="tienda" element="customfields" />
-        <plugin plugin="tienda_plugin_genericexporter" publish="true" group="tienda" element="genericexporter" />
-        <plugin plugin="tienda_plugin_googleproducts" group="tienda" element="googleproducts" />
-		<plugin plugin="tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
-        <plugin plugin="tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
-        <plugin plugin="tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
-        <plugin plugin="tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
-        <plugin plugin="tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
-        <plugin plugin="tienda_plugin_payment_paypalpro" group="tienda" element="payment_paypalpro" />
-        <plugin plugin="tienda_plugin_report_abandoned_cart" publish="true" group="tienda" element="report_abandoned_cart" />
-        <plugin plugin="tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
-        <plugin plugin="tienda_plugin_report_cart" publish="true" group="tienda" element="report_cart" />
-        <plugin plugin="tienda_plugin_report_highestvolumeandspender" publish="true" group="tienda" element="report_highestvolumeandspender" />
-        <plugin plugin="tienda_plugin_report_inventory_levels" publish="true" group="tienda" element="report_inventory_levels" />
-        <plugin plugin="tienda_plugin_report_lowstock" publish="true" group="tienda" element="report_lowstock" />
-        <plugin plugin="tienda_plugin_report_mostdownloadedfiles" publish="true" group="tienda" element="report_mostdownloadedfiles" />
-        <plugin plugin="tienda_plugin_report_ordered_products" publish="true" group="tienda" element="report_ordered_products" />
-        <plugin plugin="tienda_plugin_report_prepayments" publish="true" group="tienda" element="report_prepayments" />
-        <plugin plugin="tienda_plugin_report_sales" publish="true" group="tienda" element="report_sales" />
-        <plugin plugin="tienda_plugin_report_salesbymanufacturer" publish="true" group="tienda" element="report_salesbymanufacturer" />
-        <plugin plugin="tienda_plugin_report_subscriptions" publish="true" group="tienda" element="report_subscriptions" />
-        <plugin plugin="tienda_plugin_search" publish="true" group="search" element="tienda" />
-        <plugin plugin="tienda_plugin_shipping_fedex" group="tienda" element="shipping_fedex" />
-        <plugin plugin="tienda_plugin_shipping_standard" publish="true" group="tienda" element="shipping_standard" />
-        <plugin plugin="tienda_plugin_shipping_ups" group="tienda" element="shipping_ups" />
-        <plugin plugin="tienda_plugin_shipping_usps" group="tienda" element="shipping_usps" />
-        <plugin plugin="tienda_plugin_subscriptions" group="system" element="tienda_subscriptions" />
-        <plugin plugin="tienda_plugin_system" publish="true" group="system" element="tienda" />
-        <plugin plugin="tienda_plugin_tool_csvimporter" publish="true" group="tienda" element="tool_csvimporter" />
-        <plugin plugin="tienda_plugin_tool_installsampledata" publish="true" group="tienda" element="tool_installsampledata" />
-        <plugin plugin="tienda_plugin_tool_redshopmigration" publish="true" group="tienda" element="tool_redshopmigration" />
-        <plugin plugin="tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
-        <plugin plugin="tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
-        <plugin plugin="tienda_plugin_tool_xmlimporter" publish="true" group="tienda" element="tool_xmlimporter" />
-        <plugin plugin="tienda_plugin_user" publish="true" group="user" element="tienda" />
+        <plugin plugin="plugins/tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
+		<plugin plugin="plugins/tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
+        <plugin plugin="plugins/tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
+        <plugin plugin="plugins/tienda_plugin_customfields" publish="true" group="tienda" element="customfields" />
+        <plugin plugin="plugins/tienda_plugin_genericexporter" publish="true" group="tienda" element="genericexporter" />
+        <plugin plugin="plugins/tienda_plugin_googleproducts" group="tienda" element="googleproducts" />
+		<plugin plugin="plugins/tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
+        <plugin plugin="plugins/tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
+        <plugin plugin="plugins/tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
+        <plugin plugin="plugins/tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
+        <plugin plugin="plugins/tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
+        <plugin plugin="plugins/tienda_plugin_payment_paypalpro" group="tienda" element="payment_paypalpro" />
+        <plugin plugin="plugins/tienda_plugin_report_abandoned_cart" publish="true" group="tienda" element="report_abandoned_cart" />
+        <plugin plugin="plugins/tienda_plugin_report_bestsellers" publish="true" group="tienda" element="report_bestsellers" />
+        <plugin plugin="plugins/tienda_plugin_report_cart" publish="true" group="tienda" element="report_cart" />
+       <!--  <plugin plugin="plugins/tienda_plugin_report_highestvolumeandspender" publish="true" group="tienda" element="report_highestvolumeandspender" /> -->
+        <plugin plugin="plugins/tienda_plugin_report_inventory_levels" publish="true" group="tienda" element="report_inventory_levels" />
+        <plugin plugin="plugins/tienda_plugin_report_lowstock" publish="true" group="tienda" element="report_lowstock" />
+        <plugin plugin="plugins/tienda_plugin_report_mostdownloadedfiles" publish="true" group="tienda" element="report_mostdownloadedfiles" />
+        <plugin plugin="plugins/tienda_plugin_report_ordered_products" publish="true" group="tienda" element="report_ordered_products" />
+        <plugin plugin="plugins/tienda_plugin_report_prepayments" publish="true" group="tienda" element="report_prepayments" />
+        <plugin plugin="plugins/tienda_plugin_report_sales" publish="true" group="tienda" element="report_sales" />
+        <plugin plugin="plugins/tienda_plugin_report_salesbymanufacturer" publish="true" group="tienda" element="report_salesbymanufacturer" />
+        <plugin plugin="plugins/tienda_plugin_report_subscriptions" publish="true" group="tienda" element="report_subscriptions" />
+        <plugin plugin="plugins/tienda_plugin_search" publish="true" group="search" element="tienda" />
+        <plugin plugin="plugins/tienda_plugin_shipping_fedex" group="tienda" element="shipping_fedex" />
+        <plugin plugin="plugins/tienda_plugin_shipping_standard" publish="true" group="tienda" element="shipping_standard" />
+        <plugin plugin="plugins/tienda_plugin_shipping_ups" group="tienda" element="shipping_ups" />
+        <plugin plugin="plugins/tienda_plugin_shipping_usps" group="tienda" element="shipping_usps" />
+        <plugin plugin="plugins/tienda_plugin_subscriptions" group="system" element="tienda_subscriptions" />
+        <plugin plugin="plugins/tienda_plugin_system" publish="true" group="system" element="tienda" />
+        <plugin plugin="plugins/tienda_plugin_tool_csvimporter" publish="true" group="tienda" element="tool_csvimporter" />
+        <plugin plugin="plugins/tienda_plugin_tool_installsampledata" publish="true" group="tienda" element="tool_installsampledata" />
+        <plugin plugin="plugins/tienda_plugin_tool_redshopmigration" publish="true" group="tienda" element="tool_redshopmigration" />
+        <plugin plugin="plugins/tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
+        <plugin plugin="plugins/tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
+        <plugin plugin="plugins/tienda_plugin_tool_xmlimporter" publish="true" group="tienda" element="tool_xmlimporter" />
+        <plugin plugin="plugins/tienda_plugin_user" publish="true" group="user" element="tienda" />
 	</plugins>
 </install>

@@ -200,7 +200,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function checkExpiring()
     {
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         
         // select all subs that expire in x days (where expires > today + x & expires < today + x + 1)
         $subscriptions_expiring_notice_days = $config->get( 'subscriptions_expiring_notice_days', '14' );
@@ -483,7 +483,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
 		 */
 		static function displaySubNum( $num )
 		{
-			$digits = TiendaConfig::getInstance()->get( 'sub_num_digits', 8 );
+			$digits = Tienda::getInstance()->get( 'sub_num_digits', 8 );
 			$result = (string)$num;
 			$len = strlen( $num );
 			for( ; $len < $digits; $len++ )
@@ -504,7 +504,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
 			$db->setQuery( $q );
 			$result = $db->loadResult();
 			if( $result === null )
-				$result = TiendaConfig::getInstance()->get( 'default_sub_num', 1 );
+				$result = Tienda::getInstance()->get( 'default_sub_num', 1 );
 			else
 				$result++;
 			return $result;

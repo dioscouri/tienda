@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php $url = "index.php?option=com_tienda&format=raw&controller=carts&task=addToCart&productid=".$product->product_id; ?>
 			<?php $onclick = 'tiendaDoTask(\''.$url.'\', \'tiendaUserShoppingCart\', document.adminForm);'; ?>
 			<?php $text = "<img class='addcart' src='".Tienda::getUrl('images')."addcart.png' alt='".JText::_('COM_TIENDA_ADD_TO_CART')."' onclick=\"$onclick\" />"; ?>
-			<?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = TiendaConfig::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>
+			<?php $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = Tienda::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; }; ?>
 			<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", $text, $lightbox_attribs );  ?>
 		</form>
 	</div>

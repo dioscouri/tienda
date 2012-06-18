@@ -2,7 +2,7 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $row = @$this->row; ?>
-<?php $config = TiendaConfig::getInstance(); ?>
+<?php $config = Tienda::getInstance(); ?>
 
 <table>
     <tbody>

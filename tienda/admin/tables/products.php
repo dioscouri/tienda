@@ -106,7 +106,7 @@ class TiendaTableProducts extends TiendaTableEav
 		else
 		{
 			// try with the SKU
-			if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
+			if ( Tienda::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
 			{		    
 				if ( !empty( $this->product_sku ) )
 				{
@@ -125,7 +125,7 @@ class TiendaTableProducts extends TiendaTableEav
 			}
 			else
 			{
-				if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) )
+				if ( Tienda::getInstance( )->get( 'sha1_images', '0' ) )
 				{
 					$subdirs = $this->getSha1Subfolders( $this->product_id );
 					$image_dir = $dir . DS . $subdirs . $this->product_id . DS;
@@ -188,7 +188,7 @@ class TiendaTableProducts extends TiendaTableEav
 		else
 		{
 			// try with the SKU
-			if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
+			if ( Tienda::getInstance( )->get( 'sha1_images', '0' ) ) // Sha1 images for 32k product invortories
 			{
 				if ( !empty( $this->product_sku ) )
 				{
@@ -208,7 +208,7 @@ class TiendaTableProducts extends TiendaTableEav
 			}
 			else
 			{
-				if ( TiendaConfig::getInstance( )->get( 'sha1_images', '0' ) )
+				if ( Tienda::getInstance( )->get( 'sha1_images', '0' ) )
 				{
 					$subdirs = $this->getSha1Subfolders( $this->product_id, '/' );
 					$image_dir = $url . $subdirs . $this->product_id . '/';
@@ -302,7 +302,7 @@ class TiendaTableProducts extends TiendaTableEav
 				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
-				$price->group_id = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+				$price->group_id = Tienda::getInstance( )->get( 'default_user_group', '1' );
 				$success = $price->save( );
 				
 				if ( !$success )
@@ -451,7 +451,7 @@ class TiendaTableProducts extends TiendaTableEav
 				// else just save it as a new price
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
-				$price->group_id = TiendaConfig::getInstance( )->get( 'default_user_group', '1' );
+				$price->group_id = Tienda::getInstance( )->get( 'default_user_group', '1' );
 				$success = $price->save( );
 				
 				if ( !$success )

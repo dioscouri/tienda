@@ -88,7 +88,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
     function checkTableLSCustomersXref()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSCustomersXref', '0'))
+        if (Tienda::getInstance()->get('checkTableLSCustomersXref', '0'))
         {
             return true;
         }
@@ -124,7 +124,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
     function checkTableLSOrdersXref()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSOrdersXref', '0'))
+        if (Tienda::getInstance()->get('checkTableLSOrdersXref', '0'))
         {
             return true;
         }
@@ -160,7 +160,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
     function checkTableLSProductsXref()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSProductsXref', '0'))
+        if (Tienda::getInstance()->get('checkTableLSProductsXref', '0'))
         {
             return true;
         }
@@ -196,7 +196,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
     function checkTableLSCategoriesXref()
     {
         // if this has already been done, don't repeat
-        if (TiendaConfig::getInstance()->get('checkTableLSCategoriesXref', '0'))
+        if (Tienda::getInstance()->get('checkTableLSCategoriesXref', '0'))
         {
             return true;
         }

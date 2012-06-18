@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
                         </label>
                     </td>
                     <td>
-                    	<?php if( TiendaConfig::getInstance()->get('currency_exchange_autoupdate', '1') ): ?>
+                    	<?php if( Tienda::getInstance()->get('currency_exchange_autoupdate', '1') ): ?>
                     		<div class="note">
                     			<?php echo JText::_('COM_TIENDA_WARNING_AUTOEXCHANGE_ENABLED'); ?>
                     		</div>

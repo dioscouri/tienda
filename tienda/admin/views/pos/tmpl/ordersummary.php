@@ -7,7 +7,7 @@ Tienda::load( 'TiendaGrid', 'library.grid' );
 $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
-$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
 
 ?>
 <div class="cartitems">
@@ -103,8 +103,8 @@ $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
                     </td>
                     <td colspan="2" style="text-align: right;">
                     <?php 
-                    	$display_shipping_tax = TiendaConfig::getInstance()->get('display_shipping_tax', '1');
-	              			$display_tax_checkout = TiendaConfig::getInstance()->get('show_tax_checkout', '1');
+                    	$display_shipping_tax = Tienda::getInstance()->get('display_shipping_tax', '1');
+	              			$display_tax_checkout = Tienda::getInstance()->get('show_tax_checkout', '1');
 
 	              switch( $display_tax_checkout )
 	              {

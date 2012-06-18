@@ -11,7 +11,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 
 <div id="tienda" class="products view">
     
-    <?php if ( TiendaConfig::getInstance( )->get( 'display_tienda_pathway' ) ) : ?>
+    <?php if ( Tienda::getInstance( )->get( 'display_tienda_pathway' ) ) : ?>
         <div id='tienda_breadcrumb'>
             <?php echo TiendaHelperCategory::getPathName( $this->cat->category_id, 'links', true ); ?>
         </div>
@@ -31,7 +31,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             <span class="product_name">
                 <?php echo htmlspecialchars_decode( $item->product_name ); ?>
             </span>
-            <?php if ( TiendaConfig::getInstance( )->get( 'product_review_enable', '0' ) )
+            <?php if ( Tienda::getInstance( )->get( 'product_review_enable', '0' ) )
 			{ ?>
             <div class="product_rating">
                 <?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>
@@ -79,13 +79,13 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             </div>
         </div>
         
-        <?php if ( TiendaConfig::getInstance( )->get( 'shop_enabled', '1' ) ) : ?>
+        <?php if ( Tienda::getInstance( )->get( 'shop_enabled', '1' ) ) : ?>
             <div class="product_buy" id="product_buy_<?php echo $item->product_id; ?>">
                 <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
             </div>              
         <?php endif; ?>
         
-        <?php if ( TiendaConfig::getInstance( )->get( 'ask_question_enable', '1' ) ) : ?>
+        <?php if ( Tienda::getInstance( )->get( 'ask_question_enable', '1' ) ) : ?>
         <div class="reset"></div>
         <div id="product_questions">
             <?php
@@ -93,9 +93,9 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 				$return_link = base64_encode( $uri->toString( ) );
 				$asklink = "index.php?option=com_tienda&view=products&task=askquestion&id={$item->product_id}&return=" . $return_link;
 				
-				if ( TiendaConfig::getInstance( )->get( 'ask_question_modal', '1' ) )
+				if ( Tienda::getInstance( )->get( 'ask_question_modal', '1' ) )
 				{
-					$height = TiendaConfig::getInstance( )->get( 'ask_question_showcaptcha', '1' ) ? '570' : '440';
+					$height = Tienda::getInstance( )->get( 'ask_question_showcaptcha', '1' ) ? '570' : '440';
 					$asktxt = TiendaUrl::popup( "{$asklink}.&tmpl=component", JText::_('COM_TIENDA_ASK_A_QUESTION_ABOUT_THIS_PRODUCT'),
 							array(
 								'width' => '490', 'height' => "{$height}"
@@ -119,7 +119,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             <div class="reset"></div>
             
             <div id="product_description">
-                <?php if ( TiendaConfig::getInstance( )->get( 'display_product_description_header', '1' ) ) : ?>
+                <?php if ( Tienda::getInstance( )->get( 'display_product_description_header', '1' ) ) : ?>
                     <div id="product_description_header" class="tienda_header">
                         <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>
@@ -138,7 +138,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         <?php echo $this->product_requirements; ?>
 
         <?php // display the products associated with this product ?>
-		    <?php if ( TiendaConfig::getInstance( )->get( 'display_relateditems' ) ) : ?>
+		    <?php if ( Tienda::getInstance( )->get( 'display_relateditems' ) ) : ?>
     	    <?php echo $this->product_relations; ?>
 				<?php endif; ?>
 

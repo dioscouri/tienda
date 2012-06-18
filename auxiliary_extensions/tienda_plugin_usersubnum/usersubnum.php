@@ -63,7 +63,7 @@ class plgUserUserSubNum extends JPlugin {
 		if ($isnew)
 		{
 			// load the config class
-			Tienda::load( 'TiendaConfig', 'defines' );
+			Tienda::load( 'Tienda', 'defines' );
 			$notify = $this->params->get( 'notify_person', 1 );
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
@@ -85,7 +85,7 @@ class plgUserUserSubNum extends JPlugin {
 			$tblUser->user_id = $user['id'];
 			$tblUser->sub_number = TiendaHelperSubscription::getNextSubNum();
 			// one-page checkout + other registrations that are not done via tienda -> we need to add data manually
-			if( $component != 'com_tienda' || ( $component == 'com_tienda' && TiendaConfig::getInstance()->get( 'one_page_checkout', 0 ) ) )
+			if( $component != 'com_tienda' || ( $component == 'com_tienda' && Tienda::getInstance()->get( 'one_page_checkout', 0 ) ) )
 			{				
 				$tblUser->last_name = $last_name;
 				$tblUser->first_name = $first_name;
@@ -126,7 +126,7 @@ class plgUserUserSubNum extends JPlugin {
 
 	function sendNotification( $msg, $user_id )
 	{
-		$config     = TiendaConfig::getInstance();
+		$config     = Tienda::getInstance();
 		$mainframe = JFactory::getApplication();
 		$mailfrom   = $config->get( 'shop_email', '' );
 		if( !strlen( $mailfrom ) )

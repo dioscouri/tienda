@@ -41,7 +41,7 @@
 		<?php foreach (@$items as $item) : ?>
 		<tr class='row <?php echo $k; ?>'>
 			<td align="center">
-				<?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+				<?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
 			</td>
 			<td align="center">
 				<a href="<?php echo JRoute::_( $item->link_view ); ?>">

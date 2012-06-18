@@ -3,7 +3,7 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $user = JFactory::getUser(); ?>
 <?php Tienda::load( "TiendaHelperBase", 'helpers._base' ); ?>
-<?php $display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' ); ?>
+<?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
 <div class='componentheading'>
 	<span><?php echo JText::_('COM_TIENDA_MY_ACCOUNT'); ?></span>
 </div>

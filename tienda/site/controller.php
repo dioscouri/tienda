@@ -266,7 +266,7 @@ class TiendaController extends JController
      */
     function footer()
     {
-    	$show_linkback = TiendaConfig::getInstance()->get('show_linkback', '1');
+    	$show_linkback = Tienda::getInstance()->get('show_linkback', '1');
     	$format = JRequest::getVar('format');
         if ($show_linkback == '1' && $format != 'raw') 
         {

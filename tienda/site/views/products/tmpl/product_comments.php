@@ -59,7 +59,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
         	<?php }?>
             <div><?php echo JText::_('COM_TIENDA_COMMENT'); ?>: *</div>
             <div><textarea name="productcomment_text" id="productcomment_text" rows="10" style="width: 99%;" ><?php echo base64_decode(JRequest::getVar('rc', ''));?></textarea></div>
-            <?php if (TiendaConfig::getInstance()->get('use_captcha', '0') == 1 ): ?>          
+            <?php if (Tienda::getInstance()->get('use_captcha', '0') == 1 ): ?>          
             <?php Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );?>
             <?php $recaptcha = new TiendaRecaptcha(); ?>
             <div><?php echo $recaptcha->recaptcha_get_html($publickey); ?></div>
@@ -97,7 +97,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
             </div>            
        		<?php 
 			$isFeedback = TiendaHelperProduct::isFeedbackAlready( $user->id, $review->productcomment_id );    		
-       		$helpfuness_enable = TiendaConfig::getInstance()->get('review_helpfulness_enable', '0');
+       		$helpfuness_enable = Tienda::getInstance()->get('review_helpfulness_enable', '0');
        		?>
             <?php if ($helpfuness_enable && $user->id != $review->user_id && !$isFeedback) : ?>
        		<div id="helpful" class="commentsDiv">
@@ -107,7 +107,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
       			 <a href="index.php?option=com_tienda&view=products&task=reviewHelpfullness&report=1&productcomment_id=<?php echo$review->productcomment_id;?>&product_id=<?php echo $review->product_id;?>">(<?php echo JText::_('COM_TIENDA_REPORT_INAPPROPRIATE_REVIEW'); ?>)</a>
       		</div>
       		<?php endif; ?>      		
-      		<?php $share_review_enable = TiendaConfig::getInstance()->get('share_review_enable', '0');?>
+      		<?php $share_review_enable = Tienda::getInstance()->get('share_review_enable', '0');?>
             <?php if ($share_review_enable): ?>
       		<div id="links" class="commentsDiv">
       		<span class="share_review"><?php echo JText::_('COM_TIENDA_SHARE_THIS_REVIEW'); ?>:</span>      			

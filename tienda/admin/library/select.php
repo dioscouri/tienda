@@ -9,9 +9,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
 
-class TiendaSelect extends JHTMLSelect
+
+class TiendaSelect extends DSCSelect
 {
 	/**
 	* Generates a yes/no radio list
@@ -510,7 +510,7 @@ class TiendaSelect extends JHTMLSelect
         foreach ($items as $item)
         {
             $title = "# " .$item->order_id;
-            $title .= " - " . JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format'));
+            $title .= " - " . JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format'));
             $list[] = JHTML::_('select.option', $item->order_id, $title );  
         }
 
@@ -660,7 +660,7 @@ class TiendaSelect extends JHTMLSelect
 							// use the default
 							$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
 							$table->load( array(
-										'geozone_id' => TiendaConfig::getInstance( )->get( 'default_tax_geozone' )
+										'geozone_id' => Tienda::getInstance( )->get( 'default_tax_geozone' )
 									) );
 							$geozones = array(
 								$table
@@ -1211,7 +1211,7 @@ class TiendaSelect extends JHTMLSelect
    		$columns['price']='';
    		$columns['product_quantity'] = '';
    		
-       	$sortings = TiendaConfig::getInstance()->get('display_sortings', 'Name|product_name,Price|price,Rating|product_rating');
+       	$sortings = Tienda::getInstance()->get('display_sortings', 'Name|product_name,Price|price,Rating|product_rating');
         $sortingsA = explode(',', $sortings);
        
         foreach($sortingsA as $sorting)

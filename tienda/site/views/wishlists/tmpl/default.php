@@ -45,7 +45,7 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
             <?php foreach ($items as $item) : ?>
             	
             	<?php            	
-            		$params = new JParameter( trim(@$item->wishlistitem_params) );
+            		$params = new DSCParameter( trim(@$item->wishlistitem_params) );
             		$default_url = "index.php?option=com_tienda&view=products&task=view&id=".$item->product_id;
             		$attributes = TiendaHelperProduct::convertAttributesToArray( $item->product_id, $item->product_attributes );
             		for( $j = 0, $c = count( $attributes ); $j < $c; $j++ )

@@ -8,7 +8,7 @@ $citems = @$this->citems;
 
 <div id="tienda" class="products default">
 
-    <?php if ($this->level > 1 && TiendaConfig::getInstance()->get('display_tienda_pathway')) : ?>
+    <?php if ($this->level > 1 && Tienda::getInstance()->get('display_tienda_pathway')) : ?>
         <div id='tienda_breadcrumb'>
             <?php echo TiendaHelperCategory::getPathName($this->cat->category_id, 'links'); ?>
         </div>

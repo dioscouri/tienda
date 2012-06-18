@@ -11,9 +11,9 @@ $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 $coupons = @$this->coupons;
-$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
 
-$default_currency = TiendaConfig::getInstance()->get('default_currencyid', '1');
+$default_currency = Tienda::getInstance()->get('default_currencyid', '1');
 ?>
 <div class="cartitems">
 	<div class="adminlist">

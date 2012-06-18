@@ -69,7 +69,7 @@ class TiendaTableGroups extends TiendaTable
 	function delete($oid=null)
 	{
 		$k = $this->_tbl_key;
-		$default_user_group = TiendaConfig::getInstance()->get('default_user_group', '1');
+		$default_user_group = Tienda::getInstance()->get('default_user_group', '1');
 		
 		if($oid)
 		{

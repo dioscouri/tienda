@@ -41,7 +41,7 @@
 					<input type="hidden" name="cid[]" value="<?php echo $item->order_id; ?>"/>
 				</td>
 				<td>
-				    <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+				    <?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
 				</td>
 				<td style="text-align: left;">
                     <?php 

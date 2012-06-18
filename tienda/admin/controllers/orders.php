@@ -37,7 +37,7 @@ class TiendaControllerOrders extends TiendaController
 		// create the order object
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
-		$this->initial_order_state = TiendaConfig::getInstance()->get('pending_order_state', '1'); //pending
+		$this->initial_order_state = Tienda::getInstance()->get('pending_order_state', '1'); //pending
 	}
 
 	/**
@@ -88,9 +88,9 @@ class TiendaControllerOrders extends TiendaController
 		// Get the shop country name
 		$row->shop_country_name = "";
 		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
-		$countryModel->setId(TiendaConfig::getInstance()->get('shop_country'));
+		$countryModel->setId(Tienda::getInstance()->get('shop_country'));
 		$countryItem = $countryModel->getItem();
-		if ($countryItem && TiendaConfig::getInstance()->get('shop_country'))
+		if ($countryItem && Tienda::getInstance()->get('shop_country'))
 		{
 			$row->shop_country_name = $countryItem->country_name;
 		}
@@ -98,9 +98,9 @@ class TiendaControllerOrders extends TiendaController
 		// Get the shop zone name
 		$row->shop_zone_name = "";
 		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
-		$zoneModel->setId(TiendaConfig::getInstance()->get('shop_zone'));
+		$zoneModel->setId(Tienda::getInstance()->get('shop_zone'));
 		$zoneItem = $zoneModel->getItem();
-		if ($zoneItem && TiendaConfig::getInstance()->get('shop_zone'))
+		if ($zoneItem && Tienda::getInstance()->get('shop_zone'))
 		{
 			$row->shop_zone_name = $zoneItem->zone_name;
 		}
@@ -124,7 +124,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
-
+		$view->setTask(true);
 		if ($this->getTask() == 'print')
 		{
 			$view->setLayout( 'print' );
@@ -149,7 +149,7 @@ class TiendaControllerOrders extends TiendaController
 		}
 		//END onDisplayOrderItem
 
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		$show_tax = $config->get('display_prices_with_tax');
 		$view->assign( 'show_tax', $show_tax );
 		$view->assign( 'using_default_geozone', false );
@@ -176,6 +176,7 @@ class TiendaControllerOrders extends TiendaController
 			}
 		}
 		$view->assign( 'order', $order );
+		$view->setTask(true); 
 		$view->display();
 	}
 
@@ -269,6 +270,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'selectproducts' );
+		$view->setTask(true); 
 		$view->display();
 	}
 
@@ -334,6 +336,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->set( '_action', "index.php?option=com_tienda&controller=orders&task=selectproducts&tmpl=component" );
 		$view->setModel( $model, true );
 		$view->setLayout( 'close' );
+		$view->setTask(true); 
 		$view->display();
 	}
 
@@ -360,7 +363,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setLayout( 'orderproducts' );
 			
 		ob_start();
-		$view->display();
+		$view->setTask(true); $view->display();
 		$html = ob_get_contents();
 		ob_end_clean();
 
@@ -556,7 +559,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setLayout( 'ordertotals' );
 
 		ob_start();
-		$view->display();
+		$view->setTask(true); $view->display();
 		$html = ob_get_contents();
 		ob_end_clean();
 
@@ -1103,7 +1106,7 @@ class TiendaControllerOrders extends TiendaController
 			$view->assign( 'pagination', $model->getPagination() );
 			$view->assign( 'state', $model->getState() );
 			$view->setLayout( 'confirmdelete' );
-			$view->display();
+			$view->setTask(true); $view->display();
 			$this->footer();
 		}
 	}
@@ -1131,6 +1134,7 @@ class TiendaControllerOrders extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->setLayout( 'batchedit' );
+		$view->setTask(true); 
 		$view->display();
 		$this->footer();
 	}

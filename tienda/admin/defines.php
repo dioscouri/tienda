@@ -9,15 +9,239 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class Tienda extends JObject
+class Tienda extends DSC
 {
+	protected $_name 			= 'tienda';	
 	static $_version 		= '0.9.0';
 	static $_build          = 'r2476';
 	static $_versiontype    = 'community';
 	static $_copyrightyear 	= '2012';
-	static $_name 			= 'tienda';
 	static $_min_php		= '5.2';
 	static $_guestIdStart = -10;
+	// View Options
+	public $show_linkback						= '1';
+	public $amigosid                           = '';
+	public $page_tooltip_dashboard_disabled	= '0';
+	public $page_tooltip_config_disabled		= '0';
+	public $page_tooltip_tools_disabled		= '0';
+	public $page_tooltip_accounts_disabled		= '0';
+	public $page_tooltip_payouts_disabled		= '0';
+	public $page_tooltip_logs_disabled			= '0';
+	public $page_tooltip_payments_disabled		= '0';
+	public $page_tooltip_commissions_disabled	= '0';
+	public $page_tooltip_users_view_disabled   = '0';
+	public $article_default					= '0';
+	public $article_potential					= '0';
+	public $article_unapproved					= '0';
+	public $article_disabled					= '0';
+	public $article_application				= '0';
+	public $approve_new						= '0';
+	public $enable_unregistered				= '0';
+	public $enable_payouttype_choice			= '0';
+	public $company_information				= null;
+	public $display_dashboard_thismonth_commissions	= '1';
+	public $display_dashboard_thismonth_logs	= '1';
+	public $display_dashboard_conversions		= '1';
+	public $display_dashboard_statistics		= '1';
+	public $default_currencyid					= '1'; // USD
+	public $currency_exchange_autoupdate		= '1'; // yes
+	public $login_url_redirect					= 'index.php';
+	public $logout_url_redirect				= 'index.php';
+	public $login_redirect						= '1';
+	public $orderstates_csv                    = '2, 3, 5, 17';
+	// Other Info
+	public $display_shipping_tax               = '1';
+	public $initial_order_state                = '15';
+	public $pending_order_state                = '1';
+	public $defaultShippingMethod              = '2';
+	public $guest_checkout_enabled             = '1';
+	// Shop Info
+	public $shop_enabled                       = '1';
+	public $shop_name							= '';
+	public $shop_company_name					= '';
+	public $shop_address_1						= '';
+	public $shop_address_2						= '';
+	public $shop_city							= '';
+	public $shop_country						= '';
+	public $shop_zone							= '';
+	public $shop_zip							= '';
+	public $shop_tax_number_1					= '';
+	public $shop_tax_number_2					= '';
+	public $shop_phone							= '';
+	public $shop_owner_name					= '';
+	// Default Dimensions for the images
+	public $product_img_height 		        = 128;
+	public $product_img_width 			        = 96;
+	public $category_img_height 		        = 48;
+	public $category_img_width			        = 48;
+	public $manufacturer_img_width		        = 128;
+	public $manufacturer_img_height	        = 96;
+	// Unit measures
+	public $dimensions_unit					= 'cm';
+	public $weight_unit						= 'kg';
+	public $date_format                        = '%a, %d %b %Y, %I:%M%p';
+	public $use_default_category_image         = '1';
+	public $lightbox_width                     = '800';
+	public $lightbox_height                    = '480';
+	public $require_terms                      = '0';
+	public $article_terms                      = '';
+	public $order_number_prefix                = '';
+	public $article_shipping                   = '0';
+	public $display_prices_with_shipping       = '0';
+	public $display_prices_with_tax            = '0';
+	public $display_taxclass_lineitems         = '0';
+	public $addtocartaction                    = 'redirect';
+	public $cartbutton                         = 'image';
+	public $include_root_pathway               = '0';
+	public $display_tienda_pathway             = '1';
+	public $display_out_of_stock               = '1';
+	public $global_handling                    = '';
+	public $shipping_tax_class                 = '';
+	public $default_tax_geozone                = '';
+	public $review_helpfulness_enable			='0';
+	public $share_review_enable				='0';
+	public $subscriptions_expiring_notice_days = '14';
+	public $login_review_enable				='1';
+	public $purchase_leave_review_enable		='1';
+	public $use_captcha						='1';
+	public $display_product_quantity           = '1';
+	public $enable_reorder_table	            = '1';
+	public $product_review_enable				= '1';
+	public $force_ssl_checkout                 = '0';
+	public $coupons_enabled                    = '1';
+	public $coupons_before_tax                 = '1';
+	public $multiple_usercoupons_enabled       = '0';
+	public $default_user_group			 	    = '1';
+	public $subcategories_per_line				= '5';
+	public $custom_language_file				= '0';
+	public $currency_preval				    = '$';
+	public $currency_postval				    = 'USD';
+	public $display_period					    = '1';
+	public $article_checkout                   = '';
+	public $display_category_cartbuttons       = '1';
+	public $display_product_cartbuttons       = '1';
+	public $product_reviews_autoapprove        = '0';
+
+	//product sorting
+	public $display_sort_by					= '1';
+	public $display_sortings					= 'Name|product_name,Price|price,Rating|product_rating';
+
+	//social bookmarking integration
+	public $display_facebook_like				= '1';
+	public $display_tweet						= '1';
+	public $display_tweet_message				= 'Check this out!';
+	public $display_google_plus1						= '1';
+	public $display_google_plus1_size				= 'medium';
+	public $display_bookmark_uri        = '0';
+	public $bitly_key 								= '';
+	public $bitly_login 						= '';
+
+	//Ask a question about this product
+	public $ask_question_enable				= '1';
+	public $ask_question_showcaptcha			= '1';
+	public $ask_question_modal					= '1';
+
+	//address management
+	public $show_field_address_name					= '3';
+	public $show_field_title					= '3';
+	public $show_field_name					= '3';
+	public $show_field_middle					= '3';
+	public $show_field_last					= '3';
+	public $show_field_company					= '3';
+	public $show_field_tax_number					= '3';
+	public $show_field_address1				= '3';
+	public $show_field_address2				= '3';
+	public $show_field_zone					= '3';
+	public $show_field_country					= '3';
+	public $show_field_city					= '3';
+	public $show_field_zip						= '3';
+	public $show_field_phone					= '3';
+	public $show_field_cell					= '3';
+	public $show_field_fax						= '3';
+
+	// address validation management
+	public $validate_field_address_name				= '3';
+	public $validate_field_title				= '3';
+	public $validate_field_name				= '3';
+	public $validate_field_middle				= '0';
+	public $validate_field_last				= '3';
+	public $validate_field_company				= '0';
+	public $validate_field_tax_number				= '0';
+	public $validate_field_address1			= '3';
+	public $validate_field_address2			= '0';
+	public $validate_field_zone				= '3';
+	public $validate_field_country				= '3';
+	public $validate_field_city				= '3';
+	public $validate_field_zip					= '3';
+	public $validate_field_phone				= '0';
+	public $validate_field_cell				= '0';
+	public $validate_field_fax					= '0';
+
+	public $sha1_images						= '0';
+	public $files_maxsize						= '3000';
+
+	// email settings
+	public $disable_guest_signup_email         = '0';
+	public $obfuscate_guest_email				= '0';
+	public $autonotify_onSetOrderPaymentReceived = '0';
+	public $shop_email = '';
+	public $shop_email_from_name = '';
+
+	//one page checkout
+	public $one_page_checkout					= '1';
+
+	//since 0.7.2
+	public $ignored_countries					= '83, 188, 190';
+
+	//compare products
+	public $enable_product_compare 			= '1';
+	public $compared_products					= '5';
+	public $show_manufacturer_productcompare 	= '1';
+	public $show_rating_productcompare 		= '1';
+	public $show_addtocart_productcompare 		= '1';
+	public $show_model_productcompare			= '1';
+	public $show_sku_productcompare			= '1';
+
+	// since 0.7.3
+	public $show_submenu_fe					= '1';
+
+	// since 0.8.0
+	public $display_subnum = '0';
+	public $sub_num_digits = '8';
+	public $default_sub_num = '1';
+	public $dispay_working_image_product = '1';
+	public $one_page_checkout_layout = 'onepage-opc';
+	public $low_stock_notify					= '0';
+	public $low_stock_notify_value				= '0';	
+	public $one_page_checkout_tooltips_enabled = '0';
+
+	// since 0.8.1
+	public $multiupload_script = '0';
+
+	// since 0.8.2
+	public $display_relateditems = '1';
+	public $article_default_payment_failure = '0';
+	public $order_emails = '';
+	public $display_credits = '0';
+	public $display_wishlist = '0';
+	public $display_subscriptions = '1';
+	public $display_mydownloads = '1';
+	
+	// since 0.9.0
+	public $show_tax_checkout = '3';
+	public $secret_word = '';
+	public $password_min_length = '5';
+	public $password_req_alpha = '1';
+	public $password_req_num = '1';
+    public $password_req_spec = '1';
+    public $password_php_validate = '1';
+    public $content_plugins_product_desc = '0';
+    public $lower_filename = '1';
+
+  // since 0.9.1
+    public $eavtext_content_plugin = '1';
+    public $eavinteger_use_thousand_separator = '0';	
+	
 
 	public static function getGuestIdStart()
 	{
@@ -27,60 +251,8 @@ class Tienda extends JObject
 	/**
 	 * Get the version
 	 */
-	public static function getVersion()
-	{
-		$version = self::$_version." ".JText::_( ucfirst(self::$_versiontype) )." ".self::$_build;
-		return $version;
-	}
 
-	/**
-	 * Get the copyright year
-	 */
-	public static function getCopyrightYear()
-	{
-		return self::$_copyrightyear;
-	}
-
-	/**
-	 * Get the Name
-	 */
-	public static function getName()
-	{
-		return self::$_name;
-	}
-
-	/**
-	 * Get the Minimum Version of Php
-	 */
-	public static function getMinPhp()
-	{
-		//get version from PHP. Note this should be in format 'x.x.x' but on some systems will look like this: eg. 'x.x.x-unbuntu5.2'
-		$phpV = self::getServerPhp();
-		$minV = self::$_min_php;
-		$passes = false;
-
-		if ($phpV[0] >= $minV[0]) {
-			if (empty($minV[2]) || $minV[2] == '*') {
-				$passes = true;
-			} elseif ($phpV[2] >= $minV[2]) {
-				if (empty($minV[4]) || $minV[4] == '*' || $phpV[4] >= $minV[4]) {
-					$passes = true;
-				}
-			}
-		}
-		//if it doesn't pass raise a Joomla Notice
-		if (!$passes) :
-		JError::raiseNotice('VERSION_ERROR',sprintf(JText::_('COM_TIENDA_ERROR_PHP_VERSION'),$minV,$phpV));
-		endif;
-
-		//return minimum PHP version
-		return self::$_min_php;
-	}
-
-	public static function getServerPhp()
-	{
-		return PHP_VERSION;
-	}
+	
 
 	/**
 	 * Get the URL to the folder containing all media assets
@@ -144,6 +316,40 @@ class Tienda extends JObject
 		return $url;
 	}
 
+	
+
+/**
+	 * Returns the query
+	 * @return string The query to be used to retrieve the rows from the database
+	 */
+	function _buildQuery() 
+	{
+		$query = "SELECT * FROM #__tienda_config";	
+		return $query;
+	}
+	
+	/**
+	 * Get component config
+	 *
+	 * @acces	public
+	 * @return	object
+	 */
+	 public static function getInstance()
+	{
+		static $instance;
+
+		if (!is_object($instance))
+		{
+			$instance = new Tienda();
+		}
+
+		return $instance;
+		
+	}
+	
+	
+	
+	
 	/**
 	 * Get the path to the folder containing all media assets
 	 *
@@ -214,154 +420,38 @@ class Tienda extends JObject
 
 		return $path;
 	}
-
-	/**
-	 * Method to intelligently load class files in the Tienda framework
-	 *
-	 * @param string $classname   The class name
-	 * @param string $filepath    The filepath ( dot notation )
-	 * @param array  $options
-	 * @return boolean
-	 */
-	public static function load( $classname, $filepath, $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' ) )
-	{
-		$classname = strtolower( $classname );
-		$classes = JLoader::register();
-		if ( class_exists($classname) || array_key_exists( $classname, $classes ) )
-		{
-			// echo "$classname exists<br/>";
-			return true;
-		}
-
-		static $paths;
-
-		if (empty($paths))
-		{
-			$paths = array();
-		}
-
-		if (empty($paths[$classname]) || !is_file($paths[$classname]))
-		{
-			// find the file and set the path
-			if (!empty($options['base']))
-			{
-				$base = $options['base'];
-			}
-			else
-			{
-				// recreate base from $options array
-				switch ($options['site'])
-				{
-					case "site":
-						$base = JPATH_SITE.DS;
-						break;
-					default:
-						$base = JPATH_ADMINISTRATOR.DS;
-						break;
-				}
-
-				$base .= (!empty($options['type'])) ? $options['type'].DS : '';
-				$base .= (!empty($options['ext'])) ? $options['ext'].DS : '';
-			}
-
-			$paths[$classname] = $base.str_replace( '.', DS, $filepath ).'.php';
-		}
-
-		// if invalid path, return false
-		if (!is_file($paths[$classname]))
-		{
-			// echo "file does not exist<br/>";
-			return false;
-		}
-
-		// if not registered, register it
-		if ( !array_key_exists( $classname, $classes ) )
-		{
-			// echo "$classname not registered, so registering it<br/>";
-			JLoader::register( $classname, $paths[$classname] );
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Intelligently loads instances of classes in Tienda framework
-	 *
-	 * Usage: $object = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' );
-	 * Usage: $suffix = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' )->getSuffix();
-	 * Usage: $categories = Tienda::getClass( 'TiendaSelect', 'library.select' )->category( $selected );
-	 *
-	 * @param string $classname   The class name
-	 * @param string $filepath    The filepath ( dot notation )
-	 * @param array  $options
-	 * @return object of requested class (if possible), else a new JObject
-	 */
-	public function getClass( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' )  )
-	{
-		if (Tienda::load( $classname, $filepath, $options ))
-		{
-			$instance = new $classname();
-			return $instance;
-		}
-
-		$instance = new JObject();
-		return $instance;
-	}
+    
+    /**
+     * Intelligently loads instances of classes in framework
+     *
+     * Usage: $object = BIllets::getClass( 'BIlletsHelperCarts', 'helpers.carts' );
+     * Usage: $suffix = BIllets::getClass( 'BIlletsHelperCarts', 'helpers.carts' )->getSuffix();
+     * Usage: $categories = BIllets::getClass( 'BIlletsSelect', 'select' )->category( $selected );
+     *
+     * @param string $classname   The class name
+     * @param string $filepath    The filepath ( dot notation )
+     * @param array  $options
+     * @return object of requested class (if possible), else a new JObject
+     */
+    public static function getClass( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' )  )
+    {
+        return parent::getClass( $classname, $filepath, $options  );
+    }
+    
+    /**
+     * Method to intelligently load class files in the framework
+     *
+     * @param string $classname   The class name
+     * @param string $filepath    The filepath ( dot notation )
+     * @param array  $options
+     * @return boolean
+     */
+    public static function load( $classname, $filepath='controller', $options=array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_tienda' ) )
+    {
+        return parent::load( $classname, $filepath, $options  );
+    }
 	
-	/**
-	 * Method to dump the structure of a variable for debugging purposes
-	 *
-	 * @param	mixed	A variable
-	 * @param	boolean	True to ensure all characters are htmlsafe
-	 * @return	string
-	 * @since	1.5
-	 * @static
-	 */
-	public static function dump( $var, $ignore_underscore = false, $htmlSafe = true )
-	{
-		if (!$ignore_underscore)
-		{
-			$result = print_r( $var, true );
-			return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
-		}
-	  
-		if (!is_object($var) && !is_array($var))
-		{
-			$result = print_r( $var, true );
-			return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
-		}
-	  
-		// TODO do a recursive remove of underscored keys
-	  
-		if (is_object($var))
-		{
-			$keys = get_object_vars($var);
-			foreach ($keys as $key=>$value)
-			{
-				if (substr($key, 0, 1) == '_')
-				{
-					unset($var->$key);
-				}
-			}
-			$result = print_r( $var, true );
-			return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
-		}
-	  
-		if (is_array($var))
-		{
-			foreach ($var as $key=>$value)
-			{
-				if (substr($key, 0, 1) == '_')
-				{
-					unset($var[$key]);
-				}
-			}
-			$result = print_r( $var, true );
-			return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
-		}
-
-	}
-
+	
 	/**
 	 * Copy of Joomla method to fix problem with JS when SSL is turned on
 	 */
@@ -372,7 +462,7 @@ class Tienda extends JObject
 		$config = JFactory::getConfig();
 		$app = JFactory::getApplication();		
 		$uri =& JURI::getInstance(JURI::base());
-		if( $config->getValue('config.force_ssl') || ( $app->isSite() &&  $view == 'checkout' && TiendaConfig::getInstance()->get( 'force_ssl_checkout',0 ) ) )
+		if( $config->getValue('config.force_ssl') || ( $app->isSite() &&  $view == 'checkout' && Tienda::getInstance()->get( 'force_ssl_checkout',0 ) ) )
 			$uri->setScheme( 'https' );
 		
 		$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
@@ -380,314 +470,13 @@ class Tienda extends JObject
 		
 		return $root['prefix'].$root['path'].'/';
 	}
-}
-
-/**
- *
- * @author Rafael Diaz-Tushman
- *
- */
-class TiendaConfig extends JObject
-{
-	// View Options
-	var $show_linkback						= '1';
-	var $amigosid                           = '';
-	var $page_tooltip_dashboard_disabled	= '0';
-	var $page_tooltip_config_disabled		= '0';
-	var $page_tooltip_tools_disabled		= '0';
-	var $page_tooltip_accounts_disabled		= '0';
-	var $page_tooltip_payouts_disabled		= '0';
-	var $page_tooltip_logs_disabled			= '0';
-	var $page_tooltip_payments_disabled		= '0';
-	var $page_tooltip_commissions_disabled	= '0';
-	var $page_tooltip_users_view_disabled   = '0';
-	var $article_default					= '0';
-	var $article_potential					= '0';
-	var $article_unapproved					= '0';
-	var $article_disabled					= '0';
-	var $article_application				= '0';
-	var $approve_new						= '0';
-	var $enable_unregistered				= '0';
-	var $enable_payouttype_choice			= '0';
-	var $company_information				= null;
-	var $display_dashboard_thismonth_commissions	= '1';
-	var $display_dashboard_thismonth_logs	= '1';
-	var $display_dashboard_conversions		= '1';
-	var $display_dashboard_statistics		= '1';
-	var $default_currencyid					= '1'; // USD
-	var $currency_exchange_autoupdate		= '1'; // yes
-	var $login_url_redirect					= 'index.php';
-	var $logout_url_redirect				= 'index.php';
-	var $login_redirect						= '1';
-	var $orderstates_csv                    = '2, 3, 5, 17';
-	// Other Info
-	var $display_shipping_tax               = '1';
-	var $initial_order_state                = '15';
-	var $pending_order_state                = '1';
-	var $defaultShippingMethod              = '2';
-	var $guest_checkout_enabled             = '1';
-	// Shop Info
-	var $shop_enabled                       = '1';
-	var $shop_name							= '';
-	var $shop_company_name					= '';
-	var $shop_address_1						= '';
-	var $shop_address_2						= '';
-	var $shop_city							= '';
-	var $shop_country						= '';
-	var $shop_zone							= '';
-	var $shop_zip							= '';
-	var $shop_tax_number_1					= '';
-	var $shop_tax_number_2					= '';
-	var $shop_phone							= '';
-	var $shop_owner_name					= '';
-	// Default Dimensions for the images
-	var $product_img_height 		        = 128;
-	var $product_img_width 			        = 96;
-	var $category_img_height 		        = 48;
-	var $category_img_width			        = 48;
-	var $manufacturer_img_width		        = 128;
-	var $manufacturer_img_height	        = 96;
-	// Unit measures
-	var $dimensions_unit					= 'cm';
-	var $weight_unit						= 'kg';
-	var $date_format                        = '%a, %d %b %Y, %I:%M%p';
-	var $use_default_category_image         = '1';
-	var $lightbox_width                     = '800';
-	var $lightbox_height                    = '480';
-	var $require_terms                      = '0';
-	var $article_terms                      = '';
-	var $order_number_prefix                = '';
-	var $article_shipping                   = '0';
-	var $display_prices_with_shipping       = '0';
-	var $display_prices_with_tax            = '0';
-	var $display_taxclass_lineitems         = '0';
-	var $addtocartaction                    = 'redirect';
-	var $cartbutton                         = 'image';
-	var $include_root_pathway               = '0';
-	var $display_tienda_pathway             = '1';
-	var $display_out_of_stock               = '1';
-	var $global_handling                    = '';
-	var $shipping_tax_class                 = '';
-	var $default_tax_geozone                = '';
-	var $review_helpfulness_enable			='0';
-	var $share_review_enable				='0';
-	var $subscriptions_expiring_notice_days = '14';
-	var $login_review_enable				='1';
-	var $purchase_leave_review_enable		='1';
-	var $use_captcha						='1';
-	var $display_product_quantity           = '1';
-	var $enable_reorder_table	            = '1';
-	var $product_review_enable				= '1';
-	var $force_ssl_checkout                 = '0';
-	var $coupons_enabled                    = '1';
-	var $coupons_before_tax                 = '1';
-	var $multiple_usercoupons_enabled       = '0';
-	var $default_user_group			 	    = '1';
-	var $subcategories_per_line				= '5';
-	var $custom_language_file				= '0';
-	var $currency_preval				    = '$';
-	var $currency_postval				    = 'USD';
-	var $display_period					    = '1';
-	var $article_checkout                   = '';
-	var $display_category_cartbuttons       = '1';
-	var $display_product_cartbuttons       = '1';
-	var $product_reviews_autoapprove        = '0';
-
-	//product sorting
-	var $display_sort_by					= '1';
-	var $display_sortings					= 'Name|product_name,Price|price,Rating|product_rating';
-
-	//social bookmarking integration
-	var $display_facebook_like				= '1';
-	var $display_tweet						= '1';
-	var $display_tweet_message				= 'Check this out!';
-	var $display_google_plus1						= '1';
-	var $display_google_plus1_size				= 'medium';
-	var $display_bookmark_uri        = '0';
-	var $bitly_key 								= '';
-	var $bitly_login 						= '';
-
-	//Ask a question about this product
-	var $ask_question_enable				= '1';
-	var $ask_question_showcaptcha			= '1';
-	var $ask_question_modal					= '1';
-
-	//address management
-	var $show_field_address_name					= '3';
-	var $show_field_title					= '3';
-	var $show_field_name					= '3';
-	var $show_field_middle					= '3';
-	var $show_field_last					= '3';
-	var $show_field_company					= '3';
-	var $show_field_tax_number					= '3';
-	var $show_field_address1				= '3';
-	var $show_field_address2				= '3';
-	var $show_field_zone					= '3';
-	var $show_field_country					= '3';
-	var $show_field_city					= '3';
-	var $show_field_zip						= '3';
-	var $show_field_phone					= '3';
-	var $show_field_cell					= '3';
-	var $show_field_fax						= '3';
-
-	// address validation management
-	var $validate_field_address_name				= '3';
-	var $validate_field_title				= '3';
-	var $validate_field_name				= '3';
-	var $validate_field_middle				= '0';
-	var $validate_field_last				= '3';
-	var $validate_field_company				= '0';
-	var $validate_field_tax_number				= '0';
-	var $validate_field_address1			= '3';
-	var $validate_field_address2			= '0';
-	var $validate_field_zone				= '3';
-	var $validate_field_country				= '3';
-	var $validate_field_city				= '3';
-	var $validate_field_zip					= '3';
-	var $validate_field_phone				= '0';
-	var $validate_field_cell				= '0';
-	var $validate_field_fax					= '0';
-
-	var $sha1_images						= '0';
-	var $files_maxsize						= '3000';
-
-	// email settings
-	var $disable_guest_signup_email         = '0';
-	var $obfuscate_guest_email				= '0';
-	var $autonotify_onSetOrderPaymentReceived = '0';
-	var $shop_email = '';
-	var $shop_email_from_name = '';
-
-	//one page checkout
-	var $one_page_checkout					= '1';
-
-	//since 0.7.2
-	var $ignored_countries					= '83, 188, 190';
-
-	//compare products
-	var $enable_product_compare 			= '1';
-	var $compared_products					= '5';
-	var $show_manufacturer_productcompare 	= '1';
-	var $show_rating_productcompare 		= '1';
-	var $show_addtocart_productcompare 		= '1';
-	var $show_model_productcompare			= '1';
-	var $show_sku_productcompare			= '1';
-
-	// since 0.7.3
-	var $show_submenu_fe					= '1';
-
-	// since 0.8.0
-	var $display_subnum = '0';
-	var $sub_num_digits = '8';
-	var $default_sub_num = '1';
-	var $dispay_working_image_product = '1';
-	var $one_page_checkout_layout = 'onepage-opc';
-	var $low_stock_notify					= '0';
-	var $low_stock_notify_value				= '0';	
-	var $one_page_checkout_tooltips_enabled = '0';
-
-	// since 0.8.1
-	var $multiupload_script = '0';
-
-	// since 0.8.2
-	var $display_relateditems = '1';
-	var $article_default_payment_failure = '0';
-	var $order_emails = '';
-	var $display_credits = '0';
-	var $display_wishlist = '0';
-	var $display_subscriptions = '1';
-	var $display_mydownloads = '1';
 	
-	// since 0.9.0
-	var $show_tax_checkout = '3';
-	var $secret_word = '';
-	var $password_min_length = '5';
-	var $password_req_alpha = '1';
-	var $password_req_num = '1';
-  var $password_req_spec = '1';
-  var $password_php_validate = '1';
-  var $content_plugins_product_desc = '0';
-  var $lower_filename = '1';
+} 
 
-  // since 0.9.1
-  var $eavtext_content_plugin = '1';
-  var $eavinteger_use_thousand_separator = '0';	
-	/**
-	 * constructor
-	 * @return void
-	 */
-	function __construct() {
-		parent::__construct();
 
-		$this->setVariables();
-	}
+// keeping for compatibility
+class TiendaConfig extends Tienda {}
 
-	/**
-	 * Returns the query
-	 * @return string The query to be used to retrieve the rows from the database
-	 */
-	function _buildQuery()
-	{
-		$query = "SELECT * FROM #__tienda_config";
-		return $query;
-	}
 
-	/**
-	 * Retrieves the data
-	 * @return array Array of objects containing the data from the database
-	 */
-	function getData() {
-		// load the data if it doesn't already exist
-		if (empty( $this->_data )) {
-			$database = &JFactory::getDBO();
-			$query = $this->_buildQuery();
-			$database->setQuery( $query );
-			$this->_data = $database->loadObjectList();
-		}
 
-		return $this->_data;
-	}
-
-	/**
-	 * Set Variables
-	 *
-	 * @acces	public
-	 * @return	object
-	 */
-	function setVariables() {
-		$success = false;
-
-		if ( $data = $this->getData() )
-		{
-			for ($i=0; $i<count($data); $i++)
-			{
-				$title = $data[$i]->config_name;
-				$value = $data[$i]->value;
-				if (!empty($title)) {
-					$this->$title = $value;
-				}
-			}
-
-			$success = true;
-		}
-
-		return $success;
-	}
-
-	/**
-	 * Get component config
-	 *
-	 * @acces	public
-	 * @return	object
-	 */
-	function &getInstance() {
-		static $instance;
-
-		if (!is_object($instance)) {
-			$instance = new TiendaConfig();
-		}
-
-		return $instance;
-	}
-}
 ?>

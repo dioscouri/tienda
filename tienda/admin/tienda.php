@@ -16,10 +16,10 @@ if ( !class_exists('Tienda') )
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 // load the config class
-Tienda::load( 'TiendaConfig', 'defines' );
+Tienda::load( 'Tienda', 'defines' );
 
 // Load Custom Language File if needed (com_tienda_custom)
-if(TiendaConfig::getInstance()->get('custom_language_file', '0'))
+if(Tienda::getInstance()->get('custom_language_file', '0'))
 {
 	$lang =& JFactory::getLanguage();
 	$extension = 'com_tienda_custom';
@@ -53,26 +53,39 @@ else
 }
 
 $doc = JFactory::getDocument();
+$uri = JURI::getInstance();
 $js = "var com_tienda = {};\n";
-$js.= "com_tienda.jbase = '".Tienda::getUriRoot()."../';\n";
+$js.= "com_tienda.jbase = '".$uri->root()."../';\n";
 $doc->addScriptDeclaration($js);
 
+$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
+DSCLoader::discover('TiendaHelper', $parentPath, true);
+
+$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
+DSCLoader::discover('Tienda', $parentPath, true);
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
 // Check Json Class Existance
-if ( !function_exists('json_decode') ) 
-{
+//if ( !function_exists('json_decode') ) 
+//{
 	// This should load not only the class, but also json_encode / json_decode
-	Tienda::load('Services_JSON', 'library.json');
-}
+//	Tienda::load('Services_JSON', 'library.json');
+//}
 
 // Create the controller
 $classname = 'TiendaController'.$controller;
 $controller = Tienda::getClass( $classname );
-    
+// ensure a valid task exists
+$task = JRequest::getVar('task');
+if (empty($task))
+{
+    $task = 'display';  
+}
+JRequest::setVar( 'task', $task );
+
 // Perform the requested task
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute( $task );
 
 // Redirect if set by the controller
 $controller->redirect();

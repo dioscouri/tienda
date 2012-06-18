@@ -32,7 +32,7 @@ class TiendaControllerConfig extends TiendaController
         $error = false;
         $errorMsg = "";
         $model  = $this->getModel( $this->get('suffix') );
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $properties = $config->getProperties();
 
         foreach (@$properties as $key => $value ) 

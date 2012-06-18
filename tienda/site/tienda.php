@@ -16,7 +16,7 @@ if ( !class_exists('Tienda') )
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
 // load the config class
-Tienda::load( 'TiendaConfig', 'defines' );
+Tienda::load( 'Tienda', 'defines' );
 
 // set the options array
 $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
@@ -25,7 +25,7 @@ $options = array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' );
 Tienda::load( 'TiendaController', 'controller', $options );
 
 // Load Custom Language File if needed (com_tienda_custom)
-if(TiendaConfig::getInstance()->get('custom_language_file', '0'))
+if(Tienda::getInstance()->get('custom_language_file', '0'))
 {
 	$lang =& JFactory::getLanguage();
 	$extension = 'com_tienda_custom';

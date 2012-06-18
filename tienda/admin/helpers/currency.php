@@ -33,7 +33,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $codes =& $this->codes;
         
         // default to whatever is in config
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $options = (array) $options;
 
         $default_currencyid = $config->get('default_currencyid', '1');
@@ -229,7 +229,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!empty($tableFrom->currency_id))
             {
             	// Auto Update Enabled?
-            	if(TiendaConfig::getInstance()->get('currency_exchange_autoupdate', 1))
+            	if(Tienda::getInstance()->get('currency_exchange_autoupdate', 1))
             	{
 	                // refresh if it's too old or refresh forced
 	                if ($tableFrom->updated_date < $expire_datetime || $refresh)
@@ -258,7 +258,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         }
         
         // Auto Update Enabled?
-        if(TiendaConfig::getInstance()->get('currency_exchange_autoupdate', 1))
+        if(Tienda::getInstance()->get('currency_exchange_autoupdate', 1))
         {
         	$exchange_rate = $this->getExchangeRateYahoo( $currencyFrom, $currencyTo );
         }
@@ -343,7 +343,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $codes =& $this->codes;
         
         // default to whatever is in config
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $options = (array) $options;
 
         // unless we specified the currency with we want to work, use the default one
@@ -456,6 +456,6 @@ class TiendaHelperCurrency extends TiendaHelperBase
 //        if( $session_currency )
 //        	return $session_currency;
       	
-        return TiendaConfig::getInstance()->get('default_currencyid', '1');
+        return Tienda::getInstance()->get('default_currencyid', '1');
 		}
 }

@@ -322,7 +322,7 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 			{
 				$this->shopAddress = new JObject( );
 				
-				$config = TiendaConfig::getInstance( );
+				$config = Tienda::getInstance( );
 				$this->shopAddress->address_1 = $config->get( 'shop_address_1' );
 				$this->shopAddress->address_2 = $config->get( 'shop_address_2' );
 				$this->shopAddress->city = $config->get( 'shop_city' );

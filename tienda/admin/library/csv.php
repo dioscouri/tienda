@@ -77,7 +77,7 @@ class TiendaCSV extends JObject
 	function toArrayExplode( $content, $fields = array(), $num_fields = 0, $params = '' )
 	{
 		if( !$params )
-			$params = new JRegistry();
+			$params = new DSCParameter();
 
 		$skip_first = $params->getValue( 'skip_first', true );
 		$preserve_header = $params->getValue( 'preserve_header', false );
@@ -263,7 +263,7 @@ class TiendaCSV extends JObject
 	function toArrayOur( $content, $fields = array(), $num_fields = 0, $params = '' )
 	{
 		if( !$params )
-			$params = new JRegistry();
+			$params = new DSCParameter();
 
 		$skip_first = $params->getValue( 'skip_first', true );
 		$preserve_header = $params->getValu( 'preserve_header', false );
@@ -615,7 +615,7 @@ class TiendaCSV extends JObject
 	function fromFileToArray( $file_path, $fields = array(), $num_fields = 0, $method = 1, $params = '' )
 	{
 		if( empty( $params ) )
-			$params = new JRegistry();
+			$params = new DSCParameter();
 		
 		$throttled = $params->getValue( 'throttled_import', false );
 		if( $throttled )

@@ -57,7 +57,7 @@ class TiendaViewProducts extends TiendaViewBase
 		{
 		    // this is a new product
 		    $item = JTable::getInstance('Products', 'TiendaTable');
-            $item->product_parameters = new JParameter( $item->product_params );
+            $item->product_parameters = new DSCParameter( $item->product_params );
             $this->assign( 'row', $item );
 		}
 		

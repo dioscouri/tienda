@@ -10,7 +10,7 @@
 	$surrounding = @$this->surrounding;
 	$histories = @$row->orderhistory ? @$row->orderhistory : array();
 	Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
+	$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
 	
 	Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 	$helperMan = new TiendaHelperManufacturer();
@@ -53,7 +53,7 @@
 	<strong><?php echo JText::_('COM_TIENDA_ORDER_ID'); ?> </strong>:
 		<?php echo TiendaHelperOrder::displayOrderNumber( $row ); ?>
 	<br /> <strong><?php echo JText::_('COM_TIENDA_DATE'); ?> </strong>:
-		<?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+		<?php echo JHTML::_('date', $row->created_date, Tienda::getInstance()->get('date_format')); ?>
 	<br /> <strong><?php echo JText::_('COM_TIENDA_STATUS'); ?> </strong>:
 		<?php echo @$row->order_state_name; ?>
 	<br />

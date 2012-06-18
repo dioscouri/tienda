@@ -72,9 +72,9 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         // set payment plugin variables
         $vars->post_url = $this->_getPostUrl();
         
-        // TODO: Currency choice not Accepted Yet, but when it is use TiendaConfig::getInstance()->get('currency');
+        // TODO: Currency choice not Accepted Yet, but when it is use Tienda::getInstance()->get('currency');
         // TODO: Recalculate to SEK with something like:
-		// $vars->Cost = TiendaCurrency::convert( $data['orderpayment_amount'], TiendaConfig::getInstance()->get('currency'), "SEK" );
+		// $vars->Cost = TiendaCurrency::convert( $data['orderpayment_amount'], Tienda::getInstance()->get('currency'), "SEK" );
         
         $vars->currency_code = "SEK"; 
 
@@ -341,7 +341,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $mainframe =& JFactory::getApplication();
                 
         // grab config settings for sender name and email
-        $config     = &TiendaConfig::getInstance();
+        $config     = &Tienda::getInstance();
         $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
         $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );

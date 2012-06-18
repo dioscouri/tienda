@@ -14,14 +14,53 @@ defined('_JEXEC') or die('Restricted access');
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
-class JElementTiendaTaxClass extends JElement
+
+
+if(!class_exists('JFakeElementBase')) {
+	if(version_compare(JVERSION,'1.6.0','ge')) {
+		class JFakeElementBase extends JFormField {
+			// This line is required to keep Joomla! 1.6/1.7 from complaining
+			public function getInput() {
+			}
+		}
+	} else {
+		class JFakeElementBase extends JElement {}
+	}
+}
+
+class JFakeElementTiendaTaxClass extends JFakeElementBase
 {
 	var	$_name = 'TiendaTaxClass';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function getInput($name, $value, $node, $control_name) 
 	{
+		$this->fetchElement($name, $value, $node, $control_name);
+	}
+	
+	public function fetchElement($name, $value, &$node, $control_name)
+	{
+		/*
+		 * $html = "";
+		
+		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		$model = JModel::getInstance( 'ElementaxClass', 'TiendaModel' ); 
+		$html = $model->fetchElement($name, $value, $control_name );
+		return $html;*/
+		
+		
 	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->taxclass($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'COM_TIENDA_SELECT_TAX_CLASS', '', true );
 		return $list;
 	}
+	
+	
+	
 }
+
+if(version_compare(JVERSION,'1.6.0','ge')) {
+	class JFormFieldTiendaTaxClass extends JFakeElementTiendaTaxClass {}
+} else {
+	class JElementTiendaTaxClass extends JFakeElementTiendaTaxClass {}
+}
+
+
 ?>

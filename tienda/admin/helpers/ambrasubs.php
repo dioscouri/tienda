@@ -258,7 +258,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
             $db->setQuery( "SELECT * FROM #__ambrasubs_types WHERE `id` = '{$ambrasubs_type_id}';" );
             $type = $db->loadObject();
             
-            $params = new JParameter( trim($type->params) );
+            $params = new DSCParameter( trim($type->params) );
             $params->set( 'tienda_product_id', $product->product_id );
             
             $type_params = $db->getEscaped( trim( $params->toString() ) );

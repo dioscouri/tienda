@@ -133,7 +133,7 @@ class TiendaHelperTax extends TiendaHelperBase
       if( empty( $geozones ) )
       {
       	// use the default
-				$billing_zones = array( TiendaConfig::getInstance()->get('default_tax_geozone') );
+				$billing_zones = array( Tienda::getInstance()->get('default_tax_geozone') );
  			}
 			else
 			{

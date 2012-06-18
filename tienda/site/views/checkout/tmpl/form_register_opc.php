@@ -1,9 +1,9 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access');
-	$min_length = TiendaConfig::getInstance()->get( 'password_min_length', 5 );
-	$req_num = TiendaConfig::getInstance()->get( 'password_req_num', 1 );
-	$req_alpha = TiendaConfig::getInstance()->get( 'password_req_alpha', 1 );
-	$req_spec = TiendaConfig::getInstance()->get( 'password_req_spec', 1 );
+	$min_length = Tienda::getInstance()->get( 'password_min_length', 5 );
+	$req_num = Tienda::getInstance()->get( 'password_req_num', 1 );
+	$req_alpha = Tienda::getInstance()->get( 'password_req_alpha', 1 );
+	$req_spec = Tienda::getInstance()->get( 'password_req_spec', 1 );
 	Tienda::load('TiendaHelperImage', 'helpers.image');
 	$image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images'));
 	
@@ -11,7 +11,7 @@
 												'COM_TIENDA_PASSWORD_DO_NOT_MATCH', 'COM_TIENDA_PASSWORD_MATCH',
 												'COM_TIENDA_SUCCESS', 'COM_TIENDA_ERROR' );
 	TiendaHelperImage::addJsTranslationStrings( $js_strings );
-	$enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
+	$enable_tooltips = Tienda::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
 ?>
 
 <div style="clear: both;width:100%;">

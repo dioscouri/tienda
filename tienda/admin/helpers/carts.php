@@ -23,8 +23,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	public function addItem( $item )
 	{
-		$session =& JFactory::getSession();
-		$user =& JFactory::getUser();
+		$session = JFactory::getSession();
+		$user = JFactory::getUser();
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$table = JTable::getInstance( 'Carts', 'TiendaTable' );
@@ -176,7 +176,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 		Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
 		$date = JFactory::getDate();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 	  
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
@@ -257,8 +257,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function updateCart($cart = array(), $sync = false, $old_sessionid='', $new_userid='' )
 	{
-		$session =& JFactory::getSession();
-		$user =& JFactory::getUser();
+		$session = JFactory::getSession();
+		$user = JFactory::getUser();
 
 		if ($sync)
 		{
@@ -439,7 +439,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$user = JFactory::getUser();
 				if (empty($user->id))
 				{
-					$session =& JFactory::getSession();
+					$session = JFactory::getSession();
 					$model->setState('filter_session', $session->getId());
 				}
 				else
@@ -540,9 +540,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session_id = $session->getId();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$model->setState('filter_user', $user->id );
 		if (empty($user->id))
 		{
@@ -633,7 +633,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				}
 				
 				
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $cartitem ) );
 				foreach ($results as $result)
 				{

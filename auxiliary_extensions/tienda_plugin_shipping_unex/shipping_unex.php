@@ -572,10 +572,10 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
        	$unex->packageLineItems = $packages;
         $unex->setPackageCount($packageCount);
                         
-		$unex->setOriginName(TiendaConfig::getInstance()->get('shop_name', ''));
-		$unex->setOriginSurname(TiendaConfig::getInstance()->get('shop_company_name', ''));
-		$unex->setOriginAttentionName(TiendaConfig::getInstance()->get('shop_name', ''));
-		$unex->setOriginPhone(TiendaConfig::getInstance()->get('shop_phone', ''));
+		$unex->setOriginName(Tienda::getInstance()->get('shop_name', ''));
+		$unex->setOriginSurname(Tienda::getInstance()->get('shop_company_name', ''));
+		$unex->setOriginAttentionName(Tienda::getInstance()->get('shop_name', ''));
+		$unex->setOriginPhone(Tienda::getInstance()->get('shop_phone', ''));
         $unex->setOriginAddressLine($this->shopAddress->address_1);
 		$unex->setOriginAddressLine($this->shopAddress->address_2);
 		$unex->setOriginCity($this->shopAddress->city);
@@ -809,7 +809,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
  	private function checkInstallation()
         {
 	        // if this has already been done, don't repeat
-	        if (TiendaConfig::getInstance()->get('checkTableUnexServices', '0'))
+	        if (Tienda::getInstance()->get('checkTableUnexServices', '0'))
 	        {
 	            return true;
 	        }

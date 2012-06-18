@@ -32,7 +32,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
         }
        
         $total = $model->getTotal();
-        $limit = TiendaConfig::getInstance()->get('compared_products', '5');
+        $limit = Tienda::getInstance()->get('compared_products', '5');
         
         if($total >= $limit)
         {

@@ -1394,7 +1394,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 	
 </form>
 
-<?php $multiscript = TiendaConfig::getInstance()->get( 'multiupload_script', 0 ); ?>
+<?php $multiscript = Tienda::getInstance()->get( 'multiupload_script', 0 ); ?>
 <script type="text/javascript">
 window.addEvent('domready', function(){
 <?php switch( $multiscript ) { 

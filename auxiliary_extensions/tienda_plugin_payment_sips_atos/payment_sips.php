@@ -62,7 +62,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         // TO DO find merchant-country
         $parm.=" merchant_country=fr";
         $parm.=" amount=" . $data['orderpayment_amount'] * 100;
-        $parm.=" currency_code=" . $this->_getCurrencyIsoCode(TiendaConfig::getInstance()->get('currency'));
+        $parm.=" currency_code=" . $this->_getCurrencyIsoCode(Tienda::getInstance()->get('currency'));
         $parm.=" pathfile=" . $pathfile;
         $parm.=" transaction_id=" . substr(time(), -5, 5) . rand(0, 9); //unique number during the day
 
@@ -673,7 +673,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         $mainframe = & JFactory::getApplication();
 
         // grab config settings for sender name and email
-        $config = &TiendaConfig::getInstance();
+        $config = &Tienda::getInstance();
         $mailfrom = $config->get('emails_defaultemail', $mainframe->getCfg('mailfrom'));
         $fromname = $config->get('emails_defaultname', $mainframe->getCfg('fromname'));
         $sitename = $config->get('sitename', $mainframe->getCfg('sitename'));

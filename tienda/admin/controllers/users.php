@@ -42,7 +42,7 @@ class TiendaControllerUsers extends TiendaController
 		$state['filter_username']         = $app->getUserStateFromRequest($ns.'username', 'filter_username', '', '');
 		$state['filter_email']         = $app->getUserStateFromRequest($ns.'email', 'filter_email', '', '');
 		$state['filter_group']         = $app->getUserStateFromRequest($ns.'filter_group', 'filter_group', '', '');
-		if( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) )
+		if( Tienda::getInstance()->get( 'display_subnum', 0 ) )
 		$state['filter_subnum']       = $app->getUserStateFromRequest($ns.'filter_subnum', 'filter_subnum', '', '');
 
 		foreach (@$state as $key=>$value)
@@ -61,7 +61,7 @@ class TiendaControllerUsers extends TiendaController
 		$view->setModel( $model, true );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'view' );
-		$orderstates_csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+		$orderstates_csv = Tienda::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
 		$orderstates_array=explode(',', $orderstates_csv);
 
 		//Get Data From OrdersItems Model
@@ -128,7 +128,7 @@ class TiendaControllerUsers extends TiendaController
 		$this->_setModelState();
 		$surrounding = $model->getSurrounding( $model->getId() );
 		$view->assign( 'surrounding', $surrounding );
-
+		$view->setTask(true);
 		$view->display();
 		$this->footer();
 		return;

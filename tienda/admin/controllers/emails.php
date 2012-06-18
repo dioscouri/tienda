@@ -48,7 +48,7 @@ class TiendaControllerEmails extends TiendaController
         $this->_setModelState();
         $surrounding = $model->getSurrounding( $model->getId() );
         $view->assign( 'surrounding', $surrounding );
-
+		$view->setTask(true);
         $view->display();
         $this->footer();
         return;
@@ -84,10 +84,10 @@ class TiendaControllerEmails extends TiendaController
 
 		if (JFile::exists($path))
 		{
-			$original = new JRegistry();
+			$original = new DSCParameter();
 			$original->loadFile($path);
 			
-			$registry = new JRegistry();
+			$registry = new DSCParameter();
 			$registry->loadArray($values);
 			
 			// Store the modified data

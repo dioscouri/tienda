@@ -161,7 +161,7 @@
 					<h2><?php echo TiendaHelperBase::currency( $item->credit_amount ); ?></h2>
 				</td>
                 <td style="text-align: center;">
-                   <?php echo JHTML::_('date', $item->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+                   <?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::boolean( $item->credit_enabled ); ?>

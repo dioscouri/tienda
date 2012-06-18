@@ -698,13 +698,13 @@ if (!class_exists( 'dscInstaller' )) {
             // params: merge (older is more important than defaut new)
             
             // Converting to Object Format
-            $new_params = JRegistryFormatINI::stringToObject($obj->params);
-            $old_params = JRegistryFormatINI::stringToObject($savedParameters->params);
+            $new_params = DSCParameterFormatINI::stringToObject($obj->params);
+            $old_params = DSCParameterFormatINI::stringToObject($savedParameters->params);
             
             $old_params = (object) array_merge((array) $new_params, (array) $old_params);
             
             // Converting back to INI format
-            $savedParameters->params = JRegistryFormatINI::objectToString($old_params, '');
+            $savedParameters->params = DSCParameterFormatINI::objectToString($old_params, '');
             
             
             // Save the merged new / old settings

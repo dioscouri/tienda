@@ -45,7 +45,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     	 */
     	function displayCartButton( $row, $user )
     	{
-            $params = new JParameter( trim($row->params) );
+            $params = new DSCParameter( trim($row->params) );
             $product_id = $params->get( 'tienda_product_id' );
             
             JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );

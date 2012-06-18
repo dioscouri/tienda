@@ -11,9 +11,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperUser extends TiendaHelperBase
+class TiendaHelperUser extends DSCHelperUser
 {
 	/**
 	 * Gets a users basic information
@@ -87,42 +86,13 @@ class TiendaHelperUser extends TiendaHelperBase
 		return $geozones;
 	}
 
+	
 	/**
 	 *
 	 * @param $string
 	 * @return unknown_type
 	 */
-	function usernameExists( $string )
-	{
-		// TODO Make this use ->load()
-
-		$success = false;
-		$database = JFactory::getDBO();
-		$string = $database->getEscaped($string);
-		$query = "
-            SELECT 
-                *
-            FROM 
-                #__users
-            WHERE 1
-            AND 
-                `username` = '{$string}'
-            LIMIT 1
-        ";
-		$database->setQuery($query);
-		$result = $database->loadObject();
-		if ($result) {
-			$success = true;
-		}
-		return $success;
-	}
-
-	/**
-	 *
-	 * @param $string
-	 * @return unknown_type
-	 */
-	function emailExists( $string, $table='users'  ) {
+	public static function emailExists( $string, $table='users'  ) {
 		switch($table)
 		{
 			case 'accounts' :
@@ -161,7 +131,7 @@ class TiendaHelperUser extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	function createNewUser( $details, $guest=false )
+/*	function createNewUser( $details, $guest=false )
 	{
 		$success = false;
 		// Get required system objects
@@ -210,96 +180,22 @@ class TiendaHelperUser extends TiendaHelperBase
 			return $success;
 		}
 
-		if(!TiendaConfig::getInstance()->get('disable_guest_signup_email'))
+		if(!Tienda::getInstance()->get('disable_guest_signup_email'))
 		{
 			// Send registration confirmation mail
 			TiendaHelperUser::_sendMail( $user, $details, $useractivation, $guest );
 		}
 
 		return $user;
-	}
+	}*/
 
-	/**
-	 * Returns yes/no
-	 * @param array [username] & [password]
-	 * @param mixed Boolean
-	 *
-	 * @return array
-	 */
-	function login( $credentials, $remember='', $return='' ) {
-		global $mainframe;
+	
+	
+	
 
-		if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
-			$return = '';
-		}
+	
 
-		// $credentials = array();
-		// $credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
-		// $credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
-
-		$options = array();
-		$options['remember'] = $remember;
-		$options['return'] = $return;
-
-		//preform the login action
-		$success = $mainframe->login($credentials, $options);
-
-		if ( $return ) {
-			$mainframe->redirect( $return );
-		}
-
-		return $success;
-	}
-
-	/**
-	 * Returns yes/no
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function logout( $return='' ) {
-		global $mainframe;
-
-		//preform the logout action//check to see if user has a joomla account
-		//if so register with joomla userid
-		//else create joomla account
-		$success = $mainframe->logout();
-
-		if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
-			$return = '';
-		}
-
-		if ( $return ) {
-			$mainframe->redirect( $return );
-		}
-
-		return $success;
-	}
-
-	/**
-	 * Unblocks a user
-	 *
-	 * @param int $user_id
-	 * @param int $unblock
-	 * @return boolean
-	 */
-	function unblockUser($user_id, $unblock = 1)
-	{
-		$user =& JFactory::getUser( (int)$user_id );
-
-		if ($user->get('id')) {
-			$user->set('block', !$unblock);
-
-			if (  ! $user->save()) {
-				return false;
-			}
-
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
+	
 	/**
 	 * Returns yes/no
 	 * @param object
@@ -348,11 +244,13 @@ class TiendaHelperUser extends TiendaHelperBase
 		$message = html_entity_decode($message, ENT_QUOTES);
 
 		//get all super administrator
-		$query = 'SELECT name, email, sendEmail' .
+		/*$query = 'SELECT name, email, sendEmail' .
                 ' FROM #__users' .
                 ' WHERE LOWER( usertype ) = "super administrator"';
 		$db->setQuery( $query );
-		$rows = $db->loadObjectList();
+		$rows = $db->loadObjectList();*/
+		
+		$rows = DSCAcl::getAdminList();
 
 		// Send email to user
 		if ( ! $mailfrom  || ! $fromname ) {
@@ -365,70 +263,11 @@ class TiendaHelperUser extends TiendaHelperBase
 		return $success;
 	}
 
-	/**
-	 *
-	 * @return unknown_type
-	 */
-	function _doMail( $from, $fromname, $recipient, $subject, $body, $actions=NULL, $mode=NULL, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL )
-	{
-		$success = false;
+	
+	
+	
 
-		$message =& JFactory::getMailer();
-		$message->addRecipient( $recipient );
-		$message->setSubject( $subject );
-
-		// check user mail format type, default html
-		$message->IsHTML(true);
-		$body = htmlspecialchars_decode( $body );
-		$message->setBody( nl2br( $body ) );
-
-		$sender = array( $from, $fromname );
-		$message->setSender($sender);
-		 
-		$sent = $message->send();
-		if ($sent == '1') {
-			$success = true;
-		}
-		return $success;
-
-	}
-
-	/**
-	 * Updates the core __users table
-	 * setting the email address = $email
-	 */
-	function updateUserEmail( $userid, $email )
-	{
-		$user =& JFactory::getUser( $userid );
-		$user->set('email', $email);
-
-		if ( !$user->save() )
-		{
-			$this->setError( $user->getError() );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Gets the next auto-inc id in the __users table
-	 */
-	function getLastUserId()
-	{
-		$database = &JFactory::getDBO();
-		$query = "
-            SELECT 
-                MAX(id) as id
-            FROM 
-                #__users
-            ";
-		$database->setQuery($query);
-		$result = $database->loadObject();
-
-		return $result->id;
-	}
-
-	function getACLSelectList( $default='', $fieldname='core_user_new_gid' )
+	public static  function getACLSelectList( $default='', $fieldname='core_user_new_gid' )
 	{
 		$object = new JObject();
 		$object->value = '';
@@ -535,7 +374,7 @@ class TiendaHelperUser extends TiendaHelperBase
 
 		if (!isset($sets[$user_id][$product_id]))
 		{
-			$sets[$user_id][$product_id] = TiendaConfig::getInstance()->get('default_user_group', '1');
+			$sets[$user_id][$product_id] = Tienda::getInstance()->get('default_user_group', '1');
 		}
 
 		return $sets[$user_id][$product_id];
@@ -652,7 +491,7 @@ class TiendaHelperUser extends TiendaHelperBase
 	 * @return boolean True if string has the correct format; false otherwise.
 	 * @since 1.5
 	 */
-	function isEmailAddress($email)
+	public static  function isEmailAddress($email)
 	{
 		// Split the email into a local and domain
 		$atIndex    = strrpos($email, "@");
@@ -760,14 +599,14 @@ class TiendaHelperUser extends TiendaHelperBase
 		$errors = array();
 		$result = true;
 		
-		$validate_php = $force_validation ||  TiendaConfig::getInstance()->get( 'password_php_validate', 1 );
+		$validate_php = $force_validation ||  Tienda::getInstance()->get( 'password_php_validate', 1 );
 		if( !$validate_php )
 			return array( $result, $errors );
 
-		$min_length = TiendaConfig::getInstance()->get( 'password_min_length', 5 );
-		$req_num = TiendaConfig::getInstance()->get( 'password_req_num', 1 );
-		$req_alpha = TiendaConfig::getInstance()->get( 'password_req_alpha', 1 );
-		$req_spec = TiendaConfig::getInstance()->get( 'password_req_spec', 1 );
+		$min_length = Tienda::getInstance()->get( 'password_min_length', 5 );
+		$req_num = Tienda::getInstance()->get( 'password_req_num', 1 );
+		$req_alpha = Tienda::getInstance()->get( 'password_req_alpha', 1 );
+		$req_spec = Tienda::getInstance()->get( 'password_req_spec', 1 );
 		
 		if( strlen( $pass ) < $min_length )
 		{

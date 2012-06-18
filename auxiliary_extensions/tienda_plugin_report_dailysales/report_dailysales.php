@@ -112,7 +112,7 @@ return $return_range_report;
     {
         if (empty($csv))
         {
-            $csv = TiendaConfig::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
+            $csv = Tienda::getInstance()->get('orderstates_csv', '2, 3, 5, 17');
         }
         
         $array = explode(',', $csv);

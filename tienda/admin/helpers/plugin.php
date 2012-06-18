@@ -11,32 +11,10 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperPlugin extends TiendaHelperBase
+class TiendaHelperPlugin extends DSCHelperPlugin
 {
-	/**
-	 * Only returns plugins that have a specific event
-	 * 
-	 * @param $eventName
-	 * @param $folder
-	 * @return array of JTable objects
-	 */
-	function getPluginsWithEvent( $eventName, $folder='Tienda' )
-	{
-		$return = array();
-		if ($plugins = TiendaHelperPlugin::getPlugins( $folder ))
-		{
-			foreach ($plugins as $plugin)
-			{
-				if (TiendaHelperPlugin::hasEvent( $plugin, $eventName ))
-				{
-					$return[] = $plugin;
-				}
-			}
-		}
-		return $return;
-	}
+	
 	
 	/**
 	 * Returns Array of active Plugins
@@ -46,25 +24,9 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 */
 	function getPlugins( $folder='Tienda' )
 	{
-		$database = JFactory::getDBO();
-		
-		$order_query = " ORDER BY ordering ASC ";
-		$folder = strtolower( $folder );
-		
-		$query = "
-			SELECT 
-				* 
-			FROM 
-				#__plugins 
-			WHERE  published = '1'
-			AND 
-				LOWER(`folder`) = '{$folder}'
-			{$order_query}
-		";
 			
-		$database->setQuery( $query );
-		$data = $database->loadObjectList();
-		return $data;
+		parent::getPlugins($folder);	
+		
 	}
 
 	/**
@@ -187,7 +149,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 			{
 				if(empty($geozones[$plugin->id]))
 				{
-					$params = new JParameter($plugin->params);           
+					$params = new DSCParameter($plugin->params);           
         			$geozones[$plugin->id] = explode(',',$params->get('geozones')); 
 				}				
         		

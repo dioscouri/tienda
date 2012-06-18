@@ -4,7 +4,7 @@
 	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 	Tienda::load( 'TiendaGrid', 'library.grid' );
 	Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
-	$config = TiendaConfig::getInstance();
+	$config = Tienda::getInstance();
 	$one_page =$config->get('one_page_checkout', 0);
 	$guest_enabled = $config->get('guest_checkout_enabled', 0);
 	

@@ -84,6 +84,7 @@ class TiendaControllerEavAttributes extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'select'.$type );
+		$view->setTask(true);
 		$view->display();
 	}
 	

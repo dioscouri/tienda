@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php
 $url = "http://www.dioscouri.com/";
-if ($amigosid = TiendaConfig::getInstance()->get( 'amigosid', '' ))
+if ($amigosid = Tienda::getInstance()->get( 'amigosid', '' ))
 {
     $url .= "?amigosid=".$amigosid; 
 }

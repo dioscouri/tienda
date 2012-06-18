@@ -772,7 +772,7 @@ class TiendaTableNested extends TiendaTable
 		// Unlock the table for writing.
 		$this->_unlock();
 		
-		if( TiendaConfig::get('enable_reorder_table', '1') )
+		if( Tienda::get('enable_reorder_table', '1') )
 		{			
 			$this->reorder($sibling->parent_id);
 		}
@@ -873,7 +873,7 @@ class TiendaTableNested extends TiendaTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
-		if( TiendaConfig::get('enable_reorder_table', '1') )
+		if( Tienda::get('enable_reorder_table', '1') )
 		{
 			$this->reorder($sibling->parent_id);
 		}

@@ -64,7 +64,7 @@ $item = @$this->row;
             <div class="reset"></div>
             
             <div id="product_description">
-                <?php if (TiendaConfig::getInstance()->get('display_product_description_header', '1')) : ?>
+                <?php if (Tienda::getInstance()->get('display_product_description_header', '1')) : ?>
                     <div id="product_description_header" class="tienda_header">
                         <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>

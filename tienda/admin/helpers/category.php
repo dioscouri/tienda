@@ -297,7 +297,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 		        $name = array();
 		        foreach (@$path as $cat)
                 {
-                    $include_root = TiendaConfig::getInstance()->get('include_root_pathway', false );
+                    $include_root = Tienda::getInstance()->get('include_root_pathway', false );
                     if (!$cat->isroot || $include_root )
                     {
                         $pathway_object = new JObject();
@@ -338,7 +338,7 @@ class TiendaHelperCategory extends TiendaHelperBase
                 $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
                 $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
 		        
-                $include_root = TiendaConfig::getInstance()->get('include_root_pathway', false );
+                $include_root = Tienda::getInstance()->get('include_root_pathway', false );
                 if ($include_root)
                 {
                     $link = JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$root->category_id."&Itemid=".$root_itemid, false );

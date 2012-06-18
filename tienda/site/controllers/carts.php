@@ -100,7 +100,7 @@ class TiendaControllerCarts extends TiendaController
         $this->_setModelState();
 
         $items =& $model->getList();        
-        $show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  		
+        $show_tax = Tienda::getInstance()->get('display_prices_with_tax');  		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
 			
         if (!empty($items))
@@ -164,7 +164,7 @@ class TiendaControllerCarts extends TiendaController
      */
     function addToCart()
     {
-        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        if (!Tienda::getInstance()->get('shop_enabled', '1'))
         {
             return false;    
         }
@@ -468,7 +468,7 @@ class TiendaControllerCarts extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
 		$items =& $model->getList();	
-		$show_tax = TiendaConfig::getInstance()->get('display_prices_with_tax');  
+		$show_tax = Tienda::getInstance()->get('display_prices_with_tax');  
 		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->assign('cartobj', $this->checkItems($items, $show_tax));
@@ -622,7 +622,7 @@ class TiendaControllerCarts extends TiendaController
 		$order->bind( $values );
 
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+		$order->currency_id = Tienda::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 
 		// set the shipping method
 		$order->shipping = new JObject();
@@ -683,8 +683,8 @@ private function addCouponCodes($values)
 		$order = &$this->_order;
 
 		// get all coupons and add them to the order
-		$coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled');
-		$mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled');
+		$coupons_enabled = Tienda::getInstance()->get('coupons_enabled');
+		$mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled');
 		if (!empty($values['coupons']) && $coupons_enabled)
 		{
 			foreach ($values['coupons'] as $coupon_id)
@@ -771,7 +771,7 @@ private function addCouponCodes($values)
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'coupons', $coupons_id);
 
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		$show_tax = $config->get('display_prices_with_tax');
 		$view->assign( 'show_tax', $show_tax );
 		$view->assign( 'using_default_geozone', false );
@@ -895,7 +895,7 @@ private function addCouponCodes($values)
 		$order->bind( $values );
 
 		// set the currency
-		$order->currency_id = TiendaConfig::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
+		$order->currency_id = Tienda::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );

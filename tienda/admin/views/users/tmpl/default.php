@@ -4,7 +4,7 @@
 	$form = @$this->form;
 	$items = @$this->items;
 	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-	$display_subnum = TiendaConfig::getInstance()->get( 'display_subnum', 0 ); 
+	$display_subnum = Tienda::getInstance()->get( 'display_subnum', 0 ); 
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">

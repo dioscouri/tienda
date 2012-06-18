@@ -101,7 +101,7 @@ class TiendaModelAddresses extends TiendaModelBase
             $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
             if (!empty($item->extra_fields))
             {
-                $extra_fields = new JParameter(trim($item->extra_fields));
+                $extra_fields = new DSCParameter(trim($item->extra_fields));
                 $extra_fields = $extra_fields->toArray();
                 foreach($extra_fields as $k => $v)
                 {
@@ -118,7 +118,7 @@ class TiendaModelAddresses extends TiendaModelBase
     	
         if (!empty($item->extra_fields))
         {
-            $extra_fields = new JParameter(trim($item->extra_fields));
+            $extra_fields = new DSCParameter(trim($item->extra_fields));
             $extra_fields = $extra_fields->toArray();
             foreach($extra_fields as $k => $v)
             {

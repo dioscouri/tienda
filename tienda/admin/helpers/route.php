@@ -10,12 +10,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
-Tienda::load( "TiendaHelperBase", 'helpers._base' );
-
-class TiendaHelperRoute extends TiendaHelperBase 
+class TiendaHelperRoute extends DSCHelperRoute 
 {
     static $itemids = null;
     
@@ -24,42 +20,7 @@ class TiendaHelperRoute extends TiendaHelperBase
      */
     function getItems( $option='com_tienda' )
     {
-        static $items;
-        
-        $menus      = &JApplication::getMenu('site', array());
-        if (empty($menus))
-        {
-            return array();
-        }
-        
-        if (empty($items))
-        {
-            $items = array();
-        }
-        
-        if (empty($items[$option]))
-        {
-            $component  = &JComponentHelper::getComponent($option);
-            foreach ($menus->_items as $item)
-            {
-                if ( !is_object($item) )
-                {
-                    continue;
-                }
-
-                if ($item->componentid == $component->id || (!empty($item->query['option']) && $item->query['option'] == $option) )
-                {
-                    $items[$option][] = $item;
-                }
-            }
-        }
-         
-        if (empty($items[$option])) 
-        {
-            return array();
-        }
-        
-        return $items[$option]; 
+       parent::getItems($option);
        }
     
     /**
@@ -68,7 +29,7 @@ class TiendaHelperRoute extends TiendaHelperBase
      * @param array $needles
      * @return unknown_type
      */
-    public static function findItemid($needles=array('view'=>'products', 'task'=>'', 'filter_category'=>'', 'id'=>''))
+   /* public static function findItemid($needles=array('view'=>'products', 'task'=>'', 'filter_category'=>'', 'id'=>''))
     {
         // populate the array of menu items for the extension
         if (empty(self::$itemids))
@@ -163,7 +124,7 @@ class TiendaHelperRoute extends TiendaHelperBase
 
         return null;
     }
-    
+    */
     /**
      * Generates the routed url for a product
      * and attaches the itemid if possible

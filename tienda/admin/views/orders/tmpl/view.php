@@ -62,7 +62,7 @@
 		            <?php echo JText::_('COM_TIENDA_ORDER_DATE'); ?>
 		        </td>
 		        <td>
-		            <?php echo JHTML::_('date', $row->created_date, TiendaConfig::getInstance()->get('date_format')); ?>
+		            <?php echo JHTML::_('date', $row->created_date, Tienda::getInstance()->get('date_format')); ?>
 		        </td>
 		    </tr>
 		    <tr>
@@ -128,7 +128,7 @@
                 	<?php
                 		if( $guest ) 
                 		{
-                			if( TiendaConfig::getInstance()->get( 'obfuscate_guest_email', 0 ) ) // obfuscate guest email
+                			if( Tienda::getInstance()->get( 'obfuscate_guest_email', 0 ) ) // obfuscate guest email
                 				echo '*****';
                 			else
 	                			echo $row->userinfo_email;
@@ -353,7 +353,7 @@
             </tr>
           <?php
           	endif;
-	              $display_tax_checkout = TiendaConfig::getInstance()->get('show_tax_checkout', '1');
+	              $display_tax_checkout = Tienda::getInstance()->get('show_tax_checkout', '1');
 	                    	
 	              switch( $display_tax_checkout )
 	              {
@@ -525,7 +525,7 @@
             <?php foreach (@$histories as $history) : ?>
                 <tr class='row<?php echo $k; ?>'>
                     <td style="text-align: left;">
-                        <?php echo JHTML::_('date', $history->date_added, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $history->date_added, Tienda::getInstance()->get('date_format')); ?>
                     </td>
                     <td style="text-align: center;">
                         <?php echo JText::_( $history->order_state_name ); ?>

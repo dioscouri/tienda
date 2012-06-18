@@ -5,7 +5,7 @@ $state = @$this->state;
 $items = @$this->items;
 $citems = @$this->citems;
 Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
-$config = TiendaConfig::getInstance();
+$config = Tienda::getInstance();
 $product_compare = $config->get('enable_product_compare', '1');
 $plugins_short_desc = $config->get( 'content_plugins_product_desc', '0' );
 

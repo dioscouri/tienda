@@ -272,8 +272,8 @@ class TiendaModelOrders extends TiendaModelBase
                 
                 // retrieve the order's currency
                 // this loads the currency, using the FK is it is the same of the
-                // currency used in the order, or the JParameter currency of the order otherwise
-                $order_currency = new JParameter($item->order_currency);
+                // currency used in the order, or the DSCParameter currency of the order otherwise
+                $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
                 //JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -384,8 +384,8 @@ class TiendaModelOrders extends TiendaModelBase
 
                 // retrieve the order's currency
                 // this loads the currency, using the FK is it is the same of the
-                // currency used in the order, or the JParameter currency of the order otherwise
-                $order_currency = new JParameter($item->order_currency);
+                // currency used in the order, or the DSCParameter currency of the order otherwise
+                $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
                 //$model = JModel::getInstance( 'Currencies', 'TiendaModel' );

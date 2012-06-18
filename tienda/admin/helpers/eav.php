@@ -226,14 +226,14 @@ class TiendaHelperEav extends TiendaHelperBase
     			}
     			break;
     		case "datetime":
-    			return JHTML::date(date('Y-m-d H:i:s', strtotime( $value)), TiendaConfig::getInstance()->get('date_format'));
+    			return JHTML::date(date('Y-m-d H:i:s', strtotime( $value)), Tienda::getInstance()->get('date_format'));
     			break;
     		case "text":
     			$dispatcher =& JDispatcher::getInstance();
     			$item = new JObject();
 		        $item->text = &$value;  
 		        $item->params = array();
-		        if( TiendaConfig::getInstance()->get( 'eavtext_content_plugin', 1 ) )
+		        if( Tienda::getInstance()->get( 'eavtext_content_plugin', 1 ) )
 		        {
 		        	if( $eav->editable_by == 1 )
 		        	{
@@ -248,12 +248,12 @@ class TiendaHelperEav extends TiendaHelperBase
 		        }
 		        return $value;
     		case "decimal":
-    			if( TiendaConfig::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
+    			if( Tienda::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
     				return self::number( $value );
     			else
 	    			return self::number( $value, array( 'thousands' => '' ) );
     		case "int":	
-    			if( TiendaConfig::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
+    			if( Tienda::getInstance()->get( 'eavinteger_use_thousand_separator', 0 ) )
 	    			return self::number( $value, array( 'num_decimals' => 0 ) );
     			else
     				return self::number( $value, array( 'thousands' => '', 'num_decimals' => 0 ) );

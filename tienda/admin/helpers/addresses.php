@@ -24,7 +24,7 @@ class TiendaHelperAddresses extends TiendaHelperBase
 	 */
 	static function getAddressElementsData( $address_type )
 	{
-		$config = TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		$address_fields = array( 'address_name', 'title', 'name', 'middle',
 															'last', 'address1', 'address2', 'country', 'city',
 															'zip', 'zone', 'phone', 'company', 'tax_number' );

@@ -7,7 +7,7 @@ $sender_mail 	= JRequest::getVar('sender_mail', '');
 $sender_message = JRequest::getVar('sender_message', '');
 ?>
 <?php $success = JRequest::getInt('success', 0);?>
-<?php if($success && TiendaConfig::getInstance()->get('ask_question_modal', '1')):?>
+<?php if($success && Tienda::getInstance()->get('ask_question_modal', '1')):?>
 <script type="text/javascript">
 onload=setTimeout("window.parent.document.getElementById( 'sbox-window' ).close()", 2000);
 </script>
@@ -21,7 +21,7 @@ onload=setTimeout("window.parent.document.getElementById( 'sbox-window' ).close(
 	<label for="sender_message"><?php echo JText::_('COM_TIENDA_ENTER_YOUR_MESSAGE');?></label><br>
 	<textarea class="inputbox" id="sender_message" name="sender_message" cols="60" rows="10"><?php echo $sender_message;?></textarea><br>
 	<!-- CAPTCHA HERE -->	
-	<?php if (TiendaConfig::getInstance()->get('ask_question_showcaptcha', '1') == 1 ): ?>          
+	<?php if (Tienda::getInstance()->get('ask_question_showcaptcha', '1') == 1 ): ?>          
     <?php Tienda::load( 'TiendaRecaptcha', 'library.recaptcha' );?>
     <?php $recaptcha = new TiendaRecaptcha(); ?>
     <?php $publickey = "6LcAcbwSAAAAAIEtIoDhP0cj7AAQMK9hqzJyAbeD"; ?>

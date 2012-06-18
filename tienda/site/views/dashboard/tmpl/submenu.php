@@ -1,8 +1,8 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-$display_subscriptions = TiendaConfig::getInstance()->get( 'display_subscriptions', 1 );
-$display_mydownloads = TiendaConfig::getInstance()->get( 'display_mydownloads', 1 );
+$display_subscriptions = Tienda::getInstance()->get( 'display_subscriptions', 1 );
+$display_mydownloads = Tienda::getInstance()->get( 'display_mydownloads', 1 );
 ?>
 
 <div id="<?php echo $this->name; ?>" class="submenu">

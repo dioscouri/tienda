@@ -251,7 +251,7 @@ class TiendaTable extends JTable
 			return false;
 		}
 		
-		if( TiendaConfig::getInstance()->get('enable_reorder_table', '1') == '1')
+		if( Tienda::getInstance()->get('enable_reorder_table', '1') == '1')
 		{
 			$this->reorder();
 		}

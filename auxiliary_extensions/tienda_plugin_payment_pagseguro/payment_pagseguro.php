@@ -76,7 +76,7 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
         $vars->return_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display_message";
         $vars->cancel_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
         $vars->notify_url = JURI::root()."index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";*/
-        $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: TiendaConfig::getInstance()->get('currency');
+        $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: Tienda::getInstance()->get('currency');
 
         // set variables for user info
         $vars->first_name   = $data['orderinfo']->shipping_first_name;
@@ -372,7 +372,7 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
             elseif (@$data['payment_status'] == 'Pending')
         {
             // if the transaction has the "pending" status,
-            $order->order_state_id = TiendaConfig::getInstance('pending_order_state', '1'); // PENDING
+            $order->order_state_id = Tienda::getInstance('pending_order_state', '1'); // PENDING
             // Update quantities for echeck payments
             TiendaHelperOrder::updateProductQuantities( $orderpayment->order_id, '-' );
 
@@ -456,7 +456,7 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
         $mainframe =& JFactory::getApplication();
 
         // grab config settings for sender name and email
-        $config     = &TiendaConfig::getInstance();
+        $config     = &Tienda::getInstance();
         $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
         $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );

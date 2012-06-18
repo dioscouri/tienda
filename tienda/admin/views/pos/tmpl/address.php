@@ -3,7 +3,7 @@
 <?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');?>
 <?php $row = @$this->address;?>
 <?php JFilterOutput::objectHTMLSafe($row);?>
-<?php $config = TiendaConfig::getInstance(); ?>
+<?php $config = Tienda::getInstance(); ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=pos&tmpl=component');?>" method="post" class="adminForm" name="adminForm" >
 	<fieldset>

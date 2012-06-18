@@ -80,7 +80,7 @@ $image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::ge
             
             <?php 
             if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->product_relations_data->invalidQuantity)) ) :
-            		switch (TiendaConfig::getInstance()->get('cartbutton', 'image')) 
+            		switch (Tienda::getInstance()->get('cartbutton', 'image')) 
                 {
                     case "button":
                         ?>

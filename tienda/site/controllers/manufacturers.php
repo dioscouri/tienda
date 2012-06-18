@@ -60,7 +60,7 @@ class TiendaControllerManufacturers extends TiendaController
         	  $state['filter_price_to'] = $priceTo; 
         }
 
-        if (!TiendaConfig::getInstance()->get('display_out_of_stock'))
+        if (!Tienda::getInstance()->get('display_out_of_stock'))
         {
            $state['filter_quantity_from'] = '1';
         }
@@ -197,7 +197,7 @@ class TiendaControllerManufacturers extends TiendaController
 		{
 			$inventoryList = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getProductQuantities( $row->product_id );
         
-            if (!TiendaConfig::getInstance()->get('display_out_of_stock') && empty($inventoryList))
+            if (!Tienda::getInstance()->get('display_out_of_stock') && empty($inventoryList))
             {
                 // redirect
                 $redirect = "index.php?option=com_tienda&view=products&task=display&filter_category=".$filter_category;
@@ -273,7 +273,7 @@ class TiendaControllerManufacturers extends TiendaController
         
         //$model->_item = '';
         $row = $model->getItem( false );
-        if ($row->product_notforsale || TiendaConfig::getInstance()->get('shop_enabled') == '0')
+        if ($row->product_notforsale || Tienda::getInstance()->get('shop_enabled') == '0')
         {
             return $html;
         }
@@ -291,7 +291,7 @@ class TiendaControllerManufacturers extends TiendaController
         $view->assign('filter_category', $filter_category);
         $view->assign('validation', "index.php?option=com_tienda&view=products&task=validate&format=raw" );
         
-        $config = TiendaConfig::getInstance();
+        $config = Tienda::getInstance();
         $show_tax = $config->get('display_prices_with_tax');
         $view->assign( 'show_tax', $show_tax );
         $view->assign( 'tax', 0 );
@@ -308,7 +308,7 @@ class TiendaControllerManufacturers extends TiendaController
             {
                 // use the default
                 $table = JTable::getInstance('Geozones', 'TiendaTable');
-                $table->load(array('geozone_id'=>TiendaConfig::getInstance()->get('default_tax_geozone')));
+                $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
                 $geozones = array( $table );
             }
             
@@ -708,7 +708,7 @@ class TiendaControllerManufacturers extends TiendaController
             return;
         }
 
-        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        if (!Tienda::getInstance()->get('shop_enabled', '1'))
         {
             $response['msg'] = $helper->generateMessage( "Shop Disabled" );
             $response['error'] = '1';
@@ -866,7 +866,7 @@ class TiendaControllerManufacturers extends TiendaController
         
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance();
-        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        if (!Tienda::getInstance()->get('shop_enabled', '1'))
         {
             $this->messagetype  = 'notice';         
             $this->message      = JText::_('COM_TIENDA_SHOP_DISABLED');
@@ -1004,7 +1004,7 @@ class TiendaControllerManufacturers extends TiendaController
         $dispatcher->trigger( 'onAfterAddToCart', array( $cartitem, $values ) );
         
         // get the 'success' redirect url
-        switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
+        switch (Tienda::getInstance()->get('addtocartaction', 'redirect')) 
         {
             case "0":
             case "none":
@@ -1088,9 +1088,9 @@ class TiendaControllerManufacturers extends TiendaController
        	
        	$user_id = JFactory::getUser()->id;
        	$productreview = TiendaHelperProduct::getUserAndProductIdForReview($product_id, $user_id);
-       	$purchase_enable = TiendaConfig::getInstance()->get('purchase_leave_review_enable', '0');
-       	$login_enable = TiendaConfig::getInstance()->get('login_review_enable', '0');
-       	$product_review_enable=TiendaConfig::getInstance()->get('product_review_enable', '0');
+       	$purchase_enable = Tienda::getInstance()->get('purchase_leave_review_enable', '0');
+       	$login_enable = Tienda::getInstance()->get('login_review_enable', '0');
+       	$product_review_enable=Tienda::getInstance()->get('product_review_enable', '0');
        	
        	$result = 1;
        	if($product_review_enable=='1')
@@ -1168,7 +1168,7 @@ class TiendaControllerManufacturers extends TiendaController
             return;
         }
 
-        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        if (!Tienda::getInstance()->get('shop_enabled', '1'))
         {
             $response['msg'] = $helper->generateMessage( "Shop Disabled" );
             $response['error'] = '1';
@@ -1332,7 +1332,7 @@ class TiendaControllerManufacturers extends TiendaController
         
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance();
-        if (!TiendaConfig::getInstance()->get('shop_enabled', '1'))
+        if (!Tienda::getInstance()->get('shop_enabled', '1'))
         {
             $this->messagetype  = 'notice';         
             $this->message      = JText::_('COM_TIENDA_SHOP_DISABLED');
@@ -1477,7 +1477,7 @@ class TiendaControllerManufacturers extends TiendaController
         
         // get the 'success' redirect url
         // TODO Enable redirect via base64_encoded urls?
-        switch (TiendaConfig::getInstance()->get('addtocartaction', 'redirect')) 
+        switch (Tienda::getInstance()->get('addtocartaction', 'redirect')) 
         {
             case "redirect":
                 $returnUrl = base64_encode( $redirect );
@@ -1508,7 +1508,7 @@ class TiendaControllerManufacturers extends TiendaController
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
 		$post = JRequest::get('post');
-		$captcha_enable = TiendaConfig::getInstance()->get('use_captcha', '0');
+		$captcha_enable = Tienda::getInstance()->get('use_captcha', '0');
 		$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
 		$Itemid = $post['Itemid'];
 		$recaptcha_challenge_field = $post['recaptcha_challenge_field'];

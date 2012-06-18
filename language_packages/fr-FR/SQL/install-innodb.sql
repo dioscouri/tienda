@@ -511,7 +511,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `order_shipping` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_shipping_tax` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   `order_discount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' ,
-  `order_currency` TEXT NOT NULL COMMENT 'Stores a JParameter formatted version of the current currency. Used to maintain the order integrity' ,
+  `order_currency` TEXT NOT NULL COMMENT 'Stores a DSCParameter formatted version of the current currency. Used to maintain the order integrity' ,
   `currency_id` INT(11) NULL DEFAULT NULL ,
   `order_state_id` INT(11) NULL DEFAULT NULL ,
   `created_date` DATETIME NULL DEFAULT NULL COMMENT 'GMT' ,

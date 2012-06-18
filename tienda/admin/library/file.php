@@ -11,10 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaFile extends JObject 
+class TiendaFile extends DSCFile 
 {
 	/**
 	 * Returns a list of types
@@ -33,12 +32,12 @@ class TiendaFile extends JObject
 			$dir = $this->getDirectory();	
 		}		
 		
-		$helper = TiendaHelperBase::getInstance();
+		$helper = new DSCHelper();
 		$helper->checkDirectory($dir);
 
 		// then confirms existence of htaccess file
 		$htaccess = $dir.DS.'.htaccess';
-		if (!$fileexists = &JFile::exists( $htaccess ) ) 
+		if (!$fileexists = JFile::exists( $htaccess ) ) 
 		{
 			$destination = $htaccess;
 			$text = "deny from all";
@@ -75,7 +74,7 @@ class TiendaFile extends JObject
 	function handleUpload ($fieldname='userfile') 
 	{
 		$success = false;
-		$config = &TiendaConfig::getInstance();
+		$config = Tienda::getInstance();
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
@@ -100,7 +99,7 @@ class TiendaFile extends JObject
 		
 		//$this->proper_name = basename($userfile['name']);
 		$userFileName = basename($userfile['name']);
-		$this->proper_name = TiendaFile::getProperName($userFileName);
+		$this->proper_name = $this->getProperName($userFileName);
 		
 		if ($userfile['size'] == 0) {
 			$this->setError( JText::_('COM_TIENDA_INVALID FILE') );
@@ -126,24 +125,7 @@ class TiendaFile extends JObject
 		return $success;
 	}
 	
-	/*
-	 * Return the name after repalcing the . into -
-	 * @param  String
-	 * @return String
-	 */
-	function getProperName($fileName){
 	
-	$position=strrpos($fileName,'.');
-	$length=strlen($fileName);
-	$file=substr($fileName,0,$position);
-	$temp=explode('.',$file);
-    $file=implode('-',$temp);
-	
-	$extention=substr($fileName,$position+1,$length-$position);
-	$fileName=$file.".".$extention;
-	
-	return $fileName;
-	}
 	
 	
     /**
@@ -155,7 +137,7 @@ class TiendaFile extends JObject
 	function handleMultipleUpload ($fieldname='userfile', $num = 0) 
 	{
 		$success = false;
-		$config = &TiendaConfig::getInstance();
+		$config = &Tienda::getInstance();
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
@@ -391,62 +373,6 @@ class TiendaFile extends JObject
        return $status;
     }
 
-	/**
-	 * Returns a list of types
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function getExtension() 
-	{
-		if (!isset($this->extension)) 
-		{
-			$namebits = explode('.', $this->proper_name);
-			$this->extension = $namebits[count($namebits)-1];
-		}
-				
-		return $this->extension;
-	}
-
-	/**
-	 * Returns a unique physical name
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function getPhysicalName( $obfuscate='' )
-	{
-		if (!empty($this->physicalname))
-		{
-			return $this->physicalname;
-		}
-		
-		if ($obfuscate)
-		{
-			$dir = $this->getDirectory();
-			$extension = $this->getExtension();
-			$name = JUtility::getHash( time() );
-			$physicalname = $name.".".$extension;
-			
-			while ($fileexists = &JFile::exists( $dir.DS.$physicalname ) ) 
-			{
-				$name = JUtility::getHash( time() );
-				$physicalname = $name.".".$extension;
-			}
-			$this->physicalname = $physicalname;
-		}
-			else
-		{
-			$name = explode('.', $this->proper_name);
-			$this->physicalname = $this->cleanTitle( $name[0] ).'.'.$this->getExtension();
-		}
-
-		$lower_filename = TiendaConfig::getInstance()->get( 'lower_filename', '1'  );		
-		if( $lower_filename )
-			$this->physicalname = strtolower( $this->physicalname );
-		
-		return $this->physicalname;
-	}
 	
 	/**
 	 * Returns a cleaned title
@@ -457,6 +383,12 @@ class TiendaFile extends JObject
 	function cleanTitle( $title, $length='64' ) 
 	{
 		// trim whitespace
+		
+		/*
+		 * IN DSC LIBRARY this functions has strtolower as well in the title, leaving this out for now as it could break things
+		 * $trim_title = strtolower( trim( str_replace( " ", "", $title ) ) );
+		 * */
+		
 		$trim_title = trim( str_replace( " ", "", $title ) );
 		
 		// strip all html tags
@@ -480,171 +412,6 @@ class TiendaFile extends JObject
 		return $data;
 	}
 
-	/**
-	 * Returns 
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function fileToText () 
-	{
-		$database = &JFactory::getDBO();
-		$source = $this->file_path;
-		$success = false;
-		
-		if ($f = @fopen($source,'rb')) 
-		{
-			$sql = "";
-			while($f && !feof($f)) 
-			{
-				$chunk = fread($f, 65535);
-				$sql .= $chunk;
-			}
-			fclose($f);
-			$this->fileastext = $sql;
-			$success = true;
-			return $success;
-		} 
-			else 
-		{
-			return $success;
-		}
-	}
-
-	/**
-	 * Returns 
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function fileToBlob () 
-	{
-		$database = &JFactory::getDBO();
-		$source = $this->file_path;
-		$success = false;
-		
-		if ($f = @fopen($source,'rb')) 
-		{
-			$sql = "";
-			while($f && !feof($f)) 
-			{
-				$chunk = fread($f, 65535);
-				$sql .= $chunk;
-			}
-			fclose($f);
-			$this->fileasblob = $sql;
-			$this->fileisblob = '1';
-			$success = true;
-			return $success;
-		} else {
-			return $success;
-		}
-	}
-		
-	/**
-	 * Returns
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function textToFile ( $file, $temppath='' ) 
-	{
-		global $mainframe;
-		$result = false;
-		if (!$temppath || !is_writable($temppath)) 
-		{
-			$temppath = $mainframe->getCfg( 'config.tmp_path' );
-		}
-		
-		$destination = $temppath.DS.$file->filename;
-		
-		if ($f = @fopen($destination,'wb')) {
-			if ($file->filetext AND fwrite ( $f, $file->filetext )) { $result = $destination; }
-			fclose($f);
-		}
-		
-		return $result;
-	}
-	
-	/**
-	 * Returns
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function blobToFile ( $file, $temppath='' ) 
-	{
-		global $mainframe;
-		$result = false;
-		if (!$temppath || !is_writable($temppath)) 
-		{
-			$temppath = $mainframe->getCfg( 'config.tmp_path' );
-		}
-		
-		$destination = $temppath.DS.$file->filename;
-		
-		if ($f = @fopen($destination,'wb')) 
-		{
-			if ($file->fileblob AND fwrite ( $f, $file->fileblob )) { $result = $destination; }
-			fclose($f);
-		}
-		
-		return $result;
-	}	
-
-	/**
-	 * Retrieves the values
-	 * @return array Array of objects containing the data from the database
-	 */
-	function getStorageMethods() 
-	{
-		static $instance;
-		
-		if (!is_array($instance)) {
-			$instance = array();
-				$instance_file = new stdClass();
-				$instance_file->id = 1;
-				$instance_file->title = 'File';
-			$instance[0] = $instance_file;
-				$instance_blob = new stdClass();
-				$instance_blob->id = 2;
-				$instance_blob->title = 'Blob';
-			$instance[1] = $instance_blob;
-
-		}
-
-		return $instance;
-	}
-	
-	/**
-	 * Creates a List
-	 * @return array Array of objects containing the data from the database
-	 */
-	function getArrayListStorageMethods() 
-	{
-		static $instance;
-		
-		if (!is_array($instance)) {
-			$instance = array();
-			$data = &TiendaFile::getStorageMethods();
-			for ($i=0; $i<count($data); $i++) {
-				$d = $data[$i];
-		  		$instance[] = JHTML::_('select.option', $d->id, JText::_( $d->title ) );
-			}
-		}
-
-		return $instance;
-
-	}
-	
-	/**
-	 * Get Full file Path
-	 */
-	function getFullPath()
-	{
-		return $this->full_path;
-	}
-	
 }
 
 ?>

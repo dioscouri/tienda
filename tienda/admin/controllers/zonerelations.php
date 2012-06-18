@@ -138,6 +138,7 @@ class TiendaControllerZonerelations extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'default' );
+		$view->setTask(true);
 		$view->display();
     }
 

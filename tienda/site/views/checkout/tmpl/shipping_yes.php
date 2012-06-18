@@ -1,9 +1,9 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access');
 	$shipping_rates_text = JText::_('COM_TIENDA_GETTING_SHIPPING_RATES');
-	$one_page = TiendaConfig::getInstance()->get( 'one_page_checkout', '0' );
+	$one_page = Tienda::getInstance()->get( 'one_page_checkout', '0' );
 
-	$currency = TiendaConfig::getInstance()->get( 'default_currencyid', 1);
+	$currency = Tienda::getInstance()->get( 'default_currencyid', 1);
 	
 if(!$one_page ): ?>
 

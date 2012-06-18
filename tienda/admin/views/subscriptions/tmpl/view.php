@@ -38,7 +38,7 @@
                         <?php echo JText::_('COM_TIENDA_CREATED'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('date', $row->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $row->created_datetime, Tienda::getInstance()->get('date_format')); ?>
                     </td>
                 </tr>
                 <tr>
@@ -46,7 +46,7 @@
                         <?php echo JText::_('COM_TIENDA_EXPIRATION_DATE'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('date', $row->expires_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                        <?php echo JHTML::_('date', $row->expires_datetime, Tienda::getInstance()->get('date_format')); ?>
                     </td>
                 </tr>
                 <tr>
@@ -111,7 +111,7 @@
                         <?php echo @$row->user_id; ?>
                     </td>
                 </tr>
-		            <?php if ( TiendaConfig::getInstance()->get( 'display_subnum', 0 ) ) : ?>
+		            <?php if ( Tienda::getInstance()->get( 'display_subnum', 0 ) ) : ?>
 		            <tr>
                     <td width="100" align="right" class="key">
 		                    <?php echo JText::_('COM_TIENDA_SUB_NUM'); ?>
@@ -180,7 +180,7 @@
                 <?php foreach (@$histories as $history) : ?>
                     <tr class='row<?php echo $k; ?>'>
                         <td style="text-align: left;">
-                            <?php echo JHTML::_('date', $history->created_datetime, TiendaConfig::getInstance()->get('date_format')); ?>
+                            <?php echo JHTML::_('date', $history->created_datetime, Tienda::getInstance()->get('date_format')); ?>
                         </td>
                         <td style="text-align: center;">
                             <?php echo JText::_( $history->subscriptionhistory_type ); ?>

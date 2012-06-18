@@ -51,7 +51,7 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
 
         $vars->reference = $data['order_id'];
         $vars->montant = round($data['orderpayment_amount'], 2); // Amount : format  "xxxxx.yy" (no spaces)
-        $vars->devise = $this->_getCurrencyIsoCode(TiendaConfig::getInstance()->get('currency'));
+        $vars->devise = $this->_getCurrencyIsoCode(Tienda::getInstance()->get('currency'));
         $vars->texteLibre = $data['orderpayment_id'];
         $vars->date = date("d/m/Y:H:i:s");
         $vars->langue = $this->_getLanguageCode('');
@@ -490,7 +490,7 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
         $mainframe = & JFactory::getApplication();
 
         // grab config settings for sender name and email
-        $config = &TiendaConfig::getInstance();
+        $config = &Tienda::getInstance();
         $mailfrom = $config->get('emails_defaultemail', $mainframe->getCfg('mailfrom'));
         $fromname = $config->get('emails_defaultname', $mainframe->getCfg('fromname'));
         $sitename = $config->get('sitename', $mainframe->getCfg('sitename'));

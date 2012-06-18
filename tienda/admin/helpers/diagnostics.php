@@ -45,7 +45,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	{
 		 
 		// OLD CHECKS?
-		if (!TiendaConfig::getInstance()->get('checkOldDiagnostics', '0'))
+		if (!Tienda::getInstance()->get('checkOldDiagnostics', '0'))
 		{
 			 
 			// Check default currency
@@ -653,7 +653,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 */
 	function checkDefaultCurrency()
 	{
-		$default_currencyid = TiendaConfig::getInstance()->get('default_currencyid', '-1');
+		$default_currencyid = Tienda::getInstance()->get('default_currencyid', '-1');
 		if ($default_currencyid == '-1')
 		{
 			JError::raiseNotice( 'checkDefaultCurrency', JText::_('COM_TIENDA_NO_DEFAULT_CURRENCY_SELECTED') );
@@ -685,7 +685,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductFiles()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductFiles', '0'))
+		if (Tienda::getInstance()->get('checkProductFiles', '0'))
 		{
 			return true;
 		}
@@ -749,7 +749,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsInventory()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsInventory', '0'))
+		if (Tienda::getInstance()->get('checkProductsInventory', '0'))
 		{
 			return true;
 		}
@@ -783,7 +783,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrdersOrderCurrency()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrdersOrderCurrency', '0'))
+		if (Tienda::getInstance()->get('checkOrdersOrderCurrency', '0'))
 		{
 			return true;
 		}
@@ -794,7 +794,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 
 		$fields[] = "order_currency";
 		$newnames["order_currency"] = "order_currency";
-		$definitions["order_currency"] = "TEXT NOT NULL COMMENT 'Stores a JParameter formatted version of the current currency. Used to maintain the order integrity'";
+		$definitions["order_currency"] = "TEXT NOT NULL COMMENT 'Stores a DSCParameter formatted version of the current currency. Used to maintain the order integrity'";
 
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
@@ -817,7 +817,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCategoriesRootDesc()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCategoriesRootDesc', '0'))
+		if (Tienda::getInstance()->get('checkCategoriesRootDesc', '0'))
 		{
 			return true;
 		}
@@ -855,7 +855,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsParamsLayout()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsParamsLayout', '0'))
+		if (Tienda::getInstance()->get('checkProductsParamsLayout', '0'))
 		{
 			return true;
 		}
@@ -892,7 +892,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCategoriesParamsLayout()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCategoriesParamsLayout', '0'))
+		if (Tienda::getInstance()->get('checkCategoriesParamsLayout', '0'))
 		{
 			return true;
 		}
@@ -932,7 +932,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCountriesEnabled()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCountriesEnabled', '0'))
+		if (Tienda::getInstance()->get('checkCountriesEnabled', '0'))
 		{
 			return true;
 		}
@@ -966,7 +966,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCountriesOrdering()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCountriesOrdering', '0'))
+		if (Tienda::getInstance()->get('checkCountriesOrdering', '0'))
 		{
 			return true;
 		}
@@ -1005,7 +1005,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderHistory()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderHistory', '0'))
+		if (Tienda::getInstance()->get('checkOrderHistory', '0'))
 		{
 			return true;
 		}
@@ -1041,7 +1041,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsShortDesc()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsShortDesc', '0'))
+		if (Tienda::getInstance()->get('checkProductsShortDesc', '0'))
 		{
 			return true;
 		}
@@ -1077,7 +1077,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkTaxclassesOrdering()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkTaxclassesOrdering', '0'))
+		if (Tienda::getInstance()->get('checkTaxclassesOrdering', '0'))
 		{
 			return true;
 		}
@@ -1117,7 +1117,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrdersOrderNumber()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrdersOrderNumber', '0'))
+		if (Tienda::getInstance()->get('checkOrdersOrderNumber', '0'))
 		{
 			return true;
 		}
@@ -1152,7 +1152,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderInfoZones()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderInfoZones', '0'))
+		if (Tienda::getInstance()->get('checkOrderInfoZones', '0'))
 		{
 			return true;
 		}
@@ -1196,7 +1196,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCurrenciesExchange()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCurrenciesExchange', '0'))
+		if (Tienda::getInstance()->get('checkCurrenciesExchange', '0'))
 		{
 			return true;
 		}
@@ -1234,7 +1234,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCartsSessionId()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCartsSessionId', '0'))
+		if (Tienda::getInstance()->get('checkCartsSessionId', '0'))
 		{
 			return true;
 		}
@@ -1270,7 +1270,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderZoneAndUser()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderZoneAndUser', '0'))
+		if (Tienda::getInstance()->get('checkOrderZoneAndUser', '0'))
 		{
 			return true;
 		}
@@ -1309,7 +1309,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderCompletedTasks()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderCompletedTasks', '0'))
+		if (Tienda::getInstance()->get('checkOrderCompletedTasks', '0'))
 		{
 			return true;
 		}
@@ -1344,7 +1344,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderQuantitiesUpdated()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderQuantitiesUpdated', '0'))
+		if (Tienda::getInstance()->get('checkOrderQuantitiesUpdated', '0'))
 		{
 			return true;
 		}
@@ -1379,7 +1379,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrdersOrderShips()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrdersOrderShips', '0'))
+		if (Tienda::getInstance()->get('checkOrdersOrderShips', '0'))
 		{
 			return true;
 		}
@@ -1414,7 +1414,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsName()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsName', '0'))
+		if (Tienda::getInstance()->get('checkProductsName', '0'))
 		{
 			return true;
 		}
@@ -1452,7 +1452,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkUserInfoEmailDropId()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkUserInfoEmailDropId', '0'))
+		if (Tienda::getInstance()->get('checkUserInfoEmailDropId', '0'))
 		{
 			return true;
 		}
@@ -1501,7 +1501,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsOrdering()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsOrdering', '0'))
+		if (Tienda::getInstance()->get('checkProductsOrdering', '0'))
 		{
 			return true;
 		}
@@ -1536,7 +1536,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderitemsRecurringPrice()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderitemsRecurringPrice', '0'))
+		if (Tienda::getInstance()->get('checkOrderitemsRecurringPrice', '0'))
 		{
 			return true;
 		}
@@ -1571,7 +1571,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsCheckInventory()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsCheckInventory', '0'))
+		if (Tienda::getInstance()->get('checkProductsCheckInventory', '0'))
 		{
 			return true;
 		}
@@ -1612,7 +1612,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductRelationsExisting()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductRelationsExisting', '0'))
+		if (Tienda::getInstance()->get('checkProductRelationsExisting', '0'))
 		{
 			return true;
 		}
@@ -1690,7 +1690,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductRelationsType()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductRelationsType', '0'))
+		if (Tienda::getInstance()->get('checkProductRelationsType', '0'))
 		{
 			return true;
 		}
@@ -1725,7 +1725,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubscriptionsExpire()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubscriptionsExpire', '0'))
+		if (Tienda::getInstance()->get('checkSubscriptionsExpire', '0'))
 		{
 			return true;
 		}
@@ -1760,7 +1760,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsSubscriptions()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsSubscriptions', '0'))
+		if (Tienda::getInstance()->get('checkProductsSubscriptions', '0'))
 		{
 			return true;
 		}
@@ -1804,7 +1804,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderItemsSubscriptions()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderItemsSubscriptions', '0'))
+		if (Tienda::getInstance()->get('checkOrderItemsSubscriptions', '0'))
 		{
 			return true;
 		}
@@ -1848,7 +1848,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsNotForSale()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsNotForSale', '0'))
+		if (Tienda::getInstance()->get('checkProductsNotForSale', '0'))
 		{
 			return true;
 		}
@@ -1886,7 +1886,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubscriptionsCheckFiles()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubscriptionsCheckFiles', '0'))
+		if (Tienda::getInstance()->get('checkSubscriptionsCheckFiles', '0'))
 		{
 			return true;
 		}
@@ -1921,7 +1921,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsSQL()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsSQL', '0'))
+		if (Tienda::getInstance()->get('checkProductsSQL', '0'))
 		{
 			return true;
 		}
@@ -1954,7 +1954,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductcommentshelpful_votes()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductcommentshelpful_votes', '0'))
+		if (Tienda::getInstance()->get('checkProductcommentshelpful_votes', '0'))
 		{
 			return true;
 		}
@@ -1992,7 +1992,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderitemsDiscount()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderitemsDiscount', '0'))
+		if (Tienda::getInstance()->get('checkOrderitemsDiscount', '0'))
 		{
 			return true;
 		}
@@ -2027,7 +2027,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrdershippings()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrdershippings', '0'))
+		if (Tienda::getInstance()->get('checkOrdershippings', '0'))
 		{
 			return true;
 		}
@@ -2065,7 +2065,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductCommentsReported()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductCommentsReported', '0'))
+		if (Tienda::getInstance()->get('checkProductCommentsReported', '0'))
 		{
 			return true;
 		}
@@ -2100,7 +2100,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductFilesMaxDownload()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductFilesMaxDownload', '0'))
+		if (Tienda::getInstance()->get('checkProductFilesMaxDownload', '0'))
 		{
 			return true;
 		}
@@ -2135,7 +2135,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsProductListprice()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsProductListprice', '0'))
+		if (Tienda::getInstance()->get('checkProductsProductListprice', '0'))
 		{
 			return true;
 		}
@@ -2173,7 +2173,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductCommentsRatingUpdated()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductCommentsRatingUpdated', '0'))
+		if (Tienda::getInstance()->get('checkProductCommentsRatingUpdated', '0'))
 		{
 			return true;
 		}
@@ -2208,7 +2208,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsOverallRating()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsOverallRating', '0'))
+		if (Tienda::getInstance()->get('checkProductsOverallRating', '0'))
 		{
 			return true;
 		}
@@ -2246,7 +2246,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function updateOverallRatings()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('updateOverallRatings', '0'))
+		if (Tienda::getInstance()->get('updateOverallRatings', '0'))
 		{
 			return true;
 		}
@@ -2277,7 +2277,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCartParams()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCartParams', '0'))
+		if (Tienda::getInstance()->get('checkCartParams', '0'))
 		{
 			return true;
 		}
@@ -2312,7 +2312,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderitemParams()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderitemParams', '0'))
+		if (Tienda::getInstance()->get('checkOrderitemParams', '0'))
 		{
 			return true;
 		}
@@ -2346,7 +2346,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkPricesGroupId()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkPricesGroupId', '0'))
+		if (Tienda::getInstance()->get('checkPricesGroupId', '0'))
 		{
 			return true;
 		}
@@ -2382,7 +2382,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function updatePriceUserGroups()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('updatePriceUserGroups', '0'))
+		if (Tienda::getInstance()->get('updatePriceUserGroups', '0'))
 		{
 			return true;
 		}
@@ -2414,7 +2414,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductQuantityLimits()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductQuantityLimits', '0'))
+		if (Tienda::getInstance()->get('checkProductQuantityLimits', '0'))
 		{
 			return true;
 		}
@@ -2453,7 +2453,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderItemAttributeCode()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderItemAttributeCode', '0'))
+		if (Tienda::getInstance()->get('checkOrderItemAttributeCode', '0'))
 		{
 			return true;
 		}
@@ -2488,7 +2488,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductAttributeOptionCode()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionCode', '0'))
+		if (Tienda::getInstance()->get('checkProductAttributeOptionCode', '0'))
 		{
 			return true;
 		}
@@ -2523,7 +2523,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkZoneRelationsZipRange()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkZoneRelationsZipRange', '0'))
+		if (Tienda::getInstance()->get('checkZoneRelationsZipRange', '0'))
 		{
 			return true;
 		}
@@ -2558,7 +2558,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductCommentsUserEmail()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductCommentsUserEmail', '0'))
+		if (Tienda::getInstance()->get('checkProductCommentsUserEmail', '0'))
 		{
 			return true;
 		}
@@ -2612,7 +2612,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCategoriesOrdering()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCategoriesOrdering', '0'))
+		if (Tienda::getInstance()->get('checkCategoriesOrdering', '0'))
 		{
 			return true;
 		}
@@ -2647,7 +2647,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductsArticle()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductsArticle', '0'))
+		if (Tienda::getInstance()->get('checkProductsArticle', '0'))
 		{
 			return true;
 		}
@@ -2681,7 +2681,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEavEntityID()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEavEntityID', '0'))
+		if (Tienda::getInstance()->get('checkEavEntityID', '0'))
 		{
 			return true;
 		}
@@ -2715,7 +2715,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEavEditableBy()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEavEditableBy', '0'))
+		if (Tienda::getInstance()->get('checkEavEditableBy', '0'))
 		{
 			return true;
 		}
@@ -2748,7 +2748,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEavEntityType()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEavEntityType', '0'))
+		if (Tienda::getInstance()->get('checkEavEntityType', '0'))
 		{
 			return true;
 		}
@@ -2795,7 +2795,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCartsCartId()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCartsCartId', '0'))
+		if (Tienda::getInstance()->get('checkCartsCartId', '0'))
 		{
 			return true;
 		}
@@ -2830,7 +2830,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductCommentsUserName()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductCommentsUserName', '0')) return true;
+		if (Tienda::getInstance()->get('checkProductCommentsUserName', '0')) return true;
 		 
 		$table = '#__tienda_productcomments';
 		$definitions = array();
@@ -2862,7 +2862,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkManufacturersDescParams()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkManufacturersDescParams', '0'))
+		if (Tienda::getInstance()->get('checkManufacturersDescParams', '0'))
 		{
 			return true;
 		}
@@ -2900,7 +2900,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkGroupsOrdering()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkGroupsOrdering', '0')) return true;
+		if (Tienda::getInstance()->get('checkGroupsOrdering', '0')) return true;
 		 
 		$table = '#__tienda_groups';
 		$definitions = array();
@@ -2932,7 +2932,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkParentAttributeOption()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkParentAttributeOption', '0')) return true;
+		if (Tienda::getInstance()->get('checkParentAttributeOption', '0')) return true;
 		 
 		$table = '#__tienda_productattributes';
 		$definitions = array();
@@ -2964,7 +2964,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkParentAttributeOption2()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkParentAttributeOption2', '0')) return true;
+		if (Tienda::getInstance()->get('checkParentAttributeOption2', '0')) return true;
 		 
 		$table = '#__tienda_productattributeoptions';
 		$definitions = array();
@@ -2995,7 +2995,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEavRequired()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEavRequired', '0'))
+		if (Tienda::getInstance()->get('checkEavRequired', '0'))
 		{
 			return true;
 		}
@@ -3029,7 +3029,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEavAlias()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEavAlias', '0'))
+		if (Tienda::getInstance()->get('checkEavAlias', '0'))
 		{
 			return true;
 		}
@@ -3064,7 +3064,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProRatedSubscriptionProducts()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProRatedSubscriptionProducts', '0')) return true;
+		if (Tienda::getInstance()->get('checkProRatedSubscriptionProducts', '0')) return true;
 		 
 		$table = '#__tienda_products';
 		$definitions = array();
@@ -3103,7 +3103,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProRatedSubscriptionOrderitems()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProRatedSubscriptionOrderitems', '0')) return true;
+		if (Tienda::getInstance()->get('checkProRatedSubscriptionOrderitems', '0')) return true;
 		 
 		$table = '#__tienda_orderitems';
 		$definitions = array();
@@ -3136,7 +3136,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubscriptionByIssue()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubscriptionByIssue', '0')) return true;
+		if (Tienda::getInstance()->get('checkSubscriptionByIssue', '0')) return true;
 		 
 		$table = '#__tienda_subscriptions';
 		$definitions = array();
@@ -3169,7 +3169,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubNumUserInfo()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubNumUserInfo', '0')) return true;
+		if (Tienda::getInstance()->get('checkSubNumUserInfo', '0')) return true;
 		 
 		$table = '#__tienda_userinfo';
 		$definitions = array();
@@ -3202,7 +3202,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubNumSubscriptions()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubNumSubscriptions', '0')) return true;
+		if (Tienda::getInstance()->get('checkSubNumSubscriptions', '0')) return true;
 		 
 		$table = '#__tienda_subscriptions';
 		$definitions = array();
@@ -3235,7 +3235,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkAddressTaxNumber()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkAddressTaxNumber', '0')) return true;
+		if (Tienda::getInstance()->get('checkAddressTaxNumber', '0')) return true;
 		 
 		$table = '#__tienda_addresses';
 		$definitions = array();
@@ -3268,7 +3268,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderInfoTaxNumber()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderInfoTaxNumber', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderInfoTaxNumber', '0')) return true;
 		 
 		$table = '#__tienda_orderinfo';
 		$definitions = array();
@@ -3302,7 +3302,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubByIssueGtmField()
 	{
 		// if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubByIssueGtmField', '0'))
+		if (Tienda::getInstance()->get('checkSubByIssueGtmField', '0'))
 		{
 			return true;
 		}
@@ -3339,7 +3339,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkCategoryDisplayFields()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkCategoryDisplayFields', '0')) return true;
+		if (Tienda::getInstance()->get('checkCategoryDisplayFields', '0')) return true;
 		 
 		$table = '#__tienda_categories';
 		$definitions = array();
@@ -3374,7 +3374,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkEmptyEavTable()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkEmptyEavTable', '0')) return true;
+		if (Tienda::getInstance()->get('checkEmptyEavTable', '0')) return true;
 		 
 		$db = JFactory::getDbo();
 		$tables = array( '#__tienda_eavvaluesdatetime', '#__tienda_eavvaluesdecimal', '#__tienda_eavvaluesint', '#__tienda_eavvaluestext', '#__tienda_eavvaluesvarchar' );		
@@ -3407,7 +3407,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderCreditFields()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderCreditFields', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderCreditFields', '0')) return true;
 		 
 		$table = '#__tienda_orders';
 		$definitions = array();
@@ -3438,7 +3438,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkUserInfoCreditFields()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkUserInfoCreditFields', '0')) return true;
+		if (Tienda::getInstance()->get('checkUserInfoCreditFields', '0')) return true;
 		 
 		$table = '#__tienda_userinfo';
 		$definitions = array();
@@ -3473,7 +3473,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductAttributeOptionBlank()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductAttributeOptionsBlank', '0')) return true;
+		if (Tienda::getInstance()->get('checkProductAttributeOptionsBlank', '0')) return true;
 		 
 		$table = '#__tienda_productattributeoptions';
 		$definitions = array();
@@ -3506,7 +3506,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkLevelTaxes()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkLevelTaxes', '0')) return true;
+		if (Tienda::getInstance()->get('checkLevelTaxes', '0')) return true;
 		 
 		$table = '#__tienda_taxrates';
 		$definitions = array();
@@ -3539,7 +3539,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderitemLevelTaxes()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderitemLevelTaxes', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderitemLevelTaxes', '0')) return true;
 		 
 		$table = '#__tienda_ordertaxrates';
 		$definitions = array();
@@ -3574,7 +3574,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSecretWord()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSecretWord', '0')) return true;
+		if (Tienda::getInstance()->get('checkSecretWord', '0')) return true;
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$config = JTable::getInstance( 'Config', 'TiendaTable' );
 		$config->config_name = 'secret_word';
@@ -3604,7 +3604,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function dropZoneIdOrderInfo()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('dropZoneIdOrderInfo', '0')) return true;
+		if (Tienda::getInstance()->get('dropZoneIdOrderInfo', '0')) return true;
 
 		$fields = array();
 		$fields[] = "zone_id";
@@ -3633,7 +3633,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderHashField()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderHashField', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderHashField', '0')) return true;
 
 		$fields = array();
 		$fields[] = "order_hash";
@@ -3664,7 +3664,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkSubtotalMax()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkSubtotalMax', '0')) return true;
+		if (Tienda::getInstance()->get('checkSubtotalMax', '0')) return true;
 
 		$fields = array();
 		$fields[] = "subtotal_maximum";
@@ -3695,7 +3695,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderItemsWeight()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderItemsWeight', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderItemsWeight', '0')) return true;
 
 		$fields = array();
 		$fields[] = "orderitem_weight";
@@ -3728,7 +3728,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkOrderItemAttributesWeight()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkOrderItemAttributesWeight', '0')) return true;
+		if (Tienda::getInstance()->get('checkOrderItemAttributesWeight', '0')) return true;
 
 		$fields = array();
 		$fields[] = "orderitemattribute_weight";
@@ -3761,7 +3761,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	function checkProductAttributesWeight()
 	{
 		//if this has already been done, don't repeat
-		if (TiendaConfig::getInstance()->get('checkProductAttributesWeight', '0')) return true;
+		if (Tienda::getInstance()->get('checkProductAttributesWeight', '0')) return true;
 
 		$fields = array();
 		$fields[] = "productattributeoption_weight";

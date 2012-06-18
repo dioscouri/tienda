@@ -7,9 +7,9 @@
 	JHTML::_('behavior.mootools' );
 	Tienda::load('TiendaHelperImage', 'helpers.image');
 	$image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images'));
-	$enable_tooltips = TiendaConfig::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
-	$display_credits = TiendaConfig::getInstance()->get( 'display_credits', '0' );
-	$guest_enabled = TiendaConfig::getInstance()->get('guest_checkout_enabled', 0);
+	$enable_tooltips = Tienda::getInstance()->get('one_page_checkout_tooltips_enabled', 0);
+	$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
+	$guest_enabled = Tienda::getInstance()->get('guest_checkout_enabled', 0);
 
 	$this->section = 1;	
 	$js_strings = array( 'COM_TIENDA_UPDATING_PAYMENT_METHODS', 'COM_TIENDA_CHECKING_COUPON',
@@ -250,14 +250,14 @@
 				
 				<div class="reset marginbot"></div>
 				
-				<?php $coupons_enabled = TiendaConfig::getInstance()->get('coupons_enabled'); ?>
+				<?php $coupons_enabled = Tienda::getInstance()->get('coupons_enabled'); ?>
 		 		<?php if ($coupons_enabled && $this->coupons_present) : ?>
 					<div class="tienda-expanded" id="coupon-pane">						
 						<div id="coupon_code_area">
 		            	 	<div id="coupon_code_form">  
 		            	 		<div class="contentheading">
 									<?php echo JText::_('COM_TIENDA_COUPON_CODE')?>
-									<?php $mult_enabled = TiendaConfig::getInstance()->get('multiple_usercoupons_enabled'); ?>
+									<?php $mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled'); ?>
 			            			<?php $string = "COM_TIENDA_COUPON_CODE_HELP"; if ($mult_enabled) { $string = "COM_TIENDA_COUPON_CODE_HELP_MULTIPLE"; } ?>
 			            	<?php if( $enable_tooltips ) : ?>
 			            			<a class="img_tooltip" href="" > 
@@ -284,7 +284,7 @@
 		            <div id="credits_area" class="address">
 		                <div id="credits_form">
 		                <h3><?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?></h3>
-		                <div id="credit_help"><?php echo sprintf( JText::_('COM_TIENDA_YOU_HAVE_STORE_CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total, TiendaConfig::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
+		                <div id="credit_help"><?php echo sprintf( JText::_('COM_TIENDA_YOU_HAVE_STORE_CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total, Tienda::getInstance()->get( 'default_currencyid', 1) ) ); ?></div>
 		                <div id="credit_message"></div>
 		                <input type="text" name="apply_credit_amount" id="apply_credit_amount" value="" />
 		                <input type="button" name="credit_submit" value="<?php echo JText::_('COM_TIENDA_APPLY_CREDIT_TO_ORDER'); ?>"  onClick="tiendaAddCredit( document.adminForm );"/>
@@ -316,9 +316,9 @@
 				<div class="reset marginbot"></div>	
 				<div class="tienda-expanded" id="shipping_terms-pane">
 				 <?php 
-		    		if( TiendaConfig::getInstance()->get('require_terms', '1') )
+		    		if( Tienda::getInstance()->get('require_terms', '1') )
 		    		{
-		    			$terms_article = TiendaConfig::getInstance()->get('article_terms');
+		    			$terms_article = Tienda::getInstance()->get('article_terms');
 		    			$terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article);
 		    		?>
 	            	<div><?php echo JText::_('COM_TIENDA_TERMS_AND_CONDITIONS'); ?></div>
