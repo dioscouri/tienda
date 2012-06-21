@@ -193,7 +193,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
      */
     function remove( $user_id, $sub_id )
     {
-        $date =& JFactory::getDate();
+        $date = JFactory::getDate();
         $today = $date->toFormat( '%Y-%m-%d %H:%M:%S' );
         
         $database = JFactory::getDBO();

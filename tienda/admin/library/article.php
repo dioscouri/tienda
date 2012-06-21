@@ -24,9 +24,9 @@ class TiendaArticle extends DSCArticle
 		global $mainframe;
 		$html = '';
 		
-		$dispatcher	   =& JDispatcher::getInstance();
+		$dispatcher	   = JDispatcher::getInstance();
 			
-		$article =& JTable::getInstance('content');
+		$article = JTable::getInstance('content');
 		$article->load( $articleid );
 		// Return html if the load fails
 		if (!$article->id)

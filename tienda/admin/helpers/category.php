@@ -152,11 +152,11 @@ class TiendaHelperCategory extends TiendaHelperBase
 
         if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
         {
-            $helper =& $this;
+            $helper = $this;
         } 
             else 
         {
-            $helper =& TiendaHelperBase::getInstance( 'Category' );
+            $helper = TiendaHelperBase::getInstance( 'Category' );
         }
         
         if (empty($helper->categories[$category_id]))
@@ -270,11 +270,11 @@ class TiendaHelperCategory extends TiendaHelperBase
 		
 	    if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
         {
-            $helper =& $this;
+            $helper = $this;
         } 
             else 
         {
-            $helper =& TiendaHelperBase::getInstance( 'Category' );
+            $helper = TiendaHelperBase::getInstance( 'Category' );
         }
         
         if (empty($helper->categories[$id]))

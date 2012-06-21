@@ -81,7 +81,7 @@ class TiendaModelElementImage extends JModel
 		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_TIENDA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list

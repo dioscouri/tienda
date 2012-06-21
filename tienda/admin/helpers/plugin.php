@@ -45,7 +45,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 		}
 		
 		$args = array();
-		$dispatcher	   =& JDispatcher::getInstance();
+		$dispatcher	   = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( $event, $options );
 		
 		if ( !count($results) > 0 ) {

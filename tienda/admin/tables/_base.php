@@ -420,7 +420,7 @@ class TiendaTable extends JTable
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
 
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
 		// remove any duplicate whitespace, and ensure all characters are alphanumeric

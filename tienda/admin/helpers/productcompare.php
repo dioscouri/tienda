@@ -23,11 +23,11 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	{
 		$canAdd = true;
 		$model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
         $model->setState( 'filter_user', $user->id ); 
         if (empty($user->id))
         {
-        	$session =& JFactory::getSession();
+        	$session = JFactory::getSession();
             $model->setState( 'filter_session', $session->getId() ); 
         }
        
@@ -46,11 +46,11 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	{
 		$model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
 		
-	 	$user =& JFactory::getUser();
+	 	$user = JFactory::getUser();
         $model->setState( 'filter_user', $user->id ); 
         if (empty($user->id))
         {
-        	$session =& JFactory::getSession();
+        	$session = JFactory::getSession();
             $model->setState( 'filter_session', $session->getId() ); 
         }
              
@@ -73,8 +73,8 @@ class TiendaHelperProductCompare extends TiendaHelperBase
      */
     public function addItem( $item )
     {
-       	$session =& JFactory::getSession();
-        $user =& JFactory::getUser();
+       	$session = JFactory::getSession();
+        $user = JFactory::getUser();
         
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         $table = JTable::getInstance( 'ProductCompare', 'TiendaTable' );
@@ -170,7 +170,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	function mergeSessionProductComparedWithUserProductCompared( $session_id, $user_id )
 	{
 	 	$date = JFactory::getDate();
-	    $session =& JFactory::getSession();
+	    $session = JFactory::getSession();
 	    
         JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
         $model = JModel::getInstance( 'ProductCompare', 'TiendaModel' );

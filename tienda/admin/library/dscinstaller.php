@@ -98,7 +98,7 @@ if (!class_exists( 'dscInstaller' )) {
 		function __construct()
 		{
 			$this->msg = new stdClass();
-			$this->_db =& JFactory::getDBO();
+			$this->_db = JFactory::getDBO();
 		}
 	
 		/**
@@ -274,7 +274,7 @@ if (!class_exists( 'dscInstaller' )) {
 				  break;
 				default:
 					//Build the appropriate paths
-					$config =& JFactory::getConfig();
+					$config = JFactory::getConfig();
 					$packageFile = $this->_extensionsPath.DS.$entry;
 					
 					//Unpack the package file
@@ -346,7 +346,7 @@ if (!class_exists( 'dscInstaller' )) {
 	
 			// Cleanup the install files
 			if (!is_file($package['packagefile'])) {
-				$config =& JFactory::getConfig();
+				$config = JFactory::getConfig();
 				$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
 			}
 	
@@ -390,13 +390,13 @@ if (!class_exists( 'dscInstaller' )) {
 	            if (!is_null($manifest)) {
 	
 	                // If the root method attribute is set to upgrade, allow file overwrite
-	                $root =& $manifest->document;
+	                $root = $manifest->document;
 	                if ($root->attributes('method') == 'upgrade') {
 	                    $installer->_overwrite = true;
 	                }
 	
 	                // Set the manifest object and path
-	                $installer->_manifest =& $manifest;
+	                $installer->_manifest = $manifest;
 	                $installer->setPath('manifest', $file);
 	
 	                // Set the installation source path to that of the manifest file
@@ -577,8 +577,8 @@ if (!class_exists( 'dscInstaller' )) {
 		 */
 		function getManifestInformation($installer) {
 			// Get the extension manifest object
-			$manifest =& $installer->getManifest();
-			$manifestFile =& $manifest->document;
+			$manifest = $installer->getManifest();
+			$manifestFile = $manifest->document;
 	
 			//final information that we need about the extension
 			$type = $manifestFile->attributes('type');
@@ -587,20 +587,20 @@ if (!class_exists( 'dscInstaller' )) {
 			if(strcasecmp($type, "component") == 0) {
 	
 				// Set the extensions name
-				$name =& $manifestFile->getElementByPath('name');
+				$name = $manifestFile->getElementByPath('name');
 				$name = JFilterInput::clean($name->data(), 'cmd');
 				$elementName = $name;
 			} else {
 				//otherwise it is a plugin or module
 				$group = $manifestFile->attributes('group');
 	
-				$name =& $manifestFile->getElementByPath('name');
+				$name = $manifestFile->getElementByPath('name');
 				$name = JFilterInput::clean($name->data(), 'string');
 	
 				//find the actual element name for the database
-				$element =& $manifestFile->getElementByPath('files');
+				$element = $manifestFile->getElementByPath('files');
 				if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
-					$files =& $element->children();
+					$files = $element->children();
 					foreach ($files as $file) {
 						if ($file->attributes($type)) {
 							$elementName = $file->attributes($type);
@@ -750,11 +750,11 @@ if (!class_exists( 'dscInstaller' )) {
 		 */
 		function preventCustomUninstall(&$installer) {
 			//Get the extension manifest object
-			$manifest =& $installer->getManifest();
-			$manifestFile =& $manifest->document;
+			$manifest = $installer->getManifest();
+			$manifestFile = $manifest->document;
 	
 			//Cleverly remove the XML containing custom uninstall information
-			$uninstaller =& $manifestFile->getElementByPath('uninstall');
+			$uninstaller = $manifestFile->getElementByPath('uninstall');
 			$manifestFile->removeChild($uninstaller);
 		}
 	

@@ -434,7 +434,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 
 		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
 		$model->setId( $order_id );
-		$order =& $model->getItem();
+		$order = $model->getItem();
 
 		$view->set( '_controller', 'orders' );
 		$view->set( '_view', 'orders' );
@@ -516,7 +516,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	function onDisplayOrderItems($orderitems)
 	{
 		//trigger the onDisplayOrderItem for each orderitem
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$onDisplayOrderItem = array();
 		$index = 0;

@@ -27,7 +27,7 @@ class TiendaViewBase extends DSCViewAdmin
        Tienda::load( 'TiendaUrl', 'library.url' );
         Tienda::load( 'TiendaSelect', 'library.select' );
         Tienda::load( 'TiendaGrid', 'library.grid' );
-        Tienda::load( 'TiendaMenu', 'library.menu' );
+     //   Tienda::load( 'TiendaMenu', 'library.menu' );
              
         
         parent::display($tpl);

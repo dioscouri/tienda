@@ -229,7 +229,7 @@ class TiendaHelperEav extends TiendaHelperBase
     			return JHTML::date(date('Y-m-d H:i:s', strtotime( $value)), Tienda::getInstance()->get('date_format'));
     			break;
     		case "text":
-    			$dispatcher =& JDispatcher::getInstance();
+    			$dispatcher = JDispatcher::getInstance();
     			$item = new JObject();
 		        $item->text = &$value;  
 		        $item->params = array();

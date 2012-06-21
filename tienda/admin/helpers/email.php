@@ -427,7 +427,7 @@ class TiendaHelperEmail extends DSCHelperEmail
      */
     function getSystemEmailRecipients()
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $query = "
             SELECT tbl.email
             FROM #__users AS tbl

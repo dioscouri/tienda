@@ -5,7 +5,7 @@
 		$img_path = "../media/com_tienda/images";
 
 		JPluginHelper::importPlugin('tienda');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( 'onGetFooter', array() );
 		
 		$html = implode('', $results);

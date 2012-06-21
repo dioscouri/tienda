@@ -327,7 +327,7 @@ class TiendaControllerPOS extends TiendaController
 		$values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
 
 		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
 		$mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
 		
@@ -338,7 +338,7 @@ class TiendaControllerPOS extends TiendaController
 			return;
 		}
 		
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
 		
 		//set payment to session
@@ -404,7 +404,7 @@ class TiendaControllerPOS extends TiendaController
 			$doc->addScriptDeclaration($js); 			
 		}
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$html = "";
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( array('order_id'=>$order_id) );
@@ -3137,7 +3137,7 @@ class TiendaControllerPOS extends TiendaController
 			}
 		}
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
 
 		return $articles;

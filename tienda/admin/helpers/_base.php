@@ -16,7 +16,7 @@ JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda"
 
 Tienda::load( 'TiendaConfig', 'defines' );
 
-class TiendaHelperBase extends JObject
+class TiendaHelperBase extends DSCHelper
 {
 		static $added_strings = null;
 	
@@ -36,9 +36,11 @@ class TiendaHelperBase extends JObject
 	 * @param string 	$prefix	 A prefix for the helper class name. Optional.
 	 * @return helper The Helper Object
 	 */
-	function &getInstance( $type = 'Base', $prefix = 'TiendaHelper' )
+	public static function getInstance( $type = 'Base', $prefix = 'TiendaHelper' )
 	{
-		static $instances;
+		parent::getInstance( $type , $prefix );
+		  
+		 /*static $instances;
 
 		if (!isset( $instances )) {
 			$instances = array();
@@ -82,7 +84,7 @@ class TiendaHelperBase extends JObject
 			$instances[$helperClass] = & $instance;
 		}
 
-		return $instances[$helperClass];
+		return $instances[$helperClass];*/
 	}
 
 	/**
@@ -90,7 +92,7 @@ class TiendaHelperBase extends JObject
 	 * @param string $dir
 	 * @param bool $create
 	 */
-	function checkDirectory($dir, $create = true)
+	/*function checkDirectory($dir, $create = true)
 	{
 		$return = true;
 		if (!$exists = &JFolder::exists( $dir ) )
@@ -130,7 +132,7 @@ class TiendaHelperBase extends JObject
 	 * @param $userid [optional] 	If absent, current logged-in user is used
 	 * @return boolean
 	 */
-	function canView( $id, $userid=null )
+	/*function canView( $id, $userid=null )
 	{
 		$result = false;
 
@@ -152,7 +154,7 @@ class TiendaHelperBase extends JObject
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	function addIncludePath( $path=null )
+	/*function addIncludePath( $path=null )
 	{
 		static $tiendaHelperPaths;
 
@@ -187,9 +189,9 @@ class TiendaHelperBase extends JObject
 	 * @param unknown_type $currency
 	 * @return unknown_type
 	 */
-	function currency($amount, $currency='', $options='')
+	/*function currency($amount, $currency='', $options='')
 	{
-		$currency_helper =& TiendaHelperBase::getInstance( 'Currency' );
+		$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
 		$amount = $currency_helper->_($amount, $currency, $options);
 		return $amount;
 	}
@@ -199,7 +201,7 @@ class TiendaHelperBase extends JObject
 	 * @param float $amount
 	 * @param string $type could be dimension or weight
 	 */
-	function measure($amount, $type='dimension')
+	/*function measure($amount, $type='dimension')
 	{
 		// default to whatever is in config
 
@@ -221,7 +223,7 @@ class TiendaHelperBase extends JObject
 	 * @param $number
 	 * @return unknown_type
 	 */
-	function number($number, $options='' )
+	public static function number($number, $options='' )
 	{
 		static $default_currency = null;
 		$config = TiendaConfig::getInstance();
@@ -250,7 +252,7 @@ class TiendaHelperBase extends JObject
 	 * @return	array	Column of values from the source array
 	 * @since	1.5
 	 */
-	function getColumn(&$array, $index)
+	/*function getColumn(&$array, $index)
 	{
 		$result = array();
 
@@ -277,7 +279,7 @@ class TiendaHelperBase extends JObject
 	 * @param $elements is an array of objects with ->name and ->value properties, all posted from a form
 	 * @return array[name] = value
 	 */
-	function elementsToArray( $elements )
+	/*function elementsToArray( $elements )
 	{
 		$return = array();
 		$names = array();
@@ -364,7 +366,7 @@ class TiendaHelperBase extends JObject
 	 *
 	 * @return unknown_type
 	 */
-	function setDateVariables( $curdate, $enddate, $period )
+	/*function setDateVariables( $curdate, $enddate, $period )
 	{
 		$database = JFactory::getDBO();
 
@@ -436,7 +438,7 @@ class TiendaHelperBase extends JObject
 	 * TODO handle solar and legal time where is present.
 	 * @return unknown_type
 	 */
-	function getToday()
+	/*function getToday()
 	{
 		static $today;
 
@@ -471,7 +473,7 @@ class TiendaHelperBase extends JObject
 	 * @param $date
 	 * @return unknown_type
 	 */
-	function getOffsetDate( $date, $offset='' )
+ /*	function getOffsetDate( $date, $offset='' )
 	{
 		if (empty($offset))
 		{
@@ -670,9 +672,9 @@ class TiendaHelperBase extends JObject
 	 * @param unknown_type $value
 	 * @return void
 	 */
-	function setSessionVariable($key, $value)
+	/*function setSessionVariable($key, $value)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set($key, json_encode($value));
 	}
 
@@ -682,9 +684,9 @@ class TiendaHelperBase extends JObject
 	 * @param str $key
 	 * @return mixed
 	 */
-	function getSessionVariable($key, $default=null)
+	/*function getSessionVariable($key, $default=null)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$sessionvalue = $default;
 		if ($session->has($key))
 		{
@@ -700,11 +702,11 @@ class TiendaHelperBase extends JObject
 	/**
 	 * Set the document format
 	 */
-	function setFOrmat( $format = 'html' )
+	function setFormat( $format = 'html' )
 	{
 		// 	Default to raw output
-		$doc = &JFactory::getDocument();
-		$document = &JDocument::getInstance($format);
+		$doc = JFactory::getDocument();
+		$document = JDocument::getInstance($format);
 
 		$doc = $document;
 	}
@@ -712,7 +714,7 @@ class TiendaHelperBase extends JObject
 	/**
 	 * convert Local data to GMT data
 	 */
-	function local_to_GMT_data( $local_data )
+	public static function local_to_GMT_data( $local_data )
 	{
 		$GMT_data=$local_data ;
 		if(!empty($local_data))
@@ -730,7 +732,7 @@ class TiendaHelperBase extends JObject
 	/**
 	 * convert GMT data to Local data
 	 */
-	function GMT_to_local_data( $GMT_data )
+	public static function GMT_to_local_data( $GMT_data )
 	{
 		$local_data=$GMT_data ;
 		if(!empty($local_data))
@@ -751,7 +753,7 @@ class TiendaHelperBase extends JObject
 	 * @param unknown_type $type
 	 * @return unknown_type
 	 */
-	function validationMessage( $text, $type='fail' )
+	public static function validationMessage( $text, $type='fail' )
 	{
 		switch (strtolower($type))
 		{

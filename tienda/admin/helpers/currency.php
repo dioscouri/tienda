@@ -17,8 +17,8 @@ Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperCurrency extends TiendaHelperBase 
 {
-    static $currencies = array();
-    static $codes = array();
+    public $currencies = array();
+    public $codes = array();
     
     /**
      * Format and convert a number according to currency rules
@@ -29,8 +29,8 @@ class TiendaHelperCurrency extends TiendaHelperBase
      */
     function _($amount, $currency='', $options='')
     {
-        $currencies =& $this->currencies;
-        $codes =& $this->codes;
+        $currencies = $this->currencies;
+        $codes = $this->codes;
         
         // default to whatever is in config
         $config = Tienda::getInstance();
@@ -142,11 +142,11 @@ class TiendaHelperCurrency extends TiendaHelperBase
 
             if (isset($this) && is_a( $this, 'TiendaHelperCurrency' )) 
             {
-                $helper =& $this;
+                $helper = $this;
             } 
                 else 
             {
-                $helper =& TiendaHelperBase::getInstance( 'Currency' );
+                $helper = TiendaHelperBase::getInstance( 'Currency' );
             }
             $amount = $helper->convert($table->currency_code, $convertTo, $amount);
         }
@@ -182,11 +182,11 @@ class TiendaHelperCurrency extends TiendaHelperBase
         {
             if (isset($this) && is_a( $this, 'TiendaHelperCurrency' )) 
             {
-                $helper =& $this;
+                $helper = $this;
             } 
                 else 
             {
-                $helper =& TiendaHelperBase::getInstance( 'Currency' );
+                $helper = TiendaHelperBase::getInstance( 'Currency' );
             }
             // get the exchange rate, and let the getexchange rate method handle refreshing the cache
             $rates[$currencyFrom][$currencyTo] = $helper->getExchangeRate( $currencyFrom, $currencyTo, $refresh );
@@ -224,7 +224,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
                 $this->codes[$currencyFrom] = JTable::getInstance('Currencies', 'TiendaTable');
                 $this->codes[$currencyFrom]->load( array('currency_code'=>$currencyFrom) );                
             }
-            $tableFrom =& $this->codes[$currencyFrom];
+            $tableFrom = $this->codes[$currencyFrom];
             
             if (!empty($tableFrom->currency_id))
             {
@@ -270,7 +270,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
                 $this->codes[$currencyFrom] = JTable::getInstance('Currencies', 'TiendaTable');
                 $this->codes[$currencyFrom]->load( array('currency_code'=>$currencyFrom) );
             }
-            $tableFrom =& $this->codes[$currencyFrom];
+            $tableFrom = $this->codes[$currencyFrom];
 
             if (empty($this->codes[$currencyTo]))
             {
@@ -278,7 +278,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
                 $this->codes[$currencyTo] = JTable::getInstance('Currencies', 'TiendaTable');
                 $this->codes[$currencyTo]->load( array('currency_code'=>$currencyTo) );
             }
-            $tableTo =& $this->codes[$currencyFrom];
+            $tableTo = $this->codes[$currencyFrom];
             
             if(!empty($tableFrom->currency_id) && !empty($tableTo->currency_id))
             {
@@ -339,8 +339,8 @@ class TiendaHelperCurrency extends TiendaHelperBase
      */
     function format($amount, $currency='', $options='')
     {
-        $currencies =& $this->currencies;
-        $codes =& $this->codes;
+        $currencies = $this->currencies;
+        $codes = $this->codes;
         
         // default to whatever is in config
         $config = Tienda::getInstance();
@@ -442,7 +442,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         {
             JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
             $this->currencies[$id] = JTable::getInstance('Currencies', 'TiendaTable');
-            $this->currencies[$id]->load( $id );            
+            $this->currencies[$id]->load($id);          
         }
         return $this->currencies[$id];
     }

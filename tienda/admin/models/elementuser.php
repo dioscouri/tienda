@@ -32,7 +32,7 @@ class TiendaModelElementUser extends TiendaModelUsers
      */
     function fetchElement($name, $value='', $control_name='', $js_extra='')
     {
-        $doc        =& JFactory::getDocument();
+        $doc        = JFactory::getDocument();
 
         $fieldName  = $control_name ? $control_name.'['.$name.']' : $name;
         if ($value) 
@@ -77,7 +77,7 @@ class TiendaModelElementUser extends TiendaModelUsers
      */
     function clearElement($name, $value='', $control_name='')
     {
-        $doc        =& JFactory::getDocument();
+        $doc        = JFactory::getDocument();
         $fieldName  = $control_name ? $control_name.'['.$name.']' : $name;
         
         $js = "

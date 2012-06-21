@@ -17,8 +17,8 @@ jimport( 'joomla.filesystem.folder' );
 
 class TiendaHelperProduct extends TiendaHelperBase
 {
-	static $products = array( );
-	static $categoriesxref = array( );
+	public static  $products = array( );
+	public static $categoriesxref = array( );
 	
 	/**
 	 * Gets the list of available product layout files
@@ -560,7 +560,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param int $id
 	 * @return string
 	 */
-	function getGalleryPath( $id )
+	public static function getGalleryPath( $id )
 	{
 		static $paths;
 		
@@ -581,7 +581,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 			else
 			{
-				$helper = &TiendaHelperBase::getInstance( 'Product' );
+				$helper = new TiendaHelperProduct();
 			}
 			$row = $helper->load( ( int ) $id, true, false );
 			

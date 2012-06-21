@@ -502,7 +502,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	{
 		if (!$this->tableExists( $table ))
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$db->setQuery( $definition );
 			if (!$db->query())
 			{
@@ -520,7 +520,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 */
 	function tableExists( $table )
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Manually replace the Joomla Tables prefix. Automatically it fails
 		// because the table name is between single-quotes
@@ -662,7 +662,8 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		else
 		{
-			$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
+				Tienda::load('TiendaHelperCurrency','helpers.currency');
+			$currency_helper = new TiendaHelperCurrency();
 			$currency = $currency_helper->load( $default_currencyid );
 
 			// Check if the currency exists
@@ -2563,7 +2564,7 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			return true;
 		}
 
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 		$table = '#__tienda_productcomments';
 		$fieldEmail = "user_email";
 		$fieldUserId = "user_id";

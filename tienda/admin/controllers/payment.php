@@ -52,7 +52,7 @@ class TiendaControllerPayment extends TiendaController
     function save()
     {
         $model  = $this->getModel( $this->get('suffix') );
-        $row  =& JTable::getInstance('plugin');
+        $row  = JTable::getInstance('plugin');
         $row->bind( $_POST );
         $task = JRequest::getVar('task');
 

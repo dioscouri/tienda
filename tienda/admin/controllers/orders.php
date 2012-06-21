@@ -581,7 +581,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function setSessionVariable($key, $value)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set($key, json_encode($value));
 	}
 
@@ -593,7 +593,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function getSessionVariable($key, $default=null)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$sessionvalue = $default;
 		if ($session->has($key))
 		{
@@ -746,7 +746,7 @@ class TiendaControllerOrders extends TiendaController
 		$values = JRequest::get('post');
 
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -892,7 +892,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function saveOrderInfo()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
@@ -915,7 +915,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function saveOrderHistory()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 			
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
@@ -940,7 +940,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function saveOrderItems()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		$items = $order->getItems();
 			
 		if (empty($items) || !is_array($items))
@@ -979,7 +979,7 @@ class TiendaControllerOrders extends TiendaController
 	 */
 	function saveOrderVendors()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		$items = $order->getVendors();
 
 		if (empty($items) || !is_array($items))

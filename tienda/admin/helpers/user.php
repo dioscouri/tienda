@@ -136,8 +136,8 @@ class TiendaHelperUser extends DSCHelperUser
 		$success = false;
 		// Get required system objects
 		$user       = clone(JFactory::getUser());
-		$config     =& JFactory::getConfig();
-		$authorize  =& JFactory::getACL();
+		$config     = JFactory::getConfig();
+		$authorize  = JFactory::getACL();
 
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
@@ -163,7 +163,7 @@ class TiendaHelperUser extends DSCHelperUser
 		$user->set('usertype', $newUsertype);
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 
-		$date =& JFactory::getDate();
+		$date = JFactory::getDate();
 		$user->set('registerDate', $date->toMySQL());
 
 		// we disable useractivation for auto-created users
@@ -209,7 +209,7 @@ class TiendaHelperUser extends DSCHelperUser
 
 		$mainframe = JFactory::getApplication();
 
-		$db     =& JFactory::getDBO();
+		$db     = JFactory::getDBO();
 
 		$name       = $user->get('name');
 		$email      = $user->get('email');
@@ -265,24 +265,6 @@ class TiendaHelperUser extends DSCHelperUser
 
 	
 	
-	
-
-	public static  function getACLSelectList( $default='', $fieldname='core_user_new_gid' )
-	{
-		$object = new JObject();
-		$object->value = '';
-		$object->text = JText::_('COM_TIENDA_NO_CHANGE');
-		$gtree = JFactory::getACL()->get_group_children_tree( null, 'USERS', false );
-		foreach ($gtree as $key=>$item)
-		{
-			if ($item->value == '29' || $item->value == '30')
-			{
-				unset($gtree[$key]);
-			}
-		}
-		array_unshift($gtree, $object );
-		return JHTML::_('select.genericlist', $gtree, $fieldname, 'size="1"', 'value', 'text', $default );
-	}
 
 	/**
 	 * Processes a new order

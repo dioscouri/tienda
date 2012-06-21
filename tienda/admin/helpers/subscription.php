@@ -158,7 +158,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         
         // fire plugin event onAfterExpiredSubscription        
         JPluginHelper::importPlugin( 'tienda' );
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger( 'onAfterExpiredSubscription', array( $subscription ) );
         
         if (empty($item))
@@ -208,7 +208,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $date = JFactory::getDate();
         $today = $date->toFormat( "%Y-%m-%d 00:00:00" );
         
-        $database =& JFactory::getDBO();
+        $database = JFactory::getDBO();
         $query = " SELECT DATE_ADD('".$today."', INTERVAL %s DAY) ";
         $database->setQuery( sprintf($query, $subscriptions_expiring_notice_days ) );
         $start_date = $database->loadResult();

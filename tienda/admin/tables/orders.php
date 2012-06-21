@@ -258,7 +258,7 @@ class TiendaTableOrders extends TiendaTable
         // and with different attribs
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
 
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
 //				JFactory::getApplication()->enqueueMessage( 'orders.php - line 236 - '.Tienda::dump( $results ) );
 				foreach ($results as $result)
@@ -387,7 +387,7 @@ class TiendaTableOrders extends TiendaTable
         
         // We fire just a single plugin event here and pass the entire order object
         // so the plugins can override whatever they need to
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateOrderTotals", array( $this ) );
     	    }
 
@@ -427,7 +427,7 @@ class TiendaTableOrders extends TiendaTable
         $this->order_subtotal   = $subtotal;
         
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateProductTotals", array( $this ) );
     }
 
@@ -482,7 +482,7 @@ class TiendaTableOrders extends TiendaTable
         
         // some locations may want taxes calculated on shippingGeoZone, so
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateTaxTotals", array( $this ) );
     }
     
@@ -497,7 +497,7 @@ class TiendaTableOrders extends TiendaTable
         $order_shipping     = 0.00;
         $order_shipping_tax = 0.00;
         
-        $items =& $this->getItems();		
+        $items = $this->getItems();		
 
         if (!is_array($items) || !$this->shipping)
         {
@@ -546,7 +546,7 @@ class TiendaTableOrders extends TiendaTable
       		$this->order_shipping = 0.00;
 				}
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateShippingTotals", array( $this ) );
     }
     
@@ -612,7 +612,7 @@ class TiendaTableOrders extends TiendaTable
         $this->order_discount = $total > ($this->order_subtotal + $this->order_tax) ? $this->order_subtotal + $this->order_tax : $total;
 
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateCouponTotals", array( $this ) );
         
     }
@@ -628,7 +628,7 @@ class TiendaTableOrders extends TiendaTable
     		return null;
     	}
 
-        $items =& $this->getItems();
+        $items = $this->getItems();
         if (!is_array($items))
         {
             return;
@@ -662,7 +662,7 @@ class TiendaTableOrders extends TiendaTable
         // at this point, each vendor's TableOrderVendor object is populated
         
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateVendorTotals", array( $this ) );
     }
     
@@ -695,7 +695,7 @@ class TiendaTableOrders extends TiendaTable
             }
         }
         
-        $items =& $this->_items;        
+        $items = $this->_items;        
         if (!is_array($items))
         {
             $items = array();
@@ -1353,7 +1353,7 @@ class TiendaTableOrders extends TiendaTable
         }
         
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculatePerProductCouponValue", array( $this ) );
 
         if( $total > $value )
@@ -1420,7 +1420,7 @@ class TiendaTableOrders extends TiendaTable
         }
         
         // Allow this to be modified via plugins
-        $dispatcher    =& JDispatcher::getInstance();
+        $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculatePerOrderCouponValue", array( $this ) );
         
        return $total;

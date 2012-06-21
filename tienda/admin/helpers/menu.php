@@ -22,11 +22,16 @@ class TiendaHelperMenu extends TiendaHelperBase
      */
     function isSubmenuEnabled()
     {
-        $query = "SELECT `published` FROM #__modules WHERE `module` = 'mod_tienda_admin_submenu';";
+    	if(version_compare(JVERSION,'1.6.0','ge')) {
+        $query = "SELECT `enabled` FROM #__extensions WHERE `element` = 'mod_tienda_admin_submenu';";
+		} else {
+		 $query = "SELECT `published` FROM #__modules WHERE `module` = 'mod_tienda_admin_submenu';";	
+		}
         $db = JFactory::getDBO();
         $db->setQuery( $query );
         $result = $db->loadResult();
         return $result;
+		
     }
     
     /**
@@ -40,7 +45,7 @@ class TiendaHelperMenu extends TiendaHelperBase
     {
         if (!$this->isSubmenuEnabled())
         {
-            $menu =& TiendaMenu::getInstance( $menu_name );
+            $menu = TiendaMenu::getInstance( $menu_name );
         }
             else
         {

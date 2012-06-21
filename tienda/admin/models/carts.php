@@ -301,8 +301,8 @@ class TiendaModelCarts extends TiendaModelEav
 	{
 		$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
-		$session =& JFactory::getSession();
-		$user =& JFactory::getUser();
+		$session = JFactory::getSession();
+		$user = JFactory::getUser();
 		$model->setState('filter_user', $user->id );
 		if (empty($user->id))
 		{

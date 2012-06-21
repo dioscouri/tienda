@@ -313,7 +313,7 @@ class TiendaModelOrders extends TiendaModelBase
             $amigos = TiendaHelperBase::getInstance( 'Amigos' );
             $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
             
-            if ($item =& parent::getItem($emptyState))
+            if ($item = parent::getItem($emptyState))
             {
                 // get the orderinfo
                 $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');

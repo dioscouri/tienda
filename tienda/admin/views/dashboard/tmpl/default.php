@@ -55,7 +55,7 @@
             
 			<?php
 			$modules = JModuleHelper::getModules("tienda_dashboard_main");
-			$document	= &JFactory::getDocument();
+			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
 			$attribs 	= array();
 			$attribs['style'] = 'xhtml';
@@ -69,7 +69,7 @@
 
 			<?php
 			$modules = JModuleHelper::getModules("tienda_dashboard_right");
-			$document	= &JFactory::getDocument();
+			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
 			$attribs 	= array();
 			$attribs['style'] = 'xhtml';

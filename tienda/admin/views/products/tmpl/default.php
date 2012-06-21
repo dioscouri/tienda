@@ -4,8 +4,8 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-<?php $helper_category =& TiendaHelperBase::getInstance( 'Category' ); ?>
-<?php $helper_product =& TiendaHelperBase::getInstance( 'Product' ); ?>
+<?php $helper_category = TiendaHelperBase::getInstance( 'Category' ); ?>
+<?php $helper_product = TiendaHelperBase::getInstance( 'Product' ); ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 

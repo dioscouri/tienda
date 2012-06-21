@@ -557,7 +557,7 @@ class TiendaViewDashboard extends TiendaViewBase
 		$args['type']  = $chart_type;
 
 		// Try to render the chart via an installed plugin first.
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('renderTiendaChart', $args);
 
 		if (empty($results)) {
@@ -609,7 +609,7 @@ class TiendaViewDashboard extends TiendaViewBase
 		$args['type']  = $chart_type;
 
 		// Try to render the chart via an installed plugin first.
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('renderTiendaChart', $args);
 
 		if (empty($results)) {

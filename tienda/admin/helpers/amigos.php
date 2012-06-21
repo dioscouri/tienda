@@ -54,7 +54,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         $query->from( '#__amigos_logs AS tbl' );
         $query->where( "tbl.userid = '".(int) $userid."'" );
         
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $db->setQuery( (string) $query );
         $referral = $db->loadObject();
         
@@ -85,7 +85,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $query->where( "tbl.orderid = '".(int) $order_id."'" );
             $query->where( "tbl.order_type = 'com_tienda'" );
             
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             $db->setQuery( (string) $query );
             $this->commissions[$order_id] = $db->loadObjectList();
         }
@@ -130,8 +130,8 @@ class TiendaHelperAmigos extends TiendaHelperBase
         
         if (!empty($referral->accountid))
         {
-            $config =& AmigosConfig::getInstance();
-            $date =& JFactory::getDate();
+            $config = AmigosConfig::getInstance();
+            $date = JFactory::getDate();
             
             if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
             {
