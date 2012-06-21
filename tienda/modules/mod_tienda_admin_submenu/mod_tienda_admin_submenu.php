@@ -10,8 +10,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if (JRequest::getInt('tienda_display_submenu') == '1')
-{
+//if (JRequest::getInt('tienda_display_submenu') == '1')
+//{
     // Check the registry to see if our Tienda class has been overridden
     if ( !class_exists('Tienda') ) 
     {
@@ -20,10 +20,10 @@ if (JRequest::getInt('tienda_display_submenu') == '1')
     Tienda::load( 'TiendaMenu', 'library.menu' );
     
     $hide = JRequest::getInt('hidemainmenu');
-    $menu =& TiendaMenu::getInstance( 'submenu' );
+    $menu = TiendaMenu::getInstance( 'submenu' );
     
-    $app =& JFactory::getApplication();
-    $document =& JFactory::getDocument();
+    $app = JFactory::getApplication();
+    $document = JFactory::getDocument();
         
     require( JModuleHelper::getLayoutPath( 'mod_tienda_admin_submenu' ) );
-}
+//}

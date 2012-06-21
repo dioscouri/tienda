@@ -6,7 +6,14 @@ JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/');
 <ul id="submenu" class="submenu">
 
 <?php
-foreach ($menu->_menu->_bar as $item) 
+if(version_compare(JVERSION,'1.6.0','ge')) {
+$items = $menu->_menu->getItems();
+} else {
+	  //joomla 1.5 code
+$items = $menu->_menu->_bar;
+}
+  
+foreach ($items as $item) 
 {
     ?>
     <li>
@@ -31,15 +38,22 @@ foreach ($menu->_menu->_bar as $item)
     
     $names = explode( ' ', $item[0] );
     $name = strtolower( $names[0] );
-    $submenu = new TiendaMenu( 'submenu_' . $name, '1' );
-    
-    if (!empty($submenu->_menu->_bar))
+    $submenu = TiendaMenu::getInstance( 'submenu_' . $name, '1' );
+    if(version_compare(JVERSION,'1.6.0','ge')) {
+	//$menu->display();
+$subitems = $submenu->_menu->getItems();
+} else {
+	  //joomla 1.5 code
+$subitems = $submenu->_menu->_bar;
+}
+	
+    if (!empty($submenu))
     {
         ?>
         <ul class="submenu_dropdown">
         <?php
-        $submenu_items = $submenu->_menu->_bar;
-        foreach ($submenu_items as $submenu_item)
+        
+        foreach ($subitems as $submenu_item)
         {
             ?>
             <li>
