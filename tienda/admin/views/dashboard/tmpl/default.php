@@ -36,7 +36,7 @@
 
 			echo $tabs->startPane("tabone");
 			echo $tabs->startPanel( JText::_('COM_TIENDA_ORDERS'), "orders" );
-
+				
 				echo "<h2>".@$this->graph->title."</h2>";
 				echo @$this->graph->image;
 
