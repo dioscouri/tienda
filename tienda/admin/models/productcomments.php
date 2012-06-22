@@ -90,9 +90,9 @@ class TiendaModelProductComments extends TiendaModelBase
 		
 	}
 	
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 		if(empty($list))
 		{
 			return $list;	

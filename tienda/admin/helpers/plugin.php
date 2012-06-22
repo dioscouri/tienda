@@ -29,47 +29,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 		
 	}
 
-	/**
-	 * Returns HTML
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-	function &getPluginsContent( $event, $options, $method='vertical' ) 
-	{
-		$text = "";
-        jimport('joomla.html.pane');
-		
-		if (!$event) {
-			return $text;
-		}
-		
-		$args = array();
-		$dispatcher	   = JDispatcher::getInstance();
-		$results = $dispatcher->trigger( $event, $options );
-		
-		if ( !count($results) > 0 ) {
-			return $text;
-		}
-		
-		// grab content
-		switch( strtolower($method) ) {
-			case "vertical":
-				for ($i=0; $i<count($results); $i++) {
-					$result = $results[$i];
-					$title = $result[1] ? JText::_( $result[1] ) : JText::_('Info');
-					$content = $result[0];
-					
-		            // Vertical
-		            $text .= '<p>'.$content.'</p>';
-				}
-			  break;
-			case "tabs":
-			  break;
-		}
-
-		return $text;	
-	}
+	
 	
 	/**
 	 * Checks if a plugin has an event
@@ -105,7 +65,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 	 * @param $geozonetype_id
 	 * @return string
 	 */
-	function getSuffix($geozonetype_id)
+	public static function getSuffix($geozonetype_id)
 	{
 		switch($geozonetype_id)
 		{
@@ -126,7 +86,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 	 * @param obj $geozone 
 	 * @return int
 	 */
-	function countPlgtoGeozone($geozone)
+	public static function countPlgtoGeozone($geozone)
 	{		
 		$count = 0;	
 		if(!is_object($geozone)) return $count;

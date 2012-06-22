@@ -46,27 +46,10 @@ class TiendaController extends DSCControllerAdmin
 		
 	}
 
-	/**
-	 * 	display the view
-	 */
-	function display($cachable=false, $urlparams = false)
-	{
-		/*completely extended from DSC Library, this can be removed just keeping for now to avoid confusion*/
-		
-		parent::display($cachable=false, $urlparams = false);
-	}
+	
 
 	
-	/**
-	 * Sets the model's default state based on values in the request
-	 *
-	 * @return array()
-	 */
-	function _setModelState()
-	{
-		/* Completely extended from DSC Library*/
-		parent::_setModelState();
-	}
+	
 
 	
 

@@ -69,11 +69,11 @@ class TiendaTableCategories extends TiendaTableNested
 	 * @param object
 	 * @return boolean
 	 */
-	function store() 
+	function store($updateNulls=false) 
 	{
 		$date = JFactory::getDate();
 		$this->modified_date = $date->toMysql();
-		$store = parent::store();		
+		$store = parent::store($updateNulls);		
 		return $store;		
 	}
 	

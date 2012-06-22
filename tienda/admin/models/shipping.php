@@ -48,7 +48,15 @@ class TiendaModelShipping extends TiendaModelBase
         }
         if (strlen($filter_enabled))
         {
-            $query->where('tbl.published = 1');
+        	if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+     $query->where('tbl.enabled = 1');
+} else {
+    // Joomla! 1.5 code here
+     $query->where('tbl.published = 1');
+}
+			
+         
         }
         if ($filter_name) 
         {
@@ -61,13 +69,20 @@ class TiendaModelShipping extends TiendaModelBase
         // force returned records to only be tienda shipping 
         $query->where("tbl.folder = 'tienda'");
         $query->where("tbl.element LIKE 'shipping_%'");
+		
     }
     	
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 		foreach(@$list as $item)
 		{
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+     $item->id = $item->extension_id;
+} 
+			
+			
 			$item->link = 'index.php?option=com_tienda&view=shipping&task=view&id='.$item->id;
 			$item->link_edit = 'index.php?option=com_tienda&view=shipping&task=edit&id='.$item->id;
 		}

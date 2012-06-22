@@ -54,7 +54,7 @@ class TiendaModelTaxclasses extends TiendaModelBase
         $query->select( $field );
     }
         	
-	public function getList()
+	public function getList($refresh = false)
 	{
 		$list = parent::getList(); 
 		

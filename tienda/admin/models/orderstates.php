@@ -64,7 +64,7 @@ class TiendaModelOrderstates extends TiendaModelBase
         }
     }
         	
-	public function getList()
+	public function getList($refresh = false)
 	{
 		$list = parent::getList(); 
 		

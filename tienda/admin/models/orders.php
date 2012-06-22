@@ -238,7 +238,9 @@ class TiendaModelOrders extends TiendaModelBase
        	}
     }	
 	
-	public function getList()
+	
+	
+	public function getList($refresh = false)
 	{
 	    if (empty( $this->_list ))
 	    {

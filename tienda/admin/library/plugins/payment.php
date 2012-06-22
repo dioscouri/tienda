@@ -85,7 +85,7 @@ class TiendaPaymentPlugin extends TiendaPluginBase
      * @param $orderPayment     object       a valid TableOrderPayment object
      * @return string   HTML to display
      */
-    function _renderView( $orderPayment )
+    protected function _renderView( $orderPayment )
     {
         // Load the payment from _orderpayments and render its html
         

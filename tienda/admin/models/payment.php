@@ -48,7 +48,16 @@ class TiendaModelPayment extends TiendaModelBase
         }
         if (strlen($filter_enabled))
         {
-            $query->where('tbl.published = 1');
+        	
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+    $query->where('tbl.enabled = 1');
+} else {
+    // Joomla! 1.5 code here
+    $query->where('tbl.published = 1');
+}
+			
+           
         }
         if ($filter_name) 
         {
@@ -63,11 +72,12 @@ class TiendaModelPayment extends TiendaModelBase
         $query->where("tbl.element LIKE 'payment_%'");
     }
     	
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 		foreach($list as $item)
 		{
+			if(version_compare(JVERSION,'1.6.0','ge')) {$item->id = $item->extension_id; }
 			$item->link = 'index.php?option=com_tienda&view=payment&task=edit&id='.$item->id;
 		}
 		return $list;

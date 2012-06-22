@@ -47,6 +47,8 @@
 
 		<languages folder="languages/admin">
 			<language tag="en-GB">/en-GB.com_tienda.ini</language>
+			<language tag="en-GB">/en-GB.com_tienda.sys.ini</language>
+			<language tag="en-GB">/en-GB.com_tienda.menu.ini</language>
 		</languages>
 	</administration>
 	

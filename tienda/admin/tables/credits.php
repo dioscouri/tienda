@@ -40,7 +40,7 @@ class TiendaTableCredits extends TiendaTable
         return true;
     }
     
-    function save()
+    function save($src='', $orderingFilter = '', $ignore = '')
     {
         $isNew = false;
         if (empty($this->credit_id))

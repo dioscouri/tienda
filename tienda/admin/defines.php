@@ -260,7 +260,7 @@ class Tienda extends DSC
 	 * @param string	$type	The type of URL to return, default 'media'
 	 * @return 	string	URL
 	 */
-	public static function getURL($type = 'media')
+	public static function getURL($type = 'media', $com='')
 	{
 		$url = '';
 
@@ -356,7 +356,7 @@ class Tienda extends DSC
 	 * @param 	string	$type	The type of path to return, default 'media'
 	 * @return 	string	Path
 	 */
-	public static function getPath($type = 'media')
+	public static function getPath($type = 'media', $com='')
 	{
 		$path = '';
 

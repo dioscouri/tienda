@@ -554,7 +554,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @access private
 	 * @return void
 	 */
-	function getDateMarginalOrder( $states, $order = 'ASC' )
+	public static function getDateMarginalOrder( $states, $order = 'ASC' )
 	{
 		$db = JFactory::getDBO();
 		$today = TiendaHelperBase::getToday();

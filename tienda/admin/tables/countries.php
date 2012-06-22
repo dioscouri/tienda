@@ -31,7 +31,7 @@ class TiendaTableCountries extends TiendaTable
 		return true;
 	}
 	
-    function reorder()
+    public function reorder($where = '')
     {
         $k = $this->_tbl_key;
 

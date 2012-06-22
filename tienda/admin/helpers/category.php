@@ -16,7 +16,7 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperCategory extends TiendaHelperBase
 {
-    static $categories = array();
+    public $categories = array();
     
     /**
      * Gets the list of available category layout files
@@ -208,7 +208,7 @@ class TiendaHelperCategory extends TiendaHelperBase
      * @param $url
      * @return unknown_type
      */
-	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
+	public static function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
 	{
 		switch($type)
 		{

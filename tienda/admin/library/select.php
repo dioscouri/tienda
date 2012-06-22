@@ -13,26 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class TiendaSelect extends DSCSelect
 {
-	/**
-	* Generates a yes/no radio list
-	*
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param mixed The key that is selected
-	* @returns string HTML for the radio list
-	*/
-	public static function booleans( $selected, $name = 'filter_enabled', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select State', $yes = 'Enabled', $no = 'Disabled' )
-	{
-	    $list = array();
-		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( $title )." -" );
-		}
-
-		$list[] = JHTML::_('select.option',  '0', JText::_( $no ) );
-		$list[] = JHTML::_('select.option',  '1', JText::_( $yes ) );
-
-		return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
-	}
+	
 
 	/**
 	* Generates range list

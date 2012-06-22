@@ -23,10 +23,13 @@ class TiendaViewBase extends DSCViewAdmin
 	function display($tpl=null)
 	{
 		JHTML::_('stylesheet', 'tienda_admin.css', 'media/com_tienda/css/');
-		JHTML::_('stylesheet', 'joomla25.css', 'media/com_tienda/css/');
-       Tienda::load( 'TiendaUrl', 'library.url' );
-        Tienda::load( 'TiendaSelect', 'library.select' );
-        Tienda::load( 'TiendaGrid', 'library.grid' );
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+  JHTML::_('stylesheet', 'joomla25.css', 'media/com_tienda/css/');
+} 
+		
+    //   Tienda::load( 'TiendaUrl', 'library.url' );
+    //    Tienda::load( 'TiendaSelect', 'library.select' );
+    //    Tienda::load( 'TiendaGrid', 'library.grid' );
      //   Tienda::load( 'TiendaMenu', 'library.menu' );
              
         

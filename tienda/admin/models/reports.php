@@ -58,9 +58,9 @@ class TiendaModelReports extends TiendaModelBase
         $query->where("tbl.element LIKE 'report_%'");
     }
     	
-	public function getList()
+	public function getList($refresh=false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 		foreach($list as $item)
 		{
 			if(version_compare(JVERSION,'1.6.0','ge')) {$item->id = $item->extension_id; }
@@ -68,4 +68,46 @@ class TiendaModelReports extends TiendaModelBase
 		}
 		return $list;
 	}
+	
+	/**
+	 * Gets an item for displaying (as opposed to saving, which requires a JTable object)
+	 * using the query from the model and the tbl's unique identifier
+	 *
+	 * @return database->loadObject() record
+	 */
+	public function getItem( $emptyState=true )
+	{
+		if (empty( $this->_item ))
+		{
+		    if ($emptyState)
+		    {
+		        $this->emptyState();
+		    }
+			$query = $this->getQuery();
+			// TODO Make this respond to the model's state, so other table keys can be used
+			// perhaps depend entirely on the _buildQueryWhere() clause?
+			$keyname = $this->getTable()->getKeyName();
+			$value	= $this->_db->Quote( $this->getId() );
+			$query->where( "tbl.$keyname = $value" );
+			$this->_db->setQuery( (string) $query );
+			$this->_item = $this->_db->loadObject();
+		}
+		
+		$overridden_methods = $this->getOverriddenMethods( get_class($this) );
+		if (!in_array('getItem', $overridden_methods))  
+		{
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix'), array( &$this->_item ) );
+		}
+		// adding this in the model so we don't have to have if statemnets all over the views and controllers'
+		
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+			if(!empty($this->_item->extension_id)) {
+			$this->_item->id =	$this->_item->extension_id;
+			}
+		}
+		
+		return $this->_item;
+	}
+	
 }

@@ -32,7 +32,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		$text= JText::_('COM_TIENDA_GENERIC_EXPORT');
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
 		 
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 		$bar->prependButton( 'link', $name, $text, $url );
 	}
 
@@ -45,7 +45,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
 		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT') );
 		 
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 		$btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
 		$btnhtml .= '<span title="Submit" class="icon-32-forward">';
 		$btnhtml .= '</span>'.JText::_('COM_TIENDA_SUBMIT').'</a>';
@@ -126,7 +126,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 			JFactory::getApplication()->redirect('index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display', JText::_('COM_TIENDA_MODEL_OR_EXPORT_TYPE_IS_EMPTY'), 'notice');
 		}
 
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 		$btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
 		$btnhtml .= '<span title="'.JText::_('COM_TIENDA_SUBMIT').'" class="icon-32-forward">';
 		$btnhtml .= '</span>'.JText::_('COM_TIENDA_SUBMIT').'</a>';
@@ -182,7 +182,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 		}
 		 
 		//add toolbar
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar =  JToolBar::getInstance('toolbar');
 		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
 		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT')." : ". ucfirst($model));
 		 

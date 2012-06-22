@@ -117,7 +117,7 @@ class TiendaTableOrders extends TiendaTable
 		return true;
 	}
 
-  function store()
+  function store($updateNulls=false)
   {
     // add hash to orders which are placed by guests
     if( !$this->order_id && !strlen( $this->order_hash ) && $this->user_id < Tienda::getGuestIdStart() )
@@ -126,7 +126,7 @@ class TiendaTableOrders extends TiendaTable
       $this->order_hash = TiendaHelperOrder::getHashInvoice( $this );
     }
 
-    return parent::store();
+    return parent::store($updateNulls);
   }
 
     /**
@@ -135,7 +135,7 @@ class TiendaTableOrders extends TiendaTable
      * (non-PHPdoc)
      * @see tienda/admin/tables/TiendaTable#save()
      */	
-	function save()
+	function save($src='', $orderingFilter = '', $ignore = '')
 	{
         if ($return = parent::save())
         {

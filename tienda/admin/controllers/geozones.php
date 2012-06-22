@@ -307,7 +307,16 @@ class TiendaControllerGeozones extends TiendaController
 		foreach (@$cids as $cid)
 		{
 			$row = $model->getTable();
-			$keynames["id"] = $cid;
+			
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	        $keynames["extension_id"] = $cid;
+	    } else {
+	        // Joomla! 1.5 code here
+	        $keynames["id"] = $cid;
+	    }
+			
+			
 			$row->load( $keynames );
 			 
 			$params = new DSCParameter($row->params);
@@ -408,6 +417,7 @@ class TiendaControllerGeozones extends TiendaController
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
 		$view->setLayout( 'selectplugins' );
+		$view->setTask(true);
 		$view->display();
 	}
 }

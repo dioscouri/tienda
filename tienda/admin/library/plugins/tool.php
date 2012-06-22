@@ -121,42 +121,7 @@ class TiendaToolPlugin extends TiendaPluginBase
         return $database;
     }
 
-    /************************************
-     * Note to 3pd: 
-     * 
-     * The methods between here
-     * and the next comment block are 
-     * yours to modify by overrriding them in your report plugin
-     * 
-     ************************************/
-            
-    /**
-     * Prepares the 'view' tmpl layout
-     * when viewing a report
-     *  
-     * @return unknown_type
-     */
-    function _renderView()
-    {
-        // TODO Load the report, get the data, and render the report html using the form inputs & data
-        
-        $vars = new JObject();
-        $html = $this->_getLayout('view', $vars);
-        
-        return $html;
-    }
-    
-    /**
-     * Prepares variables for the report form
-     * 
-     * @return unknown_type
-     */
-    function _renderForm()
-    {
-        $vars = new JObject();
-        $html = $this->_getLayout('form', $vars);
-        
-        return $html;
-    }
+   
+ 
     
 }

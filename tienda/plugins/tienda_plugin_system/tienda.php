@@ -87,6 +87,10 @@ class plgSystemTienda extends JPlugin
         
         jimport('joomla.filesystem.file');
         $file = JPATH_SITE.DS."plugins".DS."system".DS."tienda".DS."components".DS.$name.DS.$site.DS."{$name}.php";
+		
+		
+		
+		
         // Enable each override to be disabled by a param in the xml file
         if (JFile::exists( $file ) && $this->params->get( "{$site}_override_{$name}", '0' ) ) 
         {

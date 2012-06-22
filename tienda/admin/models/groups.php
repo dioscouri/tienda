@@ -68,9 +68,9 @@ class TiendaModelGroups extends TiendaModelBase
 		}
 	}
 
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 
 		// If no item in the list, return an array()
 		if( empty( $list ) ){

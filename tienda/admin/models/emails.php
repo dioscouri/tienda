@@ -16,16 +16,14 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 class TiendaModelEmails extends TiendaModelBase 
 {
 	// The prefix of the email language constants that we should fetch
-	var $email_prefix = 'EMAIL_';
+	var $email_prefix = 'COM_TIENDA_EMAIL_';
 	
-	function getTable()
-	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'Config', 'TiendaTable' );
-		return $table;
-	}
+	function getTable($name='Config', $prefix='TiendaTable', $options = array())
+    {
+        return parent::getTable( $name, $prefix, $options );
+    }
 	
-	public function getList(){
+	public function getList($refresh = false){
 		
 		jimport('joomla.language.helper');
 		
@@ -72,7 +70,7 @@ class TiendaModelEmails extends TiendaModelBase
     		$result_strings = array();
     		foreach($strings as $k =>$v){
     			// Only if it is a prefix!
-    			if(stripos( $k, 'COM_TIENDA_EMAIL_') === 0)
+    			if(stripos( $k, $this->email_prefix) === 0)
     				$result_strings[$k] = $v;
     		}
     		$result->strings = array('file' => $path,

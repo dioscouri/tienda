@@ -120,9 +120,9 @@ class TiendaModelUsers extends TiendaModelBase
 		$query->select( $field );
 	}	
     	
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList(); 
+		$list = parent::getList($refresh); 
 		foreach($list as $item)
 		{
 			$item->link = 'index.php?option=com_tienda&controller=users&view=users&task=view&id='.$item->id;

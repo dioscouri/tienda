@@ -63,7 +63,7 @@ class TiendaTableProductComments extends TiendaTable
 		return false;
 	}
 	
-	function save()
+	function save($src='', $orderingFilter = '', $ignore = '')
 	{
 	    $isNew = false;
         if (empty($this->productcomment_id))

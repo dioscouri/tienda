@@ -15,10 +15,10 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelDashboard extends TiendaModelBase 
 {
-	function getTable()
+		
+	function getTable($name='Config', $prefix='TiendaTable', $options = array())
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$table = JTable::getInstance( 'Config', 'TiendaTable' );
-		return $table;
-	}
+		return parent::getTable($name, $prefix, $options);
+	}	
+		
 }

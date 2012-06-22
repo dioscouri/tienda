@@ -37,8 +37,8 @@ class TiendaTableZonerelations extends TiendaTable
 		return true;
 	}
 	
-	function reorder()
+	/*function reorder()
 	{
 		return true;
-	}
+	}*/
 }

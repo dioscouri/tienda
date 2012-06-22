@@ -92,7 +92,7 @@ class plgTiendaReport_MostDownloadedFiles extends TiendaReportPlugin
      *  
      * @return unknown_type
      */
-    function _renderView()
+    protected function _renderView($options='')
     {
         // TODO Load the report, get the data, and render the report html using the form inputs & data
         
