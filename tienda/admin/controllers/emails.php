@@ -78,27 +78,24 @@ class TiendaControllerEmails extends TiendaController
 		$lang = $model->getItem( $id );
 		$path = $lang->path;
 		
-		$msg = JText::_('COM_TIENDA_SAVED');
+		$msg = JText::_('COM_BILLETS_SAVED');
 		
 		jimport('joomla.filesystem.file');
 
 		if (JFile::exists($path))
 		{
-			$original = new DSCParameter();
+			$original = new JRegistry();
 			$original->loadFile($path);
 			
-			$registry = new DSCParameter();
+			$registry = new JRegistry();
 			$registry->loadArray($values);
 			
-			// Store the modified data
-			foreach($registry->_registry['default']['data'] as $k => $v){
-				$original->_registry['default']['data']->$k = $v;
-			}
+			$original->merge($registry);
 			
-			$txt = $original->toString();
+			$txt = $original->toString('INI');
 			
 			$success = JFile::write($path, $txt);
-
+			
 			if(!$success)
 				$msg = JText::_('COM_TIENDA_ERROR_SAVING_NEW_LANGUAGE_FILE');
 				

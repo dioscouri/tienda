@@ -72,7 +72,7 @@ class TiendaModelEmails extends TiendaModelBase
     		$result_strings = array();
     		foreach($strings as $k =>$v){
     			// Only if it is a prefix!
-    			if(stripos( $k, 'EMAIL_') === 0)
+    			if(stripos( $k, 'COM_TIENDA_EMAIL_') === 0)
     				$result_strings[$k] = $v;
     		}
     		$result->strings = array('file' => $path,

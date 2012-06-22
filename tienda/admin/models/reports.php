@@ -63,6 +63,7 @@ class TiendaModelReports extends TiendaModelBase
 		$list = parent::getList();
 		foreach($list as $item)
 		{
+			if(version_compare(JVERSION,'1.6.0','ge')) {$item->id = $item->extension_id; }
 			$item->link = 'index.php?option=com_tienda&view=reports&task=view&id='.$item->id;
 		}
 		return $list;

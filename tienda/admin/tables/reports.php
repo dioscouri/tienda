@@ -17,10 +17,17 @@ class TiendaTableReports extends TiendaTable
 {
 	function TiendaTableReports( &$db ) 
 	{
-		$tbl_key 	= 'id';
-		$tbl_suffix = 'reports';
-		$this->set( '_suffix', $tbl_suffix );
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	        $tbl_key 	= 'extension_id';
+	        $tbl_suffix = 'extensions';
+	    } else {
+	        // Joomla! 1.5 code here
+	        $tbl_key 	= 'id';
+	        $tbl_suffix = 'reports';
+	    }
 		
-		parent::__construct( "#__plugins", $tbl_key, $db );	
+	    $this->set( '_suffix', $tbl_suffix );
+		parent::__construct( "#__{$tbl_suffix}", $tbl_key, $db );	
 	}
 }
