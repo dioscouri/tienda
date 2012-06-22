@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-class TiendaHelperImage extends DSCHelperImage
+class TiendaHelperImage extends TiendaHelperBase
 {
 	// Default Dimensions for the images
 	var $product_img_height 		= 0;

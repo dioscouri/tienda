@@ -44,14 +44,14 @@ class TiendaModelElementProductMultiple extends JModel
 	function getList()
 	{
 		$where = array();
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if (!empty($this->_list)) {
 			return $this->_list;
 		}
 
 		// Initialize variables
-		$db		=& $this->getDBO();
+		$db		= $this->getDBO();
 		$filter	= null;
 
 		// Get some variables from the request
@@ -138,7 +138,7 @@ class TiendaModelElementProductMultiple extends JModel
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
 		$html = "";
-		$doc 		=& JFactory::getDocument();
+		$doc 		= JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		
 		$title = JText::_('COM_TIENDA_ADD_PRODUCTS');
@@ -194,10 +194,10 @@ class TiendaModelElementProductMultiple extends JModel
 	function _clearElement($name, $value='', $node='', $control_name='')
 	{
 		
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		

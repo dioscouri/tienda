@@ -65,7 +65,7 @@ class TiendaModelElementImage extends JModel
 	 */
 	function getFolderList($base = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Get some paths from the request
 		if (empty($base)) {
@@ -278,10 +278,10 @@ class TiendaModelElementImage extends JModel
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		
@@ -321,10 +321,10 @@ class TiendaModelElementImage extends JModel
 	function _clearElement($name, $value='', $node='', $control_name='')
 	{
 		
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		

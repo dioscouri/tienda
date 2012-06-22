@@ -1,0 +1,29 @@
+/** J1.6+ fixes */
+form fieldset label {
+    clear: none !important;
+    margin: 5px 10px 5px 0px !important;
+    float: none !important;
+    display: inline;
+}
+
+form fieldset img, fieldset input {
+  float: none !important;
+  display: inline;
+}
+
+/** notes **/
+.note, .note_pink, .note_green
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-align: justify;
+	border: 1px solid #DDDDBB;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	display:block;
+	clear:both;
+}
+.note       { background-color: #FFFFDD; }
+.note_pink  { background-color: #FDE8FD; }
+.note_green { background-color: #EBF6DF; }

@@ -44,7 +44,7 @@ class TiendaModelElementAddress extends JModel
 	function getList()
 	{
 		$where = array();
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if (!empty($this->_list)) {
 			return $this->_list;
@@ -140,7 +140,7 @@ class TiendaModelElementAddress extends JModel
 	 */
 	function _fetchElement($name, $value='', $node='', $control_name='')
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db			=& JFactory::getDBO();
 		$doc 		=& JFactory::getDocument();
@@ -178,10 +178,10 @@ class TiendaModelElementAddress extends JModel
 	function _clearElement($name, $value='', $node='', $control_name='')
 	{
 		
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		

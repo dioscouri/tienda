@@ -43,8 +43,9 @@ class TiendaTableProductprices extends TiendaTable
 
 		$nullDate = $this->_db->getNullDate();
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $this->product_price_startdate = ($this->product_price_startdate != $nullDate) ? TiendaHelperBase::getOffsetDate( $this->product_price_startdate ) : $this->product_price_startdate;
-        $this->product_price_enddate = ($this->product_price_enddate != $nullDate) ? TiendaHelperBase::getOffsetDate( $this->product_price_enddate ) : $this->product_price_enddate;
+		$TiendaHelperBase = new TiendaHelperBase();
+        $this->product_price_startdate = ($this->product_price_startdate != $nullDate) ? $TiendaHelperBase->getOffsetDate( $this->product_price_startdate ) : $this->product_price_startdate;
+        $this->product_price_enddate = ($this->product_price_enddate != $nullDate) ? $TiendaHelperBase->getOffsetDate( $this->product_price_enddate ) : $this->product_price_enddate;
 
 		if (empty($this->created_date) || $this->created_date == $nullDate)
 		{

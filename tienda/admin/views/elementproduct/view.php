@@ -28,8 +28,7 @@ class TiendaViewElementProduct extends JView
 {
 	function display()
 	{
-		global $mainframe;
-
+		$mainframe = JFactory::getApplication();
 		// Initialize variables
 		$db			= &JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
@@ -150,10 +149,9 @@ class TiendaViewElementProduct extends JView
 
 	function _getLists()
 	{
-		global $mainframe;
-
+		$mainframe = JFactory::getApplication();
 		// Initialize variables
-		$db		= &JFactory::getDBO();
+		$db		= JFactory::getDBO();
 
 		// Get some variables from the request
 		//		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );

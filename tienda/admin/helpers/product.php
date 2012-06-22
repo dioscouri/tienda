@@ -17,7 +17,7 @@ jimport( 'joomla.filesystem.folder' );
 
 class TiendaHelperProduct extends TiendaHelperBase
 {
-	public static  $products = array( );
+	public static $products = array( );
 	public static $categoriesxref = array( );
 	
 	/**
@@ -183,7 +183,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 		else
 		{
-			$helper = &TiendaHelperBase::getInstance( 'Product' );
+			$helper = TiendaHelperBase::getInstance( 'Product' );
 		}
 		$product = $helper->load( ( int ) $product_id );
 		
@@ -781,7 +781,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 				}
 				else
 				{
-					$helper = &TiendaHelperBase::getInstance( 'Product' );
+					$helper = TiendaHelperBase::getInstance( 'Product' );
 				}
 				$row = $helper->load( ( int ) $id, true, false );
 				$full_image = $row->product_full_image; // in case it'll be changed by an event
@@ -885,7 +885,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $id
 	 * @return array
 	 */
-	function getPrices( $id )
+	public static function getPrices( $id )
 	{
 		static $sets;
 		
@@ -2057,9 +2057,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 	{
 		if ( empty( $this->products[$id][$load_eav] ) )
 		{
+			
+			/* this method is the first set of the problems that cause the loop that kills the products page in joomla 2.5*/
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
-			$this->products[$id][$load_eav] = JTable::getInstance( 'Products', 'TiendaTable' );
-			$this->products[$id][$load_eav]->load( $id, $reset, $load_eav );
+			$productTable = JTable::getInstance( 'Products', 'TiendaTable' );
+			//$this->products[$id][$load_eav] = JTable::getInstance( 'Products', 'TiendaTable' );
+			$this->products[$id][$load_eav] = $productTable->load( $id, $reset, $load_eav );
 		}
 		return $this->products[$id][$load_eav];
 	}

@@ -38,9 +38,9 @@ class TiendaHelperBase extends DSCHelper
 	 */
 	public static function getInstance( $type = 'Base', $prefix = 'TiendaHelper' )
 	{
-		parent::getInstance( $type , $prefix );
+		//parent::getInstance( $type , $prefix );
 		  
-		 /*static $instances;
+		 static $instances;
 
 		if (!isset( $instances )) {
 			$instances = array();
@@ -84,7 +84,7 @@ class TiendaHelperBase extends DSCHelper
 			$instances[$helperClass] = & $instance;
 		}
 
-		return $instances[$helperClass];*/
+		return $instances[$helperClass];
 	}
 
 	/**

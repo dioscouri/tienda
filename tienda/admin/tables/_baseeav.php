@@ -332,7 +332,7 @@ class TiendaTableEav extends TiendaTable
 		{
 
 			Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+			$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
 			$k = $this->_tbl_key;
 			$id = $this->$k;
 				

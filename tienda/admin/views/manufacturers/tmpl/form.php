@@ -55,7 +55,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
                         <?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?>:
                     </td>
                     <td>
-                        <?php $editor = &JFactory::getEditor(); ?>
+                        <?php $editor = JFactory::getEditor(); ?>
                         <?php echo $editor->display( 'manufacturer_description',  @$row->manufacturer_description, '100%', '450', '100', '20' ) ; ?>
                     </td>
                 </tr>

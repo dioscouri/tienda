@@ -16,7 +16,7 @@ jimport('joomla.filesystem.file');
 
 class TiendaHelperManufacturer extends TiendaHelperBase
 {
-	function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
+	public static function getImage( $id, $by='id', $alt='', $type='thumb', $url=false )
 	{
 		switch($type)
 		{

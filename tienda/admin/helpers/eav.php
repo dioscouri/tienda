@@ -54,7 +54,7 @@ class TiendaHelperEav extends TiendaHelperBase
 	 * @param unknown_type $id
 	 * @param boolean $only_enabled
 	 */
-    function getAttributes( $entity, $id, $only_enabled = false, $editable_by = '' )
+   public static function getAttributes( $entity, $id, $only_enabled = false, $editable_by = '' )
     {
         // $sets[$entity][$id]
         static $sets;
