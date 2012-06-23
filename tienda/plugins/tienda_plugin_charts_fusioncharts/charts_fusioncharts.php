@@ -52,7 +52,16 @@ class plgTiendaCharts_fusioncharts extends JPlugin
         if (!empty($data)) {
             // Include the FusionCharts Class file
             require_once( dirname(__FILE__).DS.'charts_fusioncharts_media'.DS.'FusionCharts_Gen.php' );
-            JHTML::_('script', 'FusionCharts.js', 'plugins/tienda/charts_fusioncharts_media/');
+			
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+  $path = 'plugins/tienda/charts_fusioncharts/charts_fusioncharts_media/';
+} else {
+    // Joomla! 1.5 code here
+   $path = 'plugins/tienda/charts_fusioncharts_media/';
+}
+			
+            JHTML::_('script', 'FusionCharts.js', $path);
 
             $title  = JText::_( $title );
 
@@ -77,7 +86,7 @@ class plgTiendaCharts_fusioncharts extends JPlugin
             $FC = new FusionCharts($type, $width, $height);
 
             // Tell the object where the SWF files live.
-            $FC->setSWFPath("../plugins/tienda/charts_fusioncharts_media/Charts/");
+            $FC->setSWFPath("../".$path ."Charts/");
 
             $max = 0;
             foreach($data as $obj) {
