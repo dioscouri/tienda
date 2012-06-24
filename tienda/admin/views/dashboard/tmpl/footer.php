@@ -33,11 +33,11 @@
 		<td style="text-align: center; width: 33%;">
 			<?php echo JText::_('COM_TIENDA_TIENDA'); ?>: <?php echo JText::_('COM_TIENDA_TIENDA_DESC'); ?>
 			<br/>
-			<?php echo JText::_('COM_TIENDA_COPYRIGHT'); ?>: <?php echo Tienda::getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
+			<?php echo JText::_('COM_TIENDA_COPYRIGHT'); ?>: <?php echo Tienda::getInstance()->getCopyrightYear(); ?> &copy; <a href="<?php echo $url; ?>" target="_blank">Dioscouri Design</a>
 			<br/>
-			<?php echo JText::_('COM_TIENDA_VERSION'); ?>: <?php echo Tienda::getVersion(); ?>
+			<?php echo JText::_('COM_TIENDA_VERSION'); ?>: <?php echo Tienda::getInstance()->getVersion(); ?>
 			<br/>
-			<?php echo sprintf( JText::_('COM_TIENDA_PHP_VERSION_LINE'), Tienda::getMinPhp(), Tienda::getServerPhp() );?>
+			<?php echo sprintf( JText::_('COM_TIENDA_PHP_VERSION_LINE'), Tienda::getInstance()->getMinPhp(), Tienda::getInstance()->getServerPhp() );?>
 		</td>
 		<td style="text-align: right; width: 33%;">
 			<a href="<?php echo $url; ?>" target="_blank"><img src="<?php echo $img_path."/".$img_file;?>"></img></a>
