@@ -336,7 +336,7 @@
         </copy>
 
 		<!-- CUSTOM FIELDS  -->
-        <copy todir="${destdir}/plugins/${cfg.comName}/customfields" preservelastmodified="true" overwrite="true">
+        <copy todir="${destdir}/plugins/${cfg.comName}/product_customfields" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_product_customfields" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">

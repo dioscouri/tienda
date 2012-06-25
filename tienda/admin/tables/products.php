@@ -58,7 +58,6 @@ class TiendaTableProducts extends TiendaTableEav
 			if ( empty( $this->_isNew ) )
 			{
 				// consolidate image gallery paths if necessary            
-				Tienda::load( "TiendaHelperBase", 'helpers._base' );
 				$helper = TiendaHelperBase::getInstance( 'Product' );
 				if ( $helper->consolidateGalleryImages( $this ) === true )
 				{
@@ -74,7 +73,6 @@ class TiendaTableProducts extends TiendaTableEav
 		if ( $return = parent::load( $oid, $reset, $load_eav ) )
 		{
 			// consolidate image gallery paths if necessary (SHA1 Images)            
-			Tienda::load( "TiendaHelperBase", 'helpers._base' );
 			$helper = TiendaHelperBase::getInstance( 'Product' );
 			if ( $helper->consolidateGalleryImages( $this ) === true )
 			{

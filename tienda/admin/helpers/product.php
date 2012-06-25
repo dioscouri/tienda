@@ -295,7 +295,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$file_moved = null;
 		
 		// get the current path for the product
-		$path = $this->getGalleryPath( $row->product_id );
+		$path = $this->getGalleryPath( $row );
 		
 		// get the current list of images in the current path
 		$images = $this->getGalleryImages( $path, array(), false);
@@ -560,40 +560,48 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param int $id
 	 * @return string
 	 */
-	public static function getGalleryPath( $id )
+	public static function getGalleryPath( $row )
 	{
 		static $paths;
 		
-		$id = ( int ) $id;
-		
-		if ( !is_array( $paths ) )
-		{
-			$paths = array( );
-		}
-		
-		if ( empty( $paths[$id] ) )
-		{
-			$paths[$id] = '';
-			
-			if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
-			{
-				$helper = &$this;
-			}
-			else
-			{
-				$helper = new TiendaHelperProduct();
-			}
-			$row = $helper->load( ( int ) $id, true, false );
-			
-			if ( empty( $row->product_id ) )
-			{
-				// TODO figure out what to do if the id is invalid 
-				return null;
-			}
-			
-			$paths[$id] = $row->getImagePath( true );
-		}
-		
+    
+    if( is_object( $row ) ) // passed TiendaTable object
+    {
+			$paths[$row->product_id] = $row->getImagePath( true );    
+    }
+    else
+    {  
+  		$id = ( int ) $row;
+  		
+  		if ( !is_array( $paths ) )
+  		{
+  			$paths = array( );
+  		}
+  		
+  		if ( empty( $paths[$id] ) )
+  		{
+  			$paths[$id] = '';
+  			
+  			if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
+  			{
+  				$helper = &$this;
+  			}
+  			else
+  			{
+  				$helper = new TiendaHelperProduct();
+  			}
+  			$row = $helper->load( ( int ) $id, true, false );
+  			
+  			if ( empty( $row->product_id ) )
+  			{
+  				// TODO figure out what to do if the id is invalid 
+  				return null;
+  			}
+  			
+  			$paths[$id] = $row->getImagePath( true );
+  		}
+    }
+    		
 		return $paths[$id];
 	}
 	
@@ -784,7 +792,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 					$helper = TiendaHelperBase::getInstance( 'Product' );
 				}
 				$row = $helper->load( ( int ) $id, true, false );
-				$full_image = $row->product_full_image; // in case it'll be changed by an event
+        $full_image = $row->product_full_image; // in case it'll be changed by an event
 				// load the item, get the filename, create tmpl
 				$urli = $row->getImageUrl( );
 				$dir = $row->getImagePath( );
@@ -2056,13 +2064,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 	function load( $id, $reset = true, $load_eav = true )
 	{
 		if ( empty( $this->products[$id][$load_eav] ) )
-		{
-			
-			/* this method is the first set of the problems that cause the loop that kills the products page in joomla 2.5*/
-			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+		{	
+			JTable::addIncludePath( trim( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' ) );
 			$productTable = JTable::getInstance( 'Products', 'TiendaTable' );
-			//$this->products[$id][$load_eav] = JTable::getInstance( 'Products', 'TiendaTable' );
-			$this->products[$id][$load_eav] = $productTable->load( $id, $reset, $load_eav );
+      $productTable->load( $id, $reset, $load_eav );
+			$this->products[$id][$load_eav] = $productTable;
 		}
 		return $this->products[$id][$load_eav];
 	}

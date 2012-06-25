@@ -45,16 +45,7 @@ class TiendaController extends DSCControllerAdmin
 		$this->registerTask( 'new', 'add' );
 		
 	}
-
 	
-
-	
-	
-
-	
-
-	
-
 	/**
 	 * Checks if an item is checked out, and if so, redirects to layout for viewing item
 	 * Otherwise, displays a form for adding item
@@ -67,8 +58,6 @@ class TiendaController extends DSCControllerAdmin
 		$this->edit();
 	}
 	
-	
-
 	/**
 	 * Releases an item from being checked out for editing
 	 * @return unknown_type
@@ -429,9 +418,6 @@ class TiendaController extends DSCControllerAdmin
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
-
-	
-
 	/**
 	 * Hides a tooltip message
 	 * @return unknown_type
@@ -463,9 +449,6 @@ class TiendaController extends DSCControllerAdmin
 
 		$this->setRedirect( $msg->link, $msg->message, $msg->type );
 	}
-
-	
-
 
 	/**
 	 * For displaying a searchable list of products in a lightbox

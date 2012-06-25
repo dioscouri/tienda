@@ -22,7 +22,7 @@ class TiendaViewCatalog extends TiendaViewBase
 	function display($tpl=null) 
 	{
 		$app = JFactory::getApplication();
-		$path = 'index.php?option=com_tienda&amp;view=products';
+		$path = 'index.php?option=com_tienda&view=products';
 		
 
 		$app->redirect($path);
