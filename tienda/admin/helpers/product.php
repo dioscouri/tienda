@@ -2063,14 +2063,14 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 */
 	function load( $id, $reset = true, $load_eav = true )
 	{
-		if ( empty( $this->products[$id][$load_eav] ) )
+		if ( empty( self::$products[$id][$load_eav] ) )
 		{	
 			JTable::addIncludePath( trim( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' ) );
 			$productTable = JTable::getInstance( 'Products', 'TiendaTable' );
       $productTable->load( $id, $reset, $load_eav );
-			$this->products[$id][$load_eav] = $productTable;
+			self::$products[$id][$load_eav] = $productTable;
 		}
-		return $this->products[$id][$load_eav];
+		return self::$products[$id][$load_eav];
 	}
 	
 	/**
