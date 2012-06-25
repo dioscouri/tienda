@@ -50,7 +50,7 @@ class TiendaTableProductAttributeOptionValues extends TiendaTable
      * Adds context to the default reorder method
      * @return unknown_type
      */
-    function reorder()
+    function reorder($where = '')
     {
         parent::reorder('productattributeoption_id = '.$this->_db->Quote($this->productattributeoption_id) );
     }

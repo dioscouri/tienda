@@ -91,7 +91,7 @@ class TiendaModelProductPrices extends TiendaModelBase
      *
      * @return database->loadObject() record
      */
-    public function getItem()
+    public function getItem($emptyState=true)
     {
         if (empty( $this->_item ))
         {

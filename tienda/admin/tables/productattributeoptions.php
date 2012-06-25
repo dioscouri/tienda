@@ -50,7 +50,7 @@ class TiendaTableProductAttributeOptions extends TiendaTable
      * Adds context to the default reorder method
      * @return unknown_type
      */
-    function reorder()
+    function reorder($where = '')
     {
         parent::reorder('productattribute_id = '.$this->_db->Quote($this->productattribute_id) );
     }
@@ -59,15 +59,16 @@ class TiendaTableProductAttributeOptions extends TiendaTable
      * Run function when saving
      * @see tienda/admin/tables/TiendaTable#save()
      */
-    function save()
+    function save($src='', $orderingFilter = '', $ignore = '')
     {
-    	if ($return = parent::save())
+    	if ($return = parent::save( $src, $orderingFilter, $ignore))
     	{
             $pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
             $pa->load( $this->productattribute_id );
             
             Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            TiendaHelperProduct::doProductQuantitiesReconciliation( $pa->product_id );
+            $helper = TiendaHelperBase::getInstance( 'product' );
+            $helper->doProductQuantitiesReconciliation( $pa->product_id );
     	}
         
     	return $return;

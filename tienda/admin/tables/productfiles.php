@@ -60,7 +60,7 @@ class TiendaTableProductFiles extends TiendaTable
 	 * Adds context to the default reorder method
 	 * @return unknown_type
 	 */
-    function reorder()
+    function reorder($where = '')
     {
         parent::reorder('product_id = '.$this->_db->Quote($this->product_id) );
     }

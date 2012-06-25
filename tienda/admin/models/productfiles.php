@@ -121,11 +121,11 @@ class TiendaModelProductFiles extends TiendaModelBase
     	$query->group( 'tbl.productfile_id' );
     }
 
-	public function getList()
+	public function getList($emptyState=true)
 	{
 		if( empty( $this->_list ) )
 		{
-			$list = parent::getList();            
+			$list = parent::getList($emptyState);            
 			// If no item in the list, return an array()
 			if( empty( $list ) )
 				return array();

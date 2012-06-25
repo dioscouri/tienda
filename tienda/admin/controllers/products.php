@@ -69,7 +69,7 @@ class TiendaControllerProducts extends TiendaController
 	 *
 	 * @return unknown_type
 	 */
-	function edit()
+	function edit($cachable=false, $urlparams = false)
 	{
 		$view   = $this->getView( $this->get('suffix'), 'html' );
 		$model  = $this->getModel( $this->get('suffix') );
@@ -1144,7 +1144,7 @@ class TiendaControllerProducts extends TiendaController
 		$redirect = "index.php?option=com_tienda&view=products&task=setattributes&id={$row->product_id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+		$this->setRedirect( $redirect, $this->message, $this->messagetype );	
 	}
 
 	/**
@@ -1163,7 +1163,7 @@ class TiendaControllerProducts extends TiendaController
 
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 		$name = JRequest::getVar('name', array(0), 'request', 'array');
-		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
+		$parent = JRequest::getVar('attribute_parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
 
 		foreach (@$cids as $cid)
@@ -1360,7 +1360,7 @@ class TiendaControllerProducts extends TiendaController
 		$prefix_weight = JRequest::getVar('prefix_weight', array(0), 'request', 'array');
 		$weight = JRequest::getVar('weight', array(0), 'request', 'array');
 		$code = JRequest::getVar('code', array(0), 'request', 'array');
-		$parent = JRequest::getVar('parent', array(0), 'request', 'array');
+		$parent = JRequest::getVar('attribute_parent', array(0), 'request', 'array');
 		$ordering = JRequest::getVar('ordering', array(0), 'request', 'array');
 		$blank = JRequest::getVar( 'blank', array( 0 ), 'request', 'array' );
 		
@@ -1415,17 +1415,19 @@ class TiendaControllerProducts extends TiendaController
 		$model = $this->getModel('productattributeoptionvalues');
 		$row = $model->getTable();
 
+		$id = JRequest::getInt('id', 0, 'request' );
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 		$field = JRequest::getVar('field', array(0), 'request', 'array');
 		$operator = JRequest::getVar('operator', array(0), 'request', 'array');
 		$value = JRequest::getVar('value', array(0), 'request', 'array');
-
+		
 		foreach (@$cids as $cid)
 		{
 			$row->load( $cid );
 			$row->productattributeoptionvalue_field = $field[$cid];
 			$row->productattributeoptionvalue_operator = $operator[$cid];
 			$row->productattributeoptionvalue_value = $value[$cid];
+			echo Tienda::dump( $row );
 
 			if (!$row->check() || !$row->store())
 			{
@@ -1445,7 +1447,7 @@ class TiendaControllerProducts extends TiendaController
 			$this->message = "";
 		}
 
-		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&id={$row->productattributeoption_id}&tmpl=component";
+		$redirect = "index.php?option=com_tienda&view=products&task=setattributeoptionvalues&id={$id}&tmpl=component";
 		$redirect = JRoute::_( $redirect, false );
 
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );

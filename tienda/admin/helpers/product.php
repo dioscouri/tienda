@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 jimport( 'joomla.filesystem.file' );
 jimport( 'joomla.filesystem.folder' );
 
@@ -567,12 +567,11 @@ class TiendaHelperProduct extends TiendaHelperBase
     
     if( is_object( $row ) ) // passed TiendaTable object
     {
-    	$id = $row->product_id;		
-			$paths[$id] = $row->getImagePath( true );    
+      $id = $row->product_id;
+			$paths[ $id ] = $row->getImagePath( true );    
     }
     else
-    {
-  
+    {  
   		$id = ( int ) $row;
   		
   		if ( !is_array( $paths ) )
@@ -603,7 +602,7 @@ class TiendaHelperProduct extends TiendaHelperBase
   			$paths[$id] = $row->getImagePath( true );
   		}
     }
-    	
+    		
 		return $paths[$id];
 	}
 	
@@ -1119,7 +1118,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$helper = &TiendaHelperBase::getInstance( 'Product' );
 		}
 		
-		if ( empty( $helper->categoriesxref[$id] ) )
+		if ( empty( self::$categoriesxref[$id] ) )
 		{
 			Tienda::load( 'TiendaQuery', 'library.query' );
 			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
@@ -1131,10 +1130,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$query->where( "tbl.product_id = " . ( int ) $id );
 			$db = JFactory::getDBO( );
 			$db->setQuery( ( string ) $query );
-			$helper->categoriesxref[$id] = $db->loadResultArray( );
+			self::$categoriesxref[$id] = $db->loadResultArray( );
 		}
 		
-		return $helper->categoriesxref[$id];
+		return self::$categoriesxref[$id];
 	}
 	
 	/**
@@ -1462,7 +1461,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 		}
 		// run recursive function on the data
-		TiendaHelperProduct::getCombinations( "", $traits, 0, $return );
+		$this->getCombinations( "", $traits, 0, $return );
 		
 		// before returning them, loop through each record and sort them
 		$result = array( );
@@ -1492,14 +1491,14 @@ class TiendaHelperProduct extends TiendaHelperBase
 			return false;
 		}
 		
-		$csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id, $attributeOptionId );
+		$csvs = $this->getProductAttributeCSVs( $product_id, $attributeOptionId );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		$model = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
 		$model->setState( 'filter_productid', $product_id );
 		$model->setState( 'filter_vendorid', $vendor_id );
 		$items = $model->getList( );
 		
-		$results = TiendaHelperProduct::reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
+		$results = $this->reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
 	}
 	
 	/**
@@ -1959,15 +1958,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$rating->rating = $id;
 		$rating->count = $num;
     
-    if( $view === null )   // if nothing is specified, load products view
- 		// yea this fails now     
-      //$view = TiendaHelperProduct::getProductViewObject();
-		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
-		$view = new TiendaViewProducts();
-		 
-  		
+    if( $view === null ) // if nothing is specified, load products view
+      $view = TiendaHelperProduct::getProductViewObject();
+
 		$view->rating =  $rating;
-		
 		$view->setLayout( $layout ); 
 		
 		$result = $view->loadTemplate( null );
@@ -2434,12 +2428,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 	}
 
   public static function getProductViewObject( $model = null, $hidemenu = true, $dotask = true )
-  {			
-   		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
-		
-		$view = new TiendaViewProducts();
-		 
-		
+  {
+   		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );		
+		  $view = new TiendaViewProducts( );
   		$view->set( '_controller', 'products' );
 	 	  $view->set( '_view', 'products' );
 	 	  $view->set( '_doTask', $dotask );

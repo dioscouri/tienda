@@ -68,8 +68,9 @@ class TiendaModelProductRelations extends TiendaModelBase
 		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		$date = JFactory::getDate()->toMysql();
 		$filter_product = $this->getState('filter_product');
+		$user = TiendaHelperBase::getInstance( 'user' );
 		if( strlen( $filter_product ) )
-			$default_group = TiendaHelperUser::getUserGroup( JFactory::getUser()->id, (int)$filter_product );
+			$default_group = $user->getUserGroup( JFactory::getUser()->id, (int)$filter_product );
 		else
 			$default_group = Tienda::getInstance()->get('default_user_group', '1');
 
@@ -116,9 +117,9 @@ class TiendaModelProductRelations extends TiendaModelBase
 		$query->select( $fields );
 	}
 
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 
 		// If no item in the list, return an array()
 		if( empty( $list ) ){

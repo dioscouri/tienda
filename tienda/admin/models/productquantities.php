@@ -51,11 +51,11 @@ class TiendaModelProductQuantities extends TiendaModelBase
        	}
     }
         	
-	public function getList()
+	public function getList($emptyState = true)
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
 		
-		$list = parent::getList(); 
+		$list = parent::getList($emptyState); 
 		
 		// If no item in the list, return an array()
         if( empty( $list ) ){

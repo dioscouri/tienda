@@ -203,7 +203,7 @@ class TiendaModelEav extends TiendaModelBase
 				
 				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+				$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
 				 
 				$entity = $this->getTable()->get('_suffix');
 				 
@@ -259,7 +259,7 @@ class TiendaModelEav extends TiendaModelBase
 				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 				Tienda::load('TiendaHelperEav', 'helpers.eav');
 				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+				$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
 				 
 				$entity = $this->getTable()->get('_suffix');
 				 

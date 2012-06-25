@@ -8,13 +8,14 @@
 <?php JHTML::_('script', 'jquery.uploadify.v2.1.4.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 <?php jimport('joomla.html.pane'); ?>
-<?php $tabs = &JPane::getInstance( 'tabs' ); ?>
+<?php $tabs = JPane::getInstance( 'tabs' ); ?>
 <?php $form = @$this->form; ?>
 <?php  $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
 <?php
 
 Tienda::load( 'TiendaUrl', 'library.url' );
-Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
+Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+$helper_product = TiendaHelperBase::getInstance( 'product' );
 ?>
 <form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
@@ -94,7 +95,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     <?php echo JText::_('COM_TIENDA_OVERALL_RATING'); ?>:
                 </td>
                 <td>
-                    <?php echo TiendaHelperProduct::getRatingImage( $this, @$row->product_rating ); ?>
+                    <?php echo $helper_product->getRatingImage( $this, @$row->product_rating ); ?>
                 </td>
             </tr>
             <tr>
@@ -112,7 +113,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
             jimport('joomla.filesystem.file');
             if (!empty($row->product_full_image))
             {
-                echo TiendaUrl::popup( TiendaHelperProduct::getImage($row->product_id, '', '', 'full', true, false ), TiendaHelperProduct::getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 )), array('update' => false, 'img' => true));
+                echo TiendaUrl::popup( $helper_product->getImage($row->product_id, '', '', 'full', true, false ), $helper_product->getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 )), array('update' => false, 'img' => true));
             }
             ?>
         </div>
@@ -177,7 +178,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         </td>
                         <td>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_SET_ATTRIBUTES'), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('COM_TIENDA_SAVING_THE_PRODUCT').'\'); submitbutton(\'apply\');}') ); ?>]
-                            <?php $attributes = TiendaHelperProduct::getAttributes( $row->product_id ); ?>
+                            <?php $attributes = $helper_product->getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
                                 <?php foreach (@$attributes as $attribute) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productattributes&task=delete&cid[]=".$attribute->productattribute_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
@@ -267,7 +268,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 						<?php echo JText::_('COM_TIENDA_FULL_DESCRIPTION'); ?>:
 					</td>
 					<td>
-						<?php $editor = &JFactory::getEditor(); ?>
+						<?php $editor = JFactory::getEditor(); ?>
 						<?php echo $editor->display( 'product_description',  @$row->product_description, '100%', '300', '75', '20' ) ; ?>
 					</td>
 				</tr>
@@ -276,7 +277,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <?php echo JText::_('COM_TIENDA_SHORT_DESCRIPTION'); ?>:
                     </td>
                     <td>
-                        <?php $editor = &JFactory::getEditor(); ?>
+                        <?php $editor = JFactory::getEditor(); ?>
                         <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
                     </td>
                 </tr>
@@ -363,7 +364,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                             <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
                             <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_SELECT_CATEGORIES')); ?>]
-                            <?php $categories = TiendaHelperProduct::getCategories( $row->product_id ); ?>
+                            <?php $categories = $helper_product->getCategories( $row->product_id ); ?>
                             <div id="current_categories">
                                 <?php foreach (@$categories as $category) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=products&task=selected_disable&id=".$row->product_id."&cid[]=".$category."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
@@ -411,7 +412,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         ?>
                         ]
                         <br/>
-                        <?php $images = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getGalleryImages( TiendaHelperProduct::getGalleryPath( @$row->product_id ) ); ?> 
+                        <?php $images = $helper_product->getGalleryImages( $helper_product->getGalleryPath( @$row->product_id ) ); ?> 
                         <?php foreach (@$images as $image) : ?>
                             [<a href="<?php echo "index.php?option=com_tienda&view=products&task=deleteImage&product_id=".@$row->product_id."&image=".$image."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".@$row->product_id); ?>">
                                 <?php echo JText::_('COM_TIENDA_REMOVE'); ?>
@@ -489,10 +490,9 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                         <td>
                             <?php
                             Tienda::load( 'TiendaUrl', 'library.url' );
-                            Tienda::load( "TiendaHelperProduct", 'helpers.product' ); 
                             ?>
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_MANAGE_FILES') ); ?>]
-                            <?php $files = TiendaHelperProduct::getFiles( $row->product_id ); ?>
+                            <?php $files = $helper_product->getFiles( $row->product_id ); ?>
                             <div id="current_files">
                                 <?php foreach (@$files as $file) : ?>
                                     [<a href="<?php echo "index.php?option=com_tienda&view=productfiles&task=delete&cid[]=".$file->productfile_id."&return=".base64_encode("index.php?option=com_tienda&view=products&task=edit&id=".$row->product_id); ?>">
@@ -561,8 +561,7 @@ Tienda::load( "TiendaHelperProduct", 'helpers.product' );
                     </td>
                 </tr>
                 <?php
-				Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-				$prices = TiendaHelperProduct::getPrices( $row->product_id );
+								$prices = $helper_product->getPrices( $row->product_id );
                 if (empty($row->product_id) || empty($prices)) 
                 {
                     // new product (or no prices set) - ask for normal price

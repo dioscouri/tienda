@@ -189,13 +189,6 @@ class TiendaHelperUser extends DSCHelperUser
 		return $user;
 	}*/
 
-	
-	
-	
-
-	
-
-	
 	/**
 	 * Returns yes/no
 	 * @param object
@@ -262,9 +255,6 @@ class TiendaHelperUser extends DSCHelperUser
 
 		return $success;
 	}
-
-	
-	
 
 	/**
 	 * Processes a new order
