@@ -5,9 +5,18 @@
 			<![CDATA[COM_TIENDA_MANUFACTURER_DEFAULT_LAYOUT_DESC]]>
 		</message>
 	</layout>
+	
+	
 	<state>
 		<name>COM_TIENDA_MANUFACTURER_DEFAULT_LAYOUT</name>
 		<description>COM_TIENDA_MANUFACTURER_DEFAULT_LAYOUT_DESC</description>
+		<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_schools/elements">
+			<field name="filter_manufacturer" type="tiendamanufacturer" section="com_tienda" default="" label="Select Manufacturer" description="A Tienda Manufaturer ID"  />
+			<field name="task" type="hidden" default="products" />
+		</fieldset>
+		
+	</fields>
         <url addpath="/administrator/components/com_tienda/elements">
             <param name="filter_manufacturer" type="tiendamanufacturer" section="com_tienda" default="" label="Select Manufacturer" description="A Tienda Manufaturer ID" />
             <param name="task" type="hidden" default="products" />

@@ -113,7 +113,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         <?php echo JHTML::_( 'form.token' ); ?>
         <input type="hidden" name="return" value="<?php echo $return; ?>" />
    
-        <?php $onclick = "tiendaFormValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?>
+        <?php $onclick = "Dsc.formValidation( '".JRoute::_( @$this->validation )."', 'validationmessage_".$item->product_id."', 'addtocart', document.".$formName.", true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?>
         
         <?php 
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :

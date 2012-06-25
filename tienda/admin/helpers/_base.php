@@ -154,7 +154,7 @@ class TiendaHelperBase extends DSCHelper
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	/*function addIncludePath( $path=null )
+	static function addIncludePath( $path=null )
 	{
 		static $tiendaHelperPaths;
 

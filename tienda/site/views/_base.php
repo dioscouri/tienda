@@ -14,13 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.filter.filteroutput' );
 jimport( 'joomla.application.component.view' );
 
-class TiendaViewBase extends JView
+class TiendaViewBase extends DSCViewSite
 {
-	/**
-	 * The valid task set by the controller
-	 * @var str
-	 */
-	protected $_doTask;
+	
 
 	/**
 	 * First displays the submenu, then displays the output
@@ -31,12 +27,13 @@ class TiendaViewBase extends JView
 	 */
 	function display($tpl=null, $perform = true )
 	{
-			// display() will return null if 'doTask' is not set by the controller
-			// This prevents unauthorized access by bypassing the controllers
-				if (empty($this->_doTask))				
-				{
-					return null;
-				}
+		//JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+		
+		$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
+		DSCLoader::discover('TiendaHelper', $parentPath, true);
+		
+		$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
+		DSCLoader::discover('Tienda', $parentPath, true);
 	
 			if( $perform )
 			{
@@ -67,44 +64,8 @@ class TiendaViewBase extends JView
 		}
 	}
 
-	/**
-	 * Sets the task to something valid
-	 *
-	 * @access   public
-	 * @param    string $task The task name.
-	 * @return   string Previous value
-	 * @since    1.5
-	 */
-	function setTask($task)
-	{
-		$previous       = $this->_doTask;
-		$this->_doTask  = $task;
-		return $previous;
-	}
+	
 
-	/**
-	 * Gets layout vars for the view
-	 *
-	 * @return unknown_type
-	 */
-	function getLayoutVars($tpl=null)
-	{
-		$layout = $this->getLayout();
-		switch(strtolower($layout))
-		{
-			case "view":
-				$this->_form($tpl);
-				break;
-			case "form":
-				JRequest::setVar('hidemainmenu', '1');
-				$this->_form($tpl);
-				break;
-			case "default":
-			default:
-				$this->_default($tpl);
-				break;
-		}
-	}
 
 	/**
 	 * Basic commands for displaying a list

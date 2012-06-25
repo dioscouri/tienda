@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
 
-class TiendaController extends JController 
+class TiendaController extends DSCControllerSite
 {	
 	var $_models = array();
 	var $message = "";
@@ -22,7 +22,7 @@ class TiendaController extends JController
 	/**
 	 * constructor
 	 */
-	function __construct() 
+	/*function __construct() 
 	{
 		parent::__construct();
 		$this->set('suffix', 'products');
@@ -39,7 +39,7 @@ class TiendaController extends JController
 	 * 
 	 * @return unknown_type
 	 */
-    function _setModelState()
+ /*   function _setModelState()
     {
 		$app = JFactory::getApplication();
 		$model = $this->getModel( $this->get('suffix') );
@@ -73,7 +73,7 @@ class TiendaController extends JController
      * 
      * @return unknown_type
      */
-    function getNamespace()
+  /*  function getNamespace()
     {
     	$app = JFactory::getApplication();
     	$model = $this->getModel( $this->get('suffix') );
@@ -85,7 +85,7 @@ class TiendaController extends JController
      * We override parent::getModel because parent::getModel was always creating a new Model instance
      *
      */
-	function getModel( $name = '', $prefix = '', $config = array() )
+	/*function getModel( $name = '', $prefix = '', $config = array() )
 	{
 		if ( empty( $name ) ) {
 			$name = $this->getName();
@@ -129,7 +129,7 @@ class TiendaController extends JController
 	/**
 	* 	display the view
 	*/
-	function display($cachable=false)
+	/*function display($cachable=false)
 	{
 		// this sets the default view
 		JRequest::setVar( 'view', JRequest::getVar( 'view', 'products' ) );
@@ -181,7 +181,7 @@ class TiendaController extends JController
 	 * cancel and redirect to main page
 	 * @return void
 	 */
-	function cancel() 
+ /*	function cancel() 
 	{
 		$link = 'index.php?option=com_tienda&view='.$this->get('suffix');
 		
@@ -215,7 +215,7 @@ class TiendaController extends JController
      * 
      * @return unknown_type
      */
-    function validate()
+   /* function validate()
     {
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = new TiendaHelperBase();
@@ -264,7 +264,7 @@ class TiendaController extends JController
      * 
      * @return unknown_type
      */
-    function footer()
+ /*   function footer()
     {
     	$show_linkback = Tienda::getInstance()->get('show_linkback', '1');
     	$format = JRequest::getVar('format');
@@ -289,7 +289,7 @@ class TiendaController extends JController
 	 * 
 	 * @return 
 	 */
-	function doTask()
+ /*	function doTask()
 	{
 		$success = true;
 		$msg = new stdClass();
@@ -327,7 +327,7 @@ class TiendaController extends JController
 	 * 
 	 * @return 
 	 */
-	function doTaskAjax()
+ /*	function doTaskAjax()
 	{
 		$success = true;
 		$msg = new stdClass();
@@ -370,7 +370,7 @@ class TiendaController extends JController
     /*
      * Set the currency to a different value
      */
-    function setCurrency()
+  /*  function setCurrency()
     {
         $currency_id = JRequest::getVar('currency_id', 0);
         
@@ -395,5 +395,5 @@ class TiendaController extends JController
         return;
     }
 	
-	
+	*/
 }

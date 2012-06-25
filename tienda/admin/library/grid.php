@@ -13,6 +13,10 @@ defined('_JEXEC') or die('Restricted access');
 
 class TiendaGrid extends DSCGrid
 {
-	
+	public static function required()
+	{
+	    $html = '<img src="'.Tienda::getUrl( 'images' ).'required_16.png" alt="'.JText::_('COM_TIENDA_REQUIRED').'">';
+        return $html;
+	}
 	
 }

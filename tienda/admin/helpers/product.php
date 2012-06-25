@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+
 jimport( 'joomla.filesystem.file' );
 jimport( 'joomla.filesystem.folder' );
 
@@ -567,10 +567,12 @@ class TiendaHelperProduct extends TiendaHelperBase
     
     if( is_object( $row ) ) // passed TiendaTable object
     {
-			$paths[$row->product_id] = $row->getImagePath( true );    
+    	$id = $row->product_id;		
+			$paths[$id] = $row->getImagePath( true );    
     }
     else
-    {  
+    {
+  
   		$id = ( int ) $row;
   		
   		if ( !is_array( $paths ) )
@@ -601,7 +603,7 @@ class TiendaHelperProduct extends TiendaHelperBase
   			$paths[$id] = $row->getImagePath( true );
   		}
     }
-    		
+    	
 		return $paths[$id];
 	}
 	
@@ -1957,10 +1959,15 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$rating->rating = $id;
 		$rating->count = $num;
     
-    if( $view === null ) // if nothing is specified, load products view
-      $view = TiendaHelperProduct::getProductViewObject();
-
+    if( $view === null )   // if nothing is specified, load products view
+ 		// yea this fails now     
+      //$view = TiendaHelperProduct::getProductViewObject();
+		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
+		$view = new TiendaViewProducts();
+		 
+  		
 		$view->rating =  $rating;
+		
 		$view->setLayout( $layout ); 
 		
 		$result = $view->loadTemplate( null );
@@ -2427,9 +2434,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 	}
 
   public static function getProductViewObject( $model = null, $hidemenu = true, $dotask = true )
-  {
-   		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );		
-		  $view = new TiendaViewProducts( );
+  {			
+   		JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
+		
+		$view = new TiendaViewProducts();
+		 
+		
   		$view->set( '_controller', 'products' );
 	 	  $view->set( '_view', 'products' );
 	 	  $view->set( '_doTask', $dotask );

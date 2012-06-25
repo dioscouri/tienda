@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-
+Tienda::load('TiendaHelperBase', 'helpers._base');
 class TiendaHelperUser extends DSCHelperUser
 {
 	/**
@@ -333,7 +333,8 @@ class TiendaHelperUser extends DSCHelperUser
 				$items = $groups[$user_id];
 
 				// using the helper to cut down on queries
-				$product_helper = TiendaHelperBase::getInstance( 'Product' );
+				$product_helper =  TiendaHelperBase::getInstance( 'Product' );
+			
 				$prices = $product_helper->getPrices( $product_id );
 				 
 				$groupIds = array();

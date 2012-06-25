@@ -18,7 +18,7 @@ class TiendaHelperRoute extends DSCHelperRoute
     /**
      *
      */
-    function getItems( $option='com_tienda' )
+    static function getItems( $option='com_tienda' )
     {
        parent::getItems($option);
        }
@@ -236,7 +236,7 @@ class TiendaHelperRoute extends DSCHelperRoute
      * @param   array   An array of URL arguments
      * @return  array   The URL arguments to use to assemble the URL
      */
-    function build( &$query )
+   static function build( &$query )
     {
         $segments = array();
     
@@ -304,7 +304,7 @@ class TiendaHelperRoute extends DSCHelperRoute
      * @param   array   The segments of the URL to parse
      * @return  array   The URL attributes
      */
-    function parse( $segments )
+  static  function parse( $segments )
     {
 //        echo "segments:<br /><pre>";
 //        print_r($segments);
