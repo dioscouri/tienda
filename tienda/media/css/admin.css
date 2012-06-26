@@ -4,49 +4,46 @@
 	padding-left: 125px !important;
 }
 .icon-32-savenew {
-	background-image:
-	url(../../../media/com_tienda/images/icon-32-savenew.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-savenew.png);
 }
 .icon-32-saveprev {
-	background-image:
-	url(../../../media/com_tienda/images/icon-32-saveprev.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-saveprev.png);
 }
 .icon-32-savenext {
-	background-image:
-	url(../../../media/com_tienda/images/icon-32-savenext.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-savenext.png);
 }
 .icon-32-prev {
-	background-image: url(../../../media/com_tienda/images/icon-32-prev.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-prev.png);
 }
 .icon-32-next {
-	background-image: url(../../../media/com_tienda/images/icon-32-next.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-next.png);
 }
 .icon-32-revert {
-	background-image: url(../../../administrator/templates/khepri/images/toolbar/icon-32-revert.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-revert.png);
 }
 .icon-32-refresh {
-	background-image: url(../../../administrator/templates/khepri/images/toolbar/icon-32-refresh.png);
+	background-image: url(../../../media/dioscouri/images/toolbar/icon-32-refresh.png);
 }
 .icon-32-cancel {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-cancel.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-cancel.png");
 }
 .icon-32-save {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-save.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-save.png");
 }
 .icon-32-new {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-new.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-new.png");
 }
 .icon-32-new {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-new.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-new.png");
 }
 .icon-32-delete {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-delete.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-delete.png");
 }
 .icon-32-edit {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-edit.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-edit.png");
 }
 .icon-32-default {
-	background-image: url("../../../administrator/templates/khepri/images/toolbar/icon-32-default.png");
+	background-image: url("../../../media/dioscouri/images/toolbar/icon-32-default.png");
 }
 /** filter lines **/
 tr.filterline div.range {
