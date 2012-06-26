@@ -35,7 +35,7 @@ class TiendaSelect extends DSCSelect
 		$list[] = JHTML::_('select.option',  'last_seven', JText::_('COM_TIENDA_LAST_SEVEN_DAYS') );
 		$list[] = JHTML::_('select.option',  'last_thirty', JText::_('COM_TIENDA_LAST_THIRTY_DAYS') );
 		$list[] = JHTML::_('select.option',  'ytd', JText::_('COM_TIENDA_YEAR_TO_DATE') );
-		$list[] = JHTML::_('select.option',  'years', JText::_('COM_TIENDA_YEARS') );
+		$list[] = JHTML::_('select.option',  'annually', JText::_('COM_TIENDA_ANNUALLY') );
 
 		return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
 	}

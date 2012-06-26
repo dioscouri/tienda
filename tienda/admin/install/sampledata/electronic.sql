@@ -6,7 +6,7 @@
 -- Dumping data for Table `#__tienda_manufacturers`
 --
 
-INSERT INTO `#__tienda_manufacturers` (`manufacturer_id`, `manufacturer_name`, `manufacturer_image`, `manufacturer_enabled`, `created_date`, `modified_date`) VALUES
+INSERT IGNORE INTO `#__tienda_manufacturers` (`manufacturer_id`, `manufacturer_name`, `manufacturer_image`, `manufacturer_enabled`, `created_date`, `modified_date`) VALUES
 (1, 'HTC', '', 1, NOW(), NOW()),
 (2, 'Acer', '', 1, NOW(), NOW()),
 (3, 'AMD', '', 1, NOW(), NOW()),
@@ -100,7 +100,7 @@ INSERT IGNORE INTO`#__tienda_orders` (`order_id`, `user_id`, `shipping_method_id
 (NULL, 62, 0, '', 4248.88000, 5399.00000, 647.88, 190.00, 12.00, 2000.00, 'currency_name=US Dollar\ncurrency_code=USD\nsymbol_left=$\nsymbol_right=\ncurrency_decimals=2\ndecimal_separator=.\nthousands_separator=,\nexchange_rate=1.00000000\nupdated_date=2010-11-12 08:35:39\n\n', 1, 15, '2010-12-15 12:17:21', '2010-12-15 12:17:21', '', '::1', 1, 0, 0.00000, 0, 0, '', 0, 0, '', 0.00000, 0, 0);
 
 
-INSERT IGNOR INTO`#__tienda_productcategoryxref` (`category_id`, `product_id`) VALUES
+INSERT IGNORE INTO`#__tienda_productcategoryxref` (`category_id`, `product_id`) VALUES
 ('2', '1'),
 ('5', '2'),
 ('8', '3');

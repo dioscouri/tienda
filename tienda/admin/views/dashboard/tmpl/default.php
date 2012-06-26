@@ -1,8 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $state = @$this->state; ?>
+<?php $state = $this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
+
+<?php DSC::loadHighcharts(); ?>
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 
@@ -23,32 +25,76 @@
 			<tbody>
 			<tr>
 				<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaSelect::range( @$state->stats_interval, 'stats_interval', $attribs ); ?></h3></td>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::currency( @$this->graphData->sum ); ?></h3></td>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::number( @$this->graphData->total, array('num_decimals'=>'0') ); ?></h3></td>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaSelect::range( $state->stats_interval, 'stats_interval', $attribs ); ?></h3></td>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::currency( $this->sum ); ?></h3></td>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::number( $this->total, array('num_decimals'=>'0') ); ?></h3></td>
 			</tr>
 			</tbody>
 			</table>
 
-			<?php
-			jimport('joomla.html.pane');
-			$tabs = JPane::getInstance( 'tabs' );
+            <div class="section">
+                <?php 
+                $chart = new HighRoller();
+                $chart->chart->renderTo = 'chart';
+                $chart->chart->type = 'mixed';
+                
+                $chart->plotOptions = new stdClass();
+                $chart->plotOptions->column = new stdClass();
+                $chart->plotOptions->column->pointStart = strtotime( $this->revenue[0][0] ) * 1000;
+                $chart->plotOptions->column->pointInterval = $this->interval->pointinterval;
+                $chart->plotOptions->line = new stdClass();
+                $chart->plotOptions->line->pointStart = strtotime( $this->orders[0][0] ) * 1000;
+                $chart->plotOptions->line->pointInterval = $this->interval->pointinterval;
+                
+                $chart->xAxis = new stdClass();
+                $chart->xAxis->labels = new stdClass();
+                $chart->xAxis->type = 'datetime';
+                $chart->xAxis->tickInterval = $chart->plotOptions->line->pointInterval;
+                $chart->xAxis->labels->rotation = -45;
+                $chart->xAxis->labels->align = 'right';
+                $chart->xAxis->labels->step = $this->interval->step;
+                
+                $left_y_axis = new stdClass();
+                $left_y_axis->title = new stdClass();
+                $left_y_axis->title->text = JText::_( 'COM_TIENDA_REVENUE' );
+                $left_y_axis->min = 0;
+                $left_y_axis->minRange = 8;
+                $left_y_axis->allowDecimals = false;
+                $left_y_axis->endOnTick = true;
+                
+                $right_y_axis = new stdClass();
+                $right_y_axis->title = new stdClass();
+                $right_y_axis->title->text = JText::_( 'COM_TIENDA_ORDERS' );
+                $right_y_axis->min = 0;
+                $right_y_axis->minRange = 8;
+                $right_y_axis->allowDecimals = false;
+                $right_y_axis->endOnTick = true;
+                $right_y_axis->opposite = true;
 
-			echo $tabs->startPane("tabone");
-			echo $tabs->startPanel( JText::_('COM_TIENDA_ORDERS'), "orders" );
-				
-				echo "<h2>".@$this->graph->title."</h2>";
-				echo @$this->graph->image;
+                $chart->yAxis = array($left_y_axis, $right_y_axis);
+                
+                $chart->legend->borderWidth = '1';
+                
+                $series = new HighRollerSeriesData();
+                $series->addName(JText::_( 'COM_TIENDA_REVENUE' ))->addData( $this->revenue );
+                $series->type = 'column';
+                $chart->addSeries($series);
+                
+                $series = new HighRollerSeriesData();
+                $series->addName(JText::_( 'COM_TIENDA_ORDERS' ))->addData( $this->orders );
+                $series->yAxis = 1;
+                $series->type = 'line';
+                $chart->addSeries($series);
 
-			echo $tabs->endPanel();
-			echo $tabs->startPanel( JText::_('COM_TIENDA_AMOUNTS'), "amounts" );
-
-				echo "<h2>".@$this->graphSum->title."</h2>";
-				echo @$this->graphSum->image;
-
-			echo $tabs->endPanel();
-			echo $tabs->endPane();
-			?>
+                ?>
+                
+                <div id="chart" style="width: 100%;"></div>
+                
+                <script type="text/javascript">
+                  <?php echo $chart->renderChart();?>
+                </script>
+            
+            </div>
 
             <?php echo $this->form['validate']; ?>
             </form>

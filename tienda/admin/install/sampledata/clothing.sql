@@ -6,7 +6,7 @@
 -- Dumping data for Table `#__tienda_manufacturers`
 --
 
-INSERT INTO `#__tienda_manufacturers` (`manufacturer_id`, `manufacturer_name`, `manufacturer_image`, `manufacturer_enabled`, `created_date`, `modified_date`) VALUES
+INSERT IGNORE INTO `#__tienda_manufacturers` (`manufacturer_id`, `manufacturer_name`, `manufacturer_image`, `manufacturer_enabled`, `created_date`, `modified_date`) VALUES
 (1, 'Esprit', '', 1, NOW(), NOW()),
 (2, 'Gap', '', 1, NOW(), NOW()),
 (3, 'Guess', '', 1, NOW(), NOW()),
@@ -111,11 +111,11 @@ INSERT IGNORE INTO `#__tienda_productprices` (`product_price_id`, `product_id`, 
 -- Dumping data for table `jos_tienda_orders`
 --
 
-INSERT IGNORE INTO`#__tienda_orders` (`order_id`, `user_id`, `shipping_method_id`, `order_number`, `order_total`, `order_subtotal`, `order_tax`, `order_shipping`, `order_shipping_tax`, `order_discount`, `order_currency`, `currency_id`, `order_state_id`, `created_date`, `modified_date`, `customer_note`, `ip_address`, `order_ships`, `order_recurs`, `recurring_amount`, `recurring_payments`, `recurring_period_interval`, `recurring_period_unit`, `recurring_trial`, `recurring_trial_period_interval`, `recurring_trial_period_unit`, `recurring_trial_price`, `completed_tasks`, `quantities_updated`) VALUES
+INSERT IGNORE INTO `#__tienda_orders` (`order_id`, `user_id`, `shipping_method_id`, `order_number`, `order_total`, `order_subtotal`, `order_tax`, `order_shipping`, `order_shipping_tax`, `order_discount`, `order_currency`, `currency_id`, `order_state_id`, `created_date`, `modified_date`, `customer_note`, `ip_address`, `order_ships`, `order_recurs`, `recurring_amount`, `recurring_payments`, `recurring_period_interval`, `recurring_period_unit`, `recurring_trial`, `recurring_trial_period_interval`, `recurring_trial_period_unit`, `recurring_trial_price`, `completed_tasks`, `quantities_updated`) VALUES
 (NULL, 62, 0, '', 4248.88000, 5399.00000, 647.88, 190.00, 12.00, 2000.00, 'currency_name=US Dollar\ncurrency_code=USD\nsymbol_left=$\nsymbol_right=\ncurrency_decimals=2\ndecimal_separator=.\nthousands_separator=,\nexchange_rate=1.00000000\nupdated_date=2010-11-12 08:35:39\n\n', 1, 15, '2010-12-15 12:17:21', '2010-12-15 12:17:21', '', '::1', 1, 0, 0.00000, 0, 0, '', 0, 0, '', 0.00000, 0, 0);
 
 
-INSERT IGNOR INTO`#__tienda_productcategoryxref` (`category_id`, `product_id`) VALUES
+INSERT IGNORE INTO`#__tienda_productcategoryxref` (`category_id`, `product_id`) VALUES
 ('1', '1'),
 ('6', '2'),
 ('7', '3'),

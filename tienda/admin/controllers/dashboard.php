@@ -22,6 +22,31 @@ class TiendaControllerDashboard extends TiendaController
 		$this->set('suffix', 'dashboard');
 	}
 
+	public function display($cachable=false, $urlparams = false)
+	{
+	    $model = $this->getModel( $this->get('suffix') );
+	    $state = $model->getState();
+	    $state->stats_interval = JRequest::getVar('stats_interval', 'last_thirty');
+	    $model->setState('stats_interval', $state->stats_interval);
+
+	    $cache = JFactory::getCache('com_tienda');
+	    $cache->setCaching(true);
+	    $cache->setLifeTime('900');
+	    $orders = $cache->call(array($model, 'getOrdersChartData'), $state->stats_interval);
+	    $revenue = $cache->call(array($model, 'getRevenueChartData'), $state->stats_interval);
+	    
+        $interval = $model->getStatIntervalValues($state->stats_interval);
+
+	    $view = $this->getView( $this->get('suffix'), 'html' );
+	    $view->assign( 'orders', $orders );
+	    $view->assign( 'revenue', $revenue );
+        $view->assign( 'total', $model->orders );
+        $view->assign( 'sum', $model->revenue );
+        $view->assign( 'interval', $interval );        
+                
+	    parent::display($cachable, $urlparams);
+	}
+	
 	function search()
 	{
 	    $filter = JRequest::getVar('tienda_search_admin_keyword');
