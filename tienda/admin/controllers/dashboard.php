@@ -34,14 +34,16 @@ class TiendaControllerDashboard extends TiendaController
 	    $cache->setLifeTime('900');
 	    $orders = $cache->call(array($model, 'getOrdersChartData'), $state->stats_interval);
 	    $revenue = $cache->call(array($model, 'getRevenueChartData'), $state->stats_interval);
-	    
+	    $total = $cache->call(array($model, 'getSumChartData'), $orders);
+	    $sum = $cache->call(array($model, 'getSumChartData'), $revenue);
+	    	    
         $interval = $model->getStatIntervalValues($state->stats_interval);
 
 	    $view = $this->getView( $this->get('suffix'), 'html' );
 	    $view->assign( 'orders', $orders );
 	    $view->assign( 'revenue', $revenue );
-        $view->assign( 'total', $model->orders );
-        $view->assign( 'sum', $model->revenue );
+        $view->assign( 'total', $total );
+        $view->assign( 'sum', $sum );
         $view->assign( 'interval', $interval );        
                 
 	    parent::display($cachable, $urlparams);

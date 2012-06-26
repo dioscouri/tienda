@@ -35,7 +35,6 @@ class TiendaModelDashboard extends TiendaModelBase
         switch ($stats_interval) {
             case "annually":
                 $firstsale_date = TiendaHelperOrder::getDateMarginalOrder( $this->getStatesCSV(), 'ASC' );
-                
                 $interval->date_from = date( 'Y-01-01 00:00:00', strtotime( $firstsale_date ) );
                 $interval->date_to = 'NOW';
                 $interval->next_date = '+1 year';
@@ -106,7 +105,27 @@ class TiendaModelDashboard extends TiendaModelBase
          
         return $interval;
     }
+    
+    /**
+     * 
+     * @param unknown_type $items
+     * @return Ambigous <number, unknown>
+     */
+    public function getSumChartData($items)
+    {
+        $return = 0;
+        foreach ($items as $item)
+        {
+            $return += $item[1];
+        }
+        return $return;
+    }
 
+    /**
+     * 
+     * @param unknown_type $stats_interval
+     * @return multitype:multitype:number
+     */
     public function getOrdersChartData($stats_interval)
     {
         $interval = $this->getStatIntervalValues($stats_interval);
@@ -159,12 +178,16 @@ class TiendaModelDashboard extends TiendaModelBase
             
             // gmmktime(0,0,0,$month,$day,$year)*1000 = javascript's Date.UTC (milliseconds since Epoch)
             $return[] = array( gmmktime($hour,$minute,$second,$month,$day,$year)*1000, $value );
-            $this->orders += $value;
         }
 
         return $return;
     }
 
+    /**
+     * 
+     * @param unknown_type $stats_interval
+     * @return multitype:multitype:number Ambigous <number, NULL>
+     */
     public function getRevenueChartData($stats_interval)
     {
         $interval = $this->getStatIntervalValues($stats_interval);
@@ -217,7 +240,6 @@ class TiendaModelDashboard extends TiendaModelBase
             
             // gmmktime(0,0,0,$month,$day,$year)*1000 = javascript's Date.UTC (milliseconds since Epoch)
             $return[] = array( gmmktime($hour,$minute,$second,$month,$day,$year)*1000, $value );
-            $this->revenue += $value;
         }
 
         return $return;
