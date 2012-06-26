@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin" group="tienda" method="upgrade">
+	<name>QuickIcon - Tienda Icon</name>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>Adds the Tienda Icon to the Main QuickIcons menu in Joomla 1.6 or greater</description>
+	<files>
+		<filename plugin="tiendaicon">tiendaicon.php</filename>
+		<folder>tiendaicon</folder>
+	</files>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_quickicon_tiendaicon.ini</language>
+	</languages>
+	<config>
+		
+	</config>
+	
+</install>
