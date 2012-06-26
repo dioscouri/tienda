@@ -42,7 +42,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
         return $canAdd;
 	}	
 	
-	public function getComparedProducts()
+	public static function getComparedProducts()
 	{
 		$model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
 		

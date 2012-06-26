@@ -60,7 +60,7 @@ class TiendaViewBase extends DSCViewSite
 	{
 		if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 		{
-			$menu =& TiendaMenu::getInstance();
+			$menu = TiendaMenu::getInstance();
 		}
 	}
 

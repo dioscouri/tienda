@@ -15,13 +15,5 @@ Tienda::load( 'TiendaViewBase', 'views._base', array( 'site'=>'site', 'type'=>'c
 
 class TiendaViewDashboard extends TiendaViewBase  
 {
-	/**
-	 * 
-	 * @param $tpl
-	 * @return unknown_type
-	 */
-	function display($tpl=null) 
-	{					
-        parent::display($tpl);
-    }
+	
 }

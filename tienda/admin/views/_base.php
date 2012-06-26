@@ -23,7 +23,6 @@ class TiendaViewBase extends DSCViewAdmin {
 		if (version_compare(JVERSION, '1.6.0', 'ge')) {
 			JHTML::_('stylesheet', 'joomla25.css', 'media/com_tienda/css/');
 		}
-
 		parent::display($tpl);
 
 	}

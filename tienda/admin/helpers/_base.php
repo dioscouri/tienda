@@ -812,7 +812,7 @@ class TiendaHelperBase extends DSCHelper
 	 * @param $strings	Associative array with list of strings to translate
 	 * 
 	 */
-	function addJsTranslationStrings( $strings )
+	public static function addJsTranslationStrings( $strings )
 	{
 		if( self::$added_strings === null )
 			self::$added_strings = array();

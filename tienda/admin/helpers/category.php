@@ -260,7 +260,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 	 * @param $format
 	 * @return unknown_type
 	 */
-	function getPathName( $id, $format='flat', $linkSelf=false )
+	public static function getPathName( $id, $format='flat', $linkSelf=false )
 	{
 		$name = '';
 		if (empty($id))

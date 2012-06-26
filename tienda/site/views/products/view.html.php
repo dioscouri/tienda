@@ -23,7 +23,7 @@ class TiendaViewProducts extends TiendaViewBase
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-	function display($tpl=null)
+	function display($tpl=null, $perform = true )
 	{
 		$model = $this->getModel();
 		$task = $model->getState( 'task' );

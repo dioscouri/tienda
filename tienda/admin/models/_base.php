@@ -33,21 +33,13 @@ class TiendaModelBase extends DSCModel
      * @return  object  The table
      * @since   1.5
      */
-    function getTable($name='', $prefix='TiendaTable', $options = array())
+     function getTable($name='', $prefix='TiendaTable', $options = array())
     {
-        if (empty($name)) {
-            $name = $this->getName();
-        }
-        
         JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        if ($table = $this->_createTable( $name, $prefix, $options ))  {
-            return $table;
-        }
-
-        JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-        $null = null;
-        return $null;
+        return parent::getTable($name, $prefix, $options);
     }
+     
+    
     
 	
 	

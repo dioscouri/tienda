@@ -146,7 +146,7 @@ class TiendaControllerProducts extends TiendaController
 	 * (non-PHPdoc)
 	 * @see tienda/admin/TiendaController#display($cachable)
 	 */
-	function display( )
+	function display($cachable=false, $urlparams = false )
 	{
 		JRequest::setVar( 'view', $this->get( 'suffix' ) );
 		JRequest::setVar( 'search', false );
@@ -172,7 +172,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		// breadcrumb support
 		$app = JFactory::getApplication( );
-		$pathway = &$app->getPathway( );
+		$pathway = $app->getPathway( );
 		$category_itemid = JRequest::getInt( 'Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
 		$items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
 		if ( !empty( $items ) )
@@ -196,7 +196,7 @@ class TiendaControllerProducts extends TiendaController
 		$cmodel->setState( 'filter_enabled', '1' );
 		$cmodel->setState( 'order', 'tbl.lft' );
 		$cmodel->setState( 'direction', 'ASC' );
-		if ( $citems = &$cmodel->getList( ) )
+		if ( $citems = $cmodel->getList( ) )
 		{
 			foreach ( $citems as $item )
 			{
@@ -207,7 +207,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		$this->_list = true; // if you want to display a slightly differen add-to-cart area for list view, check this boolean
 		// get the products to be displayed in this category
-		if ( $items = &$model->getList( ) )
+		if ( $items = $model->getList( ) )
 		{
 			JRequest::setVar( 'page', 'category' ); // for "getCartButton"
 			$this->display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );
@@ -321,7 +321,7 @@ class TiendaControllerProducts extends TiendaController
 		
 		// breadcrumb support
 		$app = JFactory::getApplication( );
-		$pathway = &$app->getPathway( );
+		$pathway = $app->getPathway( );
 		$category_itemid = JRequest::getInt( 'Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
 		$items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
 		if ( !empty( $items ) )
@@ -379,7 +379,7 @@ class TiendaControllerProducts extends TiendaController
 				) );
 		$view->setLayout( $layout );
 		
-		$dispatcher = &JDispatcher::getInstance( );
+		$dispatcher = JDispatcher::getInstance( );
 				
 		ob_start( );
 		$dispatcher->trigger( 'onBeforeDisplayProduct', array(

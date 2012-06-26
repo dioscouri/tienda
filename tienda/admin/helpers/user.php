@@ -296,7 +296,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * @param $user_id
 	 * @return mixed
 	 */
-	function getUserGroup( $user_id='', $product_id='')
+	public static function getUserGroup( $user_id='', $product_id='')
 	{
 		// $sets[$user_id][$product_id]
 		static $sets, $groups;

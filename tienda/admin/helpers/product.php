@@ -1143,7 +1143,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param int      $parent_option the id of the parent option. Use -1 for "all"
 	 * @return unknown_type
 	 */
-	function getAttributes( $id, $parent_option = "-1" )
+	public static function getAttributes( $id, $parent_option = "-1" )
 	{
 		if ( empty( $id ) )
 		{
@@ -1903,7 +1903,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	function getRatingImage( $view, $num, $clickable = false ,$layout = 'product_rating' )
+	public static function getRatingImage( $view, $num, $clickable = false ,$layout = 'product_rating' )
 	{
 		if( !$clickable )
 		{
@@ -2014,7 +2014,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param int $show - to show price with tax
 	 * @return string
 	 */
-	function dispayPriceWithTax( $price = '0', $tax = '0', $show = '0' )
+	public static function dispayPriceWithTax( $price = '0', $tax = '0', $show = '0' )
 	{
 		$txt = '';
 		if ( $show && $tax )
@@ -2079,7 +2079,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * Enter description here ...
 	 * @param unknown_type $attributes
 	 */
-	function getDefaultAttributeOptions( $attributes )
+	public static function getDefaultAttributeOptions( $attributes )
 	{
 		$default = array( );
 		foreach ( @$attributes as $attribute )
@@ -2279,7 +2279,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$view->invalidQuantity = $invalidQuantity;
 		$view->item = $row;
 		
-		$dispatcher = &JDispatcher::getInstance( );
+		$dispatcher = JDispatcher::getInstance( );
 
 		ob_start( );
 		$dispatcher->trigger( 'onDisplayProductAttributeOptions', array(
