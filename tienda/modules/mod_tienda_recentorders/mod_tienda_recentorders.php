@@ -17,6 +17,10 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 $helper = new modTiendaRecentOrdersHelper( $params );
-$orders = $helper->getOrders(); 
+
+$cache = JFactory::getCache('com_tienda');
+$cache->setCaching(true);
+$cache->setLifeTime('900');
+$orders = $cache->call(array($helper, 'getOrders'));
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_recentorders' ) );

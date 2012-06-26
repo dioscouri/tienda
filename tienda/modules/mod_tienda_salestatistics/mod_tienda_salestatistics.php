@@ -17,6 +17,10 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 $helper = new modTiendaSaleStatisticsHelper( $params );
-$stats = $helper->getStatistics(); 
+
+$cache = JFactory::getCache('com_tienda');
+$cache->setCaching(true);
+$cache->setLifeTime('900');
+$stats = $cache->call(array($helper, 'getStatistics'));
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_salestatistics' ) );
