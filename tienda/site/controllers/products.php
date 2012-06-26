@@ -544,7 +544,7 @@ class TiendaControllerProducts extends TiendaController
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_relation', $relation_type );
-		$user = &JFactory::getUser( );
+		$user = JFactory::getUser( );
 		$model->setState( 'filter_group', $relation_type );
 		
 		switch ( $relation_type )

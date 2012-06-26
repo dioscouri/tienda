@@ -231,7 +231,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$categories = $helper->getCategories( $product->product_id );
 		if ( !empty( $categories ) )
 		{
-			$helper_category = &TiendaHelperBase::getInstance( 'Category' );
+			$helper_category = TiendaHelperBase::getInstance( 'Category' );
 			$category_id = $categories[0];
 			if ( empty( $helper_category->categories[$category_id] ) )
 			{
@@ -274,7 +274,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $path
 	 * @return unknown_type
 	 */
-	function getUriFromPath( $path )
+	public static function getUriFromPath( $path )
 	{
 		$path = str_replace( JPATH_SITE . DS, JURI::root( ), $path );
 		$path = str_replace( DS, '/', $path );
@@ -504,7 +504,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $folder
 	 * @return array
 	 */
-	function getGalleryImages( $folder = null, $options = array( ), $triggerEvent = true )
+	public static function getGalleryImages( $folder = null, $options = array( ), $triggerEvent = true )
 	{
 		$images = array( );
 		
@@ -726,7 +726,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $url
 	 * @return unknown_type
 	 */
-	function getImage( $id, $by = 'id', $alt = '', $type = 'thumb', $url = false, $resize = false, $options = array( ), $main_product = false )
+	public static function getImage( $id, $by = 'id', $alt = '', $type = 'thumb', $url = false, $resize = false, $options = array( ), $main_product = false )
 	{ 
 		$style = "";
 		$height_style = "";
