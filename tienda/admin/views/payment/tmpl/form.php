@@ -2,7 +2,7 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; 
 jimport('joomla.html.pane'); 
-$tabs = &JPane::getInstance( 'tabs' ); 
+$tabs = JPane::getInstance( 'tabs' ); 
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
@@ -38,7 +38,14 @@ $tabs = &JPane::getInstance( 'tabs' );
 						</label>
 					</td>
 					<td>
-						<?php echo JHTML::_('select.booleanlist', 'published', '', @$row->published ) ?>
+					<?php 	if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	        echo JHTML::_('select.booleanlist', 'enabled', '', @$row->enabled );
+	    } else {
+	        // Joomla! 1.5 code here
+	       echo JHTML::_('select.booleanlist', 'published', '', @$row->published );
+	    }
+					 ?>
 					</td>
 				</tr>
 			</table>
