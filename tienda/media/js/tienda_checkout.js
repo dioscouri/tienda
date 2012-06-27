@@ -22,12 +22,15 @@ function tiendaGetShippingRates( container, form, callback )
 	var str = tiendaGetFormInputData( form );
 	// execute Ajax request to server
    	tiendaGrayOutAjaxDiv( container, Joomla.JText._( 'COM_TIENDA_UPDATING_SHIPPING_RATES' ) );
-    var a=new Ajax(url,{
-        method:"post",
-		data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            $( container ).setHTML( resp.msg );
+   var a = new Request({
+		url : url,
+		method : "post",
+		data : {
+			"elements" : JSON.encode(str)
+		},
+		onSuccess : function(response) {
+			var resp = JSON.decode(response, false);
+            $( container ).set('html',  resp.msg );
             if( resp.default_rate != null ) // if only one rate was found - set it as default
                	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], callback != null );
             else
@@ -38,7 +41,7 @@ function tiendaGetShippingRates( container, form, callback )
             	}
             return true;
         }
-    }).request();
+    }).send();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code, combined )
@@ -337,7 +340,7 @@ function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alp
 
 	content = '<div class="tienda_validation"><img src="'+window.com_tienda.jbase+'media/com_tienda/images/'+val_img+'" alt="'+val_alt+'"><span class="'+val_class+'">'+val_text+'</span></div>';
 	if( $( container ) )
-		$( container ).setHTML( content );
+		$( container ).set('html',  content );
 }
 
 /**
@@ -362,7 +365,7 @@ function tiendaCheckPassword2( container, form, psw1, psw2 )
 	
 	content = '<div class="tienda_validation"><img src="'+window.com_tienda.jbase+'media/com_tienda/images/'+val_img+'" alt="'+val_alt+'"><span class="'+val_class+'">'+val_text+'</span></div>';
 	if( $( container ) )
-		$( container ).setHTML( content );
+		$( container ).set('html',  content );
 }
 
 
@@ -379,22 +382,23 @@ function tiendaCheckoutCheckEmail( container, form )
     var str = tiendaGetFormInputData( form );
     // execute Ajax request to server
     tiendaPutAjaxLoader( container, Joomla.JText._( 'COM_TIENDA_VALIDATING' ) );
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function( response ){
-            var resp=Json.evaluate( response, false );
+    var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
             if( resp.error != '0' )
             {
-        		$(container).setHTML(resp.msg);
+        		$(container).set('html', resp.msg);
             }
             else
        		{
-        		$( container ).setHTML( resp.msg );
+        		$( container ).set('html',  resp.msg );
        		}
             return true;
         }
-    }).request();
+    }).send();
 }
 
 function tiendaHideInfoCreateAccount( )

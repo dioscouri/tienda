@@ -47,9 +47,9 @@ class TiendaTableOrderItems extends TiendaTableEav
 		return true;
 	}
 	
-	function store()
+	function store( $updateNulls=false )
 	{
 		$this->_linked_table_key = $this->product_id;
-		return parent::store();
+		return parent::store($updateNulls);
 	}
 }

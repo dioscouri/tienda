@@ -37,12 +37,12 @@ class TiendaTableSubscriptions extends TiendaTable
         return true;
     }
     
-    function save()
+    function save($src='', $orderingFilter = '', $ignore = '')
     {
         $prev = clone( $this );
         if (!empty($this->id)) { $prev->load( $this->id ); }
         
-        if ($save = parent::save())
+        if ($save = parent::save($src,$orderingFilter,$ignore))
         {
             if ($prev->subscription_enabled && empty($this->subscription_enabled))
             {

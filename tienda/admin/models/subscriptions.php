@@ -177,10 +177,10 @@ class TiendaModelSubscriptions extends TiendaModelBase
         $query->select( $field );
     }
     
-    public function getList()
+   public function getList($refresh = false)
     {
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $list = parent::getList();
+        $list = parent::getList($refresh);
         
         // If no item in the list, return an array()
         if( empty( $list ) ){
@@ -207,10 +207,10 @@ class TiendaModelSubscriptions extends TiendaModelBase
         return $list;
     }
     
-    public function getItem()
+   	public function getItem( $emptyState=true )
     {
         Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-        if ($item = parent::getItem())
+        if ($item = parent::getItem($emptyState))
         {
             $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;

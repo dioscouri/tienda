@@ -461,7 +461,7 @@ class Tienda extends DSC
 		$view = JRequest::getCmd( 'view', 'dashboard' );
 		$config = JFactory::getConfig();
 		$app = JFactory::getApplication();		
-		$uri =& JURI::getInstance(JURI::base());
+		$uri = JURI::getInstance(JURI::base());
 		if( $config->getValue('config.force_ssl') || ( $app->isSite() &&  $view == 'checkout' && Tienda::getInstance()->get( 'force_ssl_checkout',0 ) ) )
 			$uri->setScheme( 'https' );
 		

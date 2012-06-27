@@ -16,18 +16,19 @@ function tiendaUpdateParentDefaultImage(id) {
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
-	var a=new Ajax(url, {
-		method:"post",
-		data: {
-			"elements":Json.toString(str)
+	var a = new Request({
+		url : url,
+		method : "post",
+		data : {
+			"elements" : JSON.encode(str)
 		},
-		onComplete: function(response) {
-			var resp=Json.evaluate(response, false);
-			$('default_image').setHTML(resp.default_image);
-			$('default_image_name').setHTML(resp.default_image_name);
+		onSuccess : function(response) {
+			var resp = JSON.decode(response, false);
+			$('default_image').set('html', resp.default_image);
+			$('default_image_name').set('html', resp.default_image_name);
 			return true;
 		}
-	}).request();
+	}).send();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code) {
@@ -56,7 +57,7 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 	if (doModal != false) {
 		tiendaNewModal(msg);
 	}
-	$('validation_message').setHTML('');
+	$('validation_message').set('html', '');
 
 	// loop through form elements and prepare an array of objects for passing to server
 	var str = new Array();
@@ -70,19 +71,20 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
-	var a=new Ajax(url, {
-		method:"post",
-		data: {
-			"elements":Json.toString(str)
+	var a = new Request({
+		url : url,
+		method : "post",
+		data : {
+			"elements" : JSON.encode(str)
 		},
-		onComplete: function(response) {
-			var resp=Json.evaluate(response, false);
+		onSuccess : function(response) {
+			var resp = JSON.decode(response, false);
 
 			if (resp.error != '1') {
-				$(container).setHTML(resp.msg);
+				$(container).set('html', resp.msg);
 				tiendaGetCheckoutTotals();
 			} else {
-				$('validation_message').setHTML(resp.msg);
+				$('validation_message').set('html', resp.msg);
 			}
 
 			if (doModal != false) {
@@ -122,21 +124,22 @@ function tiendaAddCoupon( form, mult_enabled ) {
 	}
 
 	// execute Ajax request to server
-	var a=new Ajax(url, {
-		method:"post",
-		data: {
-			"elements":Json.toString(str)
+	var a = new Request({
+		url : url,
+		method : "post",
+		data : {
+			"elements" : JSON.encode(str)
 		},
-		onComplete: function(response) {
-			var resp=Json.evaluate(response, false);
+		onSuccess : function(response) {
+			var resp = JSON.decode(response, false);
 			if (resp.error != '1') {
 				if ($(container)) {
-					$(container).setHTML('');
+					$(container).set('html', '');
 				}
 
 				// Push the code into the form
 				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				$('coupon_codes').setHTML( cc_html );
+				$('coupon_codes').set('html',  cc_html );
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -149,7 +152,7 @@ function tiendaAddCoupon( form, mult_enabled ) {
 				}
 			} else {
 				if ($(container)) {
-					$(container).setHTML(resp.msg);
+					$(container).set('html', resp.msg);
 				}
 			}
 		}
@@ -180,15 +183,18 @@ function tiendaAddCredit( form )
     }
     
     // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
+   var a = new Request({
+		url : url,
+		method : "post",
+		data : {
+			"elements" : JSON.encode(str)
+		},
+		onSuccess : function(response) {
+			var resp = JSON.decode(response, false);
             if (resp.error != '1') 
             {
-                if ($(container)) { $(container).setHTML(''); }
-                $('applied_credit').setHTML( resp.msg );                
+                if ($(container)) { $(container).set('html', ''); }
+                $('applied_credit').set('html',  resp.msg );                
                 // Clear the field
                 $('apply_credit_amount').value = '';
                                
@@ -197,8 +203,8 @@ function tiendaAddCredit( form )
             }
                 else
             {
-                if ($(container)) { $(container).setHTML(resp.msg); }
+                if ($(container)) { $(container).set('html', resp.msg); }
             }
         }
-    }).request();
+    }).send();
 }

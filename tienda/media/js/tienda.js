@@ -16,16 +16,7 @@ function tiendaUpdate()
 function tiendaFormReset(form)
 {
     // loop through form elements
-    var str = new Array();
-    for(i=0; i<form.elements.length; i++)
-    {
-        var string = form.elements[i].name;
-        if (string && string.substring(0,6) == 'filter')
-        {
-            form.elements[i].value = '';
-        }
-    }
-    form.submit();
+    Dsc.resetFormFilters(form);
 }
 
 /**
@@ -34,14 +25,9 @@ function tiendaFormReset(form)
  * @param {Object} dir
  * @param {Object} task
  */
-function tiendaGridOrdering( order, dir ) 
+function tiendaGridOrdering( order, dir, form ) 
 {
-	var form = document.adminForm;
-     
-	form.filter_order.value     = order;
-	form.filter_direction.value	= dir;
-
-	form.submit();
+	Dsc.gridOrdering(order, dir, form);
 }
 
 /**
@@ -50,15 +36,9 @@ function tiendaGridOrdering( order, dir )
  * @param change
  * @return
  */
-function tiendaGridOrder(id, change) 
+function tiendaGridOrder(id, change, form) 
 {
-	var form = document.adminForm;
-	
-	form.id.value= id;
-	form.order_change.value	= change;
-	form.task.value = 'order';
-	
-	form.submit();
+	Dsc.gridOrder(id, change, form);
 }
 
 /**
@@ -69,36 +49,9 @@ function tiendaGridOrder(id, change)
  * @param {String} form element name
  * @param {String} task being performed
  */
-function tiendaFormValidation( url, container, task, form, doModal, msg ) 
+function tiendaFormValidation( url, container, task, form, doModal, msg, onCompleteFunction ) 
 {
-    if (doModal == true) { tiendaNewModal(msg); }
-    
-    if (task == 'save' || task == 'apply' || task == 'savenew' || task == 'preparePayment' || task == 'review' || task == 'selectpayment' || task == 'addtocart' || task == 'addchildrentocart' || task== 'addReview') 
-    {
-        var str = tiendaGetFormInputData( form );
-        
-        // execute Ajax request to server
-        var a=new Ajax(url,{
-            method:"post",
-            data:{"elements":Json.toString(str)},
-            onComplete: function(response){
-                var resp=Json.evaluate(response, false);
-                if ($(container)) { $(container).setHTML(resp.msg); }
-                if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
-                if (resp.error != '1') 
-                {
-                    form.task.value = task;
-                    form.submit();
-                }
-            }
-        }).request();
-    }
-        else 
-    {
-        if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
-        form.task.value = task;
-        form.submit();
-    }
+   Dsc.formValidation(url, container, task, form, doModal, msg, onCompleteFunction);
 }
 
 /**
@@ -106,18 +59,9 @@ function tiendaFormValidation( url, container, task, form, doModal, msg )
  * @param task
  * @return
  */
-function tiendaSubmitForm(task)
+function tiendaSubmitForm(task, form)
 {
-    document.adminForm.task.value = task;
-
-    if (typeof document.adminForm.onsubmit == "function") 
-    {
-        document.adminForm.onsubmit();
-    }
-        else
-    {
-        document.adminForm.submit();
-    }
+    Dsc.submitForm(task, form);
 }
 
 /**
@@ -152,16 +96,7 @@ function submitbutton(task)
  * @param {Object} hidetext
  */
 function tiendaDisplayDiv (divname, spanname, showtext, hidetext) { 
-	var div = document.getElementById(divname);
-	var span = document.getElementById(spanname);
-
-	if (div.style.display == "none")	{
-		div.style.display = "";
-		span.innerHTML = hidetext;
-	} else {
-		div.style.display = "none";
-		span.innerHTML = showtext;
-	}
+	Dsc.displayDiv(divname, spanname, showtext, hidetext);
 }
 
 /**
@@ -171,28 +106,12 @@ function tiendaDisplayDiv (divname, spanname, showtext, hidetext) {
  */
 function tiendaSwitchDisplayDiv( prefix, newSuffix )
 {
-	var newName = prefix + newSuffix;
-	var currentSuffixDiv = document.getElementById('currentSuffix');
-	var currentSuffix = currentSuffixDiv.innerHTML;	
-	var oldName = prefix + currentSuffix;
-	var newDiv = document.getElementById(newName);
-	var oldDiv = document.getElementById(oldName);
-
-	currentSuffixDiv.innerHTML = newSuffix;
-	newDiv.style.display = "";
-	oldDiv.style.display = "none";
+	Dsc.switchDisplayDiv( prefix, newSuffix );
 }
 
 function tiendaShowHideDiv(divname)
 {
-	var divObject = document.getElementById(divname);
-	if (divObject == null){return;}
-	if (divObject.style.display == "none"){
-		divObject.style.display = "";
-	}
-	else{
-		divObject.style.display = "none";
-	}
+	Dsc.showHideDiv(divname);
 }
 
 /**
@@ -203,45 +122,11 @@ function tiendaShowHideDiv(divname)
  * @param {String} msg message for the modal div (optional)
  * @param (Function) Function which is executed after the call is completed
  */
-function tiendaDoTask( url, container, form, msg, doModal, execFunc ) 
+function tiendaDoTask( url, container, form, msg, doModal, onCompleteFunction ) 
 {
-	if (doModal != false) { tiendaNewModal(msg); }
 	
-	// if url is present, do validation
-	if (url && form) 
-	{	
-		var str = tiendaGetFormInputData( form );
-
-		// execute Ajax request to server
-        var a=new Ajax(url,{
-            method:"post",
-			data:{"elements":Json.toString(str)},
-            onComplete: function(response){
-                var resp=Json.evaluate(response, false);
-                if ($(container)) { $(container).setHTML(resp.msg); }
-                if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
-                if( execFunc != null )
-                		execFunc();
-                
-                return true;
-            }
-        }).request();
-	}
-		else if (url && !form) 
-	{
-		// execute Ajax request to server
-        var a=new Ajax(url,{
-            method:"post",
-            onComplete: function(response){
-                var resp=Json.evaluate(response, false);
-                if ($(container)) { $(container).setHTML(resp.msg); }
-                if (doModal != false) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
-                if( execFunc != null )
-            		execFunc();
-                return true;
-        }
-        }).request();			
-	}
+	Dsc.doTask( url, container, form, msg, doModal, onCompleteFunction ) ;
+	
 }
 
 /**
@@ -250,49 +135,7 @@ function tiendaDoTask( url, container, form, msg, doModal, execFunc )
  */
 function tiendaNewModal (msg)
 {
-    if (typeof window.innerWidth != 'undefined') {
-        var h = window.innerHeight;
-        var w = window.innerWidth;
-    } else {
-        var h = document.documentElement.clientHeight;
-        var w = document.documentElement.clientWidth;
-    }
-    var t = (h / 2) - 15;
-    var l = (w / 2) - 15;
-	var i = document.createElement('img');
-	var src = window.com_tienda.jbase + 'media/com_tienda/images/ajax-loader.gif';
-	i.src = src;
-	i.style.position = 'absolute';
-	i.style.top = t + 'px';
-	i.style.left = l + 'px';
-	i.style.backgroundColor = '#000000';
-	i.style.zIndex = '100001';
-	var d = document.createElement('div');
-	d.id = 'tiendaModal';
-	d.style.position = 'fixed';
-	d.style.top = '0px';
-	d.style.left = '0px';
-	d.style.width = w + 'px';
-	d.style.height = h + 'px';
-	d.style.backgroundColor = '#000000';
-	d.style.opacity = 0.5;
-	d.style.filter = 'alpha(opacity=50)';
-	d.style.zIndex = '100000';
-	d.appendChild(i);
-    if (msg != '' && msg != null) {
-	    var m = document.createElement('div');
-	    m.style.position = 'absolute';
-	    m.style.width = '200px';
-	    m.style.top = t + 50 + 'px';
-	    m.style.left = (w / 2) - 100 + 'px';
-	    m.style.textAlign = 'center';
-	    m.style.zIndex = '100002';
-	    m.style.fontSize = '1.2em';
-	    m.style.color = '#ffffff';
-	    m.innerHTML = msg;
-	    d.appendChild(m);
-	}
-	document.body.appendChild(d);
+    Dsc.newModal(msg);
 }
 
 
@@ -387,14 +230,15 @@ function tiendaAddToCart( url, container, form, msg )
     var str = tiendaGetFormInputData( form );
 
     // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
+    var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+            var resp=JSON.decode(response, false);
             if (resp.error == '1') 
             {
-                if ($(container)) { $(container).setHTML(resp.msg); }
+                if ($(container)) { $(container).set('html', resp.msg); }
                 return false;
             }
                 else
@@ -404,7 +248,7 @@ function tiendaAddToCart( url, container, form, msg )
                 return true;
             }
         }
-    }).request();
+    }).send(); 
 }
 
 function tiendaUpdateAddToCart( page, container, form, working, callback )
@@ -416,18 +260,19 @@ function tiendaUpdateAddToCart( page, container, form, working, callback )
     // execute Ajax request to server
     if( working )
     	tiendaGrayOutAjaxDiv( container , Joomla.JText._( 'COM_TIENDA_UPDATING_ATTRIBUTES' ), '');
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
-            if ($(container)) { $(container).setHTML(resp.msg); }
+    var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
+            if ($(container)) { $(container).set('html', resp.msg); }
         	$( container ).setStyle( 'color', '' );            
         	if( typeof callback === 'function' )
         		callback();
             return true;
         }
-    }).request();
+    }).send(); 
 }
 
 function tiendaAddRelationship(container, msg) {
@@ -509,14 +354,15 @@ function tiendaValidation( url, container, task, form, doModal, msg )
     var str = tiendaGetFormInputData( form );
 
     // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
+     var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
             if (resp.error == '1') 
             {
-                if ($(container)) { $(container).setHTML(resp.msg); }
+                if ($(container)) { $(container).set('html', resp.msg); }
             }
             if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
             if (resp.error != '1') 
@@ -525,7 +371,7 @@ function tiendaValidation( url, container, task, form, doModal, msg )
                 form.submit();
             }
         }
-    }).request();
+    }).send(); 
 }
 
 function tiendaClearInput( element, value )
@@ -545,22 +391,24 @@ function tiendaAddProductToCompare(id, container, obj, doModal)
 	var url = 'index.php?option=com_tienda&view=productcompare&task=addProductToCompare&format=raw&product_id='+id+'&add='+add;
 	 
 	// execute Ajax request to server
-    var a=new Ajax(url,{
-         method:"post",       
-         onComplete: function(response){
-             var resp=Json.evaluate(response, false);
+    var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
             
              if (doModal == true) { (function() { document.body.removeChild($('tiendaModal')); }).delay(500); }
              if (resp.error == '1') 
              {
-            	 if ($('validationmessage')) { $('validationmessage').setHTML(resp.msg); }
+            	 if ($('validationmessage')) { $('validationmessage').set('html', resp.msg); }
              }
              else
              {
-            	 if ($(container)) { $(container).setHTML(resp.msg); }
+            	 if ($(container)) { $(container).set('html', resp.msg); }
              }
          }
-     }).request();	 
+      }).send();  
 }
 
 /**
@@ -578,18 +426,19 @@ function tiendaAddCoupon( form, mult_enabled )
     
     tiendaGrayOutAjaxDiv( 'coupon_code_area', Joomla.JText._( 'COM_TIENDA_CHECKING_COUPON' ) );
     // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
+    var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
             if (resp.error != '1') 
             {
-                if ($(container)) { $(container).setHTML(''); }
+                if ($(container)) { $(container).set('html', ''); }
                 
                 // Push the code into the form
                 var cc_html = $('coupon_codes').innerHTML + resp.msg;
-                $('coupon_codes').setHTML( cc_html );
+                $('coupon_codes').set('html',  cc_html );
                 
                 // Clear the field
                 document.getElementById('new_coupon_code').value = '';
@@ -606,7 +455,7 @@ function tiendaAddCoupon( form, mult_enabled )
             }
                 else
             {
-                if ($(container)) { $(container).setHTML(resp.msg); }
+                if ($(container)) { $(container).set('html', resp.msg); }
             }
             
         	el = $ES( '.tiendaAjaxGrayDiv', 'coupon_code_area' );
@@ -614,7 +463,7 @@ function tiendaAddCoupon( form, mult_enabled )
         		el.destroy();
       		tiendaSetColorInContainer( 'coupon_code_area', '' );
         }
-    }).request();
+  }).send();  
 }
 
 /**
@@ -631,18 +480,19 @@ function tiendaAddCartCoupon( form, mult_enabled )
     var str = tiendaGetFormInputData( form );
     
     // execute Ajax request to server
-    var a=new Ajax(url,{
-        method:"post",
-        data:{"elements":Json.toString(str)},
-        onComplete: function(response){
-            var resp=Json.evaluate(response, false);
+     	var a = new Request({
+            url: url,
+            method:"post",
+        data:{"elements":JSON.encode(str)},
+        onSuccess: function(response){
+           var resp=JSON.decode(response, false);
             if (resp.error != '1') 
             {
-                if ($(container)) { $(container).setHTML(''); }
+                if ($(container)) { $(container).set('html', ''); }
                 
                 // Push the code into the form
                 var cc_html = $('coupon_codes').innerHTML + resp.msg;
-                $('coupon_codes').setHTML( cc_html );
+                $('coupon_codes').set('html',  cc_html );
                 
                 // Clear the field
                 document.getElementById('new_coupon_code').value = '';
@@ -658,10 +508,10 @@ function tiendaAddCartCoupon( form, mult_enabled )
             }
                 else
             {
-                if ($(container)) { $(container).setHTML(resp.msg); }
+                if ($(container)) { $(container).set('html', resp.msg); }
             }
         }
-    }).request();
+     }).send(); 
 }
 
 /**
@@ -707,7 +557,7 @@ function tiendaPutAjaxLoader( container, text, suffix )
 	if( text != null && text != '' )
 		text_element = '<span> '+text+'</span>';
 	var img_loader = '<img src="'+window.com_tienda.jbase+'media/com_tienda/images/ajax-loader'+suffix+'.gif'+'"/>';
-	$(container).setHTML( img_loader+text_element );
+	$(container).set('html',  img_loader+text_element );
 }
 
 /**

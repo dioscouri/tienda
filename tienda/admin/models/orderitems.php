@@ -217,9 +217,9 @@ class TiendaModelOrderItems extends TiendaModelEav
 		$query->join('LEFT', '#__users AS u ON u.id = o.user_id');
     }
     
-	public function getList()
+	public function getList($refresh = false, $getEav = true, $options = array())
 	{
-		$list = parent::getList(); 
+		$list = parent::getList($refresh,$getEav,$options); 
 		
 		// If no item in the list, return an array()
         if( empty( $list ) ){

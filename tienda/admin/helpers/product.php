@@ -203,7 +203,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		if ( !empty( $options['category_id'] ) )
 		{
-			$helper_category = &TiendaHelperBase::getInstance( 'Category' );
+			$helper_category = TiendaHelperBase::getInstance( 'Category' );
 			$category_id = $options['category_id'];
 			if ( empty( $helper_category->categories[$category_id] ) )
 			{
@@ -1718,7 +1718,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * 
 	 */
 	
-	function getOrders( $product_id )
+	public static function getOrders( $product_id )
 	{
 		//Check the registry to see if our Tienda class has been overridden
 		if ( !class_exists( 'Tienda' ) ) JLoader::register( "Tienda",
@@ -1742,7 +1742,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $id
 	 * @return array
 	 */
-	function getUserAndProductIdForReview( $product_id, $user_id )
+	public static function getUserAndProductIdForReview( $product_id, $user_id )
 	{
 		if ( empty( $product_id ) && empty( $user_id ) )
 		{
