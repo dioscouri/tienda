@@ -11,14 +11,17 @@ if (!$installer->getLibrary())
     {
         $app->enqueueMessage($message, 'error');
     }
-    $app->enqueueMessage('This extension REQUIRES the Dioscouri Library, which we were not able to install for you.  This extension will NOT work without the library.  Please download the library from the following URL, install it, then attempt to install your extension again. <a href="http://updates.dioscouri.com/library/downloads/latest.zip">http://updates.dioscouri.com/library/downloads/latest.zip</a>', 'error' );
+    $app->enqueueMessage('This extension REQUIRES the Dioscouri Library, which we were not able to find nor install for you.  This extension will NOT work without the library.  Please download the library from the following URL, install it, then attempt to install your extension again. <a href="http://updates.dioscouri.com/library/downloads/latest.zip">http://updates.dioscouri.com/library/downloads/latest.zip</a>', 'error' );
+    $app->enqueueMessage('This installation did not complete correctly.  The extension will NOT work.  Please contact support.', 'error');
+    $app->redirect('index.php?option=com_installer&view=install');
+    return false;
 
 }
 else
 {
     if (JFile::exists(JPATH_SITE.'/libraries/dioscouri/component/install.php'))
     {
-        $thisextension = strtolower( "com_billets" );
+        $thisextension = strtolower( "com_tienda" );
         $thisextensionname = substr ( $thisextension, 4 );
         include JPATH_SITE . '/libraries/dioscouri/component/install.php';
     }
@@ -26,7 +29,9 @@ else
     {
         // fail with a message about this being an incomplete installation, that extension WILL NOT WORK
         $app = JFactory::getApplication();
-        $app->enqueueMessage('This installation did not complete correctly.  The extension will NOT work.', 'warning');
+        $app->enqueueMessage('This installation did not complete correctly.  The extension will NOT work.  Please contact support.', 'error');
+        $app->redirect('index.php?option=com_installer&view=install');
+        return false;
     }
 }
 
@@ -35,6 +40,21 @@ class TiendaInstaller extends JObject
     public $lib_url = 'http://updates.dioscouri.com/library/downloads/latest.zip';
     public $plugin_url = 'http://updates.dioscouri.com/plg_system_dioscouri/downloads/latest.zip';
     public $plugin_url_j15 = 'http://updates.dioscouri.com/plg_system_dioscouri/downloads/j15/latest.zip';
+    public $min_php_required = '5.3.0';
+    
+    /**
+     * Checks the minimum required php version
+     * @return boolean
+     */
+    protected function checkPHPVersion() 
+    {
+        if (version_compare(PHP_VERSION, $this->min_php_required) >= 0) {
+            return true;
+        }
+        
+        return false;
+    }
+
     
     /**
      * Load the library -- installing it if necessary
@@ -43,6 +63,11 @@ class TiendaInstaller extends JObject
      */
     public function getLibrary()
     {
+        if (!$this->checkPHPVersion()) {
+            $this->setError( "You do not meet the minimum system requirements.  You must have at least PHP version: " . $this->min_php_required . " but you are using " . PHP_VERSION );
+            return false;
+        }
+        
         jimport('joomla.filesystem.file');
         if (!class_exists('DSC')) {
             if (!JFile::exists(JPATH_SITE.'/libraries/dioscouri/dioscouri.php')) 
