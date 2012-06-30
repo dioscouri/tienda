@@ -42,6 +42,7 @@ class TiendaInstaller extends JObject
     public $plugin_url_j15 = 'http://updates.dioscouri.com/plg_system_dioscouri/downloads/j15/latest.zip';
     public $min_php_required = '5.3.0';
     
+	
     /**
      * Checks the minimum required php version
      * @return boolean
