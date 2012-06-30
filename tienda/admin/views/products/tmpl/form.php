@@ -10,7 +10,12 @@
 <?php jimport('joomla.html.pane'); ?>
 <?php $tabs = JPane::getInstance( 'tabs' ); ?>
 <?php $form = @$this->form; ?>
-<?php  $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
+<?php
+ // in joomla 2.5 this is causing admin forms to have encoded entities in the html forms
+ // $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
+
+<?php 
+ $row = @$this->row;  ?>
 <?php
 
 Tienda::load( 'TiendaUrl', 'library.url' );
