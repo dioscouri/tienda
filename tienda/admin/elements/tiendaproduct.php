@@ -32,9 +32,9 @@ class JFakeElementTiendaProduct extends JFakeElementBase
 {
 var	$_name = 'TiendaProduct';
 	
-	public function getInput($name, $value, $node, $control_name) 
+	public function getInput() 
 	{
-		$this->fetchElement($name, $value, $node, $control_name);
+		return JFakeElementTiendaProduct::fetchElement($this->name, $this->value, $this->element, $this->options['control']);
 	}
 	
 
@@ -42,7 +42,7 @@ var	$_name = 'TiendaProduct';
 	{
 	    
 		$html = "";
-		$doc 		=& JFactory::getDocument();
+		$doc 		= JFactory::getDocument();
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		$title = JText::_('COM_TIENDA_SELECT_PRODUCTS');
 		if ($value) {

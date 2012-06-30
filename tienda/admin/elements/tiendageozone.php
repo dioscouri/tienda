@@ -34,9 +34,10 @@ class JFakeElementTiendaGeoZone extends JFakeElementBase
 		
 	var	$_name = 'TiendaGeoZone';
 	
-	public function getInput($name, $value, $node, $control_name) 
+	public function getInput() 
 	{
-		$this->fetchElement($name, $value, $node, $control_name);
+		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->geozone($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'Select GeoZone', '', true );
+		return $list;
 	}
 	
 	

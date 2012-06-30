@@ -32,21 +32,15 @@ class JFakeElementTiendaTaxClass extends JFakeElementBase
 {
 	var	$_name = 'TiendaTaxClass';
 
-	public function getInput($name, $value, $node, $control_name) 
+	public function getInput() 
 	{
-		$this->fetchElement($name, $value, $node, $control_name);
+		
+		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->taxclass($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'COM_TIENDA_SELECT_TAX_CLASS', '', true );
+		return $list;
 	}
 	
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		/*
-		 * $html = "";
-		
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ElementaxClass', 'TiendaModel' ); 
-		$html = $model->fetchElement($name, $value, $control_name );
-		return $html;*/
-		
 		
 	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->taxclass($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'COM_TIENDA_SELECT_TAX_CLASS', '', true );
 		return $list;

@@ -34,9 +34,11 @@ class JFakeElementTiendaManufacturer extends JFakeElementBase
 		
 	var	$_name = 'TiendaManufacturer';
 	
-	public function getInput($name, $value, $node, $control_name) 
+	public function getInput() 
 	{
-		$this->fetchElement($name, $value, $node, $control_name);
+		 $select = Tienda::getClass( 'TiendaSelect', 'library.select' );
+	    $list = $select->orderstate($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'Select Order State', '', true );
+		return $list;
 	}
 	
 	
