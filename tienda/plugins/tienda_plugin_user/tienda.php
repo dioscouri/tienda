@@ -18,10 +18,24 @@ if ( !class_exists('Tienda') )
 
 class plgUserTienda extends JPlugin
 {
-    function __construct(&$subject, $config)
+    public function __construct(&$subject, $config)
     {
         parent::__construct($subject, $config);
         $this->loadLanguage( '', JPATH_ADMINISTRATOR );
+    }
+
+    /**
+     * When the user logs in, their session cart should override their db-stored cart.
+     * Current actions take precedence
+     * For Joomla 1.5     
+     *
+     * @param $user
+     * @param $options
+     * @return unknown_type
+     */
+    public function onLoginUser($user, $options = array())
+    {
+      return $this->LoginUserEvent($user, $options);
     }
 
     /**
@@ -32,9 +46,22 @@ class plgUserTienda extends JPlugin
      * @param $options
      * @return unknown_type
      */
-    function onLoginUser($user, $options)
+    public function onUserLogin($user, $options = array())
     {
-    	$session =& JFactory::getSession();
+      return $this->LoginUserEvent($user, $options);
+    }
+    
+    /**
+     * When the user logs in, their session cart should override their db-stored cart.
+     * Current actions take precedence
+     *
+     * @param $user
+     * @param $options
+     * @return unknown_type
+     */
+    function LoginUserEvent( $user, $options = array() )
+    {
+    	$session = JFactory::getSession();
     	$old_sessionid = $session->get( 'old_sessionid' );
 
     	$user['id'] = intval(JUserHelper::getUserId($user['username']));
@@ -52,7 +79,7 @@ class plgUserTienda extends JPlugin
             $helper->mergeSessionCartWithUserCart( $old_sessionid, $user['id'] );
             
             JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		    $wishlist_model = JModel::getInstance( 'Wishlists', 'TiendaModel' );
+		        $wishlist_model = JModel::getInstance( 'Wishlists', 'TiendaModel' );
             $wishlist_model->setUserForSessionItems( $old_sessionid, $user['id'] );
         }
             else
@@ -62,7 +89,8 @@ class plgUserTienda extends JPlugin
         
         $this->checkUserGroup();
 
-       return true;
+       exit(0);
+       return true;    
     }
 
     /**
