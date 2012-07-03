@@ -89,7 +89,6 @@ class plgUserTienda extends JPlugin
         
         $this->checkUserGroup();
 
-       exit(0);
        return true;    
     }
 
