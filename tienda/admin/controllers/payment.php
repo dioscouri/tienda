@@ -52,8 +52,16 @@ class TiendaControllerPayment extends TiendaController
     function save()
     {
         $model  = $this->getModel( $this->get('suffix') );
-        $row  = JTable::getInstance('plugin');
-        $row->bind( $_POST );
+       
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	        $row  = JTable::getInstance('extension');
+	    } else {
+	        // Joomla! 1.5 code here
+	       $row  = JTable::getInstance('plugin');
+	    }
+		
+        $row->bind( JRequest::get('post') );
         $task = JRequest::getVar('task');
 
         if ($task == "save_as")

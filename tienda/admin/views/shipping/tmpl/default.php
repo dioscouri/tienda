@@ -112,7 +112,18 @@
 					]
 				</td>
                 <td style="text-align: center;">
-                    <?php echo TiendaGrid::enable($item->published, $i, 'published.' ); ?>
+                    <?php 
+                    if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	       echo TiendaGrid::enable($item->enabled, $i, 'enabled' ); 
+					
+	    } else {
+	        // Joomla! 1.5 code here
+	         echo TiendaGrid::enable($item->published, $i, 'published.' ); 
+					
+	    }
+                   
+					 ?>
                 </td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

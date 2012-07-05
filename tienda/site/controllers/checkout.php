@@ -31,7 +31,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 
 		$task = JRequest::getVar('task');
@@ -171,7 +171,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 
 			Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 
 			if($showShipping)
 			{
@@ -214,7 +214,7 @@ class TiendaControllerCheckout extends TiendaController
 			$userinfo->credits_total = (float) $userinfo->credits_total; 
 			$view->assign('userinfo', $userinfo);				
 			
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			ob_start();
 			$dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
 			$view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
@@ -283,7 +283,7 @@ class TiendaControllerCheckout extends TiendaController
 				Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
 				$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
 
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 
 				$rates = array();
 				if ($plugins)
@@ -419,7 +419,7 @@ class TiendaControllerCheckout extends TiendaController
 				JRequest::setVar('layout', 'default');
 			}
 
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 
 			ob_start();
 			$dispatcher->trigger( 'onBeforeDisplaySelectShipping', array( $order ) );
@@ -456,7 +456,7 @@ class TiendaControllerCheckout extends TiendaController
 			// set the order's addresses based on the form inputs
 			// set to user defaults
 			Tienda::load( "TiendaHelperBase", 'helpers._base' );
-			$user_helper = &TiendaHelperBase::getInstance( 'User' );
+			$user_helper = TiendaHelperBase::getInstance( 'User' );
 
 			$billingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'billing' );
 			$shippingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
@@ -467,7 +467,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 
 		foreach ($items as $item)
@@ -554,8 +554,8 @@ class TiendaControllerCheckout extends TiendaController
 		$view->assign( 'order', $order );
 
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$product_helper = &TiendaHelperBase::getInstance( 'Product' );
-		$order_helper = &TiendaHelperBase::getInstance( 'Order' );
+		$product_helper = TiendaHelperBase::getInstance( 'Product' );
+		$order_helper = TiendaHelperBase::getInstance( 'Order' );
 
 		$tax_sum = 0;
 		$orderitems = $order->getItems();
@@ -842,7 +842,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array();
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onValidateSelectShipping", array( $submitted_values ) );
 
 		for ($i=0; $i<count($results); $i++)
@@ -914,7 +914,7 @@ class TiendaControllerCheckout extends TiendaController
 			{
 				// Validate the results of the payment plugin
 				$results = array();
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $submitted_values['_checked']['payment_plugin'], $submitted_values) );
 
 				for ($i=0; $i<count($results); $i++)
@@ -931,7 +931,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array();
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onValidateSelectPayment", array( $submitted_values ) );
 
 		for ($i=0; $i<count($results); $i++)
@@ -1354,7 +1354,7 @@ class TiendaControllerCheckout extends TiendaController
 		$model->setState('filter_enabled', '1');
 		$plugins = $model->getList();
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$rates = array();
 
@@ -1457,7 +1457,7 @@ class TiendaControllerCheckout extends TiendaController
 			$guest = $guest ? true : false;
 		}
 
-		$values = &$this->populateOrder($guest);
+		$values = $this->populateOrder($guest);
 
 		$this->setAddresses( $submitted_values, false, true );
 		// fail if shipping address is invalid
@@ -1561,7 +1561,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -1630,7 +1630,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -1680,7 +1680,7 @@ class TiendaControllerCheckout extends TiendaController
 		if (count($payment_plugins) == 1)
 		{
 			$payment_plugins[0]->checked = true;
-			$dispatcher    =& JDispatcher::getInstance();
+			$dispatcher    = JDispatcher::getInstance();
 			$results = $dispatcher->trigger( "onGetPaymentForm", array( $payment_plugins[0]->element, '' ) );
 
 			$text = '';
@@ -1719,7 +1719,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		if ($plugins)
 		{
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			foreach ($plugins as $plugin)
 			{
 				$results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
@@ -1878,7 +1878,7 @@ class TiendaControllerCheckout extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -2012,7 +2012,7 @@ class TiendaControllerCheckout extends TiendaController
 		$userinfo->credits_total = (float) $userinfo->credits_total; 
 		$view->assign('userinfo', $userinfo);		
 		
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		ob_start();
 		$dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
 		$view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
@@ -2043,7 +2043,7 @@ class TiendaControllerCheckout extends TiendaController
 		$user = JFactory::getUser();
 		if (empty($element)) { $element = JRequest::getVar( 'payment_element' ); }
 		$results = array();
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onGetPaymentForm", array( $element, $values ) );
 
 		for ($i=0; $i<count($results); $i++)
@@ -2135,11 +2135,11 @@ class TiendaControllerCheckout extends TiendaController
 		$values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
 
 		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
 		$mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
 
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
 
 		// Display whatever comes back from Payment Plugin for the onPrePayment

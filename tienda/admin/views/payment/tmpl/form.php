@@ -66,7 +66,14 @@ $tabs = JPane::getInstance( 'tabs' );
 			echo $tabs->endPane();
 	
 			?>
-			<input type="hidden" name="id" value="<?php echo @$row->id; ?>" />
+			
+			<?php 	if(version_compare(JVERSION,'1.6.0','ge')) {// Joomla! 1.6+ code here?>
+			<input type="hidden" name="extension_id" value="<?php echo @$row->extension_id; ?>" />
+	        <input type="hidden" name="type" value="plugin" /> <?php
+	 		 } else {// Joomla! 1.5 code here ?>
+	  	<input type="hidden" name="id" value="<?php echo @$row->id; ?>" />
+	  	<?php } ?>
 			<input type="hidden" name="task" value="" />
+			
 	
 </form>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-
+jimport( 'joomla.html.parameter' );
 class TiendaHelperOrder extends TiendaHelperBase
 {
 	/**
@@ -316,7 +316,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		unset($currency_parameters->modified_date);
 		unset($currency_parameters->currency_enabled);
 		 
-		$param = new DSCParameter('');
+		$param = new JParameter('');
 		$param->bind($currency_parameters);
 		 
 		return $param->toString();

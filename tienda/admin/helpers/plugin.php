@@ -109,7 +109,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 			{
 				if(empty($geozones[$plugin->id]))
 				{
-					$params = new DSCParameter($plugin->params);           
+					$params = new JParameter($plugin->params);           
         			$geozones[$plugin->id] = explode(',',$params->get('geozones')); 
 				}				
         		

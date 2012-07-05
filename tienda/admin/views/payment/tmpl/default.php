@@ -116,7 +116,7 @@
                 	 <?php 
                     if(version_compare(JVERSION,'1.6.0','ge')) {
 	        // Joomla! 1.6+ code here
-	       echo TiendaGrid::enable($item->enabled, $i, 'published.' ); 
+	       echo TiendaGrid::enable($item->enabled, $i, 'enabled' ); 
 					
 	    } else {
 	        // Joomla! 1.5 code here
