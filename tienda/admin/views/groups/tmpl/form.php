@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row;
-JFilterOutput::objectHTMLSafe( $row );
+JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, array( 'group_description' ) );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
@@ -25,7 +25,7 @@ JFilterOutput::objectHTMLSafe( $row );
     					</label>
     				</td>
     				<td>
-    					<?php $editor = &JFactory::getEditor(); ?>
+    					<?php $editor = JFactory::getEditor(); ?>
     					<?php echo $editor->display( 'group_description',  @$row->group_description, '100%', '450', '100', '20' ) ; ?>
     				</td>
 			</table>

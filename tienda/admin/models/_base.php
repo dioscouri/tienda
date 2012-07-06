@@ -39,30 +39,26 @@ class TiendaModelBase extends DSCModel
         return parent::getTable($name, $prefix, $options);
     }
      
-    
-    
-	
-	
-	/**
-	 * Retrieves the data for a paginated list
-	 * @return array Array of objects containing the data from the database
-	 */
-	public function getList($refresh = false)
-	{
-		if (empty( $this->_list ) || $refresh)
+		/**
+		 * Retrieves the data for a paginated list
+		 * @return array Array of objects containing the data from the database
+		 */
+		public function getList($refresh = false)
 		{
-			$query = $this->getQuery($refresh);
-			$this->_list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
-			
-			$overridden_methods = $this->getOverriddenMethods( get_class($this) );
-			if (!in_array('getList', $overridden_methods))  
+			if (empty( $this->_list ) || $refresh)
 			{
-				$dispatcher = JDispatcher::getInstance();
-				$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix').'List', array( &$this->_list ) );
+				$query = $this->getQuery($refresh);
+				$this->_list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
+				
+				$overridden_methods = $this->getOverriddenMethods( get_class($this) );
+				if (!in_array('getList', $overridden_methods))  
+				{
+					$dispatcher = JDispatcher::getInstance();
+					$dispatcher->trigger( 'onPrepare'.$this->getTable()->get('_suffix').'List', array( &$this->_list ) );
+				}
 			}
+			return $this->_list;
 		}
-		return $this->_list;
-	}
 	
 	/**
      * convert data from local to GMT

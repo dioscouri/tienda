@@ -200,7 +200,6 @@ class TiendaController extends DSCControllerAdmin
 
 		$redirect = JRoute::_( $redirect, false );
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
-		
 	 return $return;
 	}
 
@@ -331,7 +330,7 @@ class TiendaController extends DSCControllerAdmin
 	 *
 	 * @return unknown_type
 	 */
-	 
+		 
 	 /*This Function is completely replaced in DSC Library, However, the Language string is only in english. so keeping*/
 	 
 	function boolean()

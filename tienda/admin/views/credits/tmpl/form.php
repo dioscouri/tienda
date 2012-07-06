@@ -23,7 +23,7 @@
                         <?php echo JText::_('COM_TIENDA_AMOUNT'); ?>:
                     </td>
                     <td>
-                        <input name="credit_amount" type="text" size="20" value="<?php echo @$row->credit_amount ?> "size="48" maxlength="250" />
+                        <input name="credit_amount" type="text" size="20" value="<?php echo @$row->credit_amount ?>" maxlength="250" />
                     </td>
                 </tr>
 				<tr>
@@ -55,7 +55,7 @@
 						<?php echo JText::_('COM_TIENDA_CODE'); ?>:
 					</td>
 					<td>
-						<input name="credit_code" type="text" size="40" value="<?php echo @$row->credit_code ?> "size="48" maxlength="250" />
+						<input name="credit_code" type="text" size="40" value="<?php echo @$row->credit_code ?>" maxlength="250" />
 					</td>
 				</tr>
 				<tr>

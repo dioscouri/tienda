@@ -220,7 +220,6 @@ class TiendaControllerGroups extends TiendaController
 		$redirect = JRequest::getVar( 'return' ) ?
 		base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=groups&task=selectusers&tmpl=component&id=".$id;
 		$redirect = JRoute::_( $redirect, false );
-
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 

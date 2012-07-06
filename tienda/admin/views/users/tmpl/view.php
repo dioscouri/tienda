@@ -8,8 +8,12 @@ $orders=@$this->orders;
 $subs=@$this->subs;
 $surrounding = @$this->surrounding;
 $total_cart=@$this->total_cart;
+
 Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+$helper_user = TiendaHelperBase::getInstance( 'user' );
+$helper_product = TiendaHelperBase::getInstance( 'product' );
+$config = Tienda::getInstance();
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -35,7 +39,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 	                    	<td style="width:120px;">
 	                        	<div class="name"><?php echo @$row->username; ?></div>          
 	                    	</td>
-	                    	<td  align="right" class="key">
+	                    	<td  align="right" class="key">	
 		                        <label for="registerDate">
 		                        	<?php echo JText::_('COM_TIENDA_REGISTERED'); ?>:
 		                        </label>
@@ -45,10 +49,9 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                    </td>
 		                    <td rowspan="3" align="center" valign="top">
 		                    	<div style="padding:0px; margin-bottom:5px;width:auto;">
-									<?php echo TiendaHelperUser::getAvatar($row->id);?>
+									<?php echo $helper_user->getAvatar($row->id);?>
 								</div>
 		                        <?php
-		                        $config = Tienda::getInstance();
 		                        $url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
 		                        $url .= @$row->id; 
 		                        $text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>"; 
@@ -92,7 +95,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		                      	<div class="id"><?php echo @$row->group_name; ?></div>		                      	
 		                    </td>
 						</tr>
-						<?php if( Tienda::getInstance()->get( 'display_subnum', 0 ) ) :?>
+						<?php if( $config->get( 'display_subnum', 0 ) ) :?>
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="sub_number">
@@ -374,7 +377,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>							
 									</td>
 									<td style="text-align:center;">
-										<?php echo TiendaHelperProduct::getRatingImage( $procom->productcomment_rating ); ?>						
+										<?php echo $helper_product->getRatingImage( $procom->productcomment_rating ); ?>						
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>
@@ -397,7 +400,7 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		<td style="width: 70%; max-width: 70%; vertical-align: top; padding: 0px 5px 0px 5px;">		
 			<?php
             $modules = JModuleHelper::getModules("tienda_user_main");
-            $document   = &JFactory::getDocument();	
+            $document   = JFactory::getDocument();	
             $renderer   = $document->loadRenderer('module');
             $attribs    = array();
             $attribs['style'] = 'xhtml';	
@@ -410,8 +413,6 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 		<td style="vertical-align: top; width: 30%; min-width: 30%; padding: 0px 5px 0px 5px;">
 			<?php
             $modules = JModuleHelper::getModules("tienda_user_right");
-            $document   = &JFactory::getDocument();
-            $renderer   = $document->loadRenderer('module');
             $attribs    = array();
             $attribs['style'] = 'xhtml';
             foreach ( @$modules as $mod ) 

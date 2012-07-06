@@ -363,13 +363,14 @@ class TiendaHelperUser extends DSCHelperUser
 		$avatar = '';
 		$found = false;
 		Tienda::load( 'TiendaHelperAmbra', 'helpers.ambra' );
+		$helper_ambra = TiendaHelperBase::getInstance( 'Ambra' );
 		 
 		//check if ambra installed
-		if(TiendaHelperAmbra::isInstalled() && !$found)
+		if($helper_ambra->isInstalled() && !$found)
 		{
 			if ( !class_exists('Ambra') )
 			{
-				JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php" );
+				JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/defines.php" );
 			}
 			//Get Ambra Avatar
 			if($image = Ambra::get( "AmbraHelperUser", 'helpers.user' )->getAvatar( $id ))

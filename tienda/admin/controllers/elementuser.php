@@ -47,15 +47,15 @@ class TiendaControllerElementUser extends TiendaController
      * (non-PHPdoc)
      * @see tienda/tienda/site/TiendaController::display()
      */
-    function display()
+    function display($cachable=false, $urlparams = false)
     {
         $this->hidefooter = true;
         
         $object = JRequest::getVar('object');
         $view = $this->getView( $this->get('suffix'), 'html' );
         $view->assign( 'object', $object );
-		$view->setTask(true);
-        parent::display();
+				$view->setTask(true);
+        parent::display( $cachable, $urlparams );
     }
 }
 

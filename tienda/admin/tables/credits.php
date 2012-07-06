@@ -53,7 +53,7 @@ class TiendaTableCredits extends TiendaTable
         $wasWithdrawableBefore = $prev->credit_withdrawable;
         $wasEnabledBefore = $prev->credit_enabled;
         
-        if ($save = parent::save())
+        if ($save = parent::save($src, $orderingFilter, $ignore))
         {
             if (
                (($isNew && $this->credit_enabled) // if this is a new credit, and it is enabled 

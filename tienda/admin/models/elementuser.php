@@ -15,7 +15,7 @@ Tienda::load( 'TiendaModelUsers', 'models.users' );
 
 class TiendaModelElementUser extends TiendaModelUsers
 {
-    function getTable()
+    function getTable($name='', $prefix='TiendaTable', $options = array())
     {
         JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $table = parent::getTable( 'Users' );
@@ -51,7 +51,7 @@ class TiendaModelElementUser extends TiendaModelUsers
             document.getElementById(object + '_id').value = id;
             document.getElementById(object + '_name').value = title;
             document.getElementById(object + '_name_hidden').value = title;
-            document.getElementById('sbox-window').close();
+            window.parent.SqueezeBox.close();
             $js_extra
         }";
         $doc->addScriptDeclaration($js);
@@ -90,7 +90,7 @@ class TiendaModelElementUser extends TiendaModelUsers
         $html = '
         <div class="button2-left">
             <div class="blank">
-                <a href="javascript::void();" onclick="resetElementUser( \''.$value.'\', \''.JText::_('COM_TIENDA_SELECT_A_USER').'\', \''.$name.'\' )">' . 
+                <a href="#" onclick="resetElementUser( \''.$value.'\', \''.JText::_('COM_TIENDA_SELECT_A_USER').'\', \''.$name.'\' )">' . 
                 JText::_('COM_TIENDA_CLEAR_SELECTION') . '
                 </a>
             </div>

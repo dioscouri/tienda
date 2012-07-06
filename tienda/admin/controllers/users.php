@@ -52,7 +52,7 @@ class TiendaControllerUsers extends TiendaController
 		return $state;
 	}
 
-	function view()
+	function view($cachable=false, $urlparams = false)
 	{
 		$model = $this->getModel( $this->get('suffix') );
 		$model->getId();

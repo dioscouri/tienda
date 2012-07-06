@@ -25,8 +25,6 @@ class TiendaTable extends DSCTable
 		//$this->setTableProperties();
 	}
 	
-	
-	
 	/**
 	 * Uses the parameters from com_content to clean the HTML from a fieldname
 	 *
@@ -102,7 +100,4 @@ class TiendaTable extends DSCTable
 		$str = trim(strtolower($str));
 		return $str;
 	}
-
-	
-
 }

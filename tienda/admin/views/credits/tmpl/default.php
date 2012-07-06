@@ -1,8 +1,16 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $state = @$this->state; ?>
-<?php $form = @$this->form; ?>
-<?php $items = @$this->items; ?>
+<?php 
+	defined('_JEXEC') or die('Restricted access');
+
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	$state = @$this->state;
+	$form = @$this->form;
+	$items = @$this->items;
+	$date_format = Tienda::getInstance()->get('date_format');	
+	if (version_compare(JVERSION, '1.6.0', 'ge'))
+	{
+		$date_format = Tienda::getInstance()->get('date_format_act');	
+	}
+?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
@@ -161,7 +169,7 @@
 					<h2><?php echo TiendaHelperBase::currency( $item->credit_amount ); ?></h2>
 				</td>
                 <td style="text-align: center;">
-                   <?php echo JHTML::_('date', $item->created_date, Tienda::getInstance()->get('date_format')); ?>
+                   <?php echo JHTML::_('date', $item->created_date, $date_format ); ?>
                 </td>
                 <td style="text-align: center;">
                     <?php echo TiendaGrid::boolean( $item->credit_enabled ); ?>

@@ -233,14 +233,15 @@ class Tienda extends DSC
 	public $password_min_length = '5';
 	public $password_req_alpha = '1';
 	public $password_req_num = '1';
-    public $password_req_spec = '1';
-    public $password_php_validate = '1';
-    public $content_plugins_product_desc = '0';
-    public $lower_filename = '1';
+	public $password_req_spec = '1';
+	public $password_php_validate = '1';
+	public $content_plugins_product_desc = '0';
+	public $lower_filename = '1';
 
   // since 0.9.1
-    public $eavtext_content_plugin = '1';
-    public $eavinteger_use_thousand_separator = '0';	
+	public $eavtext_content_plugin = '1';
+	public $eavinteger_use_thousand_separator = '0';	
+	public $date_format_act = 'D, d M Y, h:iA';
 	
 
 	public static function getGuestIdStart()
@@ -248,12 +249,6 @@ class Tienda extends DSC
 		return self::$_guestIdStart;
 	}
 	
-	/**
-	 * Get the version
-	 */
-
-	
-
 	/**
 	 * Get the URL to the folder containing all media assets
 	 *
