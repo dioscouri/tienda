@@ -301,6 +301,17 @@
 					<tbody>
                         <tr>
                             <th style="width: 25%;">
+                                <?php echo JText::_('COM_TIENDA_SET_DATE_FORMAT_ACT'); ?>
+                            </th>
+                            <td>
+                                <input name="date_format" value="<?php echo $this->row->get('date_format_act', 'D, d M Y, h:iA'); ?>" type="text" size="40"/>
+                            </td>
+                            <td>
+                                <?php echo JText::_('COM_TIENDA_CONFIG_SET_DATE_FORMAT_ACT'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 25%;">
                                 <?php echo JText::_('COM_TIENDA_SET_DATE_FORMAT'); ?>
                             </th>
                             <td>
