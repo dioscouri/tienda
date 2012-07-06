@@ -24,7 +24,7 @@ class TiendaTableReports extends TiendaTable
 	    } else {
 	        // Joomla! 1.5 code here
 	        $tbl_key 	= 'id';
-	        $tbl_suffix = 'reports';
+	        $tbl_suffix = 'plugins';
 	    }
 		
 	    $this->set( '_suffix', $tbl_suffix );
