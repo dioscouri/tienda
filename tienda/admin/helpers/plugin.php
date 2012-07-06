@@ -11,10 +11,32 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperPlugin extends DSCHelperPlugin
+class TiendaHelperPlugin extends TiendaHelperBase
 {
-	
+	/**
+	 * Only returns plugins that have a specific event
+	 * 
+	 * @param $eventName
+	 * @param $folder
+	 * @return array of JTable objects
+	 */
+	function getPluginsWithEvent( $eventName, $folder='Tienda' )
+	{
+		$return = array();
+		if ($plugins = TiendaHelperPlugin::getPlugins( $folder ))
+		{
+			foreach ($plugins as $plugin)
+			{
+				if (TiendaHelperPlugin::hasEvent( $plugin, $eventName ))
+				{
+					$return[] = $plugin;
+				}
+			}
+		}
+		return $return;
+	}
 	
 	/**
 	 * Returns Array of active Plugins
@@ -24,12 +46,83 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 	 */
 	function getPlugins( $folder='Tienda' )
 	{
-			
-		parent::getPlugins($folder);	
+		$database = JFactory::getDBO();
 		
+		$order_query = " ORDER BY ordering ASC ";
+		$folder = strtolower( $folder );
+		
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	      $query = "
+			SELECT 
+				* 
+			FROM 
+				#__extensions 
+			WHERE  enabled = '1'
+			AND 
+				LOWER(`folder`) = '{$folder}'
+		
+		";
+	    } else {
+	        // Joomla! 1.5 code here
+	      $query = "
+			SELECT 
+				* 
+			FROM 
+				#__plugins 
+			WHERE  published = '1'
+			AND 
+				LOWER(`folder`) = '{$folder}'
+			{$order_query}
+		";
+		}		
+			
+		$database->setQuery( $query );
+		$data = $database->loadObjectList();
+		return $data;
 	}
 
-	
+	/**
+	 * Returns HTML
+	 * @param mixed Boolean
+	 * @param mixed Boolean
+	 * @return array
+	 */
+	function getPluginsContent( $event, $options, $method='vertical' ) 
+	{
+		$text = "";
+        jimport('joomla.html.pane');
+		
+		if (!$event) {
+			return $text;
+		}
+		
+		$args = array();
+		$dispatcher	   =& JDispatcher::getInstance();
+		$results = $dispatcher->trigger( $event, $options );
+		
+		if ( !count($results) > 0 ) {
+			return $text;
+		}
+		
+		// grab content
+		switch( strtolower($method) ) {
+			case "vertical":
+				for ($i=0; $i<count($results); $i++) {
+					$result = $results[$i];
+					$title = $result[1] ? JText::_( $result[1] ) : JText::_('Info');
+					$content = $result[0];
+					
+		            // Vertical
+		            $text .= '<p>'.$content.'</p>';
+				}
+			  break;
+			case "tabs":
+			  break;
+		}
+
+		return $text;	
+	}
 	
 	/**
 	 * Checks if a plugin has an event
@@ -65,7 +158,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 	 * @param $geozonetype_id
 	 * @return string
 	 */
-	public static function getSuffix($geozonetype_id)
+	function getSuffix($geozonetype_id)
 	{
 		switch($geozonetype_id)
 		{
@@ -86,7 +179,7 @@ class TiendaHelperPlugin extends DSCHelperPlugin
 	 * @param obj $geozone 
 	 * @return int
 	 */
-	public static function countPlgtoGeozone($geozone)
+	function countPlgtoGeozone($geozone)
 	{		
 		$count = 0;	
 		if(!is_object($geozone)) return $count;
