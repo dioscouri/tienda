@@ -37,7 +37,7 @@ class plgSystemTienda extends JPlugin
      *  
      * @return unknown_type
      */
-    function onAfterInitialise() 
+    function onAfterRoute() 
     {
         $success = null;
 
@@ -55,9 +55,8 @@ class plgSystemTienda extends JPlugin
         
         // get the option variable
         // and get rid of the com_
-        $option = JRequest::getCmd( 'option' );
+        $option = JRequest::getCmd( 'option', '', 'get' );
         $name = str_replace("com_", "", $option);
-
         // does an override exist for this component?
         // if so, include it!  Hooray!  Drinks for everyone!
         if (!$this->overrideExists( $name )) 
@@ -86,15 +85,12 @@ class plgSystemTienda extends JPlugin
         }
         
         jimport('joomla.filesystem.file');
-        $file = JPATH_SITE.DS."plugins".DS."system".DS."tienda".DS."components".DS.$name.DS.$site.DS."{$name}.php";
-		
-		
-		
-		
+        $file = JPATH_SITE."/plugins/system/tienda/tienda/components/".$name."/".$site."/{$name}.php";
+    
         // Enable each override to be disabled by a param in the xml file
-        if (JFile::exists( $file ) && $this->params->get( "{$site}_override_{$name}", '0' ) ) 
+        if (JFile::exists( $file ) && $this->_activeOverride( $name, $site ) ) 
         {
-            // this includes the override for the entrypoint file of the component
+        	// this includes the override for the entrypoint file of the component
             // which starts the entire override
             // enjoy the ride!
             ob_start();
@@ -109,10 +105,25 @@ class plgSystemTienda extends JPlugin
             require_once( $file );
             $this->_html = ob_get_contents(); 
             ob_end_clean();
+						echo $this->_html;
                         
             $success = true;
         }
         return $success;
+    }
+    
+    /**
+     * This method determines, if the override is active
+     */         
+    function _activeOverride( $name, $site )
+    {
+      $aliases = array( 'users' => 'user' );
+      
+      $param = "{$site}_override_{$name}";
+      if( isset($aliases[$name] ) )
+        $param = "{$site}_override_{$aliases[$name]}";   
+    
+      return $this->params->get( $param, '0' );
     }
     
     /**
