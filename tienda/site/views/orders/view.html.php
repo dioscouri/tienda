@@ -20,7 +20,7 @@ class TiendaViewOrders extends TiendaViewBase
      * @param $tpl
      * @return unknown_type
      */
-    function display($tpl=null) 
+    function display($tpl=null, $perform = true )
     {
         $layout = $this->getLayout();
         switch(strtolower($layout))

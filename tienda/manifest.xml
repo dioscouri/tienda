@@ -139,6 +139,7 @@
         <plugin plugin="plugins/tienda_plugin_tool_virtuemartmigration" publish="true" group="tienda" element="tool_virtuemartmigration" />
         <plugin plugin="plugins/tienda_plugin_tool_xcartmigration" publish="true" group="tienda" element="tool_xcartmigration" />
         <plugin plugin="plugins/tienda_plugin_tool_xmlimporter" publish="true" group="tienda" element="tool_xmlimporter" />
+        <plugin plugin="plugins/tienda_plugin_tienda" publish="true" group="quickicon" element="tiendaicon" />
         <plugin plugin="plugins/tienda_plugin_user" publish="true" group="user" element="tienda" />
 	</plugins>
 </install>

@@ -128,7 +128,7 @@ class TiendaControllerCheckout extends TiendaController
 			$html = $this->getOrderSummary();
 			$view->assign( 'orderSummary', $html );
 			$view->assign( 'order', $order );
-
+			$view->setTask(true);
 			$view->assign( 'user', $user );
 
 			if( !$user->id )
@@ -432,7 +432,7 @@ class TiendaControllerCheckout extends TiendaController
 			ob_end_clean();
 
 		}
-
+		$view->setTask(true);
 		parent::display();
 		return;
 	}
@@ -591,7 +591,7 @@ class TiendaControllerCheckout extends TiendaController
 		//END onDisplayOrderItem
 
 		$view->setLayout( 'cart' );
-
+		$view->setTask(true);
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
