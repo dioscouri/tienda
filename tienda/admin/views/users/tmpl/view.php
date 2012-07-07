@@ -13,6 +13,8 @@ Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 $helper_user = TiendaHelperBase::getInstance( 'user' );
 $helper_product = TiendaHelperBase::getInstance( 'product' );
+
+
 $config = Tienda::getInstance();
 ?>
 
@@ -45,7 +47,7 @@ $config = Tienda::getInstance();
 		                        </label>
 		                    </td>
 		                    <td>
-		                        <div class="registerDate"><?php echo JHTML::_('date', @$row->registerDate, "%a, %d %b %Y, %H:%M"); ?></div>         
+		                        <div class="registerDate"><?php echo JHTML::_('date', @$row->registerDate, Tienda::getInstance()->get('date_format')); ?></div>         
 		                    </td>
 		                    <td rowspan="3" align="center" valign="top">
 		                    	<div style="padding:0px; margin-bottom:5px;width:auto;">
@@ -74,7 +76,7 @@ $config = Tienda::getInstance();
 		                        </label>
 		                    </td>
 		                    <td colspan="3">
-		                        <div class="lastvisitDate"><?php echo JHTML::_('date', @$row->lastvisitDate, "%a, %d %b %Y, %H:%M"); ?></div>           
+		                        <div class="lastvisitDate"><?php echo JHTML::_('date', @$row->lastvisitDate, Tienda::getInstance()->get('date_format')); ?></div>           
 		                    </td>
 						</tr>
 						<tr>
@@ -249,7 +251,7 @@ $config = Tienda::getInstance();
 													 echo JText::_('COM_TIENDA_LIFETIME'); 
 												}
 											?>											
-											<?php echo JHTML::_('date', $sub->expires_datetime, "%a, %d %b %Y, %H:%M"); ?>
+											<?php echo JHTML::_('date', $sub->expires_datetime, Tienda::getInstance()->get('date_format')); ?>
 										</a>
 									</td>				
 								</tr>
@@ -377,7 +379,8 @@ $config = Tienda::getInstance();
 											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>							
 									</td>
 									<td style="text-align:center;">
-										<?php echo $helper_product->getRatingImage( $procom->productcomment_rating ); ?>						
+									
+										<?php  echo $helper_product->getRatingImage(null, $procom->productcomment_rating ); ?>						
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>

@@ -1903,6 +1903,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
+	 /* the attributes of this are dumb, it should atlast be $num, $view = NULL, because  you have to call it like this TiendaHelperProduct::getRatingImage( NULL, $item->productcomment_rating );*/
 	public static function getRatingImage( $view, $num, $clickable = false ,$layout = 'product_rating' )
 	{
 		if( !$clickable )
