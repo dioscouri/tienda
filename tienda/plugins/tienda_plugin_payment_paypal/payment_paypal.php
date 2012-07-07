@@ -23,7 +23,9 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
     
 	function plgTiendaPayment_paypal(& $subject, $config) {
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
 	}
 
     /************************************

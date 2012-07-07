@@ -27,13 +27,23 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 	function __construct(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
+		
 		
 		$this->account_id = $this->params->get('account_id', '');
 		
-		// Load helper
-		$this->helper = Tienda::getClass( 'TiendaHelperGoogle', 'googleproducts.helper', array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ) );
-		
+		 // Load helper
+			if (version_compare(JVERSION, '1.6.0', 'ge')) {
+				// Joomla! 1.6+ code here
+				$this -> helper = Tienda::getClass('TiendaHelperGoogle', 'googleproducts.googleproducts.helper', array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+			} else {
+				// Joomla! 1.5 code here
+				$this -> helper = Tienda::getClass('TiendaHelperGoogle', 'googleproducts.helper', array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+			}
 		// Params
 		$this->helper->setUsername($this->params->get('username', ''));
 		$this->helper->setPassword($this->params->get('password', ''));
@@ -54,7 +64,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
         $text = 'Generate GoogleBase XML';
         $url = 'index.php?option=com_tienda&task=doTask&element=googleproducts&elementTask=generateXML';
         
-        $bar = & JToolBar::getInstance('toolbar');
+        $bar =  JToolBar::getInstance('toolbar');
         $bar->prependButton( 'link', $name, $text, $url );
     }
     
@@ -84,7 +94,8 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		}
 		
 		// Now let's get serious: was this product already saved on google?
-		$params = new DSCParameter(trim($product->product_params));
+		//$params = new DSCParameter(trim($product->product_params));
+		$params = new JParameter(trim($product->product_params));
 		$upgrade = $params->get('sent_to_google', '0');
 		
 		// Do an upgrade request

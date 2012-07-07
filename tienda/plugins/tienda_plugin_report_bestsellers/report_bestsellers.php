@@ -43,7 +43,9 @@ class plgTiendaReport_bestsellers extends TiendaReportPlugin
 	function plgTiendaReport_bestsellers(& $subject, $config) 
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
 	}
 	
     /**

@@ -18,10 +18,13 @@ if ( !class_exists('Tienda') )
 
 class plgUserTienda extends JPlugin
 {
+	
     public function __construct(&$subject, $config)
     {
         parent::__construct($subject, $config);
-        $this->loadLanguage( '', JPATH_ADMINISTRATOR );
+        $language = JFactory::getLanguage();
+		$language -> load('plg_user_tienda', JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_user_tienda', JPATH_ADMINISTRATOR, null, true);
     }
 
     /**

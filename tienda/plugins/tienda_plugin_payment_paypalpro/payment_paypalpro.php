@@ -51,7 +51,9 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 	 */
 	function plgTiendaPayment_paypalpro(& $subject, $config) {
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
 	}
   
   
@@ -89,7 +91,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 		
 		$vars = new JObject();
 		$vars->note = JText::_('COM_TIENDA_PAYPALPRO_NOTE_DEFAULT');
-		$vars->document =& JFactory::getDocument();	
+		$vars->document = JFactory::getDocument();	
 
 		$vars->expresscheckout_form = $expresscheckout_renderer->renderForm( $data, array() );
 		$vars->directpayment_form = $directpayment_renderer->renderForm( $data, array(), '0', '0' );
@@ -186,7 +188,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
         $ptype 		= JRequest::getVar( 'orderpayment_type' );
 		if ($ptype == $this->_payment_type)
 		{
-			$app			  = &JFactory::getApplication();
+			$app			  = JFactory::getApplication();
 			$paction 		  = JRequest::getVar( 'paction' );
 			$helper_renderer  = $this->_getRenderer('helper');	
 			$html 			  = '';
@@ -278,9 +280,11 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 	 * @return object
 	 * @access protected
 	 */
-	function & _getRenderer($type)
+	function  _getRenderer($type)
 	{
 		if (!isset($this->_renderers[$type]) || $this->_renderers[$type] === null) {
+			
+			// Load helper
 			$file = JPath::clean(dirname(__FILE__) . "/{$this->_payment_type}/library/renderer/$type.php");
 			
 			if (JFile::exists($file)) {	
@@ -466,7 +470,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 	 * @return object
 	 * @access protected
 	 */
-	function & _getProcessor($type)
+	function  _getProcessor($type)
 	{
 		if (!isset($this->_processors[$type]) || $this->_processors[$type] === null) {
 			$file = JPath::clean(dirname(__FILE__) . "/{$this->_payment_type}/library/processor/$type.php");
