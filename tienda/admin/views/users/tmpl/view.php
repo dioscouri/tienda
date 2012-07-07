@@ -53,11 +53,19 @@ $config = Tienda::getInstance();
 		                    	<div style="padding:0px; margin-bottom:5px;width:auto;">
 									<?php echo $helper_user->getAvatar($row->id);?>
 								</div>
-		                        <?php
-		                        $url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
-		                        $url .= @$row->id; 
-		                        $text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>"; 
-		                        ?>		                        
+		                      <?php
+										if(version_compare(JVERSION,'1.6.0','ge')) {
+										// Joomla! 1.6+ code here
+										$url = $config->get( "user_edit_url", "index.php?option=com_users&task=user.edit&id=");
+										} else {
+										// Joomla! 1.5 code here
+										$url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
+										}
+										//
+
+										$url .= @$row->id;
+										$text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>";
+								?>		                        
 		                        <div ><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
 		                    </td>  
 						</tr>
