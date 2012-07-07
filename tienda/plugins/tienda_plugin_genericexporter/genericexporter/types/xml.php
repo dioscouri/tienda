@@ -10,7 +10,17 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaGenericExporterTypeBase', 'genericexporter.types._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+if (version_compare(JVERSION, '1.6.0', 'ge')) {
+	// Joomla! 1.6+ code here
+	Tienda::load( 'TiendaGenericExporterTypeBase', 'genericexporter.genericexporter.types._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+
+} else {
+	// Joomla! 1.5 code here
+	Tienda::load( 'TiendaGenericExporterTypeBase', 'genericexporter.types._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+
+
+}
+
 
 class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 {	
@@ -52,7 +62,17 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 		}
 		
       	$classname = 'TiendaGenericExporterModel'.$this->_model; 
+		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+	// Joomla! 1.6+ code here
+        Tienda::load( $classname, 'genericexporter.genericexporter.models.'.$this->_model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+
+} else {
+	// Joomla! 1.5 code here
         Tienda::load( $classname, 'genericexporter.models.'.$this->_model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));                 
+
+
+}
+		
         $class = new $classname;        	
       	$items = $class->loadDataList();
     	

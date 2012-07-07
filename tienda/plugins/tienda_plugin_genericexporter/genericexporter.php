@@ -10,96 +10,124 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
+Tienda::load('TiendaPluginBase', 'library.plugins._base');
 
-class plgTiendaGenericExporter extends TiendaPluginBase
-{
+class plgTiendaGenericExporter extends TiendaPluginBase {
 	/**
 	 * @var $_element  string  Should always correspond with the plugin's filename,
 	 *                         forcing it to be unique
 	 */
-	public $_element    	= 'genericexporter';
+	public $_element = 'genericexporter';
 
-	function __construct(& $subject, $config)
-	{
+	function __construct(&$subject, $config) {
 		parent::__construct($subject, $config);
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_genericexporter', JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_genericexporter', JPATH_ADMINISTRATOR, null, true);
 	}
 
-	function onAfterDisplayAdminComponentTienda()
-	{
-		$name='revert';
-		$text= JText::_('COM_TIENDA_GENERIC_EXPORT');
+	function onAfterDisplayAdminComponentTienda() {
+		$name = 'revert';
+		$text = JText::_('COM_TIENDA_GENERIC_EXPORT');
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
-		 
-		$bar =  JToolBar::getInstance('toolbar');
-		$bar->prependButton( 'link', $name, $text, $url );
+
+		$bar = JToolBar::getInstance('toolbar');
+		$bar -> prependButton('link', $name, $text, $url);
 	}
 
 	/**
 	 *
 	 * Method to display list of export types
 	 */
-	function display()
-	{
-		require_once( JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'html'.DS.'select.php' );
-		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT') );
-		 
-		$bar =  JToolBar::getInstance('toolbar');
+	function display() {
+		//needed to make display function correctly
+		JHTML::_('stylesheet', 'admin.css', 'media/com_tienda/css/');
+		JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+		Tienda::loadJQuery();
+
+		require_once (JPATH_SITE . DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'select.php');
+		JToolBarHelper::title(JText::_('COM_TIENDA_GENERIC_EXPORT'));
+
+		$bar = JToolBar::getInstance('toolbar');
 		$btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
 		$btnhtml .= '<span title="Submit" class="icon-32-forward">';
-		$btnhtml .= '</span>'.JText::_('COM_TIENDA_SUBMIT').'</a>';
-		$bar->appendButton( 'Custom', $btnhtml );
-		 
+		$btnhtml .= '</span>' . JText::_('COM_TIENDA_SUBMIT') . '</a>';
+		$bar -> appendButton('Custom', $btnhtml);
+
 		//read the type files inside the /plugins/tienda/genericexporter/models
 		jimport('joomla.filesystem.file');
-		$folder = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'genericexporter'.DS.'models';
-		if (JFolder::exists( $folder ))
-		{
-			$extensions = array( 'php' );
+		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+			// Joomla! 1.6+ code here
+			$folder = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'genericexporter' . DS . 'models';
+		} else {
+			// Joomla! 1.5 code here
+			$folder = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'models';
+		}
+
+		if (JFolder::exists($folder)) {
+
+			$extensions = array('php');
 			$exclusions = array('_base.php');
 
-			$files = JFolder::files( $folder );
-			foreach ($files as $file)
-			{
-				$namebits = explode('.', $file);
-				$extension = $namebits[count($namebits)-1];
+			$files = JFolder::files($folder);
 
-				if (in_array($extension, $extensions) && !in_array($file , $exclusions))
-				{
-					$classname = 'TiendaGenericExporterModel'.$namebits[0];
-					Tienda::load( $classname, 'genericexporter.models.'.$namebits[0],  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
-					 
-					if(class_exists($classname))
-					{
+			foreach ($files as $file) {
+				$namebits = explode('.', $file);
+				$extension = $namebits[count($namebits) - 1];
+
+				if (in_array($extension, $extensions) && !in_array($file, $exclusions)) {
+					$classname = 'TiendaGenericExporterModel' . ucfirst($namebits[0]);
+
+					if (version_compare(JVERSION, '1.6.0', 'ge')) {
+						// Joomla! 1.6+ code here
+						Tienda::load($classname, 'genericexporter.genericexporter.models.' . $namebits[0], array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+					} else {
+						// Joomla! 1.5 code here
+						Tienda::load($classname, 'genericexporter.models.' . $namebits[0], array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+					}
+
+					if (class_exists($classname)) {
 						$exporter = new $classname;
-						$models[] = array( $exporter->getModelClass() ,$exporter->getName() );
+						$models[] = array($exporter -> getModelClass(), $exporter -> getName());
 					}
 				}
 			}
 		}
+		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+			// Joomla! 1.6+ code here
+			$folderTypes = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'genericexporter' . DS . 'types';
 
-		$folderTypes = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'genericexporter'.DS.'types';
-		if (JFolder::exists( $folderTypes ))
-		{
-			$extensions = array( 'php' );
+		} else {
+			// Joomla! 1.5 code here
+			$folderTypes = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'types';
+
+		}
+		if (JFolder::exists($folderTypes)) {
+			$extensions = array('php');
 			$exclusions = array('_base.php');
 
-			$typeFiles = JFolder::files( $folderTypes );
-			foreach ($typeFiles as $typeFile)
-			{
+			$typeFiles = JFolder::files($folderTypes);
+			foreach ($typeFiles as $typeFile) {
 				$namebits = explode('.', $typeFile);
-				$extension = $namebits[count($namebits)-1];
+				$extension = $namebits[count($namebits) - 1];
 
-				if (in_array($extension, $extensions) && !in_array($typeFile , $exclusions))
-				{
-					$classname = 'TiendaGenericExporterType'.$namebits[0];
-					Tienda::load( $classname, 'genericexporter.types.'.strtolower($namebits[0]),  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
-					 
-					if(class_exists($classname))
-					{
+				if (in_array($extension, $extensions) && !in_array($typeFile, $exclusions)) {
+					$classname = 'TiendaGenericExporterType' . $namebits[0];
+					if (version_compare(JVERSION, '1.6.0', 'ge')) {
+						// Joomla! 1.6+ code here
+						Tienda::load($classname, 'genericexporter.genericexporter.types.' . strtolower($namebits[0]), array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+					} else {
+						// Joomla! 1.5 code here
+						Tienda::load($classname, 'genericexporter.types.' . strtolower($namebits[0]), array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+					}
+
+					if (class_exists($classname)) {
 						$exporterType = new $classname;
-						$types[] = $exporterType->getFormat();
+						$types[] = $exporterType -> getFormat();
 					}
 				}
 			}
@@ -107,99 +135,97 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 
 		sort($models);
 		sort($types);
-		 
+
 		$vars = new JObject();
-		$vars->models 	= $models;
-		$vars->types 	= $types;
-		$html = $this->_getLayout('default', $vars);
+		$vars -> models = $models;
+		$vars -> types = $types;
+		$html = $this -> _getLayout('default', $vars);
 
 		return $html;
 	}
 
-	function filters()
-	{
+	function filters() {
 		$model = JRequest::getVar('model', 'products');
 		$type = JRequest::getVar('type');
-		 
-		if(empty($type) || empty($model))
-		{
-			JFactory::getApplication()->redirect('index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display', JText::_('COM_TIENDA_MODEL_OR_EXPORT_TYPE_IS_EMPTY'), 'notice');
+
+		if (empty($type) || empty($model)) {
+			JFactory::getApplication() -> redirect('index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display', JText::_('COM_TIENDA_MODEL_OR_EXPORT_TYPE_IS_EMPTY'), 'notice');
 		}
 
-		$bar =  JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		$btnhtml = '<a class="toolbar" onclick="javascript: document.adminForm.submit();" href="#">';
-		$btnhtml .= '<span title="'.JText::_('COM_TIENDA_SUBMIT').'" class="icon-32-forward">';
-		$btnhtml .= '</span>'.JText::_('COM_TIENDA_SUBMIT').'</a>';
-		$bar->appendButton( 'Custom', $btnhtml );
+		$btnhtml .= '<span title="' . JText::_('COM_TIENDA_SUBMIT') . '" class="icon-32-forward">';
+		$btnhtml .= '</span>' . JText::_('COM_TIENDA_SUBMIT') . '</a>';
+		$bar -> appendButton('Custom', $btnhtml);
 
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
-		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
+		$bar -> prependButton('link', 'cancel', JText::_('COM_TIENDA_BACK'), $url);
 
-		$classname = 'TiendaGenericExporterModel'.$model;
-		Tienda::load( $classname, 'genericexporter.models.'.$model,  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+		$classname = 'TiendaGenericExporterModel' . $model;
 
-		if(class_exists($classname))
-		{
+		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+			// Joomla! 1.6+ code here
+			Tienda::load($classname, 'genericexporter.genericexporter.models.' . $model, array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+		} else {
+			// Joomla! 1.5 code here
+			Tienda::load($classname, 'genericexporter.models.' . $model, array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+		}
+
+		if (class_exists($classname)) {
 			$class = new $classname;
-			$filters = $class->getFilters();
+			$filters = $class -> getFilters();
 
 			//if empty we process to download page
-			if(!count($filters))
-			{
-				JFactory::getApplication()->redirect("index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=doExport&model={$model}&type={$type}");
+			if (!count($filters)) {
+				JFactory::getApplication() -> redirect("index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=doExport&model={$model}&type={$type}");
 			}
-			JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT').': '.$class->getName() );
-		}
-		else
-		{
-			JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT').': '.ucfirst($model) );
-			JFactory::getApplication()->enqueueMessage( JText::sprintf( "COM_TIENDA_CLASSNAME_NOT_FOUND", $classname ), 'notice' );
+			JToolBarHelper::title(JText::_('COM_TIENDA_GENERIC_EXPORT') . ': ' . $class -> getName());
+		} else {
+			JToolBarHelper::title(JText::_('COM_TIENDA_GENERIC_EXPORT') . ': ' . ucfirst($model));
+			JFactory::getApplication() -> enqueueMessage(JText::sprintf("COM_TIENDA_CLASSNAME_NOT_FOUND", $classname), 'notice');
 		}
 
 		$vars = new JObject();
-		$vars->filters = $filters;
-		$html = $this->_getLayout('form', $vars);
-		 
+		$vars -> filters = $filters;
+		$html = $this -> _getLayout('form', $vars);
+
 		return $html;
 	}
 
-	function doExport()
-	{
-		 
+	function doExport() {
+
 		$post = JRequest::get('post');
 
 		$model = JRequest::getVar('model', 'products');
 		$type = JRequest::getVar('type');
-		 
+
 		$views = array('dashboard', 'orders', 'orderpayments', 'subscriptions', 'orderitems', 'products', 'users', 'config');
-		if(in_array(strtolower($model), $views))
-		{
-			$url = 'index.php?option=com_tienda&view='.$model;
-		}
-		else
-		{
+		if (in_array(strtolower($model), $views)) {
+			$url = 'index.php?option=com_tienda&view=' . $model;
+		} else {
 			$url = 'index.php?option=com_tienda&view=dashboard';
 		}
-		 
-		//add toolbar
-		$bar =  JToolBar::getInstance('toolbar');
-		$bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
-		JToolBarHelper::title( JText::_('COM_TIENDA_GENERIC_EXPORT')." : ". ucfirst($model));
-		 
-		$export = $this->processExport($type, $model);
 
-		if(!empty($export->_errors))
-		{
-			JFactory::getApplication()->enqueueMessage( $export->_errors, 'notice' );
+		//add toolbar
+		$bar = JToolBar::getInstance('toolbar');
+		$bar -> prependButton('link', 'cancel', JText::_('COM_TIENDA_BACK'), $url);
+		JToolBarHelper::title(JText::_('COM_TIENDA_GENERIC_EXPORT') . " : " . ucfirst($model));
+
+		$export = $this -> processExport($type, $model);
+
+		if (!empty($export -> _errors)) {
+			JFactory::getApplication() -> enqueueMessage($export -> _errors, 'notice');
 			return;
 		}
 		//success message
-		JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_EXPORT_IS_COMPLETE_PLEASE_CLICK_THE_LINK_BELOW_TO_DOWNLOAD'), 'message' );
+		JFactory::getApplication() -> enqueueMessage(JText::_('COM_TIENDA_EXPORT_IS_COMPLETE_PLEASE_CLICK_THE_LINK_BELOW_TO_DOWNLOAD'), 'message');
 
 		$vars = new JObject();
-		$vars->name = $export->_name;
-		$vars->link = $export->_link;
-		$html = $this->_getLayout('view', $vars);
+		$vars -> name = $export -> _name;
+		$vars -> link = $export -> _link;
+		$html = $this -> _getLayout('view', $vars);
 		return $html;
 	}
 
@@ -209,17 +235,23 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 	 * @param string $model - see /plugins/tienda/genericexporter/models
 	 * @return void
 	 */
-	private function processExport($type, $model)
-	{
-		$classname = 'TiendaGenericExporterType'.$type;
-		Tienda::load( $classname, 'genericexporter.types.'.strtolower($type),  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+	private function processExport($type, $model) {
+		$classname = 'TiendaGenericExporterType' . $type;
+		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+			// Joomla! 1.6+ code here
+			Tienda::load($classname, 'genericexporter.genericexporter.types.' . strtolower($type), array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+		} else {
+			// Joomla! 1.5 code here
+			Tienda::load($classname, 'genericexporter.types.' . strtolower($type), array('site' => 'site', 'type' => 'plugins', 'ext' => 'tienda'));
+
+		}
 
 		$export = '';
-		if(class_exists($classname))
-		{
+		if (class_exists($classname)) {
 			$exporterType = new $classname();
-			$exporterType->setModel($model);
-			$export = $exporterType->processExport();
+			$exporterType -> setModel($model);
+			$export = $exporterType -> processExport();
 		}
 
 		return $export;
@@ -231,20 +263,20 @@ class plgTiendaGenericExporter extends TiendaPluginBase
 	 *
 	 * @return unknown_type
 	 */
-	function getZones()
-	{
-		Tienda::load( 'TiendaSelect', 'library.select' );
+	function getZones() {
+		Tienda::load('TiendaSelect', 'library.select');
 		$html = '';
 		$text = '';
-		 
+
 		$country_id = JRequest::getVar('country_id');
 		$prefix = JRequest::getVar('prefix');
-		$html = TiendaSelect::zone( '', $prefix.'zone_id', $country_id, array('class' => 'inputbox', 'size' => '1'), $prefix.'zone_id', true );
-		 
+		$html = TiendaSelect::zone('', $prefix . 'zone_id', $country_id, array('class' => 'inputbox', 'size' => '1'), $prefix . 'zone_id', true);
+
 		$response = array();
 		$response['msg'] = $html;
 		$response['error'] = '';
 
 		return json_encode($response);
 	}
+
 }

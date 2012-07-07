@@ -10,8 +10,13 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.genericexporter.models._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
+} else {
+    // Joomla! 1.5 code here
 Tienda::load( 'TiendaGenericExporterModelBase', 'genericexporter.models._base',  array( 'site'=>'site', 'type'=>'plugins', 'ext'=>'tienda' ));
-
+}
 class TiendaGenericExporterModelProducts extends TiendaGenericExporterModelBase
 {
 	public $_model = 'products';	
