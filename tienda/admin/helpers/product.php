@@ -160,19 +160,9 @@ class TiendaHelperProduct extends TiendaHelperBase
 		
 		if ( empty( $template ) )
 		{
-			if ( $app->isAdmin( ) )
-			{
-				// TODO This doesn't account for when templates are assigned to menu items.  Make it do so
-				$db = JFactory::getDBO( );
-				$db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
-				$template = $db->loadResult( );
-			}
-			else
-			{
-				$template = $app->getTemplate( );
-			}
+			$template = $app->getTemplate( );
 		}
-		
+
 		$templatePath = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html' . DS . 'com_tienda' . DS . 'products' . DS . '%s' . '.php';
 		$extensionPath = JPATH_SITE . DS . 'components' . DS . 'com_tienda' . DS . 'views' . DS . 'products' . DS . 'tmpl' . DS . '%s' . '.php';
 		$mediaPath = Tienda::getPath( 'products_templates' ) . DS . '%s' . '.php';
