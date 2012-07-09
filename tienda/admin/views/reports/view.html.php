@@ -46,9 +46,9 @@ class TiendaViewReports extends TiendaViewBase
 	{
 	}
 	
-    function _viewToolbar()
-    {
-    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
-    	JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
-    }
+	function _viewToolbar($isNew = null)
+	{
+		JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
+		JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
+	}
 }

@@ -158,7 +158,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * @param $geozonetype_id
 	 * @return string
 	 */
-	function getSuffix($geozonetype_id)
+	public static function getSuffix($geozonetype_id)
 	{
 		switch($geozonetype_id)
 		{
@@ -179,7 +179,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * @param obj $geozone 
 	 * @return int
 	 */
-	function countPlgtoGeozone($geozone)
+	public static function countPlgtoGeozone($geozone)
 	{		
 		$count = 0;	
 		if(!is_object($geozone)) return $count;

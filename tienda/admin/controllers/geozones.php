@@ -205,7 +205,6 @@ class TiendaControllerGeozones extends TiendaController
 		$redirect = JRequest::getVar( 'return' ) ?
 		base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
 		$redirect = JRoute::_( $redirect, false );
-
 		$this->setRedirect( $redirect, $this->message, $this->messagetype );
 	}
 
