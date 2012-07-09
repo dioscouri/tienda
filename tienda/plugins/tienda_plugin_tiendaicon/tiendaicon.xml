@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="tienda" method="upgrade">
+<install version="1.6" type="plugin" group="quickicon" method="upgrade">
 	<name>QuickIcon - Tienda Icon</name>
 	<version>0.9.0</version>
 	<creationDate>October 2011</creationDate>

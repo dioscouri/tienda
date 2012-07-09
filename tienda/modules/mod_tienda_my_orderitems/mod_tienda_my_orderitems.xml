@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0" position="left" method="upgrade">
+<install type="module" version="1.5.0" position="left" method="upgrade" client="site">
     <name>Tienda - My Ordered Items</name>
     <author>Dioscouri</author>
     <authorEmail>info@dioscouri.com</authorEmail>
