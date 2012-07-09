@@ -239,17 +239,19 @@ class TiendaHelperRoute extends DSCHelperRoute
    static function build( &$query )
     {
         $segments = array();
+        $app = JFactory::getApplication();
     
         // get a menu item based on the Itemid or the currently active item
-        $menu = &JSite::getMenu();
+        $menu = $app->getMenu();
+//        $menu = &JSite::getMenu();
     
         if (empty($query['Itemid'])) 
         {
-            $item = &$menu->getActive();
+            $item = $menu->getActive();
         }
             else 
         {
-            $item = &$menu->getItem( $query['Itemid'] );
+            $item = $menu->getItem( $query['Itemid'] );
         }
         
         $menuView = (empty($item->query['view'])) ? null : $item->query['view'];
