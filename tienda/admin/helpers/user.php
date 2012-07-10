@@ -383,7 +383,7 @@ class TiendaHelperUser extends DSCHelperUser
 			$found = true;
 		}
 		//check if jomsocial installed
-		if(JComponentHelper::getComponent( 'com_community', true)->enabled && !$found)
+		if( DSC::getApp()->isComponentInstalled( 'com_community' ) && !$found)
 		{
 			//Get JomSocial Avatar
 			$database = JFactory::getDBO();
@@ -406,10 +406,9 @@ class TiendaHelperUser extends DSCHelperUser
 			$avatar .= "<img src='{$image}' style='max-width:80px; border:1px solid #ccccce;' />";
 			$avatar .= "</a>";
 			$found = true;
-		}
-		 
+		}		 
 		//check if community builder is installed
-		if(JComponentHelper::getComponent( 'com_comprofiler', true)->enabled && !$found)
+		if( DSC::getApp()->isComponentInstalled( 'com_comprofiler' ) && !$found)
 		{
 			//Get JomSocial Avatar
 			$database = JFactory::getDBO();
