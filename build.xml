@@ -103,11 +103,6 @@
         <copy todir="${cfg.buildDir}/core/files/tienda_plugin_bug_report" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/plugins/tienda_plugin_bug_report" />
         </copy>
-    	<!-- CHARTS PLUGINS -->
-        <copy todir="${cfg.buildDir}/core/files/tienda_plugin_charts_fusioncharts" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
-        </copy>
-    	
     	
     	<!-- BASIC PAYMENT GATEWAYS: OFFLINE & PAYPAL STD -->
     	<!-- OFFLINE -->
@@ -308,12 +303,14 @@
             <fileset dir="${cfg.comDir}/plugins/tienda_plugin_bug_report/languages" />
         </copy>
         <!-- CHARTS PLUGINS -->
+<!--    	
         <copy todir="${destdir}/plugins/${cfg.comName}/fusioncharts" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
+            <fileset dir="${cfg.aux}/_tienda_plugin_charts_fusioncharts" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
+            <fileset dir="${cfg.aux}/tienda_plugin_charts_fusioncharts/languages" />
         </copy>
+-->
         <!-- EDITORS-XTD -->
         <copy todir="${destdir}/plugins/editors-xtd/tienda" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_editorsxtd" />
@@ -841,12 +838,14 @@
             <fileset dir="${cfg.comDir}/plugins/tienda_plugin_bug_report/languages" />
         </copy>
         <!-- CHARTS PLUGINS -->
-        <copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts" />
+<!--
+    	<copy todir="${destdir}/plugins/${cfg.comName}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.aux}/tienda_plugin_charts_fusioncharts" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.pluginChartsDir}_fusioncharts/languages" />
+            <fileset dir="${cfg.aux}/tienda_plugin_charts_fusioncharts/languages" />
         </copy>
+-->    	
         <!-- EDITORS-XTD -->
         <copy todir="${destdir}/plugins/editors-xtd" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_editorsxtd" />
@@ -1225,7 +1224,7 @@
 
 		<!--General Plugins-->
 		<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}bug_report.zip" basedir="${cfg.comDir}/plugins/${cfg.plgPrefix}bug_report" />
-    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/plugins/${cfg.plgPrefix}charts_fusioncharts" />
+<!--    	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}charts_fusioncharts.zip" basedir="${cfg.comDir}/plugins/${cfg.plgPrefix}charts_fusioncharts" /> -->
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}content_product.zip" basedir="${cfg.comDir}/plugins/${cfg.plgPrefix}content_product" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}editorsxtd.zip" basedir="${cfg.aux}/${cfg.plgPrefix}editorsxtd" />
     	<zip destfile="${cfg.buildDir}/plugins/${cfg.plgPrefix}search.zip" basedir="${cfg.comDir}/plugins/${cfg.plgPrefix}search" />
@@ -1453,9 +1452,11 @@
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/plugins/tienda_plugin_bug_report/languages" />
 	    	</copy>
-			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
+<!--
+		<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/plugins/tienda_plugin_charts_fusioncharts/languages" />
 	    	</copy>
+-->
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/plugins/tienda_plugin_content_product/languages" />
 	    	</copy>
