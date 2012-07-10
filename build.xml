@@ -637,6 +637,13 @@
         <copy todir="${destdir}/plugins/${cfg.comName}/customfields" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/plugins/tienda_plugin_customfields" />
         </copy>
+    	<!-- TIENDA QUICK ICON -->
+        <copy todir="${destdir}/plugins/quickicon/tiendaicon" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/plugins/tienda_plugin_tiendaicon" />
+        </copy>
+        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/plugins/tienda_plugin_tiendaicon/languages" />
+        </copy>
     	
     	<!-- AUXILIARY EXTENSIONS -->
     	<!-- POINTS AWARDING PLUGINS -->
