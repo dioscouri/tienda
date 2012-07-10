@@ -30,8 +30,8 @@ class TiendaHelperBillets extends TiendaHelperBase
         if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_billets'.DS.'defines.php')) 
         {
             JLoader::register( "Billets", JPATH_ADMINISTRATOR.DS."components".DS."com_billets".DS."defines.php" );
-            JLoader::register( "BilletsConfig", JPATH_ADMINISTRATOR.DS."components".DS."com_billets".DS."defines.php" );
-            if (version_compare(Billets::getVersion(), '4.2.0', '>=')) 
+           
+            if (version_compare(Billets::getInstance()->getVersion(), '4.2.0', '>=')) 
             {
                 $success = true;
             }

@@ -30,7 +30,8 @@ class TiendaHelperAmigos extends TiendaHelperBase
         $success = false;
         
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_amigos'.DS.'helpers'.DS.'_base.php')) 
+     
+		if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_amigos'.DS.'defines.php')) 
         {
             $success = true;
         }                
@@ -133,7 +134,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $config = AmigosConfig::getInstance();
             $date = JFactory::getDate();
             
-            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
                 $account = JTable::getInstance('Accounts', 'Table');
             } 
@@ -145,7 +146,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $account->load( $referral->accountid );
             
             // get payout type and value
-            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
                 $payout = JTable::getInstance('Payouts', 'Table');
             } 
@@ -181,7 +182,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             }
             
             // create commission record
-            if (version_compare(Amigos::getVersion(), '1.2.1', '<')) 
+            if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
                 $commission = JTable::getInstance('Commissions', 'Table');
             } 
