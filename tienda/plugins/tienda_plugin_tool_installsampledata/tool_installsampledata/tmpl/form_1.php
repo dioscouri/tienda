@@ -1,7 +1,5 @@
 <?php	defined('_JEXEC') or die('Restricted access');?>
 <?php	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
-<?php	JHTML::_('script', 'installsampledata.js', 'plugins/tienda/tool_installsampledata/includes/');?>
-<?php	JHTML::_('stylesheet', 'installsampledata.css', 'plugins/tienda/tool_installsampledata/includes/');?>
 <?php	$state = @$vars->state;?>
 <?php	echo @$vars->token;?>
 <p>
@@ -35,7 +33,7 @@
 			<?php	echo JText::_('COM_TIENDA_INSTALL_DEFAULT_DATA');?>:
 			</td>
 			<td>
-			<input type="checkbox" name="install_default" id="install_default" onclick="javascript:showSample();" />
+			<input type="checkbox" name="install_default" id="install_default" onclick="Dsc.showHideDiv('sampledata');" />
 			<?php  echo JHTML::_('select.genericlist', $options, 'sampledata', 'class="inputbox" style="display:none;"', 'value', 'text', 'electronic', 'sampledatatype');?>
 			</td>
 		</tr>

@@ -103,14 +103,11 @@
 		<!-- <plugin plugin="plugins/tienda_plugin_user" publish="false" group="user" element="tienda" /> -->
         
         <plugin plugin="plugins/tienda_plugin_bug_report" publish="true" group="tienda" element="bug_report" />
-		<plugin plugin="plugins/tienda_plugin_charts_fusioncharts" publish="true" group="tienda" element="charts_fusioncharts" />
         <plugin plugin="plugins/tienda_plugin_content_product" publish="true" group="content" element="tienda_content_product" />
         <plugin plugin="plugins/tienda_plugin_customfields" publish="true" group="tienda" element="customfields" />
         <plugin plugin="plugins/tienda_plugin_genericexporter" publish="true" group="tienda" element="genericexporter" />
         <plugin plugin="plugins/tienda_plugin_googleproducts" group="tienda" element="googleproducts" />
 		<plugin plugin="plugins/tienda_plugin_payment_2checkout" group="tienda" element="payment_2checkout" />
-        <plugin plugin="plugins/tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
-        <plugin plugin="plugins/tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
         <plugin plugin="plugins/tienda_plugin_payment_offline" group="tienda" element="payment_offline" />
         <plugin plugin="plugins/tienda_plugin_payment_paypal" group="tienda" element="payment_paypal" />
         <plugin plugin="plugins/tienda_plugin_payment_paypalpro" group="tienda" element="payment_paypalpro" />
@@ -141,5 +138,7 @@
         <plugin plugin="plugins/tienda_plugin_tool_xmlimporter" publish="true" group="tienda" element="tool_xmlimporter" />
         <plugin plugin="plugins/tienda_plugin_tiendaicon" publish="true" group="quickicon" element="tiendaicon" />
         <plugin plugin="plugins/tienda_plugin_user" publish="true" group="user" element="tienda" />
+        <plugin plugin="plugins/tienda_plugin_payment_authorizedotnet" group="tienda" element="payment_authorizedotnet" />
+        <plugin plugin="plugins/tienda_plugin_payment_googlecheckout" group="tienda" element="payment_googlecheckout" />
 	</plugins>
 </install>

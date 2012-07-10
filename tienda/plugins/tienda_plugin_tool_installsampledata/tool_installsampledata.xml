@@ -15,8 +15,8 @@
 		<folder>tool_installsampledata</folder>	
 	</files>
 
-	<languages folder="languages">
-		<language tag="en-GB">en-GB.plg_tienda_tool_installsampledata.ini</language>
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_tienda_tool_installsampledata.ini</language>
 	</languages>
 
 	<params>

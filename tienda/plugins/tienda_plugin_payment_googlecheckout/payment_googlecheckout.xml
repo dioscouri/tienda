@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda - Payment - Google Checkout</name>
 	<version>0.9.0</version>
@@ -9,35 +8,57 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>PLG_TIENDA_GOOGLECHECKOUT_PLUGINDESCR</description>
-	
 	<files>
 		<filename plugin="payment_googlecheckout">payment_googlecheckout.php</filename>
 		<folder>payment_googlecheckout</folder>
 	</files>
-
-	<languages>
-		<language tag="en-GB">languages/en-GB.plg_tienda_payment_googlecheckout.ini</language>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_payment_googlecheckout.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="merchant_id" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID_DESC"/>
+				<field name="merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY_DESC"/>
+				<field name="currency" type="text" size="10" default="COM_TIENDA_GOOGLECHECKOUT_CURRENCY_DEFAULT" label="COM_TIENDA_GOOGLECHECKOUT_CURRENCY" description="COM_TIENDA_GOOGLECHECKOUT_CURRENCY_DESC" />
+				<field type="spacer" />
+				<field name="sandbox" type="radio" default="0" label="COM_TIENDA_GOOGLECHECKOUT_USE_SANDBOX" description="COM_TIENDA_GOOGLECHECKOUT_USE_SANDBOX_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="sandbox_merchant_id" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_ID" description="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_ID_DESC"/>
+				<field name="sandbox_merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY_DESC"/>
+				<field type="spacer" />
+				<field name="articleid" type="text" size="10" default="" label="COM_TIENDA_GOOGLECHECKOUT_ARTICLE_NUMBER" description="COM_TIENDA_GOOGLECHECKOUT_ARTICLE_NUMBER_DESC" />
+				<field name="display_article_title" type="radio" default="0" label="COM_TIENDA_GOOGLECHECKOUT_DISPLAY_ARTICLE_TITLE" description="COM_TIENDA_GOOGLECHECKOUT_DISPLAY_ARTICLE_TITLE_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 
+			</fieldset>
+		</fields>
+	</config>
 	<params addpath="/administrator/components/com_tienda/elements">
-        <param name="merchant_id" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID_DESC"/>
-        <param name="merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY_DESC"/>
+		<param name="merchant_id" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_ID_DESC"/>
+		<param name="merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_MERCHANT_KEY_DESC"/>
 		<param name="currency" type="text" size="10" default="COM_TIENDA_GOOGLECHECKOUT_CURRENCY_DEFAULT" label="COM_TIENDA_GOOGLECHECKOUT_CURRENCY" description="COM_TIENDA_GOOGLECHECKOUT_CURRENCY_DESC" />
 		<param type="spacer" />
 		<param name="sandbox" type="radio" default="0" label="COM_TIENDA_GOOGLECHECKOUT_USE_SANDBOX" description="COM_TIENDA_GOOGLECHECKOUT_USE_SANDBOX_DESC">
-		  <option value="0">COM_TIENDA_NO</option>
-		  <option value="1">COM_TIENDA_YES</option>
+			<option value="0">COM_TIENDA_NO</option>
+			<option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="sandbox_merchant_id" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_ID" description="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_ID_DESC"/>
-        <param name="sandbox_merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY_DESC"/>
-  		<param type="spacer" /> 
-  		<param name="articleid" type="text" size="10" default="" label="COM_TIENDA_GOOGLECHECKOUT_ARTICLE_NUMBER" description="GOOGLECHECKOUT ARTICLE NUMBER DESC" /> 
+		<param name="sandbox_merchant_key" type="text" size="50" default="" label="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY" description="COM_TIENDA_GOOGLECHECKOUT_SANDBOX_MERCHANT_KEY_DESC"/>
+		<param type="spacer" />
+		<param name="articleid" type="text" size="10" default="" label="COM_TIENDA_GOOGLECHECKOUT_ARTICLE_NUMBER" description="GOOGLECHECKOUT ARTICLE NUMBER DESC" />
 		<param name="display_article_title" type="radio" default="0" label="COM_TIENDA_GOOGLECHECKOUT_DISPLAY_ARTICLE_TITLE" description="COM_TIENDA_GOOGLECHECKOUT_DISPLAY_ARTICLE_TITLE_DESC">
-  			<option value="0">COM_TIENDA_NO</option> 
-			<option value="1">COM_TIENDA_YES</option> 
-  		</param>
+			<option value="0">COM_TIENDA_NO</option>
+			<option value="1">COM_TIENDA_YES</option>
+		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE_DESC" />
-   		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
-	
-		</params>	
+		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+
+	</params>
 </install>
