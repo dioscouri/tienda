@@ -8,7 +8,7 @@
 	<authorUrl>http://www.dioscouri.com</authorUrl>
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>Adds the Tienda Icon to the Main QuickIcons menu in Joomla 1.6 or greater</description>
+	<description>PLG_TIENDA_SYSTEM_TIENDA_QUICKICON_DESC</description>
 	<files>
 		<filename plugin="tiendaicon">tiendaicon.php</filename>
 		<folder>tiendaicon</folder>
