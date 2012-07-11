@@ -75,7 +75,7 @@ class TiendaControllerOrders extends TiendaController
 	 * Displays item
 	 * @return void
 	 */
-	function view()
+	function view($cachable=false, $urlparams = false)
 	{
 		Tienda::load( 'TiendaUrl', 'library.url' );
 
@@ -177,7 +177,7 @@ class TiendaControllerOrders extends TiendaController
 		}
 		$view->assign( 'order', $order );
 		$view->setTask(true); 
-		$view->display();
+		$view->display($cachable, $urlparams);
 	}
 
 	/**

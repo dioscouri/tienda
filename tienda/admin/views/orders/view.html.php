@@ -78,7 +78,7 @@ class TiendaViewOrders extends TiendaViewBase
 		$class_name = 'new';
 		$text = JText::_('COM_TIENDA_NEW');
 		$url = "index.php?option=com_tienda&view=pos";
-		$bar = &JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		$bar->appendButton('link', $class_name, $text, $url);
 	}
 

@@ -18,7 +18,7 @@ Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperAmigos extends TiendaHelperBase 
 {
-    static $commissions = array();
+    protected $commissions = array();
     
     /**
      * Checks if Amigos is installed
