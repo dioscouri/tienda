@@ -17,7 +17,7 @@ if ( !class_exists('Tienda') )
     
 // include lang files
 $element = strtolower( 'com_Tienda' );
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 

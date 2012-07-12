@@ -1,37 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" method="upgrade" position="left" client="site">
-    <name>Tienda - Product Search</name>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License</license>
-    <description>MOD_TIENDA_SEARCH_MODULEDESC</description>
-    <files>
-        <filename module="mod_tienda_search">mod_tienda_search.php</filename>
-        <filename>index.html</filename>
-        <filename>tmpl/default.php</filename>
-        <filename>tmpl/index.html</filename>
-    </files>
+	<name>Tienda - Product Search</name>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License</license>
+	<description>MOD_TIENDA_SEARCH_MODULEDESC</description>
+	<files>
+		<filename module="mod_tienda_search">mod_tienda_search.php</filename>
+		<filename>index.html</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_tienda_search.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="filter_text" type="text" default="" label="MOD_TIENDA_SEARCH_FILTER_TEXT" description="MOD_TIENDA_SEARCH_FILTER_TEXT_DESC" />
+				<field name="category_filter" type="list" default="1" label="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER" description="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="filter_fields" type="list" default="0" label="MOD_TIENDA_SEARCH_FILTER_FIELDS" description="MOD_TIENDA_SEARCH_FILTER_FIELDS_DESC">
+					<option value="4">MOD_TIENDA_SEARCH_NAME_ONLY</option>
+					<option value="3">NMOD_TIENDA_SEARCH_NAME_DESCRIPTION</option>
+					<option value="2">MOD_TIENDA_SEARCH_SKU</option>
+					<option value="1">MOD_TIENDA_SEARCH_MODEL_NUMBER</option>
+					<option value="0">MOD_TIENDA_SEARCH_ALL_OF_THE_ABOVE</option>
+				</field>
+				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field type="spacer" />
+			</fieldset>
+		</fields>
+	</config>
 	<params>
-        <param name="filter_text" type="text" default="" label="MOD_TIENDA_SEARCH_FILTER_TEXT" description="MOD_TIENDA_SEARCH_FILTER_TEXT_DESC" />
+		<param name="filter_text" type="text" default="" label="MOD_TIENDA_SEARCH_FILTER_TEXT" description="MOD_TIENDA_SEARCH_FILTER_TEXT_DESC" />
 		<param name="category_filter" type="list" default="1" label="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER" description="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER_DESC">
 			<option value="1">ENABLED</option>
 			<option value="0">DISABLED</option>
 		</param>
-        <param name="filter_fields" type="list" default="0" label="MOD_TIENDA_SEARCH_FILTER_FIELDS" description="MOD_TIENDA_SEARCH_FILTER_FIELDS_DESC">
-            <option value="4">NAME ONLY</option>
-            <option value="3">NAME_DESCRIPTION</option>
-            <option value="2">SKU</option>
-            <option value="1">MODEL NUMBER</option>
-            <option value="0">All Of The Above</option>
-        </param>
+		<param name="filter_fields" type="list" default="0" label="MOD_TIENDA_SEARCH_FILTER_FIELDS" description="MOD_TIENDA_SEARCH_FILTER_FIELDS_DESC">
+			<option value="4">MOD_TIENDA_SEARCH_NAME_ONLY</option>
+			<option value="3">NMOD_TIENDA_SEARCH_NAME_DESCRIPTION</option>
+			<option value="2">MOD_TIENDA_SEARCH_SKU</option>
+			<option value="1">MOD_TIENDA_SEARCH_MODEL_NUMBER</option>
+			<option value="0">MOD_TIENDA_SEARCH_ALL_OF_THE_ABOVE</option>
+		</param>
 		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 		<param type="spacer" />
-    </params>
+	</params>
 </install>

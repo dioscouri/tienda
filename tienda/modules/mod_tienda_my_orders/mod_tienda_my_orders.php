@@ -19,7 +19,7 @@ require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
 $element = strtolower( 'com_tienda' );
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
@@ -31,7 +31,7 @@ $helper = new modTiendaMyOrdersHelper( $params );
 $orders = $helper->getOrders();
 $num = count($orders);
 
-$mainframe =& JFactory::getApplication();
-$document =& JFactory::getDocument();
+$mainframe = JFactory::getApplication();
+$document = JFactory::getDocument();
 
 require( JModuleHelper::getLayoutPath( 'mod_tienda_my_orders' ) );

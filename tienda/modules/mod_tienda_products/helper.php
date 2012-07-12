@@ -49,7 +49,7 @@ class modTiendaProductsHelper extends JObject
 		 
 		// setting the model's state tells it what items to return
 		$model->setState('filter_published', '1');
-		$date =& JFactory::getDate();
+		$date = JFactory::getDate();
 		$model->setState('filter_published_date', $date->toMysql() );
 		$model->setState('filter_enabled', '1');
 

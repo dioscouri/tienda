@@ -138,4 +138,4 @@ class modTiendaPriceFiltersHelper extends JObject
     	return (int) $price;
     }
 }
-?>   
+?>

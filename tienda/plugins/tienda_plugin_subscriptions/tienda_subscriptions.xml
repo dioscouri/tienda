@@ -9,16 +9,12 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>PLG_TIENDA_SYSTEM_TIENDA_SUBSCRIPTIONS_DESC</description>
-	
 	<files>
 		<filename plugin="tienda_subscriptions">tienda_subscriptions.php</filename>
 	</files>
-
-    <languages folder="languages">
-        <language tag="en-GB">en-GB.plg_system_tienda_subscriptions.ini</language>
-    </languages>
-
-	<params>
-	</params>
-			
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_system_tienda_subscriptions.ini</language>
+	</languages>
+	<params></params>
+	<config></config>
 </install>

@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_TOOL_INSTALL_SAMPLE_DATA_TO_TIENDA</description>
-	
 	<files>
 		<filename plugin="tool_installsampledata">tool_installsampledata.php</filename>
-		<folder>tool_installsampledata</folder>	
+		<folder>tool_installsampledata</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_tool_installsampledata.ini</language>
 	</languages>
-
-	<params>
-	</params>
-			
+	<params></params>
+	<config></config>
 </install>

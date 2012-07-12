@@ -19,12 +19,12 @@ require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
 $element = strtolower( 'com_Tienda' );
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 
-$mainframe =& JFactory::getApplication();
-$document = &JFactory::getDocument();
+$mainframe = JFactory::getApplication();
+$document = JFactory::getDocument();
 
 // params
 $display_null = $params->get( 'display_null', '1' );

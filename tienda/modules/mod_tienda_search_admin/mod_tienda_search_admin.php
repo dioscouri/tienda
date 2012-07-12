@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $text = $params->get( 'text', 'Tienda Dashboard' );
 
-$mainframe =& JFactory::getApplication();
-$document =& JFactory::getDocument();
+$mainframe = JFactory::getApplication();
+$document = JFactory::getDocument();
 
 $option = JRequest::getCmd( 'option' );
 $class_suffix = $params->get('moduleclass_sfx', '');

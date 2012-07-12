@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_REPORTS_ON_TOTAL_NUMBER_OF_CARTS_IN_EACH_PRODUCT</description>
-
 	<files>
 		<filename plugin="report_cart">report_cart.php</filename>
 		<folder>report_cart</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_report_cart.ini</language>
 	</languages>
-
-	<params>
-	</params>
-
+	<params></params>
+	<config></config>
 </install>

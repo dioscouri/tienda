@@ -1,27 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="left" method="upgrade" client="site">
-    <name>Tienda - Featured Products</name>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License</license>
-    <description>MOD_TIENDA_PRODUCTS_MODULEDESC</description>
-
-    <files>
-        <filename module="mod_tienda_products">mod_tienda_products.php</filename>
-        <filename>helper.php</filename>
-        <filename>index.html</filename>
-        <folder>elements</folder>
+	<name>Tienda - Featured Products</name>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License</license>
+	<description>MOD_TIENDA_PRODUCTS_MODULEDESC</description>
+	<files>
+		<filename module="mod_tienda_products">mod_tienda_products.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<folder>elements</folder>
 		<folder>tmpl</folder>
-    </files>
-
+	</files>
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.mod_tienda_products.ini</language>
 	</languages>
-
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="category" type="tiendacategory" default="" label="MOD_TIENDA_PRODUCTS_CATEGORY" description="MOD_TIENDA_PRODUCTS_CATEGORY_DESC" addfieldpath="/modules/mod_tienda_products/elements"/>
+				<field name="manufacturer" type="tiendamanufacturer" default="" label="MOD_TIENDA_PRODUCTS_MANUFACTURER" description="MOD_TIENDA_PRODUCTS_MANUFACTURER_DESC" addfieldpath="/modules/mod_tienda_products/elements" />
+				<field name="id_set" type="text" default="" label="MOD_TIENDA_PRODUCTS_ID_SET" description="MOD_TIENDA_PRODUCTS_ID_SET_DESC" />
+				<!--<field name="attribute" type="text" default="" label="Attribute" description="Attribute Description" />-->
+				<field name="price_from" type="text" default="" label="MOD_TIENDA_PRODUCTS_PRICE_FROM" description="MOD_TIENDA_PRODUCTS_PRICE_FROM_DESC" />
+				<field name="price_to" type="text" default="" label="MOD_TIENDA_PRODUCTS_PRICE_TO" description="MOD_TIENDA_PRODUCTS_PRICE_TO_DESC" />
+				<field name="random" type="list" default="0" label="MOD_TIENDA_PRODUCTS_RANDOMLY_SELECTED_PRODUCTS" description="MOD_TIENDA_PRODUCTS_RANDOMLY_SELECTED_PRODUCTS_DESC" >
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="order" type="list" default="0" label="MOD_TIENDA_PRODUCTS_ORDER" description="MOD_TIENDA_PRODUCTS_ORDER_DESC">
+					<option value="0">Ordering</option>
+					<option value="1">Created</option>
+					<option value="2">Name</option>
+				</field>
+				<field name="direction" type="radio" default="ASC" label="MOD_TIENDA_PRODUCTS_DIRECTION" description="MOD_TIENDA_PRODUCTS_DIRECTION_DESC">
+					<option value="ASC">ASC</option>
+					<option value="DESC">DESC</option>
+				</field>
+				<field name="itemid" type="text" default="" label="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE" description="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE_DESC" />
+				<field type="spacer" />
+				<field name="display_title" type="list" default="1" label="MOD_TIENDA_PRODUCTS_SHOW_TITLE" description="MOD_TIENDA_PRODUCTS_SHOW_TITLE_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="display_image" type="list" default="1" label="MOD_TIENDA_PRODUCTS_SHOW_IMAGE" description="MOD_TIENDA_PRODUCTS_SHOW_IMAGE_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="display_image_link" type="list" default="1" label="MOD_TIENDA_PRODUCTS_LINK_IMAGE" description="MOD_TIENDA_PRODUCTS_LINK_IMAGE_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="display_image_width" type="text" default="" label="MOD_TIENDA_PRODUCTS_IMAGE_WIDTH" description="MOD_TIENDA_PRODUCTS_IMAGE_WIDTH_DESC" />
+				<field name="display_image_height" type="text" default="" label="MOD_TIENDA_PRODUCTS_IMAGE_HEIGHT" description="MOD_TIENDA_PRODUCTS_IMAGE_HEIGHT_DESC" />
+				<field name="display_description" type="list" default="1" label="MOD_TIENDA_PRODUCTS_SHOW_SHORT" description="MOD_TIENDA_PRODUCTS_SHOW_SHORT_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="display_price" type="list" default="1" label="MOD_TIENDA_PRODUCTS_SHOW_PRICE" description="MOD_TIENDA_PRODUCTS_SHOW_PRICE_DESC">
+					<option value="1">ENABLED</option>
+					<option value="0">DISABLED</option>
+				</field>
+				<field name="max_number" type="text" default="" label="MOD_TIENDA_PRODUCTS_MAX_NUMBER" description="MOD_TIENDA_PRODUCTS_MAX_NUMBER_DESC" />
+				<field type="spacer" />
+				<field name="display_style" type="list" default="flat" label="MOD_TIENDA_PRODUCTS_DISPLAY_STYLE" description="MOD_TIENDA_PRODUCTS_DISPLAY_STYLE_DESC">
+					<option value="flat">MOD_TIENDA_PRODUCTS_COLUMN</option>
+					<option value="grid">MOD_TIENDA_PRODUCTS_GRID</option>
+				</field>
+				<field name="display_grid_items" type="list" default="3" label="MOD_TIENDA_PRODUCTS_GRID_ITEMS" description="MOD_TIENDA_PRODUCTS_GRID_ITEMS_DESC">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+					<option value="1">Use global</option>
+					<option value="0">No caching</option>
+				</field>
+				<field name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+				<field type="spacer" />
+				<field name="display_null" type="radio" default="1" label="MOD_TIENDA_PRODUCTS_DISPLAY_NO_ITEMS" description="MOD_TIENDA_PRODUCTS_DISPLAY_NO_ITEMS_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="null_text" type="text" size="50" default="No Products Set" label="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_SET" description="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_TEXT_DESC"></field>
+			</fieldset>
+		</fields>
+	</config>
 	<params addpath="/modules/mod_tienda_products/elements">
 
 		<param name="category" type="tiendacategory" default="" label="MOD_TIENDA_PRODUCTS_CATEGORY" description="MOD_TIENDA_PRODUCTS_CATEGORY_DESC" />
@@ -31,20 +103,19 @@
 		<param name="price_from" type="text" default="" label="MOD_TIENDA_PRODUCTS_PRICE_FROM" description="MOD_TIENDA_PRODUCTS_PRICE_FROM_DESC" />
 		<param name="price_to" type="text" default="" label="MOD_TIENDA_PRODUCTS_PRICE_TO" description="MOD_TIENDA_PRODUCTS_PRICE_TO_DESC" />
 		<param name="random" type="list" default="0" label="MOD_TIENDA_PRODUCTS_RANDOMLY_SELECTED_PRODUCTS" description="MOD_TIENDA_PRODUCTS_RANDOMLY_SELECTED_PRODUCTS_DESC" >
-		<option value="1">ENABLED</option>
-		<option value="0">DISABLED</option>
+			<option value="1">ENABLED</option>
+			<option value="0">DISABLED</option>
 		</param>
-        <param name="order" type="list" default="0" label="MOD_TIENDA_PRODUCTS_ORDER" description="MOD_TIENDA_PRODUCTS_ORDER_DESC">
-            <option value="0">Ordering</option>
-            <option value="1">Created</option>
-            <option value="2">Name</option>
-        </param>
-        <param name="direction" type="radio" default="ASC" label="MOD_TIENDA_PRODUCTS_DIRECTION" description="MOD_TIENDA_PRODUCTS_DIRECTION_DESC">
-            <option value="ASC">ASC</option>
-            <option value="DESC">DESC</option>
-        </param>
-        <param name="itemid" type="text" default="" label="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE" description="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE_DESC" />
-
+		<param name="order" type="list" default="0" label="MOD_TIENDA_PRODUCTS_ORDER" description="MOD_TIENDA_PRODUCTS_ORDER_DESC">
+			<option value="0">Ordering</option>
+			<option value="1">Created</option>
+			<option value="2">Name</option>
+		</param>
+		<param name="direction" type="radio" default="ASC" label="MOD_TIENDA_PRODUCTS_DIRECTION" description="MOD_TIENDA_PRODUCTS_DIRECTION_DESC">
+			<option value="ASC">ASC</option>
+			<option value="DESC">DESC</option>
+		</param>
+		<param name="itemid" type="text" default="" label="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE" description="MOD_TIENDA_PRODUCTS_ITEMID_FOR_PRODUCT_PAGE_DESC" />
 		<param type="spacer" />
 		<param name="display_title" type="list" default="1" label="MOD_TIENDA_PRODUCTS_SHOW_TITLE" description="MOD_TIENDA_PRODUCTS_SHOW_TITLE_DESC">
 			<option value="1">ENABLED</option>
@@ -88,12 +159,11 @@
 			<option value="0">No caching</option>
 		</param>
 		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-
 		<param type="spacer" />
 		<param name="display_null" type="radio" default="1" label="MOD_TIENDA_PRODUCTS_DISPLAY_NO_ITEMS" description="MOD_TIENDA_PRODUCTS_DISPLAY_NO_ITEMS_DESC">
-		  <option value="0">COM_TIENDA_NO</option>
-		  <option value="1">COM_TIENDA_YES</option>
+			<option value="0">COM_TIENDA_NO</option>
+			<option value="1">COM_TIENDA_YES</option>
 		</param>
 		<param name="null_text" type="text" size="50" default="No Products Set" label="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_SET" description="MOD_TIENDA_PRODUCTS_NO_PRODUCTS_TEXT_DESC"></param>
-    </params>
+	</params>
 </install>

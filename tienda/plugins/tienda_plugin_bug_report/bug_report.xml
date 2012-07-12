@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_BUG_REPORT_PLUGINDESC</description>
-	
 	<files>
 		<filename plugin="bug_report">bug_report.php</filename>
 		<folder>bug_report</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_bug_report.ini</language>
 	</languages>
 	<config></config>
-	<params>
-	</params>
-			
+	<params></params>
 </install>

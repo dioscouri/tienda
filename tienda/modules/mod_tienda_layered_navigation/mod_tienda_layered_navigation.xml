@@ -1,28 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="left" method="upgrade" client="site">
-    <name>Tienda - Layered Navigation</name>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License</license>
-    <description>Layered navigation that allow users to filter products by any parameter they want</description>
-    
-    <files>
-        <filename module="mod_tienda_layered_navigation">mod_tienda_layered_navigation.php</filename>
-        <filename>helper.php</filename>
-        <filename>index.html</filename>
-        <folder>tmpl</folder>
-        <folder>includes</folder>
-    </files>
-    
-    <languages>
+	<name>Tienda - Layered Navigation</name>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License</license>
+	<description>Layered navigation that allow users to filter products by any parameter they want</description>
+	<files>
+		<filename module="mod_tienda_layered_navigation">mod_tienda_layered_navigation.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+		<folder>includes</folder>
+	</files>
+	<languages>
 		<language tag="en-GB">languages/en-GB.mod_tienda_layered_navigation.ini</language>
 	</languages>
-	
-    <params>   
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="multi_mode" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_MULTI_MODE" description="MOD_TIENDA_LAYERED_NAV_MULTI_MODE_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="filter_category" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="roottext" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY_DESC" />
+				<field name="filter_manufacturer" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="filter_rating" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="filter_attributes" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_ATTRIBUTES_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="excluded_attributes" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES_DESC" />
+				<field name="filter_price" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="attributes_case_insensitive" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE" description="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="auto_price_range" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_AUTOMATIC_PRICE_RANGE" description="MOD_TIENDA_LAYERED_NAV_AUTOMATIC_PRICE_RANGE_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="price_range_set" size="50" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS" description="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS_DESC" />
+			</fieldset>
+			<fieldset name="advanced" label="advanced">
+				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+	<params>
 		<param name="multi_mode" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_MULTI_MODE" description="MOD_TIENDA_LAYERED_NAV_MULTI_MODE_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
@@ -30,12 +71,12 @@
 		<param name="filter_category" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_CATEGORY_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
-		</param>	
-		<param name="roottext" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY_DESC" />	
+		</param>
+		<param name="roottext" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY" description="MOD_TIENDA_LAYERED_NAV_TEXT_FOR_ROOT_CATEGORY_DESC" />
 		<param name="filter_manufacturer" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_MANUFACTURER_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
-		</param>		
+		</param>
 		<param name="filter_rating" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_RATING_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
@@ -44,11 +85,11 @@
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
 		</param>
-		<param name="excluded_attributes" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES_DESC" />	
+		<param name="excluded_attributes" size="35" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES" description="MOD_TIENDA_LAYERED_NAV_EXCLUDED_ATTRIBUTES_DESC" />
 		<param name="filter_price" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE" description="MOD_TIENDA_LAYERED_NAV_FILTER_BY_PRICE_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
-		</param>	
+		</param>
 		<param name="attributes_case_insensitive" type="list" default="1" label="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE" description="MOD_TIENDA_LAYERED_NAV_ATTRIBUTES_CASE_INSENSITIVE_DESC">
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
@@ -57,9 +98,9 @@
 			<option value="1">COM_TIENDA_YES</option>
 			<option value="0">COM_TIENDA_NO</option>
 		</param>
-		<param name="price_range_set" size="50" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS" description="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS_DESC" />		
-	</params>    
-    <params group="advanced">
+		<param name="price_range_set" size="50" type="text" default="" label="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS" description="MOD_TIENDA_LAYERED_NAV_PRICE_RANGE_INCREMENTS_DESC" />
+	</params>
+	<params group="advanced">
 		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 	</params>
 </install>

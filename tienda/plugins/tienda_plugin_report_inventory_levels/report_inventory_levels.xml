@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_REPORTS_THE_INVENTORY_LEVELS</description>
-
 	<files>
 		<filename plugin="report_inventory_levels">report_inventory_levels.php</filename>
 		<folder>report_inventory_levels</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_report_inventory_levels.ini</language>
 	</languages>
-
-	<params>
-	</params>
-
+	<params></params>
+	<config></config>
 </install>

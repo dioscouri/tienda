@@ -44,7 +44,9 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 	function plgTiendaTool_XmlImporter( &$subject, $config )
 	{
 		parent::__construct( $subject, $config );
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$language = JFactory::getLanguage();
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
 		$this->_temp_dir = JFactory::getConfig( )->get( 'tmp_path', JPATH_SITE . DS . 'tmp' ) . DS . 'tienda_xml_import' . DS;
 	}
 	

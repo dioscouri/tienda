@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="search" method="upgrade">
-    <name>Search - Tienda</name>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License v2</license>
-    <description>COM_TIENDA_ENABLES_SEARCHING_TIENDA_PRODUCTS_AND_CATEGORIES_IN_CORE_SEARCH_COMPONENT</description>
-
+	<name>Search - Tienda</name>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>COM_TIENDA_ENABLES_SEARCHING_TIENDA_PRODUCTS_AND_CATEGORIES_IN_CORE_SEARCH_COMPONENT</description>
 	<files>
 		<filename plugin="tienda">tienda.php</filename>
 	</files>
-	
-    <languages folder="languages">
-        <language tag="en-GB">en-GB.plg_search_tienda.ini</language>
-    </languages>
-	
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_search_tienda.ini</language>
+	</languages>
 	<params>
-        <param name="title" type="text" size="50" default="Tienda" label="COM_TIENDA_SEARCH_CATEGORY_TITLE" description="COM_TIENDA_SEARCH_CATEGORY_TITLE_DESC"/>
+		<param name="title" type="text" size="50" default="Tienda" label="COM_TIENDA_SEARCH_CATEGORY_TITLE" description="COM_TIENDA_SEARCH_CATEGORY_TITLE_DESC"/>
 		<param name="density_flag" type="radio" default="1" label="COM_TIENDA_KEYWORD_DENSITY" description="COM_TIENDA_KEYWORD_DENSITY_DESC">
 			<option value="0">COM_TIENDA_NO</option>
 			<option value="1">COM_TIENDA_YES</option>

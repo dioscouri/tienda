@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>PLG_TIENDA_GENERICEXPORT_PLUGINDESC</description>
-
 	<files>
 		<filename plugin="genericexporter">genericexporter.php</filename>
 		<folder>genericexporter</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_genericexporter.ini</language>
 	</languages>
-
-	<params>
-	</params>
-
+	<config></config>
+	<params></params>
 </install>

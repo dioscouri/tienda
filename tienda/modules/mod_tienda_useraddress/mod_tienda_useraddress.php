@@ -18,7 +18,7 @@ require_once( dirname(__FILE__).DS.'helper.php' );
 
 // include lang files
 $element = strtolower( 'com_Tienda' );
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
 

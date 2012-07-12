@@ -19,7 +19,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" label="basic">
-
 				<field name="api_username" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_USERNAME" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_USERNAME_DESC"/>
 				<field name="api_password" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PASSWORD" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PASSWORD_DESC"/>
 				<field name="api_signature" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_SIGNATURE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_SIGNATURE_DESC"/>
@@ -39,7 +38,6 @@
 				<field type="spacer" />
 				<field name="articleid" type="text" size="10" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_ARTICLE_NUMBER" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_ARTICLE_NUMBER_DESC"/>
 				<field name="display_article_title" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_DISPLAY_ARTICLE_TITLE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_DISPLAY_ARTICLE_TITLE_DESC" >
-
 					<option value="0">COM_TIENDA_NO</option>
 					<option value="1">COM_TIENDA_YES</option>
 				</field>
@@ -75,6 +73,5 @@
 		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE_DESC" />
 		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
-
 	</params>
 </install>

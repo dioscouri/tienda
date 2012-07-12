@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $text = $params->get( 'text', 'Tienda Dashboard' );
 
-$mainframe =& JFactory::getApplication();
-$document =& JFactory::getDocument();
+$mainframe = JFactory::getApplication();
+$document = JFactory::getDocument();
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 

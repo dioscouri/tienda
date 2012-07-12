@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_TOOL_MIGRATES_DATA_FROM_REDSHOP_TO_TIENDA</description>
-	
 	<files>
 		<filename plugin="tool_redshopmigration">tool_redshopmigration.php</filename>
-		<folder>tool_redshopmigration</folder>	
+		<folder>tool_redshopmigration</folder>
 	</files>
-
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_tool_redshopmigration.ini</language>
 	</languages>
-
-	<params>
-	</params>
-			
+	<params></params>
+	<config></config>
 </install>

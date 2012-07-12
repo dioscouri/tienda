@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_REPORTS_ON_LOW_STOCK_PRODUCTS</description>
-
 	<files>
 		<filename plugin="report_lowstock">report_lowstock.php</filename>
 		<folder>report_lowstock</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_report_lowstock.ini</language>
 	</languages>
-
-	<params>
-	</params>
-
+	<params></params>
+	<config></config>
 </install>

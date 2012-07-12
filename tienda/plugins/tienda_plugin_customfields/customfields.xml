@@ -9,17 +9,12 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>PLG_TIENDA_CUSTOMFIELDS_PLUGINDESC</description>
-	
 	<files>
 		<filename plugin="customfields">customfields.php</filename>
-		<folder>customfields</folder>	
+		<folder>customfields</folder>
 	</files>
-	
-    <languages folder="languages">
-        <language tag="en-GB">en-GB.plg_tienda_customfields.ini</language>
-    </languages>
-
-	<params addpath="/administrator/components/com_tienda/elements">
-	</params>
-			
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_tienda_customfields.ini</language>
+	</languages>
+	<params addpath="/administrator/components/com_tienda/elements"></params>
 </install>

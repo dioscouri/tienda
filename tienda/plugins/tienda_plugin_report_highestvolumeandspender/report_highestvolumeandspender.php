@@ -11,20 +11,19 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaReportPlugin', 'library.plugins.report' );
+Tienda::load('TiendaReportPlugin', 'library.plugins.report');
 
-class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
-{
+class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin {
 	/**
 	 * @var $_element  string  Should always correspond with the plugin's filename,
 	 *                         forcing it to be unique
 	 */
-	var $_element    = 'report_highestvolumeandspender';
+	var $_element = 'report_highestvolumeandspender';
 
 	/**
 	 * @var $default_model  string  Default model used by report
 	 */
-	var $default_model    = 'orders';
+	var $default_model = 'orders';
 
 	/**
 	 * Constructor
@@ -37,12 +36,11 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function __construct(& $subject, $config)
-	{
+	function __construct(&$subject, $config) {
 		parent::__construct($subject, $config);
 		$language = JFactory::getLanguage();
-		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
-		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
+		$language -> load('plg_tienda_' . $this -> _element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_' . $this -> _element, JPATH_ADMINISTRATOR, null, true);
 	}
 
 	/**
@@ -50,13 +48,12 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	 *
 	 * @return objectlist
 	 */
-	function _getData()
-	{
-		$state = $this->_getState();
-		$model = $this->_getModel();
-		$model->setState( 'order', 'spent');
-		$model->setState( 'direction', 'DESC');
-		$query = $model->getQuery();
+	function _getData() {
+		$state = $this -> _getState();
+		$model = $this -> _getModel();
+		$model -> setState('order', 'spent');
+		$model -> setState('direction', 'DESC');
+		$query = $model -> getQuery();
 		$field = array();
 		$field[] = " tbl.* ";
 		$field[] = "
@@ -87,8 +84,8 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
             AND 
             	o.user_id = tbl.user_id
             ) 
-        AS spent ";		
-		
+        AS spent ";
+
 		$field[] = "
             (
             SELECT 
@@ -101,28 +98,24 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
             	o.user_id = tbl.user_id
             ) 
         AS number_of_orders ";
-		$query->select( $field );
-		if (strlen($state['filter_totalpurchase_from']))
-		{
-			$query->having('volume >= '.(int) $state['filter_totalpurchase_from']);
+		$query -> select($field);
+		if (strlen($state['filter_totalpurchase_from'])) {
+			$query -> having('volume >= ' . (int)$state['filter_totalpurchase_from']);
 		}
-		if (strlen($state['filter_totalpurchase_to']))
-		{
-			$query->having('volume <= '.(int) $state['filter_totalpurchase_to']);
+		if (strlen($state['filter_totalpurchase_to'])) {
+			$query -> having('volume <= ' . (int)$state['filter_totalpurchase_to']);
 		}
 
-		if (strlen($state['filter_totalspent_from']))
-		{
-			$query->having('spent >= '.(int) $state['filter_totalspent_from']);
+		if (strlen($state['filter_totalspent_from'])) {
+			$query -> having('spent >= ' . (int)$state['filter_totalspent_from']);
 		}
-		if (strlen($state['filter_totalspent_to']))
-		{
-			$query->having('spent <= '.(int) $state['filter_totalspent_to']);
+		if (strlen($state['filter_totalspent_to'])) {
+			$query -> having('spent <= ' . (int)$state['filter_totalspent_to']);
 		}
 
-		$query->group('tbl.user_id');
-		$model->setQuery( $query );
-		$data = $model->getList();
+		$query -> group('tbl.user_id');
+		$model -> setQuery($query);
+		$data = $model -> getList();
 
 		return $data;
 	}
@@ -132,27 +125,25 @@ class plgTiendaReport_highestvolumeandspender extends TiendaReportPlugin
 	 *
 	 * @return object
 	 */
-	function _getState()
-	{
+	function _getState() {
 		$app = JFactory::getApplication();
-		$model = $this->_getModel( 'orders');
-		$ns = $this->_getNamespace();
+		$model = $this -> _getModel('orders');
+		$ns = $this -> _getNamespace();
 
 		$state = array();
-		$state['filter_date_from'] = $app->getUserStateFromRequest($ns.'filter_date_from', 'filter_date_from', '', '');
-		$state['filter_date_to'] = $app->getUserStateFromRequest($ns.'filter_date_to', 'filter_date_to', '', '');
-		$state['filter_totalpurchase_from'] = $app->getUserStateFromRequest($ns.'filter_totalpurchase_from', 'filter_totalpurchase_from', '', '');
-		$state['filter_totalpurchase_to'] = $app->getUserStateFromRequest($ns.'filter_totalpurchase_to', 'filter_totalpurchase_to', '', '');
-		$state['filter_totalspent_from'] = $app->getUserStateFromRequest($ns.'filter_totalspent_from', 'filter_totalspent_from', '', '');
-		$state['filter_totalspent_to'] = $app->getUserStateFromRequest($ns.'filter_totalspent_to', 'filter_totalspent_to', '', '');
-		
+		$state['filter_date_from'] = $app -> getUserStateFromRequest($ns . 'filter_date_from', 'filter_date_from', '', '');
+		$state['filter_date_to'] = $app -> getUserStateFromRequest($ns . 'filter_date_to', 'filter_date_to', '', '');
+		$state['filter_totalpurchase_from'] = $app -> getUserStateFromRequest($ns . 'filter_totalpurchase_from', 'filter_totalpurchase_from', '', '');
+		$state['filter_totalpurchase_to'] = $app -> getUserStateFromRequest($ns . 'filter_totalpurchase_to', 'filter_totalpurchase_to', '', '');
+		$state['filter_totalspent_from'] = $app -> getUserStateFromRequest($ns . 'filter_totalspent_from', 'filter_totalspent_from', '', '');
+		$state['filter_totalspent_to'] = $app -> getUserStateFromRequest($ns . 'filter_totalspent_to', 'filter_totalspent_to', '', '');
 
-		foreach (@$state as $key=>$value)
-		{
-			$model->setState( $key, $value );
+		foreach (@$state as $key => $value) {
+			$model -> setState($key, $value);
 		}
 
 		return $state;
 
 	}
+
 }

@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_PLUGIN_SHIPPING_STANDARD_DESC</description>
-	
 	<files>
 		<filename plugin="shipping_standard">shipping_standard.php</filename>
-		<folder>shipping_standard</folder>	
+		<folder>shipping_standard</folder>
 	</files>
-
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_shipping_standard.ini</language>
 	</languages>
-
-	<params>
-	</params>
-			
+	<params></params>
+	<config></config>
 </install>

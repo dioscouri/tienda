@@ -36,7 +36,6 @@
 				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
-
 			</fieldset>
 		</fields>
 	</config>
@@ -59,6 +58,5 @@
 		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_FAILED_ORDER_STATE_DESC" />
 		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="COM_TIENDA_GOOGLECHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
-
 	</params>
 </install>

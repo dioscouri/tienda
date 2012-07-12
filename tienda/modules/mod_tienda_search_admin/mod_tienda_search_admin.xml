@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" position="tienda_dashboard_right" client="administrator" method="upgrade">
-    <name>Tienda - Admin Search</name>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License</license>
-    <description>MOD_TIENDA_SEARCH_ADMIN_MODULEDESC</description>
-    
-    <files>
-        <filename module="mod_tienda_search_admin">mod_tienda_search_admin.php</filename>
-        <filename>index.html</filename>
-        <folder>tmpl</folder>
-    </files>
-    
+	<name>Tienda - Admin Search</name>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License</license>
+	<description>MOD_TIENDA_SEARCH_ADMIN_MODULEDESC</description>
+	<files>
+		<filename module="mod_tienda_search_admin">mod_tienda_search_admin.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.mod_tienda_search_admin.ini</language>
 	</languages>
-	
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field type="spacer" />
+				<field name="display_link" type="radio" default="0" label="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK" description="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK_DESC">
+					<option value="0">MOD_TIENDA_SEARCH_ADMIN_NO</option>
+					<option value="1">MOD_TIENDA_SEARCH_ADMIN_YES</option>
+				</field>
+				<field name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK" description="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DESC"></param>
+			</fieldset>
+		</fields>
+	</config>
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 		<param type="spacer" />
-        <param name="display_link" type="radio" default="0" label="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK" description="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK_DESC">
-            <option value="0">MOD_TIENDA_SEARCH_ADMIN_NO</option>
-            <option value="1">MOD_TIENDA_SEARCH_ADMIN_YES</option>
-        </param>
-        <param name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK" description="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DESC"></param>
-    </params>
+		<param name="display_link" type="radio" default="0" label="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK" description="MOD_TIENDA_SEARCH_ADMIN_DISPLAY_DASHBOARD_LINK_DESC">
+			<option value="0">MOD_TIENDA_SEARCH_ADMIN_NO</option>
+			<option value="1">MOD_TIENDA_SEARCH_ADMIN_YES</option>
+		</param>
+		<param name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK" description="MOD_TIENDA_SEARCH_ADMIN_TEXT_LINK_DESC"></param>
+	</params>
 </install>

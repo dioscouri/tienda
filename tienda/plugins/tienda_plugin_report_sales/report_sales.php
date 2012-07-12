@@ -6,25 +6,24 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaReportPlugin', 'library.plugins.report' );
+Tienda::load('TiendaReportPlugin', 'library.plugins.report');
 
-class plgTiendaReport_sales extends TiendaReportPlugin
-{
+class plgTiendaReport_sales extends TiendaReportPlugin {
 	/**
-	 * @var $_element  string  Should always correspond with the plugin's filename, 
-	 *                         forcing it to be unique 
+	 * @var $_element  string  Should always correspond with the plugin's filename,
+	 *                         forcing it to be unique
 	 */
-    var $_element    = 'report_sales';
-    
-    /**
-     * @var $default_model  string  Default model used by report  
-     */
-    var $default_model    = 'orders';
+	var $_element = 'report_sales';
+
+	/**
+	 * @var $default_model  string  Default model used by report
+	 */
+	var $default_model = 'orders';
 
 	/**
 	 * Constructor
@@ -37,36 +36,35 @@ class plgTiendaReport_sales extends TiendaReportPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgTiendaReport_sales(& $subject, $config) 
-	{
+	function plgTiendaReport_sales(&$subject, $config) {
 		parent::__construct($subject, $config);
 		$language = JFactory::getLanguage();
-		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, 'en-GB', true);
-		$language -> load('plg_tienda_'.$this->_element, JPATH_ADMINISTRATOR, null, true);
+		$language -> load('plg_tienda_' . $this -> _element, JPATH_ADMINISTRATOR, 'en-GB', true);
+		$language -> load('plg_tienda_' . $this -> _element, JPATH_ADMINISTRATOR, null, true);
 	}
-	
-    /**
-     * Override parent::_getData() to insert groupBy and orderBy clauses into query
-     *  
-     * @return unknown_type
-     */
-    function _getData()
-    {
-        $state = $this->_getState();
-        $model = $this->_getModel();
-        
-        // filter only complete orders ( 3 - Shipped, 5 - Complete, 17 - Payment Received )        
-        $order_states = array ( '3', '5', '17');
-        $model->setState( 'filter_orderstates', $order_states );
-        
-        $query = $model->getQuery();
-        
-        // order results by the total sales
-        $query->order('order_total DESC');
 
-        $model->setQuery( $query );
-        $data = $model->getList();
-                
-        return $data;
-    }
+	/**
+	 * Override parent::_getData() to insert groupBy and orderBy clauses into query
+	 *
+	 * @return unknown_type
+	 */
+	function _getData() {
+		$state = $this -> _getState();
+		$model = $this -> _getModel();
+
+		// filter only complete orders ( 3 - Shipped, 5 - Complete, 17 - Payment Received )
+		$order_states = array('3', '5', '17');
+		$model -> setState('filter_orderstates', $order_states);
+
+		$query = $model -> getQuery();
+
+		// order results by the total sales
+		$query -> order('order_total DESC');
+
+		$model -> setQuery($query);
+		$data = $model -> getList();
+
+		return $data;
+	}
+
 }

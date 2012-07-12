@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0" method="upgrade" position="left" client="site">
-    <name>Tienda - Currency Selector</name>
-    <author>Dioscouri</author>
-    <authorEmail>info@dioscouri.com</authorEmail>
-    <authorUrl>http://www.dioscouri.com</authorUrl>
-    <version>0.9.0</version>
-    <creationDate>October 2011</creationDate>
-    <copyright>2012 Dioscouri.com</copyright>
-    <license>GNU General Public License</license>
-    <description>MOD_TIENDA_CURRENCY_MODULEDESC</description>
-    <files>
-        <filename module="mod_tienda_currency">mod_tienda_currency.php</filename>
-        <filename>index.html</filename>
-        <filename>tmpl/default.php</filename>
-        <filename>tmpl/index.html</filename>
-    </files>
+	<name>Tienda - Currency Selector</name>
+	<author>Dioscouri</author>
+	<authorEmail>info@dioscouri.com</authorEmail>
+	<authorUrl>http://www.dioscouri.com</authorUrl>
+	<version>0.9.0</version>
+	<creationDate>October 2011</creationDate>
+	<copyright>2012 Dioscouri.com</copyright>
+	<license>GNU General Public License</license>
+	<description>MOD_TIENDA_CURRENCY_MODULEDESC</description>
+	<files>
+		<filename module="mod_tienda_currency">mod_tienda_currency.php</filename>
+		<filename>index.html</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_tienda_currency.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field type="spacer" />
+			</fieldset>
+		</fields>
+	</config>
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 		<param type="spacer" />
-    </params>
+	</params>
 </install>

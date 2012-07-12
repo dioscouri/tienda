@@ -9,17 +9,13 @@
 	<copyright>2012 Dioscouri.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>COM_TIENDA_THIS_TOOL_IMPORTS_DATA_FROM_A_CSV_FILE_TO_TIENDA</description>
-	
 	<files>
 		<filename plugin="tool_csvimporter">tool_csvimporter.php</filename>
-		<folder>tool_csvimporter</folder>	
+		<folder>tool_csvimporter</folder>
 	</files>
-
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_tool_csvimporter.ini</language>
 	</languages>
-
-	<params>
-	</params>
-			
+	<params></params>
+	<config></config>
 </install>
