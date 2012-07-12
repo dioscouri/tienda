@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 $state = @$this->state;
 $rows = @$this->get('List');
+$form = @$this->form;
 
 JHTML::_('behavior.modal');
 JHTML::_('behavior.tooltip');
@@ -95,5 +96,5 @@ $this->object = JRequest::getVar('object');
 
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo @$state->direction; ?>" />
+<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
 </form>

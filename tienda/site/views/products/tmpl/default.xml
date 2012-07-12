@@ -8,7 +8,7 @@
 	<!-- Joomla 1.6+ only -->
 	<fields name="request">
 		<fieldset name="request" addfieldpath="/administrator/components/com_tienda/elements">
-			<field name="filter_category" type="tiendacategory" section="com_tienda" default="" label="Select Category" description="COM_TIENDA_A_TIENDA_CATEGORY_ID" />
+			<field name="filter_category" type="tiendacategory" section="com_tienda" default="" label="COM_TIENDA_SELECT_CATEGORY" description="COM_TIENDA_A_TIENDA_CATEGORY_ID" />
 		</fieldset>
 	</fields>
 	<!-- Joomla 1.5 only -->
@@ -16,7 +16,7 @@
 		<name>COM_TIENDA_PRODUCTS_DEFAULT_LAYOUT</name>
 		<description>COM_TIENDA_PRODUCTS_DEFAULT_LAYOUT_DESC</description>
 		<url addpath="/administrator/components/com_tienda/elements">
-			<param name="filter_category" type="tiendacategory" section="com_tienda" default="" label="Select Category" description="COM_TIENDA_A_TIENDA_CATEGORY_ID" />
+			<param name="filter_category" type="tiendacategory" section="com_tienda" default="" label="COM_TIENDA_SELECT_CATEGORY" description="COM_TIENDA_A_TIENDA_CATEGORY_ID" />
 		</url>
 	</state>
 </metadata>

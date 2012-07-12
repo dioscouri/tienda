@@ -5,11 +5,18 @@
 			<![CDATA[COM_TIENDA_PRODUCTS_SINGLE_LAYOUT_DESC]]>
 		</message>
 	</layout>
+	<!-- Joomla 1.6+ only -->
+	<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_tienda/elements">
+			<field name="id" type="tiendaproduct" section="com_tienda" default="" label="COM_TIENDA_SELECT_PRODUCT" description="COM_TIENDA_A_TIENDA_PRODUCT_ID" />
+		</fieldset>
+	</fields>
+	<!-- Joomla 1.5 only -->
 	<state>
 		<name>COM_TIENDA_PRODUCTS_SINGLE_LAYOUT</name>
 		<description>COM_TIENDA_PRODUCTS_SINGLE_LAYOUT_DESC</description>
         <url addpath="/administrator/components/com_tienda/elements">
-            <param name="id" type="tiendaproduct" section="com_tienda" default="" label="Select Product" description="A Tienda Product ID" />
+            <param name="id" type="tiendaproduct" section="com_tienda" default="" label="COM_TIENDA_SELECT_PRODUCT" description="COM_TIENDA_A_TIENDA_PRODUCT_ID" />
             <param name="task" type="hidden" section="com_tienda" default="view" />
         </url>
 	</state>
