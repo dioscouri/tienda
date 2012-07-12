@@ -22,7 +22,7 @@
 			<fieldset name="basic" label="basic">
 				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field type="spacer" />
-				<field name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_QUICKICON_TEXT_LINK" description="MOD_TIENDA_QUICKICON_TEXT_LINK_DESC"></param>
+				<field name="text" type="text" size="50" default="Tienda Dashboard" label="MOD_TIENDA_QUICKICON_TEXT_LINK" description="MOD_TIENDA_QUICKICON_TEXT_LINK_DESC"></field>
 			</fieldset>
 		</fields>
 	</config>
