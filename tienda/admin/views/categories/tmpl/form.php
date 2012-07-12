@@ -1,7 +1,8 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $form = @$this->form; ?>
-<?php $row = @$this->row; 
-JFilterOutput::objectHTMLSafe( $row );
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	$form = @$this->form;
+	$row = @$this->row; 
+	JFilterOutput::objectHTMLSafe( $row );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
@@ -133,7 +134,7 @@ JFilterOutput::objectHTMLSafe( $row );
     						</label>
     					</td>
     					<td>
-    						<?php $editor = &JFactory::getEditor(); ?>
+    						<?php $editor = JFactory::getEditor(); ?>
     						<?php echo $editor->display( 'category_description',  @$row->category_description, '100%', '450', '100', '20' ) ; ?>
     					</td>
     				</tr>

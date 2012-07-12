@@ -15,9 +15,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.helper');
-jimport( 'joomla.application.component.model');
-
 /**
  * Content Component User Model
  *
@@ -25,23 +22,22 @@ jimport( 'joomla.application.component.model');
  * @subpackage	Content
  * @since		1.5
  */
-class TiendaModelElementProduct extends JModel
+class TiendaModelElementProduct extends DSCModelElement
 {
-	/**
-	 * Content data in category array
-	 *
-	 * @var array
-	 */
-	var $_list = null;
-
-	var $_page = null;
-
+	
+	var $select_title_constant = 'COM_TIENDA_SELECT_PRODUCTS';
+	
+	function getTable($name = '', $prefix = null, $options = array()) {
+		$table = JTable::getInstance('Products', 'TiendaTable');
+		return $table;
+	}
+	
 	/**
 	 * Method to get content article data for the frontpage
 	 *
 	 * @since 1.5
 	 */
-	function getList()
+	function getList( $refresh = false )
 	{
 		$where = array();
 		$mainframe = JFactory::getApplication();
@@ -115,96 +111,6 @@ class TiendaModelElementProduct extends JModel
 
 		return $this->_list;
 	}
-
-	/**
-	 * 
-	 * @return unknown_type
-	 */
-	function getPagination()
-	{
-		if (is_null($this->_list) || is_null($this->_page)) {
-			$this->getList();
-		}
-		return $this->_page;
-	}
-	
-	/**
-	 *
-	 * @return
-	 * @param object $name
-	 * @param object $value[optional]
-	 * @param object $node[optional]
-	 * @param object $control_name[optional]
-	 */
-	function _fetchElement($name, $value='', $node='', $control_name='')
-	{
-		$html = "";
-		$doc 		=& JFactory::getDocument();
-		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		$title = JText::_('COM_TIENDA_SELECT_PRODUCTS');
-		if ($value) {
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-			$tbl = JTable::getInstance( 'Products', 'TiendaTable' );
-			$tbl->load( $value );			
-			$title = $tbl->product_name;
-		}
-		else
-		{
-			$title=JText::_('COM_TIENDA_SELECT_A_PRODUCT');
-		}
-
- $js = "
-		function jSelectProducts(id, title, object) {
-			document.getElementById(object + '_id').value = id;
-			document.getElementById(object + '_name').value = title;
-			document.getElementById('sbox-window').close();
-		}";
 		
-		$doc->addScriptDeclaration($js);
-
-		$link = 'index.php?option=com_tienda&task=elementproduct&tmpl=component&object='.$name;
-
-		JHTML::_('behavior.modal', 'a.modal');
-		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_TIENDA_SELECT_A_USER').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">'.JText::_('COM_TIENDA_SELECT').'</a></div></div>'."\n";
-		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
-
-		return $html;
-	}
-
-	/**
-	 *
-	 * @return
-	 * @param object $name
-	 * @param object $value[optional]
-	 * @param object $node[optional]
-	 * @param object $control_name[optional]
-	 */
-	function _clearElement($name, $value='', $node='', $control_name='')
-	{
-		
-		$mainframe = JFactory::getApplication();
-
-		$db			= JFactory::getDBO();
-		$doc 		= JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
-		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
-		
-		$js = "
-		function resetElement(id, title, object) {
-			document.getElementById(object + '_id').value = id;
-			document.getElementById(object + '_name').value = title;
-		}";
-		$doc->addScriptDeclaration($js);
-		
-		$html = '<div class="button2-left">
-		<div class="blank">
-		
-		<a href="javascript::void();" onclick="resetElement( \''.$value.'\', \''.JText::_('COM_TIENDA_SELECT_PRODUCTS').'\', \''.$name.'\' )">'.JText::_('COM_TIENDA_CLEAR_SELECTION').'</span>
-		</div></div>'."\n";
-
-		return $html;
-	}
-	
 }
 ?>

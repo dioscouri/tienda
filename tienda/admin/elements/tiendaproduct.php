@@ -57,15 +57,20 @@ var	$_name = 'TiendaProduct';
 		}
 
  		$js = "
-		function jSelectProducts(id, title, object) {
+			Dsc.selectelementproduct = function(id, title, object) {
 			document.getElementById(object + '_id').value = id;
-			document.getElementById(object + '_name').value = title;
-			document.getElementById('sbox-window').close();
-		}";
+			document.getElementById(object + '_name').value = title;";
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+			$js .= 'window.parent.SqueezeBox.close()';
+		}
+		else {
+			$js .= 'document.getElementById(\'sbox-window\').close()';
+		}
+	$js.=	"}";
 		
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_tienda&task=elementproduct&tmpl=component&object='.$name;
+		$link = 'index.php?option=com_tienda&view=elementproduct&tmpl=component&object='.$name;
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';

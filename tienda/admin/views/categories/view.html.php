@@ -50,6 +50,9 @@ class TiendaViewCategories extends TiendaViewBase
 		$results = $dispatcher->trigger( 'onGetCategoryView', array( $model->getItem()  ) );
 		
 		$shippingHtml = implode('<hr />', $results);
+		if( !isset($this->row) )
+			$this->row = new stdClass();
+
 		if( !isset( $this->row->display_name_subcategory ) )
 			$this->row->display_name_subcategory = 1;
 		if( !isset( $this->row->display_name_category ) )
