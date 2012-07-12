@@ -58,14 +58,33 @@ class TiendaModelTools extends TiendaModelBase
         $query->where("tbl.element LIKE 'tool_%'");
     }
     	
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList();
+		$list = parent::getList($refresh);
 		foreach($list as $item)
 		{
 			if(version_compare(JVERSION,'1.6.0','ge')) {$item->id = $item->extension_id; }
 			$item->link = 'index.php?option=com_tienda&view=tools&task=view&id='.$item->id;
 		}
 		return $list;
+	}
+	
+	/**
+	 * Gets an item for displaying (as opposed to saving, which requires a JTable object)
+	 * using the query from the model and the tbl's unique identifier
+	 *
+	 * @return database->loadObject() record
+	 */
+	public function getItem( $emptyState=true )
+	{
+		parent::getItem( $emptyState );
+		// adding this in the model so we don't have to have if statemnets all over the views and controllers'
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+			if(!empty($this->_item->extension_id)) {
+			$this->_item->id =	$this->_item->extension_id;
+			}
+		}
+		
+		return $this->_item;
 	}
 }

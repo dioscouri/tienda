@@ -50,7 +50,7 @@ class TiendaControllerTools extends TiendaController
      * Displays item
      * @return void
      */
-    function view()
+    function view($cachable = false, $urlparams = false)
     {
         $model = $this->getModel( $this->get('suffix') );
         $model->getId();
@@ -70,7 +70,7 @@ class TiendaControllerTools extends TiendaController
             }
         }
         
-        parent::view();
+        parent::view($cachable, $urlparams);
     }
 }
 
