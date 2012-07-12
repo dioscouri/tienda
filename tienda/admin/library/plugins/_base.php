@@ -177,17 +177,16 @@ class TiendaPluginBase extends DSCPlugin
 		}
 		
 		$language = JFactory::getLanguage( );
-		$lang = $language->getName();
+		$lang = $language->getTag();
 		
 		$path = JLanguage::getLanguagePath( $basePath, $lang );
 		
 		if ( !strlen( $extension ) )
 		{
 			$extension = 'joomla';
-		}
-		
+		}		
 		$filename = ( $extension == 'joomla' ) ? $lang : $lang . '.' . $extension;
-		$filename = $path . DS . $filename . '.ini';
+		$filename = $path . DS . $filename;
 		
 		$result = false;
 		if ( isset( $language->_paths[$extension][$filename] ) )
@@ -198,7 +197,7 @@ class TiendaPluginBase extends DSCPlugin
 		else
 		{
 			// Load the language file
-			$result = $language->load( $filename, $extension, $overwrite );
+			$result = $language->load( $extension, $basePath, null, $overwrite );
 			
 			// Check if there was a problem with loading the file
 			if ( $result === false )
@@ -208,7 +207,7 @@ class TiendaPluginBase extends DSCPlugin
 				$filename = ( $extension == 'joomla' ) ? $language->getDefault() : $language->getDefault() . '.' . $extension;
 				$filename = $path . DS . $filename . '.ini';
 				
-				$result = $language->load( $filename, $extension, $overwrite );
+//				$result = $language->load( $filename, $extension, $overwrite );
 			}
 			
 		}
