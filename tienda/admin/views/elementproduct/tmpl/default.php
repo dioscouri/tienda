@@ -17,7 +17,6 @@ JHTML::_('behavior.modal');
 JHTML::_('behavior.tooltip');
 $model = $this->getModel();
 $page = $this->get('Pagination'); 
-$this->object = JRequest::getVar('object');
 ?>
 <form action="<?php echo JRoute::_( @$form['action'] .'&tmpl=component&object='.$this->object )?>" method="post" name="adminForm">
 

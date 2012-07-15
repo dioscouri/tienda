@@ -70,7 +70,7 @@ var	$_name = 'TiendaProduct';
 		
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_tienda&view=elementproduct&tmpl=component&object='.$name;
+		$link = 'index.php?option=com_tienda&controller=elementproduct&view=elementproduct&tmpl=component&object='.$name;
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';

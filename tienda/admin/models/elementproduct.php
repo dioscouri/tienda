@@ -22,8 +22,11 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage	Content
  * @since		1.5
  */
-class TiendaModelElementProduct extends DSCModelElement
+class TiendaModelElementproduct extends DSCModelElement
 {
+	var $_list = null;
+	
+	var $_page = null;
 	
 	var $select_title_constant = 'COM_TIENDA_SELECT_PRODUCTS';
 	
@@ -51,14 +54,11 @@ class TiendaModelElementProduct extends DSCModelElement
 		$filter	= null;
 
 		// Get some variables from the request
-//		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
-//		$redirect			= $sectionid;
-//		$option				= JRequest::getCmd( 'option' );
 		$filter_order		= $mainframe->getUserStateFromRequest('userelement.filter_order',		'filter_order',		'',	'cmd');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest('userelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest('userelement.filter_direction',	'filter_direction',	'',	'word');
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('userelement.limitstart',			'limitstart',		0,	'int');
-		$search				= $mainframe->getUserStateFromRequest('userelement.search',				'search',			'',	'string');
+		$search				= $mainframe->getUserStateFromRequest('userelement.filter',				'filter',			'',	'string');
 		$search				= JString::strtolower($search);
 
 		if (!$filter_order) {
@@ -111,6 +111,17 @@ class TiendaModelElementProduct extends DSCModelElement
 
 		return $this->_list;
 	}
-		
+
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	function getPagination()
+	{
+		if (is_null($this->_list) || is_null($this->_page)) {
+			$this->getList();
+		}
+		return $this->_page;
+	}	
 }
 ?>

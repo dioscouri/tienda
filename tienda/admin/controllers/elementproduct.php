@@ -11,13 +11,13 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class TiendaControllerElementArticle extends DSCControllerAdmin 
+class TiendaControllerElementProduct extends DSCControllerAdmin 
 {
 	function __construct() 
 	{
 		parent::__construct();
 		
-		$this->set('suffix', 'elementarticle');
+		$this->set('suffix', 'elementproduct');
 	}
     
     function display($cachable=false, $urlparams = false)
