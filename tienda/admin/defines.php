@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 class Tienda extends DSC
 {
 	protected $_name 			= 'tienda';	
-	protected $_version 		= '0.9.0';
-	protected $_build          = 'r2476';
+	protected $_version 		= '0.10.0';
+	protected $_build          = 'r2654';
 	protected $_versiontype    = 'community';
 	protected $_copyrightyear 	= '2012';
 	protected $_min_php		= '5.3';
@@ -227,7 +227,7 @@ class Tienda extends DSC
 	public $display_subscriptions = '1';
 	public $display_mydownloads = '1';
 	
-	// since 0.9.0
+	// since 0.10.0
 	public $show_tax_checkout = '3';
 	public $secret_word = '';
 	public $password_min_length = '5';
