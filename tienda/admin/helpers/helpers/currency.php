@@ -450,7 +450,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
     /*
      * Returns ID of the currency which will be saved along with order
      */
-	public static	function getCurrentCurrency()
+		function getCurrentCurrency()
 		{
 //        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
 //        if( $session_currency )

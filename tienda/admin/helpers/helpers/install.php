@@ -11,14 +11,17 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaModelBase', 'models._base' );
+Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaModelCheckout extends TiendaModelBase 
+class TiendaHelperInstall extends TiendaHelperBase 
 {
-	  function getTable($name='Config', $prefix='TiendaTable', $options = array())
-    {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        return parent::getTable($name, $prefix, $options);
-    }
-    
+	/**
+	 * Performs basic checks on your Tienda installation to ensure it is configured OK
+	 * @return unknown_type
+	 */
+	function createSample() 
+	{
+		// TODO create a sample installation configuration
+	}
+
 }

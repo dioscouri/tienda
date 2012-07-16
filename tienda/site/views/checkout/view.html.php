@@ -20,7 +20,7 @@ class TiendaViewCheckout extends TiendaViewBase
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-	function display($tpl=null) 
+	function display($tpl=null, $perform = true) 
 	{
 		$layout = $this->getLayout();
 		switch(strtolower($layout))
@@ -48,7 +48,7 @@ class TiendaViewCheckout extends TiendaViewBase
 	 * from within the tmpl file  
 	 * 
 	 */
-	function _default($tpl = null)
+	function _default($tpl='', $onlyPagination = false)
 	{
         parent::_default($tpl);
         

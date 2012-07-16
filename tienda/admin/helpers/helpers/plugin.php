@@ -22,7 +22,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * @param $folder
 	 * @return array of JTable objects
 	 */
-	public static function getPluginsWithEvent( $eventName, $folder='Tienda' )
+	function getPluginsWithEvent( $eventName, $folder='Tienda' )
 	{
 		$return = array();
 		if ($plugins = TiendaHelperPlugin::getPlugins( $folder ))
@@ -44,7 +44,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * @param mixed Boolean
 	 * @return array
 	 */
-	static function getPlugins( $folder='Tienda' )
+	function getPlugins( $folder='Tienda' )
 	{
 		$database = JFactory::getDBO();
 		
@@ -131,7 +131,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * @param string   $eventName  the name of the event to test for
 	 * @return unknown_type
 	 */
-	public static function hasEvent( $element, $eventName )
+	function hasEvent( $element, $eventName )
 	{
 		$success = false;
 	   if (!$element || !is_object($element)) {

@@ -100,7 +100,7 @@ class TiendaControllerCheckout extends TiendaController
 	 *
 	 * @see tienda/site/TiendaController#view()
 	 */
-	function display()
+	function display($cachable=false, $urlparams = false)
 	{
 		$user = JFactory::getUser();
 
@@ -121,7 +121,7 @@ class TiendaControllerCheckout extends TiendaController
 			JRequest::setVar('layout', $opc_layout);
 			$view = $this->getView( 'checkout', 'html' );
 
-			$order =& $this->_order;
+			$order = $this->_order;
 			$order = $this->populateOrder();
 
 			//get order summarry
@@ -266,7 +266,7 @@ class TiendaControllerCheckout extends TiendaController
 			if (($guest && Tienda::getInstance()->get('guest_checkout_enabled')) || $register)
 			{
 				// Checkout as a Guest
-				$order =& $this->_order;
+				$order = $this->_order;
 				$order = $this->populateOrder(true);
 
 				// now that the order object is set, get the orderSummary html
@@ -348,7 +348,7 @@ class TiendaControllerCheckout extends TiendaController
 			else
 			{
 				// Already Logged in, a traditional checkout
-				$order =& $this->_order;
+				$order = $this->_order;
 				$order = $this->populateOrder(false);
 					
 				// now that the order object is set, get the orderSummary html
@@ -444,7 +444,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function populateOrder($guest = false)
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		// set the currency
     Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
 		$order->currency_id = TiendaHelperCurrency::getCurrentCurrency(); // USD is default if no currency selected
@@ -518,7 +518,7 @@ class TiendaControllerCheckout extends TiendaController
 	function getOrderSummary()
 	{
 		// get the order object
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
 
@@ -633,7 +633,7 @@ class TiendaControllerCheckout extends TiendaController
 	function getTotalAmountDue()
 	{
 		// get the order object
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		$model = $this->getModel('carts');
 		$view = $this->getView( 'checkout', 'html' );
@@ -803,7 +803,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
-		$order =& $this->_order;
+		$order = $this->_order;
 		// get the items and add them to the order
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
 		$items = TiendaHelperCarts::getProductsInfo();
@@ -1055,7 +1055,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function setAddresses( &$values, $saved = false, $ajax = false )
 	{
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// Get the currency from the configuration
     Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
@@ -1538,7 +1538,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['error'] = '';
 
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -1614,7 +1614,7 @@ class TiendaControllerCheckout extends TiendaController
 		$response['error'] = '';
 
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -1786,7 +1786,7 @@ class TiendaControllerCheckout extends TiendaController
 		if (count($payment_plugins) == 1)
 		{
 			$payment_plugins[0]->checked = true;
-			$dispatcher    =& JDispatcher::getInstance();
+			$dispatcher    = JDispatcher::getInstance();
 			$results = $dispatcher->trigger( "onGetPaymentForm", array( $payment_plugins[0]->element, '' ) );
 
 			$text = '';
@@ -1845,7 +1845,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 		
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		$user_id = JFactory::getUser()->id;
 		if ( !empty($values['register']) && empty($user_id) )
@@ -2076,7 +2076,7 @@ class TiendaControllerCheckout extends TiendaController
 		$data->summary = '';
 
 		// Get Order Object
-		$order =& $this->_order;
+		$order = $this->_order;
 
 		// Update the addresses' user id!
 		$shippingAddress = $order->getShippingAddress();
@@ -2209,7 +2209,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 			
 		// Get Order Object
-		$order =& $this->_order;
+		$order = $this->_order;
 
 		// Update the addresses' user id!
 		$shippingAddress = $order->getShippingAddress();
@@ -2280,7 +2280,7 @@ class TiendaControllerCheckout extends TiendaController
 		$values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
 
 		// IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$mainframe->setUserState( 'tienda.order_id', $order->order_id );
 		$mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
 			
@@ -2311,7 +2311,7 @@ class TiendaControllerCheckout extends TiendaController
 			return;
 		}
 
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
 
 		// Display whatever comes back from Payment Plugin for the onPrePayment
@@ -2397,7 +2397,7 @@ class TiendaControllerCheckout extends TiendaController
 		$values = JRequest::get('post');
 
 		// get the order_id from the session set by the prePayment
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
 		$order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
 
@@ -2420,9 +2420,9 @@ class TiendaControllerCheckout extends TiendaController
 			$mainframe->redirect(JURI::root().'administrator/index.php?' . $pos_link);
 		}
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$html = "";
-		$order =& $this->_order;
+		$order = $this->_order;
 		$order->load( array('order_id'=>$order_id) );
     if( !empty( $order->order_hash ) )
       $order_link .= '&h='.$order->order_hash;
@@ -2780,7 +2780,7 @@ class TiendaControllerCheckout extends TiendaController
 	{
 		$error = false;
     $guest = $user_id < Tienda::getGuestIdStart();
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 		$order->_adjustCredits = true; // this is not a POS order, so adjust the user's credits (if any used)
 		$order->bind( $values );
 		$order->user_id = $user_id;
@@ -2895,7 +2895,7 @@ class TiendaControllerCheckout extends TiendaController
 	function saveOrderItems()
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		$order =& $this->_order;
+		$order = $this->_order;
 		$items = $order->getItems();
 
 
@@ -3038,7 +3038,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderInfo()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
@@ -3074,7 +3074,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderHistory( )
 	{                                                         
-		$order =& $this->_order;
+		$order = $this->_order;
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
@@ -3098,7 +3098,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderVendors()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		$items = $order->getVendors();
 
 		if (empty($items) || !is_array($items))
@@ -3142,7 +3142,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderTaxes()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 
 		$taxclasses = $order->getTaxClasses();
@@ -3182,7 +3182,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderShippings( $values )
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
@@ -3201,7 +3201,7 @@ class TiendaControllerCheckout extends TiendaController
 		}
 
 		// Let the plugin store the information about the shipping
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger( "onPostSaveShipping", array( $values['shipping_plugin'], $row ) );
 
 		return true;
@@ -3213,7 +3213,7 @@ class TiendaControllerCheckout extends TiendaController
 	 */
 	function saveOrderCoupons()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 
 		$error = false;
@@ -3387,7 +3387,7 @@ class TiendaControllerCheckout extends TiendaController
         }
         
         // get the order object so we can populate it
-        $order =& $this->_order; // a TableOrders object (see constructor)
+        $order = $this->_order; // a TableOrders object (see constructor)
 
         // bind what you can from the post
         $order->bind( $values );
@@ -3787,7 +3787,7 @@ class TiendaControllerCheckout extends TiendaController
 			}
 		}
 
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger( 'onGetOrderArticles', array( $order_id, &$articles ) );
 
 		return $articles;
@@ -3827,7 +3827,7 @@ class TiendaControllerCheckout extends TiendaController
 		$order->load( array('order_id' => $this->pos_order->order_id));
 		$items = $order->getItems();
 
-		$dispatcher    =& JDispatcher::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
 
 		// Display whatever comes back from Payment Plugin for the onPrePayment

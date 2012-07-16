@@ -15,9 +15,9 @@ Tienda::load( 'TiendaViewBase', 'views._base', array( 'site'=>'site', 'type'=>'c
 
 class TiendaViewAddresses extends TiendaViewBase 
 {
-	function _default($tpl = null)
+	function _default($tpl='', $onlyPagination = false)
 	{
-        parent::_default($tpl);
+        parent::_default($tpl, $onlyPagination );
         if (JRequest::getVar('tmpl') == 'component')
         {
         	$this->assign( 'tmpl', '&amp;tmpl=component' );
