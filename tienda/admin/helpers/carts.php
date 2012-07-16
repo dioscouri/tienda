@@ -530,7 +530,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 *
 	 * @return array of OrderItem
 	 */
-	function getProductsInfo()
+	public static function getProductsInfo()
 	{
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
@@ -550,7 +550,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		}
 
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$user_helper = &TiendaHelperBase::getInstance( 'User' );
+		$user_helper = TiendaHelperBase::getInstance( 'User' );
 		$filter_group = $user_helper->getUserGroup($user->id);
 		$model->setState('filter_group', $filter_group );
 

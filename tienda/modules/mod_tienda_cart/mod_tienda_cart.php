@@ -39,7 +39,7 @@ $num = count($items);
 
 // Convert the cart to a "fake" order, to show totals and others things
 JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-$orderTable = &JTable::getInstance('Orders', 'TiendaTable');
+$orderTable = JTable::getInstance('Orders', 'TiendaTable');
 foreach($items as $item)
 {
     $orderTable->addItem($item);
@@ -67,7 +67,7 @@ if ($show_tax)
 $orderTable->calculateTotals();
 
 // format the subtotal
-$order_subtotal = TiendaHelperBase::currency($orderTable->order_total);
+//$order_subtotal = TiendaHelperBase::currency($orderTable->order_total);
 
 if (!empty($items) || (empty($items) && $params->get('display_null')) )
 {

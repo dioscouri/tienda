@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Add CSS
+
 $document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_cart/tmpl/tienda_cart.css');
 
 $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
@@ -33,12 +34,12 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
         $html .= $text;
     }
     $html .= '</span>'; 
-    $html .= '<span class="CartTotal">'.JText::_('COM_TIENDA_TOTAL').':<span>'.TiendaHelperBase::currency($orderTable->order_total).'</span> '.'</span> ';
+   $html .= '<span class="CartTotal">'.JText::_('COM_TIENDA_TOTAL').':<span>'.TiendaHelperBase::currency($orderTable->order_total).'</span> '.'</span> ';
     $html .= '<span class="CartView">';
     if ($params->get('display_lightbox') == '1')
     {
         $lightbox_attribs = array(); $lightbox['update'] = false; if ($lightbox_width = Tienda::getInstance()->get( 'lightbox_width' )) { $lightbox_attribs['width'] = $lightbox_width; };
-        $html .= Tienda::getClass("TiendaUrl", 'library.url')->popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", JText::_('COM_TIENDA_VIEW_YOUR_CART'), $lightbox_attribs );
+       $html .= TiendaUrl::popup( "index.php?option=com_tienda&view=carts&task=confirmAdd&tmpl=component", JText::_('COM_TIENDA_VIEW_YOUR_CART'), $lightbox_attribs );
     }
         else
     {
@@ -56,5 +57,6 @@ $html = ($ajax) ? '' : '<div id="tiendaUserShoppingCart">';
     {
         $html .= '</div>';
     }
-        
+	
 echo $html;
+        

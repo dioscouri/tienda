@@ -189,11 +189,12 @@ class TiendaHelperBase extends DSCHelper
 	 * @param unknown_type $currency
 	 * @return unknown_type
 	 */
-	/*function currency($amount, $currency='', $options='')
+	public static function currency($amount, $currency='', $options='')
 	{
-		$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
+		return parent::currency($amount, $currency, $options);	
+		/*$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
 		$amount = $currency_helper->_($amount, $currency, $options);
-		return $amount;
+		return $amount;*/
 	}
 
 	/**

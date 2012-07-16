@@ -34,7 +34,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * @param int $userid
 	 * @return obj TiendaAddresses if found, false otherwise
 	 */
-	function getPrimaryAddress( $userid, $type='billing' )
+	public static function getPrimaryAddress( $userid, $type='billing' )
 	{
 		$return = false;
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
@@ -72,7 +72,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * @param int $userid
 	 * @return unknown_type
 	 */
-	function getGeoZones( $userid )
+	public static function getGeoZones( $userid )
 	{
 		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
 

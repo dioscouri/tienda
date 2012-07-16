@@ -402,7 +402,7 @@ class TiendaTableOrders extends TiendaTable
         $subtotal = 0.00;
         
         // TODO Must decide what we want these methods to return; for now, null
-        $items = &$this->getItems();
+        $items = $this->getItems();
         if (!is_array($items))
         {
             $this->order_subtotal = $subtotal;
@@ -442,7 +442,7 @@ class TiendaTableOrders extends TiendaTable
         Tienda::load( "TiendaHelperTax", 'helpers.tax' );
         $this->_taxrate_amounts = array();
         $this->_taxclass_amounts = array();
-        $items = &$this->getItems();
+        $items = $this->getItems();
         $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
 				$show_tax = Tienda::getInstance()->get('display_prices_with_tax');
 
