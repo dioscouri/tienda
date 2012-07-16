@@ -1,2 +1,14 @@
 <?php
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'elements'.DS.'tiendacategory.php');
+/**
+ * @version	1.5
+ * @package	Tienda
+ * @author 	Dioscouri Design
+ * @link 	http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ */
+
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Restricted access');
+
+require_once(JPATH_ADMINISTRATOR.'/components/com_tienda/elements/tiendacategory.php');

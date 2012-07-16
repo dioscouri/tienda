@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<view title="COM_BILLETS">
+	<view title="COM_TIENDA_MANUFACTURERS_VIEW">
         <message>
-            <![CDATA[COM_BILLETS_TICKETS_VIEW_DESC]]>
+            <![CDATA[COM_TIENDA_MANUFACTURERS_VIEW_DESC]]>
         </message>
     </view>
 </metadata>
