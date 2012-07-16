@@ -176,7 +176,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 	 * @param $update
 	 * @return array
 	 */
-	public function getGeoZones( $zone_id, $geozonetype='2', $zip_code = null, $update = false )
+	public static function getGeoZones( $zone_id, $geozonetype='2', $zip_code = null, $update = false )
 	{
 		$return = array();
 		if (empty($zone_id))

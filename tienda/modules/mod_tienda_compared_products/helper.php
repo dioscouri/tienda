@@ -22,8 +22,8 @@ class modTiendaComparedProductsHelper extends JObject
     {
     	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
         JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$user_id =& JFactory::getUser()->id;	
-		$session = & JFactory::getSession();
+		$user_id = JFactory::getUser()->id;	
+		$session =  JFactory::getSession();
 		
     	$model  = JModel::getInstance( 'ProductCompare', 'TiendaModel' );
      	$model->setState('filter_user', $user_id );

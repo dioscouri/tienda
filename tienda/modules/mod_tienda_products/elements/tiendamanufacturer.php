@@ -11,16 +11,5 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tienda') )
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
 
-class JElementTiendaManufacturer extends JElement
-{
-	var	$_name = 'TiendaManufacturer';
-
-	function fetchElement($name, $value, &$node, $control_name)
-	{
-	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->manufacturer($value, $control_name.'['.$name.']', '', $control_name.$name, true, false, 'Select Manufacturer', '', true );
-		return $list;
-	}
-}
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'elements'.DS.'tiendamanufacturer.php');

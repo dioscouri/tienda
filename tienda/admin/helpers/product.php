@@ -1097,15 +1097,15 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $id
 	 * @return array
 	 */
-	function getCategories( $id )
+	public static function getCategories( $id )
 	{
 		if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
 		{
-			$helper = &$this;
+			$helper = $this;
 		}
 		else
 		{
-			$helper = &TiendaHelperBase::getInstance( 'Product' );
+			$helper = TiendaHelperBase::getInstance( 'Product' );
 		}
 		
 		if ( empty( self::$categoriesxref[$id] ) )
