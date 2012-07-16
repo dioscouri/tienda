@@ -58,7 +58,9 @@ class modTiendaCategoriesHelper extends JObject
 		{
 			foreach ($items as $item)
 			{
-				$item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($item->category_id, true);
+				Tienda::load('TiendaHelperRoute', 'helpers.route');
+				
+				$item->itemid = TiendaHelperRoute::category($item->category_id, true);
 				if (empty($item->itemid))
 				{
 					$item->itemid = $this->params->get('itemid');

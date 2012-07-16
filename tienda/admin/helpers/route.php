@@ -29,7 +29,7 @@ class TiendaHelperRoute extends DSCHelperRoute
      * @param array $needles
      * @return unknown_type
      */
-   /* public static function findItemid($needles=array('view'=>'products', 'task'=>'', 'filter_category'=>'', 'id'=>''))
+   public static function findItemid($needles=array('view'=>'products', 'task'=>'', 'filter_category'=>'', 'id'=>''))
     {
         // populate the array of menu items for the extension
         if (empty(self::$itemids))
@@ -124,7 +124,7 @@ class TiendaHelperRoute extends DSCHelperRoute
 
         return null;
     }
-    */
+    
     /**
      * Generates the routed url for a product
      * and attaches the itemid if possible

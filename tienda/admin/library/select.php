@@ -104,7 +104,7 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'category_id', 'category_name' );
 			$list[] =  self::option('none', "- ".JText::_('COM_TIENDA_ORPHAN_PRODUCTS')." -", 'category_id', 'category_name' );
 		}
- 	 	if ($allowNone) {
+ 	 if ($allowNone) {
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 			$root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();
 			$list[] =  self::option( $root->category_id, "- ".JText::_( $title_none )." -", 'category_id', 'category_name' );
@@ -112,6 +112,7 @@ class TiendaSelect extends DSCSelect
 
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		
 		$model = JModel::getInstance( 'Categories', 'TiendaModel' );
 		$model->setState('order', 'tbl.lft');
 		if (intval($enabled) == '1')

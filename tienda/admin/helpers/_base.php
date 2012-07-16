@@ -191,10 +191,10 @@ class TiendaHelperBase extends DSCHelper
 	 */
 	public static function currency($amount, $currency='', $options='')
 	{
-		return parent::currency($amount, $currency, $options);	
-		/*$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
+			
+		$currency_helper = TiendaHelperBase::getInstance( 'Currency' );
 		$amount = $currency_helper->_($amount, $currency, $options);
-		return $amount;*/
+		return $amount;
 	}
 
 	/**

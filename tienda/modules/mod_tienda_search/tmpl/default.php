@@ -10,7 +10,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
-
+// for some reason adding the models from the front end makes it so it will load the select list something is wierd
+JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
 Tienda::load( 'TiendaSelect', 'library.select' );
 ?>
 
