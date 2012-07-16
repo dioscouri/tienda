@@ -15,28 +15,7 @@ Tienda::load( 'TiendaViewBase', 'views._base', array( 'site'=>'site', 'type'=>'c
 
 class TiendaViewCarts extends TiendaViewBase  
 {
-    /**
-     * 
-     * @param $tpl
-     * @return unknown_type
-     */
-    function getLayoutVars($tpl=null) 
-    {  
-        $layout = $this->getLayout();
-        switch(strtolower($layout))
-        {
-            case "view":
-                $this->_form($tpl);
-              break;
-            case "form":
-                $this->_form($tpl);
-              break;
-            case "default":
-            default:
-                $this->_default($tpl);
-              break;
-        }
-    }
+    
     
     /**
 	 * Basic commands for displaying a list
@@ -44,10 +23,9 @@ class TiendaViewCarts extends TiendaViewBase
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-	function _default($tpl='')
+ /*	function _default($tpl='')
 	{
-		Tienda::load( 'TiendaSelect', 'library.select' );
-		Tienda::load( 'TiendaGrid', 'library.grid' );
+		
 				
 		// form
 			$validate = JUtility::getToken();
@@ -57,5 +35,5 @@ class TiendaViewCarts extends TiendaViewBase
 			$form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
 			$this->assign( 'form', $form );
     }
-    
+   */ 
 }

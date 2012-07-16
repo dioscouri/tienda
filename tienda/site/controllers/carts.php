@@ -26,7 +26,7 @@ class TiendaControllerCarts extends TiendaController
 
         $this->set('suffix', 'carts');
         
-        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+        $cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 		
 		// create the order object
@@ -46,8 +46,8 @@ class TiendaControllerCarts extends TiendaController
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
 
-        $session =& JFactory::getSession();
-        $user =& JFactory::getUser();
+        $session = JFactory::getSession();
+        $user = JFactory::getUser();
         
         $state['filter_user'] = $user->id;
         if (empty($user->id))
@@ -70,11 +70,11 @@ class TiendaControllerCarts extends TiendaController
      * (non-PHPdoc)
      * @see tienda/admin/TiendaController::display()
      */
-    function display()
+    function display($cachable=false, $urlparams = false)
     {
         Tienda::load('TiendaHelperCarts', 'helpers.carts');
         Tienda::load( "TiendaHelperBase", 'helpers._base' );
-        $cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+        $cart_helper = TiendaHelperBase::getInstance( 'Carts' );
         $cart_helper->fixQuantities();
         
         if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
@@ -99,15 +99,15 @@ class TiendaControllerCarts extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
 
-        $items =& $model->getList();        
+        $items = $model->getList();        
         $show_tax = Tienda::getInstance()->get('display_prices_with_tax');  		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() ); 
 			
         if (!empty($items))
         {
 	        //trigger the onDisplayCartItem for each cartitem
-	        $dispatcher =& JDispatcher::getInstance();
-	        $user       =& JFactory::getUser();
+	        $dispatcher = JDispatcher::getInstance();
+	        $user       = JFactory::getUser();
 	        
         	if( !$user->id ) // saves session id (will be needed after logging in)
 			{
@@ -170,7 +170,7 @@ class TiendaControllerCarts extends TiendaController
         }
         
         // saving the session id which will use to update the cart
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         
         // After login, session_id is changed by Joomla, so store this for reference 
     	$session->set( 'old_sessionid', $session->getId() );
@@ -219,7 +219,7 @@ class TiendaControllerCarts extends TiendaController
         
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
         // once the extra field(s) have been set, they will get automatically saved
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array( $item, $values ) );
         foreach ($results as $result)
         {
@@ -231,7 +231,7 @@ class TiendaControllerCarts extends TiendaController
          
         // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
         $results = array();
-        $dispatcher =& JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         $results = $dispatcher->trigger( "onBeforeAddToCart", array( $item, $values ) );
 
         for ($i=0; $i<count($results); $i++)
@@ -277,7 +277,7 @@ class TiendaControllerCarts extends TiendaController
         
         jimport( 'joomla.application.module.helper' );
 
-        $modules    =& JModuleHelper::_load();
+        $modules    = JModuleHelper::_load();
         if (empty($modules))
         {
             echo ( json_encode( array('msg'=>'') ) );
@@ -288,7 +288,7 @@ class TiendaControllerCarts extends TiendaController
         {
             if ($module->module == 'mod_tienda_cart')
             {
-                $mainframe =& JFactory::getApplication();
+                $mainframe = JFactory::getApplication();
                 $mainframe->setUserState( 'mod_usercart.isAjax', '1' );
 
                 echo ( json_encode( array('msg'=>JModuleHelper::renderModule($module)) ) );
@@ -309,8 +309,8 @@ class TiendaControllerCarts extends TiendaController
         $model 	= $this->getModel( strtolower(TiendaHelperCarts::getSuffix()) );
         $this->_setModelState();
 
-        $user =& JFactory::getUser();
-        $session =& JFactory::getSession();
+        $user = JFactory::getUser();
+        $session = JFactory::getSession();
 
         $cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
         $product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
@@ -467,7 +467,7 @@ class TiendaControllerCarts extends TiendaController
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();
-		$items =& $model->getList();	
+		$items = $model->getList();	
 		$show_tax = Tienda::getInstance()->get('display_prices_with_tax');  
 		
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
@@ -616,7 +616,7 @@ class TiendaControllerCarts extends TiendaController
 		$response['error'] = '';
 
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -743,7 +743,7 @@ private function addCouponCodes($values)
 	function getOrderSummary()
 	{
 		// get the order object
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
 
@@ -846,7 +846,7 @@ private function addCouponCodes($values)
 	function getTotalAmountDue()
 	{
 		// get the order object
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		$model = $this->getModel('carts');
 		$view = $this->getView( 'carts', 'html' );
@@ -889,7 +889,7 @@ private function addCouponCodes($values)
 		$response['error'] = '';
 
 		// get the order object so we can populate it
-		$order =& $this->_order; // a TableOrders object (see constructor)
+		$order = $this->_order; // a TableOrders object (see constructor)
 
 		// bind what you can from the post
 		$order->bind( $values );
@@ -937,7 +937,7 @@ private function addCouponCodes($values)
 	 */
 	function saveOrderCoupons()
 	{
-		$order =& $this->_order;
+		$order = $this->_order;
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 
 		$error = false;

@@ -429,7 +429,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 
 		$suffix = strtolower( TiendaHelperCarts::getSuffix() );
-		$model = &JModel::getInstance( 'Carts', 'TiendaModel' );
+		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($suffix)
 		{

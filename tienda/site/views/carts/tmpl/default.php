@@ -19,7 +19,7 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
     <span><?php echo JText::_('COM_TIENDA_MY_SHOPPING_CART'); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
+    <?php if ($menu = TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
     
 <div class="cartitems">
     <?php if (!empty($items)) { ?>
