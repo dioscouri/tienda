@@ -40,12 +40,12 @@ class TiendaControllerProductCompare extends TiendaController
 	{
 		$state = parent::_setModelState();
 		$model = $this->getModel( $this->get('suffix') );
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$state['filter_user'] = $user->id;
 		if (empty($user->id))
 		{
-			$session =& JFactory::getSession();
+			$session = JFactory::getSession();
 			$state['filter_session'] = $session->getId();
 		}
 
@@ -60,13 +60,13 @@ class TiendaControllerProductCompare extends TiendaController
 	 * (non-PHPdoc)
 	 * @see tienda/admin/TiendaController::display()
 	 */
-	function display()
+	function display($cachable=false, $urlparams = false)
 	{
 		JRequest::setVar( 'view', $this->get('suffix') );
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
 		$model  = $this->getModel( $this->get('suffix') );
 		$this->_setModelState();
-		$items =& $model->getList();
+		$items = $model->getList();
 
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$view->assign( 'items', $items );
@@ -87,7 +87,7 @@ class TiendaControllerProductCompare extends TiendaController
 	function addProductToCompare()
 	{
 		// saving the session id which will use to update the cart
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$userid = JFactory::getUser()->id;
 
 		// After login, session_id is changed by Joomla, so store this for reference
@@ -196,7 +196,7 @@ class TiendaControllerProductCompare extends TiendaController
 
 		jimport( 'joomla.application.module.helper' );
 
-		$modules    =& JModuleHelper::_load();
+		$modules    = JModuleHelper::_load();
 		if (empty($modules))
 		{
 			echo ( json_encode( array('msg'=>'') ) );
@@ -228,8 +228,8 @@ class TiendaControllerProductCompare extends TiendaController
 		$model 	= $this->getModel( strtolower(TiendaHelperCarts::getSuffix()) );
 		$this->_setModelState();
 
-		$user =& JFactory::getUser();
-		$session =& JFactory::getSession();
+		$user = JFactory::getUser();
+		$session = JFactory::getSession();
 
 		$cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
 		$product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
@@ -396,7 +396,7 @@ class TiendaControllerProductCompare extends TiendaController
 	{
 		$model  = $this->getModel( $this->get('suffix') );
 		$this->_setModelState();
-		$items =& $model->getList();
+		$items = $model->getList();
 		$show_tax = Tienda::getInstance()->get('display_prices_with_tax');
 
 		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
