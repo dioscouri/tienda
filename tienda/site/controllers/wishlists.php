@@ -47,8 +47,8 @@ class TiendaControllerWishlists extends TiendaController
             Tienda::load( "TiendaHelperRoute", 'helpers.route' );
             $router = new TiendaHelperRoute(); 
             $url = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
-            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
-            $redirect = JRoute::_( $redirect, false );
+            Tienda::load( "TiendaHelperUser", 'helpers.user' );
+            $redirect = JRoute::_( TiendaHelperUser::getUserLoginUrl( $url ), false );
             JFactory::getApplication()->redirect( $redirect );
             return; 
         }

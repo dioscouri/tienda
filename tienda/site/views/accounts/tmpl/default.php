@@ -6,7 +6,7 @@
 	<span><?php echo JText::_('COM_TIENDA_MY_PROFILE'); ?></span>
 </div>
 
-	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+	<?php if ($menu = TiendaMenu::getInstance()) { $menu->display(); } ?>
 		
 <table style="width: 100%;">
 <tr>
@@ -140,7 +140,7 @@
 	
 		<?php
 		$modules = JModuleHelper::getModules("tienda_dashboard_main");
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
 		$attribs 	= array();
 		$attribs['style'] = 'xhtml';

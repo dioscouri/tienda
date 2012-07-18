@@ -20,7 +20,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * @param int $userid
 	 * @return obj TiendaAddresses if found, false otherwise
 	 */
-	function getBasicInfo( $userid )
+	public static function getBasicInfo( $userid )
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
 		$row = JTable::getInstance('UserInfo', 'TiendaTable');

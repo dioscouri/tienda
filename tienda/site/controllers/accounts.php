@@ -21,8 +21,8 @@ class TiendaControllerAccounts extends TiendaController
         if (empty(JFactory::getUser()->id))
         {
             $url = JRoute::_( "index.php?option=com_tienda&view=accounts" );
-            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
-            $redirect = JRoute::_( $redirect, false );
+            Tienda::load( "TiendaHelperUser", 'helpers.user' );
+            $redirect = JRoute::_( TiendaHelperUser::getUserLoginUrl( $url ), false );
             JFactory::getApplication()->redirect( $redirect );
             return;
         }
@@ -51,7 +51,7 @@ class TiendaControllerAccounts extends TiendaController
         return $state;
     }
     
-    function display()
+    function display($cachable=false, $urlparams = false)
     {
         $uri = JURI::getInstance();
         
@@ -60,7 +60,12 @@ class TiendaControllerAccounts extends TiendaController
         $view->set('_doTask', true);
         $view->setLayout('default');
         
-        $url = "index.php?option=com_user&view=user&task=edit";
+    		if (version_compare(JVERSION, '1.6.0', 'ge')) {
+					$url = "index.php?option=com_users&view=user&task=user.edit";
+				}
+				else {
+					$url = "index.php?option=com_user&view=user&task=edit";
+				}
         
         Tienda::load( "TiendaHelperBase", 'helpers._base' );
         $helper = TiendaHelperBase::getInstance( 'Ambra' );
@@ -70,7 +75,7 @@ class TiendaControllerAccounts extends TiendaController
         }
         $view->assign( 'url_profile', $url );
         
-        parent::display();
+        parent::display($cachable, $urlparams);
     }
         
     /**

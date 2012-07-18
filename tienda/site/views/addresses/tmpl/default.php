@@ -11,7 +11,7 @@
     <span><?php echo JText::_('COM_TIENDA_MANAGE_YOUR_ADDRESSES'); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance() && $tmpl == '') { $menu->display(); } ?>
+    <?php if ($menu = TiendaMenu::getInstance() && $tmpl == '') { $menu->display(); } ?>
 
 
 <form action="<?php echo JRoute::_( @$form['action'].$tmpl )?>" method="post" name="adminForm" enctype="multipart/form-data">
