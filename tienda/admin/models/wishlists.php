@@ -132,7 +132,7 @@ class TiendaModelWishlists extends TiendaModelEav
 		$query->select( $field );
 	}
 
-	public function getList($refresh=false)
+	public function getList($refresh=false, $getEav = true, $options = array())
 	{
 		static $pa, $pao;
 
@@ -141,8 +141,8 @@ class TiendaModelWishlists extends TiendaModelEav
 
 		Tienda::load( "TiendaHelperUser", 'helpers.user' );
 		Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-		$user_helper = &TiendaHelperBase::getInstance( 'User' );
-		$product_helper = &TiendaHelperBase::getInstance( 'Product' );
+		$user_helper = TiendaHelperBase::getInstance( 'User' );
+		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 
 		if (empty( $this->_list ))
 		{

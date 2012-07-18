@@ -37,8 +37,8 @@ class TiendaControllerWishlists extends TiendaController
         $model = $this->getModel( $this->get('suffix') );
         $ns = $this->getNamespace();
 
-        $session =& JFactory::getSession();
-        $user =& JFactory::getUser();
+        $session = JFactory::getSession();
+        $user = JFactory::getUser();
         
         $state['filter_user'] = $user->id;
         if (empty($user->id))
@@ -64,7 +64,7 @@ class TiendaControllerWishlists extends TiendaController
      * (non-PHPdoc)
      * @see TiendaController::display()
      */
-    function display()
+    function display( $cachable = false, $urlparams = '')
     {
         $model  = $this->getModel( $this->get('suffix') );
         $this->_setModelState();

@@ -1,22 +1,23 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
-JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
-JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
-JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
-Tienda::load( 'TiendaGrid', 'library.grid' );
-$items = @$this->items;
-$state = @$this->state;
-Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-$router = new TiendaHelperRoute();
-Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	JHTML::_('script', 'joomla.javascript.js', 'includes/js/');
+	Tienda::load( 'TiendaGrid', 'library.grid' );
+	$items = @$this->items;
+	$state = @$this->state;
+	Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+	$router = new TiendaHelperRoute();
+	Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+	$menu = TiendaMenu::getInstance( @$this->submenu );
 ?>
 
 <div class='componentheading'>
     <span><?php echo JText::_('COM_TIENDA_MY_WISHLIST'); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance( @$this->submenu )) { $menu->display(); } ?>
+    <?php if( $menu ) { $menu->display(); } ?>
     
 <div class="wishlistitems">
     <?php if (!empty($items)) { ?>
