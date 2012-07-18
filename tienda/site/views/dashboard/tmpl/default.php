@@ -1,14 +1,18 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $user = JFactory::getUser(); ?>
-<?php Tienda::load( "TiendaHelperBase", 'helpers._base' ); ?>
-<?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
+<?php 
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	$user = JFactory::getUser();
+	Tienda::load( "TiendaHelperBase", 'helpers._base' );
+	$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
+	$menu = TiendaMenu::getInstance();
+?>
+
 <div class='componentheading'>
 	<span><?php echo JText::_('COM_TIENDA_MY_ACCOUNT'); ?></span>
 </div>
 
-	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+	<?php if ($menu) { $menu->display(); } ?>
 		
 <table style="width: 100%;">
 <tr>
@@ -74,7 +78,7 @@
         
 		<?php
 		$modules = JModuleHelper::getModules("tienda_dashboard_main");
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
 		$attribs 	= array();
 		$attribs['style'] = 'xhtml';

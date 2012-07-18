@@ -73,7 +73,7 @@ class TiendaControllerOrders extends TiendaController
      * (non-PHPdoc)
      * @see tienda/admin/TiendaController#display($cachable)
      */
-    function display()
+    function display($cachable = false, $urlparams = '')
     {
         if (empty(JFactory::getUser()->id))
         {
@@ -99,7 +99,7 @@ class TiendaControllerOrders extends TiendaController
         $view->setLayout( 'view' );
         JRequest::setVar( 'view', $this->get('suffix') );
         JRequest::setVar( 'layout', 'default' );
-        parent::display();
+        parent::display( $cachable, $urlparams );
     }
     
     /**

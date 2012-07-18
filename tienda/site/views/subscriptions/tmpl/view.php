@@ -1,22 +1,22 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $form = @$this->form; ?>
-<?php $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
-<?php $histories = Tienda::getClass( 'TiendaHelperSubscription', 'helpers.subscription' )->getHistory( $row->subscription_id ); ?>
-
-<?php Tienda::load( 'TiendaGrid', 'library.grid' );?>
+<?php 
+	defined('_JEXEC') or die('Restricted access');
+	$form = @$this->form;
+	$row = @$this->row; JFilterOutput::objectHTMLSafe( $row );
+	$histories = Tienda::getClass( 'TiendaHelperSubscription', 'helpers.subscription' )->getHistory( $row->subscription_id );
+	Tienda::load( 'TiendaGrid', 'library.grid' );
+	$menu = TiendaMenu::getInstance();
+?>
 
 <div class='componentheading'>
 	<span><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_DETAILS'); ?></span>
 </div>
 
-    <?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
-    <?php
-    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=subscriptions")."'>".JText::_('COM_TIENDA_RETURN_TO_LIST')."</a>";
-    ?>
+    <?php 
+    	if ($menu ) { $menu->display(); }
+	    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=subscriptions")."'>".JText::_('COM_TIENDA_RETURN_TO_LIST')."</a>";
 
-    <?php
-        // fire plugin event here to enable extending the form
-        JDispatcher::getInstance()->trigger('onBeforeDisplaySubscriptionViewSubscriptionInfo', array( $row ) );                    
+	    // fire plugin event here to enable extending the form
+      JDispatcher::getInstance()->trigger('onBeforeDisplaySubscriptionViewSubscriptionInfo', array( $row ) );                    
     ?>
     
     <div id="subscription_info">
@@ -39,9 +39,7 @@
     <?php
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onAfterDisplaySubscriptionViewSubscriptionInfo', array( $row ) );                    
-    ?>
-    
-    <?php
-        // fire plugin event here to enable extending the form
+
+         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onAfterDisplaySubscriptionView', array( $row ) );                    
     ?>

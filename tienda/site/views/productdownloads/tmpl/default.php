@@ -1,14 +1,18 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $state = @$this->state; ?>
-<?php $form = @$this->form; ?>
-<?php $items = @$this->items; ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	$state = @$this->state;
+	$form = @$this->form;
+	$items = @$this->items;
+	$menu = TiendaMenu::getInstance();
+?>
+
 <div class='componentheading'>
 	<span><?php echo JText::_('COM_TIENDA_MY_DOWNLOADS'); ?></span>
 </div>
 
-	<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+	<?php if ( $menu ) { $menu->display(); } ?>
 		
 <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">
     
