@@ -5,6 +5,9 @@
 	$items = @$this->items;
 	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
 	$display_subnum = Tienda::getInstance()->get( 'display_subnum', 0 ); 
+	$create_user_link = "index.php?option=com_users&task=add";
+	if (version_compare(JVERSION, '1.6.0', 'ge'))
+		$create_user_link = "index.php?option=com_users&task=user.add";
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -14,9 +17,10 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php $link = "index.php?option=com_users&task=add"; ?>
-                <?php $button = "<input type='button' class='button' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />"; ?>
-                <?php echo TiendaUrl::popup( $link, $button, array('update' => true) ); ?>
+                <?php
+                	$button = "<input type='button' class='button' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />";
+                	echo TiendaUrl::popup( $create_user_link, $button, array('update' => true) );
+                ?>
             </td>
             <td nowrap="nowrap">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
