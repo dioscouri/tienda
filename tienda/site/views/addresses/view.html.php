@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaViewBase', 'views._base', array( 'site'=>'site', 'type'=>'components', 'ext'=>'com_tienda' ) );
 
 class TiendaViewAddresses extends TiendaViewBase 
-{
+{	
 	function _default($tpl='', $onlyPagination = false)
 	{
         parent::_default($tpl, $onlyPagination );

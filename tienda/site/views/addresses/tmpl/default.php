@@ -1,17 +1,20 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $state = @$this->state; ?>
-<?php $form = @$this->form; ?>
-<?php $items = @$this->items; ?>
-<?php $tmpl = @$this->tmpl; ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	$state = @$this->state;
+	$form = @$this->form;
+	$items = @$this->items;
+	$tmpl = @$this->tmpl;
+	$menu = TiendaMenu::getInstance();
+?>
 
 <div class='componentheading'>
     <span><?php echo JText::_('COM_TIENDA_MANAGE_YOUR_ADDRESSES'); ?></span>
 </div>
 
-    <?php if ($menu = TiendaMenu::getInstance() && $tmpl == '') { $menu->display(); } ?>
+    <?php if ($menu && $tmpl == '') { $menu->display(); } ?>
 
 
 <form action="<?php echo JRoute::_( @$form['action'].$tmpl )?>" method="post" name="adminForm" enctype="multipart/form-data">
@@ -25,7 +28,7 @@
                 <?php echo TiendaSelect::addressaction( '', 'apply_action', $attribs, 'apply_action', true, false, 'COM_TIENDA_SELECT_ACTION' ); ?>
             </td>
             <td nowrap="nowrap">
-                <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=add".$tmpl); ?>">
+                <a href="<?php echo JRoute::_("index.php?option=com_tienda&view=addresses&task=edit".$tmpl); ?>">
                     <?php echo JText::_('COM_TIENDA_ENTER_A_NEW_ADDRESS'); ?>
                 </a>
             </td>
