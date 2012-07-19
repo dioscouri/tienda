@@ -56,7 +56,10 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$response['error'] = '0';
 		$response['msg'] = $this->getRelationshipsHtml( null, $product_id );
 
-		echo ( json_encode( $response ) );
+		echo json_encode($response);
+
+		// Close the application.
+		JFactory::getApplication()->close(); 
 	}
 	
 	/**
@@ -151,8 +154,11 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$response['error'] = '0';
 		$response['msg'] = $this->getRelationshipsHtml( null,  $product_id );
 
-		echo ( json_encode( $response ) );
-		return;
+		
+		echo json_encode($response);
+
+		// Close the application.
+		JFactory::getApplication()->close(); 
 	}
 	
 	/**
@@ -175,8 +181,10 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$response['default_image'] = TiendaHelperProduct::getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 ) );
 		$response['default_image_name'] = $row->product_full_image;
 
-		echo ( json_encode( $response ) );
-		return;
+		echo json_encode($response);
+
+		// Close the application.
+		JFactory::getApplication()->close(); 
 	}
 	
 	/**
@@ -193,7 +201,9 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		
 		echo json_encode($products);
 		
-		return;
+
+		// Close the application.
+		JFactory::getApplication()->close(); 
 	}
 
 }
