@@ -58,8 +58,8 @@ class TiendaViewEavAttributes extends TiendaViewBase
 		         	// terms
 		         	$product = JTable::getInstance('Products', 'TiendaTable');
 		         	$product->load(@$item->eaventity_id);
-					$elementArticle_product 		= $productModel->_fetchElement( 'eaventity_id',@$product->product_name) ;
-					$resetArticle_product		= $productModel->_clearElement( 'eaventity_id', '0' );
+					$elementArticle_product 		= $productModel->fetchElement( 'eaventity_id',@$product->product_name) ;
+					$resetArticle_product		= $productModel->clearElement( 'eaventity_id', '0' );
 					$this->assign('elementproduct', $elementArticle_product);
 					$this->assign('resetproduct', $resetArticle_product);
 			}    		
