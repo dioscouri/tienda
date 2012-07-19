@@ -1223,7 +1223,7 @@ class TiendaControllerProducts extends TiendaController
 	{
 		$html = '';
 		
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
 		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
 		$selectsort = JRequest::getVar( 'default_selectsort', '' );
 		$model->setstate( 'order', $selectsort );
@@ -1790,17 +1790,17 @@ class TiendaControllerProducts extends TiendaController
 	 */ 
 	function addReview( )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 		$productreviews = JTable::getInstance( 'productcomments', 'TiendaTable' );
 		$post = JRequest::get( 'post' );
 		$product_id = $post['product_id'];
 		$Itemid = $post['Itemid'];
-		$user = &JFactory::getUser( );
+		$user = JFactory::getUser( );
 		$valid = true;
 		$this->messagetype = 'message';
 		
-		//set encase validation fails
+		//set in case validation fails
 		$linkAdd = '';
 		$linkAdd .= '&rn=' . base64_encode( $post['user_name'] );
 		$linkAdd .= '&re=' . base64_encode( $post['user_email'] );
@@ -2022,7 +2022,7 @@ class TiendaControllerProducts extends TiendaController
 	
 	function sendAskedQuestion( )
 	{
-		$config = &Tienda::getInstance( );
+		$config = Tienda::getInstance( );
 		$post = JRequest::get( 'post' );
 		
 		$valid = true;

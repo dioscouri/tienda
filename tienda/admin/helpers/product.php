@@ -1754,20 +1754,21 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$items = $db->loadResultArray( );
 		return $items;
 	}
+
 	/**
 	 * Gets user's emails from Product comment table
 	 * 
 	 * @param int $product_id    
 	 * @return array
 	 */
-	function getUserEmailForReview( $product_id )
+	public static function getUserEmailForReview( $product_id )
 	{
 		if ( empty( $product_id ) )
 		{
 			return array( );
 		}
 		Tienda::load( 'TiendaQuery', 'library.query' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR .'/components/com_tienda/tables' );
 		$table = JTable::getInstance( 'productcomments', 'TiendaTable' );
 		
 		$query = new TiendaQuery( );
@@ -1789,11 +1790,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $cid - comment id
 	 * @return boolean
 	 */
-	function isFeedbackAlready( $uid, $cid )
+	public static function isFeedbackAlready( $uid, $cid )
 	{
 		
 		Tienda::load( 'TiendaQuery', 'library.query' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 		$table = JTable::getInstance( 'productcommentshelpfulness', 'TiendaTable' );
 		
 		$query = new TiendaQuery( );
