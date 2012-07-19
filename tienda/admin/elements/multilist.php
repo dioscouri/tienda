@@ -34,11 +34,10 @@ class JFakeElementTiendaMultiList extends JFakeElementBase
 		
 	var	$_name = 'TiendaMultiList';
 	
-	public function getInput($name, $value, $node, $control_name) 
+	public function getInput() 
 	{
-		$this->fetchElement($name, $value, $node, $control_name);
+		return JFakeElementTiendaMultiList::fetchElement($this->name, $this->value, $this->element, $this->options['control']);
 	}
-	
 	
 	public function fetchElement($name, $value, &$node, $control_name)
         {
