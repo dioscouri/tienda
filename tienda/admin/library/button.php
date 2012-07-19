@@ -23,10 +23,7 @@ class JButtonTienda extends DSCButton{
 	 */
 	var $_name = 'Tienda';
 
-	function fetchButton( $type='Tienda', $name = '', $text = '', $task = '', $list = true, $hideMenu = false, $taskName = 'shippingTask' )
-	{
-		parent::fetchButton($type, $name, $text, $task, $list, $hideMenu, $taskName);
-	}
+	
 	/**
 	 * Get the JavaScript command for the button
 	 *
@@ -49,7 +46,7 @@ class JButtonTienda extends DSCButton{
 		if ($list) {
 			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ $hidecode submitTiendabutton('$task', '$taskName')}";
 		} else {
-			$cmd = "javascript:$hidecode submitTiendabutton('$task', '$taskName')";
+			$cmd = "submitTiendabutton('$task', '$taskName')";
 		}
 
 
@@ -69,7 +66,7 @@ class TiendaToolBarHelper extends JToolBarHelper {
 	* @param boolean True if required to include callinh hideMainMenu()
 	* @since 1.0
 	*/
-	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false, $taskName = 'shippingTask')
+	static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false, $taskName = 'shippingTask')
 	{
 		$bar =  JToolBar::getInstance('toolbar');
 
@@ -86,7 +83,7 @@ class TiendaToolBarHelper extends JToolBarHelper {
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function addNew($task = 'add', $alt = 'New', $taskName = 'shippingTask')
+	static function addNew($task = 'add', $alt = 'New', $taskName = 'shippingTask')
 	{
 		$bar =  JToolBar::getInstance('toolbar');
 		// Add a new button
