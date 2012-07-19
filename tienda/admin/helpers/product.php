@@ -1391,7 +1391,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param array $return    The final results stored here
 	 * @return array           An Array of CSVs
 	 */
-	function getCombinations( $string, $traits, $i, &$return )
+	static function getCombinations( $string, $traits, $i, &$return )
 	{
 		if ( $i >= count( $traits ) )
 		{
@@ -1413,7 +1413,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $attributeOptionId
 	 * @return unknown_type
 	 */
-	function getProductAttributeCSVs( $product_id, $attributeOptionId = '0' )
+	static function getProductAttributeCSVs( $product_id, $attributeOptionId = '0' )
 	{
 		$return = array( );
 		$traits = array( );
@@ -1451,7 +1451,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			}
 		}
 		// run recursive function on the data
-		$this->getCombinations( "", $traits, 0, $return );
+		TiendaHelperProduct::getCombinations( "", $traits, 0, $return );
 		
 		// before returning them, loop through each record and sort them
 		$result = array( );
@@ -1474,21 +1474,21 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param $attributeOptionId
 	 * @return unknown_type
 	 */
-	function doProductQuantitiesReconciliation( $product_id, $vendor_id = '0', $attributeOptionId = '0' )
+	static function doProductQuantitiesReconciliation( $product_id, $vendor_id = '0', $attributeOptionId = '0' )
 	{
 		if ( empty( $product_id ) )
 		{
 			return false;
 		}
 		
-		$csvs = $this->getProductAttributeCSVs( $product_id, $attributeOptionId );
+		$csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id, $attributeOptionId );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
 		$model = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
 		$model->setState( 'filter_productid', $product_id );
 		$model->setState( 'filter_vendorid', $vendor_id );
 		$items = $model->getList( );
 		
-		$results = $this->reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
+		$results = TiendaHelperProduct::reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs );
 	}
 	
 	/**
@@ -1500,7 +1500,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 * @param unknown_type $csvs           CSV output from getProductAttributeCSVs
 	 * @return array $items                Array of objects
 	 */
-	function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
+	static function reconcileProductAttributeCSVs( $product_id, $vendor_id, $items, $csvs )
 	{
 		// remove extras
 		$done = array( );
