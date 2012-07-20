@@ -130,7 +130,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin {
 	 *
 	 */
 	function viewConfig() {
-		JLoader::import('com_tienda.library.button', JPATH_ADMINISTRATOR . DS . 'components');
+		JLoader::import('com_tienda.library.button', JPATH_ADMINISTRATOR . '/components');
 		// TODO Finish this
 		//        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
 		//        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
@@ -163,7 +163,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin {
 			return $rates;
 		}
 
-		require_once (dirname(__FILE__) . DS . 'shipping_fedex' . DS . "fedex.php");
+		require_once (dirname(__FILE__) . '/shipping_fedex/fedex.php');
 
 		// Use params to determine which of these is enabled
 		$services = $this -> getServices();

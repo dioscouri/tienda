@@ -63,7 +63,7 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
     {
         $rates = array();
         
-        require_once( dirname( __FILE__ ).DS.'shipping_edeliver'.DS."edeliver.php" );
+        require_once( dirname( __FILE__ ).'/shipping_edeliver/edeliver.php' );
         
         $service_types = $this->params->get('service_type');
         
@@ -94,7 +94,7 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
         $edeliver->setLength($dim);
         $edeliver->setQuantity($quantity);
 	
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$zone = JTable::getInstance('Zones', 'TiendaTable');
 		$zone->load($address->zone_id);
 		
@@ -138,7 +138,7 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
      */
     function viewConfig()
     {
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
         // TODO Finish this
         //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
         //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );

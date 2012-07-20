@@ -10,7 +10,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.'/components' );
 
 class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin 
 {
@@ -27,9 +27,9 @@ class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin
 	
     function edit()
     {
-		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('COM_TIENDA_SAVE'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('COM_TIENDA_CLOSE'), false, 'shippingTask' );
+		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
+		TiendaToolBarHelper::custom( 'save', 'save', 'save', 'COM_TIENDA_SAVE', false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', 'COM_TIENDA_CLOSE', false, 'shippingTask' );
     	
     	$id = JRequest::getInt('id', '0');
     	$sid = TiendaShippingPlugin::getShippingId();

@@ -136,7 +136,7 @@ class plgTiendaShipping_Dhl extends TiendaShippingPlugin
     {
         $rates = array();
         
-        require_once( dirname( __FILE__ ).DS.'shipping_dhl'.DS."dhl.php" );
+        require_once( dirname( __FILE__ ).'/shipping_dhl/dhl.php' );
 
         // Use params to determine which of these is enabled
         $services = $this->getServices();

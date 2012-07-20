@@ -15,33 +15,32 @@ Tienda::load( 'TiendaViewBase', 'views._base' );
 
 class TiendaViewShipping extends TiendaViewBase
 {
-    /**
-     * 
-     * @param $tpl
-     * @return unknown_type
-     */
-    function getLayoutVars($tpl=null) 
-    {
-        $layout = $this->getLayout();
-        switch(strtolower($layout))
-        {
-            case "view":
-                $this->set( 'leftMenu', 'leftmenu_configuration' );
-                $this->_form($tpl);
-              break;
-            case "form":
-                JRequest::setVar('hidemainmenu', '1');
-                $this->_form($tpl);
-              break;
-            case "default":
-            default:
-                $this->set( 'leftMenu', 'leftmenu_configuration' );
-                $this->_default($tpl);
-              break;
-        }
-    }
+	/**
+	 *
+	 * @param $tpl
+	 * @return unknown_type
+	 */
+	function getLayoutVars($tpl=null)
+	{
+		$layout = $this->getLayout();
+		switch(strtolower($layout))
+		{
+			case "view":
+				$this->set( 'leftMenu', 'leftmenu_configuration' );
+				$this->_form($tpl);
+				break;
+			case "form":
+				JRequest::setVar('hidemainmenu', '1');
+				$this->_form($tpl);
+				break;
+			case "default":
+			default:
+				$this->set( 'leftMenu', 'leftmenu_configuration' );
+				$this->_default($tpl);
+				break;
+		}
+	}
 
-    
 	function _form($tpl=null)
 	{
 		$model = $this->getModel();
@@ -75,12 +74,12 @@ class TiendaViewShipping extends TiendaViewBase
 			$view = strtolower( JRequest::getVar('view') );
 			$this->displayTitle( 'Edit '.$view );
 		}
-		
-        // load the plugin
-        $row = $this->getModel()->getItem();
-        $params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
-        $this->assignRef('params',$params);
-        
+
+		// load the plugin
+		$row = $this->getModel()->getItem();
+		$params = new DSCParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+		$this->assignRef('params',$params);
+
 		$this->assign('row', $model->getItem() );
 
 		// load the plugin
@@ -92,7 +91,7 @@ class TiendaViewShipping extends TiendaViewBase
 	{
 	}
 
-	function _viewToolbar()
+	function _viewToolbar($isNew = null)
 	{
 	}
 }

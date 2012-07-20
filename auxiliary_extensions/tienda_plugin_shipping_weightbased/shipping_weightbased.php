@@ -54,8 +54,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		}
 
 		$vars = array();
-		JModel::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'models' );
-		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'tables' );
+		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 		
 		$this->includeTiendaTables();
 		$this->includeCustomModel('ShippingMethodsWeightbased');
@@ -115,11 +115,11 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	{
 		$html = "";
 
-		JModel::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'models' );
-		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'tables' );
-		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('COM_TIENDA_DELETE'), false, 'shippingTask' );
+		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
+		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
+		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', 'COM_TIENDA_NEW', false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', 'COM_TIENDA_DELETE', false, 'shippingTask' );
 		TiendaToolBarHelper::cancel( 'close', 'Close' );
 
 		$vars = new JObject();
@@ -281,7 +281,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	public function getRate( $shipping_method_id, $geozone_id, $weight )
 	{
 		// TODO Give this better error reporting capabilities
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
 		$model->setState('filter_shippingmethod', $shipping_method_id);
 		$model->setState('filter_geozone', $geozone_id);
@@ -342,7 +342,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	{
 		$weight = 0;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		foreach ( $orderItems as $item )
 		{
 			$pid = $item->product_id;
@@ -361,8 +361,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	 */
 	function delete()
 	{
-		JModel::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'models' );
-		JTable::addIncludePath( JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_weightbased'.DS.'tables' );
+		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 		
 		$error = false;
 		$this->messagetype	= '';
@@ -428,7 +428,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		$db->query( $q );
 
 		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$config = JTable::getInstance( 'Config', 'TiendaTable' );
 		$config->load( array( 'config_name'=>'checkWeightbasedPluginTable') );
 		$config->config_name = 'checkWeightbasedPluginTable';

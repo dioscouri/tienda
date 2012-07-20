@@ -60,7 +60,7 @@ class TiendaViewManufacturers extends TiendaViewBase
     {
     	if (!$isNew)
     	{
-        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', JText::_('COM_TIENDA_SAVE_AS'), false);
+        	JToolBarHelper::custom('save_as', 'refresh', 'refresh', 'COM_TIENDA_SAVE_AS', false);
     	}
         parent::_formToolbar($isNew);
     }	

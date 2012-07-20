@@ -63,7 +63,7 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
     {
         $rates = array();
         
-        require_once( dirname( __FILE__ ).DS.'shipping_canada'.DS."canadapost.php" );
+        require_once( dirname( __FILE__ ).'/shipping_canada/canadapost.php' );
          $key = $this->params->get('key');
          $canadaPost= new CanadaPost ($key) ;
         foreach ( $orderItems as $item )
@@ -81,7 +81,7 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 		// $address->city $address->zone_id $address->country_name $address->postal_code
 		//
 	  // $address->city="Delhi";
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$zone = JTable::getInstance('Zones', 'TiendaTable');
 		$zone->load($address->zone_id);
 		$canadaPost->getQuote($address->city, $zone->zone_name, $address->country_name, $address->postal_code);
@@ -109,7 +109,7 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
      */
     function viewConfig()
     {
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
         // TODO Finish this
         //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
         //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );

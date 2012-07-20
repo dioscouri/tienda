@@ -12,9 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaViewBase', 'views._base');
-JLoader::import('com_tienda.library.select', JPATH_ADMINISTRATOR . DS . 'components');
-JLoader::import('com_tienda.library.grid', JPATH_ADMINISTRATOR . DS . 'components');
-JLoader::import('com_tienda.library.url', JPATH_ADMINISTRATOR . DS . 'components');
+Tienda::load('TiendaSelect', 'library.select');
+Tienda::load('TiendaGrid', 'library.grid');
+Tienda::load('TiendaUrl', 'library.url');
 
 class TiendaViewOrders extends TiendaViewBase
 {
@@ -29,8 +29,8 @@ class TiendaViewOrders extends TiendaViewBase
 		switch(strtolower($layout))
 		{
 			case "confirmdelete":
-				JToolBarHelper::deleteList(JText::_('COM_TIENDA_VALID_DELETE_ITEMS'));
-				JToolBarHelper::cancel('close', JText::_('COM_TIENDA_CLOSE'));
+				JToolBarHelper::deleteList( 'COM_TIENDA_VALID_DELETE_ITEMS' );
+				JToolBarHelper::cancel('close', 'COM_TIENDA_CLOSE');
 				$validate = JUtility::getToken();
 				$form = array();
 				$controller = strtolower($this->get('_controller', JRequest::getVar('controller', JRequest::getVar('view'))));
@@ -44,6 +44,7 @@ class TiendaViewOrders extends TiendaViewBase
 
 			case "view":
 				$this->_form($tpl);
+				echo $tpl.'#';
 				break;
 			case "form_addresses":
 				JRequest::setVar('hidemainmenu', '1');
@@ -72,14 +73,13 @@ class TiendaViewOrders extends TiendaViewBase
 	 */
 	function _defaultToolbar()
 	{
-		JToolBarHelper::custom('batchedit', "forward", "forward", JText::_('COM_TIENDA_BATCH_EDIT'), false);
+		JToolBarHelper::custom('batchedit', "forward", "forward", 'COM_TIENDA_BATCH_EDIT', false);
 		JToolBarHelper::divider();
-		JToolBarHelper::deleteList(JText::_('COM_TIENDA_VALID_DELETE_ITEMS'));		
+		JToolBarHelper::deleteList('COM_TIENDA_VALID_DELETE_ITEMS');		
 		$class_name = 'new';
-		$text = JText::_('COM_TIENDA_NEW');
 		$url = "index.php?option=com_tienda&view=pos";
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('link', $class_name, $text, $url);
+		$bar->appendButton('link', $class_name, 'COM_TIENDA_NEW', $url);
 	}
 
 	/**
@@ -89,9 +89,9 @@ class TiendaViewOrders extends TiendaViewBase
 	function _batchedit($tpl=null)
 	{
 		// Import necessary helpers + library files
-		JLoader::import('com_tienda.library.select', JPATH_ADMINISTRATOR . DS . 'components');
-		JLoader::import('com_tienda.library.grid', JPATH_ADMINISTRATOR . DS . 'components');
-		JLoader::import('com_tienda.library.url', JPATH_ADMINISTRATOR . DS . 'components');
+		JLoader::import('com_tienda.library.select', JPATH_ADMINISTRATOR.'/components');
+		JLoader::import('com_tienda.library.grid', JPATH_ADMINISTRATOR.'/components');
+		JLoader::import('com_tienda.library.url', JPATH_ADMINISTRATOR.'/components');
 		$model = $this->getModel();
 
 		// set the model state
@@ -142,7 +142,7 @@ class TiendaViewOrders extends TiendaViewBase
 
 		$this->displayTitle('Edit Addresses');
 		JToolBarHelper::save('saveAddresses');
-		JToolBarHelper::cancel('closeEditAddresses', JText::_('COM_TIENDA_CLOSE'));
+		JToolBarHelper::cancel('closeEditAddresses', 'COM_TIENDA_CLOSE');
 
 		// form
 		$validate = JUtility::getToken();

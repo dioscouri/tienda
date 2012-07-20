@@ -28,13 +28,13 @@ class TiendaViewElementImage extends JView
 {
 	function display()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		
 		// Initialize variables
-		$db			= &JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
-		$document	= & JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->setTitle('Image Selection');
 
 		JHTML::_('behavior.modal');
@@ -52,8 +52,8 @@ class TiendaViewElementImage extends JView
 
 		$lists = $this->_getLists();
 
-		$rows = &$this->get('List');
-		$page = &$this->get('Pagination');
+		$rows = $this->get('List');
+		$page = $this->get('Pagination');
 		JHTML::_('behavior.tooltip');
 		
 		$config = JComponentHelper::getParams('com_media');
@@ -146,10 +146,10 @@ class TiendaViewElementImage extends JView
 
 	function _getLists()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
-		$db		= &JFactory::getDBO();
+		$db		= JFactory::getDBO();
 
 		// Get some variables from the request
 		$option				= JRequest::getCmd( 'option' );

@@ -49,7 +49,7 @@ class TiendaViewConfig extends TiendaViewBase
 		
 		// add toolbar buttons
 			JToolBarHelper::save('save');
-			JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
+			JToolBarHelper::cancel( 'close', 'COM_TIENDA_CLOSE' );
 			
 		// plugins
         	$filtered = array();

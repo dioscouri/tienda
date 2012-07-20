@@ -130,7 +130,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		$tracking_id = JRequest::getVar('tracking_id');
 		//$tracking_id = '3251026119'; <-- ?
 
-		require_once (dirname(__FILE__) . DS . 'shipping_ups' . DS . "ups.php");
+		require_once (dirname(__FILE__) . '/shipping_ups/ups.php');
 
 		$shipAccount = $this -> params -> get('account');
 		$key = $this -> params -> get('key');
@@ -203,7 +203,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 	 * @return unknown_type
 	 */
 	function sendShipment($order) {
-		require_once (dirname(__FILE__) . DS . 'shipping_ups' . DS . "ups.php");
+		require_once (dirname(__FILE__) . '/shipping_ups/ups.php');
 
 		$shipAccount = $this -> params -> get('account');
 		$meter = $this -> params -> get('meter');
@@ -318,7 +318,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 	 *
 	 */
 	function viewConfig() {
-		JLoader::import('com_tienda.library.button', JPATH_ADMINISTRATOR . DS . 'components');
+		JLoader::import('com_tienda.library.button', JPATH_ADMINISTRATOR . '/components');
 		TiendaToolBarHelper::cancel('close', 'Close');
 
 		$vars = new JObject();
@@ -356,7 +356,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		if (empty($address))
 			return $rates;
 
-		require_once (dirname(__FILE__) . DS . 'shipping_ups' . DS . "ups.php");
+		require_once (dirname(__FILE__) . '/shipping_ups/ups.php');
 
 		// Use params to determine which of these is enabled
 		$services = $this -> getServices();
@@ -561,7 +561,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 			header("Accept-Ranges: bytes");
 			header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
 			header("Content-Transfer-Encoding: binary");
-			header("Content-Length: " . filesize($path . DS . $file));
+			header("Content-Length: " . filesize($path . '/' . $file));
 
 			// Output file by chunks
 			error_reporting(0);
@@ -569,7 +569,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 				set_time_limit(0);
 			}
 
-			readfile($path . DS . $file);
+			readfile($path . '/' . $file);
 
 			$success = true;
 			exit ;

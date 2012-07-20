@@ -26,8 +26,7 @@
 					$pane = '1';
 					echo $this->sliders->startPane( "pane_$pane" );
 					
-					$legend = JText::_('COM_TIENDA_SHOP_INFORMATION');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'shop' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_SHOP_INFORMATION'), 'shop' );
 					
 					?>
 					
@@ -201,8 +200,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('COM_TIENDA_IMAGES_SETTINGS');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'images' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_IMAGES_SETTINGS'), 'images' );
 					?>
 					
 					<table class="adminlist">
@@ -293,8 +291,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('COM_TIENDA_CURRENCY_UNITS_AND_DATE_SETTINGS');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'currency' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_CURRENCY_UNITS_AND_DATE_SETTINGS'), 'currency' );
 					?>
 					
 					<table class="adminlist">
@@ -370,8 +367,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-                    $legend = JText::_('COM_TIENDA_ORDER_AND_CHECKOUT_SETTINGS');
-                    echo $this->sliders->startPanel( JText::_( $legend ), 'orders' );
+                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_ORDER_AND_CHECKOUT_SETTINGS'), 'orders' );
                     ?>
 
                     <table class="adminlist">
@@ -574,8 +570,7 @@
 					<?php
 					echo $this->sliders->endPanel();
 					
-					$legend = JText::_('COM_TIENDA_DISPLAY_SETTINGS');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'display' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_DISPLAY_SETTINGS'), 'display' );
 					?>
 					
 					<table class="adminlist">
@@ -976,8 +971,7 @@
 					<?php
 					echo $this->sliders->endPanel();
                     
-                    $legend = JText::_('COM_TIENDA_SUBSCRIPTION_SETTINGS');
-                    echo $this->sliders->startPanel( JText::_( $legend ), 'subscriptions' );
+                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_SUBSCRIPTION_SETTINGS'), 'subscriptions' );
                     ?>
                     
                     <table class="adminlist">
@@ -1030,8 +1024,7 @@
                     <?php
                     echo $this->sliders->endPanel();
 
-                    $legend = JText::_('COM_TIENDA_ADMINISTRATOR_DASHBOARD_SETTINGS');
-                    echo $this->sliders->startPanel( JText::_( $legend ), 'dashboard' );
+                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_ADMINISTRATOR_DASHBOARD_SETTINGS'), 'dashboard' );
                     ?>
                     
                     <table class="adminlist">
@@ -1064,8 +1057,7 @@
                     echo $this->sliders->endPanel();
 					
                     
-                    $legend = JText::_('COM_TIENDA_COUPON_SETTINGS');
-                    echo $this->sliders->startPanel( JText::_( $legend ), 'coupons' );
+                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_COUPON_SETTINGS'), 'coupons' );
                     ?>
                     
                     <table class="adminlist">
@@ -1097,9 +1089,7 @@
                     <?php
                     echo $this->sliders->endPanel();
                     
-                    
-					$legend = JText::_('COM_TIENDA_ADMINISTRATOR_TOOLTIPS');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_ADMINISTRATOR_TOOLTIPS'), 'defaults' );
 					?>
 					
 					<table class="adminlist">
@@ -1154,8 +1144,7 @@
 
                     echo $this->sliders->endPanel();
 					
-					$legend = JText::_('COM_TIENDA_PRODUCT_REVIEWS');
-					echo $this->sliders->startPanel( JText::_( $legend ), 'defaults' );
+					echo $this->sliders->startPanel( JText::_('COM_TIENDA_PRODUCT_REVIEWS'), 'defaults' );
 					?>
 					
 					<table class="adminlist">
@@ -1243,8 +1232,7 @@
 						echo $this->sliders->endPanel();	
 
 						
-						$legend = JText::_('COM_TIENDA_ADVANCED_SETTINGS');
-	                    echo $this->sliders->startPanel( JText::_( $legend ), 'advanced' );
+	                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_ADVANCED_SETTINGS'), 'advanced' );
 	                    ?>
                     
 					<table class="adminlist">
@@ -1382,8 +1370,7 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
-						$legend = JText::_('COM_TIENDA_EMAIL_SETTINGS');
-	                    echo $this->sliders->startPanel( JText::_( $legend ), 'email' );
+	                    echo $this->sliders->startPanel( $legend = JText::_('COM_TIENDA_EMAIL_SETTINGS'), 'email' );
 	                    ?>
                     
 					<table class="adminlist">
@@ -1459,8 +1446,7 @@
 					<?php
 						echo $this->sliders->endPanel();				
 
-						$legend = JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT');
-	                    echo $this->sliders->startPanel( JText::_( $legend ), 'adrress_fields' );
+	                    echo $this->sliders->startPanel( JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT'), 'adrress_fields' );
 	                 ?>
 	                <table class="adminlist">
 					<tbody>					
@@ -1778,8 +1764,7 @@
 					<?php
             echo $this->sliders->endPanel();
 
-            $legend = JText::_('COM_TIENDA_LOW_STOCK_NOTIFY_SETTINGS');
-            echo $this->sliders->startPanel( JText::_( $legend ), 'low_stock_notify' );
+            echo $this->sliders->startPanel( JText::_('COM_TIENDA_LOW_STOCK_NOTIFY_SETTINGS'), 'low_stock_notify' );
             ?>
             
             <table class="adminlist">

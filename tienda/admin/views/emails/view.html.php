@@ -55,8 +55,7 @@ class TiendaViewEmails extends TiendaViewBase
 		JToolBarHelper::apply('apply');
 
 		
-		JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
-		
+		JToolBarHelper::cancel( 'close', 'COM_TIENDA_CLOSE' );
 	}
 
 }

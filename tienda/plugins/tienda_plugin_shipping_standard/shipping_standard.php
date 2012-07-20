@@ -121,9 +121,9 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
     {
         $html = "";
         
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', JText::_('COM_TIENDA_DELETE'), false, 'shippingTask' );
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
+		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', 'COM_TIENDA_NEW', false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', 'COM_TIENDA_DELETE', false, 'shippingTask' );
 		TiendaToolBarHelper::cancel( 'close', 'Close' );
 		
         $vars = new JObject();
@@ -202,7 +202,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                             $geozone_rates[$geozone_id] = array();
                         }
 
-                        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 				        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
 				        $model->setState('filter_shippingmethod', $shipping_method_id);
 				        $model->setState('filter_geozone', $geozone_id);
@@ -240,7 +240,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				$sum_weight = 0;
 				$count_shipped_items = 0;
 				$order_ships = false;
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 				foreach ($orderItems as $item)
 				{
 				    // find out if the order ships
@@ -431,12 +431,12 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
     public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0', $weight='0' )
     {
         // TODO Give this better error reporting capabilities
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance('ShippingRates', 'TiendaModel');
         $model->setState('filter_shippingmethod', $shipping_method_id);
         $model->setState('filter_geozone', $geozone_id);
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
               
         $product->load( $product_id );

@@ -10,7 +10,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.'/components' );
 
 class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 {
@@ -23,8 +23,8 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 	function __construct()
 	{
 		parent::__construct();
-		JModel::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_standard'.DS.'models');
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.'shipping_standard'.DS.'tables');
+		JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/models');
+		JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/tables');
 	}
 	
 	/**
@@ -119,9 +119,9 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 
 	function view()
 	{
-		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
-		TiendaToolBarHelper::custom( 'save', 'save', 'save', JText::_('COM_TIENDA_SAVE'), false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', JText::_('COM_TIENDA_CLOSE'), false, 'shippingTask' );
+		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
+		TiendaToolBarHelper::custom( 'save', 'save', 'save', 'COM_TIENDA_SAVE', false, 'shippingTask' );
+		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', 'COM_TIENDA_CLOSE', false, 'shippingTask' );
 		 
 		$id = JRequest::getInt('id', '0');
 		$sid = TiendaShippingPlugin::getShippingId();

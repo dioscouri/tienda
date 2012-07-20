@@ -144,24 +144,24 @@ class TiendaViewBase extends DSCViewAdmin {
 		$surrounding = (!empty($this -> surrounding)) ? $this -> surrounding : array();
 		if (!empty($surrounding['prev'])) {
 			$divider = true;
-			JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('COM_TIENDA_SAVE_PLUS_PREV'), false);
+			JToolBarHelper::custom('saveprev', "saveprev", "saveprev", 'COM_TIENDA_SAVE_PLUS_PREV', false);
 		}
 		if (!empty($surrounding['next'])) {
 			$divider = true;
-			JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('COM_TIENDA_SAVE_PLUS_NEXT'), false);
+			JToolBarHelper::custom('savenext', "savenext", "savenext", 'COM_TIENDA_SAVE_PLUS_NEXT', false);
 		}
 		if ($divider) {
 			JToolBarHelper::divider();
 		}
 
-		JToolBarHelper::custom('savenew', "savenew", "savenew", JText::_('COM_TIENDA_SAVE_PLUS_NEW'), false);
+		JToolBarHelper::custom('savenew', "savenew", "savenew", 'COM_TIENDA_SAVE_PLUS_NEW', false);
 		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
 
 		if ($isNew) {
 			JToolBarHelper::cancel();
 		} else {
-			JToolBarHelper::cancel('close', JText::_('COM_TIENDA_CLOSE'));
+			JToolBarHelper::cancel('close', 'COM_TIENDA_CLOSE');
 		}
 	}
 

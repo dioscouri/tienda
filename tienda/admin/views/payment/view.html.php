@@ -53,8 +53,8 @@ class TiendaViewPayment extends TiendaViewBase
 	
     function _viewToolbar()
     {
-    	JToolBarHelper::custom( 'view', 'forward', 'forward', JText::_('COM_TIENDA_SUBMIT'), false );
-    	JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
+    	JToolBarHelper::custom( 'view', 'forward', 'forward', 'COM_TIENDA_SUBMIT', false );
+    	JToolBarHelper::cancel( 'close', 'COM_TIENDA_CLOSE' );
     }
     
     /**
@@ -69,12 +69,12 @@ class TiendaViewPayment extends TiendaViewBase
         if (!empty($surrounding['prev']))
         {
             $divider = true;
-            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", JText::_('COM_TIENDA_SAVE_PLUS_PREV'), false);
+            JToolBarHelper::custom('saveprev', "saveprev", "saveprev", 'COM_TIENDA_SAVE_PLUS_PREV', false);
         }
         if (!empty($surrounding['next']))
         {
             $divider = true;
-            JToolBarHelper::custom('savenext', "savenext", "savenext", JText::_('COM_TIENDA_SAVE_PLUS_NEXT'), false);
+            JToolBarHelper::custom('savenext', "savenext", "savenext", 'COM_TIENDA_SAVE_PLUS_NEXT', false);
         }
         if ($divider)
         {
@@ -90,7 +90,7 @@ class TiendaViewPayment extends TiendaViewBase
         }
             else
         {
-            JToolBarHelper::cancel( 'close', JText::_('COM_TIENDA_CLOSE') );
+            JToolBarHelper::cancel( 'close', 'COM_TIENDA_CLOSE' );
         }
     }
 }

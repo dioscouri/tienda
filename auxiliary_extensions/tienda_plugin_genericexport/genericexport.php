@@ -75,7 +75,7 @@ class plgTiendaGenericExport extends JPlugin
         
       //// load the plugins
       JPluginHelper::importPlugin( 'tienda' );
-      JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models');
+      JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
       $params = json_decode( base64_decode( $request['exportParams'] ) );
       $model = JModel::getInstance($params->view,'TiendaModel');
       $list = $model->getList();
@@ -97,7 +97,7 @@ class plgTiendaGenericExport extends JPlugin
        	}
        	$arr[] = $this->objectToString( $list[$i], true );
       }
-      $f_name = 'tmp'.DS.$params->view.'_'.time().'.csv';
+      $f_name = 'tmp/'.$params->view.'_'.time().'.csv';
       $res = TiendaCSV::FromArrayToFile( $f_name, $arr, $header );
       
       $this->render_page( $f_name, $params->view );
@@ -108,7 +108,7 @@ class plgTiendaGenericExport extends JPlugin
       // add 'Back' button
       $url = 'index.php?option=com_tienda&view=$'.$view;
       $bar = & JToolBar::getInstance('toolbar');
-      $bar->prependButton( 'link', 'cancel', JText::_('COM_TIENDA_BACK'), $url );
+      $bar->prependButton( 'link', 'cancel', 'COM_TIENDA_BACK', $url );
       JToolBarHelper::title( JText::_('Generic export') );
 
       echo JText::_('The export is complete! You can download it');

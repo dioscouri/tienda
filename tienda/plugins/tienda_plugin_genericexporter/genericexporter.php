@@ -28,11 +28,10 @@ class plgTiendaGenericExporter extends TiendaPluginBase {
 
 	function onAfterDisplayAdminComponentTienda() {
 		$name = 'revert';
-		$text = JText::_('COM_TIENDA_GENERIC_EXPORT');
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
 
 		$bar = JToolBar::getInstance('toolbar');
-		$bar -> prependButton('link', $name, $text, $url);
+		$bar -> prependButton('link', $name, 'COM_TIENDA_GENERIC_EXPORT', $url);
 	}
 
 	/**
@@ -45,7 +44,7 @@ class plgTiendaGenericExporter extends TiendaPluginBase {
 		JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 		Tienda::loadJQuery();
 
-		require_once (JPATH_SITE . DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'select.php');
+		require_once (JPATH_SITE.'/libraries/joomla/html/html/select.php');
 		JToolBarHelper::title(JText::_('COM_TIENDA_GENERIC_EXPORT'));
 
 		$bar = JToolBar::getInstance('toolbar');
@@ -58,10 +57,10 @@ class plgTiendaGenericExporter extends TiendaPluginBase {
 		jimport('joomla.filesystem.file');
 		if (version_compare(JVERSION, '1.6.0', 'ge')) {
 			// Joomla! 1.6+ code here
-			$folder = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'genericexporter' . DS . 'models';
+			$folder = JPATH_SITE . '/plugins/tienda/genericexporter/genericexporter/models';
 		} else {
 			// Joomla! 1.5 code here
-			$folder = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'models';
+			$folder = JPATH_SITE . '/plugins/tienda/genericexporter/models';
 		}
 
 		if (JFolder::exists($folder)) {
@@ -97,11 +96,11 @@ class plgTiendaGenericExporter extends TiendaPluginBase {
 		}
 		if (version_compare(JVERSION, '1.6.0', 'ge')) {
 			// Joomla! 1.6+ code here
-			$folderTypes = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'genericexporter' . DS . 'types';
+			$folderTypes = JPATH_SITE . '/plugins/tienda/genericexporter/genericexporter/types';
 
 		} else {
 			// Joomla! 1.5 code here
-			$folderTypes = JPATH_SITE . DS . 'plugins' . DS . 'tienda' . DS . 'genericexporter' . DS . 'types';
+			$folderTypes = JPATH_SITE . '/plugins/tienda/genericexporter/types';
 
 		}
 		if (JFolder::exists($folderTypes)) {

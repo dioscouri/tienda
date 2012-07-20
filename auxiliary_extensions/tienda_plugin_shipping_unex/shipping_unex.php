@@ -196,7 +196,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     
 	function fetchStickers($tracking_number, $path)
 	{
-		require_once( dirname( __FILE__ ).DS.'shipping_unex'.DS."unex.php" );
+		require_once( dirname( __FILE__ ).'/shipping_unex/unex.php' );
 
         $username = $this->params->get('username');
         $customerContext = $this->params->get('customer_context');
@@ -313,7 +313,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $path = $this->getStickerPath($order_id, false);
         
         // log and download
-        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.file', JPATH_ADMINISTRATOR.'/components' );
         if ($downloadFile = $this->download( $filename, $path )) 
         {
            	echo '<h3>'.JText::_('Download Ok').'</h3>';  
@@ -395,7 +395,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
             header("Accept-Ranges: bytes");
             header("Content-Disposition: attachment; filename=\"" . $header_file . "\";");
             header("Content-Transfer-Encoding: binary");
-            header("Content-Length: " . filesize($path.DS.$file));
+            header("Content-Length: " . filesize($path.'/'.$file));
             
             // Output file by chunks
             error_reporting(0);
@@ -403,7 +403,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
                 set_time_limit(0);
             }
             
-            readfile($path.DS.$file);
+            readfile($path.'/'.$file);
             
             $success = true;            
             exit;
@@ -500,7 +500,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     
     function sendShipment( $order )
     {        
-        require_once( dirname( __FILE__ ).DS.'shipping_unex'.DS."unex.php" );
+        require_once( dirname( __FILE__ ).'/shipping_unex/unex.php' );
 
         $username = $this->params->get('username');
         $customerContext = $this->params->get('customer_context');
@@ -653,11 +653,11 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
      */
     function viewConfig()
     {    	
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
         // TODO Finish this
         //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
         //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
-        TiendaToolBarHelper::custom( 'edit', 'new', 'new', JText::_('COM_TIENDA_NEW'), false, 'shippingTask' );
+        TiendaToolBarHelper::custom( 'edit', 'new', 'new', 'COM_TIENDA_NEW', false, 'shippingTask' );
         TiendaToolBarHelper::cancel( 'close', 'Close' );
         
         $vars = new JObject();
@@ -686,7 +686,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $this->includeCustomModel('UnexServices');
         $this->includeCustomTables();
         
-        require_once( dirname( __FILE__ ).DS.'shipping_unex'.DS."unex.php" );
+        require_once( dirname( __FILE__ ).'/shipping_unex/unex.php' );
 
         // Use params to determine which of these is enabled
         $services = $this->getServices();
@@ -889,7 +889,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 	        if ($result_1 && $result_2)
 	        {
 	            // Update config to say this has been done already
-	            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	            $config = JTable::getInstance( 'Config', 'TiendaTable' );
 	            $config->load( array( 'config_name'=>'checkTableUnexServices') );
 	            $config->config_name = 'checkTableUnexServices';

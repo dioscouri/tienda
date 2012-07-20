@@ -177,7 +177,7 @@ class TiendaControllerOrders extends TiendaController
 		}
 		$view->assign( 'order', $order );
 		$view->setTask(true); 
-		$view->display($cachable, $urlparams);
+		$view->display($cachable);
 	}
 
 	/**
