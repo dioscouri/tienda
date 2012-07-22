@@ -17,8 +17,8 @@ class modTiendaCartHelper
     function getCart()
     {
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 
         // determine whether we're working with a session or db cart
         $suffix = TiendaHelperCarts::getSuffix();

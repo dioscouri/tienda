@@ -75,7 +75,6 @@
 	<!-- Modules -->	
 	<modules>
 		<!-- <module module="modules/mod_whatever" publish="true" client="site"/> -->
-		<module module="modules/mod_tienda_admin_submenu" position="submenu" client="administrator"/>
         <module module="modules/mod_tienda_breadcrumbs" client="site" position="left" />
         <module module="modules/mod_tienda_cart" client="site" position="left" />
 		<module module="modules/mod_tienda_categories" client="site" position="left" />

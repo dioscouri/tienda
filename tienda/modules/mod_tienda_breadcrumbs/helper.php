@@ -41,7 +41,7 @@ class modTiendaBreadcrumbsHelper extends JObject
     	}
     	    	
     	// get the root category
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
         $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
 		
