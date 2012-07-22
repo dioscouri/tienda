@@ -40,8 +40,8 @@ class TiendaControllerPOS extends TiendaController
 			$step = 'step1';
 		}
 		
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
-		$elementUserModel = JModel::getInstance('ElementUser', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
+		$elementUserModel = DSCModel::getInstance('ElementUser', 'TiendaModel');
 		$session = JFactory::getSession();
 
 		$view = $this->getView('pos', 'html');
@@ -134,7 +134,7 @@ class TiendaControllerPOS extends TiendaController
 			}
 
 			// save the real user's info in the userinfo table
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 			$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
 			$userinfo->load( array('user_id' => $user->id));
 			$userinfo->user_id = $user->id;
@@ -230,7 +230,7 @@ class TiendaControllerPOS extends TiendaController
 
 				// are there any enabled coupons?
 				$coupons_present = false;
-				$modelCoupon = JModel::getInstance('Coupons', 'TiendaModel');
+				$modelCoupon = DSCModel::getInstance('Coupons', 'TiendaModel');
 				$modelCoupon->setState('filter_enabled', '1');
 				if($coupons = $modelCoupon->getList())
 				{
@@ -248,7 +248,7 @@ class TiendaControllerPOS extends TiendaController
 			default :
 				break;
 		}
-
+		$view->setTask(true);
 		$view->assign('orderSummary', $this->getOrderSummary($order));
 		$view->assign('subtask', $subtask);
 
@@ -891,7 +891,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function validateCouponCode()
 	{
-		JLoader::import('com_tienda.library.json', JPATH_ADMINISTRATOR . DS . 'components');
+		JLoader::import('com_tienda.library.json', JPATH_ADMINISTRATOR.'/components');
 		$elements = json_decode(preg_replace('/[\n\r]+/', '\n', JRequest::getVar('elements', '', 'post', 'string')));
 
 		// convert elements to array that can be binded
@@ -1048,7 +1048,7 @@ class TiendaControllerPOS extends TiendaController
 		$date = $date->toMysql();
 
 		// Per Order Automatic Coupons
-		$model = JModel::getInstance('Coupons', 'TiendaModel');
+		$model = DSCModel::getInstance('Coupons', 'TiendaModel');
 		$model->setState('filter_automatic', '1');
 		$model->setState('filter_date_from', $date);
 		$model->setState('filter_date_to', $date);
@@ -1095,6 +1095,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->setModel($model, true);
 		$view->assign('state', $model->getState());
 		$view->assign('items', $model->getList());
+		$view->setTask(true);
 		$view->setLayout('addproduct');
 		$view->display();
 	}
@@ -1112,6 +1113,7 @@ class TiendaControllerPOS extends TiendaController
 		$view = $this->getView('pos', 'html');
 		$view->setModel($model, true);
 		$view->assign('product', $row);
+		$view->setTask(true);
 		$view->setLayout('viewproduct');
 		$view->display();
 	}
@@ -1126,8 +1128,8 @@ class TiendaControllerPOS extends TiendaController
 	function getAddToCart($product_id, $values = array())
 	{
 		$html = '';
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
-		$model = JModel::getInstance('Products', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
+		$model = DSCModel::getInstance('Products', 'TiendaModel');
 		$model->setId($product_id);
 
 		Tienda::load('TiendaHelperUser', 'helpers.user');
@@ -1254,7 +1256,7 @@ class TiendaControllerPOS extends TiendaController
 			}
 		}
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$table = JTable::getInstance('Carts', 'TiendaTable');
 
 		// first, determine if this product+attribute+vendor(+additonal_keys) exists in the cart
@@ -1500,14 +1502,14 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function fixQuantities($user_id)
 	{
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
+		DSCModel::addIncludePath(JPATH_SITE . DS . 'components/com_tienda/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$product = JTable::getInstance('ProductQuantities', 'TiendaTable');
 		$tableProduct = JTable::getInstance('Products', 'TiendaTable');
 
 		$suffix = strtolower(TiendaHelperCarts::getSuffix());
-		$model = &JModel::getInstance('Carts', 'TiendaModel');
+		$model = &DSCModel::getInstance('Carts', 'TiendaModel');
 
 		switch ($suffix)
 		{
@@ -1738,8 +1740,8 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('showShipping', $showShipping);
 		$view->assign('forShipping', $forShipping);
 
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		$countries_model = JModel::getInstance('Countries', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
+		$countries_model = DSCModel::getInstance('Countries', 'TiendaModel');
 		$default_country = $countries_model->getDefault();
 		$default_country_id = $default_country->country_id;
 
@@ -1764,7 +1766,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function retrieveAddressIntoArray($address_id)
 	{
-		$model = JModel::getInstance('Addresses', 'TiendaModel');
+		$model = DSCModel::getInstance('Addresses', 'TiendaModel');
 		$model->setId($address_id);
 		$item = $model->getItem();
 		if(is_object($item))
@@ -1854,7 +1856,7 @@ class TiendaControllerPOS extends TiendaController
 			$shipping_zone_id = $shippingAddressArray['zone_id'];
 			
 			
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
@@ -1936,7 +1938,7 @@ class TiendaControllerPOS extends TiendaController
 			$shipping_zone_id = $shippingAddressArray['zone_id'];
 
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
@@ -1989,7 +1991,7 @@ class TiendaControllerPOS extends TiendaController
 		// get all the enabled shipping plugins
 		Tienda::load('TiendaHelperPlugin', 'helpers.plugin');
 		//$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
-		$model = JModel::getInstance('Shipping', 'TiendaModel');
+		$model = DSCModel::getInstance('Shipping', 'TiendaModel');
 		$model->setState('filter_enabled', '1');
 		$plugins = $model->getList();
 
@@ -2229,7 +2231,7 @@ class TiendaControllerPOS extends TiendaController
 	function getPaymentForm($element='')
 	{
 		// Use AJAX to show plugins that are available
-		JLoader::import('com_tienda.library.json', JPATH_ADMINISTRATOR . DS . 'components');
+		JLoader::import('com_tienda.library.json', JPATH_ADMINISTRATOR.'/components');
 		$values = JRequest::get('post');
 		$html = '';
 		$text = "";
@@ -2267,10 +2269,10 @@ class TiendaControllerPOS extends TiendaController
 		Tienda::load("TiendaHelperProduct", 'helpers.product');
 		$product_helper = TiendaHelperBase::getInstance('Product');
 
-		JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-		$model = JModel::getInstance('Carts', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_SITE . DS . 'components/com_tienda/models');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+		$model = DSCModel::getInstance('Carts', 'TiendaModel');
 
 		$session = &JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
@@ -2289,7 +2291,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			//echo Tienda::dump($cartitem);
 			unset($productModel);
-			$productModel = JModel::getInstance('Products', 'TiendaModel');
+			$productModel = DSCModel::getInstance('Products', 'TiendaModel');
 			$filter_group = $user_helper->getUserGroup($user_id, $cartitem->product_id);
 			$productModel->setState('filter_group', $filter_group);
 			$productModel->setId($cartitem->product_id);
@@ -2405,7 +2407,7 @@ class TiendaControllerPOS extends TiendaController
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 
 		$error = false;
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->bind($values);
 		$order->user_id = $user_id;
@@ -2456,7 +2458,7 @@ class TiendaControllerPOS extends TiendaController
 		$order->getShippingTotal();
 		$order->getInvoiceNumber();
 
-		$model = JModel::getInstance('Orders', 'TiendaModel');
+		$model = DSCModel::getInstance('Orders', 'TiendaModel');
 		if($order->save())
 		{
 			$model->setId($order->order_id);
@@ -2521,7 +2523,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function saveOrderItems(&$order)
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$items = $order->getItems();
 
 		if(empty($items) || !is_array($items))
@@ -2653,7 +2655,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function saveOrderInfo(&$order)
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		
@@ -2726,7 +2728,7 @@ class TiendaControllerPOS extends TiendaController
 	function saveOrderHistory(&$order)
 	{
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;
@@ -2792,7 +2794,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function saveOrderTaxes(&$order)
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 
 		$taxclasses = $order->getTaxClasses();
 		foreach($taxclasses as $taxclass)
@@ -2831,7 +2833,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function saveOrderShippings(&$order)
 	{		
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');		
 		$shipping_plugin = $session->get('shipping_plugin', '', 'tienda_pos');
 		$shipping_name = $session->get('shipping_name', '', 'tienda_pos');
@@ -2840,7 +2842,7 @@ class TiendaControllerPOS extends TiendaController
 		$shipping_tax = $session->get('shipping_tax', '', 'tienda_pos');
 		$shipping_extra = $session->get('shipping_extra', '', 'tienda_pos');
 	
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->ordershipping_type = $shipping_plugin;
@@ -2857,7 +2859,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 
 		// Let the plugin store the information about the shipping
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger("onPostSaveShipping", array($shipping_plugin, $row));
 
 		return true;
@@ -2869,7 +2871,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function saveOrderCoupons(&$order)
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 
 		$error = false;
 		$errorMsg = "";
@@ -2943,6 +2945,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->setModel($model, true);
 		$view->assign('state', $model->getState());
 		$view->assign('items', $model->getList());
+		$view->setTask(true);
 		$view->setLayout('addresses');
 		$view->display();
 	}
@@ -2967,6 +2970,7 @@ class TiendaControllerPOS extends TiendaController
 		$view = $this->getView('pos', 'html');
 		$view->setModel($model, true);	
 		$view->setLayout('address');
+		$view->setTask(true);
 		$view->assign('address', $row);
 		$view->display();
 	}
@@ -3125,8 +3129,8 @@ class TiendaControllerPOS extends TiendaController
 
 		$articles = array();
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		$model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		$model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
 		$model->setState( 'filter_orderid', $order_id);
 		$orderitems = $model->getList();
 		foreach ($orderitems as $item)
