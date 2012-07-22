@@ -37,7 +37,15 @@
                 <th style="width: 150px;">
                 </th>
                 <th style="text-align: center; width: 100px;">
-                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', "tbl.published", @$state->direction, @$state->order ); ?>
+                <?php	if(version_compare(JVERSION,'1.6.0','ge')) {
+    // Joomla! 1.6+ code here
+   $published = 'tbl.enabled';
+} else {
+    // Joomla! 1.5 code here
+   $published = 'tbl.published';
+} ?>
+                	
+                    <?php echo TiendaGrid::sort( 'COM_TIENDA_ENABLED', $published, @$state->direction, @$state->order ); ?>
                 </th>
             </tr>
             <tr class="filterline">
@@ -115,7 +123,7 @@
                     <?php 
                     if(version_compare(JVERSION,'1.6.0','ge')) {
 	        // Joomla! 1.6+ code here
-	       echo TiendaGrid::enable($item->enabled, $i, 'enabled' ); 
+	       echo TiendaGrid::enable($item->enabled, $i, 'enabled.' ); 
 					
 	    } else {
 	        // Joomla! 1.5 code here

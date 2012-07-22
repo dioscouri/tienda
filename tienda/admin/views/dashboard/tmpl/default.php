@@ -1,8 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $state = $this->state; ?>
-<?php $form = @$this->form; ?>
-<?php $items = @$this->items; ?>
+<?php $state = @$this->state; ?>
+<?php $form = @@$this->form; ?>
+<?php $items = @@$this->items; ?>
 
 <?php DSC::loadHighcharts(); ?>
 
@@ -25,9 +25,15 @@
 			<tbody>
 			<tr>
 				<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaSelect::range( $state->stats_interval, 'stats_interval', $attribs ); ?></h3></td>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::currency( $this->sum ); ?></h3></td>
-				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::number( $this->total, array('num_decimals'=>'0') ); ?></h3></td>
+				<?php
+				//this is dumb, but it makes the dashboard work until caching issue is resolve 
+				 if(@$state->stats_interval) : ?>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaSelect::range( @$state->stats_interval, 'stats_interval', $attribs); ?></h3></td>
+				<?php else :?>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaSelect::range( @$state->stats_interval, 'stats_interval', $attribs, null, true ); ?></h3></td>
+				<?php endif ?>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::currency( @$this->sum ); ?></h3></td>
+				<td style="text-align: center; width: 33%;"><h3><?php echo TiendaHelperBase::number( @$this->total, array('num_decimals'=>'0') ); ?></h3></td>
 			</tr>
 			</tbody>
 			</table>
@@ -40,11 +46,11 @@
                 
                 $chart->plotOptions = new stdClass();
                 $chart->plotOptions->column = new stdClass();
-                $chart->plotOptions->column->pointStart = strtotime( $this->revenue[0][0] ) * 1000;
-                $chart->plotOptions->column->pointInterval = $this->interval->pointinterval;
+                $chart->plotOptions->column->pointStart = strtotime( @$this->revenue[0][0] ) * 1000;
+                $chart->plotOptions->column->pointInterval = @$this->interval->pointinterval;
                 $chart->plotOptions->line = new stdClass();
-                $chart->plotOptions->line->pointStart = strtotime( $this->orders[0][0] ) * 1000;
-                $chart->plotOptions->line->pointInterval = $this->interval->pointinterval;
+                $chart->plotOptions->line->pointStart = strtotime( @$this->orders[0][0] ) * 1000;
+                $chart->plotOptions->line->pointInterval = @$this->interval->pointinterval;
                 
                 $chart->xAxis = new stdClass();
                 $chart->xAxis->labels = new stdClass();
@@ -52,7 +58,7 @@
                 $chart->xAxis->tickInterval = $chart->plotOptions->line->pointInterval;
                 $chart->xAxis->labels->rotation = -45;
                 $chart->xAxis->labels->align = 'right';
-                $chart->xAxis->labels->step = $this->interval->step;
+                $chart->xAxis->labels->step = @$this->interval->step;
                 
                 $left_y_axis = new stdClass();
                 $left_y_axis->title = new stdClass();
@@ -76,12 +82,12 @@
                 $chart->legend->borderWidth = '1';
                 
                 $series = new HighRollerSeriesData();
-                $series->addName(JText::_( 'COM_TIENDA_REVENUE' ))->addData( $this->revenue );
+                $series->addName(JText::_( 'COM_TIENDA_REVENUE' ))->addData( @$this->revenue );
                 $series->type = 'column';
                 $chart->addSeries($series);
                 
                 $series = new HighRollerSeriesData();
-                $series->addName(JText::_( 'COM_TIENDA_ORDERS' ))->addData( $this->orders );
+                $series->addName(JText::_( 'COM_TIENDA_ORDERS' ))->addData( @$this->orders );
                 $series->yAxis = 1;
                 $series->type = 'line';
                 $chart->addSeries($series);
@@ -96,7 +102,7 @@
             
             </div>
 
-            <?php echo $this->form['validate']; ?>
+            <?php echo @$this->form['validate']; ?>
             </form>
             
 			<?php
