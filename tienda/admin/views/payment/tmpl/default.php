@@ -107,7 +107,7 @@
 				</td>
 				<td style="text-align: center;">
 					[
-					<a href="<?php echo $item->link; ?>">
+					<a class="modal" href="<?php echo $item->link .'&tmpl=component'; ?>">
 						<?php echo JText::_('COM_TIENDA_EDIT_PLUGIN_PARAMETERS'); ?>
 					</a>
 					]

@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
 JHTML::_('script', 'core.js', 'media/system/js/');
+
 class TiendaViewPOS extends TiendaViewBase 
 {
     function getLayoutVars($tpl=null) 
