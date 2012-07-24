@@ -64,11 +64,9 @@ class TiendaModelPayment extends TiendaModelBase {
 	public function getList($refresh = false) {
 		$list = parent::getList($refresh);
 		foreach ($list as $item) {
-			if (version_compare(JVERSION, '1.6.0', 'ge')) {$item -> id = $item -> extension_id;
-				$item -> link = 'index.php?option=com_plugins&view=plugin&layout=edit&extension_id=' . $item -> id;
-			} else {
+			if (version_compare(JVERSION, '1.6.0', 'ge')) {$item -> id = $item -> extension_id; }
 				$item -> link = 'index.php?option=com_tienda&view=payment&task=edit&id=' . $item -> id;
-			}
+			
 
 		}
 		return $list;

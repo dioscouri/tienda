@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="payment_paypal">payment_paypal.php</filename>
 		<folder>payment_paypal</folder>
+		<folder>jform</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal.ini</language>
