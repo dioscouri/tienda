@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+ <fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="enable_check" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_CHECKS" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_CHECKS_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="enable_moneyorder" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_MONEY_ORDERS" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_MONEY_ORDERS_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="enable_cash" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_CASH" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_CASH_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="enable_wire" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_WIRE" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_WIRE_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="enable_invoice" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_INVOICE" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_INVOICE_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="enable_other" type="radio" default="1" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_OTHER" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ACCEPT_OTHER_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="articleid" type="text" size="10" default="" label="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ARTICLE_NUMBER" description="PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_ARTICLE_NUMBER_DESC"/>
+				<field name="default" type="list" default="check" label="PLG_TIENDA_PAYMENT_OFFLINE_DEFAULT_OFFLINE_PAYMENT_TYPE" description="PLG_TIENDA_PAYMENT_OFFLINE_DEFAULT_OFFLINE_PAYMENT_TYPE_DESC">
+					<option value="check">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CHECK</option>
+					<option value="moneyorder">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_MONEYORDER</option>
+					<option value="cash">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CASH</option>
+					<option value="wire">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_WIRE</option>
+					<option value="invoice">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE</option>
+					<option value="other">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER</option>
+				</field>
+			</fieldset>
+		</fields>
+</form>

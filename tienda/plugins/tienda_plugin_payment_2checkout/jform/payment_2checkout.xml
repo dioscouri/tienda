@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+ <fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="sid" type="text"  size ="10" default="" label="PLG_TIENDA_PAYMENT_2CHECKOUT_ACCOUNT_NUMBER" description="PLG_TIENDA_PAYMENT_2CHECKOUT_ACCOUNT_NUMBER_DESC" />
+				<field name="secret_word" type="text"  size ="10" default="" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SECRET_WORD" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SECRET_WORD_DESC" />
+				<field name="demo" type="radio" default="1" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEMO_MODE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEMO_MODE_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="sandbox" type="radio" default="0" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SANDBOX_MODE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SANDBOX_MODE_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="automatic_language" type="radio" default="1" label="PLG_TIENDA_PAYMENT_2CHECKOUT_AUTOMATIC_LANGUAGE_SELECTION" description="PLG_TIENDA_PAYMENT_2CHECKOUT_AUTOMATIC_LANGUAGE_SELECTION_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="default_language" type="list" default="en" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_LANGUAGE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_LANGUAGE_DESC">
+					<option value="en">PLG_TIENDA_PAYMENT_2CHECKOUT_ENGLISH</option>
+					<option value="zh">PLG_TIENDA_PAYMENT_2CHECKOUT_CHINESE</option>
+					<option value="da">PLG_TIENDA_PAYMENT_2CHECKOUT_DANISH</option>
+					<option value="nl">PLG_TIENDA_PAYMENT_2CHECKOUT_DUTCH</option>
+					<option value="fr">PLG_TIENDA_PAYMENT_2CHECKOUT_FRENCH</option>
+					<option value="gr">PLG_TIENDA_PAYMENT_2CHECKOUT_GERMAN</option>
+					<option value="el">PLG_TIENDA_PAYMENT_2CHECKOUT_GREEK</option>
+					<option value="it">PLG_TIENDA_PAYMENT_2CHECKOUT_ITALIAN</option>
+					<option value="jp">PLG_TIENDA_PAYMENT_2CHECKOUT_JAPANESE</option>
+					<option value="no">PLG_TIENDA_PAYMENT_2CHECKOUT_NORWEGIAN</option>
+					<option value="pt">PLG_TIENDA_PAYMENT_2CHECKOUT_PORTOGUESE</option>
+					<option value="sl">PLG_TIENDA_PAYMENT_2CHECKOUT_SLOVENIAN</option>
+					<option value="es_ib">PLG_TIENDA_PAYMENT_2CHECKOUT_SPANISH_IB</option>
+					<option value="es_la">PLG_TIENDA_PAYMENT_2CHECKOUT_SPANISH_LA</option>
+					<option value="sv">PLG_TIENDA_PAYMENT_2CHECKOUT_SWEDISH</option>
+				</field>
+				<field name="default_payment" type="list" default="CC" label="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_PAYMENT_METHOD" description="PLG_TIENDA_PAYMENT_2CHECKOUT_DEFAULT_PAYMENT_METHOD_DESC">
+					<option value="CC">PLG_TIENDA_PAYMENT_2CHECKOUT_CREDIT_CARD</option>
+					<option value="CK">PLG_TIENDA_PAYMENT_2CHECKOUT_CHECK</option>
+					<option value="AL">PLG_TIENDA_PAYMENT_2CHECKOUT_ACCULYNK_PIN_DEBIT</option>
+					<option value="PPI">PLG_TIENDA_PAYMENT_2CHECKOUT_PAYPAL</option>
+					<option value="PPL">PLG_TIENDA_PAYMENT_2CHECKOUT_PAYPAL_LATER</option>
+				</field>
+				<field name="skip_landing" type="radio" default="0" label="PLG_TIENDA_PAYMENT_2CHECKOUT_SKIP_LANDING" description="PLG_TIENDA_PAYMENT_2CHECKOUT_SKIP_LANDING_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="page" type="radio" default="multi" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE_DESC">
+					<option value="single">PLG_TIENDA_PAYMENT_2CHECKOUT_SINGLE_PAGE_TYPE</option>
+					<option value="mutiple">PLG_TIENDA_PAYMENT_2CHECKOUT_MULTI-PAGE_TYPE</option>
+				</field>
+				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+
+			</fieldset>
+		</fields>
+</form>
