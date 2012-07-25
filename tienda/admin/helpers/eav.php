@@ -68,8 +68,8 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset( $sets[$entity][$id][$editable_by] ) )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-            $model = JModel::getInstance('EavAttributes', 'TiendaModel');
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            $model = DSCModel::getInstance('EavAttributes', 'TiendaModel');
             $model->setState('filter_entitytype', $entity);
             $model->setState('filter_entityid', $id);
             $model->setState('filter_enabled', '1');
@@ -188,7 +188,7 @@ class TiendaHelperEav extends TiendaHelperBase
     			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
     			break;
     		case "text":
-    			$editor = &JFactory::getEditor();
+    			$editor = JFactory::getEditor();
     			return $editor->display($eav->eavattribute_alias, $value, '300', '200', '50', '20');
     			break;
     		case "hidden":
@@ -274,15 +274,7 @@ class TiendaHelperEav extends TiendaHelperBase
      */
     function showField($eav, $value = null)
     {
-    	$gid = JFactory::getUser()->gid;
-    	if($gid >= 23)
-    	{
-    		$isAdmin = true;
-    	}
-    	else
-    	{
-    		$isAdmin = false;
-    	}
+    	$isAdmin = DSCAcl::isAdmin();
     	
     	switch($eav->editable_by)
     	{

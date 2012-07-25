@@ -29,11 +29,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td width="100" align="right" class="key">
+			<td width="100" align="right" class="dsc-key">
 			<?php	echo JText::_('COM_TIENDA_INSTALL_DEFAULT_DATA');?>:
 			</td>
-			<td>
-			<input type="checkbox" name="install_default" id="install_default" onclick="Dsc.showHideDiv('sampledata');" />
+			<td class="dsc-value">
+			<input type="checkbox" name="install_default" id="install_default" class="" onclick="Dsc.showHideDiv('sampledatatype');" />
 			<?php  echo JHTML::_('select.genericlist', $options, 'sampledata', 'class="inputbox" style="display:none;"', 'value', 'text', 'electronic', 'sampledatatype');?>
 			</td>
 		</tr>

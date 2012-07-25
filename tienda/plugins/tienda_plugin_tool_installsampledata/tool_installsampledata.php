@@ -210,8 +210,8 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
                 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components/com_tienda/tables' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components/com_tienda/models' );
 
 		if($empty)
     	{
@@ -341,8 +341,14 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
           if(!empty($state->sampledata))
         	{
         	$database = JFactory::getDBO();
-        	$installURL = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_tienda'.DS.'install'.DS.'sampledata'.DS;
-        	        	       		
+        	
+        	if(version_compare(JVERSION,'1.6.0','ge')) {
+  			// Joomla! 1.6+ code here
+   			$installURL = JPATH_SITE.'/administrator/components/com_tienda/install/sampledata/joomla16/';
+			} else {
+    		// Joomla! 1.5 code here
+			   $installURL = JPATH_SITE.'/administrator/components/com_tienda/install/sampledata/joomla15/';
+			}
         	$sqlfile = $installURL.$state->sampledata.".sql";        		
         	$results[ucfirst($state->sampledata)] = $this->_populateDatabase( $database, $sqlfile, $errors);    
         	          
