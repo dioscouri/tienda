@@ -30,15 +30,7 @@
 						</label>
 					</td>
 					<td>
-					<?php
-						if (version_compare(JVERSION, '1.6.0', 'ge')) {
-							// Joomla! 1.6+ code here
-							echo JHTML::_('select.booleanlist', 'enabled', '', @$row -> enabled);
-						} else {
-							// Joomla! 1.5 code here
-							echo JHTML::_('select.booleanlist', 'published', '', @$row -> published);
-						}
-					 ?>
+					<?php echo JHTML::_('select.booleanlist', 'enabled', '', @$row -> enabled); ?>
 					</td>
 				</tr>
 			</table>
@@ -46,7 +38,7 @@
 			<fieldset class="adminform">
     		<legend><?php echo JText::_('COM_TIENDA_PARAMETERS'); ?></legend>
 			<?php
-			if(version_compare(JVERSION,'1.6.0','ge')) {
+			
 		
  			$path = JPATH_SITE.'/plugins/'.$row->folder.'/'.$row->element.'/jform/'.$row->element.'.xml';
 			$form = JForm::getInstance($row->element, $path);
@@ -57,13 +49,8 @@
 		
 			$fieldSets = $form->getFieldsets();
 			foreach ($fieldSets as $name => $fieldSet) :
-			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-			echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-			endif;	
 			?>
 		<?php $hidden_fields = ''; ?>
-	
-		
 		<table>
 			<?php foreach ($form->getFieldset($name) as $field) : ?>
 			<?php if (!$field->hidden) : ?>
@@ -75,10 +62,7 @@
 		<?php echo $hidden_fields; ?>
 	
 		<?php endforeach; ?>
-		<?php 
-		
-		
-}  ?>
+		<?php ?>
 	
 			
 			</fieldset>
