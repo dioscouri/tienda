@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="payment_offline">payment_offline.php</filename>
 		<folder>payment_offline</folder>
+		<folder>jform</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_offline.ini</language>

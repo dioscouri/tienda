@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="payment_2checkout">payment_2checkout.php</filename>
 		<folder>payment_2checkout</folder>
+		<folder>jform</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_2checkout.ini</language>

@@ -11,6 +11,7 @@
 	<files>
 		<filename plugin="payment_googlecheckout">payment_googlecheckout.php</filename>
 		<folder>payment_googlecheckout</folder>
+		<folder>jform</folder>
 	</files>
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_payment_googlecheckout.ini</language>

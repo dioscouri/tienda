@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="payment_authorizedotnet">payment_authorizedotnet.php</filename>
 		<folder>payment_authorizedotnet</folder>
+		<folder>jform</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.plg_tienda_payment_authorizedotnet.ini</language>
