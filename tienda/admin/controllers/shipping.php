@@ -19,7 +19,8 @@ class TiendaControllerShipping extends TiendaController
 	function __construct() 
 	{
 		parent::__construct();
-		
+		$this->registerTask( 'enabled.enable', 'boolean' );
+		$this->registerTask( 'enabled.disable', 'boolean' );
 		$this->set('suffix', 'shipping');
 	}
 	
