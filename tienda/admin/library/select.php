@@ -16,21 +16,21 @@ class TiendaSelect extends DSCSelect
 	
 	/* bootstrapped yes/no */
 	
-	public static function booleanlist($name, $attribs = null, $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
+	public static function btbooleanlist($name, $attribs = null, $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
 	{
 	
 	 JHTML::_('script', 'bootstrapped-advanced-ui.js', 'media/com_tienda/js/');
 	  JHTML::_('stylesheet', 'bootstrapped-advanced-ui.css', 'media/com_tienda/css/');
 		$arr = array(JHtml::_('select.option', '0', JText::_($no)), JHtml::_('select.option', '1', JText::_($yes)));
 		$html = '<div class="control-group"><div class="controls"><fieldset id="'.$name.'" class="radio btn-group">';
-		$html .=  TiendaSelect::radiolist( $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
+		$html .=  TiendaSelect::btradiolist( $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
 		$html .= '</fieldset></div></div>';
 		
 		
 		return $html;
 	}
 	
-	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+	public static function btradiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		$translate = false)
 	{
 		reset($data);

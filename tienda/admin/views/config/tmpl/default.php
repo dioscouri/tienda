@@ -41,7 +41,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_SHOPPING'); ?>
                             </th>
                             <td>
-                                <?php  echo TiendaSelect::booleanlist('shop_enabled', '' , $this -> row -> get('shop_enabled', '1')) ; ?>
+                                <?php  echo TiendaSelect::btbooleanlist('shop_enabled', '' , $this -> row -> get('shop_enabled', '1')) ; ?>
                             </td>
                             <td>
                                 
@@ -213,7 +213,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_DEFAULT_CATEGORY_IMAGE'); ?>
                             </th>
                             <td>
-                             <?php  echo TiendaSelect::booleanlist('use_default_category_image', '' , $this -> row -> get('use_default_category_image', '1')) ; ?>
+                             <?php  echo TiendaSelect::btbooleanlist('use_default_category_image', '' , $this -> row -> get('use_default_category_image', '1')) ; ?>
 
                             </td>
                         </tr>
@@ -341,7 +341,7 @@
 								<?php echo JText::_('COM_TIENDA_AUTO_UPDATE_EXCHANGE_RATES'); ?>
 							</th>
 			                <td>
-				               <?php  echo TiendaSelect::booleanlist('currency_exchange_autoupdate', 'class="inputbox"', $this -> row -> get('currency_exchange_autoupdate', '1')); ?>
+				               <?php  echo TiendaSelect::btbooleanlist('currency_exchange_autoupdate', 'class="inputbox"', $this -> row -> get('currency_exchange_autoupdate', '1')); ?>
 			                </td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_AUTO_UPDATE_EXCHANGE_RATES_DESC'); ?>
@@ -388,7 +388,7 @@
                                 <?php echo JText::_('COM_TIENDA_ONE_PAGE_CHECKOUT'); ?>
                             </th>
                             <td>
-                            	 <?php  echo TiendaSelect::booleanlist('one_page_checkout', '' ,  $this -> row -> get('one_page_checkout', '0')); ?>
+                            	 <?php  echo TiendaSelect::btbooleanlist('one_page_checkout', '' ,  $this -> row -> get('one_page_checkout', '0')); ?>
 
                             </td>
                             <td>
@@ -413,7 +413,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_TOOLTIPS_ONE_PAGE_CHECKOUT'); ?>
                             </th>
                             <td>
-                            	 <?php  echo TiendaSelect::booleanlist('one_page_checkout_tooltips_enabled', '' , $this -> row -> get('one_page_checkout_tooltips_enabled', '0')); ?>
+                            	 <?php  echo TiendaSelect::btbooleanlist('one_page_checkout_tooltips_enabled', '' , $this -> row -> get('one_page_checkout_tooltips_enabled', '0')); ?>
                             </td>
                             <td>
                                 
@@ -424,7 +424,7 @@
                                 <?php echo JText::_('COM_TIENDA_FORCE_SSL_ON_CHECKOUT'); ?>
                             </th>
                             <td>
-                            	 <?php  echo TiendaSelect::booleanlist('force_ssl_checkout', '' , $this -> row -> get('force_ssl_checkout', '0')); ?>
+                            	 <?php  echo TiendaSelect::btbooleanlist('force_ssl_checkout', '' , $this -> row -> get('force_ssl_checkout', '0')); ?>
                             </td>
                             <td>
                                 
@@ -435,7 +435,7 @@
                                 <?php echo JText::_('COM_TIENDA_REQUIRE_ACCEPTANCE_OF_TERMS_ON_CHECKOUT'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('require_terms', 'class="inputbox"', $this -> row -> get('require_terms', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('require_terms', 'class="inputbox"', $this -> row -> get('require_terms', '0')); ?>
                             </td>
                             <td>
                                 
@@ -480,7 +480,7 @@
                                 <?php echo JText::_('COM_TIENDA_SHOW_SHIPPING_TAX_ON_ORDER_INVOICES_AND_CHECKOUT'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_shipping_tax', 'class="inputbox"', $this -> row -> get('display_shipping_tax', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_shipping_tax', 'class="inputbox"', $this -> row -> get('display_shipping_tax', '1')); ?>
                             </td>
                             <td>
                                 
@@ -524,7 +524,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_GUEST_CHECKOUT'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('guest_checkout_enabled', 'class="inputbox"', $this -> row -> get('guest_checkout_enabled', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('guest_checkout_enabled', 'class="inputbox"', $this -> row -> get('guest_checkout_enabled', '1')); ?>
                             </td>
                             <td>
                                 
@@ -595,7 +595,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_FRONT_END_SUBMENU'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('show_submenu_fe', 'class="inputbox"', $this -> row -> get('show_submenu_fe', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('show_submenu_fe', 'class="inputbox"', $this -> row -> get('show_submenu_fe', '1')); ?>
                             </td>
                             <td>
                                 
@@ -606,7 +606,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_OUT_OF_STOCK_PRODUCTS'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_out_of_stock', 'class="inputbox"', $this -> row -> get('display_out_of_stock', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_out_of_stock', 'class="inputbox"', $this -> row -> get('display_out_of_stock', '1')); ?>
                             </td>
                             <td>
                                 
@@ -617,7 +617,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_ROOT_CATEGORY_IN_JOOMLA_BREADCRUMB'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('include_root_pathway', 'class="inputbox"', $this -> row -> get('include_root_pathway', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('include_root_pathway', 'class="inputbox"', $this -> row -> get('include_root_pathway', '0')); ?>
                             </td>
                             <td>
                                 
@@ -628,7 +628,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_TIENDA_BREADCRUMB'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_tienda_pathway', 'class="inputbox"', $this -> row -> get('display_tienda_pathway', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_tienda_pathway', 'class="inputbox"', $this -> row -> get('display_tienda_pathway', '1')); ?>
                             </td>
                             <td>
                                 
@@ -639,7 +639,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_SORT_BY'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_sort_by', 'class="inputbox"', $this -> row -> get('display_sort_by', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_sort_by', 'class="inputbox"', $this -> row -> get('display_sort_by', '1')); ?>
                             </td>
                             <td>
                                 
@@ -661,7 +661,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_QUANTITY'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_product_quantity', 'class="inputbox"', $this -> row -> get('display_product_quantity', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_product_quantity', 'class="inputbox"', $this -> row -> get('display_product_quantity', '1')); ?>
                             </td>
                             <td>
                                 
@@ -672,7 +672,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_RELATED_ITEMS'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_relateditems', 'class="inputbox"', $this -> row -> get('display_relateditems', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_relateditems', 'class="inputbox"', $this -> row -> get('display_relateditems', '1')); ?>
                             </td>
                             <td>
                                 
@@ -683,7 +683,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_FACEBOOK_LIKE_BUTTON'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_facebook_like', 'class="inputbox"', $this -> row -> get('display_facebook_like', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_facebook_like', 'class="inputbox"', $this -> row -> get('display_facebook_like', '1')); ?>
                             </td>
                             <td>
                                 
@@ -694,7 +694,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_TWITTER_BUTTON'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_tweet', 'class="inputbox"', $this -> row -> get('display_tweet', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_tweet', 'class="inputbox"', $this -> row -> get('display_tweet', '1')); ?>
                             </td>
                             <td>
                                 
@@ -716,7 +716,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_GOOGLE_PLUS1_BUTTON'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_google_plus1', 'class="inputbox"', $this -> row -> get('display_google_plus1', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_google_plus1', 'class="inputbox"', $this -> row -> get('display_google_plus1', '1')); ?>
                             </td>
                             <td>
                                 
@@ -783,7 +783,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_ASK_A_QUESTION_ABOUT_THIS_PRODUCT'); ?>
                             </th>
                            	<td>
-                               <?php  echo TiendaSelect::booleanlist('ask_question_enable', 'class="inputbox"', $this -> row -> get('ask_question_enable', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('ask_question_enable', 'class="inputbox"', $this -> row -> get('ask_question_enable', '1')); ?>
                             </td>
                             <td>
                                 
@@ -794,7 +794,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_CAPTCHA_ON_ASK_A_QUESTION_ABOUT_THIS_PRODUCT'); ?>
                             </th>
                            	<td>
-                               <?php  echo TiendaSelect::booleanlist('ask_question_showcaptcha', 'class="inputbox"', $this -> row -> get('ask_question_showcaptcha', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('ask_question_showcaptcha', 'class="inputbox"', $this -> row -> get('ask_question_showcaptcha', '1')); ?>
                             </td>
                             <td>
                                 
@@ -805,7 +805,7 @@
                                 <?php echo JText::_('COM_TIENDA_ASK_A_QUESTION_ABOUT_THIS_PRODUCT_IN_MODAL'); ?>
                             </th>
                            	<td>
-                               <?php  echo TiendaSelect::booleanlist('ask_question_modal', 'class="inputbox"', $this -> row -> get('ask_question_modal', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('ask_question_modal', 'class="inputbox"', $this -> row -> get('ask_question_modal', '1')); ?>
                             </td>
                             <td>
                                <?php echo JText::_('COM_TIENDA_SHOW_THE_ASK_A_QUESTION_ABOUT_THIS_PRODUCT_FORM_IN_MODAL'); ?> 
@@ -826,7 +826,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_WORKING_IMAGE_PRODUCT'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('dispay_working_image_product', 'class="inputbox"', $this -> row -> get('dispay_working_image_product', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('dispay_working_image_product', 'class="inputbox"', $this -> row -> get('dispay_working_image_product', '1')); ?>
                             </td>
                             <td>
                                 
@@ -859,7 +859,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_PRICES_WITH_LINK_TO_SHIPPING_COSTS_ARTICLE'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_prices_with_shipping', 'class="inputbox"', $this -> row -> get('display_prices_with_shipping', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_prices_with_shipping', 'class="inputbox"', $this -> row -> get('display_prices_with_shipping', '0')); ?>
                             </td>
                             <td>
                                 
@@ -893,7 +893,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_ADD_TO_CART_BUTTON_IN_CATEGORY_LISTINGS'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_category_cartbuttons', 'class="inputbox"', $this -> row -> get('display_category_cartbuttons', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_category_cartbuttons', 'class="inputbox"', $this -> row -> get('display_category_cartbuttons', '1')); ?>
                             </td>
                             <td>
                                 
@@ -905,7 +905,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_ADD_TO_CART_BUTTON_IN_PRODUCT'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_product_cartbuttons', 'class="inputbox"', $this -> row -> get('display_product_cartbuttons', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_product_cartbuttons', 'class="inputbox"', $this -> row -> get('display_product_cartbuttons', '1')); ?>
                             </td>
                             <td>
                                 
@@ -949,7 +949,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_DIOSCOURI_LINK_IN_FOOTER'); ?>
 							</th>
 			                <td>
-								<?php  echo TiendaSelect::booleanlist( 'show_linkback', 'class="inputbox"', $this -> row -> get('show_linkback', '1')); ?>
+								<?php  echo TiendaSelect::btbooleanlist( 'show_linkback', 'class="inputbox"', $this -> row -> get('show_linkback', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -973,7 +973,7 @@
                                 <?php echo JText::_('COM_TIENDA_CONFIG_PROCESS_CONTENT_PLUGIN_PRODUCT_DESC'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('content_plugins_product_desc', 'class="inputbox"', $this -> row -> get('content_plugins_product_desc', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('content_plugins_product_desc', 'class="inputbox"', $this -> row -> get('content_plugins_product_desc', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1011,7 +1011,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_SUBSCRIPTION_NUMBER'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_subnum', 'class="inputbox"', $this -> row -> get('display_subnum', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_subnum', 'class="inputbox"', $this -> row -> get('display_subnum', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1057,7 +1057,7 @@
                                 <?php echo JText::_('COM_TIENDA_DISPLAY_STATISTICS'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('display_dashboard_statistics', 'class="inputbox"', $this -> row -> get('display_dashboard_statistics', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('display_dashboard_statistics', 'class="inputbox"', $this -> row -> get('display_dashboard_statistics', '1')); ?>
                             </td>
                             <td>
                                 
@@ -1094,7 +1094,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_COUPONS'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('coupons_enabled', 'class="inputbox"', $this -> row -> get('coupons_enabled', '1')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('coupons_enabled', 'class="inputbox"', $this -> row -> get('coupons_enabled', '1')); ?>
                             </td>
                             <td>
                                 
@@ -1105,7 +1105,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_MULTIPLE_USER_SUBMITTED_COUPONS_PER_ORDER'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('multiple_usercoupons_enabled', 'class="inputbox"', $this -> row -> get('multiple_usercoupons_enabled', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('multiple_usercoupons_enabled', 'class="inputbox"', $this -> row -> get('multiple_usercoupons_enabled', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1130,7 +1130,7 @@
 								<?php echo JText::_('COM_TIENDA_HIDE_DASHBOARD_NOTE'); ?>
 							</th>
 							<td>
-		                       <?php  echo TiendaSelect::booleanlist('page_tooltip_dashboard_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_dashboard_disabled', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('page_tooltip_dashboard_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_dashboard_disabled', '0')); ?>
 							</td>
                             <td>
                                 
@@ -1141,7 +1141,7 @@
 								<?php echo JText::_('COM_TIENDA_HIDE_CONFIGURATION_NOTE'); ?>
 							</th>
 							<td>
-		                       <?php  echo TiendaSelect::booleanlist('page_tooltip_config_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_config_disabled', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('page_tooltip_config_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_config_disabled', '0')); ?>
 							</td>
                             <td>
                                 
@@ -1152,7 +1152,7 @@
 								<?php echo JText::_('COM_TIENDA_HIDE_TOOLS_NOTE'); ?>
 							</th>
 							<td>
-		                       <?php  echo TiendaSelect::booleanlist('page_tooltip_tools_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_tools_disabled', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('page_tooltip_tools_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_tools_disabled', '0')); ?>
 							</td>
                             <td>
                                 
@@ -1163,7 +1163,7 @@
                                 <?php echo JText::_('COM_TIENDA_HIDE_USER_DASHBOARD_NOTE'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('page_tooltip_users_view_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_users_view_disabled', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('page_tooltip_users_view_disabled', 'class="inputbox"', $this -> row -> get('page_tooltip_users_view_disabled', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1190,7 +1190,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_PRODUCT_REVIEWS'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('product_review_enable', 'class="inputbox"', $this -> row -> get('product_review_enable', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('product_review_enable', 'class="inputbox"', $this -> row -> get('product_review_enable', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1201,7 +1201,7 @@
                                 <?php echo JText::_('COM_TIENDA_AUTOMATICALLY_APPROVE_REVIEWS'); ?>
                             </th>
                             <td>
-                                <?php  echo TiendaSelect::booleanlist('product_reviews_autoapprove', 'class="inputbox"', $this -> row -> get('product_reviews_autoapprove', '0')); ?>
+                                <?php  echo TiendaSelect::btbooleanlist('product_reviews_autoapprove', 'class="inputbox"', $this -> row -> get('product_reviews_autoapprove', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1212,7 +1212,7 @@
 								<?php echo JText::_('COM_TIENDA_REQUIRE_LOGIN_TO_LEAVE_REVIEW'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('login_review_enable', 'class="inputbox"', $this -> row -> get('login_review_enable', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('login_review_enable', 'class="inputbox"', $this -> row -> get('login_review_enable', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1223,7 +1223,7 @@
 								<?php echo JText::_('COM_TIENDA_REQUIRE_PURCHASE_TO_LEAVE_REVIEW'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('purchase_leave_review_enable', 'class="inputbox"', $this -> row -> get('purchase_leave_review_enable', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('purchase_leave_review_enable', 'class="inputbox"', $this -> row -> get('purchase_leave_review_enable', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1234,7 +1234,7 @@
 								<?php echo JText::_('COM_TIENDA_USE_CAPTCHA'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('use_captcha', 'class="inputbox"', $this -> row -> get('use_captcha', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('use_captcha', 'class="inputbox"', $this -> row -> get('use_captcha', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1245,7 +1245,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_REVIEW_HELPFULNESS_VOTING'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('review_helpfulness_enable', 'class="inputbox"', $this -> row -> get('review_helpfulness_enable', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('review_helpfulness_enable', 'class="inputbox"', $this -> row -> get('review_helpfulness_enable', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1256,7 +1256,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_SHARE_THIS_LINK'); ?>
 							</th>
 			                <td>
-			                	<?php  echo TiendaSelect::booleanlist('share_review_enable', 'class="inputbox"', $this -> row -> get('share_review_enable', '1')); ?>
+			                	<?php  echo TiendaSelect::btbooleanlist('share_review_enable', 'class="inputbox"', $this -> row -> get('share_review_enable', '1')); ?>
 			                </td>
                             <td>
                                 
@@ -1283,7 +1283,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_AUTOMATIC_TABLE_REORDERING'); ?>
 							</th>
 							<td style="width: 150px;">
-		                       <?php  echo TiendaSelect::booleanlist('enable_reorder_table', 'class="inputbox"', $this -> row -> get('enable_reorder_table', '1')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('enable_reorder_table', 'class="inputbox"', $this -> row -> get('enable_reorder_table', '1')); ?>
 							</td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_ENABLE_AUTOMATIC_TABLE_REORDERING_DESC'); ?>
@@ -1305,7 +1305,7 @@
 								<?php echo JText::_('COM_TIENDA_LOAD_CUSTOM_LANGUAGE_FILE'); ?>
 							</th>
 							<td style="width: 150px;">
-		                       <?php  echo TiendaSelect::booleanlist('custom_language_file', 'class="inputbox"', $this -> row -> get('custom_language_file', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('custom_language_file', 'class="inputbox"', $this -> row -> get('custom_language_file', '0')); ?>
 							</td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_TIENDA_CUSTOM_LANGUAGE_FILE_DESC'); ?>
@@ -1316,7 +1316,7 @@
 								<?php echo JText::_('COM_TIENDA_USE_SHA1_TO_STORE_THE_IMAGES'); ?>
 							</th>
 							<td style="width: 150px;">
-		                      <?php  echo TiendaSelect::booleanlist('sha1_images', 'class="inputbox"', $this -> row -> get('sha1_images', '0')); ?>
+		                      <?php  echo TiendaSelect::btbooleanlist('sha1_images', 'class="inputbox"', $this -> row -> get('sha1_images', '0')); ?>
 							</td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_TIENDA_SHA1_IMAGE_DESC'); ?>
@@ -1359,7 +1359,7 @@
 								<?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_REQUIRE_DIGIT'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('password_req_num', 'class="inputbox"', $this -> row -> get('password_req_num', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('password_req_num', 'class="inputbox"', $this -> row -> get('password_req_num', '1')); ?>
 							</td>
               <td>
               </td>
@@ -1369,7 +1369,7 @@
 								<?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_REQUIRE_ALPHA'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('password_req_alpha', 'class="inputbox"', $this -> row -> get('password_req_alpha', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('password_req_alpha', 'class="inputbox"', $this -> row -> get('password_req_alpha', '1')); ?>
 							</td>
               <td>
               </td>
@@ -1379,7 +1379,7 @@
 								<?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_REQUIRE_SPECIAL'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('password_req_spec', 'class="inputbox"', $this -> row -> get('password_req_spec', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('password_req_spec', 'class="inputbox"', $this -> row -> get('password_req_spec', '1')); ?>
 							</td>
               <td>
 								<?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_REQUIRE_SPECIAL_DESC'); ?>
@@ -1390,7 +1390,7 @@
 								<?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_VALDATE_PHP'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('password_php_validate', 'class="inputbox"', $this -> row -> get('password_php_validate', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('password_php_validate', 'class="inputbox"', $this -> row -> get('password_php_validate', '1')); ?>
 							</td>
               <td>
               </td>
@@ -1400,7 +1400,7 @@
 								<?php echo JText::_('COM_TIENDA_CONFIG_LOWER_FILENAME'); ?>
 							</th>
 							<td style="width: 150px;">
-		                       <?php  echo TiendaSelect::booleanlist('lower_filename', 'class="inputbox"', $this -> row -> get('lower_filename', '1')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('lower_filename', 'class="inputbox"', $this -> row -> get('lower_filename', '1')); ?>
 							</td>
               <td>
                 <?php echo JText::_('COM_TIENDA_CONFIG_LOWER_FILENAME_DESC'); ?>
@@ -1447,7 +1447,7 @@
 								<?php echo JText::_('COM_TIENDA_DISABLE_GUEST_SIGNUP_EMAIL'); ?>
 							</th>
 							<td style="width: 150px;">
-		                       <?php  echo TiendaSelect::booleanlist('disable_guest_signup_email', 'class="inputbox"', $this -> row -> get('disable_guest_signup_email', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('disable_guest_signup_email', 'class="inputbox"', $this -> row -> get('disable_guest_signup_email', '0')); ?>
 							</td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_DISABLE_GUEST_SIGNUP_EMAIL_DESC'); ?>
@@ -1458,7 +1458,7 @@
 								<?php echo JText::_('COM_TIENDA_OBFUSCATE_GUEST_EMAIL'); ?>
 							</th>
 							<td style="width: 150px;">
-		                       <?php  echo TiendaSelect::booleanlist('obfuscate_guest_email', 'class="inputbox"', $this -> row -> get('obfuscate_guest_email', '0')); ?>
+		                       <?php  echo TiendaSelect::btbooleanlist('obfuscate_guest_email', 'class="inputbox"', $this -> row -> get('obfuscate_guest_email', '0')); ?>
 							</td>
                             <td>
                                 <?php echo JText::_('COM_TIENDA_OBFUSCATE_GUEST_EMAIL_DESC'); ?>
@@ -1469,7 +1469,7 @@
                                 <?php echo JText::_('COM_TIENDA_ENABLE_ORDER_STATUS_UPDATE_EMAIL_TO_USER_WHEN_ORDER_PAYMENT_IS_RECEIVED'); ?>
                             </th>
                             <td>
-                               <?php  echo TiendaSelect::booleanlist('autonotify_onSetOrderPaymentReceived', 'class="inputbox"', $this -> row -> get('autonotify_onSetOrderPaymentReceived', '0')); ?>
+                               <?php  echo TiendaSelect::btbooleanlist('autonotify_onSetOrderPaymentReceived', 'class="inputbox"', $this -> row -> get('autonotify_onSetOrderPaymentReceived', '0')); ?>
                             </td>
                             <td>
                                 
@@ -1751,7 +1751,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_PRODUCT_COMPARE'); ?>
 							</th>
 							<td style="width: 150px;">
-		       					<?php  echo TiendaSelect::booleanlist( 'enable_product_compare', 'class="inputbox"', $this -> row -> get('enable_product_compare', '1')); ?>
+		       					<?php  echo TiendaSelect::btbooleanlist( 'enable_product_compare', 'class="inputbox"', $this -> row -> get('enable_product_compare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1772,7 +1772,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_ADD_TO_CART'); ?>
 							</th>
 							<td style="width: 150px;">
-			      				<?php  echo TiendaSelect::booleanlist( 'show_addtocart_productcompare', 'class="inputbox"', $this -> row -> get('show_addtocart_productcompare', '1')); ?>
+			      				<?php  echo TiendaSelect::btbooleanlist( 'show_addtocart_productcompare', 'class="inputbox"', $this -> row -> get('show_addtocart_productcompare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1782,7 +1782,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_AVERAGE_CUSTOMER_RATING'); ?>
 							</th>
 							<td style="width: 150px;">
-			      			<?php  echo TiendaSelect::booleanlist( 'show_rating_productcompare', 'class="inputbox"', $this -> row -> get('show_rating_productcompare', '1')); ?>
+			      			<?php  echo TiendaSelect::btbooleanlist( 'show_rating_productcompare', 'class="inputbox"', $this -> row -> get('show_rating_productcompare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1792,7 +1792,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_MANUFACTURER'); ?>
 							</th>
 							<td style="width: 150px;">
-		       					<?php  echo TiendaSelect::booleanlist( 'show_manufacturer_productcompare', 'class="inputbox"', $this -> row -> get('show_manufacturer_productcompare', '1')); ?>
+		       					<?php  echo TiendaSelect::btbooleanlist( 'show_manufacturer_productcompare', 'class="inputbox"', $this -> row -> get('show_manufacturer_productcompare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1802,7 +1802,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_PRODUCT_MODEL'); ?>
 							</th>
 							<td style="width: 150px;">
-		       					<?php  echo TiendaSelect::booleanlist( 'show_model_productcompare', 'class="inputbox"', $this -> row -> get('show_model_productcompare', '1')); ?>
+		       					<?php  echo TiendaSelect::btbooleanlist( 'show_model_productcompare', 'class="inputbox"', $this -> row -> get('show_model_productcompare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1812,7 +1812,7 @@
 								<?php echo JText::_('COM_TIENDA_SHOW_PRODUCT_SKU'); ?>
 							</th>
 							<td style="width: 150px;">
-		       					<?php  echo TiendaSelect::booleanlist( 'show_sku_productcompare', 'class="inputbox"', $this -> row -> get('show_sku_productcompare', '1')); ?>
+		       					<?php  echo TiendaSelect::btbooleanlist( 'show_sku_productcompare', 'class="inputbox"', $this -> row -> get('show_sku_productcompare', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1837,7 +1837,7 @@
                         <?php echo JText::_('COM_TIENDA_LOW_STOCK_NOTIFY'); ?>
                     </th>
                     <td>
-                       <?php  echo TiendaSelect::booleanlist('low_stock_notify', 'class="inputbox"', $this -> row -> get('low_stock_notify', '0')); ?>
+                       <?php  echo TiendaSelect::btbooleanlist('low_stock_notify', 'class="inputbox"', $this -> row -> get('low_stock_notify', '0')); ?>
                     </td>
                     <td>
                         
@@ -1915,7 +1915,7 @@
 								<?php echo JText::_('COM_TIENDA_EAV_CONTENT_PLUGIN_TEXTAREA'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('eavtext_content_plugin', 'class="inputbox"', $this -> row -> get('eavtext_content_plugin', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('eavtext_content_plugin', 'class="inputbox"', $this -> row -> get('eavtext_content_plugin', '1')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1925,7 +1925,7 @@
 								<?php echo JText::_('COM_TIENDA_EAV_INTEGER_THOUSANDS_SEPARATOR'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('eavinteger_use_thousand_separator', 'class="inputbox"', $this -> row -> get('eavinteger_use_thousand_separator', '0')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('eavinteger_use_thousand_separator', 'class="inputbox"', $this -> row -> get('eavinteger_use_thousand_separator', '0')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1951,7 +1951,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_SUBSCRIPTIONS'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('display_subscriptions', 'class="inputbox"', $this -> row -> get('display_subscriptions', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('display_subscriptions', 'class="inputbox"', $this -> row -> get('display_subscriptions', '1')); ?>
 							</td>
 							<td>								
 								<?php echo JText::_('COM_TIENDA_ENABLE_SUBSCRIPTIONS_NOTE'); ?>
@@ -1962,7 +1962,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_MY_DOWNLOADS'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('display_mydownloads', 'class="inputbox"', $this -> row -> get('display_mydownloads', '1')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('display_mydownloads', 'class="inputbox"', $this -> row -> get('display_mydownloads', '1')); ?>
 							</td>
 							<td>								
 								<?php echo JText::_('COM_TIENDA_ENABLE_MY_DOWNLOADS_NOTE'); ?>
@@ -1973,7 +1973,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_WISHLIST'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('display_wishlist', 'class="inputbox"', $this -> row -> get('display_wishlist', '0')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('display_wishlist', 'class="inputbox"', $this -> row -> get('display_wishlist', '0')); ?>
 							</td>
 							<td>								
 							</td>
@@ -1983,7 +1983,7 @@
 								<?php echo JText::_('COM_TIENDA_ENABLE_CREDITS'); ?>
 							</th>
 							<td style="width: 150px;">
-               <?php  echo TiendaSelect::booleanlist('display_credits', 'class="inputbox"', $this -> row -> get('display_credits', '0')); ?>
+               <?php  echo TiendaSelect::btbooleanlist('display_credits', 'class="inputbox"', $this -> row -> get('display_credits', '0')); ?>
 							</td>
 							<td>								
 							</td>

@@ -1,6 +1,6 @@
 <?php 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
+ini_set ( 'max_execution_time', 1200); 
 $installer = new TiendaInstaller();
 if (!$installer->getLibrary())
 {

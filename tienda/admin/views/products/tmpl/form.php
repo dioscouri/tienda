@@ -87,7 +87,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                 </td>
                 <td class="dsc-value">
-                    <?php  echo TiendaSelect::booleanlist( 'product_enabled', '', @$row->product_enabled ); ?>
+                    <?php  echo TiendaSelect::btbooleanlist( 'product_enabled', '', @$row->product_enabled ); ?>
                 </td>
             </tr>
         </table>
@@ -572,7 +572,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_ITEM_FOR_SALE'); ?>
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'product_notforsale', '', @$row->product_notforsale ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'product_notforsale', '', @$row->product_notforsale ); ?>
                     </td>
                 </tr>
                 <?php
@@ -636,7 +636,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_CHECK_PRODUCT_INVENTORY'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'product_check_inventory', '', @$row->product_check_inventory ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'product_check_inventory', '', @$row->product_check_inventory ); ?>
                     </td>
                 </tr>
                 
@@ -746,7 +746,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_HIDE_QUANTITY_INPUT_ON_PRODUCT_FORM'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'param_hide_quantity_input', '', @$row->product_parameters->get('hide_quantity_input') ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'param_hide_quantity_input', '', @$row->product_parameters->get('hide_quantity_input') ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -762,7 +762,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_DISABLE_ABILITY_TO_UPDATE_QUANTITY_IN_CART'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'param_hide_quantity_cart', '', @$row->product_parameters->get('hide_quantity_cart') ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'param_hide_quantity_cart', '', @$row->product_parameters->get('hide_quantity_cart') ); ?>
                     </td>
                 </tr>
             </table>
@@ -778,7 +778,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_LIST_PRICE'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -823,7 +823,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_LIFETIME_SUBSCRIPTION'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -974,7 +974,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'recurring_trial', '', @$row->recurring_trial ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'recurring_trial', '', @$row->recurring_trial ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -1070,7 +1070,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_FEATURE_COMPARISON'); ?>:
                     </td>
                     <td>
-                         <?php  echo TiendaSelect::booleanlist( 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
+                         <?php  echo TiendaSelect::btbooleanlist( 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
                     </td>
                 </tr>
             </table>
@@ -1166,7 +1166,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_EXCLUDES_USER_FROM_TICKET_LIMITS'); ?>:
                         </td>
                         <td>
-                            <?php  echo TiendaSelect::booleanlist( 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
+                            <?php  echo TiendaSelect::btbooleanlist( 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -1182,7 +1182,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_EXCLUDES_USER_FROM_HOUR_LIMITS'); ?>:
                         </td>
                         <td>
-                            <?php  echo TiendaSelect::booleanlist( 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
+                            <?php  echo TiendaSelect::btbooleanlist( 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
                         </td>
                     </tr>
                 </table>
@@ -1278,7 +1278,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_CHANGE_JOOMLA_ACL'); ?>:
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::booleanlist( 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
+                        <?php  echo TiendaSelect::btbooleanlist( 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
                     </td>
                 </tr>
                 <tr>
