@@ -33,6 +33,8 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 * @param unknown_type $tabs
 	 * @param unknown_type $row
 	 */
+	 
+	 
 	function onAfterDisplayProductFormTabs( $tabs, $row )
 	{
 		if(@$row->product_id)
@@ -53,6 +55,27 @@ class plgTiendaCustomFields extends TiendaPluginBase
 			}
 		}
 	}
+	function onDisplayProductFormTabs( $tabs, $row )
+	{
+		if(@$row->product_id)
+		{
+			$vars = new JObject( );
+			$vars->tabs = $tabs;
+			$vars->row = $row;
+			
+			// Get extra fields for products
+			$fields = $this->getCustomFields( 'products', $row->product_id, true, array( 0, 1 ) );
+			
+			// If there are any extra fields, show them as an extra tab
+			if ( count( $fields ) )
+			{
+				$html = '';
+				$html .= '<li class=""><a href="#customfields" data-toggle="tab"> '.JText::_('COM_TIENDA_CUSTOM_FIELDS') .'</a></li>';
+				echo $html;
+			}
+		}
+	}
+	
 	
 	function onGetAdditionalOrderitemKeyValues( $item )
 	{

@@ -17,20 +17,20 @@
     <table>
         <tr>
             <td align="left" width="100%">
-                <?php
-                	$button = "<input type='button' class='button' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />";
+            	<?php
+                	$button = "<input type='button' class='btn btn-success' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />";
                 	echo TiendaUrl::popup( $create_user_link, $button, array('update' => true) );
                 ?>
             </td>
             <td nowrap="nowrap">
-                <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-                <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
+                <input type="text" name="filter" value="<?php echo @$state->filter; ?>" />
+                <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+                <button class="btn btn-danger" onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
         </tr>
     </table>
 
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">
@@ -64,28 +64,28 @@
             <tr class="filterline">
                 <th colspan="2">
                     <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                    <div class="range">
+                   <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_('COM_TIENDA_FROM'); ?>" id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input input-tiny" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_('COM_TIENDA_TO'); ?>" id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input input-tiny" />
                         </div>
                     </div>
                 </th>
                 <?php if( $display_subnum ): ?>
                 <th>
-                    <input id="filter_subnum" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
+                    <input id="filter_subnum" type="text" name="filter_subnum" value="<?php echo @$state->filter_subnum; ?>" size="10"/>
                 </th>
                 <?php endif; ?>
                 <th style="text-align: left;">
-                    <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                    <input id="filter_name" type="text" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>
                 <th>
-                    <input id="filter_username" name="filter_username" value="<?php echo @$state->filter_username; ?>" size="25"/>
+                    <input id="filter_username" type="text" name="filter_username" value="<?php echo @$state->filter_username; ?>" size="25"/>
                 </th>
                 <th>
-                    <input id="filter_email" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
+                    <input id="filter_email" type="text" name="filter_email" value="<?php echo @$state->filter_email; ?>" size="25"/>
                 </th>
                 <th>
                     <?php echo TiendaSelect::groups(@$state->filter_group, 'filter_group', $attribs, 'filter_group', true ); ?>

@@ -14,7 +14,69 @@ defined('_JEXEC') or die('Restricted access');
 class TiendaSelect extends DSCSelect
 {
 	
+	/* bootstrapped yes/no */
+	
+	public static function booleanlist($name, $attribs = null, $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
+	{
+	
+	 JHTML::_('script', 'bootstrapped-advanced-ui.js', 'media/com_tienda/js/');
+	  JHTML::_('stylesheet', 'bootstrapped-advanced-ui.css', 'media/com_tienda/css/');
+		$arr = array(JHtml::_('select.option', '0', JText::_($no)), JHtml::_('select.option', '1', JText::_($yes)));
+		$html = '<div class="control-group"><div class="controls"><fieldset id="'.$name.'" class="radio btn-group">';
+		$html .=  TiendaSelect::radiolist( $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
+		$html .= '</fieldset></div></div>';
+		
+		
+		return $html;
+	}
+	
+	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+		$translate = false)
+	{
+		reset($data);
+		$html = '';
 
+		if (is_array($attribs))
+		{
+			$attribs = JArrayHelper::toString($attribs);
+		}
+
+		$id_text = $idtag ? $idtag : $name;
+
+		foreach ($data as $obj)
+		{
+			$k = $obj->$optKey;
+			$t = $translate ? JText::_($obj->$optText) : $obj->$optText;
+			$id = (isset($obj->id) ? $obj->id : null);
+
+			$extra = '';
+			$extra .= $id ? ' id="' . $obj->id . '"' : '';
+			if (is_array($selected))
+			{
+				foreach ($selected as $val)
+				{
+					$k2 = is_object($val) ? $val->$optKey : $val;
+					if ($k == $k2)
+					{
+						$extra .= ' selected="selected"';
+						break;
+					}
+				}
+			}
+			else
+			{
+				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
+			}
+			$active ='';
+			if(!empty($k)) { $active = 'active';}
+			$html .= "\n\t" . '<input type="radio" name="' . $name . '"' . ' id="' . $id_text . $k . '" value="' . $k . '"' . ' ' . $extra . ' '
+				. $attribs . '/>' . "\n\t" . '<label for="' . $id_text . $k . '"' . ' id="' . $id_text . $k . '-lbl" class="btn">' . $t
+				. '</label>';
+		}
+		$html .= "\n";
+		return $html;
+	}
+	
 	/**
 	* Generates range list
 	*

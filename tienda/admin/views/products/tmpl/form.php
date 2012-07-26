@@ -4,11 +4,10 @@
 <?php JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'swfobject.js', 'media/com_tienda/js/uploadify/'); ?>
-<?php JHTML::_('script', 'jquery-1.5.1.min.js', 'media/com_tienda/js/uploadify/'); ?>
+<?php // JHTML::_('script', 'jquery-1.5.1.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('script', 'jquery.uploadify.v2.1.4.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
-<?php jimport('joomla.html.pane'); ?>
-<?php $tabs = JPane::getInstance( 'tabs' ); ?>
+
 <?php $form = @$this->form; ?>
 <?php
  // in joomla 2.5 this is causing admin forms to have encoded entities in the html forms
@@ -26,29 +25,29 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 
     <fieldset>
     <legend><?php echo JText::_('COM_TIENDA_BASIC_INFORMATION'); ?></legend>
-        <div style="float: left;">
-        <table class="admintable">
+        <div style="float: left; margin:5px;">
+        <table class="table table-striped table-bordered">
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_NAME'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <input type="text" name="product_name" id="product_name" value="<?php echo @$row->product_name; ?>" size="48" maxlength="250" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_ALIAS'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <input name="product_alias" id="product_alias" value="<?php echo @$row->product_alias; ?>" type="text" size="48" maxlength="250" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_ID'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <?php 
                     if (empty($row->product_id)) 
                     {
@@ -65,49 +64,49 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             </tr>
         </table>
         </div>
-        <div style="float: left;">
-        <table class="admintable">
+        <div style="float: left; margin:5px;">
+        <table class="table table-striped table-bordered">
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_MODEL'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <input type="text" name="product_model" id="product_model" value="<?php echo @$row->product_model; ?>" size="48" maxlength="250" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_SKU'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <input type="text" name="product_sku" id="product_sku" value="<?php echo @$row->product_sku; ?>" size="48" maxlength="250" />
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                 </td>
-                <td>
-                    <?php echo JHTML::_('select.booleanlist', 'product_enabled', '', @$row->product_enabled ); ?>
+                <td class="dsc-value">
+                    <?php  echo TiendaSelect::booleanlist( 'product_enabled', '', @$row->product_enabled ); ?>
                 </td>
             </tr>
         </table>
         </div>
-        <div style="float: left;">
-        <table class="admintable">
+        <div style="float: left; margin:5px;">
+        <table class="table table-striped table-bordered">
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_OVERALL_RATING'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <?php echo $helper_product->getRatingImage( $this, @$row->product_rating ); ?>
                 </td>
             </tr>
             <tr>
-                <td style="width: 100px; text-align: right;" class="key">
+                <td style="width: 100px; text-align: right;" class="dsc-key">
                     <?php echo JText::_('COM_TIENDA_COMMENTS'); ?>:
                 </td>
-                <td>
+                <td class="dsc-value">
                     <?php echo @$row->product_comments; ?>
                 </td>
             </tr>
@@ -125,36 +124,51 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
     </fieldset>
 
     <div class="reset"></div>
+  
+ 
+
+    
     
     <?php
         // fire plugin event here to enable extending the form
         JDispatcher::getInstance()->trigger('onBeforeDisplayProductForm', array( $row ) );                    
     ?>
 
-    <?php 
-    // start tab pane
-    echo $tabs->startPane( "pane_tienda" );
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_PRODUCT_PROPERTIES'), "panel_product_properties");
-    ?>
+<?php $tabs = array(); #TODO add the tabs to an array or object and than make a display method so plugins can edit the tabs and the ordering ?>
 
-	<table style="width: 100%">
+		<ul class="nav nav-tabs" id="TiendaProductTabs">
+            <li class="active"><a href="#panel_product_properties" data-toggle="tab"><?php echo  JText::_('COM_TIENDA_PRODUCT_PROPERTIES'); ?></a></li>
+            <li class=""><a href="#panel_pricing" data-toggle="tab"><?php echo JText::_('COM_TIENDA_PRICING_AND_INVENTORY'); ?></a></li>
+          	 <li class=""><a href="#subscriptions" data-toggle="tab"><?php echo  JText::_('COM_TIENDA_SUBSCRIPTIONS'); ?></a></li>
+           <li class=""><a href="#panel_relations" data-toggle="tab"><?php echo JText::_('COM_TIENDA_RELATED_ITEMS'); ?></a></li>
+           <li class=""><a href="#panel_display" data-toggle="tab"><?php echo JText::_('COM_TIENDA_DISPLAY'); ?></a></li>
+          <li class=""><a href="#panel_integrations" data-toggle="tab"><?php echo JText::_('COM_TIENDA_INTEGRATIONS'); ?></a></li>
+          <li class=""><a href="#panel_advanced" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADVANCED'); ?></a></li>
+          
+         <?php JDispatcher::getInstance()->trigger('onDisplayProductFormTabs', array( $tabs, $row ) );?>
+      
+          </ul>
+
+ 
+ 
+ <div class="tab-content">
+  <div class="tab-pane active" id="panel_product_properties" data-target="panel_product_properties">
+  <table style="width: 100%" class="table">
 	<tr>
 		<td style="vertical-align: top; width: 65%;">
 		
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_ADDITIONAL_INFORMATION'); ?></legend>
             
-            <div style='float: left; width: 50%;'>
-            <table class="admintable" style="width: 100%;">
+            <div style='float: left; width: 100%;'>
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
-                        <label for="manufacturer_id">
+                    <td  class="dsc-key">
+                       
                         <?php echo JText::_('COM_TIENDA_MANUFACTURER'); ?>:
-                        </label>
+                        
                     </td>
-                    <td>
+                    <td class="dsc-value">
                         <?php echo TiendaSelect::manufacturer( @$row->manufacturer_id, 'manufacturer_id', '', 'manufacturer_id', false, true ); ?>
                     </td>
                 </tr>
@@ -164,10 +178,10 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // doing a new product, so display a notice
                     ?>
                     <tr>
-                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                        <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_ATTRIBUTES'); ?>:
                         </td>
-                        <td>
+                        <td class="dsc-value">
                             <div class="note"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_CREATE_PRODUCT_ATTRIBUTES'); ?></div>
                         </td>
                     </tr>
@@ -178,10 +192,10 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // display lightbox link to manage attributes
                     ?>
                     <tr>
-                        <td style="width: 100px; text-align: right;" class="key">
+                        <td  class="dsc-key">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_ATTRIBUTES'); ?>:
                         </td>
-                        <td>
+                        <td class="dsc-value">
                             [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setattributes&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_SET_ATTRIBUTES'), array('onclose' => '\function(){tiendaNewModal(\''.JText::_('COM_TIENDA_SAVING_THE_PRODUCT').'\'); submitbutton(\'apply\');}') ); ?>]
                             <?php $attributes = $helper_product->getAttributes( $row->product_id ); ?>
                             <div id="current_attributes">
@@ -201,23 +215,27 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 }
                 ?>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_REQUIRES_SHIPPING'); ?>:
                     </td>
-                    <td>
+                    <td class="dsc-value">
                         <?php // Make the shipping options div only display if yes ?>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/><label for="product_ships0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
-                        <input onclick="tiendaShowHideDiv('shipping_options');" type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label for="product_ships1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
-                    </td>
+                        <div class="control-group"><div class="controls"><fieldset id="shipoptions" class="radio btn-group">
+	  <input class="input"  type="radio" <?php if (empty($row->product_ships)) { echo "checked='checked'"; } ?> value="0" name="product_ships" id="product_ships0"/>
+	  <label onclick="tiendaShowHideDiv('shipping_options');" for="product_ships0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+     <input class="input"  type="radio" <?php if (!empty($row->product_ships)) { echo "checked='checked'"; } ?> value="1" name="product_ships" id="product_ships1"/><label onclick="tiendaShowHideDiv('shipping_options');" for="product_ships1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
+</fieldset></div></div>
+                        
+                                 </td>
                 </tr>
                 </table>
                 </div>
                 
                 <?php // Only display if product ships ?>
-                <div id="shipping_options" style='float: right; width: 50%; <?php if (empty($row->product_ships)) { echo "display: none;"; } ?>' >                
-                <table class="admintable" style="width: 100%;">
+                <div id="shipping_options" style='width: 100%; <?php if (empty($row->product_ships)) { echo "display: none;"; } ?>' >                
+                <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_weight">
                         <?php echo JText::_('COM_TIENDA_WEIGHT'); ?>:
                         </label>
@@ -227,7 +245,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_length">
                         <?php echo JText::_('COM_TIENDA_LENGTH'); ?>:
                         </label>
@@ -238,7 +256,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 </tr>
 
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_width">
                         <?php echo JText::_('COM_TIENDA_WIDTH'); ?>:
                         </label>
@@ -248,7 +266,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_height">
                         <?php echo JText::_('COM_TIENDA_HEIGHT'); ?>:
                         </label>
@@ -267,9 +285,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></legend>
             
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
 				<tr>
-					<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+					<td style="width: 100px; text-align: right; vertical-align:top;" class="dsc-key">
 						<?php echo JText::_('COM_TIENDA_FULL_DESCRIPTION'); ?>:
 					</td>
 					<td>
@@ -278,7 +296,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 					</td>
 				</tr>
                 <tr>
-                    <td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+                    <td style="width: 100px; text-align: right; vertical-align:top;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SHORT_DESCRIPTION'); ?>:
                     </td>
                     <td>
@@ -288,7 +306,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 </tr>
                 <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
                 <tr>
-                	<td style="width: 100px; text-align: right; vertical-align:top;" class="key">
+                	<td style="width: 100px; text-align: right; vertical-align:top;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_TAGS'); ?>:
                     </td>
                 	<td>                	
@@ -314,9 +332,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_PUBLICATION_DATES'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PUBLISH_UP'); ?>:
                     </td>
                     <td>
@@ -324,7 +342,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PUBLISH_DOWN'); ?>:
                     </td>
                     <td>
@@ -336,14 +354,14 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_CATEGORIES'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <?php 
                 if (empty($row->product_id)) 
                 {
                     // doing a new product, so collect default info
                     ?>
                     <tr>
-                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                        <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                             <label for="category_id">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_CATEGORY'); ?>:
                             </label>
@@ -360,7 +378,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // display lightbox link to manage categories
                     ?>
                     <tr>
-                        <td style="width: 100px; text-align: right;" class="key">
+                        <td style="width: 100px; text-align: right;" class="dsc-key">
                             <label for="product_categories">
                             <?php echo JText::_('COM_TIENDA_CATEGORIES'); ?>:
                             </label>
@@ -389,9 +407,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 		
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_IMAGES'); ?></legend>
-            <table class="admintable" style="width: 100%;">            
+            <table class="table table-striped table-bordered" style="width: 100%;">            
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_full_image">
                         <?php echo JText::_('COM_TIENDA_CURRENT_DEFAULT_IMAGE'); ?>:
                         </label>
@@ -405,7 +423,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_image_gallery">
                         <?php echo JText::_('COM_TIENDA_CURRENT_IMAGES'); ?>:
                         </label>
@@ -428,7 +446,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <label for="product_full_image_new">
                         <?php echo JText::_('COM_TIENDA_UPLOAD_NEW_IMAGE'); ?>:
                         </label>
@@ -448,7 +466,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_IMAGES_GALLERY_PATH_OVERRIDE'); ?>:
                     </td>
                     <td>
@@ -467,7 +485,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_FILES'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
              
                 <?php 
                 if (empty($row->product_id)) 
@@ -475,7 +493,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // doing a new product, so display a notice
                     ?>
                     <tr>
-                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                        <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:
                         </td>
                         <td>
@@ -489,7 +507,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // display lightbox link to manage files
                     ?>
                     <tr>
-                        <td style="width: 100px; text-align: right;" class="key">
+                        <td style="width: 100px; text-align: right;" class="dsc-key">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:
                         </td>
                         <td>
@@ -513,7 +531,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                        <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_FILES_PATH_OVERRIDE'); ?>:
                         </td>
                         <td>
@@ -541,28 +559,20 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 		?>
 		</td>
 	</tr>
-	</table>
-
-    <?php 
-    echo $tabs->endPanel();
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_PRICING_AND_INVENTORY'), "panel_pricing"); 
-    ?>
-
-        <div style="clear: both;"></div>
+	</table></div>
+  <div class="tab-pane fade" id="panel_pricing">   <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_PRICES_AND_INVENTORY'); ?></legend>
             
-            <table class="admintable">
+            <table class="table table-striped table-bordered">
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_ITEM_FOR_SALE'); ?>
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'product_notforsale', '', @$row->product_notforsale, 'no', 'yes' ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'product_notforsale', '', @$row->product_notforsale ); ?>
                     </td>
                 </tr>
                 <?php
@@ -572,7 +582,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // new product (or no prices set) - ask for normal price
                     ?>
                     <tr>
-                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                        <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                             <label for="product_price">
                             <?php echo JText::_('COM_TIENDA_NORMAL_PRICE'); ?>:
                             </label>
@@ -589,7 +599,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     // display lightbox link to manage prices
                     ?>
                     <tr>
-                        <td style="width: 100px; text-align: right;" class="key">
+                        <td style="width: 100px; text-align: right;" class="dsc-key">
                             <label for="product_prices">
                             <?php echo JText::_('COM_TIENDA_PRICES'); ?>:
                             </label>
@@ -614,7 +624,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 }
                 ?>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_TAX_CLASS'); ?>:
                     </td>
                     <td>
@@ -622,11 +632,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_CHECK_PRODUCT_INVENTORY'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'product_check_inventory', '', @$row->product_check_inventory ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'product_check_inventory', '', @$row->product_check_inventory ); ?>
                     </td>
                 </tr>
                 
@@ -636,7 +646,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 {
                 ?>
                 <tr>
-                        <td width="100" align="right" class="key" style="vertical-align: top;">
+                        <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_QUANTITIES'); ?>:
                         </td>
                         <td>
@@ -652,7 +662,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         // doing a new product
                         ?>
                         <tr>
-                            <td width="100" align="right" class="key" style="vertical-align: top;">
+                            <td width="100" align="right" class="dsc-key" style="vertical-align: top;">
                                 <?php echo JText::_('COM_TIENDA_STARTING_QUANTITY'); ?>:
                             </td>
                             <td>
@@ -666,7 +676,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         // display lightbox link to manage quantities
                         ?>
                         <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
+                            <td style="width: 100px; text-align: right;" class="dsc-key">
                                 <?php echo JText::_('COM_TIENDA_PRODUCT_QUANTITIES'); ?>:
                             </td>
                             <td>
@@ -688,13 +698,16 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_PURCHASE_QUANTITY_RESTRICTION'); ?>:
                     </td>
                     <td>
-                    	<input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label for="quantity_restriction0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
-                        <input onclick="tiendaShowHideDiv('quantity_restrictions');" type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label for="quantity_restriction1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
-                        	 <?php // Only display if quantity restriction ?>
+                    	<div class="control-group"><div class="controls"><fieldset id="product_enabled" class="radio btn-group">
+		<input  type="radio" <?php if (empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="0" name="quantity_restriction" id="quantity_restriction0"/><label onclick="tiendaShowHideDiv('quantity_restrictions');" for="quantity_restriction0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input  type="radio" <?php if (!empty($row->quantity_restriction)) { echo "checked='checked'"; } ?> value="1" name="quantity_restriction" id="quantity_restriction1"/><label onclick="tiendaShowHideDiv('quantity_restrictions');" for="quantity_restriction1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
+                      
+</fieldset></div></div>
+                      	 <?php // Only display if quantity restriction ?>
                         <div id="quantity_restrictions" style='float: right; width: 50%; <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
-                        <table class="admintable" style="width: 100%;">
+                        <table class="table table-striped table-bordered" style="width: 100%;">
                         <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
+                            <td style="width: 100px; text-align: right;" class="dsc-key">
                                 <label for="quantity_min">
                                 <?php echo JText::_('COM_TIENDA_MINIMUM_QUANTITY'); ?>:
                                 </label>
@@ -704,7 +717,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
+                            <td style="width: 100px; text-align: right;" class="dsc-key">
                                 <label for="quantity_max">
                                 <?php echo JText::_('COM_TIENDA_MAXIUM_QUANTITY'); ?>:
                                 </label>
@@ -715,7 +728,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </tr>
         
                         <tr>
-                            <td style="width: 100px; text-align: right;" class="key">
+                            <td style="width: 100px; text-align: right;" class="dsc-key">
                                 <label for="quantity_step">
                                 <?php echo JText::_('COM_TIENDA_STEP_QUANTITY'); ?>:
                                 </label>
@@ -729,15 +742,15 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_HIDE_QUANTITY_INPUT_ON_PRODUCT_FORM'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'param_hide_quantity_input', '', @$row->product_parameters->get('hide_quantity_input') ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'param_hide_quantity_input', '', @$row->product_parameters->get('hide_quantity_input') ); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_DEFAULT_QUANTITY_IF_INPUT_HIDDEN_ON_PRODUCT_FORM'); ?>:
                     </td>
                     <td>
@@ -745,11 +758,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_DISABLE_ABILITY_TO_UPDATE_QUANTITY_IN_CART'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'param_hide_quantity_cart', '', @$row->product_parameters->get('hide_quantity_cart') ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'param_hide_quantity_cart', '', @$row->product_parameters->get('hide_quantity_cart') ); ?>
                     </td>
                 </tr>
             </table>
@@ -759,13 +772,13 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_PRODUCT_LIST_PRICE'); ?></legend>
-            <table class="admintable">
+            <table class="table table-striped table-bordered">
                 <tr>
                     <td title="<?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_LIST_PRICE').'::'.JText::_('COM_TIENDA_DISPLAY_PRODUCT_LIST_PRICE_TIP'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
                         <?php echo JText::_('COM_TIENDA_DISPLAY_PRODUCT_LIST_PRICE'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'product_listprice_enabled', '', @$row->product_listprice_enabled ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -782,15 +795,8 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         </div>
     
         <div style="clear: both;"></div>
-
-    <?php 
-    echo $tabs->endPanel();
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_SUBSCRIPTIONS'), "subscriptions"); 
-    ?>
-
-        <div style="clear: both;"></div>
+        </div>
+  <div class="tab-pane" id="subscriptions"> <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
@@ -798,22 +804,26 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             
             <div class="note"><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION_NOTE'); ?></div>
             
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PRODUCT_CREATES_SUBSCRIPTION'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                    	<div class="control-group"><div class="controls"><fieldset id="product_enabled" class="radio btn-group">
+		 <input type="radio" <?php if (empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="0" name="product_subscription" id="product_subscription0"/><label for="product_subscription0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
                         <input type="radio" <?php if (!empty($row->product_subscription)) { echo "checked='checked'"; } ?> value="1" name="product_subscription" id="product_subscription1"/><label for="product_subscription1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
-                    </td>
+                              
+</fieldset></div></div>
+                    	
+                          </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_LIFETIME_SUBSCRIPTION'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'subscription_lifetime', '', @$row->subscription_lifetime ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -825,7 +835,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PERIOD_UNIT'); ?>:
                     </td>
                     <td>
@@ -833,7 +843,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>          
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_ISSUES_LIST'); ?>:
                     </td>
                     <td>
@@ -869,28 +879,33 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO_RATED_CHARGES'); ?></legend>
             <div class="note"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO-RATED_CHARGES_NOTE'); ?></div>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
             		<?php $onclick_prorated = 'showProRatedFields();'; ?>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PRODUCT_CHARGES_PRO-RATED'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                    	<div class="control-group"><div class="controls"><fieldset id="subscription_lifetime" class="radio btn-group">
+	  <input type="radio" <?php if ( !$row->subscription_prorated ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated" id="subscription_prorated0" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
                         <input type="radio" <?php if ( $row->subscription_prorated ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated" id="subscription_prorated1" onchange="<?php echo $onclick_prorated; ?>"/><label for="subscription_prorated1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
-                    </td>
+               </fieldset></div></div>
+                           </td>
                 </tr>
                 <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_INITIAL_CHARGE'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_CHARGE_FULL'); ?></label>
+                    	<div class="control-group"><div class="controls"><fieldset id="product_enabled" class="radio btn-group">
+		 <input type="radio" <?php if ( !$row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="0" name="subscription_prorated_charge" id="subscription_prorated_charge0"/><label for="subscription_prorated_charge0"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_CHARGE_FULL'); ?></label>
                         <input type="radio" <?php if ( $row->subscription_prorated_charge ) { echo "checked='checked'"; } ?> value="1" name="subscription_prorated_charge" id="subscription_prorated_charge1"/><label for="subscription_prorated_charge1"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_CHARGE_PRO-RATED'); ?></label>
-                    </td>
+                                      
+</fieldset></div></div>
+                                   </td>
                 </tr>
                 <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_DATE'); ?>:<br />
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_DATE_NOTE');?>
                     </td>
@@ -899,13 +914,16 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr class="prorated_related">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_PRO-RATED_TERM'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_('COM_TIENDA_DAY'); ?></label>
+                    	<div class="control-group"><div class="controls"><fieldset id="product_enabled" class="radio btn-group">
+		               <input type="radio" <?php if ( $row->subscription_prorated_term == 'D' ) { echo "checked='checked'"; } ?> value="D" name="subscription_prorated_term" id="subscription_prorated_termD"/><label for="subscription_prorated_termD"><?php echo JText::_('COM_TIENDA_DAY'); ?></label>
                         <input type="radio" <?php if ( $row->subscription_prorated_term == 'M' ) { echo "checked='checked'"; } ?> value="M" name="subscription_prorated_term" id="subscription_prorated_termM"/><label for="subscription_prorated_termM"><?php echo JText::_('COM_TIENDA_MONTH'); ?></label>
-                    </td>
+                            
+</fieldset></div></div>
+                          </td>
                 </tr>
             </table>
             </fieldset>
@@ -914,18 +932,21 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_RECURRING_CHARGES'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PRODUCT_CHARGES_RECUR'); ?>:
                     </td>
                     <td>
-                        <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label for="product_recurs0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
-                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label for="product_recurs1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
-                    </td>
+                    	<div class="control-group"><div class="controls"><fieldset id="product_enabled" class="radio btn-group">
+		              <input type="radio" <?php if (empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="0" name="product_recurs" id="product_recurs0"/><label class="btn" for="product_recurs0"><?php echo JText::_('COM_TIENDA_NO'); ?></label>
+                        <input type="radio" <?php if (!empty($row->product_recurs)) { echo "checked='checked'"; } ?> value="1" name="product_recurs" id="product_recurs1"/><label class="btn" for="product_recurs1"><?php echo JText::_('COM_TIENDA_YES'); ?></label>
+                        
+</fieldset></div></div>
+                                 </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_NUMBER_OF_RECURRING_CHARGES'); ?>:
                     </td>
                     <td>
@@ -933,7 +954,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_RECURRING_PERIOD_INTERVAL'); ?>:
                     </td>
                     <td>
@@ -941,7 +962,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_RECURRING_PERIOD_UNITS'); ?>:
                     </td>
                     <td>
@@ -949,11 +970,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr class="prorated_unrelated">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'recurring_trial', '', @$row->recurring_trial ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'recurring_trial', '', @$row->recurring_trial ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -965,7 +986,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr class="prorated_unrelated">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_INTERVAL'); ?>:
                     </td>
                     <td>
@@ -973,7 +994,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 <tr class="prorated_unrelated">
-                    <td style="width: 125px; text-align: right;" class="key">
+                    <td style="width: 125px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_UNITS'); ?>:
                     </td>
                     <td>
@@ -986,15 +1007,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         </div>
     
         <div style="clear: both;"></div>
-    
-
-    <?php 
-    echo $tabs->endPanel();
-
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_RELATED_ITEMS'), "panel_relations"); 
-    ?>
-        <div style="clear: both;"></div>
+        
+        </div>
+  <div class="tab-pane" id="panel_relations"><div style="clear: both;"></div>
         
         <div style="width: 100%;">
             <fieldset>
@@ -1004,7 +1019,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_PRODUCT_ID').": "; ?>
                     <input name="new_relationship_productid_to" size="15" type="text" />
                     <input name="new_relationship_productid_from" value="<?php echo @$row->product_id; ?>" type="hidden" />
-                    <input value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" type="button" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('COM_TIENDA_UPDATING_RELATIONSHIPS'); ?>');" />
+                    <button value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" class="btn btn-primary" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('COM_TIENDA_UPDATING_RELATIONSHIPS'); ?>');" ><?php echo JText::_('COM_TIENDA_ADD'); ?></button>
                 </div>
                 <div style="clear: both;"></div>
             </fieldset>
@@ -1025,21 +1040,16 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         ?>
         
         <div style="clear: both;"></div>
-    
-    <?php 
-    echo $tabs->endPanel();
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_DISPLAY'), "panel_display"); 
-    ?>
-        <div style="clear: both;"></div>
+        
+        </div>
+  <div class="tab-pane" id="panel_display">  <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_TEMPLATE'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PRODUCT_LAYOUT_FILE'); ?>:
                     </td>
                     <td>
@@ -1054,13 +1064,13 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_EXTRA'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_FEATURE_COMPARISON'); ?>:
                     </td>
                     <td>
-                         <?php echo JHTML::_('select.booleanlist', 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
+                         <?php  echo TiendaSelect::booleanlist( 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>                      
                     </td>
                 </tr>
             </table>
@@ -1070,9 +1080,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: right; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_POST_PURCHASE_ARTICLE'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_SELECT_AN_ARTICLE_TO_DISPLAY_AFTER_PURCHASE'); ?>:
                     </td>
                     <td>
@@ -1090,21 +1100,14 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         ?>
         
         <div style="clear: both;"></div>
-    
-    <?php 
-    echo $tabs->endPanel();
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_INTEGRATIONS'), "panel_integrations"); 
-    ?>
-
-        <div style="clear: both;"></div>
+    </div>
+  <div class="tab-pane" id="panel_integrations"> <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_AMBRASUBSCRIPTIONS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
-                <table class="admintable" style="width: 100%;">
+                <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>
                         <td title="<?php echo JText::_('COM_TIENDA_ASSOCIATED_AMBRASUBS_SUBSCRIPTION_TYPE').'::'.JText::_('ASSOCIATED_AMBRASUBS_SUBSCRIPTION_TYPE_TIP'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
                             <?php echo JText::_('COM_TIENDA_ASSOCIATED_AMBRASUBS_SUBSCRIPTION_TYPE'); ?>:
@@ -1126,7 +1129,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_AMIGOS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmigos', 'helpers.amigos')->isInstalled()) : ?>
-                <table class="admintable" style="width: 100%;">
+                <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>
                         <td style="width: 125px; text-align: right;" class="key hasTip" title="<?php echo JText::_('COM_TIENDA_COMMISSION_RATE_OVERRIDE').'::'.JText::_('COM_TIENDA_COMMISSION_RATE_OVERRIDE_TIP'); ?>" >
                             <?php echo JText::_('COM_TIENDA_COMMISSION_RATE_OVERRIDE'); ?>:
@@ -1149,7 +1152,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <legend><?php echo JText::_('COM_TIENDA_BILLETS_INTEGRATION'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperBillets', 'helpers.billets')->isInstalled()) : ?>
-                <table class="admintable" style="width: 100%;">
+                <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>
                         <td title="<?php echo JText::_('COM_TIENDA_TICKET_LIMIT_INCREASE').'::'.JText::_('COM_TIENDA_TICKET_LIMIT_INCREASE_TIP'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
                             <?php echo JText::_('COM_TIENDA_TICKET_LIMIT_INCREASE'); ?>:
@@ -1163,7 +1166,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_EXCLUDES_USER_FROM_TICKET_LIMITS'); ?>:
                         </td>
                         <td>
-                            <?php echo JHTML::_('select.booleanlist', 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
+                            <?php  echo TiendaSelect::booleanlist( 'billets_ticket_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_ticket_limit_exclusion') ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -1179,7 +1182,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_EXCLUDES_USER_FROM_HOUR_LIMITS'); ?>:
                         </td>
                         <td>
-                            <?php echo JHTML::_('select.booleanlist', 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
+                            <?php  echo TiendaSelect::booleanlist( 'billets_hour_limit_exclusion', 'class="inputbox"', $row->product_parameters->get('billets_hour_limit_exclusion') ); ?>
                         </td>
                     </tr>
                 </table>
@@ -1196,7 +1199,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <legend><?php echo JText::_('COM_TIENDA_JUGA_INTEGRATION'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperJuga', 'helpers.juga')->isInstalled()) : ?>
-                <table class="admintable" style="width: 100%;">
+                <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>
                         <td title="<?php echo JText::_('COM_TIENDA_JUGA_GROUP_IDS').'::'.JText::_('COM_TIENDA_JUGA_GROUP_IDS_TIP'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
                             <?php echo JText::_('COM_TIENDA_JUGA_GROUP_IDS'); ?>:
@@ -1214,7 +1217,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 125px; text-align: right;" class="key" >
+                        <td style="width: 125px; text-align: right;" class="dsc-key" >
                         </td>
                         <td>
                             <?php echo JText::_('COM_TIENDA_ACTIONS_FOR_WHEN_SUBSCRIPTION_EXPIRES'); ?>
@@ -1249,7 +1252,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_TAGS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
-                <table class="admintable" style="width: 100%;">
+                <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>                        
                         <td>
 							<div class="note">
@@ -1269,13 +1272,13 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_CORE_JOOMLA_USER_INTEGRATION'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
                     <td title="<?php echo JText::_('COM_TIENDA_CHANGE_JOOMLA_ACL').'::'.JText::_('COM_TIENDA_CHANGE_JOOMLA_ACL_TIP'); ?>" style="width: 125px; text-align: right;" class="key hasTip" >
                         <?php echo JText::_('COM_TIENDA_CHANGE_JOOMLA_ACL'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
+                        <?php  echo TiendaSelect::booleanlist( 'core_user_change_gid', 'class="inputbox"', $row->product_parameters->get('core_user_change_gid') ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -1299,14 +1302,8 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         JDispatcher::getInstance()->trigger('onDisplayProductFormIntegrations', array( $row ) );                    
         ?>
         
-        <div style="clear: both;"></div>
-    <?php 
-    echo $tabs->endPanel();
-    
-    // Tab
-    echo $tabs->startPanel( JText::_('COM_TIENDA_ADVANCED'), "panel_advanced"); 
-    ?>
-        <div style="clear: both;"></div>
+        <div style="clear: both;"></div></div>
+  <div class="tab-pane" id="panel_advanced"> <div style="clear: both;"></div>
         
         <div class="note">
             <?php echo JText::_('COM_TIENDA_ADVANCED_PANEL_NOTICE'); ?>
@@ -1317,9 +1314,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_PRODUCT_PARAMETERS'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
-                    <td style="vertical-align: top; width: 100px; text-align: right;" class="key">
+                    <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key">
                         <?php echo JText::_('COM_TIENDA_PRODUCT_PARAMS'); ?>:
                     </td>
                     <td>
@@ -1333,7 +1330,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="float: left; width: 50%;">
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_SQL_FOR_AFTER_PURCHASE'); ?></legend>
-            <table class="admintable" style="width: 100%;">
+            <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
                     <td title="<?php echo JText::_('COM_TIENDA_PRODUCT_SQL').'::'.JText::_('COM_TIENDA_PRODUCT_SQL_TIP'); ?>" style="width: 100px; text-align: right;" class="key hasTip" >
                         <?php echo JText::_('COM_TIENDA_PRODUCT_SQL'); ?>:
@@ -1378,15 +1375,18 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         ?>
         
         <div style="clear: both;"></div>
+        </div>
         
-    <?php 
-    echo $tabs->endPanel();
+ <?php 
+  
     
     // fire plugin event here to enable extending the form's tabs
     JDispatcher::getInstance()->trigger('onAfterDisplayProductFormTabs', array( $tabs, $row ) );
     
-    echo $tabs->endPane();
+ 
     ?>
+</div>
+
 
     <?php
     // fire plugin event here to enable extending the form

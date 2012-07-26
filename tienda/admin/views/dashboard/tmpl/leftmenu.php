@@ -1,15 +1,16 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
-JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
+JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_calendar/css/');
 ?>
 
-<div id="<?php echo $this->name; ?>" class="leftmenu">
-    <div class="title"><?php echo JText::_( $this->name ); ?></div>
-    
-    <div class="menuitems">
+<div id="<?php echo $this->name; ?>" >
+    <ul class="nav nav-pills nav-stacked">
     <?php 
     foreach ($this->items as $item) {
-        
+        ?>
+        <li <?php  if ($item[2] == 1) {echo 'class="active"'; } ?> >
+        <?php 
+		
         if ($this->hide) {
             
             if ($item[2] == 1) {
@@ -26,6 +27,9 @@ JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
             ?> <a href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php   
             }        
         }
+		?>
+		</li>
+		<?php
         
     }
     ?>

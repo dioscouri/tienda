@@ -3,9 +3,12 @@
 	$tabs = @$vars->tabs;
 	$row = @$vars->row;
 	// Tab
-	echo $tabs->startPanel( JText::_('COM_TIENDA_CUSTOM_FIELDS'), "panel_custom_fields"); 
+
 	Tienda::load('TiendaHelperEav', 'helpers.eav');
 ?>
+
+ <div class="tab-pane" id="customfields">
+
 		<div class="tienda_custom_fields">
 			<fieldset>
 			<legend><?php echo JText::_('COM_TIENDA_CUSTOM_FIELDS'); ?></legend>
@@ -26,4 +29,4 @@
 	JDispatcher::getInstance()->trigger('onDisplayProductFormCustomFields', array( $row ) );                    
 ?>
 	  <div style="clear: both;"></div>
-<?php echo $tabs->endPanel(); ?>
+</div>

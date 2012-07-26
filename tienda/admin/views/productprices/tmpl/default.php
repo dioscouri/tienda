@@ -5,19 +5,21 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
+
+
 <h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_PRICES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_PRICE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createprice'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_PRICE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createprice'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_PRICE'); ?></button>
     </div>
     <div class="reset"></div>
-	<table class="adminlist">
+	<table class="table table-striped table-bordered">
     	<thead>
         	<tr>
         		<th><?php echo JText::_('COM_TIENDA_DATE_RANGE'); ?></th>
@@ -34,15 +36,15 @@
             		<?php echo JHTML::calendar( "", "createprice_date_end", "createprice_date_end", '%Y-%m-%d %H:%M:%S' ); ?>
         		</td>
         		<td style="text-align: center;">
-        			<input id="createprice_quantity_start" name="createprice_quantity_start" value="" size="5" />
+        			<input type="text" id="createprice_quantity_start" name="createprice_quantity_start" value="" size="5" />
         			<?php echo JText::_('COM_TIENDA_TO'); ?>
-            		<input id="createprice_quantity_end" name="createprice_quantity_end" value="" size="5" />
+            		<input type="text" id="createprice_quantity_end" name="createprice_quantity_end" value="" size="5" />
             	</td>
             	<td style="text-align: center;">
         			<?php echo TiendaSelect::groups('', 'createprice_group_id'); ?>
         		</td>
         		<td style="text-align: center;">
-        			<input id="createprice_price" name="createprice_price" value="" />
+        			<input type="text" id="createprice_price" name="createprice_price" value="" />
         		</td>
         	</tr>
     	</tbody>
@@ -52,10 +54,10 @@
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_PRICES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveprices'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveprices'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 20px;">

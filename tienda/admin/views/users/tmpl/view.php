@@ -18,7 +18,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 $config = Tienda::getInstance();
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
 <table width="100%" border="0">
 	<tr>
@@ -31,7 +31,7 @@ $config = Tienda::getInstance();
 			<fieldset>
 				<legend><?php echo JText::_('COM_TIENDA_BASIC_USER_INFO'); ?></legend>
 				<div id="tienda_header">
-					<table class="admintable" style="width: 100%;" border="0">					
+					<table style="width: 100%;" border="0">					
 						<tr>
 							<td  align="right" class="key">
 		                        <label for="name">
@@ -64,7 +64,7 @@ $config = Tienda::getInstance();
 										//
 
 										$url .= @$row->id;
-										$text = "<button>".JText::_('COM_TIENDA_EDIT_USER')."</button>";
+										$text = '<button class="btn btn-primary" >'.JText::_('COM_TIENDA_EDIT_USER').'</button>';
 								?>		                        
 		                        <div ><?php echo TiendaUrl::popup( $url, $text, array('update' => true) ); ?></div>
 		                    </td>  
@@ -131,7 +131,7 @@ $config = Tienda::getInstance();
 		<td width="50%" valign="top">
 				<fieldset>
 					<legend><?php echo JText::_('COM_TIENDA_SUMMARY_DATA'); ?></legend>
-						<table class="admintable"  width="100%">
+						<table class="table table-striped table-bordered"  width="100%">
 							<tr>
 								<td class="key" align="right" style="width:250px;">
 									<?php echo JText::_('COM_TIENDA_NUMBER_OF_COMPLETED_ORDERS'); ?>:
@@ -161,7 +161,7 @@ $config = Tienda::getInstance();
 			<fieldset>
 					<legend><?php echo JText::_('COM_TIENDA_LAST_5_COMPLETED_ORDERS'); ?></legend>
 					<div id="tienda_header">
-					<table class="adminlist" style="width: 100%;">
+					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th style="width: 5px;">
@@ -213,7 +213,7 @@ $config = Tienda::getInstance();
 		<td width="50%" valign="top">					
 			<fieldset>
 					<legend><?php echo JText::_('COM_TIENDA_LIST_OF_ACTIVE_SUBSCRIPTIONS'); ?></legend>
-					<table class="adminlist" style="width: 100%;">
+					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th style="width: 5px;">
@@ -276,7 +276,7 @@ $config = Tienda::getInstance();
 				</fieldset>
 			<fieldset>
 					<legend><?php echo JText::_('COM_TIENDA_CART'); ?></legend>
-					<table class="adminlist" style="width: 100%;">
+					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th style="width: 5px;">
@@ -356,7 +356,7 @@ $config = Tienda::getInstance();
 				</fieldset>
 			<fieldset>
 					<legend><?php echo JText::_('COM_TIENDA_LAST_5_REVIEWS_POSTED'); ?></legend>
-					<table class="adminlist" style="width: 100%;">
+					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
 								<th style="width: 5px;">

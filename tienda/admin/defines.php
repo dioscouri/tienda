@@ -19,6 +19,7 @@ class Tienda extends DSC
 	protected $_min_php		= '5.3';
 	static $_guestIdStart = -10;
 	// View Options
+	public $use_bootstrap	= 		'1';		
 	public $show_linkback						= '1';
 	public $amigosid                           = '';
 	public $page_tooltip_dashboard_disabled	= '0';
