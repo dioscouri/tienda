@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php $options = array('num_decimals'=>'0'); ?>
     
-<table class="adminlist" style="margin-bottom: 5px;">
+<table class="table table-striped table-bordered" style="margin-bottom: 5px;">
 <thead>
 <tr>
     <th colspan="3"><?php echo JText::_('COM_TIENDA_RECENT_ORDERS'); ?></th>

@@ -14,7 +14,7 @@
 		
 		    <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
-			<table class="adminlist" style="margin-bottom: 5px;">
+			<table class="table table-striped table-bordered" style="margin-bottom: 5px;">
 			<thead>
 			<tr>
 				<th><?php echo JText::_('COM_TIENDA_RANGE'); ?></th>
