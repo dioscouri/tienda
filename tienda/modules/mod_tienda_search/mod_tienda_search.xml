@@ -20,7 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" label="basic">
+			<fieldset name="basic">
 				<field name="filter_text" type="text" default="" label="MOD_TIENDA_SEARCH_FILTER_TEXT" description="MOD_TIENDA_SEARCH_FILTER_TEXT_DESC" />
 				<field name="category_filter" type="list" default="1" label="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER" description="MOD_TIENDA_SEARCH_DISPLAY_CATEGORY_FILTER_DESC">
 					<option value="1">ENABLED</option>
@@ -33,8 +33,43 @@
 					<option value="1">MOD_TIENDA_SEARCH_MODEL_NUMBER</option>
 					<option value="0">MOD_TIENDA_SEARCH_ALL_OF_THE_ABOVE</option>
 				</field>
-				<field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field type="spacer" />
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid">
+					<option
+						value="itemid"></option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

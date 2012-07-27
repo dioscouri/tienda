@@ -1,6 +1,6 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
-JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_calendar/css/');
+JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
 ?>
 
 <div id="<?php echo $this->name; ?>" >
