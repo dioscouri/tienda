@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
@@ -63,7 +63,7 @@
                 <th>
                 </th>
                 <th style="text-align: left;">
-                	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                	<input type="text" id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 	<?php echo TiendaSelect::category( @$state->filter_parentid, 'filter_parentid', $attribs, 'parentid', true ); ?>
                 </th>
                 <th>

@@ -8,7 +8,7 @@
 
 <h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SET_RATES_FOR'); ?>: <?php echo $row->tax_class_name; ?></h1>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
     <?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 
@@ -16,10 +16,10 @@
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_TAX_RATE'); ?></div>
     <div style="float: right;">
         <input type="hidden" name="tax_class_id" value="<?php echo $row->tax_class_id; ?>" />
-        <button onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?></button>
+        <button class="btn btn-primary" document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?></button>
     </div>
     <div class="reset"></div>
-    <table class="adminlist">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th><?php echo JText::_('COM_TIENDA_GEOZONE'); ?></th>
@@ -52,9 +52,9 @@
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_TAX_RATES'); ?></div>
     <div style="float: right;">
         <input type="hidden" name="tax_class_id" value="<?php echo $row->tax_class_id; ?>" />
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
-    <table class="adminlist" style="clear: both;">
+    <table class="table table-striped table-bordered" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 20px;">

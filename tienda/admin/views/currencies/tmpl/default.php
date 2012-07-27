@@ -54,20 +54,20 @@
             <tr class="filterline">
                 <th colspan="3">
                     <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                    <div class="range">
+                   <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_('COM_TIENDA_FROM'); ?>" id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input input-tiny" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_('COM_TIENDA_TO'); ?>" id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input input-tiny" />
                         </div>
                     </div>
                 </th>
                 <th style="text-align: left;">
-                    <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                    <input type="text" id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>
                 <th>
-                    <input id="filter_code" name="filter_code" value="<?php echo @$state->filter_code; ?>" size="15"/>
+                    <input type="text" id="filter_code" name="filter_code" value="<?php echo @$state->filter_code; ?>" size="15"/>
                 </th>
                 <th>
                 </th>

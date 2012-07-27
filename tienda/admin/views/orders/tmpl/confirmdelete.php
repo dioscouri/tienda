@@ -12,7 +12,7 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 20px;">

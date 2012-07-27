@@ -6,11 +6,10 @@ JFilterOutput::objectHTMLSafe( $row );
 Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable" style="width: 100%">
+
+			<table class="table table-striped table-bordered" style="width: 100%">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<?php echo JText::_('COM_TIENDA_PRODUCT_NAME'); ?>:
@@ -58,11 +57,11 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_('COM_TIENDA_PUBLISHED'); ?>:
 					</td>
 					<td>
-							<?php echo JHTML::_('select.booleanlist', 'productcomment_enabled', '', @$row->productcomment_enabled ); ?>
+							<?php echo TiendaSelect::btbooleanlist(  'productcomment_enabled', '', @$row->productcomment_enabled ); ?>
 					</td>
 				</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->manufacturer_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+
 </form>

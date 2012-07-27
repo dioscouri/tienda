@@ -3,7 +3,7 @@
 <?php $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
 <table style="width: 100%;">
 <tr>
@@ -14,9 +14,8 @@
         JDispatcher::getInstance()->trigger('onBeforeDisplayOrderitemForm', array( $row ) );                    
     ?>
     
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+	
+			<table class="table table-striped table-bordered">
                 <tr>
                     <td width="100" align="right" class="key">
                         <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
@@ -70,7 +69,7 @@
                     </td>
                 </tr>
 			</table>
-	</fieldset>
+	
 	
     <?php
         // fire plugin event here to enable extending the form

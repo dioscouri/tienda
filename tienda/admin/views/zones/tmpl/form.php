@@ -4,11 +4,10 @@
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="zone_name">
@@ -42,5 +41,5 @@ JFilterOutput::objectHTMLSafe( $row );
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->zone_id?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+	
 </form>

@@ -5,7 +5,7 @@
 	JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
     
     <?php
         // fire plugin event here to enable extending the form
@@ -16,9 +16,7 @@
     <tr>
         <td style="vertical-align: top; width: 65%;">
 
-    	   <fieldset>
-    		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-    			<table class="admintable">
+    			<table class="table table-striped table-bordered">
     				<tr>
     					<td style="width: 100px; text-align: right;" class="key">
     						<label for="category_name">
@@ -54,7 +52,7 @@
     						</label>
     					</td>
     					<td>
-    						<?php echo JHTML::_('select.booleanlist', 'category_enabled', '', @$row->category_enabled ); ?>
+    						<?php echo TiendaSelect::btbooleanlist( 'category_enabled', '', @$row->category_enabled ); ?>
     					</td>
     				</tr>
     				<tr>
@@ -64,7 +62,7 @@
     						</label>
     					</td>
     					<td>
-    						<?php echo JHTML::_('select.booleanlist', 'display_name_category', '', @$row->display_name_category ); ?>
+    						<?php echo TiendaSelect::btbooleanlist( 'display_name_category', '', @$row->display_name_category ); ?>
     					</td>
     				</tr>
     				<tr>
@@ -74,7 +72,7 @@
     						</label>
     					</td>
     					<td>
-    						<?php echo JHTML::_('select.booleanlist', 'display_name_subcategory', '', @$row->display_name_subcategory ); ?>
+    						<?php echo TiendaSelect::btbooleanlist( 'display_name_subcategory', '', @$row->display_name_subcategory ); ?>
     					</td>
     				</tr>
     				<tr>
@@ -111,7 +109,7 @@
                         </td>
                         <td>
                             <?php echo TiendaSelect::categorylayout( @$row->category_layout, 'category_layout' ); ?>
-                            <div class="note">
+                            <div class="well note">
                                 <?php echo JText::_('COM_TIENDA_CATEGORY_LAYOUT_FILE_DESC'); ?>
                             </div>                        
                         </td>
@@ -122,7 +120,7 @@
                         </td>
                         <td>
                             <?php echo TiendaSelect::productlayout( @$row->categoryproducts_layout, 'categoryproducts_layout' ); ?>
-                            <div class="note">
+                            <div class="well note">
                                 <?php echo JText::_('COM_TIENDA_CATEGORY_PRODUCTS_LAYOUT_FILE_DESC'); ?>
                             </div>                        
                         </td>
@@ -168,7 +166,6 @@
     
     			<input type="hidden" name="id" value="<?php echo @$row->category_id?>" />
     			<input type="hidden" name="task" value="" />
-        	</fieldset>
     	
             <?php
                 // fire plugin event here to enable extending the form

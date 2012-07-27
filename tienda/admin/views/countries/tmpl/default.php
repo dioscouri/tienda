@@ -62,13 +62,13 @@
                     </div>
                 </th>
                 <th style="text-align: left;">
-                    <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                    <input type="text" id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>
                 <th>
-                    <input id="filter_code2" name="filter_code2" value="<?php echo @$state->filter_code2; ?>" size="15"/>
+                    <input type="text" id="filter_code2" name="filter_code2" value="<?php echo @$state->filter_code2; ?>" size="15"/>
                 </th>
                 <th>
-                    <input id="filter_code3" name="filter_code3" value="<?php echo @$state->filter_code3; ?>" size="15"/>
+                    <input type="text" id="filter_code3" name="filter_code3" value="<?php echo @$state->filter_code3; ?>" size="15"/>
                 </th>
                 <th>
                     

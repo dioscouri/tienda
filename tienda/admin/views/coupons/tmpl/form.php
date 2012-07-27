@@ -36,11 +36,10 @@ function shippingPerOrder()
 }
 </script>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" id="couponForm" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" id="couponForm" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+	
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td style="width: 125px; text-align: right;" class="key">
 						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
@@ -62,7 +61,7 @@ function shippingPerOrder()
 						<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 					</td>
 					<td>
-						<?php echo JHTML::_('select.booleanlist', 'coupon_enabled', '', @$row->coupon_enabled ); ?>
+						<?php echo TiendaSelect::btbooleanlist( 'coupon_enabled', '', @$row->coupon_enabled ); ?>
 					</td>
 				</tr>
                 <tr>
@@ -86,7 +85,7 @@ function shippingPerOrder()
                         <?php echo JText::_('COM_TIENDA_VALUE_TYPE'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'coupon_value_type', '', @$row->coupon_value_type, 'COM_TIENDA_PERCENTAGE', 'COM_TIENDA_FLAT_RATE' ); ?>
+                        <?php echo TiendaSelect::btbooleanlist( 'coupon_value_type', '', @$row->coupon_value_type, 'COM_TIENDA_PERCENTAGE', 'COM_TIENDA_FLAT_RATE' ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -142,7 +141,7 @@ function shippingPerOrder()
                     	<?php } else
                     	{
                     		?>
-                    		<div class="note">
+                    		<div class="note well">
                     		<?php echo JText::_('COM_TIENDA_CLICK_THE_APPLY_BUTTON_TO_ADD_PRODUCTS_TO_THIS_COUPON'); ?>
                 			</div>
                     		<?php 
@@ -164,7 +163,7 @@ function shippingPerOrder()
                         <?php echo JText::_('COM_TIENDA_TYPE'); ?>:
                     </td>
                     <td>
-                        <?php echo TiendaSelect::booleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'COM_TIENDA_USER_SUBMITTED' );?>
+                        <?php echo TiendaSelect::btbooleanlist( 'coupon_automatic', '', @$row->coupon_automatic, 'Automatic', 'COM_TIENDA_USER_SUBMITTED' );?>
                     </td>
                 </tr>                
                 <tr>
@@ -187,7 +186,7 @@ function shippingPerOrder()
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->coupon_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+
 </form>
 <script type="text/javascript">
 	window.addEvent('domready', function(){

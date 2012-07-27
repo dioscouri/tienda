@@ -48,7 +48,7 @@
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_ORDER_INFORMATION'); ?></legend>
 	        	
-		    <table class="admintable" style="clear: both;">
+		    <table class="table table-striped table-bordered" style="clear: both;">
 		    <tr>
 		        <td style="width: 100px; text-align: right;" class="key">
 		            <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>
@@ -94,7 +94,7 @@
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_CUSTOMER_INFORMATION'); ?></legend>
                 
-            <table class="admintable" style="clear: both;">
+            <table class="table table-striped table-bordered" style="clear: both;">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_('COM_TIENDA_NAME'); ?>
@@ -197,7 +197,7 @@
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_PAYMENT_INFORMATION'); ?></legend>
             <?php // TODO Make this assume multiple payments, and display all of them ?>
-            <table class="admintable" style="clear: both;">
+            <table class="table table-striped table-bordered" style="clear: both;">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_('COM_TIENDA_PAYMENT_AMOUNT'); ?>
@@ -263,7 +263,7 @@
     	<fieldset>
     	    <legend><?php echo JText::_('COM_TIENDA_ITEMS_IN_ORDER'); ?></legend>
     
-            <table class="adminlist" style="clear: both;">
+            <table class="table table-striped table-bordered" style="clear: both;">
             <thead>
                 <tr>
                     <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_ITEM'); ?></th>

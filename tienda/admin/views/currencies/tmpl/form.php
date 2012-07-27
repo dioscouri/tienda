@@ -4,11 +4,10 @@
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+	
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="currency_name">
@@ -87,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $row );
                     </td>
                     <td>
                     	<?php if( Tienda::getInstance()->get('currency_exchange_autoupdate', '1') ): ?>
-                    		<div class="note">
+                    		<div class="note well">
                     			<?php echo JText::_('COM_TIENDA_WARNING_AUTOEXCHANGE_ENABLED'); ?>
                     		</div>
                     	<?php endif;?>
@@ -101,11 +100,10 @@ JFilterOutput::objectHTMLSafe( $row );
 						</label>
 					</td>
 					<td>
-						<?php echo JHTML::_('select.booleanlist', 'currency_enabled', '', @$row->currency_enabled ) ?>
+						<?php echo TiendaSelect::btbooleanlist( 'currency_enabled', '', @$row->currency_enabled ) ?>
 					</td>
 				</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->currency_id?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
 </form>

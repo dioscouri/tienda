@@ -12,18 +12,18 @@
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
-	<button onclick="document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button><br />	
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_TOGGLE_ALL_STATUS'); ?></button>
+	<button class="btn btn-success" onclick="document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button><br />	
+	<button class="btn" onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>);document.getElementById('task').value='plugin_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_TOGGLE_ALL_STATUS'); ?></button>
 	
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
 
 	<div style="text-align: right;">
 			<input name="filter" size="40" value="<?php echo @$state->filter; ?>" />
-            <button onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-            <button onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
+            <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
+            <button class="btn btn-danger" onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
 	</div>
 	
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">

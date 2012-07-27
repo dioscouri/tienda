@@ -8,7 +8,7 @@ JFilterOutput::objectHTMLSafe( $row );
 
 	<fieldset>
 		<legend><?php echo JText::_('COM_TIENDA_LANGUAGE_INFORMATION'); ?></legend>
-			<table class="admintable">
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td width="100" align="right" class="key">
 						<?php echo JText::_('COM_TIENDA_NAME')?>
@@ -29,7 +29,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	</fieldset>
 	<fieldset>
 		<legend><?php echo JText::_('COM_TIENDA_STRINGS'); ?></legend>
-			<table class="admintable">
+			<table class="table table-striped table-bordered">
 			<?php foreach($row->strings['strings'] as $k => $v){ ?>
 				<tr>
 					<td width="100" align="right" class="key">

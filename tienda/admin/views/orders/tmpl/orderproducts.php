@@ -2,7 +2,7 @@
 <?php $items = (!empty($this->row->orderitems)) ? $this->row->orderitems : array(); ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
-        <table class="adminlist">
+        <table class="table table-striped table-bordered">
             <thead>
                 <?php if (count(@$items)) : ?>
                 <tr>
@@ -55,10 +55,10 @@
             <?php if (count($items)) : ?>
                 <tr>
                     <td colspan="2" style="text-align: left;">
-                        <input onclick="tiendaRemoveProducts('<?php echo JText::_('COM_TIENDA_PLEASE_SELECT_AN_ITEM_TO_REMOVE'); ?>');" value="<?php echo JText::_('COM_TIENDA_REMOVE SELECTED'); ?>" class="button" type="button" />
+                        <input class="btn btn-danger" onclick="tiendaRemoveProducts('<?php echo JText::_('COM_TIENDA_PLEASE_SELECT_AN_ITEM_TO_REMOVE'); ?>');" value="<?php echo JText::_('COM_TIENDA_REMOVE SELECTED'); ?>" class="button" type="button" />
                     </td>
                     <td colspan="2" style="text-align: right;">
-                        <input onclick="tiendaUpdateProductQuantities();" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES'); ?>" class="button" style="float: right;" type="button" />
+                        <input class="btn btn-primary"  onclick="tiendaUpdateProductQuantities();" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES'); ?>" class="button" style="float: right;" type="button" />
                     </td>
                 </tr>
             <?php endif; ?>

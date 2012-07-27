@@ -9,10 +9,10 @@
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
 	<?php echo JText::_('COM_TIENDA_BE_SURE_TO_SAVE_YOUR_WORK'); ?>:
-	<button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_CHANGES'); ?></button>
+	<button class="btn btn-success" onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saverates'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_CHANGES'); ?></button>
 </div>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
@@ -21,7 +21,7 @@
             <td align="left" width="100%">
             </td>
             <td nowrap="nowrap">
-            	<table class="adminlist">
+            	<table class="table table-striped table-bordered">
             	<thead>
             	<tr>
             		<th></th>
@@ -53,7 +53,7 @@
                         <input id="shipping_rate_handling" name="shipping_rate_handling" value="" />
                     </td>
             		<td>
-            			<input type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?>" class="button" />
+            			<input class="btn btn-primary" type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?>" class="button" />
             		</td>
             	</tr>
             	</tbody>
@@ -62,7 +62,7 @@
         </tr>
     </table>
     
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 20px;">

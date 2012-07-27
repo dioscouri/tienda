@@ -72,17 +72,17 @@
                     </div>
                 </th>                
                 <th style="text-align: left;">
-                    <input id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="25"/>
+                    <input type="text" id="filter_user" name="filter_user" value="<?php echo @$state->filter_user; ?>" size="25"/>
                 </th>
                 <th>
                 </th>
                 <th>
                     <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_amount_from" name="filter_amount_from" value="<?php echo @$state->filter_amount_from; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input id="filter_amount_from" type="text" name="filter_amount_from" value="<?php echo @$state->filter_amount_from; ?>" size="5" class="input" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_amount_to" name="filter_amount_to" value="<?php echo @$state->filter_amount_to; ?>" size="5" class="input" />
+                            <span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input id="filter_amount_to" type="text" name="filter_amount_to" value="<?php echo @$state->filter_amount_to; ?>" size="5" class="input" />
                         </div>
                     </div>
                 </th>

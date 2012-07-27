@@ -4,12 +4,11 @@
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-<fieldset>
-	<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
+
 	
-	<table class="admintable">
+	<table class="table table-striped table-bordered">
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="shipping_method_name">
@@ -37,7 +36,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'shipping_method_enabled', '', @$row->shipping_method_enabled ); ?>
+				<?php echo TiendaSelect::btbooleanlist(  'shipping_method_enabled', '', @$row->shipping_method_enabled ); ?>
 			</td>
 		</tr>
         <tr>
@@ -64,5 +63,5 @@ JFilterOutput::objectHTMLSafe( $row );
 						
 	<input type="hidden" name="id" value="<?php echo @$row->shipping_method_id; ?>" />
 	<input type="hidden" name="task" value="" />
-	</fieldset>
+
 </form>

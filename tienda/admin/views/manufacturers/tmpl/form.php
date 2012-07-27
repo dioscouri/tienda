@@ -5,11 +5,8 @@ JFilterOutput::objectHTMLSafe( $row );
 Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
-
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
@@ -23,7 +20,7 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 						<?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
 					</td>
 					<td>
-						<?php echo JHTML::_('select.booleanlist', 'manufacturer_enabled', '', @$row->manufacturer_enabled ); ?>
+						<?php echo TiendaSelect::btbooleanlist(  'manufacturer_enabled', '', @$row->manufacturer_enabled ); ?>
 					</td>
 				</tr>
 				<tr>
@@ -70,5 +67,4 @@ Tienda::load( 'TiendaHelperManufacturer', 'helpers.manufacturer' );
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->manufacturer_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
 </form>

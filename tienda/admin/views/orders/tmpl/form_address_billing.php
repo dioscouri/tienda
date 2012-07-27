@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-                    <table class="adminlist" style="clear: both; width: 100%;">
+                    <table class="table table-striped table-bordered" style="clear: both; width: 100%;">
                     <thead>
                         <tr>
                             <th colspan="2" style="text-align: left;"><?php echo JText::_('COM_TIENDA_BILLING_ADDRESS'); ?></th>
@@ -40,7 +40,7 @@
                     </table>
                     
                     <table id="billingAddressInputFormTable"
-                    class="adminlist"
+                    class="table table-striped table-bordered"
                     style="clear: both; width: 100%;">
                     <tr id="billing_address_name_row" style="display:none">
                         <th width="100" align="right" class="key">

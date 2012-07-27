@@ -4,11 +4,10 @@
 JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, array( 'group_description' ) );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
@@ -31,5 +30,5 @@ JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, array( 'group_description' ) );
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->group_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+	
 </form>

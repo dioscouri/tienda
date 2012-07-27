@@ -16,11 +16,11 @@
 
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_ATTRIBUTE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createattribute'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ATTRIBUTE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createattribute'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ATTRIBUTE'); ?></button>
     </div>
     <div class="reset"></div>
     
-	<table class="adminlist">
+	<table class="table table-striped table-bordered">
     	<thead>
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_ATTRIBUTE_NAME'); ?></th>
@@ -29,7 +29,7 @@
     	<tbody>
     	<tr>
     		<td style="text-align: center;">
-    			<input id="createproductattribute_name" name="createproductattribute_name" value="" />
+    			<input type="text" id="createproductattribute_name" name="createproductattribute_name" value="" />
     		</td>
     	</tr>
     	</tbody>
@@ -39,11 +39,11 @@
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_ATTRIBUTES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='saveattributes'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.getElementById('task').value='saveattributes'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
     
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 20px;">

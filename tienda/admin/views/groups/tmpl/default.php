@@ -15,7 +15,7 @@
             <td nowrap="nowrap">
                 <input type="text" name="filter" value="<?php echo @$state->filter; ?>" />
                 <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-                <button class="btn btn-danger"onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
+                <button class="btn btn-danger" onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
         </tr>
     </table>
@@ -53,7 +53,7 @@
                     </div>
                 </th>                
                 <th style="text-align: left;">
-                	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                	<input type="text" id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>     
                 <th>
                 </th>

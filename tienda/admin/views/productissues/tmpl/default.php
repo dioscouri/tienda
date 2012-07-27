@@ -14,10 +14,10 @@
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_ISSUE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createissue'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ISSUE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createissue'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_ISSUE'); ?></button>
     </div>
     <div class="reset"></div>
-	<table class="adminlist">
+	<table class="table table-striped table-bordered">
     	<thead>
         	<tr>
         		<th><?php echo JText::_('COM_TIENDA_VOLUME_NUM'); ?></th>
@@ -44,10 +44,10 @@
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ISSUE_LIST'); ?></div>
     <div style="float: right;">
-        <button onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveissues'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.getElementById('task').value='saveissues'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
       <tr>
         <th style="width: 20px;">

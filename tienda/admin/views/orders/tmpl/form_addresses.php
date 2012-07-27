@@ -10,7 +10,7 @@
     
     <fieldset style="width: 48%; float: left;">
         <legend><?php echo JText::_('COM_TIENDA_BILLING_ADDRESS'); ?></legend>
-        <table class="admintable">
+        <table class="table table-striped table-bordered">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_('COM_TIENDA_FIRST_NAME'); ?>:
@@ -103,7 +103,7 @@
     
     <fieldset style="width: 48%; float: left;">
         <legend><?php echo JText::_('COM_TIENDA_SHIPPING_ADDRESS'); ?></legend>
-        <table class="admintable">
+        <table class="table table-striped table-bordered">
             <tr>
                 <td style="width: 100px; text-align: right;" class="key">
                     <?php echo JText::_('COM_TIENDA_FIRST_NAME'); ?>:

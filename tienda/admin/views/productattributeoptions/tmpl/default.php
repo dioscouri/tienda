@@ -17,7 +17,7 @@
 
 	    <div class="reset"></div>
 	    
-                <table class="adminlist">
+                <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th></th>
@@ -37,28 +37,28 @@
                         <?php echo JText::_('COM_TIENDA_COMPLETE_THIS_FORM_TO_ADD_A_NEW_OPTION'); ?>:
                     </td>
                     <td>
-                        <input id="createproductattributeoption_name" name="createproductattributeoption_name" value="" />
+                        <input type="text" id="createproductattributeoption_name" name="createproductattributeoption_name" value="" />
                     </td>
                     <td>
                         <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix' ); ?>
                     </td>
                     <td>
-                        <input id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
+                        <input type="text" id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
                     </td>
                     <td>
                         <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix_weight' ); ?>
                     </td>
                     <td>
-                        <input id="createproductattributeoption_weight" name="createproductattributeoption_weight" value="" size="10" />
+                        <input type="text" id="createproductattributeoption_weight" name="createproductattributeoption_weight" value="" size="10" />
                     </td>
                     <td>
-                        <input id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
+                        <input type="text" id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
                     </td>
                     <td>
 	                    <?php echo TiendaSelect::booleans( 0, 'createproductattributeoption_blank', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
                     </td>
                     <td>
-                        <button onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_OPTION'); ?></button>
+                        <button class="btn btn-primary" onclick="document.getElementById('task').value='createattributeoption'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_OPTION'); ?></button>
                     </td>
                 </tr>
                 </tbody>
@@ -69,11 +69,11 @@
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_ATTRIBUTE_OPTIONS'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='saveattributeoptions'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.getElementById('task').value='saveattributeoptions'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
         
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 20px;">

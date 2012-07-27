@@ -62,7 +62,7 @@
                     </div>
                 </th>
                 <th style="text-align: left;">
-                    <input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                    <input type="text" id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
                 </th>
                 <th style="text-align: left;">
                     <?php echo TiendaSelect::entitytype(@$state->filter_entitytype, 'filter_entitytype', $attribs, 'filter_entitytype', true); ?>

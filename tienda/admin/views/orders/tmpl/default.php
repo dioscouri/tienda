@@ -16,7 +16,7 @@
             <td nowrap="nowrap">
                 <input type="text" name="filter" value="<?php echo @$state->filter; ?>" />
                 <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-                <button class="btn btn-danger"onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
+                <button class="btn btn-danger" onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
             </td>
         </tr>
     </table>

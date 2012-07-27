@@ -3,11 +3,9 @@
 <?php $row = @$this->row; JFilterOutput::objectHTMLSafe( $row ); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+			<table class="table table-striped table-bordered">
                 <tr>
                     <td style="width: 100px; text-align: right;" class="key">
                         <?php echo JText::_('COM_TIENDA_USER'); ?>:
@@ -39,7 +37,7 @@
                         <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'credit_enabled', '', @$row->credit_enabled ); ?>
+                        <?php echo TiendaSelect::btbooleanlist( 'credit_enabled', '', @$row->credit_enabled ); ?>
                     </td>
                 </tr>
                 <tr>
@@ -47,7 +45,7 @@
                         <?php echo JText::_('COM_TIENDA_CAN_BE_WITHDRAWN'); ?>:
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'credit_withdrawable', '', @$row->credit_withdrawable ); ?>
+                        <?php echo TiendaSelect::btbooleanlist( 'credit_withdrawable', '', @$row->credit_withdrawable ); ?>
                     </td>
                 </tr>
 				<tr>
@@ -126,5 +124,5 @@
 			</table>
 			<input type="hidden" name="credit_id" value="<?php echo @$row->credit_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+	
 </form>

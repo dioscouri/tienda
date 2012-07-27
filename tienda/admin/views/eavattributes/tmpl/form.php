@@ -4,11 +4,10 @@
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" >
 
-	<fieldset>
-		<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
-			<table class="admintable">
+
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td width="100" align="right" class="key">
 						<?php echo JText::_('COM_TIENDA_NAME'); ?>:
@@ -32,7 +31,7 @@ JFilterOutput::objectHTMLSafe( $row );
                         </label>
                     </td>
                     <td>
-                        <?php echo JHTML::_('select.booleanlist', 'enabled', '', @$row->enabled ); ?>
+                        <?php echo TiendaSelect::btbooleanlist( 'enabled', '', @$row->enabled ); ?>
                     </td>
                 </tr>
 				<tr>
@@ -65,7 +64,7 @@ JFilterOutput::objectHTMLSafe( $row );
 							else
 							{
 						?>
-							<div class="note">
+							<div class="note well">
 								<?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_ADD_A_LINK_TO_AN_ENTITY_FOR_THIS_PRODUCT'); ?>
 							</div>
 						<?php 

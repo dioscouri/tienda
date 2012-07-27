@@ -5,7 +5,7 @@
 <?php $items = @$this->items; ?>
 <?php Tienda::load( 'TiendaHelperProduct', 'helpers.product' ); ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 <table>
         <tr>

@@ -16,7 +16,7 @@
     
 	<fieldset>
 		<legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_INFORMATION'); ?></legend>
-			<table class="admintable">
+			<table class="table table-striped table-bordered">
                 <tr>
                     <td width="100" align="right" class="key">
                         <?php echo JText::_('COM_TIENDA_SUBSCRIPTION_ENABLED'); ?>:
@@ -78,7 +78,7 @@
     
     <fieldset>
         <legend><?php echo JText::_('COM_TIENDA_USER_INFORMATION'); ?></legend>
-            <table class="admintable">
+            <table class="table table-striped table-bordered">
                 <tr>
                     <td width="100" align="right" class="key">
                         <?php echo JText::_('COM_TIENDA_USER'); ?>:
@@ -127,7 +127,7 @@
     
     <fieldset>
         <legend><?php echo JText::_('COM_TIENDA_ORDER_INFORMATION'); ?></legend>
-            <table class="admintable">
+            <table class="table table-striped table-bordered">
                 <tr>
                     <td width="100" align="right" class="key">
                         <?php echo JText::_('COM_TIENDA_ORDER_ID'); ?>:
@@ -162,7 +162,7 @@
     
         <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_HISTORY'); ?></legend>
-                <table class="adminlist" style="clear: both;">
+                <table class="table table-striped table-bordered" style="clear: both;">
                 <thead>
                     <tr>
                         <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_DATE'); ?></th>
@@ -222,7 +222,7 @@
         <fieldset>
         <legend><?php echo JText::_('COM_TIENDA_UPDATE_SUBSCRIPTION'); ?></legend>
         
-        <table class="admintable" style="clear: both; width: 100%;">
+        <table class="table table-striped table-bordered" style="clear: both; width: 100%;">
         <tr>
             <td style="width: 100px; text-align: right;" class="key">
                 <?php echo JText::_('COM_TIENDA_NEW_ENTRY_TYPE'); ?>
@@ -237,7 +237,7 @@
                 <?php echo JText::_('COM_TIENDA_NOTIFY_CUSTOMER_ABOUT_CHANGE_IN_SUBSCRIPTION'); ?>
             </td>
             <td>
-                <?php echo JHTML::_('select.booleanlist', 'notify_customer' ); ?>
+                <?php echo TiendaSelect::btbooleanlist(  'notify_customer' ); ?>
             </td>
         </tr>
         <tr>

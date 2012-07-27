@@ -20,7 +20,7 @@ $config = Tienda::getInstance();
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
-<table width="100%" border="0">
+<table class="table table-striped table-bordered" width="100%" border="0">
 	<tr>
 		<td>
 			<h2 style="padding:0px; margin:0px;"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></h2>

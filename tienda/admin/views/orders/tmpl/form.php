@@ -7,7 +7,7 @@ $row = @$this->row;
 JFilterOutput::objectHTMLSafe( $row );
 ?>
 
-<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm">
+<form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm">
 
 <table>
 <tr>
@@ -59,7 +59,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	<td style="width: 30%; vertical-align: top;">
 
         <!-- Start General information section -->
-        <table class="adminlist">
+        <table class="table table-striped table-bordered">
         <thead>
            <tr>
                <th colspan="2" style="text-align: left;"><?php echo JText::_('COM_TIENDA_GENERAL_INFORMATION'); ?></th>
@@ -106,7 +106,7 @@ JFilterOutput::objectHTMLSafe( $row );
         <!-- End General information section -->
 
         <!-- Start Shipping and Payment methods section -->
-		<table class="adminlist">
+		<table class="table table-striped table-bordered">
 		<thead>
 		    <tr>
 		        <th colspan="4" style="text-align: left;"><?php echo JText::_('COM_TIENDA_SHIPPING_METHOD'); ?></th>
@@ -134,7 +134,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	    <!-- End Order totals section -->
 
         <!-- Start Order History section -->
-        <table class="adminlist">
+        <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_ORDER_COMMENT'); ?></th>

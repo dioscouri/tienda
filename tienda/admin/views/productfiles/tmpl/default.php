@@ -7,17 +7,17 @@
                             
 <h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_MANAGE_FILES_FOR'); ?>: <?php echo $row->product_name; ?></h1>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_UPLOAD_A_NEW_FILE'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createfile'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_UPLOAD_FILE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createfile'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_UPLOAD_FILE'); ?></button>
     </div>
     <div class="reset"></div>
 
-    <table class="adminlist">
+    <table class="table table-striped table-bordered">
     	<thead>
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
@@ -33,10 +33,10 @@
     			<input id="createproductfile_name" name="createproductfile_name" value="" size="40" />
     		</td>
             <td style="text-align: center;">
-                <?php echo JHTML::_('select.booleanlist', 'createproductfile_purchaserequired', '', '' ); ?>
+                <?php echo TiendaSelect::btbooleanlist( 'createproductfile_purchaserequired', '', '' ); ?>
             </td>
     		<td style="text-align: center;">
-    		    <?php echo JHTML::_('select.booleanlist', 'createproductfile_enabled', '', '' ); ?>
+    		    <?php echo TiendaSelect::btbooleanlist( 'createproductfile_enabled', '', '' ); ?>
     		</td>
             <td style="text-align: center;">
                 <input name="createproductfile_file" type="file" size="40" />
@@ -53,11 +53,11 @@
 <div class="note" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CHOOSE_A_NEW_FILE_FROM_SERVER'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='createfilefromdisk'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_FILE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createfilefromdisk'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_FILE'); ?></button>
     </div>
     <div class="reset"></div>
 
-    <table class="adminlist">
+    <table class="table table-striped table-bordered">
     	<thead>
     	<tr>
     		<th><?php echo JText::_('COM_TIENDA_NAME'); ?></th>
@@ -75,10 +75,10 @@
     			<input id="createproductfileserver_name" name="createproductfileserver_name" value="" size="40" />
     		</td>
             <td style="text-align: center;">
-                <?php echo JHTML::_('select.booleanlist', 'createproductfileserver_purchaserequired', '', '' ); ?>
+                <?php echo TiendaSelect::btbooleanlist( 'createproductfileserver_purchaserequired', '', '' ); ?>
             </td>
     		<td style="text-align: center;">
-    		    <?php echo JHTML::_('select.booleanlist', 'createproductfileserver_enabled', '', '' ); ?>
+    		    <?php echo TiendaSelect::btbooleanlist( 'createproductfileserver_enabled', '', '' ); ?>
     		</td>
             <td style="text-align: center;">
                 <?php 
@@ -107,11 +107,11 @@
 <div class="note_green" style="width: 96%; margin-left: auto; margin-right: auto;">
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_CURRENT_FILES'); ?></div>
     <div style="float: right;">
-        <button onclick="document.getElementById('task').value='savefiles'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
+        <button class="btn btn-success" onclick="document.getElementById('task').value='savefiles'; document.adminForm.toggle.checked=true; checkAll(<?php echo count( @$items ); ?>); document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_SAVE_ALL_CHANGES'); ?></button>
     </div>
     <div class="reset"></div>
 
-	<table class="adminlist">
+	<table class="table table-striped table-bordered">
 		<thead>
             <tr>
                 <th style="width: 20px;">
@@ -155,10 +155,10 @@
                     <input type="text" name="ordering[<?php echo $item->productfile_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
                 </td>
 				<td style="text-align: center;">
-				    <?php echo JHTML::_('select.booleanlist', "purchaserequired[".$item->productfile_id."]", '', $item->purchase_required ); ?>
+				    <?php echo TiendaSelect::btbooleanlist( "purchaserequired[".$item->productfile_id."]", '', $item->purchase_required ); ?>
 				</td>
                 <td style="text-align: center;">
-                    <?php echo JHTML::_('select.booleanlist', "enabled[".$item->productfile_id."]", '', $item->productfile_enabled ); ?>
+                    <?php echo TiendaSelect::btbooleanlist( "enabled[".$item->productfile_id."]", '', $item->productfile_enabled ); ?>
                 </td>
                 <td style="text-align: center;">
                     <input type="text" name="max_download[<?php echo $item->productfile_id; ?>]" value="<?php echo $item->max_download; ?>" size="10" />

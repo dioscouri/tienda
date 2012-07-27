@@ -2,7 +2,7 @@
 <?php $totals = @$this->row; ?>
 <?php Tienda::load( 'TiendaHelperBase', 'helpers._base' ); ?>
 
-<table class="adminlist">
+<table class="table table-striped table-bordered">
 <thead>
 	<tr>
 		<th colspan="4" style="text-align: left;"><?php echo JText::_('COM_TIENDA_ORDER_TOTALS'); ?></th>
