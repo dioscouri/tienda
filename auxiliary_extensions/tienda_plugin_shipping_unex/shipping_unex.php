@@ -488,11 +488,11 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     	
  		if($this->sendShipment($order))
  		{
- 			return JText::_('COM_TIENDA_SHIPMENT_SENT'));
+ 			return JText::_('COM_TIENDA_SHIPMENT_SENT');
  		}	
  		else
  		{
- 			$html  = JText::_('COM_TIENDA_SHIPMENT_FAILED'));
+ 			$html  = JText::_('COM_TIENDA_SHIPMENT_FAILED');
  			$html .= '<br />'.$this->getError(); 
  			return $html;
  		}
