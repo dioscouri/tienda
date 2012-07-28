@@ -54,17 +54,24 @@ class TiendaHelperProduct extends TiendaHelperBase
 		if ( $app->isAdmin( ) )
 		{
 			// TODO This doesn't account for when templates are assigned to menu items.  Make it do so
-			//$db = JFactory::getDBO( );
-			//$db->setQuery( "SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';" );
-			//$template = $db->loadResult( );
-			$template = $app->getTemplate( );
-		}
+ 			$db = JFactory::getDBO();
+				if (version_compare(JVERSION, '1.6.0', 'ge')) {
+					// Joomla! 1.6+ code here
+					$db -> setQuery("SELECT `template` FROM #__template_styles WHERE `home` = '1' AND `client_id` = '0';");
+				} else {
+					// Joomla! 1.5 code here
+					$db -> setQuery("SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';");
+				}
+
+				$template = $db -> loadResult();
+		
+					}
 		else
 		{
 			$template = $app->getTemplate( );
 		}
 		$folder = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html' . DS . 'com_tienda' . DS . 'products';
-		
+		var_dump($folder);
 		if ( JFolder::exists( $folder ) )
 		{
 			$extensions = array(

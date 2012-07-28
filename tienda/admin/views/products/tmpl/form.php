@@ -182,7 +182,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_PRODUCT_ATTRIBUTES'); ?>:
                         </td>
                         <td class="dsc-value">
-                            <div class="note"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_CREATE_PRODUCT_ATTRIBUTES'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_CREATE_PRODUCT_ATTRIBUTES'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -368,7 +368,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                         <td>
                             <?php echo TiendaSelect::category( '', 'category_id', '', 'category_id' ); ?>
-                            <div class="note"><?php echo JText::_('COM_TIENDA_SET_INITIAL_CATEGORY_NOW_ADDITIONAL_ONES_LATER'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_SET_INITIAL_CATEGORY_NOW_ADDITIONAL_ONES_LATER'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -460,7 +460,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 							<div id="uploadify-queue" class="uploadifyQueue"></div>
 							<div id="uploadify-status-message"></div>
                         </div>
-                        <div class="note" style="clear:both">
+                        <div class="note well" style="clear:both">
 	                    	<?php echo JText::_('COM_TIENDA_UPLOAD_ZIP_IMAGES_MESSAGE'); ?>
 	                    </div>
                     </td>
@@ -471,7 +471,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                     <td>
                         <input name="product_images_path" id="product_images_path" value="<?php echo @$row->product_images_path; ?>" size="75" maxlength="255" type="text" />
-                        <div class="note">
+                        <div class="note well">
                             <?php echo JText::_('COM_TIENDA_IF_NO_IMAGE_PATH_OVERRIDE_IS_SPECIFIED_MESSAGE'); ?>
                             <ul>
                                 <li>/images/com_tienda/products/[SKU]</li>
@@ -497,7 +497,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_ADD_FILES_TO_THE_PRODUCT'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_ADD_FILES_TO_THE_PRODUCT'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -536,7 +536,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                         <td>
                             <input name="product_files_path" id="product_files_path" value="<?php echo @$row->product_files_path; ?>" size="75" maxlength="255" type="text" />
-                            <div class="note">
+                            <div class="note well">
                                 <?php echo JText::_('COM_TIENDA_IF_NO_FILE_PATH_OVERRIDE_IS_SPECIFIED_MESSAGE'); ?>
                                 <ul>
                                     <li>/images/com_tienda/files/[SKU]</li>
@@ -589,7 +589,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                         <td>
                             <input type="text" name="product_price" id="product_price" value="<?php echo @$row->product_price; ?>" size="25" maxlength="25" />
-                            <div class="note"><?php echo JText::_('COM_TIENDA_SET_NORMAL_PRICE_NOW_SPECIAL_PRICES_LATER'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_SET_NORMAL_PRICE_NOW_SPECIAL_PRICES_LATER'); ?></div>
                         </td>
                     </tr>
                     <?php
@@ -650,7 +650,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_PRODUCT_QUANTITIES'); ?>:
                         </td>
                         <td>
-                            <div class="note"><?php echo JText::_('COM_TIENDA_PRODUCT_INVENTORY_IS_DISABLED._ENABLE_IT_TO_SET_QUANTITIES'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_PRODUCT_INVENTORY_IS_DISABLED._ENABLE_IT_TO_SET_QUANTITIES'); ?></div>
                         </td>
                 </tr>
                 <?php
@@ -802,7 +802,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION'); ?></legend>
             
-            <div class="note"><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION_NOTE'); ?></div>
+            <div class="note well"><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION_NOTE'); ?></div>
             
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -852,7 +852,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 		                {
                     // doing a new product, so display a note
                     ?>
-                      <div class="note"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_ADD_ISSUES_TO_THE_PRODUCT'); ?></div>
+                      <div class="note well"><?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_ADD_ISSUES_TO_THE_PRODUCT'); ?></div>
                     <?php
 		                } 
                     else
@@ -878,7 +878,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         
         <fieldset>
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO_RATED_CHARGES'); ?></legend>
-            <div class="note"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO-RATED_CHARGES_NOTE'); ?></div>
+            <div class="note well"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO-RATED_CHARGES_NOTE'); ?></div>
             <table class="table table-striped table-bordered" style="width: 100%;">
             		<?php $onclick_prorated = 'showProRatedFields();'; ?>
                 <tr>
@@ -1054,7 +1054,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                     <td>
                         <?php echo TiendaSelect::productlayout( @$row->product_layout, 'product_layout' ); ?>
-                        <div class="note">
+                        <div class="note well">
                             <?php echo JText::_('COM_TIENDA_PRODUCT_LAYOUT_FILE_DESC'); ?>
                         </div>                        
                     </td>
@@ -1118,7 +1118,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </tr>
                 </table>
             <?php else : ?>
-                <div class="note">
+                <div class="note well">
                     <?php echo JText::_('COM_TIENDA_AMBRASUBS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
@@ -1140,7 +1140,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </tr>
                 </table>
             <?php else : ?>
-                <div class="note">
+                <div class="note well">
                     <?php echo JText::_('COM_TIENDA_AMIGOS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
@@ -1187,7 +1187,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </tr>
                 </table>
             <?php else : ?>
-                <div class="note">
+                <div class="note well">
                     <?php echo JText::_('COM_TIENDA_BILLETS_VERSION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
@@ -1241,7 +1241,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </tr>
                 </table>
             <?php else : ?>
-                <div class="note">
+                <div class="note well">
                     <?php echo JText::_('COM_TIENDA_JUGA_VERSION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
@@ -1255,14 +1255,14 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 <table class="table table-striped table-bordered" style="width: 100%;">
                     <tr>                        
                         <td>
-							<div class="note">
+							<div class="note well">
 		                    	<?php echo JText::_('COM_TIENDA_TAGS_IS_INSTALLED'); ?>
 		                	</div>
                         </td>
                     </tr>
                 </table>
             <?php else : ?>
-                <div class="note">
+                <div class="note well">
                     <?php echo JText::_('COM_TIENDA_TAGS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
@@ -1305,7 +1305,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="clear: both;"></div></div>
   <div class="tab-pane" id="panel_advanced"> <div style="clear: both;"></div>
         
-        <div class="note">
+        <div class="note well">
             <?php echo JText::_('COM_TIENDA_ADVANCED_PANEL_NOTICE'); ?>
         </div>
         
