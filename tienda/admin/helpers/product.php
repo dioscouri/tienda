@@ -71,7 +71,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$template = $app->getTemplate( );
 		}
 		$folder = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html' . DS . 'com_tienda' . DS . 'products';
-		var_dump($folder);
+	
 		if ( JFolder::exists( $folder ) )
 		{
 			$extensions = array(

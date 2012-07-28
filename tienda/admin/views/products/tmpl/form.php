@@ -157,10 +157,10 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 	<tr>
 		<td style="vertical-align: top; width: 65%;">
 		
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_ADDITIONAL_INFORMATION'); ?></legend>
             
-            <div style='float: left; width: 100%;'>
+            <div style='width: 100%;'>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
                     <td  class="dsc-key">
@@ -280,9 +280,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             
             <div class="reset"></div>
             
-            </fieldset>
+            </div>
 		
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></legend>
             
             <table class="table table-striped table-bordered" style="width: 100%;">
@@ -320,7 +320,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 </tr>
                 <?php endif; ?>
             </table>
-            </fieldset>
+            </div>
 		    
             <?php
                 // fire plugin event here to enable extending the form
@@ -330,7 +330,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 		</td>
 		<td style="max-width: 35%; min-width: 35%; width: 35%; vertical-align: top;">
 
-            <fieldset>
+           <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_PUBLICATION_DATES'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -350,9 +350,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
 
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_CATEGORIES'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <?php 
@@ -403,9 +403,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 }
                 ?>            
             </table>
-            </fieldset>
+            </div>
 		
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_IMAGES'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">            
                 <tr>
@@ -481,9 +481,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>            
             </table>
-            </fieldset>
+            </div>
             
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_FILES'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
              
@@ -551,7 +551,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 }
                 ?>            
             </table>
-            </fieldset>
+            </div>
             		
 		<?php
     		// fire plugin event here to enable extending the form
@@ -563,7 +563,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
   <div class="tab-pane fade" id="panel_pricing">   <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_PRICES_AND_INVENTORY'); ?></legend>
             
             <table class="table table-striped table-bordered">
@@ -704,7 +704,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                       
 </fieldset></div></div>
                       	 <?php // Only display if quantity restriction ?>
-                        <div id="quantity_restrictions" style='float: right; width: 50%; <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
+                        <div id="quantity_restrictions" style=' <?php if (empty($row->quantity_restriction)) { echo "display: none;"; } ?>' >                
                         <table class="table table-striped table-bordered" style="width: 100%;">
                         <tr>
                             <td style="width: 100px; text-align: right;" class="dsc-key">
@@ -766,11 +766,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_PRODUCT_LIST_PRICE'); ?></legend>
             <table class="table table-striped table-bordered">
                 <tr>
@@ -791,7 +791,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                 </tr>
 
             </table>
-            </fieldset>
+            </div>
         </div>
     
         <div style="clear: both;"></div>
@@ -799,7 +799,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
   <div class="tab-pane" id="subscriptions"> <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION'); ?></legend>
             
             <div class="note well"><?php echo JText::_('COM_TIENDA_NON_RECURRING_SUBSCRIPTION_NOTE'); ?></div>
@@ -874,9 +874,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>          
             </table>
-            </fieldset>
+            </div>
                         
-        <fieldset>
+         <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO_RATED_CHARGES'); ?></legend>
             <div class="note well"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_PRO-RATED_CHARGES_NOTE'); ?></div>
             <table class="table table-striped table-bordered" style="width: 100%;">
@@ -926,11 +926,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                           </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_WITH_RECURRING_CHARGES'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1002,7 +1002,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>          
             </table>
-            </fieldset>
+            </div>
             
         </div>
     
@@ -1012,7 +1012,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
   <div class="tab-pane" id="panel_relations"><div style="clear: both;"></div>
         
         <div style="width: 100%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_ADD_NEW_RELATIONSHIP'); ?></legend>
                 <div id="new_relationship" style="float: left;">
                     <?php echo TiendaSelect::relationship('', 'new_relationship_type'); ?>
@@ -1022,16 +1022,16 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <button value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" class="btn btn-primary" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('COM_TIENDA_UPDATING_RELATIONSHIPS'); ?>');" ><?php echo JText::_('COM_TIENDA_ADD'); ?></button>
                 </div>
                 <div style="clear: both;"></div>
-            </fieldset>
+            </div>
         </div>
         
         <div style="width: 100%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_EXISTING_RELATIONSHIPS'); ?></legend>
                 <div id="existing_relationships">
                 <?php echo $this->product_relations; ?>
                 </div>
-            </fieldset>
+            </div>
         </div>
 
         <?php
@@ -1045,7 +1045,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
   <div class="tab-pane" id="panel_display">  <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_TEMPLATE'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1060,9 +1060,9 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
             
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_EXTRA'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1074,11 +1074,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: right; width: 50%;">
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_POST_PURCHASE_ARTICLE'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1091,7 +1091,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>
+            </div>
         </div>
 
         <?php
@@ -1104,7 +1104,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
   <div class="tab-pane" id="panel_integrations"> <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_AMBRASUBSCRIPTIONS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmbrasubs', 'helpers.ambrasubs')->isInstalled()) : ?>
                 <table class="table table-striped table-bordered" style="width: 100%;">
@@ -1122,11 +1122,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_AMBRASUBS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_AMIGOS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperAmigos', 'helpers.amigos')->isInstalled()) : ?>
                 <table class="table table-striped table-bordered" style="width: 100%;">
@@ -1144,11 +1144,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_AMIGOS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_BILLETS_INTEGRATION'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperBillets', 'helpers.billets')->isInstalled()) : ?>
@@ -1191,11 +1191,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_BILLETS_VERSION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
 
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_JUGA_INTEGRATION'); ?></legend>
             
             <?php if (Tienda::getClass('TiendaHelperJuga', 'helpers.juga')->isInstalled()) : ?>
@@ -1245,11 +1245,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_JUGA_VERSION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_TAGS_INTEGRATION'); ?></legend>
             <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
                 <table class="table table-striped table-bordered" style="width: 100%;">
@@ -1266,11 +1266,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_TAGS_INSTALLATION_NOTICE'); ?>
                 </div>
             <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
 
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_CORE_JOOMLA_USER_INTEGRATION'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1294,7 +1294,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
             </table>
-            </fieldset>        
+            </div>        
         </div>
         
         <?php
@@ -1312,7 +1312,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="clear: both;"></div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+             <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_PRODUCT_PARAMETERS'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1324,11 +1324,11 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
         
         <div style="float: left; width: 50%;">
-            <fieldset>
+            <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_SQL_FOR_AFTER_PURCHASE'); ?></legend>
             <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
@@ -1366,7 +1366,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     </td>
                 </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
 
         <?php
