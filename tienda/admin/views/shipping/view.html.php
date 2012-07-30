@@ -40,8 +40,20 @@ class TiendaViewShipping extends TiendaViewBase
 				break;
 		}
 	}
-
+	
 	function _form($tpl=null)
+	{
+        parent::_form($tpl);
+        
+        // the row is already loaded in base view so this might not be needed leaving this hear to help figure this out in joomla 1.5 if needed. 
+       if(!version_compare(JVERSION,'1.6.0','ge')) {
+		$row = $this->getModel()->getItem();
+		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.'/'.$row->element), 'plugin' );
+		$this->assignRef('params',$params);
+	   }
+	}
+	
+/*	function _form($tpl=null)
 	{
 		$model = $this->getModel();
 
@@ -95,6 +107,8 @@ class TiendaViewShipping extends TiendaViewBase
 		$row = $this->getModel()->getItem();
 		$import = JPluginHelper::importPlugin( 'tienda', $row->element );
 	}
+ * *
+ */
 
 	function _defaultToolbar()
 	{

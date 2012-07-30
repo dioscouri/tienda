@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="shipping_fedex">shipping_fedex.php</filename>
 		<folder>shipping_fedex</folder>
+		<folder>jform</folder>
 	</files>
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_tienda_shipping_fedex.ini</language>
