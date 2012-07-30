@@ -92,12 +92,6 @@
     	 -->
        
     	<!-- Core Modules -->
-    	<!-- ADMIN SUBMENU -->
-        <copy todir="${cfg.buildDir}/core/files/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu" />
-        </copy>
-
-    	
     	<!-- Core Plugins -->
     	<!-- BUG REPORT -->
         <copy todir="${cfg.buildDir}/core/files/tienda_plugin_bug_report" preservelastmodified="true" overwrite="true">
@@ -153,13 +147,6 @@
         </copy>
     	
     	<!-- MODULES -->
-        <!-- ADMIN SUBMENU -->
-        <copy todir="${destdir}/administrator/modules/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu/languages" />
-        </copy>
         <!-- COMPARED PRODUCTS -->
         <copy todir="${destdir}/modules/mod_tienda_compared_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/modules/mod_tienda_compared_products" />
@@ -695,13 +682,6 @@
         </copy>
     	
     	<!-- MODULES -->
-        <!-- ADMIN SUBMENU -->
-        <copy todir="${destdir}/administrator/modules/mod_tienda_admin_submenu" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu" />
-        </copy>
-        <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">
-            <fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu/languages" />
-        </copy>
         <!-- COMPARED PRODUCTS -->
         <copy todir="${destdir}/modules/mod_tienda_compared_products" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.comDir}/modules/mod_tienda_compared_products" />
@@ -1335,7 +1315,6 @@
 	
 
     <target name="build_modules" depends="init" description="packages any modules">
-    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}admin_submenu.zip" basedir="${cfg.comDir}/modules/${cfg.modPrefix}admin_submenu" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}admin_breadcrumbs.zip" basedir="${cfg.comDir}/modules/${cfg.modPrefix}breadcrumbs" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cart.zip" basedir="${cfg.comDir}/modules/${cfg.modPrefix}cart" />
     	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}categories.zip" basedir="${cfg.comDir}/modules/${cfg.modPrefix}categories" />
@@ -1445,9 +1424,6 @@
 			<!--Front-End Aux Modules-->
 		
 			<!--Admin Modules-->
-        	<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
-        		<fileset dir="${cfg.comDir}/modules/mod_tienda_admin_submenu/languages" />
-        	</copy>
 			<copy todir="${cfg.buildDir}/BaseLanguagePackage/admin" preservelastmodified="true" overwrite="true">
 		        		<fileset dir="${cfg.comDir}/modules/mod_tienda_quickicon/languages" />
 	    	</copy>

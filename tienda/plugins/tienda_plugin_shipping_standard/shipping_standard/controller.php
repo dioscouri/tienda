@@ -23,8 +23,16 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 	function __construct()
 	{
 		parent::__construct();
-		JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/models');
-		JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/tables');
+		if(version_compare(JVERSION,'1.6.0','ge')) { 
+			// Joomla! 1.6+ code
+			JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/models');
+			JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/tables');
+		}
+		else {
+			JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/models');
+			JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/tables');
+		}
+		$this->registerTask( 'newMethod', 'newMethod' );
 	}
 	
 	/**

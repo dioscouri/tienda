@@ -11,8 +11,6 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.html.toolbar.button');
-
 class JButtonTienda extends DSCButton{
 	
 	/**
@@ -21,7 +19,7 @@ class JButtonTienda extends DSCButton{
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Tienda';
+	protected $_name = 'Tienda';
 
 	
 	/**
@@ -41,10 +39,9 @@ class JButtonTienda extends DSCButton{
 		$todo		= JString::strtolower(JText::_( $name ));
 		$message	= JText::sprintf( 'COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo );
 		$message	= addslashes($message);
-		$hidecode	= $hide ? 'hideMainMenu();' : '';
 
 		if ($list) {
-			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ $hidecode submitTiendabutton('$task', '$taskName')}";
+			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ submitTiendabutton('$task', '$taskName')}";
 		} else {
 			$cmd = "submitTiendabutton('$task', '$taskName')";
 		}
@@ -55,12 +52,11 @@ class JButtonTienda extends DSCButton{
 }
 
 class TiendaToolBarHelper extends DSCToolBarHelper {
-	
 	/**
 	 * Button type
 	 *
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Tienda';
+	static protected $_name = 'Tienda';
 }

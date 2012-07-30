@@ -77,7 +77,16 @@ class TiendaViewShipping extends TiendaViewBase
 
 		// load the plugin
 		$row = $this->getModel()->getItem();
-		$params = new DSCParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+    
+    	if(version_compare(JVERSION,'1.6.0','ge'))
+	    {
+    	  // Joomla! 1.6+ code
+	      $row->params = json_decode( $row->params );
+	   	  if( !get_object_vars( $row->params ) )
+    	  	$row->params = '';
+	    }
+	    echo JApplicationHelper::getPath( 'plg_xml', $row->folder.DIRECTORY_SEPARATOR.$row->element ).'###';
+		$params = new DSCParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DIRECTORY_SEPARATOR.$row->element ) );
 		$this->assignRef('params',$params);
 
 		$this->assign('row', $model->getItem() );

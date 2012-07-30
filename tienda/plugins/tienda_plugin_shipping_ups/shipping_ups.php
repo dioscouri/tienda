@@ -319,7 +319,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 	 */
 	function viewConfig() {
 		JLoader::import('com_tienda.library.button', JPATH_ADMINISTRATOR . '/components');
-		TiendaToolBarHelper::cancel('close', 'Close');
+		TiendaToolBarHelper::cancel('close', 'COM_TIENDA_CLOSE');
 
 		$vars = new JObject();
 		$vars -> state = $this -> _getState();

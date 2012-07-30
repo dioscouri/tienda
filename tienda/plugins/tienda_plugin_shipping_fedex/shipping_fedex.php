@@ -134,7 +134,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin {
 		// TODO Finish this
 		//        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
 		//        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );
-		TiendaToolBarHelper::cancel('close', 'Close');
+		TiendaToolBarHelper::cancel('close', 'COM_TIENDA_CLOSE' );
 
 		$vars = new JObject();
 		$vars -> state = $this -> _getState();

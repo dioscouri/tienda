@@ -29,8 +29,13 @@ class TiendaControllerShippingPlugin extends TiendaController {
 	 */
 	public function getView( $name = '', $type = '', $prefix = '', $config = array() ){
     	$view = parent::getView( $name, $type, $prefix, $config ); 
-    	$view->addTemplatePath(JPATH_SITE.DS.'plugins'.DS.'tienda'.DS.$this->_element.DS.'tmpl'.DS);
-    	
+		  if(version_compare(JVERSION,'1.6.0','ge')) { 
+			   // Joomla! 1.6+ code
+    	   $view->addTemplatePath(JPATH_SITE.'/plugins/tienda/'.$this->_element.'/'.$this->_element.'/tmpl/');
+      }  
+      else {
+    	   $view->addTemplatePath(JPATH_SITE.'/plugins/tienda/'.$this->_element.'/tmpl/');      
+      }  	
     	return $view;
     }
     

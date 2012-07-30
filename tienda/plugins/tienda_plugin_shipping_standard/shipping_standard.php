@@ -124,7 +124,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
 		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', 'COM_TIENDA_NEW', false, 'shippingTask' );
 		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', 'COM_TIENDA_DELETE', false, 'shippingTask' );
-		TiendaToolBarHelper::cancel( 'close', 'Close' );
+		TiendaToolBarHelper::cancel( 'close', 'COM_TIENDA_CLOSE' );
 		
         $vars = new JObject();
         $vars->state = $this->_getState();        
