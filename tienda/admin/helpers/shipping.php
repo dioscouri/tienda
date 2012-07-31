@@ -21,7 +21,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 	 * Returns the list of shipping method types
 	 * @return array of objects
 	 */
-	public function getTypes()
+	public static function getTypes()
 	{
 		static $instance;
 
@@ -76,7 +76,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 	 * @param $id
 	 * @return object
 	 */
-	public function getType($id)
+	public static function getType($id)
 	{
 		$items = TiendaHelperShipping::getTypes();
 		return $items[$id];

@@ -30,7 +30,7 @@
 						</label>
 					</td>
 					<td>
-					<?php echo JHTML::_('select.booleanlist', 'enabled', '', @$row -> enabled); ?>
+					<?php echo TiendaSelect::btbooleanlist('enabled', '', @$row -> enabled); ?>
 					</td>
 				</tr>
 			</table>
@@ -39,8 +39,10 @@
     		<legend><?php echo JText::_('COM_TIENDA_PARAMETERS'); ?></legend>
 			<?php
 			
-		
- 			$path = JPATH_SITE.'/plugins/'.$row->folder.'/'.$row->element.'/jform/'.$row->element.'.xml';
+			$path = JPATH_SITE.'/plugins/'.$row->folder.'/'.$row->element.'/jform/'.$row->element.'.xml';
+			if (file_exists($path)) {
+				
+			
 			$form = JForm::getInstance($row->element, $path);
 		
 			foreach($row->data as $k => $v) {
@@ -62,7 +64,12 @@
 		<?php echo $hidden_fields; ?>
 	
 		<?php endforeach; ?>
-		<?php ?>
+		<?php 
+		
+		} else {
+		echo "No Params";
+			}
+		?>
 	
 			
 		

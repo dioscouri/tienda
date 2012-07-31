@@ -165,9 +165,16 @@ class TiendaControllerShipping extends TiendaController
 			$controllerName = str_ireplace('shipping_', '', $element);
 			$controllerName = ucfirst($controllerName);
 			
-	    	$path = JPATH_SITE.DS.'plugins'.DS.'tienda'.DS;
-	    	$controllerPath = $path.$element.DS.'controller.php';
+	    	 $path = JPATH_SITE.'/plugins/tienda/';
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
 
+	    	$controllerPath = $path.$element.'/'.$element.'/controller.php';
+			
+	    } else {
+	        // Joomla! 1.5 code here
+	    	$controllerPath = $path.$element.'/controller.php';
+	    }
                 	    	
 			if (file_exists($controllerPath)) {
 				require_once $controllerPath;

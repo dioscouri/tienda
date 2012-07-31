@@ -38,7 +38,8 @@ $tabs = &JPane::getInstance( 'tabs' );
 						</label>
 					</td>
 					<td>
-						<?php echo JHTML::_('select.booleanlist', 'published', '', @$row->published ) ?>
+					
+						<?php echo TiendaSelect::btbooleanlist('published', '', @$row->published ) ?>
 					</td>
 				</tr>
 			</table>

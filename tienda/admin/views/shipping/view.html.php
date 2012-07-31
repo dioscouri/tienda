@@ -51,6 +51,9 @@ class TiendaViewShipping extends TiendaViewBase
 		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.'/'.$row->element), 'plugin' );
 		$this->assignRef('params',$params);
 	   }
+	   
+	   $row = $this->getModel()->getItem();
+		$import = JPluginHelper::importPlugin( 'tienda', $row->element );
 	}
 	
 /*	function _form($tpl=null)

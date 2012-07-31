@@ -32,7 +32,7 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 			$this->loadLanguage( '', JPATH_SITE );
 			$this->getShopAddress( );
 			
-			$this->_log_file = JPATH_SITE . DS . 'images' . DS . 'com_tienda' . DS . 'debug' . DS . $this->_element . DS .'.txt';
+			$this->_log_file = JPATH_SITE . '/images/com_tienda/debug/' . $this->_element . '.txt';
 		}
 		
 		/************************************
@@ -248,7 +248,7 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 		/**
 		 * Get the id of the current shipping plugin
 		 */
-		public function getShippingId( )
+		public static function getShippingId( )
 		{
 			$sid = JRequest::getVar( 'sid', '' );
 			return $sid;
