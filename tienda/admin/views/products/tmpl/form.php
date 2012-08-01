@@ -4,7 +4,6 @@
 <?php JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'swfobject.js', 'media/com_tienda/js/uploadify/'); ?>
-<?php // JHTML::_('script', 'jquery-1.5.1.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('script', 'jquery.uploadify.v2.1.4.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 
@@ -21,9 +20,9 @@ Tienda::load( 'TiendaUrl', 'library.url' );
 Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 $helper_product = TiendaHelperBase::getInstance( 'product' );
 ?>
-<form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
+<form id="adminForm" action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" id="adminForm" enctype="multipart/form-data" >
 
-    <fieldset>
+    <div class="well options pull-left" style="width: 97%;">
     <legend><?php echo JText::_('COM_TIENDA_BASIC_INFORMATION'); ?></legend>
         <div style="float: left; margin:5px;">
         <table class="table table-striped table-bordered">
@@ -121,12 +120,13 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
             }
             ?>
         </div>
-    </fieldset>
+    </div>
 
     <div class="reset"></div>
   
- 
-
+ <br clear="both">
+<div class="reset"></div>
+  
     
     
     <?php
