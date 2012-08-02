@@ -19,8 +19,9 @@ class JButtonTienda extends DSCButton{
 	 * @access	protected
 	 * @var		string
 	 */
-	protected $_name = 'Tienda';
-
+	 
+	//public $_name = 'Tienda';
+	
 	
 	/**
 	 * Get the JavaScript command for the button
@@ -58,5 +59,37 @@ class TiendaToolBarHelper extends DSCToolBarHelper {
 	 * @access	protected
 	 * @var		string
 	 */
-	static protected $_name = 'Tienda';
+	//protected $_name = 'Tienda';
+	
+	
+	/* IN Joomla 1.5 STATIC::$_name Causes a fatal error, so extending directly here to avoid that.
+	 * ALSO in JOOMLA 1.5 $_name is public so that causes fatal error too, so  for now I 
+	 *  */
+	
+	public static  function _custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false, $taskName = 'shippingTask')
+	{
+		
+		
+		$bar = JToolBar::getInstance('toolbar');
+
+		//strip extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+
+		// Add a standard button
+		$bar->appendButton( 'Tienda', $icon, $alt, $task, $listSelect, $x, $taskName );
+	}
+
+	/**
+	 * Writes the common 'new' icon for the button bar
+	 * @param string An override for the task
+	 * @param string An override for the alt text
+	 * @since 1.0
+	 */
+	public static  function _addNew($task = 'add', $alt = 'New', $taskName = 'shippingTask')
+	{
+		$bar = JToolBar::getInstance('toolbar');
+		// Add a new button
+		$bar->appendButton( 'Tienda', 'new', $alt, $task, false, false, $taskName );
+	}
+	
 }

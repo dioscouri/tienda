@@ -13,6 +13,8 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaViewBase', 'views._base' );
 
+/*this file isn't used anymore and is set to be removed'*/
+
 class TiendaViewShipping_Standard extends TiendaViewBase
 {
 }

@@ -6,7 +6,7 @@ JFilterOutput::objectHTMLSafe( $row );
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
-<fieldset>
+<div class="well">
 	<legend><?php echo JText::_('COM_TIENDA_FORM'); ?></legend>
 	
 	<div style="width: 65%; float: left;">
@@ -38,7 +38,7 @@ JFilterOutput::objectHTMLSafe( $row );
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'shipping_method_enabled', '', @$row->shipping_method_enabled ); ?>
+				<?php echo TiendaSelect::btbooleanlist('shipping_method_enabled', '', @$row->shipping_method_enabled ); ?>
 			</td>
 		</tr>
         <tr>
@@ -74,7 +74,7 @@ JFilterOutput::objectHTMLSafe( $row );
 	</table>
     </div>
     
-    <div class="note" style="width: 25%; float: left; padding-right: 20px;">
+    <div class="well note" style="width: 25%; float: left; padding-right: 20px;">
         <span style="font-weight: bold; font-size: 13px; text-transform: uppercase;"><?php echo JText::_('COM_TIENDA_NOTE'); ?>:</span>
         <?php echo JText::_('COM_TIENDA_SHIPPING_TYPE_HELP_TEXT'); ?>:
         <ul>
@@ -94,5 +94,5 @@ JFilterOutput::objectHTMLSafe( $row );
 	<input type="hidden" id="shippingTask" name="shippingTask" value="<?php echo @$form->shippingTask; ?>" />
 	
 	
-	</fieldset>
+	</div>
 </form>

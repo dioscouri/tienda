@@ -10,7 +10,8 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.'/components' );
+//JLoader::import( 'com_tienda.library.plugins.shippingcontroller', JPATH_ADMINISTRATOR.'/components' );
+Tienda::load( 'TiendaControllerShippingPlugin', 'library.plugins.shippingcontroller' );
 
 class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 {
@@ -106,9 +107,10 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$form['action'] = $this->baseLink();
 
 		// view
-		$view = $this->getView( 'shipping_standard', 'html' );
+		$view = $this->getView( 'ShippingMethods', 'html' );
 		$view->hidemenu = true;
 		$view->hidestats = true;
+		$view->setTask(true);
 		$view->setModel( $model, true );
 		$view->assign('row', $row);
 		$view->assign('items', $items);
@@ -125,11 +127,11 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$this->setRedirect( $redirect, '', '' );
 	}
 
-	function view()
+	function view($cachable = false, $urlparams = false)
 	{
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
-		TiendaToolBarHelper::custom( 'save', 'save', 'save', 'COM_TIENDA_SAVE', false, 'shippingTask' );
-		TiendaToolBarHelper::custom( 'cancel', 'cancel', 'cancel', 'COM_TIENDA_CLOSE', false, 'shippingTask' );
+		TiendaToolBarHelper::_custom( 'save', 'save', 'save', 'COM_TIENDA_SAVE', false, 'shippingTask' );
+		TiendaToolBarHelper::_custom( 'cancel', 'cancel', 'cancel', 'COM_TIENDA_CLOSE', false, 'shippingTask' );
 		 
 		$id = JRequest::getInt('id', '0');
 		$sid = TiendaShippingPlugin::getShippingId();
@@ -144,9 +146,12 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$form = array();
 		$form['action'] = $this->baseLink();
 		$form['shippingTask'] = 'save';
-		$view = $this->getView( 'shipping_standard', 'html' );
+		//We are calling a view from the ShippingMethods we isn't actually the same  controller this has, however since all it does is extend the base view it is
+		// all good, and we don't need to remake getView()
+		$view = $this->getView( 'ShippingMethods', 'html' );
 		$view->hidemenu = true;
 		$view->hidestats = true;
+		$view->setTask(true);
 		$view->setModel( $model, true );
 		$view->assign('item', $item);
 		$view->assign('form2', $form);
