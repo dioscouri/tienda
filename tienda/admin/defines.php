@@ -9,19 +9,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-//Fail Nicely
-if (!class_exists('DSC')) {
-	jimport('joomla.filesystem.file');
-	if (!JFile::exists(JPATH_SITE . '/libraries/dioscouri/dioscouri.php')) {
-		JError::raiseNotice(1, "You Have the Dioscouri Library Installed, However you either need to enable the system plugin or  reinstall library");
-		return false;
-	} else {
-		JError::raiseNotice(1, "You beed to install the Diocouri Library");
-		return false;
-	}
-	
-} else {
-
 class Tienda extends DSC
 {
 	protected $_name 			= 'tienda';	
@@ -486,6 +473,4 @@ class Tienda extends DSC
 // keeping for compatibility
 class TiendaConfig extends Tienda {}
 
-
-}
 ?>
