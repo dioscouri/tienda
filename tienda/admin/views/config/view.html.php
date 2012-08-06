@@ -91,13 +91,13 @@ class TiendaViewConfig extends TiendaViewBase
 		$this->assign( 'elementArticleModel', $elementArticleModel );
 		
 			// terms
-			$elementArticle_terms 		= $elementArticleModel->_fetchElement( 'article_terms', @$row->get('article_terms') );
-			$resetArticle_terms			= $elementArticleModel->_clearElement( 'article_terms', '0' );
+			$elementArticle_terms 		= $elementArticleModel->fetchElement( 'article_terms', @$row->get('article_terms') );
+			$resetArticle_terms			= $elementArticleModel->clearElement( 'article_terms', '0' );
 			$this->assign('elementArticle_terms', $elementArticle_terms);
 			$this->assign('resetArticle_terms', $resetArticle_terms);
             // shipping
-            $elementArticle_shipping       = $elementArticleModel->_fetchElement( 'article_shipping', @$row->get('article_shipping') );
-            $resetArticle_shipping         = $elementArticleModel->_clearElement( 'article_shipping', '0' );
+            $elementArticle_shipping       = $elementArticleModel->fetchElement( 'article_shipping', @$row->get('article_shipping') );
+            $resetArticle_shipping         = $elementArticleModel->clearElement( 'article_shipping', '0' );
             $this->assign('elementArticle_shipping', $elementArticle_shipping);
             $this->assign('resetArticle_shipping', $resetArticle_shipping);			
 			

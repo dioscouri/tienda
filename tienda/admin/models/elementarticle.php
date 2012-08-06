@@ -16,11 +16,11 @@ class TiendaModelElementArticle extends DSCModelElement {
 
 	/* Compatibility wrappers*/
 	function _fetchElement($name, $value = '', $control_name = '', $js_extra = '', $fieldName = '') {
-		return $this -> fetchElement($name, $value = '', $control_name = '', $js_extra = '', $fieldName = '');
+		return $this -> fetchElement($name, $value, $control_name, $js_extra , $fieldName );
 	}
 
 	function _clearElement($name, $value = '', $control_name = '') {
-		return $this -> clearElement($name, $value = '', $control_name = '');
+		return $this -> clearElement($name, $value, $control_name );
 	}
 
 	/**

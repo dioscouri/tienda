@@ -118,13 +118,13 @@ class TiendaControllerOrders extends TiendaController
 			}
 		}
 
-		$view   = $this->getView( 'orders', 'html' );
+		$view   = $this->getView('orders', 'html'  );
+		
 		$view->set( '_controller', 'orders' );
 		$view->set( '_view', 'orders' );
 		$view->setModel( $model, true );
 		$view->assign( 'state', $model->getState() );
 		$view->assign( 'row', $row );
-		$view->setTask(true);
 		if ($this->getTask() == 'print')
 		{
 			$view->setLayout( 'print' );
