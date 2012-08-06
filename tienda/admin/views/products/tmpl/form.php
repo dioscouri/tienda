@@ -304,21 +304,22 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo $editor->display( 'product_description_short',  @$row->product_description_short, '100%', '300', '75', '10' ) ; ?>
                     </td>
                 </tr>
-                <?php if (Tienda::getClass('TiendaHelperTags', 'helpers.tags')->isInstalled()) : ?>
-                <tr>
-                	<td style="width: 100px; text-align: right; vertical-align:top;" class="dsc-key">
-                        <?php echo JText::_('COM_TIENDA_TAGS'); ?>:
-                    </td>
-                	<td>                	
-                	<?php
-                        // triggering custom event for plugins
-				        //JPluginHelper::importPlugin('tienda');
-						$dispatcher = &JDispatcher::getInstance();
-						$dispatcher->trigger('onDisplayProductTagsForm', array( $row ) );
-					?>
-					</td>
-                </tr>
-                <?php endif; ?>
+            	<?php 
+            	if (!empty($row->product_id)) 
+            	{
+                	$tagsHelper = new TiendaHelperTags();
+                	if ($tagsHelper->isInstalled()) 
+                	{ 
+                    	?>
+                        <tr>
+                    		<td colspan="2">
+                    			<?php echo $tagsHelper->getForm( $row->product_id ); ?>
+                    		</td>
+                    	</tr>
+            		    <?php 
+                	}
+                } 
+                ?>
             </table>
             </div>
 		    
