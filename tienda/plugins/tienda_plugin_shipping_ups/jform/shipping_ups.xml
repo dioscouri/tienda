@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="key" type="text" size="50" default="" label="COM_TIENDA_API_KEY" description="COM_TIENDA_API_KEY_DESC"/>
+				<field name="password" type="text" size="50" default="" label="COM_TIENDA_API_PASSWORD" description="COM_TIENDA_API_PASSWORD_DESC"/>
+				<field name="account" type="text" size="50" default="" label="COM_TIENDA_API_USERNAME" description="COM_TIENDA_API_USERNAME_DESC"/>
+				<field name="shipper_number" type="text" size="50" default="" label="COM_TIENDA_API_SHIPPER_NUMBER" description="COM_TIENDA_API_SHIPPER_NUMBER_DESC"/>
+				<field name="services" type="multilist" multiple="multiple" default="11" label="COM_TIENDA_SERVICES" description="COM_TIENDA_SERVICES_DESC">
+					<option value="01">COM_TIENDA_UPS_NEXT_DAY_AIR</option>
+					<option value="02">COM_TIENDA_UPS_SECOND_DAY_AIR</option>
+					<option value="03">COM_TIENDA_UPS_GROUND</option>
+					<option value="07">COM_TIENDA_UPS_WORLDWIDE_EXPRESS</option>
+					<option value="08">COM_TIENDA_UPS_WORLDWIDE_EXPEDITED</option>
+					<option value="11">COM_TIENDA_UPS_STANDARD</option>
+					<option value="12">COM_TIENDA_UPS_THREE-DAY_SELECT</option>
+					<option value="13">COM_TIENDA_UPS_NEXT_DAY_AIR_SAVER</option>
+					<option value="14">COM_TIENDA_UPS_NEXT_DAY_AIR_EARLY_AM</option>
+					<option value="54">COM_TIENDA_UPS_WORLDWIDE_EXPRESS_PLUS</option>
+					<option value="59">COM_TIENDA_UPS_SECOND_DAY_AIR_AM</option>
+					<option value="65">COM_TIENDA_UPS_SAVER</option>
+				</field>
+				<field name="packaging" type="list" default="02" label="COM_TIENDA_PACKAGING_TYPE" description="COM_TIENDA_PACKAGING_TYPE_DESC">
+					<option value="00">COM_TIENDA_UNKNOWN</option>
+					<option value="01">COM_TIENDA_UPS_LETTER</option>
+					<option value="02">COM_TIENDA_PACKAGE_CUSTOMER_SUPPLIED</option>
+					<option value="03">COM_TIENDA_UPS_TUBE</option>
+					<option value="04">COM_TIENDA_UPS_PAK</option>
+					<option value="21">COM_TIENDA_EXPRESS_BOX</option>
+					<option value="24">COM_TIENDA_25KG_BOX</option>
+					<option value="25">COM_TIENDA_10KG_BOX</option>
+					<option value="30">COM_TIENDA_PALLET</option>
+					<option value="2a">COM_TIENDA_SMALL_EXPRESS_BOX</option>
+					<option value="2b">COM_TIENDA_MEDIUM_EXPRESS_BOX</option>
+					<option value="2c">COM_TIENDA_LARGE_EXPRESS_BOX</option>
+				</field>
+				<field name="weight_unit" type="list" default="KG" label="COM_TIENDA_WEIGHT_UNIT" description="COM_TIENDA_WEIGHT_UNIT_DESC">
+					<option value="KGS">COM_TIENDA_KGS</option>
+					<option value="LBS">COM_TIENDA_LBS</option>
+				</field>
+				<field name="dimension_unit" type="list" default="CM" label="COM_TIENDA_DIMENSION_UNIT" description="COM_TIENDA_DIMENSION_UNIT_DESC">
+					<option value="CM">COM_TIENDA_CM</option>
+					<option value="IN">COM_TIENDA_INCH</option>
+				</field>
+				<field name="pickup_type" type="list" default="01" label="COM_TIENDA_PICKUP_TYPE" description="COM_TIENDA_PICKUP_TYPE_DESC">
+					<option value="01">COM_TIENDA_DAILY_PICKUP</option>
+					<option value="03">COM_TIENDA_CUSTOMER_COUNTER</option>
+					<option value="06">COM_TIENDA_ONE_TIME_PICKUP</option>
+					<option value="07">COM_TIENDA_ON_CALL_AIR</option>
+					<option value="11">COM_TIENDA_SUGGESTED_RETAIL_RATES</option>
+					<option value="19">COM_TIENDA_LETTER_CENTER</option>
+					<option value="20">COM_TIENDA_AIR_SERVICE_CENTER</option>
+				</field>
+				<field name="customer_classification" type="list" default="" label="COM_TIENDA_CUSTOMER_CLASSIFICATION" description="COM_TIENDA_CUSTOMER_CLASSIFICATION_DESC">
+					<option value="">COM_TIENDA_CLASSIFICATION_DEFAULT</option>
+					<option value="01">COM_TIENDA_WHOLESALE</option>
+					<option value="03">COM_TIENDA_OCCASIONAL</option>
+					<option value="04">COM_TIENDA_RETAIL</option>
+				</field>
+				<field name="declare_value" type="radio" default="1" label="COM_TIENDA_DECLARE_VALUE" description="COM_TIENDA_DECLARE_VALUE_DESC">
+					<option value="1">COM_TIENDA_YES</option>
+					<option value="0">COM_TIENDA_NO</option>
+				</field>
+				<field name="currency_code" type="text" default="USD" label="COM_TIENDA_CURRENCY_CODE" description="COM_TIENDA_CURRENCY_CODE_DESC" />
+				<field name="charge_tax" type="list" default="0" label="COM_TIENDA_CHARGE_TAX" description="COM_TIENDA_CHARGE_TAX_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="taxclass" type="tiendataxclass" size="50" default="" label="COM_TIENDA_TAX_CLASS" description="COM_TIENDA_TAX_CLASS_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+			</fieldset>
+		</fields>
+</form>

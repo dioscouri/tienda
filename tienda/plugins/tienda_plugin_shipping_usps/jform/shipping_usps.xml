@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="username" type="text" size="50" default="" label="COM_TIENDA_WEB_TOOLS_USERNAME" description="COM_TIENDA_WEB_TOOLS_USERNAME_DESC"/>
+				<field name="password" type="text" size="50" default="" label="COM_TIENDA_WEB_TOOLS_PASSWORD" description="COM_TIENDA_WEB_TOOLS_PASSWORD_DESC"/>
+				<field name="services" type="textarea" default="PARCEL, PRIORITY" label="COM_TIENDA_SERVICES_LIST" description="COM_TIENDA_SERVICES_LIST_DESC" rows="5" cols="30" />
+				<field name="packaging" type="list" default="FLAT RATE BOX" label="COM_TIENDA_PACKAGING_TYPE" description="COM_TIENDA_PACKAGING_TYPE_DESC">
+					<option value="FLAT RATE BOX">COM_TIENDA_FLAT_RATE_BOX</option>
+					<option value="FLAT RATE ENVELOPE">COM_TIENDA_FLAT_RATE_ENVELOPE</option>
+					<option value="SM FLAT RATE BOX">COM_TIENDA_SM_FLAT_RATE_BOX</option>
+					<option value="MD FLAT RATE BOX">COM_TIENDA_MD_FLAT_RATE_BOX=</option>
+					<option value="LG FLAT RATE BOX">COM_TIENDA_LG_FLAT_RATE_BOX</option>
+					<option value="VARIABLE">COM_TIENDA_VARIABLE</option>
+				</field>
+				<field name="weight_unit" type="list" default="LB" label="COM_TIENDA_WEIGHT_UNIT" description="COM_TIENDA_WEIGHT_UNIT_DESC">
+					<option value="LB">COM_TIENDA_LB</option>
+				</field>
+				<field name="dimension_unit" type="list" default="IN" label="COM_TIENDA_DIMENSION_UNIT" description="COM_TIENDA_DIMENSION_UNIT_DESC">
+					<option value="IN">COM_TIENDA_INCH</option>
+				</field>
+				<field name="charge_tax" type="list" default="0" label="COM_TIENDA_CHARGE_TAX" description="COM_TIENDA_CHARGE_TAX_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="taxclass" type="tiendataxclass" size="50" default="" label="COM_TIENDA_TAX_CLASS" description="COM_TIENDA_TAX_CLASS_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+				<field name="show_debug" type="list" default="0" label="COM_TIENDA_SHOW_DEBUG_MESSAGES" description="COM_TIENDA_SHOW_DEBUG_MESSAGES_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+			</fieldset>
+		</fields>
+</form>
