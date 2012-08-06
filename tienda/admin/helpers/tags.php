@@ -24,7 +24,7 @@ class TiendaHelperTags extends JObject
         jimport('joomla.filesystem.file');
         if (JFile::exists( JPATH_ADMINISTRATOR . '/components/com_tags/defines.php' ))
         {
-            JLoader::register( "Tags", JPATH_ADMINISTRATOR . "components/com_ambra/defines.php" );
+            JLoader::register( "Tags", JPATH_ADMINISTRATOR . "components/com_tags/defines.php" );
             
             $parentPath = JPATH_ADMINISTRATOR . '/components/com_tags/helpers';
             DSCLoader::discover('TagsHelper', $parentPath, true);
