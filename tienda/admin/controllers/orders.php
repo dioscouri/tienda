@@ -225,8 +225,6 @@ class TiendaControllerOrders extends TiendaController
 	function selectUser()
 	{
 		// clear the session variables
-		$this->setSessionVariable('order_products', array());
-		$this->setSessionVariable('order_quantities', array());
 
 		$user_id = JRequest::getVar( 'userid', '', 'get', 'string' );
 		if (empty($user_id))

@@ -102,7 +102,7 @@ class TiendaHelperImage extends TiendaHelperBase
 				$type = 'product';
 	
 			// Code less!
-			$thumb_path = $img->getDirectory().DS.'thumbs';
+			$thumb_path = $img->getDirectory().'/'.'thumbs';
 			$img_width = $type.'_img_width';
 			$img_height = $type.'_img_height';
 			
@@ -133,7 +133,7 @@ class TiendaHelperImage extends TiendaHelperBase
 			else
 				$img->resizeToHeight( $height );
 				
-			$dest_path = $dest_dir.DS.$img->getPhysicalName();
+			$dest_path = $dest_dir.'/'.$img->getPhysicalName();
 			
 			if (!$img->save( $dest_path ))
 			{
@@ -181,7 +181,7 @@ class TiendaHelperImage extends TiendaHelperBase
 		// checks image existance
 		if($path)
 		{
-			if( !JFile::exists($path.DS.$new_image) )
+			if( !JFile::exists($path.'/'.$new_image) )
 			{
 				$new_image = $image;
 			}

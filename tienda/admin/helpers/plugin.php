@@ -98,7 +98,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		}
 		
 		$args = array();
-		$dispatcher	   =& JDispatcher::getInstance();
+		$dispatcher	 = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( $event, $options );
 		
 		if ( !count($results) > 0 ) {
@@ -190,7 +190,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		if(empty($plugins[$geozone->geozonetype_id]))
 		{
 			$suffix = TiendaHelperPlugin::getSuffix($geozone->geozonetype_id);
-			JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 			$model = JModel::getInstance( $suffix, 'TiendaModel' );
 			$model->setState('filter_enabled', '1');
 			$plugins[$geozone->geozonetype_id] = $model->getList( );

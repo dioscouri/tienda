@@ -10,9 +10,6 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
-
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperPathway extends TiendaHelperBase 

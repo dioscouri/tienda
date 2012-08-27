@@ -19,7 +19,6 @@ class TiendaViewBase extends DSCViewAdmin {
 	 * @return unknown_type
 	 */
 	function display($tpl = null) {
-		JHTML::_('stylesheet', 'admin.css', 'media/com_tienda/css/');
 		//including core JS because it needs to be included in modals and since we have so many including here keeps that from failing. 
 		 JHTML::_('behavior.modal');
 		JHTML::_('script', 'core.js', 'media/system/js/');

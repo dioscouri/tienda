@@ -22,7 +22,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 */
 	public static function getBasicInfo( $userid )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$row = JTable::getInstance('UserInfo', 'TiendaTable');
 		$row->load( array( 'user_id' => $userid ) );
 		return $row;
@@ -37,7 +37,7 @@ class TiendaHelperUser extends DSCHelperUser
 	public static function getPrimaryAddress( $userid, $type='billing' )
 	{
 		$return = false;
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
 		switch($type)
 		{
@@ -197,7 +197,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 */
 	function _sendMail( &$user, $details, $useractivation, $guest=false )
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load('com_tienda', JPATH_ADMINISTRATOR);
 
 		$mainframe = JFactory::getApplication();
@@ -210,7 +210,7 @@ class TiendaHelperUser extends DSCHelperUser
 		$activation = $user->get('activation');
 		$password   = $details['password2']; // using the original generated pword for the email
 
-		$usersConfig    = &JComponentHelper::getParams( 'com_users' );
+		$usersConfig    = JComponentHelper::getParams( 'com_users' );
 		// $useractivation = $usersConfig->get( 'useractivation' );
 		$sitename       = $mainframe->getCfg( 'sitename' );
 		$mailfrom       = $mainframe->getCfg( 'mailfrom' );
@@ -312,7 +312,7 @@ class TiendaHelperUser extends DSCHelperUser
 			{
 				if (!isset($groups[$user_id]))
 				{
-					JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+					JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 					$model = JModel::getInstance('UserGroups', 'TiendaModel');
 					$model->setState( 'filter_user', $user_id );
 					//order to get the upper group
@@ -454,85 +454,6 @@ class TiendaHelperUser extends DSCHelperUser
 		$q = ' SELECT `sub_number` FROM `#__tienda_userinfo` WHERE `user_id` = '.$id;
 		$db->setQuery( $q );
 		return $db->loadResult();
-	}
-
-	/**
-	 * Verifies that the string is in a proper e-mail address format.
-	 *
-	 * @static
-	 * @param string $email String to be verified.
-	 * @return boolean True if string has the correct format; false otherwise.
-	 * @since 1.5
-	 */
-	public static  function isEmailAddress($email)
-	{
-		// Split the email into a local and domain
-		$atIndex    = strrpos($email, "@");
-    if($atIndex === false) // no "@" => false
-      return false;
-		$domain     = substr($email, $atIndex+1);
-		$local      = substr($email, 0, $atIndex);
-
-		// Check Length of domain
-		$domainLen  = strlen($domain);
-		if ($domainLen < 1 || $domainLen > 255) {
-			return false;
-		}
-
-		// Check the local address
-		// We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
-		$allowed    = 'A-Za-z0-9!#&*+=?_-';
-		$regex      = "/^[$allowed][\.$allowed]{0,63}$/";
-		if ( !preg_match($regex, $local) ) {die(Tienda::dump('foo'));
-		return false;
-		}
-
-		// No problem if the domain looks like an IP address, ish
-		$regex      = '/^[0-9\.]+$/';
-		if ( preg_match($regex, $domain)) {
-			return true;
-		}
-
-		// Check Lengths
-		$localLen   = strlen($local);
-		if ($localLen < 1 || $localLen > 64) {
-			return false;
-		}
-
-		// Check the domain
-		$domain_array   = explode(".", rtrim( $domain, '.' ));
-		if (count($domain_array) == 1)
-		{
-			return false;
-		}
-
-		$regex      = '/^[A-Za-z0-9-]{0,63}$/';
-		foreach ($domain_array as $domain ) {
-
-			// Must be something
-			if ( ! $domain ) {
-				return false;
-			}
-
-			// Check for invalid characters
-			if ( ! preg_match($regex, $domain) ) {
-				return false;
-			}
-
-			// Check for a dash at the beginning of the domain
-			if ( strpos($domain, '-' ) === 0 ) {
-				return false;
-			}
-
-			// Check for a dash at the end of the domain
-			$length = strlen($domain) -1;
-			if ( strpos($domain, '-', $length ) === $length ) {
-				return false;
-			}
-
-		}
-
-		return true;
 	}
 
 	/**

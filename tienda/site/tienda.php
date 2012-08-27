@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 // load the config class
 Tienda::load( 'Tienda', 'defines' );
@@ -27,7 +27,7 @@ Tienda::load( 'TiendaController', 'controller', $options );
 // Load Custom Language File if needed (com_tienda_custom)
 if(Tienda::getInstance()->get('custom_language_file', '0'))
 {
-	$lang =& JFactory::getLanguage();
+	$lang = JFactory::getLanguage();
 	$extension = 'com_tienda_custom';
 	$base_dir = JPATH_SITE;
 	$lang->load($extension, $base_dir, null, true);

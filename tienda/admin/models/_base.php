@@ -35,7 +35,7 @@ class TiendaModelBase extends DSCModel
      */
      function getTable($name='', $prefix='TiendaTable', $options = array())
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         return parent::getTable($name, $prefix, $options);
     }
      

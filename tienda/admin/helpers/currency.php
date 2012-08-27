@@ -10,9 +10,6 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
-
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
 class TiendaHelperCurrency extends TiendaHelperBase 
@@ -40,7 +37,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         if ( !isset( $currencies[$default_currencyid] ) )
 				{
 					// if currency is an integer, load the object for its id
-					JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+					JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 					$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
         	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
 				}
@@ -49,19 +46,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
         $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
         $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
         $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
-				
-        // Now check the session variable to see if there is a currency setting there
-				if( $currency == '' )
-				{
-	        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
-	        if( $session_currency )
-	        {
-	            // Let the code below deal with currency loading
-	            $currency = $session_currency;
-	        }
-				}
-            
-        // if currency is an object, use it's properties
+				        // if currency is an object, use it's properties
         if (is_object($currency))
         {
             $table = $currency;
@@ -80,7 +65,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($currencies[$currency]))
             {
                 // if currency is an integer, load the object for its id
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $currencies[$currency] = JTable::getInstance('Currencies', 'TiendaTable');
                 $currencies[$currency]->load( (int) $currency );               
             }
@@ -105,7 +90,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($codes[$currency]))
             {
                 // if currency is a string (currency_code) load the object for its code
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $codes[$currency] = JTable::getInstance('Currencies', 'TiendaTable');
                 $keynames = array();
                 $keynames['currency_code'] = (string) $currency;
@@ -134,7 +119,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($currencies[$default_currencyid]))
             {
                 // if currency is an integer, load the object for its id
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
                 $currencies[$default_currencyid]->load( (int) $default_currencyid );               
             }
@@ -208,7 +193,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
      */
     function getExchangeRate( $currencyFrom, $currencyTo='USD', $refresh=false )
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         
         $date = JFactory::getDate();
         $now = $date->toMySql();
@@ -353,7 +338,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
 	        if ( !isset( $currencies[$default_currencyid] ) )
 					{
 						// if currency is an integer, load the object for its id
-						JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+						JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 						$currencies[$default_currencyid] = JTable::getInstance('Currencies', 'TiendaTable');
 	        	$currencies[$default_currencyid]->load( (int) $default_currencyid );               
 					}
@@ -362,14 +347,6 @@ class TiendaHelperCurrency extends TiendaHelperBase
 	        $decimal = isset($options['decimal']) ? $options['decimal'] : $currencies[$default_currencyid]->decimal_separator;
 	        $pre = isset($options['pre']) ? $options['pre'] : $currencies[$default_currencyid]->symbol_left;
 	        $post = isset($options['post']) ? $options['post'] : $currencies[$default_currencyid]->symbol_right;
-	
-	        // Now check the session variable to see if there is a currency setting there
-	        $session_currency = TiendaHelperBase::getSessionVariable( 'currency_id', 0 );
-	        if( $session_currency )
-	        {
-	            // Let the code below deal with currency loading
-	            $currency = $session_currency;
-	        }
         }
             
         // if currency is an object, use it's properties
@@ -387,7 +364,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($currencies[$currency]))
             {
                 // if currency is an integer, load the object for its id
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $currencies[$currency] = JTable::getInstance('Currencies', 'TiendaTable');
                 $currencies[$currency]->load( (int) $currency );               
             }
@@ -407,7 +384,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($codes[$currency]))
             {
                 // if currency is a string (currency_code) load the object for its code
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $codes[$currency] = JTable::getInstance('Currencies', 'TiendaTable');
                 $keynames = array();
                 $keynames['currency_code'] = (string) $currency;
@@ -440,7 +417,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
     {
         if (empty($this->currencies[$id]))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $this->currencies[$id] = JTable::getInstance('Currencies', 'TiendaTable');
             $this->currencies[$id]->load($id);          
         }

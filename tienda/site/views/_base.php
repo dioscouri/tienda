@@ -135,7 +135,7 @@ class TiendaViewBase extends DSCViewSite
 		// TODO Fix this
 		$required = new stdClass();
 		$required->text = JText::_('COM_TIENDA_REQUIRED');
-		$required->image = "<img src='".JURI::root()."/media/com_tienda/images/required_16.png' alt='{$required->text}'>";
+		$required->image = TiendaGrid::required( $required->text );
 		$this->assign('required', $required );
 	}
 

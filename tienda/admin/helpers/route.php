@@ -21,7 +21,7 @@ class TiendaHelperRoute extends DSCHelperRoute
     static function getItems( $option='com_tienda' )
     {
        parent::getItems($option);
-       }
+    }
     
     /**
      * Finds the itemid for the set of variables provided in $needles

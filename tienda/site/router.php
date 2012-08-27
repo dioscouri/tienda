@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperRoute", 'helpers.route' );
 

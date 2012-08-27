@@ -21,9 +21,7 @@ class TiendaImage extends DSCImage
 	
 	public $thumb_width = '160';
 	public $thumb_height = '90';
-	
-	
-	
+		
 	/**
 	 * Support Zip files for image galleries 
 	 * @see TiendaFile::upload()
@@ -54,7 +52,7 @@ class TiendaImage extends DSCImage
 					// Name correction
 					foreach ( $files as &$file )
 					{
-						$file = new TiendaImage( $dir . DS . $file);
+						$file = new TiendaImage( $dir . '/' . $file);
 					}
 					
 					$this->archive_files = $files;
@@ -67,4 +65,3 @@ class TiendaImage extends DSCImage
 		return $result;
 	}
 }
-?>

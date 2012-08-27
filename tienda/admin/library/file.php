@@ -36,15 +36,15 @@ class TiendaFile extends DSCFile
 		$helper->checkDirectory($dir);
 
 		// then confirms existence of htaccess file
-		$htaccess = $dir.DS.'.htaccess';
+		$htaccess = $dir.'/.htaccess';
 		if (!$fileexists = JFile::exists( $htaccess ) ) 
 		{
 			$destination = $htaccess;
 			$text = "deny from all";
 		    if ( !JFile::write( $destination, $text )) 
 		    {
-                $this->setError(  );
-                return $success;JText::_('COM_TIENDA_STORAGE_DIRECTORY_IS_UNPROTECTED');
+                $this->setError( JText::_('COM_TIENDA_STORAGE_DIRECTORY_IS_UNPROTECTED') );
+                return $success;
             }			
 		}
 
@@ -137,7 +137,7 @@ class TiendaFile extends DSCFile
 	function handleMultipleUpload ($fieldname='userfile', $num = 0) 
 	{
 		$success = false;
-		$config = &Tienda::getInstance();
+		$config = Tienda::getInstance();
 		
 		// Check if file uploads are enabled
 		if (!(bool)ini_get('file_uploads')) {
@@ -203,7 +203,7 @@ class TiendaFile extends DSCFile
 	function upload()
 	{
 		// path
-		$dest = $this->getDirectory().DS.$this->getPhysicalName();
+		$dest = $this->getDirectory().'/'.$this->getPhysicalName();
 		// delete the file if dest exists
 		if ($fileexists = JFile::exists( $dest ))
 		{

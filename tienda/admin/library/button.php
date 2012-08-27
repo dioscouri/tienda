@@ -44,7 +44,7 @@ class JButtonTienda extends DSCButton{
 		if ($list) {
 			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ submitTiendabutton('$task', '$taskName')}";
 		} else {
-			$cmd = "submitTiendabutton('$task', '$taskName')";
+			$cmd = "javascript:submitTiendabutton('$task', '$taskName')";
 		}
 
 

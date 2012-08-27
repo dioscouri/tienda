@@ -359,58 +359,58 @@ class Tienda extends DSC
 		switch($type)
 		{
 			case 'media' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda';
+				$path = JPATH_SITE.'/media/com_tienda';
 				break;
 			case 'css' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'css';
+				$path = JPATH_SITE.'/media/com_tienda/css';
 				break;
 			case 'images' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images';
+				$path = JPATH_SITE.'/media/com_tienda/images';
 				break;
 			case 'ratings' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'images'.DS.'ratings';
+				$path = JPATH_SITE.'/media/com_tienda/images/ratings';
 				break;
 			case 'js' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'js';
+				$path = JPATH_SITE.'/media/com_tienda/js';
 				break;
 			case 'products_templates' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'products';
+				$path = JPATH_SITE.'/media/com_tienda/templates/site/products';
 				break;
             case 'product_buy_templates' :
-                $path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'product_buy';
+                $path = JPATH_SITE.'/media/com_tienda/templates/site/product_buy';
                 break;
 			case 'categories_templates' :
-				$path = JPATH_SITE.DS.'media'.DS.'com_tienda'.DS.'templates'.DS.'site'.DS.'categories';
+				$path = JPATH_SITE.'/media/com_tienda/templates/site/categories';
 				break;
 			case 'categories_images' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'categories';
+				$path = JPATH_SITE.'/images/com_tienda/categories';
 				break;
 			case 'categories_thumbs' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'categories'.DS.'thumbs';
+				$path = JPATH_SITE.'/images/com_tienda/categories/thumbs';
 				break;
 			case 'products_images' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'products';
+				$path = JPATH_SITE.'/images/com_tienda/products';
 				break;
 			case 'products_thumbs' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'products'.DS.'thumbs';
+				$path = JPATH_SITE.'/images/com_tienda/products/thumbs';
 				break;
 			case 'products_files' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'files';
+				$path = JPATH_SITE.'/images/com_tienda/files';
 				break;
 			case 'manufacturers_images' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'manufacturers';
+				$path = JPATH_SITE.'/images/com_tienda/manufacturers';
 				break;
 			case 'manufacturers_thumbs' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'manufacturers'.DS.'thumbs';
+				$path = JPATH_SITE.'/images/com_tienda/manufacturers/thumbs';
 				break;
 			case 'order_files' :
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'orders';
+				$path = JPATH_SITE.'/images/com_tienda/orders';
 				break;
 			case 'cartitems_files':
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'cartitems';
+				$path = JPATH_SITE.'/images/com_tienda/cartitems';
 				break;
 			case 'orderitems_files':
-				$path = JPATH_SITE.DS.'images'.DS.'com_tienda'.DS.'orderitems';
+				$path = JPATH_SITE.'/images/com_tienda/orderitems';
 				break;
 		}
 
@@ -466,7 +466,6 @@ class Tienda extends DSC
 		
 		return $root['prefix'].$root['path'].'/';
 	}
-	
 } 
 
 

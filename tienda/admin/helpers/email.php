@@ -36,7 +36,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $done = array();
 
         // grab config settings for sender name and email
-        $config     = &TiendaConfig::getInstance();
+        $config     = TiendaConfig::getInstance();
         $mailfrom   = $config->get( 'shop_email', '' );
         if( !strlen( $mailfrom ) )
         	$mailfrom = $mainframe->getCfg('mailfrom');
@@ -63,7 +63,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $content = $this->getEmailContent( $data, $type );
         
         // trigger event onAfterGetEmailContent 
-        $dispatcher=& JDispatcher::getInstance(); 
+        $dispatcher= JDispatcher::getInstance(); 
         $dispatcher->trigger('onAfterGetEmailContent', array( $data, &$content) ); 
                 
         //$this->results = array();
@@ -440,7 +440,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
      */
     function getSystemEmailRecipients()
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $query = "
             SELECT tbl.email
             FROM #__users AS tbl
@@ -507,11 +507,11 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
     function getPlaceholderDefaults()
     {
         $mainframe = JFactory::getApplication();
-        $config = &TiendaConfig::getInstance();
+        $config =  TiendaConfig::getInstance();
         $site_name              = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $site_url               = $config->get( 'siteurl', JURI::root() );
         $link_my_subscriptions  = $config->get( 'link_my_subscriptions', JURI::root()."/index.php?option=com_tienda&view=subscriptions" );
-        $user_name              = JText::_( $config->get( 'default_email_user_name', 'Valued Customer' ) );
+        $user_name              = JText::_( $config->get( 'default_email_user_name', 'COM_TIENDA_VALUED_CUSTOMER' ) );
         
         // default placeholders
         $placeholders = array(
@@ -556,8 +556,8 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
      */
     function sendEmailToAskQuestionOnProduct($sendObject)
     {
-    	$config = &TiendaConfig::getInstance();
-		$lang = &JFactory::getLanguage();
+    	$config = TiendaConfig::getInstance();
+		$lang = JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
     	//set the email subject
     	$subject = "[".$config->get('shop_name', 'SHOP')." - ".JText::_('COM_TIENDA_PRODUCT')." #{$sendObject->item->product_id} ] ";
