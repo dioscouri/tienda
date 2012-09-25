@@ -24,7 +24,7 @@
 			</thead>
 			<tbody>
 			<tr>
-				<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
+				<?php $attribs = array('class' => 'inputbox', 'onchange' => 'document.adminForm.submit();'); ?>
 				<?php
 				//this is dumb, but it makes the dashboard work until caching issue is resolve 
 				 if(@$state->stats_interval) : ?>

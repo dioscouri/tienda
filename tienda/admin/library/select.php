@@ -85,7 +85,7 @@ class TiendaSelect extends DSCSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	public static function range( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
+	public static function range( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
 	{
 	    $list = array();
 		if($allowAny) {
@@ -110,7 +110,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function reportrange( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
+    public static function reportrange( $selected, $name = 'filter_range', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_RANGE' )
     {
         $list = array();
         if($allowAny) {
@@ -135,7 +135,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function datetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    public static function datetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -158,7 +158,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
+	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -209,7 +209,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function manufacturer($selected, $name = 'filter_manufacturerid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Manufacturer', $title_none = 'No Manufacturer', $enabled = null )
+	public static function manufacturer($selected, $name = 'filter_manufacturerid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Manufacturer', $title_none = 'No Manufacturer', $enabled = null )
  	{
  		// Build list
         $list = array();
@@ -246,7 +246,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $title_none
  	 * @return unknown_type
  	 */
-	public static function taxclass($selected, $name = 'filter_tax_class_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_TAX_CLASS', $title_none = 'COM_TIENDA_NO_TAX_CLASS' )
+	public static function taxclass($selected, $name = 'filter_tax_class_id', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_TAX_CLASS', $title_none = 'COM_TIENDA_NO_TAX_CLASS' )
  	{
  		// Build list
         $list = array();
@@ -280,7 +280,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function country($selected, $name = 'filter_countryid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $enabled = null)
+	public static function country($selected, $name = 'filter_countryid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $enabled = null)
  	{
         $list = array();
 		if($allowAny) {
@@ -313,7 +313,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function geozonetypes($selected, $name = 'filter_geozonetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function geozonetypes($selected, $name = 'filter_geozonetype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false)
  	{
         $list = array();
 		if($allowAny) {
@@ -343,7 +343,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function zone($selected, $name = 'filter_zoneid', $countryid,  $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function zone($selected, $name = 'filter_zoneid', $countryid,  $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false)
  	{
         $list = array();
 		if($allowAny) {
@@ -386,7 +386,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function geozone($selected, $name = 'filter_geozoneid', $type = '', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function geozone($selected, $name = 'filter_geozoneid', $type = '', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false)
  	{
  		// TODO Make these static?
  		
@@ -418,7 +418,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-	public static function currency($selected, $name = 'filter_currency_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function currency($selected, $name = 'filter_currency_id', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false)
  	{
         $list = array();
 		if($allowAny) {
@@ -445,7 +445,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-	public static function selectsort($selected, $name = 'default_selectsort', $attribs = array('class' => 'inputbox', 'size' => '1') , $idtag = null, $allowAny = false)
+	public static function selectsort($selected, $name = 'default_selectsort', $attribs = array('class' => 'inputbox') , $idtag = null, $allowAny = false)
 	{
         $list = array();
         if($allowAny) {
@@ -473,7 +473,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $addNew
  	 * @return unknown_type
  	 */
-	public static function address($userid, $selected, $name = 'filter_address_id', $type = 1, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $addNew = false )
+	public static function address($userid, $selected, $name = 'filter_address_id', $type = 1, $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $addNew = false )
  	{
  		// TODO return empty array?
  		if (empty($userid))
@@ -536,7 +536,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $title
  	 * @return unknown_type
  	 */
-    public static function order($user_id, $selected = '', $name = 'filter_order', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title = 'Select Order' )
+    public static function order($user_id, $selected = '', $name = 'filter_order', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = true, $title = 'Select Order' )
     {
         if (empty($user_id))
         {
@@ -573,7 +573,7 @@ class TiendaSelect extends DSCSelect
      * @param $title_none
      * @return unknown_type
      */
-    public static function addressaction($selected, $name = 'filter_action', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_ACTION' )
+    public static function addressaction($selected, $name = 'filter_action', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_ACTION' )
     {
         $list = array();
         if($allowAny) 
@@ -597,7 +597,7 @@ class TiendaSelect extends DSCSelect
  	 * @param unknown_type $allowAny
  	 * @return unknown_type
  	 */
-	public static function orderstate($selected, $name = 'filter_orderstateid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+	public static function orderstate($selected, $name = 'filter_orderstateid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false)
  	{
         $list = array();
 		if($allowAny) {
@@ -624,7 +624,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function shippingtype( $selected, $name = 'filter_shipping_method_type', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Shipping Type' )
+    public static function shippingtype( $selected, $name = 'filter_shipping_method_type', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Shipping Type' )
     {
         $list = array();
         if($allowAny) {
@@ -649,7 +649,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $idtag
      * @return unknown_type
      */
-	public static function shippingmethod( $selected, $name = 'filter_shipping_method', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null )
+	public static function shippingmethod( $selected, $name = 'filter_shipping_method', $attribs = array('class' => 'inputbox'), $idtag = null )
 	{
 	    $list = array();
 
@@ -674,7 +674,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $idtag
 	 * @return unknown_type
 	 */
-    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $opt_selected = array())
+    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox'), $idtag = null, $opt_selected = array())
     {
         $list = array();
         JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
@@ -740,7 +740,7 @@ class TiendaSelect extends DSCSelect
     /**
 	 * Generates a selectlist of Product Attributes 
 	 */
-    public static function productattributes( $selected, $product_id, $id, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_NO_PARENT')
+    public static function productattributes( $selected, $product_id, $id, $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_NO_PARENT')
     {
         $list = array();
         
@@ -782,7 +782,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function productattributeoptionprefix( $selected, $name = 'filter_prefix', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Prefix' )
+    public static function productattributeoptionprefix( $selected, $name = 'filter_prefix', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Prefix' )
     {
         $list = array();
         if($allowAny) {
@@ -804,7 +804,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function periodUnit( $selected, $name = 'filter_periodunit', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Period Unit' )
+    public static function periodUnit( $selected, $name = 'filter_periodunit', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='Select Period Unit' )
     {
         $list = array();
         if($allowAny) {
@@ -831,7 +831,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function relationship( $selected, $name = 'filter_relationtype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Relationship' )
+    public static function relationship( $selected, $name = 'filter_relationtype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='Select Relationship' )
     {
         $list = array();
         if($allowAny) {
@@ -859,7 +859,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function productlayout( $selected, $name = 'filter_productlayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
+    public static function productlayout( $selected, $name = 'filter_productlayout', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) 
@@ -888,7 +888,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function categorylayout( $selected, $name = 'filter_categorylayout', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
+    public static function categorylayout( $selected, $name = 'filter_categorylayout', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = true, $title='COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) 
@@ -915,7 +915,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function addtocartaction( $selected, $name = 'filter_addtocartaction', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_ACTION' )
+    public static function addtocartaction( $selected, $name = 'filter_addtocartaction', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_ACTION' )
     {
         $list = array();
         if($allowAny) {
@@ -938,7 +938,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function displaywithtax( $selected, $name = 'filter_displaywithtax', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Display Prices With Tax' )
+    public static function displaywithtax( $selected, $name = 'filter_displaywithtax', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Display Prices With Tax' )
     {
         $list = array();
         if($allowAny) {
@@ -962,7 +962,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function cartbutton( $selected, $name = 'filter_cartbutton', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Cart Button' )
+    public static function cartbutton( $selected, $name = 'filter_cartbutton', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Cart Button' )
     {
         $list = array();
         if($allowAny) {
@@ -980,7 +980,7 @@ class TiendaSelect extends DSCSelect
      *
      */
      
-	public static function product($selected, $name = 'product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select product', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
+	public static function product($selected, $name = 'product_id', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select product', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -1001,7 +1001,7 @@ class TiendaSelect extends DSCSelect
 	/*
 	 * getting list of users
 	 */
- 	public static function users($selected, $name = 'userid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select User', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
+ 	public static function users($selected, $name = 'userid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select User', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -1022,7 +1022,7 @@ class TiendaSelect extends DSCSelect
  	/*
 	 * getting list of groups
 	 */
- 	public static function groups($selected, $name = 'group_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_GROUP', $title_none = 'No Group', $enabled = null )
+ 	public static function groups($selected, $name = 'group_id', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'COM_TIENDA_SELECT_GROUP', $title_none = 'No Group', $enabled = null )
  	{
 		// Build list
         $list = array();
@@ -1030,7 +1030,7 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'group_id', 'group_name' );
 		}
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR/'/components/com_tienda/models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'Groups', 'TiendaModel' );
 		$items = $model->getList();
 		foreach (@$items as $item)
@@ -1048,7 +1048,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function coupongroup( $selected, $name = 'filter_coupongroup', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Coupon Group' )
+    public static function coupongroup( $selected, $name = 'filter_coupongroup', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Coupon Group' )
     {
         $list = array();
         if($allowAny) {
@@ -1072,7 +1072,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function coupontype( $selected, $name = 'filter_coupontype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Coupon Type' )
+    public static function coupontype( $selected, $name = 'filter_coupontype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Coupon Type' )
     {
         $list = array();
         if($allowAny) {
@@ -1093,7 +1093,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function subdatetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    public static function subdatetype( $selected, $name = 'filter_datetype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1114,7 +1114,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function entitytype( $selected, $name = 'filter_entitytype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    public static function entitytype( $selected, $name = 'filter_entitytype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1135,7 +1135,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function attributetype( $selected, $name = 'filter_attributetype', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    public static function attributetype( $selected, $name = 'filter_attributetype', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1161,7 +1161,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function editableby( $selected, $name = 'filter_editable', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Editable' )
+    public static function editableby( $selected, $name = 'filter_editable', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='Select Editable' )
     {
         $list = array();
         if($allowAny) {
@@ -1185,7 +1185,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $title
      * @return unknown_type
      */
-    public static function view( $selected, $name = 'filter_view', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select View' )
+    public static function view( $selected, $name = 'filter_view', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select View' )
     {
         $list = array();
         if($allowAny) {
@@ -1213,7 +1213,7 @@ class TiendaSelect extends DSCSelect
      * @param unknown_type $allowAny
      * @return unknown_type
      */
-    public static function downloadableproduct($user_id, $selected, $name = 'filter_product_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true, $title = 'Select Product')
+    public static function downloadableproduct($user_id, $selected, $name = 'filter_product_id', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = true, $title = 'Select Product')
     {
         $list = array();
         if($allowAny) {
@@ -1243,7 +1243,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function productsortby( $selected, $name = 'filter_sortby', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Sort By' )
+    public static function productsortby( $selected, $name = 'filter_sortby', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='Sort By' )
     {
         $list = array();
         if($allowAny) {
@@ -1276,7 +1276,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function addressShowList( $selected, $name = 'show_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null )
+    public static function addressShowList( $selected, $name = 'show_field', $attribs = array('class' => 'inputbox'), $idtag = null )
     {
         $list = array();
         $list[] = JHTML::_('select.option',  '0', JText::_('COM_TIENDA_NONE') );
@@ -1298,7 +1298,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function productattributeoptionvalueoperator( $selected, $name = 'filter_operator', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Operator' )
+    public static function productattributeoptionvalueoperator( $selected, $name = 'filter_operator', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Operator' )
     {
         $list = array();
         if($allowAny) {
@@ -1326,7 +1326,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function productattributeoptionvaluefield( $selected, $name = 'filter_field', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'Select Field' )
+    public static function productattributeoptionvaluefield( $selected, $name = 'filter_field', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'Select Field' )
     {
         $list = array();
         if($allowAny) {
@@ -1351,7 +1351,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function opclayouts( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
+    public static function opclayouts( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) {
@@ -1376,7 +1376,7 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $title
 	 * @return unknown_type
 	 */
-    public static function multipleuploadscript( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
+    public static function multipleuploadscript( $selected, $name = 'opclayouts', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'COM_TIENDA_SELECT_LAYOUT' )
     {
         $list = array();
         if($allowAny) {
@@ -1398,7 +1398,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function credittype( $selected, $name = 'credit_type', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    public static function credittype( $selected, $name = 'credit_type', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
     {
         $list = array();
         if($allowAny) {
@@ -1425,7 +1425,7 @@ class TiendaSelect extends DSCSelect
     * @param mixed The key that is selected
     * @returns string HTML for the radio list
     */
-    public static function creditstatus( $selected, $name = 'credit_status', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false, $title='Select Status' )
+    public static function creditstatus( $selected, $name = 'credit_status', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='Select Status' )
     {
         $list = array();
         if($allowAny) {
@@ -1465,7 +1465,7 @@ class TiendaSelect extends DSCSelect
      * @param $attribs					Element attributes
      * @param $idtag						ID of the element (null means that it will be equal to name)
      */
-		public static function taxratespredecessors( $selected, $name = 'level', $tax_class_id = null, $geozone_id = null, $tax_type = null, $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
+		public static function taxratespredecessors( $selected, $name = 'level', $tax_class_id = null, $geozone_id = null, $tax_type = null, $attribs = array('class' => 'inputbox' ), $idtag = null )
 		{
         $list = array();
         $list[] =  self::option( 0, JText::_('COM_TIENDA_ROOT') );
@@ -1506,7 +1506,7 @@ class TiendaSelect extends DSCSelect
      * @param $attribs	Element attributes
      * @param $idtag		ID of the element (null means that it will be equal to name)
      */
-		public static function taxdisplaycheckout( $selected, $name = 'show_tax_checkout', $attribs = array('class' => 'inputbox', 'size' => '1' ), $idtag = null )
+		public static function taxdisplaycheckout( $selected, $name = 'show_tax_checkout', $attribs = array('class' => 'inputbox' ), $idtag = null )
 		{
         $list = array();
         $list[] = JHTML::_('select.option',  '1', JText::_('COM_TIENDA_TAX_RATES_IN_SEPARATE_LINES') );
