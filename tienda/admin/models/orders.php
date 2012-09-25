@@ -306,7 +306,7 @@ class TiendaModelOrders extends TiendaModelBase
 		return $this->_list;
 	}
 	
-	public function getItem($emptyState=true)
+	public function getItem($pk=null, $refresh=false, $emptyState=true)
 	{
 	    if (empty( $this->_item ))
 	    {
@@ -315,7 +315,7 @@ class TiendaModelOrders extends TiendaModelBase
             $amigos = TiendaHelperBase::getInstance( 'Amigos' );
             $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
             
-            if ($item = parent::getItem($emptyState))
+            if ($item = parent::getItem( $pk, $refresh, $emptyState))
             {
                 // get the orderinfo
                 $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
@@ -386,7 +386,7 @@ class TiendaModelOrders extends TiendaModelBase
 
                 // retrieve the order's currency
                 // this loads the currency, using the FK is it is the same of the
-                // currency used in the order, or the DSCParameter currency of the order otherwise
+                // currency used in the order, or the JParameter currency of the order otherwise
                 $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 

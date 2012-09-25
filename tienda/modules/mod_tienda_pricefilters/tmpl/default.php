@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php $document = JFactory::getDocument(); ?>
-<?php $document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_pricefilters/tmpl/mod_tienda_pricefilters.css'); ?>
+<?php $doc = JFactory::getDocument(); ?>
+<?php $doc->addStyleSheet( JURI::root(true).'/modules/mod_tienda_pricefilters/tmpl/mod_tienda_pricefilters.css'); ?>
 
 <ul id="tienda_pricefilter_mod">
 	

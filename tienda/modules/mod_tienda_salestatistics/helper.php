@@ -141,7 +141,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 	function _lastSeven()
 	{
 		$database = JFactory::getDBO();
-		$enddate=TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
+		$enddate = TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
 
 		$query = new TiendaQuery();
 		$query = " SELECT DATE_SUB('".$enddate."', INTERVAL 7 DAY) ";

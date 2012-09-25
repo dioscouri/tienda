@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-$document->addStyleSheet(Tienda::getURL()."/css/admin.css");
+$doc->addStyleSheet(Tienda::getURL()."/css/admin.css");
 ?>
 <div class="tcpanel">
 <div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">

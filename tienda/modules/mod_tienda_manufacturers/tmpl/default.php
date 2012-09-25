@@ -2,8 +2,8 @@
 
 Tienda::load( 'TiendaSelect', 'library.select' );
 
-$document = JFactory::getDocument();
-$document->addStyleSheet( JURI::root(true).'/modules/mod_tienda_manufacturers/tmpl/tienda_manufacturers.css'); ?>
+$doc = JFactory::getDocument();
+$doc->addStyleSheet( JURI::root(true).'/modules/mod_tienda_manufacturers/tmpl/tienda_manufacturers.css'); ?>
 
 <ul id="tienda_manufacturers_mod">
 <?php foreach ($items as $item) : ?>

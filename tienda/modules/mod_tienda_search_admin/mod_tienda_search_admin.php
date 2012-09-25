@@ -12,16 +12,15 @@ defined('_JEXEC') or die('Restricted access');
 
 $text = $params->get( 'text', 'Tienda Dashboard' );
 
-$mainframe = JFactory::getApplication();
-$document = JFactory::getDocument();
 
-$option = JRequest::getCmd( 'option' );
+$doc = JFactory::getDocument();
+
 $class_suffix = $params->get('moduleclass_sfx', '');
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') )
 {
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 }
 Tienda::load( 'TiendaSelect', 'library.select' );   
 

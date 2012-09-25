@@ -12,10 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
- 			JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+ 			JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 //include helper files
-require_once( dirname(__FILE__).DS.'helper.php' );
+require_once( dirname(__FILE__).'/helper.php' );
 
 // include lang files
 $lang = JFactory::getLanguage();

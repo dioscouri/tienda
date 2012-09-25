@@ -10,7 +10,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-$document->addStyleSheet( JURI::root(true).'/administrator/modules/mod_tienda_search_admin/tmpl/stylesheet.css');
+$doc->addStyleSheet( JURI::root(true).'/administrator/modules/mod_tienda_search_admin/tmpl/stylesheet.css');
 ?>
 
 <form action="index.php?option=com_tienda&view=dashboard&task=search" method="post">

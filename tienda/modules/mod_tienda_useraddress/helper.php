@@ -16,8 +16,8 @@ class modTiendaUserAddressHelper
     function getAddresses()
     {
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 
         // get the user's addresses using the address model
     	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );

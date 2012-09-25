@@ -20,8 +20,8 @@ class modTiendaComparedProductsHelper extends JObject
 	 */
     function getComparedProducts()
     {
-    	JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-        JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
+    	JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 		$user_id = JFactory::getUser()->id;	
 		$session =  JFactory::getSession();
 		

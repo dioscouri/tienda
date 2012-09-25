@@ -18,10 +18,10 @@ if ( !class_exists('Tienda') )
 require_once( dirname(__FILE__).'/helper.php' );
 
 // include lang files
-$element = strtolower( 'com_Tienda' );
+
 $lang = JFactory::getLanguage();
-$lang->load( $element, JPATH_BASE );
-$lang->load( $element, JPATH_ADMINISTRATOR );
+$lang->load( 'com_tienda', JPATH_BASE );
+$lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
 
 $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
