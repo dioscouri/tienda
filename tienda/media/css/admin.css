@@ -1,3 +1,18 @@
+/** To be moved to joomla.bootstrapped.css in library **/
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+	display: inline-block;
+	height: 18px;
+	padding: 4px;
+	margin-bottom: 0px;
+	font-size: 13px;
+	line-height: 20px;
+	color: #555555;
+}
+select {
+	height: 28px;
+}
+
+
 /** toolbar icons **/
 .icon-48-tienda {
 	background-image: url(../../../media/com_tienda/images/tienda.png);
