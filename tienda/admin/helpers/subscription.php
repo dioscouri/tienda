@@ -24,7 +24,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function cancel( $subscription_id )
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
         $subscription->subscription_enabled = 0;
@@ -49,7 +49,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
     function isValid( $user_id, $product_id )
     {
         $date='';
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $model->setState("filter_userid", $user_id );
         $model->setState("filter_productid", $product_id );
@@ -75,7 +75,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function getHistory( $subscription_id )
     {
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'SubscriptionHistory', 'TiendaModel' );
         $model->setState("filter_subscriptionid", $subscription_id );
         $model->setState("order", 'tbl.created_datetime' );
@@ -99,7 +99,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $today = $date->toFormat( "%Y-%m-%d 00:00:00" );
         
         // select all subs that have expired but still have status = '1';
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );        
         $model->setState("filter_datetype", 'expires' );
         $model->setState("filter_date_to", $today );
@@ -121,7 +121,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         }
         
         // Update config to say this has been done
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $config = JTable::getInstance( 'Config', 'TiendaTable' );
         $config->load( array( 'config_name'=>'subscriptions_last_checked') );
         $config->config_name = 'subscriptions_last_checked';
@@ -143,7 +143,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
     function setExpired( $subscription_id, $item='', $issues = false )
     {
         // change status = '0'
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
         $subscription->subscription_enabled = 0;
@@ -163,7 +163,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         
         if (empty($item))
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
             $model->setId( $subscription_id );
             $item = $model->getItem();
@@ -217,7 +217,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $end_date = $database->loadResult();
         
         // select all subs that expire between those dates
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $model->setState("filter_datetype", 'expires' );
         $model->setState("filter_date_from", $start_date );
@@ -268,7 +268,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
             // if files is empty, get the product's files
             if (empty($productfiles))
             {
-                JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
                 $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
                 $model->setState( 'filter_product', $subscription->product_id );
                 $model->setState( 'filter_enabled', 1 );

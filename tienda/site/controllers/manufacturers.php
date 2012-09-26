@@ -92,7 +92,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$filter_manufacturer = $model->getState( 'filter_manufacturer' );
 
 		// get the manufacturer we're looking at
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$cmodel = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
 		$cat = $cmodel->getTable();
 		$cat->load( $filter_manufacturer );
@@ -171,7 +171,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$product_description = TiendaArticle::fromString( $row->product_description );
 
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
 		$cat = $cmodel->getTable();
 		$cat->load( $filter_category );
@@ -455,7 +455,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$html = '';
 
 		// get the product's files
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_enabled', 1 );
@@ -512,7 +512,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$validation = "";
 
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_relation', $relation_type );
 
@@ -632,7 +632,7 @@ class TiendaControllerManufacturers extends TiendaController
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
 		$productfile->load( $productfile_id );
 		if (empty($productfile->productfile_id))
@@ -1074,7 +1074,7 @@ class TiendaControllerManufacturers extends TiendaController
 		$html = '';
 		$view   =& $this->getView( 'products', 'html' );
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
 		$selectsort = JRequest::getVar('default_selectsort', '');
 		$model->setstate('order', $selectsort );
@@ -1214,7 +1214,7 @@ class TiendaControllerManufacturers extends TiendaController
 		// TODO get the children
 		// loop thru each child,
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_relation', 'parent' );
@@ -1377,7 +1377,7 @@ class TiendaControllerManufacturers extends TiendaController
 		// TODO get the children
 		// loop thru each child,
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_relation', 'parent' );
@@ -1523,7 +1523,7 @@ class TiendaControllerManufacturers extends TiendaController
 	 */
 	function addReview()
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
 		$post = JRequest::get('post');
 		$captcha_enable = Tienda::getInstance()->get('use_captcha', '0');
@@ -1595,7 +1595,7 @@ class TiendaControllerManufacturers extends TiendaController
 			$productcomment_id = JRequest::getInt('productcomment_id', '');
 			Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 			$producthelper = new TiendaHelperProduct();
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$productcomment = JTable::getInstance('productcomments', 'TiendaTable');
 			$productcomment->load( $productcomment_id );
 
@@ -1621,7 +1621,7 @@ class TiendaControllerManufacturers extends TiendaController
 			$help['helpful'] = $helpfulness;
 			$help['user_id'] = $user_id;
 			$help['reported'] = $report;
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$reviewhelpfulness = JTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
 			$reviewhelpfulness->load(array('user_id'=>$user_id));
 			if ($report == 1 && !empty($reviewhelpfulness->productcommentshelpfulness_id) && empty($reviewhelpfulness->reported))

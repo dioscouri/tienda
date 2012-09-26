@@ -119,7 +119,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 		$errors = array();
         
         // load the orderpayment record and set some values
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $orderpayment_id = $data['orderpayment_id'];
 	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 	    $orderpayment->load( $orderpayment_id );
@@ -230,7 +230,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
        	    
 		$userpoints = $this->getUserpoints();
 		
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 		$guest = JRequest::getVar( 'guest', '0');
 		
         if( $amount_points > $userpoints && $guest == '1' )
@@ -252,7 +252,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     function getUserpoints()
     {
     	// get alphauserpoints for the user
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -274,7 +274,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
     function reduceUserpoints( $amount_points )
     {
     	// reduce number of points for the payment
-    	$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+    	$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -323,7 +323,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 	 */
 	function checkTiendaPaymentRule()
 	{
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -334,7 +334,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 			
 			if( empty( $rule_name ) )
 			{
-				JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_alphauserpoints'.DS.'tables');
+				JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
 				// save new points into alpha_userpoints_rules table
 				$row =& JTable::getInstance('Rules');
 				$row->id			   = NULL;

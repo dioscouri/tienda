@@ -26,7 +26,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$table = JTable::getInstance( 'Carts', 'TiendaTable' );
 
 		// first, determine if this product+attribute+vendor(+additonal_keys) exists in the cart
@@ -178,7 +178,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$date = JFactory::getDate();
 		$session = JFactory::getSession();
 	  
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 		$model->setState( 'filter_user_leq', '0' );
 		$model->setState( 'filter_session', $session_id );
@@ -187,7 +187,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		if (!empty($session_cartitems))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$table = JTable::getInstance( 'Carts', 'TiendaTable' );
 			foreach ($session_cartitems as $session_cartitem)
 			{
@@ -272,7 +272,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$session_id2use = $session->getId();
 			}
 				
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 			$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 			$model->setState( 'filter_user', '0' );
 			$model->setState( 'filter_session', $session_id2use );
@@ -283,7 +283,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		if (!empty($cart))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			foreach ($cart as $item)
 			{
 				$table = JTable::getInstance( 'Carts', 'TiendaTable' );
@@ -395,8 +395,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	function removeOrderItems( $order_id )
 	{
 		// load the order to get the user_id
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$cart = JTable::getInstance( 'Carts', 'TiendaTable' );
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
@@ -422,9 +422,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function fixQuantities()
 	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$product = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
 
@@ -535,9 +535,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 	  
-		JModel::addIncludePath( JPATH_SITE.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel');
 
 		$session = JFactory::getSession();
@@ -659,8 +659,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	function hasRecurringItem( $cart_id, $id_type='user_id' )
 	{
 		// get the cart's items
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($id_type)
@@ -707,8 +707,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$ordered_items = array();
 		$active_subs = array();
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		// does this cart item have any dependencies?
 		// if not, return true
@@ -823,8 +823,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$user_id = 0;
 		$session_id = '';
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		// get the cart's items as well as user info (if logged in)
 		$model = JModel::getInstance( 'Carts', 'TiendaModel' );

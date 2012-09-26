@@ -43,7 +43,7 @@ class plgTiendaBug_report extends JPlugin
 	function onAfterFooter()
     {
     	ob_start();
-    	include(dirname(__FILE__).DS.'bug_report'.DS.'tmpl'.DS.'default.php');
+    	include(dirname(__FILE__).'/bug_report/tmpl/default.php');
     	$text = ob_get_contents();
     	ob_end_clean();
         
@@ -63,7 +63,7 @@ class plgTiendaBug_report extends JPlugin
 		unset($view);
 		
 		ob_start();
-    	include(dirname(__FILE__).DS.'bug_report'.DS.'tmpl'.DS.'submitbug.php');
+    	include(dirname(__FILE__).'/bug_report/tmpl/submitbug.php');
     	$text = ob_get_contents();
     	ob_end_clean();
         
@@ -91,11 +91,11 @@ class plgTiendaBug_report extends JPlugin
 		$option = JRequest::getCmd('option');
 		
 		$db =& JFactory::getDBO();
-		$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_admin'.DS;
+		$path = JPATH_ADMINISTRATOR.'/components/com_admin/';
 		
 		require_once($path.'admin.admin.html.php');
 		
-		$path .= 'tmpl'.DS;
+		$path .= 'tmpl/';
 		
 		require_once($path.'sysinfo_system.php');
 		require_once($path.'sysinfo_directory.php');
@@ -117,7 +117,7 @@ class plgTiendaBug_report extends JPlugin
 		// write file with info
 		$config = JFactory::getConfig();
 		$filename = 'system_info_'.$sitename.'.html';
-		$file = JPATH_SITE.DS.'tmp'.DS.$filename;
+		$file = JPATH_SITE.'/tmp/'.$filename;
 		JFile::write($file, $contents);
 		
 		$mailer = JFactory::getMailer();

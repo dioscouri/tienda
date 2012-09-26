@@ -94,7 +94,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
                         'offline_payment_method' => $offline_payment_method 
                         ); 
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         $orderpayment->transaction_details = implode("\n", $formatted); 

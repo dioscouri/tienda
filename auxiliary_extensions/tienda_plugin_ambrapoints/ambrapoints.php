@@ -52,13 +52,13 @@ class plgTiendaAmbraPoints extends JPlugin
         $success = false;
 
         jimport( 'joomla.filesystem.file' );
-        $filePath = JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php";
+        $filePath = JPATH_ADMINISTRATOR."/components/com_ambra/defines.php";
         if (JFile::exists($filePath))
         {
             $success = true;
             if ( !class_exists('Ambra') )
             { 
-                JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php" );
+                JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/defines.php" );
             }
         }           
         return $success;
@@ -77,7 +77,7 @@ class plgTiendaAmbraPoints extends JPlugin
             return $success;    
         }
      	
-		JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."point.php");
+		JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/helpers/point.php");
         $helper = Ambra::get( "AmbraHelperPoint", 'helpers.point' );
 		
 			
@@ -107,11 +107,11 @@ class plgTiendaAmbraPoints extends JPlugin
 		$model->setId( $orderid );
 		$item=$model->getItem();
 		$subtotal=$item->order_subtotal;
-		JLoader::register('AmbraConfig', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'defines.php');
+		JLoader::register('AmbraConfig', JPATH_ADMINISTRATOR.'/components/com_ambra/defines.php');
 		$min_purchase_points=AmbraConfig::getInstance()->get('min_purchase_points', '');
 		if ($subtotal>=$min_purchase_points)
 		{
-        	JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."point.php");
+        	JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/helpers/point.php");
             $helper = Ambra::get( "AmbraHelperPoint", 'helpers.point' );
 			
             if ($helper->createLogEntry( $user_id, 'com_tienda', 'doCompletedOrderTasks' ))

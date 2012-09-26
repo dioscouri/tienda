@@ -65,7 +65,7 @@ class TiendaControllerUsers extends TiendaController
 		$orderstates_array=explode(',', $orderstates_csv);
 
 		//Get Data From OrdersItems Model
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$modelOrders= JModel::getInstance( 'Orders', 'TiendaModel');
 		$modelOrders->setState( 'filter_userid',  $row->id );
 		$modelOrders->setState( 'order', 'tbl.created_date' );

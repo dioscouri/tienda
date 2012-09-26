@@ -29,7 +29,7 @@ class TiendaDhl extends JObject
     
     function __construct()
     {
-        $this->wsdl = dirname( __FILE__ ).DS.'dhl.wsdl';        
+        $this->wsdl = dirname( __FILE__ ).'/dhl.wsdl';        
     }
     
     function getClient()

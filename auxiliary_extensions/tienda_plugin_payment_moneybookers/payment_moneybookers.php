@@ -92,14 +92,14 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      	//Currency Static ? 
 	    
 	    
-	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
         $model->setState( 'select', 'tbl.orderitem_id' );
         $model->setState( 'filter_orderid', $vars->order_id );
         $model->setState( 'filter_recurs', '1' );          	  	   	
         $recurring_orderitem_id = $model->getResult();        	
 			
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $recurring_orderitem_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
 		$recurring_orderitem_table->load( $recurring_orderitem_id );    
 		$recurring_order_id = $recurring_orderitem_table->order_id;
@@ -155,10 +155,10 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	{	
 		//error_reporting(E_ALL);
 		// Prepare order
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         
 		// Use AJAX to show plugins that are available
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 		$guest = JRequest::getVar( 'guest', '0');
 		if ($guest == '1' && Tienda::getInstance()->get('guest_checkout_enabled'))
 		{
@@ -203,7 +203,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		
 		// get the order totals
 		
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->user_email = JFactory::getUser()->get('email');
@@ -258,7 +258,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		}
 
 		// Save an orderpayment with an Incomplete status
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->order_id = $order->order_id;
 		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
@@ -372,7 +372,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
                     if( $carts_helper->hasRecurringItem($user->id) && $checkout == '1' )
                     {
                     	// check if the cart has only 1 item  
-                    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         				$model = JModel::getInstance( 'Carts', 'TiendaModel' );        
         				$model->setState( 'filter_user', $user->id );
         				$items = $model->getList();
@@ -510,7 +510,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	echo $data[0];
      	// check that payment amount is correct for order_id 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
         
@@ -603,7 +603,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	
      	// check that payment amount is correct for order_id 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
         if (empty($orderpayment->order_id))

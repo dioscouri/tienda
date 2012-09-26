@@ -32,13 +32,13 @@ class modTiendaPriceFiltersHelper extends JObject
     {
         // Check the registry to see if our Tienda class has been overridden
         if ( !class_exists('Tienda') ) 
-            JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+            JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
         
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
                 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
     						
 		$ranges = array();    	
     	$link = '';

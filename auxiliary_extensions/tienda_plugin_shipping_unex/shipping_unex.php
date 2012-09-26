@@ -463,7 +463,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		{
 			$urls[$id] = '';
 			
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $row = JTable::getInstance('Products', 'TiendaTable');
             $row->load( (int) $id );
 			if (empty($row->product_id))

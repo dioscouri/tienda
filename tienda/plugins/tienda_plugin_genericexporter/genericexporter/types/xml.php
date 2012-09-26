@@ -90,7 +90,7 @@ class TiendaGenericExporterTypeXML extends TiendaGenericExporterTypeBase
 		$this->_link = 'tmp/'.$f_name;
 	    $this->_name = $f_name;	     	
 	  
-	    if(!$res = $this->fromXMLToFile( 'tmp'.DS.$f_name, $items ))
+	    if(!$res = $this->fromXMLToFile( 'tmp/'.$f_name, $items ))
 	   	{
 	    	$this->_errors = JText::_('COM_TIENDA_ERROR_SAVING_FILE');	     	
 		}

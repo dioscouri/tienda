@@ -144,7 +144,7 @@ class plgTiendaPayment_flo2cash extends TiendaPaymentPlugin
 		$errors = array();
 		
 		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->load( $data['reference'] );
 		$orderpayment->transaction_details  = $data['key'];

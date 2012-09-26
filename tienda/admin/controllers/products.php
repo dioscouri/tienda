@@ -368,10 +368,10 @@ class TiendaControllerProducts extends TiendaController
 					for( $i = 0, $c = count( $galleryFiles ); $i < $c; $i++ )
 					{
 						// copy only images with both original file and a corresponding thumbnail
-						if( JFile::exists( $oldProductImagePath.'thumbs'.DS.$galleryFiles[$i] ) && JFile::exists( $oldProductImagePath.$galleryFiles[$i] ) )
+						if( JFile::exists( $oldProductImagePath.'thumbs/'.$galleryFiles[$i] ) && JFile::exists( $oldProductImagePath.$galleryFiles[$i] ) )
 						{
 							JFile::copy( $oldProductImagePath.$galleryFiles[$i], $row->getImagePath().DS.$galleryFiles[$i] );
-							JFile::copy( $oldProductImagePath.'thumbs'.DS.$galleryFiles[$i], $row->getImagePath().DS.'thumbs'.DS.$galleryFiles[$i] );
+							JFile::copy( $oldProductImagePath.'thumbs/'.$galleryFiles[$i], $row->getImagePath().'/thumbs/'.$galleryFiles[$i] );
 						}
 					}
 				}
@@ -393,7 +393,7 @@ class TiendaControllerProducts extends TiendaController
 				}
 				
 			// create duplicate connections for EAV custom fields
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 	    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
 	    	$model->setState('filter_entitytype', 'products' );
 	    	$model->setState('filter_entityid', $oldPk);    	
@@ -1717,14 +1717,14 @@ class TiendaControllerProducts extends TiendaController
 			// Try to delete the thumb, too
 			if ($success)
 			{
-				if (JFile::exists($path.'thumbs'.DS.$image))
+				if (JFile::exists($path.'thumbs/'.$image))
 				{
-					JFile::delete($path.'thumbs'.DS.$image);
+					JFile::delete($path.'thumbs/'.$image);
 					$msg = JText::_('COM_TIENDA_IMAGE_DELETED');
 				}
 				else
 				{
-					$msg = JText::_("COM_TIENDA_CANNOT_DELETE_IMAGE_THUMBNAIL".$path.'thumbs'.DS.$image);
+					$msg = JText::_("COM_TIENDA_CANNOT_DELETE_IMAGE_THUMBNAIL".$path.'thumbs/'.$image);
 				}
 
 				// if it is the primary image, let's clear the product_image field in the db

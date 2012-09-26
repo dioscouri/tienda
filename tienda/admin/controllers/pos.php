@@ -304,7 +304,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 		
 		// Save an orderpayment with an Incomplete status
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->order_id = $order->order_id;
 		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
@@ -951,7 +951,7 @@ class TiendaControllerPOS extends TiendaController
      */
     function validateApplyCredit()
     {
-        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );            
+        JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );            
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 
         // convert elements to array that can be binded
@@ -3129,7 +3129,7 @@ class TiendaControllerPOS extends TiendaController
 
 		$articles = array();
 
-		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
 		$model->setState( 'filter_orderid', $order_id);
 		$orderitems = $model->getList();

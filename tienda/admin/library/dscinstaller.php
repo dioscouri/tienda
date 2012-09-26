@@ -449,12 +449,12 @@ if (!class_exists( 'dscInstaller' )) {
 	            	{
 	            		case "1":
 	            		case "administrator":
-	            			$moduleBaseDir = JPATH_ADMINISTRATOR.DS."modules";
+	            			$moduleBaseDir = JPATH_ADMINISTRATOR."/modules";
 	            			break;
 	                    case "0":
 	                    case "site":
 	                    default:
-	                        $moduleBaseDir = JPATH_SITE.DS."modules";
+	                        $moduleBaseDir = JPATH_SITE."/modules";
 	                        break;
 	            			
 	            	}
@@ -472,7 +472,7 @@ if (!class_exists( 'dscInstaller' )) {
 	                break;
 	            case "plugin":
 	                // Get the plugin base path
-	                $baseDir = JPATH_SITE.DS.'plugins';
+	                $baseDir = JPATH_SITE.'/plugins';
 	
 	                // Get the plugin xml file
 	                $xmlfile = $baseDir.DS.$package['group'].DS.$package['element'].".xml";
@@ -489,12 +489,12 @@ if (!class_exists( 'dscInstaller' )) {
                     {
                         case "1":
                         case "administrator":
-                            $baseDir = JPATH_ADMINISTRATOR.DS."templates";
+                            $baseDir = JPATH_ADMINISTRATOR."/templates";
                             break;
                         case "0":
                         case "site":
                         default:
-                            $baseDir = JPATH_SITE.DS."templates";
+                            $baseDir = JPATH_SITE."/templates";
                             break;
                             
                     }

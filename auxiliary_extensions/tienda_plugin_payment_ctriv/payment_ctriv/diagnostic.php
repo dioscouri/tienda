@@ -105,7 +105,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSCustomersXref') );
             $config->config_name = 'checkTableLSCustomersXref';
@@ -141,7 +141,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSOrdersXref') );
             $config->config_name = 'checkTableLSOrdersXref';
@@ -177,7 +177,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSProductsXref') );
             $config->config_name = 'checkTableLSProductsXref';
@@ -213,7 +213,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $config = JTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSCategoriesXref') );
             $config->config_name = 'checkTableLSCategoriesXref';

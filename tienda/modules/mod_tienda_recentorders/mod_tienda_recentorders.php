@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
-require_once( dirname(__FILE__).DS.'helper.php' );
+require_once( dirname(__FILE__).'/helper.php' );
 
 $helper = new modTiendaRecentOrdersHelper( $params );
 

@@ -18,7 +18,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport('joomla.plugin.plugin');
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') )
-	JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+	JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 class plgUserUserSubNum extends JPlugin {
 
@@ -65,7 +65,7 @@ class plgUserUserSubNum extends JPlugin {
 			// load the config class
 			Tienda::load( 'Tienda', 'defines' );
 			$notify = $this->params->get( 'notify_person', 1 );
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
 			$component = JRequest::getCmd( 'option' );
 

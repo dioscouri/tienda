@@ -12,5 +12,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaModelShippingMethods','models.shippingmethods_');
-//JLoader::import( 'com_tienda.models.shippingmethods', JPATH_ADMINISTRATOR.DS.'components' );
-//JLoader::import( 'com_tienda.models.shippingmethods_', JPATH_ADMINISTRATOR.DS.'components' );
+//JLoader::import( 'com_tienda.models.shippingmethods', JPATH_ADMINISTRATOR.'/components' );
+//JLoader::import( 'com_tienda.models.shippingmethods_', JPATH_ADMINISTRATOR.'/components' );

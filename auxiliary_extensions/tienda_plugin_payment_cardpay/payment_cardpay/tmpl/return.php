@@ -1,6 +1,6 @@
 <?php
 define( 'DS', DIRECTORY_SEPARATOR );
-define( 'JPATH_BASE', '..'.DS.'..'.DS.'..'.DS.'..'.DS );
+define( 'JPATH_BASE', '../../../../' );
 
 // Is the user using HTTPS?
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';

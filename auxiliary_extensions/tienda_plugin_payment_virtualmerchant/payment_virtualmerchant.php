@@ -303,7 +303,7 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
     	$send_email = false;
     	
     	// load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         if (empty($orderpayment_id) || empty($orderpayment->orderpayment_id))

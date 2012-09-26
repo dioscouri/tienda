@@ -506,7 +506,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         }
         
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
@@ -774,7 +774,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             return false;
         }
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
@@ -787,7 +787,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // create new subscription for the user
         // for the order's recurring_trial_period_interval
         // using it's recurring_trial_period_unit
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['item_number'] );
         $items = $order->getItems();
@@ -923,7 +923,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             return false;
         }
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id))
@@ -939,7 +939,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $errors[] = $orderpayment->getError(); 
         }
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['item_number'] );
         $items = $order->getItems();

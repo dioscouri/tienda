@@ -196,7 +196,7 @@ class TiendaUpsRate extends TiendaUps
 {
 	function __construct()
     {
-        $this->wsdl = dirname( __FILE__ ).DS.'ups_rate.wsdl';        
+        $this->wsdl = dirname( __FILE__ ).'/ups_rate.wsdl';        
     }
 	
     var $rate           = null;
@@ -346,7 +346,7 @@ class TiendaUpsShipment extends TiendaUps
 	
 	function __construct()
     {
-        $this->wsdl = dirname( __FILE__ ).DS.'ups_ship.wsdl';        
+        $this->wsdl = dirname( __FILE__ ).'/ups_ship.wsdl';        
     }    
    
  	function setOriginName($name)
@@ -505,7 +505,7 @@ class TiendaUpsTracking extends TiendaUps
 	
 	function __construct()
     {
-        $this->wsdl = dirname( __FILE__ ).DS.'ups_track.wsdl';        
+        $this->wsdl = dirname( __FILE__ ).'/ups_track.wsdl';        
     }
     
  	function setTrack($track)

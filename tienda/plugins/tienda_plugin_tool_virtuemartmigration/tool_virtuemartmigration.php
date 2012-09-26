@@ -323,7 +323,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
     	Tienda::load('TiendaImage', 'library.image');
     	
     	if($internal)
-    		$vm_image_path = JPATH_SITE.DS."components".DS."com_virtuemart".DS."shop_image".DS."product".DS;
+    		$vm_image_path = JPATH_SITE."/components/com_virtuemart/shop_image/product/";
     	else
     	{
     		$state = $this->_getState();
@@ -419,7 +419,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
     	Tienda::load('TiendaImage', 'library.image');
     	
    		if($internal)
-    		$vm_image_path = JPATH_SITE.DS."components".DS."com_virtuemart".DS."shop_image".DS."category".DS;
+    		$vm_image_path = JPATH_SITE."/components/com_virtuemart/shop_image/category/";
     	else
     	{
     		$state = $this->_getState();

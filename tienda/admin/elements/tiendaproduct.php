@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 
 
@@ -46,7 +46,7 @@ var	$_name = 'TiendaProduct';
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		$title = JText::_('COM_TIENDA_SELECT_PRODUCTS');
 		if ($value) {
-			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 			$table = JTable::getInstance('Products', 'TiendaTable');
 			$table->load($value);
 			$title = $table->product_name;

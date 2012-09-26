@@ -31,7 +31,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		$lang = JFactory::getLanguage();
@@ -96,8 +96,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$error = false;
 		$errorMsg = "";
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
 
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
@@ -149,8 +149,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 */
 	function updateProductQuantities( $order_id, $delta='-' )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
@@ -235,7 +235,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		}
 
 		$app = JFactory::getApplication();
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
 		$state = array();
@@ -299,7 +299,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		if(!is_numeric($currency_id))
 		return false;
 		 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = &JModel::getInstance('Currencies', 'TiendaModel' );
 		$table = $model->getTable();
 
@@ -335,7 +335,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		 
@@ -467,8 +467,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$error = false;
 		$errorMsg = "";
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$model_issues = null;

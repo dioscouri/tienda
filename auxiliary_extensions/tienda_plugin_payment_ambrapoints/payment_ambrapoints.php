@@ -134,7 +134,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $user = JFactory::getUser();
        
         // load the orderpayment record and set some values
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $orderpayment_id = $data['orderpayment_id'];
 	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 	    $orderpayment->load( $orderpayment_id );
@@ -158,7 +158,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    $order->load( $orderpayment->order_id );
 	    
     	// check if user has enough points
-	    JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+	    JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.'/components' );
 		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
 	    if( $data['amount_points'] > $current_points )
 	    {
@@ -261,7 +261,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
     	
         $amount_points = round( $order->order_total * $this->params->get('exchange_rate') );
        	
-        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_ambra.helpers.user', JPATH_ADMINISTRATOR.'/components' );
 		$current_points = AmbraHelperUser::getPoints( $order->user_id ); 
 		
         if( $amount_points > $current_points )

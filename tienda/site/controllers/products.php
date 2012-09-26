@@ -416,7 +416,7 @@ class TiendaControllerProducts extends TiendaController
 			$layout = $values['layout'];
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance('Products', 'TiendaModel');
         $model->setId( $product_id );
         $row = $model->getItem( false );

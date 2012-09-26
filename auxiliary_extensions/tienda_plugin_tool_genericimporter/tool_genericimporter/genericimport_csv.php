@@ -106,7 +106,7 @@ abstract class TiendaToolPluginImportCsv extends TiendaToolPluginImport
 		{
 			
 			// Move the file to let us reuse it 
-			$this->_vars->upload->setDirectory( JFactory::getConfig()->get( 'tmp_path', JPATH_SITE.DS.'tmp' ) );
+			$this->_vars->upload->setDirectory( JFactory::getConfig()->get( 'tmp_path', JPATH_SITE.'/tmp' ) );
 			$this->_vars->upload->upload();
 			$this->_vars->upload->file_path = $this->_vars->upload->getFullPath();
 		}

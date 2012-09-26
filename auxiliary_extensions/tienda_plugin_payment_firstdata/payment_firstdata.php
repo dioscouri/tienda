@@ -300,10 +300,10 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
         $order_id 			= $data['order_id'];
         $order_payment_id	= $data['orderpayment_id'];
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $order_id );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $order_payment_id );
         $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
@@ -401,7 +401,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
 		}
 
         //get the order payment record		        
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         if ($orderpayment->order_id != $result["r_ordernum"])
@@ -409,7 +409,7 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
         	$errors[] = JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE UNKNOWN ORDER');
         }
         
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$order = JTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $orderpayment->order_id );
 		if (count($errors)){

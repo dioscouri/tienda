@@ -109,7 +109,7 @@ class TiendaHelperDiagnosticsProductCustomFields extends TiendaHelperDiagnostics
     function setConfig( $config_name )
     {
 		// Update config to say this has been done already
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $config = JTable::getInstance( 'Config', 'TiendaTable' );
         $config->load( array( 'config_name'=>$config_name) );
         $config->config_name = $config_name;
