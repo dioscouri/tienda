@@ -573,7 +573,8 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         <?php echo JText::_('COM_TIENDA_ITEM_FOR_SALE'); ?>
                     </td>
                     <td>
-                        <?php  echo TiendaSelect::btbooleanlist( 'product_notforsale', '', @$row->product_notforsale ); ?>
+                        <?php //swapping yes and no because  this is a NOT for SALE so the logic is in reverse. 
+                         echo TiendaSelect::btbooleanlist( 'product_notforsale', '', @$row->product_notforsale, 'JNO', 'JYES' ); ?>
                     </td>
                 </tr>
                 <?php
