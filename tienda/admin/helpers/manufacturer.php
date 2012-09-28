@@ -81,7 +81,8 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 		$result = array();
 		foreach( $items as $item )
 		{
-			$q->_where = null;
+			//TODO figure out why this was here.
+			//$q->_where = null;
 			$q->where( 'product_id = '.(int)$item->product_id );
 			$db->setQuery( $q );
 			$res = $db->loadObject();
