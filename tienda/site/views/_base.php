@@ -108,6 +108,7 @@ class TiendaViewBase extends DSCViewSite
 	function _form($tpl='')
 	{
 		Tienda::load( 'TiendaSelect', 'library.select' );
+		Tienda::load( 'TiendaGrid', 'library.grid' );
 		$model = $this->getModel();
 		if( isset( $this->row ) ) 
 			JFilterOutput::objectHTMLSafe( $this->row );
