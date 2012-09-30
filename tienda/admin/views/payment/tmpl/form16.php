@@ -47,6 +47,11 @@
 		
 			foreach($row->data as $k => $v) {
 				$form->setValue($k, 'params',$v);
+				
+				//add custom css classes here if nessecary for jform types
+				if($form->getFieldAttribute($k,'type','','params') == 'radio') {
+					$form->setFieldAttribute($k,'class','radio btn-group', 'params');
+				}
 			}
 		
 			$fieldSets = $form->getFieldsets();
