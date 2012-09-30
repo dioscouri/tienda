@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
@@ -31,7 +31,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         
         jimport('joomla.filesystem.file');
      
-		if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_amigos'.DS.'defines.php')) 
+		if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_amigos/defines.php')) 
         {
             $success = true;
         }                
@@ -122,10 +122,10 @@ class TiendaHelperAmigos extends TiendaHelperBase
         }
         
         // If here, create a commissions record
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_amigos'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_amigos/tables' );
         if (!class_exists('AmigosConfig'))
         {
-            JLoader::import( 'com_amigos.defines', JPATH_ADMINISTRATOR.DS.'components' );    
+            JLoader::import( 'com_amigos.defines', JPATH_ADMINISTRATOR.'/components' );    
         }        
         Tienda::load( 'AmigosHelperCommission', 'helpers.commission', array( 'site'=>'admin', 'type'=>'components', 'ext'=>'com_amigos' ) );
         

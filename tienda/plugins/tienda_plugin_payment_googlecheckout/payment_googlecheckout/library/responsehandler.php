@@ -4,9 +4,9 @@
 
 	define('TPATH_BASE', dirname(__FILE__) );
 	define( 'DS', DIRECTORY_SEPARATOR );
-	$pathXplode = explode(DS."plugins", TPATH_BASE);
+	$pathXplode = explode("/plugins", TPATH_BASE);
    	
-	require_once( $pathXplode[0] .DS.'index.php' );
+	require_once( $pathXplode[0] .'/index.php' );
 
 	jimport( 'joomla.plugin.plugin');
     $plugin =& JPluginHelper::getPlugin('tienda', 'payment_googlecheckout');
@@ -261,7 +261,7 @@
   	
   	function _getOrder($data)
   	{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 		$oredrPaymentId=$data['shopping-cart']['merchant-private-data']['orderPaymentId']['VALUE'];
 		$orderpayment->load($oredrPaymentId);

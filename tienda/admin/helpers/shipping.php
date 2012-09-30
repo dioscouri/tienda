@@ -103,7 +103,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 		$orderItems = (array) $orderItems;
 
 		// determine the shipping method type
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
 		if (empty($shippingmethod->shipping_method_id))
@@ -119,7 +119,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 				// 2 = per order
 				// if any of the products in the order require shipping
 				$order_ships = false;
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables');
+				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 				foreach ($orderItems as $item)
 				{
 					//$pid = $orderItems[$i]->product_id;
@@ -194,7 +194,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 		if( isset( $geozones[$geozonetype][$zone_id][$zip_code] ) && !$update )
 			return $geozones[$geozonetype][$zone_id][$zip_code];
 		 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ZoneRelations', 'TiendaModel' );
 		$model->setState( 'filter_zone', $zone_id );
 		$model->setState( 'filter_geozonetype', $geozonetype );

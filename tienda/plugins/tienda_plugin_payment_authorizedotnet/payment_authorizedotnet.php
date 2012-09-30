@@ -362,7 +362,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $data = JRequest::get('post');
         
         // get order information
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         if ( empty($order->order_id) ) {
@@ -446,7 +446,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $auth_useremail             = empty($user->id) ? $submitted_email : $user->email;
         
         // order info
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
@@ -903,7 +903,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         // verify & create payment
         // =======================
             // check that payment amount is correct for order_id
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $orderpayment_id );
             if (empty($orderpayment->order_id))

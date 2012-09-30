@@ -70,7 +70,7 @@ class TiendaHelperCategory extends TiendaHelperBase
         {
             $template = $app->getTemplate();
         }
-        $folder = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products';
+        $folder = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/products';
         
         if (JFolder::exists( $folder ))
         {
@@ -147,7 +147,7 @@ class TiendaHelperCategory extends TiendaHelperBase
                 $template = $app->getTemplate();
             }            
         }
-        $templatePath = JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.'com_tienda'.DS.'products'.DS.'%s'.'.php';
+        $templatePath = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/products/%s'.'.php';
         $mediaPath = Tienda::getPath( 'categories_templates' ) . DS . '%s'.'.php';
 
         if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
@@ -161,7 +161,7 @@ class TiendaHelperCategory extends TiendaHelperBase
         
         if (empty($helper->categories[$category_id]))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $helper->categories[$category_id] = JTable::getInstance( 'Categories', 'TiendaTable' );
             $helper->categories[$category_id]->load( $category_id );            
         }
@@ -238,7 +238,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 			if (!empty($id))
 			{
 				// load the item, get the filename, create tmpl
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 				$row = JTable::getInstance('Categories', 'TiendaTable');
 				$row->load( (int) $id );
 				$id = $row->category_full_image;
@@ -279,7 +279,7 @@ class TiendaHelperCategory extends TiendaHelperBase
         
         if (empty($helper->categories[$id]))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $helper->categories[$id] = JTable::getInstance( 'Categories', 'TiendaTable' );
             $helper->categories[$id]->load( $id );            
         }
@@ -334,7 +334,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 			  break;
             case 'links':
                 // get the root category
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
                 $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
 		        
@@ -415,7 +415,7 @@ class TiendaHelperCategory extends TiendaHelperBase
         }
         
         $app = JFactory::getApplication();
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'Categories', 'TiendaModel' );
         $ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
         $state = array();

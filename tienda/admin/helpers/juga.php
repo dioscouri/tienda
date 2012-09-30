@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
@@ -27,9 +27,9 @@ class TiendaHelperJuga extends TiendaHelperBase
         $success = false;
         
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_juga'.DS.'defines.php')) 
+        if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_juga/defines.php')) 
         {
-            JLoader::register( "Juga", JPATH_ADMINISTRATOR.DS."components".DS."com_juga".DS."defines.php" );
+            JLoader::register( "Juga", JPATH_ADMINISTRATOR."/components/com_juga/defines.php" );
             if (version_compare(Juga::getVersion(), '2.2.0', '>=')) 
             {
                 $success = true;
@@ -97,7 +97,7 @@ class TiendaHelperJuga extends TiendaHelperBase
     {
         if (is_numeric($subscription))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $table = JTable::getInstance( 'Subscriptions', 'TiendaTable' );
             $table->load( array( 'subscription_id' => $subscription ) );
             $subscription = $table;
@@ -112,7 +112,7 @@ class TiendaHelperJuga extends TiendaHelperBase
 
         if (!empty($subscription->product_id))
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = JModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $subscription->product_id );
             $product = $model->getItem();

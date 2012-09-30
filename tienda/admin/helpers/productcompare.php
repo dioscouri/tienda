@@ -76,7 +76,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
        	$session = JFactory::getSession();
         $user = JFactory::getUser();
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $table = JTable::getInstance( 'ProductCompare', 'TiendaTable' );
         
         $keynames = array();
@@ -172,7 +172,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	 	$date = JFactory::getDate();
 	    $session = JFactory::getSession();
 	    
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductCompare', 'TiendaModel' );
         $model->setState( 'filter_user', '0' );
         $model->setState( 'filter_session', $session_id );
@@ -181,7 +181,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 		$this->deleteSessionProductComparedItems( $session_id );
         if (!empty($session_compareditems))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
            
             foreach ($session_compareditems as $session_compareditem)
             {      

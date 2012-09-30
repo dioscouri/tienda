@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
@@ -27,9 +27,9 @@ class TiendaHelperAmbra extends TiendaHelperBase
         $success = false;
         
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'defines.php')) 
+        if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_ambra/defines.php')) 
         {
-            JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php" );
+            JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/defines.php" );
             $success = true;
         }                
         return $success;

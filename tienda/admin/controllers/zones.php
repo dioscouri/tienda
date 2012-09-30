@@ -60,7 +60,7 @@ class TiendaControllerZones extends TiendaController
 	 */
 	function filterZones() 
 	{
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		
 		$idtag = 'zone_id';
@@ -96,12 +96,12 @@ class TiendaControllerZones extends TiendaController
 	 */
 	function addZone() 
 	{
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 
 		$zoneid = JRequest::getVar( 'zoneid', '', 'request', 'int' );		
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$zonerelation = JTable::getInstance( 'Zonerelations', 'TiendaTable' );
 		$zonerelation->zone_id = $zoneid;
 		$zonerelation->geozone_id = $geozoneid;
@@ -124,12 +124,12 @@ class TiendaControllerZones extends TiendaController
 	 */
 	function removeZone() 
 	{
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 
 		$zrid = JRequest::getVar( 'zrid', '', 'request', 'int' );		
 		$geozoneid = JRequest::getVar( 'geozoneid', '', 'request', 'int' );
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$zonerelation = JTable::getInstance( 'Zonerelations', 'TiendaTable' );
 		$zonerelation->load( $zrid );
 

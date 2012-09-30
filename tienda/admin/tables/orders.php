@@ -204,7 +204,7 @@ class TiendaTableOrders extends TiendaTable
         }
         
         // check whether/not the item recurs
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $orderItem->product_id );
         $product = $model->getItem();
@@ -299,7 +299,7 @@ class TiendaTableOrders extends TiendaTable
     function addDownloads( $orderItem )
     {
         // if this orderItem product has productfiles that are enabled and only available when product is purchased
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $orderItem->product_id );
         $model->setState( 'filter_enabled', 1 );
@@ -674,7 +674,7 @@ class TiendaTableOrders extends TiendaTable
     function getItems()
     {
         // TODO once all references use this getter, we can do fun things with this method, such as fire a plugin event
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         // if empty($items) && !empty($this->order_id), then this is an order from the db,  
         // so we grab all the orderitems from the db  
         if (empty($this->_items) && !empty($this->order_id))
@@ -1105,7 +1105,7 @@ class TiendaTableOrders extends TiendaTable
         if (empty($this->_recurringItem))
         {
             // get the item from the DB
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
             $model->setState( 'filter_orderid', $this->order_id );
             $model->setState( 'filter_recurs', '1' );

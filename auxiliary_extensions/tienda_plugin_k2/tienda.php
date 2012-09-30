@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
        
-JLoader::register('K2Plugin', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_k2'.DS.'lib'.DS.'k2plugin.php');
+JLoader::register('K2Plugin', JPATH_ADMINISTRATOR.'/components/com_k2/lib/k2plugin.php');
 
 class plgK2Tienda extends K2Plugin 
 {
@@ -26,12 +26,12 @@ class plgK2Tienda extends K2Plugin
 		$success = false;
 
 		jimport('joomla.filesystem.file');
-		if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
+		if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php')) 
 		{
 			$success = true;
 			if ( !class_exists('Tienda') )
 			{
-			    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+			    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 			}			
 			
             Tienda::load( 'TiendaHelperBase', 'helpers._base' );
@@ -47,7 +47,7 @@ class plgK2Tienda extends K2Plugin
 	function onRenderAdminForm( & $item, $type, $tab='') {
 
 		$plugins = new DSCParameter($item->plugins);
-		$tiendaParams = new K2Parameter($item->plugins, JPATH_SITE.DS.'plugins'.DS.'k2'.DS.$this->_name.'.xml', $this->_name);
+		$tiendaParams = new K2Parameter($item->plugins, JPATH_SITE.'/plugins/k2/'.$this->_name.'.xml', $this->_name);
 		$productID = $tiendaParams->get('productID', 0);
 		JPlugin::loadLanguage();
 
@@ -98,7 +98,7 @@ class plgK2Tienda extends K2Plugin
 
 
 
-		$form = new K2Parameter($item->plugins, JPATH_SITE.DS.'plugins'.DS.'k2'.DS.$this->_name.'.xml', $this->_name);
+		$form = new K2Parameter($item->plugins, JPATH_SITE.'/plugins/k2/'.$this->_name.'.xml', $this->_name);
 		if ( !empty ($tab)) {
 			$path = $type.'-'.$tab;
 		}
@@ -155,7 +155,7 @@ class plgK2Tienda extends K2Plugin
 
 		//Handle unassignment
 		if(JRequest::getBool('tiendaRemove')){
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$product = JTable::getInstance('Products', 'TiendaTable');
 			$product->delete($plugins->get('tiendaproductID'));
 			$plugins->set('tiendaproductID', NULL);
@@ -176,7 +176,7 @@ class plgK2Tienda extends K2Plugin
 
 		//Handle form
 		if($tiendaParams->get('productName', NULL) && $tiendaParams->get('productSKU', NULL)){
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$product = JTable::getInstance('Products', 'TiendaTable');
 			$product->product_id = $tiendaParams->get('productID', NULL);
 			$product->product_name = $tiendaParams->get('productName', NULL);
@@ -242,7 +242,7 @@ class plgK2Tienda extends K2Plugin
 		JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 
 		ob_start();
-		include JPATH_SITE.DS.'plugins'.DS.'k2'.DS.'tienda'.DS.'tmpl'.DS.'quickadd.php';
+		include JPATH_SITE.'/plugins/k2/tienda/tmpl/quickadd.php';
 		$contents = ob_get_clean();
 		return $contents;
 	}

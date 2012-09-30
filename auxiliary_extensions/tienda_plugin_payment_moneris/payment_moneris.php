@@ -614,7 +614,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				$errors[] = $error;
 			}
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 
 			$orderpayment->load($data->orderpayment_id );
@@ -696,7 +696,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			}
 
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 
 			$orderpayment->load($data->orderpayment_id );
@@ -768,7 +768,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
 			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$order = JTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
 
@@ -817,7 +817,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
 			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$order = JTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
 

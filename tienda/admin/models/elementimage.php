@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.helper');
 jimport( 'joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'helpers'.DS.'media.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_media/helpers/media.php' );
 
 class TiendaModelElementImage extends JModel
 {
@@ -229,13 +229,13 @@ class TiendaModelElementImage extends JModel
 							break;
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR."/components/com_media/images/mime-icon-32/".$ext.".png";
 							if (file_exists($iconfile_32)) {
 								$tmp->icon_32 = "components/com_media/images/mime-icon-32/".$ext.".png";
 							} else {
 								$tmp->icon_32 = "components/com_media/images/con_info.png";
 							}
-							$iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
+							$iconfile_16 = JPATH_ADMINISTRATOR."/components/com_media/images/mime-icon-16/".$ext.".png";
 							if (file_exists($iconfile_16)) {
 								$tmp->icon_16 = "components/com_media/images/mime-icon-16/".$ext.".png";
 							} else {

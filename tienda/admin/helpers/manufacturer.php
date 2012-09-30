@@ -46,7 +46,7 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 			if (!empty($id))
 			{
 				// load the item, get the filename, create tmpl
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 				$row = JTable::getInstance('Manufacturers', 'TiendaTable');
 				$row->load( (int) $id );
 				$id = $row->manufacturer_image;
@@ -81,7 +81,8 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 		$result = array();
 		foreach( $items as $item )
 		{
-			$q->_where = null;
+			//TODO figure out why this was here.
+			//$q->_where = null;
 			$q->where( 'product_id = '.(int)$item->product_id );
 			$db->setQuery( $q );
 			$res = $db->loadObject();

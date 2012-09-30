@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
 if ( !class_exists('Tienda') )
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 class plgUserTienda extends JPlugin
 {
@@ -105,7 +105,7 @@ class plgUserTienda extends JPlugin
         $success = false;
 
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php'))
+        if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
         {
             $success = true;
         }
@@ -121,7 +121,7 @@ class plgUserTienda extends JPlugin
     function checkUserGroup()
     {
         $user = JFactory::getUser();
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
         $user_groups->load(array('user_id'=>$user->id));
         

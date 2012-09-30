@@ -139,7 +139,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$couponIds = $data['coupons'];
 		
 			//NOTE: checking the coupon if its valid for the user is already done in the controller
-       		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+       		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
        		$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
 			$model->setState( 'filter_ids', $couponIds );					
         	$coupons = $model->getList();   	
@@ -464,7 +464,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		function _saveTransaction($data, $error='')
 		{
 			$errors = array();
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 			$oredrPaymentId=$data['shopping-cart']['merchant-private-data']['orderPaymentId']['VALUE'];
 		
@@ -533,7 +533,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$errors[] = $error;
 			}
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
 				
 			$googleOrderNumber=$data['google-order-number']['VALUE'];

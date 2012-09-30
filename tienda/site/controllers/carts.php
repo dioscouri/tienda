@@ -30,7 +30,7 @@ class TiendaControllerCarts extends TiendaController
 		$items = $cart_helper->getProductsInfo();
 		
 		// create the order object
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
 	}
 	
@@ -273,7 +273,7 @@ class TiendaControllerCarts extends TiendaController
      */
     function displayCart()
     {  
-    	JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+    	JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
         
         jimport( 'joomla.application.module.helper' );
 
@@ -526,7 +526,7 @@ class TiendaControllerCarts extends TiendaController
 	 */
 	function validateCouponCode()
 		{
-			JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+			JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 			$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
 	
 			// convert elements to array that can be binded
@@ -938,7 +938,7 @@ private function addCouponCodes($values)
 	function saveOrderCoupons()
 	{
 		$order = $this->_order;
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 		$error = false;
 		$errorMsg = "";

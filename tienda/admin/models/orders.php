@@ -278,7 +278,7 @@ class TiendaModelOrders extends TiendaModelBase
                 $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
-                //JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+                //JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
                 //$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
                 //$cmodel->setId($item->currency_id);
                 $item->currency = $currency_helper->load( $item->currency_id );
@@ -311,7 +311,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    if (empty( $this->_item ))
 	    {
 	        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $amigos = TiendaHelperBase::getInstance( 'Amigos' );
             $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
             

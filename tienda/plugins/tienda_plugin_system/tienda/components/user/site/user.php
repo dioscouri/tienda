@@ -16,15 +16,15 @@ defined('_JEXEC') or die('Restricted access');
 define( 'JPATH_COMPONENT', dirname(__FILE__) );
 
 // Require the defines
-//require_once( dirname(__FILE__).DS.'defines.php' );
+//require_once( dirname(__FILE__).'/defines.php' );
 
 // Require the base controller
-require_once( dirname(__FILE__).DS.'controller.php' );
+require_once( dirname(__FILE__).'/controller.php' );
 
 // Require specific controller if requested
 if ($controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) )) 
 {
-    $path = dirname(__FILE__).DS.'controllers'.DS.$controller.'.php';
+    $path = dirname(__FILE__).'/controllers/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
     } else {
@@ -42,7 +42,7 @@ if (empty($controller_name))
 }
 
 // include the model override
-    $path = dirname(__FILE__).DS.'models'.DS.$controller_name.'.php';
+    $path = dirname(__FILE__).'/models/'.$controller_name.'.php';
     if (file_exists($path)) {
         require_once $path;
     } 
@@ -53,7 +53,7 @@ if (empty($controller_name))
 
 // include the view override
     // TODO make this support view.pdf.php etc
-    $path = dirname(__FILE__).DS.'views'.DS.$controller_name.DS.'view.html.php';
+    $path = dirname(__FILE__).'/views/'.$controller_name.'/view.html.php';
     if (file_exists($path)) {
         require_once $path;
     } 

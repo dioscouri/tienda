@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
@@ -30,7 +30,7 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset($sets[$alias]))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
             $table = JTable::getInstance('EavAttributes', 'TiendaTable');
             $table->load(array('eavattribute_alias' => $alias));
             switch( $table->eavattribute_type )
@@ -68,7 +68,7 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset( $sets[$entity][$id][$editable_by] ) )
         {
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = DSCModel::getInstance('EavAttributes', 'TiendaModel');
             $model->setState('filter_entitytype', $entity);
             $model->setState('filter_entityid', $id);
@@ -314,7 +314,7 @@ class TiendaHelperEav extends TiendaHelperBase
 			if( !$entity_id_mirror )
 				$entity_id_mirror = $entity_id;
 				
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
 			$eavs = TiendaHelperEav::getAttributes( $entity_type, $entity_id ); // get list of EAV fields
 			for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )

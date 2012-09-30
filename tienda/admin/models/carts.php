@@ -144,7 +144,7 @@ class TiendaModelCarts extends TiendaModelEav
 
 		if (empty( $this->_list ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$items = parent::getList($refresh);
 
 			// If no item in the list, return an array()

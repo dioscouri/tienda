@@ -2364,7 +2364,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 	 */
 	public static function convertAttributesToArray( $product_id, $values_csv )
 	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		$model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$list = $model->getList();

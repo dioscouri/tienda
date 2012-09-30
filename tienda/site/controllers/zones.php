@@ -12,7 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-JLoader::import( 'com_tienda.controllers.zones', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.controllers.zones', JPATH_ADMINISTRATOR.'/components' );
 
 class TiendaControllerSiteZones extends TiendaControllerZones
 {

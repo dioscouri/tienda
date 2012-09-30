@@ -192,7 +192,7 @@ class TiendaControllerProductCompare extends TiendaController
 	 */
 	function displayCart()
 	{
-		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.DS.'components' );
+		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
 
 		jimport( 'joomla.application.module.helper' );
 

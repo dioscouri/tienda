@@ -106,7 +106,7 @@ class plgTiendaShipping_Dhl extends TiendaShippingPlugin
      */
     function viewConfig()
     {
-        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.DS.'components' );
+        JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
         // TODO Finish this
         //        TiendaToolBarHelper::custom( 'enabled.enable', 'publish', 'publish', JText::_('Enable'), true, 'shippingTask' );
         //        TiendaToolBarHelper::custom( 'enabled.disable', 'unpublish', 'unpublish', JText::_('Disable'), true, 'shippingTask' );

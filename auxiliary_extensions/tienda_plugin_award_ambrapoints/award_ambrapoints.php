@@ -59,13 +59,13 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         $success = false;
 
         jimport( 'joomla.filesystem.file' );
-        $filePath = JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php";
+        $filePath = JPATH_ADMINISTRATOR."/components/com_ambra/defines.php";
         if (JFile::exists($filePath))
         {
             $success = true;
             if ( !class_exists('Ambra') )
             { 
-                JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."defines.php" );
+                JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/defines.php" );
             }
         }           
         return $success;
@@ -86,7 +86,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
             return $success;    
         }
      	
-		JLoader::register( "Ambra", JPATH_ADMINISTRATOR.DS."components".DS."com_ambra".DS."helpers".DS."point.php");
+		JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/helpers/point.php");
         $helper = Ambra::get( "AmbraHelperPoint", 'helpers.point' );
 					
         if ($helper->createLogEntry( $row->user_id, 'com_tienda', 'onAfterSaveProductComments' ))
@@ -175,12 +175,12 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         
         // get the user's userdata
         jimport( 'joomla.application.component.model' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/tables' );
         
         
         $max_points = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPoints( JFactory::getUser( $user_id )->id );
          
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_ambra'.DS.'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/models' );
         $model = JModel::getInstance('Users', 'AmbraModel');
         $model->setId( $user_id );
        

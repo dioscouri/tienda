@@ -2,7 +2,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-require_once( dirname( __FILE__ ).DS.'minixml'.DS.'classes'.DS."doc.inc.php" );
+require_once( dirname( __FILE__ ).'/minixml/classes'."/doc.inc.php" );
 Class CanadaPost {
 
 	var $debug = false ;

@@ -83,8 +83,8 @@ class plgTiendaPayment_Paypalpro_Renderer extends JObject
         $app = JFactory::getApplication();
 
         // get the template and default paths for the layout
-        $templatePath = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'plugins'.DS.$group.DS.$plugin.DS.$layout.'.php';
-        $defaultPath = JPATH_BASE.DS.'plugins'.DS.$group.DS.$plugin.DS.'tmpl'.DS.$layout.'.php';
+        $templatePath = JPATH_BASE.'/templates/'.$app->getTemplate().'/html/plugins/'.$group.DS.$plugin.DS.$layout.'.php';
+        $defaultPath = JPATH_BASE.'/plugins/'.$group.DS.$plugin.'/tmpl/'.$layout.'.php';
 
         // if the site template has a layout override, use it
         jimport('joomla.filesystem.file');

@@ -110,7 +110,7 @@ class TiendaReportPlugin extends TiendaPluginBase
         $fullname = strtolower( $prefix.$name );
         if (empty($this->_models[$fullname]))
         {
-        	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+        	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             if ( !$model = JModel::getInstance($name, $prefix, $config) )
             {
                 $model = new TiendaModelBase();

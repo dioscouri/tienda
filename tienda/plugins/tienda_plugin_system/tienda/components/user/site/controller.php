@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-//require_once( JPATH_SITE.DS."components".DS."com_tienda".DS."controller.php" );
+//require_once( JPATH_SITE."/components/com_tienda/controller.php" );
 jimport('joomla.application.component.controller');
 
 class UserController extends JController 
@@ -93,7 +93,7 @@ class UserController extends JController
         // ensure template overrides are enabled
         $app = JFactory::getApplication();
         $option = preg_replace('/[^A-Z0-9_\.-]/i', '', JRequest::getVar('option') );
-        $fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$view->getName();
+        $fallback = JPATH_BASE.'/templates/'.$app->getTemplate().'/html/'.$option.DS.$view->getName();
         $view->_addPath('template', $fallback);
 
         // Set the layout
@@ -139,7 +139,7 @@ class UserController extends JController
 //            jimport('joomla.application.helper');
 //            $info =& JApplicationHelper::getClientInfo($client, true);
 //
-//            $path = $info->path.DS.'includes'.DS.'application.php';
+//            $path = $info->path.'/includes/application.php';
 //            if(file_exists($path))
 //            {
 //                require_once $path;
@@ -491,7 +491,7 @@ class UserController extends JController
         }
 
         // create the view
-        require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.html.php');
+        require_once (JPATH_COMPONENT.'/views/register/view.html.php');
         $view = new UserViewRegister();
 
         $message = new stdClass();

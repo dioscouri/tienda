@@ -35,7 +35,7 @@ class TiendaControllerOrders extends TiendaController
 		$this->registerTask( 'resend_email', 'resendEmail' );
 
 		// create the order object
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
 		$this->initial_order_state = Tienda::getInstance()->get('pending_order_state', '1'); //pending
 	}
@@ -473,8 +473,8 @@ class TiendaControllerOrders extends TiendaController
 		$order_products = JArrayHelper::fromObject( $order_products );
 		$order_quantities = JArrayHelper::fromObject( $order_quantities );
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$items = array();
 
 		if (empty($order_products)) { $order_products = array(); }
@@ -649,7 +649,7 @@ class TiendaControllerOrders extends TiendaController
 		$this->_billingAddressArray = $this->filterArrayUsingPrefix($billingAddressArray, '', 'billing_', true);
 		$this->_shippingAddressArray = $this->filterArrayUsingPrefix($shippingAddressArray, '', 'shipping_', true);
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
@@ -892,7 +892,7 @@ class TiendaControllerOrders extends TiendaController
 	{
 		$order = $this->_order;
 			
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->bind( $this->_billingAddressArray );
@@ -915,7 +915,7 @@ class TiendaControllerOrders extends TiendaController
 	{
 		$order = $this->_order;
 			
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->order_state_id = $order->order_state_id;

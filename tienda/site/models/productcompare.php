@@ -11,6 +11,6 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::import( 'com_tienda.models.productcompare', JPATH_ADMINISTRATOR.DS.'components' );
+JLoader::import( 'com_tienda.models.productcompare', JPATH_ADMINISTRATOR.'/components' );
 
 

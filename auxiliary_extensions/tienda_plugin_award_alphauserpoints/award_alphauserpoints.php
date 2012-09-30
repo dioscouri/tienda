@@ -60,7 +60,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
         $success = false;
 
         jimport( 'joomla.filesystem.file' );
-        $api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+        $api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if (JFile::exists($api_AUP))
         {
         	require_once ($api_AUP);
@@ -203,7 +203,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
     function getUserpoints()
     {
     	// get alphauserpoints for the user
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -225,7 +225,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
     function insertUserpoints( $amount_points, $award_desc )
     {
     	// reduce number of points for the payment
-    	$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+    	$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -274,7 +274,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 	 */
 	function checkTiendaAwardRule()
 	{
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';	    
+		$api_AUP = JPATH_SITE.'/components/com_alphauserpoints/helper.php';	    
 		if ( file_exists($api_AUP))
 		{
 			require_once ($api_AUP);
@@ -285,7 +285,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 			
 			if( empty( $rule_name ) )
 			{
-				JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_alphauserpoints'.DS.'tables');
+				JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
 				// save new points into alpha_userpoints_rules table
 				$row =& JTable::getInstance('Rules');
 				$row->id			   = NULL;

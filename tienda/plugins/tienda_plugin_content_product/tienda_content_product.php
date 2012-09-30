@@ -11,11 +11,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
-if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
+if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php')) 
 {
     // Check the registry to see if our Tienda class has been overridden
     if ( !class_exists('Tienda') ) 
-        JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+        JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 	
      Tienda::load( 'TiendaPluginBase', 'library.plugins._base' );
 
@@ -44,12 +44,12 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             $success = false;
             
             jimport('joomla.filesystem.file');
-            if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'defines.php')) 
+            if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php')) 
             {
                 $success = true;
                 // Check the registry to see if our Tienda class has been overridden
                 if ( !class_exists('Tienda') ) 
-                    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+                    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
             }
             return $success;
         }
@@ -188,7 +188,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     		Tienda::load( 'TiendaArticle', 'library.article' );
     		$product_description = TiendaArticle::fromString( $row->product_description );
     
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
     		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
     		$cat = $cmodel->getTable();
     		$cat->load( $filter_category );
@@ -267,7 +267,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
 	            }
     		}
             ob_start();
-    		include( 'tienda_content_product'.DS.'tmpl'.DS.'view.php' );
+    		include( 'tienda_content_product/tmpl/view.php' );
     		$return = ob_get_contents();
     		ob_end_clean();
     		
@@ -307,7 +307,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
             $validation = "";
     
             // get the list
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
             $model->setState( 'filter_relation', $relation_type );
           
@@ -437,7 +437,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'define
     		$html = '';
     
     		// get the product's files
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+    		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
     		$model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
     		$model->setState( 'filter_product', $product_id );
     		$model->setState( 'filter_enabled', 1 );

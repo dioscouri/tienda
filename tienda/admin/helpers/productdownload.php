@@ -58,7 +58,7 @@ class TiendaHelperProductDownload extends TiendaHelperBase
     function canDownload( $productfile_id, $user_id, $datetime=null )
     {
     	
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
         $productfile->load( $productfile_id );
       	 if ($productfile->canDownload( $user_id, $datetime ))
@@ -86,7 +86,7 @@ class TiendaHelperProductDownload extends TiendaHelperBase
     function getProductDownloadInfo( $productfile_id, $user_id )
     {
     	Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         
         $tableProductDownload = JTable::getInstance( 'ProductDownloads', 'TiendaTable' );
        

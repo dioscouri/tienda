@@ -28,8 +28,8 @@ class TiendaHelperCoupon extends TiendaHelperBase
 	 */
 	function isValid( $coupon_id, $id_type='code', $user_id='' )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'models' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		switch($id_type)
 		{
@@ -108,7 +108,7 @@ class TiendaHelperCoupon extends TiendaHelperBase
 
 			// Check the product_id
 			Tienda::load( 'TiendaQuery', 'library.query' );
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tienda'.DS.'tables' );
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$table = JTable::getInstance( 'ProductCoupons', 'TiendaTable' );
 			 
 			$query = new TiendaQuery();

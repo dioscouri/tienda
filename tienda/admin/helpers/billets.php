@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ( !class_exists('Tienda') ) 
-    JLoader::register( "Tienda", JPATH_ADMINISTRATOR.DS."components".DS."com_tienda".DS."defines.php" );
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( "TiendaHelperBase", 'helpers._base' );
 
@@ -27,9 +27,9 @@ class TiendaHelperBillets extends TiendaHelperBase
         $success = false;
         
         jimport('joomla.filesystem.file');
-        if (JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_billets'.DS.'defines.php')) 
+        if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_billets/defines.php')) 
         {
-            JLoader::register( "Billets", JPATH_ADMINISTRATOR.DS."components".DS."com_billets".DS."defines.php" );
+            JLoader::register( "Billets", JPATH_ADMINISTRATOR."/components/com_billets/defines.php" );
            
             if (version_compare(Billets::getInstance()->getVersion(), '4.2.0', '>=')) 
             {
@@ -74,7 +74,7 @@ class TiendaHelperBillets extends TiendaHelperBase
             if ( $billets_ticket_limit_increase > '0' || $billets_ticket_limit_exclusion == '1' )
             {
                 // update userdata
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_billets'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
                 $userdata = JTable::getInstance('Userdata', 'BilletsTable');
                 $userdata->load( array('user_id'=>$order->user_id) );
                 $userdata->user_id = $order->user_id;
@@ -90,7 +90,7 @@ class TiendaHelperBillets extends TiendaHelperBase
             if ( $billets_hour_limit_increase > '0' || $billets_hour_limit_exclusion == '1' )
             {
                 // update userdata
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_billets'.DS.'tables' );
+                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
                 $userdata = JTable::getInstance('Userdata', 'BilletsTable');
                 $userdata->load( array('user_id'=>$order->user_id) );
                 $userdata->user_id = $order->user_id;
