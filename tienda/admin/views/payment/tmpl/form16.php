@@ -41,10 +41,15 @@
 			
 			$path = JPATH_SITE.'/plugins/'.$row->folder.'/'.$row->element.'/jform/'.$row->element.'.xml';
 			if (file_exists($path)) {
-				
-			
+						
 			$form = JForm::getInstance($row->element, $path);
-		
+			
+			//must load specific language because jform will not construct payment class
+			$language =& JFactory::getLanguage();
+			$language -> load('plg_tienda_'.$row->element, JPATH_ADMINISTRATOR, 'en-GB', true);
+			$language -> load('plg_tienda_'.$row->element, JPATH_ADMINISTRATOR, null, true);
+			
+			
 			foreach($row->data as $k => $v) {
 				$form->setValue($k, 'params',$v);
 				
