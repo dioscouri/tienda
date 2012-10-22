@@ -44,9 +44,9 @@
 					<option value="0">COM_TIENDA_NO</option>
 					<option value="1">COM_TIENDA_YES</option>
 				</field>
-				<field name="page" type="radio" default="multi" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE_DESC">
+				<field name="page" type="list" default="multi" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAGE_TYPE_DESC">
 					<option value="single">PLG_TIENDA_PAYMENT_2CHECKOUT_SINGLE_PAGE_TYPE</option>
-					<option value="mutiple">PLG_TIENDA_PAYMENT_2CHECKOUT_MULTI-PAGE_TYPE</option>
+					<option value="multi">PLG_TIENDA_PAYMENT_2CHECKOUT_MULTI-PAGE_TYPE</option>
 				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_2CHECKOUT_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
