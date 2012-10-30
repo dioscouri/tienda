@@ -136,7 +136,7 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
      * 
      * @return unknown_type
      */
-    function _renderForm( $data )
+    function _renderForm( $data=null )
     {
     	$user = JFactory::getUser();  	
         $vars = new JObject();

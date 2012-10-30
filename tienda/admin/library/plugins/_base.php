@@ -17,7 +17,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 jimport('joomla.utilities.string');
 
-class TiendaPluginBase extends DSCPlugin {
+class TiendaPluginBase extends DSCPlugin 
+{
 	/**
 	 * @var $_element  string  Should always correspond with the plugin's filename,
 	 *                         forcing it to be unique
