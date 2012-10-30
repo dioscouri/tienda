@@ -71,8 +71,10 @@ class TiendaModelPayment extends TiendaModelBase {
 		return $list;
 	}
 
-	public function getItem($pk = null) {
-		if ($item = parent::getItem($pk)) {
+	public function getItem($pk=null, $refresh=false, $emptyState=true) 
+	{
+		if ($item = parent::getItem($pk)) 
+		{
 			// Convert the params field to an array.
 			if (version_compare(JVERSION, '1.6.0', 'ge')) {
 				$formdata = new JRegistry;

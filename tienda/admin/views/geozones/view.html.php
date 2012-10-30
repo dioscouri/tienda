@@ -41,10 +41,4 @@ class TiendaViewGeozones extends TiendaViewBase
 			  break;
 		}
 	}
-	
-	function _default($tpl=null)
-	{
-		Tienda::load( 'TiendaUrl', 'library.url' );
-		parent::_default($tpl);
-	}
 }

@@ -95,7 +95,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		// Now let's get serious: was this product already saved on google?
 		//$params = new DSCParameter(trim($product->product_params));
-		$params = new JParameter(trim($product->product_params));
+		$params = new DSCParameter(trim($product->product_params));
 		$upgrade = $params->get('sent_to_google', '0');
 		
 		// Do an upgrade request

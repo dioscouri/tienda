@@ -63,6 +63,7 @@ DSCLoader::discover('TiendaHelper', $parentPath, true);
 
 $parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
 DSCLoader::discover('Tienda', $parentPath, true);
+
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 

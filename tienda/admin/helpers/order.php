@@ -316,7 +316,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		unset($currency_parameters->modified_date);
 		unset($currency_parameters->currency_enabled);
 		 
-		$param = new JParameter('');
+		$param = new DSCParameter('');
 		$param->bind($currency_parameters);
 		 
 		return $param->toString();

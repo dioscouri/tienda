@@ -44,7 +44,7 @@ class TiendaViewPayment extends TiendaViewBase
         // the row is already loaded in base view so this might not be needed leaving this hear to help figure this out in joomla 1.5 if needed. 
        if(!version_compare(JVERSION,'1.6.0','ge')) {
 		$row = $this->getModel()->getItem();
-		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.'/'.$row->element), 'plugin' );
+		$params = new DSCParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.'/'.$row->element), 'plugin' );
 		$this->assignRef('params',$params);
 	   }
 	}
