@@ -239,7 +239,7 @@ class TiendaModelEav extends TiendaModelBase
 	 */
 	public function getList($refresh = false, $getEav = true, $options = array())
 	{
-		if (empty( $this->_list ))
+		if (empty( $this->_list ) || $refresh )
 		{
 			$list = parent::getList($refresh);
 			// If no item in the list, return an array()
