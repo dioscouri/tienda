@@ -16,7 +16,7 @@
     <div style="float: left; font-size: 1.3em; font-weight: bold; height: 30px;"><?php echo JText::_('COM_TIENDA_ADD_A_NEW_TAX_RATE'); ?></div>
     <div style="float: right;">
         <input type="hidden" name="tax_class_id" value="<?php echo $row->tax_class_id; ?>" />
-        <button class="btn btn-primary" document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?></button>
+        <button class="btn btn-primary" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();"><?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?></button>
     </div>
     <div class="reset"></div>
     <table class="table table-striped table-bordered">
