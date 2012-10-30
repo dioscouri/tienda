@@ -61,41 +61,7 @@ class TiendaControllerCategories extends TiendaController
      */
     function ordering()
     {
-        $error = false;
-        $this->messagetype  = '';
-        $this->message      = '';
-        $redirect = 'index.php?option=com_tienda&view='.$this->get('suffix');
-        $redirect = JRoute::_( $redirect, false );
-
-        $model = $this->getModel($this->get('suffix'));
-        $row = $model->getTable();
-
-        $ordering = JRequest::getVar('ordering', array(0), 'post', 'array');
-        $cids = JRequest::getVar('cid', array (0), 'post', 'array');
-        foreach (@$cids as $cid)
-        {
-            $row->load( $cid );
-            $row->ordering = @$ordering[$cid];
-
-            if (!$row->store())
-            {
-                $this->message .= $row->getError();
-                $this->messagetype = 'notice';
-                $error = true;
-            }
-        }
-
-        if ($error)
-        {
-            $this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
-        }
-        else
-        {
-            $this->message = JText::_('COM_TIENDA_ITEMS_ORDERED');
-        }
-
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
-                
+        parent::ordering();                
         $this->rebuild();
         $row->reorder();
     }
@@ -123,14 +89,16 @@ class TiendaControllerCategories extends TiendaController
 	 */
 	function save()
 	{
-		$task = JRequest::getVar('task');
+		if (!$row = parent::save()) 
+		{
+		    return $row;
+		} 
+		
 		$model 	= $this->getModel( $this->get('suffix') );
-        $error=false;
-		$row = $model->getTable();
-		$row->load( $model->getId() );
-		$row->bind( JRequest::get('POST') );
+		$error = false;
+		
 		$row->category_description = JRequest::getVar( 'category_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
+		
 		$fieldname = 'category_full_image_new';
 		$userfile = JRequest::getVar( $fieldname, '', 'files', 'array' );
 		if (!empty($userfile['size']))
@@ -164,86 +132,6 @@ class TiendaControllerCategories extends TiendaController
 			$this->messagetype 	= 'notice';
 			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
 		}
-
-		$redirect = "index.php?option=com_tienda";
-
-		switch ($task)
-		{
-			case "saveprev":
-				$redirect .= '&view='.$this->get('suffix');
-				// get prev in list
-				Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
-				$surrounding = TiendaHelperCategory::getSurrounding( $model->getId() );
-				if (!empty($surrounding['prev']))
-				{
-					$redirect .= '&task=edit&id='.$surrounding['prev'];
-				}
-				break;
-			case "savenext":
-				$redirect .= '&view='.$this->get('suffix');
-				// get next in list
-				Tienda::load( 'TiendaHelperCategory', 'helpers.category' );
-				$surrounding = TiendaHelperCategory::getSurrounding( $model->getId() );
-				if (!empty($surrounding['next']))
-				{
-					$redirect .= '&task=edit&id='.$surrounding['next'];
-				}
-				break;
-			case "savenew":
-				$redirect .= '&view='.$this->get('suffix').'&task=add';
-				break;
-			case "apply":
-				$redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$model->getId();
-				break;
-			case "save":
-			default:
-				$redirect .= "&view=".$this->get('suffix');
-				break;
-		}
-
-		$redirect = JRoute::_( $redirect, false );
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
-	}
-
-	/**
-	 * Deletes record(s) and redirects to default layout
-	 */
-	function delete()
-	{
-		$error = false;
-		$this->messagetype  = '';
-		$this->message      = '';
-		if (!isset($this->redirect)) {
-			$this->redirect = JRequest::getVar( 'return' )
-			? base64_decode( JRequest::getVar( 'return' ) )
-			: 'index.php?option=com_tienda&view='.$this->get('suffix');
-			$this->redirect = JRoute::_( $this->redirect, false );
-		}
-
-		$model = $this->getModel($this->get('suffix'));
-
-		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
-		foreach (@$cids as $cid)
-		{
-			$row = $model->getTable();
-			if (!$row->delete($cid))
-			{
-				$this->message .= $row->getError();
-				$this->messagetype = 'notice';
-				$error = true;
-			}
-		}
-
-		if ($error)
-		{
-			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
-		}
-		else
-		{
-			$this->message = JText::_('COM_TIENDA_ITEMS_DELETED');
-		}
-
-		$this->setRedirect( $this->redirect, $this->message, $this->messagetype );
 	}
 
 	/**

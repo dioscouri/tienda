@@ -15,6 +15,8 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelShippingRates extends TiendaModelBase
 {
+    public $cache_enabled = false;
+    
     protected function _buildQueryWhere(&$query)
     {
         $filter_id	= $this->getState('filter_id');

@@ -15,6 +15,8 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelShippingMethods extends TiendaModelBase 
 {
+    public $cache_enabled = false;
+     
     protected function _buildQueryWhere(&$query)
     {
 		$filter         = $this->getState('filter');

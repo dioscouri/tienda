@@ -74,9 +74,11 @@ class TiendaModelProductPrices extends TiendaModelBase
             foreach ($list as $item)
             {
                 $item->link_remove = 'index.php?option=com_tienda&controller=productprices&task=delete&cid[]='.$item->product_price_id;
+                /*
                 // convert working dates to localtime for display
                 $item->product_price_startdate = ($item->product_price_startdate != $nullDate) ? JHTML::_( "date", $item->product_price_startdate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_startdate;
                 $item->product_price_enddate = ($item->product_price_enddate != $nullDate) ? JHTML::_( "date", $item->product_price_enddate, '%Y-%m-%d %H:%M:%S' ) : $item->product_price_enddate;
+                */
             }
             
             $this->_list = $list;

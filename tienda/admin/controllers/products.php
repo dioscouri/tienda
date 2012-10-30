@@ -462,6 +462,8 @@ class TiendaControllerProducts extends TiendaController
 			$helper = new TiendaHelperProduct();
 			$helper->onAfterSaveProducts( $row );
 			
+			$model->clearCache();
+			
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}

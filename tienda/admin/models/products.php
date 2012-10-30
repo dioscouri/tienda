@@ -481,11 +481,11 @@ class TiendaModelProducts extends TiendaModelEav
 		return $this->_list;
 	}
 	
-	function getItem( $refresh = true, $getEav = true, $emptyState=true )
+	function getItem( $refresh = false, $getEav = true, $emptyState=true )
 	{
-		if ( empty( $this->_item ) )
+		if ( empty( $this->_item ) || $refresh )
 		{
-			$item = parent::getItem( $refresh, $getEav );
+			$item = parent::getItem( $refresh, $getEav, $emptyState );
 			
 			if ( empty( $item ) )
 			{
@@ -531,6 +531,20 @@ class TiendaModelProducts extends TiendaModelEav
 		}
 		
 		return $this->_item;
+	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCache()
+	{
+	    parent::clearCache();
+	    
+        // TODO Clear ALL cache that is related to products, incl prices, relationships, etc 
 	}
 	
 }

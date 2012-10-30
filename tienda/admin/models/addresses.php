@@ -112,9 +112,9 @@ class TiendaModelAddresses extends TiendaModelBase
         return $list;
     }
     
-    public function getItem($emptyState=true)
+    public function getItem($pk=null, $refresh=false, $emptyState=true)
     {
-    	$item = parent::getItem($emptyState);
+    	$item = parent::getItem($pk, $refresh, $emptyState);
     	
         if (!empty($item->extra_fields))
         {

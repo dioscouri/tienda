@@ -186,7 +186,7 @@ class TiendaModelEav extends TiendaModelBase
 	 */
 	public function getItem( $refresh = true, $getEav = true, $emptyState=true )
 	{
-		if (empty( $this->_item ))
+		if (empty( $this->_item ) || $refresh)
 		{
 			$item = parent::getItem( $refresh );
 
