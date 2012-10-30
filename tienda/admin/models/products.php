@@ -427,112 +427,57 @@ class TiendaModelProducts extends TiendaModelEav
 
         return $query;
     }
-
-    public function getList( $refresh = false, $getEav = true, $options = array() )
+    
+    /**
+     * Set basic properties for the item, whether in a list or a singleton
+     *
+     * @param unknown_type $item
+     * @param unknown_type $key
+     * @param unknown_type $refresh
+     */
+    protected function prepareItem( &$item, $key=0, $refresh=false )
     {
-
-        if ( empty( $this->_list ) || $refresh )
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+        
+        if ( !empty( $item->product_recurs ) )
         {
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-            $list = parent::getList( $refresh, $getEav, $options );
-            // If no item in the list, return an array()
-            if ( empty( $list ) )
+            $item->recurring_price = $item->price;
+            if( $item->subscription_prorated )
             {
-                return array( );
+                Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+                $result = TiendaHelperSubscription::calculateProRatedTrial( $item->subscription_prorated_date,
+                        $item->subscription_prorated_term,
+                        $item->recurring_period_unit,
+                        $item->recurring_trial_price,
+                        $item->subscription_prorated_charge
+                );
+                $item->price = $result['price'];
+                $item->prorated_price = $result['price'];
+                $item->prorated_interval = $result['interval'];
+                $item->prorated_unit = $result['unit'];
+                // $item->recurring_trial = $result['trial'];
             }
-            	
-            foreach ( $list as $item )
+                else 
             {
-                if ( $item->product_recurs )
+                if ( !empty( $item->recurring_trial ) )
                 {
-                    $item->recurring_price = $item->price;
-                    if ( $item->recurring_trial )
-                    {
-                        if( $item->subscription_prorated )
-                        {
-                            $result = TiendaHelperSubscription::calculateProRatedTrial( $item->subscription_prorated_date,
-                                    $item->subscription_prorated_term,
-                                    $item->recurring_period_unit,
-                                    $item->recurring_trial_price,
-                                    $item->subscription_prorated_charge
-                            );
-                            $item->price = $result['price'];
-                        }
-                        else
-                            $item->price = $item->recurring_trial_price;
-                    }
+                    $item->price = $item->recurring_trial_price;
                 }
-
-                $item->product_parameters = new DSCParameter( $item->product_params);
-
-                $item->slug = $item->product_alias ? ":$item->product_alias" : "";
-                $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
-                $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
             }
-            	
-            $this->_list = $list;
-            	
-            $dispatcher = JDispatcher::getInstance( );
-            $dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ).'List', array(
-                    &$this->_list
-            ) );
         }
-        return $this->_list;
+         
+        $item->product_parameters = new DSCParameter( $item->product_params );
+        $item->slug = $item->product_alias ? ":$item->product_alias" : "";
+        $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
+        $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
+
+        $dispatcher = JDispatcher::getInstance( );
+        $dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ), array(
+                &$item
+        ) );
     }
-
-    function getItem( $refresh = false, $getEav = true, $emptyState=true )
-    {
-        if ( empty( $this->_item ) || $refresh )
-        {
-            $item = parent::getItem( $refresh, $getEav, $emptyState );
-            	
-            if ( empty( $item ) )
-            {
-                return $item;
-            }
-            	
-            if ( !empty( $item->product_recurs ) )
-            {
-                $item->recurring_price = $item->price;
-                if( $item->subscription_prorated ) // prorated subscription
-                {
-                    Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-                    $result = TiendaHelperSubscription::calculateProRatedTrial( $item->subscription_prorated_date,
-                            $item->subscription_prorated_term,
-                            $item->recurring_period_unit,
-                            $item->recurring_trial_price,
-                            $item->subscription_prorated_charge
-                    );
-                    $item->price = $result['price'];
-                    $item->prorated_price = $result['price'];
-                    $item->prorated_interval = $result['interval'];
-                    $item->prorated_unit = $result['unit'];
-                    //					$item->recurring_trial = $result['trial'];
-                }
-                else
-                    if ( !empty( $item->recurring_trial ) )
-                    {
-                        $item->price = $item->recurring_trial_price;
-                    }
-            }
-            	
-            $item->product_parameters = new DSCParameter( $item->product_params);
-            $item->slug = $item->product_alias ? ":$item->product_alias" : "";
-            $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
-            $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
-            	
-            $this->_item = $item;
-            	
-            $dispatcher = JDispatcher::getInstance( );
-            $dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ), array(
-                    &$this->_item
-            ) );
-        }
-
-        return $this->_item;
-    }
-
+    
     /**
      * Clean the cache
      *
