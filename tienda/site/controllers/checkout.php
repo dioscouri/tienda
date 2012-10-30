@@ -116,7 +116,7 @@ class TiendaControllerCheckout extends TiendaController
                 $session->set( 'old_sessionid', $session->getId() );
             }
             // Display the onepage checkout view
-            	
+             
             $opc_layout = Tienda::getInstance()->get('one_page_checkout_layout', 'onepage-opc' );
             JRequest::setVar('layout', $opc_layout);
             $view = $this->getView( 'checkout', 'html' );
@@ -163,7 +163,7 @@ class TiendaControllerCheckout extends TiendaController
             if($showShipping)
             {
                 $shippingAddress = $order->getShippingAddress();
-                	
+                 
                 $shipping_address_form = $this->getAddressForm( $this->shipping_input_prefix, !$user->id ,true );
 
                 $view->assign( 'shipping_address', $shippingAddress );
@@ -207,19 +207,19 @@ class TiendaControllerCheckout extends TiendaController
                 $coupons_present = true;
             }
             $view->assign( 'coupons_present', $coupons_present );
-            	
+             
             // assign userinfo for credits
             $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
             $userinfo->load( array( 'user_id'=>JFactory::getUser()->id ) );
             $userinfo->credits_total = (float) $userinfo->credits_total;
             $view->assign('userinfo', $userinfo);
-            	
+             
             $dispatcher = JDispatcher::getInstance();
             ob_start();
             $dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
             $view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
             ob_end_clean();
-            	
+             
             ob_start();
             $dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
             $view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
@@ -350,7 +350,7 @@ class TiendaControllerCheckout extends TiendaController
                 // Already Logged in, a traditional checkout
                 $order = $this->_order;
                 $order = $this->populateOrder(false);
-                	
+                 
                 // now that the order object is set, get the orderSummary html
                 $html = $this->getOrderSummary();
 
@@ -795,7 +795,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             if (empty($submitted_values['_checked']['shipping_plugin']))
             {
-                	
+                 
                 $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_PLEASE_SELECT_SHIPPING_METHOD') );
                 $response['error'] = '1';
                 echo ( json_encode( $response ) );
@@ -1016,7 +1016,7 @@ class TiendaControllerCheckout extends TiendaController
         Tienda::load( 'TiendaSelect', 'library.select' );
         $html = '';
         $text = '';
-        	
+         
         $country_id = JRequest::getInt('country_id');
         $zone_id = JRequest::getInt('zone_id');
         $prefix = JRequest::getVar('prefix');
@@ -1036,7 +1036,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             $html = TiendaSelect::zone( $zone_id, $prefix.'zone_id', $country_id, $attribs );
         }
-        	
+         
         $response = array();
         $response['msg'] = $html;
         $response['error'] = '';
@@ -1336,7 +1336,7 @@ class TiendaControllerCheckout extends TiendaController
             echo json_encode($response);
             return;
         }
-        	
+         
         return $html;
     }
 
@@ -1374,7 +1374,7 @@ class TiendaControllerCheckout extends TiendaController
             {
 
                 $shippingOptions = $dispatcher->trigger( "onGetShippingOptions", array( $plugin->element, $this->_order ) );
-                	
+                 
                 if (in_array(true, $shippingOptions, true))
                 {
                     $results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
@@ -1453,7 +1453,7 @@ class TiendaControllerCheckout extends TiendaController
             {
                 $guest = JRequest::getVar( 'guest', '0');
             }
-            	
+             
             $guest = $guest ? true : false;
         }
 
@@ -1578,7 +1578,7 @@ class TiendaControllerCheckout extends TiendaController
                 $order->addCoupon( $coupon );
             }
         }
-        	
+         
         // get the order totals
         $order->calculateTotals();
 
@@ -2167,7 +2167,7 @@ class TiendaControllerCheckout extends TiendaController
         $this->current_step = 2;
         // verify that form was submitted by checking token
         JRequest::checkToken() or jexit( 'TiendaControllerCheckout::preparePayment - Invalid Token' );
-        	
+         
         // 1. save the order to the table with a 'pre-payment' status
 
         // Get post values
@@ -2209,7 +2209,7 @@ class TiendaControllerCheckout extends TiendaController
             JError::raiseNotice( 'Error Saving Order', $this->getError() );
             return false;
         }
-        	
+         
         // Get Order Object
         $order = $this->_order;
 
@@ -2285,7 +2285,7 @@ class TiendaControllerCheckout extends TiendaController
             $mainframe = JFactory::getApplication();
             $mainframe->setUserState( 'tienda.order_id', $order->order_id );
             $mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
-            	
+             
             // 2. perform payment process
             // this is the onPrePayment plugin event
             // in the case of offsite payment plugins (like Paypal), they will display an order summary (perhaps with ****** for CC number)
@@ -2347,7 +2347,7 @@ class TiendaControllerCheckout extends TiendaController
 
                 $shippingAddressArray = $showShipping ? $this->_shippingAddressArray : array();
                 $billingAddressArray = $this->_billingAddressArray;
-                	
+                 
                 $shippingMethodName = $values['shipping_name'];
 
                 $progress = $this->getProgress();
@@ -2521,7 +2521,7 @@ class TiendaControllerCheckout extends TiendaController
             $dispatcher->trigger( 'onAfterDisplayPostPayment', array( $order_id ) );
             $view->assign( 'onAfterDisplayPostPayment', ob_get_contents() );
             ob_end_clean();
-            	
+             
             $view->display();
         }
 
