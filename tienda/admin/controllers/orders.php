@@ -852,6 +852,8 @@ class TiendaControllerOrders extends TiendaController
 
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $order ) );
+			
+			$model->clearCache();
 		}
 		else
 		{

@@ -48,20 +48,21 @@ class TiendaControllerManufacturers extends TiendaController
 		}
 		return $state;
 	}
-
+	
 	/**
 	 * Saves an item and redirects based on task
 	 * @return void
 	 */
 	function save()
 	{
-		$error = false;
-		$task = JRequest::getVar('task');
-		$model 	= $this->getModel( $this->get('suffix') );
-
-		$row = $model->getTable();
-		$row->load( $model->getId() );
-		$row->bind( JRequest::get('POST') );
+	    if (!$row = parent::save())
+	    {
+	        return $row;
+	    }
+	
+	    $model 	= $this->getModel( $this->get('suffix') );
+	    $error = false;
+	
 		$row->manufacturer_description = JRequest::getVar( 'manufacturer_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$fieldname = 'manufacturer_image_new';
@@ -77,52 +78,26 @@ class TiendaControllerManufacturers extends TiendaController
 				$error = true;
 			}
 		}
-
-		// set the id as 0 for new entry
-		if ($task=="save_as")
-		{
-			$pk=$row->getKeyName();
-			$row->$pk= 0;
-		}
-		
-		if ( $row->save() )
-		{
-			$model->setId( $row->id );
-			$this->messagetype 	= 'message';
-			$this->message  	= JText::_('COM_TIENDA_SAVED');
-			if ($error)
-			{
-				$this->messagetype 	= 'notice';
-				$this->message .= " :: ".$this->getError();
-			}
-
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
-		}
-		else
-		{
-			$this->messagetype 	= 'notice';
-			$this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
-		}
-
-		$redirect = "index.php?option=com_tienda";
-		$task = JRequest::getVar('task');
-		switch ($task)
-		{
-			case "savenew":
-				$redirect .= '&view='.$this->get('suffix').'&task=add';
-				break;
-			case "apply":
-				$redirect .= '&view='.$this->get('suffix').'&task=edit&id='.$model->getId();
-				break;
-			case "save":
-			default:
-				$redirect .= "&view=".$this->get('suffix');
-				break;
-		}
-
-		$redirect = JRoute::_( $redirect, false );
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
+	
+	    if ( $row->save() )
+	    {
+	        $model->setId( $row->id );
+	        $this->messagetype 	= 'message';
+	        $this->message  	= JText::_('COM_TIENDA_SAVED');
+	        if ($error)
+	        {
+	            $this->messagetype 	= 'notice';
+	            $this->message .= " :: ".$this->getError();
+	        }
+	
+	        $dispatcher = JDispatcher::getInstance();
+	        $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
+	    }
+	    else
+	    {
+	        $this->messagetype 	= 'notice';
+	        $this->message 		= JText::_('COM_TIENDA_SAVE_FAILED')." - ".$row->getError();
+	    }
 	}
 
 	/**

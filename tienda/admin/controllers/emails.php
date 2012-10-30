@@ -37,7 +37,7 @@ class TiendaControllerEmails extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         
         $model->setId( $id );
-        $row = $model->getItem( $id );
+        $row = $model->getItem( $id, true );
         
         JRequest::setVar( 'hidemainmenu', '1' );
         $view->setLayout( 'form' );
@@ -78,7 +78,7 @@ class TiendaControllerEmails extends TiendaController
 		$lang = $model->getItem( $id );
 		$path = $lang->path;
 		
-		$msg = JText::_('COM_BILLETS_SAVED');
+		$msg = JText::_('COM_TIENDA_SAVED');
 		
 		jimport('joomla.filesystem.file');
 
@@ -100,6 +100,8 @@ class TiendaControllerEmails extends TiendaController
 				$msg = JText::_('COM_TIENDA_ERROR_SAVING_NEW_LANGUAGE_FILE');
 				
 		}
+		
+		$model->clearCache();
 
 		$task = JRequest::getVar('task');
         $redirect = "index.php?option=com_tienda";

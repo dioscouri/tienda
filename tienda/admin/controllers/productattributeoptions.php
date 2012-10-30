@@ -25,8 +25,8 @@ class TiendaControllerProductAttributeOptions extends TiendaController
 	/**
 	 * delete the object and updates the product quantities
 	 */
-	function delete(){
-		
+	function delete()
+	{
 		$this->message = '';
 		$this->messagetype = '';
 		$error = false;
@@ -41,8 +41,10 @@ class TiendaControllerProductAttributeOptions extends TiendaController
 		$qtable = $qmodel->getTable();
 		
 		// Delete the product quantities
-		foreach(@$quantities as $q){
-			if (!$qtable->delete($q->productquantity_id)){
+		foreach (@$quantities as $q)
+		{
+			if (!$qtable->delete($q->productquantity_id))
+			{
 				$this->message .= $qtable->getError();
 				$this->messagetype = 'notice';
 				$error = true;

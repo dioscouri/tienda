@@ -2511,6 +2511,8 @@ class TiendaControllerPOS extends TiendaController
 				// TODO What to do if saving order coupons fails?
 				$error = true;
 			}
+			
+			$model->clearCache();
 		}
 
 		return $order;

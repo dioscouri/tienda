@@ -63,6 +63,7 @@ class TiendaControllerProductComments extends TiendaController
 	   if ( $row->save() ) 
 		{
 			$model->setId( $row->id );
+			$model->clearCache();
 			$this->messagetype 	= 'message';
 			$this->message  	= JText::_('COM_TIENDA_SAVED');
 		}

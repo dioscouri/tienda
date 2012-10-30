@@ -56,6 +56,8 @@ class TiendaControllerConfig extends TiendaController
             }
         }
         
+        $model->clearCache();
+        
         if ( !$error ) 
         {
             $this->messagetype  = 'message';
