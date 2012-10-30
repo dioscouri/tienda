@@ -24,7 +24,7 @@
  });*/
 
 function tiendaGetPaymentOptions(container, form, msg, callback) {
-	var payment_plugin = $E('input[name=payment_plugin]:checked');
+	var payment_plugin = $$('input[name=payment_plugin]:checked');
 
 	if (payment_plugin)
 		payment_plugin = payment_plugin.value;
@@ -40,7 +40,7 @@ function tiendaGetPaymentOptions(container, form, msg, callback) {
 	tiendaGrayOutAjaxDiv('onCheckoutPayment_wrapper', Joomla.JText._('COM_TIENDA_UPDATING_PAYMENT_METHODS'));
 
 	if (payment_plugin) {
-		$ES('input[name=payment_plugin]', 'onCheckoutPayment_wrapper').each(function(e) {
+		$$('#onCheckoutPayment_wrapper input[name=payment_plugin]').each(function(e) {
 			if (e.get('value') == payment_plugin)
 				e.set('checked', true);
 		});

@@ -36,8 +36,9 @@ function tiendaGetShippingRates( container, form, callback )
             else
             	{
             		tiendaDeleteShippingGrayDiv();
-            		if( callback )
-            			callback();
+                    if (typeof callback == 'function') {
+                        callback();
+                    }
             	}
             return true;
         }
@@ -160,7 +161,7 @@ function tiendaManageShippingRates()
 
 function tiendaDeleteAddressGrayDiv()
 {
-	el_billing = $E( '.tiendaAjaxGrayDiv', 'billingAddress' );
+	el_billing = $$( '#billingAddress .tiendaAjaxGrayDiv' );
 	if( !el_billing )
 		return;
 	tiendaSetColorInContainer( 'billingAddress', '' );
@@ -169,7 +170,7 @@ function tiendaDeleteAddressGrayDiv()
 	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
 	{
 		tiendaSetColorInContainer( 'shippingAddress', '' );
-		$E( '.tiendaAjaxGrayDiv', 'shippingAddress' ).destroy();		
+		$$( '#shippingAddress .tiendaAjaxGrayDiv' ).destroy();		
 	}
 }
 
@@ -181,7 +182,7 @@ function tiendaDeletePaymentGrayDiv()
 
 function tiendaDeleteTotalAmountDueGrayDiv()
 {
-	el = $ES( '.tiendaAjaxGrayDiv', 'payment_info' );
+	el = $$( '#payment_info .tiendaAjaxGrayDiv' );
 	if( el != '' )
 		el.destroy();
 	
@@ -193,7 +194,7 @@ function tiendaDeleteShippingGrayDiv()
 	if( $( 'onCheckoutShipping_wrapper' ) == null )
 		return;
 
-	el = $ES( '.tiendaAjaxGrayDiv', 'onCheckoutShipping_wrapper' );
+	el = $$( '#onCheckoutShipping_wrapper .tiendaAjaxGrayDiv' );
 	if( el != '' )
 		el.destroy();
 
@@ -206,7 +207,7 @@ function tiendaDeleteShippingGrayDiv()
 		if( $( 'shipping_name' ) )
 		{
 			shipping_plugin = $( 'shipping_name' ).get( 'value' );
-			$ES( 'input[type=radio]', 'onCheckoutShipping_wrapper' ).each( function( e ){
+			$$( '#onCheckoutShipping_wrapper input[type=radio]' ).each( function( e ){
 				if( e.get( 'rel' ) == shipping_plugin )
 					e.set( 'checked', true );
 			} );			

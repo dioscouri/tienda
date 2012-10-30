@@ -441,7 +441,7 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 			}
 
-			el = $ES('.tiendaAjaxGrayDiv', 'coupon_code_area');
+			el = $$('#coupon_code_area .tiendaAjaxGrayDiv');
 			if (el != '')
 				el.destroy();
 			tiendaSetColorInContainer('coupon_code_area', '');
@@ -566,7 +566,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 
 function tiendaSetColorInContainer(container, color) {
 	$(container).setStyle('color', color);
-	$ES('*', container).each(function(el) {
+	$$('#' + container + ' *' ).each(function(el) {
 		el.setStyle('color', color);
 	});
 }

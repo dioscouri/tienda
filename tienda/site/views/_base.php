@@ -16,8 +16,6 @@ jimport( 'joomla.application.component.view' );
 
 class TiendaViewBase extends DSCViewSite
 {
-	
-
 	/**
 	 * First displays the submenu, then displays the output
 	 * but only if a valid _doTask is set in the view object
@@ -27,25 +25,17 @@ class TiendaViewBase extends DSCViewSite
 	 */
 	function display($tpl=null, $perform = true )
 	{
-		//JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-		
-		$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
-		DSCLoader::discover('TiendaHelper', $parentPath, true);
-		
-		$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
-		DSCLoader::discover('Tienda', $parentPath, true);
-	
-			if( $perform )
+		if( $perform )
+		{
+			$this->getLayoutVars($tpl);
+
+			Tienda::load( 'TiendaMenu', 'library.menu' );
+
+			if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
 			{
-				$this->getLayoutVars($tpl);
-	
-				Tienda::load( 'TiendaMenu', 'library.menu' );
-	
-				if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
-				{
-					$this->displaySubmenu();
-				}
+				$this->displaySubmenu();
 			}
+		}
 	
 		parent::display($tpl);
 	}

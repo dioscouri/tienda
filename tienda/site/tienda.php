@@ -66,6 +66,12 @@ $js.= "com_tienda.jbase = '".Tienda::getUriRoot()."';\n";
 
 $doc->addScriptDeclaration($js);
 
+$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
+DSCLoader::discover('TiendaHelper', $parentPath, true);
+
+$parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
+DSCLoader::discover('Tienda', $parentPath, true);
+
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );
 
