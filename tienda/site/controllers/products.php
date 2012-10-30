@@ -43,7 +43,7 @@ class TiendaControllerProducts extends TiendaController
 		$state['order'] = 'tbl.ordering';
 		$state['direction'] = 'ASC';
 		$state['filter_published'] = 1;
-		$state['filter_published_date'] = $date->toMySQL( );
+		$state['filter_published_date'] = gmdate('Y-m-d H:i:00');
 		$state['filter_enabled'] = 1;
 		$state['filter_category'] = $app->getUserStateFromRequest( $ns . '.category', 'filter_category', '', 'int' );
     $prev_cat_id = $app->getUserState( $ns . 'prev_cat_id' );
