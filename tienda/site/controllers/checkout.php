@@ -3479,7 +3479,7 @@ class TiendaControllerCheckout extends TiendaController
 		$elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string','string' ) ) );
 
 		// convert elements to array that can be binded
-		$values = TiendaHelperBase::elementsToArray( $elements );
+		$values = $helper->elementsToArray( $elements );
 
 		$email = $values['email_address'];
 		if (empty($email))
